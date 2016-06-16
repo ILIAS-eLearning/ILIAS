@@ -299,32 +299,54 @@ class ilAccomodations
 	public function setAccomodationsOfUser($a_user_id, array $a_accomodations)
 	{
 		global $ilDB;
-		
+		//gev patch start #2351
+		global $log, $ilUser;
+		$by_usr = " by ".( $ilUser ? $ilUser->getId() : "unknown user" );
+		$course_id = $this->getCourse()->getId();
+		//gev patch end
 		if(!$this->validateUser($a_user_id) ||
 			!$this->validateAccomodations($a_accomodations))
 		{
+			//gev patch start #2351
+			$log->write("####course accomodations at ".$course_id." invalid user or accomodations ".$by_usr);
+			//gev patch end
 			return false;
 		}
-				
-		$course_id = $this->getCourse()->getId();
-		
+		//gev patch start #2351
+		//$course_id = $this->getCourse()->getId();
+		//gev patch end
 		$changed = false;
 		
 		$old = array();
 		$tmp = $this->getAccomodationsOfUser($a_user_id);
 		if(sizeof($tmp))
 		{
+			//gev patch start #2351
+			$msg = "####course accomodations at ".$course_id." for ".$a_user_id." old:";
+			//gev patch end
 			foreach($tmp as $night)
 			{
 				$night = $night->get(IL_CAL_DATE);
 				$old[$night] = $night;
-			}			
+				//gev patch start #2351
+				$msg.= $night.",";
+				//gev patch end
+			}
+			//gev patch start #2351
+			$log->write($msg.$by_usr);
+			$msg = null;
+			//gev patch end
 		}
-		
+		//gev patch start #2351
+		$msg = "####course accomodations at ".$course_id." for ".$a_user_id." new:";
+		//gev patch end
 		foreach($a_accomodations as $night)
 		{
+
 			$night = $night->get(IL_CAL_DATE);
-			
+			//gev patch start #2351
+			$msg.= $night.",";
+			//gev patch end
 			if(!in_array($night, $old))
 			{
 				$fields = array(
@@ -341,7 +363,9 @@ class ilAccomodations
 				unset($old[$night]);
 			}			
 		}
-		
+		if($msg) {
+			$log->write($msg.$by_usr);
+		}
 		if(sizeof($old))
 		{
 			// remove obsolete entries
@@ -369,11 +393,17 @@ class ilAccomodations
 	public function deleteAccomodations($a_user_id)
 	{
 		global $ilDB;
-		
+		//gev patch start #2351
+		global $log,$ilUser;
+		$by_usr = " by ".( $ilUser ? $ilUser->getId() : "unknown user" );
 		$course_id = $this->getCourse()->getId();
+		//gev patch end
 		
 		if(!$course_id || !(int)$a_user_id)
 		{
+			//gev patch start #2351
+			$log->write("####course accomodations : unknown crs or usr at deletion".$by_usr);
+			//gev patch end
 			return;
 		}
 		
@@ -383,6 +413,10 @@ class ilAccomodations
 		// gev patch start
 		self::raiseEvent("delete", $course_id, $a_user_id);
 		// gev patch end
+
+		//gev patch start #2351
+		$log->write( "####course accomodations at ".$course_id.": deleted for ".$a_user_id.$by_usr);
+		//gev patch end
 	}
 	
 	
