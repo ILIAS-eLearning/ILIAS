@@ -159,27 +159,16 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 		return $res;
 	}
 	
-	
-
-	/**
-	* Adds the values for the user specific results export for a given user
-	*
-	* @param array $a_array An array which is used to append the values
-	* @param array $resultset The evaluation data for a given user
-	* @access public
-	*/
-	function addUserSpecificResultsData(&$a_array, &$resultset)
+	public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
 	{
-		if (count($resultset["answers"][$this->getId()]))
+		$answer = $a_results->getUserResults($a_user_id);
+		if($answer === null)
 		{
-			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
-			{
-				array_push($a_array, $answer["value"]);
-			}
+			$a_row[] = $this->getSkippedValue();
 		}
 		else
 		{
-			array_push($a_array, $this->getSkippedValue());
+			$a_row[] = $answer[0][0];
 		}
 	}
 }

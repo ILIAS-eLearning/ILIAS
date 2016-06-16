@@ -244,401 +244,123 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		return $rows;		
 	}
 	
-	/**
-	* Adds the entries for the title row of the user specific results
-	*
-	* @param array $a_array An array which is used to append the title row entries
-	* @access public
-	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
+	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
 	{		
-		parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
-	
-		for ($i = 0; $i < $this->getRowCount(); $i++)
+		global $lng;
+		
+		for ($i = 0; $i < $this->question->getRowCount(); $i++)
 		{
 			// create row title according label, add 'other column'
-			$row = $this->getRow($i);
+			$row = $this->question->getRow($i);
 			
-			if(!$a_use_label)
+			if($a_do_title && $a_do_label)
 			{
-				$title = $row->title;	
+				$a_title_row[] = $row->title;
+				$a_title_row2[] = $row->label;
+				
+				if ($row->other)
+				{
+					$a_title_row[] = $row->title;
+					$a_title_row2[] = $lng->txt('other');
+				}
+			}
+			else if($a_do_title)
+			{
+				$a_title_row[] = $row->title;
+				$a_title_row2[] = "";
+				
+				if ($row->other)
+				{
+					$a_title_row[] = $row->title;
+					$a_title_row2[] = $lng->txt('other');
+				}
 			}
 			else
 			{
-				if($a_substitute)
+				$a_title_row[] = $row->label;
+				$a_title_row2[] = "";
+				
+				if ($row->other)
 				{
-					$title = $row->label ? $row->label : $row->title;
-				}
-				else
-				{
-					$title = $row->label;
-				}
-			}				
-			array_push($a_array, $title);
-
-			if ($row->other)
-			{
-				if(!$a_use_label || $a_substitute)
-				{
-					array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
-				}
-				else
-				{
-					array_push($a_array, "");
+					$a_title_row[] = $row->label;
+					$a_title_row2[] = $lng->txt('other');
 				}
 			}
 			
-			switch ($this->getSubtype())
-			{
-				case 0:	
-					break;
-				case 1:
-					for ($index = 0; $index < $this->getColumnCount(); $index++)
-					{
-						$col = $this->getColumn($index);
-						if(!$a_use_label || $a_substitute)
-						{
-							array_push($a_array, ($index+1) . " - " . $col->title);
-						}
-						else
-						{
-							array_push($a_array, "");
-						}
-					}
-					break;
+			// mc
+			if($this->question->getSubtype() == 1)
+			{				
+				for($index = 0; $index < $this->question->getColumnCount(); $index++)
+				{
+					$col = $this->question->getColumn($index);
+					
+					$a_title_row[] = $col->title." [".$col->scale."]";
+					$a_title_row2[] = "";					
+				}
 			}
-		}
+		}		
 	}
-
-	/**
-	* Adds the values for the user specific results export for a given user
-	*
-	* @param array $a_array An array which is used to append the values
-	* @param array $resultset The evaluation data for a given user
-	* @access public
-	*/
-	function addUserSpecificResultsData(&$a_array, &$resultset)
-	{
-		if (count($resultset["answers"][$this->getId()]))
+	
+	public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
+	{		
+		$answer_map = array();
+		foreach($a_results as $row_results)
 		{
-			array_push($a_array, "");
-			switch ($this->getSubtype())
+			$row_title = $row_results[0];
+			$row_result = $row_results[1];
+			
+			$answers = $row_result->getUserResults($a_user_id);
+			if($answers !== null)
 			{
-				case 0:
-					for ($i = 0; $i < $this->getRowCount(); $i++)
+				foreach($answers as $answer)
+				{
+					// mc
+					if($this->question->getSubtype() == 1)
 					{
-						// add textanswer column for single choice mode
-						$row = $this->getRow($i);
-						$textanswer = "";						
-						$checked = FALSE;
-						foreach ($resultset["answers"][$this->getId()] as $result)
-						{
-							if ($result["rowvalue"] == $i)
-							{								
-								$checked = TRUE;
-								array_push($a_array, $result["value"] + 1);
-								
-								if ($result["textanswer"])
-								{
-									$textanswer = $result["textanswer"];
-								}						
-							}
-						}
-						if (!$checked)
-						{
-							array_push($a_array, $this->getSkippedValue());
-						}
-						if ($row->other)
-						{
-							array_push($a_array, $textanswer);	
-						}
+						$answer_map[$row_title."|".$answer[2]] = $answer[2];
 					}
-					break;
-				case 1:
-					for ($i = 0; $i < $this->getRowCount(); $i++)
+					else
 					{
-						// add textanswer column for multiple choice mode
-						$row = $this->getRow($i);
-						$textanswer = "";						
-						$checked = FALSE;
-						$checked_values = array();
-						foreach ($resultset["answers"][$this->getId()] as $result)
-						{
-							if ($result["rowvalue"] == $i)
-							{
-								$checked = TRUE;
-								array_push($checked_values, $result["value"] + 1);
-								
-								if ($result["textanswer"])
-								{
-									$textanswer = $result["textanswer"];
-								}	
-							}
-						}
-						if (!$checked)
-						{
-							array_push($a_array, $this->getSkippedValue());
-						}
-						else
-						{
-							array_push($a_array, "");
-						}
-						if ($row->other)
-						{
-							array_push($a_array, $textanswer);	
-						}
-						for ($index = 0; $index < $this->getColumnCount(); $index++)
-						{
-							if (!$checked)
-							{
-								array_push($a_array, "");
-							}
-							else
-							{
-								$cat = $this->getColumn($index);
-								$scale = $cat->scale;								
-								if (in_array($scale, $checked_values))
-								{
-									array_push($a_array, $scale);
-								}
-								else
-								{
-									array_push($a_array, 0);
-								}
-							}
-						}
+						$answer_map[$row_title] = $answer[0];
 					}
-					break;
-			}
+					if($answer[1])
+					{
+						$answer_map[$row_title."|txt"] = $answer[1];
+					}
+				}				
+			}			
+		}
+		
+		if(!sizeof($answer_map))
+		{
+			$a_row[] = $this->getSkippedValue();
 		}
 		else
 		{
-			array_push($a_array, $this->getSkippedValue());
-			for ($i = 0; $i < $this->getRowCount(); $i++)
-			{
-				array_push($a_array, "");
-				
-				// add empty "other" column if not answered
-				$row = $this->getRow($i);
-				if ($row->other)
-				{
-					array_push($a_array, "");	
-				}
-				
-				switch ($this->getSubtype())
-				{
-					case 0:
-						break;
-					case 1:
-						for ($index = 0; $index < $this->getColumnCount(); $index++)
-						{
-							array_push($a_array, "");
-						}
-						break;
-				}
-			}
-		}
-	}
-
-	
-	
-	//
-	// EVALUATION
-	//
-
-	/**
-	* Creates the detailed output of the cumulated results for the question
-	*
-	* @param integer $survey_id The database ID of the survey
-	* @param integer $counter The counter of the question position in the survey
-	* @return string HTML text with the cumulated results
-	* @access private
-	*/
-	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
-	{
-		if (count($this->cumulated) == 0)
-		{
-			if(!$finished_ids)
-			{
-				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";			
-				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			}
-			else
-			{
-				$nr_of_users = sizeof($finished_ids);
-			}
-			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
+			$a_row[] = "";
 		}
 		
-		$cumulated_count = 0;
-		foreach ($this->cumulated as $key => $value)
-		{
-			if (is_numeric($key))	
-			{
-				$cumulated_count++;							
-			}
-		}
-		
-		$output = "";
-		
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
-		
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("question"));
-		$questiontext = $this->object->getQuestiontext();
-		$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()).
-			" (".$cumulated_count." ".$this->lng->txt("rows").")");
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["USERS_ANSWERED"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["USERS_SKIPPED"]);
-		$template->parseCurrentBlock();
-		/*
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MODE"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MODE_NR_OF_SELECTIONS"]);		
-	    $template->parseCurrentBlock();
-		 */
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MEDIAN"]);
-		$template->parseCurrentBlock();
-		
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-		$table = array();
-		$idx = $selsum = 0;
-		foreach ($this->cumulated["TOTAL"]["variables"] as $key => $value)
-		{
-			$table[] = array(
-				(++$idx).".",
-				$value["title"], 
-				$value["selected"], 
-				sprintf("%.2f", 100*$value["percentage"])."%"
-			);
-			$selsum += (int)$value["selected"];
-		}
-		$head = array(
-			"", 
-			$this->lng->txt("title"), 
-			$this->lng->txt("category_nr_selected"), 
-			$this->lng->txt("percentage_of_selections")
-		);
-		$foot = array(null, null, $selsum, null);
-		$template->setVariable("TEXT_OPTION_VALUE", 
-			$this->renderStatisticsDetailsTable($head, $table, $foot));
-		$template->parseCurrentBlock();
-				
-		// total chart 
-		$template->setCurrentBlock("detail_row");				
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId()."_total", $this->cumulated["TOTAL"]["variables"]));
-		$template->parseCurrentBlock();
-		
-		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());		
-		
-		$output .= $template->get();
-		
-		foreach ($this->cumulated as $key => $value)
-		{
-			if (is_numeric($key))	
-			{
-				$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");	
-				
-				$template->setCurrentBlock("detail_row");
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
-				$template->setVariable("TEXT_OPTION_VALUE", $value["USERS_ANSWERED"]);
-				$template->parseCurrentBlock();
-				$template->setCurrentBlock("detail_row");
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
-				$template->setVariable("TEXT_OPTION_VALUE", $value["USERS_SKIPPED"]);
-				$template->parseCurrentBlock();				
-				/*
-				$template->setCurrentBlock("detail_row");
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
-				$template->setVariable("TEXT_OPTION_VALUE", $value["MODE"]);
-				$template->parseCurrentBlock();				
-				$template->setCurrentBlock("detail_row");
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
-				$template->setVariable("TEXT_OPTION_VALUE", $value["MODE_NR_OF_SELECTIONS"]);
-				$template->parseCurrentBlock();
-				*/
-				$template->setCurrentBlock("detail_row");				
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
-				$template->setVariable("TEXT_OPTION_VALUE", $value["MEDIAN"]);
-				$template->parseCurrentBlock();
-				
-				$template->setCurrentBlock("detail_row");
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-				$table = array();
-				$idx = $selsum = 0;
-				foreach ($value["variables"] as $cvalue)
-				{					
-					$table[] = array(
-						(++$idx).".",
-						$cvalue["title"], 
-						$cvalue["selected"], 
-						sprintf("%.2f", 100*$cvalue["percentage"])."%"
-					);
-					$selsum += (int)$cvalue["selected"];
-				}
-				$head = array(
-					"", 
-					$this->lng->txt("title"), 
-					$this->lng->txt("category_nr_selected"), 
-					$this->lng->txt("percentage_of_selections")
-				);
-				$foot = array(null, null, $selsum, null);
-				$template->setVariable("TEXT_OPTION_VALUE", 
-					$this->renderStatisticsDetailsTable($head, $table, $foot));
-				$template->parseCurrentBlock();
-				
-				// add text answers to detailed results
-				if (is_array($value["textanswers"]))
-				{
-					$template->setCurrentBlock("detail_row");
-					$template->setVariable("TEXT_OPTION", $this->lng->txt("freetext_answers"));	
-					$html = "";		
-					foreach ($value["textanswers"] as $tkey => $answers)
-					{
-						$html .= $value["variables"][$tkey]["title"] ."\n";
-						$html .= "<ul>\n";
-						foreach ($answers as $answer)
-						{
-							$html .= "<li>" . preg_replace("/\n/", "<br>\n", $answer) . "</li>\n";
-						}
-						$html .= "</ul>\n";
-					}
-					$template->setVariable("TEXT_OPTION_VALUE", $html);
-					$template->parseCurrentBlock();
-				}			
+		for ($i = 0; $i < $this->question->getRowCount(); $i++)
+		{			
+			$row = $this->question->getRow($i);
+			$row_title = $row->title;
 			
-				// chart 
-				$template->setCurrentBlock("detail_row");				
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
-				$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId()."_".$key, $value["variables"]));
-				$template->parseCurrentBlock();
-				
-				$template->setVariable("QUESTION_SUBTITLE", $counter.".".($key+1)." ".
-					$this->object->prepareTextareaOutput($value["ROW"], TRUE));
-				
-				$output .= $template->get();
+			$a_row[] = $answer_map[$row_title];
+			
+			if($row->other)
+			{
+				$a_row[] = $answer_map[$row_title."|txt"];				
 			}
-		}
-
-		return $output;
-	}		
+			
+			// mc
+			if($this->question->getSubtype() == 1)
+			{
+				for($index = 0; $index < $this->question->getColumnCount(); $index++)
+				{
+					$col = $this->question->getColumn($index);										
+					$a_row[] = $answer_map[$row_title."|".$col->scale];
+				}
+			}
+		}		
+	}
 }

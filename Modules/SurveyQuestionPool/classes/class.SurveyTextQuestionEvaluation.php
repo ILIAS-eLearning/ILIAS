@@ -34,4 +34,17 @@ class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
 	{
 		
 	}
+	
+	public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
+	{
+		$answer = $a_results->getUserResults($a_user_id);
+		if($answer === null)
+		{
+			$a_row[] = $this->getSkippedValue();
+		}
+		else
+		{
+			$a_row[] = $answer[0][1];
+		}
+	}
 }

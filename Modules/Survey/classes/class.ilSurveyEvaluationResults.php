@@ -192,6 +192,29 @@ class ilSurveyEvaluationResults
 		
 		return $res;
 	}
+		
+	public function getUserResults($a_active_id)
+	{
+		$res = array();
+	
+		$answers = $this->getAnswers();
+		if($answers)
+		{
+			foreach($answers as $answer)
+			{
+				if($answer->active_id == $a_active_id)
+				{
+					$res[] = array(
+						$this->getScaleText($answer->value), 
+						$answer->text,
+						$answer->value
+					);
+				}
+			}
+		}	
+		
+		return $res;
+	}
 }
 
 class ilSurveyEvaluationResultsVariable

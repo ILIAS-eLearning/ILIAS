@@ -15,101 +15,76 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 	//
 	// EXPORT
 	//	
-
-	/**
-	* Adds the entries for the title row of the user specific results
-	*
-	* @param array $a_array An array which is used to append the title row entries
-	* @access public
-	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
-	{
-		parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
+	
+	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
+	{		
+		global $lng;
 		
-		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+		$categories = $this->question->getCategories();		
+		for ($i = 0; $i < $categories->getCategoryCount(); $i++)
 		{
-			$category = $this->categories->getCategory($index);
-			$title = $category->title;
+			$cat = $categories->getCategory($i);
 			
-			if(!$a_use_label || $a_substitute)
-			{
-				array_push($a_array, $title);
-			}
-			else
-			{
-				array_push($a_array, "");
-			}
+			$a_title_row[] = $cat->title." [".$cat->scale."]";
+			$a_title_row2[] = "";
 			
-			// optionally add headers for text answers
-			if ($category->other)
-			{
-				if(!$a_use_label || $a_substitute)
-				{
-					array_push($a_array, $title . " - ". $this->lng->txt("other"));
-				}
-				else
-				{
-					array_push($a_array, "");
-				}
+			if ($cat->other)
+			{				
+				$a_title_row[] = $cat->title." [".$cat->scale."]";
+				$a_title_row2[] = $lng->txt('other');				
 			}
-		}
+		}		
 	}
 	
-	/**
-	* Adds the values for the user specific results export for a given user
-	*
-	* @param array $a_array An array which is used to append the values
-	* @param array $resultset The evaluation data for a given user
-	* @access public
-	*/
-	function addUserSpecificResultsData(&$a_array, &$resultset)
-	{
-		if (count($resultset["answers"][$this->getId()]))
-		{
-			array_push($a_array, "");
-			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
-			{
-				$category = $this->categories->getCategory($index);		
-				$incoming_value = $category->scale ? $category->scale-1 : $index;		
+	public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
+	{		
+		$categories = $this->question->getCategories();		
 				
-				$found = 0;
-				$textanswer = "";				
-				foreach ($resultset["answers"][$this->getId()] as $answerdata)
+		$answers = $a_results->getUserResults($a_user_id);
+		if($answers === null)
+		{
+			$a_row[] = $this->getSkippedValue();
+			
+			for ($i = 0; $i < $categories->getCategoryCount(); $i++)
+			{
+				$cat = $categories->getCategory($i);
+				$a_row[] = "";	
+				
+				if($cat->other)
 				{
-					if (strcmp($incoming_value, $answerdata["value"]) == 0)
-					{
-						$found = $answerdata["value"]+1;
-						$textanswer = $answerdata["textanswer"];
-					}
+					$a_row[] = "";
 				}
-				if ($found)
-				{
-					array_push($a_array, $found);
-				}
-				else
-				{
-					array_push($a_array, "0");
-				}				
-				if ($category->other)
-				{
-					array_push($a_array, $textanswer);
-				}
-			}
+			}				
 		}
 		else
-		{
-			array_push($a_array, $this->getSkippedValue());
-			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+		{	
+			$a_row[] = "";
+			
+			for ($i = 0; $i < $categories->getCategoryCount(); $i++)
 			{
-				array_push($a_array, "");
-				
-				// add empty text answers for skipped question
-				$category = $this->categories->getCategory($index);
-				if ($category->other)
+				$cat = $categories->getCategory($i);
+				$found = false;
+				foreach($answers as $answer)
 				{
-					array_push($a_array, "");
+					if($answer[2] == $cat->scale)
+					{
+						$a_row[] = $answer[2];
+						if ($cat->other)
+						{
+							$a_row[] = $answer[1];
+						}
+						$found = true;
+					}
+				}
+				if(!$found)
+				{
+					$a_row[] = ""; // "0" ?!
+					if ($cat->other)
+					{
+						$a_row[] = "";
+					}
 				}
 			}
-		}
+		}				
 	}
 }

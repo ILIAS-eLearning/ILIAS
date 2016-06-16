@@ -15,79 +15,60 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 	// EXPORT
 	//		
 	
-	/**
-	* overwritten addUserSpecificResultsExportTitles
-	* 
-	* Adds the entries for the title row of the user specific results
-	*
-	* @param array $a_array An array which is used to append the title row entries
-	* @access public
-	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
-	{
-		$title = parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
-
-		// optionally add header for text answer
-		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
+	{		
+		global $lng;
+		
+		$categories = $this->question->getCategories();		
+		for ($i = 0; $i < $categories->getCategoryCount(); $i++)
 		{
-			$cat = $this->categories->getCategory($i);
+			$cat = $categories->getCategory($i);
 			if ($cat->other)
-			{
-				if(!$a_use_label || $a_substitute)
-				{
-					array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
-				}
-				else
-				{
-					array_push($a_array, "");
-				}
-				break;	
+			{								
+				$a_title_row[] = $cat->title." [".$cat->scale."]";		
+				$a_title_row2[] = $lng->txt('other');
 			}
-		}
+		}		
 	}
-
-	/**
-	* Adds the values for the user specific results export for a given user
-	*
-	* @param array $a_array An array which is used to append the values
-	* @param array $resultset The evaluation data for a given user
-	* @access public
-	*/
-	function addUserSpecificResultsData(&$a_array, &$resultset)
+	
+	public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
 	{
 		// check if text answer column is needed
-		$other = false;
-		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		$other = array();
+		$categories = $this->question->getCategories();		
+		for ($i = 0; $i < $categories->getCategoryCount(); $i++)
 		{
-			$cat = $this->categories->getCategory($i);
+			$cat = $categories->getCategory($i);
 			if ($cat->other)
 			{
-				$other = true;	
+				$other[] = $cat->scale;	
 				break;	
 			}
 		}
 		
-		if (count($resultset["answers"][$this->getId()]))
+		$answer = $a_results->getUserResults($a_user_id);
+		if($answer === null)
 		{
-			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
+			$a_row[] = $this->getSkippedValue();
+			foreach($other as $dummy)
 			{
-				array_push($a_array, $answer["value"]+1);
-				
-				// add the text answer from the selected option
-				if ($other)
-				{
-					array_push($a_array, $answer["textanswer"]);
-				}
+				$a_row[] = "";
 			}
 		}
 		else
 		{
-			array_push($a_array, $this->getSkippedValue());
-			
-			if ($other)
+			$a_row[] = $answer[0][0];
+			foreach($other as $scale)
 			{
-				array_push($a_array, "");
-			}
-		}
+				if($scale == $answer[0][2])
+				{
+					$a_row[] = $answer[0][1];
+				}
+				else
+				{
+					$a_row[] = "";
+				}
+			}			
+		}		
 	}
 }

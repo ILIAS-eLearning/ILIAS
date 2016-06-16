@@ -442,38 +442,25 @@ abstract class SurveyQuestionEvaluation
 		return $res;
 	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Get title columns for user-specific export
+	 * 
+	 * @param array $a_title_row
+	 * @param array $a_title_row2
+	 * @param bool $a_do_title
+	 * @param bool $a_do_title
+	 */
+	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_title)
+	{
+		// type-specific				
+	}
 	
 	/**
-	* Adds the entries for the title row of the user specific results
-	*
-	* @param array $a_array An array which is used to append the title row entries
-	* @access public
-	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
-	{
-		if(!$a_use_label)
-		{
-			$title = $this->title;			
-		}
-		else
-		{
-			if($a_substitute)
-			{
-				$title = $this->label ? $this->label : $this->title;
-			}
-			else
-			{
-				$title = $this->label;
-			}
-		}	
-		
-		array_push($a_array, $title);
-		return $title;
-	}
+	 * 
+	 * 
+	 * @param array $a_row
+	 * @param int $a_user_id
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 */
+	abstract public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results);
 }
