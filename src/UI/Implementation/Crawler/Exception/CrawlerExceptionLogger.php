@@ -1,8 +1,8 @@
 <?php
 namespace ILIAS\UI\Implementation\Crawler\Exception
 /**
- *	Sometimes we would like to store exception, instead of throwing them on spot,
- *	e.g. for the purpose of testing.
+ * Sometimes we would like to store exception, instead of throwing them on spot,
+ * e.g. for the purpose of testing.
  */
 class CrawlerExceptionLogger implements CrawlerExceptionHandler {
 	protected $exceptions = array();
@@ -15,9 +15,9 @@ class CrawlerExceptionLogger implements CrawlerExceptionHandler {
 	}
 
 	/**
-	 *	Get all exception thrown sofar and reset the logger.
+	 * Get all exception thrown sofar and reset the logger.
 	 *
-	 *	@return	CrawlerException[]	$return
+	 * @return	CrawlerException[]	$return
 	 */
 	public function exceptions() {
 		$return = $this->exceptions;

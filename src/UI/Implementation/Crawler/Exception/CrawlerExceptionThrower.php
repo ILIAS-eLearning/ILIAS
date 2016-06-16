@@ -7,7 +7,7 @@ class CrawlerExceptionThrower implements CrawlerExceptionHandler {
 	protected $exceptions = array();
 
 	/**
-	 *	@inheritdoc
+	 * @inheritdoc
 	 */
 	public function handleException(CrawlerException $ex) {
 		throw $ex; 
