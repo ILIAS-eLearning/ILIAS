@@ -1457,10 +1457,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function getMembersObject()
 	{
+		//gev-patch start
+		global $ilLog;
+		$ilLog->write("enter ilObjCourse::getMembersObject");
+
 		if(!$this->members_obj instanceof ilCourseParticipants)
 		{
 			$this->initCourseMembersObject();
 		}
+
+		$ilLog->write("leave ilObjCourse::getMembersObject");
 		return $this->members_obj;
 	}
 

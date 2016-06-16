@@ -240,7 +240,17 @@ class ilRbacAdmin
 	*/
 	function assignUser($a_rol_id,$a_usr_id,$a_default = false)
 	{
-		global $ilDB,$rbacreview;
+		//gev-patch start
+		global $ilDB,$rbacreview, $ilLog;
+		$ilLog->write("enter ilRbacadmin::assignUser");
+		$ilLog->write("param rol_id:");
+		$ilLog->dump($a_rol_id);
+		$ilLog->write("param user_id:");
+		$ilLog->dump($a_user_id);
+		$ilLog->write("param default:");
+		$ilLog->dump($a_default);
+		//gev-patch end
+
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
@@ -269,13 +279,16 @@ class ilRbacAdmin
 			$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
 			 "VALUES (".$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_rol_id,'integer').")";
 			$res = $ilDB->manipulate($query);
+			$ilLog->write("User added to table rbac_ua");
 		
 			include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 			$role_desk_item_obj = new ilRoleDesktopItem($a_rol_id);
 			foreach($role_desk_item_obj->getAll() as $item_data)
 			{
+				$ilLog->write("Add Item to desktop");
 				include_once './Services/User/classes/class.ilObjUser.php';
 				ilObjUser::_addDesktopItem($a_usr_id, $item_data['item_id'], $item_data['item_type']);
+				$ilLog->write("Dektop Item added");
 			}
 			//gev patch start
 			global $ilAppEventHandler;
@@ -295,9 +308,12 @@ class ilRbacAdmin
 
 		}
 		
+		$ilLog->write("Assign to LDAP Role Group");
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
 		$mapping->assign($a_rol_id,$a_usr_id); 
+		$ilLog->write("Assign LDAP finished");
+		$ilLog->write("leave ilRbacadmin::assignUser");
 
 		return true;
 	}
