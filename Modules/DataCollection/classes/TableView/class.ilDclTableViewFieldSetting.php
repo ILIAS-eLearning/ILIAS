@@ -267,7 +267,11 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public static function getAllForTableViewId($tableview_id)
     {
-        return self::where(array('tableview_id' => $tableview_id))->get();
+        $table_id = ilDclTableView::find($tableview_id)->getTableId();
+        return self::where(array('tableview_id' => $tableview_id, 'il_dcl_tfield_set.table_id' => $table_id))
+            ->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))
+            ->orderBy('field_order')
+            ->get();
     }
 
     /**
