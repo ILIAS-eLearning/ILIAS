@@ -1,5 +1,12 @@
 # Jour Fixe Proposal to introduce a centralizes UI-Framework for ILIAS.
 
+We suggest the following rules for the ILIAS UI framework. The UI framework
+currently is in a construction phase. The current form of the rules therefore
+represents the best effort for the current state of the framework. It therefore
+is likely that there will be additions to or refinements of the rules in the
+(near) future. Everyone using the rules is invited to critically reflect the
+rules and propose changes.
+
 ## Basics
 
 * Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
