@@ -223,6 +223,18 @@ the creation of a UI component and starting at the main factory.
 
 ## Locations of resources
 
+### Examples
+
+* There SHOULD be examples for every implemented component that showcase
+  the usage of the component from developers perspective.
+* If there are examples, they MUST be put in a subfolder of examples
+  that is named like the showcases component interface.
+* Every example MUST be a php-file with one function inside. The function
+  must have the name $COMPONENT_$EXAMPLE, where $COMPONENT is the name of
+  the showcased component interface, and $EXAMPLE is the prefix of the name
+  of the php file.
+* The function MUST return a string.
+
 Means: less, css, js
 
 * TODO: every component interface should correspond to a template
