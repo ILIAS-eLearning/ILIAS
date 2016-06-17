@@ -228,7 +228,7 @@ class ilDclTableView extends ActiveRecord
     public function delete()
     {
         //Delete settings
-        foreach (ilDclTableViewFieldSetting::getAllForTableViewId($this->id) as $setting)
+        foreach ($this->getFieldSettings() as $setting)
         {
             $setting->delete();
         }
@@ -274,6 +274,13 @@ class ilDclTableView extends ActiveRecord
         }
 
         return $this->visible_fields_cache;
+    }
+
+    public function getFieldSettings() {
+        return ilDclTableViewFieldSetting::where(array('tableview_id' => $this->getId(), 'il_dcl_tfield_set.table_id' => $this->getTableId()))
+            ->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))
+            ->orderBy('field_order')
+            ->get();
     }
 
     /**
@@ -334,7 +341,7 @@ class ilDclTableView extends ActiveRecord
         $this->create(false); //create default setting, adjust them later
 
         //clone fieldsettings
-        foreach (ilDclTableViewFieldSetting::getAllForTableViewId($orig->getId()) as $orig_fieldsetting) {
+        foreach ($orig->getFieldSettings() as $orig_fieldsetting) {
             $new_fieldsetting = new ilDclTableViewFieldSetting();
             $new_fieldsetting->setTableviewId($this->getId());
             if ($new_fields[$orig_fieldsetting->getField()]) {

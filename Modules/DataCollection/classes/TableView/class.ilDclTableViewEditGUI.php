@@ -171,12 +171,10 @@ class ilDclTableViewEditGUI
      */
     public function saveTable()
     {
-        $field_settings = ilDclTableViewFieldSetting::getAllForTableViewId($this->tableview->getId());
-
         /**
          * @var ilDclTableViewFieldSetting $setting
          */
-        foreach ($field_settings as $setting)
+        foreach ($this->tableview->getFieldSettings() as $setting)
         {
             //Checkboxes
             foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute)

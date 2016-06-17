@@ -42,7 +42,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
 
-        $this->parseData(ilDclTableViewFieldSetting::getAllForTableViewId($a_parent_obj->tableview->getId()));
+        $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
     public function parseData($data) {

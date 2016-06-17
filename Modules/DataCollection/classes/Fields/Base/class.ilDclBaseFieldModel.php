@@ -536,12 +536,15 @@ class ilDclBaseFieldModel {
 		$query = "DELETE FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
 
-		foreach (ilDclTableViewFieldSetting::getAllForFieldId($this->id) as $field_setting)
+		foreach ($this->getFieldSettings() as $field_setting)
 		{
 			$field_setting->delete();
 		}
 	}
 
+	public function getFieldSettings() {
+		return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
+	}
 
 	/**
 	 * @return int
