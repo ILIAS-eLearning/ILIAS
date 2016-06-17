@@ -196,7 +196,7 @@ the creation of a UI component and starting at the main factory.
 ### Implementations of UI components
 
 * The implementing class MUST be named after the interface it implements.
-  I.e. the implementation of `ILIAS\UI\Components\A\B\C must be called C. 
+  I.e. the implementation of `ILIAS\UI\Components\A\B\C` must be called C.
 * Every implementation of a component MUST be located in a subnamespace of
   `ILIAS\UI\Implementation\Component`, where the exact subnamespace corresponds
   to the name of the implemented interface. I.e., the implementation for the
