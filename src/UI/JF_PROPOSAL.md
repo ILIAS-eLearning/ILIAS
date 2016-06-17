@@ -184,8 +184,6 @@ the creation of a UI component and starting at the main factory.
   not provide methods to actually change the object they describe. Instead they
   MAY provide methods called `withXYZ` instead of setters, that return a copy of
   the object where the desired modification is applied.
-* TODO: Usage of arrays as parameters (list, general key => value, where there 
-  are no special keys)
 
 ### Implementations of Factories
 
@@ -225,11 +223,27 @@ the creation of a UI component and starting at the main factory.
 
 ### Tests for Factories
 
-### Tests for UI
+### Tests for UI Components
 
 ## Locations of resources
 
-### Examples
+The term 'resources' means templates, less, css or javascript code that is required
+to render a certain component.
+
+* Every component interface SHOULD correspond to one template.
+* The resources required to render a component SHOULD be located in the folder
+  templates/$COMPONENT, where $COMPONENT is the name of the component.
+* If a renderer needs a certain resource other then a template, it SHOULD register
+  said resource via the renderers registerResource-method.
+* Renderers for components SHOULD only use resources of their own component.
+* If a component has a less-resource, that resource MUST be wired by hand to the
+  delos.less-file.
+
+There most propably will be changes in the handling of resources in the future, as
+the seems to be the need to introduce some common patterns for handling javascript
+or compiling css from different less files.
+
+## Examples
 
 * There SHOULD be examples for every implemented component that showcase
   the usage of the component from developers perspective.
@@ -241,8 +255,3 @@ the creation of a UI component and starting at the main factory.
   of the php file.
 * The function MUST return a string.
 
-Means: less, css, js
-
-* TODO: every component interface should correspond to a template
-* TODO: resources must be located in templates/$COMPONENT/
-* TODO: less must be wired by hand to delos.less
