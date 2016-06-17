@@ -674,6 +674,13 @@ class ilSurveyEvaluationGUI
 	
 	protected function buildExportModal($a_id, $a_cmd)
 	{					
+		global $tpl;
+		
+		$form_id = "svymdfrm";
+		
+		// hide modal on form submit
+		$tpl->addOnLoadCode('$("#form_'.$form_id.'").submit(function() { $("#'.$a_id.'").modal("hide"); });');
+		
 		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
 		$modal = ilModalGUI::getInstance();
 		$modal->setId($a_id);
@@ -681,6 +688,7 @@ class ilSurveyEvaluationGUI
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
+		$form->setId($form_id);
 		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
 		
 		$format = new ilSelectInputGUI($this->lng->txt("filetype"), "export_format");
@@ -699,6 +707,7 @@ class ilSurveyEvaluationGUI
 		$form->addItem($label);
 
 		$form->addCommandButton($a_cmd, $this->lng->txt("export"));
+		$form->setPreventDoubleSubmission(false);
 		
 		$modal->setBody($form->getHTML());
 		
