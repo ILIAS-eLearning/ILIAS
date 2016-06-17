@@ -748,7 +748,27 @@ class ilSurveyEvaluationGUI
 
 		$results = array();
 		if(!$this->object->get360Mode() || $appr_id)
-		{								
+		{							
+			if($details)
+			{
+				$view = new ilSelectInputGUI($this->lng->txt("svy_eval_view"), "vwc");
+				$view->setOptions(array(
+					"t" => $this->lng->txt("svy_eval_view_tables"),
+					"c" => $this->lng->txt("svy_eval_view_charts"),
+					"tc" => $this->lng->txt("svy_eval_view_tables_charts")
+					));
+				$ilToolbar->addInputItem($view, true);
+
+				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
+				$button = ilSubmitButton::getInstance();
+				$button->setCaption("ok");							
+				$button->setCommand("evaluationdetails");									
+				$button->setOmitPreventDoubleSubmission(true);
+				$ilToolbar->addButtonInstance($button);	
+
+				$ilToolbar->addSeparator();				
+			}			
+			
 			$modal_id = "svy_ev_exp";
 			$modal = $this->buildExportModal($modal_id, $details
 				? 'exportDetailData'
@@ -784,6 +804,10 @@ class ilSurveyEvaluationGUI
 				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
 			}			
 			
+			$details_parts = $_POST["vwc"]
+				? $_POST["vwc"]
+				: "t";
+			
 			// parse answer data in evaluation results
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 			foreach($this->object->getSurveyQuestions() as $qdata)
@@ -794,7 +818,7 @@ class ilSurveyEvaluationGUI
 						
 				if($details)
 				{			
-					$this->renderDetails($dtmpl, $qdata, $q_eval, $q_res);										
+					$this->renderDetails($details_parts, $dtmpl, $qdata, $q_eval, $q_res);										
 				}
 			}				
 		}		
@@ -810,12 +834,13 @@ class ilSurveyEvaluationGUI
 	/**
 	 * Render details
 	 * 
+	 * @param string $a_details_parts
 	 * @param ilTemplate $a_tpl
 	 * @param array $a_qdata
 	 * @param SurveyQuestionEvaluation $a_eval
 	 * @param ilSurveyEvaluationResults|array $a_results
 	 */
-	protected function renderDetails(ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
+	protected function renderDetails($a_details_parts, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	{		
 		$question_res = $a_results;
 		$matrix = false;
@@ -886,31 +911,35 @@ class ilSurveyEvaluationGUI
 		
 		// grid
 		
-		$grid = $a_eval->getGrid($a_results);
-		if($grid)
-		{			
-			foreach($grid["cols"] as $col)
-			{
-				$a_tpl->setCurrentBlock("grid_col_header_bl");
-				$a_tpl->setVariable("COL_HEADER", $col);														
-				$a_tpl->parseCurrentBlock();
-			}
-			foreach($grid["rows"] as $cols)
-			{				
-				foreach($cols as $col)
+		if($a_details_parts == "t" || 
+			$a_details_parts == "tc")
+		{
+			$grid = $a_eval->getGrid($a_results);
+			if($grid)
+			{			
+				foreach($grid["cols"] as $col)
 				{
-					// :TODO: matrix percentages
-					if(is_array($col))
-					{
-						$col = implode(" / ", $col);
-					}
-					
-					$a_tpl->setCurrentBlock("grid_col_bl");
-					$a_tpl->setVariable("COL_CAPTION", trim($col));														
+					$a_tpl->setCurrentBlock("grid_col_header_bl");
+					$a_tpl->setVariable("COL_HEADER", $col);														
 					$a_tpl->parseCurrentBlock();
 				}
-				
-				$a_tpl->touchBlock("grid_row_bl");			
+				foreach($grid["rows"] as $cols)
+				{				
+					foreach($cols as $col)
+					{
+						// :TODO: matrix percentages
+						if(is_array($col))
+						{
+							$col = implode(" / ", $col);
+						}
+
+						$a_tpl->setCurrentBlock("grid_col_bl");
+						$a_tpl->setVariable("COL_CAPTION", trim($col));														
+						$a_tpl->parseCurrentBlock();
+					}
+
+					$a_tpl->touchBlock("grid_row_bl");			
+				}
 			}
 		}
 		
@@ -941,26 +970,30 @@ class ilSurveyEvaluationGUI
 		
 		// chart
 		
-		$chart = $a_eval->getChart($a_results);
-		if($chart)
+		if($a_details_parts == "c" || 
+			$a_details_parts == "tc")
 		{
-			if(is_array($chart))
+			$chart = $a_eval->getChart($a_results);
+			if($chart)
 			{
-				// legend
-				if(is_array($chart[1]))
+				if(is_array($chart))
 				{
-					foreach($chart[1] as $legend_item)
-					{						
-						$a_tpl->setCurrentBlock("legend_bl");							
-						$a_tpl->setVariable("LEGEND_CAPTION", $legend_item[0]);								
-						$a_tpl->setVariable("LEGEND_COLOR", $legend_item[1]);								
-						$a_tpl->parseCurrentBlock();	
+					// legend
+					if(is_array($chart[1]))
+					{
+						foreach($chart[1] as $legend_item)
+						{						
+							$a_tpl->setCurrentBlock("legend_bl");							
+							$a_tpl->setVariable("LEGEND_CAPTION", $legend_item[0]);								
+							$a_tpl->setVariable("LEGEND_COLOR", $legend_item[1]);								
+							$a_tpl->parseCurrentBlock();	
+						}
 					}
+
+					$chart = $chart[0];
 				}
-				
-				$chart = $chart[0];
+				$a_tpl->setVariable("CHART", $chart);	
 			}
-			$a_tpl->setVariable("CHART", $chart);	
 		}
 				
 					

@@ -5,3 +5,7 @@ survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
 survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
 survey#:#svy_reminder_mail_template#:#Mail Template
 survey#:#svy_reminder_mail_template_none#:#Do not use mail template
+survey#:#svy_eval_view#:#View
+survey#:#svy_eval_view_tables#:#Table
+survey#:#svy_eval_view_charts#:#Chart
+survey#:#svy_eval_view_tables_charts#:#Table and chart

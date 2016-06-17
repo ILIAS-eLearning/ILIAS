@@ -5,3 +5,7 @@ survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage tei
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
+survey#:#svy_eval_view#:#Anzeige
+survey#:#svy_eval_view_tables#:#Tabelle
+survey#:#svy_eval_view_charts#:#Grafik
+survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
