@@ -221,6 +221,11 @@ abstract class SurveyQuestionEvaluation
 	
 	protected function getChartColors()
 	{
+		// flot "default" theme 
+		// :TODO: only 5?
+		return array("#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed");
+		
+		/*
 		// http://godsnotwheregodsnot.blogspot.de/2012/09/color-distribution-methodology.html
 		return array(
 			"#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
@@ -236,7 +241,8 @@ abstract class SurveyQuestionEvaluation
 			"#7900D7", "#A77500", "#6367A9", "#A05837", "#6B002C", "#772600", "#D790FF", "#9B9700",
 			"#549E79", "#FFF69F", "#201625", "#72418F", "#BC23FF", "#99ADC0", "#3A2465", "#922329",
 			"#5B4534", "#FDE8DC", "#404E55", "#0089A3", "#CB7E98", "#A4E804", "#324E72", "#6A3A4C"
-		);
+		);		 
+		*/
 	}
 	
 	/**
