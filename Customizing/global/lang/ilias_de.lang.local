@@ -1,0 +1,7 @@
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
+survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
+survey#:#svy_reminder_mail_template#:#Mail-Vorlage
+survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden

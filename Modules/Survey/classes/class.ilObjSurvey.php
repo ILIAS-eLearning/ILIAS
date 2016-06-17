@@ -162,6 +162,7 @@ class ilObjSurvey extends ilObject
 	protected $reminder_frequency; // [int]
 	protected $reminder_target; // [int]
 	protected $reminder_last_sent; // [bool]
+	protected $reminder_tmpl; // [int]
 	protected $tutor_ntf_status; // [bool]
 	protected $tutor_ntf_recipients; // [array]
 	protected $tutor_ntf_target; // [int]
@@ -700,6 +701,7 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
 				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
@@ -743,6 +745,7 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", $this->getReminderFrequency()),
 				"reminder_target" => array("integer", $this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
 				"tutor_ntf_status" => array("integer", $this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", $this->getTutorNotificationTarget()),
@@ -1036,6 +1039,7 @@ class ilObjSurvey extends ilObject
 			$this->setReminderFrequency($data["reminder_frequency"]);
 			$this->setReminderTarget($data["reminder_target"]);
 			$this->setReminderLastSent($data["reminder_last_sent"]);
+			$this->setReminderTemplate($data["reminder_tmpl"]);
 			$this->setTutorNotificationStatus($data["tutor_ntf_status"]);
 			$this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"]));
 			$this->setTutorNotificationTarget($data["tutor_ntf_target"]);
@@ -3856,6 +3860,7 @@ class ilObjSurvey extends ilObject
 		$newObj->setReminderEnd($this->getReminderEnd());
 		$newObj->setReminderFrequency($this->getReminderFrequency());
 		$newObj->setReminderTarget($this->getReminderTarget());
+		$newObj->setReminderTemplate($this->getReminderTemplate());
 		// reminder_last_sent must not be copied!
 		$newObj->setTutorNotificationStatus($this->getTutorNotificationStatus());
 		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
@@ -5730,6 +5735,16 @@ class ilObjSurvey extends ilObject
 		$this->reminder_last_sent = $a_value;
 	}
 	
+	public function getReminderTemplate()
+	{
+		return $this->reminder_tmpl;
+	}
+	
+	public function setReminderTemplate($a_value)
+	{		
+		$this->reminder_tmpl = $a_value;
+	}
+	
 	public function getTutorNotificationStatus()
 	{
 		return (bool)$this->tutor_ntf_status;
@@ -6021,6 +6036,21 @@ class ilObjSurvey extends ilObject
 		{
 			return $surveySetting->get("skipped_custom_value", "");
 		}
+	}
+	
+	public function getReminderMailTemplates()
+	{	
+		$res = array();
+		
+		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
+		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
+		$mprov = new ilMailTemplateDataProvider();
+		foreach($mprov->getTemplateByContexId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
+		{
+			$res[$tmpl->getTplId()] = $tmpl->getTitle();
+		}
+		
+		return $res;
 	}
 	
 } // END class.ilObjSurvey

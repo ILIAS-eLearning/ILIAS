@@ -2,7 +2,7 @@
 <a href="#{TOC_ID}">{TOC_ITEM}</a><br />
 <!-- END toc_bl -->
 
-<div style="width:75%">
+<div>
 	<hr />
 	
 	<!-- BEGIN question_panel_bl -->
@@ -33,13 +33,16 @@
 
 		<!-- BEGIN grid_bl -->	
 		<br />
-		<table border="1" width="100%">
+		<table class="table table-striped">
+			<thead>
 			<tr>
 				<th>&nbsp;</th>
 				<!-- BEGIN grid_col_header_bl -->
 				<th>{COL_HEADER}</th>
 				<!-- END grid_col_header_bl -->
 			</tr>
+			</thead>
+			<tbody>
 			<!-- BEGIN grid_row_bl -->
 			<tr>
 				<!-- BEGIN grid_col_bl -->
@@ -47,6 +50,7 @@
 				<!-- END grid_col_bl -->
 			</tr>
 			<!-- END grid_row_bl -->
+			</tbody>
 		</table>
 		<!-- END grid_bl -->
 
