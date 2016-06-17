@@ -672,6 +672,39 @@ class ilSurveyEvaluationGUI
 		$this->ctrl->redirect($this, 'evaluation');
 	}
 	
+	protected function buildExportModal($a_id, $a_cmd)
+	{					
+		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
+		$modal = ilModalGUI::getInstance();
+		$modal->setId($a_id);
+		$modal->setHeading(($this->lng->txt("svy_export_format")));
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
+		
+		$format = new ilSelectInputGUI($this->lng->txt("filetype"), "export_format");
+		$format->setOptions(array(
+			self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
+			self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
+			));
+		$form->addItem($format, true);
+
+		$label = new ilSelectInputGUI($this->lng->txt("title"), "export_label");
+		$label->setOptions(array(
+			'label_only' => $this->lng->txt('export_label_only'), 
+			'title_only' => $this->lng->txt('export_title_only'), 
+			'title_label'=> $this->lng->txt('export_title_label')
+			));
+		$form->addItem($label);
+
+		$form->addCommandButton($a_cmd, $this->lng->txt("export"));
+		
+		$modal->setBody($form->getHTML());
+		
+		return $modal->getHTML();			
+	}
+	
 	function evaluation($details = 0)
 	{
 		global $rbacsystem, $ilToolbar;
@@ -715,36 +748,18 @@ class ilSurveyEvaluationGUI
 
 		$results = array();
 		if(!$this->object->get360Mode() || $appr_id)
-		{
-			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
-			$format->setOptions(array(
-				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
-				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
-				));
-			$ilToolbar->addInputItem($format, true);
-
-			$label = new ilSelectInputGUI("", "export_label");
-			$label->setOptions(array(
-				'label_only' => $this->lng->txt('export_label_only'), 
-				'title_only' => $this->lng->txt('export_title_only'), 
-				'title_label'=> $this->lng->txt('export_title_label')
-				));
-			$ilToolbar->addInputItem($label);
-
-			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
-			$button = ilSubmitButton::getInstance();
-			$button->setCaption("export");			
-			if ($details)
-			{
-				$button->setCommand('exportDetailData');					
-			}
-			else
-			{
-				$button->setCommand('exportData');				
-			}
-			$button->setOmitPreventDoubleSubmission(true);
-			$ilToolbar->addButtonInstance($button);	
-				
+		{								
+			$modal_id = "svy_ev_exp";
+			$modal = $this->buildExportModal($modal_id, $details
+				? 'exportDetailData'
+				: 'exportData');
+			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("export");
+			$button->setOnClick('$(\'#'.$modal_id.'\').modal(\'show\')');
+			$ilToolbar->addButtonInstance($button);		
+			
 			$ilToolbar->addSeparator();
 
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
@@ -752,7 +767,7 @@ class ilSurveyEvaluationGUI
 			$button->setCaption("print");
 			$button->setOnClick("window.print(); return false;");
 			$button->setOmitPreventDoubleSubmission(true);
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addButtonInstance($button);								
 			
 			$finished_ids = null;
 			if($appr_id)
@@ -786,7 +801,7 @@ class ilSurveyEvaluationGUI
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
 		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
-		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML().($dtmpl ? $dtmpl->get() : ""));	
+		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML().($dtmpl ? $dtmpl->get() : "").$modal);	
 		
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));					
@@ -1262,28 +1277,15 @@ class ilSurveyEvaluationGUI
 		$tabledata = null;
 		if(!$this->object->get360Mode() || $appr_id)
 		{
-			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
-			$format->setOptions(array(
-				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
-				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
-				));
-			$ilToolbar->addInputItem($format, true);
-
-			$label = new ilSelectInputGUI("", "export_label");
-			$label->setOptions(array(
-				'label_only' => $this->lng->txt('export_label_only'), 
-				'title_only' => $this->lng->txt('export_title_only'), 
-				'title_label'=> $this->lng->txt('export_title_label')
-				));
-			$ilToolbar->addInputItem($label);
+			$modal_id = "svy_ev_exp";
+			$modal = $this->buildExportModal($modal_id, "exportevaluationuser");
 			
-			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-			$button = ilSubmitButton::getInstance();
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
 			$button->setCaption("export");
-			$button->setCommand('exportevaluationuser');
-			$button->setOmitPreventDoubleSubmission(true);
+			$button->setOnClick('$(\'#'.$modal_id.'\').modal(\'show\')');
 			$ilToolbar->addButtonInstance($button);		
-
+						
 			$ilToolbar->addSeparator();
 
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
@@ -1315,7 +1317,7 @@ class ilSurveyEvaluationGUI
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
 		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->hasAnonymizedResults());
 		$table_gui->setData($data);
-		$this->tpl->setContent($table_gui->getHTML());			
+		$this->tpl->setContent($table_gui->getHTML().$modal);			
 	}
 	
 	protected function parseUserSpecificResults(array $a_finished_ids = null)
