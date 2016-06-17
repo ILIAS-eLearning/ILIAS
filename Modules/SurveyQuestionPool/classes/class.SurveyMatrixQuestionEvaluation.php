@@ -47,7 +47,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 	//
 	
 	
-	public function getGrid($a_results)
+	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
 		global $lng;
 		
@@ -78,12 +78,22 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				foreach($vars as $var)
 				{
-					$parsed_row[] = array(
-						$var->abs,
-						$var->perc
-							? sprintf("%.2f", $var->perc*100)."%"
-							: null
-					);
+					$perc = $var->perc
+						? sprintf("%.2f", $var->perc*100)."%"
+						: null;
+					
+					if((bool)$a_abs && (bool)$a_perc)
+					{
+						$parsed_row[] = $var->abs." / ".$perc;							
+					}
+					else if((bool)$a_abs)
+					{
+						$parsed_row[] = $var->abs;
+					}
+					else
+					{
+						$parsed_row[] = $perc;
+					}
 				}
 			}
 			

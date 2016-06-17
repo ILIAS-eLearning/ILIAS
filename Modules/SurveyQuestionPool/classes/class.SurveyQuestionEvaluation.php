@@ -176,17 +176,36 @@ abstract class SurveyQuestionEvaluation
 	 * Get grid data
 	 * 
 	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @param bool $a_abs
+	 * @param bool $a_perc
 	 * @return array
 	 */
-	public function getGrid($a_results)
+	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
 		global $lng;
-				
-		$res = array(
-			"cols" => array(
+		
+		if((bool)$a_abs && (bool)$a_perc)
+		{
+			$cols = array(
 				$lng->txt("category_nr_selected"),
 				$lng->txt("svy_fraction_of_selections")
-			),
+			);
+		}
+		else if((bool)$a_abs)
+		{
+			$cols = array(
+				$lng->txt("category_nr_selected")
+			);
+		}
+		else
+		{
+			$cols = array(				
+				$lng->txt("svy_fraction_of_selections")
+			);
+		}			
+				
+		$res = array(
+			"cols" => $cols,
 			"rows" => array()
 		);
 		
@@ -194,14 +213,33 @@ abstract class SurveyQuestionEvaluation
 		if($vars)
 		{
 			foreach($vars as $var)
-			{				
-				$res["rows"][] = array(
-					$var->cat->title,
-					$var->abs,
-					$var->perc
-						? sprintf("%.2f", $var->perc*100)."%"
-						: null
-				);								
+			{	
+				$perc = $var->perc
+					? sprintf("%.2f", $var->perc*100)."%"
+					: null;
+				
+				if((bool)$a_abs && (bool)$a_perc)
+				{
+					$res["rows"][] = array(
+						$var->cat->title,
+						$var->abs,
+						$perc
+					);			
+				}
+				else if((bool)$a_abs)
+				{
+					$res["rows"][] = array(
+						$var->cat->title,
+						$var->abs
+					);
+				}
+				else
+				{
+					$res["rows"][] = array(
+						$var->cat->title,
+						$perc
+					);
+				}															
 			}
 		}	
 		

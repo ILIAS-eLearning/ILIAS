@@ -40,15 +40,32 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 	// DETAILS
 	//
 	
-	public function getGrid($a_results)
+	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
 		global $lng;
 		
-		$res = array(
-			"cols" => array(
+		if((bool)$a_abs && (bool)$a_perc)
+		{
+			$cols = array(
 				$lng->txt("category_nr_selected"),
 				$lng->txt("svy_fraction_of_selections")
-			),
+			);
+		}
+		else if((bool)$a_abs)
+		{
+			$cols = array(
+				$lng->txt("category_nr_selected")
+			);
+		}
+		else
+		{
+			$cols = array(				
+				$lng->txt("svy_fraction_of_selections")
+			);
+		}						
+		
+		$res = array(
+			"cols" => $cols,
 			"rows" => array()
 		);
 		
@@ -63,11 +80,29 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 			}																
 			foreach($cumulated as $value => $count)
 			{
-				$res["rows"][] = array(
-					$value,
-					$count,
-					sprintf("%.2f", $count/$total*100)."%"
-				);
+				$perc = sprintf("%.2f", $count/$total*100)."%";
+				if((bool)$a_abs && (bool)$a_perc)
+				{
+					$res["rows"][] = array(
+						$value,
+						$count,
+						$perc
+					);
+				}
+				else if((bool)$a_abs)
+				{
+					$res["rows"][] = array(
+						$value,
+						$count
+					);
+				}
+				else
+				{
+					$res["rows"][] = array(
+						$value,
+						$perc
+					);
+				}						
 			}
 		}			
 		

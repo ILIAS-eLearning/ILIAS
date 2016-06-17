@@ -15,7 +15,7 @@ class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
 	// DETAILS
 	//
 	
-	public function getGrid($a_results)
+	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
 				
 	}

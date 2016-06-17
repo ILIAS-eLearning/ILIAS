@@ -751,12 +751,22 @@ class ilSurveyEvaluationGUI
 		{							
 			if($details)
 			{
-				$view = new ilSelectInputGUI($this->lng->txt("svy_eval_view"), "vwc");
-				$view->setOptions(array(
-					"t" => $this->lng->txt("svy_eval_view_tables"),
-					"c" => $this->lng->txt("svy_eval_view_charts"),
-					"tc" => $this->lng->txt("svy_eval_view_tables_charts")
+				$captions = new ilSelectInputGUI($this->lng->txt("svy_eval_captions"), "cp");
+				$captions->setOptions(array(
+					"ap" => $this->lng->txt("svy_eval_captions_abs_perc"),
+					"a" => $this->lng->txt("svy_eval_captions_abs"),
+					"p" => $this->lng->txt("svy_eval_captions_perc")					
 					));
+				$captions->setValue($_POST["cp"]);
+				$ilToolbar->addInputItem($captions, true);
+				
+				$view = new ilSelectInputGUI($this->lng->txt("svy_eval_view"), "vw");
+				$view->setOptions(array(
+					"tc" => $this->lng->txt("svy_eval_view_tables_charts"),
+					"t" => $this->lng->txt("svy_eval_view_tables"),
+					"c" => $this->lng->txt("svy_eval_view_charts")					
+					));
+				$view->setValue($_POST["vw"]);
 				$ilToolbar->addInputItem($view, true);
 
 				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
@@ -804,9 +814,12 @@ class ilSurveyEvaluationGUI
 				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
 			}			
 			
-			$details_parts = $_POST["vwc"]
-				? $_POST["vwc"]
-				: "t";
+			$details_figure = $_POST["cp"]
+				? $_POST["cp"]
+				: "ap";
+			$details_view = $_POST["vw"]
+				? $_POST["vw"]
+				: "tc";
 			
 			// parse answer data in evaluation results
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
@@ -818,7 +831,7 @@ class ilSurveyEvaluationGUI
 						
 				if($details)
 				{			
-					$this->renderDetails($details_parts, $dtmpl, $qdata, $q_eval, $q_res);										
+					$this->renderDetails($details_view, $details_figure, $dtmpl, $qdata, $q_eval, $q_res);										
 				}
 			}				
 		}		
@@ -835,12 +848,13 @@ class ilSurveyEvaluationGUI
 	 * Render details
 	 * 
 	 * @param string $a_details_parts
+	 * @param string $a_details_figure
 	 * @param ilTemplate $a_tpl
 	 * @param array $a_qdata
 	 * @param SurveyQuestionEvaluation $a_eval
 	 * @param ilSurveyEvaluationResults|array $a_results
 	 */
-	protected function renderDetails($a_details_parts, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
+	protected function renderDetails($a_details_parts, $a_details_figure, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	{		
 		$question_res = $a_results;
 		$matrix = false;
@@ -914,7 +928,11 @@ class ilSurveyEvaluationGUI
 		if($a_details_parts == "t" || 
 			$a_details_parts == "tc")
 		{
-			$grid = $a_eval->getGrid($a_results);
+			$grid = $a_eval->getGrid(
+				$a_results, 
+				($a_details_figure == "ap" || $a_details_figure == "a"),
+				($a_details_figure == "ap" || $a_details_figure == "p")
+			);
 			if($grid)
 			{			
 				foreach($grid["cols"] as $col)
@@ -926,13 +944,7 @@ class ilSurveyEvaluationGUI
 				foreach($grid["rows"] as $cols)
 				{				
 					foreach($cols as $col)
-					{
-						// :TODO: matrix percentages
-						if(is_array($col))
-						{
-							$col = implode(" / ", $col);
-						}
-
+					{						
 						$a_tpl->setCurrentBlock("grid_col_bl");
 						$a_tpl->setVariable("COL_CAPTION", trim($col));														
 						$a_tpl->parseCurrentBlock();
