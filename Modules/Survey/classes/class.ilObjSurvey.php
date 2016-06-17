@@ -242,7 +242,7 @@ class ilObjSurvey extends ilObject
 		}
 
 		// put here object specific stuff
-
+		
 		return true;
 	}
 
@@ -5954,24 +5954,50 @@ class ilObjSurvey extends ilObject
 	protected function sentReminder(array $a_recipient_ids)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-		include_once "./Services/User/classes/class.ilUserUtil.php";		
-		include_once "./Services/Link/classes/class.ilLink.php";
-		$link = ilLink::_getStaticLink($this->getRefId(), "svy");
+			
+		// use mail template		
+		if($this->getReminderTemplate() &&
+			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
+		{
+			$prov = new ilMailTemplateDataProvider();
+			$tmpl = $prov->getTemplateById($this->getReminderTemplate());
+
+			$tmpl_params = array(				
+				"ref_id" => $this->getRefId(),
+				"ts" => time()
+			);	
+		}
+		else
+		{
+			$tmpl = null;
+			
+			include_once "./Services/Link/classes/class.ilLink.php";
+			$link = ilLink::_getStaticLink($this->getRefId(), "svy");	
+			
+			include_once "./Services/Language/classes/class.ilLanguageFactory.php";		
+		}			
 			
 		foreach($a_recipient_ids as $user_id)
 		{																
-			// use language of recipient to compose message
-			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-			$ulng->loadLanguageModule('survey');
+			if($tmpl)
+			{
+				$subject = $tmpl->getSubject();		
+				$message = $this->sentReminderPlaceholders($tmpl->getMessage(), $user_id, $tmpl_params);
+			}
+			// use lng
+			else
+			{
+				// use language of recipient to compose message
+				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+				$ulng->loadLanguageModule('survey');							
+			
+				$subject = sprintf($ulng->txt('survey_reminder_subject'), $this->getTitle());
+				$message = sprintf($ulng->txt('survey_reminder_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
 
-			$subject = sprintf($ulng->txt('survey_reminder_subject'), $this->getTitle());
-			$message = sprintf($ulng->txt('survey_reminder_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
-
-			$message .= $ulng->txt('survey_reminder_body').":\n\n";
-			$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
-			$message .= "\n".$ulng->txt('survey_reminder_link').": ".$link;				
+				$message .= $ulng->txt('survey_reminder_body').":\n\n";
+				$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
+				$message .= "\n".$ulng->txt('survey_reminder_link').": ".$link;			
+			}
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
@@ -6052,6 +6078,32 @@ class ilObjSurvey extends ilObject
 		
 		return $res;
 	}
+		
+	protected function sentReminderPlaceholders($a_message, $a_user_id, array $a_context_params)
+	{
+		// see ilMail::replacePlaceholders()
+		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
+				
+		try
+		{			
+			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
+			
+			$user = new ilObjUser($a_user_id);
+			foreach($context->getPlaceholders() as $key => $ph_definition)
+			{
+				$result    = $context->resolvePlaceholder($key, $a_context_params, $user);
+				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
+			}
+		}
+		catch(Exception $e)
+		{
+			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
+		}
+		
+		return $a_message;
+	}	
 	
 } // END class.ilObjSurvey
 
