@@ -152,6 +152,8 @@ class ilSCCronTrash extends ilCronJob
 		$settings->set('num', $a_form->getInput('number'));
 		$settings->set('age',$a_form->getInput('age'));
 		$settings->set('types',$a_form->getInput('types'));
+		
+		return true; // #18579
 	}
 
 	/**
