@@ -34,10 +34,10 @@
 * In addition to the YAML-Block described in **Interfaces to Factories** the
   proposed interfaces, if not already implemented, SHOULD contain the following
   fields:
-    * `html` - gives an example of HTML-code that will be rendered by the
-      UI component
     * `less` - lists the LESS-variables that will be used to render the
       UI component including their purpose
+* If the new UI component is not implemented, there SHOULD be an html-example in
+  the examples-folder.
 * The new UI component MUST be presented on the JF, including the corresponding
   pull request. This SHOULD include some visible representation of the presented
   UI component, like a mock up or a basic implementation on the edge installation.
