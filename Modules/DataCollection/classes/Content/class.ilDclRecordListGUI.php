@@ -112,7 +112,7 @@ class ilDclRecordListGUI {
 				break;
 			case 'listRecords':
 				$this->setSubTabs();
-				$this->listRecords(false);
+				$this->listRecords();
 				break;
 			case 'confirmDeleteRecords':
 				$this->confirmDeleteRecords();
@@ -135,7 +135,7 @@ class ilDclRecordListGUI {
 		}
 	}
 
-	public function listRecords($use_tableview_filter = true) {
+	public function listRecords($use_tableview_filter = false) {
 		global $tpl, $ilToolbar;
 		/**
 		 * @var $ilToolbar ilToolbarGUI
@@ -143,7 +143,7 @@ class ilDclRecordListGUI {
 		// Show tables
 		$tpl->addCss("./Modules/DataCollection/css/dcl_reference_hover.css");
 
-		list($list, $total) = $this->getRecordListTableGUI($use_tableview_filter);
+		$list = $this->getRecordListTableGUI($use_tableview_filter);
 
 		$this->createSwitchers();
 
@@ -496,8 +496,6 @@ class ilDclRecordListGUI {
 
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
-//		$list->determineLimit();
-//		$list->determineOffsetAndOrder(); //this causes wrong offset on apply/reset filter
 
 		$limit = $list->getLimit();
 		$offset = $list->getOffset();
@@ -505,11 +503,14 @@ class ilDclRecordListGUI {
 		$data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter());
 		$records = $data['records'];
 		$total = $data['total'];
+		
 		$list->setMaxCount($total);
 		$list->setRecordData($records);
+		
 		$list->determineOffsetAndOrder();
 		$list->determineLimit();
-		return array( $list, $total );
+		
+		return $list;
 	}
 
 	/**

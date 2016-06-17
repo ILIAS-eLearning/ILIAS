@@ -126,8 +126,7 @@ class ilDclDetailedViewGUI {
 		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 		$ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id', $_GET['back_tableview_id'] ? $_GET['back_tableview_id'] : $this->tableview_id);
 
-		if ((!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
-			|| !ilDclDetailedViewDefinition::isActive($this->tableview_id))
+		if (!$this->checkAccess())
 		{
 			if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
 				$this->offerAlternativeViews();
@@ -413,6 +412,15 @@ class ilDclDetailedViewGUI {
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
     }
+
+	/**
+	 * @return bool
+	 */
+	protected function checkAccess()
+	{
+		return ((ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
+		&& ilDclDetailedViewDefinition::isActive($this->tableview_id));
+	}
 }
 
 ?>

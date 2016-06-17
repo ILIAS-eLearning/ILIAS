@@ -253,12 +253,6 @@ class ilDclTable {
 		}
 	}
 
-	public function deleteTableViews() {
-		foreach ($this->getTableViews() as $tableview) {
-			$tableview->delete();
-		}
-	}
-
 	/*
 	 * doUpdate
 	 */
@@ -872,7 +866,7 @@ class ilDclTable {
 	 */
 	public function buildOrderFields() {
 		$fields = $this->getFields();
-		$this->sortByOrder($fields);
+//		$this->sortByOrder($fields);
 		$count = 10;
 		$offset = 10;
 		foreach ($fields as $field) {
@@ -1343,6 +1337,9 @@ class ilDclTable {
 		return $this->table_order;
 	}
 
+	/**
+	 * 
+	 */
 	public function updateOrder(){
 		global $ilDB;
 		$result = $ilDB->query('SELECT MAX(table_order) AS table_order FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($this->getCollectionObject()->getId(), 'integer'));

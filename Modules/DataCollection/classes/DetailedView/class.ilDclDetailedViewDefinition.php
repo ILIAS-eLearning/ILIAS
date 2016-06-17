@@ -28,33 +28,9 @@ class ilDclDetailedViewDefinition extends ilPageObject {
 	 */
 	protected $table_id;
 	/**
-	 * @var int
-	 */
-	protected $type = 0;        // [int]  0 = recordview
-	/**
-	 * @var int
-	 */
-	protected $formtype = 0;    // [int]  0 = copage
-	/**
 	 * @var array Cache record views per table-id, key=table-id, value=view definition id
 	 */
 	protected static $record_view_cache = array();
-//	/**
-//	 * @var ilDclDetailedViewDefinition[]
-//	 */
-//	protected static $instances = array();
-//
-//
-//	/**
-//	 * @param $key
-//	 *
-//	 * @return ilDclDetailedViewDefinition
-//	 */
-//	public static function getInstance($key) {
-//		self::$instances[$key] = new self($key);
-//
-//		return self::$instances[$key];
-//	}
 
 	/**
 	 * Get parent type
