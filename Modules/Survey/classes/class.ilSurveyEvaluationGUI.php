@@ -895,36 +895,38 @@ class ilSurveyEvaluationGUI
 				
 		// :TODO: present subtypes (hrz/vrt, mc/sc mtx)?	
 		
-		$a_tpl->setVariable("QTYPE", SurveyQuestion::_getQuestionTypeName($question->getQuestionType()));				
-		$a_tpl->setVariable("VAL_ANSWERED", $question_res->getUsersAnswered());				
-		$a_tpl->setVariable("TXT_ANSWERED", $this->lng->txt("users_answered"));				
-		$a_tpl->setVariable("VAL_SKIPPED", $question_res->getUsersSkipped());				
-		$a_tpl->setVariable("TXT_SKIPPED", $this->lng->txt("users_skipped"));				
+		$a_tpl->setVariable("QTYPE", SurveyQuestion::_getQuestionTypeName($question->getQuestionType()));			
+		
+		$kv = array();
+		$kv["users_answered"] = $question_res->getUsersAnswered();
+		$kv["users_skipped"] = $question_res->getUsersSkipped();
 		
 		if(!$matrix)
-		{
+		{			
 			if($question_res->getModeValue() !== null)
 			{
-				$a_tpl->setVariable("VAL_MODE", $question_res->getModeValueAsText());				
-				$a_tpl->setVariable("TXT_MODE", $this->lng->txt("mode"));		
-				$a_tpl->setVariable("VAL_MODE_NR", $question_res->getModeNrOfSelections());				
-				$a_tpl->setVariable("TXT_MODE_NR", $this->lng->txt("mode_nr_of_selections"));						
+				$kv["mode"] = $question_res->getModeValueAsText();
+				$kv["mode_nr_of_selections"] = $question_res->getModeNrOfSelections();							
 			}
 			if($question_res->getMedian() !== null)
 			{
-				$a_tpl->setVariable("VAL_MEDIAN", $question_res->getMedianAsText());				
-				$a_tpl->setVariable("TXT_MEDIAN", $this->lng->txt("median"));																					
+				$kv["median"] = $question_res->getMedianAsText();																							
 			}
 			if($question_res->getMean() !== null)
 			{
-				$a_tpl->setVariable("VAL_MEAN", $question_res->getMean());				
-				$a_tpl->setVariable("TXT_MEAN", $this->lng->txt("arithmetic_mean"));																					
+				$kv["arithmetic_mean"] = $question_res->getMean();																										
 			}
 		}
 		
-		
-		// grid
-		
+		foreach($kv as $key => $value)
+		{
+			$a_tpl->setCurrentBlock("question_props_bl");
+			$a_tpl->setVariable("QUESTION_PROP_KEY", $this->lng->txt($key));
+			$a_tpl->setVariable("QUESTION_PROP_VALUE", $value);
+			$a_tpl->parseCurrentBlock();
+		}
+				
+		// grid		
 		if($a_details_parts == "t" || 
 			$a_details_parts == "tc")
 		{
@@ -955,33 +957,47 @@ class ilSurveyEvaluationGUI
 			}
 		}
 		
-		
-		// text answers
-		
-		// :TODO: modal?
-		
+		// text answers		
 		$texts = $a_eval->getTextAnswers($a_results);
 		if($texts)
 		{			
-			foreach($texts as $var => $items)
-			{			
-				foreach($items as $item)
-				{
-					$a_tpl->setCurrentBlock("text_item_bl");
-					$a_tpl->setVariable("TEXT_ITEM", nl2br($item));														
-					$a_tpl->parseCurrentBlock();
-				}
-				if($var)
-				{
-					$a_tpl->setVariable("TEXT_VAR", $var);				
-				}
-				$a_tpl->touchBlock("texts_for_var_bl");
+			include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
+			$acc = new ilAccordionGUI();
+			$acc->setId("svyevaltxt".$question->getId());
+			
+			if(array_key_exists("", $texts))
+			{
+				$a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("given_answers"));
+				
+				$list = array("<ul class=\"small\">");
+				foreach($texts[""] as $item)
+				{													
+					$list[] = "<li>".nl2br($item)."</li>";																														
+				}				
+				$list[] = "</ul>";			
+				$acc->addItem($this->lng->txt("freetext_answers"), implode("\n", $list));
 			}
+			else
+			{						
+				$a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("freetext_answers"));
+				
+				foreach($texts as $var => $items)
+				{			
+					$list = array("<ul class=\"small\">");
+					foreach($items as $item)
+					{
+						$list[] = "<li>".nl2br($item)."</li>";																				
+					}
+					$list[] = "</ul>";					
+					$acc->addItem($var, implode("\n", $list));
+				}
+				
+			}						
+			
+			$a_tpl->setVariable("TEXT_ACC", $acc->getHTML());
 		}
-		
-		
+				
 		// chart
-		
 		if($a_details_parts == "c" || 
 			$a_details_parts == "tc")
 		{
@@ -1008,9 +1024,7 @@ class ilSurveyEvaluationGUI
 			}
 		}
 				
-					
-		// question "panel"
-		
+		// question "panel"		
 		$a_tpl->setCurrentBlock("question_panel_bl");
 		$a_tpl->setVariable("ANCHOR_ID", $anchor_id);		
 		$a_tpl->setVariable("QTITLE", $question->getTitle());		

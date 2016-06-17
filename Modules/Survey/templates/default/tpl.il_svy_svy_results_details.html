@@ -1,71 +1,71 @@
-<!-- BEGIN toc_bl -->
-<a href="#{TOC_ID}">{TOC_ITEM}</a><br />
-<!-- END toc_bl -->
 
-<div>
-	<hr />
-	
-	<!-- BEGIN question_panel_bl -->
-	<a name="{ANCHOR_ID}"></a>
-	<div>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<!-- BEGIN toc_bl -->
+		<a href="#{TOC_ID}">{TOC_ITEM}</a><br />
+		<!-- END toc_bl -->
+	</div>
+</div>
+
+<!-- BEGIN question_panel_bl -->
+<a name="{ANCHOR_ID}"></a>
+<div class="panel panel-primary">	
+	<div class="panel-body">
+		
 		<div class="ilFloatLeft">
-			<h3>{QTITLE}</h3>
+			<div class="ilHeader"><h3 class="ilHeader">{QTITLE}</h3></div>
 			<p>{QTEXT}</p>
 		</div>
-
-		<fieldset style="border: 1px dashed grey; padding:5px; width: 500px;" class="ilFloatRight small">
-			{QTYPE}<br />
-			{VAL_ANSWERED} {TXT_ANSWERED}<br />
-			{VAL_SKIPPED} {TXT_SKIPPED}<br />
-			<!-- BEGIN mode_bl -->
-			{VAL_MODE} {TXT_MODE}<br />
-			{VAL_MODE_NR} {TXT_MODE_NR}<br />
-			<!-- END mode_bl -->
-			<!-- BEGIN median_bl -->
-			{VAL_MEDIAN} {TXT_MEDIAN}<br />
-			<!-- END median_bl -->
-			<!-- BEGIN mean_bl -->
-			{VAL_MEAN} {TXT_MEAN}<br />
-			<!-- END mean_bl -->
-		</fieldset>
-
+		
+		<div class="panel panel-default ilFloatRight" style="min-width:20%">	
+			<div class="panel-body"> 
+				{QTYPE}<br />
+				<table class="fullwidth">
+					<!-- BEGIN question_props_bl -->
+					<tr>
+						<th class="small"><div class="ilBlockPropertyCaption">{QUESTION_PROP_KEY}</div></th>
+						<td class="small" style="text-align:right">{QUESTION_PROP_VALUE}</td>
+					</tr>
+					<!-- END question_props_bl -->
+				</table>				
+			</div>
+		</div>
 		<br class="ilClearFloat" />
 
 		<!-- BEGIN grid_bl -->	
-		<br />
-		<table class="table table-striped">
-			<thead>
-			<tr>
-				<th>&nbsp;</th>
-				<!-- BEGIN grid_col_header_bl -->
-				<th>{COL_HEADER}</th>
-				<!-- END grid_col_header_bl -->
-			</tr>
-			</thead>
-			<tbody>
-			<!-- BEGIN grid_row_bl -->
-			<tr>
-				<!-- BEGIN grid_col_bl -->
-				<td>{COL_CAPTION}</td>
-				<!-- END grid_col_bl -->
-			</tr>
-			<!-- END grid_row_bl -->
-			</tbody>
-		</table>
+		<div class="panel panel-default">	
+			<div class="panel-body"> 
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<!-- BEGIN grid_col_header_bl -->
+						<th>{COL_HEADER}</th>
+						<!-- END grid_col_header_bl -->
+					</tr>
+					</thead>
+					<tbody>
+					<!-- BEGIN grid_row_bl -->
+					<tr>
+						<!-- BEGIN grid_col_bl -->
+						<td>{COL_CAPTION}</td>
+						<!-- END grid_col_bl -->
+					</tr>
+					<!-- END grid_row_bl -->
+					</tbody>
+				</table>
+			</div>
+		</div>
 		<!-- END grid_bl -->
 
 		<!-- BEGIN texts_bl -->	
-		<br />
-		<!-- BEGIN texts_for_var_bl -->
-		<!-- BEGIN text_var_bl -->
-		{TEXT_VAR}:<br />
-		<!-- END text_var_bl -->
-		<ul>
-			<!-- BEGIN text_item_bl -->
-			<li>{TEXT_ITEM}</li>
-			<!-- END text_item_bl -->
-		</ul>
-		<!-- END texts_for_var_bl -->
+		
+		<div class="panel panel-default il_Block">	
+			<div class="panel-heading ilBlockHeader"><h3 class="ilBlockHeader">{TEXT_HEADING}</h3></div>
+			<div class="panel-body"> 
+				{TEXT_ACC}
+			</div>
+		</div>
 		<!-- END texts_bl -->	
 
 		<!-- BEGIN chart_bl -->
@@ -81,7 +81,5 @@
 		<br class="ilClearFloat" />
 		<!-- END chart_bl -->
 	</div>
-	
-	<hr />
-	<!-- END question_panel_bl -->
 </div>
+<!-- END question_panel_bl -->
