@@ -74,6 +74,12 @@
   \ILIAS\UI or a subnamespace thereof, where the root directory for that 
   namespace is src/UI and the location of PHP-files is determined according to
   [PSR-4](http://www.php-fig.org/psr/psr-4/).
+* Methods in the UI framework SHOULD not use arrays as parameters, unless one of
+  the following conditions is met:
+	- the array is used as a plain list of values or objects, where the index
+	  is just 0 to n and the array is ordered accordingly
+	- the array is used as a key-value dictionary and the methods does not expect
+      any special keys or access the dictionary with special keys
 
 ### Interfaces to Factories
 
