@@ -217,13 +217,16 @@ the creation of a UI component and starting at the main factory.
   based on any properties, e.g. return different values from a getter based
   on their type.
 
-### Implementations of Renderers
+### Implementations of Renderers for UI components.
 
-* TODO: do not use properties of components as css classes
-
-### Tests for Factories
-
-### Tests for UI Components
+* There MUST exists a renderer for every implementation of an UI component. The renderer
+  MUST only render the component it belongs to.
+* Every renderer MUST extend the class `ILIAS\UI\Implementation\Renderer\AbstractComponentRenderer`.
+* The renderer MUST be located in the same namespace as the UI component
+  implementation and it MUST be named Renderer.
+* Renderers SHOULD not use properties as names for CSS classes.
+* Renderers MUST use the subset of the LIAS templating engine, provided via
+  `AbstractComponentRenderer::getTemplate`, to render their component.
 
 ## Locations of resources
 
