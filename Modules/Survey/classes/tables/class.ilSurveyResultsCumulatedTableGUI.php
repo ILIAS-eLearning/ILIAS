@@ -41,20 +41,15 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	 * @return
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, array $a_results)
-	{
+	{	
+		global $lng, $ilCtrl;
+
 		$this->setId("svy_cum");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
-
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
-		$this->counter = 1;
-		$this->totalcount = 0;
 		
-		$this->setFormName('invitegroups');
-		$this->setStyle('table', 'fullwidth');
-
 		$this->addColumn($this->lng->txt("title")); 
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -69,16 +64,9 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		}
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_cumulated_row.html", "Modules/Survey");
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));				
+		$this->setShowRowsSelector(false);
 
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		
-		$this->setDefaultOrderField("counter");
-		
-		$this->setShowRowsSelector(true);
-
-		$this->enable('header');
-		$this->disable('select_all');
-		
 		$this->getItems($a_results);
 	}
 
