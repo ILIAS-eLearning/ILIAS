@@ -9,11 +9,17 @@ namespace ILIAS\UI\Implementation\Render;
  */
 class ilTemplateWrapper implements Template {
 	/**
+	 * @var	\ilTemplate
+	 */
+	protected $global_tpl;
+
+	/**
  	 * @var	ilTemplate
 	 */
 	private $tpl;
 
-	final public function __construct(\ilTemplate $tpl) {
+	final public function __construct(\ilTemplate $global_tpl, \ilTemplate $tpl) {
+		$this->global_tpl = $global_tpl;
 		$this->tpl = $tpl;
 	}
 
@@ -53,5 +59,12 @@ class ilTemplateWrapper implements Template {
 			$block = "__global__";
 		}
 		return $this->tpl->get($block);
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function addOnLoadCode($code) {
+		return $this->global_tpl->addOnLoadCode($code);
 	}
 }

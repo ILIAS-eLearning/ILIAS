@@ -1,5 +1,12 @@
 # Jour Fixe Proposal to introduce a centralizes UI-Framework for ILIAS.
 
+We suggest the following rules for the ILIAS UI framework. The UI framework
+currently is in a construction phase. The current form of the rules therefore
+represents the best effort for the current state of the framework. It therefore
+is likely that there will be additions to or refinements of the rules in the
+(near) future. Everyone using the rules is invited to critically reflect the
+rules and propose changes.
+
 ## Basics
 
 * Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
@@ -34,10 +41,10 @@
 * In addition to the YAML-Block described in **Interfaces to Factories** the
   proposed interfaces, if not already implemented, SHOULD contain the following
   fields:
-    * `html` - gives an example of HTML-code that will be rendered by the
-      UI component
     * `less` - lists the LESS-variables that will be used to render the
       UI component including their purpose
+* If the new UI component is not implemented, there SHOULD be an html-example in
+  the examples-folder.
 * The new UI component MUST be presented on the JF, including the corresponding
   pull request. This SHOULD include some visible representation of the presented
   UI component, like a mock up or a basic implementation on the edge installation.
@@ -74,6 +81,12 @@
   \ILIAS\UI or a subnamespace thereof, where the root directory for that 
   namespace is src/UI and the location of PHP-files is determined according to
   [PSR-4](http://www.php-fig.org/psr/psr-4/).
+* Methods in the UI framework SHOULD not use arrays as parameters, unless one of
+  the following conditions is met:
+	- the array is used as a plain list of values or objects, where the index
+	  is just 0 to n and the array is ordered accordingly
+	- the array is used as a key-value dictionary and the methods does not expect
+      any special keys or access the dictionary with special keys
 
 ### Interfaces to Factories
 
@@ -178,8 +191,6 @@ the creation of a UI component and starting at the main factory.
   not provide methods to actually change the object they describe. Instead they
   MAY provide methods called `withXYZ` instead of setters, that return a copy of
   the object where the desired modification is applied.
-* TODO: Usage of arrays as parameters (list, general key => value, where there 
-  are no special keys)
 
 ### Implementations of Factories
 
@@ -196,7 +207,7 @@ the creation of a UI component and starting at the main factory.
 ### Implementations of UI components
 
 * The implementing class MUST be named after the interface it implements.
-  I.e. the implementation of `ILIAS\UI\Components\A\B\C must be called C. 
+  I.e. the implementation of `ILIAS\UI\Components\A\B\C` must be called C.
 * Every implementation of a component MUST be located in a subnamespace of
   `ILIAS\UI\Implementation\Component`, where the exact subnamespace corresponds
   to the name of the implemented interface. I.e., the implementation for the
@@ -204,27 +215,53 @@ the creation of a UI component and starting at the main factory.
 * Implementations of components MUST adhere to the interface they implement,
   which means the method signatures as well as the docstrings. Implementations
   SHOULD also maintain the invariants and constraints stated in the rules of
-  the component, where they must throw `\InvalidArgumentExceptions` when a
-  constraint or invariant is violated. Implementations of components MAY use
-  the trait \ILIAS\UI\Implementation\Component\Helper to ease the checking
-  of said invariants and constraints.
+  the component, where they MUST use a typehint to enforce the constraint or
+  invariant or throw an `\InvalidArgumentExceptions`. Implementations of
+  components MAY use the trait \ILIAS\UI\Implementation\Component\Helper to
+  ease the checking of said invariants and constraints.
 * Implementations of components MUST only act as data objects, i.e. maintain
   their content and provide it to consumers. They MUST NOT switch behaviour
   based on any properties, e.g. return different values from a getter based
   on their type.
 
-### Implementations of Renderers
+### Implementations of Renderers for UI components.
 
-* TODO: do not use properties of components as css classes
-
-### Tests for Factories
-
-### Tests for UI
+* There MUST exists a renderer for every implementation of an UI component. The renderer
+  MUST only render the component it belongs to.
+* Every renderer MUST extend the class `ILIAS\UI\Implementation\Renderer\AbstractComponentRenderer`.
+* The renderer MUST be located in the same namespace as the UI component
+  implementation and it MUST be named Renderer.
+* Renderers SHOULD not use properties as names for CSS classes.
+* Renderers MUST use the subset of the LIAS templating engine, provided via
+  `AbstractComponentRenderer::getTemplate`, to render their component.
 
 ## Locations of resources
 
-Means: less, css, js
+The term 'resources' means templates, less, css or javascript code that is required
+to render a certain component.
 
-* TODO: every component interface should correspond to a template
-* TODO: resources must be located in templates/$COMPONENT/
-* TODO: less must be wired by hand to delos.less
+* Every component interface SHOULD correspond to one template.
+* The resources required to render a component SHOULD be located in the folder
+  templates/$COMPONENT, where $COMPONENT is the name of the component.
+* If a renderer needs a certain resource other then a template, it SHOULD register
+  said resource via the renderers registerResource-method.
+* Renderers for components SHOULD only use resources of their own component.
+* If a component has a less-resource, that resource MUST be wired by hand to the
+  delos.less-file.
+
+There most propably will be changes in the handling of resources in the future, as
+the seems to be the need to introduce some common patterns for handling javascript
+or compiling css from different less files.
+
+## Examples
+
+* There SHOULD be examples for every implemented component that showcase
+  the usage of the component from developers perspective.
+* If there are examples, they MUST be put in a subfolder of examples
+  that is named like the showcases component interface.
+* Every example MUST be a php-file with one function inside. The function
+  must have the name $COMPONENT_$EXAMPLE, where $COMPONENT is the name of
+  the showcased component interface, and $EXAMPLE is the prefix of the name
+  of the php file.
+* The function MUST return a string.
+
