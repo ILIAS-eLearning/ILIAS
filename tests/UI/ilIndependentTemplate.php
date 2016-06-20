@@ -5,15 +5,9 @@
 require_once("libs/composer/vendor/autoload.php");
 
 // Do the require-dance for ilTemplate.
-$cur_cwd = getcwd();
-chdir(__DIR__."/../..");
-require_once("include/inc.get_pear.php");
-require_once("include/inc.check_pear.php");
-require_once("PEAR.php");
-require_once("HTML/Template/ITX.php");
-require_once("./Services/UICore/classes/class.ilTemplateHTMLITX.php");
+require_once("./Services/UICore/lib/html-it/IT.php");
+require_once("./Services/UICore/lib/html-it/ITX.php");
 require_once("./Services/UICore/classes/class.ilTemplate.php");
-chdir($cur_cwd);
 
 class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Render\Template {
     /**
