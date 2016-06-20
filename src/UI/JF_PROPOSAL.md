@@ -156,7 +156,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
   of the same interface.
 * There MUST be at most one factory per interface declaring to return instances of
   that interface.
-* The proposed interfaces MUST pass a phpunit test extending tests/UI/AbstractFactoryTest.
+* The proposed interfaces SHOULD pass a phpunit test extending tests/UI/AbstractFactoryTest.
   The final test
   * must have a public static $factoryTitle defined, containing the fully qualified
     factory interface name
@@ -166,9 +166,9 @@ The interface to the main factory is \ILIAS\UI\Factory.
     public $kitchensink_info_settings =
         array( "method1" => array ("rules" => false, "javascript" => true));
     If no settings are defined for a method, defaults deriving from above rules for
-    Kitchen Sink information will be used, where SHOULD is interpreted as true and
-    MAY is interpreted as false.
-    Obligatory fields (MUST/MUST NOT) are allways checked and may not be overwritten.
+    Kitchen Sink information will be used, where 'SHOULD' is interpreted as true and
+    'MAY' is interpreted as false.
+    Obligatory fields (MUST/MUST NOT) are always checked and MUST NOT be overwritten.
 
 
 ### Interfaces to UI components
