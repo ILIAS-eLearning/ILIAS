@@ -5113,9 +5113,9 @@ class ilObjUser extends ilObject
 
 		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
 
-		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s";
+		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s OR (ISNULL(last_login) AND create_date < %s)";
 
-		$res = $ilDB->queryF($query, array('timestamp'), array($date));
+		$res = $ilDB->queryF($query, array('timestamp', 'timestamp'), array($date, $date));
 
 		$ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
