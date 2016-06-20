@@ -1205,7 +1205,9 @@ class ilInitialisation
 							);
 		};
 		$c["ui.template_factory"] = function($c) {
-			return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory();
+			return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory
+							( $c["tpl"]
+							);
 		};
 		$c["ui.resource_registry"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);

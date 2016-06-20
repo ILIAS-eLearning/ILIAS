@@ -50,4 +50,12 @@ interface Template {
 	 * @return	string
 	 */
 	public function get($block = null);
+
+	/**
+	 * Add some javascript to be executed on_load of the rendered page.
+	 *
+	 * TODO: This seems to be no rendering, but a javascript concern. We should
+	 * revise this when introducing patterns for javascript.
+	 */
+	public function addOnLoadCode($code);
 }

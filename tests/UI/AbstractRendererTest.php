@@ -50,6 +50,7 @@ class NullTemplate implements Template {
 	public function touchBlock($name) {}
 	public function setVariable($name, $value) {}
 	public function get($name = null) { return ""; }
+	public function addOnLoadCode($code) { return ""; }
 }
 
 class TemplateFactoryMock implements TemplateFactory {
