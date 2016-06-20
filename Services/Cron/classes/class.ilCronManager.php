@@ -36,7 +36,8 @@ class ilCronManager
 			$job = self::getJobInstanceById($row["job_id"]);
 			if($job)
 			{
-				self::runJob($job, $row);
+				// #18411 - we are NOT using the initial job data as it might be outdated at this point
+				self::runJob($job);
 			}
 		}
 		
@@ -67,9 +68,8 @@ class ilCronManager
 		if($job)
 		{			
 			if($job->isManuallyExecutable())
-			{
-				$job_data = array_pop(self::getCronJobData($job->getId()));
-				$result   = self::runJob($job, $job_data, true);
+			{				
+				$result = self::runJob($job, null, true);
 			}
 			else
 			{
@@ -94,11 +94,17 @@ class ilCronManager
 	 * @param bool $a_manual
 	 * @return boolean
 	 */
-	protected static function runJob(ilCronJob $a_job, array $a_job_data, $a_manual = false)
+	protected static function runJob(ilCronJob $a_job, array $a_job_data = null, $a_manual = false)
 	{
 		global $ilLog, $ilDB;
 		
 		$did_run = false;
+		
+		if($a_job_data === null)
+		{
+			// aquire "fresh" job (status) data
+			$a_job_data = array_pop(self::getCronJobData($a_job->getId()));
+		}
 	
 		if($a_job)
 		{			

@@ -86,6 +86,13 @@ class ilErrorHandling extends PEAR
 	{
 		global $log;
 
+		// see bug 18499 (some calls to raiseError do not pass a code, which leads to security issues, if these calls
+		// are done due to permission checks)
+		if ($a_error_obj->getCode() == null)
+		{
+			$a_error_obj->code = $this->WARNING;
+		}
+
 		$this->error_obj =& $a_error_obj;
 //echo "-".$_SESSION["referer"]."-";
 		if ($_SESSION["failure"] && substr($a_error_obj->getMessage(), 0, 22) != "Cannot find this block")

@@ -344,7 +344,7 @@ class ilDataCollectionRecordListGUI {
 					}
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
-						$record->setRecordFieldValue($field->getId(), $value);
+						$record->setRecordFieldValue($field->getId(), utf8_encode($value));
 					}
 				} catch (ilDataCollectionInputException $e) {
 					$warnings[] = "(" . $i . ", " . $this->getExcelCharForInteger($col) . ") " . $e;

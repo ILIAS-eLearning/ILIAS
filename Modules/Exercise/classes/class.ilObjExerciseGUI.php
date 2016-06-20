@@ -2379,8 +2379,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->form->getItemByPostVar("peer")
 						->setAlert($lng->txt("exc_needs_deadline"));
 					$valid = false;
-				}					
-				if($_POST["fb"])
+				}		
+				// #18508
+				if($_POST["fb"] && $_POST["fb_date"] == ilExAssignment::FEEDBACK_DATE_DEADLINE)
 				{
 					$this->form->getItemByPostVar("fb")
 						->setAlert($lng->txt("exc_needs_deadline"));
@@ -4798,7 +4799,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		$this->checkPermission("write");
 		$ass = new ilExAssignment((int) $_GET["ass_id"]);
-		$ass->saveMultiFeedbackFiles($_POST["file"]);
+		$ass->saveMultiFeedbackFiles($_POST["file"], $this->object);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "members");
