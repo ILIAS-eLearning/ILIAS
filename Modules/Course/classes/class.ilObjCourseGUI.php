@@ -33,6 +33,8 @@ require_once("Services/GEV/Course/classes/class.ilCourseInfo.php");
 */
 class ilObjCourseGUI extends ilContainerGUI
 {
+
+	const TITLE_LENGTH = 100;
 	/**
 	* Constructor
 	* @access public
@@ -1240,8 +1242,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setSubmitFormOnEnter(true);
 		$title->setValue($this->object->getTitle());
-		$title->setSize(min(40, ilObject::TITLE_LENGTH));
-		$title->setMaxLength(ilObject::TITLE_LENGTH);
+		// gev-patch start
+		$title->setSize(min(40, self::TITLE_LENGTH));
+		$title->setMaxLength(self::TITLE_LENGTH);
+		//$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		//$title->setMaxLength(ilObject::TITLE_LENGTH);
+		// gev-patch end
 		$title->setRequired(true);
 		$form->addItem($title);
 		
