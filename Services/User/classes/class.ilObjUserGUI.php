@@ -2932,7 +2932,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// Append login info only if password has been chacnged
-		if($_POST['passwd'] != '********')
+		if($_POST['passwd'] != '')
 		{
 			$body .= $usr_lang->txt("reg_mail_body_text2")."\n".
 				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
