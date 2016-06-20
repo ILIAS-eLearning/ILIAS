@@ -108,6 +108,7 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 				{
 					$a_auth->logout();
 					$_SESSION['tmp_auth_mode'] = 'radius';
+					$_SESSION['tmp_auth_mode_type'] = 'radius';
 					$_SESSION['tmp_external_account'] = $a_username;
 					$_SESSION['tmp_pass'] = $_POST['password'];
 					$_SESSION['tmp_roles'] = array(0 => $this->radius_settings->getDefaultRole());

@@ -118,8 +118,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if (!count($_POST["member"]))
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->cancelMemberObject();
 			return false;
 		}
 		
@@ -907,29 +907,43 @@ class ilObjCourseGUI extends ilContainerGUI
 		$archive_end = $this->loadDate('archive_end');				 
 		*/
 		$period = $form->getItemByPostVar("access_period");										
-		$sub_period = $form->getItemByPostVar("subscription_period");		
+		$sub_period = $form->getItemByPostVar("subscription_period");	
 		
-		if((int)$_POST['activation_type'])
+		// $act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
+		
+		if($period->getStart() || $period->getEnd())
 		{
+			// if start or end is missing validation will fail, setting values for reload
 			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
+			$this->object->setActivationStart($period->getStart() ? $period->getStart()->get(IL_CAL_UNIX) : null);
+			$this->object->setActivationEnd($period->getEnd() ? $period->getEnd()->get(IL_CAL_UNIX) : null);			
+			$this->object->setActivationVisibility((int)$_POST['activation_visibility']);		
 		}
 		else
 		{
 			$this->object->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
+			$this->object->setActivationStart(null);
+			$this->object->setActivationEnd(null);			
+			// $this->object->setActivationVisibility(false);		
 		}		
+		
 		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);		
-		$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
-		$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
-		$this->object->setActivationVisibility((int)$_POST['activation_visibility']);
+				
+		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));		
+		$this->object->setSubscriptionStart(null);
+		$this->object->setSubscriptionEnd(null);		
 		
 		$sub_type = (int)$_POST['subscription_type'];
 		if($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{		
 			$this->object->setSubscriptionType($sub_type);
 						
-			if((int)$_POST['subscription_limitation_type'])
+			if($sub_period->getStart() &&
+				$sub_period->getEnd())
 			{
 				$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
+				$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
+				$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));		
 			}
 			else
 			{
@@ -942,24 +956,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 		}		
 		
-		// save subitems anyways
-		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
-		$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
-		$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
-		
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		
-		$cancel_end = $form->getItemByPostVar("cancel_end");
-		if($_POST[$cancel_end->getActivationPostVar()])
-		{
-			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
-			$this->object->setCancellationEnd(new ilDate($dt, IL_CAL_DATETIME));
-		}
-		else
-		{
-			$this->object->setCancellationEnd(null);
-		}
+		$this->object->setCancellationEnd($form->getItemByPostVar("cancel_end")->getDate());		
 				
 		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
@@ -986,19 +986,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 				
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
-				
-		if((bool)$_POST["period_tgl"])
-		{
-			$crs_period = $form->getItemByPostVar("period");				
-			$this->object->setCourseStart($crs_period->getStart());
-			$this->object->setCourseEnd($crs_period->getEnd());
-		}		
-		else
-		{
-			$this->object->setCourseStart(null);
-			$this->object->setCourseEnd(null);
-		}
-				
+					
+		$crs_period = $form->getItemByPostVar("period");				
+		$this->object->setCourseStart($crs_period->getStart());
+		$this->object->setCourseEnd($crs_period->getEnd());		
+		
 		$this->object->setViewMode((int) $_POST['view_mode']);
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1177,25 +1169,19 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 		
-		// period
-		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
-		$cdur_tgl->setInfo($this->lng->txt('crs_period_info'));
-		$cdur_tgl->setChecked($this->object->getCourseStart());
-		$form->addItem($cdur_tgl);
-		
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$cdur = new ilDateDurationInputGUI('', 'period');			
-			$cdur->setStartText($this->lng->txt('crs_start'));			
-			$cdur->setEndText($this->lng->txt('crs_end'));				
-			if($this->object->getCourseStart())
-			{
-				$cdur->setStart($this->object->getCourseStart());
-			}		
-			if($this->object->getCourseStart())
-			{
-				$cdur->setEnd($this->object->getCourseEnd());
-			}	
-			$cdur_tgl->addSubItem($cdur);			
+		// period		
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');			
+		$cdur->setInfo($this->lng->txt('crs_period_info'));			
+		if($this->object->getCourseStart())
+		{
+			$cdur->setStart($this->object->getCourseStart());
+		}		
+		if($this->object->getCourseStart())
+		{
+			$cdur->setEnd($this->object->getCourseEnd());
+		}	
+		$form->addItem($cdur);			
 		
 			
 		// activation/availability
@@ -1211,28 +1197,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		$online->setInfo($this->lng->txt('crs_activation_online_info'));
 		$form->addItem($online);				
 		
-		$act_type = new ilCheckboxInputGUI($this->lng->txt('crs_visibility_until'), 'activation_type');
-		$act_type->setInfo($this->lng->txt('crs_visibility_until_info'));
-		$act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
-		// $act_type->setInfo($this->lng->txt('crs_availability_until_info'));
+		// $act_type = new ilCheckboxInputGUI($this->lng->txt('crs_visibility_until'), 'activation_type');
+		// $act_type->setInfo($this->lng->txt('crs_visibility_until_info'));
+		// $act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
+		// $form->addItem($act_type);
 		
-			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
-			$dur->setShowTime(true);																	
-			$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
-			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-			$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));
-			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
-			$act_type->addSubItem($dur);
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
+		$dur->setShowTime(true);																	
+		$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));				
+		$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));			
+		$form->addItem($dur);
 
 			$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
 			$visible->setInfo($this->lng->txt('crs_activation_limited_visibility_info'));
 			$visible->setChecked($this->object->getActivationVisibility());
-			$act_type->addSubItem($visible);
-
-		$form->addItem($act_type);
-		
+			$dur->addSubItem($visible);
+				
 		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_reg'));
@@ -1302,28 +1283,24 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$form->addItem($reg_code);
 		
-		
-		// time limit
-		$time_limit = new ilCheckboxInputGUI($this->lng->txt('crs_registration_limited'),'subscription_limitation_type');
-		$time_limit->setInfo($this->lng->txt('crs_registration_limited_info'));
-		$time_limit->setChecked(($this->object->getSubscriptionLimitationType() ==  IL_CRS_SUBSCRIPTION_LIMITED) ? true : false);
-
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_period'), "subscription_period");
-			$sdur->setShowTime(true);																	
-			$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
-			$sdur->setStartText($this->lng->txt('crs_start'));				
-			$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
-			$sdur->setEndText($this->lng->txt('crs_end'));				
-			
-		$time_limit->addSubItem($sdur);
-		$form->addItem($time_limit);
+		// time limit		
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_limited'), "subscription_period");
+		$sdur->setShowTime(true);		
+		if($this->object->getSubscriptionStart())
+		{
+			$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));			
+		}
+		if($this->object->getSubscriptionEnd())
+		{
+			$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));			
+		}
+		$form->addItem($sdur);
 		
 		// cancellation limit		
 		$cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');
 		$cancel->setInfo($this->lng->txt('crs_cancellation_end_info'));
-		$cancel_end = $this->object->getCancellationEnd();
-		$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
+		$cancel_end = $this->object->getCancellationEnd();	
 		if($cancel_end)
 		{
 			$cancel->setDate($cancel_end);
@@ -2814,6 +2791,12 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
 						$this->object->getMembersObject()->updateRoleAssignments($user_id,(array)$a_type);
 					}
+					else
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Can\'t find role with role id "' . $a_type . '" to assign users to.');
+						ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"),true);
+						return false;
+					}
 					break;
 			}
 			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
@@ -3919,9 +3902,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilrepositorysearchgui':
+				
+				if(!$this->checkPermissionBool('write'))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
-				
 				if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
 				{
 					$rep_search->setCallback($this,
@@ -3931,12 +3918,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				else
 				{
+					//#18445 excludes admin role
 					$rep_search->setCallback($this,
 						'assignMembersObject',
-						array(
-							ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
-							ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
-							)
+					    $this->getLocalRoles(array($this->object->getDefaultAdminRole()))
 						);
 					
 				}
@@ -4340,7 +4325,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	// STATIC
-	function _forwards()
+	public static function _forwards()
 	{
 		return array("ilCourseRegisterGUI",'ilConditionHandlerGUI');
 	}
@@ -5005,10 +4990,12 @@ class ilObjCourseGUI extends ilContainerGUI
 	// end-patch lok
 
 	/**
+	 *
+	 * @var int[] $a_exclude a list of role ids which will not added to the results (optional)
 	 * returns all local roles [role_id] => title
 	 * @return array localroles
 	 */
-	protected function getLocalRoles()
+	protected function getLocalRoles($a_exclude = array())
 	{
 		$crs_admin = $this->object->getDefaultAdminRole();
 		$crs_member = $this->object->getDefaultMemberRole();
@@ -5030,6 +5017,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 
 			$crs_roles[$role_id] = ilObjRole::_getTranslation($title);
+		}
+
+		if(count($a_exclude) > 0)
+		{
+			foreach($a_exclude as $excluded_role)
+			{
+				if(isset($crs_roles[$excluded_role]))
+				{
+					unset($crs_roles[$excluded_role]);
+				}
+			}
 		}
 		return $crs_roles;
 	}

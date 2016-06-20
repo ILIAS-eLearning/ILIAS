@@ -72,7 +72,7 @@ class ilQTIItem
 	protected $iliasSourceVersion;
 	protected $iliasSourceNic;
 	
-	function ilQTIItem()
+	function __construct()
 	{
 		$this->response = array();
 		$this->resprocessing = array();

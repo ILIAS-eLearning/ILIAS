@@ -43,8 +43,7 @@ require_once "PEAR.php";
 
 // wrapper for php 4.3.2 & higher
 
-require_once "HTML/Template/ITX.php";
-require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
+//require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class
 
 require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 

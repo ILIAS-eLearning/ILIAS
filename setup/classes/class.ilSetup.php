@@ -625,8 +625,16 @@ class ilSetup extends PEAR
 	 */
 	protected function checkOpcacheSettings() {
 		$arr = array();
+		// correct-with-php5-removal FSX start
+		if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+			$arr["status"] = true;
+
+			return $arr;
+		}
+		// correct-with-php5-removal FSX end
+
 		$load_comments = ini_get("opcache.load_comments");
-		if($load_comments == 1) {
+		if ($load_comments == 1) {
 			$arr["status"] = true;
 		} else {
 			$arr["status"] = false;
@@ -655,7 +663,7 @@ class ilSetup extends PEAR
 		$a["xsl"] = $this->checkXsl();
 		$a["gd"] = $this->checkGd();
 		$a["memory"] = $this->checkMemoryLimit();
-//		var_dump(ini_get('opcache.enable') ); // FSX
+
 		if ($this->hasOpCacheEnabled()) {
 			$a["load_comments"] = $this->checkOpcacheSettings();
 		}
@@ -2269,36 +2277,5 @@ class ilSetup extends PEAR
 
 		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
-} // END class.ilSetup
-
-class tmpDirectoyIterator extends DirectoryIterator
-{
-	public function current()
-	{
-		return parent::getFileName();
-	}
-
-	public function valid()
-	{
-		if(!parent::valid())
-		{
-			return false;
-		}
-		if($this->isFile() and substr(parent::getFileName(),-4) == '.xml')
-		{
-			return false;
-		}
-		if($this->isFile() and substr(parent::getFileName(),-8) != '_inserts')
-		{
-			return true;
-		}
-		parent::next();
-		return $this->valid();
-	}
-
-	public function rewind()
-	{
-		parent::rewind();
-	}
 }
-?>
+

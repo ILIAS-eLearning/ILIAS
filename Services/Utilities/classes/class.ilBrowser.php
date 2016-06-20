@@ -220,7 +220,7 @@ class ilBrowser
 	/**
 	 * isMobile
 	 */
-	public function isMobile()
+	public static function isMobile()
 	{	
 		$HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
 		

@@ -305,10 +305,13 @@ class ilExPeerReview
 				$values = array("text"=>$data);
 			}
 		}
+		
+		/* #18491 - values can be empty, text is optional (rating/file values are handled internally in criteria)
 		if(!$values)
 		{
 			return false;
 		}		
+		*/ 
 		
 		foreach($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit)		
 		{

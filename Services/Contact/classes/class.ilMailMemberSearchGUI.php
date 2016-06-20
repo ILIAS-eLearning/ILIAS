@@ -261,10 +261,9 @@ class ilMailMemberSearchGUI
 	protected function showSearchForm()
 	{
 		global $tpl;
-		
+
 		$this->storeReferer();
-		$tpl->getStandardTemplate();
-		
+
 		$form = $this->initMailToMembersForm();
 		$tpl->setContent($form->getHTML());
 	}

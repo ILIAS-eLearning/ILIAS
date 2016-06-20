@@ -12049,7 +12049,7 @@ dcl#:#dcl_length#:#Länge
 dcl#:#dcl_length_info#:#Maximale Anzahl von Zeichen, die ein Benutzer eingeben kann. Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
 dcl#:#dcl_regex#:#Regulärer Ausdruck
 dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
-dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
@@ -12066,6 +12066,7 @@ dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_comments#:#Kommentare
 dcl#:#dcl_comments_description#:#Zeigt die Anzahl Kommentare eines Eintrags.
 dcl#:#dcl_manage#:#Verwalten
+dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
 dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
@@ -12075,13 +12076,14 @@ dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
 dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
-dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern
+dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
+dcl#:#dcl_confirm_storing_records_no_permission#:#Sie haben keine Rechte, den Datensatz später nochmals zu bearbeiten.
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_export_finished#:#Export Abgeschlossen
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
-dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
@@ -12371,7 +12373,7 @@ dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
-dcl#:#dcl_title#:#Feldtitel
+dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
@@ -12390,6 +12392,8 @@ dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_import_enabled#:#Tabelle importieren
+dcl#:#dcl_import_enabled_desc#:#Alle Benutzer können selber Daten in die Tabellen importieren, solange Sie entsprechende Schreibrechte besitzen.
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_prop_expression#:#Ausdruck
@@ -12397,6 +12401,28 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
+dcl#:#dcl_create_item#:#Objekt Hinzufügen
+dcl#:#dcl_select#:#Auswahl
+dcl#:#dcl_tableviews#:#Ansichten
+dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
+dcl#:#dcl_tableview#:#Ansicht
+dcl#:#dcl_tableorder#:#Tabellenanordnung
+dcl#:#dcl_detailed_view#:#Einzelansicht
+dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
+dcl#:#dcl_delete_views#:#Ansichten löschen
+dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
+dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt
+dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
+dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
+dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
+dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
+dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
+dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
+dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
+dcl#:#dcl_field_visible#:#Sichtbar
+dcl#:#dcl_standardview#:#Standardansicht
+dcl#:#dcl_std_filter#:#Filtervorbelegung
+dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender
@@ -12409,7 +12435,7 @@ file#:#file_copy#:#Datei kopieren
 webr#:#webr_copy#:#Weblink kopieren
 exc#:#exc_copy#:#Übung kopieren
 assessment#:#tst_copy#:#Test kopieren
-poll#:#poll_population#:#%s abgegebene Stimmen
+poll#:#poll_population#:#%s Teilnehmer
 poll#:#poll_participants#:#Teilnehmer
 poll#:#poll_delete_votes#:#Alle Stimmen löschen
 poll#:#poll_delete_votes_sure#:#Sind sie sicher, dass Sie alle Stimmen löschen möchten?
@@ -12891,12 +12917,14 @@ dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_creation_date#:#Erstellungs Datum
+dcl#:#dcl_create_date#:#Erstellungs Datum
 dcl#:#dcl_creation_date_description#:#Das Datum an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum an dem dieser Eintrag zuletzt geändert wurde.
 dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
+dcl#:#dcl_last_edit_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
@@ -15700,3 +15728,9 @@ mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge 
 mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden) 
 mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
 mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
+rbac#:#mep_copy#:#Medienpool kopieren
+crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
+grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+form#:#form_date_duration_start#:#Start
+form#:#form_date_duration_end#:#Ende

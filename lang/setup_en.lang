@@ -625,4 +625,5 @@ cache_activate_events#:#Events
 cache_activated_components#:#Activated Components
 cache_flush#:#Flush all caches
 cache_activate_tpl_blocks#:#Template (Blocks)
-cache_activate_tpl_variables#:#Template (Variablen)
+cache_activate_tpl_variables#:#Template (Variables)
+cache_activate_all#:#All

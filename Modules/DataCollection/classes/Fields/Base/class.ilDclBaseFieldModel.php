@@ -3,8 +3,9 @@
 
 require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php');
 require_once('./Services/Exceptions/classes/class.ilException.php');
-require_once('./Modules/DataCollection/classes/class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 require_once('./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php');
 
 /**
  * Class ilDclBaseFieldModel
@@ -54,18 +55,6 @@ class ilDclBaseFieldModel {
 	/**
 	 * @var bool
 	 */
-	protected $visible;
-	/**
-	 * @var bool
-	 */
-	protected $editable;
-	/**
-	 * @var bool
-	 */
-	protected $filterable;
-	/**
-	 * @var bool
-	 */
 	protected $locked;
 	/**
 	 * @var array
@@ -107,9 +96,7 @@ class ilDclBaseFieldModel {
 
 
 	// type of table il_dcl_view
-	const VIEW_VIEW = 1;
 	const EDIT_VIEW = 2;
-	const FILTER_VIEW = 3;
 	const EXPORTABLE_VIEW = 4;
 	
 	/**
@@ -303,34 +290,6 @@ class ilDclBaseFieldModel {
 	}
 
 	/**
-	 * setVisible
-	 *
-	 * @param $visible bool
-	 */
-	public function setVisible($visible) {
-		if ($visible == true && $this->order === NULL) {
-			$this->setOrder(0);
-		}
-
-		$this->visible = $visible;
-	}
-
-
-	/**
-	 * setFilterable
-	 *
-	 * @param $filterable bool
-	 */
-	public function setFilterable($filterable) {
-		if ($filterable == true && $this->order === NULL) {
-			$this->setOrder(0);
-		}
-
-		$this->filterable = $filterable;
-	}
-
-
-	/**
 	 * @return ilDclDatatype
 	 */
 	public function getDatatype() {
@@ -373,107 +332,14 @@ class ilDclBaseFieldModel {
 		}
 	}
 
-
 	/**
-	 * @return bool
+	 * loadTableFieldSetting
 	 */
-	public function isVisible() {
-		if (! isset($this->visible)) {
-			$this->loadVisibility();
-		}
-
-		return $this->visible;
+	protected function loadTableFieldSetting() {
+		$tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
+		$this->exportable = $tablefield_setting->isExportable();
+		$this->order = $tablefield_setting->getFieldOrder();
 	}
-
-
-	/**
-	 * Load visibility
-	 */
-	protected function loadVisibility() {
-		if ($this->visible == NULL) {
-			$this->loadViewDefinition(self::VIEW_VIEW);
-		}
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isFilterable() {
-		if (! isset($this->filterable)) {
-			$this->loadFilterability();
-		}
-
-		return $this->filterable;
-	}
-
-
-	/**
-	 * Load filterbility
-	 */
-	protected function loadFilterability() {
-		if ($this->filterable == NULL) {
-			$this->loadViewDefinition(self::FILTER_VIEW);
-		}
-	}
-
-
-	/**
-	 * loadViewDefinition
-	 *
-	 * @param $view int use VIEW_VIEW or EDIT_VIEW
-	 */
-	protected function loadViewDefinition($view) {
-		global $ilDB;
-		$query = "  SELECT view.table_id, def.field_order, def.is_set FROM il_dcl_viewdefinition def
-						INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = " . $ilDB->quote($view, "integer") . "
-						WHERE def.field LIKE '" . $this->id . "' AND view.table_id = " . $ilDB->quote($this->table_id, "integer");
-		$set = $ilDB->query($query);
-		$rec = $ilDB->fetchAssoc($set);
-		$prop = $rec['is_set'];
-
-		switch ($view) {
-			case self::VIEW_VIEW:
-				$this->visible = $prop;
-				break;
-			case self::EDIT_VIEW:
-				$this->editable = $prop;
-				break;
-			case self::FILTER_VIEW:
-				$this->filterable = $prop;
-				break;
-			case self::EXPORTABLE_VIEW:
-				$this->exportable = $prop;
-				break;
-		}
-
-		if (! $this->order) {
-			$this->order = $rec['field_order'];
-		}
-	}
-
-
-	/**
-	 * isEditable
-	 *
-	 * @return int
-	 */
-	public function isEditable() {
-		if (! isset($this->editable)) {
-			$this->loadEditability();
-		}
-
-		return $this->editable;
-	}
-
-
-	/**
-	 * @param $editable
-	 */
-	public function setEditable($editable) {
-		$this->editable = $editable;
-	}
-
 
 	/**
 	 * @return bool
@@ -486,23 +352,12 @@ class ilDclBaseFieldModel {
 		return $this->exportable;
 	}
 
-
-	/**
-	 * Load editability
-	 */
-	private function loadEditability() {
-		if ($this->editable == NULL) {
-			$this->loadViewDefinition(self::EDIT_VIEW);
-		}
-	}
-
-
 	/**
 	 * Load exportability
 	 */
 	private function loadExportability() {
 		if ($this->exportable == NULL) {
-			$this->loadViewDefinition(self::EXPORTABLE_VIEW);
+			$this->loadTableFieldSetting();
 		}
 	}
 
@@ -581,10 +436,20 @@ class ilDclBaseFieldModel {
 			. $ilDB->quote($this->isUnique(), "integer") . "," . $ilDB->quote($this->getLocked() ? 1 : 0, "integer") . ")";
 		$ilDB->manipulate($query);
 
-		$this->updateVisibility();
-		$this->updateFilterability();
-		$this->updateEditability();
-		$this->updateExportability();
+		$this->updateTableFieldSetting();
+
+		$this->addToTableViews();
+	}
+
+	/**
+	 * create ilDclTableViewFieldSettings for this field in each tableview
+	 */
+	protected function addToTableViews()
+	{
+		foreach (ilDclTableView::getAllForTableId($this->table_id) as $tableview)
+		{
+			$tableview->createFieldSetting($this->id);
+		}
 	}
 
 
@@ -629,10 +494,7 @@ class ilDclBaseFieldModel {
 				$this->getId()
 			)
 		));
-		$this->updateVisibility();
-		$this->updateFilterability();
-		$this->updateEditability();
-		$this->updateExportability();
+		$this->updateTableFieldSetting();
 		$this->updateProperties();
 	}
 
@@ -648,114 +510,16 @@ class ilDclBaseFieldModel {
 
 
 	/**
-	 * @return bool returns the same as isFilterable.
-	 */
-	public function getFilterable() {
-		return $this->isFilterable();
-	}
-
-
-	/**
-	 * Update visibility
-	 */
-	protected function updateVisibility() {
-		$this->updateViewDefinition(self::VIEW_VIEW);
-	}
-
-
-	/**
-	 * Update filterbility
-	 */
-	protected function updateFilterability() {
-		$this->updateViewDefinition(self::FILTER_VIEW);
-	}
-
-
-	/**
-	 * Update editability
-	 */
-	protected function updateEditability() {
-		$this->updateViewDefinition(self::EDIT_VIEW);
-	}
-
-
-	/**
-	 * Update exporability
-	 */
-	protected function updateExportability() {
-		$this->updateViewDefinition(self::EXPORTABLE_VIEW);
-	}
-
-
-	/**
 	 * updateViewDefinition
 	 *
 	 * @param $view int use constant VIEW_VIEW or EDIT_VIEW
 	 */
-	private function updateViewDefinition($view) {
-		global $ilDB;
-
-		switch ($view) {
-			case self::EDIT_VIEW:
-				$set = $this->isEditable();
-				break;
-			case self::VIEW_VIEW:
-				$set = $this->isVisible();
-				if ($set && $this->order === NULL) {
-					$this->order = 0;
-				}
-				break;
-			case self::FILTER_VIEW:
-				$set = $this->isFilterable();
-				if ($set && $this->order === NULL) {
-					$this->order = 0;
-				}
-				break;
-			case self::EXPORTABLE_VIEW:
-				$set = $this->getExportable();
-				if ($set && $this->order === NULL) {
-					$this->order = 0;
-				}
-				break;
-		}
-
-		if (! $set) {
-			$set = 0;
-		} else {
-			$set = 1;
-		}
-
-		if (! isset($this->order)) {
-			$this->order = 0;
-		}
-
-		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = " . $ilDB->quote($view, "integer")
-			. " AND il_dcl_view.table_id = " . $ilDB->quote($this->getTableId(), "integer") . " WHERE def.view_id = il_dcl_view.id AND def.field = "
-			. $ilDB->quote($this->getId(), "text");
-
-		$ilDB->manipulate($query);
-
-		$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order, is_set) SELECT id, " . $ilDB->quote($this->getId(), "text") . ", "
-			. $ilDB->quote($this->getOrder(), "integer") . ", " . $ilDB->quote($set, "integer") . "  FROM il_dcl_view WHERE il_dcl_view.type = "
-			. $ilDB->quote($view, "integer") . " AND il_dcl_view.table_id = " . $ilDB->quote($this->getTableId(), "integer");
-
-		$ilDB->manipulate($query);
+	protected function updateTableFieldSetting() {
+		$tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
+		$tablefield_setting->setExportable($this->getExportable());
+		$tablefield_setting->setFieldOrder($this->getOrder());
+		$tablefield_setting->store();
 	}
-
-	/**
-	 * Delete view-definition
-	 * @param $view
-	 */
-	private function deleteViewDefinition($view) {
-		global $ilDB;
-
-		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = " . $ilDB->quote($view, "integer")
-			. " AND il_dcl_view.table_id = " . $ilDB->quote($this->getTableId(), "integer") . " WHERE def.view_id = il_dcl_view.id AND def.field = "
-			. $ilDB->quote($this->getId(), "text");
-
-		$ilDB->manipulate($query);
-	}
-
 
 	/**
 	 * Remove field and properties
@@ -763,26 +527,31 @@ class ilDclBaseFieldModel {
 	public function doDelete() {
 		global $ilDB;
 
-		// delete viewdefinitions.
-		$this->deleteViewDefinition(self::VIEW_VIEW);
-		$this->deleteViewDefinition(self::FILTER_VIEW);
-		$this->deleteViewDefinition(self::EDIT_VIEW);
-		$this->deleteViewDefinition(self::EXPORTABLE_VIEW);
+		// delete tablefield setting.
+		ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId())->delete();
 
 		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = " . $ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
 
 		$query = "DELETE FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
+
+		foreach ($this->getFieldSettings() as $field_setting)
+		{
+			$field_setting->delete();
+		}
 	}
 
+	public function getFieldSettings() {
+		return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
+	}
 
 	/**
 	 * @return int
 	 */
 	public function getOrder() {
 		if (! isset($this->order)) {
-			$this->loadVisibility();
+			$this->loadTableFieldSetting();
 		}
 
 		return ! $this->order ? 0 : $this->order;
@@ -855,15 +624,17 @@ class ilDclBaseFieldModel {
 	 */
 	public function setProperty($key, $value) {
 		if(isset($this->property[$key])) {
-			$property = $this->property[$key];
-			$property->setValue($value);
+			$this->property[$key]->setValue($value);
 		} else {
 			$property = new ilDclFieldProperty();
 			$property->setName($key);
 			$property->setFieldId($this->getId());
 			$property->setValue($value);
+
+			$this->property[$key] = $property;
 		}
-		return $property;
+
+		return $this->property[$key];
 	}
 
 
@@ -943,10 +714,7 @@ class ilDclBaseFieldModel {
 		$this->setTitle($original->getTitle());
 		$this->setDatatypeId($original->getDatatypeId());
 		$this->setDescription($original->getDescription());
-		$this->setEditable($original->isEditable());
 		$this->setLocked($original->getLocked());
-		$this->setFilterable($original->isFilterable());
-		$this->setVisible($original->isVisible());
 		$this->setOrder($original->getOrder());
 		$this->setRequired($original->getRequired());
 		$this->setUnique($original->isUnique());
@@ -1066,20 +834,7 @@ class ilDclBaseFieldModel {
 		return true;
 	}
 
-
-	/**
-	 * Parses form-property input before saving
-	 *
-	 * @param $property_id property-id
-	 * @param $value form-value
-	 *
-	 * @return mixed
-	 */
-	public function parseFieldCreationFormPropertyValue($property_id, $value) {
-		return $value;
-	}
-
-
+	
 	/**
 	 * @return int|null
 	 */

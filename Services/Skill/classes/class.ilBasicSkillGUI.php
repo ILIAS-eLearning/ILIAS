@@ -48,7 +48,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilCtrl, $tpl, $ilTabs, $ilHelp;
 		
-		$tpl->getStandardTemplate();
+		//$tpl->getStandardTemplate();
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();

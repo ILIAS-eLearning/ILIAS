@@ -1772,7 +1772,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			if (is_object($st_item) && $this->getEnabledMapAreas())
 			{
 				$format = $st_item->getFormat();
-				if (substr($format, 0, 5) == "image")
+				if (substr($format, 0, 5) == "image" && !is_int(strpos($format, "svg")))
 				{
 					$this->tabs_gui->addTarget("cont_def_map_areas",
 						$this->ctrl->getLinkTargetByClass(

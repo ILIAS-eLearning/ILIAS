@@ -636,3 +636,4 @@ cache_activated_components#:#Activated Components###30 08 2015 new variable
 cache_flush#:#Flush all caches###30 08 2015 new variable
 cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
 cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
+cache_activate_all#:#Alle

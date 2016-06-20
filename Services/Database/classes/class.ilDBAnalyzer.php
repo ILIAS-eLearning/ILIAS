@@ -303,7 +303,7 @@ class ilDBAnalyzer {
 				                              . $a_table . ".");
 			}
 
-			$set = $this->il_db->query("SELECT MAX(`" . $seq_field . "`) ma FROM `" . $a_table . "`");
+			$set = $this->il_db->query("SELECT MAX(" .$this->il_db->quoteIdentifier($seq_field) . ") ma FROM " . $this->il_db->quoteIdentifier($a_table) . "");
 			$rec = $this->il_db->fetchAssoc($set);
 			$next = $rec["ma"] + 1;
 

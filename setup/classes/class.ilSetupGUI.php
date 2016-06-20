@@ -2189,6 +2189,10 @@ echo "<br>+".$client_id;
 				$cc->setChecked($ilGlobalCacheSettings->isComponentActivated($comp));
 				$cache_form->addItem($cc);
 			}
+
+			$cc = new ilCheckboxInputGUI($this->lng->txt('cache_activate_all' ), 'activate[all]');
+			$cc->setChecked($ilGlobalCacheSettings->areAllComponentActivated());
+			$cache_form->addItem($cc);
 		}
 
 		$table_html = '';
@@ -2290,6 +2294,10 @@ echo "<br>+".$client_id;
 		$ilGlobalCacheSettings->resetActivatedComponents();
 		if (is_array($_POST['activate']) && count($_POST['activate']) > 0) {
 			foreach ($_POST['activate'] as $comp => $a) {
+				if ($comp == 'all') {
+					$ilGlobalCacheSettings->activateAll();
+					break;
+				}
 				$ilGlobalCacheSettings->addActivatedComponent($comp);
 			}
 		}
@@ -2700,7 +2708,7 @@ echo "<br>+".$client_id;
 	 */
 	function installDatabase()
 	{
-		if (!$this->setup->getClient()->getDBSetup()->isDatabaseInstalled()) {
+		if (!$this->setup->getClient()->getDBSetup()->isDatabaseExisting()) {
 			if ($_POST["chk_db_create"]) {
 				if (!$this->setup->createDatabase($_POST["collation"])) {
 					echo "installation failed";

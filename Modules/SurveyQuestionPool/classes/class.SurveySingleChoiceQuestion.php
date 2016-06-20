@@ -639,11 +639,17 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		if ($total > 0)
 		{
 			if (($total % 2) == 0)
-			{
-				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+			{				
+				$lower = $median[($total/2)-1];
+				$upper = $median[($total/2)];
+				$median_value = 0.5 * ($lower + $upper);
 				if (round($median_value) != $median_value)
 				{
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $this->categories->getCategory((int)floor($median_value)-1)->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $this->categories->getCategory((int)ceil($median_value)-1)->title . ")";
+					$median_value = $median_value . "<br />" . 
+						"(" . $this->lng->txt("median_between") . " " . $lower . "-" . 
+						$this->categories->getCategoryForScale($lower)->title . 
+						" " . $this->lng->txt("and") . " " . $upper . "-" . 						
+						$this->categories->getCategoryForScale($upper)->title . ")";
 				}
 			}
 			else

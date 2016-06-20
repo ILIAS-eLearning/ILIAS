@@ -40,7 +40,7 @@ class ilQTIRenderChoice
 	var $response_labels;
 	var $material;
 	
-	function ilQTIRenderChoice()
+	function __construct()
 	{
 		$this->shuffle = SHUFFLE_NO;
 		$this->response_labels = array();

@@ -35,7 +35,7 @@ class ilQTIDisplayfeedback
 	var $linkrefid;
 	var $content;
 	
-	function ilQTIDisplayfeedback()
+	function __construct()
 	{
 	}
 	

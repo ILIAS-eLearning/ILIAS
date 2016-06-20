@@ -4,8 +4,8 @@ if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_c extends HFile
   {
-   function HFile_c(){
-     $this->HFile();	
+   function __construct(){
+     parent::__construct();
 /*************************************/
 // Beautifier Highlighting Configuration File 
 // C/C++

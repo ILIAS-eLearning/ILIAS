@@ -47,7 +47,7 @@ class ilQTIMaterial
 	var $altmaterial;
 	var $materials;
 	
-	function ilQTIMaterial()
+	function __construct()
 	{
 		$this->flow = 0;
 		$this->altmaterial = array();

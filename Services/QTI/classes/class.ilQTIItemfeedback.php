@@ -50,7 +50,7 @@ class ilQTIItemfeedback
 	var $solution;
 	var $hint;
 	
-	function ilQTIItemfeedback()
+	function __construct()
 	{
 		$this->flow_mat = array();
 		$this->material = array();

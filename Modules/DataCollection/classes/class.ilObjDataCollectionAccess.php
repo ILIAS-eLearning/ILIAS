@@ -236,6 +236,30 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 		return $ilAccess->checkAccess("read", "", $ref);
 	}
+
+	/**
+	 * @param integer|ilDclTableView $tableview can be object or id
+	 * @return bool
+	 */
+	public static function hasAccessToTableView($tableview)
+	{
+		global $rbacreview, $ilUser;
+		if (!$tableview) {
+			return false;
+		}
+		
+
+		if (is_numeric($tableview)) {
+			$tableview = ilDclTableView::find($tableview);
+		}
+
+		$assigned_roles = $rbacreview->assignedRoles($ilUser->getId());
+		$allowed_roles = $tableview->getRoles();
+
+		return !empty(array_intersect($assigned_roles, $allowed_roles));
+	}
+	
+	
 }
 
 ?>

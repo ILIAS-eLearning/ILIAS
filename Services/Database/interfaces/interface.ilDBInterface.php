@@ -111,12 +111,14 @@ interface ilDBInterface {
 	 */
 	public function query($query);
 
+
 	/**
-	 * @param $query_result PDOStatement
-	 *
+	 * @param $query_result
+	 * @param int $fetch_mode
 	 * @return array
 	 */
-	//public function fetchAll($query_result);
+	public function fetchAll($query_result, $fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
+
 
 	/**
 	 * @param $table_name string
@@ -613,4 +615,100 @@ interface ilDBInterface {
 	 * @return string
 	 */
 	public function getStorageEngine();
+}
+
+/**
+ * Interface ilDBPdoInterface
+ */
+interface ilDBPdoInterface {
+
+	/**
+	 * @param bool $native
+	 * @return int
+	 */
+	public function getServerVersion($native = false);
+
+
+	/**
+	 * @param $query
+	 * @param int $type
+	 * @param int $colnum
+	 * @return array
+	 */
+	public function queryCol($query, $type = ilDBConstants::FETCHMODE_DEFAULT, $colnum = 0);
+
+
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param int $fetchmode
+	 * @return array
+	 */
+	public function queryRow($query, $types = null, $fetchmode = ilDBConstants::FETCHMODE_DEFAULT);
+
+
+	/**
+	 * @param $value
+	 * @param bool $escape_wildcards
+	 * @return string
+	 */
+	public function escape($value, $escape_wildcards = false);
+
+
+	/**
+	 * @param $text
+	 * @return string
+	 */
+	public function escapePattern($text);
+
+
+	/**
+	 * @param string $engine
+	 * @return array of failed tables
+	 */
+	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB);
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsEngineMigration();
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @param string $name
+	 * @return bool
+	 */
+	public function addUniqueConstraint($table, $fields, $name = "con");
+
+
+	/**
+	 * @param $table
+	 * @param string $name
+	 * @return bool
+	 */
+	public function dropUniqueConstraint($table, $name = "con");
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @return bool
+	 */
+	public function dropUniqueConstraintByFields($table, $fields);
+
+
+	/**
+	 * @param $name
+	 * @return bool
+	 */
+	public function checkIndexName($name);
+
+
+	/**
+	 * @return int
+	 */
+	public function getLastInsertId();
 }

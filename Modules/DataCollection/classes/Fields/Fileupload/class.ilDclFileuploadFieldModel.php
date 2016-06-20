@@ -72,24 +72,17 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		}
 
 		$file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
-
-		$file_types = explode(",", $file_types);
-		$trim_function = function($value) {
-			return trim(strtolower($value));
-		};
-		return array_map($trim_function, $file_types);
+		return $this->parseSupportedExtensions($file_types);
 	}
+	
+	protected function parseSupportedExtensions($input_value) {
+		$supported_extensions = explode(",", $input_value);
 
-	/**
-	 * @inheritDoc
-	 */
-	public function parseFieldCreationFormPropertyValue($property_id, $value) {
-		if($property_id == ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES) {
-			$supported_extensions = explode(",", $value);
+		$trim_function = function($value) {
+			return trim(trim(strtolower($value)), ".");
+		};
 
-			$supported_extensions = array_map(trim, $supported_extensions);
-		}
-		return $supported_extensions;
+		return array_map($trim_function, $supported_extensions);
 	}
 
 	/**
@@ -97,6 +90,13 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	 */
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
 	}
 
 }

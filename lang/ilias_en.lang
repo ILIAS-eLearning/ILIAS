@@ -12225,7 +12225,7 @@ dcl#:#dcl_length#:#Length
 dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Text Area)
 dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
-dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_max_text_length#:#Maximum Length
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
@@ -12244,6 +12244,27 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fi
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
+dcl#:#dcl_create_item#:#Create Item
+dcl#:#dcl_select#:#Select for Presentation
+dcl#:#dcl_tableviews#:#Views
+dcl#:#dcl_tableviews_table#:#Views of Selected Table
+dcl#:#dcl_tableview#:#View
+dcl#:#dcl_tableorder#:#Tableorder
+dcl#:#dcl_detailed_view#:#Detailed View
+dcl#:#dcl_tableview_add#:#Add New View
+dcl#:#dcl_delete_views#:#Delete Views
+dcl#:#dcl_msg_tableview_updated#:#View updated
+dcl#:#dcl_msg_tableview_created#:#Views created
+dcl#:#dcl_msg_tableview_deleted#:#View deleted
+dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
+dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
+dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
+dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
+dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?
+dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
+dcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_field_visible#:#Visible
+dcl#:#dcl_filter_changeable#:#Filter changeable
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
@@ -12395,7 +12416,7 @@ dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
-dcl#:#dcl_title#:#Field Title
+dcl#:#dcl_fieldtitle#:#Field Title
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_save#:#Save Table
@@ -12529,7 +12550,7 @@ webr#:#webr_copy#:#Copy Weblink
 exc#:#exc_copy#:#Copy Exercise
 assessment#:#tst_copy#:#Copy Test
 survey#:#svy_copy#:#Copy Survey
-poll#:#poll_population#:#%s Votes
+poll#:#poll_population#:#%s Participants
 poll#:#poll_participants#:#Participants
 poll#:#poll_delete_votes#:#Delete All Votes
 poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
@@ -12883,12 +12904,14 @@ dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_creation_date#:#Creation Date
+dcl#:#dcl_create_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
 dcl#:#dcl_last_update#:#Last Edited
 dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_last_edited_by#:#Last edited by
+dcl#:#dcl_last_edit_by#:#Last edited by
 dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 dcl#:#dcl_public_comments#:#Enable public comments for Entries
 dcl#:#dcl_default_sort_field#:#Default sort field
@@ -12902,6 +12925,7 @@ dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_link_detail_page#:#Link entries to detail page
 dcl#:#dcl_manage#:#Manage
+dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
@@ -12910,14 +12934,15 @@ dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
 dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_save_confirmation#:#Save confirmation
-dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry
-dcl#:#dcl_confirm_storing_records#:#Please check and confirm your input
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry.
+dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
+dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.
 dcl#:#dcl_save_record#:#Save Entry
 dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#dcl_export_started#:#Asynchronous Export started
 dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
-dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
@@ -14912,7 +14937,7 @@ dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will b
 dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
 dcl#:#dcl_reference_title#:#Reference to table and field
-dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.
+dcl#:#dcl_ilias_reference_desc#:#Searchfield to select an ILIAS object.
 dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
 dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
 dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.
@@ -14923,6 +14948,8 @@ dcl#:#dcl_ILIAS_reference_link_desc#:#The object can be accesses via link, if th
 dcl#:#dcl_learning_progress_desc#:#If available the learning progress of the object will be displayed.
 dcl#:#dcl_display_action_menu_desc#:#Object can be copied or linked if the user has the permissions to do so.
 dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_import_enabled#:#Allow import function for all users
+dcl#:#dcl_import_enabled_desc#:#All users can import data to tables, as long as they have the required write access.
 dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
 dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
 dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
@@ -15698,3 +15725,9 @@ mail#:#mail_attachment_file_not_exist#:#At least one of the following attachment
 mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
 mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
+rbac#:#mep_copy#:#User can copy media pool
+crs#:#crs_cannot_find_role#:#Can't find this role.
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+form#:#form_date_duration_start#:#Start
+form#:#form_date_duration_end#:#End

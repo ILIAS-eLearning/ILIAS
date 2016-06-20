@@ -302,7 +302,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			
 			if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
 			{
-				if($this->submission->processUploadedFile($_FILES["deliver"]["tmp_name"]))
+				if($this->submission->processUploadedZipFile($_FILES["deliver"]["tmp_name"]))
 				{
 					ilUtil::sendSuccess($this->lng->txt("file_added"), true);				
 					$this->handleNewUpload();				

@@ -350,7 +350,7 @@ class ilObjLanguage extends ilObject
 	* @param    string  	language key
 	* @return   array       change_date "yyyy-mm-dd hh:mm:ss"
 	*/
-	function _getLastLocalChange($a_key)
+	static function _getLastLocalChange($a_key)
 	{
 		global $ilDB;
 

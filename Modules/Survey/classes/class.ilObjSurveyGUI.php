@@ -265,6 +265,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function afterSave(ilObject $a_new_object)
 	{		
+		// #16446
+		$a_new_object->loadFromDb();
+		
 		$tpl = $this->getDidacticTemplateVar("svytpl");
 		if($tpl)
 		{
@@ -575,12 +578,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->object->setStatus($_POST['online']);
 
 				// activation
-				if($_POST["access_type"])
+				$period = $form->getItemByPostVar("access_period");		
+				if($period->getStart() && $period->getEnd())
 				{	
 					$this->object->setActivationLimited(true);								    			
-					$this->object->setActivationVisibility($_POST["access_visiblity"]);	
-					
-					$period = $form->getItemByPostVar("access_period");										
+					$this->object->setActivationVisibility($_POST["access_visiblity"]);											
 					$this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
 					$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));							
 				}
@@ -588,25 +590,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->object->setActivationLimited(false);
 				}
-				
-				
+								
 				if(!$template_settings["enabled_start_date"]["hide"])
 				{
-					if ($_POST["enabled_start_date"])
+					$start = $form->getItemByPostVar("start_date");		
+					if($start->getDate())
 					{
-						$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
+						$datetime = explode(" ", $start->getDate()->get(IL_CAL_DATETIME));
+						$this->object->setStartDateAndTime($datetime[0], $datetime[1]);
 					}
 					else
 					{
 						$this->object->setStartDate(null);
-					}
+					}					
 				}
 
 				if(!$template_settings["enabled_end_date"]["hide"])
 				{
-					if ($_POST["enabled_end_date"])
+					$end = $form->getItemByPostVar("end_date");		
+					if($end->getDate())
 					{
-						$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
+						$datetime = explode(" ", $end->getDate()->get(IL_CAL_DATETIME));
+						$this->object->setEndDateAndTime($datetime[0], $datetime[1]);
 					}
 					else
 					{
@@ -839,30 +844,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$online->setChecked($this->object->isOnline());
 		$form->addItem($online);				
 		
-		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'),'access_type');
-		// $act_type->setInfo($this->lng->txt('svy_availability_until_info'));
-		$act_type->setChecked($this->object->isActivationLimited());		
-		
-			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
-			$dur->setShowTime(true);						
-			$date = $this->object->getActivationStartDate();				
-			$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-			$date = $this->object->getActivationEndDate();
-			$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
-			$act_type->addSubItem($dur);
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$dur = new ilDateDurationInputGUI($this->lng->txt('rep_visibility_until'), "access_period");
+		$dur->setShowTime(true);						
+		$date = $this->object->getActivationStartDate();				
+		$dur->setStart($date 
+			? new ilDateTime($date, IL_CAL_UNIX)
+			: null);			
+		$date = $this->object->getActivationEndDate();
+		$dur->setEnd($date 
+			? new ilDateTime($date, IL_CAL_UNIX)
+			: null);				
+		$form->addItem($dur);		
 
 			$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
 			$visible->setInfo($this->lng->txt('svy_activation_limited_visibility_info'));
 			$visible->setChecked($this->object->getActivationVisibility());
-			$act_type->addSubItem($visible);
+			$dur->addSubItem($visible);
 			
-		$form->addItem($act_type);									
-				
-						
+																		
 		// before start
 		
 		$section = new ilFormSectionHeaderGUI();
@@ -892,36 +892,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($section);
 		
 		// enable start date
-		$start = $this->object->getStartDate();
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
-		$enablestartingtime->setValue(1);
-		// $enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enablestartingtime->setChecked($start);
+		$start = $this->object->getStartDate();		
 		// start date
-		$startingtime = new ilDateTimeInputGUI('', 'start_date');		
+		$startingtime = new ilDateTimeInputGUI($this->lng->txt("start_date"), 'start_date');		
 		$startingtime->setShowTime(true);				
 		if ($start)
 		{
 			$startingtime->setDate(new ilDate($start, IL_CAL_TIMESTAMP));
 		}
-		$enablestartingtime->addSubItem($startingtime);
-		$form->addItem($enablestartingtime);
+		$form->addItem($startingtime);
 
 		// enable end date		
-		$end = $this->object->getEndDate();
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("end_date"), "enabled_end_date");
-		$enableendingtime->setValue(1);
-		// $enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enableendingtime->setChecked($end);
+		$end = $this->object->getEndDate();	
 		// end date
-		$endingtime = new ilDateTimeInputGUI('', 'end_date');		
+		$endingtime = new ilDateTimeInputGUI($this->lng->txt("end_date"), 'end_date');		
 		$endingtime->setShowTime(true);		
 		if ($end)
 		{
 			$endingtime->setDate(new ilDate($end, IL_CAL_TIMESTAMP));
 		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
+		$form->addItem($endingtime);
 							
 		// anonymization
 		if(!$this->object->get360Mode())
@@ -1103,8 +1093,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$rmd->addSubItem($rmd_start);
 
 			$end = $this->object->getReminderEnd();
-			$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");
-			$rmd_end->enableDateActivation("", "rmd_end_tgl", (bool)$end);
+			$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");		
 			if($end)
 			{
 				$rmd_end->setDate($end);

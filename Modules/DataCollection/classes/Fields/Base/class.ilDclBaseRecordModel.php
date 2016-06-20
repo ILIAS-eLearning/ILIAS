@@ -7,7 +7,7 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 require_once './Services/User/classes/class.ilUserUtil.php';
 require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilObjDataCollection.php');
-require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once('./Services/Notes/classes/class.ilNote.php');
 require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 
@@ -659,9 +659,10 @@ class ilDclBaseRecordModel {
 		$ilAppEventHandler->raise('Modules/DataCollection',
 			'deleteRecord',
 			array(
-				'object' => $this,
-				'obj_id' => $this->getId(),
-				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject()
+				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+				'table_id' => $this->table_id,
+				'record_id' => $this->getId(),
+				'record' => $this,
 			));
 	}
 
@@ -671,7 +672,7 @@ class ilDclBaseRecordModel {
 	 * @param $original_id integer
 	 * @param $new_fields  array($old_field_id => $new_field)
 	 */
-	/*public function cloneStructure($original_id, $new_fields){
+	public function cloneStructure($original_id, $new_fields){
 		$original = ilDclCache::getRecordCache($original_id);
 		$this->setCreateDate($original->getCreateDate());
 		$this->setLastEditBy($original->getLastEditBy());
@@ -685,7 +686,7 @@ class ilDclBaseRecordModel {
 			$new_rec_field->doUpdate();
 			$this->recordfields[] = $new_rec_field;
 		}
-	}*/
+	}
 
 	/**
 	 * Delete a file

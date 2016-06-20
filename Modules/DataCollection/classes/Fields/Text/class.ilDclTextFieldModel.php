@@ -67,7 +67,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 		}
 
 		//email or url
-		if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+		$has_url_properties = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
+		if ($has_url_properties) {
 			if ($json = json_decode($value) && json_decode($value) instanceof stdClass) {
 				$value = $json->link;
 			}
@@ -83,7 +84,12 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			$table = ilDclCache::getTableCache($this->getTableId());
 			foreach ($table->getRecords() as $record) {
 				//for text it has to be case insensitive.
-				if (strtolower($this->normalizeValue($record->getRecordFieldValue($this->getId()))) == strtolower($this->normalizeValue($value))
+				$record_value = $record->getRecordFieldValue($this->getId());
+				if ($has_url_properties) {
+					$record_value = $record_value['link'];
+				}
+
+				if (strtolower($this->normalizeValue($record_value)) == strtolower($this->normalizeValue($value))
 					&& ($record->getId() != $record_id
 						|| $record_id == 0)
 				) {

@@ -44,9 +44,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 */
 	public function doUpdate()
 	{
-		$this->updateVisibility();
-		$this->updateFilterability();
-		$this->updateExportability();
+		$this->updateTableFieldSetting();
 	}
 
 
@@ -56,8 +54,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	public function cloneStructure($original_record) {
 		$this->setEditable($original_record->isEditable());
 		$this->setLocked($original_record->getLocked());
-		$this->setFilterable($original_record->isFilterable());
-		$this->setVisible($original_record->isVisible());
 		$this->setOrder($original_record->getOrder());
 		$this->setRequired($original_record->getRequired());
 		$this->setUnique($original_record->isUnique());
@@ -212,7 +208,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 			$from = (isset($filter_value['from'])) ? (int)$filter_value['from'] : NULL;
 			$to = (isset($filter_value['to'])) ? (int)$filter_value['to'] : NULL;
 			if (! is_null($from)) {
-				$where_additions = " AND record.{$this->getId()} >= " . $ilDB->quote($from, 'integer');
+				$where_additions .= " AND record.{$this->getId()} >= " . $ilDB->quote($from, 'integer');
 			}
 			if (! is_null($to)) {
 				$where_additions .= " AND record.{$this->getId()} <= " . $ilDB->quote($to, 'integer');
@@ -222,11 +218,13 @@ class ilDclStandardField extends ilDclBaseFieldModel
 			$date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : NULL;
 			$date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : NULL;
 
+			// db->quote(.. date) at some point invokes ilDate->_toString, which adds a <br /> to the string,
+			// that's why strip_tags is used
 			if ($date_from) {
-				$where_additions = " AND (record.{$this->getId()} >= " . $ilDB->quote($date_from, 'date') . ")";
+				$where_additions .= " AND (record.{$this->getId()} >= " . strip_tags($ilDB->quote($date_from, 'date')) . ")";
 			}
 			if ($date_to) {
-				$where_additions = " AND (record.{$this->getId()} <= " . $ilDB->quote($date_to, 'date') . ")";
+				$where_additions .= " AND (record.{$this->getId()} <= " . strip_tags($ilDB->quote($date_to, 'date')) . ")";
 			}
 
 		}
@@ -251,6 +249,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
 		}
 
 		return parent::hasNumericSorting();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		//comments are filterable if they are enabled in the tables settings
+		return $this->id != 'comments' || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
 	}
 }
 

@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Database/classes/PDO/class.ilDBPdoFieldDefinition.php');
+require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
 
 /**
  * Class ilDBConstants
@@ -10,6 +10,7 @@ class ilDBConstants {
 
 	const FETCHMODE_ASSOC = 2;
 	const FETCHMODE_OBJECT = 3;
+	const FETCHMODE_DEFAULT = self::FETCHMODE_ASSOC;
 	// Legacy
 	const TYPE_INNODB_LEGACY = 'innodb';
 	const TYPE_MYSQL_LEGACY = 'mysql';
@@ -41,13 +42,17 @@ class ilDBConstants {
 	const T_TIME = ilDBPdoFieldDefinition::T_TIME;
 	const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
 	const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
+	// Engines
+	const ENGINE_INNODB = 'InnoDB';
+	const ENGINE_MYISAM = 'MyISAM';
+	
 	/**
 	 * @var array
 	 */
 	protected static $descriptions = array(
 		ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine)",
 		ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
-		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental) (InnoDB engine)",
+		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental)",
 		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher [legacy]",
 		ilDBConstants::TYPE_POSTGRES_LEGACY  => "Postgres (experimental) [legacy]",
 		ilDBConstants::TYPE_MYSQL_LEGACY     => "MySQL 5.0.x or higher (MyISAM engine) [legacy]",

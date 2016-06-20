@@ -43,7 +43,7 @@ class ilDateTime
 	protected $timezone = null;
 	protected $default_timezone = null;
 	
-	protected $unix = 0;
+	protected $dt_obj; // [DateTime]
 	
 	
 	
@@ -67,15 +67,8 @@ class ilDateTime
 	 	{
 		 	$this->timezone = ilTimeZone::_getInstance($a_tz);
 		 	$this->default_timezone = ilTimeZone::_getInstance('');
-		 	
-		 	if(!$a_date)
-		 	{
-		 		$this->setDate(0,IL_CAL_UNIX);
-		 	}
-		 	else
-		 	{
-		 		$this->setDate($a_date,$a_format);
-		 	}
+			
+		 	$this->setDate($a_date,$a_format);		 	
 	 	}
 	 	catch(ilTimeZoneException $exc)
 	 	{
@@ -84,9 +77,17 @@ class ilDateTime
 	 	}
 	}
 	
+	public function __clone()
+	{
+		if($this->dt_obj)
+		{
+			$this->dt_obj = clone $this->dt_obj;
+		}
+	}
+	
 	public function __sleep()
 	{
-		return array('timezone', 'default_timezone', 'unix');
+		return array('timezone', 'default_timezone', 'dt_obj');
 	}
 	
 	public function __wakeup()
@@ -95,16 +96,15 @@ class ilDateTime
 		
 		$this->log = $ilLog;
 	}
-	
-	
+		
 	/**
 	 * Check if a date is null (Datetime == '0000-00-00 00:00:00', unixtime == 0,...)
 
 	 * @return bool
 	 */
 	public function isNull()
-	{
-		return $this->unix ? false : true;	 
+	{	
+		return !($this->dt_obj instanceof DateTime);	 
 	}
 	
 	/**
@@ -155,6 +155,11 @@ class ilDateTime
 	 */
 	public static function _before(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
+		if($start->isNull() || $end->isNull())
+		{
+			return;
+		}
+		
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
@@ -168,7 +173,7 @@ class ilDateTime
 
 			case '':
 			default:
-				return $start->get(IL_CAL_UNIX) < $end->get(IL_CAL_UNIX);
+				return $start->dt_obj < $end->dt_obj;
 			
 		}
 	}
@@ -186,6 +191,11 @@ class ilDateTime
 	 */
 	public static function _equals(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
+		if($start->isNull() || $end->isNull())
+		{
+			return;
+		}
+		
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
@@ -199,7 +209,7 @@ class ilDateTime
 
 			case '':
 			default:
-				return $start->get(IL_CAL_UNIX) == $end->get(IL_CAL_UNIX);
+				return $start->dt_obj == $end->dt_obj;
 			
 		}
 	}
@@ -218,6 +228,11 @@ class ilDateTime
 	 */
 	public static function _after(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
+		if($start->isNull() || $end->isNull())
+		{
+			return;
+		}
+		
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
@@ -231,7 +246,7 @@ class ilDateTime
 
 			case '':
 			default:
-				return $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX);
+				return $start->dt_obj > $end->dt_obj;
 			
 		}
 	}
@@ -245,7 +260,7 @@ class ilDateTime
 	 * @param type $a_tz
 	 */
 	public static function _within(ilDateTime $dt, ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '')
-	{
+	{		
 		return 
 			(ilDateTime::_after($dt, $start,$a_compare_field,$a_tz) or ilDateTime::_equals($dt, $start,$a_compare_field,$a_tz)) &&
 			(ilDateTime::_before($dt, $end,$a_compare_field,$a_tz) or ilDateTime::_equals($dt, $end,$a_compare_field,$a_tz));
@@ -261,42 +276,53 @@ class ilDateTime
 	 */
 	public function increment($a_type,$a_count = 1)
 	{
-		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ($a_count.' ');
-
-		$this->timezone->switchTZ();
+		if($this->isNull())
+		{
+			return;
+		}
+		
+		$sub = ($a_count < 0);
+		$count_str = abs($a_count);
+		
 		switch($a_type)
 		{
 			case self::YEAR:
-				$this->unix = strtotime($count_str.'year',$this->unix);
+				$count_str .= 'year';
 				break;				
 
 			case self::MONTH:
-				$this->unix = strtotime($count_str.'month',$this->unix);
+				$count_str .= 'month';
 				break;
 				
 			case self::WEEK:
-				$this->unix = strtotime($count_str.'week',$this->unix);
+				$count_str .= 'week';
 				break;
 				
 			case self::DAY:
-				$this->unix = strtotime($count_str.'day',$this->unix);
+				$count_str .= 'day';
 				break;
 				
 			case self::HOUR:
-				$this->unix = strtotime($count_str.'hour',$this->unix);
+				$count_str .= 'hour';
 				break;
 				
-			case self::MINUTE:
-				
-				$this->unix = strtotime($count_str.'minute',$this->unix);
-				$d = new ilDateTime($this->unix,IL_CAL_UNIX);
-				
-
-				break;
-				
+			case self::MINUTE:				
+				$count_str .= 'minute';				
+				break;				
 		}
-		$this->timezone->restoreTZ();
-		return $this->unix;
+		
+		$interval = date_interval_create_from_date_string($count_str);			
+		if(!$sub)
+		{
+			$this->dt_obj->add($interval);
+		}
+		else
+		{
+			$this->dt_obj->sub($interval);
+		}					
+		
+		// ???
+		return $this->getUnixTime();
 	}
 	
 	/**
@@ -307,10 +333,12 @@ class ilDateTime
 	 */
 	public function getUnixTime()
 	{
-	 	return $this->unix;
+		if(!$this->isNull())
+		{
+			return $this->dt_obj->getTimestamp();
+		}
 	}
 	
-
 	/**
 	 * get UTC offset
 	 *
@@ -319,11 +347,60 @@ class ilDateTime
 	 */
 	public function getUTCOffset()
 	{
-	 	$this->timezone->switchTZ();
-	 	// TODO: This is wrong: calculate UTC offset of given date
-	 	$offset = mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
-	 	$this->timezone->restoreTZ();
+		if(!$this->isNull())
+		{		
+			// already correct/current timezone?
+			$offset = $this->dt_obj->getOffset();
+
+			// TODO: This is wrong: calculate UTC offset of given date
+			// $offset = mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);			
+		}
 	 	return $offset; 	
+	}
+	
+	protected function parsePartsToDate($a_year, $a_month, $a_day, $a_hour = null, $a_min = null, $a_sec = null, $a_timezone = null)
+	{
+		$a_year = (int)$a_year;
+		$a_month = (int)$a_month;
+		$a_day = (int)$a_day;
+		
+		if(!$a_year)
+		{
+			return;
+		}
+		
+		try
+		{	
+			$a_hour = (int)$a_hour;
+			$a_min = (int)$a_min;
+			$a_sec = (int)$a_sec;
+			
+			$format = $a_year.'-'.$a_month.'-'.$a_day;
+								
+			if($a_hour !== null)
+			{		
+				$format .= ' '.(int)$a_hour.':'.(int)$a_min.':'.(int)$a_sec;	
+				
+				// use current timezone if no other given
+				if(!$a_timezone)
+				{
+					$a_timezone = $this->getTimeZoneIdentifier();
+				}
+
+				$date = new DateTime($format, new DateTimeZone($a_timezone));	
+			}
+			else
+			{
+				$date = new DateTime($format);
+			}
+		} 
+		catch (Exception $ex) 
+		{
+			// :TODO: do anything?
+		}
+		return ($date instanceof DateTime)
+			? $date
+			: null;
 	}
 	
 	/**
@@ -336,14 +413,29 @@ class ilDateTime
 	 */
 	public function setDate($a_date,$a_format)
 	{
+		$this->dt_obj = null;
+		
+		if(!$a_date)
+		{
+			return;
+		}
+		
 	 	switch($a_format)
 	 	{
-	 		case IL_CAL_UNIX:
-				$this->unix = $a_date;
+	 		case IL_CAL_UNIX:				
+				try 
+				{
+					$this->dt_obj = new DateTime('@'.$a_date);
+				} 
+				catch (Exception $ex) 
+				{
+					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
+					throw new ilDateTimeException('Cannot parse date.');
+				}						
 				break;
 				
 			case IL_CAL_DATETIME:
-				$matches = preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts);
+				$matches = preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts);			
 				if($matches < 1)
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
@@ -352,75 +444,30 @@ class ilDateTime
 					throw new ilDateTimeException('Cannot parse date.');
 				}
 				
-				// UTC designator
-				if($d_parts[9] == 'Z')
-				{
-					$utc = ilTimeZone::_getInstance('UTC');
-					$utc->switchTZ();
-				}
-				else
-				{
-					$this->timezone->switchTZ();
-				}
-				$this->unix = mktime(
-					isset($d_parts[5]) ? $d_parts[5] : 0, 
-					isset($d_parts[6]) ? $d_parts[6] : 0,
-					isset($d_parts[7]) ? $d_parts[7] : 0,
-					$d_parts[2],
-					$d_parts[3],
-					$d_parts[1]);
-				
-				if($d_parts[0] == '0000-00-00 00:00:00')
-				{
-					$this->unix = 0;
-				}
-
-				if($d_parts[9] == 'Z')
-				{
-					$utc->restoreTZ();
-				}
-				else
-				{
-					$this->timezone->restoreTZ();
-				}
+				$tz_id = ($d_parts[9] == 'Z')
+					? 'UTC'
+					: null;								
+				$this->dt_obj = $this->parsePartsToDate($d_parts[1], $d_parts[2], $d_parts[3], 
+					$d_parts[5], $d_parts[6], $d_parts[7], $tz_id);				
 				break;
 
-			case IL_CAL_DATE:
-				// Pure dates are not timezone sensible.
-				$timezone = ilTimeZone::_getInstance('UTC');
-				$timezone->switchTZ();
-				$unix = strtotime($a_date);
-				$timezone->restoreTZ();
-				if($unix === false)
+			case IL_CAL_DATE:						
+				try
+				{
+					// Pure dates are not timezone sensible.	
+					$this->dt_obj = new DateTime($a_date, new DateTimeZone('UTC'));						
+				} 
+				catch (Exception $ex) 
 				{
 					$this->log->write(__METHOD__.': Cannot parse date : '.$a_date);
-					$this->unix = 0;
-					return false;					
-				}
-				$this->unix = $unix;
+					return false;			
+				}												
 				break;
 				
-			case IL_CAL_FKT_GETDATE:
-				if (!isset($a_date['seconds']))
-				{
-					$a_date['seconds'] = false;
-				}
+			case IL_CAL_FKT_GETDATE:									
 				// Format like getdate parameters
-				$this->timezone->switchTZ();
-				$this->unix = mktime(
-					$a_date['hours'],
-					$a_date['minutes'],
-					$a_date['seconds'],
-					$a_date['mon'],
-					$a_date['mday'],
-					$a_date['year']);
-				$this->timezone->restoreTZ();
-				
-				// TODO: choose better error handling
-				if(!$a_date['year'])
-				{
-					$this->unix = 0;
-				}
+				$this->dt_obj = $this->parsePartsToDate($a_date['year'], $a_date['mon'], $a_date['mday'], 
+					$a_date['hours'], $a_date['minutes'], $a_date['seconds']);							
 				break;
 				
 			case IL_CAL_TIMESTAMP:
@@ -428,30 +475,22 @@ class ilDateTime
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
 					throw new ilDateTimeException('Cannot parse date.');
-				}
-				$this->timezone->switchTZ();
-				$this->unix = mktime(
-					isset($d_parts[4]) ? $d_parts[4] : 0, 
-					isset($d_parts[5]) ? $d_parts[5] : 0,
-					isset($d_parts[6]) ? $d_parts[6] : 0,
-					$d_parts[2],
-					$d_parts[3],
-					$d_parts[1]);
-					
-				if($d_parts[0] == '00000000000000' or
-					$d_parts[0] == '00000000')
-				{
-					$this->unix = 0;
-				}
-				$this->timezone->restoreTZ();
+				}				
+				$this->dt_obj = $this->parsePartsToDate($d_parts[1], $d_parts[2], $d_parts[3], 
+					$d_parts[4], $d_parts[5], $d_parts[6]);
 				break;
 				
 			case IL_CAL_ISO_8601:
-				$dt = DateTime::createFromFormat(DateTime::ISO8601, $a_date);
-				$this->unix = $dt->getTimeStamp();
-				break;
-				
+				$this->dt_obj = DateTime::createFromFormat(DateTime::ISO8601, $a_date);
+				break;				
 	 	}
+	
+		// internally we always use the default timezone
+		if($this->dt_obj)
+		{
+			$this->dt_obj->setTimeZone(new DateTimeZone($this->default_timezone->getIdentifier()));		
+		}
+		
 	 	return true;
 	}
 	
@@ -465,6 +504,11 @@ class ilDateTime
 	 */
 	public function get($a_format,$a_format_str = '',$a_tz = '')
 	{
+		if($this->isNull())
+		{
+			return;
+		}		
+			
 		if($a_tz)
 		{
 			try
@@ -478,53 +522,56 @@ class ilDateTime
 		}
 		else
 		{
-			#$timezone = $this->timezone;
 			$timezone = $this->default_timezone; 
 		}
-
+			
+		$out_date = clone($this->dt_obj);		
+		$out_date->setTimeZone(new DateTimeZone($timezone->getIdentifier()));			
+		
 	 	switch($a_format)
 	 	{
 	 		case IL_CAL_UNIX:
+				// timezone unrelated
 	 			$date = $this->getUnixTime();
 	 			break;
 	 		
-	 		case IL_CAL_DATE:
-			 	$timezone->switchTZ();
-				$date = date('Y-m-d',$this->getUnixTime());
-				$timezone->restoreTZ();
+	 		case IL_CAL_DATE:				 	
+				$date = $out_date->format('Y-m-d');			
 				break;
 			
-			case IL_CAL_DATETIME:
-			 	$timezone->switchTZ();
-				$date = date('Y-m-d H:i:s',$this->getUnixTime());
-				$timezone->restoreTZ();
+			case IL_CAL_DATETIME:			 	
+				$date = $out_date->format('Y-m-d H:i:s');				
 				break;
 			
-			case IL_CAL_FKT_DATE:
-			 	$timezone->switchTZ();
-				$date = date($a_format_str,$this->getUnixTime());
-				$timezone->restoreTZ();
+			case IL_CAL_FKT_DATE:			 	
+				$date = $out_date->format($a_format_str);
 				break;
 				
-			case IL_CAL_FKT_GETDATE:
-				$timezone->switchTZ();
-				$date = getdate($this->getUnixTime());
-				$timezone->restoreTZ();
-
-				// add iso 8601 week day number (Sunday = 7)
-				$date['isoday'] = $date['wday'] == 0 ? 7 : $date['wday'];
+			case IL_CAL_FKT_GETDATE:							
+				$date = array(
+					'seconds' => (int)$out_date->format('s')
+					,'minutes' => (int)$out_date->format('i')
+					,'hours' => (int)$out_date->format('G')
+					,'mday' => (int)$out_date->format('j')
+					,'wday' => (int)$out_date->format('w')
+					,'mon' => (int)$out_date->format('n')
+					,'year' => (int)$out_date->format('Y')
+					,'yday' => (int)$out_date->format('z')
+					,'weekday' => $out_date->format('l')
+					,'month' => $out_date->format('F')
+					,'isoday' => (int)$out_date->format('N')
+				);
 				break;
 			
 			case IL_CAL_ISO_8601:
-				$date = date('c',$this->getUnixTime());
+				$date = $out_date->format('c');
 				break;
 				
 			case IL_CAL_TIMESTAMP:
-				$timezone->switchTZ();
-				$date = date('YmdHis',$this->getUnixTime());
-				$timezone->restoreTZ();
+				$date = $out_date->format('YmdHis');
 				break;
 	 	}
+		
 		return $date;
 	}
 	
