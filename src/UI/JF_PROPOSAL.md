@@ -215,10 +215,10 @@ the creation of a UI component and starting at the main factory.
 * Implementations of components MUST adhere to the interface they implement,
   which means the method signatures as well as the docstrings. Implementations
   SHOULD also maintain the invariants and constraints stated in the rules of
-  the component, where they must throw `\InvalidArgumentExceptions` when a
-  constraint or invariant is violated. Implementations of components MAY use
-  the trait \ILIAS\UI\Implementation\Component\Helper to ease the checking
-  of said invariants and constraints.
+  the component, where they MUST use a typehint to enforce the constraint or
+  invariant or throw an `\InvalidArgumentExceptions`. Implementations of
+  components MAY use the trait \ILIAS\UI\Implementation\Component\Helper to
+  ease the checking of said invariants and constraints.
 * Implementations of components MUST only act as data objects, i.e. maintain
   their content and provide it to consumers. They MUST NOT switch behaviour
   based on any properties, e.g. return different values from a getter based
