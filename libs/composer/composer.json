@@ -113,6 +113,9 @@
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
+			},
+			"ezyang/htmlpurifier": {
+				"ILIAS HTML Purifier Patches": "patches/htmlpurifier.patch"
 			}
 		}
 	}
