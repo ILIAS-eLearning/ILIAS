@@ -12420,6 +12420,7 @@ dcl#:#dcl_fieldtitle#:#Field Title
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_save#:#Save Table
+dcl#:#dcl_save_order#:#Save Order
 dcl#:#dcl_record_deleted#:#Entry deleted
 dcl#:#dcl_confirm_delete_record#:#Delete this Entry?
 content#:#cont_resources_of_type#:#Resources of Type

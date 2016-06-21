@@ -151,8 +151,13 @@ class ilDclTableViewEditGUI
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
         $ilDclTableViewEditFormGUI->setValuesByPost();
-        $ilDclTableViewEditFormGUI->updateTableView();
-        $this->ctrl->redirect($this, 'editGeneralSettings');
+        if ($ilDclTableViewEditFormGUI->checkInput()) {
+            $ilDclTableViewEditFormGUI->updateTableView();
+            $this->ctrl->redirect($this, 'editGeneralSettings');
+        } else {
+            $this->setTabs('general_settings');
+            $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+        }
     }
 
     /**
@@ -162,8 +167,12 @@ class ilDclTableViewEditGUI
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview, $this->table);
         $ilDclTableViewEditFormGUI->setValuesByPost();
-        $ilDclTableViewEditFormGUI->createTableView();
-        $this->ctrl->redirect($this, 'editGeneralSettings');
+        if ($ilDclTableViewEditFormGUI->checkInput()) {
+            $ilDclTableViewEditFormGUI->createTableView();
+            $this->ctrl->redirect($this, 'editGeneralSettings');
+        } else {
+            $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+        }
     }
 
     /**
