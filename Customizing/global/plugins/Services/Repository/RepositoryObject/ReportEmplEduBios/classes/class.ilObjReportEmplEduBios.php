@@ -29,6 +29,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
 				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
+				."               AND usrcrs.okz <> '-empty-'"
 				."             , usrcrs.credit_points"
 				."             , 0"
 				."             )"
@@ -65,6 +66,8 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 							."        )"
 							."   )";
 		
+		$points_total = "SUM( IF(usrcrs.credit_points > 0, usrcrs.credit_points, 0) )";
+
 		$no_tp_service_condition =
 			"(roles.num_tp_service_roles = 0"
 			."	AND ".$this->gIldb->in("usr.wbd_type",$services,true,"text")
@@ -88,6 +91,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 				->select("orgu_all.org_unit_above2")
 				->select("roles.roles")
 				->select("usr.begin_of_certification")
+				->select_raw($points_total." as points_total_goa ")
 				->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 							."   , usr.begin_of_certification"
 							."   , '-')"
@@ -153,7 +157,6 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						." AND usrcrs.credit_points > 0"
 						." AND usrcrs.participation_status = 'teilgenommen'"
 						." AND usrcrs.booking_status = 'gebucht'"
-						." AND usrcrs.okz <> '-empty-'"
 						)
 				->group_by("user_id")
 				->compile();
@@ -221,20 +224,21 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 		$table
 						->column("lastname", $this->plugin->txt("lastname") ,true)
 						->column("firstname", $this->plugin->txt("firstname") ,true)
-						->column("cert_period", $this->plugin->txt("cert_period") ,true)
 						->column("points_sum", $this->plugin->txt("overall_points_cert_period") ,true)
+						->column("points_total_goa", $this->plugin->txt("overall_points_goa") ,true)
+						->column("cert_period", $this->plugin->txt("cert_period") ,true)
+						->column("attention", $this->plugin->txt("critical"),true)
 						->column("login", $this->plugin->txt("login") ,true)
 						->column("adp_number", $this->plugin->txt("adp_number") ,true)
 						->column("job_number", $this->plugin->txt("job_number") ,true)
-						->column("od_bd", $this->plugin->txt("od_bd") ,true)
+						->column("od_bd", $this->plugin->txt("od_bd") ,true,"", false, false)
 						->column("org_unit", $this->plugin->txt("orgu_short") ,true)
 						->column("roles", $this->plugin->txt("roles") ,true)
 						->column("points_year1", "1", true)
 						->column("points_year2", "2", true)
 						->column("points_year3", "3", true)
 						->column("points_year4", "4", true)
-						->column("points_year5", "5", true)
-						->column("attention", $this->plugin->txt("critical"),true);
+						->column("points_year5", "5", true);
 		return parent::buildTable($table);
 	}
 
@@ -253,8 +257,8 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 	protected function getAllOrgusForUsersJoin() {
 		$query = 	"JOIN ("
 					."	SELECT usr_id, GROUP_CONCAT(DISTINCT orgu_title SEPARATOR ', ') as org_unit".PHP_EOL
-					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ', ') as org_unit_above1".PHP_EOL
-					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ', ') as org_unit_above2".PHP_EOL
+					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ';;') as org_unit_above1".PHP_EOL
+					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ';;') as org_unit_above2".PHP_EOL
 					."	FROM hist_userorgu".PHP_EOL
 					."	WHERE ".$this->gIldb->in("usr_id", array_intersect($this->allowed_user_ids,$this->getUsersFilteredByOrguFilter()), false, "integer").PHP_EOL
 					."		AND action >= 0 AND hist_historic = 0".PHP_EOL

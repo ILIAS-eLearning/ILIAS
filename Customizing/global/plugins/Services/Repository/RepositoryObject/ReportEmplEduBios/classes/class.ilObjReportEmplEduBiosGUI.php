@@ -11,9 +11,15 @@ require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/Re
 */
 class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 	protected $relevant_parameters = array();
-
+	protected static $od_regexp;
+	protected static $bd_regexp;
 	public function getType() {
 		return 'xeeb';
+	}
+
+	protected function afterConstructor() {
+		parent::afterConstructor();
+		require_once './Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/config/od_bd_strings.php';
 	}
 
 	protected function prepareTitle($a_title) {
@@ -36,9 +42,8 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 			$rec['cert_period'] = ilDatePresentation::formatDate(new ilDate($rec['cert_period'], IL_CAL_DATE));
 		}
 
+		$rec = self::getODBD($rec);
 
-		$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
-		
 		$rec["edu_bio_link"] = ilObjReportEduBio::getEduBioLinkFor($rec["user_id"]);
 		
 		return parent::transformResultRow($rec);
@@ -58,8 +63,24 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 			$rec['cert_period'] = ilDatePresentation::formatDate(new ilDate($rec['cert_period'], IL_CAL_DATE));
 		}
 
+		$rec = self::getODBD($rec);
 
-		$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];		
-		return parent::transformResultRow($rec);
+		return parent::transformResultRowXLSX($rec);
+	}
+
+	protected static function getODBD($rec) {
+		$orgus_above = array_unique(array_merge(explode(';;', $rec['org_unit_above1']), explode(';;', $rec['org_unit_above2'])));
+		$od = array_filter($orgus_above, "self::filterOD");
+		$bd = array_filter($orgus_above, "self::filterBD");
+		$rec["od_bd"] = (count($od) > 0 ? implode(',', $od) : '-').'/'.(count($bd) > 0 ? implode(',', $bd) : '-');
+		return $rec;
+	}
+
+	protected static function filterOD($orgu_title) {
+		return preg_match(self::$od_regexp, $orgu_title) === 1;
+	}
+
+	protected static function filterBD($orgu_title) {
+		return preg_match(self::$bd_regexp, $orgu_title) === 1;
 	}
 }
