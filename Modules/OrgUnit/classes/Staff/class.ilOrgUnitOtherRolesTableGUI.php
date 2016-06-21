@@ -48,6 +48,7 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 	protected function setTableHeaders(){
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
+		$this->addColumn($this->lng->txt("roles"), "roles");
 		$this->addColumn($this->lng->txt("action"));
 	}
 
@@ -94,6 +95,12 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 		$set["first_name"] = $user->getFirstname();
 		$set["last_name"] = $user->getLastname();
 		$set["user_object"] = $user;
+		//gev-patch start
+		$gevRoleUtils = gevRoleUtils::getInstance();
+		$set["roles"] = $gevRoleUtils->getGlobalRolesTitles($gevRoleUtils->getGlobalRolesOf($user_id));
+		asort($set["roles"], SORT_NATURAL | SORT_FLAG_CASE);
+		$set["roles"] = implode(", ", $set["roles"]);
+		//gev-patch end
 		$set["user_id"] = $user_id;
 	}
 
@@ -101,8 +108,9 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 		global $ilUser, $Access, $lng, $ilAccess;
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
-
-
+		//gev-patch start
+		$this->tpl->setVariable("ROLE", $set["roles"]);
+		//gev-patch end
 		if($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive){
             $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
             $this->ctrl->setParameterByClass("ilObjOrgUnitGUI","role_id",$this->role_id);
