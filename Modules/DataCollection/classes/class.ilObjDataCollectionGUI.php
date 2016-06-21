@@ -451,13 +451,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		foreach($this->getDataCollectionObject()->getTables() as $table) {
 			$order_options[$table->getId()] = $table->getTitle();
 		}
-		$sort = new ilNonEditableValueGUI($this->lng->txt("dcl_tableorder"), "table_order");
-//		//Info can't be set since it will count as item and can be moved
-//		$sort->setInfo($this->lng->txt("dcl_tableorder_info"));
-		$sort->setMultiValues($order_options);
-		$sort->setValue(array_shift($order_options));
-		$sort->setMulti(true, true, false);
-		$a_form->addItem($sort);
 	}
 
 
@@ -506,7 +499,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
-		$this->object->reorderTables($a_form->getInput('table_order'));
 
 		$this->emptyInfo();
 	}
