@@ -919,12 +919,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	public static function _importCategoriesForm ($a_ref_id, &$a_tpl)
 	{
-		global $lng, $rbacreview;
+		global $lng, $rbacreview, $ilCtrl;
 
 		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html",
 			"Modules/Category");
 
-		$a_tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$a_tpl->setVariable("FORMACTION", $ilCtrl->getFormActionByClass('ilObjCategoryGUI'));
 
 		$a_tpl->setVariable("TXT_IMPORT_CATEGORIES", $lng->txt("import_categories"));
 		$a_tpl->setVariable("TXT_HIERARCHY_OPTION", $lng->txt("import_cat_localrol"));
@@ -1014,7 +1014,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	
 	public static function _importCategories($a_ref_id, $withrol_tmp)	
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
 		require_once("./Modules/Category/classes/class.ilCategoryImportParser.php");
 
@@ -1033,7 +1033,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// added to prevent empty file names
 		if (!strcmp($file_name,"")) {
 		  ilUtil::sendFailure($lng->txt("no_import_file_found"), true);
-		  $this->ctrl->redirect($this);
+		  $ilCtrl->redirectByClass('ilObjCategoryGUI');
 		}
 
 		$parts = pathinfo($file_name);
@@ -1052,7 +1052,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$importParser->startParsing();
 
 		ilUtil::sendSuccess($lng->txt("categories_imported"), true);
-		$this->ctrl->redirect($this);
+		$ilCtrl->redirectByClass('ilObjCategoryGUI');
 	}
 	
 	/**
