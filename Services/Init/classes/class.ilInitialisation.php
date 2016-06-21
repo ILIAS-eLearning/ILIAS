@@ -237,7 +237,10 @@ class ilInitialisation
 			$_GET["client_id"] = ilUtil::stripSlashes($_GET["client_id"]);
 			if (!defined("IL_PHPUNIT_TEST"))
 			{
-				ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+				if(ilContext::supportsPersistentSessions())
+				{
+					ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+				}
 			}
 		}
 		else if (!$_COOKIE["ilClientId"])
@@ -877,8 +880,6 @@ class ilInitialisation
 
 		self::$already_initialized = true;
 
-		global $tree;
-		
 		self::initCore();
 				
 		if(ilContext::initClient())

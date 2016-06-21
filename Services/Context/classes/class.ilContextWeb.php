@@ -81,7 +81,7 @@ class ilContextWeb implements ilContextTemplate
 	 */
 	public static function doAuthentication()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
