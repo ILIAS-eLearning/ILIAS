@@ -809,7 +809,7 @@ class ilMailFormGUI
 		$form_gui->addItem($inp);
 
 		// PLACEHOLDERS
-		$chb = new ilCheckboxInputGUI($this->lng->txt('activate_serial_letter_placeholders'), 'use_placeholders');
+		$chb = new ilCheckboxInputGUI($this->lng->txt('mail_serial_letter_placeholders'), 'use_placeholders');
 		$chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
 		$chb->setValue(1);
 		if(isset($mailData['use_placeholders']) && $mailData['use_placeholders'])

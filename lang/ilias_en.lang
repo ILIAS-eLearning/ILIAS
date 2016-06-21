@@ -7225,6 +7225,7 @@ license#:#remaining_licenses#:#Available licenses
 license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
 license#:#used_licenses#:#Consumed licenses
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
+mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
 mail#:#also_as_email#:#Also as E-Mail
