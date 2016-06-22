@@ -2502,44 +2502,6 @@ class ilObjUser extends ilObject
 		return $this->loc_zoom;
 	}
 
-	function &getAppliedUsers()
-	{
-		$this->applied_users = array();
-		$this->__readAppliedUsers($this->getId());
-
-		return $this->applied_users ? $this->applied_users : array();
-	}
-
-	function isChild($a_usr_id)
-	{
-		if($a_usr_id == $this->getId())
-		{
-			return true;
-		}
-
-		$this->applied_users = array();
-		$this->__readAppliedUsers($this->getId());
-
-		return in_array($a_usr_id,$this->applied_users);
-	}
-
-	function __readAppliedUsers($a_parent_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE time_limit_owner = %s",
-			array("integer"),
-			array($a_parent_id));
-		while ($row = $ilDB->fetchObject($res))
-		{
-			$this->applied_users[] = $row->usr_id;
-
-			// recursion
-			$this->__readAppliedUsers($row->usr_id);
-		}
-		return true;
-	}
 	
 	/**
 	 * Check for simultaneous login
