@@ -63,11 +63,10 @@ require_once "./include/inc.ilias_version.php";
 include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 
 // include error_handling
-require_once "./Services/Init/classes/class.ilErrorHandling.php";
+require_once "./setup/classes/class.ilSetupErrorHandling.php";
 
-$ilErr = new ilErrorHandling();
+$ilErr = new ilSetupErrorHandling();
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
-
 // set ilias pathes
 if($_SERVER['HTTPS'] == 'on')
 {
