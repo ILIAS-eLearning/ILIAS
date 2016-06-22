@@ -338,7 +338,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$userObj->getLogin(),
-					'mailto:' . $contact_address,
+					'mailto:' . $contact_address[0],
 					$alternative_pwassist_url
 				)
 			)
