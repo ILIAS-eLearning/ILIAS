@@ -119,7 +119,7 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 					->on(" ht.user_id = hu.user_id")
 				->join("hist_tep_individ_days htid")
 					->on("ht.individual_days = htid.id")
-				->group_by("ht.orgu_title")
+				->group_by("ht.orgu_id")
 				->group_by("ht.user_id")
 				->compile();
 		return $query;
@@ -178,46 +178,31 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 	}
 
 	protected function getOrgusForFilter($below_orgus = null) {
+		$get_obj_id = function($obj_ref_id) {return $obj_ref_id["obj_id"];};
 
-		$all_sup_orgus = $this->user_utils->getOrgUnitsWhereUserIsSuperior();
-		$all_sup_orgu_objs = array();
-
-		foreach ($all_sup_orgus as $orgu) {
-			$all_sup_orgu_objs[] = $orgu["obj_id"];
-		}
-
+		$all_sup_orgus = array_map($get_obj_id, $this->user_utils->getOrgUnitsWhereUserIsSuperior());
 		if($below_orgus !== null) {
-			$below_orgu_childs = array();
-			$childs = gevOrgUnitUtils::getAllChildren(array_values($below_orgus));
-			foreach ($childs as $orgu) {
-				$below_orgu_childs[] = $orgu["obj_id"];
-			}
-			$below_orgu_objs = array_unique(array_merge(array_keys($below_orgus),$below_orgu_childs));
-			$all_sup_orgu_objs = array_intersect($below_orgu_objs,$all_sup_orgu_objs);
+			$below_orgu_childs = array_map($get_obj_id, gevOrgUnitUtils::getAllChildren(array_unique(array_values($below_orgus))));
+			$below_orgus = array_unique(array_merge(array_keys($below_orgus),$below_orgu_childs));
+			$all_sup_orgus = array_intersect($below_orgus,$all_sup_orgus);
 		}
 
 		$return = array();
-		foreach ($all_sup_orgu_objs as $obj_id) {
+		foreach ($all_sup_orgus as $obj_id) {
 			$return[$obj_id] =  ilObject::_lookupTitle($obj_id);
 		}
 		asort($return);
-		return $return;
+		return $return; //obj_id => title
 	}
 
 	protected function getTopSuperiorNodesOfUser($below_orgus = null) {
-		$all_sup_orgus = $this->user_utils->getOrgUnitsWhereUserIsSuperior();
-		$all_sup_orgus_ref = array();
-
-		foreach ($all_sup_orgus as $orgu) {
-			$all_sup_orgus_ref[$orgu["obj_id"]] = $orgu["ref_id"];
-		}
+		$get_ref_id = function($obj_ref_id) {return $obj_ref_id["ref_id"];};
+		$all_sup_orgus_ref = array_map($get_ref_id
+			, $this->user_utils->getOrgUnitsWhereUserIsSuperior());
 
 		if($below_orgus !== null) {
 			$below_orgu_children = array();
-			$childs = gevOrgUnitUtils::getAllChildren(array_values($below_orgus));
-			foreach ($childs as $orgu) {
-				$below_orgu_children[$orgu['obj_id']] = $orgu["ref_id"];
-			}
+			$below_orgu_children = array_map($get_ref_id,gevOrgUnitUtils::getAllChildren(array_unique($below_orgus)));
 			$below_orgus = array_unique(array_merge($below_orgu_children,$below_orgus));
 			$all_sup_orgus_ref = array_intersect($below_orgus,$all_sup_orgus_ref);
 		}
@@ -238,7 +223,7 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$top_sup_orgus[$rec["obj_id"]] = $rec["ref_id"];
 		}
-		return $top_sup_orgus;
+		return $top_sup_orgus; //obj_id => ref_id
 	}
 
 	protected function buildReportTree($obj_id,$ref_id,$offset = "") {
