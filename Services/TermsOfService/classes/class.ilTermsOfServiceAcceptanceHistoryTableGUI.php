@@ -12,17 +12,25 @@ require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+	
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * @param ilObjectGUI $a_parent_obj
 	 * @param string      $a_parent_cmd
 	 */
 	public function __construct(ilObjectGUI $a_parent_obj, $a_parent_cmd)
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC['ilCtrl'];
+		$this->tpl  = $DIC['tpl'];
 
 		// Call this immediately in constructor
 		$this->setId('tos_acceptance_history');
@@ -153,11 +161,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	 */
 	public function initFilter()
 	{
-		/**
-		 * @var $tpl ilTemplate
-		 */
-		global $tpl;
-
 		include_once 'Services/Form/classes/class.ilTextInputGUI.php';
 		$ul = new ilTextInputGUI($this->lng->txt('login').'/'.$this->lng->txt('email').'/'.$this->lng->txt('name'), 'query');
 		$ul->setDataSource($this->ctrl->getLinkTarget($this->getParentObject(), 'addUserAutoComplete', '', true));
@@ -185,7 +188,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$this->filter['lng'] = $si->getValue();
 		
 		include_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
-		$tpl->addJavaScript("./Services/Form/js/Form.js");
+		$this->tpl->addJavaScript("./Services/Form/js/Form.js");
 		$duration = new ilDateDurationInputGUI($this->lng->txt('tos_period'), 'period');
 		$duration->setRequired(true);
 		$duration->setStartText($this->lng->txt('tos_period_from'));
