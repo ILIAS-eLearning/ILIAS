@@ -38,10 +38,12 @@ class ilObjDataCollectionTest extends PHPUnit_Framework_TestCase
 
         // 
 
-        global $tree;
+        global $DIC;
+        $tree = $DIC['tree'];
         $this->tree = $tree;
 
-        global $objDefinition;
+        global $DIC;
+        $objDefinition = $DIC['objDefinition'];
         $this->obj_definition = $objDefinition;
 
     }

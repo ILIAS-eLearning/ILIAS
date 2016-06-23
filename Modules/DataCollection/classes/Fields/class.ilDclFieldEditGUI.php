@@ -55,7 +55,8 @@ class ilDclFieldEditGUI {
 	 * @param    int    $field_id The field_id of a existing fiel (edit mode)
 	 */
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
@@ -91,7 +92,10 @@ class ilDclFieldEditGUI {
 	 * execute command
 	 */
 	public function executeCommand() {
-		global $tpl, $ilCtrl, $ilUser;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 
 		$cmd = $ilCtrl->getCmd();
 
@@ -118,7 +122,8 @@ class ilDclFieldEditGUI {
 	 * create field add form
 	 */
 	public function create() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		$this->initForm();
 		$tpl->setContent($this->form->getHTML());
@@ -129,7 +134,8 @@ class ilDclFieldEditGUI {
 	 * create field edit form
 	 */
 	public function edit() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		$this->initForm("edit");
 		$this->getValues();
@@ -142,7 +148,8 @@ class ilDclFieldEditGUI {
 	 * permissionDenied
 	 */
 	public function permissionDenied() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->setContent("Permission denied");
 	}
 
@@ -151,7 +158,10 @@ class ilDclFieldEditGUI {
 	 * confirmDelete
 	 */
 	public function confirmDelete() {
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
@@ -171,7 +181,8 @@ class ilDclFieldEditGUI {
 	 * cancelDelete
 	 */
 	public function cancelDelete() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
 	}
@@ -181,7 +192,8 @@ class ilDclFieldEditGUI {
 	 * delete
 	 */
 	public function delete() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->table->deleteField($this->field_obj->getId());
 		$ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
@@ -192,7 +204,8 @@ class ilDclFieldEditGUI {
 	 * cancel
 	 */
 	public function cancel() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
 	}
 
@@ -203,7 +216,9 @@ class ilDclFieldEditGUI {
 	 * @param string $a_mode values: create | edit
 	 */
 	public function initForm($a_mode = "create") {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -302,7 +317,10 @@ class ilDclFieldEditGUI {
 	 * @param string $a_mode values: create | update
 	 */
 	public function save($a_mode = "create") {
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		//check access
 		if (!$this->table->hasPermissionToFields($this->parent_obj->ref_id)) {
@@ -369,7 +387,8 @@ class ilDclFieldEditGUI {
 	 * @return bool
 	 */
 	protected function checkInput($a_mode) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$return = $this->form->checkInput();
 
 		// load specific model for input checking
@@ -407,7 +426,8 @@ class ilDclFieldEditGUI {
 	 * accessDenied
 	 */
 	private function accessDenied() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->setContent("Access Denied");
 	}
 }

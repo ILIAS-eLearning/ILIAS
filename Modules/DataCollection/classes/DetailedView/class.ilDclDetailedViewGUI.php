@@ -75,7 +75,10 @@ class ilDclDetailedViewGUI {
 	 * @param ilObjDataCollectionGUI $a_dcl_object
 	 */
 	public function __construct(ilObjDataCollectionGUI $a_dcl_object) {
-		global $tpl, $ilCtrl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->dcl_gui_object = $a_dcl_object;
 		$this->lng = $lng;
 
@@ -121,7 +124,8 @@ class ilDclDetailedViewGUI {
 
 
 	public function executeCommand() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->tableview_id = $_GET['tableview_id'] ? $_GET['tableview_id'] : $this->table->getFirstTableViewId($_GET['ref_id']);
 		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 		$ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id', $_GET['back_tableview_id'] ? $_GET['back_tableview_id'] : $this->tableview_id);
@@ -167,7 +171,8 @@ class ilDclDetailedViewGUI {
 	}
 
 	protected function offerAlternativeViews() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		ilUtil::sendInfo($this->lng->txt('dcl_msg_info_alternatives'));
 		$table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
 		$tpl->setContent($table_gui->getHTML());
@@ -177,7 +182,10 @@ class ilDclDetailedViewGUI {
 	 * @param bool $editComments
 	 */
 	public function renderRecord($editComments = false) {
-		global $ilTabs, $tpl, $ilCtrl;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
@@ -358,7 +366,8 @@ class ilDclDetailedViewGUI {
 	 * @return string
 	 */
 	protected function renderPrevNextLinks() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 		$prevStr = $this->lng->txt('dcl_prev_record');
 		$nextStr = $this->lng->txt('dcl_next_record');

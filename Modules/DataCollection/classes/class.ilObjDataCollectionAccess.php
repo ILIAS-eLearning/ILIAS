@@ -43,7 +43,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * check whether goto script will succeed
 	 */
 	static function _checkGoto($a_target) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$t_arr = explode("_", $a_target);
 
@@ -72,7 +73,11 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return    boolean        true, if everything is ok
 	 */
 	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") {
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if ($a_user_id == "") {
 			$a_user_id = $ilUser->getId();
@@ -121,7 +126,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @param    int $a_id wiki id
 	 */
 	public static function _lookupOnline($a_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($a_id, "integer");
 		$dcl_set = $ilDB->query($q);
@@ -141,7 +147,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function checkAccessForDataCollectionId($data_collection_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$perm = false;
 		$references = ilObject2::_getAllReferences($data_collection_id);
@@ -178,7 +185,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function checkActionForRefId($action, $ref_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		/**
 		 * @var $ilAccess ilAccessHandler
@@ -194,7 +202,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
 	public static function hasWriteAccess($ref) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		return $ilAccess->checkAccess("write", "", $ref);
 	}
@@ -208,7 +217,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return mixed
 	 */
 	public static function hasEditAccess($ref) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		return $ilAccess->checkAccess("edit_content", "", $ref);
 	}
@@ -220,7 +230,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
 	public static function hasAddRecordAccess($ref) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		return $ilAccess->checkAccess("add_entry", "", $ref);
 	}
@@ -232,7 +243,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 * @return bool whether or not the current user has read access to the referenced datacollection
 	 */
 	public static function hasReadAccess($ref) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		return $ilAccess->checkAccess("read", "", $ref);
 	}
@@ -243,7 +255,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 */
 	public static function hasAccessToTableView($tableview)
 	{
-		global $rbacreview, $ilUser;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		if (!$tableview) {
 			return false;
 		}

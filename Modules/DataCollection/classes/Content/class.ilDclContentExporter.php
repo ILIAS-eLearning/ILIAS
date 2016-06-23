@@ -55,7 +55,8 @@ class ilDclContentExporter
 	protected $table;
 
 	public function __construct($ref_id, $table_id = null, $filter = array()) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->ref_id = $ref_id;
 		$this->table_id = $table_id;
@@ -241,7 +242,8 @@ class ilDclContentExporter
 	 * @throws ilDclException
 	 */
 	public function exportAsync($format = self::EXPORT_EXCEL, $filepath = null) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$method = self::SOAP_FUNCTION_NAME;
 

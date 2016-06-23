@@ -23,7 +23,8 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->query("SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 
@@ -37,7 +38,9 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	protected function doCreate($clone_mode = false) {
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		$ilLog->write('doCreate');
 
@@ -75,7 +78,8 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	protected function doDelete() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		foreach ($this->getTables() as $table) {
 			$table->doDelete(true);
@@ -87,7 +91,8 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->update("il_dcl_data", array(
 			"id" => array( "integer", $this->getId() ),
@@ -108,7 +113,9 @@ class ilObjDataCollection extends ilObject2 {
 	 * @param null $a_record_id
 	 */
 	public static function sendNotification($a_action, $a_table_id, $a_record_id = NULL) {
-		global $ilUser, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 
 		// If coming from trash, never send notifications and don't load dcl Object
 		if ($_GET['ref_id'] == SYSTEM_FOLDER_ID) {
@@ -195,7 +202,8 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return mixed
 	 */
 	public function getMainTableId() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT id 
 									FROM il_dcl_table 
 									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' 
@@ -431,7 +439,8 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return ilDclTable[] Returns an array of tables of this collection with ids of the tables as keys.
 	 */
 	public function getTables() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
 					" ORDER BY -table_order DESC";
@@ -473,7 +482,8 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return bool
 	 */
 	public static function _hasTableByTitle($title, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = '
 			. $ilDB->quote($title, 'text'));
 

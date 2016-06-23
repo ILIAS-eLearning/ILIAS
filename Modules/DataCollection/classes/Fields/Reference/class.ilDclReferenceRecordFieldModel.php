@@ -71,7 +71,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	}
 
 	public function getValueFromExcel($excel, $row, $col){
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$value = parent::getValueFromExcel($excel, $row, $col);
 		$old = $value;
 		$value = $this->getReferenceFromValue($value);

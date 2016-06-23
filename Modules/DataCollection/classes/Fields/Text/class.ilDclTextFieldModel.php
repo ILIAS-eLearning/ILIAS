@@ -15,7 +15,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 * @inheritdoc
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$join_str = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
@@ -104,7 +105,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 * @inheritDoc
 	 */
 	public function checkFieldCreationInput(ilPropertyFormGUI $form) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$return = true;
 		// Additional check for text fields: The length property should be max 200 if the textarea option is not set

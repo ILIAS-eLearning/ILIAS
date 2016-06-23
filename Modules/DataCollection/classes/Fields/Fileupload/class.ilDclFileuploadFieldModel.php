@@ -19,7 +19,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
@@ -43,7 +44,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$join_str =
 			"INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "

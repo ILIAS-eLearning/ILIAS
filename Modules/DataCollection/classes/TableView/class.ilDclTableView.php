@@ -393,7 +393,8 @@ class ilDclTableView extends ActiveRecord
 
 
         if ($_GET['ref_id']) {
-            global $rbacreview;
+            global $DIC;
+            $rbacreview = $DIC['rbacreview'];
             $roles = array();
             foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
                 $roles[] = $role_array['obj_id'];

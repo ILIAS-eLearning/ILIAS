@@ -25,7 +25,9 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 	 * @param string                       $table_id
 	 */
 	public function  __construct(ilDclFieldListGUI $a_parent_obj, $a_parent_cmd, $table_id) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -84,7 +86,9 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 	 * @param ilDclBaseFieldModel $a_set
 	 */
 	public function fillRow($a_set) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if (!$a_set->isStandardField()) {
 			$this->tpl->setVariable('FIELD_ID', $a_set->getId());

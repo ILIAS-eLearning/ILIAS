@@ -48,7 +48,10 @@ class ilDclTableEditGUI {
 	 * @param    ilObjDataCollectionGUI $a_parent_obj
 	 */
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj) {
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -299,7 +302,8 @@ class ilDclTableEditGUI {
 	 * @param string $a_mode values: create | edit
 	 */
 	public function save($a_mode = "create") {
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		if (!ilObjDataCollectionAccess::checkActionForObjId('write', $this->obj_id)) {
 			$this->accessDenied();

@@ -43,7 +43,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -110,7 +113,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
-		global $ilCtrl, $ilTabs, $ilNavigationHistory, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$tpl = $DIC['tpl'];
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
@@ -297,7 +304,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * show Content; redirect to ilDclRecordListGUI::listRecords
 	 */
 	public function render() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_GET['tableview_id']);
 		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
 	}
@@ -307,7 +315,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * show information screen
 	 */
 	public function infoScreenForward() {
-		global $ilTabs, $ilErr;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilErr = $DIC['ilErr'];
 
 		$ilTabs->activateTab("id_info");
 
@@ -325,7 +335,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 
 	public function addLocatorItems() {
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 
 		if (is_object($this->object)) {
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
@@ -377,7 +388,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * this had to be moved here because of the context-specific permission tab
 	 */
 	public function setTabs() {
-		global $ilAccess, $ilTabs, $lng, $ilHelp;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$ilHelp = $DIC['ilHelp'];
 
 		$ilHelp->setScreenIdComponent("dcl");
 
@@ -417,7 +432,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @param $a_active
 	 */
 	public function addListFieldsTabs($a_active) {
-		global $ilTabs, $ilCtrl, $lng;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$ilTabs->addSubTab("list_fields", $lng->txt("dcl_list_fields"), $ilCtrl->getLinkTargetByClass("ildclfieldlistgui", "listFields"));
 
@@ -432,7 +450,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @param ilPropertyFormGUI $a_form
 	 */
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->activateTab("id_settings");
 
@@ -458,7 +477,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * called by goto
 	 */
 	public function listRecords() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $_GET["tableview_id"]);
 		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
 	}
@@ -505,7 +525,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 
 	private function emptyInfo() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->table = ilDclCache::getTableCache($this->object->getMainTableId());
 		$tables = $this->object->getTables();
 		if (count($tables) == 1 AND count($this->table->getRecordFields()) == 0 AND count($this->table->getRecords()) == 0
@@ -518,7 +539,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 
 	public function toggleNotification() {
-		global $ilCtrl, $ilUser;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 
 		require_once('./Services/Notification/classes/class.ilNotification.php');
 		switch ($_GET["ntf"]) {
@@ -539,7 +562,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @return string|void
 	 */
 	public function addHeaderAction($a_redraw = false) {
-		global $ilUser, $ilAccess, $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl", $this->ref_id, $this->obj_id);

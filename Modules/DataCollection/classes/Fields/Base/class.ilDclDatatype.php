@@ -151,7 +151,8 @@ class ilDclDatatype {
 	 * Read Datatype
 	 */
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM il_dcl_datatype WHERE id = " . $ilDB->quote($this->getId(), "integer") . " ORDER BY sort";
 		$set = $ilDB->query($query);
@@ -167,7 +168,8 @@ class ilDclDatatype {
 	 * @return array
 	 */
 	public static function getAllDatatype() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if(self::$datatype_cache == NULL) {
 			self::$datatype_cache = array();

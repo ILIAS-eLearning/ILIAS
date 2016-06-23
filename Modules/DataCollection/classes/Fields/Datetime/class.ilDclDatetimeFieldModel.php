@@ -16,7 +16,8 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : NULL;
 		$date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : NULL;
