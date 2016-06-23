@@ -45,7 +45,12 @@ class ilAuthShibbolethSettingsGUI {
 	 * @return \ilAuthShibbolethSettingsGUI
 	 */
 	public function __construct($a_auth_ref_id) {
-		global $lng, $ilCtrl, $tpl, $ilTabs, $ilias;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilias = $DIC['ilias'];
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->lng = $lng;
@@ -63,7 +68,10 @@ class ilAuthShibbolethSettingsGUI {
 	 * @return void
 	 */
 	public function executeCommand() {
-		global $ilAccess, $ilErr, $ilCtrl;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		if (! $ilAccess->checkAccess('read', '', $this->ref_id)) {
@@ -88,7 +96,8 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	public function settings() {
-		global $rbacreview;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
 		$this->tabs_gui->setSubTabActive('shib_settings');
 		// set already saved data or default value for port
 		$settings = $this->ilias->getAllSettings();
@@ -259,7 +268,8 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	public function save() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		// validate required data
 		if (! $_POST["shib"]["login"]
 			or ! $_POST["shib"]["hos_type"]
@@ -497,7 +507,9 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	protected function addRoleAssignmentRule() {
-		global $ilAccess, $ilErr;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 		if (! $ilAccess->checkAccess('write', '', $this->ref_id)) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->roleAssignment();
@@ -547,7 +559,9 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	protected function updateRoleAssignmentRule() {
-		global $ilAccess, $ilErr;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 		if (! $ilAccess->checkAccess('write', '', $this->ref_id)) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->roleAssignment();
@@ -612,7 +626,8 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	private function getRuleValues() {
-		global $rbacreview;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
 		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRule.php';
 		$rule = new ilShibbolethRoleAssignmentRule((int)$_GET['rule_id']);
 		$role = $rule->getRoleId();
@@ -710,14 +725,17 @@ class ilAuthShibbolethSettingsGUI {
 	 * @return
 	 */
 	private function hasActiveRoleAssignmentPlugins() {
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		return count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk'));
 	}
 
 
 	private function prepareRoleSelect($a_as_select = true) {
-		global $rbacreview, $ilObjDataCache;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		$global_roles = ilUtil::_sortIds($rbacreview->getGlobalRoles(), 'object_data', 'title', 'obj_id');
 		$select[0] = $this->lng->txt('links_select_one');
 		foreach ($global_roles as $role_id) {
@@ -729,7 +747,8 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	protected function setSubTabs() {
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
 		if ($ilSetting->get('shib_active') == 0 and ilShibbolethRoleAssignmentRules::getCountRules() == 0) {
 			return false;
