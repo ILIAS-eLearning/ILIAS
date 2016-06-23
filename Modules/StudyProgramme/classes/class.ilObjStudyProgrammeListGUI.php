@@ -21,7 +21,9 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 
 
 	function __construct() {
-		global $tpl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		parent::__construct();
 		$this->tpl = $tpl;
 		$this->lng = $lng;

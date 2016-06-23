@@ -85,7 +85,16 @@ class ilObjStudyProgrammeTreeGUI {
 	public $toolbar;
 
 	public function __construct($a_ref_id) {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLocator = $DIC['ilLocator'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
 
 		$this->ref_id = $a_ref_id;
 		$this->tpl = $tpl;
@@ -235,7 +244,9 @@ class ilObjStudyProgrammeTreeGUI {
 				$node_obj->moveTo($parent_node);
 			} else {
 				// TODO: implement a method on ilObjStudyProgramme to move leafs
-				global $tree, $rbacadmin;
+				global $DIC;
+				$tree = $DIC['tree'];
+				$rbacadmin = $DIC['rbacadmin'];
 
 				$tree->moveTree($node_obj->getRefId(), $parent_node->getRefId());
 				$rbacadmin->adjustMovedObjectPermissions($node_obj->getRefId(), $parent_node->getRefId());
@@ -383,7 +394,8 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function delete() {
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->checkAccessOrFail("delete");
 
