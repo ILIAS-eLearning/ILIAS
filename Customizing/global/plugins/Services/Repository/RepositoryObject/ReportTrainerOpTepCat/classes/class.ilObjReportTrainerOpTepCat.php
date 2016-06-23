@@ -77,6 +77,8 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 	}
 
 	protected function buildFilter($filter) {
+		$orgu_filter =  new recursiveOrguFilter('orgu_unit','ht.orgu_id',false,false);
+		$orgu_filter->setFilterOptionsAll();
 		$filter	->multiselect( "edu_program"
 							 , $this->plugin->txt("edu_program")
 							 , "hc.edu_program"
@@ -113,17 +115,9 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 							 , date("Y")."-12-31"
 							 , false
 							 , " OR ht.hist_historic IS NULL"
-							 )
-				->multiselect( "org_unit"
-							 , $this->plugin->txt("report_filter_crs_region")
-							 , "ht.orgu_title"
-							 , $this->getOrgusFromTep()
-							 , array()
-							 , ""
-							 , 200
-							 , 160	
-							 )
-				->multiselect( "venue"
+							 );
+		$orgu_filter->addToFilter($filter);
+		$filter	->multiselect( "venue"
 							 , $this->plugin->txt("venue")
 							 , "ht.location"
 							 , gevOrgUnitUtils::getVenueNames()
@@ -146,7 +140,7 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 
 	protected function getOrgusFromTep() {
 		$orgus = array();
-		$sql = "SELECT DISTINCT orgu_title FROM hist_tep WHERE orgu_title != '-empty-'";
+		$sql = "SELECT DISTINCT orgu_id FROM hist_tep WHERE orgu_title != '-empty-'";
 		$res = $this->gIldb->query($sql);
 		while( $rec = $this->gIldb->fetchAssoc($res)) {
 			$orgus[] = $rec["orgu_title"];

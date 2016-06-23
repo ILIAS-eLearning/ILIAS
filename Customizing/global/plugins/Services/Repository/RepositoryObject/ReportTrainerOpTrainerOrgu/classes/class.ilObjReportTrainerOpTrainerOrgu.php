@@ -6,7 +6,7 @@ ini_set('max_execution_time', 0);
 set_time_limit(0);
 
 class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
-	const MIN_ROW = "3991";
+	const MIN_ROW = "0";
 	const shift = '<div class = "inline_block">&nbsp;&nbsp;</div>';
 	protected $categories;
 	protected $relevant_parameters = array();	
@@ -48,7 +48,7 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		foreach ($top_orgus as $orgu_import_id) {
 			$obj_id = ilObject::_getIdForImportId($orgu_import_id);
 			if($obj_id !== null) {
-				$this->top_nodes[] = gevObjectUtils::getRefId($obj_id);
+				$this->top_nodes[$obj_id] = gevObjectUtils::getRefId($obj_id);
 			}
 		}
 		parent::prepareReport();
@@ -69,12 +69,16 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 								 )
 				->multiselect( 	"org_unit"
 								 , $this->plugin->txt("org_unit_short")
-								 , "ht.orgu_title"
+								 , "ht.orgu_id"
 								 , $this->getOrgusForFilter($this->top_nodes)
 								 , array()
 								 , " OR TRUE "
 								 , 300
 								 , 160
+								 , "text"
+								 , "asc"
+								 , true
+								 , true
 								 )
 				->dateperiod( 	"period"
 								 , $this->plugin->txt("period")
@@ -103,7 +107,7 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 	}
 
 	protected function buildQuery($query) {
-		$query 	->select("ht.orgu_title")
+		$query 	->select("ht.orgu_id")
 				->select_raw("CONCAT(hu.lastname,', ',hu.firstname) as title");
 		foreach($this->meta_categories as $meta_category => $categories) {
 			$query	->select_raw($this->daysPerTEPMetaCategory($categories, $meta_category."_d"))
@@ -127,18 +131,14 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		$res = $this->gIldb->query($query);
 
 		while ($rec = $this->gIldb->fetchAssoc($res)) {
-			$this->pre_data[$rec["orgu_title"]][] = $rec;
+			$this->pre_data[$rec["orgu_id"]][] = $rec;
 		}
 		$this->orgu_filter = $this->filter->get("org_unit");
 		if($this->orgu_filter) {
 			$top_nodes = array();
 
-			foreach ($this->orgu_filter as $orgu_title) {
-				$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
-			
-				if($obj_id !== null) {
-					$top_nodes[] = gevObjectUtils::getRefId($obj_id);
-				}
+			foreach ($this->orgu_filter as $orgu_id) {
+				$top_nodes[$orgu_id] = gevObjectUtils::getRefId($orgu_id);
 			}
 		} else {
 			$top_nodes = $this->top_nodes;
@@ -146,8 +146,8 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 
 		$top_sup_orgus = $this->getTopSuperiorNodesOfUser($top_nodes);
 		$tree_data = array();
-		foreach ($top_sup_orgus as $orgu) {
-			$tree_data[] = $this->buildReportTree($orgu);
+		foreach ($top_sup_orgus as $obj_id => $ref_id) {
+			$tree_data[] = $this->buildReportTree($obj_id,$ref_id);
 		}
 		foreach($tree_data as $branch) {
 			$this->fillData($branch, $callback);
@@ -178,28 +178,30 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 	}
 
 	protected function getOrgusForFilter($below_orgus = null) {
+
 		$all_sup_orgus = $this->user_utils->getOrgUnitsWhereUserIsSuperior();
-		$all_sup_orgus_ref = array();
+		$all_sup_orgu_objs = array();
 
 		foreach ($all_sup_orgus as $orgu) {
-			$all_sup_orgus_ref[] = $orgu["ref_id"];
+			$all_sup_orgu_objs[] = $orgu["obj_id"];
 		}
-		$all_sup_orgus_ref = array_unique($all_sup_orgus_ref);
 
 		if($below_orgus !== null) {
-			$childs = gevOrgUnitUtils::getAllChildren($below_orgus);
-			foreach ($childs as &$orgu) {
-				$orgu = $orgu["ref_id"];
+			$below_orgu_childs = array();
+			$childs = gevOrgUnitUtils::getAllChildren(array_values($below_orgus));
+			foreach ($childs as $orgu) {
+				$below_orgu_childs[] = $orgu["obj_id"];
 			}
-			$below_orgus = array_unique(array_merge($childs,$below_orgus));
-			$all_sup_orgus_ref = array_intersect($all_sup_orgus_ref,$below_orgus);
+			$below_orgu_objs = array_unique(array_merge(array_keys($below_orgus),$below_orgu_childs));
+			$all_sup_orgu_objs = array_intersect($below_orgu_objs,$all_sup_orgu_objs);
 		}
 
-		foreach ($all_sup_orgus_ref as &$orgu) {
-			$orgu =  gevOrgUnitUtils::getTitleByRefId($orgu);
+		$return = array();
+		foreach ($all_sup_orgu_objs as $obj_id) {
+			$return[$obj_id] =  ilObject::_lookupTitle($obj_id);
 		}
-		asort($all_sup_orgus_ref);
-		return $all_sup_orgus_ref;
+		asort($return);
+		return $return;
 	}
 
 	protected function getTopSuperiorNodesOfUser($below_orgus = null) {
@@ -207,17 +209,17 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		$all_sup_orgus_ref = array();
 
 		foreach ($all_sup_orgus as $orgu) {
-			$all_sup_orgus_ref[] = $orgu["ref_id"];
+			$all_sup_orgus_ref[$orgu["obj_id"]] = $orgu["ref_id"];
 		}
-		$all_sup_orgus_ref = array_unique($all_sup_orgus_ref);
 
 		if($below_orgus !== null) {
-			$childs = gevOrgUnitUtils::getAllChildren($below_orgus);
-			foreach ($childs as &$orgu) {
-				$orgu = $orgu["ref_id"];
+			$below_orgu_children = array();
+			$childs = gevOrgUnitUtils::getAllChildren(array_values($below_orgus));
+			foreach ($childs as $orgu) {
+				$below_orgu_children[$orgu['obj_id']] = $orgu["ref_id"];
 			}
-			$below_orgus = array_unique(array_merge($childs,$below_orgus));
-			$all_sup_orgus_ref = array_intersect($all_sup_orgus_ref,$below_orgus);
+			$below_orgus = array_unique(array_merge($below_orgu_children,$below_orgus));
+			$all_sup_orgus_ref = array_intersect($below_orgus,$all_sup_orgus_ref);
 		}
 
 		$sql = 	"SELECT obj_id, t1.child as ref_id, t2.child FROM tree t1 "
@@ -225,8 +227,8 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 				."		ON ore.ref_id = t1.child "
 				."	LEFT JOIN tree t2 "
 				." 		ON t1.lft > t2.lft AND t1.rgt < t2.rgt "
-				."		AND ".$this->gIldb->in("t2.child",$all_sup_orgus_ref,false,"text")
-				." WHERE ".$this->gIldb->in("t1.child",$all_sup_orgus_ref,false,"text")
+				."		AND ".$this->gIldb->in("t2.child",array_values($all_sup_orgus_ref),false,"text")
+				." WHERE ".$this->gIldb->in("t1.child",array_values($all_sup_orgus_ref),false,"text")
 				."		AND ore.deleted IS NULL "
 				." HAVING t2.child IS NULL";
 
@@ -234,15 +236,16 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		$res = $this->gIldb->query($sql);
 
 		while($rec = $this->gIldb->fetchAssoc($res)) {
-			$top_sup_orgus[] = $rec["ref_id"];
+			$top_sup_orgus[$rec["obj_id"]] = $rec["ref_id"];
 		}
 		return $top_sup_orgus;
 	}
 
-	protected function buildReportTree($ref_id,$offset = "") {
-		$title =  gevOrgUnitUtils::getTitleByRefId($ref_id);
+	protected function buildReportTree($obj_id,$ref_id,$offset = "") {
+		$title = $this->pre_data[$obj_id][0]["orgu_title"] ?
+			$this->pre_data[$obj_id][0]["orgu_title"] : ilObject::_lookupTitle($obj_id);
 		$children = $this->tree->getChildsByType($ref_id,'orgu');
-		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
+		$return = array("title"=>$title,"trainers"=>$this->pre_data[$obj_id],"children"=>array());
 
 		foreach ($return["trainers"] as &$trainers) {
 			$trainers["title"] = $offset.self::shift.'<div class = "inline_block">'.$trainers["title"].'</div>';
@@ -251,7 +254,7 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		asort($return["trainers"]);
 
 		foreach($children as $child) {
-			$return["children"][] = $this->buildReportTree($child["ref_id"],$offset.self::shift);
+			$return["children"][] = $this->buildReportTree($child["obj_id"],$child["ref_id"],$offset.self::shift);
 		}
 
 		$return["sum"] = $this->sumMetaCategories($return["trainers"]);
