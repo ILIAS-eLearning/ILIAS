@@ -849,9 +849,6 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @throws ilException
 	 * @param  int 				$a_usr_id
 	 * @param  int | null		$a_assigning_usr_id	- defaults to global ilUser
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
