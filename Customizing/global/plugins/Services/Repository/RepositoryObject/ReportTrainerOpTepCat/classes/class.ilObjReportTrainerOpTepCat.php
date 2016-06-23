@@ -6,7 +6,7 @@ ini_set('max_execution_time', 0);
 set_time_limit(0);
 
 class ilObjReportTrainerOpTepCat extends ilObjReportBase {
-	const MIN_ROW = "0";
+	const MIN_ROW = "3991";
 	protected $categories;
 	protected $relevant_parameters = array();	
 
