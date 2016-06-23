@@ -77,7 +77,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 			{
 				continue;
 			}
-			if(!$ilAccess->checkAccess('visible,read','',$node['child']))
+			if(!$ilAccess->checkAccess('visible','',$node['child']))
 			{
 				continue;
 			}
