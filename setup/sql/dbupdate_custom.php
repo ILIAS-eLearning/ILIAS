@@ -5063,3 +5063,16 @@ foreach ($relevant_ref_ids as $ref_id) {
 
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#214>
+<?php
+	if (!$ilDB->tableColumnExists("hist_tep", "orgu_id")) {
+		$ilDB->addTableColumn('hist_tep', 'orgu_id', 
+			array(
+				'type' => 'integer', 
+				'length' => 4, 
+				'notnull' => true,
+				'default' => -1
+		));
+	}
+?>
