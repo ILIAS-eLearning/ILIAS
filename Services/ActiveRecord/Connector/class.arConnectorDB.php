@@ -15,8 +15,7 @@ class arConnectorDB extends arConnector {
 	 * @return ilDB
 	 */
 	protected function returnDB() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		return $ilDB;
 	}
@@ -317,8 +316,7 @@ class arConnectorDB extends arConnector {
 
 		//TODO: using template in the model.
 		if ($arl->getDebug()) {
-			global $DIC;
-			$tpl = $DIC['tpl'];
+			global $tpl;
 			if ($tpl instanceof ilTemplate) {
 				ilUtil::sendInfo($q);
 			} else {

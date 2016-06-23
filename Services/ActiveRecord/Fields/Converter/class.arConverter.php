@@ -204,8 +204,7 @@ class {CLASS_NAME} extends ActiveRecord {
 	 * @return ilDB
 	 */
 	public static function getDB() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		/**
 		 * @var $ilDB ilDB
