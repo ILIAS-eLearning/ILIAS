@@ -867,7 +867,11 @@ class ilObjectGUI
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$ti->setSize(min(40, ilObject::TITLE_LENGTH));
-		$ti->setMaxLength(ilObject::TITLE_LENGTH);
+		if($this instanceof ilObjCourseGUI) {
+			$ti->setMaxLength(100);
+		} else {
+			$ti->setMaxLength(ilObject::TITLE_LENGTH);
+		}
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
