@@ -23,7 +23,9 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param string                $a_parent_cmd
 	 */
 	public function  __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->setId('tbl_bibl_overview');
 		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
