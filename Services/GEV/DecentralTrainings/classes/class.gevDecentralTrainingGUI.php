@@ -1271,7 +1271,7 @@ class gevDecentralTrainingGUI {
 		if($a_form_values["title"] && $a_fill) {
 			$title->setValue($a_form_values["title"]);
 		}
-			
+		$title->setMaxLength(100);
 		$title->setRequired(true);
 		$form->addItem($title);
 		
