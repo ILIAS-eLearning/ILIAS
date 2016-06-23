@@ -11,6 +11,7 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
  */
 class ilGroupMembershipMailNotification extends ilMailNotification
 {
+	// v Notifications affect members & co. v
 	const TYPE_ADMISSION_MEMBER = 20;
 	const TYPE_DISMISS_MEMBER 	= 21;
 	
@@ -25,11 +26,22 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	const TYPE_UNSUBSCRIBE_MEMBER = 27;
 	const TYPE_SUBSCRIBE_MEMBER = 28;
 	const TYPE_WAITING_LIST_MEMBER = 29;
-	
+
+	// v Notifications affect admins v
 	const TYPE_NOTIFICATION_REGISTRATION = 30;
 	const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
 	const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
-	
+
+	/**
+	 * @var array $permanent_enabled_notifications
+	 * Notifications which are not affected by "mail_grp_member_notification" setting
+	 * because they addresses admins
+	 */
+	protected $permanent_enabled_notifications = array(
+		self::TYPE_NOTIFICATION_REGISTRATION,
+		self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
+		self::TYPE_NOTIFICATION_UNSUBSCRIBE
+	);
 
 	/**
 	 *
@@ -45,20 +57,16 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		global $ilSetting;
-
+		if(!$this->isNotificationTypeEnabled($this->getType()))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Membership mail disabled globally.');
+			return false;
+		}
 		// parent::send();
 		
 		switch($this->getType())
 		{
 			case self::TYPE_ADMISSION_MEMBER:
-
-				// automatic mails about status change disabled
-				if(!$ilSetting->get('mail_grp_member_notification',true))
-				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Membership mail disabled globally.');
-					return;
-				}
 				
 				foreach($this->getRecipients() as $rcp)
 				{
@@ -83,13 +91,6 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 				break;
 				
 			case self::TYPE_DISMISS_MEMBER:
-
-				// automatic mails about status change disabled
-				if(!$ilSetting->get('mail_grp_member_notification',true))
-				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Membership mail disabled globally.');
-					return;
-				}
 				
 				foreach($this->getRecipients() as $rcp)
 				{
@@ -401,7 +402,20 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 			}
 		}
 		return $body;
-	}	
-	
+	}
+
+	/**
+	 * get setting "mail_grp_member_notification" and excludes types which are not affected by this setting
+	 * See description of $this->permanent_enabled_notifications
+	 *
+	 * @param int $a_type
+	 * @return bool
+	 */
+	protected function isNotificationTypeEnabled($a_type)
+	{
+		global $ilSetting;
+
+		return $ilSetting->get('mail_grp_member_notification',true) || in_array($a_type, $this->permanent_enabled_notifications);
+	}
 }
 ?>
