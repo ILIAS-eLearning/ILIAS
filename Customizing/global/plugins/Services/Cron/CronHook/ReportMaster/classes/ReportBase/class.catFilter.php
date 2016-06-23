@@ -989,7 +989,7 @@ class recursiveOrguFilter {
 		$this->possibly_recursive = $possibly_recursive;
 		$this->ignore_in_filter_where = $ignore_in_filter_where;
 		$this->search_recursive = true;
-		$this->orgu_preselect = array();
+		$this->pre_select = array();
 		$this->field = $field;
 		global $ilDB;
 		$this->gIldb = $ilDB;
@@ -1021,7 +1021,7 @@ class recursiveOrguFilter {
 								 , $lng->txt("gev_org_unit_short")
 								 , $this->field
 								 , $this->filter_options
-								 , $this->orgu_select
+								 , $this->pre_select
 								 , ""
 								 , 300
 								 , 160
