@@ -37,69 +37,84 @@ class ilCertificateGUI
 	*
 	* @var integer
 	*/
-	var $object;
+	protected $object;
 
 	/**
 	* The reference to the ILIAS control class
 	*
 	* @var object
 	*/
-	var $ctrl;
+	protected $ctrl;
 
 	/**
 	* The reference to the ILIAS tree class
 	*
 	* @var object
 	*/
-	var $tree;
+	protected $tree;
 
 	/**
 	* The reference to the ILIAS class
 	*
 	* @var object
 	*/
-	var $ilias;
+	protected $ilias;
 
 	/**
 	* The reference to the Template class
 	*
 	* @var object
 	*/
-	var $tpl;
+	protected $tpl;
 
 	/**
 	* The reference to the Language class
 	*
 	* @var object
 	*/
-	var $lng;
+	protected $lng;
 	
 	/**
 	* The reference ID of the object
 	*
 	* @var object
 	*/
-	var $ref_id;
+	protected $ref_id;
 
 	/**
-	* ilCertificateGUI constructor
-	*
-	* @param object $a_object A reference to the test container object
-	* @access public
-	*/
-	public function __construct($adapter)
+	 * @var ilAccessHandler
+	 */
+	protected $acccess;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * ilCertificateGUI constructor
+	 * @param ilCertificateAdapter $adapter A reference to the test container object
+	 * @access public
+	 */
+	public function __construct(ilCertificateAdapter $adapter)
 	{
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
+		global $DIC;
 
 		include_once "./Services/Certificate/classes/class.ilCertificate.php";
 		$this->object = new ilCertificate($adapter);
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->ilias =& $ilias;
-		$this->tree =& $tree;
-		$this->ref_id = $_GET["ref_id"];
-		$this->lng->loadLanguageModule("certificate");
+
+		$this->lng     = $DIC['lng'];
+		$this->tpl     = $DIC['tpl'];
+		$this->ctrl    = $DIC['ilCtrl'];
+		$this->ilias   = $DIC['ilias'];
+		$this->tree    = $DIC['tree'];
+		$this->tree    = $DIC['tree'];
+		$this->acccess = $DIC['ilAccess'];
+		$this->toolbar = $DIC['ilToolbar'];
+
+		$this->ref_id = (int)$_GET['ref_id'];
+
+		$this->lng->loadLanguageModule('certificate');
 	}
 
 	/**
@@ -114,7 +129,7 @@ class ilCertificateGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		return $ret;
@@ -238,13 +253,7 @@ class ilCertificateGUI
 	*/
 	public function certificateEditor()
 	{
-		/**
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilAccess, $ilToolbar;
-		
-		$form_fields = array();
-		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
+		if(strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
 		{
 			$form_fields = $this->getFormFieldsFromPOST();
 		}
@@ -399,27 +408,27 @@ class ilCertificateGUI
 
 		$this->object->getAdapter()->addAdditionalFormElements($form, $form_fields);
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if($this->acccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			if ($this->object->isComplete() || $this->object->hasBackgroundImage())
 			{
-				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+				$this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
 				require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 				$preview = ilSubmitButton::getInstance();
 				$preview->setCaption('certificate_preview');
 				$preview->setCommand('certificatePreview');
-				$ilToolbar->addStickyItem($preview);
+				$this->toolbar->addStickyItem($preview);
 
 				$export = ilSubmitButton::getInstance();
 				$export->setCaption('certificate_export');
 				$export->setCommand('certificateExportFO');
-				$ilToolbar->addButtonInstance($export);
+				$this->toolbar->addButtonInstance($export);
 
 				$delete = ilSubmitButton::getInstance();
 				$delete->setCaption('delete');
 				$delete->setCommand('certificateDelete');
-				$ilToolbar->addButtonInstance($delete);
+				$this->toolbar->addButtonInstance($delete);
 			}
 			$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 		}
@@ -451,5 +460,3 @@ class ilCertificateGUI
 		}
 	}
 }
-
-?>
