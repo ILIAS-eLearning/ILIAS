@@ -33,10 +33,9 @@ include_once("./Services/Certificate/classes/class.ilCertificate.php");
 class ilCertificateGUI
 {
 	/**
-	* ilCertificate object reference
-	*
-	* @var integer
-	*/
+	 * ilCertificate object reference
+	 * @var ilCertificate
+	 */
 	protected $object;
 
 	/**
