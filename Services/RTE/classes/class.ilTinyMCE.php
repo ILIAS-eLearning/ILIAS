@@ -1,27 +1,7 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/RTE/classes/class.ilRTE.php";
+require_once 'Services/RTE/classes/class.ilRTE.php';
 
 /**
 * Tiny MCE editor class
@@ -34,63 +14,69 @@ include_once "./Services/RTE/classes/class.ilRTE.php";
 */
 class ilTinyMCE extends ilRTE
 {
-	protected $mode = "textareas";
-	protected $version = ""; // set default version here
-	protected $vd = ""; // version directory suffix
+	protected $mode = 'textareas';
+	protected $version = ''; // set default version here
+	protected $vd = ''; // version directory suffix
+
+	/**
+	 * @var bool
+	 */
+	protected $styleselect = false;
 
 	/**
 	 * A flag whether the "edit image" context menu item should appear or not
-	 * 
 	 * @var bool
 	 */
 	protected $remove_img_context_menu_item = false;
 
-
-	public function __construct($a_version = "")
-	{		
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct($a_version = '')
+	{
 		if(!$a_version)
 		{
-			$a_version = "3.5.11";
+			$a_version = '3.5.11';
 		}
-		
+
 		parent::__construct($a_version);
 
-		switch ($a_version)
-		{			
-			case "3.4.7":			
-			case "3.5.11":			
+		switch($a_version)
+		{
+			case '3.4.7':
+			case '3.5.11':
 				$this->version = $a_version;
-				$this->vd = "_".str_replace(".", "_", $a_version);
+				$this->vd      = '_' . str_replace('.', '_', $a_version);
 				break;
-			
+
 			default:
 				// unknown/unsupported version?
 				break;
 		}
-		
+
 		$this->plugins = array(
-			"xhtmlxtras",
-			"style",
-			"layer",
-			"table",
-			"save",
-			"advhr",
-			"advlink",
-			"emotions",
-			"iespell",
-			"insertdatetime",
-			"preview",
-			"searchreplace",
-			"print",
-			"contextmenu",
-			"paste",
-			"directionality",
-			"fullscreen",
-			"nonbreaking",
-			"noneditable",
-			"style"
+			'xhtmlxtras',
+			'style',
+			'layer',
+			'table',
+			'save',
+			'advhr',
+			'advlink',
+			'emotions',
+			'iespell',
+			'insertdatetime',
+			'preview',
+			'searchreplace',
+			'print',
+			'contextmenu',
+			'paste',
+			'directionality',
+			'fullscreen',
+			'nonbreaking',
+			'noneditable',
+			'style'
 		);
-		
+
 		$this->setStyleSelect(false);
 		$this->addInternalTinyMCEImageManager();
 	}
@@ -98,14 +84,9 @@ class ilTinyMCE extends ilRTE
 	/**
 	 *
 	 */
-	public function addInternalTinyMCEImageManager()
+	protected function addInternalTinyMCEImageManager()
 	{
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
-
-		if(!$ilClientIniFile->readVariable('tinymce', 'use_advanced_img_mng'))
+		if(!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng'))
 		{
 			parent::addPlugin('ilimgupload');
 			parent::addButton('ilimgupload');
@@ -116,7 +97,7 @@ class ilTinyMCE extends ilRTE
 				'ibrowser',
 				'image'
 			));
-			
+
 			$this->setRemoveImgContextMenuItem(true);
 		}
 		else
@@ -132,7 +113,7 @@ class ilTinyMCE extends ilRTE
 	/**
 	 * @param array $tags
 	 */
-	private function handleImagePluginsBeforeRendering(array $tags)
+	protected function handleImagePluginsBeforeRendering(array $tags)
 	{
 		if(!in_array('img', $tags))
 		{
@@ -158,12 +139,7 @@ class ilTinyMCE extends ilRTE
 
 	protected function handleIliasImageManagerRemoved()
 	{
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
-
-		if(!$ilClientIniFile->readVariable('tinymce', 'use_advanced_img_mng'))
+		if(!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng'))
 		{
 			parent::removePlugin('ilimgupload');
 			$this->disableButtons('ilimgupload');
@@ -176,7 +152,7 @@ class ilTinyMCE extends ilRTE
 	}
 
 	/**
-	 * @param string $a_plugin_name
+	 * {@inheritdoc}
 	 */
 	public function addPlugin($a_plugin_name)
 	{
@@ -191,7 +167,7 @@ class ilTinyMCE extends ilRTE
 	}
 
 	/**
-	 * @param string $a_plugin_name
+	 * {@inheritdoc}
 	 */
 	public function removePlugin($a_plugin_name)
 	{
@@ -204,89 +180,13 @@ class ilTinyMCE extends ilRTE
 			parent::removePlugin($a_plugin_name);
 		}
 	}
-	
+
 	/**
-	* TinyMCE root block element which surrounds the generated html
-	*
-	* @var		string
-	* @type		string
-	* @access	protected
-	*/
-	protected $root_block_element = null;
-	
-	/** 
-	* Array of tinymce buttons which should be disabled
-	* 
-	* @var		Array
-	* @type		Array
-	* @access	protected
-	* 
-	*/
-	protected $disabled_buttons = array();
-	
-	/**
-	* Returns the path to the content css file for the editor
-	*
-	* Returns the path to the content css file for the editor
-	*
-	* @return string Path to the content CSS file
-	* @access	public
-	*/
-	/* moved to ilUtil::getNewContentStyleSheetLocation()
-	function getContentCSS()
+	 * {@inheritdoc}
+	 */
+	public function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE, $cfg_template = null, $hide_switch = false)
 	{
-		global $ilias;
-
-		if(defined("ILIAS_MODULE"))
-		{
-			$dir = ".";
-		}
-		else
-		{
-			$dir = "";
-		}
-		$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
-		//$in_skin = "./templates/".$ilias->account->skin."/tiny.css";
-		$default = "./templates/default/delos_cont.css";
-		if(@is_file($in_style))
-		{
-			return $dir.$in_style;
-		}
-		else
-		{
-			if (@is_file($in_skin))
-			{
-				return $dir.$in_skin;
-			}
-			else
-			{
-				return $dir.$default;
-			}
-		}
-	}*/
-
-
-	/**
-	* Adds support for an RTE in an ILIAS form
-	*
-	* Adds support for an RTE in an ILIAS form
-	*
-	* @param string $a_module Module or object which should use the HTML tags
-	* @access public
-	*/
-	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE, $cfg_template = null, $hide_switch = false)
-	{
-		global $ilBrowser;
-		
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		/*
-		if (array_key_exists("show_rte", $_POST))
-		{
-			ilObjAdvancedEditing::_setRichTextEditorUserState($_POST["show_rte"]);
-		}
-		*/
-		
-		if($ilBrowser->isMobile())
+		if($this->browser->isMobile())
 		{
 			ilObjAdvancedEditing::_setRichTextEditorUserState(0);
 		}
@@ -327,9 +227,9 @@ class ilTinyMCE extends ilRTE
 					   . ','.$this->_buildAdvancedTableButtonsFromHTMLTags($tags)
 					   . ($this->getStyleSelect() ? ',styleselect' : '');
 			$buttons_3 = $this->_buildAdvancedButtonsFromHTMLTags(3, $tags);
-			$tpl->setVariable('BUTTONS_1', self::_removeRedundantSeparators($buttons_1));
-			$tpl->setVariable('BUTTONS_2', self::_removeRedundantSeparators($buttons_2));
-			$tpl->setVariable('BUTTONS_3', self::_removeRedundantSeparators($buttons_3));
+			$tpl->setVariable('BUTTONS_1', self::removeRedundantSeparators($buttons_1));
+			$tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
+			$tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
 			
 			$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -346,42 +246,23 @@ class ilTinyMCE extends ilRTE
 			
 			$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
 		}
-
-		/*
-		if (!$hide_switch && strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0)
-		{
-			$tpl = new ilTemplate("tpl.rte.switch.html", true, true, "Services/RTE");
-			$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass($this->ctrl->getCmdClass()), $this->ctrl->getCmd());
-			$tpl->setVariable("TEXT_SET_MODE", $this->lng->txt("set_edit_mode"));
-			$tpl->setVariable("TEXT_ENABLED", $this->lng->txt("rte_editor_enabled"));
-			$tpl->setVariable("TEXT_DISABLED", $this->lng->txt("rte_editor_disabled"));
-			if (ilObjAdvancedEditing::_getRichTextEditorUserState() != 0)
-			{
-				$tpl->setVariable("SELECTED_ENABLED", " selected=\"selected\"");
-			}
-			$tpl->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-	
-			$this->tpl->setVariable("RTE_SWITCH", $tpl->get());
-		}
-		*/
 	}
 
-	protected function handleImgContextMenuItem($tpl)
+	/**
+	 * @param ilTemplate $tpl
+	 */
+	protected function handleImgContextMenuItem(ilTemplate $tpl)
 	{
 		if($this->getRemoveImgContextMenuItem() && $tpl->blockExists('remove_img_context_menu_item'))
 		{
-			$tpl->touchBlock(remove_img_context_menu_item);
+			$tpl->touchBlock('remove_img_context_menu_item');
 		}
 	}
 
 	/**
-	* Adds custom support for an RTE in an ILIAS form
-	*
-	* Adds custom support for an RTE in an ILIAS form
-	*
-	* @access public
-	*/
-	function addCustomRTESupport($obj_id, $obj_type, $tags)
+	 * {@inheritdoc}
+	 */
+	public function addCustomRTESupport($obj_id, $obj_type, $tags)
 	{
 		$this->handleImagePluginsBeforeRendering($tags);
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
@@ -403,9 +284,9 @@ class ilTinyMCE extends ilRTE
 				   . ','.$this->_buildAdvancedTableButtonsFromHTMLTags($tags)
 				   . ($this->getStyleSelect() ? ',styleselect' : '');
 		$buttons_3 = $this->_buildAdvancedButtonsFromHTMLTags(3, $tags);
-		$tpl->setVariable('BUTTONS_1', self::_removeRedundantSeparators($buttons_1));
-		$tpl->setVariable('BUTTONS_2', self::_removeRedundantSeparators($buttons_2));
-		$tpl->setVariable('BUTTONS_3', self::_removeRedundantSeparators($buttons_3));		
+		$tpl->setVariable('BUTTONS_1', self::removeRedundantSeparators($buttons_1));
+		$tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
+		$tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));		
 		
 		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -421,16 +302,11 @@ class ilTinyMCE extends ilRTE
 		$tpl->parseCurrentBlock();
 		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
 	}
-	
+
 	/**
-	* Adds custom support for an RTE in an ILIAS form
-	*
-	* Adds custom support for an RTE in an ILIAS form
-	*
-	* @param string $editor_selector CSS class of the text input field(s)
-	* @access public
-	*/
-	function addUserTextEditor($editor_selector)
+	 * {@inheritdoc}
+	 */
+	public function addUserTextEditor($editor_selector)
 	{
 		$validtags = array("strong","em","p", "br", "div", "span");
 		$buttontags = array("strong","em");
@@ -457,8 +333,12 @@ class ilTinyMCE extends ilRTE
 		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
 		$this->tpl->parseCurrentBlock();
 	}
-	
-	protected function getButtonsForUserTextEditor($buttontags)
+
+	/**
+	 * @param array $buttontags
+	 * @return string
+	 */
+	protected function getButtonsForUserTextEditor(array $buttontags)
 	{
 		$btns = $this->_buildButtonsFromHTMLTags($buttontags);
 
@@ -473,9 +353,9 @@ class ilTinyMCE extends ilRTE
 	/**
 	* Set Enable Style Selecttion.
 	*
-	* @param	boolean	$a_styleselect	Enable Style Selecttion
+	* @public boolean	$a_styleselect	Enable Style Selecttion
 	*/
-	function setStyleSelect($a_styleselect)
+	protected function setStyleSelect($a_styleselect)
 	{
 		$this->styleselect = $a_styleselect;
 	}
@@ -485,13 +365,16 @@ class ilTinyMCE extends ilRTE
 	*
 	* @return	boolean	Enable Style Selecttion
 	*/
-	function getStyleSelect()
+	public function getStyleSelect()
 	{
 		return $this->styleselect;
 	}
 
-
-	function _buildAdvancedBlockformatsFromHTMLTags($a_html_tags)
+	/**
+	 * @param array $a_html_tags
+	 * @return string
+	 */
+	public function _buildAdvancedBlockformatsFromHTMLTags(array $a_html_tags)
 	{
 		$blockformats = array();
 		
@@ -545,7 +428,12 @@ class ilTinyMCE extends ilRTE
 		}
 	}
 
-	function _buildAdvancedButtonsFromHTMLTags($a_buttons_section, $a_html_tags)
+	/**
+	 * @param int $a_buttons_section
+	 * @param array $a_html_tags
+	 * @return string
+	 */
+	public function _buildAdvancedButtonsFromHTMLTags($a_buttons_section, array $a_html_tags)
 	{
 		$theme_advanced_buttons = array();
 		
@@ -696,8 +584,12 @@ class ilTinyMCE extends ilRTE
 		
 		return join(",", $theme_advanced_buttons);
 	}
-	
-	function _buildButtonsFromHTMLTags($a_html_tags)
+
+	/**
+	 * @param array $a_html_tags
+	 * @return string
+	 */
+	protected function _buildButtonsFromHTMLTags(array $a_html_tags)
 	{
 		$theme_advanced_buttons = array();
 		if (in_array("strong", $a_html_tags))
@@ -805,8 +697,12 @@ class ilTinyMCE extends ilRTE
 		
 		return join(",", $theme_advanced_buttons);
 	}
-	
-	function _buildAdvancedTableButtonsFromHTMLTags($a_html_tags)
+
+	/**
+	 * @param array $a_html_tags
+	 * @return string
+	 */
+	public function _buildAdvancedTableButtonsFromHTMLTags(array $a_html_tags)
 	{
 		$theme_advanced_buttons = array();
 		if (in_array("table", $a_html_tags) && in_array("tr", $a_html_tags) && in_array("td", $a_html_tags))
@@ -828,12 +724,11 @@ class ilTinyMCE extends ilRTE
 		
 		return join(",", $theme_advanced_buttons);
 	}
-	
-	function _getEditorLanguage()
+
+	protected function _getEditorLanguage()
 	{
-		global $ilUser;
-		$lang = $ilUser->getLanguage();
-		if (file_exists("./Services/RTE/tiny_mce".$this->vd."/langs/$lang.js"))
+		$lang = $this->user->getLanguage();
+		if(file_exists("./Services/RTE/tiny_mce" . $this->vd . "/langs/$lang.js"))
 		{
 			return "$lang";
 		}
@@ -843,10 +738,14 @@ class ilTinyMCE extends ilRTE
 		}
 	}
 
-	function _getValidElementsFromHTMLTags($a_html_tags)
+	/**
+	 * @param array $a_html_tags
+	 * @return string
+	 */
+	public function _getValidElementsFromHTMLTags(array $a_html_tags)
 	{
 		$valid_elements = array();
-		foreach ($a_html_tags as $tag)
+		foreach($a_html_tags as $tag)
 		{
 			switch ($tag)
 			{
@@ -1297,83 +1196,13 @@ class ilTinyMCE extends ilRTE
 		}
 		return join(",", $valid_elements);
 	}
-	
+
 	/**
-	* Setter for the TinyMCE root block element
-	*
-	* @param	string				$a_root_block_element	root block element
-	* @return	ilTextAreaInputGUI	Instance of ilTinyMCE
-	* @access	public
-	*/
-	public function setRTERootBlockElement($a_root_block_element)
-	{
-		$this->root_block_element = $a_root_block_element;
-		return $this;
-	}	
-	
-	/**
-	* Getter for the TinyMCE root block element
-	*
-	* @return	string	Root block element of TinyMCE
-	* @access	public
-	*/
-	public function getRTERootBlockElement()
-	{
-		return $this->root_block_element;
-	}
-	
-	/** 
-	* Sets buttons which should be disabled in TinyMCE
-	* 
-	* @param	mixed	$a_button	Either a button string or an array of button strings
-	* @return	ilTextAreaInputGUI	Instance of ilTextAreaInputGUI
-	* @access	public
-	* 
-	*/
-	public function disableButtons($a_button)
-	{
-		if(is_array($a_button))
-		{
-			$this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, $a_button));
-		}
-		else
-		{
-			$this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, array($a_button)));
-		}
-		
-		return $this;
-	}
-	
-	/** 
-	* Returns the disabled TinyMCE buttons
-	* 
-	* @param	boolean	$as_array	Should the disabled buttons be returned as a string or as an array
-	* @return	Array	Array of disabled buttons
-	* @access	public
-	* 
-	*/
-	public function getDisabledButtons($as_array = true)
-	{
-		if(!$as_array)
-		{
-			return implode(',', $this->disabled_buttons);
-		}
-		else
-		{
-			return $this->disabled_buttons;
-		}
-	}
-	
-	/** 
-	* Removes redundant seperators and removes ,, and , at the first or last position of the string
-	* 
-	* @param	string	$a_string A string
-	* @return	string	A string
-	* @access	public
-	* @static
-	* 
-	*/
-	public static function _removeRedundantSeparators($a_string)
+	 * Removes redundant seperators and removes ,, and , at the first or last position of the string
+	 * @param   string $a_string A string
+	 * @return  string
+	 */
+	public static function removeRedundantSeparators($a_string)
 	{
 		while(strpos($a_string, 'separator,separator') !== false)
 		{
@@ -1413,8 +1242,4 @@ class ilTinyMCE extends ilRTE
 	{
 		return $this->remove_img_context_menu_item;
 	}
-
-	
-
 }
-?>

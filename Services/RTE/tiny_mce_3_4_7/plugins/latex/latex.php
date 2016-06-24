@@ -14,7 +14,9 @@ ilInitialisation::initILIAS();
  * @var $ilIliasIniFile ilIniFile
  * @var $ilUser         ilObjUser
  */
-global $ilIliasIniFile, $ilUser;
+global $DIC;
+$ilIliasIniFile = $DIC['ilIliasIniFile'];
+$ilUser = $DIC['ilUser'];
 
 $tpl = new ilTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
 
