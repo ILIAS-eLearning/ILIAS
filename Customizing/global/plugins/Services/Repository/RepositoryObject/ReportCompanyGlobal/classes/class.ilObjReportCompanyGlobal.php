@@ -155,7 +155,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->static_condition("hucs.hist_historic = 0")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition($this->gIldb->in('hc.type', $this->types, false, 'text'))
-				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-','text'))
+				->static_condition("hucs.booking_status = ".$this->gIldb->quote('gebucht','text'))
 				->action($this->filter_action)
 				->compile()
 				;
@@ -232,17 +232,27 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 			$query	->select_raw('SUM( IF( hucs.credit_points IS NOT NULL AND hucs.credit_points > 0 AND '.$this->gIldb->in('hucs.okz', self::$wbd_relevant,false,'text')
 					.', hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
 		}
-		$query 		->from('hist_course hc');
-		$this->crs_topics_filter->addToQuery($query);
-		$query		->join('hist_usercoursestatus hucs')
-						->on('hc.crs_id = hucs.crs_id'
-							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text'));
+		$query 		->from('hist_course hc')
+					->join('hist_usercoursestatus hucs')
+						->on($this->userCourseSelectorByStatus($has_participated));
 		if($this->sql_filter_orgus) {
 			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}
+		$this->crs_topics_filter->addToQuery($query);
 			$query	->group_by('hc.type')
 					->compile();
 		return $query;
+	}
+
+	protected function userCourseSelectorByStatus($has_participated) {
+		if($has_participated) {
+			$return = 'hc.crs_id = hucs.crs_id'
+				.'	AND hucs.participation_status = '.$this->gIldb->quote('teilgenommen','text');
+		} else {
+			$return = 'hc.crs_id = hucs.crs_id'
+				.'	AND '.$this->gIldb->in('hucs.participation_status',array('nicht gesetzt','-empty-'),false,'text');
+		}
+		return $return;
 	}
 
 	protected function fetchPartialDataSet($a_query) {
