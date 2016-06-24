@@ -211,6 +211,9 @@ class ilClient
 			return false;
 		}
 		$GLOBALS["ilDB"] = $this->db;
+		$GLOBALS["DIC"]["ilDB"] = function($c) {
+			return $GLOBALS["ilDB"];
+		};
 
 		$this->db_exists = true;
 		return true;
@@ -590,6 +593,9 @@ class ilClient
 		if($a_keep_connection)
 		{
 			$GLOBALS["ilDB"] = $this->db;
+			$GLOBALS["DIC"]["ilDB"] = function($c) {
+				return $GLOBALS["ilDB"];
+			};
 		}
 
 		return true;
