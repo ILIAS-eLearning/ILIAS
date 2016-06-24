@@ -233,17 +233,23 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 					.', hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
 		}
 		$query 		->from('hist_course hc')
-
 					->join('hist_usercoursestatus hucs')
-						->on('hc.crs_id = hucs.crs_id'
-							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text')
-							.'	AND '.$this->crs_topics_filter->deliverQuery());
+						->on($this->userCourseSelectorByStatus($has_participated));
 		if($this->sql_filter_orgus) {
 			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}
 			$query	->group_by('hc.type')
 					->compile();
 		return $query;
+	}
+
+	protected function userCourseSelectorByStatus($has_participated) {
+		$return = $has_participated ?
+				'hc.crs_id = hucs.crs_id'
+				.'	AND hucs.participation_status = '.$this->gIldb->quote('teilgenommen','text') :
+				'hc.crs_id = hucs.crs_id'
+				.'	AND '.$this->gIldb->in('hucs.participation_status',array('nicht gesetzt','-empty-'),false,'text');
+		return $return.'	AND '.$this->crs_topics_filter->deliverQuery();
 	}
 
 	protected function fetchPartialDataSet($a_query) {
