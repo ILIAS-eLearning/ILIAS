@@ -262,7 +262,7 @@ class ilTinyMCE extends ilRTE
 	/**
 	 * {@inheritdoc}
 	 */
-	public function addCustomRTESupport($obj_id, $obj_type, $tags)
+	public function addCustomRTESupport($obj_id, $obj_type, array $tags)
 	{
 		$this->handleImagePluginsBeforeRendering($tags);
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
