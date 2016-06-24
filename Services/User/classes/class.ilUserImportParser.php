@@ -301,7 +301,6 @@ class ilUserImportParser extends ilSaxParser
 		
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
-		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		include_once './Services/Style/System/classes/class.ilStyleDefinition.php';
 		$templates = ilStyleDefinition::_getAllTemplates();
 		
@@ -317,7 +316,8 @@ class ilUserImportParser extends ilSaxParser
 				
 				foreach($styles as $style)
 				{
-					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+					if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 					{
 						continue;
 					}

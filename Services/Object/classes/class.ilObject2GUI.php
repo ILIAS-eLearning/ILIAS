@@ -441,7 +441,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public function withReferences() { return parent::withReferences(); }
 	final public function setCreationMode($a_mode = true) { return parent::setCreationMode($a_mode); }
 	final public function getCreationMode() { return parent::getCreationMode(); }
-	final protected function prepareOutput($a_show_subobjects = true) { return parent::prepareOutput($a_show_subobjects); }
+	final public function prepareOutput($a_show_subobjects = true) { return parent::prepareOutput($a_show_subobjects); }
 	protected function setTitleAndDescription() { return parent::setTitleAndDescription(); }
 	final protected function showUpperIcon() { return parent::showUpperIcon(); }
 //	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }

@@ -16,13 +16,12 @@ include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
 */
 class ilPageLayoutGUI extends ilPageObjectGUI
 {
+	protected $layout_object = null;
+
+
 	/**
 	* Constructor
 	*/
-	
-	var $layout_object = null;
-	
-	
 	function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl;
@@ -199,6 +198,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	function setTabs($a_tabs = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
+
 		$ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->id);
 		$ilTabs->addTarget("properties",
 			$ilCtrl->getLinkTarget($this, "properties"), array("properties","", ""), "", "");

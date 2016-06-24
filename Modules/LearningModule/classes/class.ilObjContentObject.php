@@ -932,7 +932,7 @@ class ilObjContentObject extends ilObject
 		
 		$q = "UPDATE content_object SET ".
 			" stylesheet = ".$ilDB->quote(0, "integer").
-			" WHERE stylesheet = ".$ilDB->quote((int) $this->getId($a_style_id), "integer");
+			" WHERE stylesheet = ".$ilDB->quote((int) $a_style_id, "integer");
 
 		$ilDB->manipulate($q);
 	}
