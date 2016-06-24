@@ -970,10 +970,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				$fold->addStyle($newObj->getId());
-				$fold->update();
+				include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
+				$cont_style_settings = new ilContentStyleSettings();
+				$cont_style_settings->addStyle($newObj->getId());
+				$cont_style_settings->update();
+
 				ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+				$this->ctrl->returnToParent($this);
 			}
 		}
 
@@ -999,10 +1002,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				$fold->addStyle($new_id);
-				$fold->update();
+				include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
+				$cont_style_settings = new ilContentStyleSettings();
+				$cont_style_settings->addStyle($new_id);
+				$cont_style_settings->update();
 				ilObjStyleSheet::_writeStandard($new_id, "1");
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+				$this->ctrl->returnToParent($this);
 			}
 		}
 
@@ -1055,10 +1060,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				$fold->addStyle($newObj->getId());
-				$fold->update();
+				include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
+				$cont_style_settings = new ilContentStyleSettings();
+				$cont_style_settings->addStyle($newObj->getId());
+				$cont_style_settings->update();
 				ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+				$this->ctrl->returnToParent($this);
 			}
 		}
 		return $newObj->getId();
@@ -1265,7 +1272,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				
 			$ilLocator->addItem(ilObject::_lookupTitle(
 				ilObject::_lookupObjId($_GET["ref_id"])),
-				$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", "view"));
+				$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", ""));
 
 			if ($_GET["obj_id"] > 0)
 			{
@@ -1287,8 +1294,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 				$tpl->setUpperIcon(
-					$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui",
-						"editContentStyles"));
+					$this->ctrl->getLinkTargetByClass("ilcontentstylesettings",
+						"edit"));
 		}
 		else
 		{
@@ -2913,10 +2920,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 
-		if ($_GET["baseClass"] == "ilAdministrationGUI")
+		/*if ($_GET["baseClass"] == "ilAdministrationGUI")
 		{
-			$ilCtrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
-		}
+			$ilCtrl->redirectByClass("ilcontentstylesettingsgui", "edit");
+		}*/
 		$ilCtrl->returnToParent($this);
 	}
 

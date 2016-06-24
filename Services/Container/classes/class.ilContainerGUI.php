@@ -347,7 +347,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	/**
 	 * prepare output
 	 */
-	protected function prepareOutput($a_show_subobjects = true)
+	public function prepareOutput($a_show_subobjects = true)
 	{
 		if (parent::prepareOutput($a_show_subobjects))	// return false in admin mode
 		{

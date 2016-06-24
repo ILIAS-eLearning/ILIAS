@@ -15547,3 +15547,7 @@ $ilDB->dropTable('il_dcl_view');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4921>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

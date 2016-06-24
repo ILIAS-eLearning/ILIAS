@@ -98,5 +98,5 @@ class ilObjNewsSettings extends ilObject
 		return true;
 	}
 
-} // END class.ilObjStyleSettings
+}
 ?>

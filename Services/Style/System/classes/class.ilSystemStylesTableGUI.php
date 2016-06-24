@@ -142,7 +142,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("USERS", $a_set["users"]);
 
 		// activation
-		if (ilObjStyleSettings::_lookupActivatedStyle($a_set["template_id"], $a_set["style_id"]))
+		include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+		if (ilSystemStyleSettings::_lookupActivatedStyle($a_set["template_id"], $a_set["style_id"]))
 		{
 			$this->tpl->setVariable("CHECKED", ' checked="checked" ');
 		}
