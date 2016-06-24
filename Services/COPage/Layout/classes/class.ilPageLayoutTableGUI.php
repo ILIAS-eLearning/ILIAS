@@ -46,7 +46,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.stys_pglayout_table_row.html",
-			"Services/Style");
+			"Services/COPage/Layout");
 		$this->setTitle($lng->txt("page_layouts"));
 		
 		//build form

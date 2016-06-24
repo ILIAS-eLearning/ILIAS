@@ -116,7 +116,7 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		$tpl = new ilTemplate("tpl.prop_fontsize.html", true, true, "Services/Style");
+		$tpl = new ilTemplate("tpl.prop_fontsize.html", true, true, "Services/Style/Content");
 		
 		$tpl->setVariable("POSTVAR", $this->getPostVar());
 		
