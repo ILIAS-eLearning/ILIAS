@@ -61,7 +61,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @param int                           $mode
 	 */
 	public function  __construct(ilDclRecordListGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table, $tableview_id, $mode = ilDclRecordListGUI::MODE_VIEW) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->tableview = ilDclTableView::find($tableview_id);
 		$identifier = 'dcl_rl_' . $table->getId() . '_' . $tableview_id;
@@ -161,7 +163,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @description Parse data from record objects to an array that is then set to this table with ::setData()
 	 */
 	private function buildData() {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$data = array();
 		foreach ($this->object_data as $record) {
@@ -226,7 +230,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @return bool|void
 	 */
 	public function fillRow($record_data) {
-		global $ilUser, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 		$record_obj = $record_data['_record'];
 
 		/**
@@ -366,7 +372,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @return mixed
 	 */
 	public function loadProperty($type) {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		if ($ilUser instanceof ilObjUser AND $this->getId()) {
 			$tab_prop = new ilTablePropertiesStorage();

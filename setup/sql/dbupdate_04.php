@@ -15450,7 +15450,9 @@ while ( $global_role = $ilDB->fetchAssoc($query) ) {
 }
 
 //set order of main tables, since main_table_id will be removed
-$ilDB->addTableColumn('il_dcl_table', 'table_order', array('type' => 'integer', 'length' => 8));
+if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
+    $ilDB->addTableColumn('il_dcl_table', 'table_order', array('type' => 'integer', 'length' => 8));
+}
 $main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
 while ($rec = $ilDB->fetchAssoc($main_table_query)) {
     $table = ilDclCache::getTableCache($rec['main_table_id']);
@@ -15542,6 +15544,10 @@ $ilDB->dropTable('il_dcl_view');
 
 ?>
 <#4920>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4921>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

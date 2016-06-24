@@ -93,7 +93,9 @@ class ilDataCollectionDataSet extends ilDataSet {
 
 
 	public function __construct() {
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		parent::__construct();
 		$this->db = $ilDB;
 		$this->user = $ilUser;

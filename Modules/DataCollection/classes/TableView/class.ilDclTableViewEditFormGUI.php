@@ -30,7 +30,9 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 
     function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
     {
-        global $lng, $ilCtrl;
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
         parent::__construct();
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
@@ -42,7 +44,8 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
     }
 
     protected function initForm() {
-        global $rbacreview;
+        global $DIC;
+        $rbacreview = $DIC['rbacreview'];
 
         $this->setTitle($this->tableview->getId() ? $this->lng->txt('settings') : $this->lng->txt('dcl_tableview_add'));
 
@@ -84,35 +87,25 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
     }
 
     public function updateTableView() {
-        if ($this->checkInput())
-        {
-            $this->tableview->setTitle($this->getInput('title'));
-            $this->tableview->setDescription($this->getInput('description'));
-            $this->tableview->setRoles($this->getInput('roles'));
-            $this->tableview->update();
+        $this->tableview->setTitle($this->getInput('title'));
+        $this->tableview->setDescription($this->getInput('description'));
+        $this->tableview->setRoles($this->getInput('roles'));
+        $this->tableview->update();
 
-            ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
-            return true;
-        }
-        return false;
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
     }
     
     public function createTableView() {
-        if ($this->checkInput())
-        {
-            $this->tableview->setTitle($this->getInput('title'));
-            $this->tableview->setDescription($this->getInput('description'));
-            $this->tableview->setRoles($this->getInput('roles'));
-            $this->tableview->setTableId($this->table->getId());
-            $this->tableview->setOrder($this->table->getNewTableviewOrder() * 10);
-            $this->tableview->create();
+        $this->tableview->setTitle($this->getInput('title'));
+        $this->tableview->setDescription($this->getInput('description'));
+        $this->tableview->setRoles($this->getInput('roles'));
+        $this->tableview->setTableId($this->table->getId());
+        $this->tableview->setOrder($this->table->getNewTableviewOrder() * 10);
+        $this->tableview->create();
 
-            $this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
+        $this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
 
-            ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
-            return true;
-        }
-        return false;
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
     }
     
     

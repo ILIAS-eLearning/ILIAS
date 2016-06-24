@@ -68,7 +68,8 @@ class ilDclContentImporter
 	protected $lng;
 
 	public function __construct($ref_id, $table_id = null) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->ref_id = $ref_id;
 		$this->table_id = $table_id;
@@ -80,7 +81,8 @@ class ilDclContentImporter
 	}
 
 	public function import($file, $simulate = false) {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$this->warnings = array();
 		try {

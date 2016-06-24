@@ -65,7 +65,11 @@ class ilDclTableViewEditGUI
      */
     public function __construct(ilDclTableViewGUI $parent_obj, ilDclTable $table, ilDclTableView $tableview)
     {
-        global $lng, $ilCtrl, $tpl, $ilTabs;
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
+        $tpl = $DIC['tpl'];
+        $ilTabs = $DIC['ilTabs'];
         $this->table = $table;
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -98,7 +102,8 @@ class ilDclTableViewEditGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
-                global $ilTabs;
+                global $DIC;
+                $ilTabs = $DIC['ilTabs'];
                 $ilTabs->removeTab('edit');
                 $ilTabs->removeTab('history');
                 $ilTabs->removeTab('clipboard'); // Fixme
@@ -151,8 +156,13 @@ class ilDclTableViewEditGUI
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
         $ilDclTableViewEditFormGUI->setValuesByPost();
-        $ilDclTableViewEditFormGUI->updateTableView();
-        $this->ctrl->redirect($this, 'editGeneralSettings');
+        if ($ilDclTableViewEditFormGUI->checkInput()) {
+            $ilDclTableViewEditFormGUI->updateTableView();
+            $this->ctrl->redirect($this, 'editGeneralSettings');
+        } else {
+            $this->setTabs('general_settings');
+            $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+        }
     }
 
     /**
@@ -162,8 +172,12 @@ class ilDclTableViewEditGUI
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview, $this->table);
         $ilDclTableViewEditFormGUI->setValuesByPost();
-        $ilDclTableViewEditFormGUI->createTableView();
-        $this->ctrl->redirect($this, 'editGeneralSettings');
+        if ($ilDclTableViewEditFormGUI->checkInput()) {
+            $ilDclTableViewEditFormGUI->createTableView();
+            $this->ctrl->redirect($this, 'editGeneralSettings');
+        } else {
+            $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+        }
     }
 
     /**

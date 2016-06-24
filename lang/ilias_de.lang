@@ -8337,6 +8337,7 @@ license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen erre
 license#:#used_licenses#:#Verbrauchte Lizenzen
 license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Benutzers verbraucht eine Lizenz.
 license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizenzierung zu deaktivieren.
+mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie den vom System bereinigten Inhalt und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
@@ -12376,6 +12377,7 @@ dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
+dcl#:#dcl_save_order#:#Sortierung Speichern
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Keine exportierbaren Felder definiert oder keine Daten vorhanden
@@ -12401,8 +12403,8 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
-dcl#:#dcl_create_item#:#Objekt Hinzufügen
-dcl#:#dcl_select#:#Auswahl
+dcl#:#dcl_create_item#:#Ansicht Hinzufügen
+dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_tableview#:#Ansicht

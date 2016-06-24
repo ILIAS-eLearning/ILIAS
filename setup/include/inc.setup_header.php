@@ -34,6 +34,8 @@ error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 
 require_once __DIR__."/../../libs/composer/vendor/autoload.php";
 
+$DIC = new \ILIAS\DI\Container();
+
 define("DEBUG",false);
 set_include_path("./Services/PEAR/lib".PATH_SEPARATOR.ini_get('include_path'));
 require_once "./include/inc.check_pear.php";
@@ -63,10 +65,11 @@ require_once "./include/inc.ilias_version.php";
 include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 
 // include error_handling
-require_once "./Services/Init/classes/class.ilErrorHandling.php";
+require_once "./setup/classes/class.ilSetupErrorHandling.php";
 
-$ilErr = new ilErrorHandling();
+$ilErr = new ilSetupErrorHandling();
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+$DIC["ilErr"] = function($c) { return $GLOBALS["ilErr"]; };
 
 // set ilias pathes
 if($_SERVER['HTTPS'] == 'on')
@@ -106,13 +109,17 @@ include_once './Services/Calendar/classes/class.ilTimeZone.php';
 include_once './Services/Init/classes/class.ilIniFile.php';
 $ini = new ilIniFile(ILIAS_ABSOLUTE_PATH.'/ilias.ini.php');
 $ini->read();
+$DIC["ini"] = function($c) { return $GLOBALS["ini"]; };
+
 $tz = ilTimeZone::initDefaultTimeZone($ini);
 define('IL_TIMEZONE',$tz);
+$DIC["tz"] = function($c) { return $GLOBALS["tz"]; };
 
 define ("TPLPATH","./templates/blueshadow");
 
 // init session
 $sess = new Session();
+$DIC["sess"] = function($c) { return $GLOBALS["sess"]; };
 
 $lang = (isset($_GET["lang"])) ? $_GET["lang"] : $_SESSION["lang"];
 
@@ -120,12 +127,7 @@ $_SESSION["lang"] = $lang;
 
 // init languages
 $lng = new ilLanguage($lang);
-
-
-
-
-
-
+$DIC["lng"] = function($c) { return $GLOBALS["lng"]; };
 
 include_once './Services/Logging/classes/class.ilLoggingSetupSettings.php';
 $logging_settings = new ilLoggingSetupSettings();
@@ -135,20 +137,24 @@ include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 
 $log = ilLoggerFactory::newInstance($logging_settings)->getComponentLogger('setup');
 $ilLog = $log;
+$DIC["ilLog"] = function($c) { return $GLOBALS["ilLog"]; };
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
 //$tpl = new ilTemplate("./setup/templates");
 //$tpl->loadTemplatefile("tpl.main.html", true, true);
 $tpl = new ilTemplate("tpl.main.html", true, true, "setup");
+$DIC["tpl"] = function($c) { return $GLOBALS["tpl"]; };
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();
 $ilCtrlStructureReader->setErrorObject($ilErr);
+$DIC["ilCtrlStructureReader"] = function($c) { return $GLOBALS["ilCtrlStructureReader"]; };
 
 require_once "./Services/Utilities/classes/class.ilBenchmark.php";
 $ilBench = new ilBenchmark();
 $GLOBALS['ilBench'] = $ilBench;
+$DIC["ilBench"] = function($c) { return $GLOBALS["ilBench"]; };
 
 include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 include_once("./Services/Database/classes/class.ilMySQLAbstraction.php");

@@ -22,7 +22,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 */
 	public function doRead()
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$message = "Standard fields cannot be read from DB";
 		ilUtil::sendFailure($message);
 		$ilLog->write("[ilDclStandardField] ".$message);
@@ -33,7 +34,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 */
 	public function doCreate()
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$message = "Standard fields cannot be written to DB";
 		ilUtil::sendFailure($message);
 		$ilLog->write("[ilDclStandardField] ".$message);
@@ -77,7 +79,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	{
 
 		//TODO: this isn't particularly pretty especially as $lng is used in the model. On the long run the standard fields should be refactored into "normal" fields.
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$stdfields = array(
 			array("id"=>"id", "title" => $lng->txt("dcl_id"), "description" => $lng->txt("dcl_id_description"), "datatype_id" => ilDclDatatype::INPUTFORMAT_NUMBER, "required" => true),
 			array("id"=>"create_date", "title" => $lng->txt("dcl_creation_date"), "description" => $lng->txt("dcl_creation_date_description"), "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME, "required" => true),
@@ -195,7 +198,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 * @return ilDclRecordQueryObject|null
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = NULL) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$where_additions = "";
 		$join_str = "";

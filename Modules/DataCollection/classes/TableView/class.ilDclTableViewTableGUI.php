@@ -32,7 +32,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      */
     public function __construct(ilDclTableViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {
-        global $lng, $ilCtrl;
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->parent_obj = $a_parent_obj;
@@ -45,7 +47,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $ilCtrl->setParameterByClass('ildcltableviewgui', 'table_id', $table->getId());
             $this->setFormAction($ilCtrl->getFormActionByClass('ildcltableviewgui'));
             $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
-            $this->addCommandButton('saveTableViewOrder', $lng->txt('dcl_save'));
+            $this->addCommandButton('saveTableViewOrder', $lng->txt('dcl_save_order'));
 
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
             $this->setFormName('tableview_list');

@@ -21,7 +21,8 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ref_field = ilDclCache::getFieldCache($this->getProperty(self::PROP_REFERENCE));
 		if($this->hasProperty(self::PROP_N_REFERENCE)) {
@@ -57,7 +58,8 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$n_ref = $this->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE);
 

@@ -14,7 +14,9 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 
     public function __construct(ilDclTableViewEditGUI $a_parent_obj)
     {
-        global $lng, $ilCtrl;
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
         parent::__construct($a_parent_obj);
 
         $this->setId('dcl_tableviews');

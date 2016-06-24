@@ -11,13 +11,27 @@ require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 class ilObjTermsOfService extends ilObject2
 {
 	/**
+	 * @var ilDBInterface
+	 */
+	protected $db;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+	
+	/**
 	 * @param int  $a_id
 	 * @param bool $a_reference
 	 */
 	public function __construct($a_id = 0, $a_reference = true)
 	{
-		
+		global $DIC;
+
 		parent::__construct($a_id, $a_reference);
+
+		$this->db       = $DIC['ilDB'];
+		$this->settings = $DIC['ilSetting'];
 	}
 
 	/**
@@ -33,18 +47,10 @@ class ilObjTermsOfService extends ilObject2
 	 */
 	public function resetAll()
 	{
-		/**
-		 * @var $ilDB      ilDBInterface
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilDB, $ilSetting;
+		$in = $this->db->in('usr_id', array(ANONYMOUS_USER_ID, SYSTEM_USER_ID), true, 'integer');
+		$this->db->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
 
-		// @todo: Delegate
-
-		$in = $ilDB->in('usr_id', array(ANONYMOUS_USER_ID, SYSTEM_USER_ID), true, 'integer');
-		$ilDB->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
-
-		$ilSetting->set('tos_last_reset', time());
+		$this->settings->set('tos_last_reset', time());
 	}
 
 	/**
@@ -52,14 +58,7 @@ class ilObjTermsOfService extends ilObject2
 	 */
 	public function getLastResetDate()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		// @todo: Delegate
-
-		return new ilDateTime($ilSetting->get('tos_last_reset'), IL_CAL_UNIX);
+		return new ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
 	}
 
 	/**

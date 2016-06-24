@@ -25,12 +25,10 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	 */
 	function __construct($a_skill, $a_skill_level_id)
 	{
-		global $lng;
-
-		$lng->loadLanguageModule("skmg");
-
 		$this->skill = $a_skill;
 		$this->skill_level_id = $a_skill_level_id;
+		parent::__construct();
+		$this->lng->loadLanguageModule('skmg');
 	}
 
 	/**

@@ -1537,7 +1537,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				$item->toggleVisible($this->getActivationVisibility());
 			}						
 			
-			$item->update($this->ref_id);		
+			//$item->update($this->ref_id);		
 		}
 
 		if (!$properties_only)

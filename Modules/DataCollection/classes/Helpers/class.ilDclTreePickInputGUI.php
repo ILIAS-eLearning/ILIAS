@@ -40,7 +40,9 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI {
 	 * @param string $post_var
 	 */
 	public function __construct($title, $post_var) {
-		global $lng, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		/**
 		 * @var $tpl iltemplate
 		 */
@@ -63,7 +65,8 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI {
 	 * @return string
 	 */
 	public function getHtml() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$tpl = new ilTemplate("tpl.dcl_tree.html", true, true, "Modules/DataCollection");
 		$tpl->setVariable("FIELD_ID", $this->getPostVar());
 		$tpl->setVariable("AJAX_LINK", $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", "searchObjects"));

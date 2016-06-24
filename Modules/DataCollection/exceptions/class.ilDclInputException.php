@@ -59,7 +59,8 @@ class ilDclInputException extends ilException {
 	 * @return string
 	 */
 	public function __toString() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		switch ($this->exception_type) {
 			case self::TYPE_EXCEPTION:

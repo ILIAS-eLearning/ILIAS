@@ -56,7 +56,12 @@ class ilDclFieldListGUI
 	 */
 	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
 	{
-        global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabs;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
+        $ilToolbar = $DIC['ilToolbar'];
+        $tpl = $DIC['tpl'];
+        $ilTabs = $DIC['ilTabs'];
 
 		$this->table_id = $table_id;
 		$this->parent_obj = $a_parent_obj;

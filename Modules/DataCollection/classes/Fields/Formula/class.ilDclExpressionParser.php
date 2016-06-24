@@ -282,7 +282,8 @@ class ilDclExpressionParser {
 				// Workaround for standardfields - title my be ID
 				$field = $table->getField($field_title);
 				if ($field === NULL) {
-					global $lng;
+					global $DIC;
+					$lng = $DIC['lng'];
 					/**
 					 * @var $lng ilLanguage
 					 */
