@@ -241,13 +241,13 @@ class ilRTE
 		switch($a_direction)
 		{
 			case 0:
-				$a_text = preg_replace("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", "src=\"il_" . $nic . "_mob_" . "\\2" . "\"", $a_text);
+				$a_text = preg_replace('/src="([^"]*?\/mobs\/mm_([0-9]+)\/.*?)\"/', 'src="il_' . IL_INST_ID . '_mob_\\2"', $a_text);
 				break;
 
 			default:
 				require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 				$resulttext = $a_text;
-				if(preg_match_all("/src\=\"il_([0-9]+)_mob_([0-9]+)\"/", $a_text, $matches))
+				if(preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches))
 				{
 					foreach($matches[2] as $idx => $mob)
 					{
@@ -282,7 +282,7 @@ class ilRTE
 		switch($a_direction)
 		{
 			case 0:
-				if(preg_match_all("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", $a_text, $matches))
+				if(preg_match_all('/src="([^"]*?\/mobs\/mm_([0-9]+)\/.*?)\"/', $a_text, $matches))
 				{
 					foreach($matches[2] as $idx => $mob)
 					{
@@ -295,7 +295,7 @@ class ilRTE
 				break;
 
 			default:
-				if(preg_match_all("/src\=\"il_([0-9]+)_mob_([0-9]+)\"/", $a_text, $matches))
+				if(preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches))
 				{
 					foreach($matches[2] as $idx => $mob)
 					{
