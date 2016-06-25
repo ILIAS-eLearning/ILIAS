@@ -83,6 +83,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->prepareOutput();
+				$this->tabs->activateTab("perm_settings");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
@@ -172,8 +173,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$this->tabs_gui->addTab("perm_settings", $this->lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
 	}
 
