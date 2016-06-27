@@ -58,6 +58,7 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("ilTree", function ($DIC) { return $DIC->repositoryTree(); })
 			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
 			// TODO: Can't test these until context for unit tests does not have HTML.
+			//, array("ilTemplate", function ($DIC) { return $DIC->ui()->mainTemplate(); })
 			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
 			//, array("ilTabsGUI", function ($DIC) { return $DIC->tabs(); })
 			//, array("ILIAS\\UI\\Factory", function ($DIC) { return $DIC->ui()->factory();})
