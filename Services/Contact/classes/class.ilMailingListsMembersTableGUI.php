@@ -27,14 +27,10 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = '', ilMailingList $mailing_list)
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
+		global $DIC;
 
-		$this->lng  = $lng;
-		$this->ctrl = $ilCtrl;
+		$this->lng  = $DIC['lng'];
+		$this->ctrl = $DIC['ilCtrl'];
 
 		$this->setId('show_mlng_mmbrs_list_tbl_' . $mailing_list->getId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -44,8 +40,6 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
 		$this->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');
 
 		$this->setDefaultOrderField('title');
-		$this->addCommandButton('showAssignmentForm', $this->lng->txt('add'));
-		$this->addCommandButton('showMailingLists', $this->lng->txt('back'));
 
 		$this->initColumns();
 	}
