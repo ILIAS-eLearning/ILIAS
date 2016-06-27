@@ -64,6 +64,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		}
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('buddysystem');
 		$this->parentObject = $a_parent_obj;
 		$mode = array();
 		if ($type == 'crs')

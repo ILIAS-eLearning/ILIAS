@@ -57,6 +57,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 		$this->rbacsystem = $DIC['rbacsystem'];
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('buddysystem');
 
 		if($context == "mail")
 		{
