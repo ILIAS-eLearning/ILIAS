@@ -68,6 +68,11 @@ class ilContactGUI
 	protected $rbacsystem;
 
 	/**
+	 * @var bool
+	 */
+	protected $has_sub_tabs = false;
+
+	/**
 	 * ilContactGUI constructor.
 	 */
 	public function __construct()
@@ -248,7 +253,7 @@ class ilContactGUI
 	protected function activateTab($a_id)
 	{
 		if($this->has_sub_tabs)
-		{		
+		{
 			$this->tabs_gui->activateSubTab($a_id);
 		}
 		else
@@ -603,7 +608,7 @@ class ilContactGUI
 		$form->setFormAction($this->ctrl->getFormAction($this, 'showContacts'));
 
 		$this->tpl->setTitle($this->lng->txt('mail_invite_users_to_chat'));
-		$this->tpl->setContent($form->getHtml());
+		$this->tpl->setContent($form->getHTML());
 		$this->tpl->show();
 	}
 }
