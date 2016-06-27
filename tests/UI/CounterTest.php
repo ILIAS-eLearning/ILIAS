@@ -58,41 +58,6 @@ class CounterTest extends ILIAS_UI_TestBase {
 		catch (\InvalidArgumentException $e) {}
 	}
 
-	public function test_known_counters_only_withType() {
-		$f = $this->getCounterFactory();
-
-		try {
-			$f->status(1)->withType("FOO");
-			$this->assertFalse("We should not get here");
-		}
-		catch (\InvalidArgumentException $e) {}
-	}
-
-	public function test_withType() {
-		$f = $this->getCounterFactory();
-
-		$c = $f->novelty(0)->withType(C\Counter\Counter::STATUS);
-
-		$this->assertEquals(C\Counter\Counter::STATUS, $c->getType());
-	}
-
-	public function test_immutability_withType() {
-		$f = $this->getCounterFactory();
-
-		$c = $f->novelty(0);
-		$c2 = $c->withType(C\Counter\Counter::STATUS);
-
-		$this->assertEquals(C\Counter\Counter::NOVELTY, $c->getType());
-	}
-
-	public function test_withNumber() {
-		$f = $this->getCounterFactory();
-
-		$c = $f->novelty(0)->withNumber(1);
-
-		$this->assertEquals(1, $c->getNumber());
-	}
-
 	/**
 	 * @dataProvider no_number_provider
 	 */
@@ -102,19 +67,6 @@ class CounterTest extends ILIAS_UI_TestBase {
 		try {
 			$f->status($no_number);
 			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {}
-	}
-
-	/**
-	 * @dataProvider no_number_provider
-	 */
-	public function test_int_numbers_only_withNumber($no_number) {
-		$f = $this->getCounterFactory();
-
-		try {
-			$f->status(1)->withNumber($no_number);
-			$this->assertFalse("We should not get here");
 		}
 		catch (\InvalidArgumentException $e) {}
 	}

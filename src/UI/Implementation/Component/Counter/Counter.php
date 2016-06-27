@@ -46,27 +46,7 @@ class Counter implements Spec {
 	/**
 	 * @inheritdoc
 	 */
-	public function withType($type) {
-		$this->checkArgIsElement("type", $type, self::$types, "counter type");
-		$clone = clone $this;
-		$clone->type = $type;
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function getNumber() {
 		return $this->number;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withNumber($number) {
-		$this->checkIntArg("number", $number);
-		$clone = clone $this;
-		$clone->number = $number;
-		return $clone;
 	}
 }

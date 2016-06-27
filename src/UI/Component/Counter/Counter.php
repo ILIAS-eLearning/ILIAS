@@ -20,31 +20,9 @@ interface Counter extends \ILIAS\UI\Component\Component {
 	public function getType();
 
 	/**
-	 * Get a new counter resembling this one, but with a new type.
-	 *
-	 * TODO: Maybe this should go away. Why would i need to change the type
-	 * of a counter after construction?
-	 *
-	 * @param	string	$type	One of counter types.
-	 * @return	Counter
-	 */
-	public function withType($type);
-
-	/**
 	 * Get the number on the counter.
 	 *
 	 * @return	int
 	 */
 	public function getNumber();
-
-	/**
-	 * Get a new counter resembling this one, but with a new type.
-	 *
-	 * TODO: Maybe this should go away. Why would i need to change the number
-	 * on a counter after construction?
-	 *
-	 * @param	int		$number
-	 * @return	Counter
-	 */
-	public function withNumber($number);
 }
