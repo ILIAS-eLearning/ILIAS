@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "074f1742b9bac8476cd29792a5ca7ac0",
-    "content-hash": "e94e7a2b52a3f7afcac419d51c1b5913",
+    "hash": "12cdc836b3119914ce1af084c990acb2",
+    "content-hash": "38463a2c03ea8a6cfc54c0e36d59e39d",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -69,6 +69,11 @@
                 "php": ">=5.2"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS HTML Purifier Patches": "patches/htmlpurifier.patch"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "HTMLPurifier": "library/"
@@ -514,6 +519,55 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "c5a7e7fc273c758b92b85dcb9c46149ccda89623"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/c5a7e7fc273c758b92b85dcb9c46149ccda89623",
+                "reference": "c5a7e7fc273c758b92b85dcb9c46149ccda89623",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-06-14 11:18:07"
         },
         {
             "name": "technosophos/LibRIS",

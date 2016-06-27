@@ -19,6 +19,10 @@ class ComposerStaticInit52a6e2a81f6d9c254f5f67d3bf073dee
         array (
             'Whoops\\' => 7,
         ),
+        'S' => 
+        array (
+            'Symfony\\Component\\Yaml\\' => 23,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -37,6 +41,10 @@ class ComposerStaticInit52a6e2a81f6d9c254f5f67d3bf073dee
         'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
+        'Symfony\\Component\\Yaml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
         'Monolog\\' => 
         array (
