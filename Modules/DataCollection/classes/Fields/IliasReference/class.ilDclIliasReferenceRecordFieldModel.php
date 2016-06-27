@@ -31,7 +31,9 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	}
 
 	public function getStatus(){
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$usr_id = $ilUser->getId();
 		$obj_ref = $this->getValue();
 		$obj_id = ilObject2::_lookupObjectId($obj_ref);

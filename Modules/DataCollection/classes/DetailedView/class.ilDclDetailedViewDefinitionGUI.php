@@ -32,7 +32,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	 * @param int $a_definition_id
 	 */
 	public function __construct($tableview_id, $a_definition_id = 0) {
-		global $tpl, $ilCtrl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
@@ -67,7 +69,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	 * execute command
 	 */
 	public function executeCommand() {
-		global $ilLocator, $lng;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
+		$lng = $DIC['lng'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -92,7 +96,8 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 
 
 	public function showPage() {
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
@@ -145,7 +150,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	 * confirmDelete
 	 */
 	public function confirmDelete() {
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
@@ -165,14 +173,17 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	 * cancelDelete
 	 */
 	public function cancelDelete() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$ilCtrl->redirect($this, "edit");
 	}
 
 
 	public function deleteView() {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		if ($this->tableview_id && ilDclDetailedViewDefinition::exists($this->tableview_id)) {
 			include_once("class.ilDclDetailedViewDefinition.php");
@@ -191,7 +202,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	 */
 	function releasePageLock()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$this->getPageObject()->releasePageLock();
 		ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);

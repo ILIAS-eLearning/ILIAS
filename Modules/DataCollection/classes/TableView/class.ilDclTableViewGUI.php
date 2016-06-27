@@ -49,7 +49,12 @@ class ilDclTableViewGUI
      */
     public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
     {
-        global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabs;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
+        $ilToolbar = $DIC['ilToolbar'];
+        $tpl = $DIC['tpl'];
+        $ilTabs = $DIC['ilTabs'];
 
         $this->parent_obj = $a_parent_obj;
         $this->ctrl = $ilCtrl;

@@ -1723,8 +1723,6 @@ class ilObjUserGUI extends ilObjectGUI
 				'skin_style');
 			$templates = $styleDefinition->getAllTemplates();
 
-			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
-
 			$options = array();
 			if (count($templates) > 0 && is_array ($templates))
 			{
@@ -1735,7 +1733,8 @@ class ilObjUserGUI extends ilObjectGUI
 					$styles = $styleDef->getStyles();
 					foreach ($styles as $style)
 					{
-						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 						{
 							continue;
 						}

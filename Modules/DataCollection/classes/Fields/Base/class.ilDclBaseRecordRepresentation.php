@@ -14,7 +14,10 @@ class ilDclBaseRecordRepresentation {
 	protected $ctrl;
 
 	public function __construct(ilDclBaseRecordFieldModel $record_field) {
-		global $lng, $ilAccess, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->lng = $lng;
 		$this->access = $ilAccess;

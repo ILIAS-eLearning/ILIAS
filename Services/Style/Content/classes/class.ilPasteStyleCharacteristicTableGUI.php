@@ -34,7 +34,7 @@ class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
 
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.paste_style_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.paste_style_row.html", "Services/Style/Content");
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 

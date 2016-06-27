@@ -153,7 +153,8 @@ class ilDclTable {
 	 * Read table
 	 */
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM il_dcl_table WHERE id = " . $ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
@@ -190,7 +191,8 @@ class ilDclTable {
 	 * @param boolean $delete_main_table true to delete table anyway
 	 */
 	public function doDelete($delete_main_table = false) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		/** @var $ilDB ilDB */
 		foreach ($this->getRecords() as $record) {
@@ -222,7 +224,8 @@ class ilDclTable {
 	 * @param bool $create_views
 	 */
 	public function doCreate($create_tablefield_setting = true, $create_standardview = true) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$id = $ilDB->nextId("il_dcl_table");
 		$this->setId($id);
@@ -257,7 +260,8 @@ class ilDclTable {
 	 * doUpdate
 	 */
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->update("il_dcl_table", array(
 			"obj_id" => array( "integer", $this->getObjId() ),
@@ -366,7 +370,8 @@ class ilDclTable {
 
 	protected function loadRecords() {
 		if ($this->records == NULL) {
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 
 			$records = array();
 			$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
@@ -431,7 +436,8 @@ class ilDclTable {
 
 	protected function loadFields() {
 		if (!$this->fields) {
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 
 			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
 			          INNER JOIN il_dcl_tfield_set AS setting ON (setting.table_id = field.table_id AND field.id = setting.field)
@@ -776,7 +782,9 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToViewRecord($ref_id, $record) {
-		global $ilUser, $rbacreview;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
 		/** @var ilRbacReview $rbacreview */
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
 			return true;
@@ -801,7 +809,8 @@ class ilDclTable {
 	 * @return bool
 	 */
 	protected function doesRecordBelongToUser(ilDclBaseRecordModel $record) {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		return ($ilUser->getId() == $record->getOwner());
 	}
@@ -1285,7 +1294,8 @@ class ilDclTable {
 	 * @return bool returns true iff there exists a table with id $table_id
 	 */
 	public static function _tableExists($table_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT * FROM il_dcl_table WHERE id = " . $table_id;
 		$result = $ilDB->query($query);
 
@@ -1300,7 +1310,8 @@ class ilDclTable {
 	 * @return int
 	 */
 	public static function _getTableIdByTitle($title, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT id FROM il_dcl_table WHERE title = ' . $ilDB->quote($title, 'text') . ' AND obj_id = '
 			. $ilDB->quote($obj_id, 'integer'));
 		$id = 0;
@@ -1341,7 +1352,8 @@ class ilDclTable {
 	 * 
 	 */
 	public function updateOrder(){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT MAX(table_order) AS table_order FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($this->getCollectionObject()->getId(), 'integer'));
 		$this->table_order = $ilDB->fetchObject($result)->table_order + 10;
 		$ilDB->query('UPDATE il_dcl_table SET table_order = ' . $ilDB->quote($this->table_order, 'integer') . ' WHERE id = ' . $ilDB->quote($this->getId(), 'integer'));
@@ -1381,7 +1393,8 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public static function _hasFieldByTitle($title, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT * FROM il_dcl_field WHERE table_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = '
 			. $ilDB->quote($title, 'text'));
 
@@ -1401,7 +1414,10 @@ class ilDclTable {
 	 * @return array Array with two keys: 'record' => Contains the record objects, 'total' => Number of total records (without slicing)
 	 */
 	public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
-		global $ilDB, $ilUser, $rbacreview;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
 
 		$sort_field = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
 		$direction = strtolower($direction);
@@ -1463,7 +1479,8 @@ class ilDclTable {
 		}
 
 		//var_dump($sql);
-		/*global $ilLog;
+		/*global $DIC;
+		/*$ilLog = $DIC['ilLog'];
 		$ilLog->write($sql, ilLogLevel::CRITICAL);*/
 
 		$set = $ilDB->query($sql);

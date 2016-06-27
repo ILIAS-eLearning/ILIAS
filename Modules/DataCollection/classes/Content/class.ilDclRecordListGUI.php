@@ -59,7 +59,9 @@ class ilDclRecordListGUI {
 	 * @param                        $table_id
 	 */
 	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id) {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 
@@ -93,7 +95,8 @@ class ilDclRecordListGUI {
 	 * execute command
 	 */
 	public function executeCommand() {
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		if (!$this->checkAccess()){
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
@@ -136,7 +139,9 @@ class ilDclRecordListGUI {
 	}
 
 	public function listRecords($use_tableview_filter = false) {
-		global $tpl, $ilToolbar;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
@@ -184,7 +189,8 @@ class ilDclRecordListGUI {
 	}
 
 	public function showImportExcel($form = NULL) {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		if (!$form) {
 			$form = $this->initImportForm();
 		}
@@ -259,7 +265,8 @@ class ilDclRecordListGUI {
 	 * @param $warnings
 	 */
 	public function endImport($i, $warnings) {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "Modules/DataCollection");
 		$output->setVariable("IMPORT_TERMINATED", $this->lng->txt("dcl_import_terminated") . ": " . $i);
 		foreach ($warnings as $warning) {
@@ -322,7 +329,9 @@ class ilDclRecordListGUI {
 	 * send File to User
 	 */
 	public function sendFile() {
-		global $ilAccess, $ilUser;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 		//need read access to receive file
 		if ($ilAccess->checkAccess("read", "", $this->parent_obj->ref_id)) {
 
@@ -356,7 +365,9 @@ class ilDclRecordListGUI {
 	 *
 	 */
 	public function confirmDeleteRecords() {
-		global $tpl, $ilTabs;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
 		/** @var ilTabsGUI $ilTabs */
 		$ilTabs->clearSubTabs();
 
@@ -441,7 +452,8 @@ class ilDclRecordListGUI {
 	 *
 	 */
 	protected function setSubTabs($active_id = 'mode') {
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		/** @var ilTabsGUI $ilTabs */
 		$this->ctrl->setParameter($this, 'mode', self::MODE_VIEW);
@@ -519,7 +531,8 @@ class ilDclRecordListGUI {
 	 */
 	protected function createSwitchers()
 	{
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 		$ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
 
 		//table switcher

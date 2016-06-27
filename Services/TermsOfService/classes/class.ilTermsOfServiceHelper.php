@@ -12,12 +12,9 @@ class ilTermsOfServiceHelper
 	 */
 	public static function isEnabled()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
+		global $DIC;
 
-		return (bool)$ilSetting->get('tos_status', 0);
+		return (bool)$DIC['ilSetting']->get('tos_status', 0);
 	}
 
 	/**
@@ -25,12 +22,9 @@ class ilTermsOfServiceHelper
 	 */
 	public static function setStatus($status)
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
+		global $DIC;
 
-		$ilSetting->set('tos_status', (int)$status);
+		$DIC['ilSetting']->set('tos_status', (int)$status);
 	}
 
 	/**
@@ -107,14 +101,11 @@ class ilTermsOfServiceHelper
 	 */
 	private static function getDataGatewayFactory()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php';
 		$factory = new ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($ilDB);
+		$factory->setDatabaseAdapter($DIC['ilDB']);
 		return $factory;
 	}
 }

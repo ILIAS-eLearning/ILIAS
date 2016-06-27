@@ -49,16 +49,11 @@ class ilBuddySystemGUI
 	 */
 	public function __construct()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $ilUser ilObjUser
-		 * @var $lng    ilLanguage
-		 */
-		global $ilCtrl, $ilUser, $lng;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
-		$this->user = $ilUser;
-		$this->lng  = $lng;
+		$this->ctrl = $DIC['ilCtrl'];
+		$this->user = $DIC['ilUser'];
+		$this->lng  = $DIC['lng'];
 
 		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
@@ -73,31 +68,26 @@ class ilBuddySystemGUI
 	 */
 	public static function initializeFrontend()
 	{
-		/**
-		 * @var $tpl    ilTemplate
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng    ilLanguage
-		 */
-		global $tpl, $ilCtrl, $lng;
+		global $DIC;
 
 		if(!self::$frontend_initialized)
 		{
-			$lng->loadLanguageModule('buddysystem');
+			$DIC->language()->loadLanguageModule('buddysystem');
 
 			require_once 'Services/JSON/classes/class.ilJsonUtil.php';
 
-			$tpl->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
+			$DIC['tpl']->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
 
 			$config = new stdClass();
-			$config->http_post_url        = $ilCtrl->getFormActionByClass(array('ilUIPluginRouterGUI', 'ilBuddySystemGUI'), '', '', true, false);
+			$config->http_post_url        = $DIC->ctrl()->getFormActionByClass(array('ilUIPluginRouterGUI', 'ilBuddySystemGUI'), '', '', true, false);
 			$config->transition_state_cmd = 'transition';
-			$tpl->addOnLoadCode("il.BuddySystem.setConfig(".ilJsonUtil::encode($config).");");
+			$DIC['tpl']->addOnLoadCode("il.BuddySystem.setConfig(".ilJsonUtil::encode($config).");");
 
 			$btn_config = new stdClass();
 			$btn_config->bnt_class = 'ilBuddySystemLinkWidget';
 
-			$tpl->addOnLoadCode("il.BuddySystemButton.setConfig(".ilJsonUtil::encode($btn_config).");");
-			$tpl->addOnLoadCode("il.BuddySystemButton.init();");
+			$DIC['tpl']->addOnLoadCode("il.BuddySystemButton.setConfig(".ilJsonUtil::encode($btn_config).");");
+			$DIC['tpl']->addOnLoadCode("il.BuddySystemButton.init();");
 
 			self::$frontend_initialized = true;
 		}
@@ -249,11 +239,6 @@ class ilBuddySystemGUI
 	 */
 	private function transitionCommand()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		if(!$this->ctrl->isAsynch())
 		{
 			throw new RuntimeException('This action only supports AJAX http requests');
@@ -306,7 +291,7 @@ class ilBuddySystemGUI
 			}
 			catch(Exception $e)
 			{
-				$response->message = $lng->txt('buddy_bs_action_not_possible');
+				$response->message = $this->lng->txt('buddy_bs_action_not_possible');
 			}
 
 			$response->state      = get_class($relation->getState());
@@ -314,7 +299,7 @@ class ilBuddySystemGUI
 		}
 		catch(Exception $e)
 		{
-			$response->message = $lng->txt('buddy_bs_action_not_possible');
+			$response->message = $this->lng->txt('buddy_bs_action_not_possible');
 		}
 
 		echo ilJsonUtil::encode($response);

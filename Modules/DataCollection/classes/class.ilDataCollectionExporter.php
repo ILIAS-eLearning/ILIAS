@@ -24,7 +24,8 @@ class ilDataCollectionExporter extends ilXmlExporter {
 
 
 	public function init() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->ds = new ilDataCollectionDataSet();
 		$this->ds->setDSPrefix('ds');
 		$this->db = $ilDB;

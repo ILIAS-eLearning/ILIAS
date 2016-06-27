@@ -25,10 +25,18 @@ class ilBuddySystemRelationStateFactory
 	protected static $state_option_array;
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 *
 	 */
 	protected function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC['lng'];
 	}
 
 	/**
@@ -105,11 +113,6 @@ class ilBuddySystemRelationStateFactory
 	 */
 	public function getStatesAsOptionArray($with_initial_state = false)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-		
 		if(null !== self::$state_option_array[$with_initial_state])
 		{
 			return self::$state_option_array[$with_initial_state];
@@ -121,7 +124,7 @@ class ilBuddySystemRelationStateFactory
 		{
 			if($with_initial_state || !$state->isInitial())
 			{
-				$options[get_class($state)] = $lng->txt('buddy_bs_state_' . strtolower($state->getName()));
+				$options[get_class($state)] = $this->lng->txt('buddy_bs_state_' . strtolower($state->getName()));
 			}
 		}
 

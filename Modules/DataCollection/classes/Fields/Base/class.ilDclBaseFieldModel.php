@@ -133,7 +133,8 @@ class ilDclBaseFieldModel {
 	 * @return int
 	 */
 	public static function _getFieldIdByTitle($title, $table_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT id FROM il_dcl_field WHERE title = ' . $ilDB->quote($title, 'text') . ' AND table_id = '
 			. $ilDB->quote($table_id, 'integer'));
 		$id = 0;
@@ -382,7 +383,8 @@ class ilDclBaseFieldModel {
 	 * Read field
 	 */
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		//THEN 1 ELSE 0 END AS has_options FROM il_dcl_field f WHERE id = ".$ilDB->quote($this->getId(),"integer");
 		$query = "SELECT * FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "integer");
@@ -420,7 +422,8 @@ class ilDclBaseFieldModel {
 	 * Create new field
 	 */
 	public function doCreate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->getLocked() == NULL ? $this->setLocked(false) : true;
 
 		if (! ilDclTable::_tableExists($this->getTableId())) {
@@ -457,7 +460,8 @@ class ilDclBaseFieldModel {
 	 * Update field
 	 */
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->update("il_dcl_field", array(
 			"table_id" => array(
@@ -525,7 +529,8 @@ class ilDclBaseFieldModel {
 	 * Remove field and properties
 	 */
 	public function doDelete() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// delete tablefield setting.
 		ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId())->delete();
@@ -774,7 +779,8 @@ class ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$sql_obj = new ilDclRecordQueryObject();
 

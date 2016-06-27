@@ -251,7 +251,8 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         }
         else
         {   //standard field
-            global $lng;
+            global $DIC;
+            $lng = $DIC['lng'];
             $stdfield = new ilDclStandardField();
             $stdfield->setId($this->field);
             $stdfield->setDatatypeId(ilDclStandardField::_getDatatypeForId($this->field));

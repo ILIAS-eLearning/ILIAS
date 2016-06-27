@@ -29,7 +29,8 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		} else {
 			$field = $this->getRecordField()->getField();
 			if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
-				global $ilDB;
+				global $DIC;
+				$ilDB = $DIC['ilDB'];
 				/** @var ilDB $ilDB */
 				$ref_record = ilDclCache::getRecordCache($value);
 				$ref_table = $ref_record->getTable();
@@ -55,7 +56,8 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 * @return string
 	 */
 	protected function getLinkHTML($link_name = NULL, $value) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if (!$value || $value == "-") {
 			return "";

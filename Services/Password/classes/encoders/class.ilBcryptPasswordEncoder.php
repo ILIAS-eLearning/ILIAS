@@ -341,7 +341,9 @@ class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswor
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		if(!strlen(trim($this->getClientSalt())) || !preg_match('/^.{' . self::MIN_SALT_SIZE . ',}$/', $this->getClientSalt()))
 		{
@@ -367,7 +369,9 @@ class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswor
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($lng->txt('passwd_encoder_' . $this->getName()));

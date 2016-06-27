@@ -76,7 +76,11 @@ class ilDclRecordEditGUI {
 	 * @param ilObjDataCollectionGUI $parent_obj
 	 */
 	public function __construct(ilObjDataCollectionGUI $parent_obj) {
-		global $ilCtrl, $tpl, $lng, $ilUser;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -414,7 +418,9 @@ class ilDclRecordEditGUI {
 	 * Save record
 	 */
 	public function save() {
-		global $ilAppEventHandler, $ilUser;
+		global $DIC;
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$ilUser = $DIC['ilUser'];
 
 		$this->initForm();
 

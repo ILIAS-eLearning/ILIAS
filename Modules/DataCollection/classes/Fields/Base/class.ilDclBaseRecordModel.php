@@ -80,7 +80,8 @@ class ilDclBaseRecordModel {
 	 * doUpdate
 	 */
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->update("il_dcl_record", array(
 			"table_id" => array(
@@ -119,7 +120,8 @@ class ilDclBaseRecordModel {
 	 * Read record
 	 */
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//build query
 		$query = "Select * From il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer") . " ORDER BY id";
 
@@ -138,7 +140,8 @@ class ilDclBaseRecordModel {
 	 * @throws ilException
 	 */
 	public function doCreate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (! ilDclTable::_tableExists($this->getTableId())) {
 			throw new ilException("The field does not have a related table!");
@@ -635,7 +638,9 @@ class ilDclBaseRecordModel {
 	 * Delete
 	 */
 	public function doDelete() {
-		global $ilDB, $ilAppEventHandler;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$this->loadRecordFields();
 		foreach ($this->recordfields as $recordfield) {

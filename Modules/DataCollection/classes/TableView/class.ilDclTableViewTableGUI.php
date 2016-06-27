@@ -32,7 +32,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      */
     public function __construct(ilDclTableViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {
-        global $lng, $ilCtrl;
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->parent_obj = $a_parent_obj;
