@@ -17,6 +17,8 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 
 		$tpl = $this->getTemplate("tpl.glyph.html", true, true);
+
+		$tpl->setVariable("ACTION", $component->getAction());
 		$tpl->touchBlock($component->getType());
 
 		foreach ($component->getCounters() as $counter) {

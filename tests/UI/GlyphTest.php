@@ -62,6 +62,17 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	/**
 	 * @dataProvider glyph_type_provider
 	 */
+	public function test_glyph_action($factory_method) {
+		$f = $this->getGlyphFactory();
+		$g = $f->$factory_method("http://www.ilias.de");
+
+		$this->assertNotNull($g);
+		$this->assertEquals("http://www.ilias.de", $g->getAction());
+	}
+
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
 	public function test_no_counter($factory_method) {
 		$f = $this->getGlyphFactory();
 		$g = $f->$factory_method("http://www.ilias.de");
@@ -158,7 +169,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function test_known_glyphs_only() {
 		try {
-			new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO");
+			new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO", "http://www.ilias.de");
 			$this->assertFalse("We should not get here");
 		}
 		catch (\InvalidArgumentException $e) {}
@@ -202,7 +213,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[$type];
-		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>";
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -218,8 +229,10 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::ENVELOPE];
-		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
-					"<span class=\"badge badge-notify il-counter-$type\">42</span>";
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\">".
+					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
+					"<span class=\"badge badge-notify il-counter-$type\">42</span>".
+					"</a>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -227,16 +240,18 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$fg = $this->getGlyphFactory();
 		$fc = $this->getCounterFactory();
 		$r = $this->getDefaultRenderer();
-		$c = $fg->envelope("http:://www.ilias.de")
+		$c = $fg->envelope("http://www.ilias.de")
 				->withCounter($fc->novelty(42))
 				->withCounter($fc->status(7));
 
 		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::ENVELOPE];
-		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\">".
+					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
-					"<span class=\"badge badge-notify il-counter-novelty\">42</span>";
+					"<span class=\"badge badge-notify il-counter-novelty\">42</span>".
+					"</a>";
 		$this->assertEquals($expected, $html);
 	}
 

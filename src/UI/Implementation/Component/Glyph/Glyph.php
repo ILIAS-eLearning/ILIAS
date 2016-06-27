@@ -17,6 +17,11 @@ class Glyph implements C\Glyph\Glyph {
 	private $type;
 
 	/**
+	 * @var	string
+	 */
+	private $action;
+
+	/**
 	 * @var	C\Counter[]
 	 */
 	private $counters;
@@ -42,12 +47,28 @@ class Glyph implements C\Glyph\Glyph {
 
 	/**
 	 * @param string		$type
-	 * @param C\Counter[]	$counters
+	 * @param string		$action
 	 */
-	public function __construct($type) {
+	public function __construct($type, $action) {
 		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
+		$this->checkStringArg("action", $action);
 		$this->type = $type;
+		$this->action = $action;
 		$this->counters = array();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAction() {
+		return $this->action;
 	}
 
 	/**
@@ -64,12 +85,5 @@ class Glyph implements C\Glyph\Glyph {
 		$clone = clone $this;
 		$clone->counters[$counter->getType()] = $counter;
 		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getType() {
-		return $this->type;
 	}
 }

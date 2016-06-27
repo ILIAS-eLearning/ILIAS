@@ -11,35 +11,35 @@ class Factory implements G\Factory {
 	 * @inheritdoc
 	 */
 	public function up($action) {
-		return new Glyph(G\Glyph::UP);
+		return new Glyph(G\Glyph::UP, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function down($action) {
-		return new Glyph(G\Glyph::DOWN);
+		return new Glyph(G\Glyph::DOWN, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function add($action) {
-		return new Glyph(G\Glyph::ADD);
+		return new Glyph(G\Glyph::ADD, $action);
 	}
 	
 	/**
 	 * @inheritdoc
 	 */
 	public function remove($action) {
-		return new Glyph(G\Glyph::REMOVE);
+		return new Glyph(G\Glyph::REMOVE, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function previous($action) {
-		return new Glyph(G\Glyph::PREVIOUS);
+		return new Glyph(G\Glyph::PREVIOUS, $action);
 	}
 
 	/**

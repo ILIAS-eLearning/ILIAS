@@ -35,6 +35,13 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	public function getType();
 
 	/**
+	 * Get the action on the glyph.
+	 *
+	 * @return	string
+	 */
+	public function getAction();
+
+	/**
 	 * Get all counters attached to this glyph.
 	 *
 	 * @return	Counter[]
