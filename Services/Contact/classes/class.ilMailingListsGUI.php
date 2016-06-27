@@ -45,6 +45,11 @@ class ilMailingListsGUI
 	protected $toolbar;
 
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	 * @var ilRbacSystem
 	 */
 	protected $rbacsystem;
@@ -64,6 +69,7 @@ class ilMailingListsGUI
 		$this->user       = $DIC['ilUser'];
 		$this->error      = $DIC['ilErr'];
 		$this->toolbar    = $DIC['ilToolbar'];
+		$this->tabs       = $DIC['ilTabs'];
 
 		$this->umail = new ilFormatMail($this->user->getId());
 		$this->mlists = new ilMailingLists($this->user);
@@ -395,7 +401,7 @@ class ilMailingListsGUI
 			'description' => ''
 		));
 	}
-	
+
 	public function showForm()
 	{
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -439,6 +445,12 @@ class ilMailingListsGUI
 		require_once 'Services/Contact/classes/class.ilMailingListsMembersTableGUI.php';
 		$tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
 		$result = array();
+
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$create_btn = ilLinkButton::getInstance();
+		$create_btn->setCaption('add');
+		$create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
+		$this->toolbar->addButtonInstance($create_btn);
 
 		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
 		if(count($assigned_entries))

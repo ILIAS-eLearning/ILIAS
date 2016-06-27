@@ -39,6 +39,8 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('mail_members_of_mailing_list') . ' ' . $mailing_list->getTitle());
 		$this->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');
 
+		$this->addCommandButton('showMailingLists', $this->lng->txt('back'));
+
 		$this->setDefaultOrderField('title');
 
 		$this->initColumns();
