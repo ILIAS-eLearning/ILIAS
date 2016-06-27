@@ -164,31 +164,6 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		catch (\InvalidArgumentException $e) {}
 	}
 
-	public function test_known_glyphs_only_withType() {
-		$gf = $this->getGlyphFactory();
-
-		try {
-			$gf->up("http://www.ilias.de")->withType("FOO");
-			$this->assertFalse("We should not get here");
-		}
-		catch (\InvalidArgumentException $e) {}
-	}
-
-	public function test_withType() {
-		$gf = $this->getGlyphFactory();
-		$g = $gf
-			->up("http://www.ilias.de")
-			->withType(C\Glyph\Glyph::DOWN);
-		$this->assertEquals(C\Glyph\Glyph::DOWN, $g->getType());
-	}
-
-	public function test_immutability_withType() {
-		$gf = $this->getGlyphFactory();
-		$g = $gf->up("http://www.ilias.de");
-		$g2 = $g->withType(C\Glyph\Glyph::DOWN);
-		$this->assertEquals(C\Glyph\Glyph::UP, $g->getType());
-	}
-
 	public function glyph_type_provider() {
 		return array
 			( array(C\Glyph\Glyph::UP)

@@ -72,14 +72,4 @@ class Glyph implements C\Glyph\Glyph {
 	public function getType() {
 		return $this->type;
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withType($type) {
-		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
-		$clone = clone $this;
-		$clone->type = $type;
-		return $clone;
-	}
 }

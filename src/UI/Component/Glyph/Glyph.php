@@ -35,14 +35,6 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	public function getType();
 
 	/**
-	 * Get a glyph like this, but with a new type.
-	 *
-	 * @param	string	$type	One of the glyph types.
-	 * @return	Glyph
-	 */
-	public function withType($type);
-
-	/**
 	 * Get all counters attached to this glyph.
 	 *
 	 * @return	Counter[]
