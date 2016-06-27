@@ -82,30 +82,4 @@ class Glyph implements C\Glyph\Glyph {
 		$clone->type = $type;
 		return $clone;
 	}
-
-	/**
-	 * @return string
-	 */
-/*	public function to_html_string() {
-		$type = '';
-		switch (true) {
-			case ($this->type instanceof E\DragGlyphType):
-				$type = 'share-alt';
-				break;
-			case ($this->type instanceof E\EnvelopeGlyphType):
-				$type = 'envelope';
-				break;
-		}
-		$counter_html = '';
-		if ($this->counters()) {
-			foreach ($this->counters() as $counter) {
-				$counter_html .= $counter->to_html_string();
-			}
-		}
-
-		$tpl = new \ilTemplate('./src/UI/templates/default/Glyph/tpl.glyph.html', true, false);
-		$tpl->setVariable('TYPE', $type);
-
-		return $tpl->get() . $counter_html;
-	}*/
 }
