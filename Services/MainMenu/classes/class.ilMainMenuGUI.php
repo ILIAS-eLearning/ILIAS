@@ -407,19 +407,20 @@ class ilMainMenuGUI
 	 */
 	public function renderStatusBox($a_tpl)
 	{
-		global $ilUser, $lng, $UIFactory;
-		/**
-		 * @var $UIFactory ILIAS\UI\Internal\FactoryImpl
-		 */
+		global $ilUser, $lng, $DIC;
+		$ui_factory = $DIC->ui()->factory();
+		$ui_renderer = $DIC->ui()->renderer();
+
 		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
 			$a_tpl->setCurrentBlock('status_box');
 			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
 
-			$counter = $UIFactory->counter()->status($new_mails);
-			$glyph = $UIFactory->glyph()->envelope()
-					-> addCounter($counter);
+			$glyph = $ui_factory->glyph()->envelope()
+				->withCounter(
+					$ui_factory->counter()->novelty($new_mails)
+				);
 
-			$a_tpl->setVariable('UIELEMENTTEST', $glyph->to_html_string());
+			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->parseCurrentBlock();
 		}
 	}
