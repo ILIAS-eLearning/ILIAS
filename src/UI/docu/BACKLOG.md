@@ -11,3 +11,5 @@
   in advance.
 * Create an abstraction for Actions that could be used instead of stringy links.
   It would be strongly related to ilCtrl and probably should be an ILIAS library.
+* Create a mechanism to wire less-files to delos.less that is more automatic than
+  'do it manually'. There could at least be some kind of UI.less in the src/UI/templates/default.

@@ -6260,6 +6260,24 @@ button.close {
     display: none !important;
   }
 }
+.glyph .badge {
+  font-size: 9px;
+  padding: 4px;
+  margin-left: -4px;
+  position: absolute;
+}
+.glyph .il-counter-novelty {
+  padding-top: 2px;
+  padding-down: 2px;
+  margin-top: -6px;
+  background-color: #ea6705;
+}
+.glyph .il-counter-status {
+  padding-top: 2px;
+  padding-down: 2px;
+  margin-top: 10px;
+  background-color: #a9a9a9;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
