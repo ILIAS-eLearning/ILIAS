@@ -26,10 +26,10 @@ class ilStudyProgrammeLP extends ilObjectLP {
 			);
 	}
 	
-	public function getMembers() {
+	public function getMembers($a_search = true) {
 		if ($this->prg === null) {
 			require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-			$this->prg = new ilObjStudyProgramme($a_obj_id, false);
+			$this->prg = new ilObjStudyProgramme($this->obj_id, false);
 		}
 		return $this->prg->getIdsOfUsersWithRelevantProgress();
 	}
