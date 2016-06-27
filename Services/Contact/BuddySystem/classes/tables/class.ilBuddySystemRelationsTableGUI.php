@@ -47,27 +47,32 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 	protected $chat_enabled = false;
 
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		/**
-		 * @var $ilCtrl      ilCtrl
-		 * @var $tpl         ilTemplate
-		 * @var $rbacsystem  ilRbacSystem
+		 * @var $ilCtrl ilCtrl
+		 * @var $tpl    ilTemplate
 		 */
-		global $ilCtrl, $tpl, $rbacsystem;
+		global $DIC;
 
-		$this->ctrl           = $ilCtrl;
-		$this->container_tpl  = $tpl;
+		$this->ctrl           = $DIC['ilCtrl'];
+		$this->container_tpl  = $DIC['tpl'];
+		$this->user           = $DIC['ilUser'];
 
 		$this->setId('buddy_system_tbl');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->lng->loadLanguageModule('buddysystem');
 
-		$this->access_to_mail_system = $rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId());
+		$this->access_to_mail_system = $DIC->rbac()->system()->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId());
 
 		$chatSettings = new ilSetting('chatroom');
 		$this->chat_enabled = $chatSettings->get("chat_enabled", false);
@@ -192,18 +197,13 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		if($this->access_to_mail_system)
 		{
 			$a_set['chb'] = ilUtil::formCheckbox(0, 'usr_id[]', $a_set['usr_id']);
 		}
 
 		$public_profile = ilObjUser::_lookupPref($a_set['usr_id'], 'public_profile');
-		if(!$ilUser->isAnonymous() && $public_profile == 'y' || $public_profile == 'g')
+		if(!$this->user->isAnonymous() && $public_profile == 'y' || $public_profile == 'g')
 		{
 			$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $a_set['usr_id']);
 			$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');

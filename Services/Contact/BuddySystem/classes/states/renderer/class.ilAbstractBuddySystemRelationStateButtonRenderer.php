@@ -26,11 +26,18 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 	protected $tpl;
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @param int                   $user_id
 	 * @param ilBuddySystemRelation $relation
 	 */
 	public function __construct($user_id, ilBuddySystemRelation $relation)
 	{
+		global $DIC;
+
 		$this->user_id   = $user_id;
 		$this->relation  = $relation;
 
@@ -40,6 +47,8 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 			true,
 			'Services/Contact/BuddySystem'
 		);
+
+		$this->lng = $DIC['lng'];
 	}
 
 	/**
@@ -84,16 +93,11 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 	 */
 	protected function renderStateButton()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		$state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
 
 		$this->tpl->setVariable(
 			$this->getTemplateVariablePrefix() . 'BUTTON_TXT',
-			$lng->txt(
+			$this->lng->txt(
 				'buddy_bs_btn_txt_' . $state_id . $this->getLanguageVariableSuffix()
 			)
 		);
@@ -104,11 +108,6 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 	 */
 	protected function renderTargetState(ilBuddySystemRelationState $target_state)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		$state_id        = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
 		$target_state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName());
 
@@ -122,7 +121,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 		);
 		$this->tpl->setVariable(
 			$this->getTemplateVariablePrefix() . 'TARGET_STATE_TXT_' . strtoupper($target_state_id),
-			$lng->txt(
+			$this->lng->txt(
 				'buddy_bs_act_btn_txt_' . $state_id . '_to_' . $target_state_id
 			)
 		);

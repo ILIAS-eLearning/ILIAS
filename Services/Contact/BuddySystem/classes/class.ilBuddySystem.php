@@ -23,11 +23,19 @@ class ilBuddySystem
 	protected $settings;
 
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * 
 	 */
 	protected function __construct()
 	{
-		$this->settings =  new ilSetting('buddysystem');
+		global $DIC;
+
+		$this->settings = new ilSetting('buddysystem');
+		$this->user     = $DIC['ilUser'];
 	}
 
 	/**
@@ -67,17 +75,12 @@ class ilBuddySystem
 	 */
 	public function isEnabled()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		if(self::$is_enabled !== null)
 		{
 			return self::$is_enabled;
 		}
 
-		if($ilUser->isAnonymous())
+		if($this->user->isAnonymous())
 		{
 			self::$is_enabled = false;
 			return false;

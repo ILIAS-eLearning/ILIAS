@@ -1,7 +1,11 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Database/classes/MDB2/class.ilDB.php';
+require_once("libs/composer/vendor/autoload.php");
+$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+
+require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
+require_once 'Services/Database/classes/class.ilDBConstants.php';
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/EventHandling/classes/class.ilAppEventHandler.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
