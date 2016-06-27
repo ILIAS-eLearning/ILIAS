@@ -40,8 +40,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.content_style_row.html", "Services/Style");
-
+		$this->setRowTemplate("tpl.content_style_row.html", "Services/Style/Content");
 		if ($this->parent_obj->checkPermission("write", false))
 		{
 			$this->addMultiCommand("deleteStyle", $lng->txt("delete"));

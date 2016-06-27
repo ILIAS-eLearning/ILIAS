@@ -62,7 +62,7 @@ class ilStyleTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("sty_commands"), "", "1");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.style_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.style_row.html", "Services/Style/Content");
 		$this->disable("footer");
 
 		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))

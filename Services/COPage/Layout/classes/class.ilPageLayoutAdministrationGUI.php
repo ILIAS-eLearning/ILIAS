@@ -150,7 +150,7 @@ class ilPageLayoutAdministrationGUI
 				$this->ctrl->getLinkTarget($this, "importPageLayoutForm"));
 		}
 
-		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/Style");
+		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/COPage/Layout");
 
 		include_once("./Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php");
 		$pglayout_table = new ilPageLayoutTableGUI($this, "listLayouts");

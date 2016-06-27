@@ -174,7 +174,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		$this->includeCSS();
 
-		$ctpl = new ilTemplate("tpl.sty_classes.html", true, true, "Services/Style");
+		$ctpl = new ilTemplate("tpl.sty_classes.html", true, true, "Services/Style/Content");
 
 		// output characteristics
 		$chars = $this->object->getCharacteristics();
@@ -584,7 +584,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 
-		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style");
+		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style/Content");
 		
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
@@ -1634,7 +1634,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$c = explode(":", $a_class);
 		$a_class = $c[0];
 		
-		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style");
+		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style/Content");
 
 		if ($ex_tpl->blockExists("Example_".$a_type))
 		{
@@ -2531,7 +2531,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $tpl;
 		
 		$a_tpl = new ilTemplate("tpl.template_edit.html", true, true,
-			"Services/Style");
+			"Services/Style/Content");
 		$this->includeCSS();
 		$a_tpl->setVariable("FORM", $this->form_gui->getHTML());
 		$a_tpl->setVariable("PREVIEW", $this->getTemplatePreview($_GET["temp_type"], $_GET["t_id"]));
