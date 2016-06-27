@@ -10,105 +10,105 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function up() {
+	public function up($action) {
 		return new Glyph(G\Glyph::UP);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function down() {
+	public function down($action) {
 		return new Glyph(G\Glyph::DOWN);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function add() {
+	public function add($action) {
 		return new Glyph(G\Glyph::ADD);
 	}
 	
 	/**
 	 * @inheritdoc
 	 */
-	public function remove() {
+	public function remove($action) {
 		return new Glyph(G\Glyph::REMOVE);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function previous() {
+	public function previous($action) {
 		return new Glyph(G\Glyph::PREVIOUS);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function next() {
-		return new Glyph(G\Glyph::NEXT);
+	public function next($action) {
+		return new Glyph(G\Glyph::NEXT, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function calendar() {
-		return new Glyph(G\Glyph::CALENDAR);
+	public function calendar($action) {
+		return new Glyph(G\Glyph::CALENDAR, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function close() {
-		return new Glyph(G\Glyph::CLOSE);
+	public function close($action) {
+		return new Glyph(G\Glyph::CLOSE, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function attachment() {
-		return new Glyph(G\Glyph::ATTACHMENT);
+	public function attachment($action) {
+		return new Glyph(G\Glyph::ATTACHMENT, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function caret() {
-		return new Glyph(G\Glyph::CARET);
+	public function caret($action) {
+		return new Glyph(G\Glyph::CARET, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function drag() {
-		return new Glyph(G\Glyph::DRAG);
+	public function drag($action) {
+		return new Glyph(G\Glyph::DRAG, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function search() {
-		return new Glyph(G\Glyph::SEARCH);
+	public function search($action) {
+		return new Glyph(G\Glyph::SEARCH, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function filter() {
-		return new Glyph(G\Glyph::FILTER);
+	public function filter($action) {
+		return new Glyph(G\Glyph::FILTER, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function info() {
-		return new Glyph(G\Glyph::INFO);
+	public function info($action) {
+		return new Glyph(G\Glyph::INFO, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function envelope() {
-		return new Glyph(G\Glyph::ENVELOPE);
+	public function envelope($action) {
+		return new Glyph(G\Glyph::ENVELOPE, $action);
 	}
 }

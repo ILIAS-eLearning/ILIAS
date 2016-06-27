@@ -7,7 +7,7 @@ function Glyph_envelope() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$envelope = $f->glyph()->envelope();
+	$envelope = $f->glyph()->envelope("http://www.ilias.de");
 
 	return "Envelope: ".$renderer->render($envelope)."</br>";
 }

@@ -9,3 +9,5 @@
   The 'image' would be used for images uploaded by users, which therefore can not
   be exchanged by a skin. The 'icon' on the other hand is skinnable, as it is known
   in advance.
+* Create an abstraction for Actions that could be used instead of stringy links.
+  It would be strongly related to ilCtrl and probably should be an ILIAS library.

@@ -36,9 +36,11 @@ interface Factory {
 	 *          The up-glyphs are actions and SHOULD be listed in the action
 	 *          column of a form.
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function up();
+	public function up($action);
+
 	/**
 	 * ---
 	 * title: Down
@@ -70,9 +72,11 @@ interface Factory {
 	 *          The down-glyphs are actions and SHOULD be listed in the action
 	 *          column of a form.
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function down();
+	public function down($action);
+
 	/**
 	 * ---
 	 * title: Add
@@ -103,9 +107,10 @@ interface Factory {
 	 *          action column of a form.
 	 *       3: The glyphed add-button MUST not be used to add lines to tables.
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function add();
+	public function add($action);
 
 	/**
 	 * ---
@@ -137,9 +142,11 @@ interface Factory {
 	 *          action column of a form.
 	 *       3: The glyphed remove-button MUST not be used to add lines to tables.
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function remove();
+	public function remove($action);
+
 	/**
 	 * ---
 	 * title: Previous
@@ -156,9 +163,11 @@ interface Factory {
 	 * context: Show Member View in courses.
 	 *
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function previous();
+	public function previous($action);
+
 	/**
 	 * ---
 	 * title: Next
@@ -175,30 +184,38 @@ interface Factory {
 	 * context: Show Member View in courses.
 	 *
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function next();
+	public function next($action);
+
 	/**
 	 * ---
 	 * title: Calendar
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function calendar();
+	public function calendar($action);
+
 	/**
 	 * ---
 	 * title: Close
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function close();
+	public function close($action);
+
 	/**
 	 * ---
 	 * title: Attachement
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function attachment();
+	public function attachment($action);
+
 	/**
 	 * ---
 	 * title: Caret
@@ -215,16 +232,20 @@ interface Factory {
 	 *       Previous/Next Glyph: The Previous/Next Glyph opens a completely new view. It serves a navigational purpose.
 	 *
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function caret();
+	public function caret($action);
+
 	/**
 	 * ---
 	 * title: Drag
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function drag();
+	public function drag($action);
+
 	/**
 	 * ---
 	 * title: Search
@@ -236,28 +257,35 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking the Search Glyph triggers the display of the Top Search Popover. This is the only access to the search.
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function search();
+	public function search($action);
+
 	/**
 	 * ---
 	 * title: Filter
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function filter();
+	public function filter($action);
+
 	/**
 	 * ---
 	 * title: Info
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function info();
+	public function info($action);
+
 	/**
 	 * ---
 	 * title: Envelope
 	 * ---
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function envelope();
+	public function envelope($action);
 }

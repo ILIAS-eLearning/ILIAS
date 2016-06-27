@@ -8,8 +8,6 @@ require_once(__DIR__."/Base.php");
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
 
-class GlyphTestCustomException extends \Exception {};
-
 /**
  * Test on glyph implementation.
  */
@@ -47,7 +45,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$f = $this->getGlyphFactory();
 
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Factory", $f);
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Glyph", $f->$factory_method());
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Glyph", $f->$factory_method("http://www.ilias.de"));
 	}
 
 	/**
@@ -55,7 +53,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_glyph_types($factory_method) {
 		$f = $this->getGlyphFactory();
-		$g = $f->$factory_method();
+		$g = $f->$factory_method("http://www.ilias.de");
 
 		$this->assertNotNull($g);
 		$this->assertEquals($factory_method, $g->getType());
@@ -66,7 +64,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_no_counter($factory_method) {
 		$f = $this->getGlyphFactory();
-		$g = $f->$factory_method();
+		$g = $f->$factory_method("http://www.ilias.de");
 
 		$this->assertCount(0, $g->getCounters());
 	}
@@ -80,7 +78,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$number = 1;
 
 		$g = $gf
-			->filter()
+			->filter("http://www.ilias.de")
 			->withCounter(
 				$cf->$counter_type($number)
 			);
@@ -99,7 +97,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$number_n = 2;
 
 		$g = $gf
-			->attachment()
+			->attachment("http://www.ilias.de")
 			->withCounter(
 				$cf->status($number_s)
 			)
@@ -124,7 +122,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$number_n2 = 2;
 
 		$g = $gf
-			->attachment()
+			->attachment("http://www.ilias.de")
 			->withCounter(
 				$cf->status($number_s)
 			)
@@ -148,7 +146,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$gf = $this->getGlyphFactory();
 		$cf = $this->getCounterFactory();
 
-		$g = $gf->filter();
+		$g = $gf->filter("http://www.ilias.de");
 		$g2 = $g
 			->withCounter(
 				$cf->novelty(0)
@@ -159,43 +157,34 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_known_glyphs_only() {
-		// TODO: move this pattern to ILIAS_UI_TestBase
-		assert_options(ASSERT_CALLBACK, function () {
-			throw new GlyphTestCustomException();
-		});
-
 		try {
 			new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO");
 			$this->assertFalse("We should not get here");
 		}
-		catch (GlyphTestCustomException $e) {}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	public function test_known_glyphs_only_withType() {
-		// TODO: move this pattern to ILIAS_UI_TestBase
-		assert_options(ASSERT_CALLBACK, function () {
-			throw new GlyphTestCustomException();
-		});
 		$gf = $this->getGlyphFactory();
 
 		try {
-			$gf->up()->withType("FOO");
+			$gf->up("http://www.ilias.de")->withType("FOO");
 			$this->assertFalse("We should not get here");
 		}
-		catch (GlyphTestCustomException $e) {}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	public function test_withType() {
 		$gf = $this->getGlyphFactory();
 		$g = $gf
-			->up()
+			->up("http://www.ilias.de")
 			->withType(C\Glyph\Glyph::DOWN);
 		$this->assertEquals(C\Glyph\Glyph::DOWN, $g->getType());
 	}
 
 	public function test_immutability_withType() {
 		$gf = $this->getGlyphFactory();
-		$g = $gf->up();
+		$g = $gf->up("http://www.ilias.de");
 		$g2 = $g->withType(C\Glyph\Glyph::DOWN);
 		$this->assertEquals(C\Glyph\Glyph::UP, $g->getType());
 	}
@@ -233,7 +222,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	public function test_render_simple($type) {
 		$f = $this->getGlyphFactory();
 		$r = $this->getDefaultRenderer();
-		$c = $f->$type();
+		$c = $f->$type("http://www.ilias.de");
 
 		$html = $this->normalizeHTML($r->render($c));
 
@@ -249,7 +238,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$fg = $this->getGlyphFactory();
 		$fc = $this->getCounterFactory();
 		$r = $this->getDefaultRenderer();
-		$c = $fg->envelope()->withCounter($fc->$type(42));
+		$c = $fg->envelope("http://www.ilias.de")->withCounter($fc->$type(42));
 
 		$html = $this->normalizeHTML($r->render($c));
 
@@ -263,7 +252,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$fg = $this->getGlyphFactory();
 		$fc = $this->getCounterFactory();
 		$r = $this->getDefaultRenderer();
-		$c = $fg->envelope()
+		$c = $fg->envelope("http:://www.ilias.de")
 				->withCounter($fc->novelty(42))
 				->withCounter($fc->status(7));
 

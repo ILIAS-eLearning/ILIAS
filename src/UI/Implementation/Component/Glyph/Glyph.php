@@ -5,9 +5,12 @@
 namespace ILIAS\UI\Implementation\Component\Glyph;
 
 use ILIAS\UI\Component as C;
-use \ILIAS\UI\Component\Counter\Counter;
+use ILIAS\UI\Component\Counter\Counter;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class Glyph implements C\Glyph\Glyph {
+	use ComponentHelper;
+
 	/**
 	 * @var	string
 	 */
@@ -18,12 +21,31 @@ class Glyph implements C\Glyph\Glyph {
 	 */
 	private $counters;
 
+	private static $types = array
+		( self::UP
+		, self::DOWN
+		, self::ADD
+		, self::REMOVE
+		, self::PREVIOUS
+		, self::NEXT
+		, self::CALENDAR
+		, self::CLOSE
+		, self::ATTACHMENT
+		, self::CARET
+		, self::DRAG
+		, self::SEARCH
+		, self::FILTER
+		, self::INFO
+		, self::ENVELOPE
+		);
+
+
 	/**
 	 * @param string		$type
 	 * @param C\Counter[]	$counters
 	 */
 	public function __construct($type) {
-		assert('self::is_valid_type($type)');
+		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
 		$this->type = $type;
 		$this->counters = array();
 	}
@@ -55,7 +77,7 @@ class Glyph implements C\Glyph\Glyph {
 	 * @inheritdoc
 	 */
 	public function withType($type) {
-		assert('self::is_valid_type($type)');
+		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
 		$clone = clone $this;
 		$clone->type = $type;
 		return $clone;
@@ -86,26 +108,4 @@ class Glyph implements C\Glyph\Glyph {
 
 		return $tpl->get() . $counter_html;
 	}*/
-
-	// Helper
-	static protected function is_valid_type($type) {
-		static $types = array
-			( self::UP
-			, self::DOWN
-			, self::ADD
-			, self::REMOVE
-			, self::PREVIOUS
-			, self::NEXT
-			, self::CALENDAR
-			, self::CLOSE
-			, self::ATTACHMENT
-			, self::CARET
-			, self::DRAG
-			, self::SEARCH
-			, self::FILTER
-			, self::INFO
-			, self::ENVELOPE
-			);
-		return in_array($type, $types);
-	}
 }

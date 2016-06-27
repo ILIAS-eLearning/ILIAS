@@ -7,7 +7,7 @@ function Glyph_attachment_with_counters() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$attachment = $f->glyph()->attachment()
+	$attachment = $f->glyph()->attachment("http://www.ilias.de")
 						->withCounter($f->counter()->status(1))
 						->withCounter($f->counter()->novelty(2));
 
