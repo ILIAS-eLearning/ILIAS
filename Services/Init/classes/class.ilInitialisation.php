@@ -1497,5 +1497,3 @@ class ilInitialisation
 		}
 	}
 }
-
-?>
