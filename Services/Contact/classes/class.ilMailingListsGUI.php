@@ -156,7 +156,7 @@ class ilMailingListsGUI
 	{
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($this->user->getId());
 		$mailing_allowed = $this->rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 	
 		if (!$mailing_allowed)
