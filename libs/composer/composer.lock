@@ -69,6 +69,11 @@
                 "php": ">=5.2"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS HTML Purifier Patches": "patches/htmlpurifier.patch"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "HTMLPurifier": "library/"
