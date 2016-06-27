@@ -27,14 +27,10 @@ class ilMailingListsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = '', $a_template_context = '')
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
+		global $DIC;
 
-		$this->lng  = $lng;
-		$this->ctrl = $ilCtrl;
+		$this->lng  = $DIC['lng'];
+		$this->ctrl = $DIC['ilCtrl'];
 
 		$this->setId('show_mlng_lists_tbl');
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -45,7 +41,6 @@ class ilMailingListsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField('title');
 		$this->setSelectAllCheckbox('ml_id');
 		$this->setNoEntriesText($this->lng->txt('mail_search_no'));
-		$this->addCommandButton('showForm', $this->lng->txt('add'));
 
 		$this->initColumns();
 	}
