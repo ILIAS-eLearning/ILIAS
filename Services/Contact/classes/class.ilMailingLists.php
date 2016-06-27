@@ -122,7 +122,6 @@ class ilMailingLists
 		else
 		{
 			$this->setCurrentMailingList($ml_id);
-			if ($this->getCurrentMailingList()->getCreateDate() == '0000-00-00 00:00:00') return false;
 		}
 		
 		return true;
