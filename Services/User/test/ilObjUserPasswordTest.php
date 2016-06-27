@@ -8,7 +8,7 @@ require_once 'Services/Utilities/classes/class.ilUtil.php';
 require_once 'Services/User/classes/class.ilObjUser.php';
 
 /**
- * Class ilBcryptPasswordEncoderTest
+ * Class ilObjUserPasswordTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesUser
  */
