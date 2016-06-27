@@ -1,7 +1,3 @@
-* Is the discrimination between Element and Collection productive for the
-  framework? What's a glyph then? It can have a counter, so it's collection?!?
-  Maybe some other wording would solve this, like `decorate`. This would also
-  account to the fact that a counter can't be rendered independent of a glyph.
 * Create a Style Guide for code using UI components.
 * Create a wrapper type for string, that indicates if and what markup is used for
   the contained text. This might not be an issue to solve in the UI framework, but
