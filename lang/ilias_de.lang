@@ -566,13 +566,13 @@ assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
 assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden: [%s] oder [%s]
 assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#tst_feedback#:#Rückmeldung
-assessment#:#ass_process_lock#:#Verwende Lock Mechanismus während Test Durchläufen
-assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Test Ergebnissen führen.
-assessment#:#ass_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
-assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem Locks
-assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
-assessment#:#ass_process_lock_mode_db#:#Verwende Datenbank Tabellen Locks
-assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_process_lock#:#Verwende Lock-Mechanismus während Testdurchläufen
+assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
+assessment#:#ass_process_lock_mode#:#Lock-Modus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem-Locks
+assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_process_lock_mode_db#:#Verwende Datenbanktabellen-Locks
+assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking-Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -14583,7 +14583,7 @@ common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests ler
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
 crs#:#crs_loc_tbl_tst_type#:#Auswahl der Testfragen
-crs#:#crs_loc_form_assign_it#:#Test auswählen 
+crs#:#crs_loc_form_assign_it#:#Test auswählen
 crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
 crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
 crs#:#crs_loc_form_available_tsts#:#Verfügbare Tests:
