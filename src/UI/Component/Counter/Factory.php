@@ -28,9 +28,10 @@ interface Factory {
 	 * ---
 	 *
 	 * @param   int         $number
-	 * @return  \ILIAS\UI\Component\Counter
+	 * @return  \ILIAS\UI\Component\Counter\Counter
 	 */
 	public function status($number);
+
 	/**
 	 * ---
 	 * title: Novelty
@@ -72,7 +73,7 @@ interface Factory {
 	 * ---
 	 *
 	 * @param   int         $number
-	 * @return  \ILIAS\UI\Component\Counter
+	 * @return  \ILIAS\UI\Component\Counter\Counter
 	 */
 	public function novelty($number);
 }
