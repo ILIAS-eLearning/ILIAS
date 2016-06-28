@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
+require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncoder.php';
 require_once 'Services/Password/interfaces/interface.ilPasswordEncoderConfigurationFormAware.php';
 
 /**
@@ -9,7 +9,7 @@ require_once 'Services/Password/interfaces/interface.ilPasswordEncoderConfigurat
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswordEncoderConfigurationFormAware
+class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder implements ilPasswordEncoderConfigurationFormAware
 {
 	/**
 	 * @var int
@@ -24,22 +24,17 @@ class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswor
 	/**
 	 * @var string|null
 	 */
-	protected $client_salt = null;
-
-	/**
-	 * @var string
-	 */
-	protected $costs = '08';
+	private $client_salt = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_security_flaw_ignored = false;
+	private $is_security_flaw_ignored = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $backward_compatibility = false;
+	private $backward_compatibility = false;
 
 	/**
 	 * @param array $config
@@ -53,18 +48,14 @@ class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswor
 			{
 				switch(strtolower($key))
 				{
-					case 'cost':
-						$this->setCosts($value);
-						break;
-
 					case 'ignore_security_flaw':
 						$this->setIsSecurityFlawIgnored($value);
 						break;
 				}
 			}
 		}
-		
-		$this->init();
+
+		parent::__construct($config);
 	}
 
 	/**
@@ -133,32 +124,6 @@ class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswor
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getCosts()
-	{
-		return $this->costs;
-	}
-
-	/**
-	 * @param string $costs
-	 * @throws ilPasswordException
-	 */
-	public function setCosts($costs)
-	{
-		if(!empty($costs))
-		{
-			$costs = (int)$costs;
-			if($costs < 4 || $costs > 31)
-			{
-				require_once 'Services/Password/exceptions/class.ilPasswordException.php';
-				throw new ilPasswordException('The costs parameter of bcrypt must be in range 04-31');
-			}
-			$this->costs = sprintf('%1$02d', $costs);
-		}
-	}
-
-	/**
 	 * {@inheritdoc}
 	 * @throws ilPasswordException
 	 */
@@ -175,7 +140,7 @@ class ilBcryptPasswordEncoder extends ilBasePasswordEncoder implements ilPasswor
 			require_once 'Services/Password/exceptions/class.ilPasswordException.php';
 			throw new ilPasswordException('Invalid password.');
 		}
-		
+
 		return $this->encode($raw, $salt);
 	}
 

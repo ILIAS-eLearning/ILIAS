@@ -36,4 +36,10 @@ interface ilPasswordEncoder
 	 * @return boolean
 	 */
 	public function requiresSalt();
+
+	/**
+	 * Returns whether or not the encoder is supported by the runtime (PHP, HHVM, ...)
+	 * @return boolean
+	 */
+	public function isSupportedByRuntime();
 }

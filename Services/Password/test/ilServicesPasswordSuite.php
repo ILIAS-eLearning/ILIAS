@@ -27,6 +27,9 @@ class ilServicesPasswordSuite extends PHPUnit_Framework_TestSuite
 		require_once dirname(__FILE__) . '/encoders/ilBcryptPasswordEncoderTest.php';
 		$suite->addTestSuite('ilBcryptPasswordEncoderTest');
 
+		require_once dirname(__FILE__) . '/encoders/ilBcryptPhpPasswordEncoderTest.php';
+		$suite->addTestSuite('ilBcryptPhpPasswordEncoderTest');
+
 		return $suite;
 	}
 }

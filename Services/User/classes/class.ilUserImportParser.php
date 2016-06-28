@@ -1088,6 +1088,12 @@ class ilUserImportParser extends ilSaxParser
 							{
 								switch($this->currPasswordType)
 								{
+									case "BCRYPTPHP":
+										$this->userObj->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
+										$this->userObj->setPasswordEncodingType('bcryptphp');
+										$this->userObj->setPasswordSalt('');
+										break;
+
 									case "BCRYPT":
 										if(!strlen($this->currPasswordSalt))
 										{
@@ -1242,6 +1248,12 @@ class ilUserImportParser extends ilSaxParser
 							{
 								switch ($this->currPasswordType)
 								{
+									case "BCRYPTPHP":
+										$updateUser->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
+										$updateUser->setPasswordEncodingType('bcryptphp');
+										$updateUser->setPasswordSalt($this->currPasswordSalt);
+										break;
+
 									case "BCRYPT":
 										if(!strlen($this->currPasswordSalt))
 										{
@@ -1838,6 +1850,12 @@ class ilUserImportParser extends ilSaxParser
 			case "Password":
 				switch ($this->currPasswordType)
 				{
+					case "BCRYPTPHP":
+						$this->userObj->setPasswd($this->cdata, IL_PASSWD_CRYPTED);
+						$this->userObj->setPasswordEncodingType('bcryptphp');
+						$this->userObj->setPasswordSalt('');
+						break;
+
 					case "BCRYPT":
 						if(!strlen($this->currPasswordSalt))
 						{

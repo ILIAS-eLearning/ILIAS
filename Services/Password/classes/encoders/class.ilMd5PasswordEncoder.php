@@ -51,41 +51,4 @@ class ilMd5PasswordEncoder extends ilBasePasswordEncoder implements ilPasswordEn
 	{
 		return 'md5';
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function requiresSalt()
-	{
-		return false;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function buildForm(ilPropertyFormGUI $form)
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateForm(ilPropertyFormGUI $form)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveForm(ilPropertyFormGUI $form)
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function onSelection()
-	{
-	}
 }

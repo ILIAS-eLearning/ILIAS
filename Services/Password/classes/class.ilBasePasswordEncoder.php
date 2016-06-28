@@ -59,4 +59,48 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
 	{
 		return strlen($password) > self::MAX_PASSWORD_LENGTH;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedByRuntime()
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function requiresSalt()
+	{
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function buildForm(ilPropertyFormGUI $form)
+	{
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateForm(ilPropertyFormGUI $form)
+	{
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function saveForm(ilPropertyFormGUI $form)
+	{
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function onSelection()
+	{
+	}
 }
