@@ -24,6 +24,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	protected $session_materials = array();
 	protected $highlighted_node = null;
 	protected $clickable_types = array();
+	protected $selectable_types = array();
 	
 	/**
 	 * Constructor
@@ -357,6 +358,44 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 		return (array)$this->clickable_types;
 	}
 
+	/**
+	 * set Whitelist for clickable items
+	 *
+	 * @param array/string $a_types array type
+	 */
+	function setSelectableTypes($a_types)
+	{
+		if(!is_array($a_types))
+		{
+			$a_types = array($a_types);
+		}
+		$this->selectable_types = $a_types;
+	}
+
+	/**
+	 * get whitelist for clickable items
+	 *
+	 * @return array types
+	 */
+	function getSelectableTypes()
+	{
+		return (array)$this->selectable_types;
+	}
+
+	/**
+	 * Is node selectable?
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node selectable true/false
+	 */
+	protected function isNodeSelectable($a_node)
+	{
+		if(count($this->getSelectableTypes()))
+		{
+			return in_array($a_node['type'],$this->getSelectableTypes() );
+		}
+		return true;
+	}
 }
 
 ?>

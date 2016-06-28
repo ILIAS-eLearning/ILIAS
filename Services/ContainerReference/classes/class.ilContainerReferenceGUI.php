@@ -86,23 +86,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case "ilpropertyformgui":
-				if($this->getCreationMode())
-				{
-					$ilCtrl->saveParameter($this, 'new_type');
-					$ret_cmd = "create";
-					$mode = self::MODE_CREATE;
-				}
-				else
-				{
-					$mode = self::MODE_EDIT;
-					$ret_cmd = "edit";
-					$ilTabs->setTabActive('edit');
-					$ilTabs->setBackTarget($this->lng->txt('back'), $ilCtrl->getLinkTarget($this, 'edit'));
-				}
-				$ilCtrl->setReturn($this, $ret_cmd);
-
-				return $ilCtrl->forwardCommand($this->initForm($mode));
-
+				$form = $this->initForm($this->creation_mode ? self::MODE_CREATE : self::MODE_EDIT);
+				$this->ctrl->forwardCommand($form);
 			case 'ilpermissiongui':
 				$ilTabs->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -314,9 +299,9 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$ttype->addOption($custom);
 		$form->addItem($ttype);
 
-		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
+		include_once("./Services/Repository/classes/class.ilRepositorySelectInputGUI.php");
 		//repository selector
-		$repo = new ilRepositorySelectorInputGUI($this->lng->txt("target"), "target_id");
+		$repo = new ilRepositorySelectInputGUI($this->lng->txt("target"), "target_id");
 		$repo->setParent($this);
 		$repo->setRequired(true);
 		$repo->setClickableTypes(array($this->getTargetType()));
@@ -351,7 +336,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 				$this->object->setTitle($form->getInput('title'));
 			}
 
-			if(!$ilAccess->checkAccess('visible','',(int) $form->getInput('target_id')))
+			if(!$ilAccess->checkAccess('visible','',(int) $form->getInput('target_id')) ||
+				ilObject::_lookupType($form->getInput('target_id'), true) != $this->target_type)
 			{
 				ilUtil::sendFailure($this->lng->txt('permission_denied'));
 				$this->editObject();
