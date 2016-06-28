@@ -12876,7 +12876,7 @@ cron#:#cron_result_status_crashed#:#Abbruch
 cron#:#cron_result_status_reset#:#Reset
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
-cron#:#cron_action_reset#:#Reset
+cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_edit#:#Bearbeiten
 cron#:#cron_status_active#:#Aktiv
 cron#:#cron_status_inactive#:#Inaktiv
@@ -14044,6 +14044,7 @@ exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an au
 survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
+cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
 crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt

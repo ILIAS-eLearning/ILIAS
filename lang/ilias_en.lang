@@ -14109,6 +14109,7 @@ exc#:#exc_peer_review_cron_info#:#If activated, exercise participants will be re
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
+cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
 crs#:#crs_status_determination_lp_info#:#When the learning progress changes to ‘Completed’, the course status ‘Passed’ will be set automatically. Tutors still can overwrite the status manually.
 grp#:#grp_reg_no_selfreg#:#No Self-enrolment
 crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature ‘Mail to Members’ in the ‘Members’ tab.
