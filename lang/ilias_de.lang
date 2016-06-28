@@ -1666,7 +1666,7 @@ assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
+assessment#:#tst_activate_skill_service#:#Kompetenzen
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#qpl_tab_competences#:#Kompetenzen
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
@@ -11964,7 +11964,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#Ein weiterer Reiter 'Kompetenzen' wird eingeblendet. In diesem Reiter können Fragen zu Kompetenzen zugeordnet werden, sowie Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen festgelegt werden.
+assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzausprägungen.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
