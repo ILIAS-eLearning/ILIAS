@@ -148,14 +148,22 @@ class ilSystemCheckTrash
 		global $ilDB;
 		
 		$and_types = '';
-		if($this->getTypesLimit())
+		ilLoggerFactory::getLogger('sysc')->dump($this->getTypesLimit());
+		
+		$types = array();
+		foreach((array) $this->getTypesLimit() as $id => $type)
+		{
+			if($type)
+			{
+				$types[] = $type;
+			}
+		}
+		if(count($types))
 		{
 			$and_types = 'AND '.$ilDB->in('o.type', $this->getTypesLimit(),FALSE,'text').' ';
 		}
+		
 		$and_age = '';
-		
-		
-		
 		$age_limit = $this->getAgeLimit()->get(IL_CAL_UNIX);
 		if($age_limit > 0)
 		{

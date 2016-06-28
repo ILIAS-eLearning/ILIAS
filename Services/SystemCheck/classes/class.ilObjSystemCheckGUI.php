@@ -273,6 +273,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		if($form->checkInput())
 		{
 			$trash = new ilSystemCheckTrash();
+			$trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
 			
 			$dt_arr = $form->getInput('age');
 			
