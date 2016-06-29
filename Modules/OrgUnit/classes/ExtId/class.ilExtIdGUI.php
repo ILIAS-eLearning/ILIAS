@@ -47,7 +47,13 @@ class ilExtIdGUI {
 	 * @param $parent_gui
 	 */
 	function __construct($parent_gui) {
-		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $lng, $ilAccess;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;

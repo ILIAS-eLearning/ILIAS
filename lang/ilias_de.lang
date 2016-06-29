@@ -1666,7 +1666,7 @@ assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
+assessment#:#tst_activate_skill_service#:#Kompetenzen
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#qpl_tab_competences#:#Kompetenzen
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
@@ -11964,7 +11964,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#Ein weiterer Reiter 'Kompetenzen' wird eingeblendet. In diesem Reiter können Fragen zu Kompetenzen zugeordnet werden, sowie Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen festgelegt werden.
+assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzausprägungen.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
@@ -13272,7 +13272,7 @@ cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
 cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll:
 cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll:
 cld#:#cld_create_folder#:#Ordner anlegen
-cld#:#cld_delete_failed#:#Löschen Fehlgeschlagen
+cld#:#cld_delete_failed#:#Löschen fehlgeschlagen
 cld#:#cld_file_deleted#:#Objekt gelöscht
 cld#:#cld_edit_Settings#:#Cloud Einstellungen
 cld#:#cld_empty#:#Leer
@@ -15018,7 +15018,7 @@ sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
 sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:
 sysc#:#sysc_status_na#:#Noch nicht ausgeführt
 sysc#:#sysc_status_running#:#Wird durchgeführt
-sysc#:#sysc_status_failed#:#Fehlgschlagen
+sysc#:#sysc_status_failed#:#Fehlgeschlagen
 sysc#:#sysc_status_completed#:#Erfüllt
 sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
 sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur

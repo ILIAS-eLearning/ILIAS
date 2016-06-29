@@ -18,7 +18,8 @@ class ilObjCloudListGUI extends ilObjectListGUI
      */
     public function init()
     {
-        global $lng;
+        global $DIC;
+        $lng = $DIC['lng'];
 
         $this->copy_enabled        = false;
         $this->delete_enabled      = true;
@@ -42,7 +43,8 @@ class ilObjCloudListGUI extends ilObjectListGUI
      */
     function getProperties()
     {
-        global $lng;
+        global $DIC;
+        $lng = $DIC['lng'];
 
         $props = array();
         include_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');

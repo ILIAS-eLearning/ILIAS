@@ -1486,7 +1486,7 @@ assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_activate_skill_service#:#Activate Competence Service
+assessment#:#tst_activate_skill_service#:#Competence Service
 assessment#:#tst_tab_competences#:#Competences
 assessment#:#qpl_tab_competences#:#Competences
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
@@ -12014,7 +12014,7 @@ assessment#:#tst_question_hints_back_to_question#:#Back to Question
 assessment#:#tst_question_hints_index_column_label#:#Hint %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
-assessment#:#tst_activate_skill_service_desc#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
+assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points

@@ -36,7 +36,8 @@ class ilCloudConnector
      */
     public static function getActiveServices()
     {
-        global $ilPluginAdmin;
+        global $DIC;
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         $cloud_services = $ilPluginAdmin->getActivePluginsForSlot("Modules", "Cloud", "cldh");
         if (!$cloud_services)
