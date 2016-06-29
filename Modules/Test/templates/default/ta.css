@@ -630,4 +630,5 @@ div.ilc_Page.readonly textarea[disabled]
 	border: 1px solid rgb(169, 169, 169);
 	padding: 2px;
 	background-color: rgb(235, 235, 228);
+	min-height: 200px;
 }
