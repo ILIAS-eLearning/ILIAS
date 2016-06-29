@@ -541,7 +541,9 @@ il.UICore = {
 		if (tabs) {
 			tabsHeight = tabs.innerHeight();
 			if (tabsHeight >= 50) {
-				$('#ilLastTab a').removeClass("ilNoDisplay");
+				if (tabsHeight > 50) {
+					$('#ilLastTab a').removeClass("ilNoDisplay");
+				}
 				// as long as we have two lines...
 				while (tabsHeight > 50) {
 					children = tabs.children('li:not(:last-child)');
