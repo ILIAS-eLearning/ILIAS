@@ -12,7 +12,7 @@ include_once("./setup/classes/class.ilDBConnections.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilSetup extends PEAR
+class ilSetup
 {
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
@@ -68,7 +68,6 @@ class ilSetup extends PEAR
 	{
 		global $lng;
 
-//		$this->PEAR();
 		$this->lng = $lng;
 
 		$this->db_connections = new ilDBConnections();
@@ -83,10 +82,6 @@ class ilSetup extends PEAR
 		{
 			$this->safe_mode_exec_dir = ilFile::deleteTrailingSlash(ini_get("safe_mode_exec_dir"));
 		}
-
-		// Error Handling
-		$this->error_obj = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 
 		// set path to ilias.ini
 		$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/ilias.ini.php";
@@ -195,18 +190,18 @@ class ilSetup extends PEAR
 	{
 		return true;
 		//var_dump("<pre>",$this->client,"</pre>");exit;
-
+		//Error Handling disabled!! caused by missing PEAR
 		if ($a_old_client_id != $this->client->getId())
 		{
 			// check for existing client dir
 			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
 			{
-				$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
 			}
 
 			if (!$this->saveNewClient())
 			{
-				$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
 			}
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
@@ -2156,28 +2151,24 @@ class ilSetup extends PEAR
 		{
 			try
 			{
-				/**
-				 *
-				 * Verifies the proxy server connection
-				*/
+				$err_str = false;
+				$wait_timeout = 100;
 
-				require_once 'Services/PEAR/lib/Net/Socket.php';
+				$fp = @fsockopen($settings['proxy_host'], $settings['proxy_port'],$err_code,$err_str,$wait_timeout);
 
-				$socket = new Net_Socket();
-				$socket->setErrorHandling(PEAR_ERROR_RETURN);
-				$response = $socket->connect($settings['proxy_host'], $settings['proxy_port']);
-				if(!is_bool($response))
+				if($err_str)
 				{
-					global $lng;
-					throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));
+					throw new ilProxyException($err_str);
 				}
+
+				fclose($fp);
 
 				ilUtil::sendSuccess($this->lng->txt('proxy_connectable'));
 
 			}
-			catch(ilProxyException $e)
+			catch(Exception $e)
 			{
-				ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+				ilUtil::sendFailure($this->lng->txt('proxy_not_connectable') . ": " . $e->getMessage());
 			}
 		}
 
