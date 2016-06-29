@@ -15333,3 +15333,8 @@ assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjuste
 assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###06 05 2016 new variable
 exc#:#exc_delete_team#:#Delete Team###06 05 2016 new variable
 trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###06 05 2016 new variable
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###29 06 2016 new variable
+rbac#:#mep_copy#:#User can copy media pool###29 06 2016 new variable
+crs#:#crs_cannot_find_role#:#Can't find this role.###29 06 2016 new variable
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###29 06 2016 new variable
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###29 06 2016 new variable
