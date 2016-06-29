@@ -100,8 +100,8 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
 
 		if(is_numeric($scale))
 		{
-			$left_operand  = $this->applyScale($left_operand, $scale);;
-			$right_operand = $this->applyScale($right_operand, $scale);;
+			$left_operand  = $this->applyScale($left_operand, $scale);
+			$right_operand = $this->applyScale($right_operand, $scale);
 		}
 
 		if($left_operand == $right_operand)
