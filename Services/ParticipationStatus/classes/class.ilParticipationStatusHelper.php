@@ -183,7 +183,7 @@ class ilParticipationStatusHelper
 	 */
 	public function getCourseNeedsAttendanceList()
 	{
-		return ($this->utils->isCentralTraining() || $this->utils->isDecentralTraining()) && ($this->utils->getCreditPoints() > 0);
+		return ($this->isWebinar() || $this->utils->isDecentralTraining()) && ($this->utils->getCreditPoints() > 0);
 	}
 	
 	// gev-patch start
