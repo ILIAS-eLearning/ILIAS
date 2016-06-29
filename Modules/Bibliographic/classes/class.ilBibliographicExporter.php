@@ -25,7 +25,8 @@ class ilBibliographicExporter extends ilXmlExporter {
 
 
 	public function init() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->ds = new ilBibliographicDataSet();
 		$this->ds->setDSPrefix('ds');
 		$this->db = $ilDB;

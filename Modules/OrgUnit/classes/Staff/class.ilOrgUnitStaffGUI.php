@@ -58,7 +58,14 @@ class ilOrgUnitStaffGUI {
 	 * @param ilObjOrgUnitGUI $parent_gui
 	 */
 	function __construct(ilObjOrgUnitGUI $parent_gui) {
-		global $tpl, $ilCtrl, $ilTabs, $lng, $ilAccess, $ilToolbar, $rbacreview;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$rbacreview = $DIC['rbacreview'];
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -273,7 +280,9 @@ class ilOrgUnitStaffGUI {
 	 * @return string the tables html.
 	 */
 	public function getStaffTableHTML($recursive = false, $table_cmd = "showStaff") {
-		global $lng, $rbacreview;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
 		$superior_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "superior", $recursive);
 		$superior_table->parseData();
 		$superior_table->setTitle($lng->txt("il_orgu_superior"));
@@ -286,7 +295,9 @@ class ilOrgUnitStaffGUI {
 
 
 	public function getOtherRolesTableHTML() {
-		global $lng, $rbacreview;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
 		$arrLocalRoles = $rbacreview->getLocalRoles($this->parent_object->getRefId());
 		$html = "";
 		foreach ($arrLocalRoles as $role_id) {

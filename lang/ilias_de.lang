@@ -13272,7 +13272,7 @@ cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
 cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll:
 cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll:
 cld#:#cld_create_folder#:#Ordner anlegen
-cld#:#cld_delete_failed#:#Löschen Fehlgeschlagen
+cld#:#cld_delete_failed#:#Löschen fehlgeschlagen
 cld#:#cld_file_deleted#:#Objekt gelöscht
 cld#:#cld_edit_Settings#:#Cloud Einstellungen
 cld#:#cld_empty#:#Leer
@@ -15018,7 +15018,7 @@ sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
 sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:
 sysc#:#sysc_status_na#:#Noch nicht ausgeführt
 sysc#:#sysc_status_running#:#Wird durchgeführt
-sysc#:#sysc_status_failed#:#Fehlgschlagen
+sysc#:#sysc_status_failed#:#Fehlgeschlagen
 sysc#:#sysc_status_completed#:#Erfüllt
 sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
 sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur

@@ -36,7 +36,10 @@ class ilObjOrgUnitTree {
 
 	/** making the construct private */
 	private function __construct(){
-		global $ilCtrl, $ilDB, $tree;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 		$this->ctrl = $ilCtrl;
 		$this->db = $ilDB;
 		$this->tree = $tree;
@@ -132,7 +135,8 @@ class ilObjOrgUnitTree {
 	 * @return int[] ids of the org units.
 	 */
 	public function getOrgusWhereUserHasPermissionForOperation($operation){
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		/*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
@@ -168,7 +172,8 @@ class ilObjOrgUnitTree {
 	 * @return int[] ids of the org units.
 	 */
 	public function getOrgusWhereUserHasPermissionForOperationId($operation_id){
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', ".$this->db->quote($operation_id, "integer").", '%')

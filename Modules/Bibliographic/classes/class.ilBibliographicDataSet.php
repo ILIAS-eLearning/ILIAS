@@ -43,7 +43,9 @@ class ilBibliographicDataSet extends ilDataSet {
 
 
 	public function __construct() {
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		parent::__construct();
 		$this->db = $ilDB;
 		$this->user = $ilUser;
@@ -77,7 +79,8 @@ class ilBibliographicDataSet extends ilDataSet {
 	 * @param string          $a_schema_version
 	 */
 	public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		switch ($a_entity) {
 			case 'bibl':
 				$new_obj = new ilObjBibliographic();
