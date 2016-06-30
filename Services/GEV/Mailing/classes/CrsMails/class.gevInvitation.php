@@ -38,7 +38,12 @@ class gevInvitation extends gevCrsAutoMail {
 
 	public function getScheduledFor() {
 		$date = $this->getCourseUtils()->getStartDate();
-		if ($date) {
+
+		if($this->days_before_course_start == 0) {
+			return new ilDate(time("y-m-d"), IL_CAL_DATE);
+		}
+
+		if($date) {
 			$date->increment(IL_CAL_DAY, -1 * $this->days_before_course_start);
 		}
 		return $date;
