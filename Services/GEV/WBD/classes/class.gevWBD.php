@@ -68,6 +68,7 @@ class gevWBD {
 	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
 	const USR_WBD_TP_SERVICE_OLD	= "usr_udf_wbd_tp_service_old";
 	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
+	const USR_WBD_REPORT_POINTS_FROM = "usr_udf_wbd_report_points_from";
 
 	//WBD Perioden Definer
 	const WBD_YEARS_FOR_A_PERIOD 	= 5;
@@ -178,9 +179,10 @@ class gevWBD {
 
 
 	protected function __construct($a_user_id) {
-		global $ilDB;
+		global $ilDB, $ilLog;
 
 		$this->gDB = $ilDB;
+		$this->gLog = $ilLog;
 		$this->user_id = $a_user_id;
 		$this->user_utils = gevUserUtils::getInstance($a_user_id);
 		$this->udf_utils = gevUDFUtils::getInstance();
@@ -281,6 +283,10 @@ class gevWBD {
 
 	public function getTPServiceOld() {
 		return $this->udf_utils->getField($this->user_id, self::USR_WBD_TP_SERVICE_OLD);
+	}
+
+	public function getReportPointsFrom() {
+		return $this->udf_utils->getField($this->user_id, self::USR_WBD_REPORT_POINTS_FROM);
 	}
 
 	protected function getRawWBDOKZ() {
@@ -796,5 +802,16 @@ class gevWBD {
 		$udf_utils = gevUDFUtils::getInstance();
 		$udf_utils->setField($this->user_id,self::USR_WBD_EXIT_DATE, $exit_date);
 		$udf_utils->setField($this->user_id,self::USR_TP_TYPE, "1 - Bildungsdienstleister");
+	}
+
+	public function setTrainingWBDRelevantAfter($report_after) {
+		$update = "UPDATE hist_usercoursestatus\n"
+				 ." SET okz = ".$this->gDB->quote($this->getWBDOKZ(),"text")
+				 ." WHERE usr_id = ".$this->gDB->quote($this->user_id, "integer")
+				 ."    AND hist_historic = 0"
+				 ."    AND credit_points > 0"
+				 ."    AND okz = '-empty-'"
+				 ."    AND end_date >= ".$this->gDB->quote($report_after, 'text');
+		$this->gDB->manipulate($update);
 	}
 }

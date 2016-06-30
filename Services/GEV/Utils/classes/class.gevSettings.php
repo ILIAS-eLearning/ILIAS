@@ -334,6 +334,7 @@ class gevSettings {
 		,'Austrittsdatum WBD'
 		,'Nächste durchzuführende WBD Aktion'
 		,'Vorheriger TP-Service'
+		,'WBD Punkte nachmelden ab'
 	);
 
 	static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(
