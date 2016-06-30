@@ -242,7 +242,6 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
 				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
@@ -286,7 +285,6 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
 				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
@@ -327,7 +325,6 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
 				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
