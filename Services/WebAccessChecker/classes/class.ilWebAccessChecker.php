@@ -50,6 +50,10 @@ class ilWebAccessChecker {
 	 * @var bool
 	 */
 	protected static $DEBUG = false;
+	/**
+	 * @var bool
+	 */
+	protected static $use_seperate_logfile = false;
 
 
 	/**
@@ -411,6 +415,20 @@ class ilWebAccessChecker {
 	public static function setDEBUG($DEBUG) {
 		self::$DEBUG = $DEBUG;
 	}
-}
 
-?>
+
+	/**
+	 * @return boolean
+	 */
+	public static function isUseSeperateLogfile() {
+		return self::$use_seperate_logfile;
+	}
+
+
+	/**
+	 * @param boolean $use_seperate_logfile
+	 */
+	public static function setUseSeperateLogfile($use_seperate_logfile) {
+		self::$use_seperate_logfile = $use_seperate_logfile;
+	}
+}
