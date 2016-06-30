@@ -41,7 +41,8 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function _checkAccessStaff($ref_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		if (($ilAccess->checkAccess("write", "", $ref_id)
 			OR $ilAccess->checkAccess("view_learning_progress", "", $ref_id))
@@ -58,7 +59,8 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function _checkAccessStaffRec($ref_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		if (($ilAccess->checkAccess("write", "", $ref_id)
 			OR $ilAccess->checkAccess("view_learning_progress_rec", "", $ref_id))
@@ -75,7 +77,8 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function _checkAccessAdministrateUsers($ref_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		if (ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() AND
 			$ilAccess->checkAccess('cat_administrate_users', "", $ref_id)) {
@@ -92,7 +95,8 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function _checkAccessToUserLearningProgress($ref_id,$usr_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		//Permission to view the Learning Progress of an OrgUnit: Employees
 		if ($ilAccess->checkAccess("view_learning_progress", "", $ref_id)
@@ -126,7 +130,8 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 */
 	public static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		$t_arr = explode('_', $a_target);
 		if ($t_arr[0] != 'orgu' || ((int)$t_arr[1]) <= 0) {
 			return false;

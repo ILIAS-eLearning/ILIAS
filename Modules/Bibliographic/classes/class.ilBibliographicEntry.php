@@ -84,7 +84,8 @@ class ilBibliographicEntry {
 
 
 	public function doCreate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//auto-increment il_bibl_entry
 		$this->setEntryId($ilDB->nextID('il_bibl_entry'));
 		//table il_bibl_entry
@@ -108,7 +109,8 @@ class ilBibliographicEntry {
 
 
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//table il_bibl_entry
 		$set = $ilDB->query("SELECT * FROM il_bibl_entry " . " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
@@ -120,7 +122,8 @@ class ilBibliographicEntry {
 
 
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//table il_bibl_entry
 		$ilDB->manipulate($up = "UPDATE il_bibl_entry SET " . " type = " . $ilDB->quote($this->getType(), "integer") . // type
 		                        " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
@@ -134,7 +137,8 @@ class ilBibliographicEntry {
 
 
 	public function doDelete() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->emptyCache();
 		$this->deleteOptions();
 		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
@@ -148,7 +152,8 @@ class ilBibliographicEntry {
 	 * @return array Attributes of an entry
 	 */
 	protected function loadAttributes() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$all_attributes = array();
 		//table il_bibl_attribute
 		$set = $ilDB->query("SELECT * FROM il_bibl_attribute " . " WHERE entry_id = " . $ilDB->quote($this->getEntryId(), "integer"));
@@ -283,7 +288,8 @@ class ilBibliographicEntry {
 	 * @return array
 	 */
 	static function getAllEntries($object_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$entries = array();
 		$set = $ilDB->query("SELECT id FROM il_bibl_entry " . " WHERE data_id = " . $ilDB->quote($object_id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {

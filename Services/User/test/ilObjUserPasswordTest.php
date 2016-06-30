@@ -63,12 +63,19 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory()
 	{
-		new ilUserPasswordManager(
-			array(
-				'password_encoder' => 'md5',
-				'encoder_factory'  => 'test'
-			)
-		);
+		try
+		{
+			new ilUserPasswordManager(
+				array(
+					'password_encoder' => 'md5',
+					'encoder_factory'  => 'test'
+				)
+			);
+		}
+		catch(TypeError $e)
+		{
+			throw new PHPUnit_Framework_Error($e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
+		}
 	}
 
 	/**

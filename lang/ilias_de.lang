@@ -566,13 +566,13 @@ assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
 assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden: [%s] oder [%s]
 assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#tst_feedback#:#Rückmeldung
-assessment#:#ass_process_lock#:#Verwende Lock Mechanismus während Test Durchläufen
-assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Test Ergebnissen führen.
-assessment#:#ass_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
-assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem Locks
-assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
-assessment#:#ass_process_lock_mode_db#:#Verwende Datenbank Tabellen Locks
-assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_process_lock#:#Verwende Lock-Mechanismus während Testdurchläufen
+assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
+assessment#:#ass_process_lock_mode#:#Lock-Modus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem-Locks
+assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_process_lock_mode_db#:#Verwende Datenbanktabellen-Locks
+assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking-Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -1666,7 +1666,7 @@ assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
+assessment#:#tst_activate_skill_service#:#Kompetenzen
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#qpl_tab_competences#:#Kompetenzen
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
@@ -11964,7 +11964,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#Ein weiterer Reiter 'Kompetenzen' wird eingeblendet. In diesem Reiter können Fragen zu Kompetenzen zugeordnet werden, sowie Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen festgelegt werden.
+assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzausprägungen.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
@@ -12876,7 +12876,7 @@ cron#:#cron_result_status_crashed#:#Abbruch
 cron#:#cron_result_status_reset#:#Reset
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
-cron#:#cron_action_reset#:#Reset
+cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_edit#:#Bearbeiten
 cron#:#cron_status_active#:#Aktiv
 cron#:#cron_status_inactive#:#Inaktiv
@@ -13272,7 +13272,7 @@ cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
 cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll:
 cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll:
 cld#:#cld_create_folder#:#Ordner anlegen
-cld#:#cld_delete_failed#:#Löschen Fehlgeschlagen
+cld#:#cld_delete_failed#:#Löschen fehlgeschlagen
 cld#:#cld_file_deleted#:#Objekt gelöscht
 cld#:#cld_edit_Settings#:#Cloud Einstellungen
 cld#:#cld_empty#:#Leer
@@ -14044,6 +14044,7 @@ exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an au
 survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
+cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
 crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
@@ -14582,7 +14583,7 @@ common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests ler
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
 crs#:#crs_loc_tbl_tst_type#:#Auswahl der Testfragen
-crs#:#crs_loc_form_assign_it#:#Test auswählen 
+crs#:#crs_loc_form_assign_it#:#Test auswählen
 crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
 crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
 crs#:#crs_loc_form_available_tsts#:#Verfügbare Tests:
@@ -15017,7 +15018,7 @@ sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
 sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:
 sysc#:#sysc_status_na#:#Noch nicht ausgeführt
 sysc#:#sysc_status_running#:#Wird durchgeführt
-sysc#:#sysc_status_failed#:#Fehlgschlagen
+sysc#:#sysc_status_failed#:#Fehlgeschlagen
 sysc#:#sysc_status_completed#:#Erfüllt
 sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
 sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur

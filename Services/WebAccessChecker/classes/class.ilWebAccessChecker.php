@@ -174,13 +174,15 @@ class ilWebAccessChecker {
 		if ($this->isInitialized()) {
 			return true;
 		}
-		$GLOBALS['COOKIE_PATH'] = '/';
+		$GLOBALS['DIC']['COOKIE_PATH'] = '/';
 		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
-			global $ilUser, $ilSetting;
+			global $DIC;
+			$ilUser = $DIC['ilUser'];
+			$ilSetting = $DIC['ilSetting'];
 			switch ($ilUser->getId()) {
 				case 0:
 					break;
@@ -263,7 +265,9 @@ class ilWebAccessChecker {
 
 		$this->initILIAS();
 
-		global $tpl, $ilLog;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilLog = $DIC['ilLog'];
 		$ilLog->write($e->getMessage());
 		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', true) . '/');
 		ilUtil::sendFailure($e->getMessage());

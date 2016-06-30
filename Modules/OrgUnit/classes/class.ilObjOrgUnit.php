@@ -55,7 +55,8 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function read() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		parent::read();
 		/** @var ilDB $ilDB */
 		$sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
@@ -68,7 +69,8 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function create() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		parent::create();
 		$ilDB->insert(self::TABLE_NAME, array(
 			'orgu_type_id' => array( 'integer', $this->getOrgUnitTypeId() ),
@@ -78,7 +80,8 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function update() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		parent::update();
 		$sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
 		$set = $ilDB->query($sql);
@@ -174,7 +177,8 @@ class ilObjOrgUnit extends ilContainer {
 		if (is_array(self::$icons_cache)) {
 			return self::$icons_cache;
 		}
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/** @var ilDB $ilDB */
 		$sql = 'SELECT orgu_id, ot.id AS type_id FROM orgu_data
                 INNER JOIN orgu_types AS ot ON (ot.id = orgu_data.orgu_type_id)
@@ -209,7 +213,8 @@ class ilObjOrgUnit extends ilContainer {
 
 	private static function loadRootOrgRefIdAndId() {
 		if (self::$root_ref_id === NULL || self::$root_id === NULL) {
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			$q = "SELECT o.obj_id, r.ref_id FROM object_data o
 			INNER JOIN object_reference r ON r.obj_id = o.obj_id
 			WHERE title = " . $ilDB->quote('__OrgUnitAdministration', 'text') . "";
@@ -222,7 +227,8 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	private function loadRoles() {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		if (!$this->employee_role || !$this->superior_role) {
 			$this->doLoadRoles();
 		}
@@ -242,7 +248,8 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	private function doLoadRoles() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if (!$this->employee_role || !$this->superior_role) {
 			$q = "SELECT obj_id, title FROM object_data WHERE title LIKE 'il_orgu_employee_" . $ilDB->quote($this->getRefId(), "integer")
 				. "' OR title LIKE 'il_orgu_superior_" . $ilDB->quote($this->getRefId(), "integer") . "'";
@@ -263,7 +270,9 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function assignUsersToEmployeeRole($user_ids) {
-		global $rbacadmin, $ilAppEventHandler;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		foreach ($user_ids as $user_id) {
 			$rbacadmin->assignUser($this->getEmployeeRole(), $user_id);
 
@@ -279,7 +288,9 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function assignUsersToSuperiorRole($user_ids) {
-		global $rbacadmin, $ilAppEventHandler;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		foreach ($user_ids as $user_id) {
 			$rbacadmin->assignUser($this->getSuperiorRole(), $user_id);
 
@@ -295,7 +306,9 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function deassignUserFromEmployeeRole($user_id) {
-		global $rbacadmin, $ilAppEventHandler;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		$rbacadmin->deassignUser($this->getEmployeeRole(), $user_id);
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
@@ -309,7 +322,9 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function deassignUserFromSuperiorRole($user_id) {
-		global $rbacadmin, $ilAppEventHandler;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		$rbacadmin->deassignUser($this->getSuperiorRole(), $user_id);
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
@@ -331,7 +346,10 @@ class ilObjOrgUnit extends ilContainer {
      */
     public function assignUserToLocalRole($role_id, $user_id)
     {
-        global $rbacreview, $rbacadmin, $ilAppEventHandler;
+        global $DIC;
+        $rbacreview = $DIC['rbacreview'];
+        $rbacadmin = $DIC['rbacadmin'];
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
         $arrLocalRoles = $rbacreview->getLocalRoles($this->getRefId());
         if ( ! in_array($role_id, $arrLocalRoles)) {
@@ -361,7 +379,10 @@ class ilObjOrgUnit extends ilContainer {
      */
     public function deassignUserFromLocalRole($role_id, $user_id)
     {
-        global $rbacreview, $rbacadmin, $ilAppEventHandler;
+        global $DIC;
+        $rbacreview = $DIC['rbacreview'];
+        $rbacadmin = $DIC['rbacadmin'];
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
         $arrLocalRoles = $rbacreview->getLocalRoles($this->getRefId());
         if ( ! in_array($role_id, $arrLocalRoles)) {
@@ -429,14 +450,17 @@ class ilObjOrgUnit extends ilContainer {
 
 
 	public function initDefaultRoles() {
-		global $rbacadmin, $rbacreview, $ilAppEventHandler;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role = new ilObjRole();
 		$role->setTitle("il_orgu_employee_" . $this->getRefId());
 		$role->setDescription("Emplyee of org unit obj_no." . $this->getId());
 		$role->create();
 
-		$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(), $this->getRefId(), 'y');
+		$GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(), $this->getRefId(), 'y');
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role_sup = ilObjRole::createDefaultRole('il_orgu_superior_' . $this->getRefId(), "Superior of org unit obj_no."
@@ -484,7 +508,9 @@ class ilObjOrgUnit extends ilContainer {
 	 * @return array This catches if by some means there is no translation.
 	 */
 	public function getTranslations() {
-		global $lng, $ilDB;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 
 		$translations = array();
 
@@ -525,7 +551,9 @@ class ilObjOrgUnit extends ilContainer {
 	 * @return    boolean    true if all object data were removed; false if only a references were removed
 	 */
 	function delete() {
-		global $ilDB, $ilAppEventHandler;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		// always call parent delete function first!!
 		if (!parent::delete()) {
@@ -553,7 +581,8 @@ class ilObjOrgUnit extends ilContainer {
 
 	// remove all Translations of current OrgUnit
 	function removeTranslations() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM object_translation WHERE obj_id= " . $ilDB->quote($this->getId(), 'integer');
 		$res = $ilDB->manipulate($query);
@@ -562,7 +591,8 @@ class ilObjOrgUnit extends ilContainer {
 
 	// remove translations of current OrgUnit
 	function deleteTranslation($a_lang) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM object_translation WHERE obj_id= " . $ilDB->quote($this->getId(), 'integer') . " AND lang_code = "
 			. $ilDB->quote($a_lang, 'text');
@@ -572,7 +602,8 @@ class ilObjOrgUnit extends ilContainer {
 
 	// add a new translation to current OrgUnit
 	function addTranslation($a_title, $a_desc, $a_lang, $a_lang_default) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (empty($a_title)) {
 			$a_title = "NO TITLE";
@@ -589,7 +620,9 @@ class ilObjOrgUnit extends ilContainer {
 
 	// update a translation to current OrgUnit
 	function updateTranslation($a_title, $a_desc, $a_lang, $a_lang_default) {
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		if (empty($a_title)) {
 			$a_title = "NO TITLE";

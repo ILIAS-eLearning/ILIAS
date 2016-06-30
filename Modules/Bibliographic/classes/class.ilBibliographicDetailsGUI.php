@@ -43,7 +43,12 @@ class ilBibliographicDetailsGUI {
 	 * @return string
 	 */
 	public function getHTML() {
-		global $tpl, $ilTabs, $ilCtrl, $lng, $ilHelp;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilHelp = $DIC['ilHelp'];
 		/**
 		 * @var $ilHelp ilHelpGUI
 		 */

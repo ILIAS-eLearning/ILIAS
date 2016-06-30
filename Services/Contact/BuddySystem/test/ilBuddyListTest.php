@@ -42,7 +42,13 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
 		);
 		$this->setGlobalVariable('ilDB', $this->getMockBuilder('ilDBInterface')->getMock());
-		$this->setGlobalVariable('lng', $this->getMockBuilder('ilLanguage')->getMock());
+		$this->setGlobalVariable(
+			'lng',
+			$this->getMockBuilder('ilLanguage')
+				->disableOriginalConstructor()
+				->setMethods(array('txt', 'loadLanguageModule'))
+				->getMock()
+		);
 	}
 
 	/**
