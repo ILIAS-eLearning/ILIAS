@@ -38,11 +38,14 @@ class ilWACLog extends ilLog {
 	public static function getInstance() {
 		$key = getmypid();
 		if (ilWebAccessChecker::isDEBUG()) {
-			if (! isset(self::$instances[$key])) {
+			if (!isset(self::$instances[$key])) {
 				$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
 				$ilIliasIniFile->read();
-				//				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG);
-				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
+				if (ilWebAccessChecker::isUseSeperateLogfile()) {
+					$instance = new self('/var/www/ilias', self::WAC_LOG, 'WAC');
+				} else {
+					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
+				}
 				$instance->setPid($key);
 				self::$instances[$key] = $instance;
 			}
@@ -56,8 +59,14 @@ class ilWACLog extends ilLog {
 
 	public function __destruct() {
 		if ($this->getStack()) {
+			global $ilUser;
 			parent::write('WebAccessChecker Request ' . str_repeat('#', 50));
 			parent::write('PID: ' . $this->getPid());
+			parent::write('User-Agent: ' . $_SERVER['HTTP_USER_AGENT']);
+			parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
+			if ($ilUser instanceof ilObjUser) {
+				parent::write('User_ID: ' . $ilUser->getId());
+			}
 			foreach ($this->getStack() as $msg) {
 				parent::write($msg);
 			}
@@ -69,7 +78,7 @@ class ilWACLog extends ilLog {
 	 * @param      $a_msg
 	 * @param null $a_log_level
 	 */
-	public function write($a_msg, $a_log_level = NULL) {
+	public function write($a_msg, $a_log_level = null) {
 		$this->stack[] = $a_msg;
 	}
 
@@ -121,4 +130,3 @@ class ilWACLogDummy {
 	}
 }
 
-?>
