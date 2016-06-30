@@ -1445,8 +1445,8 @@ gev#:#xatd_delete#:#ASTD Report löschen
 gev#:#xatd_visible#:#sichtbar
 gev#:#xatd_edit_permission#:#schreibberechtigt
 gev#:#astd_category#:#Vertrieb + ID
-gev#:#astd_managers_f#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>weiblich
-gev#:#astd_managers_m#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>männlich
+gev#:#astd_managers_f#:#Manager<br>(F1)<br>weiblich
+gev#:#astd_managers_m#:#Manager<br>(F1)<br>männlich
 gev#:#astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
 gev#:#astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
 gev#:#astd_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
