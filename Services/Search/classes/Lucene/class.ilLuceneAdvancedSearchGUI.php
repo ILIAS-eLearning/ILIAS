@@ -205,7 +205,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		// Reset details
 		include_once './Services/Object/classes/class.ilSubItemListGUI.php';
 		ilSubItemListGUI::resetDetails();
-		
+
 		$this->performSearch();
 	}
 	
@@ -257,7 +257,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		}
 
 		// Show results
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_adv_search.html','Services/Search');
 		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
 		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
