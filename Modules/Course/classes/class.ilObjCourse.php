@@ -1314,7 +1314,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$item->toggleVisible($this->getActivationVisibility());
 			}						
 			
-			//$item->update($this->ref_id);		
+			$item->update($this->ref_id);
 		}
 	}
 	
