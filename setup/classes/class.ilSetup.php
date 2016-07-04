@@ -979,68 +979,68 @@ class ilSetup
 		return $arr;
 	}
 
+
 	/**
-	* check client db status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientDatabase(&$client)
-	{
-		if (!$arr["status"] = $client->db_exists)
-		{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientDatabase(ilClient $client) {
+		$arr = array();
+		$client->provideGlobalDB();
+		if (!$arr["status"] = $client->db_exists) {
 			$arr["comment"] = $this->lng->txt("no_database");
+
 			return $arr;
 		}
 
-		if (!$arr["status"] = $client->db_installed)
-		{
+		if (!$arr["status"] = $client->db_installed) {
 			$arr["comment"] = $this->lng->txt("db_not_installed");
+
 			return $arr;
 		}
-
 		// TODO: move this to client class!!
-		$client->setup_ok = (bool) $client->getSetting("setup_ok");
+		$client->setup_ok = (bool)$client->getSetting("setup_ok");
 
-		//$this->lng->setDbHandler($client->db);
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
-		$ilDB = $client->db;
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
 
-		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
-		{
+		if (!$arr["status"] = $dbupdate->getDBVersionStatus()) {
 			$arr["comment"] = $this->lng->txt("db_needs_update");
 			$arr["update"] = true;
+
 			return $arr;
-		}
-		else if ($dbupdate->hotfixAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("hotfix_available");
-			$arr["update"] = true;
-			return $arr;
-		}
-		else if ($dbupdate->customUpdatesAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("custom_updates_available");
-			$arr["update"] = true;
-			return $arr;
+		} else {
+			if ($dbupdate->hotfixAvailable()) {
+				$arr["status"] = false;
+				$arr["comment"] = $this->lng->txt("hotfix_available");
+				$arr["update"] = true;
+
+				return $arr;
+			} else {
+				if ($dbupdate->customUpdatesAvailable()) {
+					$arr["status"] = false;
+					$arr["comment"] = $this->lng->txt("custom_updates_available");
+					$arr["update"] = true;
+
+					return $arr;
+				}
+			}
 		}
 
 		// check control information
-
+		global $ilDB;
 		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
 		$crec = $ilDB->fetchAssoc($cset);
-		if ($crec["cnt"] == 0)
-		{
+		$client->revokeGlobalDB();
+		if ($crec["cnt"] == 0) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("db_control_structure_missing");
 			$arr["update"] = true;
+
 			return $arr;
 		}
 
-		//$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}
 
@@ -1085,72 +1085,65 @@ class ilSetup
 		return $arr;
 	}
 
+
 	/**
-	 * check client session config status
-	 * @param    object    client
+	 * @param \ilClient $client
+	 * @return array
 	 */
-	function checkClientProxySettings(&$client)
-	{
+	public function checkClientProxySettings(ilClient $client) {
+		$client->provideGlobalDB();
 		global $ilDB;
-		$db = $ilDB;
+		$arr = array();
+		$fields = array( 'proxy_status', 'proxy_host', 'proxy_port' );
 
-		$fields = array('proxy_status','proxy_host','proxy_port');
-
-		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
-		$res = $db->query($query);
+		$query = "SELECT keyword, value FROM settings WHERE " . $ilDB->in('keyword', $fields, false, 'text');
+		$res = $ilDB->query($query);
 
 		$proxy_settings = array();
 		$already_saved = false;
-		while($row = $db->fetchAssoc($res))
-		{
+		while ($row = $ilDB->fetchAssoc($res)) {
 			$already_saved = true;
 			$proxy_settings[$row['keyword']] = $row['value'];
 		}
 
-		if(!$already_saved)
-		{
+		if (!$already_saved) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("proxy");
 			$arr["text"] = $this->lng->txt("proxy");
+		} else {
+			if ((bool)$proxy_settings["proxy_status"] == false) {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_disabled");
+				$arr["text"] = $this->lng->txt("proxy_disabled");
+			} else {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
+				$arr["text"] = $this->lng->txt("proxy_activated_configurated");
+			}
 		}
-		else if((bool)$proxy_settings["proxy_status"] == false)
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_disabled");
-			$arr["text"] = $this->lng->txt("proxy_disabled");
-		}
-		else
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
-			$arr["text"] = $this->lng->txt("proxy_activated_configurated");
 
-		}
 		return $arr;
 	}
 
+
 	/**
-	* check client installed languages status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientLanguages(&$client)
-	{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientLanguages(ilClient $client) {
+		$client->provideGlobalDB();
 		$installed_langs = $this->lng->getInstalledLanguages();
 
 		$count = count($installed_langs);
-
-		if ($count < 1)
-		{
+		$arr = array();
+		if ($count < 1) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("lang_none_installed");
-		}
-		else
-		{
+		} else {
 			$arr["status"] = true;
 			//$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
 		}
-
+		$client->revokeGlobalDB();
 		return $arr;
 	}
 
