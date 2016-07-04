@@ -35,7 +35,7 @@ class ilWACSignedPath {
 	/**
 	 * @var int
 	 */
-	protected static $cookie_max_lifetime_in_seconds = 30;
+	protected static $cookie_max_lifetime_in_seconds = 300;
 
 
 	/**
@@ -106,8 +106,10 @@ class ilWACSignedPath {
 		}
 		$this->generateFolderToken();
 
-		$this->getPathObject()->setToken($_COOKIE[$this->getTokenInstance()->getId()]);
-		$this->getPathObject()->setTimestamp($_COOKIE[$this->getTokenInstance()->getId() . self::TS_SUFFIX]);
+		$ilWACPath = $this->getPathObject();
+		$ilWACPath->setToken($_COOKIE[$this->getTokenInstance()->getId()]);
+		$ilWACPath->setTimestamp($_COOKIE[$this->getTokenInstance()->getId() . self::TS_SUFFIX]);
+		$this->setPathObject($ilWACPath);
 
 		return $this->checkToken();
 	}
@@ -115,11 +117,12 @@ class ilWACSignedPath {
 
 	protected function saveFolderToken() {
 		$this->generateFolderToken();
-		ilWACLog::getInstance()->write('save folder token for folder: ' . $this->getPathObject()->getSecurePath());
 		$cookie_livetime = self::getCookieMaxLifetimeInSeconds();
+		$str = 'save folder token for folder: ' . $this->getPathObject()->getSecurePath() . ', valid for ' . $cookie_livetime . 's';
+		ilWACLog::getInstance()->write($str);
 		$id = $this->getTokenInstance()->getId();
 		$expire = time() + $cookie_livetime;
-		//		$expire = null;
+		// $expire = null;
 		setcookie($id, $this->getTokenInstance()->getToken(), $expire, '/', null, false, false);
 		$ts_value = time() + self::getTokenMaxLifetimeInSeconds();
 		setcookie($id . self::TS_SUFFIX, $ts_value, $expire, '/', null, false, false);
@@ -246,16 +249,23 @@ class ilWACSignedPath {
 	 * @return bool
 	 */
 	protected function checkToken() {
-		$timestamp_valid = ($this->getPathObject()->getTimestamp() > $this->getTokenInstance()->getTimestamp()
-		                                                             - self::getTokenMaxLifetimeInSeconds());
+		$cookie_timestamp = $this->getPathObject()->getTimestamp();
+		$current_timestamp = $this->getTokenInstance()->getTimestamp();
+
+		$timestamp_valid = ($cookie_timestamp > ($current_timestamp - self::getCookieMaxLifetimeInSeconds()));
+		if (!$timestamp_valid) {
+			ilWACLog::getInstance()->write('cookie no longer valid: TS');
+		}
 		$token_valid = ($this->getPathObject()->getToken() == $this->getTokenInstance()->getToken());
+		if (!$token_valid) {
+			ilWACLog::getInstance()->write('cookie no longer valid: ID');
+		}
 
 		return ($timestamp_valid && $token_valid);
 	}
 
 
 	protected function generateFolderToken() {
-		//		$this->setTokenInstance(ilWACToken::getInstance($this->getPathObject()->getSecurePath()));
 		$this->setTokenInstance(new ilWACToken($this->getPathObject()->getSecurePath(), $this->getPathObject()->getClient()));
 	}
 

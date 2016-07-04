@@ -187,11 +187,12 @@ class ilWebAccessChecker {
 			global $ilUser, $ilSetting;
 			switch ($ilUser->getId()) {
 				case 0:
+						throw new ilWACException(ilWACException::ACCESS_DENIED, 'user: 0');
 					break;
 				case 13:
 					if (!$ilSetting->get('pub_section')) {
 						ilWACLog::getInstance()->write('public section not activated');
-						throw new ilWACException(ilWACException::ACCESS_DENIED);
+						throw new ilWACException(ilWACException::ACCESS_DENIED, 'user: 13, no pub_section');
 					}
 					break;
 			}

@@ -42,7 +42,7 @@ class ilWACLog extends ilLog {
 				$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
 				$ilIliasIniFile->read();
 				if (ilWebAccessChecker::isUseSeperateLogfile()) {
-					$instance = new self('/var/www/ilias', self::WAC_LOG, 'WAC');
+					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG, 'WAC');
 				} else {
 					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
 				}
@@ -66,7 +66,9 @@ class ilWACLog extends ilLog {
 			parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
 			if ($ilUser instanceof ilObjUser) {
 				parent::write('User_ID: ' . $ilUser->getId());
+
 			}
+//			parent::write('SERVER: ' . print_r($_SERVER, true));
 			foreach ($this->getStack() as $msg) {
 				parent::write($msg);
 			}
