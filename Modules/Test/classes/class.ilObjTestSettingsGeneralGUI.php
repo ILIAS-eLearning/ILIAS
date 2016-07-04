@@ -301,21 +301,15 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		
 		if( $form->getItemByPostVar('obligations_enabled')->getChecked() )
 		{
-			switch( $form->getItemByPostVar('instant_feedback_handling')->getValue() )
+			$values = $form->getItemByPostVar('instant_feedback')->getValue();
+			
+			if( in_array('instant_feedback_answer_fixation', $values) )
 			{
-				case self::INST_FB_HANDLING_OPT_FREEZE:
-					
-					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_NONE);
-					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
-					$infoMsg[] = $this->lng->txt("tst_conflict_reset_non_fbh");
-					break;
-					
-				case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
-
-					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_FORCE);
-					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
-					$infoMsg[] = $this->lng->txt("tst_conflict_reset_fbh_force");
-					break;
+				$values = array_diff($values, array('instant_feedback_answer_fixation'));
+				$form->getItemByPostVar('instant_feedback')->setValue($values);
+				
+				$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+				$infoMsg[] = $this->lng->txt("tst_conflict_reset_non_fbh");
 			}
 		}
 
