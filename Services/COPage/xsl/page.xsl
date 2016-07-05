@@ -107,6 +107,7 @@
 		</h1>
 	</xsl:if>
 	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
+	<xsl:comment>COPage-PageTop</xsl:comment>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
 			<div class="il_droparea">

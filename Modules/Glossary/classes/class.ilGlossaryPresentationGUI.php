@@ -431,6 +431,8 @@ class ilGlossaryPresentationGUI
 		{
 			$def = $defs[$j];
 			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
+			$page_gui->setGlossary($this->glossary);
+			$page_gui->setOutputMode(IL_PAGE_PRINT);
 			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page = $page_gui->getPageObject();
 
@@ -453,7 +455,7 @@ class ilGlossaryPresentationGUI
 			$page_gui->setFileDownloadLink($this->getLink($ref_id, "downloadFile"));
 			if (!$this->offlineMode())
 			{
-				$output = $page_gui->preview();
+				$output = $page_gui->showPage();
 			}
 			else
 			{
