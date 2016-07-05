@@ -251,17 +251,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 	/**
 	 * 
 	 */
-	private function generateClientSalt()
-	{
-		require_once 'Services/Password/classes/class.ilPasswordUtils.php';
-		$this->setClientSalt(
-			substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(self::MIN_SALT_SIZE))), 0, 22)
-		);
-	}
-
-	/**
-	 * 
-	 */
 	private function readClientSalt()
 	{
 		if(is_file($this->getClientSaltLocation()) && is_readable($this->getClientSaltLocation()))
@@ -271,18 +260,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 			{
 				$this->setClientSalt($contents);
 			}
-		}
-	}
-
-	/**
-	 * @throws ilPasswordException
-	 */
-	private function storeClientSalt()
-	{
-		$result = @file_put_contents($this->getClientSaltLocation(), $this->getClientSalt());
-		if(!$result)
-		{
-			throw new ilPasswordException("Could not store the client salt. Please contact an administrator.");
 		}
 	}
 }
