@@ -405,9 +405,8 @@ class ilContainer extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
-		$sorting = new ilContainerSortingSettings($new_obj->getId());
-		$sorting->setSortMode($this->getOrderType());
-		$sorting->update();
+		#18624 - copy all sorting settings
+		ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
 		
 		// copy content page
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
