@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
-require_once 'Services/Password/interfaces/interface.ilPasswordEncoderConfigurationFormAware.php';
 
 /**
  * Class ilMd5PasswordEncoder
@@ -12,7 +11,7 @@ require_once 'Services/Password/interfaces/interface.ilPasswordEncoderConfigurat
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilMd5PasswordEncoder extends ilBasePasswordEncoder implements ilPasswordEncoderConfigurationFormAware
+class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
 	/**
 	 * @param array $config

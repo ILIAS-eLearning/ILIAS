@@ -79,28 +79,8 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
 	/**
 	 * {@inheritdoc}
 	 */
-	public function buildForm(ilPropertyFormGUI $form)
+	public function requiresReencoding($encoded)
 	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateForm(ilPropertyFormGUI $form)
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveForm(ilPropertyFormGUI $form)
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function onSelection()
-	{
+		return false;
 	}
 }
