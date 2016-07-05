@@ -901,9 +901,6 @@ class ilSetup extends PEAR
 			$status["proxy"]["status"] = false;
 			$status["proxy"]["comment"] = $status["db"]["comment"];
 
-			$status["passwd"]["status"] = false;
-			$status["passwd"]["comment"] = $status["db"]["comment"];
-
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
@@ -913,7 +910,6 @@ class ilSetup extends PEAR
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["proxy"] = $this->checkClientProxySettings($client);
-			$status["passwd"] = $this->checkClientPasswordSettings($client);
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
 			$status["access"] = $this->checkAccess($client);
@@ -2226,48 +2222,6 @@ class ilSetup extends PEAR
 			}
 		}
 	}
-
-	/**
-	 * @param array $passwd_settings
-	 */
-	public function savePasswordSettings(array $passwd_settings)
-	{
-		$this->getClient()->ini->setVariable('auth', 'password_encoder', $passwd_settings['default_encoder']);
-		$this->getClient()->ini->write();
-	}
-
-	/**
-	 * Reads password settings from persitance layer
-	 * @return array
-	 */
-	public function getPasswordSettings()
-	{
-		return array(
-			'default_encoder' =>
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') ?
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') :
-				'md5'
-		);
-	}
-
-	/**
-	 * @param $client ilClient
-	 * @return array
-	 */
-	public function checkClientPasswordSettings(ilClient $client)
-	{
-		$arr['status'] = strlen($client->ini->readVariable('auth', 'password_encoder'));
-		if($arr['status'])
-		{
-			$arr['comment'] = $this->lng->txt('passwd_encoding_configured');
-		}
-		else
-		{
-			$arr['comment'] = $this->lng->txt('session_management_not_configured');
-		}
-		return $arr;
-	}
-
 
 	/**
 	 * @return bool
