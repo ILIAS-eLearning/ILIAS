@@ -8,6 +8,42 @@
 abstract class ilDatabaseCommonTestMockData {
 
 	/**
+	 * @return string
+	 */
+	public function getNow() {
+		return "NOW()";
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getLike() {
+		return " UPPER(column) LIKE(UPPER('22'))";
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getLocate() {
+		return " LOCATE( needle,mystring,5) ";
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getConcat($allow_null = true) {
+		if ($allow_null) {
+			return " CONCAT(COALESCE(o,''),COALESCE(t,''),COALESCE(t,'')) ";
+		}else {
+			return " CONCAT(o,t,t) ";
+		}
+	}
+
+
+	/**
 	 * @return array
 	 */
 	public function getDBFields() {
@@ -178,9 +214,10 @@ abstract class ilDatabaseCommonTestMockData {
 	 */
 	public function getTableCreateSQLAfterRename($tablename, $engine, $supports_fulltext) {
 		$add_idex = '';
-		if($supports_fulltext) {
+		if ($supports_fulltext) {
 			$add_idex = ", FULLTEXT KEY `i2_idx` (`address`)";
 		}
+
 		return "CREATE TABLE `" . $tablename . "` (
   `id` int(11) NOT NULL,
   `is_online` tinyint(4) DEFAULT NULL,
@@ -196,14 +233,16 @@ abstract class ilDatabaseCommonTestMockData {
   PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)$add_idex) ENGINE=$engine DEFAULT CHARSET=utf8";
 	}
 
+
 	/**
 	 * @return mixed
 	 */
 	public function getTableCreateSQLAfterAlter($tablename, $engine, $supports_fulltext) {
 		$add_idex = '';
-		if($supports_fulltext) {
+		if ($supports_fulltext) {
 			$add_idex = ", FULLTEXT KEY `i2_idx` (`address`)";
 		}
+
 		return "CREATE TABLE `" . $tablename . "` (
   `id` int(11) NOT NULL,
   `is_online` tinyint(4) DEFAULT NULL,

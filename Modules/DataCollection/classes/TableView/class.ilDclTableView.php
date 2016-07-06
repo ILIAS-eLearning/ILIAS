@@ -389,6 +389,14 @@ class ilDclTableView extends ActiveRecord
         if ($standardview = self::where(array('table_id' => $table_id))->orderBy('tableview_order')->first()) {
             return $standardview;
         }
+
+        global $DIC;
+        $rbacreview = $DIC['rbacreview'];
+        $roles = array();
+        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
+            $roles[] = $role_array['obj_id'];
+        }
+
         $view = new self();
 
 

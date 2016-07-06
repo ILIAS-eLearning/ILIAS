@@ -759,7 +759,8 @@ class ilFileSystemGUI
 			$cur_dir = (!empty($cur_subdir))
 				? $this->main_dir."/".$cur_subdir
 				: $this->main_dir;
-			$file = $cur_dir."/".ilUtil::stripSlashes($post_file);
+			$pi = pathinfo($post_file);
+			$file = $cur_dir."/".ilUtil::stripSlashes($pi["basename"]);
 
 			if (@is_file($file))
 			{

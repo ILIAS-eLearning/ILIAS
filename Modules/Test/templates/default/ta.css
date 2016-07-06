@@ -22,7 +22,7 @@
 	font-size: 150%;
 }
 
-.2col {
+.col2 {
 	width: 100%;
 	float: left;
 }
@@ -617,4 +617,12 @@ div.ilc_Page.readonly textarea[disabled]
 	z-index:99999999999;
 	top:0;
 	left:0;
+}
+
+.textarea {
+	cursor: not-allowed !important;
+	border: 1px solid rgb(169, 169, 169);
+	padding: 2px;
+	background-color: rgb(235, 235, 228);
+	min-height: 200px;
 }

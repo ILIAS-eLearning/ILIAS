@@ -30,7 +30,9 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	 * @param string                              $cmd
 	 */
 	public function __construct(ilObjBibliographicAdminLibrariesGUI $parent_gui, $cmd) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		parent::__construct($parent_gui, $cmd);
 		$this->gui = $parent_gui;
@@ -54,7 +56,8 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	 * @param array    $a_set
 	 */
 	public function fillRow($a_set) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
 		$this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
 		$this->tpl->setVariable('VAL_LIBRARY_IMG', $a_set['img']);

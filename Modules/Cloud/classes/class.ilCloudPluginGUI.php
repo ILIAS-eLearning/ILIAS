@@ -68,7 +68,8 @@ abstract class ilCloudPluginGUI
 
     public function executeCommand()
     {
-        global $ilCtrl;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
 
         $cmd = $ilCtrl->getCmd();
 

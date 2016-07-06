@@ -38,7 +38,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @param int $a_parent_node_id
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
-		global $lng, $ilias;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilias = $DIC['ilias'];
 		$this->lng = $lng;
 		$this->ilias = $ilias;
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
@@ -73,7 +75,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * executeCommand
 	 */
 	public function executeCommand() {
-		global $ilCtrl, $ilTabs, $ilNavigationHistory, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		// Navigation History
 		$link = $ilCtrl->getLinkTarget($this, $this->getStandardCmd());
 		if ($this->object != null) {
@@ -145,7 +152,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * show information screen
 	 */
 	public function infoScreenForward() {
-		global $ilTabs, $ilErr, $lng;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 		if (!$this->checkPermissionBool("visible")) {
 			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
@@ -163,7 +173,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * addLocatorItems
 	 */
 	public function addLocatorItems() {
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 		if (is_object($this->object)) {
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
 		}
@@ -177,7 +188,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @param string $a_target
 	 */
 	public static function _goto($a_target) {
-		global $ilAccess, $ilErr, $ilCtrl;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$id = explode("_", $a_target);
 		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->initBaseClass("ilRepositoryGUI");
@@ -198,7 +212,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @return array
 	 */
 	protected function initCreationForms($a_new_type) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$forms = parent::initCreationForms($a_new_type);
 		// Add File-Upload
 		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
@@ -213,7 +228,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	public function save() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$form = $this->initCreationForms($this->getType());
 		if ($form[self::CFORM_NEW]->checkInput()) {
 			parent::save();
@@ -246,7 +262,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * this had to be moved here because of the context-specific permission tab
 	 */
 	public function setTabs() {
-		global $ilAccess, $ilTabs, $lng, $ilHelp;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$ilHelp = $DIC['ilHelp'];
 		/**
 		 * @var $ilAccess    ilAccessHandler
 		 * @var $ilTabs      ilTabsGUI
@@ -278,7 +298,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	public function initEditForm() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$form = parent::initEditForm();
 		// Add File-Upload
 		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
@@ -297,7 +318,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @param ilPropertyFormGUI $a_form
 	 */
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		$ilTabs->activateTab("settings");
 		// is_online
 		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
@@ -326,7 +348,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * shows the overview page with all entries in a table
 	 */
 	public function showContent() {
-		global $ilAccess, $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
 		// if user has read permission and object is online OR user has write permissions
 		if (($ilAccess->checkAccess('read', "", $this->object->getRefId()) && $this->object->getOnline())
 		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())
@@ -355,7 +383,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * provide file as a download
 	 */
 	public function sendFile() {
-		global $ilAccess, $tpl, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$file_path = $this->bibl_obj->getFileAbsolutePath();
 			if ($file_path) {
@@ -378,7 +409,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	public function showDetails() {
-		global $ilAccess, $tpl, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->bibl_obj, $_GET[self::P_ENTRY_ID]);
 			$this->tpl->setContent($bibGUI->getHTML());
@@ -398,7 +432,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * updateSettings
 	 */
 	public function updateCustom(ilPropertyFormGUI $a_form) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
 			if ($this->object->getOnline() != $a_form->getInput("is_online")) {
 				$this->object->setOnline($a_form->getInput("is_online"));
@@ -415,7 +450,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	public function toggleNotification() {
-		global $ilCtrl, $ilUser;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		switch ($_GET["ntf"]) {
 			case 1:
@@ -433,7 +470,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @param string $change
 	 */
 	public function addNews($obj_id, $change = 'created') {
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		$ilNewsItem = new ilNewsItem();
 		$ilNewsItem->setTitle($lng->txt('news_title_' . $change));
