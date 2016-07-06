@@ -531,6 +531,9 @@ class ilGlossaryPresentationGUI
 			$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
 			$tpl->setVariable("PERMA_TARGET", "_top");
 			$tpl->parseCurrentBlock();
+
+			// show taxonomy
+			$this->showTaxonomy();
 		}
 
 		// highlighting?
@@ -556,9 +559,6 @@ class ilGlossaryPresentationGUI
 			}
 			$this->fill_on_load_code = true;
 		}
-
-		// show taxonomy
-		$this->showTaxonomy();
 
 		if ($this->offlineMode() || $a_get_html)
 		{
