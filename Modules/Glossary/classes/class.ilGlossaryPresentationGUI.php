@@ -556,7 +556,10 @@ class ilGlossaryPresentationGUI
 			}
 			$this->fill_on_load_code = true;
 		}
-		
+
+		// show taxonomy
+		$this->showTaxonomy();
+
 		if ($this->offlineMode() || $a_get_html)
 		{
 			return $tpl->get();
