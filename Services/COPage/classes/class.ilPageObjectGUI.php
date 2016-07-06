@@ -2592,6 +2592,7 @@ return;
 		xslt_free($xh);
 
 		// unmask user html
+		require_once('./Services/Style/classes/class.ilObjStyleSheet.php');
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
