@@ -3,7 +3,6 @@
 The ILIAS UI-Framework helps you to implement GUIs consistent with the guidelines
 of the Kitchen Sink.
 
-
 ## Use Kitchen Sink Concepts
 
 The ILIAS UI-Framework deals with the concepts found in the Kitchen Sink. In fact,
@@ -14,17 +13,13 @@ CSS-classes you need to use. You will be able to talk to other people (like user
 or designers) using the same concepts and problem space as they do. This is also
 not a templating framework.
 
-[Learn more](doku/use_ks_concepts.md)
-
 ## Compose GUIs from Simple Parts
 
-In the ILIAS UI-Frameworks, GUIs are described by composing large chunks from
+In the ILIAS UI-Framework, GUIs are described by composing large chunks from
 smaller components. The available components and their possible compositions are
 described in the Kitchen Sink. The single components only have little  configuration,
 complex GUIs emerge from simple parts. You also won't need to modify existing
 components, just use them as provided.
-
-[Learn more](doku/composition.md)
 
 ## Correctness by Construction and Testability
 
@@ -32,16 +27,13 @@ The design of the ILIAS UI-Framework makes it possible to identify lots of
 guideline violations during the construction of a GUI and turn them into errors
 or exceptions in PHP. This gives you the freedom to care about your GUI instead
 of the guidelines it should conform to. You also can check your final GUI for
-Kitchen Sink Compliance using the procedures the framework provides for Unit
+Kitchen Sink compliance using the procedures the framework provides for Unit
 Testing.
-
-[Learn more](doku/correctness.md)
-
 
 ## Using the Framework
 
 As a user of the ILIAS UI-Framework your entry point to the framework is provided
-via the dependency injection container `$DIC->UIFactory()`, which gives you
+via the dependency injection container `$DIC->ui()->factory()`, which gives you
 access to the main factory implementing ILIAS\UI\Factory.
 
 ### How to Discover the Components in the Framework?
@@ -50,8 +42,8 @@ The factories provided by the framework are structured in the same way as the
 taxonomy given in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11).
 The main factory provides methods for every node or leaf in the `Class`-Layer
 of the Kitchen Sink Taxonomy. Using that method you get a sub factory if methods
-corresponds to a node in the factory. If the method corresponds to a leaf in the
-KS-Layout you get a PHP representation of the component you chose. Since the Jour
+corresponds to a node in the layout. If the method corresponds to a leaf in the
+layout, you get a PHP representation of the component you chose. Since the Jour
 Fixe decides upon entries in the Kitchen Sink, the factories in the framework
 only contain entries `Accepted` by the JF. Creating a component with the
 framework thus just means following the path from the `Class` to the leaf you
@@ -64,22 +56,14 @@ derived from there. This also means you can chose to use the [documentation of t
 Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
 to check out the components.
 
-[Example](doku/examples.md#discovery)
-
 ### How to Use the Components of the Framework?
 
 With the ILIAS UI-Framework you describe how your GUI is structured instead of
 instructing the system to construct it for you. The main principle for the description
-of GUIs is composition. There are two types of components, corresponding to the
-`Aggregation`-Layer in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11):
+of GUIs is composition.
 
-* **Elements**: These are atomic components of the GUI, i.e. components that
-  are not made from smaller parts.
-* **Collections**: These bundle elements or other collections into larger chunks
-  of your GUI.
-
-You declare you components by providing a minimum set of properties and,
-if using collections, the bundled components. All compents in the Framework
+You declare you components by providing a minimum set of properties and maybe
+other components that are bundled in your component. All compents in the framework
 strive to only use a small amount of required properties and provide sensible
 defaults for other properties.
 
@@ -87,17 +71,16 @@ Since the representation of the components are implemented as immutable objects,
 you can savely reuse components created elsewhere in your code, or pass your
 component to other code without being concerned if the other code modifies it.
 
-[Example 1](doku/usage_examples.md#example_1)
-[Example 2](doku/usage_examples.md#example_2)
-[Example 3](doku/usage_examples.md#example_3)
+[Example 1](examples/Glyphs/envelope.php)
+[Example 1](examples/Glyphs/attachment_with_counters.php)
 
 ## Implementing Elements in the Framework
 
 As an implementor of components in the ILIAS UI-Framework you need to stick to
-some rules, to make sure the framework behaves in a uniform and predictable way
-accross all components. Since a lot of code will rely on the framework and the
-Kitchen Sink is coupled to the framework, there also are processes to introduce
-new components in the framework and modify existing components.
+some [rules](doku/rules.md), to make sure the framework behaves in a uniform and
+predictable way accross all components. Since a lot of code will rely on the
+framework and the Kitchen Sink is coupled to the framework, there also are processes
+to introduce new components in the framework and modify existing components.
 
 ### How to Introduce a New Component?
 
@@ -106,47 +89,42 @@ parallel to maintain the correspondence between the KS and the UI-Framework.
 
 An entry in the Kitchen Sink passes through three states:
 
-* **To be revised**: The entry is still being worked on.
-* **Proposed**: The entry has been revisited and is proposed to the JF, but has
-  not yet been decided upon.
-* **Accepted**: The entry has been accepted by the JF.
+* **To be revised**: The entry is still being worked on. Just use a local copy
+  or a fork of the ILIAS repository and try out what ever you want.
+* **Proposed**: The entry has been revisited and is proposed to the Jour Fixe,
+  but has not yet been decided upon. To enter this state, create a pull request
+  against  the ILIAS trunk containing your proposed component and take it to the
+  Jour Fixe. You need to provide a (mostly) complete definition of the component
+  but an implementation is not required at this point. Your will have better
+  chances if you also bring some visual representation of your new component,
+  you may use the ILIAS edge branch for that.
+* **Accepted**: The entry has been accepted by the JF. This, as allways, might
+  need some iterations on the component.
 
 These states are represented by using functionality of git and GitHub. After
 acceptance, the new entry is part of the Kitchen Sink as well as part of the
 source code in the trunk.
 
-[Learn how to propose a Kitchen Sink Entry](doku/processes.md#introduce_ks_entry)
+### How to Implement a Component?
 
-### How to Model a Kitchen Sink Component?
+TODO: write me
 
 ### How to Change an Existing Component?
 
+TODO: write me
 
-* example for implementation
-* layout of Internal and test
+## FAQ
 
+### There are so many rules, is that really necessary?
 
-## To be discussed
+The current state of the art in ILIAS GUI creation was dubbed "The GUI Anarchy"
+by some smart person. The introduction of the ILIAS UI framework aims at bringing
+more structure in the GUIs of ILIAS. As one (or two) maintainers for all things
+GUI of ILIAS is no option for several reasons and the current state (without rules)
+is anarchy, rules seem to be the only sensible option to get some structure. All
+exisiting rules have a purpose, but there might be a more terse way to explain
+them. If you have found it, we'll be glad to accept your PR.
 
-* How is the KS-Layout related to this Lib?
-	* Which components can be instantiated? Leafs only?
-* It would be nice to enumerate the rules, we could refer to them in tests than.
-* How could we make sure, that documentation and tests match up as much
-  as possible? Could we generate tests from comments directly? How would one
-  do that?
-* Should the UI elements be immutable? (currently the tests say yes)
-* It does not seem to make sense to implement to_html_string on Counter, as we
-  never render a counter on its own. What to do about that?
-* How are the comments formatted? (YAML?)
-* How to deal with to_html_string?
-* How to implement to_html_string? Should we already aim for the 'correct'
-  interpreter approach or implement it with a naive recursion?
-* How to layout the tests/UI-folder?
-* Is there any need for an "(Non)Interactive"-Interface? Does this node in
-  the KS-Taxonomy mean anything for the implementation?
-* Do we need a glossary?
+### I don't understand that stuff, is there anyone who can explain it to me?
 
-## ToDos:
-
-* Create some more meaningful tests on counter and glyph.
-* Make the KS-Layout accessible via link. Maybe just pull it into this repo?
+Yes. Ask Richard Klees or Timon Amstutz.
