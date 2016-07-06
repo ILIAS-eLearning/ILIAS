@@ -27,12 +27,9 @@ class ilBuddySystemRelationRepository
 	 */
 	public function __construct($usr_id)
 	{
-		/**
-		 * @var $ilDB
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$this->db     = $ilDB;
+		$this->db     = $DIC['ilDB'];
 		$this->usr_id = $usr_id;
 	}
 

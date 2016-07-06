@@ -58,7 +58,8 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 
 	public function getAdminTabs() {
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */

@@ -237,6 +237,19 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testQueryUtils() {
+		$this->assertEquals($this->mock->getLike(), $this->db->like('column', 'text', 22));
+
+		$this->assertEquals($this->mock->getNow(), $this->db->now());
+
+		$this->assertEquals($this->mock->getLocate(), $this->db->locate('needle', 'mystring', 5));
+
+		$this->assertEquals($this->mock->getConcat(false), $this->db->concat(array( 'one', 'two', 'three' ), false));
+
+		$this->assertEquals($this->mock->getConcat(true), $this->db->concat(array( 'one', 'two', 'three' ), true));
+	}
+
+
 	/**
 	 * @depends testConnection
 	 */

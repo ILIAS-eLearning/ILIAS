@@ -9,6 +9,14 @@ require_once('./Services/Database/test/data/class.ilDatabaseCommonTestMockData.p
 class ilDatabasePostgresTestMockData extends ilDatabaseCommonTestMockData {
 
 	/**
+	 * @return string
+	 */
+	public function getNow() {
+		return "now()";
+	}
+
+
+	/**
 	 * @param $table_name
 	 * @return string
 	 */
@@ -17,8 +25,5 @@ class ilDatabasePostgresTestMockData extends ilDatabaseCommonTestMockData {
 		      (id,is_online,is_default,latitude,longitude,elevation,address,init_mob_id,comment_mob_id,container_id) 
 		    VALUES 
 		      (58,1,0,47.05983,7.624028,2.56,'Farbweg 9, 3400 Burgdorf',78,69,456);";
-
 	}
-
-	
 }

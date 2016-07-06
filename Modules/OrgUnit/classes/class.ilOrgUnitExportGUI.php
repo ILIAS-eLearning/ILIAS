@@ -35,7 +35,10 @@ class ilOrgUnitExportGUI extends ilExportGUI {
 	 */
 	function __construct(ilObjOrgUnitGUI $a_parent_gui, $a_main_obj = null)
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		parent::__construct($a_parent_gui, $a_main_obj);
 

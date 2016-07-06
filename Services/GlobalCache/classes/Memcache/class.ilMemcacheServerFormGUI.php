@@ -27,7 +27,8 @@ class ilMemcacheServerFormGUI extends ilPropertyFormGUI {
 	 * @param ilMemcacheServer $object
 	 */
 	public function __construct(ilMemcacheServer $object) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->object = $object;
 		$this->lng = $lng;
 		$this->is_new = ($this->object->getId() == 0);

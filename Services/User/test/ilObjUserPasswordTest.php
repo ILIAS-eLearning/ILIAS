@@ -8,7 +8,7 @@ require_once 'Services/Utilities/classes/class.ilUtil.php';
 require_once 'Services/User/classes/class.ilObjUser.php';
 
 /**
- * Class ilBcryptPasswordEncoderTest
+ * Class ilObjUserPasswordTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesUser
  */
@@ -63,12 +63,19 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory()
 	{
-		new ilUserPasswordManager(
-			array(
-				'password_encoder' => 'md5',
-				'encoder_factory'  => 'test'
-			)
-		);
+		try
+		{
+			new ilUserPasswordManager(
+				array(
+					'password_encoder' => 'md5',
+					'encoder_factory'  => 'test'
+				)
+			);
+		}
+		catch(TypeError $e)
+		{
+			throw new PHPUnit_Framework_Error($e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
+		}
 	}
 
 	/**

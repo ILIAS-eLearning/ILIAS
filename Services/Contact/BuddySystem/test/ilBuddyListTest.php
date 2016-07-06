@@ -17,11 +17,38 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	protected $buddylist;
 
 	/**
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	protected function setGlobalVariable($name, $value)
+	{
+		global $DIC;
+
+		$GLOBALS[$name] = $value;
+
+		unset($DIC[$name]);
+		$DIC[$name] = function ($c) use ($name) {
+			return $GLOBALS[$name];
+		};
+	}
+
+	/**
 	 *
 	 */
 	public function setUp()
 	{
-		$GLOBALS['ilAppEventHandler'] = $this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock();
+		$this->setGlobalVariable(
+			'ilAppEventHandler',
+			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
+		);
+		$this->setGlobalVariable('ilDB', $this->getMockBuilder('ilDBInterface')->getMock());
+		$this->setGlobalVariable(
+			'lng',
+			$this->getMockBuilder('ilLanguage')
+				->disableOriginalConstructor()
+				->setMethods(array('txt', 'loadLanguageModule'))
+				->getMock()
+		);
 	}
 
 	/**
@@ -31,7 +58,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	{
 		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
 		$user->expects($this->once())->method('getId')->will($this->returnValue(self::BUDDY_LIST_OWNER_ID));
-		$GLOBALS['ilUser'] = $user;
+		$this->setGlobalVariable('ilUser', $user);
 
 		ilBuddyList::getInstanceByGlobalUser();
 	}
@@ -43,7 +70,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	{
 		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
 		$user->expects($this->once())->method('getId')->will($this->returnValue(ANONYMOUS_USER_ID));
-		$GLOBALS['ilUser'] = $user;
+		$this->setGlobalVariable('ilUser', $user);
 
 		ilBuddyList::getInstanceByGlobalUser();
 	}
@@ -120,7 +147,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->exactly(2))->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->once())->method('getAll')->willReturn($relations);
@@ -156,7 +183,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->once())->method('getAll')->willReturn($relations);
@@ -189,7 +216,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->any())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->any())->method('getAll')->willReturn($relations);
@@ -237,7 +264,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db = $this->getMockBuilder('ilDBInterface')->getMock();
 		$db->expects($this->once())->method('queryF');
 		$db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(null));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->never())->method('getAll')->willReturn(array());
@@ -467,7 +494,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->any())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$buddylist->request($relation);
 	}

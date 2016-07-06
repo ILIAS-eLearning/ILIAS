@@ -257,28 +257,31 @@ class assOrderingQuestionImport extends assQuestionImport
 			if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES)
 			{
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$image =& base64_decode($answer["answerimage"]["content"]);
-				$imagepath = $this->object->getImagePath();
-				if (!file_exists($imagepath))
+				if( strlen($answer['answerimage']['label']) && atrlen($answer['answerimage']['content']) )
 				{
-					ilUtil::makeDirParents($imagepath);
-				}
-				$imagepath .=  $answer["answerimage"]["label"];
-				$fh = fopen($imagepath, "wb");
-				if ($fh == false)
-				{
+					$image =& base64_decode($answer["answerimage"]["content"]);
+					$imagepath = $this->object->getImagePath();
+					if (!file_exists($imagepath))
+					{
+						ilUtil::makeDirParents($imagepath);
+					}
+					$imagepath .=  $answer["answerimage"]["label"];
+					$fh = fopen($imagepath, "wb");
+					if ($fh == false)
+					{
 //									global $ilErr;
 //									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
 //									return;
+					}
+					else
+					{
+						$imagefile = fwrite($fh, $image);
+						fclose($fh);
+					}
+					// create thumbnail file
+					$thumbpath = $imagepath . "." . "thumb.jpg";
+					ilUtil::convertImage($imagepath, $thumbpath, "JPEG", $this->object->getThumbGeometry());
 				}
-				else
-				{
-					$imagefile = fwrite($fh, $image);
-					fclose($fh);
-				}
-				// create thumbnail file
-				$thumbpath = $imagepath . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", $this->object->getThumbGeometry());
 			}
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)

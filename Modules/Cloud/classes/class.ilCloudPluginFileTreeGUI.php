@@ -64,7 +64,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @throws ilCloudException
 	 */
 	public function getFolderHtml(ilObjCloudGUI $gui_class, $id, $delete_files = false, $delete_folder = false, $download = false, $files_visible = false, $folders_visible = false) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$node = NULL;
 
@@ -138,7 +139,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @return string
 	 */
 	public function getItemHtml(ilCloudFileNode $node, ilObjCloudGUI $gui_class, $delete_files = false, $delete_folder = false, $download = false) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$item = new ilTemplate("tpl.container_list_item.html", true, true, "Services/Container/");
 
@@ -200,7 +202,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @return string
 	 */
 	public function getLocatorHtml(ilCloudFileNode $node) {
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 
 		if ($node == $this->getFileTree()->getRootNode()) {
 			$ilLocator = new ilLocatorGUI();

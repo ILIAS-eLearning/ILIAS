@@ -88,7 +88,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 	public function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLocator = $DIC['ilLocator'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
 		parent::__construct(array(), $_GET["ref_id"], true, false);
 
 		$this->tpl = $tpl;
@@ -606,7 +615,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 	public static function _goto($ref_id) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->initBaseClass("ilAdministrationGUI");
 		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $ref_id);
@@ -616,7 +626,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 	protected function getTreeSelectorGUI($cmd) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$explorer = new ilOrgUnitExplorerGUI("rep_exp_sel", $this, "showPasteTree", $tree);
 		$explorer->setAjax(false);
 		$explorer->setSelectMode('nodes[]', false);
