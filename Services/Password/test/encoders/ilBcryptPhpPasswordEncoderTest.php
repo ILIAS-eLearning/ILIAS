@@ -163,4 +163,28 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 		$this->assertInternalType('int', $costs_target);
 		$this->assertNotEquals($costs_default, $costs_target);
 	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotRelyOnSalts(ilBcryptPhpPasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresSalt());
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testReencodingIsDetectedWhenNecessary(ilBcryptPhpPasswordEncoder $encoder)
+	{
+		$raw = self::PASSWORD;
+
+		$encoder->setCosts(8);
+		$encoded = $encoder->encodePassword($raw, '');
+		$encoder->setCosts(8);
+		$this->assertFalse($encoder->requiresReencoding($encoded));
+
+		$encoder->setCosts(9);
+		$this->assertTrue($encoder->requiresReencoding($encoded));
+	}
 }

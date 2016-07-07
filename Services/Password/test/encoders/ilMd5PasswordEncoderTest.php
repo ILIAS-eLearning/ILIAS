@@ -39,6 +39,22 @@ class ilMd5PasswordEncoderTest  extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotRelyOnSalts(ilMd5PasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresSalt());
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotSupportReencoding(ilMd5PasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresReencoding('hello'));
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
 	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilMd5PasswordEncoder $encoder)

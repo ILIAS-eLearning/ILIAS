@@ -193,6 +193,22 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends testInstanceCanBeCreated
 	 */
+	public function testEncoderReliesOnSalts(ilBcryptPasswordEncoder $encoder)
+	{
+		$this->assertTrue($encoder->requiresSalt());
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotSupportReencoding(ilBcryptPasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresReencoding('hello'));
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
 	public function testNameShouldBeBcrypt(ilBcryptPasswordEncoder $encoder)
 	{
 		$this->assertEquals('bcrypt', $encoder->getName());
