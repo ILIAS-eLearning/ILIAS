@@ -15,7 +15,7 @@
 
 <!-- User -->
 <!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, PersonalPicture?, Gender?, Email?, Birthday?,
-	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
+	Institution?, Street?, City?, PostalCode?, Country?, SelCountry?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
 	ApproveDate?, AgreeDate?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?)>
@@ -66,7 +66,6 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT Password (#PCDATA)>
 <!ATTLIST Password
 	Type (PLAIN|BCRYPT) #REQUIRED
-	Salt CDATA #IMPLIED
 >
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
@@ -79,6 +78,7 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT City (#PCDATA)>
 <!ELEMENT PostalCode (#PCDATA)>
 <!ELEMENT Country (#PCDATA)>
+<!ELEMENT SelCountry (#PCDATA)>
 <!ELEMENT PhoneOffice (#PCDATA)>
 <!ELEMENT PhoneHome (#PCDATA)>
 <!ELEMENT PhoneMobile (#PCDATA)>
