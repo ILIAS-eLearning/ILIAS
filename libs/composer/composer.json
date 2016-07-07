@@ -17,6 +17,9 @@
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1"
 	},
+	"require-dev": {
+		"mikey179/vfsStream": "^1.6.3"
+	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" }
 	},
@@ -117,6 +120,14 @@
 			"wrapped_by": "ILIAS\\UI\\Crawler",
 			"last_update": "2016-05-31",
 			"last_update_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>"
+		},
+		"mikey179/vfsStream" : {
+			"source": "https://github.com/mikey179/vfsStream",
+			"used_version": "v1.6.3",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": "",
+			"last_update": "2016-07-07",
+			"last_update_by": "Michael Jansen <mjansen@databay.de>"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
