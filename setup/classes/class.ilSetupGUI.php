@@ -4100,12 +4100,6 @@ else
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayProxy();
 		}
-		elseif(!$this->setup->getClient()->status['passwd']['status'])
-		{
-			$this->cmd = "passwd";
-			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
-			$this->displayPassword();
-		}
 		elseif (!$this->setup->getClient()->status["nic"]["status"])
 		{
 			$this->cmd = "nic";
