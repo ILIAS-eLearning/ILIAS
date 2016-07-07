@@ -190,10 +190,10 @@ class ilTEPHistorizingAppEventListener
 //			'individual_days'		=> -1,
 			'deleted'				=> ($event == 'delete' ? 1 : 0),
 			// gev-patch start
-			'orgu_title'			=> $ou_title
+			'orgu_title'			=> $ou_title,
+			'orgu_id'				=> $ou_id
 			// gev-patch end
 		);
-
 		return $data_payload;
 	}
 
