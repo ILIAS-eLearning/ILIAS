@@ -372,17 +372,6 @@ echo "<br>+".$client_id;
 				}
 				break;
 
-			case "passwd":
-				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "passwd")
-				{
-					$this->jumpToFirstUnfinishedSetupStep();
-				}
-				else
-				{
-					$this->displayPassword();
-				}
-				break;
-
 			case "cache":
 				$this->displayCache();
 				break;
@@ -1957,7 +1946,6 @@ else
 		$steps["lang"]["text"]    = $this->lng->txt("setup_process_step_lang");
 		$steps["contact"]["text"] = $this->lng->txt("setup_process_step_contact");
 		$steps["proxy"]["text"]   = $this->lng->txt("setup_process_step_proxy");
-		$steps["passwd"]["text"]  = $this->lng->txt("setup_process_step_passwd");
 		$steps["nic"]["text"]     = $this->lng->txt("setup_process_step_nic");
 		$steps["finish"]["text"]  = $this->lng->txt("setup_process_step_finish");
 
@@ -4003,12 +3991,6 @@ else
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayProxy();
 		}
-		elseif(!$this->setup->getClient()->status['passwd']['status'])
-		{
-			$this->cmd = "passwd";
-			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
-			$this->displayPassword();
-		}
 		elseif (!$this->setup->getClient()->status["nic"]["status"])
 		{
 			$this->cmd = "nic";
@@ -4239,7 +4221,7 @@ else
 
 		if ($check["status"])
 		{
-			$this->setButtonNext("passwd");
+			$this->setButtonNext("nic");
 		}
 
 		$this->setButtonPrev("contact");
@@ -4342,116 +4324,6 @@ else
 
 
 		$this->displayProxy(true);
-	}
-
-	/**
-	 * @param bool $a_omit_init
-	 */
-	protected function displayPassword($a_omit_init = false)
-	{
-		$this->checkDisplayMode('passwd');
-		$settings = $this->setup->getClient()->getAllSettings();
-
-		if(!$a_omit_init)
-		{
-			require_once 'Services/Administration/classes/class.ilSetting.php';
-			$this->buildPasswordForm();
-			$this->form->setValuesByArray($this->setup->getPasswordSettings());
-			if((bool)$settings['passwd_status'])
-			{
-				$this->setup->printPasswordStatus($this->setup->client);
-			}
-		}
-		$this->tpl->setVariable('SETUP_CONTENT', $this->form->getHTML());
-		$this->tpl->setVariable('TXT_INFO', $this->lng->txt('info_text_passwd'));
-
-		$check = $this->setup->checkClientPasswordSettings($this->setup->client);
-
-		$this->setup->getClient()->status['passwd']['status']  = $check['status'];
-		$this->setup->getClient()->status['passwd']['comment'] = $check['comment'];
-		if($check['status'])
-		{
-			$this->setButtonNext('nic');
-		}
-
-		$this->setButtonPrev('proxy');
-		$this->checkPanelMode();
-	}
-
-	/**
-	 *
-	 */
-	protected function buildPasswordForm()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction("setup.php?cmd=gateway");
-
-		require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-		$factory = new ilUserPasswordEncoderFactory(array());
-
-		$default_encoder = new ilSelectInputGUI($lng->txt('passwd_default_encoder'), 'default_encoder');
-		$default_encoder->setInfo($lng->txt('passwd_default_encoder_info'));
-		$default_encoder->setRequired(true);
-		$options = array();
-		foreach($factory->getEncoders() as $encoder)
-		{
-			$options[$encoder->getName()] = $lng->txt('passwd_encoder_' . $encoder->getName());
-		}
-		$default_encoder->setOptions($options);
-		$this->form->addItem($default_encoder);
-
-		foreach($factory->getEncoders() as $encoder)
-		{
-			if($encoder instanceof ilPasswordEncoderConfigurationFormAware)
-			{
-				$encoder->buildForm($this->form);
-			}
-		}
-
-		$this->form->addCommandButton('savePassword', $lng->txt('save'));
-	}
-
-	/**
-	 *
-	 */
-	protected function savePassword()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		$this->buildPasswordForm();
-		if($this->form->checkInput())
-		{
-			require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-			$factory         = new ilUserPasswordEncoderFactory(array());
-			$default_encoder = $factory->getEncoderByName(trim($this->form->getInput('default_encoder')));
-			$default_encoder->onSelection();
-			if($default_encoder->validateForm($this->form))
-			{
-				$this->setup->savePasswordSettings(array(
-					'default_encoder' => $default_encoder->getName()
-				));
-
-				ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
-				ilUtil::redirect("setup.php?cmd=displayPassword");
-			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-			}
-		}
-
-		$this->form->setValuesByPost();
-		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
-		$this->displayPassword(true);
 	}
 } // END class.ilSetupGUI
 ?>
