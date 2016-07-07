@@ -34,6 +34,12 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 			}
 		}
 
+		if(!isset($config['cost']) && static::class == self::class)
+		{
+			// Determine the costs only if they are not passed in constructor
+			$this->setCosts($this->benchmarkCost(0.05));
+		}
+
 		$this->init();
 	}
 
@@ -42,6 +48,28 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 	 */
 	protected function init()
 	{
+	}
+
+	/**
+	 * @see http://php.net/manual/en/function.password-hash.php#example-984
+	 * @param float $time_target
+	 * @return int
+	 */
+	public function benchmarkCost($time_target = 0.05)
+	{
+		$cost = 8;
+
+		do
+		{
+			$cost++;
+			$start = microtime(true);
+			$encoder = new self(array('cost' => $cost));
+			$encoder->encodePassword('test', '');
+			$end = microtime(true);
+		}
+		while(($end - $start) < $time_target && $cost <= 31);
+
+		return $cost;
 	}
 
 	/**
