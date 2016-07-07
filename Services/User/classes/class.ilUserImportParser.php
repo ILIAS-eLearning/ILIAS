@@ -297,7 +297,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->localRoleCache = array();
 		$this->parentRolesCache = array();
 		$this->send_mail = false;
-		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
+		$this->mapping_mode = IL_USER_MAPPING_ID;
 		
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
