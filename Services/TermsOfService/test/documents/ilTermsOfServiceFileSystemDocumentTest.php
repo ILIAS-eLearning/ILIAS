@@ -41,7 +41,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
+		$this->lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
 		$this->lng->expects($this->any())
 				  ->method('getLangKey')
 				  ->will($this->returnValue('de'));
@@ -80,7 +80,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedWhenNoSingableDocumentCouldBeFoundForCurrentLanguage()
 	{
-		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock());
+		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
 		$document->setSourceFiles(array());
 		$document->determine();
 	}
@@ -108,8 +108,6 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClientDocumentCouldBeRetrievedByDefaultLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
-		$this->skipIfvfsStreamNotSupported();
-
 		vfs\vfsStream::newFile('agreement_fr.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfs\vfsStream::url('root/Customizing/clients/default/agreement/agreement_fr.html'), 'phpunit');
 

@@ -36,7 +36,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
-		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock());
+		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
 		$provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 
 		$this->assertInstanceOf('ilTermsOfServiceAgreementByLanguageProvider', $provider);
@@ -70,7 +70,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 			vfs\vfsStream::url('root/Customizing/' . $global_rel_path)
 		));
 
-		$lng                 = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
+		$lng                 = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
 		$installed_languages = array('en', 'de', 'fr');
 		$lng->expects($this->once())->method('getInstalledLanguages')->will($this->onConsecutiveCalls($installed_languages));
 		$provider->setLanguageAdapter($lng);
@@ -105,7 +105,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
-		$expected = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
+		$expected = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
 
 		$provider->setLanguageAdapter($expected);
 		$this->assertEquals($expected, $provider->getLanguageAdapter());
