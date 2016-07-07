@@ -61,7 +61,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	final protected function isFactoryName($name) {
-		return preg_match("#^ILIAS\\\\UI\\\\Component\\\\([a-zA-Z]+\\\\)*Factory$#", $name) === 1;
+		return preg_match("#^(\\\\)?ILIAS\\\\UI\\\\Component\\\\([a-zA-Z]+\\\\)*Factory$#", $name) === 1;
 	}
 
 	final public function buildFactoryReflection() {
@@ -82,7 +82,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		$this->reflection = $this->buildFactoryReflection();
 	}
 
-	final public function test_proper_namespace() {
+	public function test_proper_namespace() {
 		$message = "TODO: Put your factory into the proper namespace.";
 		$this->assertRegExp
 			( "#^ILIAS\\\\UI\\\\Component.#"
@@ -91,7 +91,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 			);
 	}
 
-	final public function test_proper_name() {
+	public function test_proper_name() {
 		$name = $this->reflection->getName();
 		$message = "TODO: Give your factory a proper name.";
 		$this->assertTrue
@@ -110,7 +110,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 			$docstring_data = $this->yaml_parser->parseArrayFromString($method_reflection->getDocComment());
 			$this->assertTrue(true);
 		}
-		catch (CrawlerException\CrawlerException $ex) {
+		catch (CrawlerException\CrawlerException $e) {
 			$message = "TODO ($name): fix parse error in kitchen sink yaml: ".$e->getMessage();
 			$this->assertTrue(false, $message);
 		}
@@ -123,7 +123,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @dataProvider methods_provider
 	 */
-	final public function test_check_return_type($method_reflection, $name) {
+	final public function test_return_type($method_reflection, $name) {
 		$message = "TODO ($name): fix return type, it must be a factory or a component.";
 		$docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
 		if ($this->returnsFactory($docstring_data)) {
@@ -144,11 +144,11 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	final public function test_factory_method_name_compatible_docstring($method_reflection, $name) {
 		$docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
-		$this->test_check_return_type($method_reflection, $name);
+		$this->test_return_type($method_reflection, $name);
 
 		$return_doc = $docstring_data["namespace"];
 		$name_uppercase = ucwords($name);
-		$regex_factory_namespace = str_replace("\\", "\\\\", $this->reflection->getNamespaceName());
+		$regex_factory_namespace = $this->get_regex_factory_namespace();
 		$regex_head = "#^(\\\\?)$regex_factory_namespace";
 
 		$message = "TODO ($name): fix @return, it does not match the method name.";
@@ -174,6 +174,10 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	protected function get_regex_factory_namespace() {
+		return str_replace("\\", "\\\\", $this->reflection->getNamespaceName());
+	}
+
 	/**
 	 * Tests whether methods returning factories have no parameters.
 	 *
@@ -183,7 +187,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		$docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
 		if($this->returnsFactory($docstring_data)) {
 			$message = "TODO ($name): remove params from method that returns Factory.";
-			$this->assertCount(0, $method_reflection->getNumberOfParameters(), $message);
+			$this->assertEquals(0, $method_reflection->getNumberOfParameters(), $message);
 		}
 	}
 
@@ -285,7 +289,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		// Special rules for factory methods:
 		if ($this->returnsFactory($docstring_data)) {
 			$message = "TODO ($name): remove 'context' field, method returns a factory.";
-			$this->assertNotArrayHasKey("context", $docstring_data, $message);
+			$this->assertArrayNotHasKey("context", $docstring_data, $message);
 		}
 		else { // returnsComponent
 			if ($kitchensink_info_settings["context"]) {
