@@ -193,7 +193,7 @@ class ilLanguage
 		}
 		$this->lang_user = $ilUser->prefs["language"];
 		
-		$langs = self::getInstalledLanguages();
+		$langs = $this->getInstalledLanguages();
 		
 		if (!in_array($this->lang_key,$langs))
 		{
@@ -372,23 +372,28 @@ class ilLanguage
 	}
 	
 	
-	static function getInstalledLanguages()
+	function getInstalledLanguages()
+	{
+		return self::_getInstalledLanguages();
+	}
+
+	static function _getInstalledLanguages()
 	{
 		include_once("./Services/Object/classes/class.ilObject.php");
 		$langlist = ilObject::_getObjectsByType("lng");
-		
+
 		foreach ($langlist as $lang)
 		{
 			if (substr($lang["desc"], 0, 9) == "installed")
 			{
 				$languages[] = $lang["title"];
 			}
-		
+
 		}
 
 		return $languages ? $languages : array();
 	}
-	
+
 	public static function _lookupEntry($a_lang_key, $a_mod, $a_id)
 	{
 		global $ilDB;
@@ -466,7 +471,7 @@ class ilLanguage
 		 * @var $ilUser    ilObjUser
 		 * @var $ilSetting ilSetting
 		 */
-		global $ilUser, $ilSetting;
+		global $ilUser, $ilSetting, $lng;
 
 		if(!ilSession::get('lang') && !$_GET['lang'])
 		{
@@ -502,7 +507,7 @@ class ilLanguage
 		ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
 
 		// check whether lang selection is valid
-		$langs = self::getInstalledLanguages();
+		$langs = self::_getInstalledLanguages();
 		if(!in_array(ilSession::get('lang'), $langs))
 		{
 			if($ilSetting instanceof ilSetting && $ilSetting->get('language') != '')
