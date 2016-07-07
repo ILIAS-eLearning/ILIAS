@@ -15737,3 +15737,4 @@ grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?

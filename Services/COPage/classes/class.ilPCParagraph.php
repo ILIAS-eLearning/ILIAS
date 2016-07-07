@@ -1760,8 +1760,7 @@ if (!$a_wysiwyg)
 		{
 			$parnodes = $xpath->query('//Paragraph', $a_par_node);
 		}
-
-
+		
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 
 		foreach ($parnodes as $parnode)

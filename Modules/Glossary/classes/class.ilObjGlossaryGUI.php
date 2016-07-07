@@ -42,6 +42,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
 		
 		$lng->loadLanguageModule("content");
+		$lng->loadLanguageModule("glo");
 		
 		$this->type = "glo";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -1330,7 +1331,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style", "taxonomy")))
+			array("general_settings", "style", "taxonomy", "glossaries")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -1348,6 +1349,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$ilTabs->addSubTab("taxonomy",
 				$lng->txt("tax_taxonomy"),
 				$ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", ''));
+
+			// style properties
+			$ilTabs->addSubTab("glossaries",
+				$lng->txt("cont_auto_glossaries"),
+				$ilCtrl->getLinkTarget($this, 'editGlossaries'));
 
 			$ilTabs->activateSubTab($a_active);
 		}
@@ -1615,6 +1621,134 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 		}
 
+	}
+
+	//
+	// Auto glossaries
+	//
+
+	/**
+	 * Edit automatically linked glossaries
+	 *
+	 * @param
+	 * @return
+	 */
+	function editGlossaries()
+	{
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $ilTabs;
+
+		$ilTabs->setTabActive("settings");
+		$this->setSettingsSubTabs("glossaries");
+
+		$ilToolbar->addButton($lng->txt("add"),
+			$ilCtrl->getLinkTarget($this, "showGlossarySelector"));
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryAutoLinkTableGUI.php");
+		$tab = new ilGlossaryAutoLinkTableGUI($this->object, $this, "editGlossaries");
+
+		$tpl->setContent($tab->getHTML());
+	}
+
+	/**
+	 * Select LM Glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function showGlossarySelector()
+	{
+		global $tpl, $lng, $ilCtrl, $tree, $ilUser, $ilTabs;
+
+		$ilTabs->setTabActive("settings");
+		$this->setSettingsSubTabs("glossaries");
+
+		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+
+		$exp = new ilSearchRootSelector($ilCtrl->getLinkTarget($this,'showGlossarySelector'));
+		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'showGlossarySelector'));
+		$exp->setTargetClass(get_class($this));
+		$exp->setCmd('confirmGlossarySelection');
+		$exp->setClickableTypes(array("glo"));
+		$exp->addFilter("glo");
+
+		// build html-output
+		$exp->setOutput(0);
+		$tpl->setContent($exp->getOutput());
+
+	}
+
+	/**
+	 * Confirm glossary selection
+	 */
+	function confirmGlossarySelection()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$ilCtrl->setParameter($this, "glo_ref_id", $_GET["root_id"]);
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("glo_link_glo_in_glo"));
+		$cgui->setCancel($lng->txt("no"), "selectGlossary");
+		$cgui->setConfirm($lng->txt("yes"), "selectGlossaryLink");
+		$tpl->setContent($cgui->getHTML());
+	}
+
+	/**
+	 * Select a glossary and link all its terms
+	 *
+	 * @param
+	 * @return
+	 */
+	function selectGlossaryLink()
+	{
+		$glo_ref_id = (int) $_GET["glo_ref_id"];
+		$glo_id = ilObject::_lookupObjId($glo_ref_id);
+		$this->object->autoLinkGlossaryTerms($glo_id);
+		$this->selectGlossary();
+	}
+
+
+	/**
+	 * Select lm glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function selectGlossary()
+	{
+		global $ilCtrl, $lng;
+
+		$glos = $this->object->getAutoGlossaries();
+		$glo_ref_id = (int) $_GET["glo_ref_id"];
+		$glo_id = ilObject::_lookupObjId($glo_ref_id);
+		if (!in_array($glo_id, $glos))
+		{
+			$glos[] = $glo_id;
+		}
+		$this->object->setAutoGlossaries($glos);
+		$this->object->update();
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editGlossaries");
+	}
+
+	/**
+	 * Remove lm glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeGlossary()
+	{
+		global $ilCtrl, $lng;
+
+		$this->object->removeAutoGlossary((int) $_GET["glo_id"]);
+		$this->object->update();
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editGlossaries");
 	}
 
 }
