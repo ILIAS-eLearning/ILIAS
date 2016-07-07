@@ -67,7 +67,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 			$encoder->encodePassword('test', '');
 			$end = microtime(true);
 		}
-		while(($end - $start) < $time_target && $cost <= 31);
+		while(($end - $start) < $time_target && $cost < 32);
 
 		return $cost;
 	}

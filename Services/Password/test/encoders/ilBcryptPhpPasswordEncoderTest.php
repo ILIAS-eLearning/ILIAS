@@ -44,10 +44,28 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @return array
+	 */
+	public function costsProvider()
+	{
+		$data = array();
+		for($i = 4; $i <= 31; $i++)
+		{
+			$data[] = array($i);
+		}
+		return $data;
+	}
+
+	/**
 	 * @return ilBcryptPasswordEncoder
 	 */
 	public function testInstanceCanBeCreated()
 	{
+		$this->skipIfPhpVersionIsNotSupported();
+
+		$default_costs_encoder = new ilBcryptPhpPasswordEncoder();
+		$this->assertTrue((int)$default_costs_encoder->getCosts() > 4 && (int)$default_costs_encoder->getCosts() < 32);
+
 		$encoder = new ilBcryptPhpPasswordEncoder(array(
 			'cost' => self::VALID_COSTS
 		));
@@ -93,25 +111,10 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return array
-	 */
-	public function costsProvider()
-	{
-		$data = array();
-		for($i = 4; $i <= 31; $i++)
-		{
-			$data[] = array($i);
-		}
-		return $data;
-	}
-
-	/**
 	 * @depends testInstanceCanBeCreated
 	 */
 	public function testPasswordShouldBeCorrectlyEncodedAndVerified(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->skipIfPhpVersionIsNotSupported();
-
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoded_password = $encoder->encodePassword(self::PASSWORD, '');
 		$this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, ''));
@@ -125,8 +128,6 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->skipIfPhpVersionIsNotSupported();
-
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}
@@ -136,18 +137,30 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->skipIfPhpVersionIsNotSupported();
-
 		$encoder->setCosts(self::VALID_COSTS);
 		$this->assertFalse($encoder->isPasswordValid('encoded', str_repeat('a', 5000), ''));
 	}
 
 	/**
-	 *
+	 * @depends testInstanceCanBeCreated
 	 */
-	public function testNameShouldBeBcryptPhp()
+	public function testNameShouldBeBcryptPhp(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$encoder = new ilBcryptPhpPasswordEncoder();
 		$this->assertEquals('bcryptphp', $encoder->getName());
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testCostsCanBeDeterminedDynamically(ilBcryptPhpPasswordEncoder $encoder)
+	{
+		$costs_default = $encoder->benchmarkCost();
+		$costs_target  = $encoder->benchmarkCost(0.5);
+
+		$this->assertTrue($costs_default > 4 && $costs_default < 32);
+		$this->assertTrue($costs_target > 4 && $costs_target < 32);
+		$this->assertInternalType('int', $costs_default);
+		$this->assertInternalType('int', $costs_target);
+		$this->assertNotEquals($costs_default, $costs_target);
 	}
 }
