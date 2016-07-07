@@ -74,10 +74,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v5.2.15",
+			"used_version" : "v5.2.16",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2016-06-02",
+			"last_update" : "2016-07-07",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phansys/getid3" : {
