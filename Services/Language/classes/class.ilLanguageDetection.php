@@ -34,7 +34,7 @@ class ilLanguageDetection
 		 */
 		global $ilLog;
 
-		$installed_languages = ilLanguage::getInstalledLanguages();
+		$installed_languages = ilLanguage::_getInstalledLanguages();
 		$detected_language   = $installed_languages[0];
 
 		foreach($this->factory->getValidInstances() as $detector)
