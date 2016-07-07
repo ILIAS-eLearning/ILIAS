@@ -216,47 +216,6 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testExceptionIsRaisedIfAGeneratedClientSaltCouldNotBeStoredOnEncoderSelection()
-	{
-		$this->skipIfvfsStreamNotSupported();
-
-		$encoder = new ilBcryptPasswordEncoder();
-		$this->assertNull($encoder->getClientSalt());
-
-		try
-		{
-			$this->getTestDirectory()->chmod(0000);
-			$encoder->onSelection();
-			$this->fail('An expected exception has not been raised.');
-		}
-		catch(Exception $e)
-		{
-			$this->assertNull($encoder->getClientSalt());
-			$this->assertFileNotExists(vfsStream::url('root/tests/' . ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME));
-		}
-	}
-
-	/**
-	 *
-	 */
-	public function testClientSaltIsGeneratedAndStoredOnEncoderSelection()
-	{
-		$this->skipIfvfsStreamNotSupported();
-
-		$this->getTestDirectory()->chmod(0777);
-
-		$encoder = new ilBcryptPasswordEncoder();
-		$this->assertNull($encoder->getClientSalt());
-
-		$encoder->onSelection();
-
-		$this->assertNotNull($encoder->getClientSalt());
-		$this->assertFileExists(vfsStream::url('root/tests/' . ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME));
-	}
-
-	/**
-	 *
-	 */
 	public function testInstanceCanBeCreatedAndInitializedWithClientSalt()
 	{
 		$this->skipIfvfsStreamNotSupported();

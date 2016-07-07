@@ -65,7 +65,7 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT Login (#PCDATA)>
 <!ELEMENT Password (#PCDATA)>
 <!ATTLIST Password
-	Type (PLAIN|ILIAS3|MD5|BCRYPT) #REQUIRED
+	Type (PLAIN|BCRYPT) #REQUIRED
 	Salt CDATA #IMPLIED
 >
 <!ELEMENT Firstname (#PCDATA)>
