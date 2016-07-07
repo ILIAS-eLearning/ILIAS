@@ -81,24 +81,16 @@ class ilUserPasswordManager
 			return self::$instance;
 		}
 
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
-
 		require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
 		$password_manager = new ilUserPasswordManager(
 			array(
 				'encoder_factory' => new ilUserPasswordEncoderFactory(
 					array(
-						'default_password_encoder' => 'md5',
+						'default_password_encoder' => 'bcryptphp',
 						'ignore_security_flaw'     => true
 					)
 				),
-				'password_encoder' =>
-					$ilClientIniFile->readVariable('auth', 'password_encoder') ?
-					$ilClientIniFile->readVariable('auth', 'password_encoder') :
-					'md5',
+				'password_encoder' => 'bcryptphp'
 			)
 		);
 
@@ -184,12 +176,17 @@ class ilUserPasswordManager
 				$user->resetPassword($raw, $raw);
 				return true;
 			}
-
-			return false;
 		}
-		else
+		else if($encoder->isPasswordValid($user->getPasswd(), $raw, $user->getPasswordSalt()))
 		{
-			return $encoder->isPasswordValid($user->getPasswd(), $raw, $user->getPasswordSalt());
+			if($encoder->requiresReencoding($user->getPasswd()))
+			{
+				$user->resetPassword($raw, $raw);
+			}
+
+			return true;
 		}
+
+		return false;
 	}
 } 

@@ -585,6 +585,7 @@ setup_process_step_passwd#:#Passwörter
 info_text_passwd#:#Passwort Einstellungen
 passwd_encoder_md5#:#md5
 passwd_encoder_bcrypt#:#bcrypt
+passwd_encoder_bcryptphp#:#bcrypt (PHP nativ)
 passwd_default_encoder#:#Kodierer
 passwd_default_encoder_info#:#Wählen Sie hier den Standard-Kodierer für die Speicherung von Passwörtern des ILIAS-Mandanten.
 passwd_encoder_bcrypt_client_salt#:#Mandantenweiter Salt

@@ -575,6 +575,7 @@ setup_process_step_passwd#:#Passwords
 info_text_passwd#:#Password Settings
 passwd_encoder_md5#:#md5
 passwd_encoder_bcrypt#:#bcrypt
+passwd_encoder_bcryptphp#:#bcrypt (native PHP)
 passwd_default_encoder#:#Encoder
 passwd_default_encoder_info#:#Please choose the default encoder used for password storage for your ILIAS client.
 passwd_encoder_bcrypt_client_salt#:#Client Salt
