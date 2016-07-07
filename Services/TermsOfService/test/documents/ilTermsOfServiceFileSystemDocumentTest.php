@@ -41,7 +41,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
+		$this->lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages', 'getLangKey', 'getDefaultLanguage'))->disableOriginalConstructor()->getMock();
 		$this->lng->expects($this->any())
 				  ->method('getLangKey')
 				  ->will($this->returnValue('de'));
