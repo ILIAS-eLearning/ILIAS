@@ -15735,3 +15735,8 @@ crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.

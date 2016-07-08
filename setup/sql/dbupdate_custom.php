@@ -38,3 +38,7 @@ if (!$ilDB->tableExists('glo_glossaries'))
 	));
 }
 ?>
+<#7>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
