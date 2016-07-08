@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Database/test/data/class.ilDatabaseCommonTestMockData.php');
+require_once('./Services/Database/test/Implementations/data/class.ilDatabaseCommonTestMockData.php');
 
 /**
  * Class ilDatabaseCommonTestMockData

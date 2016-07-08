@@ -21,15 +21,13 @@
 	+-----------------------------------------------------------------------------+
 */
 
-// require_once(__DIR__."/mocks.php");
-
 /**
  * TestCase for the ilDatabaseCommonTest
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
+abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCase {
 
 	const INDEX_NAME = 'i1';
 	const TABLE_NAME = 'il_ut_en';
@@ -99,15 +97,15 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 			case ilDBConstants::TYPE_MYSQLI_LEGACY:
 			case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 			case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
-				require_once('./Services/Database/test/data/MySQL/class.ilDatabaseMySQLTestMockData.php');
-				require_once('./Services/Database/test/data/MySQL/class.ilDatabaseMySQLTestsDataOutputs.php');
+				require_once('./Services/Database/test/Implementations/data/MySQL/class.ilDatabaseMySQLTestMockData.php');
+				require_once('./Services/Database/test/Implementations/data/MySQL/class.ilDatabaseMySQLTestsDataOutputs.php');
 				$this->mock = new ilDatabaseMySQLTestMockData();
 				$this->outputs = new ilDatabaseMySQLTestsDataOutputs();
 				break;
 			case ilDBConstants::TYPE_POSTGRES_LEGACY:
 			case ilDBConstants::TYPE_PDO_POSTGRE:
-				require_once('./Services/Database/test/data/Postgres/class.ilDatabasePostgresTestMockData.php');
-				require_once('./Services/Database/test/data/Postgres/class.ilDatabasePostgresTestsDataOutputs.php');
+				require_once('./Services/Database/test/Implementations/data/Postgres/class.ilDatabasePostgresTestMockData.php');
+				require_once('./Services/Database/test/Implementations/data/Postgres/class.ilDatabasePostgresTestsDataOutputs.php');
 				$this->mock = new ilDatabasePostgresTestMockData();
 				$this->outputs = new ilDatabasePostgresTestsDataOutputs();
 				break;
@@ -311,7 +309,10 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 		$this->db->setLimit(2, 0);
 		$result = $this->db->query($query);
 		$data = $this->db->fetchAll($result);
-		$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$select_usr_data_2_output, $data);
+		foreach (ilDatabaseCommonTestsDataOutputs::$select_usr_data_2_output as $item) {
+			$this->assertTrue(in_array($item, $data));
+		}
+
 		$this->assertEquals(2, $this->db->numRows($result));
 	}
 
@@ -386,11 +387,12 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 
 		// getTableIndexDefinition
 		$this->db->addIndex($this->getTableName(), array( 'init_mob_id' ), self::INDEX_NAME);
-		$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$table_index_definition_output, $reverse->getTableIndexDefinition($this->getTableName(), self::INDEX_NAME));
+		$tableIndexDefinition = $reverse->getTableIndexDefinition($this->getTableName(), $this->db->constraintName($this->getTableName(), self::INDEX_NAME));
+		$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$table_index_definition_output, $tableIndexDefinition);
 		$this->db->dropIndex($this->getTableName(), self::INDEX_NAME);
 
 		// getTableConstraintDefinition
-		$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$table_constraint_definition_output, $reverse->getTableConstraintDefinition($this->getTableName(), strtolower($this->db->getPrimaryKeyIdentifier())));
+		$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$table_constraint_definition_output, $reverse->getTableConstraintDefinition($this->getTableName(), $this->db->constraintName($this->getTableName(), strtolower($this->db->getPrimaryKeyIdentifier()))));
 	}
 
 
@@ -399,7 +401,7 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testManager() {
 		/**
-		 * @var $manager  ilDBPdomanager|MDB2_Driver_Manager_mysqli|MDB2_Driver_Manager_pgsql
+		 * @var $manager  ilDBPdomanager|MDB2_Driver_Manager_mysqli|MDB2_Driver_Manager_pgsql|ilDBPdoManagerPostgres
 		 */
 		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
 
@@ -407,19 +409,19 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->outputs->getTableFields(), $manager->listTableFields($this->getTableName()));
 
 		// constraints
-		$this->assertEquals($this->outputs->getTableConstraints(), $manager->listTableConstraints($this->getTableName()));
+		$this->assertEquals($this->outputs->getTableConstraints($this->getTableName()), $manager->listTableConstraints($this->getTableName()));
 
 		// Indices
+		$this->db->dropIndexByFields($this->getTableName(), array( 'init_mob_id' ));
 		$this->db->addIndex($this->getTableName(), array( 'init_mob_id' ), self::INDEX_NAME);
-		if ($this->db->supportsFulltext()) {
-			$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$table_indices_fulltext, $manager->listTableIndexes($this->getTableName()));
-		} else {
-			$this->assertEquals(ilDatabaseCommonTestsDataOutputs::$table_indices, $manager->listTableIndexes($this->getTableName()));
-		}
+		$this->assertEquals($this->outputs->getNativeTableIndices($this->getTableName(), $this->db->supportsFulltext()), $manager->listTableIndexes($this->getTableName()));
 
 		// listTables
 		$list_tables_output = $this->outputs->getListTables($this->getTableName());
-		$this->assertTrue(count(array_diff($list_tables_output, $manager->listTables())) < 2);
+		sort($list_tables_output);
+		$list_tables_native = $manager->listTables();
+		sort($list_tables_native);
+		$this->assertEquals($list_tables_output, $list_tables_native);
 
 		// listSequences
 		$table_sequences_output = $this->outputs->getTableSequences($this->getTableName());
@@ -445,13 +447,13 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(false, $analyzer->getAutoIncrementField($this->getTableName()));
 
 		// getPrimaryKeyInformation
-		$this->assertEquals($this->outputs->getPrimaryInfo(), $analyzer->getPrimaryKeyInformation($this->getTableName()));
+		$this->assertEquals($this->outputs->getPrimaryInfo($this->getTableName()), $analyzer->getPrimaryKeyInformation($this->getTableName()));
 
 		// getIndicesInformation
 		if ($this->db->supportsFulltext()) {
-			$this->assertEquals($this->outputs->getIndexInfo(true), $analyzer->getIndicesInformation($this->getTableName()));
+			$this->assertEquals($this->outputs->getIndexInfo(true, $this->getTableName()), $analyzer->getIndicesInformation($this->getTableName()));
 		} else {
-			$this->assertEquals($this->outputs->getIndexInfo(false), $analyzer->getIndicesInformation($this->getTableName()));
+			$this->assertEquals($this->outputs->getIndexInfo(false, $this->getTableName()), $analyzer->getIndicesInformation($this->getTableName()));
 		}
 
 		// getConstraintsInformation

@@ -92,8 +92,9 @@ class ilDBPostgreSQL extends ilDB
 	 */
 	function constraintName($a_table, $a_constraint)
 	{
-		return $a_constraint; // BUG in UNITTests
-		return $a_table."_".$a_constraint;
+		$a_constraint = str_replace($a_table . '_', '', $a_constraint);
+
+		return $a_table . "_" . $a_constraint;
 	}
 
 	/**
