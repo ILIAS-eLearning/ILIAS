@@ -162,7 +162,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		else { // returnsComponent
 			// Every component MUST be described by a single interface, where the name of
 			// the interface corresponds to the name of the component.
-			$standard_pattern = "$regex_head\\\\$name_uppercase\\\\.*#";
+			$standard_pattern = "$regex_head\\\\$name_uppercase#";
 			$standard_case = preg_match($standard_pattern, $return_doc);
 
 			// unless they only differ in a type and share a common prefix to their pathes.
