@@ -41,6 +41,7 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Counter\Factory
 	 */
 	public function counter();
+
 	/**
 	 * ---
 	 * title: Glyph
@@ -101,4 +102,86 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Glyph\Factory
 	 */
 	public function glyph();
+
+	/**
+	 * ---
+	 * title: Button
+	 * description:
+	 *   purpose: >
+	 *      Buttons trigger interactions that change the system’s status. Usually
+	 *      Buttons are contained in an Input Collection. The Toolbar is the main
+	 *      exception to this rule, since buttons in the Toolbar might also perform
+     *      view changes.
+	 *   composition: >
+	 *      Button is a clickable, graphically obtrusive control element. It can
+	 *      bear Text, a Glyph or in very rare cases both.
+	 *   effect: >
+	 *      On-click, the action indicated by the button is carried out.
+	 *   rivals:
+	 *      glyph: >
+	 *          Glyphs are used if the enclosing Container Collection can not provide
+	 *          enough space for textual information or if such an information would
+	 *          clutter the screen.
+	 *      links: >
+	 *          Links are used to trigger Interactions that do not change the systems
+	 *          status. They are usually contained inside a Navigational Collection.
+	 *
+	 * background: >
+	 *      Wording rules have been inspired by the iOS Human Interface Guidelines
+	 *      (UI-Elements->Controls->System Button)
+	 *
+	 *      Style rules have been inspired from the GNOME Human Interface Guidelines->Buttons.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Buttons MUST NOT be used inside a Textual Paragraph.
+	 *   interaction:
+	 *      2: >
+	 *           A Button SHOULD trigger an action. Only in Toolbars, Buttons MAY also
+	 *           change the view.
+	 *      3: >
+	 *           If an action is temporarily not available, Buttons MUST be disabled by
+	 *           setting as type 'disabled'.
+	 *   style:
+	 *      4: >
+	 *           If Text and Glyphs are used alongside as caption for a Button the Glyph
+	 *           MUST be displayed on the left side except the caret which MUST be placed
+	 *           in the right.
+	 *      5: >
+	 *           If Text is used inside a Button, the Button MUST be at least six characters
+	 *           wide.
+	 *   wording:
+	 *      6: >
+	 *           The caption of a Button SHOULD contain no more than two words.
+	 *      7: >
+	 *           The wording of the button SHOULD describe the action the button performs
+	 *           by using a verb or a verb phrase.
+	 *      8: >
+	 *           Every word except articles, coordinating conjunctions and prepositions
+	 *           of four or fewer letters MUST be capitalized.
+	 *      9: >
+	 *           For standard events such as saving or canceling the existing standard
+	 *           terms MUST be used if possible: Save, Cancel, Delete, Cut, Copy.
+	 *      10: >
+	 *           There are cases where a non-standard label such as “Send Mail” for saving
+	 *           and sending the input of a specific form might deviate from the standard.
+	 *           These cases MUST however specifically justified.
+	 *   accessibility:
+	 *      11: >
+	 *           All glyph-only buttons MUST have aria-labels.
+	 *      12: >
+	 *           DOM elements of type "button" MUST be used to properly identify an
+	 *           element as a Button if there is no good reason to do otherwise.
+	 *      13: >
+	 *           Button DOM elements MUST either be of type "button", of type "a"
+	 *           accompanied with the aria-role “Button” or input along with the type
+	 *           attribute “button” or "submit".
+	 *      14: >
+	 *           Aria-labels SHOULD typically echo the label of the Button or name of
+	 *           the Glyph.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Button\Factory
+	 */
+	public function button();
 }

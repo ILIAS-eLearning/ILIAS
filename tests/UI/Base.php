@@ -19,6 +19,7 @@ class ilIndependentTemplateFactory implements TemplateFactory {
 class NoUIFactory implements Factory {
 	public function counter() {}
 	public function glyph() {}
+	public function button() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

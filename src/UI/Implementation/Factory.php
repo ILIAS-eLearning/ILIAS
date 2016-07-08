@@ -19,4 +19,11 @@ class Factory implements \ILIAS\UI\Factory {
 	public function glyph() {
 		return new Component\Glyph\Factory();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function button() {
+		throw new \ILIAS\UI\NotImplementedException();
+	}
 }
