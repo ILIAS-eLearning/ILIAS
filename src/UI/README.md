@@ -108,6 +108,30 @@ source code in the trunk.
 ### How to Implement a Component?
 
 TODO: write me
+STEPS:
+
+* Create a test for a factory if your component requires a new factory.
+* Create an interface for the factory and fill in kitchen sink information.
+* Create and empty interfaces for the component you want to implement.
+* Work on your yaml definitions until they pass your newly written test.
+  Remember that yaml does not use tabs for indentation. You could also use
+  the $kitchen_sink_info of the factory test to tell the test which should
+  rules you disregard.
+* Add your newly created factory methods to the implementatio of the factory
+  and make sure it throw an \ILIAS\UI\NotImplementedException.
+* Make sure you didn't break other tests by running all UI tests.
+* Your good to go for your first commit.
+* Know you need to model the component you want to introduce by defining its
+  interface and the factory method that constructs the component. To make your
+  component easy to use, it should be creatable with a minimum of parameters
+  and use sensible defaults for the most of its properties. Also think about the
+  use cases for your component. Make typical use cases easy to implement and
+  more special use cases harder to implement. Put getters for all properties on
+  your interface. Make sure you understand, that all UI components should be
+  immutable, i.e. instead of defining setters `setXYZ` you must define mutators
+  `withXYZ` that return copies of your component with changed properties. Try
+  to use as little mutators as possible and try to make it easy to maintain the
+  invariants defined in your rules when mutators will be used.
 
 ### How to Change an Existing Component?
 
