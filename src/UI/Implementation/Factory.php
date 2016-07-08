@@ -7,14 +7,14 @@ namespace ILIAS\UI\Implementation;
 // TODO: This might cache the created factories.
 class Factory implements \ILIAS\UI\Factory {
 	/**
-	 * @return \ILIAS\UI\Factory\Counter
+	 * @inheritdoc
 	 */
 	public function counter() {
 		return new Component\Counter\Factory();
 	}
 
 	/**
-	 * @return \ILIAS\UI\Factory\Glyph
+	 * @inheritdoc
 	 */
 	public function glyph() {
 		return new Component\Glyph\Factory();
