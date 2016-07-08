@@ -57,11 +57,8 @@ class ilMailMemberCourseRoles extends ilAbstractMailMemberRoles
 					break;
 
 				default:
-					$str_mail_box = str_replace('<"#','<#',$mailbox);
-					$mailbox = str_replace('"@[','@(',$str_mail_box);
-					
-					$sorted_role_ids[$counter]['role_id'] = $role_id;
-					$sorted_role_ids[$counter]['mailbox'] = $mailbox;
+					$sorted_role_ids[$counter]['role_id']           = $role_id;
+					$sorted_role_ids[$counter]['mailbox']           = $mailbox;
 					$sorted_role_ids[$counter]['form_option_title'] = $role_title;
 					
 					$counter++;
