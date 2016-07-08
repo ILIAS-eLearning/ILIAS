@@ -103,7 +103,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 */
 	public function constraintName($a_table, $a_constraint) {
 		$a_constraint = str_replace($a_table . '_', '', $a_constraint);
-		
+
 		return $a_table . '_' . $a_constraint;
 	}
 

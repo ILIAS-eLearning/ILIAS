@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
+require_once('./Services/Database/classes/Atom/class.ilAtomQuery.php');
 
 /**
  * Class ilDBConstants
@@ -23,8 +24,8 @@ class ilDBConstants {
 	const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
 	const TYPE_PDO_POSTGRE = 'pdo-postgre';
 	// Locks
-	const LOCK_WRITE = 1;
-	const LOCK_READ = 2;
+	const LOCK_WRITE = ilAtomQuery::LOCK_WRITE;
+	const LOCK_READ = ilAtomQuery::LOCK_READ;
 	// Modules
 	const MODULE_MANAGER = 'Manager';
 	const MODULE_REVERSE = 'Reverse';
@@ -45,7 +46,6 @@ class ilDBConstants {
 	// Engines
 	const ENGINE_INNODB = 'InnoDB';
 	const ENGINE_MYISAM = 'MyISAM';
-	
 	/**
 	 * @var array
 	 */

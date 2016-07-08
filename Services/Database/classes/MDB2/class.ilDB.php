@@ -398,7 +398,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @return bool
 	 */
 	public function supportsTransactions() {
-		return $this->db->supports('transactions');
+		// we generally do not want ilDB to support transactions, only PDO-instances
+		return false;
 	}
 
 	/**

@@ -443,6 +443,12 @@ interface ilDBInterface {
 	 */
 	public function supportsSlave();
 
+
+	/**
+	 * @return bool
+	 */
+	public function supportsTransactions();
+
 	//
 	//
 	//
