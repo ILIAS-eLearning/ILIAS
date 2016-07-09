@@ -60,13 +60,6 @@ $this->tpl->setVariable("TAB_LINK","setup.php?cmd=proxy");
 $this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("proxy")));
 $this->tpl->parseCurrentBlock();
 
-// passwd tab
-$this->tpl->setCurrentBlock("tab");
-$this->tpl->setVariable("TAB_TYPE", in_array($tab, array("passwd", "displayPassword", "savePassword")) ? "active" : "");
-$this->tpl->setVariable("TAB_LINK", "setup.php?cmd=passwd");
-$this->tpl->setVariable("TAB_TEXT", ucfirst($this->lng->txt("passwd")));
-$this->tpl->parseCurrentBlock();
-
 // global cache
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE", in_array($tab, array("cache", "displayCache", "saveCache")) ? "active" : "");
