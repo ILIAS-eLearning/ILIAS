@@ -1,13 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Math/classes/class.ilMathBigIntAdapter.php';
+require_once 'Services/Math/classes/class.ilMathBaseAdapter.php';
 
 /**
  * Class ilMathBCMathAdapter
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMathBCMathAdapter extends ilMathBigIntAdapter
+class ilMathBCMathAdapter extends ilMathBaseAdapter
 {
 	/**
 	 * ilMathBcMathAdapter constructor.
