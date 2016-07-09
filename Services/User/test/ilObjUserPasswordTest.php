@@ -274,9 +274,9 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 		$user_mock->expects($this->once())->method('getPasswordEncodingType')->will($this->returnValue('second_mockencoder'));
 		$user_mock->expects($this->once())->method('getPasswd')->will($this->returnValue(self::ENCODED_PASSWORD));
 		$user_mock->expects($this->never())->method('resetPassword');
-		$user_mock->expects($this->never())->method('requiresReencoding');
 
 		$encoder->expects($this->once())->method('getName')->will($this->returnValue('second_mockencoder'));
+		$encoder->expects($this->never())->method('requiresReencoding');
 		$encoder->expects($this->once())->method('isPasswordValid')->with($this->equalTo(self::ENCODED_PASSWORD), $this->equalTo(self::PASSWORD), $this->isType('string'))->will($this->returnValue(false));
 
 		$factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
