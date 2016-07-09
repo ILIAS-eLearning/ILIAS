@@ -31,7 +31,7 @@ class ilPDOAuthentication implements ilAuthInterface {
 		//        {
 		//            throw new Exception("Disable save mode or set session_hanlder to \"user\"");
 		//        }
-		session_start();
+		@session_start(); // Due to UnitTests we have to silence this...
 
 		$this->session = $_SESSION[$this->_sessionName];
 		$this->server = $_SERVER;

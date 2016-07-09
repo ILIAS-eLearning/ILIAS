@@ -191,7 +191,8 @@ class shibUser extends ilObjUser {
 	 * @return bool
 	 */
 	private static function loginExists($login, $usr_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var $ilDB ilDB
 		 */
@@ -208,7 +209,8 @@ class shibUser extends ilObjUser {
 	 * @return bool
 	 */
 	protected static function getUsrIdByExtId($ext_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var $ilDB ilDB
 		 */

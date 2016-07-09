@@ -210,7 +210,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 	 * @param               $perm_folders_visible
 	 */
 	public function initGUI(ilObjCloudGUI $gui_class, $perm_create_folder, $perm_upload_items, $perm_delete_files, $perm_delete_folders, $perm_download, $perm_files_visible, $perm_folders_visible) {
-		global $ilTabs, $lng, $tpl;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		$ilTabs->activateTab("content");
 
@@ -307,7 +310,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 	 * @param $root_node
 	 */
 	public function addToolbar($root_node) {
-		global $lng, $ilToolbar, $ilLog;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLog = $DIC['ilLog'];
 
 		$create_list_gui = ilCloudConnector::getItemCreationListGUIClass($this->getService());
 
