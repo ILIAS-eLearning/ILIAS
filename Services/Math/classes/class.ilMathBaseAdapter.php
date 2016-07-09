@@ -10,15 +10,35 @@ require_once 'Services/Math/interfaces/interface.ilMathAdapter.php';
 abstract class ilMathBaseAdapter implements ilMathAdapter
 {
 	/**
+	 * This method adapts the behaviour of bcscale()
 	 * @param mixed   $number
 	 * @param integer $scale
 	 * @return mixed
 	 */
-	protected function applyScale($number, $scale)
+	public function applyScale($number, $scale = null)
 	{
 		if(is_numeric($number))
 		{
-			$number = round($number, $scale);
+			$scale = (int)$scale;
+
+			$number = $this->exp2dec($number);
+			if(strpos($number, '.') === false)
+			{
+				$number_of_decimals = 0;
+			}
+			else
+			{
+				$number_of_decimals = strlen(substr($number, strpos($number, '.') + 1));
+			}
+
+			if($number_of_decimals > 0 && $number_of_decimals < $scale)
+			{
+				$number = str_pad($number, $scale - $number_of_decimals, '0');
+			}
+			else if($number_of_decimals > $scale)
+			{
+				$number = substr($number, 0, -($number_of_decimals - $scale));
+			}
 		}
 
 		return $number;
@@ -27,19 +47,9 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function equals($left_operand, $right_operand, $scale = 50)
+	public function equals($left_operand, $right_operand, $scale = null)
 	{
 		return $this->comp($left_operand, $right_operand, $scale) === 0;
-	}
-
-	/**
-	 * @param mixed$value
-	 * @param int $precision
-	 * @return string
-	 */
-	public static function round($value, $precision = 0)
-	{
-		return number_format($value, $precision, '.', '');
 	}
 
 	/**
@@ -50,6 +60,11 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 	 */
 	protected function normalize($number)
 	{
+		if(null === $number)
+		{
+			return $number;
+		}
+
 		$number      = str_replace(' ' , '', $number);
 		$number      = $this->exp2dec($number);
 		$locale_info = localeconv();

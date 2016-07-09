@@ -14,7 +14,7 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return mixed
 	 */
-	public function add($left_operand, $right_operand, $scale = 50);
+	public function add($left_operand, $right_operand, $scale = null);
 
 	/**
 	 * Subtracts two numbers
@@ -23,7 +23,7 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return mixed
 	 */
-	public function sub($left_operand, $right_operand, $scale = 50);
+	public function sub($left_operand, $right_operand, $scale = null);
 
 	/**
 	 * Multiplies two numbers
@@ -32,7 +32,7 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return mixed
 	 */
-	public function mul($left_operand, $right_operand, $scale = 50);
+	public function mul($left_operand, $right_operand, $scale = null);
 
 	/**
 	 * Divides two numbers
@@ -42,7 +42,7 @@ interface ilMathAdapter
 	 * @return mixed
 	 * @throws ilMathDevisionByZeroException
 	 */
-	public function div($left_operand, $right_operand, $scale = 50);
+	public function div($left_operand, $right_operand, $scale = null);
 
 	/**
 	 * Gets modulus of two numbers
@@ -60,7 +60,7 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return mixed
 	 */
-	public function pow($left_operand, $right_operand, $scale = 50);
+	public function pow($left_operand, $right_operand, $scale = null);
 
 	/**
 	 * Gets the square root of a number
@@ -68,7 +68,7 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return mixed
 	 */
-	public function sqrt($operand, $scale = 50);
+	public function sqrt($operand, $scale = null);
 
 
 	/**
@@ -78,7 +78,7 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return mixed
 	 */
-	public function comp($left_operand, $right_operand, $scale = 50);
+	public function comp($left_operand, $right_operand, $scale = null);
 
 	/**
 	 * Checks whether or not two numbers are identical
@@ -87,5 +87,12 @@ interface ilMathAdapter
 	 * @param int $scale
 	 * @return bool
 	 */
-	public function equals($left_operand, $right_operand, $scale = 50);
+	public function equals($left_operand, $right_operand, $scale = null);
+
+	/**
+	 * @param  mixed $left_operand
+	 * @param  int $scale
+	 * @return mixed
+	 */
+	public function applyScale($left_operand, $scale = null);
 }

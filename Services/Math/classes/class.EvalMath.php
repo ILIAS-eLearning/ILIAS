@@ -321,16 +321,16 @@ class EvalMath {
 								include_once "class.ilMath.php";
                 switch ($token) {
                     case '+':
-											$stack->push(ilMath::_add($op1,$op2)); break;
+											$stack->push(ilMath::_add($op1,$op2, 50)); break;
 										case '-':
-											$stack->push(ilMath::_sub($op1,$op2)); break;
+											$stack->push(ilMath::_sub($op1,$op2, 50)); break;
 										case '*':
-											$stack->push(ilMath::_mul($op1,$op2)); break;
+											$stack->push(ilMath::_mul($op1,$op2, 50)); break;
 										case '/':
 											if ($op2 == 0) return $this->trigger("division by zero");
-											$stack->push(ilMath::_div($op1,$op2)); break;
+											$stack->push(ilMath::_div($op1,$op2, 50)); break;
 										case '^':
-											$stack->push(ilMath::_pow($op1,$op2)); break;
+											$stack->push(ilMath::_pow($op1,$op2, 50)); break;
                 }
             // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {

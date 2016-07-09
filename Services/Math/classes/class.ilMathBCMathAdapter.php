@@ -11,16 +11,17 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 {
 	/**
 	 * ilMathBcMathAdapter constructor.
+	 * @param int $scale
 	 */
-	public function __construct()
+	public function __construct($scale = 0)
 	{
-		bcscale(0);
+		bcscale($scale);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function add($left_operand, $right_operand, $scale = 50)
+	public function add($left_operand, $right_operand, $scale = null)
 	{
 		return bcadd($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
 	}
@@ -28,7 +29,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function sub($left_operand, $right_operand, $scale = 50)
+	public function sub($left_operand, $right_operand, $scale = null)
 	{
 		return bcsub($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
 	}
@@ -36,7 +37,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function mul($left_operand, $right_operand, $scale = 50)
+	public function mul($left_operand, $right_operand, $scale = null)
 	{
 		return bcmul($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
 	}
@@ -44,7 +45,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function div($left_operand, $right_operand, $scale = 50)
+	public function div($left_operand, $right_operand, $scale = null)
 	{
 		if($right_operand == 0)
 		{
@@ -70,7 +71,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function pow($left_operand, $right_operand, $scale = 50)
+	public function pow($left_operand, $right_operand, $scale = null)
 	{
 		$left_operand  = $this->normalize($left_operand);
 		$right_operand = $this->normalize($right_operand);
@@ -94,7 +95,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function sqrt($operand, $scale = 50)
+	public function sqrt($operand, $scale = null)
 	{
 		return bcsqrt($operand,  $scale);
 	}
@@ -102,7 +103,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function comp($left_operand, $right_operand, $scale = 50)
+	public function comp($left_operand, $right_operand, $scale = null)
 	{
 		return bccomp($left_operand, $right_operand, $scale);
 	}
