@@ -22,7 +22,6 @@ class ilMd5PasswordEncoderTest  extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @throws ilPasswordException
 	 */
 	public function testPasswordShouldBeCorrectlyEncoded(ilMd5PasswordEncoder $encoder)
 	{
@@ -55,10 +54,10 @@ class ilMd5PasswordEncoderTest  extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilMd5PasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}
 

@@ -85,19 +85,19 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetAboveRange(ilBcryptPhpPasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(32);
 	}
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetBelowRange(ilBcryptPhpPasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(3);
 	}
 
@@ -124,10 +124,10 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPhpPasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}

@@ -4,6 +4,7 @@
 require_once 'libs/composer/vendor/autoload.php';
 require_once 'Services/Utilities/classes/class.ilUtil.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+require_once 'Services/Password/exceptions/class.ilPasswordException.php';
 
 /**
  * Class ilPasswordTestSuite

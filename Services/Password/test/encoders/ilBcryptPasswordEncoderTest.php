@@ -134,19 +134,19 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetAboveRange(ilBcryptPasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(32);
 	}
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetBelowRange(ilBcryptPasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(3);
 	}
 
@@ -173,10 +173,10 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPasswordEncoder $encoder)
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), self::PASSWORD_SALT);
 	}
@@ -215,10 +215,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilPasswordException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfSaltIsMissingIsOnEncoding()
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder = new ilBcryptPasswordEncoder();
 		$encoder->setClientSalt(null);
 		$encoder->setCosts(self::VALID_COSTS);
@@ -226,10 +227,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilPasswordException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfSaltIsMissingIsOnVerification()
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder = new ilBcryptPasswordEncoder();
 		$encoder->setClientSalt(null);
 		$encoder->setCosts(self::VALID_COSTS);
@@ -283,10 +285,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilPasswordException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfTheRawPasswordContainsA8BitCharacterAndBackwardCompatibilityIsEnabled()
 	{
+		$this->expectException(ilPasswordException::class);
 		$encoder = new ilBcryptPasswordEncoder();
 		$encoder->setClientSalt(self::CLIENT_SALT);
 		$encoder->setBackwardCompatibility(true);
