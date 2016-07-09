@@ -50,6 +50,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 	 */
 	protected function normalize($number)
 	{
+		$number      = str_replace(' ' , '', $number);
 		$number      = $this->exp2dec($number);
 		$locale_info = localeconv();
 
