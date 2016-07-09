@@ -6,6 +6,7 @@ require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
 require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
 require_once 'Services/Utilities/classes/class.ilUtil.php';
 require_once 'Services/User/classes/class.ilObjUser.php';
+require_once 'Services/User/exceptions/class.ilUserException.php';
 
 /**
  * Class ilObjUserPasswordTest
@@ -39,18 +40,20 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 *
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutEncoderInformation()
 	{
+		$this->expectException(ilUserException::class);
 		 new ilUserPasswordManager();
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 *
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutFactory()
 	{
+		$this->expectException(ilUserException::class);
 		new ilUserPasswordManager(
 			array(
 				'password_encoder' => 'md5'
@@ -59,10 +62,11 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException PHPUnit_Framework_Error
+	 *
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory()
 	{
+		$this->expectException(PHPUnit_Framework_Error::class);
 		try
 		{
 			new ilUserPasswordManager(
@@ -318,37 +322,40 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderWasInjected()
 	{
+		$this->expectException(ilUserException::class);
 		$factory = new ilUserPasswordEncoderFactory();
 		$factory->setEncoders(array('phpunit'));
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfAnUnsupportedEncoderIsRequestedFromFactory()
 	{
+		$this->expectException(ilUserException::class);
 		$factory = new ilUserPasswordEncoderFactory(array('default_password_encoder' => 'md5'));
 		$factory->getEncoderByName('phpunit');
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndNoDefaultEncoderWasSpecifiedInFallbackMode()
 	{
+		$this->expectException(ilUserException::class);
 		$factory = new ilUserPasswordEncoderFactory();
 		$factory->getEncoderByName('phpunit', true);
 	}
 
 	/**
-	 * @expectedException ilUserException
 	 */
 	public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndTheDefaultEncoderDoesNotMatchOneOfTheSupportedEncodersInFallbackMode()
 	{
+		$this->expectException(ilUserException::class);
 		$factory = new ilUserPasswordEncoderFactory(array('default_password_encoder' => 'phpunit'));
 		$factory->getEncoderByName('phpunit', true);
 	}
