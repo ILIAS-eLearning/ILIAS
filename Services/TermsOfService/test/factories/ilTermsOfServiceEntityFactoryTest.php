@@ -33,10 +33,11 @@ class ilTermsOfServiceEntityFactoryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 *
 	 */
 	public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$factory = new ilTermsOfServiceEntityFactory();
 		$factory->getByName('PHP Unit');
 	}

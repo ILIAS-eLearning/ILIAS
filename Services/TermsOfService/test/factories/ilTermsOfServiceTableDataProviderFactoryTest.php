@@ -40,10 +40,10 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException InvalidArgumentException
 	 */
 	public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$factory->getByContext('PHP unit');
 	}
 
@@ -72,10 +72,10 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException ilTermsOfServiceMissingLanguageAdapterException
 	 */
 	public function testExceptionIsRaisedWhenAgreementByLanguageProviderIsRequestedWithoutCompleteFactoryConfiguration(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
+		$this->expectException(ilTermsOfServiceMissingLanguageAdapterException::class);
 		$factory->setLanguageAdapter(null);
 		$factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 	}
@@ -83,10 +83,10 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException ilTermsOfServiceMissingDatabaseAdapterException
 	 */
 	public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
+		$this->expectException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 		$factory->setDatabaseAdapter(null);
 		$factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
 	}

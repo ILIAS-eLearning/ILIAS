@@ -6,6 +6,9 @@ require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 require_once 'Services/Database/interfaces/interface.ilDBStatement.php';
 require_once 'Services/Database/classes/class.ilDBConstants.php';
 require_once 'Services/Language/classes/class.ilLanguage.php';
+require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingDatabaseAdapterException.php';
+require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingLanguageAdapterException.php';
+require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceNoSignableDocumentFoundException.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
