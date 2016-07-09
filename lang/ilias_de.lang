@@ -3920,7 +3920,7 @@ common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Weiter-Button.
-common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, an den die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Kopieren-Button.
+common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, wohin die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
