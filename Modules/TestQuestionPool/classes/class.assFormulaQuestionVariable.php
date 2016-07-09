@@ -49,9 +49,9 @@ class assFormulaQuestionVariable
 //		@todo check this
 		
 		include_once "./Services/Math/classes/class.ilMath.php";
-		$mul     = ilMath::_pow(10, $this->getPrecision());
-		$r1      = round(ilMath::_mul($this->getRangeMin(), $mul));
-		$r2      = round(ilMath::_mul($this->getRangeMax(), $mul));
+		$mul     = ilMath::_pow(10, $this->getPrecision(), 50);
+		$r1      = round(ilMath::_mul($this->getRangeMin(), $mul, 50));
+		$r2      = round(ilMath::_mul($this->getRangeMax(), $mul, 50));
 		$calcval = $this->getRangeMin() - 1;
 //test		
 
@@ -71,7 +71,7 @@ class assFormulaQuestionVariable
 					$modulo = $calcval % $this->getIntprecision();
 					if($modulo != 0)
 					{
-						if($modulo < ilMath::_div($this->getIntprecision(), 2))
+						if($modulo < ilMath::_div($this->getIntprecision(), 2, 50))
 						{
 							$calcval = ilMath::_sub($calcval, $modulo, $this->getPrecision());
 						}
@@ -114,7 +114,7 @@ class assFormulaQuestionVariable
 		else
 		{
 			include_once "./Services/Math/classes/class.ilMath.php";
-			return ilMath::_mul($this->value, $this->getUnit()->getFactor());
+			return ilMath::_mul($this->value, $this->getUnit()->getFactor(), 50);
 		}
 	}
 
