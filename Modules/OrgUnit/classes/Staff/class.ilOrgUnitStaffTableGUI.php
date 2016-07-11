@@ -78,6 +78,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 			$this->setRowForUser($set, $user_id);
 			$data[] = $set;
 		}
+
 		return $data;
 	}
 
@@ -101,13 +102,13 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$user = new ilObjUser($user_id);
 		$set["first_name"] = $user->getFirstname();
 		$set["last_name"] = $user->getLastname();
-		//gev-patch end
+		//gev-patch start
 		$gevRoleUtils = gevRoleUtils::getInstance();
 		$set["roles"] = $gevRoleUtils->getGlobalRolesOf($user_id);
 		$set["roles"] = $gevRoleUtils->getGlobalRolesTitles($set["roles"]);
 		asort($set["roles"], SORT_NATURAL | SORT_FLAG_CASE);
 
-		$set["roles"] = implode(", ", $set["roles"]);
+		$set["role"] = implode(", ", $set["roles"]);
 		//gev-patch end
 		$set["user_object"] = $user;
 		$set["user_id"] = $user_id;
@@ -118,7 +119,12 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		global $ilUser, $Access, $lng, $ilAccess;
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
-		$this->tpl->setVariable("ROLE", $set["roles"]);
+
+		//gev-patch start #2376
+		//$this->tpl->setVariable("ROLE", $set["roles"]);
+		$this->tpl->setVariable("ROLE", $set["role"]);
+		//gev-patch end
+
         if ($this->recursive) {
             $orgUnitsTitles = array_values(ilObjOrgUnitTree::_getInstance()->getTitles($set['org_units']));
             $this->tpl->setVariable("ORG_UNITS", implode(', ', $orgUnitsTitles));
@@ -165,7 +171,5 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	public function setRecursive($recursive){
 		$this->recursive = $recursive;
 	}
-
-
 }
 ?>
