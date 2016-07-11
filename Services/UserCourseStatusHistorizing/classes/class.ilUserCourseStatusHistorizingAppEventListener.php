@@ -249,7 +249,7 @@ class ilUserCourseStatusHistorizingAppEventListener
 	protected static function getRecordCreator($event, $parameter)
 	{
 		if($event == "setWBDRelevant") {
-			return $paramter["creator_id"];
+			return $parameter["creator_id"];
 		}
 
 		/** @var ilObjUser $ilUser */
