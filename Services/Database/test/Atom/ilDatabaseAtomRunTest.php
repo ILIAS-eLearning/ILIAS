@@ -141,7 +141,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @depends testConnection
 	 */
-	public function testWriteAtomParallel() {
+	public function testWriteWithTransactions() {
 		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceGalera);
 		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
 		$query = function (ilDBInterface $ilDB) {
