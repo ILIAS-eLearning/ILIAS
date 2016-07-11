@@ -19,6 +19,7 @@ class ilAtomQuery {
 	const ISOLATION_READ_COMMITED = 2;
 	const ISOLATION_REPEATED_READ = 3;
 	const ISOLATION_SERIALIZABLE = 4;
+	const ITERATIONS = 10;
 	/**
 	 * @var array
 	 */
@@ -297,15 +298,16 @@ class ilAtomQuery {
 	 * @throws \ilDatabaseException
 	 */
 	protected function runWithTransactions() {
-		$e = null;
 		$i = 0;
 		do {
+			$e = null;
 			try {
 				$this->ilDBInstance->beginTransaction();
 				$this->runQueries();
 				$this->ilDBInstance->commit();
 			} catch (ilDatabaseException $e) {
-				if ($i > 10) {
+				$this->ilDBInstance->rollback();
+				if ($i >= self::ITERATIONS - 1) {
 					throw $e;
 				}
 			}

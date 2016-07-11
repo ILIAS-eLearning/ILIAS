@@ -43,6 +43,8 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		require_once('./Services/Database/classes/Atom/class.ilAtomQuery.php');
+		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
+		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelperSettings.php');
 
 		global $ilClientIniFile;
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
@@ -107,7 +109,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		ilAtomQuery::checkIsolationLevel('lorem');
 	}
 
-	
+
 	public function testRisks() {
 		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
 		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
@@ -118,7 +120,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @throws \ilDatabaseException
 	 */
-	public function checkCallables() {
+	public function checkClosure() {
 		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
 			$ilDB->getDBType();
@@ -127,14 +129,46 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	}
-
-
-		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
+	public function checkCallable() {
+		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery->addQueryCallable(new ilAtomQueryTestHelper(new ilAtomQueryTestHelperSettings()));
 		$ilAtomQuery->run();
-
 	}
 
 
+	public function testWrongIsolationLevel() {
+		$this->setExpectedException('ilDatabaseException');
+		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera, 'non_existing');
+		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
+		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
+			$ilDB->getDBType();
+		});
+		$ilAtomQuery->run();
+	}
+
+
+	public function testQueryWithFiveException() {
+		$ilAtomQueryTestHelperSettings = new ilAtomQueryTestHelperSettings();
+		$ilAtomQueryTestHelperSettings->setThrowExceptions(5);
+		$ilAtomQueryTestHelper = new ilAtomQueryTestHelper($ilAtomQueryTestHelperSettings);
+
+		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery->addQueryCallable($ilAtomQueryTestHelper);
+		$ilAtomQuery->run();
+	}
+
+
+	public function testQueryWithTenException() {
+		$ilAtomQueryTestHelperSettings = new ilAtomQueryTestHelperSettings();
+		$ilAtomQueryTestHelperSettings->setThrowExceptions(10);
+		$ilAtomQueryTestHelper = new ilAtomQueryTestHelper($ilAtomQueryTestHelperSettings);
+
+		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery->addQueryCallable($ilAtomQueryTestHelper);
+		try {
+			$ilAtomQuery->run();
+		} catch (ilDatabaseException $e) {
+		}
+		$this->assertEquals($e->getMessage(), 'Some Random Exception');
 	}
 }
