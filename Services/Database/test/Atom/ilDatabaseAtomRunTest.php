@@ -142,4 +142,23 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		// Run both
 		$ilAtomQueryOne->run();
 	}
+
+	/**
+	 * @depends testConnection
+	 */
+	public function testWriteWithLocks() {
+		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceInnoDB);
+		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
+		$query = function (ilDBInterface $ilDB) {
+			$ilDB->insert('il_db_tests_atom', array(
+				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
+				'is_online' => array( 'integer', 1 ),
+			));
+		};
+		$ilAtomQueryOne->addQueryCallable($query);
+		$ilAtomQueryOne->addQueryCallable($query);
+
+		// Run both
+		$ilAtomQueryOne->run();
+	}
 }
