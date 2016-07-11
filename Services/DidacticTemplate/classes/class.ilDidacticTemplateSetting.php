@@ -19,6 +19,7 @@ class ilDidacticTemplateSetting
 	private $info = '';
 	private $type = self::TYPE_CREATION;
 	private $assignments = array();
+	private $effective_from = array();
 
 
 	/**
@@ -167,6 +168,22 @@ class ilDidacticTemplateSetting
 	}
 
 	/**
+	 * @return int[]
+	 */
+	public function getEffectiveFrom()
+	{
+		return $this->effective_from;
+	}
+
+	/**
+	 * @param int[] $effective_from
+	 */
+	public function setEffectiveFrom($effective_from)
+	{
+		$this->effective_from = $effective_from;
+	}
+	
+	/**
 	 * get all translations from this object
 	 *
 	 * @access	public
@@ -277,6 +294,58 @@ class ilDidacticTemplateSetting
 	}
 
 	/**
+	 * 
+	 */
+	protected function saveEffectiveNodes()
+	{
+		global $ilDB;
+		
+		if(!count($this->getEffectiveFrom()))
+		{
+			return;
+		}
+		
+		foreach($this->getEffectiveFrom() as $node)
+		{
+			$values[] = '( '.
+			$ilDB->quote($this->getId(),'integer').', '.
+			$ilDB->quote($node,'integer').
+			')';
+		}
+		
+		$query = 'INSERT INTO didactic_tpl_en (id,node) '.
+			'VALUES ' . implode(', ' , $values);
+		
+		$ilDB->manipulate($query);
+	}
+	
+	protected function deleteEffectiveNodes()
+	{
+		global $ilDB;
+
+		$query = 'DELETE FROM didactic_tpl_en '.
+			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
+	
+	protected function readEffectiveNodes()
+	{
+		global $ilDB;
+		$effective_nodes = array();
+		
+		$query = 'SELECT * FROM didactic_tpl_en '.
+			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$effective_nodes[] = $row->node;
+		}
+		
+		$this->setEffectiveFrom($effective_nodes);
+	}
+
+	/**
 	 * Delete assignments
 	 * @global ilDB $ilDB
 	 * @return bool
@@ -311,10 +380,12 @@ class ilDidacticTemplateSetting
 		$this->deleteAssignments();
 		$this->saveAssignments();
 		
+		$this->deleteEffectiveNodes();
+		$this->saveEffectiveNodes();
+		
 		$trans = $this->getTranslationObject();
 		$trans->addLanguage($trans->getDefaultLanguage(),$this->getTitle(),$this->getDescription(),true, true);
 		$trans->save();
-
 
 		return true;
 	}
@@ -359,6 +430,8 @@ class ilDidacticTemplateSetting
 			$this->addAssignment($row->obj_type);
 		}
 		
+		$this->readEffectiveNodes();
+		
 		$trans = $this->getTranslationObject();
 		$lang = $trans->getLanguages();
 		$lang_key = $trans->getDefaultLanguage();
@@ -379,6 +452,7 @@ class ilDidacticTemplateSetting
 	 */
 	public function toXml(ilXmlWriter $writer)
 	{
+		global $ilSetting;
 		switch($this->getType())
 		{
 			case self::TYPE_CREATION:
@@ -409,6 +483,17 @@ class ilDidacticTemplateSetting
 			}
 
 			$writer->xmlEndTag('info');
+		}
+
+		if(count($this->getEffectiveFrom()) > 0)
+		{
+			$writer->xmlStartTag('effectiveFrom', array('nic_id'=> $ilSetting->get('inst_id')));
+
+			foreach($this->getEffectiveFrom() as $node)
+			{
+				$writer->xmlElement('node', array(), $node);
+			}
+			$writer->xmlEndTag('effectiveFrom');
 		}
 
 		// Assignments
@@ -450,6 +535,30 @@ class ilDidacticTemplateSetting
 	{
 		include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
 		return ilMultilingualism::getInstance($this->getId(), "dtpl");
+	}
+
+	/**
+	 * @param int $a_node_id
+	 * @return bool
+	 */
+	public function isEffective($a_node_id)
+	{
+		global $tree;
+
+		if(!count($this->getEffectiveFrom()) ||  in_array($a_node_id, $this->getEffectiveFrom()))
+		{
+			return true;
+		}
+		
+		foreach ($this->getEffectiveFrom() as $node)
+		{
+			if($tree->isGrandChild($node, $a_node_id))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
 

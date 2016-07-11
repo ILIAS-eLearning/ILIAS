@@ -9,6 +9,7 @@ include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettin
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  * @ilCtrl_IsCalledBy ilDidacticTemplateSettingsGUI: ilObjRoleFolderGUI
+ * @ilCtrl_Calls ilDidacticTemplateSettingsGUI: ilMultilingualismGUI, ilPropertyFormGUI
  */
 class ilDidacticTemplateSettingsGUI
 {
@@ -251,6 +252,16 @@ class ilDidacticTemplateSettingsGUI
 			$temp->setDescription($form->getInput('description'));
 			$temp->setInfo($form->getInput('info'));
 			$temp->setAssignments(array($form->getInput('type')));
+
+			if($form->getInput('local_templates') && count($form->getInput('effective_from')) > 0)
+			{
+				$temp->setEffectiveFrom($form->getInput('effective_from'));
+			}
+			else
+			{
+				$temp->setEffectiveFrom(array());
+			}
+
 			$temp->update();
 			
 			ilUtil::sendSuccess($this->lng->txt('save_settings'), true);
@@ -329,6 +340,19 @@ class ilDidacticTemplateSettingsGUI
 		}
 		$type->setOptions($options);
 		$form->addItem($type);
+
+		$lokal_templates = new ilCheckboxInputGUI($this->lng->txt("activate_local_didactic_templeates"), "local_templates");
+		$lokal_templates->setChecked(count($set->getEffectiveFrom()) > 0);
+
+		//effective from (multinode)
+		include_once("./Services/Repository/classes/class.ilRepositorySelectInputGUI.php");
+		$effrom = new ilRepositorySelectInputGUI($this->lng->txt("effective_form"), "effective_from");
+		$effrom->setMulti(true);
+		$effrom->setValue($set->getEffectiveFrom());
+
+		$lokal_templates->addSubItem($effrom);
+		$form->addItem($lokal_templates);
+
 
 		return $form;
 	}

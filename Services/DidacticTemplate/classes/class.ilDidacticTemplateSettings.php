@@ -57,7 +57,7 @@ class ilDidacticTemplateSettings
 
 	/**
 	 * Get templates
-	 * @return array ilDidacticTemplateSetting
+	 * @return ilDidacticTemplateSetting[]
 	 */
 	public function getTemplates()
 	{

@@ -86,7 +86,7 @@ class ilDidacticTemplateImport
 	 */
 	protected function parseSettings(SimpleXMLElement $root)
 	{
-
+		global $ilSetting;
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
 		$setting = new ilDidacticTemplateSetting();
 
@@ -112,6 +112,19 @@ class ilDidacticTemplateImport
 				$info .= trim((string) $paragraph);
 			}
 			$setting->setInfo($info);
+
+			if(isset($tpl->effectiveFrom) && $tpl->effectiveFrom->attributes()->nic_id == $ilSetting->get('inst_id') )
+			{
+				$node = array();
+				foreach($tpl->effectiveFrom->node as $element)
+				{
+					$node[] = (int) $element;
+				}
+				
+				$setting->setEffectiveFrom($node);
+			}
+			
+			
 
 			foreach($tpl->assignments->assignment as $element)
 			{

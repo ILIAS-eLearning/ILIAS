@@ -246,7 +246,7 @@ class ilMultilingualism
 	 */
 	function removeLanguage($a_lang)
 	{
-		if ($a_lang != $this->getMasterLanguage())
+		if($a_lang != $this->getDefaultLanguage())
 		{
 			unset($this->languages[$a_lang]);
 		}
@@ -258,8 +258,8 @@ class ilMultilingualism
 	function read()
 	{
 		$this->setLanguages(array());
-		$set = $this->db->query("SELECT * FROM object_translation ".
-			" WHERE obj_id = ".$this->db->quote($this->getObjId(), "integer") .
+		$set = $this->db->query("SELECT * FROM il_translations ".
+			" WHERE id = ".$this->db->quote($this->getObjId(), "integer") .
 			" AND id_type = " . $this->db->quote($this->getType(), "text")
 		);
 		while ($rec = $this->db->fetchAssoc($set))
@@ -273,8 +273,8 @@ class ilMultilingualism
 	 */
 	function delete()
 	{
-		$this->db->manipulate("DELETE FROM object_translation ".
-			" WHERE obj_id = ".$this->db->quote($this->getObjId(), "integer").
+		$this->db->manipulate("DELETE FROM il_translations ".
+			" WHERE id = ".$this->db->quote($this->getObjId(), "integer").
 			" AND id_type = " . $this->db->quote($this->getType(), "text")
 		);
 	}
@@ -288,8 +288,8 @@ class ilMultilingualism
 
 		foreach ($this->getLanguages() as $l => $trans)
 		{
-			$this->db->manipulate($t = "INSERT INTO object_translation ".
-				"(obj_id, id_type, title, description, lang_code, lang_default) VALUES (".
+			$this->db->manipulate($t = "INSERT INTO il_translations ".
+				"(id, id_type, title, description, lang_code, lang_default) VALUES (".
 				$this->db->quote($this->getObjId(), "integer").",".
 				$this->db->quote($this->getType(), "text").",".
 				$this->db->quote($trans["title"], "text").",".
@@ -310,7 +310,6 @@ class ilMultilingualism
 	function copy($a_obj_id)
 	{
 		$target_ml = new self($a_obj_id, $this->getType());
-		$target_ml->setMasterLanguage($this->getMasterLanguage());
 		$target_ml->setLanguages($this->getLanguages());
 		$target_ml->save();
 		return $target_ml;
