@@ -50,7 +50,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->createGlobalReportSettings();
 		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
 
-		$this->validateUrl = new \CaT\Validate\validateUrl;
+		$this->validateUrl = new \CaT\Validate\ValidateUrl;
 	}
 
 

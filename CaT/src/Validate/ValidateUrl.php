@@ -5,9 +5,9 @@
 namespace CaT\Validate;
 
 /**
- * Vlaidator class for every possible validation in an url
+ * Validator class for every possible validation in an url
  */
-class validateUrl {
+class ValidateUrl {
 	/**
 	 * checks given url string for legal prefix
 	 *
