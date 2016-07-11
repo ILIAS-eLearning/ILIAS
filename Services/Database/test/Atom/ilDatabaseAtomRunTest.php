@@ -114,22 +114,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->run();
-
-		$res = $this->ilDBInterfaceGalera->query('SELECT * FROM il_db_tests_atom');
-		$results = array();
-		while ($d = $this->ilDBInterfaceGalera->fetchAssoc($res)) {
-			$results[] = $d;
-		}
-		$this->assertEquals(array(
-			0 => array(
-				'id'        => '1',
-				'is_online' => '1',
-			),
-			1 => array(
-				'id'        => '2',
-				'is_online' => '1',
-			),
-		), $results);
+		
+		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
 	}
 
 
@@ -144,6 +130,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQueryOne->addQueryCallable($query);
 
 		$ilAtomQueryOne->run();
+
+		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
 	}
 
 
@@ -158,6 +146,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQueryOne->addQueryCallable($query);
 
 		$ilAtomQueryOne->run();
+
+		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
 	}
 
 
@@ -173,6 +163,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testSelectDuringAtomQuery() {
+
 	}
 
 	//
@@ -207,5 +198,36 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		);
 
 		return $tables;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function getResultFromDB() {
+		$res = $this->ilDBInterfaceGalera->query('SELECT * FROM il_db_tests_atom');
+		$results = array();
+		while ($d = $this->ilDBInterfaceGalera->fetchAssoc($res)) {
+			$results[] = $d;
+		}
+
+		return $results;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function getExpectedresult() {
+		return array(
+			0 => array(
+				'id'        => '1',
+				'is_online' => '1',
+			),
+			1 => array(
+				'id'        => '2',
+				'is_online' => '1',
+			),
+		);
 	}
 }
