@@ -237,6 +237,7 @@ interface ilDBInterface {
 	/**
 	 * Abstraction of lock table
 	 *
+	 * @deprecated Use ilAtomQuery instead 
 	 * @param array table definitions
 	 * @return
 	 */
@@ -245,7 +246,7 @@ interface ilDBInterface {
 
 	/**
 	 * Unlock tables locked by previous lock table calls
-	 *
+	 * @deprecated Use ilAtomQuery instead
 	 * @return
 	 */
 	public function unlockTables();

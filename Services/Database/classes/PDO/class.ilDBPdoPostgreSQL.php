@@ -176,6 +176,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 
 	/**
 	 * @param array $a_tables
+	 * @deprecated Use ilAtomQuery instead
 	 * @return bool
 	 */
 	public function lockTables($a_tables) {
@@ -214,6 +215,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 
 	/**
 	 * @throws \ilDatabaseException
+	 * @deprecated Use ilAtomQuery instead
 	 */
 	public function unlockTables() {
 		$this->commit();

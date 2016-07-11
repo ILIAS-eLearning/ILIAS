@@ -2398,12 +2398,14 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	/**
 	 * Abstraction of lock table
 	 * @param array table definitions
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	abstract public function lockTables($a_tables);
 	
 	/**
 	 * Unlock tables locked by previous lock table calls
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	abstract public function unlockTables();

@@ -928,6 +928,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
+	 * @deprecated Use ilAtomQuery instead
 	 * @param array $tables
 	 */
 	public function lockTables($tables) {
@@ -943,6 +944,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	}
 
 
+	/**
+	 * @deprecated Use ilAtomQuery instead
+	 * @throws \ilDatabaseException
+	 */
 	public function unlockTables() {
 		$this->query($this->manager->getQueryUtils()->unlock());
 	}
