@@ -435,6 +435,10 @@ class gevCourseUtils {
 		return $this->getEduProgramm() == "dezentrales Training";
 	}
 
+	public function isCentralTraining() {
+		return $this->getEduProgramm() == "zentrales Training";
+	}
+
 	public function isFlexibleDecentrallTraining() {
 		$tpl_ref_id = $this->getTemplateRefId();
 		
