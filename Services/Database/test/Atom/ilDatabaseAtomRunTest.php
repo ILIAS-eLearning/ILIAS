@@ -40,6 +40,10 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var ilDBInterface
 	 */
+	protected $ilDBInterfaceGaleraSecond;
+	/**
+	 * @var ilDBInterface
+	 */
 	protected $ilDBInterfaceInnoDB;
 
 
@@ -52,6 +56,10 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
+
+		$this->ilDBInterfaceGaleraSecond = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		$this->ilDBInterfaceGaleraSecond->initFromIniFile($ilClientIniFile);
+		$this->ilDBInterfaceGaleraSecond->connect();
 
 		$this->ilDBInterfaceInnoDB = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
 		$this->ilDBInterfaceInnoDB->initFromIniFile($ilClientIniFile);
