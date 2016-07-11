@@ -56,6 +56,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$this->ilDBInterfaceInnoDB = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
 		$this->ilDBInterfaceInnoDB->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceInnoDB->connect();
+
+		$this->setupTable();
 	}
 
 
@@ -68,7 +70,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @depends testConnection
 	 */
-	public function testCreateTable() {
+	public function setupTable() {
 		if ($this->ilDBInterfaceGalera->sequenceExists('il_db_tests_atom')) {
 			$this->ilDBInterfaceGalera->dropSequence('il_db_tests_atom');
 		}
@@ -86,6 +88,10 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		), true);
 		$this->ilDBInterfaceGalera->addPrimaryKey('il_db_tests_atom', array( 'id' ));
 		$this->ilDBInterfaceGalera->createSequence('il_db_tests_atom');
+	}
+
+
+	public function testTableExists() {
 		$this->assertTrue($this->ilDBInterfaceGalera->tableExists('il_db_tests_atom'));
 	}
 
