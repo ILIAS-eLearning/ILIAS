@@ -2549,4 +2549,12 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		return false;
 	}
 
+	/**
+	 * @param $table_name
+	 * @return string
+	 */
+	public function getSequenceName($table_name) {
+		return $this->db->getSequenceName($table_name);
+	}
+
 }

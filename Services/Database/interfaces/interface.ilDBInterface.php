@@ -63,6 +63,13 @@ interface ilDBInterface {
 
 
 	/**
+	 * @param $table_name
+	 * @return string
+	 */
+	public function getSequenceName($table_name);
+
+
+	/**
 	 * @param $table_name string
 	 *
 	 * @return bool
@@ -237,7 +244,7 @@ interface ilDBInterface {
 	/**
 	 * Abstraction of lock table
 	 *
-	 * @deprecated Use ilAtomQuery instead 
+	 * @deprecated Use ilAtomQuery instead
 	 * @param array table definitions
 	 * @return
 	 */
@@ -246,6 +253,7 @@ interface ilDBInterface {
 
 	/**
 	 * Unlock tables locked by previous lock table calls
+	 *
 	 * @deprecated Use ilAtomQuery instead
 	 * @return
 	 */
