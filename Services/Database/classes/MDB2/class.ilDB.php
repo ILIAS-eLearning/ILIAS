@@ -2562,6 +2562,6 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery() {
-		return new ilAtomQuery($this);
+		return new ilAtomQueryLock($this);
 	}
 }
