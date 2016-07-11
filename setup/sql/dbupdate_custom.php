@@ -42,3 +42,25 @@ if (!$ilDB->tableExists('glo_glossaries'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#8>
+<?php
+if (!$ilDB->tableExists('glo_term_reference'))
+{
+	$ilDB->createTable('glo_term_reference', array(
+		'glo_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'term_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('glo_id', array('term_id'));
+}
+?>
+
