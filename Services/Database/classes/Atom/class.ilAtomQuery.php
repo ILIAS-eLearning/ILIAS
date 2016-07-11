@@ -108,21 +108,23 @@ class ilAtomQuery {
 	 *
 	 * @param string $table_name
 	 * @param int $lock_level use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE
+	 * @param bool $lock_sequence_too
 	 * @throws \ilDatabaseException
 	 */
-	public function addTable($table_name, $lock_level) {
+	public function addTable($table_name, $lock_level, $lock_sequence_too = false) {
 		if (!in_array($lock_level, array( static::LOCK_READ, static::LOCK_WRITE ))) {
 			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level. use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE');
 		}
-		$this->tables[] = array( $table_name, $lock_level );
+		$this->tables[] = array( $table_name, $lock_level, $lock_sequence_too );
 	}
 
 
 	/**
 	 * @param $table_name
+	 * @param bool $lock_sequence_too
 	 */
-	public function lockTableWrite($table_name) {
-		$this->tables[] = array( $table_name, self::LOCK_WRITE );
+	public function lockTableWrite($table_name, $lock_sequence_too = false) {
+		$this->tables[] = array( $table_name, self::LOCK_WRITE, $lock_sequence_too );
 	}
 
 
@@ -267,7 +269,11 @@ class ilAtomQuery {
 		foreach ($this->tables as $table) {
 			$table_name = $table[0];
 			$lock_level = $table[1];
+			$lock_sequence_too = $table[2];
 			$locks[] = array( 'name' => $table_name, 'type' => $lock_level );
+			if ($lock_sequence_too && $this->ilDBInstance->sequenceExists($table_name)) {
+				$locks[] = array( 'name' => $this->ilDBInstance->getSequenceName($table_name), 'type' => $lock_level );
+			}
 		}
 
 		return $locks;
