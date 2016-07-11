@@ -15329,7 +15329,9 @@ if (! $ilDB->tableExists('il_dcl_tableview')) {
     if (! $ilDB->sequenceExists('il_dcl_tableview')) {
         $ilDB->createSequence('il_dcl_tableview');
     }
-    $ilDB->query('CREATE INDEX tableview_table_index ON il_dcl_tableview (table_id)');
+	if(! $ilDB->indexExistsByFields('il_dcl_tableview', array('table_id'))) {
+		$ilDB->addIndex('il_dcl_tableview', array('table_id'), 't1');		
+	}
 }
 
 //tableview_field_setting
@@ -15389,8 +15391,10 @@ if (! $ilDB->tableExists('il_dcl_tview_set')) {
     if (! $ilDB->sequenceExists('il_dcl_tview_set')) {
         $ilDB->createSequence('il_dcl_tview_set');
     }
+	if(! $ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
+		$ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 't1');
+	}
 
-    $ilDB->query('CREATE INDEX tview_set_index ON il_dcl_tview_set (tableview_id)');
 }
 
 $fields = array(
@@ -15431,7 +15435,9 @@ if (! $ilDB->tableExists('il_dcl_tfield_set')) {
     if (! $ilDB->sequenceExists('il_dcl_tfield_set')) {
         $ilDB->createSequence('il_dcl_tfield_set');
     }
-    $ilDB->query('CREATE UNIQUE INDEX tablefield_index ON il_dcl_tfield_set (table_id, field)');
+	if(! $ilDB->indexExistsByFields('il_dcl_tfield_set', array('table_id', 'field'))) {
+		$ilDB->addIndex('il_dcl_tfield_set', array('table_id', 'field'), 't2');
+	}
 }
 ?>
 <#4919>
