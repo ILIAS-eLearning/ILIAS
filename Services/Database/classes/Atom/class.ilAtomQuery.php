@@ -74,13 +74,9 @@ class ilAtomQuery {
 	 */
 	protected $queries = array();
 	/**
-	 * @var
+	 * @var int
 	 */
-	protected $ilDBInstance;
-	/**
-	 * @var ilAtomQuery
-	 */
-	protected static $instance;
+	protected $running_query = 0;
 
 
 	/**
@@ -275,11 +271,16 @@ class ilAtomQuery {
 	 * @throws ilDatabaseException
 	 */
 	protected function runQueries() {
-		foreach ($this->queries as $query) {
+		foreach ($this->queries as $i => $query) {
+			if ($i < $this->running_query) {
+				continue;
+			}
 			/**
 			 * @var $query Callable
 			 */
 			$query($this->ilDBInstance);
+
+			$this->running_query ++;
 		}
 	}
 
