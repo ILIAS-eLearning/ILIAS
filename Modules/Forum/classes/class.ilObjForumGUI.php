@@ -612,7 +612,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilTabs;
 
-		if($this->objProperties->getThreadSorting() == 1)
+		if($this->objProperties->getThreadSorting() == 1 && $this->is_moderator)
 		{
 			$ilTabs->addSubTabTarget('show', $this->ctrl->getLinkTarget($this, 'showThreads'), 'showThreads', get_class($this), '', $subtab=='showThreads'? true : false );
 			$ilTabs->addSubTabTarget('sorting_header', $this->ctrl->getLinkTarget($this, 'sortThreads'), 'sortThreads', get_class($this), '', $subtab=='sortThreads'? true : false );

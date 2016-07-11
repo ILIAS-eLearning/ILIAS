@@ -18,7 +18,8 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$from = (isset($filter_value['from'])) ? (int)$filter_value['from'] : NULL;
 		$to = (isset($filter_value['to'])) ? (int)$filter_value['to'] : NULL;

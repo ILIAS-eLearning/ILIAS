@@ -83,7 +83,8 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
      */
     function configure()
     {
-        global $tpl;
+        global $DIC;
+        $tpl = $DIC['tpl'];
 
         $this->initConfigurationForm();
         $this->getValues();
@@ -114,7 +115,9 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
      */
     public function initConfigurationForm()
     {
-        global $lng, $ilCtrl;
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
 
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
@@ -146,7 +149,9 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
 
     public function save()
     {
-        global $tpl, $ilCtrl;
+        global $DIC;
+        $tpl = $DIC['tpl'];
+        $ilCtrl = $DIC['ilCtrl'];
 
         $this->initConfigurationForm();
         if ($this->form->checkInput())

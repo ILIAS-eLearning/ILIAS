@@ -19,7 +19,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
@@ -43,7 +44,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$join_str =
 			"INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
@@ -72,24 +74,17 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		}
 
 		$file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
-
-		$file_types = explode(",", $file_types);
-		$trim_function = function($value) {
-			return trim(strtolower($value));
-		};
-		return array_map($trim_function, $file_types);
+		return $this->parseSupportedExtensions($file_types);
 	}
+	
+	protected function parseSupportedExtensions($input_value) {
+		$supported_extensions = explode(",", $input_value);
 
-	/**
-	 * @inheritDoc
-	 */
-	public function parseFieldCreationFormPropertyValue($property_id, $value) {
-		if($property_id == ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES) {
-			$supported_extensions = explode(",", $value);
+		$trim_function = function($value) {
+			return trim(trim(strtolower($value)), ".");
+		};
 
-			$supported_extensions = array_map(trim, $supported_extensions);
-		}
-		return $supported_extensions;
+		return array_map($trim_function, $supported_extensions);
 	}
 
 	/**
@@ -97,6 +92,13 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 	 */
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
 	}
 
 }

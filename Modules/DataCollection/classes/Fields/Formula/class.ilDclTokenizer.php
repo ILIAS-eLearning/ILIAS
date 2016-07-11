@@ -12,6 +12,9 @@ class ilDclTokenizer {
 	 * Split expression by & (ignore escaped &-symbols with backslash)
 	 *
 	 * @param string $expression Global expression to parse
+// !!!DIC refactoring-script warning.!!!
+// There is an isolated 'global' whithout any variable behind.
+// Either this is a comment, or something is seriously wrong
 	 *
 	 * @return array
 	 */

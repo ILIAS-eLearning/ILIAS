@@ -178,7 +178,8 @@ class shibConfig {
 
 
 	protected function __construct() {
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		/**
 		 * @var $ilSetting ilSetting
 		 */

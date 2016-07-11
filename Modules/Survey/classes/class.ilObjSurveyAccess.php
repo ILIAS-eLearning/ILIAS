@@ -213,7 +213,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* get evaluation access
 	*/
-	function _lookupEvaluationAccess($a_obj_id)
+	static function _lookupEvaluationAccess($a_obj_id)
 	{
 		global $ilDB;
 
@@ -229,7 +229,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		return $row["evaluation_access"];
 	}
 	
-	function _isSurveyParticipant($user_id, $survey_id)
+	static function _isSurveyParticipant($user_id, $survey_id)
 	{
 		global $ilDB;
 
@@ -259,7 +259,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		}
 	}
 	
-	function _hasEvaluationAccess($a_obj_id, $user_id)
+	static function _hasEvaluationAccess($a_obj_id, $user_id)
 	{
 		$evaluation_access = ilObjSurveyAccess::_lookupEvaluationAccess($a_obj_id);
 		switch ($evaluation_access)

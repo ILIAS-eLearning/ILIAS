@@ -12,6 +12,22 @@
 abstract class ilCertificateAdapter
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * ilCertificateAdapter constructor.
+	 */
+	public function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC['lng'];
+		$this->lng->loadLanguageModule('certificate');
+	}
+
+	/**
 	* Returns the certificate path (with a trailing path separator)
 	*
 	* @return string The certificate path
@@ -130,9 +146,9 @@ abstract class ilCertificateAdapter
 	*/
 	public function getCertificateFilename($params = array())
 	{
-		global $lng;		
-		$lng->loadLanguageModule("certificate");
-		return $lng->txt("certificate_file_basename").".pdf";
+		$this->lng->loadLanguageModule("certificate");
+
+		return $this->lng->txt("certificate_file_basename").".pdf";
 	}
 	
 	/**
@@ -144,37 +160,35 @@ abstract class ilCertificateAdapter
 	 */
 	protected function getBaseVariablesDescription($a_enable_last_access = true, $a_enable_completion_date = true)
 	{
-		global $lng;
-			
 		$vars = array(		
-			"USER_LOGIN" => $lng->txt("certificate_ph_login"),
-			"USER_FULLNAME" => $lng->txt("certificate_ph_fullname"),
-			"USER_FIRSTNAME" => $lng->txt("certificate_ph_firstname"),
-			"USER_LASTNAME" => $lng->txt("certificate_ph_lastname"),
-			"USER_TITLE" => $lng->txt("certificate_ph_title"),
-			"USER_SALUTATION" => $lng->txt("certificate_ph_salutation"),
-			"USER_BIRTHDAY" => $lng->txt("certificate_ph_birthday"),
-			"USER_INSTITUTION" => $lng->txt("certificate_ph_institution"),
-			"USER_DEPARTMENT" => $lng->txt("certificate_ph_department"),
-			"USER_STREET" => $lng->txt("certificate_ph_street"),
-			"USER_CITY" => $lng->txt("certificate_ph_city"),
-			"USER_ZIPCODE" => $lng->txt("certificate_ph_zipcode"),
-			"USER_COUNTRY" => $lng->txt("certificate_ph_country"),
-			"USER_MATRICULATION" => $lng->txt("certificate_ph_matriculation")
+			"USER_LOGIN" => $this->lng->txt("certificate_ph_login"),
+			"USER_FULLNAME" => $this->lng->txt("certificate_ph_fullname"),
+			"USER_FIRSTNAME" => $this->lng->txt("certificate_ph_firstname"),
+			"USER_LASTNAME" => $this->lng->txt("certificate_ph_lastname"),
+			"USER_TITLE" => $this->lng->txt("certificate_ph_title"),
+			"USER_SALUTATION" => $this->lng->txt("certificate_ph_salutation"),
+			"USER_BIRTHDAY" => $this->lng->txt("certificate_ph_birthday"),
+			"USER_INSTITUTION" => $this->lng->txt("certificate_ph_institution"),
+			"USER_DEPARTMENT" => $this->lng->txt("certificate_ph_department"),
+			"USER_STREET" => $this->lng->txt("certificate_ph_street"),
+			"USER_CITY" => $this->lng->txt("certificate_ph_city"),
+			"USER_ZIPCODE" => $this->lng->txt("certificate_ph_zipcode"),
+			"USER_COUNTRY" => $this->lng->txt("certificate_ph_country"),
+			"USER_MATRICULATION" => $this->lng->txt("certificate_ph_matriculation")
 		);
 		
 		if($a_enable_last_access)
 		{
-			$vars["USER_LASTACCESS"] = $lng->txt("certificate_ph_lastaccess");
+			$vars["USER_LASTACCESS"] = $this->lng->txt("certificate_ph_lastaccess");
 		}
 		
-		$vars["DATE"] = $lng->txt("certificate_ph_date");
-		$vars["DATETIME"] = $lng->txt("certificate_ph_datetime");
+		$vars["DATE"] = $this->lng->txt("certificate_ph_date");
+		$vars["DATETIME"] = $this->lng->txt("certificate_ph_datetime");
 		
 		if($a_enable_completion_date)
 		{
-			$vars["DATE_COMPLETED"] = $lng->txt("certificate_ph_date_completed");
-			$vars["DATETIME_COMPLETED"] = $lng->txt("certificate_ph_datetime_completed");
+			$vars["DATE_COMPLETED"] = $this->lng->txt("certificate_ph_date_completed");
+			$vars["DATETIME_COMPLETED"] = $this->lng->txt("certificate_ph_datetime_completed");
 		}
 		
 		return $vars;
@@ -189,26 +203,24 @@ abstract class ilCertificateAdapter
 	 */
 	protected function getBaseVariablesForPreview($a_enable_last_access = true, $a_enable_completion_date = true)
 	{
-		global $lng;
-		
 		$old = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);				
 		
 		$vars = array(
-			"USER_LOGIN" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_login")),
-			"USER_FULLNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_fullname")),
-			"USER_FIRSTNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
-			"USER_LASTNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
-			"USER_TITLE" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
-			"USER_SALUTATION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_salutation")),
-			"USER_BIRTHDAY" => ilDatePresentation::formatDate(new ilDate($lng->txt("certificate_var_user_birthday"), IL_CAL_DATE)),
-			"USER_INSTITUTION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
-			"USER_DEPARTMENT" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
-			"USER_STREET" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
-			"USER_CITY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
-			"USER_ZIPCODE" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
-			"USER_COUNTRY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
-			"USER_MATRICULATION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_matriculation"))
+			"USER_LOGIN" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_login")),
+			"USER_FULLNAME" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_fullname")),
+			"USER_FIRSTNAME" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_firstname")),
+			"USER_LASTNAME" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_lastname")),
+			"USER_TITLE" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_title")),
+			"USER_SALUTATION" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_salutation")),
+			"USER_BIRTHDAY" => ilDatePresentation::formatDate(new ilDate($this->lng->txt("certificate_var_user_birthday"), IL_CAL_DATE)),
+			"USER_INSTITUTION" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_institution")),
+			"USER_DEPARTMENT" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_department")),
+			"USER_STREET" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_street")),
+			"USER_CITY" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_city")),
+			"USER_ZIPCODE" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_zipcode")),
+			"USER_COUNTRY" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_country")),
+			"USER_MATRICULATION" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_matriculation"))
 		);
 		
 		if($a_enable_last_access)
@@ -241,15 +253,13 @@ abstract class ilCertificateAdapter
 	 */
 	protected function getBaseVariablesForPresentation($a_user_data, $a_last_access = null, $a_completion_date = false)
 	{		
-		global $lng;
-		
 		$old = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 		
 		$salutation = "";
 		if (strlen($a_user_data["gender"]))
 		{
-			$salutation = $lng->txt("salutation_" . $a_user_data["gender"]);
+			$salutation = $this->lng->txt("salutation_" . $a_user_data["gender"]);
 		}
 		
 		$birthday = "";
@@ -261,8 +271,8 @@ abstract class ilCertificateAdapter
 		$country = $a_user_data["sel_country"];
 		if($country)
 		{
-			$lng->loadLanguageModule("meta");
-			$country = $lng->txt("meta_c_".$country);
+			$this->lng->loadLanguageModule("meta");
+			$country = $this->lng->txt("meta_c_".$country);
 		}
 		else 
 		{

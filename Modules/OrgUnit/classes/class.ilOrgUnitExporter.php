@@ -129,7 +129,8 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	}
 
 	private function getStructure($root_node_ref){
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$open = array($root_node_ref);
 		$closed = array();
 		while(count($open)){
@@ -148,7 +149,8 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	 * @return array
 	 */
 	private function getAttributesForOrgu($orgu){
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$parent_ref = $tree->getParentId($orgu->getRefId());
 		if($parent_ref != ilObjOrgUnit::getRootOrgRefId()){
 			$ou_parent_id = $this->buildExternalId($parent_ref);

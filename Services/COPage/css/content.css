@@ -152,7 +152,7 @@ sub.ilc_text_inline_Sub {
 /* Links */
 a.ilc_link_FootnoteLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 }
 
@@ -163,7 +163,7 @@ a.ilc_link_FootnoteLink:hover
 
 a.ilc_link_IntLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -175,12 +175,12 @@ a.ilc_link_IntLink:hover
 
 a.ilc_link_IntLink:visited
 {
-	color: blue;
+	color: #5571C0;
 }
 
 a.ilc_link_ExtLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -192,12 +192,12 @@ a.ilc_link_ExtLink:hover
 
 a.ilc_link_ExtLink:visited
 {
-	color: blue;
+	color: #5571C0;
 }
 
 a.ilc_link_FileLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -209,7 +209,7 @@ a.ilc_link_FileLink:hover
 
 a.ilc_link_GlossaryLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }

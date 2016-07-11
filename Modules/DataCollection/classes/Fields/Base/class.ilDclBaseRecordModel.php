@@ -7,7 +7,7 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 require_once './Services/User/classes/class.ilUserUtil.php';
 require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilObjDataCollection.php');
-require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once('./Services/Notes/classes/class.ilNote.php');
 require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 
@@ -80,7 +80,8 @@ class ilDclBaseRecordModel {
 	 * doUpdate
 	 */
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->update("il_dcl_record", array(
 			"table_id" => array(
@@ -119,7 +120,8 @@ class ilDclBaseRecordModel {
 	 * Read record
 	 */
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//build query
 		$query = "Select * From il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer") . " ORDER BY id";
 
@@ -138,7 +140,8 @@ class ilDclBaseRecordModel {
 	 * @throws ilException
 	 */
 	public function doCreate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (! ilDclTable::_tableExists($this->getTableId())) {
 			throw new ilException("The field does not have a related table!");
@@ -635,7 +638,9 @@ class ilDclBaseRecordModel {
 	 * Delete
 	 */
 	public function doDelete() {
-		global $ilDB, $ilAppEventHandler;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$this->loadRecordFields();
 		foreach ($this->recordfields as $recordfield) {
@@ -672,7 +677,7 @@ class ilDclBaseRecordModel {
 	 * @param $original_id integer
 	 * @param $new_fields  array($old_field_id => $new_field)
 	 */
-	/*public function cloneStructure($original_id, $new_fields){
+	public function cloneStructure($original_id, $new_fields){
 		$original = ilDclCache::getRecordCache($original_id);
 		$this->setCreateDate($original->getCreateDate());
 		$this->setLastEditBy($original->getLastEditBy());
@@ -686,7 +691,7 @@ class ilDclBaseRecordModel {
 			$new_rec_field->doUpdate();
 			$this->recordfields[] = $new_rec_field;
 		}
-	}*/
+	}
 
 	/**
 	 * Delete a file

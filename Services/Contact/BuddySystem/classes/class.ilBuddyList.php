@@ -43,6 +43,11 @@ class ilBuddyList
 	protected $relations_read = false;
 
 	/**
+	 * @var ilAppEventHandler
+	 */
+	protected $event_handler;
+
+	/**
 	 * @param int $usr_id
 	 * @return self
 	 * @throws ilBuddySystemException
@@ -68,12 +73,9 @@ class ilBuddyList
 	 */
 	public static function getInstanceByGlobalUser()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
+		global $DIC;
 
-		return self::getInstanceByUserId($ilUser->getId());
+		return self::getInstanceByUserId($DIC->user()->getId());
 	}
 
 	/**
@@ -81,8 +83,12 @@ class ilBuddyList
 	 */
 	protected function __construct($owner_id)
 	{
+		global $DIC;
+
 		$this->setOwnerId($owner_id);
 		$this->setRepository(new ilBuddySystemRelationRepository($this->getOwnerId()));
+
+		$this->event_handler = $DIC['ilAppEventHandler'];
 	}
 
 	/**
@@ -391,7 +397,7 @@ class ilBuddyList
 			throw $e;
 		}
 
-		$GLOBALS['ilAppEventHandler']->raise(
+		$this->event_handler->raise(
 			'Services/Contact',
 			'contactRequested',
 			array(

@@ -102,12 +102,22 @@ class ilClient
 		define("SYSTEM_ROLE_ID", 2);
 
 		$this->db_exists = $this->getDBSetup()->isConnectable();
-		$this->db_installed = $this->getDBSetup()->isDatabaseInstalled();
+		//		$this->getDBSetup()->provideGlobalDB();
 		if ($this->db_exists) {
-			$this->getDBSetup()->provideGlobalDB();
+			$this->db_installed = $this->getDBSetup()->isDatabaseInstalled();
 		}
 
 		return true;
+	}
+
+
+	public function provideGlobalDB() {
+		$this->getDBSetup()->provideGlobalDB();
+	}
+
+
+	public function revokeGlobalDB() {
+		$this->getDBSetup()->provideGlobalDB();
 	}
 
 	/**
@@ -211,6 +221,9 @@ class ilClient
 			return false;
 		}
 		$GLOBALS["ilDB"] = $this->db;
+		$GLOBALS["DIC"]["ilDB"] = function($c) {
+			return $GLOBALS["ilDB"];
+		};
 
 		$this->db_exists = true;
 		return true;
@@ -590,6 +603,9 @@ class ilClient
 		if($a_keep_connection)
 		{
 			$GLOBALS["ilDB"] = $this->db;
+			$GLOBALS["DIC"]["ilDB"] = function($c) {
+				return $GLOBALS["ilDB"];
+			};
 		}
 
 		return true;
@@ -600,19 +616,22 @@ class ilClient
 		$this->connect();
 	}
 
+
 	/**
-	* read one value from settings table
-	* @access	public
-	* @param	string	keyword
-	* @return	string	value
-	*/
-	function getSetting($a_keyword)
-	{
-		if(!$this->getDBSetup()->isDatabaseInstalled()) {
+	 * read one value from settings table
+	 *
+	 * @access    public
+	 * @param    string    keyword
+	 * @return    string    value
+	 */
+	public function getSetting($a_keyword) {
+		global $ilDB;
+		if (!$this->getDBSetup()->isDatabaseInstalled() || !$ilDB) {
 			return false;
 		}
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
+
 		return $set->get($a_keyword);
 	}
 

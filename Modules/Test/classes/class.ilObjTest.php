@@ -2373,7 +2373,6 @@ function setAnswerFeedback($answer_feedback = 0)
  * Sets if the generic feedback is to be shown in the test.
  * 
  * @param int $generic_answer_feedback
- * @todo Rename "$this->answer_feedback to something more meaningful.
  */
 function setGenericAnswerFeedback($generic_answer_feedback = 0)
 {
@@ -2477,8 +2476,6 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	 *
 	 * @return integer 1, if answer specific feedback is to be shown.
 	 * @access public
-	 * @see    $answer_feedback
-	 * @todo Rename $this->answer_feedback to something more meaningful.
 	 */
 	public function getGenericAnswerFeedback()
 	{
@@ -3398,7 +3395,6 @@ function getAnswerFeedbackPoints()
 
 		foreach ($activeIds as $active_id)
 		{
-			// TODO: this shouldn't be here since it is question stuff and should be modular but there's no other solution yet
 			// remove file uploads
 			if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id"))
 			{
@@ -11609,7 +11605,6 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function buildExamId($active_id, $pass, $test_obj_id = null)
 	{
-		/** @TODO Move this to a proper place. */
 		global $ilSetting;
 
 		$inst_id = $ilSetting->get( 'inst_id', null );

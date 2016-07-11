@@ -28,7 +28,7 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPriorStateIsEmptyAfterInstanceWasCreated()
 	{
-		$state_mock = $this->getMock('ilBuddySystemRelationState');
+		$state_mock = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
 		$relation   = new ilBuddySystemRelation($state_mock);
 		$this->assertNull($relation->getPriorState());
 	}
@@ -38,9 +38,9 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPriorStateCanBeRetrievedAfterSubsequentTransitions()
 	{
-		$state_mock         = $this->getMock('ilBuddySystemRelationState');
-		$further_state_mock = $this->getMock('ilBuddySystemRelationState');
-		$finish_state_mock  = $this->getMock('ilBuddySystemRelationState');
+		$state_mock         = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
+		$further_state_mock = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
+		$finish_state_mock  = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
 		$state_mock->expects($this->any())->method('link');
 
 		$relation = new ilBuddySystemRelation($state_mock);
@@ -55,7 +55,7 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testValuesCanBeFetchedByGettersWhenSetBySetters()
 	{
-		$state_mock = $this->getMock('ilBuddySystemRelationState');
+		$state_mock = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
 		$relation = new ilBuddySystemRelation($state_mock);
 
 		$relation->setUserId(1);
@@ -70,11 +70,12 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testUsersAreNotAbleToRequestThemselves()
 	{
-		$state_mock = $this->getMock('ilBuddySystemUnlinkedRelationState');
+		$this->expectException(ilBuddySystemRelationStateException::class);
+		$state_mock = $this->getMockBuilder('ilBuddySystemUnlinkedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
@@ -84,11 +85,12 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testUsersAreNotAbleToUnlinkThemselves()
 	{
-		$state_mock = $this->getMock('ilBuddySystemLinkedRelationState');
+		$this->expectException(ilBuddySystemRelationStateException::class);
+		$state_mock = $this->getMockBuilder('ilBuddySystemLinkedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
 		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
@@ -97,11 +99,12 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testUsersAreNotAbleToLinkThemselves()
 	{
-		$state_mock = $this->getMock('ilBuddySystemRequestedRelationState');
+		$this->expectException(ilBuddySystemRelationStateException::class);
+		$state_mock = $this->getMockBuilder('ilBuddySystemRequestedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
 		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
@@ -110,11 +113,12 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testUsersAreNotAbleToIgnoreThemselves()
 	{
-		$state_mock = $this->getMock('ilBuddySystemRequestedRelationState');
+		$this->expectException(ilBuddySystemRelationStateException::class);
+		$state_mock = $this->getMockBuilder('ilBuddySystemRequestedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
 		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);

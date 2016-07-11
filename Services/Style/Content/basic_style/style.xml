@@ -5,28 +5,18 @@
 <!-- Link -->
 <Style Tag="a" Type="link" Class="ExtLink">
 	<StyleParameter Name="text-decoration" Value="underline"/>
-	<StyleParameter Name="font-weight" Value="normal"/>
-	<StyleParameter Name="color" Value="blue"/>
 </Style>
 
 <Style Tag="a" Type="link" Class="FootnoteLink">
-	<StyleParameter Name="font-weight" Value="normal"/>
-	<StyleParameter Name="color" Value="blue"/>
 </Style>
 <Style Tag="a" Type="link" Class="IntLink">
 	<StyleParameter Name="text-decoration" Value="underline"/>
-	<StyleParameter Name="font-weight" Value="normal"/>
-	<StyleParameter Name="color" Value="blue"/>
 </Style>
 <Style Tag="a" Type="link" Class="GlossaryLink">
 	<StyleParameter Name="text-decoration" Value="underline"/>
-	<StyleParameter Name="font-weight" Value="normal"/>
-	<StyleParameter Name="color" Value="blue"/>
 </Style>
 <Style Tag="a" Type="link" Class="FileLink">
 	<StyleParameter Name="text-decoration" Value="underline"/>
-	<StyleParameter Name="font-weight" Value="normal"/>
-	<StyleParameter Name="color" Value="blue"/>
 </Style>
 
 <!-- List Item -->

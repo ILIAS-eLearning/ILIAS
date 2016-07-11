@@ -66,7 +66,11 @@ class ilDclBaseRecordFieldModel {
 	 * @param ilDclBaseFieldModel  $field
 	 */
 	public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field) {
-		global $ilCtrl, $ilUser, $ilDB, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		$this->record = $record;
 		$this->field = $field;
 		$this->ctrl = $ilCtrl;

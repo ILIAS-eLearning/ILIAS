@@ -399,9 +399,6 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				$qid = $_REQUEST['q_id'];
 
-				// :FIXME: does not work
-				// $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderingquestiongui', 'ilpageeditorgui', 'ilpcquestion', 'ilpcquestiongui'), 'test_express_mode');
-
 				if(!$qid || $qid == 'Array')
 				{
 					$questions = $this->object->getQuestionTitlesAndIndexes();
@@ -1247,14 +1244,14 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
 
 		// Handle selection of "no questionpool" as qpl_id = -1 -> use test object id instead.
-		// TODO: chek if empty strings in $_POST["qpl_id"] relates to a bug or not
-		if ($_POST["qpl_id"] == "-1")
+		// possible hint: chek if empty strings in $_POST["qpl_id"] relates to a bug or not
+		if (!isset($_POST["qpl"]) || "-1" !== (string)$_POST["qpl"])
 		{
-			$qpl_id = $newObj->id;
+			$qpl_id = $newObj->getId();
 		} 
 		else 
 		{
-			$qpl_id = $_POST["qpl_id"];
+			$qpl_id = $_POST["qpl"];
 		}
 
 		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $qpl_id, $_POST["ident"]);

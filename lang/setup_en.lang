@@ -569,20 +569,6 @@ tree_implementation_mp#:#Materialized-Path Model
 tree_implementation_switch_btn#:#Switch Tree Implementation
 tree_implementation_switched#:#The tree implementation type has been switched.
 feedback_recipient_info#:#This address is used in the footer link "Contact Administration".
-passwd#:#Password Encoding
-step_passwd#:#Password Encoding
-setup_process_step_passwd#:#Passwords
-info_text_passwd#:#Password Settings
-passwd_encoder_md5#:#md5
-passwd_encoder_bcrypt#:#bcrypt
-passwd_default_encoder#:#Encoder
-passwd_default_encoder_info#:#Please choose the default encoder used for password storage for your ILIAS client.
-passwd_encoder_bcrypt_client_salt#:#Client Salt
-passwd_encoder_client_bcrypt_salt_info#:#ILIAS generates a random salt for the key derivation function bcrypt <span style="font-weight:bold">when it is selected for the first time</span>. You can find this salt in the file mentioned above. You are advised to copy this salt to a secure location for backup purposes. If a user's password gets stored, ILIAS will generate an additional salt for the individual password. <span style="color:red">Attention: Never change the client wide salt or any salt stored in the database if they are generated once. Otherwise users will not be able to login anymore!</span>
-passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">The bcrypt implementation used by PHP %s can contain a security flaw using passwords with 8-bit characters. Please see the following link for details on the matter: <a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>. We suggest to upgrade to PHP 5.3.7+.</span>
-passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS could not determine the client salt or the client salt does not match the required criteria. Please check the content and the permissions of the related file.
-passwd_encoding_configured#:#configured
-passwd_encoding_not_configured#:#not configured
 global_cache#:#Global Cache
 global_cache_configuration#:#Global-Cache Configuration
 activate_global_cache#:#Activate

@@ -17,11 +17,38 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	protected $buddylist;
 
 	/**
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	protected function setGlobalVariable($name, $value)
+	{
+		global $DIC;
+
+		$GLOBALS[$name] = $value;
+
+		unset($DIC[$name]);
+		$DIC[$name] = function ($c) use ($name) {
+			return $GLOBALS[$name];
+		};
+	}
+
+	/**
 	 *
 	 */
 	public function setUp()
 	{
-		$GLOBALS['ilAppEventHandler'] = $this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock();
+		$this->setGlobalVariable(
+			'ilAppEventHandler',
+			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
+		);
+		$this->setGlobalVariable('ilDB', $this->getMockBuilder('ilDBInterface')->getMock());
+		$this->setGlobalVariable(
+			'lng',
+			$this->getMockBuilder('ilLanguage')
+				->disableOriginalConstructor()
+				->setMethods(array('txt', 'loadLanguageModule'))
+				->getMock()
+		);
 	}
 
 	/**
@@ -31,19 +58,20 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	{
 		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
 		$user->expects($this->once())->method('getId')->will($this->returnValue(self::BUDDY_LIST_OWNER_ID));
-		$GLOBALS['ilUser'] = $user;
+		$this->setGlobalVariable('ilUser', $user);
 
 		ilBuddyList::getInstanceByGlobalUser();
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testInstanceCannotBeCreatedByAnonymousGlobalUserObject()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
 		$user->expects($this->once())->method('getId')->will($this->returnValue(ANONYMOUS_USER_ID));
-		$GLOBALS['ilUser'] = $user;
+		$this->setGlobalVariable('ilUser', $user);
 
 		ilBuddyList::getInstanceByGlobalUser();
 	}
@@ -120,7 +148,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->exactly(2))->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->once())->method('getAll')->willReturn($relations);
@@ -139,10 +167,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testRelationRequestCannotBeIgnoredByTheRelationOwner()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$expected_relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(self::BUDDY_LIST_BUDDY_ID);
@@ -156,7 +185,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->once())->method('getAll')->willReturn($relations);
@@ -189,7 +218,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->any())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->any())->method('getAll')->willReturn($relations);
@@ -207,10 +236,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testRelationCannotBeRequestedForAnonymous()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$expected_relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(ANONYMOUS_USER_ID);
@@ -226,10 +256,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testRelationCannotBeRequestedForUnknownUserAccounts()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$expected_relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(-3);
@@ -237,7 +268,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db = $this->getMockBuilder('ilDBInterface')->getMock();
 		$db->expects($this->once())->method('queryF');
 		$db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(null));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$repo = $this->getMockBuilder('ilBuddySystemRelationRepository')->disableOriginalConstructor()->getMock();
 		$repo->expects($this->never())->method('getAll')->willReturn(array());
@@ -362,20 +393,22 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 *
 	 */
 	public function testExceptionIsThrownWhenNonNumericOwnerIdIsPassed()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 		$buddylist->setOwnerId("phpunit");
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 *
 	 */
 	public function testExceptionIsThrownWhenRelationIsRequestedForANonNumericUserId()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 		$buddylist->getRelationByUserId("phpunit");
@@ -389,12 +422,13 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 
 		$property->setValue($relation, $state);
 	}
-	
+
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 *
 	 */
 	public function testCanBeLinkedOnPriorLinkedState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -410,10 +444,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 *
 	 */
 	public function testCanBeIgnoredOnPriorIgnoredState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -429,10 +464,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 *
 	 */
 	public function testCanBeUnlinkedOnPriorUnlinkedState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -448,10 +484,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 * 
 	 */
 	public function testCanBeRequestedOnPriorRequestedState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -467,7 +504,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$db->expects($this->any())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
 		)));
-		$GLOBALS['ilDB'] = $db;
+		$this->setGlobalVariable('ilDB', $db);
 
 		$buddylist->request($relation);
 	}

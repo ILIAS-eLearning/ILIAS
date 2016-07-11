@@ -36,7 +36,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @return string
 	 */
 	public function getNodeContent($node) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		if ($node["title"] == "__OrgUnitAdministration") {
 			$node["title"] = $lng->txt("objs_orgu");
 		}
@@ -65,7 +66,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @return string
 	 */
 	public function getNodeIcon($a_node) {
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		if ($ilias->getSetting('custom_icons')) {
 			$icons_cache = ilObjOrgUnit::getIconsCache();
 			$obj_id = ilObject::_lookupObjId($a_node["child"]);
@@ -84,7 +86,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @return string
 	 */
 	public function getNodeHref($node) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		if ($ilCtrl->getCmd() == "performPaste") {
 			$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "target_node", $node["child"]);
 		}
@@ -98,7 +101,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @return string
 	 */
 	protected function getLinkTarget() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if ($ilCtrl->getCmdClass() == "ilobjorgunitgui" AND in_array($ilCtrl->getCmd(), $this->stay_with_command)) {
 			return $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), $ilCtrl->getCmd());
@@ -118,7 +122,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @return array childs
 	 */
 	public function getChildsOfNode($a_parent_node_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$wl = $this->getTypeWhiteList();
 		if (is_array($wl) && count($wl) > 0) {
@@ -188,7 +193,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @return boolean node clickable true/false
 	 */
 	public function isNodeClickable($a_node) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		if ($ilAccess->checkAccess('read', '', $a_node['ref_id'])) {
 			return true;

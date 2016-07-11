@@ -71,7 +71,8 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		foreach($this->getCustomColumns() as $c)
 		{

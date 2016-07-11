@@ -1486,7 +1486,7 @@ assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_activate_skill_service#:#Activate Competence Service
+assessment#:#tst_activate_skill_service#:#Competence Service
 assessment#:#tst_tab_competences#:#Competences
 assessment#:#qpl_tab_competences#:#Competences
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
@@ -5854,7 +5854,7 @@ crs#:#crs_objective_assigned_qst#:#Assigned Questions
 crs#:#crs_objective_deassign_question#:#Delete assignment
 crs#:#crs_objective_delete_lm_assignment#:#Delete assignment
 crs#:#crs_objective_err_limit#:#Please enter a percentage number between 1 and 100.
-crs#:#crs_objective_final_test#:#Questions Achievement Test
+crs#:#crs_objective_final_test#:#Questions Final Test
 crs#:#crs_objective_insert_percent#:#Please enter only percentages between 1 and 100.
 crs#:#crs_objective_limit_err#:#The required points should not be higher than the total points.
 crs#:#crs_objective_modified#:#Updated learning objective.
@@ -5869,7 +5869,7 @@ crs#:#crs_objective_question_assignment#:#Question assignment
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
 crs#:#crs_objective_result#:#After final test
 crs#:#crs_objective_saved_sorting#:#Saved sorting.
-crs#:#crs_objective_self_assessment#:#Questions Placement Test
+crs#:#crs_objective_self_assessment#:#Questions Initial Test
 crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_updated_test#:#Updated modifications.
@@ -6070,7 +6070,7 @@ crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
 crs#:#crs_view_archive#:#Archive View
-crs#:#crs_view_info_objective#:#Course for individualised studying: Performance on learning objectives organises the course work. Content might be recommended based on individual performance in a placement test. A final test can be used to prove learning objective mastery. 
+crs#:#crs_view_info_objective#:#Course for individualised studying: Performance on learning objectives organises the course work. Content might be recommended based on individual performance in an initial test. A final test can be used to prove learning objective mastery. 
 crs#:#crs_view_info_timing#:#Presentation mode for timings settings.
 crs#:#crs_view_mode#:#Course Presentation
 crs#:#crs_view_objective#:#Learning Objectives-Driven Course
@@ -7207,6 +7207,7 @@ license#:#remaining_licenses#:#Available licenses
 license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
 license#:#used_licenses#:#Consumed licenses
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
+mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
 mail#:#also_as_email#:#Also as E-Mail
@@ -12013,7 +12014,7 @@ assessment#:#tst_question_hints_back_to_question#:#Back to Question
 assessment#:#tst_question_hints_index_column_label#:#Hint %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
-assessment#:#tst_activate_skill_service_desc#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
+assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
@@ -12225,7 +12226,7 @@ dcl#:#dcl_length#:#Length
 dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Text Area)
 dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
-dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_max_text_length#:#Maximum Length
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
@@ -12244,6 +12245,27 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fi
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
+dcl#:#dcl_create_item#:#Create Item
+dcl#:#dcl_select#:#Select for Presentation
+dcl#:#dcl_tableviews#:#Views
+dcl#:#dcl_tableviews_table#:#Views of Selected Table
+dcl#:#dcl_tableview#:#View
+dcl#:#dcl_tableorder#:#Tableorder
+dcl#:#dcl_detailed_view#:#Detailed View
+dcl#:#dcl_tableview_add#:#Add New View
+dcl#:#dcl_delete_views#:#Delete Views
+dcl#:#dcl_msg_tableview_updated#:#View updated
+dcl#:#dcl_msg_tableview_created#:#Views created
+dcl#:#dcl_msg_tableview_deleted#:#View deleted
+dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
+dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
+dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
+dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
+dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?
+dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
+dcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_field_visible#:#Visible
+dcl#:#dcl_filter_changeable#:#Filter changeable
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
@@ -12395,10 +12417,11 @@ dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
-dcl#:#dcl_title#:#Field Title
+dcl#:#dcl_fieldtitle#:#Field Title
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_save#:#Save Table
+dcl#:#dcl_save_order#:#Save Order
 dcl#:#dcl_record_deleted#:#Entry deleted
 dcl#:#dcl_confirm_delete_record#:#Delete this Entry?
 content#:#cont_resources_of_type#:#Resources of Type
@@ -12883,12 +12906,14 @@ dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_creation_date#:#Creation Date
+dcl#:#dcl_create_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
 dcl#:#dcl_last_update#:#Last Edited
 dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_last_edited_by#:#Last edited by
+dcl#:#dcl_last_edit_by#:#Last edited by
 dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 dcl#:#dcl_public_comments#:#Enable public comments for Entries
 dcl#:#dcl_default_sort_field#:#Default sort field
@@ -12919,7 +12944,7 @@ dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#dcl_export_started#:#Asynchronous Export started
 dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
-dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
@@ -14084,6 +14109,7 @@ exc#:#exc_peer_review_cron_info#:#If activated, exercise participants will be re
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
+cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
 crs#:#crs_status_determination_lp_info#:#When the learning progress changes to ‘Completed’, the course status ‘Passed’ will be set automatically. Tutors still can overwrite the status manually.
 grp#:#grp_reg_no_selfreg#:#No Self-enrolment
 crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature ‘Mail to Members’ in the ‘Members’ tab.
@@ -14546,23 +14572,23 @@ crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
 crs#:#crs_objective_status_configure#:#Checklist for Course
 crs#:#crs_objective_status_settings#:#Course Settings
 crs#:#crs_objective_status_materials#:#Create Course Content
-crs#:#crs_objective_status_itest#:#Assign Placement Test
-crs#:#crs_objective_status_qtest#:#Assign Achievement Test
+crs#:#crs_objective_status_itest#:#Assign Initial Test
+crs#:#crs_objective_status_qtest#:#Assign Final Test
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_start#:#Define Start Objects
 crs#:#crs_objective_status_fullfilled#:#OK
 crs#:#crs_objective_action_materials#:#Assign Material
-crs#:#crs_objective_action_qtest#:#Assign Questions of Achievement Test
-crs#:#crs_objective_action_itest#:#Assign Questions of Placement Test
-crs#:#crs_loc_qt_visibility#:#Visibility of Achievement Test 
-crs#:#crs_loc_qt_visibility_all#:#Show Achievement Test Covering all Objectives
-crs#:#crs_loc_qt_visibility_lo#:#Show Achievement Test for Each Individual Objective
+crs#:#crs_objective_action_qtest#:#Assign Questions of Final Test
+crs#:#crs_objective_action_itest#:#Assign Questions of Initial Test
+crs#:#crs_loc_qt_visibility#:#Visibility of Final Test 
+crs#:#crs_loc_qt_visibility_all#:#Show Final Test Covering all Objectives
+crs#:#crs_loc_qt_visibility_lo#:#Show Final Test for Each Individual Objective
 crs#:#crs_loc_limited_passes#:#Limited Test Passes
 crs#:#crs_loc_passes#:#Number of Passes
 crs#:#crs_loc_passes_info#:#Maximum Number of test passes
 crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available
-crs#:#crs_loc_err_stat_no_qt#:#No Achievement Test available
-crs#:#crs_loc_err_stat_no_it#:#No Placement Test available
+crs#:#crs_loc_err_stat_no_qt#:#No final test available
+crs#:#crs_loc_err_stat_no_it#:#No Initial test available
 crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_loc_form_create_objectives#:#Create Learning Objectives
 crs#:#crs_loc_err_no_active_mat#:#Learning objectives without assigned content
@@ -14571,14 +14597,14 @@ crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
 crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
 crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objectives-Driven Course
 crs#:#crs_loc_settings_type#:#Course Design
-crs#:#crs_loc_type_initial_all#:#Course Starts with Placement Test
-crs#:#crs_loc_type_initial_sel#:#Course starts with Placement Test for Selected Learning Objective
+crs#:#crs_loc_type_initial_all#:#Course Starts with Initial Test
+crs#:#crs_loc_type_initial_sel#:#Course starts with Initial Test for Selected Learning Objective
 crs#:#crs_loc_type_qualified#:#Credit-by-examination design 
 crs#:#crs_loc_type_practise#:#Course Starts with Learning and Practise
 crs#:#crs_loc_tab_materials#:#Material
-crs#:#crs_loc_tab_itest#:#Placement Test 
-crs#:#crs_loc_tab_qtest#:#Achievement Test
-crs#:#crs_loc_settings_itest_tbl#:#Settings for the Placement Test 
+crs#:#crs_loc_tab_itest#:#Initial Test 
+crs#:#crs_loc_tab_qtest#:#Final Test
+crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test 
 crs#:#crs_loc_tab_objectives#:#Learning Objectives
 crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Qualifying Test
 crs#:#crs_loc_tab_start#:#Start Objects
@@ -14759,7 +14785,7 @@ administration#:#language_clear_local_changes_info#:#Reset the database entries 
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
-crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the placement test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
+crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the initial test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
 crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
 crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.
 prtf#:#prtf_page_element_my_courses_info#:#This is a list of all my courses which are currently online and where I have a membership.
@@ -14783,9 +14809,9 @@ exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback
 exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?
 exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
-crs#:#crs_loc_form_tst_new_initial_info#:#Create a new test to serve as Placement Test
+crs#:#crs_loc_form_tst_new_initial_info#:#Create a new test to serve as initial test
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
-crs#:#crs_loc_form_assign_initial_info#:#Select a test from this course to serve as Placement Test
+crs#:#crs_loc_form_assign_initial_info#:#Select a test from this course to serve as Initial Test
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
 content#:#cont_download#:#Download
@@ -14925,6 +14951,8 @@ dcl#:#dcl_ILIAS_reference_link_desc#:#The object can be accesses via link, if th
 dcl#:#dcl_learning_progress_desc#:#If available the learning progress of the object will be displayed.
 dcl#:#dcl_display_action_menu_desc#:#Object can be copied or linked if the user has the permissions to do so.
 dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_import_enabled#:#Allow import function for all users
+dcl#:#dcl_import_enabled_desc#:#All users can import data to tables, as long as they have the required write access.
 dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
 dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
 dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
@@ -15584,13 +15612,13 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning o
 crs#:#crs_checklist_objective#:#Checklist Objective
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only
-crs#:#crs_loc_settings_type_it_placement_all_info#:#Placement test on all learning objectives
-crs#:#crs_loc_settings_type_it_placement_sel_info#:#Placement test per single learning objective
-crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Achievement test on all learning objectives
-crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Achievement test per sinble learning objective
-crs#:#crs_loc_settings_type_it_none_info#:#No placement test
-crs#:#crs_loc_settings_type_q_all_info#:#Achievement test on all learning objectives
-crs#:#crs_loc_settings_type_q_selected_info#:#Achievement test per sinble learning objective
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Initial test on all learning objectives
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Initial test per single learning objective
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Final test on all learning objectives
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Final test per single learning objective
+crs#:#crs_loc_settings_type_it_none_info#:#No initial test
+crs#:#crs_loc_settings_type_q_all_info#:#Final test on all learning objectives
+crs#:#crs_loc_settings_type_q_selected_info#:#Final test per single learning objective
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
 crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.
 crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.

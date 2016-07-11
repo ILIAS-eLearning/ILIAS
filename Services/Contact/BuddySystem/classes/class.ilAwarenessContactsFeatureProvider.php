@@ -11,6 +11,23 @@ require_once 'Services/Awareness/classes/class.ilAwarenessFeatureProvider.php';
 class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+
+		$this->user = $DIC['ilUser'];
+	}
+
+	/**
 	 * @var array
 	 */
 	private static $state_to_perm_link_map = array(
@@ -23,11 +40,6 @@ class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 	 */
 	public function collectFeaturesForTargetUser($a_target_user)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		require_once 'Services/Awareness/classes/class.ilAwarenessFeature.php';
 		$coll = ilAwarenessFeatureCollection::getInstance();
 
@@ -37,7 +49,7 @@ class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 			return $coll;
 		}
 
-		if(ilObjUser::_isAnonymous($this->getUserId()) || $ilUser->isAnonymous())
+		if(ilObjUser::_isAnonymous($this->getUserId()) || $this->user->isAnonymous())
 		{
 			return $coll;
 		}
@@ -57,7 +69,10 @@ class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 			foreach($relation->getCurrentPossibleTargetStates() as $target_state)
 			{
 				$f = new ilAwarenessFeature();
-				$f->setText($this->lng->txt('buddy_bs_act_btn_txt_requested_to_' . ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName())));
+				$f->setText(
+					$this->lng->txt('buddy_bs_act_btn_txt_requested_to_' .
+					ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName()))
+				);
 				$f->setHref(ilLink::_getStaticLink($a_target_user, 'usr', true, self::$state_to_perm_link_map[get_class($target_state)]));
 				$f->setData(array(
 					'current-state' => get_class($relation->getState()),

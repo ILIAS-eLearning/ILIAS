@@ -16,7 +16,8 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 * @return string
 	 */
 	public function getHTML($link = true) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$rgui = new ilRatingGUI();
 		$rgui->setObject($this->getRecordField()->getRecord()->getId(), "dcl_record", $this->getRecordField()->getField()->getId(), "dcl_field");
 		$ilCtrl->setParameterByClass("ilratinggui", "field_id", $this->getRecordField()->getField()->getId());

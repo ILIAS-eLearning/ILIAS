@@ -362,15 +362,16 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 		$key_name = 'Key_name';
 		$non_unique = 'Non_unique';
 
-		//		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
-		//			if ($db->options['field_case'] == CASE_LOWER) {
-		//				$key_name = strtolower($key_name);
-		//				$non_unique = strtolower($non_unique);
-		//			} else {
-		//				$key_name = strtoupper($key_name);
-		//				$non_unique = strtoupper($non_unique);
-		//			}
-		//		}
+		$db = $this->getDBInstance();
+		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+			if ($db->options['field_case'] == CASE_LOWER) {
+				$key_name = strtolower($key_name);
+				$non_unique = strtolower($non_unique);
+			} else {
+				$key_name = strtoupper($key_name);
+				$non_unique = strtoupper($non_unique);
+			}
+		}
 
 		$table = $this->db_instance->quoteIdentifier($table);
 		$query = "SHOW INDEX FROM $table";
@@ -399,6 +400,11 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 	}
 
 
+	/**
+	 * @param $table
+	 * @return array
+	 * @throws \ilDatabaseException
+	 */
 	public function listTableIndexes($table) {
 		$key_name = 'Key_name';
 		$non_unique = 'Non_unique';

@@ -15,52 +15,98 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilMailSearchGroupsGUI
 {
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
-	
-	private $umail = null;
-	private $abook = null;
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
 
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+	
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $cache;
+
+	/**
+	 * @var ilFormatMail
+	 */
+	protected $umail;
+
+	/**
+	 * @var bool
+	 */
 	protected $mailing_allowed;
 
 	public function __construct($wsp_access_handler = null, $wsp_node_id = null)
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser, $rbacsystem;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
+		$this->tpl        = $DIC['tpl'];
+		$this->ctrl       = $DIC['ilCtrl'];
+		$this->lng        = $DIC['lng'];
+		$this->user       = $DIC['ilUser'];
+		$this->error      = $DIC['ilErr'];
+		$this->rbacsystem = $DIC['rbacsystem'];
+		$this->rbacreview = $DIC['rbacreview'];
+		$this->tree       = $DIC['tree'];
+		$this->cache      = $DIC['ilObjDataCache'];
+
 		// personal workspace
 		$this->wsp_access_handler = $wsp_access_handler;
 		$this->wsp_node_id = $wsp_node_id;
-		
+
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->ctrl->saveParameter($this, "ref");
 
-		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
-		$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
+		$mail = new ilMail($this->user->getId());
+		$this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
-		$this->umail = new ilFormatMail($ilUser->getId());
+		$this->umail = new ilFormatMail($this->user->getId());
 	}
 
 	public function executeCommand()
 	{
-		/**
-		 * @var $ilErr ilErrorHandling
-		 */
-		global $ilErr;
-
 		$forward_class = $this->ctrl->getNextClass($this);
 		switch($forward_class)
 		{
 			case 'ilbuddysystemgui':
 				if(!ilBuddySystem::getInstance()->isEnabled())
 				{
-					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+					$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 				}
 
 				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
@@ -83,8 +129,6 @@ class ilMailSearchGroupsGUI
 
 	function mail()
 	{
-		global $lng;
-
 		if ($_GET["view"] == "mygroups")
 		{
 			$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];
@@ -94,7 +138,7 @@ class ilMailSearchGroupsGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($lng->txt("mail_select_group"));
+				ilUtil::sendInfo($this->lng->txt("mail_select_group"));
 				$this->showMyGroups();
 			}
 		}
@@ -107,7 +151,7 @@ class ilMailSearchGroupsGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
+				ilUtil::sendInfo($this->lng->txt("mail_select_one_entry"));
 				$this->showMembers();
 			}
 		}
@@ -119,14 +163,12 @@ class ilMailSearchGroupsGUI
 
 	function mailGroups()
 	{
-		global $ilUser, $rbacreview;
-
 		$members = array();
 
 		if (!is_array($old_mail_data = $this->umail->getSavedData()))
 		{
 			$this->umail->savePostData(
-				$ilUser->getId(),
+				$this->user->getId(),
 				array(),
 				"",
 				"",
@@ -148,7 +190,7 @@ class ilMailSearchGroupsGUI
 			$ref_ids = ilObject::_getAllReferences($grp_id);
 			foreach ($ref_ids as $ref_id)
 			{
-				$roles = $rbacreview->getAssignableChildRoles($ref_id);
+				$roles = $this->rbacreview->getAssignableChildRoles($ref_id);
 				foreach ($roles as $role)
 				{
 					if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
@@ -197,14 +239,12 @@ class ilMailSearchGroupsGUI
 
 	function mailMembers()
 	{
-		global $ilUser;
-
 		$members = array();
 
 		if (!is_array($this->umail->getSavedData()))
 		{
 			$this->umail->savePostData(
-				$ilUser->getId(),
+				$this->user->getId(),
 				array(),
 				"",
 				"",
@@ -245,47 +285,6 @@ class ilMailSearchGroupsGUI
 	}
 
 	/**
-	 * Take over course members to addressbook
-	 */
-	public function adoptMembers()
-	{
-		global $lng;
-
-		$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members']; 
-		
-		if ($ids )
-		{
-			foreach ($ids as $member)
-			{
-				$login = ilObjUser::_lookupLogin($member);
-	
-				if (!$this->abook->checkEntry($login))
-				{
-					$name = ilObjUser::_lookupName($member);
-					$email = '';
-					if(ilObjUser::_lookupPref((int)$member, 'public_email') == 'y')
-					{
-						$email = ilObjUser::_lookupEmail($member);	
-					}					
-					$this->abook->addEntry(
-						$login,
-						$name["firstname"],
-						$name["lastname"],
-						$email
-					);
-				}
-			}
-			ilUtil::sendInfo($lng->txt("mail_members_added_addressbook"));
-		}
-		else
-		{
-			ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-		}
-
-		$this->showMembers();
-	}
-	
-	/**
 	 * Cancel action
 	 */
 	function cancel()
@@ -306,8 +305,6 @@ class ilMailSearchGroupsGUI
 	 */
 	public function showMyGroups()
 	{
-		global $lng, $ilUser, $ilObjDataCache, $tree;
-
 		include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
 
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -316,14 +313,14 @@ class ilMailSearchGroupsGUI
 		
 		$_GET['view'] = 'mygroups';
 
-		$lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('crs');
 		
 		$this->ctrl->setParameter($this, 'view', 'mygroups');
 		
 		include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
 		$table = new ilMailSearchCoursesTableGUI($this, 'grp', $_GET["ref"]);
 		$table->setId('search_grps_tbl');
-		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+		$grp_ids = ilGroupParticipants::_getMembershipByType($this->user->getId(), 'grp');
 		
 		$counter = 0;
 		$tableData = array();
@@ -352,7 +349,7 @@ class ilMailSearchGroupsGUI
 
 					$ref_ids = ilObject::_getAllReferences($grp_id);
 					$ref_id = current($ref_ids);				
-					$path_arr = $tree->getPathFull($ref_id, $tree->getRootId());
+					$path_arr = $this->tree->getPathFull($ref_id, $this->tree->getRootId());
 					$path_counter = 0;
 					$path = '';
 					foreach($path_arr as $data)
@@ -388,7 +385,7 @@ class ilMailSearchGroupsGUI
 					$rowData = array
 					(
 						'CRS_ID' => $grp_id,
-						'CRS_NAME' => $ilObjDataCache->lookupTitle($grp_id),
+						'CRS_NAME' => $this->cache->lookupTitle($grp_id),
 						'CRS_NO_MEMBERS' => count($grp_members),
 						'CRS_PATH' => $path,
 						'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML()
@@ -401,10 +398,10 @@ class ilMailSearchGroupsGUI
 		$table->setData($tableData);
 		if($counter > 0)
 		{
-			$this->tpl->setVariable('TXT_MARKED_ENTRIES',$lng->txt('marked_entries'));
+			$this->tpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
 		}
 		
-		$searchTpl->setVariable('TABLE', $table->getHtml());
+		$searchTpl->setVariable('TABLE', $table->getHTML());
 		$this->tpl->setContent($searchTpl->get());
 		
 		if($_GET["ref"] != "wsp")
@@ -418,12 +415,6 @@ class ilMailSearchGroupsGUI
 	 */
 	public function showMembers()
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilUser ilObjUser
-		 */
-		global $lng, $ilUser;
-
 		if ($_GET["search_grp"] != "")
 		{
 			$_POST["search_grp"] = explode(",", $_GET["search_grp"]);
@@ -432,7 +423,7 @@ class ilMailSearchGroupsGUI
 		if (!is_array($_POST["search_grp"]) ||
 			count($_POST["search_grp"]) == 0)
 		{
-			ilUtil::sendInfo($lng->txt("mail_select_group"));
+			ilUtil::sendInfo($this->lng->txt("mail_select_group"));
 			$this->showMyGroups();
 		}
 		else
@@ -441,8 +432,8 @@ class ilMailSearchGroupsGUI
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$context = $_GET["ref"] ? $_GET["ref"] : "mail"; 	
 			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $context);
-			$lng->loadLanguageModule('crs');
-	
+			$this->lng->loadLanguageModule('crs');
+
 			$tableData = array();
 			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 			
@@ -482,7 +473,7 @@ class ilMailSearchGroupsGUI
 							$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($member['id']);
 							$state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
 							$rowData['status'] = '';
-							if($member['id'] != $ilUser->getId())
+							if($member['id'] != $this->user->getId())
 							{
 								if($relation->isOwnedByRequest())
 								{
@@ -502,9 +493,9 @@ class ilMailSearchGroupsGUI
 			$table->setData($tableData);
 			if (count($tableData))
 			{
-				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
+				$searchTpl->setVariable("TXT_MARKED_ENTRIES", $this->lng->txt("marked_entries"));
 			}
-			$searchTpl->setVariable('TABLE', $table->getHtml());
+			$searchTpl->setVariable('TABLE', $table->getHTML());
 			$this->tpl->setContent($searchTpl->get());
 			
 			if($_GET["ref"] != "wsp")
@@ -516,8 +507,6 @@ class ilMailSearchGroupsGUI
 
 	function share()
 	{
-		global $lng;
-		
 		if ($_GET["view"] == "mygroups")
 		{
 			$ids = $_REQUEST["search_grp"];
@@ -527,7 +516,7 @@ class ilMailSearchGroupsGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($lng->txt("mail_select_course"));
+				ilUtil::sendInfo($this->lng->txt("mail_select_course"));
 				$this->showMyGroups();
 			}
 		}
@@ -540,7 +529,7 @@ class ilMailSearchGroupsGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
+				ilUtil::sendInfo($this->lng->txt("mail_select_one_entry"));
 				$this->showMembers();
 			}
 		}
@@ -556,7 +545,7 @@ class ilMailSearchGroupsGUI
 		{
 			$a_obj_ids = array($a_obj_ids);
 		}
-		
+
 		$existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
 		$added = false;
 		foreach($a_obj_ids as $object_id)
@@ -566,13 +555,11 @@ class ilMailSearchGroupsGUI
 				$added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
 			}
 		}
-		
+
 		if($added)
 		{
 			ilUtil::sendSuccess($this->lng->txt("wsp_share_success"), true);
 		}
-		$this->ctrl->redirectByClass("ilworkspaceaccessgui", "share");		
+		$this->ctrl->redirectByClass("ilworkspaceaccessgui", "share");
 	}
 }
-
-?>

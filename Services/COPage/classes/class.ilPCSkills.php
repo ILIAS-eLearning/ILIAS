@@ -97,6 +97,7 @@ class ilPCSkills extends ilPageContent
 	 */
 	static function beforePageDelete($a_page)
 	{
+		require_once('Services/COPage/classes/class.ilPageContentUsage.php'); // Mantis #18636
 		ilPageContentUsage::deleteAllUsages("skmg", $a_page->getParentType().":pg", $a_page->getId(), false,
 			$a_page->getLanguage());
 	}
