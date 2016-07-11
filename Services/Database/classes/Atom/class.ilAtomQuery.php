@@ -131,7 +131,7 @@ class ilAtomQuery {
 		self::checkIsolationLevel($this->getIsolationLevel());
 		$this->checkQueries();
 
-		if ($has_write_locks && $this->getIsolationLevel() != self::ISOLATION_SERIALIZABLE) {
+		if ($this->hasWriteLocks() && $this->getIsolationLevel() != self::ISOLATION_SERIALIZABLE) {
 			throw new ilDatabaseException('The selected Isolation-level is not allowd when locking tables with write-locks');
 		}
 
@@ -220,6 +220,37 @@ class ilAtomQuery {
 				throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
 			}
 		}
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function hasWriteLocks() {
+		$has_write_locks = false;
+		foreach ($this->tables as $table) {
+			$lock_level = $table[1];
+			if ($lock_level == self::LOCK_WRITE) {
+				$has_write_locks = true;
+			}
+		}
+
+		return $has_write_locks;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function getLocksForDBInstance() {
+		$locks = array();
+		foreach ($this->tables as $table) {
+			$table_name = $table[0];
+			$lock_level = $table[1];
+			$locks[] = array( 'name' => $table_name, 'type' => $lock_level );
+		}
+
+		return $locks;
 	}
 
 
