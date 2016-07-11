@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Database/exceptions/exception.ilDatabaseException.php');
+require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
 
 /**
  * Class ilAtomQuery
@@ -9,63 +10,50 @@ require_once('./Services/Database/exceptions/exception.ilDatabaseException.php')
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilAtomQuery {
+abstract class ilAtomQueryBase {
 
-	// Lock levels
-	const LOCK_WRITE = 1;
-	const LOCK_READ = 2;
-	// Isolation-Levels
-	const ISOLATION_READ_UNCOMMITED = 1;
-	const ISOLATION_READ_COMMITED = 2;
-	const ISOLATION_REPEATED_READ = 3;
-	const ISOLATION_SERIALIZABLE = 4;
 	const ITERATIONS = 10;
 	/**
 	 * @var array
 	 */
 	protected static $available_isolations_levels = array(
-		self::ISOLATION_READ_UNCOMMITED,
-		self::ISOLATION_READ_COMMITED,
-		self::ISOLATION_REPEATED_READ,
-		self::ISOLATION_SERIALIZABLE,
+		ilAtomQuery::ISOLATION_READ_UNCOMMITED,
+		ilAtomQuery::ISOLATION_READ_COMMITED,
+		ilAtomQuery::ISOLATION_REPEATED_READ,
+		ilAtomQuery::ISOLATION_SERIALIZABLE,
 	);
-	// Anomalies
-	const ANO_LOST_UPDATES = 1;
-	const ANO_DIRTY_READ = 2;
-	const ANO_NON_REPEATED_READ = 3;
-	const ANO_PHANTOM = 4;
 	/**
 	 * @var array
 	 */
 	protected static $possible_anomalies = array(
-		self::ANO_LOST_UPDATES,
-		self::ANO_DIRTY_READ,
-		self::ANO_NON_REPEATED_READ,
-		self::ANO_PHANTOM,
+		ilAtomQuery::ANO_LOST_UPDATES,
+		ilAtomQuery::ANO_DIRTY_READ,
+		ilAtomQuery::ANO_NON_REPEATED_READ,
+		ilAtomQuery::ANO_PHANTOM,
 	);
 	/**
 	 * @var array
 	 */
 	protected static $anomalies_map = array(
-		self::ISOLATION_READ_UNCOMMITED => array(
-			self::ANO_LOST_UPDATES,
-			self::ANO_DIRTY_READ,
-			self::ANO_NON_REPEATED_READ,
-			self::ANO_PHANTOM,
+		ilAtomQuery::ISOLATION_READ_UNCOMMITED => array(
+			ilAtomQuery::ANO_LOST_UPDATES,
+			ilAtomQuery::ANO_DIRTY_READ,
+			ilAtomQuery::ANO_NON_REPEATED_READ,
+			ilAtomQuery::ANO_PHANTOM,
 		),
-		self::ISOLATION_READ_COMMITED   => array(
-			self::ANO_NON_REPEATED_READ,
-			self::ANO_PHANTOM,
+		ilAtomQuery::ISOLATION_READ_COMMITED   => array(
+			ilAtomQuery::ANO_NON_REPEATED_READ,
+			ilAtomQuery::ANO_PHANTOM,
 		),
-		self::ISOLATION_REPEATED_READ   => array(
-			self::ANO_PHANTOM,
+		ilAtomQuery::ISOLATION_REPEATED_READ   => array(
+			ilAtomQuery::ANO_PHANTOM,
 		),
-		self::ISOLATION_SERIALIZABLE    => array(),
+		ilAtomQuery::ISOLATION_SERIALIZABLE    => array(),
 	);
 	/**
 	 * @var int
 	 */
-	protected $isolation_level = self::ISOLATION_SERIALIZABLE;
+	protected $isolation_level = ilAtomQuery::ISOLATION_SERIALIZABLE;
 	/**
 	 * @var array
 	 */
@@ -78,6 +66,10 @@ class ilAtomQuery {
 	 * @var int
 	 */
 	protected $running_query = 0;
+	/**
+	 * @var \ilDBInterface
+	 */
+	protected $ilDBInstance;
 
 
 	/**
@@ -86,7 +78,7 @@ class ilAtomQuery {
 	 * @param \ilDBInterface $ilDBInstance
 	 * @param int $isolation_level currently only ISOLATION_SERIALIZABLE is available
 	 */
-	public function __construct(ilDBInterface $ilDBInstance, $isolation_level = self::ISOLATION_SERIALIZABLE) {
+	public function __construct(ilDBInterface $ilDBInstance, $isolation_level = ilAtomQuery::ISOLATION_SERIALIZABLE) {
 		static::checkIsolationLevel($isolation_level);
 		$this->ilDBInstance = $ilDBInstance;
 		$this->isolation_level = $isolation_level;
@@ -112,10 +104,10 @@ class ilAtomQuery {
 	 * @throws \ilDatabaseException
 	 */
 	public function addTable($table_name, $lock_level, $lock_sequence_too = false) {
-		if(!$table_name || !$this->ilDBInstance->tableExists($table_name)) {
+		if (!$table_name || !$this->ilDBInstance->tableExists($table_name)) {
 			throw new ilDatabaseException('Table locks only work with existing tables');
 		}
-		if (!in_array($lock_level, array( static::LOCK_READ, static::LOCK_WRITE ))) {
+		if (!in_array($lock_level, array( ilAtomQuery::LOCK_READ, ilAtomQuery::LOCK_WRITE ))) {
 			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level. use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE');
 		}
 		$this->tables[] = array( $table_name, $lock_level, $lock_sequence_too );
@@ -127,7 +119,7 @@ class ilAtomQuery {
 	 * @param bool $lock_sequence_too
 	 */
 	public function lockTableWrite($table_name, $lock_sequence_too = false) {
-		$this->tables[] = array( $table_name, self::LOCK_WRITE, $lock_sequence_too );
+		$this->tables[] = array( $table_name, ilAtomQuery::LOCK_WRITE, $lock_sequence_too );
 	}
 
 
@@ -160,19 +152,7 @@ class ilAtomQuery {
 	 *
 	 * @throws \ilDatabaseException
 	 */
-	public function run() {
-		$this->checkQueries();
-
-		if ($this->hasWriteLocks() && $this->getIsolationLevel() != self::ISOLATION_SERIALIZABLE) {
-			throw new ilDatabaseException('The selected Isolation-level is not allowd when locking tables with write-locks');
-		}
-
-		if ($this->ilDBInstance->supportsTransactions()) {
-			$this->runWithTransactions();
-		} else {
-			$this->runWithLocks();
-		}
-	}
+	abstract public function run();
 	//
 	//
 	//
@@ -215,7 +195,11 @@ class ilAtomQuery {
 	 */
 	public static function checkIsolationLevel($isolation_level) {
 		// The following Isolations are currently not supported
-		if (in_array($isolation_level, array( self::ISOLATION_READ_UNCOMMITED, self::ISOLATION_READ_COMMITED, self::ISOLATION_REPEATED_READ ))) {
+		if (in_array($isolation_level, array(
+			ilAtomQuery::ISOLATION_READ_UNCOMMITED,
+			ilAtomQuery::ISOLATION_READ_COMMITED,
+			ilAtomQuery::ISOLATION_REPEATED_READ,
+		))) {
 			throw new ilDatabaseException('This isolation-level is currently unsupported');
 		}
 		// Check if a available Isolation level is selected
@@ -255,7 +239,7 @@ class ilAtomQuery {
 		$has_write_locks = false;
 		foreach ($this->tables as $table) {
 			$lock_level = $table[1];
-			if ($lock_level == self::LOCK_WRITE) {
+			if ($lock_level == ilAtomQuery::LOCK_WRITE) {
 				$has_write_locks = true;
 			}
 		}
@@ -301,34 +285,11 @@ class ilAtomQuery {
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
-	protected function runWithTransactions() {
-		$i = 0;
-		do {
-			$e = null;
-			try {
-				$this->ilDBInstance->beginTransaction();
-				$this->runQueries();
-				$this->ilDBInstance->commit();
-			} catch (ilDatabaseException $e) {
-				$this->ilDBInstance->rollback();
-				if ($i >= self::ITERATIONS - 1) {
-					throw $e;
-				}
-			}
-			$i ++;
-		} while ($e instanceof ilDatabaseException);
-	}
+	protected function checkBeforeRun() {
+		$this->checkQueries();
 
-
-	/**
-	 * @throws ilDatabaseException
-	 */
-	protected function runWithLocks() {
-		$this->ilDBInstance->lockTables($this->getLocksForDBInstance());
-		$this->runQueries();
-		$this->ilDBInstance->unlockTables();
+		if ($this->hasWriteLocks() && $this->getIsolationLevel() != ilAtomQuery::ISOLATION_SERIALIZABLE) {
+			throw new ilDatabaseException('The selected Isolation-level is not allowd when locking tables with write-locks');
+		}
 	}
 }

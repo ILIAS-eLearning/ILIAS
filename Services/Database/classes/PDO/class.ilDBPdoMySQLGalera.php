@@ -16,5 +16,15 @@ class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB implements ilDBInterface {
 	public function supportsTransactions() {
 		return true;
 	}
+
+
+	/**
+	 * @return \ilAtomQuery
+	 */
+	public function buildAtomQuery() {
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryTransaction.php');
+
+		return new ilAtomQueryTransaction($this);
+	}
 }
 

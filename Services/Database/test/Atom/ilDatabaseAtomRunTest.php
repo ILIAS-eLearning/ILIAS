@@ -50,7 +50,6 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
-		require_once('./Services/Database/classes/Atom/class.ilAtomQuery.php');
 
 		global $ilClientIniFile;
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
@@ -71,6 +70,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 
 	public function testConnection() {
 		$this->assertTrue($this->ilDBInterfaceGalera->connect(true));
+		$this->assertTrue($this->ilDBInterfaceGaleraSecond->connect(true));
 		$this->assertTrue($this->ilDBInterfaceInnoDB->connect(true));
 	}
 
@@ -108,7 +108,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 * @depends testConnection
 	 */
 	public function testWriteAtomOne() {
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
 		$query = $this->getInsertQueryCallable();
 		$ilAtomQuery->addQueryCallable($query);
@@ -123,13 +123,13 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 * @depends testConnection
 	 */
 	public function testWriteWithTransactions() {
-		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceGalera);
-		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
+		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
 		$query = $this->getInsertQueryCallable();
-		$ilAtomQueryOne->addQueryCallable($query);
-		$ilAtomQueryOne->addQueryCallable($query);
+		$ilAtomQuery->addQueryCallable($query);
+		$ilAtomQuery->addQueryCallable($query);
 
-		$ilAtomQueryOne->run();
+		$ilAtomQuery->run();
 
 		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
 	}
@@ -139,31 +139,36 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 * @depends testConnection
 	 */
 	public function testWriteWithLocks() {
-		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceInnoDB);
-		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
 		$query = $this->getInsertQueryCallable();
-		$ilAtomQueryOne->addQueryCallable($query);
-		$ilAtomQueryOne->addQueryCallable($query);
+		$ilAtomQuery->addQueryCallable($query);
+		$ilAtomQuery->addQueryCallable($query);
 
-		$ilAtomQueryOne->run();
+		$ilAtomQuery->run();
 
 		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
 	}
-
-
+	
 	/**
 	 * @depends testConnection
 	 */
-	public function testViaDbInterface() {
-		$query = $this->getInsertQueryCallable();
-		$tables = $this->gettableLocksForDbInterface();
-		$this->ilDBInterfaceGalera->runAtomQuery($tables, $query);
-		$this->ilDBInterfaceInnoDB->runAtomQuery($tables, $query);
-	}
+	public function testUpdateDuringTransaction() {
+		$this->ilDBInterfaceGalera->insert('il_db_tests_atom', array(
+			'id'        => array( 'integer', $this->ilDBInterfaceGalera->nextId('il_db_tests_atom') ),
+			'is_online' => array( 'integer', 1 ),
+		));
+		// Start a Transaction with one instance and update the same entry as another instance
+		$this->ilDBInterfaceGalera->beginTransaction();
+		$this->ilDBInterfaceGalera->update('il_db_tests_atom', array(
+			'is_online' => array( 'integer', 5 ),
+		), array( 'id' => array( 'integer', 1 ) ));
+		// Update the same entry with another instance
+		$this->ilDBInterfaceGaleraSecond->update('il_db_tests_atom', array(
+			'is_online' => array( 'integer', 6 ),
+		), array( 'id' => array( 'integer', 1 ) ));
 
-
-	public function testSelectDuringAtomQuery() {
-
+		$this->ilDBInterfaceGalera->commit();
 	}
 
 	//

@@ -37,12 +37,18 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 * @var ilDBInterface
 	 */
 	protected $ilDBInterfaceGalera;
+	/**
+	 * @var ilDBInterface
+	 */
+	protected $ilDBInterfaceInnoDB;
 
 
 	protected function setUp() {
 		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
-		require_once('./Services/Database/classes/Atom/class.ilAtomQuery.php');
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryTransaction.php');
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
 		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
 		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelperSettings.php');
 
@@ -50,15 +56,21 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
+
+		$this->ilDBInterfaceInnoDB = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+		$this->ilDBInterfaceInnoDB->initFromIniFile($ilClientIniFile);
+		$this->ilDBInterfaceInnoDB->connect();
 	}
 
 
 	public function testGetInstance() {
-		$serializable = new ilAtomQuery($this->ilDBInterfaceGalera);
-		$this->assertEquals($serializable->getIsolationLevel(), ilAtomQuery::ISOLATION_SERIALIZABLE);
+		$ilAtomQueryTransaction = $this->ilDBInterfaceGalera->buildAtomQuery();
+		$this->assertEquals($ilAtomQueryTransaction->getIsolationLevel(), ilAtomQuery::ISOLATION_SERIALIZABLE);
+		$this->assertTrue($ilAtomQueryTransaction instanceof ilAtomQueryTransaction);
 
-		$serializable = new ilAtomQuery($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_SERIALIZABLE);
-		$this->assertEquals($serializable->getIsolationLevel(), ilAtomQuery::ISOLATION_SERIALIZABLE);
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$this->assertEquals($ilAtomQuery->getIsolationLevel(), ilAtomQuery::ISOLATION_SERIALIZABLE);
+		$this->assertTrue($ilAtomQuery instanceof ilAtomQueryLock);
 	}
 
 
@@ -67,7 +79,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testReadUncommited() {
 		$this->setExpectedException('ilDatabaseException');
-		$other = new ilAtomQuery($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_READ_UNCOMMITED);
+		$other = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_READ_UNCOMMITED);
 		$other->run();
 	}
 
@@ -77,7 +89,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testReadCommited() {
 		$this->setExpectedException('ilDatabaseException');
-		$other = new ilAtomQuery($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_READ_COMMITED);
+		$other = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_READ_COMMITED);
 		$other->run();
 	}
 
@@ -87,7 +99,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testReadRepeatedRead() {
 		$this->setExpectedException('ilDatabaseException');
-		$other = new ilAtomQuery($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_REPEATED_READ);
+		$other = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_REPEATED_READ);
 		$other->run();
 	}
 
@@ -97,7 +109,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAnomalies() {
 		$this->setExpectedException('ilDatabaseException');
-		ilAtomQuery::checkAnomaly('lorem');
+		ilAtomQueryTransaction::checkAnomaly('lorem');
 	}
 
 
@@ -106,12 +118,12 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testLevel() {
 		$this->setExpectedException('ilDatabaseException');
-		ilAtomQuery::checkIsolationLevel('lorem');
+		ilAtomQueryTransaction::checkIsolationLevel('lorem');
 	}
 
 
 	public function testRisks() {
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
 		$this->assertEquals(array(), $ilAtomQuery->getRisks());
 	}
@@ -121,7 +133,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 * @throws \ilDatabaseException
 	 */
 	public function checkClosure() {
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
 			$ilDB->getDBType();
 		});
@@ -130,7 +142,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 
 	public function checkCallable() {
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addQueryCallable(new ilAtomQueryTestHelper(new ilAtomQueryTestHelperSettings()));
 		$ilAtomQuery->run();
 	}
@@ -138,7 +150,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 	public function testWrongIsolationLevel() {
 		$this->setExpectedException('ilDatabaseException');
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera, 'non_existing');
+		$ilAtomQuery = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, 'non_existing');
 		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
 			$ilDB->getDBType();
@@ -152,7 +164,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQueryTestHelperSettings->setThrowExceptions(5);
 		$ilAtomQueryTestHelper = new ilAtomQueryTestHelper($ilAtomQueryTestHelperSettings);
 
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addQueryCallable($ilAtomQueryTestHelper);
 		$ilAtomQuery->run();
 	}
@@ -163,7 +175,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQueryTestHelperSettings->setThrowExceptions(10);
 		$ilAtomQueryTestHelper = new ilAtomQueryTestHelper($ilAtomQueryTestHelperSettings);
 
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addQueryCallable($ilAtomQueryTestHelper);
 		try {
 			$ilAtomQuery->run();
