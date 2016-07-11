@@ -27,3 +27,11 @@ glo_glossaries (auto linked glossaries)
 glo_term_reference
 - glo_id -> glossary.id
 - term_id -> glossary_term.id (term not belonging to glo_id glossary)
+
+Term References
+===============
+
+- Editing Style is used from source glossary
+- Editing Adv. Metadata fields are used from source glossary
+- Auto linked glossaries are used from source glossary
+- Referencing glossary determines presentation

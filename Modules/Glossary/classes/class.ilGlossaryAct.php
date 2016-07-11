@@ -27,10 +27,9 @@ class ilGlossaryAct
 	protected $access;
 
 	/**
-	 * construct
-	 *
-	 * @param
-	 * @return
+	 * ilGlossaryAct constructor.
+	 * @param ilObjGlossary $a_glossary
+	 * @param ilObjUser $a_user
 	 */
 	protected function __construct(ilObjGlossary $a_glossary, ilObjUser $a_user)
 	{
@@ -43,8 +42,8 @@ class ilGlossaryAct
 
 	/**
 	 * Get instance
-	 *
-	 * @param
+	 * @param ilObjGlossary $a_glossary
+	 * @param ilObjUser $a_user
 	 * @return ilGlossaryAct
 	 */
 	static function getInstance(ilObjGlossary $a_glossary, ilObjUser $a_user)
@@ -76,14 +75,46 @@ class ilGlossaryAct
 			return;
 		}
 
-		if ($this->glossary->getId() == $a_source_glossary->getId())
+		ilGlossaryTerm::_copyTerm($a_term_id, $this->glossary->getId());
+	}
+
+
+	/**
+	 * Reference a term of another glossary in current glossary
+	 *
+	 * @param ilObjGlossary $a_source_glossary
+	 * @param int[] $a_term_ids
+	 */
+	function referenceTerms(ilObjGlossary $a_source_glossary, $a_term_ids)
+	{
+		if (!$this->access->checkAccessOfUser($this->user->getId(), "write", "", $this->glossary->getRefId()))
 		{
 			return;
 		}
 
-		ilGlossaryTerm::_copyTerm($a_term_id, $this->glossary->getId());
-	}
+		if (!$this->access->checkAccessOfUser($this->user->getId(), "read", "", $a_source_glossary->getRefId()))
+		{
+			return;
+		}
 
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		$refs = new ilGlossaryTermReferences($this->glossary->getId());
+		foreach ($a_term_ids as $term_id)
+		{
+			if (ilGlossaryTerm::_lookGlossaryID($term_id) != $a_source_glossary->getId())
+			{
+				continue;
+			}
+
+			if ($this->glossary->getId() == $a_source_glossary->getId())
+			{
+				continue;
+			}
+			$refs->addTerm($term_id);
+		}
+		$refs->update();
+	}
 
 
 }

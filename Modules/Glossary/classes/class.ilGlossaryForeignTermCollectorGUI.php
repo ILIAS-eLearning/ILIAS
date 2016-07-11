@@ -172,7 +172,33 @@ class ilGlossaryForeignTermCollectorGUI
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->returnToParent($this);
 	}
-	
+
+	/**
+	 * Reference terms
+	 *
+	 * @param
+	 * @return
+	 */
+	function referenceTerms()
+	{
+		if(!is_array($_POST["term_id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "showTerms");
+		}
+		include_once("./Modules/Glossary/classes/class.ilGlossaryAct.php");
+		$act = ilGlossaryAct::getInstance($this->glossary, $this->user);
+		$terms = array();
+		foreach ($_POST["term_id"] as $id)
+		{
+			$terms[] = (int) $id;
+
+		}
+		$act->referenceTerms($this->foreign_glossary, $terms);
+		
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->returnToParent($this);
+	}
 
 }
 

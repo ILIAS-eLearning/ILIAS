@@ -470,7 +470,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	* Get term list
 	*/
 	function getTermList($searchterm = "", $a_letter = "", $a_def = "", $a_tax_node = 0, $a_include_offline_childs = false,
-		$a_add_amet_fields = false, array $a_amet_filter = null, $a_omit_virtual = false)
+		$a_add_amet_fields = false, array $a_amet_filter = null, $a_omit_virtual = false, $a_include_references = false)
 	{
 		if ($a_omit_virtual)
 		{
@@ -481,7 +481,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			$glo_ids = $this->getAllGlossaryIds($a_include_offline_childs);
 		}
 		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $a_letter, $a_def, $a_tax_node,
-			$a_add_amet_fields, $a_amet_filter);
+			$a_add_amet_fields, $a_amet_filter, $a_include_references);
 		return $list;
 	}
 

@@ -31,6 +31,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	var $term;
 
 	/**
+	 * @var int
+	 */
+	protected $term_id;
+
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -71,6 +76,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	protected $help;
 
 	/**
+	 * @var ilGlossaryTermPermission
+	 */
+	protected $term_perm;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -87,6 +97,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->access = $DIC->access();
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->help = $DIC["ilHelp"];
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermPermission.php");
+		$this->term_perm = ilGlossaryTermPermission::getInstance();
 
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
 
@@ -100,7 +112,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// current glossary)
 		$this->term_id = (int) $_GET["term_id"];
 		$term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
-		if ($this->term_id > 0 && $term_glo_id != $this->object->getId())
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		if ($this->term_id > 0 && $term_glo_id != $this->object->getId()
+			&& !ilGlossaryTermReferences::isReferenced($this->object->getId(), $this->term_id))
 		{
 			$this->term_id = "";
 		}
@@ -144,6 +158,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 			
 			case "ilglossarytermgui":
+				if (!$this->term_perm->checkPermission("write", $this->term_id))
+				{
+					return;
+				}
 				$this->getTemplate();
 //				$this->quickList();
 				$this->ctrl->setReturn($this, "listTerms");

@@ -14,6 +14,15 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {
+
+	/**
+	 * @var ilObjGlossary
+	 */
+	protected $glossary;
+
+	/**
+	 * @var array
+	 */
 	protected $adv_cols_order = array();
 
 	/**
@@ -95,7 +104,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
-				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements()));
+				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements(), false, true));
 //		$this->setData(array());	
 	}
 	

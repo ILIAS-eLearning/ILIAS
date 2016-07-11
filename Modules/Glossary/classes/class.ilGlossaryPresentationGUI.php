@@ -59,7 +59,8 @@ class ilGlossaryPresentationGUI
 			$glo_ids = array($glo_ids);
 		}
 		$term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
-		if (!in_array($term_glo_id, $glo_ids))
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		if (!in_array($term_glo_id, $glo_ids) && !ilGlossaryTermReferences::isReferenced($glo_ids, $this->term_id))
 		{
 			$this->term_id = "";
 		}
@@ -203,7 +204,7 @@ class ilGlossaryPresentationGUI
 		
 //		$term_list = $this->glossary->getTermList();	
 
-		$ret =  $this->listTermByGiven($term_list);
+		$ret =  $this->listTermByGiven();
 		$ilCtrl->setParameter($this, "term_id", "");
 		
 		$ilTabs->activateTab("terms");
@@ -217,7 +218,7 @@ class ilGlossaryPresentationGUI
 	/**
 	* list glossary terms
 	*/
-	function listTermByGiven($term_list, $filter ="")
+	function listTermByGiven()
 	{
 		global $ilCtrl, $ilAccess, $ilias, $lng, $tpl;
 		
@@ -353,7 +354,7 @@ class ilGlossaryPresentationGUI
 		{
 			$this->showDefinitionTabs("term_content");
 		}
-		
+
 		$term = new ilGlossaryTerm($term_id);
 		
 		if (!$a_get_html)
@@ -423,7 +424,6 @@ class ilGlossaryPresentationGUI
 		}
 
 		$defs = ilGlossaryDefinition::getDefinitionList($term_id);
-
 		$tpl->setVariable("TXT_TERM", $term->getTerm());
 		$this->mobs = array();
 

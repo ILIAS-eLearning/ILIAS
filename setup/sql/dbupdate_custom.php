@@ -60,7 +60,10 @@ if (!$ilDB->tableExists('glo_term_reference'))
 			'default' => 0
 		)
 	));
-	$ilDB->addPrimaryKey('glo_id', array('term_id'));
 }
+?>
+<#9>
+<?php
+	$ilDB->addPrimaryKey('glo_term_reference', array('glo_id', 'term_id'));
 ?>
 

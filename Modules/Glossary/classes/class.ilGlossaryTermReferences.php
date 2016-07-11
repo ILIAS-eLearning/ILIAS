@@ -87,8 +87,7 @@ class ilGlossaryTermReferences
 	/**
 	 * Add term
 	 *
-	 * @param
-	 * @return
+	 * @param int term id
 	 */
 	function addTerm($a_term_id)
 	{
@@ -98,49 +97,94 @@ class ilGlossaryTermReferences
 		}
 	}
 
-
 	/**
 	 * Read
-	 *
-	 * @param
-	 * @return
 	 */
 	function read()
 	{
-		$set = $this->db->query("SELECT * FROM glo_term_reference ".
+		$set = $this->db->query("SELECT term_id FROM glo_term_reference ".
 			" WHERE glo_id = ".$this->db->quote($this->getGlossaryId(), "integer"));
 		while ($rec = $this->db->fetchAssoc($set))
 		{
-
+			$this->addTerm($rec["term_id"]);
 		}
 	}
 
 	/**
-	 *
-	 *
-	 * @param
-	 * @return
+	 * Update
 	 */
 	function update()
 	{
 		$this->delete();
-		foreach ($this->getReferences() as $r)
+		foreach ($this->getTerms() as $t)
 		{
 			$this->db->replace("glo_term_reference",
 				array(
-					"glo_id" => array("integer", $this->getId()),
-					"term_id" => array("integer", $r),
+					"glo_id" => array("integer", $this->getGlossaryId()),
+					"term_id" => array("integer", $t),
 				),
 				array()
 				);
 		}
 	}
 
+	/**
+	 * Delete
+	 */
+	function delete()
+	{
+		$this->db->manipulate("DELETE FROM glo_term_reference WHERE ".
+			" glo_id = ".$this->db->quote($this->getGlossaryId(), "integer")
+			);
+	}
 
-	$ilDB->manipulate("UPDATE  SET ".
-		"  = ".$ilDB->quote(, "").",".
-		" WHERE  = ".$ilDB->quote(, "")
-		);
+	/**
+	 * Check if a glossary uses references
+	 *
+	 * @param int $a_glossary_id
+	 * @return bool
+	 */
+	static function hasReferences($a_glossary_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$set = $db->query("SELECT * FROM glo_term_reference  ".
+			" WHERE glo_id = ".$db->quote($a_glossary_id, "integer")
+			);
+		if ($rec = $db->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Is a term referenced by one or multiple glossaries
+	 * @param int|int[] $a_glo_id
+	 * @param int $a_term_id
+	 * @return bool
+	 */
+	static function isReferenced($a_glo_id, $a_term_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		if (!is_array($a_glo_id))
+		{
+			$a_glo_id = array($a_glo_id);
+		}
+		$set = $db->query($q = "SELECT * FROM glo_term_reference ".
+			" WHERE ".$db->in("glo_id", $a_glo_id, false, "integer").
+			" AND term_id = ".$db->quote($a_term_id, "integer")
+			);
+		if ($rec = $db->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
 
 }
 

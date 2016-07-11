@@ -352,9 +352,11 @@ class ilGlossaryTerm
 	 * @return	array			array of terms 
 	 */
 	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
-		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null)
+		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null, $a_include_references = false)
 	{
 		global $ilDB;
+
+		$join = $in = "";
 
 		$terms = array();
 
@@ -404,20 +406,39 @@ class ilGlossaryTerm
 		{
 			$searchterm.= " AND ".$ilDB->upper($ilDB->substr("term", 1, 1))." = ".$ilDB->upper($ilDB->quote($a_first_letter, "text"))." ";
 		}
-		
+
+		// include references
+		$where_glo_id_or = "";
+		if ($a_include_references)
+		{
+			$join.= " LEFT JOIN glo_term_reference tr ON (gt.id = tr.term_id) ";
+			if (is_array($a_glo_id))
+			{
+				$where_glo_id_or = " OR ".$ilDB->in("tr.glo_id", $a_glo_id, false, "integer");
+			}
+			else
+			{
+				$where_glo_id_or = " OR tr.glo_id = ".$ilDB->quote($a_glo_id, "integer");
+			}
+		}
+
 		// meta glossary
 		if (is_array($a_glo_id))
 		{
-			$where = $ilDB->in("glo_id", $a_glo_id, false, "integer");
+			$where = "(".$ilDB->in("gt.glo_id", $a_glo_id, false, "integer").$where_glo_id_or.")";
 		}
 		else
 		{
-			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
+			$where = "(gt.glo_id = ".$ilDB->quote($a_glo_id, "integer").$where_glo_id_or.")";
 		}
 		
 		$where.= $in;
-		
+
+
 		$q = "SELECT DISTINCT(gt.term), gt.id, gt.glo_id, gt.language FROM glossary_term gt ".$join." WHERE ".$where.$searchterm." ORDER BY term";
+
+		//echo $q; exit;
+
 		$term_set = $ilDB->query($q);
 //var_dump($q);
 		while ($term_rec = $ilDB->fetchAssoc($term_set))
