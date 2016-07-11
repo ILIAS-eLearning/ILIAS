@@ -273,7 +273,7 @@ abstract class ilAtomQueryBase {
 	protected function runQueries() {
 		foreach ($this->queries as $i => $query) {
 			if ($i < $this->running_query) {
-				continue;
+//				continue;
 			}
 			/**
 			 * @var $query Callable
