@@ -190,7 +190,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		global $lng;
 		$no_entry = $lng->txt("gev_table_no_entry");
 
-		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstanceById(self::$target_user_id)->paysFees()) && $rec["fee"] != -1)
+		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstance(self::$target_user_id)->paysFees()) && $rec["fee"] != -1)
 					? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
 					: $rec["fee"] == "-empty-";
 
@@ -247,7 +247,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		global $lng;
 		$no_entry = $lng->txt("gev_table_no_entry");
 
-		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstanceById(self::$target_user_id)->paysFees())&& $rec["fee"] != -1)
+		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstance(self::$target_user_id)->paysFees())&& $rec["fee"] != -1)
 					? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])
 					: $rec["fee"] == "-empty-";
 
