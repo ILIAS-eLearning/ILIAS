@@ -570,14 +570,14 @@ class ilForumTopic
 			$ilAtomQuery = new ilAtomQuery($ilDB);
 			$ilAtomQuery->addTable('frm_user_read', ilAtomQuery::LOCK_WRITE);
 			$ilAtomQuery->addTable('frm_thread_access', ilAtomQuery::LOCK_WRITE);
-			$ilAtomQuery->addQueryClosure(function ($ilDB) use ($new_obj_id, $current_id) {
+			$ilAtomQuery->addQueryCallable(function ($ilDB) use ($new_obj_id, $current_id) {
 				$ilDB->manipulateF('
 				DELETE FROM frm_user_read
 				WHERE obj_id = %s AND thread_id =%s',
 					array('integer', 'integer'),
 					array($new_obj_id, $current_id));
 			});
-			$ilAtomQuery->addQueryClosure(function ($ilDB) use ($new_obj_id, $current_id) {
+			$ilAtomQuery->addQueryCallable(function ($ilDB) use ($new_obj_id, $current_id) {
 				$ilDB->manipulateF('
 				UPDATE frm_user_read
 				SET obj_id = %s
@@ -585,14 +585,14 @@ class ilForumTopic
 					array('integer', 'integer'),
 					array($new_obj_id, $current_id));
 			});
-			$ilAtomQuery->addQueryClosure(function ($ilDB) use ($new_obj_id, $current_id) {
+			$ilAtomQuery->addQueryCallable(function ($ilDB) use ($new_obj_id, $current_id) {
 				$ilDB->manipulateF('
 				DELETE FROM frm_thread_access
 				WHERE obj_id = %s AND thread_id =%s',
 					array('integer', 'integer'),
 					array($new_obj_id, $current_id));
 			});
-			$ilAtomQuery->addQueryClosure(function ($ilDB) use ($new_obj_id, $current_id) {
+			$ilAtomQuery->addQueryCallable(function ($ilDB) use ($new_obj_id, $current_id) {
 				$ilDB->manipulateF('
 				UPDATE frm_thread_access
 				SET obj_id = %s

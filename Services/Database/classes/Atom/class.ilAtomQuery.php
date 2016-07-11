@@ -70,11 +70,7 @@ class ilAtomQuery {
 	 */
 	protected $tables = array();
 	/**
-	 * @var callable
-	 */
-	protected $query;
-	/**
-	 * @var Closure[]
+	 * @var Callable[]
 	 */
 	protected $queries = array();
 	/**
@@ -135,9 +131,9 @@ class ilAtomQuery {
 	 *        array($new_obj_id, $current_id));
 	 *    });
 	 *
-	 * @param \Closure $query
+	 * @param \Callable $query
 	 */
-	public function addQueryClosure(Closure $query) {
+	public function addQueryCallable(Callable $query) {
 		$this->queries[] = $query;
 	}
 
@@ -237,7 +233,7 @@ class ilAtomQuery {
 	 */
 	protected function checkQueries() {
 		foreach ($this->queries as $query) {
-			if (!$query instanceof Closure) {
+			if (!is_callable($query)) {
 				throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
 			}
 		}
@@ -281,7 +277,7 @@ class ilAtomQuery {
 	protected function runQueries() {
 		foreach ($this->queries as $query) {
 			/**
-			 * @var $query Closure
+			 * @var $query Callable
 			 */
 			$query($this->ilDBInstance);
 		}
