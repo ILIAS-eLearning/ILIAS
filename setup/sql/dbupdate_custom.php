@@ -5072,3 +5072,28 @@ require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
 ?>
+
+<#215>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+
+	require_once("Services/User/classes/class.ilObjUser.php");
+	
+	if (!$ilDB->tableColumnExists('hist_user', 'report_points_from'))
+	{		
+		$ilDB->addTableColumn('hist_user', 'report_points_from', array(
+			"type" => "date",
+			"notnull" => false,
+			"default" => "0000-00-00"
+		));
+	}
+?>

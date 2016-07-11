@@ -311,4 +311,10 @@ class ilUserHistorizingHelper
 	public static function getLogin($user) {
 		return $user->getLogin();
 	}
+
+	public function getReportPointsFrom($user) {
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstanceByObjOrId($user);
+		return $wbd->getReportPointsFrom();
+	}
 }
