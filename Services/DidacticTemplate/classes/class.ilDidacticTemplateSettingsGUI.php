@@ -33,13 +33,28 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		/**
+		 * @var ilAccessHandler $ilAccess
+		 */
+		global $ilCtrl, $ilAccess;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				$settings = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
+				$form = $this->initEditTemplate($settings);
+				$ilCtrl->forwardCommand($form);
+			case 'ilmultilingualismgui':
+				$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]);
+				//$this->tabs_gui->setTabActive('export');
+				$this->setEditTabs("settings_trans");
+				include_once("./Services/Multilingualism/classes/class.ilMultilingualismGUI.php");
+				$transgui = new ilMultilingualismGUI($_REQUEST["tplid"], 'dtpl');
+				$ilCtrl->forwardCommand($transgui);
+				break;
 			default:
 				if(!$cmd)
 				{
@@ -87,11 +102,18 @@ class ilDidacticTemplateSettingsGUI
 	{
 		global $ilTabs, $ilCtrl;
 		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget(
-			$this->lng->txt('didactic_back_to_overview'),
-			$ilCtrl->getLinkTarget($this,'overview')
-		);
+		if(isset($_REQUEST["tplid"]))
+		{
+			$this->setEditTabs('import');
+		}
+		else{
+			$ilTabs->clearTargets();
+			$ilTabs->setBackTarget(
+				$this->lng->txt('didactic_back_to_overview'),
+				$ilCtrl->getLinkTarget($this,'overview')
+			);
+
+		}
 
 		if(!$form instanceof ilPropertyFormGUI)
 		{
@@ -183,17 +205,19 @@ class ilDidacticTemplateSettingsGUI
 	{
 		global $ilCtrl,$ilTabs;
 
+		$this->setEditTabs("edit");
+
 		if(!$_REQUEST['tplid'])
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return $ilCtrl->redirect($this,'overview');
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget(
-			$this->lng->txt('didactic_back_to_overview'),
-			$ilCtrl->getLinkTarget($this,'overview')
-		);
+		//$ilTabs->clearTargets();
+		//$ilTabs->setBackTarget(
+		//	$this->lng->txt('didactic_back_to_overview'),
+		//	$ilCtrl->getLinkTarget($this,'overview')
+		//);
 
 
 		$ilCtrl->saveParameter($this,'tplid');
@@ -228,8 +252,8 @@ class ilDidacticTemplateSettingsGUI
 			$temp->setInfo($form->getInput('info'));
 			$temp->setAssignments(array($form->getInput('type')));
 			$temp->update();
-
-			ilUtil::sendSuccess($this->lng->txt('save_settings'));
+			
+			ilUtil::sendSuccess($this->lng->txt('save_settings'), true);
 			$ilCtrl->redirect($this,'overview');
 		}
 
@@ -255,15 +279,31 @@ class ilDidacticTemplateSettingsGUI
 
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'), 'title');
-		$title->setValue($set->getTitle());
 		$title->setSize(40);
 		$title->setMaxLength(64);
 		$title->setRequired(true);
+
+		$trans = $set->getTranslations();
+		$def = $trans[0]; // default
+
+		if(sizeof($trans) > 1)
+		{
+			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+			$languages = ilMDLanguageItem::_getLanguages();
+
+			$title->setValue( $def["title"]);
+			$title->setInfo($this->lng->txt("language").": ".$languages[$def["lang"]].
+				' <a href="'.$ilCtrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations").
+				'">&raquo; '.$this->lng->txt("more_translations").'</a>');
+
+			unset($languages);
+		}
+
 		$form->addItem($title);
 
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-		$desc->setValue($set->getDescription());
+		$desc->setValue($def["description"]);
 		$desc->setRows(3);
 		$form->addItem($desc);
 
@@ -468,6 +508,58 @@ class ilDidacticTemplateSettingsGUI
 		$ilCtrl->redirect($this,'overview');
 	}
 
+	function setEditTabs($a_tab_active = "edit")
+	{
+		/**
+		 * @var ilTabsGUI $ilTabs
+		 * @var ilCtrl $ilCtrl
+		 */
+		global $ilCtrl, $ilTabs;
+
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('didactic_back_to_overview'),
+			$ilCtrl->getLinkTarget($this,'overview')
+		);
+		$ilCtrl->saveParameter($this, "tplid");
+		$ilTabs->addTab('edit',$this->lng->txt('edit'), $ilCtrl->getLinkTarget($this,'editTemplate'));
+		$ilTabs->addTab('import',$this->lng->txt('import'), $ilCtrl->getLinkTarget($this,'showEditXMLForm'));
+		$ilTabs->addTab('settings_trans',$this->lng->txt("obj_multilinguality"), $ilCtrl->getLinkTargetByClass(array( "ilmultilingualismgui"),'listTranslations'));
+
+		$ilTabs->setTabActive($a_tab_active);
+	}
+
+	function showEditXMLForm()
+	{
+		$this->setEditTabs("import");
+	}
+
+	function initEditXMLForm()
+	{
+		global $ilCtrl;
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setShowTopButtons(false);
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('didactic_import_table_title'));
+		$form->addCommandButton('importTemplate', $this->lng->txt('import'));
+		$form->addCommandButton('overview', $this->lng->txt('cancel'));
+
+		$file = new ilFileInputGUI($this->lng->txt('edit_template_xml'), 'file');
+		$file->setSuffixes(array('xml'));
+		$form->addItem($file);
+
+		$created = true;
+
+		return $form;
+	}
+
+	function editXML()
+	{
+
+	}
 
 }
 ?>

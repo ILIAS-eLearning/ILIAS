@@ -119,6 +119,18 @@ class ilDidacticTemplateImport
 			}
 		}
 		$setting->save();
+
+		include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
+		$trans = ilMultilingualism::getInstance(0, "dtpl");
+		$trans->setObjId($setting->getId());
+		$trans->addLanguage($trans->getDefaultLanguage(), $setting->getTitle(), $setting->getDescription(), true);
+
+		if(isset($root->didacticTemplate->translations))
+		{
+			$trans->fromXML($root->didacticTemplate->translations);
+		}
+		$trans->save();
+		
 		return $setting;
 	}
 

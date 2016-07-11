@@ -167,6 +167,28 @@ class ilDidacticTemplateSetting
 	}
 
 	/**
+	 * get all translations from this object
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function getTranslations()
+	{
+		$trans = $this->getTranslationObject();
+		$lang = $trans->getLanguages();
+
+		foreach($lang as $k => $v)
+		{
+			if($v['lang_default'])
+			{
+				$lang[0] = $lang[$k];
+			}
+
+		}
+		return $lang;
+	}
+
+	/**
 	 * Delete settings
 	 */
 	public function delete()
@@ -217,7 +239,9 @@ class ilDidacticTemplateSetting
 		$ilDB->manipulate($query);
 
 		$this->saveAssignments();
-
+		
+		$trans = $this->getTranslationObject();
+		$trans->addLanguage($trans->getDefaultLanguage(),$this->getTitle(),$this->getDescription(),true);
 
 		return true;
 	}
@@ -286,6 +310,11 @@ class ilDidacticTemplateSetting
 		$ilDB->manipulate($query);
 		$this->deleteAssignments();
 		$this->saveAssignments();
+		
+		$trans = $this->getTranslationObject();
+		$trans->addLanguage($trans->getDefaultLanguage(),$this->getTitle(),$this->getDescription(),true, true);
+		$trans->save();
+
 
 		return true;
 	}
@@ -329,6 +358,17 @@ class ilDidacticTemplateSetting
 		{
 			$this->addAssignment($row->obj_type);
 		}
+		
+		$trans = $this->getTranslationObject();
+		$lang = $trans->getLanguages();
+		$lang_key = $trans->getDefaultLanguage();
+
+		if($lang[$lang_key]['title'])
+		{
+			$this->setTitle($lang[$lang_key]['title']);
+			$this->setDescription($lang[$lang_key]['description']);
+		}
+
 		return true;
 	}
 
@@ -349,6 +389,9 @@ class ilDidacticTemplateSetting
 		$writer->xmlStartTag('didacticTemplate',array('type' => $type));
 		$writer->xmlElement('title',array(),$this->getTitle());
 		$writer->xmlElement('description', array(), $this->getDescription());
+		
+		$trans = $this->getTranslationObject();
+		$writer = $trans->toXml($writer);
 
 		// info text with p-tags
 		if(strlen($this->getInfo()))
@@ -398,6 +441,15 @@ class ilDidacticTemplateSetting
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateCopier.php';
 		$this->setTitle(ilDidacticTemplateCopier::appendCopyInfo($this->getTitle()));
 		$this->enable(false);
+	}
+
+	/**
+	 * @return ilMultilingualism
+	 */
+	public function getTranslationObject()
+	{
+		include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
+		return ilMultilingualism::getInstance($this->getId(), "dtpl");
 	}
 }
 
