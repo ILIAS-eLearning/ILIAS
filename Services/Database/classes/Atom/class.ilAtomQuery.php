@@ -87,6 +87,7 @@ class ilAtomQuery {
 	 * @param int $isolation_level currently only ISOLATION_SERIALIZABLE is available
 	 */
 	public function __construct(ilDBInterface $ilDBInstance, $isolation_level = self::ISOLATION_SERIALIZABLE) {
+		static::checkIsolationLevel($isolation_level);
 		$this->ilDBInstance = $ilDBInstance;
 		$this->isolation_level = $isolation_level;
 	}
@@ -155,7 +156,6 @@ class ilAtomQuery {
 	 * @throws \ilDatabaseException
 	 */
 	public function run() {
-		self::checkIsolationLevel($this->getIsolationLevel());
 		$this->checkQueries();
 
 		if ($this->hasWriteLocks() && $this->getIsolationLevel() != self::ISOLATION_SERIALIZABLE) {
@@ -176,14 +176,6 @@ class ilAtomQuery {
 	 */
 	public function getIsolationLevel() {
 		return $this->isolation_level;
-	}
-
-
-	/**
-	 * @param int $isolation_level
-	 */
-	public function setIsolationLevel($isolation_level) {
-		$this->isolation_level = $isolation_level;
 	}
 
 
