@@ -38,3 +38,15 @@ $query = "INSERT INTO rep_master_data (id,is_online)"
 		."	WHERE md.id IS NULL";
 $ilDB->manipulate($query);
 ?>
+
+<#4>
+<?php
+if(!$ilDB->tableColumnExists('rep_robj_rds', 'dbv_report_ref')) {
+	$ilDB->addTableColumn('rep_robj_rds', 'dbv_report_ref', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		));
+}
+?>

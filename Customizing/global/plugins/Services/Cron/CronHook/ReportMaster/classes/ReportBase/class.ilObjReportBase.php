@@ -50,7 +50,6 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->createLocalReportSettings();
 		$this->createGlobalReportSettings();
 		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
-
 	}
 
 
@@ -88,8 +87,20 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 								);
 	}
 
+	public function prepareRelevantParameters() {
+
+	}
+
 	public function getSettingsData() {
 		return $this->settings;
+	}
+
+	public function getSettingsDataFor($key) {
+		if(!array_key_exists($key, $this->settings)) {
+			throw new Exception("ilObjReportBase::getSettingsDataFor: key ".$key." not found in settings.");
+		}
+
+		return $this->settings[$key];
 	}
 
 	public function setSettingsData(array $settings) {
@@ -266,7 +277,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->filter_action = $link;
 	}
 
-	public function getRelevantaParameters() {
+	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
 
@@ -436,9 +447,12 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	 */
 	protected static function filterPlugins($plugins) {
 		return array_filter($plugins, function($plugin) {
-			if ($plugin instanceof ilReportBasePlugin) {
-				return $plugin;
+			if ($plugin instanceof ilReportBasePlugin
+				&& !($plugin instanceof ilReportEduBioPlugin)
+				) {
+				return true;
 			}
+			return false;
 		});
 	}
 }

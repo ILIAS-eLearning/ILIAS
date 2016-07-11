@@ -726,9 +726,6 @@ gev#:#gev_training_date#:#Traingsdatum
 gev#:#gev_training_fee#:#Teilnahmegebühr
 gev#:#gev_training_fee_pretax#:#Teilnahmegebühr netto
 gev#:#gev_training_fee_posttax#:#Teilnahmegebühr brutto
-gev#:#gev_training_fee_report#:#Gebühr
-gev#:#gev_training_fee_pretax_report#:#Gebühr netto
-gev#:#gev_training_fee_posttax_report#:#Gebühr brutto
 gev#:#gev_training_id#:#ID
 gev#:#gev_unlimited#:#unbegrenzt
 gev#:#gev_until#:#bis
@@ -1336,7 +1333,7 @@ gev#:#crs_load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#crs_load_member_list#:#Mitgliederliste abrufen
 gev#:#view_mailing#:#Mailing einsehen
-gev#:#crs_view_maillog#:#Maillog einsehen
+gev#:#crs_view_mailing#:#Mailing einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#crs_load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
@@ -1444,23 +1441,6 @@ gev#:#xatd_write#:#ASTD Report bearbeiten
 gev#:#xatd_delete#:#ASTD Report löschen
 gev#:#xatd_visible#:#sichtbar
 gev#:#xatd_edit_permission#:#schreibberechtigt
-gev#:#astd_category#:#Vertrieb + ID
-gev#:#astd_managers_f#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>weiblich
-gev#:#astd_managers_m#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>männlich
-gev#:#astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
-gev#:#astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
-gev#:#astd_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
-gev#:#astd_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
-gev#:#astd_sales_employee_f#:#Sales Employees<br>(festangestellter AD)<br>weiblich
-gev#:#astd_sales_employee_m#:#Sales Employees<br>(festangestellter AD)<br>männlich
-gev#:#astd_sales_not_employee_f#:#Sales NON Employees<br>(§84 HGB)<br>weiblich
-gev#:#astd_sales_not_employee_m#:#Sales NON Employees<br>(§84 HGB)<br>männlich
-gev#:#astd_hours_not_self_learn#:#Anzahl der Lernstunden interner und externer Veranstaltungen
-gev#:#astd_hours_self_learn#:#Anzahl der E-Learning-Stunden
-gev#:#astd_hours_language_course#:#Anzahl der Sprachkurs-Lernstunden
-gev#:#astd_participators#:#Anzahl der Empfänger von PE-Maßnahmen
-gev#:#astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
-gev#:#astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
 gev#:#gev_bwv_id_info_get_new#:#Es wird für Sie eine GDV Vermittler-ID beantragt.
 gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
 gev#:#gev_no_trainer#:#An diesem Training ist kein Trainer hinterlegt. Die Finalisierung des Teilnahmestatus ist daher nicht möglich.
@@ -1519,3 +1499,18 @@ gev#:#gev_trainer_view_mailing#:#Mailing einsehen
 gev#:#gev_custom_mail#:#Freitextmail
 gev#:#gev_reports_settings_video_link#:#Link zum Erklärvideo
 gev#:#gev_reports_settings_pdf_link#:#Link zum PDF
+gev#:#rep_robj_xtdr_rbac_create_xtdr#:#Report Trainingsauslastung (Auswertung) anlegen
+gev#:#rep_robj_xrbt_rbac_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage anlegen
+gev#:#rep_robj_xeeb_rbac_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner anlegen
+gev#:#rep_robj_xrbi_rbac_create_xrbi#:#Rechnungsreport anlegen
+gev#:#rep_robj_xrcp_rbac_create_xrcp#:#Gutscheincodereport anlegen
+gev#:#rep_robj_xrds_rbac_create_xrds#:#DBV Report für Vorgesetzte anlegen
+gev#:#rep_robj_xrcg_rbac_create_xrcg#:#Unternehmensreport anlegen
+gev#:#rep_robj_xatd_rbac_create_xatd#:#ASTD-Report anlegen
+gev#:#rep_robj_xrtw_rbac_create_xrtw#:#Report Trainerauslastung anlegen
+gev#:#rep_robj_xroa_rbac_create_xroa#:#Report Teilnahmen nach Organisationseinheit anlegen
+gev#:#rep_robj_xbbp_rbac_create_xbbp#:#Pool für Trainingsbausteine anlegen
+gev#:#rep_robj_xrea_rbac_create_xrea#:#Report Teilnahme nach Mitarbeiter / Vertriebspartner anlegen
+gev#:#rep_robj_xttc_rbac_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie anlegen
+gev#:#rep_robj_xrta_rbac_create_xrta#:#Report über Teilnahmen an Trainings anlegen
+gev#:#rep_robj_xtda_rbac_create_xtda#:#Report Trainingsauslastung (Ausblick) anlegen

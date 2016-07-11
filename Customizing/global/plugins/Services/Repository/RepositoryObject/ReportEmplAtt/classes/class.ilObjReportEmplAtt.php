@@ -50,8 +50,8 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			->select("usrcrs.participation_status")
 			->select("usrcrs.usr_id")
 			->select("usrcrs.crs_id")
-			->select("crs.begin_date")
-			->select("crs.end_date")
+			->select("usrcrs.begin_date")
+			->select("usrcrs.end_date")
 			->select("crs.edu_program")
 			->from("hist_user usr")
 			->left_join("hist_usercoursestatus usrcrs")
@@ -124,7 +124,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
 									$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.crs_id');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.topic_set');
 		$filter	->dateperiod( "period"
 									, $this->plugin->txt("period")
 									, $this->plugin->txt("until")

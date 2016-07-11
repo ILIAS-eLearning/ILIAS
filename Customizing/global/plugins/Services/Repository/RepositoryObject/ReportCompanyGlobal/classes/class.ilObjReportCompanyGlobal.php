@@ -64,7 +64,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
 		$this->orgu_filter->setFilterOptionsAll();
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hucs.crs_id');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hc.topic_set');
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -155,7 +155,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->static_condition("hucs.hist_historic = 0")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition($this->gIldb->in('hc.type', $this->types, false, 'text'))
-				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-','text'))
+				->static_condition("hucs.booking_status = ".$this->gIldb->quote('gebucht','text'))
 				->action($this->filter_action)
 				->compile()
 				;
@@ -195,12 +195,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	 * @inheritdoc
 	 */
 	protected function buildTable($table) {
-		$table  ->column('type','type')
-				->column('book_book','bookings')
-				->column('book_user','members')
-				->column('part_book','participations')
-				->column('wp_part','edupoints')
-				->column('part_user','members');
+		$table  ->column('type',$this->plugin->txt('type'), true)
+				->column('book_book',$this->plugin->txt('bookings'), true)
+				->column('book_user',$this->plugin->txt('members'), true)
+				->column('part_book',$this->plugin->txt('participations'), true)
+				->column('wp_part',$this->plugin->txt('edu_points'), true)
+				->column('part_user',$this->plugin->txt('members'), true);
 		return parent::buildTable($table);
 	}
 
@@ -233,17 +233,26 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 					.', hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
 		}
 		$query 		->from('hist_course hc')
-
 					->join('hist_usercoursestatus hucs')
-						->on('hc.crs_id = hucs.crs_id'
-							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text')
-							.'	AND '.$this->crs_topics_filter->deliverQuery());
+						->on($this->userCourseSelectorByStatus($has_participated));
 		if($this->sql_filter_orgus) {
 			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}
+		$this->crs_topics_filter->addToQuery($query);
 			$query	->group_by('hc.type')
 					->compile();
 		return $query;
+	}
+
+	protected function userCourseSelectorByStatus($has_participated) {
+		if($has_participated) {
+			$return = 'hc.crs_id = hucs.crs_id'
+				.'	AND hucs.participation_status = '.$this->gIldb->quote('teilgenommen','text');
+		} else {
+			$return = 'hc.crs_id = hucs.crs_id'
+				.'	AND '.$this->gIldb->in('hucs.participation_status',array('nicht gesetzt','-empty-'),false,'text');
+		}
+		return $return;
 	}
 
 	protected function fetchPartialDataSet($a_query) {

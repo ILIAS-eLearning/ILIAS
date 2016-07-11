@@ -40,13 +40,16 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 				}
 			}
 			$rec['min_part_achived'] = 
-				(	(string)$rec['min_part_achived'] === "1")
+				(	(string)$rec['min_participants'] === "0"
+					|| (string)$rec['min_participants'] === "-1"
+					|| $rec['min_participants'] === null 
+					|| $rec['bookings'] >= $rec['min_participants'])
 						? 'Ja' : 'Nein';
 			$rec['bookings_left'] =
 				(	(string)$rec['max_participants'] === "0"
-					||(string)$rec['max_participants'] === "-1"
-					|| $rec['max_participants'] === null)
-						? 'keine Beschränkung' : $rec['bookings_left'];
+					|| (string)$rec['max_participants'] === "-1"
+					|| $rec['max_participants'] === null )
+						? 'keine Beschränkung' : max($rec['max_participants'] - $rec["bookings"],0);
 			$rec['booked_wl'] =
 					(string)$rec['waitinglist_active'] === "1"
 						? $rec['booked_wl'] : 'inaktiv';

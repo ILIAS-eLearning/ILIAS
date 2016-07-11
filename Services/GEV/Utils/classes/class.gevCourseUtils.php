@@ -435,6 +435,10 @@ class gevCourseUtils {
 		return $this->getEduProgramm() == "dezentrales Training";
 	}
 
+	public function isCentralTraining() {
+		return $this->getEduProgramm() == "zentrales Training";
+	}
+
 	public function isFlexibleDecentrallTraining() {
 		$tpl_ref_id = $this->getTemplateRefId();
 		
@@ -1090,8 +1094,8 @@ class gevCourseUtils {
 			$start_cur = $start_date->get(IL_CAL_DATE);
 			$end_hist = $rec["end_date"];
 			$end_cur = $end_date->get(IL_CAL_DATE);
-			$duration_cur = floor((strtotime($start_cur) - strtotime($end_cur)) / (60 * 60 * 24));
-			$duration_hist = floor((strtotime($start_hist) - strtotime($end_hist)) / (60 * 60 * 24));
+			$duration_cur = floor((strtotime($start_cur) - strtotime($end_cur)) / (86400)); //1 day in seconds
+			$duration_hist = floor((strtotime($start_hist) - strtotime($end_hist)) / (86400)); //1 day in seconds
 			
 			if ($start_hist != $start_cur || $end_hist != $end_cur) {
 				if ($duration_cur == $duration_hist) {
@@ -1107,7 +1111,7 @@ class gevCourseUtils {
 	}
 
 	protected function moveAccomodationsSameDuration($a_old_start_date, $a_new_start_date) {
-		$offset_days = floor((strtotime($a_old_start_date) - strtotime($a_new_start_date)) / (60 * 60 * 24));
+		$offset_days = floor((strtotime($a_old_start_date) - strtotime($a_new_start_date)) / (86400)); //1 day in seconds
 		$this->gIldb->manipulate("UPDATE crs_acco"
 							 ."   SET night = night + INTERVAL($offset_days) DAY,"
 							 // This prevents primary key problems
@@ -1119,6 +1123,7 @@ class gevCourseUtils {
 							 ."   SET crs_id = ".$this->gIldb->quote($this->crs_id, "integer")
 							 ." WHERE crs_id = ".$this->gIldb->quote(-1 * $this->crs_id, "integer")
 							 );
+		$this->gLog->write("####course accomodations at ".$this->getId().": moving by ".$offset_days." days");
 	}
 	
 	protected function moveAccomodationsDurationChanged($a_old_start_date, $a_old_end_date, $a_new_start_date, $a_new_end_date) {

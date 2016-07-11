@@ -33,4 +33,6 @@ critical#:#Achtung
 lastname_filter#:#Nachname
 show_critical_persons#:#Zeige mir nur kritische Personen. (GEV-Angestellte und EVG)
 show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr. (GEV-Angestellte und EVG)
-wbd_relevant_only#:#Zeige mir nur Personen die weiterbildungspflichtig sind nach gut beraten. 
+wbd_relevant_only#:#Zeige mir nur Personen die weiterbildungspflichtig sind nach gut beraten.
+truncate_orgu_filter#:#Filter für Organisationseinheiten vorbelegen
+overall_points_goa#:#Gesamtpunktzahl GOA

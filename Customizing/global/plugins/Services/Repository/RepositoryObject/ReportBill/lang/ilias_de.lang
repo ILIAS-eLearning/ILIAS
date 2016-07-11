@@ -22,3 +22,28 @@ rep_robj_xrbi_offline#:#Offline
 xrbi_content#:#Report
 xrbi_properties#:#Eigenschaften
 report_mode#:#Art des Reports
+period#:#Zeitraum
+until#:#bis
+created_since#:#erstellt seit
+created_till#:#erstellt bis
+bill_number#:#Rechnungsnummer
+status#:#Status
+training_fee_pretax#:#Gebühr netto
+tax#:#Umsatzsteuer (19%)
+training_fee_posttax#:#Gebühr brutto
+coupon_pretax#:#Getscheinbetrag netto
+coupon_posttax#:#Gutscheinbetrag brutto
+bill_amount_pretax#:#Rechnungsbetrag netto
+bill_amount_posttax#:#Rechnungsbetrag brutto
+charged_agency#:#belastetes Agenturkonto
+create_date#:#Erstellt am
+lastname#:#Nachname
+firstname#:#Vorname
+gender#:#Geschlecht
+adp_number_vfs#:#ADP-Nummer VFS
+org_unit_short#:#Org.-Einheit
+event_title#:#Veranstaltungstitel
+number_of_measure#:#Nummer der Maßname
+training_date#:#Trainingsdatum
+venue#:#Veranstaltunsort
+affiliation#:#Zugehörigkeit

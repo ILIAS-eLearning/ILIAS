@@ -6907,6 +6907,10 @@ function getAnswerFeedbackPoints()
 
 		$newObj->saveToDb();
 		$newObj->updateMetaData();// #14467
+		// gev patch start #2337
+		$newObj->setTitle($this->getTitle());
+		$newObj->update();
+		//gev parch end
 		return $newObj;
 	}
 

@@ -892,3 +892,35 @@ gevAMDUtils::addAMDField( "Verwaltung"
 						, ilAdvancedMDFieldDefinition::TYPE_TEXT
 						);
 ?>
+
+<#27>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$amdutils = gevAMDUtils::getInstance();
+
+$options = array(
+	  "SUHK - Privatkunden"
+	, "SUHK - Firmenkunden"
+	, "Leben und Rente"
+	, "Betriebliche Altersvorsorge"
+	, "Akquise / Verkauf"
+	, "Beratungs- und Tarifierungstools"
+	, "Büromanagement"
+	, "Neue Medien"
+	, "Agenturmanagement"
+	, "Führung"
+	, "VA-Ausbildung"
+	, "Azubi-Ausbildung"
+	, "Qualifizierungsprogramme"
+	, "Assistanceleistungen"
+	, "Investment"
+	, "Kranken und Pflege"
+	, "Rechtsschutz"
+	, "Bausparen und Finanzieren"
+	);
+
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TOPIC, $options);
+?>

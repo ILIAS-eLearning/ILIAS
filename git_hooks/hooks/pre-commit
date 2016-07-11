@@ -5,9 +5,32 @@
 #make this file executable via chmod +x pre-commit
 #copy this file and check_for_parse_errors onto .git/hooks/pre-commit
 #happy errorfree commiting!
+err=0
+
 if ./git_hooks/support/check_for_parse_errors 
 then
-	exit 0
+	echo "no parse errors found in commit"
 else
+	err+=1
+fi
+
+if ./git_hooks/support/check_for_var_var
+then
+	echo "no var-vars found in commit"
+else
+	err+=1
+fi
+
+if ./git_hooks/support/check_for_faulty_file_beginning
+then
+	echo "all files start the right way"
+else
+	err+=1
+fi
+
+if [[ $err -gt 0 ]]
+then
 	exit 1
+else
+	exit 0
 fi

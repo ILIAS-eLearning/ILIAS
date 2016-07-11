@@ -14,22 +14,16 @@
 * @ilCtrl_Calls gevDesktopGUI: ilAdminSearchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
-* @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
-* @ilCtrl_Calls gevDesktopGUI: gevBookingsByVenueGUI
 * @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsApGUI
-* @ilCtrl_Calls gevDesktopGUI: gevWBDEdupointsReportedGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeBookingsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingGUI
 * @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
-* @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
-* @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
-* @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByOrgUnitAndTrainerGUI
 * @ilCtrl_Calls gevDesktopGUI: ilObjCourseGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateMailPreviewDataGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateBuildingBlockDataGUI
@@ -95,12 +89,6 @@ class gevDesktopGUI {
 				$gui = new gevStaticpagesGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevedubiographygui":
-				$ilMainMenu->setActive("gev_me_menu");
-				require_once("Services/GEV/Reports/classes/class.gevEduBiographyGUI.php");
-				$gui = new gevEduBiographyGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
 			case "gevuserprofilegui":
 				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
@@ -123,19 +111,6 @@ class gevDesktopGUI {
 				$gui = new gevWBDTPBasicRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevbookingsbyvenuegui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevBookingsByVenueGUI.php");
-				$gui = new gevBookingsByVenueGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-
-			case "gevwbdedupointsreportedgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevWBDEdupointsReportedGUI.php");
-				$gui = new gevWBDEdupointsReportedGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
 
 			case "gevemployeebookingsgui":
 				$ilMainMenu->setActive("gev_others_menu");
@@ -151,19 +126,6 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
-			case "gevwbderrorsgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevWBDErrorsGUI.php");
-				$gui = new gevWBDErrorsGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-
-			case "gevdbvreportgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevDBVReportGUI.php");
-				$gui = new gevDBVReportGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
 			case "gevdecentraltrainingbuildingblockadmingui":
 				$ilMainMenu->setActive("gev_admin_menu");
 				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingBuildingBlockAdminGUI.php");
@@ -196,12 +158,7 @@ class gevDesktopGUI {
 				$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevtraineroperationbyorgunitandtrainergui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByOrgUnitAndTrainerGUI.php");
-				$gui = new gevTrainerOperationByOrgUnitAndTrainerGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
+
 			case "ilobjcoursegui":
 				require_once("Modules/Course/classes/class.ilObjCourseGUI.php");
 				$gui = new ilObjCourseGUI();
@@ -254,15 +211,10 @@ class gevDesktopGUI {
 			case "toMyProfile":
 			case "toStaticPages":
 			case "toMyTrainingsAp":
-			case "toReportBookingsByVenue":
 			case "toBooking":
 			case "toEmployeeBookings":
-			case "toReportWBDEdupoints":
-			case "toDBVReport":
-			case "toWBDErrors":
 			case "createHAUnit":
 			case "toDctBuildingBlockAdm":
-			case "toTrainerOperationByOrgUnitAndTrainer":
 			case "toSaveTrainingSettings":
 			case "toAddCrsBuildingBlock":
 			case "toDeleteCrsBuildingBlock":
@@ -313,27 +265,8 @@ class gevDesktopGUI {
 		$this->ctrl->redirectByClass("gevMyTrainingsAdminGUI");
 	}
 	
-	protected function toReportBookingsByVenue() {
-		$this->ctrl->redirectByClass("gevBookingsByVenueGUI");
-	}
-	protected function toReportWBDEdupoints() {
-		$this->ctrl->redirectByClass("gevWBDEdupointsReportedGUI");
-	}
-	
 	protected function toEmployeeBookings() {
 		$this->ctrl->redirectByClass("gevEmployeeBookingsGUI");
-	}
-
-	protected function toDBVReport() {
-		$this->ctrl->redirectByClass("gevDBVReportGUI");
-	}
-
-	protected function toTrainerOperationByOrgUnitAndTrainer() {
-		$this->ctrl->redirectByClass("gevTrainerOperationByOrgUnitAndTrainerGUI");
-	}
-
-	protected function toWBDErrors() {
-		$this->ctrl->redirectByClass("gevWBDErrorsGUI");
 	}
 
 	protected function toSaveTrainingSettings() {
@@ -467,6 +400,4 @@ class gevDesktopGUI {
 		$this->ctrl->setParameterByClass("ilLocalUserGUI", "ref_id", $ref_id);
 		$this->ctrl->redirectByClass(array("ilAdministrationGUI","ilObjOrgUnitGUI","ilLocalUserGUI"), "index");
 	}
-
-
 }

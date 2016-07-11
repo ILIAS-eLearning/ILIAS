@@ -53,16 +53,16 @@ class ilObjReportBill extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->dateperiod( "period"
-							, $this->lng->txt("gev_period")
-							, $this->lng->txt("gev_until")
+							, $this->plugin->txt("period")
+							, $this->plugin->txt("until")
 							, "usrcrs.begin_date"
 							, "usrcrs.end_date"
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							)
 				->dateperiod( "created"
-							, $this->lng->txt("gev_created_since")
-							, $this->lng->txt("gev_created_till")
+							, $this->plugin->txt("created_since")
+							, $this->plugin->txt("created_till")
 							, "bill.bill_finalized_date"
 							, "bill.bill_finalized_date"
 							, date("Y")."-01-01"
@@ -86,7 +86,7 @@ class ilObjReportBill extends ilObjReportBase {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
-		$no_entry = $this->lng->txt("gev_table_no_entry");
+		$no_entry = $this->plugin->txt("table_no_entry");
 		$data = array();
 
 
@@ -213,34 +213,34 @@ class ilObjReportBill extends ilObjReportBase {
 			$this->is_vfs = 1;
 			$this->is_gev = 1;
 		}
-		$table 	->column("billnumber", "gev_bill_number")
-				->column("participation_status", "status")
-				->column("fee_pretax", "gev_training_fee_pretax_report")
-				->column("fee_tax", "gev_tax")
-				->column("fee_posttax", "gev_training_fee_posttax_report")
-				->column("coupon_pretax", "gev_coupon_pretax")
-				->column("coupon_tax", "gev_tax")
-				->column("coupon_posttax", "gev_coupon_posttax")
-				->column("amount_pretax", "gev_bill_amount_pretax")
-				->column("amount_tax", "gev_tax")
-				->column("amount_posttax", "gev_bill_amount_posttax")
-				->column("cost_center", "gev_charged_agency")
-				->column("bill_finalized_date", "create_date")
-				->column("lastname", "lastname")
-				->column("firstname", "firstname")
-				->column("gender", "gender");
+		$table 	->column("billnumber", $this->plugin->txt("bill_number"), true)
+				->column("participation_status", $this->plugin->txt("status"), true)
+				->column("fee_pretax", $this->plugin->txt("training_fee_pretax"), true)
+				->column("fee_tax", $this->plugin->txt("tax"), true)
+				->column("fee_posttax", $this->plugin->txt("training_fee_posttax"), true)
+				->column("coupon_pretax", $this->plugin->txt("coupon_pretax"), true)
+				->column("coupon_tax", $this->plugin->txt("tax"), true)
+				->column("coupon_posttax", $this->plugin->txt("coupon_posttax"), true)
+				->column("amount_pretax", $this->plugin->txt("bill_amount_pretax"), true)
+				->column("amount_tax", $this->plugin->txt("tax"), true)
+				->column("amount_posttax", $this->plugin->txt("bill_amount_posttax"), true)
+				->column("cost_center", $this->plugin->txt("charged_agency"), true)
+				->column("bill_finalized_date", $this->plugin->txt("create_date"), true)
+				->column("lastname", $this->plugin->txt("lastname"), true)
+				->column("firstname", $this->plugin->txt("firstname"), true)
+				->column("gender", $this->plugin->txt("gender"),true);
 		if($this->is_vfs) {
-			$table->column("adp_number", "gev_adp_number_vfs");
+			$table->column("adp_number", $this->plugin->txt("adp_number_vfs"),true);
 		}
-		$table 	->column("org_unit", "gev_org_unit_short")
-				->column("title", "gev_event_title")
-				->column("custom_id", "gev_number_of_measure")
-				->column("date", "gev_training_date")
-				->column("venue", "gev_venue");
-		if(self::REPORT_MODE_ADMIN === (int)$this->report_mode) {
-			$table->column("assigment","gev_company_title");
+		$table 	->column("org_unit", $this->plugin->txt("org_unit_short"), true)
+				->column("title", $this->plugin->txt("event_title"), true)
+				->column("custom_id", $this->plugin->txt("number_of_measure"), true)
+				->column("date", $this->plugin->txt("training_date"), true)
+				->column("venue", $this->plugin->txt("venue"), true);
+		if(self::REPORT_MODE_ADMIN === (int)$this->settings['report_mode']) {
+			$table->column("affiliation", $this->plugin->txt("affiliation"), true);
 		}
-		$table	->column("bill_link", "", false, "", true);
+		$table	->column("bill_link", "", true,'',true);
 		return parent::buildTable($table);
 	}
 

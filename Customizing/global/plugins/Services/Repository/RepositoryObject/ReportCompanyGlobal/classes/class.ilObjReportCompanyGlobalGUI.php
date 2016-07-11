@@ -14,7 +14,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 
 	protected function afterConstructor() {
 		parent::afterConstructor();
-		$this->gTpl->addCSS($this->object->master_plugin->getDirectory().'/templates/css/report.css');
+
 	}
 
 	public function getType() {
@@ -28,6 +28,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function renderUngroupedTable($data) {
+		$this->gTpl->addCSS($this->object->master_plugin->getDirectory().'/templates/css/report.css');
 		$table = $this->object->deliverTable();	
 		$tpl_table = new ilTemplate("tpl.cat_global_company_report.html", true, true,  $this->object->plugin->getDirectory());
 		$tpl_table->setCurrentBlock('row');
@@ -45,7 +46,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 			$tpl_header->setCurrentBlock('main');
 			foreach($table->columns as $column) {
 				$variable = strtoupper($column[0]);
-				$content = $column[2] ? $column[1] : $this->object->plugin->txt($column[1]);
+				$content = $column[1];
 				$tpl_header->setVariable($variable,$content);
 			}
 			$tpl_header->parseCurrentBlock();
@@ -108,7 +109,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 				$worksheet->writeString(1, $colcount, $this->_process_xls_header($col[1]), $format_bold);
 			}
 			else {
-				$worksheet->writeString(1, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
+				$worksheet->writeString(1, $colcount, $col[2] ? $col[1] : $this->plugin->txt($col[1]), $format_bold);
 			}
 			$colcount++;
 		}
