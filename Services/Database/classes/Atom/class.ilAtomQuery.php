@@ -112,6 +112,9 @@ class ilAtomQuery {
 	 * @throws \ilDatabaseException
 	 */
 	public function addTable($table_name, $lock_level, $lock_sequence_too = false) {
+		if(!$table_name || !$this->ilDBInstance->tableExists($table_name)) {
+			throw new ilDatabaseException('Table locks only work with existing tables');
+		}
 		if (!in_array($lock_level, array( static::LOCK_READ, static::LOCK_WRITE ))) {
 			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level. use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE');
 		}
