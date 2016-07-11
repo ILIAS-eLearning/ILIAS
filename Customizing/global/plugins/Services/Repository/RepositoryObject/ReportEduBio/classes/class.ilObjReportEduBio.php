@@ -42,8 +42,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		$table	->column("custom_id", $this->plugin->txt("training_id"), true)
-				->column("title", $this->plugin->txt("title"), true)
+		$table	->column("title", $this->plugin->txt("title"), true)
 				->column("type", $this->plugin->txt("learning_type"), true)
 				->column("date", $this->plugin->txt("date"), true, "112px", true)
 				->column("venue", $this->plugin->txt("location"), true)
@@ -91,8 +90,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	}
 
 	protected function buildQuery($query) {
-		$query 	->select("crs.custom_id")
-				->select("crs.title")
+		$query 	->select("crs.title")
 				->select("crs.type")
 				->select("usrcrs.begin_date")
 				->select("usrcrs.end_date")
