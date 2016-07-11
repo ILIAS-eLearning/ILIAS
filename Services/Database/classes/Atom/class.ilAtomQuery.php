@@ -71,6 +71,10 @@ class ilAtomQuery {
 	 */
 	protected $query;
 	/**
+	 * @var Closure[]
+	 */
+	protected $queries = array();
+	/**
 	 * @var
 	 */
 	protected $ilDBInstance;
@@ -119,48 +123,22 @@ class ilAtomQuery {
 	 * @param \Closure $query
 	 */
 	public function addQueryClosure(Closure $query) {
-		$this->query = $query;
+		$this->queries[] = $query;
 	}
 
 
 	public function run() {
 		self::checkIsolationLevel($this->getIsolationLevel());
-		/**
-		 * @var $queries Closure
-		 */
-		$queries = $this->query;
-		if (!$queries instanceof Closure) {
-			throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
-		}
-		$has_write_locks = false;
-		$locks = array();
-		foreach ($this->tables as $table) {
-			$table_name = $table[0];
-			$lock_level = $table[1];
-			$locks[] = array( 'name' => $table_name, 'type' => $lock_level );
-			if ($lock_level == self::LOCK_WRITE) {
-				$has_write_locks = true;
-			}
-		}
+		$this->checkQueries();
 
 		if ($has_write_locks && $this->getIsolationLevel() != self::ISOLATION_SERIALIZABLE) {
 			throw new ilDatabaseException('The selected Isolation-level is not allowd when locking tables with write-locks');
 		}
 
 		if ($this->ilDBInstance->supportsTransactions()) {
-			$e = null;
-			do {
-				try {
-					$this->ilDBInstance->beginTransaction();
-					$queries($this->ilDBInstance);
-					$this->ilDBInstance->commit();
-				} catch (ilDatabaseException $e) {
-				}
-			} while ($e instanceof ilDatabaseException);
+			$this->runWithTransactions();
 		} else {
-			$this->ilDBInstance->lockTables($locks);
-			$queries($this->ilDBInstance);
-			$this->ilDBInstance->unlockTables();
+			$this->runWithLocks();
 		}
 	}
 	//
@@ -230,5 +208,52 @@ class ilAtomQuery {
 		if (!in_array($anomalie, self::$available_isolations_levels)) {
 			throw new ilDatabaseException('Isolation-Level not available');
 		}
+	}
+
+
+	/**
+	 * @throws \ilDatabaseException
+	 */
+	protected function checkQueries() {
+		foreach ($this->queries as $query) {
+			if (!$query instanceof Closure) {
+				throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
+			}
+		}
+	}
+
+
+	protected function runQueries() {
+		foreach ($this->queries as $query) {
+			/**
+			 * @var $query Closure
+			 */
+			$query($this->ilDBInstance);
+		}
+	}
+
+
+	protected function runWithTransactions() {
+		$e = null;
+		$i = 0;
+		do {
+			try {
+				$this->ilDBInstance->beginTransaction();
+				$this->runQueries();
+				$this->ilDBInstance->commit();
+			} catch (ilDatabaseException $e) {
+				if ($i > 10) {
+					throw $e;
+				}
+			}
+			$i ++;
+		} while ($e instanceof ilDatabaseException);
+	}
+
+
+	protected function runWithLocks() {
+		$this->ilDBInstance->lockTables($this->getLocksForDBInstance());
+		$this->runQueries();
+		$this->ilDBInstance->unlockTables();
 	}
 }
