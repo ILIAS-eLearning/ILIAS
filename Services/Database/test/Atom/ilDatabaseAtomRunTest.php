@@ -45,6 +45,10 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 * @var ilDBInterface
 	 */
 	protected $ilDBInterfaceInnoDB;
+	/**
+	 * @var ilDBInterface
+	 */
+	protected $ilDBInterfaceInnoDBSecond;
 
 
 	protected function setUp() {
@@ -64,7 +68,17 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$this->ilDBInterfaceInnoDB->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceInnoDB->connect();
 
+		$this->ilDBInterfaceInnoDBSecond = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+		$this->ilDBInterfaceInnoDBSecond->initFromIniFile($ilClientIniFile);
+		$this->ilDBInterfaceInnoDBSecond->connect();
+
 		$this->setupTable();
+	}
+
+
+	public function tearDown() {
+		$this->ilDBInterfaceGalera->dropSequence('il_db_tests_atom');
+		$this->ilDBInterfaceGalera->dropTable('il_db_tests_atom');
 	}
 
 
@@ -99,23 +113,11 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testTableExists() {
-		$this->assertTrue($this->ilDBInterfaceGalera->tableExists('il_db_tests_atom'));
-	}
-
-
 	/**
 	 * @depends testConnection
 	 */
-	public function testWriteAtomOne() {
-		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
-		$query = $this->getInsertQueryCallable();
-		$ilAtomQuery->addQueryCallable($query);
-		$ilAtomQuery->addQueryCallable($query);
-		$ilAtomQuery->run();
-		
-		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
+	public function testTableExists() {
+		$this->assertTrue($this->ilDBInterfaceGalera->tableExists('il_db_tests_atom'));
 	}
 
 
@@ -125,9 +127,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	public function testWriteWithTransactions() {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
-		$query = $this->getInsertQueryCallable();
-		$ilAtomQuery->addQueryCallable($query);
-		$ilAtomQuery->addQueryCallable($query);
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
 		$ilAtomQuery->run();
 
@@ -149,7 +150,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
 	}
-	
+
+
 	/**
 	 * @depends testConnection
 	 */
@@ -158,17 +160,58 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 			'id'        => array( 'integer', $this->ilDBInterfaceGalera->nextId('il_db_tests_atom') ),
 			'is_online' => array( 'integer', 1 ),
 		));
+
 		// Start a Transaction with one instance and update the same entry as another instance
 		$this->ilDBInterfaceGalera->beginTransaction();
 		$this->ilDBInterfaceGalera->update('il_db_tests_atom', array(
 			'is_online' => array( 'integer', 5 ),
 		), array( 'id' => array( 'integer', 1 ) ));
-		// Update the same entry with another instance
-		$this->ilDBInterfaceGaleraSecond->update('il_db_tests_atom', array(
-			'is_online' => array( 'integer', 6 ),
+
+		// Update the same entry with another instance (which currently fails due to missing multi-thread in PHP)
+		//		$this->ilDBInterfaceGaleraSecond->update('il_db_tests_atom', array(
+		//			'is_online' => array( 'integer', 6 ),
+		//		), array( 'id' => array( 'integer', 1 ) ), true);
+
+		// Commit the other
+		$this->ilDBInterfaceGalera->commit();
+
+		// Check
+		$query = 'SELECT is_online FROM il_db_tests_atom WHERE id = ' . $this->ilDBInterfaceGalera->quote(1, 'integer');
+		$res = $this->ilDBInterfaceGalera->query($query);
+		$d = $this->ilDBInterfaceGalera->fetchAssoc($res);
+
+		$this->assertEquals(5, $d['is_online']);
+	}
+
+
+	/**
+	 * @depends testConnection
+	 */
+	public function testUpdateDuringLock() {
+		$this->ilDBInterfaceInnoDB->insert('il_db_tests_atom', array(
+			'id'        => array( 'integer', $this->ilDBInterfaceInnoDB->nextId('il_db_tests_atom') ),
+			'is_online' => array( 'integer', 1 ),
+		));
+		// Start a Transaction with one instance and update the same entry as another instance
+		$this->ilDBInterfaceInnoDB->lockTables(array( array( 'name' => 'il_db_tests_atom', 'type' => ilAtomQuery::LOCK_WRITE ) ));
+		$this->ilDBInterfaceInnoDB->update('il_db_tests_atom', array(
+			'is_online' => array( 'integer', 5 ),
 		), array( 'id' => array( 'integer', 1 ) ));
 
-		$this->ilDBInterfaceGalera->commit();
+		// Update the same entry with another instance (which currently fails due to missing multi-thread in PHP)
+		//		$this->ilDBInterfaceInnoDBSecond->update('il_db_tests_atom', array(
+		//			'is_online' => array( 'integer', 6 ),
+		//		), array( 'id' => array( 'integer', 1 ) ), true);
+
+		// Unlock Tables
+		$this->ilDBInterfaceInnoDB->unlockTables();
+
+		// Check
+		$query = 'SELECT is_online FROM il_db_tests_atom WHERE id = ' . $this->ilDBInterfaceInnoDB->quote(1, 'integer');
+		$res = $this->ilDBInterfaceInnoDB->query($query);
+		$d = $this->ilDBInterfaceInnoDB->fetchAssoc($res);
+
+		$this->assertEquals(5, $d['is_online']);
 	}
 
 	//
