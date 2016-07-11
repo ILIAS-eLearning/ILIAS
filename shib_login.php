@@ -34,4 +34,10 @@ if (! $_SERVER[$ilias->getSetting('shib_login')] || ! $_SERVER[$ilias->getSettin
 #}
 
 // We only get here if we didn't login successfully
-ilUtil::redirect("login.php");
+
+// Jump to original target saved in login.php file
+if (isset($_SESSION['orig_target'])) {
+   ilUtil::redirect("login.php?target=".$_SESSION['orig_target']);
+else {
+   ilUtil::redirect("login.php");
+}
