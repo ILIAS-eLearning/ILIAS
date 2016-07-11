@@ -110,12 +110,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	public function testWriteAtomOne() {
 		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
 		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
-		$query = function (ilDBInterface $ilDB) {
-			$ilDB->insert('il_db_tests_atom', array(
-				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
-				'is_online' => array( 'integer', 1 ),
-			));
-		};
+		$query = $this->getInsertQueryCallable();
 		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->run();
@@ -144,18 +139,13 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	public function testWriteWithTransactions() {
 		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceGalera);
 		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
-		$query = function (ilDBInterface $ilDB) {
-			$ilDB->insert('il_db_tests_atom', array(
-				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
-				'is_online' => array( 'integer', 1 ),
-			));
-		};
+		$query = $this->getInsertQueryCallable();
 		$ilAtomQueryOne->addQueryCallable($query);
 		$ilAtomQueryOne->addQueryCallable($query);
 
-		// Run both
 		$ilAtomQueryOne->run();
 	}
+
 
 	/**
 	 * @depends testConnection
@@ -163,16 +153,59 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	public function testWriteWithLocks() {
 		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceInnoDB);
 		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
+		$query = $this->getInsertQueryCallable();
+		$ilAtomQueryOne->addQueryCallable($query);
+		$ilAtomQueryOne->addQueryCallable($query);
+
+		$ilAtomQueryOne->run();
+	}
+
+
+	/**
+	 * @depends testConnection
+	 */
+	public function testViaDbInterface() {
+		$query = $this->getInsertQueryCallable();
+		$tables = $this->gettableLocksForDbInterface();
+		$this->ilDBInterfaceGalera->runAtomQuery($tables, $query);
+		$this->ilDBInterfaceInnoDB->runAtomQuery($tables, $query);
+	}
+
+
+	public function testSelectDuringAtomQuery() {
+	}
+
+	//
+	// HELPERS
+	//
+
+	/**
+	 * @return \Closure
+	 */
+	protected function getInsertQueryCallable() {
 		$query = function (ilDBInterface $ilDB) {
 			$ilDB->insert('il_db_tests_atom', array(
 				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
 				'is_online' => array( 'integer', 1 ),
 			));
 		};
-		$ilAtomQueryOne->addQueryCallable($query);
-		$ilAtomQueryOne->addQueryCallable($query);
 
-		// Run both
-		$ilAtomQueryOne->run();
+		return $query;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function gettableLocksForDbInterface() {
+		$tables = array(
+			array(
+				'name'     => 'il_db_tests_atom',
+				'type'     => ilAtomQuery::LOCK_WRITE,
+				'sequence' => true,
+			),
+		);
+
+		return $tables;
 	}
 }
