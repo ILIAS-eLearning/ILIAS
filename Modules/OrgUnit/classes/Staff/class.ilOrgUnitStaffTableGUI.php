@@ -79,8 +79,6 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 			$data[] = $set;
 		}
 
-
-
 		return $data;
 	}
 
@@ -173,7 +171,5 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	public function setRecursive($recursive){
 		$this->recursive = $recursive;
 	}
-
-
 }
 ?>
