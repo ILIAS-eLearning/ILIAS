@@ -726,4 +726,23 @@ interface ilDBPdoInterface {
 	 * @return int
 	 */
 	public function getLastInsertId();
+
+
+	/**
+	 * @param array $tables     array(array('name' => 'your_table_name', 'type' => ilAtomQuery::LOCK_WRITE, 'sequence' = true))
+	 * @param callable $queries : Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
+	 *                          An example (Closure):
+	 *                          function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
+	 *                              $ilDB->doStuff();
+	 *                          }
+	 *                          An example (Callable Class):
+	 *                          class ilMyAtomQueryClass {
+	 *                              public function __invoke(ilDBInterface $ilDB) {
+	 *                                  $ilDB->doStuff();
+	 *                              }
+	 *                          }
+	 *
+	 * @return bool
+	 */
+	public function runAtomQuery(array $tables, Callable $queries);
 }

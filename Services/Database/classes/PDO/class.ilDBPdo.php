@@ -1776,4 +1776,35 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function getLastInsertId() {
 		return $this->pdo->lastInsertId();
 	}
+
+
+	/**
+	 * @param array $tables     array(array('name' => 'your_table_name', 'type' => ilAtomQuery::LOCK_WRITE, 'sequence' = true))
+	 * @param callable $queries : Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
+	 *                          An example (Closure):
+	 *                          function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
+	 *                              $ilDB->doStuff();
+	 *                          }
+	 *                          An example (Callable Class):
+	 *                          class ilMyAtomQueryClass {
+	 *                              public function __invoke(ilDBInterface $ilDB) {
+	 *                                  $ilDB->doStuff();
+	 *                              }
+	 *                          }
+	 *
+	 * @return bool
+	 */
+	public function runAtomQuery(array $tables, Callable $queries) {
+		$ilAtomicQuery = new ilAtomQuery($this);
+		foreach ($tables as $table) {
+			$table_name = $table['name'];
+			$type = $table['type'];
+			$sequence = $table['sequence'] ? $table['sequence'] : false;
+			$ilAtomicQuery->addTable($table_name, $type, $sequence);
+		}
+		$ilAtomicQuery->addQueryCallable($queries);
+		$ilAtomicQuery->run();
+		
+		return true;
+	}
 }
