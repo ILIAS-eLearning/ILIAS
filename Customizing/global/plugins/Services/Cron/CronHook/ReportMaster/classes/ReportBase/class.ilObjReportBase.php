@@ -9,7 +9,6 @@ require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsDataHandler.php");
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFactory.php");
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/class.ilReportMasterPlugin.php");
-require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/bin/class.catReportBaseUtils.php");
 /**
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
 * in the GUI via $this->object->{method-name}.
@@ -50,6 +49,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->createLocalReportSettings();
 		$this->createGlobalReportSettings();
 		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
+
+		$this->validateUrl = new \CaT\Validate\validateUrl;
 	}
 
 
@@ -66,7 +67,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 								->settingString('pdf_link', $this->master_plugin->txt('rep_pdf_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
-										if($string === "" || catReportBaseUtils::checkForURLPrefix($string)) {
+										if($string === "" || $this->validateUrl->validUrlPrefix($string)) {
 											return $string;
 										}
 										return self::URL_PREFIX.$string;
@@ -76,7 +77,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 								->settingString('video_link', $this->master_plugin->txt('rep_video_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
-										if($string === "" || catReportBaseUtils::checkForURLPrefix($string)) {
+										if($string === "" || $this->validateUrl->validUrlPrefix($string)) {
 											return $string;
 										}
 										return self::URL_PREFIX.$string;
