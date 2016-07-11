@@ -38,6 +38,9 @@ class ilDatabaseAtomSuite extends PHPUnit_Framework_TestSuite {
 		require_once("ilDatabaseAtomBaseTest.php");
 		$suite->addTestSuite("ilDatabaseAtomBaseTest");
 
+		require_once("ilDatabaseAtomRunTest.php");
+		$suite->addTestSuite("ilDatabaseAtomRunTest");
+
 		return $suite;
 	}
 }

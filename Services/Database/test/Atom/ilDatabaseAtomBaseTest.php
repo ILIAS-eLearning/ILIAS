@@ -37,10 +37,6 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	 * @var ilDBInterface
 	 */
 	protected $ilDBInterfaceGalera;
-	/**
-	 * @var ilDBInterface
-	 */
-	protected $ilDBInterfaceInnoDB;
 
 
 	protected function setUp() {
@@ -52,10 +48,6 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
-
-		$this->ilDBInterfaceInnoDB = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
-		$this->ilDBInterfaceInnoDB->initFromIniFile($ilClientIniFile);
-		$this->ilDBInterfaceInnoDB->connect();
 	}
 
 
@@ -135,78 +127,14 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testCreateTable() {
-		if ($this->ilDBInterfaceGalera->sequenceExists('il_db_tests_atom')) {
-			$this->ilDBInterfaceGalera->dropSequence('il_db_tests_atom');
-		}
-		$this->ilDBInterfaceGalera->createTable('il_db_tests_atom', $fields = array(
-			'id'        => array(
-				'type'    => 'integer',
-				'length'  => 4,
-				'notnull' => true,
-			),
-			'is_online' => array(
-				'type'    => 'integer',
-				'length'  => 1,
-				'notnull' => false,
-			),
-		), true);
-		$this->ilDBInterfaceGalera->addPrimaryKey('il_db_tests_atom', array( 'id' ));
-		$this->ilDBInterfaceGalera->createSequence('il_db_tests_atom');
-		$this->assertTrue($this->ilDBInterfaceGalera->tableExists('il_db_tests_atom'));
 	}
 
 
-	/**
-	 * @depends testCreateTable
-	 */
-	public function testWriteAtomOne() {
-		$ilAtomQuery = new ilAtomQuery($this->ilDBInterfaceGalera);
 		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
-		$query = function (ilDBInterface $ilDB) {
-			$ilDB->insert('il_db_tests_atom', array(
-				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
-				'is_online' => array( 'integer', 1 ),
-			));
-		};
-		$ilAtomQuery->addQueryCallable($query);
-		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->run();
 
-		$res = $this->ilDBInterfaceGalera->query('SELECT * FROM il_db_tests_atom');
-		$results = array();
-		while ($d = $this->ilDBInterfaceGalera->fetchAssoc($res)) {
-			$results[] = $d;
-		}
-		$this->assertEquals(array(
-			0 => array(
-				'id'        => '1',
-				'is_online' => '1',
-			),
-			1 => array(
-				'id'        => '2',
-				'is_online' => '1',
-			),
-		), $results);
 	}
 
 
-	/**
-	 * @depends testCreateTable
-	 */
-	public function testWriteAtomParallel() {
-		$ilAtomQueryOne = new ilAtomQuery($this->ilDBInterfaceGalera);
-		$ilAtomQueryOne->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
-		$query = function (ilDBInterface $ilDB) {
-			$ilDB->insert('il_db_tests_atom', array(
-				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
-				'is_online' => array( 'integer', 1 ),
-			));
-		};
-		$ilAtomQueryOne->addQueryCallable($query);
-		$ilAtomQueryOne->addQueryCallable($query);
-
-		// Run both
-		$ilAtomQueryOne->run();
 	}
 }
