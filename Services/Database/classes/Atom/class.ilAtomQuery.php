@@ -4,6 +4,9 @@ require_once('./Services/Database/exceptions/exception.ilDatabaseException.php')
 /**
  * Class ilAtomQuery
  *
+ * Use ilAtomQuery to fire Database-Actions which have to be done without beeing influenced by other queries or which can influence other queries as
+ * well. Depending on the current Database-engine, this can be done by using transaction or with table-locks
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilAtomQuery {
@@ -88,7 +91,7 @@ class ilAtomQuery {
 	 * ilAtomQuery constructor.
 	 *
 	 * @param \ilDBInterface $ilDBInstance
-	 * @param int $isolation_level
+	 * @param int $isolation_level currently only ISOLATION_SERIALIZABLE is available
 	 */
 	public function __construct(ilDBInterface $ilDBInstance, $isolation_level = self::ISOLATION_SERIALIZABLE) {
 		$this->ilDBInstance = $ilDBInstance;
@@ -107,19 +110,31 @@ class ilAtomQuery {
 
 
 	/**
-	 * @param $table_name
-	 * @param $lock_level
+	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables. Lock
+	 *
+	 * @param string $table_name
+	 * @param int $lock_level use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE
 	 * @throws \ilDatabaseException
 	 */
 	public function addTable($table_name, $lock_level) {
 		if (!in_array($lock_level, array( static::LOCK_READ, static::LOCK_WRITE ))) {
-			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level');
+			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level. use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE');
 		}
 		$this->tables[] = array( $table_name, $lock_level );
 	}
 
 
 	/**
+	 * Every action on the database during this isolation has to be passed as Closure to ilAtomQuery.
+	 * An example:
+	 * $ilAtomQuery->addQueryClosure( function ($ilDB) use ($new_obj_id, $current_id) {
+	 *        $ilDB->manipulateF('
+	 *            DELETE FROM frm_user_read
+	 *            WHERE obj_id = %s AND thread_id =%s',
+	 *        array('integer', 'integer'),
+	 *        array($new_obj_id, $current_id));
+	 *    });
+	 *
 	 * @param \Closure $query
 	 */
 	public function addQueryClosure(Closure $query) {
@@ -127,6 +142,11 @@ class ilAtomQuery {
 	}
 
 
+	/**
+	 * Fire your Queries
+	 *
+	 * @throws \ilDatabaseException
+	 */
 	public function run() {
 		self::checkIsolationLevel($this->getIsolationLevel());
 		$this->checkQueries();
@@ -194,6 +214,7 @@ class ilAtomQuery {
 		if (in_array($isolation_level, array( self::ISOLATION_READ_UNCOMMITED, self::ISOLATION_READ_COMMITED, self::ISOLATION_REPEATED_READ ))) {
 			throw new ilDatabaseException('This isolation-level is currently unsupported');
 		}
+		// Check if a available Isolation level is selected
 		if (!in_array($isolation_level, self::$available_isolations_levels)) {
 			throw new ilDatabaseException('Isolation-Level not available');
 		}
@@ -254,6 +275,9 @@ class ilAtomQuery {
 	}
 
 
+	/**
+	 * @throws ilDatabaseException
+	 */
 	protected function runQueries() {
 		foreach ($this->queries as $query) {
 			/**
@@ -264,6 +288,9 @@ class ilAtomQuery {
 	}
 
 
+	/**
+	 * @throws \ilDatabaseException
+	 */
 	protected function runWithTransactions() {
 		$e = null;
 		$i = 0;
@@ -282,6 +309,9 @@ class ilAtomQuery {
 	}
 
 
+	/**
+	 * @throws ilDatabaseException
+	 */
 	protected function runWithLocks() {
 		$this->ilDBInstance->lockTables($this->getLocksForDBInstance());
 		$this->runQueries();
