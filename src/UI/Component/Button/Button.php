@@ -48,11 +48,11 @@ interface Button extends \ILIAS\UI\Component\Component {
 	public function getAction();
 
 	/**
-	 * Get to know if the button is deactivated.
+	 * Get to know if the button is activated.
 	 *
 	 * @return 	bool
 	 */
-	public function isDeactivated();
+	public function isActivated();
 
 	/**
 	 * Get a button like this, but action should be unavailable atm.
