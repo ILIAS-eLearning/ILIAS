@@ -117,6 +117,14 @@ class ilAtomQuery {
 
 
 	/**
+	 * @param $table_name
+	 */
+	public function lockTableWrite($table_name) {
+		$this->tables[] = array( $table_name, self::LOCK_WRITE );
+	}
+
+
+	/**
 	 * Every action on the database during this isolation has to be passed as Closure to ilAtomQuery.
 	 * An example:
 	 * $ilAtomQuery->addQueryClosure( function ($ilDB) use ($new_obj_id, $current_id) {
