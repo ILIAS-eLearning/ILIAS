@@ -12,7 +12,6 @@ class ilAuthSession
 {
 	private static $instance = null;
 	
-	private $name = '';
 	private $id = '';
 	
 	/**
@@ -36,18 +35,15 @@ class ilAuthSession
 		return static::$instance = new self();
 	}
 	
-	public function setName($a_name)
+	public function setId($a_id)
 	{
-		$this->name = $a_name;
+		$this->id = $a_id;
 	}
 	
-	/**
-	 * Get session name
-	 * @return type
-	 */
-	public function getName()
+	public function getId()
 	{
-		return $this->name;
+		return $this->id;
 	}
+	
 }
 ?>

@@ -919,6 +919,18 @@ class ilInitialisation
 	}
 	
 	/**
+	 * Init session
+	 */
+	protected static function initSession()
+	{
+		include_once './Services/Authentication/classes/class.ilAuthSession.php';
+		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
+		
+		$GLOBALS['DIC']['ilAuthSession']->start();
+	}
+
+
+	/**
 	 * Set error reporting level
 	 */
 	public static function handleErrorReporting()
