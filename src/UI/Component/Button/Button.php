@@ -52,7 +52,7 @@ interface Button extends \ILIAS\UI\Component\Component {
 	 *
 	 * @return 	bool
 	 */
-	public function isActivated();
+	public function isActive();
 
 	/**
 	 * Get a button like this, but action should be unavailable atm.
