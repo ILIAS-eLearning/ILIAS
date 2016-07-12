@@ -47,23 +47,21 @@ interface Factory {
 	 * title: Glyph
 	 * description:
 	 *   purpose: >
-	 *       Glyphs are used to map a generally known concept or symbol to a specific
-	 *       concept in ILIAS. Glyph are used when space is scarce.
+	 *       Glyphs map a generally known concept or symbol to a specific concept in ILIAS.
+	 *       Glyphs are used when space is scarce.
 	 *   composition: >
 	 *       A glyph is a typographical character that represents
 	 *       something else. As any other typographical character, they can be
-	 *       manipulated by regular CSS. If hovered they change to the link-hover-
-	 *       color to indicate possible interactions.
+	 *       manipulated by regular CSS. If hovered they change their background
+	 *       to indicate possible interactions.
 	 *   effect: >
 	 *       Glyphs act as trigger for some action such as opening a certain
 	 *       Overlay type or as shortcut.
 	 *   rivals:
 	 *       icon: >
-	 *           Icons are not interactive as standalone (they can be in an
-	 *           interactive container however). They only serve as additional
-	 *           hint of the functionality described by some title. Glyphs are
-	 *           visually distinguished from object icons.
-	 *
+	 *           Standalone Icons are not interactive. Icons can be in an interactive container however.
+	 *           Icons merely serve as additional hint of the functionality described by some title.
+	 *           Glyphs are visually distinguished from object icons: they are monochrome.
 	 * background: >
 	 *     "In typography, a glyph is an elemental symbol within an agreed set of
 	 *     symbols, intended to represent a readable character for the purposes
@@ -72,16 +70,12 @@ interface Factory {
 	 *
 	 *     Lidwell states that such symbols are used "to improve the recognition
 	 *     and recall of signs and controls".
-	 *     (W.Lidwell,K.Holden,and J.Butler,Universal Principles of Design:
-	 *     100 Ways to Enhance Usability, Influence Perception, Increase Appeal,
-	 *     Make Better Design Decisions, and Teach Through Design. Rockport
-	 *     Publishers, 2003, ch. Iconic Representation, pp. 110 – 111)
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: Glyphs MUST NOT be used in content titles.
 	 *       2: >
-	 *          Glyphs MUST be used for cross-sectional functionality as mail for
+	 *          Glyphs MUST be used for cross-sectional functionality such as mail for
 	 *          example and NOT for representing objects.
 	 *       3: >
 	 *          Glyphs SHOULD be used for very simple tasks that are repeated at
@@ -95,9 +89,7 @@ interface Factory {
 	 *   accessibility:
 	 *       6: >
 	 *          The functionality triggered by the Glyph must be indicated to
-	 *          screen readers with by the attribute aria-label. If the Glyph
-	 *          accompanies some text describing the functionality of the triggered,
-	 *          this MUST be indicated by the aria-labelledby attribute.
+	 *          screen readers with by the attribute aria-label or aria-labelledby attribute.
 	 * ---
 	 * @return  \ILIAS\UI\Component\Glyph\Factory
 	 */
