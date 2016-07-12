@@ -1520,6 +1520,15 @@ class ilTemplate extends HTML_Template_ITX
 			{
 				$fname = "./".$module_path."templates/default/".basename($a_tplname);
 			}
+		}else if(strpos($a_tplname,"src/UI")===0){
+			if (ilStyleDefinition::getCurrentSkin() != "default")
+			{
+				$fname = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".str_replace("src/UI/templates/default","UI",$a_tplname);
+			}
+			if($fname == "" || !file_exists($fname))
+			{
+				$fname = $a_tplname;
+			}
 		}
 		else
 		{
