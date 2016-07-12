@@ -885,6 +885,11 @@ class ilInitialisation
 		if(ilContext::initClient())
 		{
 			self::initClient();
+			
+			if(ilContext::supportsPersistentSessions())
+			{
+				self::initSession();
+			}
 
 			if (ilContext::hasUser())
 			{						
@@ -901,7 +906,7 @@ class ilInitialisation
 			
 			// language may depend on user setting
 			self::initLanguage();
-			$tree->initLangCode();
+			$GLOBALS['DIC']['tree']->initLangCode();
 
 			if(ilContext::hasHTML())
 			{													

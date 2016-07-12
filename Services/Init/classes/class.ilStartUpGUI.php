@@ -619,11 +619,26 @@ class ilStartUpGUI
 			$credentials = new ilAuthFrontendCredentials();
 			$credentials->setUsername($form->getInput('username'));
 			$credentials->setPassword($form->getInput('password'));
+			$credentials->setCaptchaCode($form->getInput('captcha_code'));
 			
 			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
-			$frontend = new ilAuthFrontendFactory();
-			$frontend->setContext(ilAuthFrontendFactory::CONTEXT_PASSWORD);
-			$frontend->getFrontend($credentials);
+			$frontend_factory = new ilAuthFrontendFactory();
+			$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_PASSWORD);
+			$frontend = $frontend_factory->getFrontend($credentials);
+			
+			try {
+				$frontend->authenticate();
+				if($frontend->isAuthenticated())
+				{
+					ilUtil::redirect('ilias.php');
+				}
+				
+			} 
+			catch (Exception $ex) 
+			{
+				ilUtil::sendFailure($ex->getMessage());
+				$this->showLoginPage($form);
+			}
 			
 		}
 		else

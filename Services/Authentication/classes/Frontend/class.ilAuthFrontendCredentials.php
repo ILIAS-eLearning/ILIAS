@@ -12,6 +12,11 @@ include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.p
  */
 class ilAuthFrontendCredentials implements ilAuthCredentials
 {
+	private $password = '';
+	private $username = '';
+	private $captcha = '';
+	private $auth_mode = '';
+	
 	public function __construct()
 	{
 		
@@ -22,7 +27,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
 	 */
 	public function getPassword()
 	{
-		
+		return $this->password;
 	}
 
 	/**
@@ -30,7 +35,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
 	 */
 	public function getUsername()
 	{
-		
+		return $this->username;
 	}
 
 	/**
@@ -39,16 +44,25 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
 	 */
 	public function setPassword($a_password)
 	{
-		
+		$this->password = $a_password;
 	}
 
 	/**
 	 * Set username
-	 * @param type $a_name
+	 * @param string
 	 */
 	public function setUsername($a_name)
 	{
-		
+		$this->username = $a_name;
+	}
+	
+	/**
+	 * Set captcha code
+	 * @param string
+	 */
+	public function setCaptchaCode($a_code)
+	{
+		$this->captcha = $a_code;
 	}
 
 }
