@@ -210,28 +210,6 @@ class ilLDAPServer
 		}
 		return $server_ids ? $server_ids : array();
 	}
-
-	/**
-	 * Get all server ids
-	 * @global ilDB $ilDB
-	 * @return array int
-	 */
-	public static function getServerIds()
-	{
-		global $ilDB;
-		
-		$query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
-		
-		
-		$res = $ilDB->query($query);
-
-		$server = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$server[] = $row->server_id;
-		}
-		return $server;
-	}
 	
 	/**
 	 * Get list of all configured servers
@@ -314,9 +292,10 @@ class ilLDAPServer
 	public static function getDataSource($a_auth_mode)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT server_id FROM ldap_server_settings ".
-			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ";
+			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
+			"AND authentication = ".$ilDB->quote(0,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -324,22 +303,6 @@ class ilLDAPServer
 		}
 		return 0;
 	}
-	
-	/**
-	 * Disable data source
-	 */
-	public static function disableDataSourceForAuthMode($a_authmode)
-	{
-		global $ilDB;
-		
-		$query = 'UPDATE ldap_server_settings '.
-			'SET authentication_type = '. $ilDB->quote(0,'integer').' '.
-			'WHERE authentication_type = '.$ilDB->quote($a_authmode,'integer');
-		$ilDB->manipulate($query);
-		return true;
-	}
-	
-	
 
 	/**
 	 * Toggle Data Source
@@ -347,18 +310,23 @@ class ilLDAPServer
 	 * @param int $a_auth_mode
 	 * @param int $a_status
 	 */
-	public static function toggleDataSource($a_ldap_server_id, $a_auth_mode,$a_status)
+	public static function toggleDataSource($a_auth_mode,$a_status)
 	{
 		global $ilDB;
-		
-		self::disableDataSourceForAuthMode($a_auth_mode);
-		
+
 		if($a_status)
 		{
 			$query = "UPDATE ldap_server_settings ".
-				'SET authentication_type = '.$ilDB->quote($a_auth_mode,'integer')." ".
-				'WHERE server_id = '.$ilDB->quote($a_ldap_server_id,'integer');
-			$ilDB->manipulate($query);
+				"SET authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
+				"WHERE authentication = ".$ilDB->quote(0,'integer');
+			$ilDB->query($query);
+		}
+		else
+		{
+			$query = "UPDATE ldap_server_settings ".
+				"SET authentication_type = ".$ilDB->quote(0,'integer')." ".
+				"WHERE authentication = ".$ilDB->quote(0,'integer');
+			$ilDB->query($query);
 		}
 		return true;
 	}

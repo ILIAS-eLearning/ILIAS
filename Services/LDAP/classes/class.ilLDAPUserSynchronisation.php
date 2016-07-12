@@ -23,7 +23,6 @@ class ilLDAPUserSynchronisation
 	private $user_data = array();
 	
 	private $force_creation = false;
-	private $force_read_ldap_data = false;
 
 
 	/**
@@ -89,11 +88,6 @@ class ilLDAPUserSynchronisation
 	{
 		$this->force_creation = $a_force;
 	}
-	
-	public function forceReadLdapData($a_status)
-	{
-		$this->force_read_ldap_data = $a_status;
-	}
 
 	/**
 	 * Check if creation of user account is forced (account migration)
@@ -134,7 +128,7 @@ class ilLDAPUserSynchronisation
 		
 		if(!$this->getInternalAccount())
 		{
-			ilLoggerFactory::getLogger('auth')->debug('Creating new account');
+			#$GLOBALS['ilLog']->write(__METHOD__.'Creating new account');
 			$this->handleCreation();
 		}
 
@@ -147,7 +141,6 @@ class ilLDAPUserSynchronisation
 		// For performance reasons, check if (an update is required)
 		if($this->isUpdateRequired())
 		{
-			ilLoggerFactory::getLogger('auth')->debug('Perform update of user data');
 			$this->readUserData();
 			$this->performUpdate();
 		}
@@ -241,19 +234,13 @@ class ilLDAPUserSynchronisation
 		// Add internal account to user data
 		$this->user_data['ilInternalAccount'] = $this->getInternalAccount();
 
-		if(!$this->force_read_ldap_data)
+		if(substr($this->getAuthMode(),0,4) == 'ldap')
 		{
-			if(substr($this->getAuthMode(),0,4) == 'ldap')
-			{
-				return true;
-			}
+			return true;
 		}
-		
 		include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
 		$query = new ilLDAPQuery($this->getServer());
 		$user = $query->fetchUser($this->getExternalAccount());
-		
-		ilLoggerFactory::getLogger('auth')->dump($user, ilLogLevel::DEBUG);
 
 		$this->user_data = (array) $user[$this->getExternalAccount()];
 	}
