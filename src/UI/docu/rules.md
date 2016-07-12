@@ -246,7 +246,7 @@ the creation of a UI component and starting at the main factory.
 * The renderer MUST be located in the same namespace as the UI component
   implementation and it MUST be named Renderer.
 * Renderers SHOULD not use properties as names for CSS classes.
-* Renderers MUST use the subset of the LIAS templating engine, provided via
+* Renderers MUST use the subset of the ILIAS templating engine, provided via
   `AbstractComponentRenderer::getTemplate`, to render their component.
 
 ## Locations of resources
