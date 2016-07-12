@@ -11,21 +11,23 @@ use \ILIAS\UI\Component\Counter\Counter;
  */
 interface Glyph extends \ILIAS\UI\Component\Component {
 	// Types of glyphs:
-	const UP = "up";
-	const DOWN = "down";
+	const SETTINGS = "settings";
+	const EXPAND = "expand";
+	const COLLAPSE = "collapse";
 	const ADD = "add";
 	const REMOVE = "remove";
-	const PREVIOUS = "previous";
+	const UP = "up";
+	const DOWN = "down";
+	const BACK = "back";
 	const NEXT = "next";
-	const CALENDAR = "calendar";
-	const CLOSE = "close";
-	const ATTACHMENT = "attachment";
-	const CARET = "caret";
-	const DRAG = "drag";
-	const SEARCH = "search";
-	const FILTER = "filter";
-	const INFO = "info";
-	const ENVELOPE = "envelope";
+	const SORT = "sort";
+	const USER = "user";
+	const MAIL = "mail";
+	const NOTIFICATION = "notification";
+	const TAG = "tag";
+	const NOTE = "note";
+	const COMMENT = "comment";
+
 
 	/**
 	 * Get the type of the glyph.
