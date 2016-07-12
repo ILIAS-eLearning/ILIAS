@@ -4,7 +4,7 @@
 
 namespace ILIAS\UI\Component\Button;
 
-use ILIAS\UI\Component\Glyph;
+use ILIAS\UI\Component\Glyph\Glyph;
 
 /**
  * This describes commonalities between standard and primary buttons. 
