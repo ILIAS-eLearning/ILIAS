@@ -1306,9 +1306,7 @@ class ilMail
 			{
 				for ($i = 0;$i < count($tmp_names); $i++)
 				{
-					if ( substr($tmp_names[$i]->mailbox,0,1) === '#' ||
-					   (substr($tmp_names[$i]->mailbox,0,1) === '"' &&
-						substr($tmp_names[$i]->mailbox,1,1) === '#' ) )
+					if (substr($tmp_names[$i]->mailbox,0,1) == '#' || substr($tmp_names[$i]->mailbox,0,2) == '"#')
 					{
 						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
 						foreach($role_ids as $role_id)
@@ -1342,7 +1340,7 @@ class ilMail
 			$tmp_names = $this->explodeRecipients($a_recipients,  $this->getUsePear());
 			for ($i = 0;$i < count($tmp_names); $i++)
 			{
-				if (substr($tmp_names[$i],0,1) == '#')
+				if (substr($tmp_names[$i],0,1) == '#' || substr($tmp_names[$i], 0, 2) == '"#')
 				{
 					if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
 					{
@@ -1454,7 +1452,7 @@ class ilMail
 				foreach ($tmp_rcp as $rcp)
 				{
 					// NO GROUP
-					if (substr($rcp->mailbox,0,1) != '#')
+					if (substr($rcp->mailbox,0,1) != '#' && substr($rcp->mailbox,0, 2) != '"#')
 					{
 						if (strtolower($rcp->host) != 'ilias')
 						{
@@ -1492,7 +1490,7 @@ class ilMail
 			foreach ($tmp_rcp as $rcp)
 			{
 				// NO GROUP
-				if (substr($rcp,0,1) != '#')
+				if (substr($rcp,0,1) != '#' && substr($rcp,0,2) != '"#')
 				{
 					if (strpos($rcp,'@'))
 					{
@@ -1559,7 +1557,7 @@ class ilMail
 				foreach ($tmp_rcp as $rcp)
 				{
 					// NO ROLE MAIL ADDRESS
-					if (substr($rcp->mailbox,0,1) != '#')
+					if (substr($rcp->mailbox,0,1) != '#' && substr($rcp->mailbox,0,2) != '"#')
 					{
 						// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
 						$user_id = ($rcp->host == 'ilias') ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
@@ -1633,7 +1631,7 @@ class ilMail
 					continue;
 				}
 				// NO GROUP
-				if (substr($rcp,0,1) != '#')
+				if (substr($rcp,0,1) != '#' && substr($rcp,0,2) != '"#')
 				{
 					$usr_id = ilObjUser::getUserIdByLogin(addslashes($rcp));
 					if(!$usr_id && !ilUtil::is_email($rcp))
@@ -2439,7 +2437,7 @@ class ilMail
 						// Addresses which aren't on the ilias host, and
 						// which have a mailbox which does not start with '#',
 						// are external e-mail addresses
-						if ($to->host != 'ilias' && substr($to->mailbox,0,1) != '#')
+						if ($to->host != 'ilias' && substr($to->mailbox,0,1) != '#' && substr($to->mailbox,0,2) != '"#')
 						{
 							++$counter;
 						}
@@ -2496,7 +2494,7 @@ class ilMail
 			{
 				foreach ($tmp_rcp as $to)
 				{
-					if(substr($to->mailbox,0,1) != '#' && $to->host != 'ilias')
+					if(substr($to->mailbox,0,1) != '#' && substr($to->mailbox,0,2) != '"#' && $to->host != 'ilias')
 					{
 						// Fixed mantis bug #5875
 						if(ilObjUser::_lookupId($to->mailbox.'@'.$to->host))
