@@ -51,6 +51,19 @@ trait ComponentHelper {
 	}
 
 	/**
+	 * Throw an InvalidArgumentException if $value is not an instance of $class
+	 *
+	 * @param	string	$which
+	 * @param	mixed	$value
+	 * @param	string	$class
+	 * @throws 	\InvalidArgumentException	if $check = false
+	 * @return  null
+	 */
+	protected function checkArgInstanceOf($which, $value, $class) {
+		$this->checkArg($which, $value instanceof $class, $this->wrongTypeMessage($class, $value));
+	}
+
+	/**
 	 * Throw an InvalidArgumentException if $value is not an element of array.
 	 *
 	 * @param	string	$which

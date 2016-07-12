@@ -16,6 +16,9 @@ class ComponentMock {
 	public function _checkStringArg($which, $value) {
 		$this->checkStringArg($which, $value);
 	}
+	public function _checkArgInstanceOf($which, $value, $class) {
+		$this->checkArgInstanceOf($which, $value, $class);
+	}
 	public function _checkArgIsElement($which, $value, $array, $name) {
 		$this->checkArgIsElement($which, $value, $array, $name);
 	}
@@ -98,6 +101,27 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals("Argument 'some_arg': expected string, got integer '1'", $e->getMessage());
 		}
 	}
+
+	public function test_check_arg_instanceof_ok() {
+		try {
+			$this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class); 
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_arg_instanceof_not_ok() {
+		try {
+			$this->mock->_checkArgInstanceOf("some_arg", $this, ComponentMock::class);
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected ComponentMock, got ComponentHelperTest", $e->getMessage());
+		}
+	}
+
+
 
 	public function test_check_arg_is_element_ok() {
 		try {
