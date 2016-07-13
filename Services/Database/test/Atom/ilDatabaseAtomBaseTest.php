@@ -112,18 +112,6 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
-	public function checkClosure() {
-		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-			$ilDB->getDBType();
-		});
-		$ilAtomQuery->run();
-	}
-
-
 	public function testCallables() {
 		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQL.php');
 		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
