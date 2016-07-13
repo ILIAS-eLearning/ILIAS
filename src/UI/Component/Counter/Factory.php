@@ -16,7 +16,11 @@ interface Factory {
 	 *       number of comments.
 	 *   composition: >
 	 *       The Status Counter is a non-obstrusive Counter.
+	 *   effect: >
+	 *       Status Counters convey information, they are not interactive.
 	 *
+	 * context:
+	 *   - The Status Counter is used in the ‘Who is online?’ Tool.
 	 * rules:
 	 *   style:
 	 *       1: >
@@ -37,8 +41,8 @@ interface Factory {
 	 * title: Novelty
 	 * description:
 	 *   purpose: >
-	 *       Novelty Counters inform users about the arrival or creation of new
-	 *       items of the kind indicated.
+	 *       Novelty counters inform users about the arrival or creation of new items of the kind indicated
+	 *       by the accompanying glyph.
 	 *   composition: >
 	 *       A Novelty Counter is an obtrusive counter.
 	 *   effect: >

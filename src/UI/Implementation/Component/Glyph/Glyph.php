@@ -27,21 +27,22 @@ class Glyph implements C\Glyph\Glyph {
 	private $counters;
 
 	private static $types = array
-		( self::UP
-		, self::DOWN
+		(self::SETTINGS
+		, self::COLLAPSE
+		, self::EXPAND
 		, self::ADD
 		, self::REMOVE
-		, self::PREVIOUS
+		, self::UP
+		, self::DOWN
+		, self::BACK
 		, self::NEXT
-		, self::CALENDAR
-		, self::CLOSE
-		, self::ATTACHMENT
-		, self::CARET
-		, self::DRAG
-		, self::SEARCH
-		, self::FILTER
-		, self::INFO
-		, self::ENVELOPE
+		, self::SORT
+		, self::USER
+		, self::MAIL
+		, self::NOTIFICATION
+		, self::TAG
+		, self::NOTE
+	    , self::COMMENT
 		);
 
 

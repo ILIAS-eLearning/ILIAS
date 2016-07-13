@@ -5,77 +5,92 @@ namespace ILIAS\UI\Component\Glyph;
  * This is how a factory for glyphs looks like.
  */
 interface Factory {
+
 	/**
 	 * ---
-	 * title: Up
+	 * title: Settings
 	 * description:
 	 *   purpose: >
-	 *       The glyphed up-button allow for manually arranging rows in tables
-	 *       embedded in forms. It allows moving a new item which is otherwise
-	 *       appended to the end of the table.
+	 *       The Settings Glyph triggers opening a Dropdown to edit settings of the displayed block.
 	 *   composition: >
-	 *       The up-glyph uses the glyphicon-chevron-up. The glyphed up-button
-	 *       can be combined with the add/remove glyph-buttons.
+	 *       The Settings Glyph uses the glyphicon-cog.
 	 *   effect: >
-	 *       Clicking on one of the glyph-buttons moves an item up.
+	 *      Upon clicking a settings Dropdown is opened.
 	 *
-	 * context: Moving answers up in Survey matrix questions.
-	 *
-	 * featurewiki:
-	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
+	 * context: >
+	 *   Adding answer options or taxonomies in questions-editing forms in tests,
+	 *   adding events to the calendar.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The up-glyph MUST NOT be used to sort tables. There is an
-	 *          established sorting control for that.
+	 *          The Settings Glyph MUST only be used in Blocks.
+	 *   accessibility:
 	 *       2: >
-	 *          The glyphed up-button SHOULD not come without a glyphed down-
-	 *          button and vice versa.
-	 *       3: >
-	 *          The up-glyphs are actions and SHOULD be listed in the action
-	 *          column of a form.
+	 *          The aria-label MUST be “Settings”.
 	 * ---
 	 * @param	string	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function up($action);
+	public function settings($action);
 
 	/**
 	 * ---
-	 * title: Down
+	 * title: Collapse
 	 * description:
 	 *   purpose: >
-	 *       The glyphed down-button allow for manually arranging rows in tables
-	 *       embedded in forms. It allows moving a new item which is otherwise
-	 *       appended to the end of the table.
+	 *       The Collapse Glyph is used to trigger the collapsing of
+	 *       some neighbouring Container Collection such as a the content of a Dropdown or an Accordion currently shown.
 	 *   composition: >
-	 *       The down-glyph uses the glyphicon-chevron-down. The glyphed down-button
-	 *       may be combined with the add/remove Glyph-buttons.
+	 *       The Collapse Glyph is composed of a triangle pointing to the bottom indicating that content is currently shown.
 	 *   effect: >
-	 *       Clicking on one of the glyph-buttons moves an item down.
+	 *      Clicking the Collapse Glyph hides the display of some Container Collection.
+	 *   rivals:
+	 *      Expand Glyph: The Expand Glyphs triggers the display of some Container Collection.
+	 *      Previous Glyph: The Previous/Next Glyph opens a completely new view. It serves a navigational purpose.
 	 *
-	 * context: Moving answers up in Survey matrix questions.
-	 *
-	 * featurewiki:
-	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The down-glyph MUST NOT be used to sort tables. There is an
-	 *          established sorting control for that.
+	 *          The Collapse Glyph MUST indicate if the toggled Container Collection is visible or not.
+	 *   accessibility:
 	 *       2: >
-	 *          The glyphed down-button SHOULD not come without a glyphed up-
-	 *          button and vice versa.
-	 *       3: >
-	 *          The down-glyphs are actions and SHOULD be listed in the action
-	 *          column of a form.
+	 *          The aria-label MUST be ‘Collapse Content'.
 	 * ---
 	 * @param	string	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function down($action);
+	public function collapse($action);
+
+	/**
+	 * ---
+	 * title: Expand
+	 * description:
+	 *   purpose: >
+	 *       The Expand Glyph is used to trigger the display of
+	 *       some neighbouring Container Collection such as a the content of a Dropdown or an Accordion currently shown.
+	 *   composition: >
+	 *       The Expand Glyph is composed of a triangle pointing to the right indicating that content is currently shown.
+	 *   effect: >
+	 *      Clicking the Expand Glyph displays some Container Collection.
+	 *   rivals:
+	 *      Collapse Glyph: The Collapse Glyphs hides the display of some Container Collection.
+	 *      Previous Glyph: The Previous/Next Glyph opens a completely new view. It serves a navigational purpose.
+	 *
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Expand Glyph MUST indicate if the toggled Container Collection is visible or not.
+	 *   accessibility:
+	 *       2: >
+	 *          The aria-label MUST be ‘Expand Content'.
+	 * ---
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function expand($action);
 
 	/**
 	 * ---
@@ -85,10 +100,9 @@ interface Factory {
 	 *       The glyphed add-button serves as stand-in for the respective textual
 	 *       buttons in very crowded screens. It allows adding a new item.
 	 *   composition: >
-	 *      The add-glyph uses the glyphicon-add.
+	 *      The Add Glyph uses the glyphicon-plus-sign.
 	 *   effect: >
-	 *      Clicking on the add-glyph adds a new input to a form or an event to
-	 *      the calendar.
+	 *      Clicking on the Add Glyph adds a new input to a form or an event to the calendar.
 	 *
 	 * context: >
 	 *   Adding answer options or taxonomies in questions-editing forms in tests,
@@ -97,15 +111,20 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The glyphed add-button SHOULD not come without a glyphed remove-
-	 *          button and vice versa. Because either there is not enough place
+	 *          The Add Glyph SHOULD not come without a Remove Glyph and vice versa.
+	 *          Because either there is not enough place
 	 *          for textual buttons or there is place. Exceptions to this rule,
 	 *          such as the Calendar, where only elements can be added in a
 	 *          certain place are possible, are to be run through the Jour Fixe.
 	 *       2: >
-	 *          The glyphed add-buttons are Actions and SHOULD be placed in the
+	 *          The Add Glyph stands for an Action and SHOULD be placed in the
 	 *          action column of a form.
-	 *       3: The glyphed add-button MUST not be used to add lines to tables.
+	 *       3: The Add Glyph MUST not be used to add lines to tables.
+	 *   interaction:
+	 *       4: Newly added items MUST be placed below the line in which the Add Glyph has been clicked
+	 *   accessibility:
+	 *       5: >
+	 *          The aria-label MUST be ‘Add'.
 	 * ---
 	 * @param	string	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
@@ -117,12 +136,12 @@ interface Factory {
 	 * title: Remove
 	 * description:
 	 *   purpose: >
-	 *       The glyphed remove-button serves as stand-in for the respective textual
-	 *       buttons in very crowded screens. It allows adding a new item.
+	 *       The Remove Glyph serves as stand-in for the respective textual
+	 *       buttons in very crowded screens. It allows removing an item.
 	 *   composition: >
-	 *       The remove-glyph uses the glyphicon-remove.
+	 *       The Remove Glyph uses the glyphicon-plus-sign.
 	 *   effect: >
-	 *       Clicking on the remove-glyph adds a new input to a form or an event to
+	 *       Clicking on the Remove Glyph adds a new input to a form or an event to
 	 *       the calendar.
 	 *
 	 * context: >
@@ -132,15 +151,18 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The glyphed remove-button SHOULD not come without a glyphed add-
-	 *          button and vice versa. Because either there is not enough place
+	 *          The Remove Glyph SHOULD not come without a glyphed Add Glyph and vice versa.
+	 *          Because either there is not enough place
 	 *          for textual buttons or there is place. Exceptions to this rule,
 	 *          such as the Calendar, where only elements can be added in a
 	 *          certain place are possible, are to be run through the Jour Fixe.
 	 *       2: >
-	 *          The glyphed remove-buttons are Actions and SHOULD be placed in the
+	 *          The Remove Glyph stands for an Action and SHOULD be placed in the
 	 *          action column of a form.
-	 *       3: The glyphed remove-button MUST not be used to add lines to tables.
+	 *       3: The Remove Glyph MUST not be used to add lines to tables.
+	 *   accessibility:
+	 *       4: >
+	 *          The aria-label MUST be ‘Remove'.
 	 * ---
 	 * @param	string	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
@@ -149,143 +171,286 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Previous
+	 * title: Up
 	 * description:
 	 *   purpose: >
-	 *       The previous-glyph indicates a possible change of the view.
+	 *       The Up Glyph allows for manually arranging rows in tables embedded in forms.
+	 *       It allows moving an item up.
 	 *   composition: >
-	 *       The chevron-left is used.
+	 *       The Up Glyph uses the glyphicon-circle-arrow-up. The Up Glyph
+	 *       can be combined with the Add/Remove Glyph.
 	 *   effect: >
-	 *       The click on a previous-glyph leads back to a previous view.
-	 *   rivals:
-	 *       Caret: The caret handles opening and closing hidden aspects of a view such as a dropdown or content of an accordion.
+	 *       Clicking on the Up Glyph moves an item up.
+	 *
+	 * context: Moving answers up in Survey matrix questions.
+	 *
+	 * featurewiki:
+	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Up Glyph MUST NOT be used to sort tables. There is an
+	 *          established sorting control for that.
+	 *       2: >
+	 *          The Up Glyph SHOULD not come without a Down and vice versa.
+	 *       3: >
+	 *          The Up Glyph is an action and SHOULD be listed in the action
+	 *          column of a form.
+	 *   accessibility:
+	 *       4: >
+	 *          The aria-label MUST be ‘Up'.
+	 * ---
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function up($action);
+
+	/**
+	 * ---
+	 * title: Down
+	 * description:
+	 *   purpose: >
+	 *       The Down Glyph allows for manually arranging rows in tables embedded in forms.
+	 *       It allows moving an item down.
+	 *   composition: >
+	 *       The Down Glyph uses the glyphicon-circle-arrow-down. The Down Glyph
+	 *       can be combined with the Add/Remove Glyph.
+	 *   effect: >
+	 *       Clicking on the Down Glyph moves an item up.
+	 *
+	 * context: Moving answers up in Survey matrix questions.
+	 *
+	 * featurewiki:
+	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Down Glyph MUST NOT be used to sort tables. There is an
+	 *          established sorting control for that.
+	 *       2: >
+	 *          The Down Glyph SHOULD not come without a Up and vice versa.
+	 *       3: >
+	 *          The Down Glyph is an action and SHOULD be listed in the action
+	 *          column of a form.
+	 *   accessibility:
+	 *       4: >
+	 *          The aria-label MUST be ‘Down'.
+	 * ---
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function down($action);
+
+	/**
+	 * ---
+	 * title: Back
+	 * description:
+	 *   purpose: >
+	 *       The Back Glyph indicates a possible change of the view. The view change leads back to some previous view.
+	 *   composition: >
+	 *       The chevron-left glyphicon is used.
+	 *   effect: >
+	 *       The click on a Back Glyph leads back to a previous view.
 	 *
 	 * context: Show Member View in courses.
 	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          Back and Next Buttons MUST be accompanied by the respective Back/Next Glyph.
+	 *   style:
+	 *       2: >
+	 *          If clicking on the Back/Next GLYPH opens a new view of an object, the Next Glyph MUST be used.
+	 *       3: >
+	 *          If clicking on the Back/Next GLYPH opens a previous view of an object, the Back Glyph MUST be used.
+	 *   accessibility:
+	 *       2: >
+	 *          The aria-label MUST be ‘Back'.
 	 * ---
 	 * @param	string	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function previous($action);
+	public function back($action);
 
 	/**
 	 * ---
 	 * title: Next
 	 * description:
 	 *   purpose: >
-	 *       The next-glyph indicates a possible change of the view.
+	 *       The Next Glyph indicates a possible change of the view. The view change leads back to some previous view.
 	 *   composition: >
-	 *       The chevron-right is used.
+	 *       The chevron-right glyphicon is used.
 	 *   effect: >
-	 *       The click on a next-glyph opens a new view of an object.
-	 *   rivals:
-	 *       Caret: The caret handles opening and closing hidden aspects of a view such as a dropdown or content of an accordion.
+	 *       The click on a Next Glyph opens a new view.
 	 *
-	 * context: Show Member View in courses.
 	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          Back and Next Buttons MUST be accompanied by the respective Back/Next Glyph.
+	 *   style:
+	 *       2: >
+	 *          If clicking on the Back/Next GLYPH opens a new view of an object, the Next Glyph MUST be used.
+	 *       3: >
+	 *          If clicking on the Back/Next GLYPH opens a previous view of an object, the Back Glyph MUST be used.
+	 *   accessibility:
+	 *       2: >
+	 *          The aria-label MUST be ‘Next'.
 	 * ---
 	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function next($action);
 
 	/**
 	 * ---
-	 * title: Calendar
-	 * ---
-	 * @param	string	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function calendar($action);
-
-	/**
-	 * ---
-	 * title: Close
-	 * ---
-	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function close($action);
-
-	/**
-	 * ---
-	 * title: Attachement
-	 * ---
-	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function attachment($action);
-
-	/**
-	 * ---
-	 * title: Caret
+	 * title: User
 	 * description:
 	 *   purpose: >
-	 *       The Caret Glyph is used to trigger the the display of some neighbouring Container Collection such as a the content of a Dropdown or an Accordion.
+	 *       The User Glyph triggers the “Who is online?” Popover in the Top Navigation.
+	 *       The User Glyph indicates the number of pending contact requests and users online via the the Novelty Counter and Status Counter respectively.
 	 *   composition: >
-	 *       Carets indicating an underlying Overlay such as a Dropdown the default Caret class may be used.
-	 *       In most cases the glyphicon-triangle should be chosen in the correct orientation to indicate whether to content is currently displayed or not.
-	 *       Triangle-right indicates that underlying content is hidden Triangle-bottom indicates that the underlying content is currently shown.
+	 *       The User Glyph uses the glyphicon-user.
 	 *   effect: >
-	 *       Clicking the caret toggles the display of some Container Collection.
-	 *   rivals:
-	 *       Previous/Next Glyph: The Previous/Next Glyph opens a completely new view. It serves a navigational purpose.
+	 *       Clicking the User Glyph opens the “Who is online?” Popover.
 	 *
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be ‘Show who is online'.
 	 * ---
 	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function caret($action);
+	public function user($action);
 
 	/**
 	 * ---
-	 * title: Drag
-	 * ---
-	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function drag($action);
-
-	/**
-	 * ---
-	 * title: Search
+	 * title: Mail
 	 * description:
 	 *   purpose: >
-	 *       The Search Glyph is used whenever content is to be searched. E.g. The Search Glyph triggers the Top Search Popover. This is the only access to the global search.
+	 *       The Mail Glyph provides a shortcut to the mail service. The Mail Glyph indicates the number of new mails received.
 	 *   composition: >
-	 *       The Search Glyph uses the glyphicon-search.
+	 *       The Mail Glyph uses the glyphicon-envelope.
 	 *   effect: >
-	 *       Clicking the Search Glyph triggers the display of the Top Search Popover. This is the only access to the search.
-	 * ---
-	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function search($action);
-
-	/**
-	 * ---
-	 * title: Filter
-	 * ---
-	 * @param	string	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function filter($action);
-
-	/**
-	 * ---
-	 * title: Info
-	 * ---
-	 * @param	string	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function info($action);
-
-	/**
-	 * ---
-	 * title: Envelope
+	 *       Upon clicking on the Mail Glyph the user is transferred to the full-screen mail service.
+	 *   rivals:
+	 *      Mail Icon: The Mail Icon is used to indicate the user is currently located in the Mail service The Mail Glyph acts as shortcut to the Mail service.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be ‘Mail'.
 	 * ---
 	 * @param	string	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function envelope($action);
+	public function mail($action);
+
+	/**
+	 * ---
+	 * title: Notification
+	 * description:
+	 *   purpose: >
+	 *       The Notification Glyph allows users to activate / deactivate the notification service for a specific object or sub-item.
+	 *       It is a toggle indicating by colour  whether it is activated or not.
+	 *   composition: >
+	 *       The Notification Glyph uses the glyphicon-bell in link-color if notifications are not active or brand-warning color if they are.
+	 *   effect: >
+	 *       Upon clicking the notification activation is toggled: Clicking the Notification Glyph activates respectively
+	 *       deactivates the notification service for the current object or sub-item.
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Notification Glyph MUST only be used in the Content Top Actions.
+	 *   interaction:
+	 *       2: >
+	 *          Clicking the Notification Glyph MUST toggle the activation of Notifications.
+	 *   style:
+	 *       3: >
+	 *          If notifications are activated the Notification Glyph MUST use the brand-warning color.
+	 *   accessibility:
+	 *       4: >
+	 *          The aria-label MUST be ‘Notifications'.
+	 * ---
+	 * @param	string	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function notification($action);
+
+	/**
+	 * ---
+	 * title: Tag
+	 * description:
+	 *   purpose: >
+	 *       The Tag Glyph is used to indicate the possibility of adding tags to an object.
+	 *   composition: >
+	 *       The Tag Glyph uses the glyphicon-tag.
+	 *   effect: >
+	 *       Upon clicking the Round Trip Modal to add new Tags is opened.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          Novelty and Status Counter MUST show the amount of tags that has been given for an specific object.
+	 *   accessibility:
+	 *       2: >
+	 *          The aria-label MUST be ‘Tags'.
+	 * ---
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function tag($action);
+
+	/**
+	 * ---
+	 * title: Note
+	 * description:
+	 *   purpose: >
+	 *       The Note Glyph is used to indicate the possibilty of adding notes to an object.
+	 *   composition: >
+	 *       The Note Glyph uses the glyphicon-pushpin.
+	 *   effect: >
+	 *       Upon clicking the Round Trip Modal to add new notes is opened
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          Novelty and Status Counter MUST show the amount of notes that has been given for an specific object.
+	 *   accessibility:
+	 *       2: >
+	 *          The aria-label MUST be ‘Notes'.
+	 * ---
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function note($action);
+
+	/**
+	 * ---
+	 * title: Comment
+	 * description:
+	 *   purpose: >
+	 *       The Comment Glyph is used to indicate the possibilty of adding comments to an object.
+	 *   composition: >
+	 *       The Comment Glyph uses the glyphicon-comment.
+	 *   effect: >
+	 *       Upon clicking the Round Trip Modal to add new comments is opened.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          Novelty and Status Counter MUST show the amount of comments that has been given for an specific object.
+	 *   accessibility:
+	 *       2: >
+	 *          The aria-label MUST be ‘Comments'.
+	 * ---
+	 * @param	string	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function comment($action);
 }
