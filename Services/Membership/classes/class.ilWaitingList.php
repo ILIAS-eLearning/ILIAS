@@ -98,12 +98,20 @@ abstract class ilWaitingList
 	 */
 	public static function deleteUserEntry($a_usr_id, $a_obj_id)
 	{
-		global $ilDB;
-		
+		//gev-patch start
+		global $ilDB, $ilLog;
+		$ilLog->write("enter ilWaitingList::deleteUserEntry");
+		$ilLog->write("param: user_id");
+		$ilLog->dump($a_usr_id);
+		$ilLog->write("param: obj_id");
+		$ilLog->dump($a_obj_id);
+		$ilLog->write("Delete user from crs_waiting_list");
 		$query = "DELETE FROM crs_waiting_list ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer').' '.
 			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer');
 		$ilDB->query($query);
+		$ilLog->write("Delete user from crs_waiting_list finished");
+		$ilLog->write("leave ilWaitingList::deleteUserEntry");
 		return true;
 	}
 	

@@ -48,8 +48,15 @@ class ilCourseBooking
 	 */
 	public static function getUserStatus($a_course_obj_id, $a_user_id)
 	{
-		global $ilDB;
-		
+		//gev-patch start
+		global $ilDB, $ilLog;
+		$ilLog->write("enter ilCourseBooking::getUserStatus");
+		$ilLog->write("param course_obj_id:");
+		$ilLog->dump($a_course_obj_id);
+		$ilLog->write("param user_id:");
+		$ilLog->dump($a_user_id);
+		//gev-patch end
+
 		$sql = "SELECT status".
 			" FROM crs_book".
 			" WHERE crs_id = ".$ilDB->quote($a_course_obj_id, "integer").
@@ -58,8 +65,11 @@ class ilCourseBooking
 		if($ilDB->numRows($set))
 		{
 			$res = $ilDB->fetchAssoc($set);
+			$ilLog->write("leave ilCourseBooking::getUserStatus with return");
 			return $res["status"];
 		}
+		$ilLog->write("No state found");
+		$ilLog->write("leave ilCourseBooking::getUserStatus");
 	}
 	
 	/**
@@ -94,10 +104,20 @@ class ilCourseBooking
 	 */
 	public static function setUserStatus($a_course_obj_id, $a_user_id, $a_status)
 	{
-		global $ilDB, $ilUser;
-		
+		//gev-patch start ilLog
+		global $ilDB, $ilUser, $ilLog;
+		$ilLog->write("enter ilCourseBooking::setUserStatus");
+		$ilLog->write("param course_obj_id:");
+		$ilLog->dump($a_course_obj_id);
+		$ilLog->write("param user_id:");
+		$ilLog->dump($a_user_id);
+		$ilLog->write("param status:");
+		$ilLog->dump($a_status);
+
 		if(!self::isValidStatus($a_status))
 		{
+			$ilLog->write("state: ".$a_status. " is not valid");
+			$ilLog->write("leave ilCourseBooking::setUserStatus invalid status");
 			return false;
 		}
 		
@@ -110,8 +130,10 @@ class ilCourseBooking
 		$old = self::getUserStatus($a_course_obj_id, $a_user_id);
 		if(self::isValidStatus($old))
 		{
+			$ilLog->write("Update user state");
 			if($old == $a_status)
 			{
+				$ilLog->write("leave ilCourseBooking::setUserStatus no changings");
 				return true;
 			}
 			
@@ -120,17 +142,20 @@ class ilCourseBooking
 				,"user_id" => array("integer", $a_user_id)
 			);						
 			$ilDB->update("crs_book", $fields, $primary);
+			$ilLog->write("Update user state finished");
 		}
 		else
 		{
+			$ilLog->write("Insert user state");
 			$fields["crs_id"] = array("integer", $a_course_obj_id);
 			$fields["user_id"] = array("integer", $a_user_id);
 			
 			$ilDB->insert("crs_book", $fields);
+			$ilLog->write("Insert user state finished");
 		}
 				
 		self::raiseEvent("setStatus", $a_course_obj_id, $a_user_id, $old, $a_status);
-		
+		$ilLog->write("leave ilCourseBooking::setUserStatus");
 		return true;
 	}
 	

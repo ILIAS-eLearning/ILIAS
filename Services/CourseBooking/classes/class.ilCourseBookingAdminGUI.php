@@ -24,7 +24,11 @@ class ilCourseBookingAdminGUI
 	 */
 	public function __construct(ilObjCourse $a_course)
 	{
-		global $lng, $ilUser;
+		//gev-patch start
+		global $lng, $ilUser, $ilLog;
+		$this->gLog = $ilLog;
+		//gev-patch end
+
 		
 		$this->setCourse($a_course);
 		$this->ilUser = $ilUser;
@@ -796,6 +800,13 @@ class ilCourseBookingAdminGUI
 	{			
 		global $ilCtrl, $lng;
 		
+		//gev-patch start
+		$this->gLog->write("enter ilCourseBookingAdminGUI::assignMembers");
+		$this->gLog->write("param user_ids:");
+		$this->gLog->dump($user_ids);
+		$this->gLog->write("param status");
+		$this->gLog->dump($status);
+
 		if(!$this->getPermissions()->bookCourseForOthers())
 		{
 			$ilCtrl->redirect($this, "listBookings");
@@ -866,9 +877,19 @@ class ilCourseBookingAdminGUI
 				{
 					continue;
 				}
+
+				//gev-patch start
+				$this->gLog->write("####################");
+				$this->gLog->write("Start booking ".$user_id);
+				$this->gLog->write("####################");
+				//gev-patch end
+
 				if($bookings->bookCourse($user_id))
 				{
 					// gev-patch start
+					$this->gLog->write("####################");
+					$this->gLog->write("Booking Success ".$user_id);
+					$this->gLog->write("####################");
 					require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 					$addMailSettings = new gevCrsAdditionalMailSettings($this->getCourse()->getId());
 					
@@ -895,6 +916,7 @@ class ilCourseBookingAdminGUI
 							
 							// Implementation of #1623: send invitations directly
 							// when user is booked at the day where the course starts.
+							// also send invitations directly when mailing deadline = 0
 							if ($now_d == $date_d) {
 								$automails->send("invitation", array($user_id));
 							}
@@ -902,8 +924,7 @@ class ilCourseBookingAdminGUI
 								$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
 								$date_unix = $date->get(IL_CAL_UNIX);
 								$now_unix = $now->get(IL_CAL_UNIX);
-
-								if($now_unix > $date_unix && $deadline_job_ran) {
+								if(($now_unix > $date_unix || $days_before_course_start == 0) && $deadline_job_ran) {
 									$automails->sendDeferred("invitation", array($user_id));
 								}
 							}
@@ -953,7 +974,7 @@ class ilCourseBookingAdminGUI
 
 			// $this->checkLicenses(true);
 		}
-		
+		$this->gLog->write("leave ilCourseBookingAdminGUI::assignMembers");
 		$ilCtrl->redirect($this, "listBookings");
 	}
 	

@@ -64,7 +64,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
 		$this->orgu_filter->setFilterOptionsAll();
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hc.topic_set');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hc.crs_id');
+
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -215,7 +216,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		$a_query_part = $this->getPartialQuery(true);
 		$a_query_book = $this->getPartialQuery(false);
 		return $a_query_part->sql()."\n "
-				. $this->queryWhere()."\n "
+				. $this->queryWhere()."\n AND "
+				. $a_query_part->getSqlWhere()."\n "
 				. $a_query_part->sqlGroupBy()."\n "
 				. $this->queryHaving()."\n "
 				. $this->queryOrder();
@@ -238,9 +240,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		if($this->sql_filter_orgus) {
 			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}
-		$this->crs_topics_filter->addToQuery($query);
-			$query	->group_by('hc.type')
-					->compile();
+
+		$query->where($this->crs_topics_filter->deliverQuery());
+
+		$query	->group_by('hc.type')
+				->compile();
+
 		return $query;
 	}
 
@@ -257,7 +262,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 
 	protected function fetchPartialDataSet($a_query) {
 		$query = $a_query->sql()."\n "
-				. $this->queryWhere()."\n "
+				. $this->queryWhere()."\n AND "
+				. $a_query->getSqlWhere()."\n"
 				. $a_query->sqlGroupBy()."\n"
 				. $this->queryHaving()."\n"
 				. $this->queryOrder();
