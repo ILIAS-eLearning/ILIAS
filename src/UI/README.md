@@ -132,6 +132,8 @@ STEPS:
   `withXYZ` that return copies of your component with changed properties. Try
   to use as little mutators as possible and try to make it easy to maintain the
   invariants defined in your rules when mutators will be used.
+* Write some tests on your component.
+* Wire the implementation of new factories, if you needed to create new factories.
 
 ### How to Change an Existing Component?
 
