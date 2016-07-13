@@ -169,8 +169,12 @@ class ilWebAccessChecker {
 		$this->setChecked(true);
 		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
+			ilWACLog::getInstance()->write('file is in sec-folder, no delivery');
+
 			return false;
 		} else {
+			ilWACLog::getInstance()->write('file is not in sec-folder, delivery');
+
 			return true;
 		}
 	}
