@@ -42,7 +42,7 @@ class Glyph implements C\Glyph\Glyph {
 		, self::NOTIFICATION
 		, self::TAG
 		, self::NOTE
-	    , self::COMMENT
+		, self::COMMENT
 		);
 
 
