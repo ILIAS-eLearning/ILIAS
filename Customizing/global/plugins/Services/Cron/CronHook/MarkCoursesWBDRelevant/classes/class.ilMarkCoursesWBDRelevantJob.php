@@ -1,15 +1,5 @@
-<?php<?php
+<?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-/**
-* Class		ilMarkCoursesWBDRelevantJob
-*
-* CronJob:	MArks courses as wbd relevant if the end date is >= th date entered in udf field "WBD Punkte nachmelden ab"
-*
-* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
-* @version $Id$
-*/
 
 require_once("Services/Cron/classes/class.ilCronManager.php");
 require_once("Services/Cron/classes/class.ilCronJob.php");
@@ -17,10 +7,16 @@ require_once("Services/Cron/classes/class.ilCronJobResult.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
+/**
+* CronJob:	Marks courses as wbd relevant if the end date is >= th date entered in udf field "WBD Punkte nachmelden ab"
+*
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+* @version $Id$
+*/
 class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 	const CREATOR_ID = "-333";
 
-	private $gIldb;
+	private $gDB;
 	private $gLog;
 	private $gLng;
 	private $gRbacadmin;
@@ -36,60 +32,56 @@ class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 	}
 
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	string
+	 * @inheritdoc
 	 */
 	public function getId() {
 		return "gev_mark_courses_wbd_relevant";
 	}
 	
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	string
+	 * @inheritdoc
 	 */
 	public function getTitle() {
-		return "Setzt Trainings auf WBD relevant.";
-	}
-
-	public function getDescription() {
-		return "Wenn beim Benutzer das UDF Feld 'WBD Punkte nachmelden ab' einen Wert besitzt, werden alle Trainings deren Enddatum >= ist auf WBD relevant gestzt";
+		return $this->gDB->txt("cron_wbd_relevant_title");
 	}
 
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	bool
+	 * @inheritdoc
+	 */
+	public function getDescription() {
+		return $this->gDB->txt("cron_wbd_relevant_description");
+	}
+
+	/**
+	 * @inheritdoc
 	 */
 	public function hasAutoActivation() {
 		return true;
 	}
 	
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	bool
+	 * @inheritdoc
 	 */
 	public function hasFlexibleSchedule() {
 		return false;
 	}
 	
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	int
+	 * @inheritdoc
 	 */
 	public function getDefaultScheduleType() {
 		return ilCronJob::SCHEDULE_TYPE_DAILY;
 	}
 	
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	int
+	 * @inheritdoc
 	 */
 	public function getDefaultScheduleValue() {
 		return 1;
 	}
 
 	/**
-	 * Implementation of abstract function from ilCronJob
-	 * @return	ilCronJobResult
+	 * @inheritdoc
 	 */
 	public function run() {
 		$cron_result = new ilCronJobResult();
@@ -100,10 +92,10 @@ class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 			$this->gLog->write("### ilMarkCoursesWBDRelevantJob: no user found ###");
 		}
 
-		foreach ($user_vals as $user_val) {
+		foreach ($user_vals as $key => $value) {
 			ilCronManager::ping($this->getId());
-			$this->gLog->write("### ilMarkCoursesWBDRelevantJob: set for: $user_val ###");
-			$this->updateTrainings($user_val);
+			$this->gLog->write("### ilMarkCoursesWBDRelevantJob: set for: $key ###");
+			$this->updateTrainings($key, $value);
 			ilCronManager::ping($this->getId());
 		}
 
@@ -115,7 +107,7 @@ class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 
 	/**
 	 * Get all user_ids where udf field has been a value
-	 * @return [int] $ret
+	 * @return int[] $ret
 	 */
 	private function getUserWithEnteredDate() {
 		$ret = array();
@@ -129,8 +121,7 @@ class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 
 		$res = $this->gDB->query($select);
 		while($rec = $this->gDB->fetchAssoc($res)) {
-			$ret[] = array("user_id" => $rec["usr_id"]
-						, "value" => $rec["value"]);
+			$ret[$rec["usr_id"]] = $rec["value"];
 			ilCronManager::ping($this->getId());
 		}
 		return $ret;
@@ -139,12 +130,10 @@ class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 	/**
 	 * @param int $user_id
 	 */
-	private function updateTrainings($user_val) {
-		$wbd = gevWBD::getInstance($user_val["user_id"]);
+	private function updateTrainings($user_id, $value) {
+		$wbd = gevWBD::getInstance($user_id);
 
-		if($user_val["value"]) {
-			$this->gLog->write("### ilMarkCoursesWBDRelevantJob:updateTrainings ###");
-				$wbd->updateHistUserCourseRows($user_val["value"], self::CREATOR_ID);
-		}
+		$this->gLog->write("### ilMarkCoursesWBDRelevantJob:updateTrainings ###");
+		$wbd->updateHistUserCourseRows($value, self::CREATOR_ID);
 	}
 }

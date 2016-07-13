@@ -814,7 +814,7 @@ class gevWBD {
 				 ."    AND okz = '-empty-'\n"
 				 ."    AND end_date >= ".$this->gDB->quote($report_after, 'text');
 
-				 $this->gLog->write($select);
+		$this->gLog->write($select);
 
 		$res = $this->gDB->query($select);
 
