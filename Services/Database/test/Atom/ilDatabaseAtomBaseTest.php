@@ -72,50 +72,35 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
 	public function testReadUncommited() {
-		$this->setExpectedException('ilDatabaseException');
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
 		$other = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_READ_UNCOMMITED);
 		$other->run();
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
 	public function testReadCommited() {
-		$this->setExpectedException('ilDatabaseException');
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
 		$other = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_READ_COMMITED);
 		$other->run();
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
 	public function testReadRepeatedRead() {
-		$this->setExpectedException('ilDatabaseException');
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
 		$other = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, ilAtomQuery::ISOLATION_REPEATED_READ);
 		$other->run();
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
 	public function testAnomalies() {
-		$this->setExpectedException('ilDatabaseException');
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);
 		ilAtomQueryTransaction::checkAnomaly('lorem');
 	}
 
 
-	/**
-	 * @throws \ilDatabaseException
-	 */
 	public function testLevel() {
-		$this->setExpectedException('ilDatabaseException');
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
 		ilAtomQueryTransaction::checkIsolationLevel('lorem');
 	}
 
@@ -170,13 +155,14 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$query = function (ilDBInterface $ilDBInterface) use (&$counter, &$max, &$result) {
 			if ($counter < $max) {
 				$counter ++;
-				throw new ilDatabaseException('Some Random Exception');
+				throw new ilDatabaseException('', ilDatabaseException::DB_GENERAL);
 			}
 			$result = $ilDBInterface->listTables();
 		};
 
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addQueryCallable($query);
+		$ilAtomQuery->lockTable('object_data');
 		$ilAtomQuery->run();
 
 		$this->assertTrue(is_array($result));
@@ -184,24 +170,40 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testQueryWithTenException() {
+		$this->setExpectedException('ilDatabaseException', ilDatabaseException::DB_GENERAL);
 		$counter = 0;
 		$max = 10;
 		$result = null;
 		$query = function (ilDBInterface $ilDBInterface) use (&$counter, &$max, &$result) {
 			if ($counter < $max) {
 				$counter ++;
-				throw new ilDatabaseException('Some Random Exception');
+				throw new ilDatabaseException('', ilDatabaseException::DB_GENERAL);
 			}
 			$result = $ilDBInterface->listTables();
 		};
 
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->addQueryCallable($query);
-		try {
-			$ilAtomQuery->run();
-		} catch (ilDatabaseException $e) {
-		}
-		$this->assertEquals($e->getMessage(), 'Some Random Exception');
+		$ilAtomQuery->lockTable('object_data');
+
+		$ilAtomQuery->run();
+
 		$this->assertTrue(is_null($result));
+	}
+
+
+	public function testWithOutLocks() {
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_LOCK_NO_TABLE);
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->run();
+
+	}
+
+	public function testWithOutClosures() {
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->lockTable('object_data');
+		$ilAtomQuery->run();
+
 	}
 }

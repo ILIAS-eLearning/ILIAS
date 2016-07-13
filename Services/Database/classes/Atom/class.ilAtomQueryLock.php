@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Database/exceptions/exception.ilDatabaseException.php');
 require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
 
 /**
@@ -14,7 +13,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 	/**
 	 * Fire your Queries
 	 *
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public function run() {
 		$this->checkBeforeRun();
@@ -23,15 +22,11 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 
 
 	/**
-	 * @throws ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	protected function runWithLocks() {
-		if ($this->tables) {
-			$this->ilDBInstance->lockTables($this->getLocksForDBInstance());
-		}
+		$this->ilDBInstance->lockTables($this->getLocksForDBInstance());
 		$this->runQueries();
-		if ($this->tables) {
-			$this->ilDBInstance->unlockTables();
-		}
+		$this->ilDBInstance->unlockTables();
 	}
 }

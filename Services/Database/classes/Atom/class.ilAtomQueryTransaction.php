@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Database/exceptions/exception.ilDatabaseException.php');
+require_once('./Services/Database/exceptions/exception.ilAtomQueryException.php');
 require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
 
 /**
@@ -14,7 +14,7 @@ class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery {
 	/**
 	 * Fire your Queries
 	 *
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public function run() {
 		$this->checkBeforeRun();
@@ -23,7 +23,7 @@ class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery {
 
 
 	/**
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	protected function runWithTransactions() {
 		$i = 0;

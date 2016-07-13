@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/Database/exceptions/exception.ilAtomQueryException.php');
 
 /**
  * Interface ilAtomQuery
@@ -29,7 +30,7 @@ interface ilAtomQuery {
 	 *
 	 * @param string $table_name
 	 * @param bool $lock_sequence_too
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public function lockTable($table_name, $lock_sequence_too = false);
 
@@ -52,7 +53,7 @@ interface ilAtomQuery {
 	 * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
 	 *
 	 * @param \Callable $query
-	 * @throws ilDatabaseException
+	 * @throws ilAtomQueryException
 	 */
 	public function addQueryCallable(callable $query);
 
@@ -60,14 +61,14 @@ interface ilAtomQuery {
 	/**
 	 * Fire your Queries
 	 *
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public function run();
 
 
 	/**
 	 * @param $isolation_level
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public static function checkIsolationLevel($isolation_level);
 

@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Database/exceptions/exception.ilDatabaseException.php');
 require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
 
 /**
@@ -100,15 +99,15 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 *
 	 * @param string $table_name
 	 * @param bool $lock_sequence_too
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public function lockTable($table_name, $lock_sequence_too = false) {
 		if (!$table_name || !$this->ilDBInstance->tableExists($table_name)) {
-			throw new ilDatabaseException('Table locks only work with existing tables');
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_TABLE_NONEXISTING);
 		}
 		$lock_level = $this->getDeterminedLockLevel();
 		if (!in_array($lock_level, array( ilAtomQuery::LOCK_READ, ilAtomQuery::LOCK_WRITE ))) {
-			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level. use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE');
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_WRONG_LEVEL);
 		}
 		$this->tables[] = array( $table_name, $lock_level, $lock_sequence_too );
 	}
@@ -155,11 +154,11 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
 	 *
 	 * @param \callable $query
-	 * @throws ilDatabaseException
+	 * @throws ilAtomQueryException
 	 */
 	public function addQueryCallable(callable $query) {
 		if (!$this->checkCallable($query)) {
-			throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
 		}
 		$this->queries[] = $query;
 	}
@@ -168,7 +167,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	/**
 	 * Fire your Queries
 	 *
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	abstract public function run();
 	//
@@ -186,7 +185,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @param $isolation_level
 	 * @param $anomaly
 	 * @return bool
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public static function isThereRiskThat($isolation_level, $anomaly) {
 		static::checkIsolationLevel($isolation_level);
@@ -209,7 +208,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 
 	/**
 	 * @param $isolation_level
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public static function checkIsolationLevel($isolation_level) {
 		// The following Isolations are currently not supported
@@ -218,33 +217,36 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 			ilAtomQuery::ISOLATION_READ_COMMITED,
 			ilAtomQuery::ISOLATION_REPEATED_READ,
 		))) {
-			throw new ilDatabaseException('This isolation-level is currently unsupported');
+			throw new ilAtomQueryException($isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
 		}
 		// Check if a available Isolation level is selected
 		if (!in_array($isolation_level, self::$available_isolations_levels)) {
-			throw new ilDatabaseException('Isolation-Level not available');
+			throw new ilAtomQueryException($isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
 		}
 	}
 
 
 	/**
 	 * @param $anomalie
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	public static function checkAnomaly($anomalie) {
-		if (!in_array($anomalie, self::$available_isolations_levels)) {
-			throw new ilDatabaseException('Isolation-Level not available');
+		if (!in_array($anomalie, self::$possible_anomalies)) {
+			throw new ilAtomQueryException($anomalie, ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);
 		}
 	}
 
 
 	/**
-	 * @throws \ilDatabaseException
+	 * @throws \ilAtomQueryException
 	 */
 	protected function checkQueries() {
+		if (count($this->queries) == 0) {
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
+		}
 		foreach ($this->queries as $query) {
 			if (!$this->checkCallable($query)) {
-				throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
+				throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
 			}
 		}
 	}
@@ -331,7 +333,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 
 
 	/**
-	 * @throws ilDatabaseException
+	 * @throws ilAtomQueryException
 	 */
 	protected function runQueries() {
 		foreach ($this->queries as $i => $query) {
@@ -348,11 +350,18 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	}
 
 
+	/**
+	 * @throws \ilAtomQueryException
+	 */
 	protected function checkBeforeRun() {
 		$this->checkQueries();
 
 		if ($this->hasWriteLocks() && $this->getIsolationLevel() != ilAtomQuery::ISOLATION_SERIALIZABLE) {
-			throw new ilDatabaseException('The selected Isolation-level is not allowd when locking tables with write-locks');
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_WRONG_LEVEL);
+		}
+
+		if (count($this->tables) === 0) {
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_NO_TABLE);
 		}
 	}
 }

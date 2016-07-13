@@ -140,10 +140,9 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 * @depends testConnection
 	 */
 	public function testWriteWithLocks() {
+		$this->setExpectedException('ilDatabaseException');
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('il_db_tests_atom', true);
 		$query = $this->getInsertQueryCallable();
-		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->addQueryCallable($query);
 
 		$ilAtomQuery->run();
@@ -215,17 +214,6 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testWithOutLocks() {
-		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
-		//		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
-		$query = $this->getInsertQueryCallable();
-		$ilAtomQuery->addQueryCallable($query);
-		$ilAtomQuery->addQueryCallable($query);
-
-		$ilAtomQuery->run();
-
-		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
-	}
 
 	//
 	// HELPERS
