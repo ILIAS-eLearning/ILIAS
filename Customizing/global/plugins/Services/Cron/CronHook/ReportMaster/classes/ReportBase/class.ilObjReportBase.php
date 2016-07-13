@@ -29,7 +29,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public $master_plugin;
 	public $settings;
 
-	const HTTP_REGEX = "/^(https:\/\/)|(http:\/\/)/";
+	const URL_PREFIX = "https://";
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
@@ -49,6 +49,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->createLocalReportSettings();
 		$this->createGlobalReportSettings();
 		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
+
+		$this->validateUrl = new \CaT\Validate\ValidateUrl;
 	}
 
 
@@ -65,20 +67,20 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 								->settingString('pdf_link', $this->master_plugin->txt('rep_pdf_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
-										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
+										if($string === "" || $this->validateUrl->validUrlPrefix($string)) {
 											return $string;
 										}
-										return 'https://'.$string;
+										return self::URL_PREFIX.$string;
 									})
 								)
 				->addSetting($this->s_f
 								->settingString('video_link', $this->master_plugin->txt('rep_video_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
-										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
+										if($string === "" || $this->validateUrl->validUrlPrefix($string)) {
 											return $string;
 										}
-										return 'https://'.$string;
+										return self::URL_PREFIX.$string;
 									})
 								)
 				->addSetting($this->s_f
