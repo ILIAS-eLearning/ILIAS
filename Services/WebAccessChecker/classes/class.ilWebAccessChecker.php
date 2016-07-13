@@ -81,6 +81,8 @@ class ilWebAccessChecker {
 		} catch (ilWACException $e) {
 			switch ($e->getCode()) {
 				case ilWACException::ACCESS_DENIED:
+				case ilWACException::ACCESS_DENIED_NO_PUB:
+				case ilWACException::ACCESS_DENIED_NO_LOGIN:
 					$ilWebAccessChecker->handleAccessErrors($e);
 					break;
 				case ilWACException::ACCESS_WITHOUT_CHECK:
@@ -185,16 +187,12 @@ class ilWebAccessChecker {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
 			global $ilUser, $ilSetting;
-			switch ($ilUser->getId()) {
-				case 0:
-						throw new ilWACException(ilWACException::ACCESS_DENIED, 'user: 0');
-					break;
-				case 13:
-					if (!$ilSetting->get('pub_section')) {
-						ilWACLog::getInstance()->write('public section not activated');
-						throw new ilWACException(ilWACException::ACCESS_DENIED, 'user: 13, no pub_section');
-					}
-					break;
+			if (!$ilSetting->get('pub_section')) {
+				ilWACLog::getInstance()->write('public section not activated');
+				throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
+			}
+			if ($ilUser->getId() == 0) {
+				throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 			}
 		} catch (Exception $e) {
 			if ($e instanceof ilWACException) {
@@ -204,6 +202,8 @@ class ilWebAccessChecker {
 				$_REQUEST["baseClass"] = "ilStartUpGUI";
 				$_REQUEST["cmd"] = "showLogin";
 
+				$_POST['username'] = 'anonymous';
+				$_POST['password'] = 'anonymous';
 				ilWACLog::getInstance()->write('reinit ILIAS');
 				ilInitialisation::reinitILIAS();
 			}
@@ -265,8 +265,10 @@ class ilWebAccessChecker {
 		if ($this->getPathObject()->isVideo()) {
 			$this->deliverDummyVideo();
 		}
-
-		$this->initILIAS();
+		try {
+			$this->initILIAS(true);
+		} catch (ilWACException $ilWACException) {
+		}
 
 		global $tpl, $ilLog;
 		$ilLog->write($e->getMessage());

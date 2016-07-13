@@ -17,6 +17,8 @@ class ilWACException extends ilException {
 	const INITIALISATION_FAILED = 9006;
 	const DATA_DIR_NON_WRITEABLE = 9007;
 	const ACCESS_DENIED = 9010;
+	const ACCESS_DENIED_NO_PUB = 9011;
+	const ACCESS_DENIED_NO_LOGIN = 9012;
 	/**
 	 * @var array
 	 */
@@ -27,6 +29,7 @@ class ilWACException extends ilException {
 		self::ACCESS_WITHOUT_CHECK   => 'the requested file cannot be delivered since it is not checked yet',
 		self::NO_CHECKING_INSTANCE   => 'This path is not secured by a class',
 		self::ACCESS_DENIED          => 'ACCESS DENIED: The requested file cannot be delivered.',
+		self::ACCESS_DENIED_NO_PUB   => 'ACCESS DENIED: Public Access is not activated on this installation. Please log in.',
 		self::INITIALISATION_FAILED  => 'An error occured during your request. Please reload the page.',
 		self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
 	);
