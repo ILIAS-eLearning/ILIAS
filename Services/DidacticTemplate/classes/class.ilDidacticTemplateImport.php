@@ -56,7 +56,7 @@ class ilDidacticTemplateImport
 	/**
 	 * Do import
 	 */
-	public function import()
+	public function import($a_dtpl_id = 0)
 	{
 		libxml_use_internal_errors(true);
 
@@ -77,6 +77,7 @@ class ilDidacticTemplateImport
 		$settings = $this->parseSettings($root);
 		$this->parseActions($settings,$root->didacticTemplate->actions);
 
+		return $settings;
 	}
 
 	/**
@@ -113,7 +114,7 @@ class ilDidacticTemplateImport
 			}
 			$setting->setInfo($info);
 
-			if(isset($tpl->effectiveFrom) && $tpl->effectiveFrom->attributes()->nic_id == $ilSetting->get('inst_id') )
+			if(isset($tpl->effectiveFrom) && (string)$tpl->effectiveFrom["nic_id"] == $ilSetting->get('inst_id') )
 			{
 				$node = array();
 				foreach($tpl->effectiveFrom->node as $element)
@@ -134,8 +135,7 @@ class ilDidacticTemplateImport
 		$setting->save();
 
 		include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
-		$trans = ilMultilingualism::getInstance(0, "dtpl");
-		$trans->setObjId($setting->getId());
+		$trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
 		$trans->addLanguage($trans->getDefaultLanguage(), $setting->getTitle(), $setting->getDescription(), true);
 
 		if(isset($root->didacticTemplate->translations))

@@ -301,15 +301,14 @@ class ilDidacticTemplateSettingsGUI
 		{
 			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
 			$languages = ilMDLanguageItem::_getLanguages();
-
-			$title->setValue( $def["title"]);
+			
 			$title->setInfo($this->lng->txt("language").": ".$languages[$def["lang"]].
 				' <a href="'.$ilCtrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations").
 				'">&raquo; '.$this->lng->txt("more_translations").'</a>');
 
 			unset($languages);
 		}
-
+		$title->setValue( $def["title"]);
 		$form->addItem($title);
 
 		// desc
@@ -557,6 +556,10 @@ class ilDidacticTemplateSettingsGUI
 	function showEditXMLForm()
 	{
 		$this->setEditTabs("import");
+
+		$form = $this->initEditXMLForm();
+		
+		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 
 	function initEditXMLForm()
@@ -568,21 +571,65 @@ class ilDidacticTemplateSettingsGUI
 		$form->setShowTopButtons(false);
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('didactic_import_table_title'));
-		$form->addCommandButton('importTemplate', $this->lng->txt('import'));
+		$form->addCommandButton('editXML', $this->lng->txt('import'));
 		$form->addCommandButton('overview', $this->lng->txt('cancel'));
 
 		$file = new ilFileInputGUI($this->lng->txt('edit_template_xml'), 'file');
 		$file->setSuffixes(array('xml'));
 		$form->addItem($file);
 
-		$created = true;
-
 		return $form;
 	}
 
 	function editXML()
 	{
+		global $ilCtrl, $ilAccess;
 
+		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->ctrl->redirect($this, "overview");
+		}
+
+		$form = $this->createImportForm();
+		if(!$form->checkInput())
+		{
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			$form->setValuesByPost();
+			return $this->showImportForm($form);
+		}
+
+		// Do import
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateImport.php';
+
+		$import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
+
+		$file = $form->getInput('file');
+		$tmp = ilUtil::ilTempnam();
+
+		// move uploaded file
+		ilUtil::moveUploadedFile(
+			$file['tmp_name'],
+			$file['name'],
+			$tmp
+		);
+		$import->setInputFile($tmp);
+
+		try {
+			$settings = $import->import();
+			$old = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
+			$old->applyOtherSettingsObject($settings);
+
+			$settings->delete();
+		}
+		catch(ilDidacticTemplateImportException $e)
+		{
+			ilLoggerFactory::getLogger('otpl')->error('Import failed with message: ' . $e->getMessage());
+			ilUtil::sendFailure($this->lng->txt('didactic_import_failed').': '.$e->getMessage());
+			$ilCtrl->redirect($this,'overview');
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('didactic_import_success'),TRUE);
+		$ilCtrl->redirect($this,'overview');
 	}
 
 }

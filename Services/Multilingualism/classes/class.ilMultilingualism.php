@@ -354,10 +354,10 @@ class ilMultilingualism
 		foreach($root->translation as $trans)
 		{
 			$this->addLanguage(
-				$trans->attributes()->language,
-				$trans->title,
-				$trans->description,
-				$trans->attributes()->default?true:false
+				(string)trim($trans["language"]),
+				(string)trim($trans->title),
+				(string)trim($trans->description),
+				(int)$trans["default"] != 0?true:false
 				);
 		}
 	}

@@ -55,8 +55,6 @@ if($ilDB->tableExists('didactic_tpl_settings') && $ilDB->tableExists('il_transla
 		$lang_default = $ilSetting->get("language");
 	}
 
-
-
 	$set = $ilDB->query("SELECT id, title, description".
 		" FROM didactic_tpl_settings");
 
