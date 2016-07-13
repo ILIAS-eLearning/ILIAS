@@ -6,20 +6,25 @@ namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @inheritdocs
 	 */
-	public function render(Component $component, RendererInterface $default_renderer) {
+	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-        print_r($component);
-		$tpl = $this->getTemplate("tpl.primary.html", true, true);
-		$tpl->setCurrentBlock($component->getType());
-		$tpl->setVariable("NUMBER", $component->getNumber());
-		$tpl->parseCurrentBlock();
+		if ($component instanceof Component\Button\Primary) {
+			$tpl_name = "tpl.primary.html";
+		}
+		if ($component instanceof Component\Button\Standard) {
+			$tpl_name = "tpl.standard.html";
+		}
+		
+		$tpl = $this->getTemplate($tpl_name, true, true);
+		$tpl->setVariable("ACTION", $component->getAction());
+		$tpl->setVariable("LABEL", $component->getLabel());
 
 		return $tpl->get();
 	}
@@ -28,6 +33,9 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return "\\ILIAS\\UI\\Component\\Button\\Button";
+		return array
+			( Component\Button\Primary::class
+			, Component\Button\Standard::class
+			);
 	}
 }
