@@ -49,8 +49,6 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
 		require_once('./Services/Database/classes/Atom/class.ilAtomQueryTransaction.php');
 		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
-		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
-		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelperSettings.php');
 
 		global $ilClientIniFile;
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
@@ -141,10 +139,15 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function checkCallable() {
+	public function testCallables() {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->addQueryCallable(new ilAtomQueryTestHelper(new ilAtomQueryTestHelperSettings()));
-		$ilAtomQuery->run();
+		$this->assertFalse($ilAtomQuery->checkCallable(function () { }));
+		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { }));
+		$this->assertFalse($ilAtomQuery->checkCallable(function (ilDBMySQL $ilDBInterface) { }));
+		function noClosure() { }
+		$this->assertFalse($ilAtomQuery->checkCallable('noClosure'));
+		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
+		$this->assertTrue($ilAtomQuery->checkCallable(new ilAtomQueryTestHelper()));
 	}
 
 
@@ -160,27 +163,44 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testQueryWithFiveException() {
-		$ilAtomQueryTestHelperSettings = new ilAtomQueryTestHelperSettings();
-		$ilAtomQueryTestHelperSettings->setThrowExceptions(5);
-		$ilAtomQueryTestHelper = new ilAtomQueryTestHelper($ilAtomQueryTestHelperSettings);
+		$counter = 0;
+		$max = 5;
+		$result = null;
+		$query = function (ilDBInterface $ilDBInterface) use (&$counter, &$max, &$result) {
+			if ($counter < $max) {
+				$counter ++;
+				throw new ilDatabaseException('Some Random Exception');
+			}
+			$result = $ilDBInterface->listTables();
+		};
 
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->addQueryCallable($ilAtomQueryTestHelper);
+		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->run();
+
+		$this->assertTrue(is_array($result));
 	}
 
 
 	public function testQueryWithTenException() {
-		$ilAtomQueryTestHelperSettings = new ilAtomQueryTestHelperSettings();
-		$ilAtomQueryTestHelperSettings->setThrowExceptions(10);
-		$ilAtomQueryTestHelper = new ilAtomQueryTestHelper($ilAtomQueryTestHelperSettings);
+		$counter = 0;
+		$max = 10;
+		$result = null;
+		$query = function (ilDBInterface $ilDBInterface) use (&$counter, &$max, &$result) {
+			if ($counter < $max) {
+				$counter ++;
+				throw new ilDatabaseException('Some Random Exception');
+			}
+			$result = $ilDBInterface->listTables();
+		};
 
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->addQueryCallable($ilAtomQueryTestHelper);
+		$ilAtomQuery->addQueryCallable($query);
 		try {
 			$ilAtomQuery->run();
 		} catch (ilDatabaseException $e) {
 		}
 		$this->assertEquals($e->getMessage(), 'Some Random Exception');
+		$this->assertTrue(is_null($result));
 	}
 }
