@@ -1369,7 +1369,7 @@ class ilDataCollectionTable {
 		$where_additions = '';
 		$has_nref = false;
 
-		if ($sort_field->isStandardField()) {
+		if ($sort_field->isStandardField() && $id != 'comments') {
 			if ($id == 'owner' || $id == 'last_edit_by') {
 				$join_str .= "LEFT JOIN usr_data AS sort_usr_data_{$id} ON (sort_usr_data_{$id}.usr_id = record.{$id})";
 				$select_str .= " sort_usr_data_{$id}.login AS field_{$id},";

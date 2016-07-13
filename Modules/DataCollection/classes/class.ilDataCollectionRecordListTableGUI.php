@@ -82,7 +82,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$title = $field->getTitle();
 			$sort_field = $title;
 			if ($field->getId() == 'comments') {
-				$sort_field = 'n_comments';
+				$sort_field = 'comments';
 				$this->numeric_fields[] = $title;
 			}
 			//			switch($field->getDatatypeId()) {
@@ -234,7 +234,21 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$record_data["_actions"] = $alist->getHTML();
 			$data[] = $record_data;
 		}
+
+		//sort by comments
+		if($this->getOrderField() == 'comments') {
+			usort($data, array($this, 'sortByNComments'));
+		}
+
 		$this->setData($data);
+	}
+
+	public function sortByNComments($a, $b){
+		if ($this->getOrderDirection() == 'asc') {
+			return $a['n_comments'] > $b['n_comments'] ? -1 : 1;
+		}
+		return $a['n_comments'] < $b['n_comments'] ? -1 : 1;
+
 	}
 
 
