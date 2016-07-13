@@ -125,17 +125,24 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testCallables() {
-		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$this->assertFalse($ilAtomQuery->checkCallable(function () { }));
-		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { }));
 		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQL.php');
-		$this->assertFalse($ilAtomQuery->checkCallable(function (ilDBPdoMySQL $ilDBInterface) { }));
-		$this->assertFalse($ilAtomQuery->checkCallable(function ($ilDBInterface) { }));
+		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
+
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
+		// Working
+		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { })); // ilDBInterface as first Parameter
+		$this->assertTrue($ilAtomQuery->checkCallable(new ilAtomQueryTestHelper())); // Class with implemented __invoke
+
+		// Non working
+		$this->assertFalse($ilAtomQuery->checkCallable(function () { })); // No Parameter
+		$this->assertFalse($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface, $someOtherParameter) { })); // More than one parameter
+		$this->assertFalse($ilAtomQuery->checkCallable(function ($someOtherParameter, ilDBInterface $ilDBInterface) { })); // ilDBInterface not first parameter
+		$this->assertFalse($ilAtomQuery->checkCallable(function (ilDBPdoMySQL $ilDBInterface) { })); // not ilDBInterface
+		$this->assertFalse($ilAtomQuery->checkCallable(function ($ilDBInterface) { })); // not ilDBInterface
 		function noClosure() { }
 
-		$this->assertFalse($ilAtomQuery->checkCallable('noClosure'));
-		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
-		$this->assertTrue($ilAtomQuery->checkCallable(new ilAtomQueryTestHelper()));
+		$this->assertFalse($ilAtomQuery->checkCallable('noClosure')); // Not a Closure
+
 	}
 
 

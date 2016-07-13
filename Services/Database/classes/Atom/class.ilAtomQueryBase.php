@@ -283,14 +283,12 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 		if ($is_a_closure) {
 			$ref = new ReflectionFunction($query);
 			$parameters = $ref->getParameters();
-			if (count($parameters) == 0) {
+			if (count($parameters) !== 1) {
 				return false;
 			}
-			foreach ($parameters as $parameter) {
-				$reflectionClass = $parameter->getClass();
-				if ($reflectionClass && $reflectionClass->getName() == 'ilDBInterface') {
-					return true;
-				}
+			$reflectionClass = $parameters[0]->getClass();
+			if ($reflectionClass && $reflectionClass->getName() == 'ilDBInterface') {
+				return true;
 			}
 
 			return false;
