@@ -8410,7 +8410,7 @@ td.ilc_PageDisabled {
   border-left: 3px dotted red;
 }
 div.ilc_DefinitionHeader {
-  margin: 10px 0;
+  margin: 20px 0 10px 0;
   padding: 5px 0;
   border: 1px solid #000;
   border-width: 1px 0;

@@ -202,8 +202,6 @@ class ilGlossaryPresentationGUI
 			
 		}
 		
-//		$term_list = $this->glossary->getTermList();	
-
 		$ret =  $this->listTermByGiven();
 		$ilCtrl->setParameter($this, "term_id", "");
 		
@@ -427,6 +425,21 @@ class ilGlossaryPresentationGUI
 		$tpl->setVariable("TXT_TERM", $term->getTerm());
 		$this->mobs = array();
 
+		// toc
+		if (count($defs) > 1)
+		{
+			$tpl->setCurrentBlock("toc");
+			for($j=1; $j<=count($defs); $j++)
+			{
+				$tpl->setCurrentBlock("toc_item");
+				$tpl->setVariable("TOC_DEF_NR", $j);
+				$tpl->setVariable("TOC_DEF", $lng->txt("cont_definition"));
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("toc");
+			$tpl->parseCurrentBlock();
+		}
+
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
@@ -467,6 +480,7 @@ class ilGlossaryPresentationGUI
 				$tpl->setCurrentBlock("definition_header");
 				$tpl->setVariable("TXT_DEFINITION",
 					$this->lng->txt("cont_definition")." ".($j+1));
+				$tpl->setVariable("DEF_NR", ($j+1));
 				$tpl->parseCurrentBlock();
 			}
 			

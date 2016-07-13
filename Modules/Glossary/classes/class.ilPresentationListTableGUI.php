@@ -193,8 +193,27 @@ class ilPresentationListTableGUI extends ilTable2GUI
 					$def = $defs[$j];
 					if (count($defs) > 1)
 					{
+						if (!$this->offline)
+						{
+							if (!empty ($filter))
+							{
+								$ilCtrl->setParameter($this->parent_obj, "term", $filter);
+								$ilCtrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
+							}
+							$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+							$ilCtrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+							$def_href = $ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions");
+							$ilCtrl->clearParameters($this->parent_obj);
+						}
+						else
+						{
+							$def_href = "term_".$term["id"].".html";
+						}
+						$this->tpl->parseCurrentBlock();
+
 						$this->tpl->setCurrentBlock("definition");
 						$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
+						$this->tpl->setVariable("HREF_DEF", $def_href."#ilPageTocDef".($j + 1));
 						$this->tpl->parseCurrentBlock();
 					}
 
