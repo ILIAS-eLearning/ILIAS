@@ -20,7 +20,12 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		return new \ILIAS\UI\Implementation\Component\Glyph\Factory();
 	}
 
-	public function test_implements_factory_interface($factory_method) {
+	static $canonical_css_classes = array
+		( "standard"	=>	 "btn btn-default"
+		, "primary"	 =>	 "btn btn-default btn-primary"
+		);
+
+	public function test_implements_factory_interface() {
 		$f = $this->getButtonFactory();
 
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Factory", $f);
@@ -36,6 +41,30 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			( "ILIAS\\UI\\Component\\Button\\Close"
 			, $f->close()
 			);
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_button_label_or_glyph_only($factory_method) {
+		$f = $this->getButtonFactory();
+		try {
+			$f->$factory_method($this, "http://www.ilias.de");
+			$this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {}
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_button_string_action_only($factory_method) {
+		$f = $this->getButtonFactory();
+		try {
+			$f->$factory_method("label", $this);
+			$this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	/**
@@ -70,7 +99,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	public function test_button_glyph($factory_method) {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
-		$g = $gf->envelope();
+		$g = $gf->envelope("http://www.ilias.de");
 		$b = $f->$factory_method($g, "http://www.ilias.de");
 
 		$this->assertEquals(null, $b->getLabel());
@@ -83,8 +112,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	public function test_button_with_glyph($factory_method) {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
-		$g = $gf->envelope();
-		$g2 = $gf->info();
+		$g = $gf->envelope("http://www.ilias.de");
+		$g2 = $gf->info("http://www.ilias.de");
 		$b = $f->$factory_method($g, "http://www.ilias.de");
 
 		$b2 = $b->withGlyph($g2);	
@@ -101,7 +130,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	public function test_button_label_glyph($factory_method) {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
-		$g = $this->envelope();
+		$g = $gf->envelope("http://www.ilias.de");
 		$b = $f->$factory_method("label", "http://www.ilias.de")
 				->withGlyph($g);
 
@@ -126,7 +155,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$f = $this->getButtonFactory();
 		$b = $f->$factory_method("label", "http://www.ilias.de");
 
-		$this->assertTrue($b->isActivated());
+		$this->assertTrue($b->isActive());
 	}
 
 	/**
@@ -137,8 +166,24 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$b = $f->$factory_method("label", "http://www.ilias.de")
 				->withUnavailableAction();
 
-		$this->assertFalse($b->isActivated());
+		$this->assertFalse($b->isActive());
 		$this->assertEquals("http://www.ilias.de", $b->getAction());
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_render_button($factory_method) {
+		$f = $this->getButtonFactory();
+		$b = $f->$factory_method("label", "http://www.ilias.de");
+		$r = $this->getDefaultRenderer();
+
+		$html = $this->normalizeHTML($r->render($b));
+
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<a class=\"$css_classes\" href=\"http://www.ilias.de\">".
+					"label".
+					"</a>";
 	}
 
 	public function button_type_provider() {

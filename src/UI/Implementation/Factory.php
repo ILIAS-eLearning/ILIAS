@@ -24,6 +24,6 @@ class Factory implements \ILIAS\UI\Factory {
 	 * @inheritdoc
 	 */
 	public function button() {
-		throw new \ILIAS\UI\NotImplementedException();
+		return new Component\Button\Factory();
 	}
 }
