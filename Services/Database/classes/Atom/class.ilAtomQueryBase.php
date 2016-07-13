@@ -10,7 +10,7 @@ require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class ilAtomQueryBase {
+abstract class ilAtomQueryBase implements ilAtomQuery {
 
 	const ITERATIONS = 10;
 	/**
@@ -59,7 +59,7 @@ abstract class ilAtomQueryBase {
 	 */
 	protected $tables = array();
 	/**
-	 * @var Callable[]
+	 * @var callable[]
 	 */
 	protected $queries = array();
 	/**
@@ -140,9 +140,13 @@ abstract class ilAtomQueryBase {
 	 *
 	 * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
 	 *
-	 * @param \Callable $query
+	 * @param \callable $query
+	 * @throws ilDatabaseException
 	 */
-	public function addQueryCallable(Callable $query) {
+	public function addQueryCallable(callable $query) {
+		if (!$this->checkCallable($query)) {
+			throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
+		}
 		$this->queries[] = $query;
 	}
 
@@ -225,10 +229,55 @@ abstract class ilAtomQueryBase {
 	 */
 	protected function checkQueries() {
 		foreach ($this->queries as $query) {
-			if (!is_callable($query)) {
+			if (!$this->checkCallable($query)) {
 				throw new ilDatabaseException('Please provide a Closure with your database-actions by adding with ilAtomQuery->addQueryClosure(function($ilDB) use ($my_vars) { $ilDB->doStuff(); });');
 			}
 		}
+	}
+
+
+	/**
+	 * @param callable $query
+	 * @return bool
+	 */
+	public function checkCallable(callable $query) {
+		if (!is_callable($query)) {
+			return false; // Won't be triggered sidn type-hinting already checks this
+		}
+		if (is_array($query)) {
+			return false;
+		}
+		if (is_string($query)) {
+			return false;
+		}
+		$classname = get_class($query);
+		$is_a_closure = $classname == 'Closure';
+		if (!$is_a_closure) {
+			$ref = new ReflectionClass($query);
+			foreach ($ref->getMethods() as $method) {
+				if ($method->getName() == '__invoke') {
+					return true;
+				}
+			}
+
+			return false;
+		}
+		if ($is_a_closure) {
+			$ref = new ReflectionFunction($query);
+			$parameters = $ref->getParameters();
+			if (count($parameters) == 0) {
+				return false;
+			}
+			foreach ($parameters as $parameter) {
+				if ($parameter->getType() == 'ilDBInterface') {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		return true;
 	}
 
 
@@ -273,10 +322,10 @@ abstract class ilAtomQueryBase {
 	protected function runQueries() {
 		foreach ($this->queries as $i => $query) {
 			if ($i < $this->running_query) {
-//				continue;
+				//				continue;
 			}
 			/**
-			 * @var $query Callable
+			 * @var $query callable
 			 */
 			$query($this->ilDBInstance);
 

@@ -58,8 +58,9 @@ interface ilAtomQuery {
 	 * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
 	 *
 	 * @param \Callable $query
+	 * @throws ilDatabaseException
 	 */
-	public function addQueryCallable(Callable $query);
+	public function addQueryCallable(callable $query);
 
 
 	/**
@@ -81,4 +82,11 @@ interface ilAtomQuery {
 	 * @return int
 	 */
 	public function getIsolationLevel();
+
+
+	/**
+	 * @param callable $query
+	 * @return bool
+	 */
+	public function checkCallable(callable $query);
 }
