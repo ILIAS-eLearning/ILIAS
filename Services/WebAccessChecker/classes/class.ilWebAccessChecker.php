@@ -186,14 +186,8 @@ class ilWebAccessChecker {
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
-			global $ilUser, $ilSetting;
-			if (!$ilSetting->get('pub_section')) {
-				ilWACLog::getInstance()->write('public section not activated');
-				throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
-			}
-			if ($ilUser->getId() == 0) {
-				throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
-			}
+			$this->checkPublicSection();
+			$this->checkUser();
 		} catch (Exception $e) {
 			if ($e instanceof ilWACException) {
 				throw  $e;
@@ -206,9 +200,28 @@ class ilWebAccessChecker {
 				$_POST['password'] = 'anonymous';
 				ilWACLog::getInstance()->write('reinit ILIAS');
 				ilInitialisation::reinitILIAS();
+				$this->checkPublicSection();
+				$this->checkUser();
 			}
 		}
 		$this->setInitialized(true);
+	}
+
+
+	protected function checkPublicSection() {
+		global $ilSetting;
+		if (!$ilSetting instanceof ilSetting || !$ilSetting->get('pub_section')) {
+			ilWACLog::getInstance()->write('public section not activated');
+			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
+		}
+	}
+
+
+	protected function checkUser() {
+		global $ilUser;
+		if (!$ilUser instanceof ilObjUser || $ilUser->getId() == 0) {
+			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
+		}
 	}
 
 
