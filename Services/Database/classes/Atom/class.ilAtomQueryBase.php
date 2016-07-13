@@ -99,18 +99,32 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables. Lock
 	 *
 	 * @param string $table_name
-	 * @param int $lock_level use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE
 	 * @param bool $lock_sequence_too
 	 * @throws \ilDatabaseException
 	 */
-	public function addTable($table_name, $lock_level, $lock_sequence_too = false) {
+	public function lockTable($table_name, $lock_sequence_too = false) {
 		if (!$table_name || !$this->ilDBInstance->tableExists($table_name)) {
 			throw new ilDatabaseException('Table locks only work with existing tables');
 		}
+		$lock_level = $this->getDeterminedLockLevel();
 		if (!in_array($lock_level, array( ilAtomQuery::LOCK_READ, ilAtomQuery::LOCK_WRITE ))) {
 			throw new ilDatabaseException('The current Isolation-level does not support the desired lock-level. use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE');
 		}
 		$this->tables[] = array( $table_name, $lock_level, $lock_sequence_too );
+	}
+
+
+	/**
+	 * @return int
+	 */
+	protected function getDeterminedLockLevel() {
+		switch ($this->getIsolationLevel()) {
+			case ilAtomQuery::ISOLATION_SERIALIZABLE:
+				return ilAtomQuery::LOCK_WRITE;
+			// Currently only ISOLATION_SERIALIZABLE is allowed
+		}
+
+		return ilAtomQuery::LOCK_WRITE;
 	}
 
 

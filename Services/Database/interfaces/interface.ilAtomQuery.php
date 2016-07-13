@@ -23,21 +23,15 @@ interface ilAtomQuery {
 
 
 	/**
-	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables. Lock
+	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables.
+	 *
+	 * the lock-level is determined by ilAtomQuery
 	 *
 	 * @param string $table_name
-	 * @param int $lock_level use ilAtomQuery::LOCK_READ or ilAtomQuery::LOCK_WRITE
 	 * @param bool $lock_sequence_too
 	 * @throws \ilDatabaseException
 	 */
-	public function addTable($table_name, $lock_level, $lock_sequence_too = false);
-
-
-	/**
-	 * @param $table_name
-	 * @param bool $lock_sequence_too
-	 */
-	public function lockTableWrite($table_name, $lock_sequence_too = false);
+	public function lockTable($table_name, $lock_sequence_too = false);
 
 
 	/**

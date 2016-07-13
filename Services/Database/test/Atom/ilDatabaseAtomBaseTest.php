@@ -122,7 +122,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 	public function testRisks() {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
+		$ilAtomQuery->lockTable('object_data');
 		$this->assertEquals(array(), $ilAtomQuery->getRisks());
 	}
 
@@ -145,6 +145,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { }));
 		$this->assertFalse($ilAtomQuery->checkCallable(function (ilDBMySQL $ilDBInterface) { }));
 		function noClosure() { }
+
 		$this->assertFalse($ilAtomQuery->checkCallable('noClosure'));
 		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
 		$this->assertTrue($ilAtomQuery->checkCallable(new ilAtomQueryTestHelper()));
@@ -154,7 +155,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	public function testWrongIsolationLevel() {
 		$this->setExpectedException('ilDatabaseException');
 		$ilAtomQuery = new ilAtomQueryTransaction($this->ilDBInterfaceGalera, 'non_existing');
-		$ilAtomQuery->lockTableWrite('il_db_tests_atom');
+		$ilAtomQuery->lockTable('il_db_tests_atom');
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
 			$ilDB->getDBType();
 		});

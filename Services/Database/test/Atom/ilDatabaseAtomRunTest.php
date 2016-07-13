@@ -126,7 +126,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testWriteWithTransactions() {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE);
+		$ilAtomQuery->lockTable('il_db_tests_atom');
 		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
@@ -141,7 +141,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testWriteWithLocks() {
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
-		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
+		$ilAtomQuery->lockTable('il_db_tests_atom', true);
 		$query = $this->getInsertQueryCallable();
 		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->addQueryCallable($query);
