@@ -9,7 +9,7 @@ class reportSettings {
 
 	public function __construct($table_name, $db) {
 		if(!$db->tableExists($table_name)) {
-			throw new reportSettingsException("invalit value for table name, table $table_name does not exist");
+			throw new reportSettingsException("invalid value for table name, table $table_name does not exist");
 		}
 		$this->db = $db;
 		$this->table_name = $table_name;
