@@ -17,7 +17,7 @@ class Glyph implements C\Glyph\Glyph {
 	private $type;
 
 	/**
-	 * @var	string
+	 * @var	string|null
 	 */
 	private $action;
 
@@ -48,11 +48,13 @@ class Glyph implements C\Glyph\Glyph {
 
 	/**
 	 * @param string		$type
-	 * @param string		$action
+	 * @param string|null	$action
 	 */
-	public function __construct($type, $action) {
+	public function __construct($type, $action = null) {
 		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
-		$this->checkStringArg("action", $action);
+		if ($action !== null) {
+			$this->checkStringArg("action", $action);
+		}
 		$this->type = $type;
 		$this->action = $action;
 		$this->counters = array();

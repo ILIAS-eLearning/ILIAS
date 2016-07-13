@@ -39,7 +39,7 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get the action on the glyph.
 	 *
-	 * @return	string
+	 * @return	string|null
 	 */
 	public function getAction();
 
