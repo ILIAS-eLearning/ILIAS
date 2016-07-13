@@ -214,6 +214,19 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(5, $d['is_online']);
 	}
 
+
+	public function testWithOutLocks() {
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		//		$ilAtomQuery->addTable('il_db_tests_atom', ilAtomQuery::LOCK_WRITE, true);
+		$query = $this->getInsertQueryCallable();
+		$ilAtomQuery->addQueryCallable($query);
+		$ilAtomQuery->addQueryCallable($query);
+
+		$ilAtomQuery->run();
+
+		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
+	}
+
 	//
 	// HELPERS
 	//
