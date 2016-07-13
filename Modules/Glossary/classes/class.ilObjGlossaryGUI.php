@@ -790,8 +790,21 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->toolbar->addFormButton($this->lng->txt("glo_add_new_term"), "addTerm");
 
 		$this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt("glo_add_from_other"),
-			$this->ctrl->getLinkTargetByClass("ilglossaryforeigntermcollectorgui", ""));
+
+		//ilEditClipboard::getAction() == "copy"
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		if ($this->user->clipboardHasObjectsOfType("term"))
+		{
+			$this->toolbar->addButton($this->lng->txt("paste"),
+				$this->ctrl->getLinkTarget($this, "pasteTerms"));
+			$this->toolbar->addButton($this->lng->txt("clear_clipboard"),
+				$this->ctrl->getLinkTarget($this, "clearClipboard"));
+		}
+		else
+		{
+			$this->toolbar->addButton($this->lng->txt("glo_add_from_other"),
+				$this->ctrl->getLinkTargetByClass("ilglossaryforeigntermcollectorgui", ""));
+		}
 
 		if (is_object($this->tax))
 		{
@@ -1097,10 +1110,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		// check ids
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		foreach ($_POST["id"] as $term_id)
 		{
 			$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $term_id);
-			if ($term_glo_id != $this->object->getId())
+			if ($term_glo_id != $this->object->getId() && !ilGlossaryTermReferences::isReferenced($this->object->getId(), $term_id))
 			{
 				ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
 				$this->ctrl->redirect($this, "listTerms");
@@ -1114,7 +1128,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
 		$cgui->setCancel($this->lng->txt("cancel"), "cancelTermDeletion");
 		$cgui->setConfirm($this->lng->txt("confirm"), "deleteTerms");
-				
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+
 		foreach($_POST["id"] as $id)
 		{
 			$term = new ilGlossaryTerm($id);
@@ -1125,11 +1141,20 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			{
 				$this->ctrl->setParameterByClass("ilglossarytermgui",
 					"term_id", $id);
-				$link = "[<a href='".
-					$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages").
-					"'>".$this->lng->txt("glo_list_usages")."</a>]";
-				$add = "<div class='small'>".
-					sprintf($this->lng->txt("glo_term_is_used_n_times"), $nr)." ".$link."</div>";
+
+				if (ilGlossaryTermReferences::isReferenced($this->object->getId(), $id))
+				{
+					$add = " (".$this->lng->txt("glo_term_reference").")";
+				}
+				else
+				{
+					$link = "[<a href='".
+						$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages").
+						"'>".$this->lng->txt("glo_list_usages")."</a>]";
+					$add = "<div class='small'>".
+						sprintf($this->lng->txt("glo_term_is_used_n_times"), $nr)." ".$link."</div>";
+
+				}
 			}
 			
 			$cgui->addItem("id[]", $id, $term->getTerm().$add);
@@ -1153,10 +1178,20 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function deleteTerms()
 	{
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		foreach($_POST["id"] as $id)
 		{
-			$term = new ilGlossaryTerm($id);
-			$term->delete();
+			if (ilGlossaryTermReferences::isReferenced($this->object->getId(), $id))
+			{
+				$refs = new ilGlossaryTermReferences($this->object->getId());
+				$refs->deleteTerm($id);
+				$refs->update();
+			}
+			else
+			{
+				$term = new ilGlossaryTerm($id);
+				$term->delete();
+			}
 		}
 		$this->ctrl->redirect($this, "listTerms");
 	}
@@ -1763,7 +1798,112 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editGlossaries");
 	}
+	
+	/**
+	 * Copy terms
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyTerms()
+	{
+		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		if (!is_array($items))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "listTerms");
+		}
 
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		$this->user->clipboardDeleteObjectsOfType("term");
+
+		// put them into the clipboard
+		$time = date("Y-m-d H:i:s", time());
+		$order = 0;
+		foreach ($items as $id)
+		{
+			$this->user->addObjectToClipboard($id,
+				"term", ilGlossaryTerm::_lookGlossaryTerm($id), 0, $time, $order);
+		}
+
+		ilEditClipboard::setAction("copy");
+		ilUtil::sendInfo($this->lng->txt("glo_selected_terms_have_been_copied"), true);
+		$this->ctrl->redirect($this, "listTerms");
+	}
+	
+	/**
+	 * Reference terms
+	 *
+	 * @param
+	 * @return
+	 */
+	function referenceTerms()
+	{
+		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		if (!is_array($items))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "listTerms");
+		}
+
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		$this->user->clipboardDeleteObjectsOfType("term");
+
+		// put them into the clipboard
+		$time = date("Y-m-d H:i:s", time());
+		$order = 0;
+		foreach ($items as $id)
+		{
+			$this->user->addObjectToClipboard($id,
+				"term", ilGlossaryTerm::_lookGlossaryTerm($id), 0, $time, $order);
+		}
+
+		ilEditClipboard::setAction("link");
+		ilUtil::sendInfo($this->lng->txt("glo_selected_terms_have_been_copied"), true);
+		$this->ctrl->redirect($this, "listTerms");
+	}
+
+
+	/**
+	 * Clear clipboard
+	 *
+	 * @param
+	 * @return
+	 */
+	function clearClipboard()
+	{
+		$this->user->clipboardDeleteObjectsOfType("term");
+		$this->ctrl->redirect($this, "listTerms");
+	}
+
+	/**
+	 * Paste Terms
+	 */
+	function pasteTerms()
+	{
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		if (ilEditClipboard::getAction() == "copy")
+		{
+			foreach ($this->user->getClipboardObjects("term") as $item)
+			{
+				ilGlossaryTerm::_copyTerm($item["id"], $this->object->getId());
+			}
+		}
+		if (ilEditClipboard::getAction() == "link")
+		{
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+			$refs = new ilGlossaryTermReferences($this->object->getId());
+			foreach ($this->user->getClipboardObjects("term") as $item)
+			{
+				$refs->addTerm($item["id"]);
+			}
+			$refs->update();
+		}
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "listTerms");
+	}
+	
+	
 }
 
 ?>

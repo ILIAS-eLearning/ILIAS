@@ -1137,7 +1137,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				$term_obj->delete();
 			}
 		}
-		
+
+		// delete term references
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		$refs = new ilGlossaryTermReferences($this->getId());
+		$refs->delete();
+
 		// delete glossary data entry
 		$q = "DELETE FROM glossary WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);

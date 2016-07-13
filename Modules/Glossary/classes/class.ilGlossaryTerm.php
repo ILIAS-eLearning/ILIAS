@@ -277,6 +277,12 @@ class ilGlossaryTerm
 			$def_obj = new ilGlossaryDefinition($def["id"]);
 			$def_obj->delete();
 		}
+
+		// delete term references
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		ilGlossaryTermReferences::deleteReferencesOfTerm($this->getId());
+
+		// delete glossary_term record
 		$ilDB->manipulate("DELETE FROM glossary_term ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 	}
@@ -555,7 +561,19 @@ class ilGlossaryTerm
 	static function getUsages($a_term_id)
 	{
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
-		return (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
+		$usages = (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		foreach (ilGlossaryTermReferences::lookupReferencesOfTerm($a_term_id) as $glo_id)
+		{
+			$usages["glo:termref:".$glo_id.":-"] = array(
+				"type" => "glo:termref",
+				"id" => $glo_id,
+				"lang" => "-"
+			);
+		}
+
+		return $usages;
 	}	
 	
 	/**

@@ -109,6 +109,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.term_tbl_row.html", "Modules/Glossary");
 		$this->setEnableTitle(true);
 
+		$this->addMultiCommand("copyTerms", $lng->txt("copy"));
+		$this->addMultiCommand("referenceTerms", $lng->txt("glo_reference"));
 		$this->addMultiCommand("confirmTermDeletion", $lng->txt("delete"));
 		//$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
 		

@@ -98,6 +98,23 @@ class ilGlossaryTermReferences
 	}
 
 	/**
+	 * Delete term
+	 *
+	 * @param $a_term_id
+	 */
+	function deleteTerm($a_term_id)
+	{
+		foreach ($this->terms as $k => $v)
+		{
+			if ($v == $a_term_id)
+			{
+				unset($this->terms[$k]);
+			}
+		}
+	}
+
+
+	/**
 	 * Read
 	 */
 	function read()
@@ -129,7 +146,7 @@ class ilGlossaryTermReferences
 	}
 
 	/**
-	 * Delete
+	 * Delete references (of glossary)
 	 */
 	function delete()
 	{
@@ -137,6 +154,22 @@ class ilGlossaryTermReferences
 			" glo_id = ".$this->db->quote($this->getGlossaryId(), "integer")
 			);
 	}
+
+	/**
+	 * Delete all references of a term
+	 *
+	 * @param int $a_term_id term id
+	 */
+	static function deleteReferencesOfTerm($a_term_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$db->manipulate("DELETE FROM glo_term_reference WHERE ".
+			" term_id = ".$db->quote($a_term_id, "integer")
+		);
+	}
+
 
 	/**
 	 * Check if a glossary uses references
@@ -184,6 +217,29 @@ class ilGlossaryTermReferences
 		}
 		return false;
 	}
+
+	/**
+	 * Lookup references of a term
+	 *
+	 * @param int $a_term_id term id
+	 * @return int[] glossary ids
+	 */
+	static function lookupReferencesOfTerm($a_term_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$set = $db->query($q = "SELECT DISTINCT glo_id FROM glo_term_reference ".
+			" WHERE term_id = ".$db->quote($a_term_id, "integer")
+		);
+		$glos = array();
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$glos[] = $rec["glo_id"];
+		}
+		return $glos;
+	}
+
 
 
 }
