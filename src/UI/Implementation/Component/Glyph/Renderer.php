@@ -35,6 +35,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return "\\ILIAS\\UI\\Component\\Glyph\\Glyph";
+		return array("\\ILIAS\\UI\\Component\\Glyph\\Glyph");
 	}
 }

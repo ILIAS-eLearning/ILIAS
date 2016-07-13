@@ -241,7 +241,8 @@ the creation of a UI component and starting at the main factory.
 ### Implementations of Renderers for UI components.
 
 * There MUST exists a renderer for every implementation of an UI component. The renderer
-  MUST only render the component it belongs to.
+  MUST render all components whose implementaions are in the same namespace. It MUST NOT
+  render other components.
 * Every renderer MUST extend the class `ILIAS\UI\Implementation\Renderer\AbstractComponentRenderer`.
 * The renderer MUST be located in the same namespace as the UI component
   implementation and it MUST be named Renderer.

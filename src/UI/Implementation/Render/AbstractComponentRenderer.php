@@ -70,18 +70,22 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 
 	/**
 	 * Check if a given component fits this renderer and throw \LogicError if that is not
-     * the case.
+	 * the case.
 	 *
 	 * @param	Component			$component
 	 * @throws	\LogicException		if component does not fit.
-     * @return  null
+	 * @return  null
 	 */
 	final protected function checkComponent(Component $component) {
-		$interface = $this->getComponentInterfaceName();
-		if(!($component instanceof $interface)) {
-			throw new \LogicException(
-				"Expected $interface, found '".get_class($component)."' when rendering.");
+		$interfaces = $this->getComponentInterfaceName();
+		foreach ($interfaces as $interface) {
+			if ($component instanceof $interface) {
+				return;
+			}
 		}
+		$ifs = implode(", ", $interfaces);
+		throw new \LogicException(
+			"Expected $ifs, found '".get_class($component)."' when rendering.");
 	}
 
 	/**
@@ -89,7 +93,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 *
 	 * ATTENTION: Fully qualified please!
 	 *
-	 * @return string
+	 * @return string[]
 	 */
 	abstract protected function getComponentInterfaceName();
 
