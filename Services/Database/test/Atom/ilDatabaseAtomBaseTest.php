@@ -130,6 +130,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { }));
 		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQL.php');
 		$this->assertFalse($ilAtomQuery->checkCallable(function (ilDBPdoMySQL $ilDBInterface) { }));
+		$this->assertFalse($ilAtomQuery->checkCallable(function ($ilDBInterface) { }));
 		function noClosure() { }
 
 		$this->assertFalse($ilAtomQuery->checkCallable('noClosure'));

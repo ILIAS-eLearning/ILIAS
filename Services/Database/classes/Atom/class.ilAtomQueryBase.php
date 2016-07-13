@@ -287,7 +287,8 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 				return false;
 			}
 			foreach ($parameters as $parameter) {
-				if ($parameter->getClass()->getName() == 'ilDBInterface') {
+				$reflectionClass = $parameter->getClass();
+				if ($reflectionClass && $reflectionClass->getName() == 'ilDBInterface') {
 					return true;
 				}
 			}

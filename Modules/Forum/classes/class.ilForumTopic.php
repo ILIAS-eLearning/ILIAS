@@ -571,13 +571,13 @@ class ilForumTopic
 			$ilAtomQuery->lockTable('frm_user_read');
 			$ilAtomQuery->lockTable('frm_thread_access');
 
-			$ilAtomQuery->addQueryCallable(function ($ilDB) use ($new_obj_id, $current_id) {
+			$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
 				$ilDB->manipulateF('
 				DELETE FROM frm_user_read
 				WHERE obj_id = %s AND thread_id =%s',
 					array('integer', 'integer'),
 					array($new_obj_id, $current_id));
-			
+
 				$ilDB->manipulateF('
 				UPDATE frm_user_read
 				SET obj_id = %s
