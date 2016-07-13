@@ -16,6 +16,7 @@ class ilAtomQueryException extends ilDatabaseException {
 	const DB_ATOM_ANO_NOT_AVAILABLE = 10905;
 	const DB_ATOM_LOCK_NO_TABLE = 10906;
 	const DB_ATOM_CLOSURE_NONE = 10907;
+	const DB_ATOM_CLOSURE_ALREADY_SET = 10908;
 
 
 	/**
@@ -48,6 +49,9 @@ class ilAtomQueryException extends ilDatabaseException {
 				break;
 			case static::DB_ATOM_CLOSURE_NONE:
 				$message = 'There is no Closure available';
+				break;
+			case static::DB_ATOM_CLOSURE_ALREADY_SET:
+				$message = 'Only one Closure per ilAtomQuery is possible';
 				break;
 		}
 

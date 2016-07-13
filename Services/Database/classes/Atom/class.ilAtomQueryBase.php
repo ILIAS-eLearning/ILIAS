@@ -58,13 +58,9 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 */
 	protected $tables = array();
 	/**
-	 * @var callable[]
+	 * @var callable
 	 */
-	protected $queries = array();
-	/**
-	 * @var int
-	 */
-	protected $running_query = 0;
+	protected $query = null;
 	/**
 	 * @var \ilDBInterface
 	 */
@@ -128,16 +124,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 
 
 	/**
-	 * @param $table_name
-	 * @param bool $lock_sequence_too
-	 */
-	public function lockTableWrite($table_name, $lock_sequence_too = false) {
-		$this->tables[] = array( $table_name, ilAtomQuery::LOCK_WRITE, $lock_sequence_too );
-	}
-
-
-	/**
-	 * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
+	 * All action on the database during this isolation has to be passed as Callable to ilAtomQuery.
 	 * An example (Closure):
 	 * $ilAtomQuery->addQueryClosure( function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
 	 *        $ilDB->doStuff();
@@ -157,10 +144,25 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @throws ilAtomQueryException
 	 */
 	public function addQueryCallable(callable $query) {
+		if ($this->query) {
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_ALREADY_SET);
+		}
 		if (!$this->checkCallable($query)) {
 			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
 		}
-		$this->queries[] = $query;
+		$this->query = $query;
+	}
+
+
+	/**
+	 * @param callable $query
+	 * @throws \ilAtomQueryException
+	 */
+	public function replaceQueryCallable(callable $query) {
+		if (!$this->checkCallable($query)) {
+			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
+		}
+		$this->query = $query;
 	}
 
 
@@ -241,10 +243,10 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @throws \ilAtomQueryException
 	 */
 	protected function checkQueries() {
-		if (count($this->queries) == 0) {
+		if (count($this->query) == 0) {
 			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
 		}
-		foreach ($this->queries as $query) {
+		foreach ($this->query as $query) {
 			if (!$this->checkCallable($query)) {
 				throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
 			}
@@ -285,7 +287,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 				return false;
 			}
 			foreach ($parameters as $parameter) {
-				if ($parameter->getType() == 'ilDBInterface') {
+				if ($parameter->getClass()->getName() == 'ilDBInterface') {
 					return true;
 				}
 			}
@@ -336,17 +338,8 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @throws ilAtomQueryException
 	 */
 	protected function runQueries() {
-		foreach ($this->queries as $i => $query) {
-			if ($i < $this->running_query) {
-				//				continue;
-			}
-			/**
-			 * @var $query callable
-			 */
-			$query($this->ilDBInstance);
-
-			$this->running_query ++;
-		}
+		$query = $this->query;
+		$query($this->ilDBInstance);
 	}
 
 

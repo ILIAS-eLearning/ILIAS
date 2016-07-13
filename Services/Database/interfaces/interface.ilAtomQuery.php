@@ -59,6 +59,29 @@ interface ilAtomQuery {
 
 
 	/**
+	 * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
+	 * An example (Closure):
+	 * $ilAtomQuery->addQueryClosure( function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
+	 *        $ilDB->doStuff();
+	 *    });
+	 *
+	 *
+	 * An example (Callable Class):
+	 * class ilMyAtomQueryClass {
+	 *      public function __invoke(ilDBInterface $ilDB) {
+	 *          $ilDB->doStuff();
+	 *      }
+	 * }
+	 *
+	 * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
+	 *
+	 * @param \Callable $query
+	 * @throws ilAtomQueryException
+	 */
+	public function replaceQueryCallable(callable $query);
+
+
+	/**
 	 * Fire your Queries
 	 *
 	 * @throws \ilAtomQueryException

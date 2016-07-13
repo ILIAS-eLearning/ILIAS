@@ -128,7 +128,6 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		$ilAtomQuery->lockTable('il_db_tests_atom');
 		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
-		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
 		$ilAtomQuery->run();
 
@@ -228,6 +227,10 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
 				'is_online' => array( 'integer', 1 ),
 			));
+			$ilDB->insert('il_db_tests_atom', array(
+				'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
+				'is_online' => array( 'integer', 0 ),
+			));
 		};
 
 		return $query;
@@ -275,7 +278,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 			),
 			1 => array(
 				'id'        => '2',
-				'is_online' => '1',
+				'is_online' => '0',
 			),
 		);
 	}

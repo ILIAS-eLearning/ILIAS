@@ -164,7 +164,6 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQuery->addQueryCallable($query);
 		$ilAtomQuery->lockTable('object_data');
 		$ilAtomQuery->run();
-
 		$this->assertTrue(is_array($result));
 	}
 
@@ -196,14 +195,22 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_LOCK_NO_TABLE);
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
 		$ilAtomQuery->run();
-
 	}
+
 
 	public function testWithOutClosures() {
 		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
 		$ilAtomQuery->lockTable('object_data');
 		$ilAtomQuery->run();
+	}
 
+
+	public function testMultipleClosures() {
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_CLOSURE_ALREADY_SET);
+		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
+		$ilAtomQuery->lockTable('object_data');
+		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDBInterface) { });
+		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDBInterface) { });
 	}
 }
