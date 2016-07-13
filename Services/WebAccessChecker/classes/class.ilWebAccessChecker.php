@@ -219,7 +219,7 @@ class ilWebAccessChecker {
 
 	protected function checkUser() {
 		global $ilUser;
-		if (!$ilUser instanceof ilObjUser || $ilUser->getId() == 0) {
+		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() == 0 && strpos($_SERVER['HTTP_REFERER'], 'login.php') === false)) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
