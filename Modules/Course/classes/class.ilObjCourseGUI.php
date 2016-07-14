@@ -3700,14 +3700,16 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 
 		// learning progress
+		//gev-patch start #2360 second parameter to false
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), false))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+		//gev-patch end
 		
 		
 		// learning objectives

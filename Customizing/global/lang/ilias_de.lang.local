@@ -1441,6 +1441,23 @@ gev#:#xatd_write#:#ASTD Report bearbeiten
 gev#:#xatd_delete#:#ASTD Report löschen
 gev#:#xatd_visible#:#sichtbar
 gev#:#xatd_edit_permission#:#schreibberechtigt
+gev#:#astd_category#:#Vertrieb + ID
+gev#:#astd_managers_f#:#Manager<br>(F1)<br>weiblich
+gev#:#astd_managers_m#:#Manager<br>(F1)<br>männlich
+gev#:#astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
+gev#:#astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
+gev#:#astd_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
+gev#:#astd_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
+gev#:#astd_sales_employee_f#:#Sales Employees<br>(festangestellter AD)<br>weiblich
+gev#:#astd_sales_employee_m#:#Sales Employees<br>(festangestellter AD)<br>männlich
+gev#:#astd_sales_not_employee_f#:#Sales NON Employees<br>(§84 HGB)<br>weiblich
+gev#:#astd_sales_not_employee_m#:#Sales NON Employees<br>(§84 HGB)<br>männlich
+gev#:#astd_hours_not_self_learn#:#Anzahl der Lernstunden interner und externer Veranstaltungen
+gev#:#astd_hours_self_learn#:#Anzahl der E-Learning-Stunden
+gev#:#astd_hours_language_course#:#Anzahl der Sprachkurs-Lernstunden
+gev#:#astd_participators#:#Anzahl der Empfänger von PE-Maßnahmen
+gev#:#astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
+gev#:#astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
 gev#:#gev_bwv_id_info_get_new#:#Es wird für Sie eine GDV Vermittler-ID beantragt.
 gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
 gev#:#gev_no_trainer#:#An diesem Training ist kein Trainer hinterlegt. Die Finalisierung des Teilnahmestatus ist daher nicht möglich.

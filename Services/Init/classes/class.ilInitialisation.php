@@ -350,6 +350,7 @@ class ilInitialisation
 		define ("MAIL_SETTINGS_ID",$ilClientIniFile->readVariable('system','MAIL_SETTINGS_ID'));
 		// gev patch start : use whoops error handler for errors outside devmode domain
 		define ("USE_WHOOPS",$ilClientIniFile->readVariable("system","USE_WHOOPS"));
+		define ("ERROR_HANDLER", $ilClientIniFile->readVariable("system","ERROR_HANDLER"));
 		// gev patch end
 		
 		// this is for the online help installation, which sets OH_REF_ID to the

@@ -127,7 +127,8 @@ class ilTEPHistorizing extends ilHistorizingStorage
 			'category'				=> 'text',
 			'deleted'				=> 'integer',
 			// gev-patch start
-			'orgu_title'			=> 'text'
+			'orgu_title'			=> 'text',
+			'orgu_id'				=> 'integer'
 			// gev-patch end
 		);
 

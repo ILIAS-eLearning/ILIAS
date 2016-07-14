@@ -42,8 +42,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		$table	->column("custom_id", $this->plugin->txt("training_id"), true)
-				->column("title", $this->plugin->txt("title"), true)
+		$table	->column("title", $this->plugin->txt("title"), true)
 				->column("type", $this->plugin->txt("learning_type"), true)
 				->column("date", $this->plugin->txt("date"), true, "112px", true)
 				->column("venue", $this->plugin->txt("location"), true)
@@ -52,7 +51,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->column("credit_points", $this->plugin->txt("points"), true)
 				->column("fee", $this->plugin->txt("fee"), true)
 				->column("status", $this->plugin->txt("status"), true)
-				->column("wbd", $this->plugin->txt("wbd_relevant"), true)
+				->column("wbd_reported", $this->plugin->txt("wbd_reported"), true)
 				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true);
 		return parent::buildTable($table);
 	}
@@ -91,8 +90,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	}
 
 	protected function buildQuery($query) {
-		$query 	->select("crs.custom_id")
-				->select("crs.title")
+		$query 	->select("crs.title")
 				->select("crs.type")
 				->select("usrcrs.begin_date")
 				->select("usrcrs.end_date")
@@ -106,6 +104,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->select("usrcrs.bill_id")
 				->select("usrcrs.certificate")
 				->select("usrcrs.booking_status")
+				->select("usrcrs.wbd_booking_id")
 				->select("oref.ref_id")
 				->from("hist_usercoursestatus usrcrs")
 				->join("hist_user usr")

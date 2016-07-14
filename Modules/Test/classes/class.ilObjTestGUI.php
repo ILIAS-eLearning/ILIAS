@@ -4783,13 +4783,15 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !in_array('learning_progress', $hidden_tabs))
+			//gev-patch start #2360 second parameter to false
+			if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), false) && !in_array('learning_progress', $hidden_tabs))
 			{
 				$tabs_gui->addTarget('learning_progress',
 									 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 									 '',
 									 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 			}
+			//gev-patch end
 
 			if ($ilAccess->checkAccess("write", "", $this->ref_id)  && !in_array('manscoring', $hidden_tabs))
 			{

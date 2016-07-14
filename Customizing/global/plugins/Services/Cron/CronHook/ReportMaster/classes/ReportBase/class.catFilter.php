@@ -987,8 +987,9 @@ class recursiveOrguFilter {
 	public function __construct($id, $field, $possibly_recursive, $ignore_in_filter_where) {
 		$this->id = $id;
 		$this->possibly_recursive = $possibly_recursive;
+		$this->ignore_in_filter_where = $ignore_in_filter_where;
 		$this->search_recursive = true;
-		$this->orgu_preselect = array();
+		$this->pre_select = array();
 		$this->field = $field;
 		global $ilDB;
 		$this->gIldb = $ilDB;
@@ -1016,7 +1017,6 @@ class recursiveOrguFilter {
 								 );
 			}
 		}
-
 		$filter ->multiselect( $this->id
 								 , $lng->txt("gev_org_unit_short")
 								 , $this->field

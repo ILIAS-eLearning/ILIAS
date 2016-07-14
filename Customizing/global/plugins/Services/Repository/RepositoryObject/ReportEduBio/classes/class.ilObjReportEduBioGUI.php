@@ -190,7 +190,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		global $lng;
 		$no_entry = $lng->txt("gev_table_no_entry");
 
-		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstanceById(self::$target_user_id)->paysFees()) && $rec["fee"] != -1)
+		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstance(self::$target_user_id)->paysFees()) && $rec["fee"] != -1)
 					? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
 					: $rec["fee"] == "-empty-";
 
@@ -218,10 +218,20 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 			$rec["date"] = ilDatePresentation::formatDate($start)." - <br/>".ilDatePresentation::formatDate($end);
 		}
 
-		$rec['credit_points'] = $rec['credit_points'] >= 0 ? $rec['credit_points'] : 0;
-		$rec["wbd"] = in_array($rec["okz"], array("OKZ1", "OKZ2", "OKZ3"))
-					? $lng->txt("yes")
-					: $lng->txt("no");
+		if(in_array($rec["okz"], array("OKZ1", "OKZ2", "OKZ3"))) {
+			$rec['credit_points'] = $rec['credit_points'] >= 0 ? $rec['credit_points'] : 0;
+
+			if($rec["wbd_booking_id"] && $rec["credit_points"] > 0) {
+				$rec['wbd_reported'] = "Ja";
+			} else if(!$rec["wbd_booking_id"] && $rec["credit_points"] > 0) {
+				$rec['wbd_reported'] = "Nein";
+			} else {
+				$rec['wbd_reported'] = "-";
+			}
+		} else {
+			$rec['credit_points'] = "-";
+			$rec['wbd_reported'] = "-";
+		}
 
 		$rec["action"] = "";
 		if ($rec["bill_id"] != -1 && $rec["bill_id"] != "-empty-") {
@@ -247,7 +257,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		global $lng;
 		$no_entry = $lng->txt("gev_table_no_entry");
 
-		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstanceById(self::$target_user_id)->paysFees())&& $rec["fee"] != -1)
+		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstance(self::$target_user_id)->paysFees())&& $rec["fee"] != -1)
 					? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])
 					: $rec["fee"] == "-empty-";
 
