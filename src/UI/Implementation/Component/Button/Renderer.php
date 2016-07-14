@@ -24,7 +24,14 @@ class Renderer extends AbstractComponentRenderer {
 		
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$tpl->setVariable("ACTION", $component->getAction());
-		$tpl->setVariable("LABEL", $component->getLabel());
+		$label = $component->getLabel();
+		if ($label !== null) {
+			$tpl->setVariable("LABEL", $component->getLabel());
+		}
+		$glyph = $component->getGlyph();
+		if ($glyph !== null) {
+			$tpl->setVariable("GLYPH", $default_renderer->render($glyph));
+		}
 
 		if (!$component->isActive()) {
 			$tpl->setVariable("DISABLED", "disabled");

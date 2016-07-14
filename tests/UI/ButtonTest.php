@@ -217,10 +217,9 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($b));
 
-		$this->assertFalse("FIX ME!");
 		$css_classes = self::$canonical_css_classes[$factory_method];
 		$expected = "<button class=\"$css_classes\" href=\"http://www.ilias.de\" >".
-					"label".
+					"<span class=\"glyphicon glyphicon-envelope\" aria-hidden=\"true\"></span>".
 					"</button>";
 		$this->assertEquals($expected, $html);
 	}
