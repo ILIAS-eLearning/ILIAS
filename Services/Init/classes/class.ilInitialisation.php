@@ -70,7 +70,9 @@ class ilInitialisation
 		// really always required?
 		require_once "./Services/Utilities/classes/class.ilUtil.php";			
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
-		require_once "include/inc.ilias_version.php";	
+		require_once "include/inc.ilias_version.php";
+		
+		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
 		
 		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");				
 	}
@@ -552,23 +554,23 @@ class ilInitialisation
 		global $ilUser;
 
 		// get user id
-		if (!ilSession::get("AccountId"))
-		{
-			ilSession::set("AccountId", $ilUser->checkUserId());
-			ilSession::set('orig_request_target', '');
-			$ilUser->hasToAcceptTermsOfServiceInSession(true);
-		}
+		// @todo php7: check this!
+//		if (!ilSession::get("AccountId"))
+//		{
+//			ilSession::set("AccountId", $ilUser->checkUserId());
+//			ilSession::set('orig_request_target', '');
+//			$ilUser->hasToAcceptTermsOfServiceInSession(true);
+//		}
 		
-		$uid = ilSession::get("AccountId");		
+		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
 		if($uid)
 		{
-			$ilUser->setId($uid);	
+			$ilUser->setId($uid);
 			$ilUser->read();
 			
 			// init console log handler
 			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
-			ilLoggerFactory::getRootLogger()->debug('Using default timezone: '. IL_TIMEZONE);
 		}
 		else
 		{
@@ -707,9 +709,9 @@ class ilInitialisation
 		{
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
 		}
-		$ilAuth->logout();
-		session_unset();
-		session_destroy();
+		#$ilAuth->logout();
+		#session_unset();
+		#session_destroy();
 
 		$add = "";
 		if ($_GET["soap_pw"] != "")
@@ -885,20 +887,24 @@ class ilInitialisation
 		if(ilContext::initClient())
 		{
 			self::initClient();
+			self::initSession();
 			
-			if(ilContext::supportsPersistentSessions())
-			{
-				self::initSession();
-			}
-
 			if (ilContext::hasUser())
 			{						
 				self::initUser();
 				
-				if(ilContext::doAuthentication())
+				if(ilContext::supportsPersistentSessions())
 				{
-					self::authenticate();
-				}				
+					self::resumeUserSession();
+				}
+				
+				/**
+				 * @todo: php7 remove
+				 */
+//				if(ilContext::doAuthentication())
+//				{
+//					self::authenticate();
+//				}				
 			}	
 
 			// init after Auth otherwise breaks CAS
@@ -926,7 +932,7 @@ class ilInitialisation
 		include_once './Services/Authentication/classes/class.ilAuthSession.php';
 		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
 		
-		$GLOBALS['DIC']['ilAuthSession']->start();
+		$GLOBALS['DIC']['ilAuthSession']->init();
 	}
 
 
@@ -1087,29 +1093,57 @@ class ilInitialisation
 		}		
 
 		// $ilAuth 
-		include_once "./Services/Authentication/classes/class.ilAuthUtils.php";
-		ilAuthUtils::_initAuth();
-		$ilias->auth = $ilAuth;
+		/**
+		 * @todo php7 remove
+		 */
+//		include_once "./Services/Authentication/classes/class.ilAuthUtils.php";
+//		ilAuthUtils::_initAuth();
+//		$ilias->auth = $ilAuth;
 
 		// $ilUser 
 		self::initGlobal("ilUser", "ilObjUser", 
 			"./Services/User/classes/class.ilObjUser.php");
-		$ilias->account =& $ilUser;
+		$ilias->account = $ilUser;
 				
 		self::initAccessHandling();
 
 		
 		// force login
-		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login"))
-		{			
-			$ilAuth->logout();
-			
-			// we need to do this for the session statistics
-			// could we use session_destroy() instead?
-			// [this is done after every $ilAuth->logout() call elsewhere] 
-			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
-			$_SESSION = array();
+		/**
+		 * @todo php7 remove
+		 */
+//		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login"))
+//		{			
+//			$ilAuth->logout();
+//			
+//			// we need to do this for the session statistics
+//			// could we use session_destroy() instead?
+//			// [this is done after every $ilAuth->logout() call elsewhere] 
+//			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
+//			$_SESSION = array();
+//		}
+	}
+	
+	/**
+	 * Resume an existing user session
+	 */
+	public static function resumeUserSession()
+	{
+		if(!$GLOBALS['DIC']['ilAuthSession']->isValid())
+		{
+			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);		
+			if(self::blockedAuthentication($current_script))
+			{
+				// nothing todo: authentication is done in current script
+				return;
+			}
+			// @todo php7: check this
+			return self::goToLogin(AUTH_EXPIRED);
 		}
+		
+		// valid session
+		return self::initUserAccount();
+		
 	}
 
 	/**

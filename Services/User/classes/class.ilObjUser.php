@@ -2541,12 +2541,13 @@ class ilObjUser extends ilObject
 	/**
 	 * Gets the username from $ilAuth, and converts it into an ILIAS login name.
 	 */
-	private static function getLoginFromAuth() {
+	private static function getLoginFromAuth()
+	{
 		global $ilAuth;
-                
+
 		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
+		if(ilDAVActivationChecker::_isActive())
 		{
 			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 			require_once ('Services/Database/classes/class.ilAuthContainerMDB2.php');
@@ -2554,13 +2555,13 @@ class ilObjUser extends ilObject
 		}
 		else
 		{
-			$login =$ilAuth->getUsername();
+			$login = $ilAuth->getUsername();
 		}
-                
-		return $login;
-        }
 
-    /*
+		return $login;
+	}
+
+	/*
      * check to see if current user has been made active
      * @access  public
      * @return  true if active, otherwise false

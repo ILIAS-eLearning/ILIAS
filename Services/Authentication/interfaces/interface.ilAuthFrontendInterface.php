@@ -10,15 +10,9 @@
  */
 interface ilAuthFrontendInterface
 {
-	public function login();
-	
-	public function logout();
-	
-	public function getStatus();
-	
-	public function isAuthenticated();
-	
-	public function isRemembered();
-	
+	/**
+	 * Try authentication.
+	 */
+	public function authenticate();
 }
 ?>

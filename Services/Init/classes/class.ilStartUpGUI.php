@@ -42,7 +42,7 @@ class ilStartUpGUI
 		
 		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLoginPage'));
 		$next_class = $this->ctrl->getNextClass($this);
-
+		
 		switch($next_class)
 		{
 			case 'ilLoginPageGUI':
@@ -623,14 +623,18 @@ class ilStartUpGUI
 			
 			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 			$frontend_factory = new ilAuthFrontendFactory();
-			$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_PASSWORD);
-			$frontend = $frontend_factory->getFrontend($credentials);
+			$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+			$frontend = $frontend_factory->getFrontend(
+				$GLOBALS['DIC']['ilAuthSession'],
+				$credentials
+			);
 			
 			try {
 				$frontend->authenticate();
 				if($frontend->isAuthenticated())
 				{
-					ilUtil::redirect('ilias.php');
+					// @todo php7 fix redirection
+					ilUtil::redirect('./goto.php?target=root_1&client_id=php7');
 				}
 				
 			} 
@@ -1179,10 +1183,9 @@ class ilStartUpGUI
 	function showLogout()
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
-
+		
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$ilAuth->logout();
-		session_destroy();
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
@@ -1505,11 +1508,15 @@ class ilStartUpGUI
 		{
 			return $this->showClientList();
 		}
-		
-		if($ilAuth->getAuth() && $ilAuth->getStatus() == "")
-		{					
-			$this->processStartingPage();
+
+		if($GLOBALS['DIC']['ilAuthSession']->isValid())
+		{
+			return $this->processStartingPage();
 		}
+//		if($ilAuth->getAuth() && $ilAuth->getStatus() == "")
+//		{					
+//			$this->processStartingPage();
+//		}
 		
 		//
 		// index.php is called and public section is enabled
