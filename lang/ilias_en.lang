@@ -15734,3 +15734,8 @@ grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
+didactic#:#activate_local_didactic_templeates#:#Activate Lokal Didactic Templates
+didactic#:#effective_form#:#Template Effective From
+didactic#:#more_translations#:#More Translations
+didactic#:#didactic_template_update_import#:#Update Didactic Template
+didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.

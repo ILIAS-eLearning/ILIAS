@@ -301,8 +301,7 @@ class ilDidacticTemplateSettingsGUI
 		{
 			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
 			$languages = ilMDLanguageItem::_getLanguages();
-			
-			$title->setInfo($this->lng->txt("language").": ".$languages[$def["lang"]].
+			$title->setInfo($this->lng->txt("language").": ".$languages[$def["lang_code"]].
 				' <a href="'.$ilCtrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations").
 				'">&raquo; '.$this->lng->txt("more_translations").'</a>');
 
@@ -574,8 +573,9 @@ class ilDidacticTemplateSettingsGUI
 		$form->addCommandButton('editXML', $this->lng->txt('import'));
 		$form->addCommandButton('overview', $this->lng->txt('cancel'));
 
-		$file = new ilFileInputGUI($this->lng->txt('edit_template_xml'), 'file');
+		$file = new ilFileInputGUI($this->lng->txt('didactic_template_update_import'), 'file');
 		$file->setSuffixes(array('xml'));
+		$file->setInfo($this->lng->txt('didactic_template_update_import_info'));
 		$form->addItem($file);
 
 		return $form;

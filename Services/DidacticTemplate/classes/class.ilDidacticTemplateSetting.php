@@ -203,11 +203,12 @@ class ilDidacticTemplateSetting
 
 		}
 
-		// fallback if translation object is empts
+		// fallback if translation object is empty
 		if(!isset($lang[0]))
 		{
 			$lang[0]['title'] = $this->getTitle();
 			$lang[0]['description'] = $this->getDescription();
+			$lang[0]['lang_code'] = $trans->getDefaultLanguage();
 		}
 
 		return $lang;
