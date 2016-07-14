@@ -42,14 +42,14 @@ class ilMarkCoursesWBDRelevantJob extends ilCronJob {
 	 * @inheritdoc
 	 */
 	public function getTitle() {
-		return $this->gDB->txt("cron_wbd_relevant_title");
+		return $this->gLng->txt("cron_wbd_relevant_title");
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getDescription() {
-		return $this->gDB->txt("cron_wbd_relevant_description");
+		return $this->gLng->txt("cron_wbd_relevant_description");
 	}
 
 	/**
