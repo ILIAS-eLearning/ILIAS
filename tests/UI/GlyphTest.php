@@ -21,22 +21,22 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	static $canonical_css_classes = array
-		( C\Glyph\Glyph:: SETTINGS
-		, C\Glyph\Glyph:: EXPAND		=> "glyphicon glyphicon-triangle-right"
-		, C\Glyph\Glyph:: COLLAPSE		=> "glyphicon glyphicon-triangle-bottom"
+		( C\Glyph\Glyph::SETTINGS		=> "glyphicon glyphicon-cog"
+		, C\Glyph\Glyph::EXPAND			=> "glyphicon glyphicon-triangle-right"
+		, C\Glyph\Glyph::COLLAPSE		=> "glyphicon glyphicon-triangle-bottom"
 		, C\Glyph\Glyph::ADD			=> "glyphicon glyphicon-plus-sign"
 		, C\Glyph\Glyph::REMOVE			=> "glyphicon glyphicon-minus-sign"
 		, C\Glyph\Glyph::UP				=> "glyphicon glyphicon-circle-arrow-up"
 		, C\Glyph\Glyph::DOWN			=> "glyphicon glyphicon-circle-arrow-down"
-		, C\Glyph\Glyph:: BACK 			=> "glyphicon glyphicon-chevron-left"
+		, C\Glyph\Glyph::BACK 			=> "glyphicon glyphicon-chevron-left"
 		, C\Glyph\Glyph::NEXT			=> "glyphicon glyphicon-chevron-right"
-		, C\Glyph\Glyph:: SORT			=> "glyphicon TODO"
-		, C\Glyph\Glyph:: USER			=> "glyphicon glyphicon-user"
-		, C\Glyph\Glyph:: MAIL 			=> "glyphicon glyphicon-envelope"
-		, C\Glyph\Glyph:: NOTIFICATION	=> "glyphicon glyphicon-bell"
-		, C\Glyph\Glyph:: TAG			=> "glyphicon glyphicon-tag"
-		, C\Glyph\Glyph:: NOTE			=> "glyphicon glyphicon-pushpin"
-		, C\Glyph\Glyph:: COMMENT		=> "glyphicon glyphicon-comment"
+		, C\Glyph\Glyph::SORT			=> "glyphicon TODO"
+		, C\Glyph\Glyph::USER			=> "glyphicon glyphicon-user"
+		, C\Glyph\Glyph::MAIL 			=> "glyphicon glyphicon-envelope"
+		, C\Glyph\Glyph::NOTIFICATION	=> "glyphicon glyphicon-bell"
+		, C\Glyph\Glyph::TAG			=> "glyphicon glyphicon-tag"
+		, C\Glyph\Glyph::NOTE			=> "glyphicon glyphicon-pushpin"
+		, C\Glyph\Glyph::COMMENT		=> "glyphicon glyphicon-comment"
 		);
 
 	/**
