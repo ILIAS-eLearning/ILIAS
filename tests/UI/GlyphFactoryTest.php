@@ -4,17 +4,15 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 
 class GlyphFactoryTest extends AbstractFactoryTest {
 	public $kitchensink_info_settings = array
-		( "previous" 	=> array("rules" => false)
-		, "next" 		=> array("rules" => false)
-		, "calendar" 	=> array("context" => false, "description" => false, "rules" => false)
-		, "close" 		=> array("context" => false, "description" => false, "rules" => false)
-		, "attachment" 	=> array("context" => false, "description" => false, "rules" => false)
-		, "caret" 		=> array("context" => false, "rules" => false)
-		, "drag" 		=> array("context" => false, "description" => false, "rules" => false)
-		, "search" 		=> array("context" => false, "rules" => false)
-		, "filter" 		=> array("context" => false, "description" => false, "rules" => false)
-		, "info" 		=> array("context" => false, "description" => false, "rules" => false)
-		, "envelope" 	=> array("context" => false, "description" => false, "rules" => false)
+		( "collapse"		=> array("context" => false)
+		, "expand"			=> array("context" => false)
+		, "next"			=> array("context" => false)
+		, "user"			=> array("context" => false)
+		, "mail"			=> array("context" => false)
+		, "notification"	=> array("context" => false)
+		, "tag"				=> array("context" => false)
+		, "note"			=> array("context" => false)
+		, "comment"			=> array("context" => false)
 		);
 
 	public $factory_title = 'ILIAS\\UI\\Component\\Glyph\\Factory';
