@@ -15,6 +15,15 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
+		if ($component instanceof Component\Button\Close) {
+			return $this->render_close();
+		}
+		else {
+			return $this->render_button($component, $default_renderer);
+		}
+	}
+
+	protected function render_button(Component\Component $component, RendererInterface $default_renderer) {
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
@@ -40,6 +49,11 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	protected function render_close() {
+		$tpl = $this->getTemplate("tpl.close.html", false, false);
+		return $tpl->get();
+	}
+
 	/**
 	 * @inheritdocs
 	 */
@@ -47,6 +61,7 @@ class Renderer extends AbstractComponentRenderer {
 		return array
 			( Component\Button\Primary::class
 			, Component\Button\Standard::class
+			, Component\Button\Close::class
 			);
 	}
 }

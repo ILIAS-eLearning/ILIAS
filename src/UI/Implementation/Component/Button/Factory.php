@@ -25,6 +25,6 @@ class Factory implements B\Factory {
 	 * @inheritdoc
 	 */
 	public function close() {
-		throw new \ILIAS\UI\NotImplementedException();
+		return new Close();
     }
 }
