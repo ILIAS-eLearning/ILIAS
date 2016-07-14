@@ -5,6 +5,7 @@
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__."/ilIndependentTemplate.php");
+require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -36,6 +37,15 @@ class DefaultRendererTesting extends \ILIAS\UI\Implementation\DefaultRenderer {
 	}
 }
 
+class ilLanguageMock extends \ilLanguage {
+	public $requested = array();
+	public function __construct() {}
+	public function txt($a_topic, $a_default_lang_fallback_mod = "") {
+		$this->requested[] = $a_topic;
+		return $a_topic;
+	}
+} 
+
 /**
  * Provides common functionality for UI tests.
  */
@@ -62,12 +72,17 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		return new LoggingRegistry();
 	}
 
+	public function getLanguage() {
+		return new ilLanguageMock();
+	}
+
 	public function getDefaultRenderer() {
 		$ui_factory = $this->getUIFactory();
 		$tpl_factory = $this->getTemplateFactory();
 		$resource_registry = $this->getResourceRegistry();
+		$lng = $this->getLanguage();
 		return new DefaultRendererTesting(
-						$ui_factory, $tpl_factory, $resource_registry);
+						$ui_factory, $tpl_factory, $resource_registry, $lng);
 	}
 
 	public function normalizeHTML($html) {

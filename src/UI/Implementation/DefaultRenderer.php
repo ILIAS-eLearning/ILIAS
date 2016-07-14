@@ -19,27 +19,33 @@ class DefaultRenderer implements Renderer {
 	/**
 	 * @var	RootFactory
 	 */
-	protected $ui_factory;
+	private $ui_factory;
 
 	/**
 	 * @var	array<string, ComponentRenderer>
 	 */
-	protected $cache = array();
+	private $cache = array();
 
 	/**
 	 * @var	TemplateFactory
 	 */
-	protected $tpl_factory;
+	private $tpl_factory;
 
 	/**
 	 * @var	ResourceRegistry
 	 */
-	protected $resource_registry;
+	private $resource_registry;
 
-	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry) {
+	/**
+	 * @var	\ilLanguage
+	 */
+	private $lng;
+
+	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry, \ilLanguage $lng) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->resource_registry = $resource_registry;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -84,7 +90,7 @@ class DefaultRenderer implements Renderer {
 		if (!class_exists($renderer_class)) {
 			throw new \LogicException("No rendered for '".$class."' found.");
 		}
-		return new $renderer_class($this->ui_factory, $this->tpl_factory);
+		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng);
 	}
 
 	/**

@@ -65,14 +65,18 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $renderer_class);
 	}
 
+	public function getResourceRegistry() {
+		$this->resource_registry = parent::getResourceRegistry();
+		return $this->resource_registry;
+	}
+
 	public function test_invokesRegistry() {
 		$dr = $this->getDefaultRenderer();
-		$registry = $dr->getResourceRegistry();
 		$component = new \ILIAS\UI\Test\TestComponent("foo");
 
 		$dr->render($component);
 
-		$this->assertEquals(array("test.js"), $registry->resources);
+		$this->assertEquals(array("test.js"), $this->resource_registry->resources);
 	}
 }
 

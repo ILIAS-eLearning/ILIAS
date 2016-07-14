@@ -26,11 +26,17 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private $tpl_factory;
 
 	/**
+	 * @var	\ilLanguage
+	 */
+	private $lng;
+
+	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
-	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory) {
+	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -48,6 +54,16 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	final protected function getUIFactory() {
 		return $this->ui_factory;
+	}
+
+	/**
+	 * Get a text from the language file.
+	 *
+	 * @param	string	$id
+	 * @return	string
+	 */
+	final public function txt($id) {
+		return $this->lng->txt($id);
 	}
 
 	/**

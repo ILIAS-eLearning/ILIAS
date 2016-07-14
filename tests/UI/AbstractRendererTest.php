@@ -72,10 +72,11 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 		parent::setUp();
 		$this->tpl_factory = new TemplateFactoryMock();
 		$this->ui_factory = new NoUIFactory();
+		$this->lng = new ilLanguageMock();
 	}
 
 	public function test_getTemplate_successfull() {
-		$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory);
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng);
 		$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 		$expected = array
@@ -86,7 +87,7 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_getTemplate_unsuccessfull() {
-		$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory);
+		$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng);
 
 		try {
 			$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);
