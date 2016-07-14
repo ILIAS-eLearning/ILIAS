@@ -20,10 +20,9 @@ class Renderer extends AbstractComponentRenderer {
 
 		$action = $component->getAction();
 		if ($action !== null) {
-			$tpl->setCurrentBlock("with_action_head");
+			$tpl->setCurrentBlock("with_action");
 			$tpl->setVariable("ACTION", $component->getAction());
 			$tpl->parseCurrentBlock();
-			$tpl->touchBlock("with_action_tail");
 		}
 		$tpl->touchBlock($component->getType());
 
