@@ -40,10 +40,10 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException InvalidArgumentException
 	 */
 	public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$factory->getByContext('PHP unit');
 	}
 
@@ -53,7 +53,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	 */
 	public function testFactoryShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
-		$lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
+		$lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
 		$factory->setLanguageAdapter($lng);
 		$this->assertEquals($lng, $factory->getLanguageAdapter());
 	}
@@ -72,10 +72,10 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException ilTermsOfServiceMissingLanguageAdapterException
 	 */
 	public function testExceptionIsRaisedWhenAgreementByLanguageProviderIsRequestedWithoutCompleteFactoryConfiguration(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
+		$this->expectException(ilTermsOfServiceMissingLanguageAdapterException::class);
 		$factory->setLanguageAdapter(null);
 		$factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 	}
@@ -83,10 +83,10 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException ilTermsOfServiceMissingDatabaseAdapterException
 	 */
 	public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
+		$this->expectException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 		$factory->setDatabaseAdapter(null);
 		$factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
 	}
@@ -97,7 +97,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	 */
 	public function testFactoryShouldReturnAgreementByLanguageProviderWhenRequested(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
-		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock());
+		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
 		$this->assertInstanceOf('ilTermsOfServiceAgreementByLanguageProvider', $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE));
 	}
 

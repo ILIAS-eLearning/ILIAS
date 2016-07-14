@@ -2290,13 +2290,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur->setShowTime(true);
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());
-			$this->form->addItem($dur);
-			
+			$form->addItem($dur);
+
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
 			$cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
 			$cancel->setDate($this->object->getCancellationEnd());			
-			$this->form->addItem($cancel);
+			$form->addItem($cancel);
 
 			// max member
 			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');

@@ -173,10 +173,6 @@ class ilUserImportParser extends ilSaxParser
 	var $currPassword;
 
 	/**
-	 * @var The password salt
-	 */
-	protected $currPasswordSalt;
-	/**
 	 * The active state of the current user.
 	*/
 	var $currActive;
@@ -535,16 +531,14 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
-				$this->currPassword         = null;
-				$this->currPasswordType     = null;
-				$this->currPasswordSalt     = null;
+				$this->currPassword     = null;
+				$this->currPasswordType = null;
 				$this->currActive = null;				
 				$this->multi_values = array();
 				break;
 
 			case 'Password':
-				$this->currPasswordType     = $a_attribs['Type'];
-				$this->currPasswordSalt     = $a_attribs['Salt'];
+				$this->currPasswordType = $a_attribs['Type'];
 				break;
 			case "AuthMode":
 				if (array_key_exists("type", $a_attribs))
@@ -668,14 +662,12 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"User","Action",$a_attribs["Action"]));
 				}
-				$this->currPassword         = null;
-				$this->currPasswordType     = null;
-				$this->currPasswordSalt     = null;
+				$this->currPassword     = null;
+				$this->currPasswordType = null;
 				break;
 
 			case 'Password':
-				$this->currPasswordType     = $a_attribs['Type'];
-				$this->currPasswordSalt     = $a_attribs['Salt'];
+				$this->currPasswordType = $a_attribs['Type'];
 				break;
 			case "AuthMode":
 				if (array_key_exists("type", $a_attribs))
@@ -1086,28 +1078,21 @@ class ilUserImportParser extends ilSaxParser
 
 							if(!strlen($this->currPassword) == 0)
 							{
-								switch($this->currPasswordType)
+								switch(strtoupper($this->currPasswordType))
 								{
 									case "BCRYPT":
-										if(!strlen($this->currPasswordSalt))
-										{
-											$this->logFailure($this->userObj->getLogin(), $lng->txt("usrimport_xml_pw_bcrypt_missing_salt"));
-										}
 										$this->userObj->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
-										$this->userObj->setPasswordEncodingType('bcrypt');
-										$this->userObj->setPasswordSalt($this->currPasswordSalt);
-										break;
-
-									case "MD5":
-									case "ILIAS3":
-										$this->userObj->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
-										$this->userObj->setPasswordEncodingType('md5');
-										$this->userObj->setPasswordSalt('');
+										$this->userObj->setPasswordEncodingType('bcryptphp');
+										$this->userObj->setPasswordSalt(null);
 										break;
 
 									case "PLAIN":
 										$this->userObj->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
 										$this->acc_mail->setUserPassword($this->currPassword);
+										break;
+
+									default:
+										$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Type","Password",$this->currPasswordType));
 										break;
 
 								}
@@ -1240,28 +1225,21 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->readPrefs();
 							if ($this->currPassword != null)
 							{
-								switch ($this->currPasswordType)
+								switch(strtoupper($this->currPasswordType))
 								{
 									case "BCRYPT":
-										if(!strlen($this->currPasswordSalt))
-										{
-											$this->logFailure($this->userObj->getLogin(), $lng->txt("usrimport_xml_pw_bcrypt_missing_salt"));
-										}
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
-										$updateUser->setPasswordEncodingType('bcrypt');
-										$updateUser->setPasswordSalt($this->currPasswordSalt);
-										break;
-
-									case "MD5":
-									case "ILIAS3":
-										$updateUser->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
-										$updateUser->setPasswordEncodingType('md5');
-										$updateUser->setPasswordSalt('');
+										$updateUser->setPasswordEncodingType('bcryptphp');
+										$updateUser->setPasswordSalt(null);
 										break;
 
 									case "PLAIN":
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
 										$this->acc_mail->setUserPassword($this->currPassword);
+										break;
+
+									default:
+										$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Type","Password",$this->currPasswordType));
 										break;
 								}
 							}
@@ -1839,20 +1817,9 @@ class ilUserImportParser extends ilSaxParser
 				switch ($this->currPasswordType)
 				{
 					case "BCRYPT":
-						if(!strlen($this->currPasswordSalt))
-						{
-							$this->logFailure($this->userObj->getLogin(), $lng->txt("usrimport_xml_pw_bcrypt_missing_salt"));
-						}
 						$this->userObj->setPasswd($this->cdata, IL_PASSWD_CRYPTED);
-						$this->userObj->setPasswordEncodingType('bcrypt');
-						$this->userObj->setPasswordSalt($this->currPasswordSalt);
-						break;
-
-					case "MD5":
-					case "ILIAS3":
-						$this->userObj->setPasswd($this->cdata, IL_PASSWD_CRYPTED);
-						$this->userObj->setPasswordEncodingType('md5');
-						$this->userObj->setPasswordSalt('');
+						$this->userObj->setPasswordEncodingType('bcryptphp');
+						$this->userObj->setPasswordSalt(null);
 						break;
 
 					case "PLAIN":

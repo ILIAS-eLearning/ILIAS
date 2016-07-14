@@ -102,6 +102,8 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function constraintName($a_table, $a_constraint) {
+		$a_constraint = str_replace($a_table . '_', '', $a_constraint);
+		
 		return $a_table . '_' . $a_constraint;
 	}
 
@@ -391,6 +393,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return bool
 	 */
 	public function addPrimaryKey($table_name, $primary_keys) {
+		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$ilDBAnalyzer = new ilDBAnalyzer($this);
 		if ($ilDBAnalyzer->getPrimaryKeyInformation($table_name)) {
 			return true;

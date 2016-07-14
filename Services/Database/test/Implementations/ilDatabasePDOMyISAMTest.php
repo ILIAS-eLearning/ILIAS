@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDBBaseTest.php');
+require_once('ilDatabaseImplementationBaseTest.php');
 
 /**
  * TestCase for the ilDatabasePDOMyISAMTest
@@ -29,7 +29,7 @@ require_once('ilDBBaseTest.php');
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabasePDOMyISAMTest extends ilDBBaseTest {
+class ilDatabasePDOMyISAMTest extends ilDatabaseImplementationBaseTest {
 
 	/**
 	 * @return \ilDBPdoMySQLInnoDB

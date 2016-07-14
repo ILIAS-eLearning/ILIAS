@@ -17,6 +17,9 @@
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1"
 	},
+	"require-dev": {
+		"mikey179/vfsStream": "^1.6"
+	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" }
 	},
@@ -47,11 +50,11 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v1.18.1",
+			"used_version" : "v1.20.0",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2016-03-22",
-			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+			"last_update" : "2016-07-07",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phpoffice/phpexcel" : {
 			"source" : "https://github.com/PHPOffice/PHPExcel",
@@ -71,10 +74,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v5.2.15",
+			"used_version" : "v5.2.16",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2016-06-02",
+			"last_update" : "2016-07-07",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phansys/getid3" : {
@@ -114,8 +117,16 @@
 			"used_version": "v3.1",
 			"added_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>",
 			"wrapped_by": "ILIAS\\UI\\Crawler",
-			"last_update": "2016-05-31",
-			"last_update_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>"
+			"last_update": "2016-07-07",
+			"last_update_by": "Michael Jansen <mjansen@databay.de"
+		},
+		"mikey179/vfsStream" : {
+			"source": "https://github.com/mikey179/vfsStream",
+			"used_version": "v1.6.3",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": "",
+			"last_update": "2016-07-07",
+			"last_update_by": "Michael Jansen <mjansen@databay.de>"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

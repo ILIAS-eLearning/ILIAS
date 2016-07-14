@@ -50,6 +50,10 @@ class ilWebAccessChecker {
 	 * @var bool
 	 */
 	protected static $DEBUG = false;
+	/**
+	 * @var bool
+	 */
+	protected static $use_seperate_logfile = false;
 
 
 	/**
@@ -77,6 +81,8 @@ class ilWebAccessChecker {
 		} catch (ilWACException $e) {
 			switch ($e->getCode()) {
 				case ilWACException::ACCESS_DENIED:
+				case ilWACException::ACCESS_DENIED_NO_PUB:
+				case ilWACException::ACCESS_DENIED_NO_LOGIN:
 					$ilWebAccessChecker->handleAccessErrors($e);
 					break;
 				case ilWACException::ACCESS_WITHOUT_CHECK:
@@ -163,8 +169,12 @@ class ilWebAccessChecker {
 		$this->setChecked(true);
 		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
+			ilWACLog::getInstance()->write('file is in sec-folder, no delivery');
+
 			return false;
 		} else {
+			ilWACLog::getInstance()->write('file is not in sec-folder, delivery');
+
 			return true;
 		}
 	}
@@ -174,25 +184,14 @@ class ilWebAccessChecker {
 		if ($this->isInitialized()) {
 			return true;
 		}
-		$GLOBALS['DIC']['COOKIE_PATH'] = '/';
+		$GLOBALS['COOKIE_PATH'] = '/';
 		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
-			global $DIC;
-			$ilUser = $DIC['ilUser'];
-			$ilSetting = $DIC['ilSetting'];
-			switch ($ilUser->getId()) {
-				case 0:
-					break;
-				case 13:
-					if (!$ilSetting->get('pub_section')) {
-						ilWACLog::getInstance()->write('public section not activated');
-						throw new ilWACException(ilWACException::ACCESS_DENIED);
-					}
-					break;
-			}
+			$this->checkPublicSection();
+			$this->checkUser();
 		} catch (Exception $e) {
 			if ($e instanceof ilWACException) {
 				throw  $e;
@@ -201,11 +200,32 @@ class ilWebAccessChecker {
 				$_REQUEST["baseClass"] = "ilStartUpGUI";
 				$_REQUEST["cmd"] = "showLogin";
 
+				$_POST['username'] = 'anonymous';
+				$_POST['password'] = 'anonymous';
 				ilWACLog::getInstance()->write('reinit ILIAS');
 				ilInitialisation::reinitILIAS();
+				$this->checkPublicSection();
+				$this->checkUser();
 			}
 		}
 		$this->setInitialized(true);
+	}
+
+
+	protected function checkPublicSection() {
+		global $ilSetting;
+		if (!$ilSetting instanceof ilSetting || !$ilSetting->get('pub_section')) {
+			ilWACLog::getInstance()->write('public section not activated');
+			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
+		}
+	}
+
+
+	protected function checkUser() {
+		global $ilUser;
+		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() == 0 && strpos($_SERVER['HTTP_REFERER'], 'login.php') === false)) {
+			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
+		}
 	}
 
 
@@ -262,12 +282,12 @@ class ilWebAccessChecker {
 		if ($this->getPathObject()->isVideo()) {
 			$this->deliverDummyVideo();
 		}
+		try {
+			$this->initILIAS(true);
+		} catch (ilWACException $ilWACException) {
+		}
 
-		$this->initILIAS();
-
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilLog = $DIC['ilLog'];
+		global $tpl, $ilLog;
 		$ilLog->write($e->getMessage());
 		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', true) . '/');
 		ilUtil::sendFailure($e->getMessage());
@@ -411,6 +431,20 @@ class ilWebAccessChecker {
 	public static function setDEBUG($DEBUG) {
 		self::$DEBUG = $DEBUG;
 	}
-}
 
-?>
+
+	/**
+	 * @return boolean
+	 */
+	public static function isUseSeperateLogfile() {
+		return self::$use_seperate_logfile;
+	}
+
+
+	/**
+	 * @param boolean $use_seperate_logfile
+	 */
+	public static function setUseSeperateLogfile($use_seperate_logfile) {
+		self::$use_seperate_logfile = $use_seperate_logfile;
+	}
+}

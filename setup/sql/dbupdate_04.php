@@ -15329,7 +15329,9 @@ if (! $ilDB->tableExists('il_dcl_tableview')) {
     if (! $ilDB->sequenceExists('il_dcl_tableview')) {
         $ilDB->createSequence('il_dcl_tableview');
     }
-    $ilDB->query('CREATE INDEX tableview_table_index ON il_dcl_tableview (table_id)');
+	if(! $ilDB->indexExistsByFields('il_dcl_tableview', array('table_id'))) {
+		$ilDB->addIndex('il_dcl_tableview', array('table_id'), 't1');		
+	}
 }
 
 //tableview_field_setting
@@ -15389,8 +15391,10 @@ if (! $ilDB->tableExists('il_dcl_tview_set')) {
     if (! $ilDB->sequenceExists('il_dcl_tview_set')) {
         $ilDB->createSequence('il_dcl_tview_set');
     }
+	if(! $ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
+		$ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 't1');
+	}
 
-    $ilDB->query('CREATE INDEX tview_set_index ON il_dcl_tview_set (tableview_id)');
 }
 
 $fields = array(
@@ -15431,7 +15435,9 @@ if (! $ilDB->tableExists('il_dcl_tfield_set')) {
     if (! $ilDB->sequenceExists('il_dcl_tfield_set')) {
         $ilDB->createSequence('il_dcl_tfield_set');
     }
-    $ilDB->query('CREATE UNIQUE INDEX tablefield_index ON il_dcl_tfield_set (table_id, field)');
+	if(! $ilDB->indexExistsByFields('il_dcl_tfield_set', array('table_id', 'field'))) {
+		$ilDB->addIndex('il_dcl_tfield_set', array('table_id', 'field'), 't2');
+	}
 }
 ?>
 <#4919>
@@ -15550,4 +15556,26 @@ $ilCtrlStructureReader->getStructure();
 <#4921>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#4922>
+<?php
+require_once 'Services/Migration/DBUpdate_4922/classes/class.ilPasswordUtils.php';
+
+$salt_location = CLIENT_DATA_DIR . '/pwsalt.txt';
+if(!is_file($salt_location) || !is_readable($salt_location))
+{
+	$result = @file_put_contents(
+		$salt_location,
+		substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(16))), 0, 22)
+	);
+	if(!$result)
+	{
+		die("Could not create the client salt for bcrypt password hashing.");
+	}
+}
+
+if(!is_file($salt_location) || !is_readable($salt_location))
+{
+	die("Could not determine the client salt for bcrypt password hashing.");
+}
 ?>

@@ -64,10 +64,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testInstanceCannotBeCreatedByAnonymousGlobalUserObject()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
 		$user->expects($this->once())->method('getId')->will($this->returnValue(ANONYMOUS_USER_ID));
 		$this->setGlobalVariable('ilUser', $user);
@@ -166,10 +167,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testRelationRequestCannotBeIgnoredByTheRelationOwner()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$expected_relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(self::BUDDY_LIST_BUDDY_ID);
@@ -234,10 +236,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testRelationCannotBeRequestedForAnonymous()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$expected_relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(ANONYMOUS_USER_ID);
@@ -253,10 +256,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemException
+	 *
 	 */
 	public function testRelationCannotBeRequestedForUnknownUserAccounts()
 	{
+		$this->expectException(ilBuddySystemException::class);
 		$expected_relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(-3);
@@ -389,20 +393,22 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 *
 	 */
 	public function testExceptionIsThrownWhenNonNumericOwnerIdIsPassed()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 		$buddylist->setOwnerId("phpunit");
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 *
 	 */
 	public function testExceptionIsThrownWhenRelationIsRequestedForANonNumericUserId()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 		$buddylist->getRelationByUserId("phpunit");
@@ -416,12 +422,13 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 
 		$property->setValue($relation, $state);
 	}
-	
+
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 *
 	 */
 	public function testCanBeLinkedOnPriorLinkedState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -437,10 +444,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 *
 	 */
 	public function testCanBeIgnoredOnPriorIgnoredState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -456,10 +464,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 *
 	 */
 	public function testCanBeUnlinkedOnPriorUnlinkedState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 
@@ -475,10 +484,11 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
+	 * 
 	 */
 	public function testCanBeRequestedOnPriorRequestedState()
 	{
+		$this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
 		$buddylist->reset();
 

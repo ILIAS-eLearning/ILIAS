@@ -293,7 +293,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 		$db = $this->db_instance;
 
 		$name = $db->quoteIdentifier($this->getIndexName($name), true);
-		$name = $this->getDBInstance()->constraintName($table, '') . $name;
+		$name = $this->getDBInstance()->constraintName($table, $name);
 		return $db->manipulate("DROP INDEX $name");
 	}
 
@@ -303,9 +303,6 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 	 * @return mixed
 	 */
 	protected function fixIndexName($idx) {
-		preg_match("/^.*(.*)".ilDBPdoFieldDefinition::INDEX_FORMAT."/um", $idx, $matches);
-		$idx = $matches[1];
-
 		$idx_pattern = '/^' . preg_replace('/%s/', '([a-z0-9_]+)', ilDBPdoFieldDefinition::INDEX_FORMAT) . '$/i';
 		$idx_name = preg_replace($idx_pattern, '\\1', $idx);
 		if ($idx_name && !strcasecmp($idx, $this->db_instance->getIndexName($idx_name))) {

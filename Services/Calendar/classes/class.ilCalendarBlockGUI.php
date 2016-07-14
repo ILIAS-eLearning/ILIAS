@@ -268,9 +268,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		// alex: changed from > 1 to > 0 - original detail level 1 did not work anymore
 		if ($this->getCurrentDetailLevel() > 0 && $this->display_mode != "mmon")
 		{
-			$this->setColSpan(1);					
-			$this->tpl->addBlockFile("BLOCK_ROW", "block_row","tpl.pd_event_list.html", "Services/Calendar");		
-			
+			$this->setColSpan(1);
+			$this->setRowTemplate("tpl.pd_event_list.html", "Services/Calendar");
+
 			ilBlockGUI::fillDataSection();
 		}
 		else
