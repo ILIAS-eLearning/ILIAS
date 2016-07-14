@@ -106,7 +106,7 @@ interface Factory {
      *      view changes.
 	 *   composition: >
 	 *      Button is a clickable, graphically obtrusive control element. It can
-	 *      bear Text, a Glyph or in very rare cases both.
+	 *      bear text.
 	 *   effect: >
 	 *      On-click, the action indicated by the button is carried out.
 	 *   rivals:
@@ -136,10 +136,6 @@ interface Factory {
 	 *           If an action is temporarily not available, Buttons MUST be disabled by
 	 *           setting as type 'disabled'.
 	 *   style:
-	 *      4: >
-	 *           If Text and Glyphs are used alongside as caption for a Button the Glyph
-	 *           MUST be displayed on the left side except the caret which MUST be placed
-	 *           in the right.
 	 *      5: >
 	 *           If Text is used inside a Button, the Button MUST be at least six characters
 	 *           wide.
@@ -160,8 +156,6 @@ interface Factory {
 	 *           and sending the input of a specific form might deviate from the standard.
 	 *           These cases MUST however specifically justified.
 	 *   accessibility:
-	 *      11: >
-	 *           All glyph-only buttons MUST have aria-labels.
 	 *      12: >
 	 *           DOM elements of type "button" MUST be used to properly identify an
 	 *           element as a Button if there is no good reason to do otherwise.
@@ -169,9 +163,6 @@ interface Factory {
 	 *           Button DOM elements MUST either be of type "button", of type "a"
 	 *           accompanied with the aria-role “Button” or input along with the type
 	 *           attribute “button” or "submit".
-	 *      14: >
-	 *           Aria-labels SHOULD typically echo the label of the Button or name of
-	 *           the Glyph.
 	 * ---
 	 * @return  \ILIAS\UI\Component\Button\Factory
 	 */

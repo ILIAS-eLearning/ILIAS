@@ -10,15 +10,15 @@ class Factory implements B\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function standard($label_or_glyph, $action) {
-        return new Standard($label_or_glyph, $action);
+	public function standard($label, $action) {
+        return new Standard($label, $action);
     }
 
 	/**
 	 * @inheritdoc
 	 */
-	public function primary($label_or_glyph, $action) {
-        return new Primary($label_or_glyph, $action);
+	public function primary($label, $action) {
+        return new Primary($label, $action);
     }
 
 	/**

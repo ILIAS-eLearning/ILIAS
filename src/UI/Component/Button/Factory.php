@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Component\Button;
 
-use ILIAS\UI\Component\Glyph;
-
 /**
  * This is how a factory for buttons looks like.
  */
@@ -38,11 +36,11 @@ interface Factory {
 	 *          The most important standard button in multi-action bars MUST be
 	 *          sticky (stay visible on small screens).
 	 * ---
-	 * @param	string|Glyph		$label_or_glyph
-	 * @param	string				$action
+	 * @param	string		$label
+	 * @param	string		$action
 	 * @return  \ILIAS\UI\Component\Button\Standard
 	 */
-	public function standard($label_or_glyph, $action);
+	public function standard($label, $action);
 
 	/**
 	 * ---
@@ -86,11 +84,11 @@ interface Factory {
 	 *           The decision to make a Button a Primary Button MUST be confirmed
 	 *           by the JF.
 	 * ---
-	 * @param	string|Glyph		$label_or_glyph
-	 * @param	string				$action
+	 * @param	string		$label
+	 * @param	string		$action
 	 * @return  \ILIAS\UI\Component\Button\Primary
 	 */
-	public function primary($label_or_glyph, $action);
+	public function primary($label, $action);
 
 	/**
 	 * ---

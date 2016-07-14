@@ -15,14 +15,9 @@ abstract class Button implements C\Button\Button {
 	use ComponentHelper;
 
 	/**
-	 * @var string|null
+	 * @var string
 	 */
 	protected $label;
-
-	/**
-	 * @var Glyph
-	 */
-	protected $glyph;
 
     /**
      * @var string
@@ -35,21 +30,10 @@ abstract class Button implements C\Button\Button {
     protected $active = true;
 
 
-	public function __construct($label_or_glyph, $action) {
-        $this->checkArg
-            ( "label_or_glyph"
-            , is_string($label_or_glyph) || $label_or_glyph instanceof Glyph
-            , $this->wrongTypeMessage("string or Glyph", $label_or_glyph)
-            );
+	public function __construct($label, $action) {
+        $this->checkStringArg("label", $label);
         $this->checkStringArg("action", $action);
-        if (is_string($label_or_glyph)) {
-			$this->label = $label_or_glyph;
-            $this->glyph = null;
-		}
-		else {
-			$this->label = null;
-            $this->glyph = $label_or_glyph;
-		}
+		$this->label = $label;
         $this->action = $action;
 	} 
 
@@ -72,21 +56,6 @@ abstract class Button implements C\Button\Button {
 
 	/**
 	 * @inheritdocs 
-	 */
-	public function getGlyph() {
-        return $this->glyph;
-	}
-
-	/**
-	 * @inheritdocs 
-	 */
-	public function withGlyph(Glyph $glyph) {
-        $clone = clone $this;
-        $clone->glyph = $glyph;
-        return $clone;
-	}
-
-	/**
 	 */
 	public function getAction() {
         return $this->action;

@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Component\Button;
 
-use ILIAS\UI\Component\Glyph\Glyph;
-
 /**
  * This describes commonalities between standard and primary buttons. 
  */
@@ -13,7 +11,7 @@ interface Button extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get the label on the button.
 	 *
-	 * @return	string|null
+	 * @return	string
 	 */
 	public function getLabel();
 
@@ -24,21 +22,6 @@ interface Button extends \ILIAS\UI\Component\Component {
 	 * @return	Button
 	 */
 	public function withLabel($label);
-
-	/**
-	 * Get the glyph on the button.
-	 *
-	 * @return	Glyph|null
-	 */
-	public function getGlyph();
-
-	/**
-	 * Get a button like this, but with an additonal/replaced Glyph.
-	 *
-	 * @param	Glyph	$glyph
-	 * @return	Button
-	 */
-	public function withGlyph(Glyph $glyph);
 
 	/**
 	 * Get the action of the button
