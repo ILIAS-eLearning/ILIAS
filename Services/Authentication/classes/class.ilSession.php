@@ -100,7 +100,7 @@ class ilSession
 
 		// prepare session data
 		$fields = array(
-			"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+			"user_id" => array("integer", (int) $_SESSION['_authsession_user_id']),
 			"expires" => array("integer", self::getExpireValue()),
 			"data" => array("clob", $a_data),
 			"ctime" => array("integer", $now),

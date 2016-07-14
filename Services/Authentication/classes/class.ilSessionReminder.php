@@ -79,11 +79,6 @@ class ilSessionReminder
 	 */
 	protected function initWithUserContext()
 	{
-		/**
-		 * @var $ilAuth Auth
-		 */
-		global $ilAuth;
-
 		$this->setLeadTime(max(self::MIN_LEAD_TIME, (float)$this->getUser()->getPref('session_reminder_lead_time')) * 60);
 		
 		/**
