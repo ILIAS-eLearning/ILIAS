@@ -26,6 +26,10 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ACTION", $component->getAction());
 		$tpl->setVariable("LABEL", $component->getLabel());
 
+		if (!$component->isActive()) {
+			$tpl->setVariable("DISABLED", "disabled");
+		}
+
 		return $tpl->get();
 	}
 
