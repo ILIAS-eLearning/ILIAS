@@ -153,4 +153,5 @@ them. If you have found it, we'll be glad to accept your PR.
 
 ### I don't understand that stuff, is there anyone who can explain it to me?
 
-Yes. Ask Richard Klees or Timon Amstutz.
+Yes. Ask Richard Klees <richard.klees@concepts-and-training.de> or Timon Amstutz
+ <timon.amstutz@ilub.unibe.ch>.
