@@ -99,7 +99,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	public function test_button_glyph($factory_method) {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
-		$g = $gf->envelope("http://www.ilias.de");
+		$g = $gf->mail();
 		$b = $f->$factory_method($g, "http://www.ilias.de");
 
 		$this->assertEquals(null, $b->getLabel());
@@ -112,7 +112,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	public function test_button_with_glyph($factory_method) {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
-		$g = $gf->envelope("http://www.ilias.de");
+		$g = $gf->mail();
 		$g2 = $gf->info("http://www.ilias.de");
 		$b = $f->$factory_method($g, "http://www.ilias.de");
 
@@ -130,7 +130,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	public function test_button_label_glyph($factory_method) {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
-		$g = $gf->envelope("http://www.ilias.de");
+		$g = $gf->mail();
 		$b = $f->$factory_method("label", "http://www.ilias.de")
 				->withGlyph($g);
 
@@ -173,9 +173,27 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	/**
 	 * @dataProvider button_type_provider
 	 */
-	public function test_render_button($factory_method) {
+	public function test_render_button_label($factory_method) {
 		$f = $this->getButtonFactory();
 		$b = $f->$factory_method("label", "http://www.ilias.de");
+		$r = $this->getDefaultRenderer();
+
+		$html = $this->normalizeHTML($r->render($b));
+
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<a class=\"$css_classes\" href=\"http://www.ilias.de\">".
+					"label".
+					"</a>";
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_render_button_glyph($factory_method) {
+		$f = $this->getButtonFactory();
+		$gf = $this->getGlyphFactory();
+		$g = $gf->mail();
+		$b = $f->$factory_method($g, "http://www.ilias.de");
 		$r = $this->getDefaultRenderer();
 
 		$html = $this->normalizeHTML($r->render($b));
