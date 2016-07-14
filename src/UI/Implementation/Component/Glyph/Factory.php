@@ -10,112 +10,112 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function settings($action) {
+	public function settings($action = null) {
 		return new Glyph(G\Glyph::SETTINGS, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function collapse($action) {
+	public function collapse($action = null) {
 		return new Glyph(G\Glyph::COLLAPSE, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function expand($action) {
+	public function expand($action = null) {
 		return new Glyph(G\Glyph::EXPAND, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function add($action) {
+	public function add($action = null) {
 		return new Glyph(G\Glyph::ADD, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function remove($action) {
+	public function remove($action = null) {
 		return new Glyph(G\Glyph::REMOVE, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function up($action) {
+	public function up($action = null) {
 		return new Glyph(G\Glyph::UP, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function down($action) {
+	public function down($action = null) {
 		return new Glyph(G\Glyph::DOWN, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function back($action) {
+	public function back($action = null) {
 		return new Glyph(G\Glyph::BACK, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function next($action) {
+	public function next($action = null) {
 		return new Glyph(G\Glyph::NEXT, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function sort($action) {
+	public function sort($action = null) {
 		return new Glyph(G\Glyph::SORT, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function user($action) {
+	public function user($action = null) {
 		return new Glyph(G\Glyph::USER, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function mail($action) {
+	public function mail($action = null) {
 		return new Glyph(G\Glyph::MAIL, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function notification($action) {
+	public function notification($action = null) {
 		return new Glyph(G\Glyph::NOTIFICATION, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function tag($action) {
+	public function tag($action = null) {
 		return new Glyph(G\Glyph::TAG, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function note($action) {
+	public function note($action = null) {
 		return new Glyph(G\Glyph::NOTE, $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function comment($action) {
+	public function comment($action = null) {
 		return new Glyph(G\Glyph::COMMENT, $action);
 	}
 }

@@ -29,10 +29,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be “Settings”.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function settings($action);
+	public function settings($action = null);
 
 	/**
 	 * ---
@@ -58,10 +58,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Collapse Content'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function collapse($action);
+	public function collapse($action = null);
 
 	/**
 	 * ---
@@ -87,10 +87,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Expand Content'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function expand($action);
+	public function expand($action = null);
 
 	/**
 	 * ---
@@ -126,10 +126,10 @@ interface Factory {
 	 *       5: >
 	 *          The aria-label MUST be ‘Add'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function add($action);
+	public function add($action = null);
 
 	/**
 	 * ---
@@ -164,10 +164,10 @@ interface Factory {
 	 *       4: >
 	 *          The aria-label MUST be ‘Remove'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function remove($action);
+	public function remove($action = null);
 
 	/**
 	 * ---
@@ -201,10 +201,10 @@ interface Factory {
 	 *       4: >
 	 *          The aria-label MUST be ‘Up'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function up($action);
+	public function up($action = null);
 
 	/**
 	 * ---
@@ -238,10 +238,10 @@ interface Factory {
 	 *       4: >
 	 *          The aria-label MUST be ‘Down'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function down($action);
+	public function down($action = null);
 
 	/**
 	 * ---
@@ -269,10 +269,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Back'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function back($action);
+	public function back($action = null);
 
 	/**
 	 * ---
@@ -299,10 +299,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Next'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function next($action);
+	public function next($action = null);
 
 	/**
 	 * ---
@@ -322,10 +322,10 @@ interface Factory {
 	 *       1: >
 	 *          The aria-label MUST be ‘Show who is online'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function user($action);
+	public function user($action = null);
 
 	/**
 	 * ---
@@ -345,10 +345,10 @@ interface Factory {
 	 *       1: >
 	 *          The aria-label MUST be ‘Mail'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function mail($action);
+	public function mail($action = null);
 
 	/**
 	 * ---
@@ -377,10 +377,10 @@ interface Factory {
 	 *       4: >
 	 *          The aria-label MUST be ‘Notifications'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function notification($action);
+	public function notification($action = null);
 
 	/**
 	 * ---
@@ -401,10 +401,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Tags'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function tag($action);
+	public function tag($action = null);
 
 	/**
 	 * ---
@@ -425,10 +425,10 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Notes'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function note($action);
+	public function note($action = null);
 
 	/**
 	 * ---
@@ -449,8 +449,8 @@ interface Factory {
 	 *       2: >
 	 *          The aria-label MUST be ‘Comments'.
 	 * ---
-	 * @param	string	$action
+	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function comment($action);
+	public function comment($action = null);
 }

@@ -113,7 +113,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$f = $this->getButtonFactory();
 		$gf = $this->getGlyphFactory();
 		$g = $gf->mail();
-		$g2 = $gf->info("http://www.ilias.de");
+		$g2 = $gf->mail();
 		$b = $f->$factory_method($g, "http://www.ilias.de");
 
 		$b2 = $b->withGlyph($g2);	
