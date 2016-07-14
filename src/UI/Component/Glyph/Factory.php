@@ -5,7 +5,6 @@ namespace ILIAS\UI\Component\Glyph;
  * This is how a factory for glyphs looks like.
  */
 interface Factory {
-
 	/**
 	 * ---
 	 * title: Settings
