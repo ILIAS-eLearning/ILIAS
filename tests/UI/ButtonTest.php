@@ -181,7 +181,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<button class=\"$css_classes\" href=\"http://www.ilias.de\" >".
+		$expected = "<button type=\"button\" class=\"$css_classes\" href=\"http://www.ilias.de\" >".
 					"label".
 					"</button>";
 		$this->assertEquals($expected, $html);
@@ -199,7 +199,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<button class=\"$css_classes\" href=\"http://www.ilias.de\" disabled>".
+		$expected = "<button type=\"button\" class=\"$css_classes\" href=\"http://www.ilias.de\" disabled>".
 					"label".
 					"</button>";
 		$this->assertEquals($expected, $html);
