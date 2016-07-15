@@ -1255,7 +1255,13 @@
 	<span class="ilc_text_inline_{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
 
-<!-- Code -->
+<!-- Marked -->
+<xsl:template match="Marked">
+	<xsl:variable name="Class" select="@Class"/>
+	<span class="ilc_text_inline_{$Class}"><xsl:apply-templates/></span>
+</xsl:template>
+
+	<!-- Code -->
 <xsl:template match="Code">
 	<code><xsl:apply-templates/></code>
 </xsl:template>

@@ -8559,6 +8559,9 @@ ul#ilAdvSelListTable_style_selection {
   overflow: auto;
   max-height: 400px;
 }
+#ilAdvSelListAnchorText_char_style_selection > span {
+  min-width: auto;
+}
 /* Services/Calendar */
 td.even {
   color: #222;

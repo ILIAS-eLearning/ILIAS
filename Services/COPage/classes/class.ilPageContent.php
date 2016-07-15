@@ -22,6 +22,11 @@ abstract class ilPageContent
 	var $dom;			// dom object
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor.
 	*
 	* All initialisation in derived classes should go to the
@@ -29,6 +34,7 @@ abstract class ilPageContent
 	*/
 	final function __construct($a_pg_obj)
 	{
+		$this->log = ilLoggerFactory::getLogger('copg');
 		$this->setPage($a_pg_obj);
 		$this->dom = $a_pg_obj->getDom();
 		$this->init();

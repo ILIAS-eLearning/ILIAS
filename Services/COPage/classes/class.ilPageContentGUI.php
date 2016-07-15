@@ -304,8 +304,12 @@ class ilPageContentGUI
 			{
 				if ($c != "tex" || $mathJaxSetting->get("enable") || defined("URL_TO_LATEX"))
 				{
-					$btpl->touchBlock("bb_".$c."_button");
-					$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
+					if (!in_array($c, array("acc", "com", "quot", "code")))
+					{
+						$btpl->touchBlock("bb_" . $c . "_button");
+						$btpl->setVariable("TXT_" . strtoupper($c), $this->lng->txt("cont_text_" . $c));
+						$lng->toJS("cont_text_" . $c);
+					}
 				}
 			}
 		}
@@ -314,17 +318,22 @@ class ilPageContentGUI
 		{
 			$btpl->touchBlock("bb_anc_button");
 			$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
+			$lng->toJS("cont_anchor");
 		}
+
+		$btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), true, $this->getStyleId()));
 		
 		// footnote
 //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
 		
 //		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
 		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
+		$lng->toJS("cont_text_iln");
 //		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
 //		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
+		$lng->toJS("wiki_wiki_page");
 		
 		$btpl->setVariable("PAR_TA_NAME", $a_ta_name);
 		
