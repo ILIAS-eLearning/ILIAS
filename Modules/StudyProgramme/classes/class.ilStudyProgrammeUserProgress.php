@@ -638,9 +638,9 @@ class ilStudyProgrammeUserProgress {
 		
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 		ilStudyProgrammeEvents::userSuccessful($this);
-
-        $this->refreshLPStatus();
-        $this->updateParentStatus();
+		
+		$this->refreshLPStatus();
+		$this->updateParentStatus();
 	}
 	
 	/**
