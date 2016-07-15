@@ -699,7 +699,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
 			$this->setSuggestedSolution($data["solution_hint"]);
-			$this->setPoints($data["points"]);
+			$this->setPoints($data['points']);
 			$this->setOriginalId($data["original_id"]);
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
