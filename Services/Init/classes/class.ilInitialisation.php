@@ -1199,6 +1199,7 @@ class ilInitialisation
 							( $c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["ui.resource_registry"]
+							, $c["lng"]
 							);
 		};
 		$c["ui.template_factory"] = function($c) {
