@@ -766,7 +766,7 @@ il.Util.addOnLoad(function () {
 				typeof navigator.appVersion != "undefined" &&
 				(
 					navigator.appName == 'Microsoft Internet Explorer' ||
-					(navigator.appName == "Netscape" && navigator.appVersion.indexOf('Trident') > -1)
+					(navigator.appName == "Netscape" && navigator.appVersion.indexOf('Trident') > -1 || navigator.appVersion.indexOf('Edge') > -1)
 				)
 			);
 		})();
