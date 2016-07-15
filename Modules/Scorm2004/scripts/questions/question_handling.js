@@ -549,9 +549,12 @@ ilias.questions.assClozeTest = function(a_id) {
 			// numeric
 			else if (type==2) {				
 				for(var j=0;j<questions[a_id].gaps[i].item.length;j++)
-				{				
-					if (questions[a_id].gaps[i].item[j].lowerbound <= a_node.value && 
-						questions[a_id].gaps[i].item[j].upperbound >= a_node.value) {
+				{
+					var lb = parseFloat(questions[a_id].gaps[i].item[j].lowerbound),
+						ub = parseFloat(questions[a_id].gaps[i].item[j].upperbound),
+						val = parseFloat(a_node.value);
+
+					if (!isNaN(a_node.value) && lb <= val && ub >= val) {
 						value_found=true;
 						if (questions[a_id].gaps[i].item[j].points <= 0) {
 							answers[a_id].passed = false;
