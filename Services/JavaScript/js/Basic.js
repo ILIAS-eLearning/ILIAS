@@ -757,6 +757,35 @@ il.Util.addOnLoad(function () {
 		});												
 	});
 
+	// Handled IE/Edge issues with HTML5 buttons and form attribute, see: http://caniuse.com/#search=form
+	$('button[form][type="submit"]').filter(function() {
+		return (function () {
+			return (
+				typeof navigator != "undefined" &&
+				typeof navigator.appName != "undefined" &&
+				typeof navigator.appVersion != "undefined" &&
+				(
+					navigator.appName == 'Microsoft Internet Explorer' ||
+					(navigator.appName == "Netscape" && navigator.appVersion.indexOf('Trident') > -1)
+				)
+			);
+		})();
+	}).on('click', function(e) {
+		var $elm = $(this), $form = $('#' + $elm.attr("form"));
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		$('<input/>')
+			.attr("type", "hidden")
+			.attr("name", $elm.attr("name"))
+			.val(1)
+			.appendTo($form);
+
+		$form.find('input[type="submit"]').prop("disabled", true);
+		$form.submit();
+	});
+
 	il.UICore.initFixedDropDowns();
 });
 
