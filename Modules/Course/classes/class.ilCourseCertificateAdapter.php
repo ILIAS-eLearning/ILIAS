@@ -214,14 +214,13 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	 */
 	static function _hasUserCertificate($a_usr_id, $a_obj_id)
 	{
+	    self::_preloadListData($a_usr_id, $a_obj_id);
+        
 		if (isset(self::$has_certificate[$a_usr_id][$a_obj_id]))
 		{
 			return self::$has_certificate[$a_usr_id][$a_obj_id];
 		}
-		
-		// obsolete?
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		return ilCourseParticipants::getDateTimeOfPassed($a_obj_id, $a_usr_id);				
+		return false;
 	}
 }
 
