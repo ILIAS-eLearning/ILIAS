@@ -20,6 +20,8 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	const DOWN = "down";
 	const BACK = "back";
 	const NEXT = "next";
+	const SORT_ASCENDING = "sortAscending";
+	const SORT_DESCENDING = "sortDescending";
 	const SORT = "sort";
 	const USER = "user";
 	const MAIL = "mail";
@@ -60,4 +62,20 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	 * @return	Glyph
 	 */
 	public function withCounter(Counter $counter);
+
+
+	/**
+	 * Returns whether the Glyph is highlighed
+
+	 * @return bool
+	 */
+	public function isHighlighted();
+
+	/**
+	 * Highlights a Glyph (sets the highlighted class)
+	 *
+	 * @param bool|true $highlighted
+	 * @return mixed
+	 */
+	public function highlighted($highlighted = true);
 }

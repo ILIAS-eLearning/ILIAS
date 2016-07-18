@@ -146,7 +146,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
         * each of the contained fields is a dictionary from a number to a text
         * each of the contained fields MUST contain at least one rule for the
           proposed Kitchen Sink entry
-        * every rule MUST have a successive number
+        * every rule in one field MUST have a successive number
         * the number of a rule MUST NOT be changed
         * a rule MAY keep its number upon minor changes in the rule
         * rules MUST be formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt)

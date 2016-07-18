@@ -8,16 +8,16 @@ use ILIAS\UI\Component as C;
 /**
  * Some Random Comment
  */
-interface ProperEntry {
+interface IdenticalNamesEntry {
     /**
      * ---
      * description:
      * rules:
      * ---
      *
-     * @  Missing Namespace
+     * @return  \ILIAS\UI\Crawler\Fixture\ProperEntry
      */
-    public function component1();
+    public function component();
 
     /**
      * ---
@@ -27,5 +27,5 @@ interface ProperEntry {
      *
      * @return  tests\UI\Crawler\Fixture\ComponentsTreeFixture\Component2\Factory
      */
-    public function component2();
+    public function component();
 }

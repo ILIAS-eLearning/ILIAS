@@ -10,7 +10,6 @@ namespace ILIAS\UI\Component\Button;
 interface Factory {
 	/**
 	 * ---
-	 * title: Standard
 	 * description:
 	 *   purpose: >
 	 *       The standard button is the default button to be used in ILIAS. If
@@ -25,14 +24,14 @@ interface Factory {
 	 *          Standard buttons MUST be used if there is no good reason using
 	 *          another instance.
 	 *   ordering:
-	 *       2: >
+	 *       1: >
 	 *          The most important standard button SHOULD be first in reading
      *          direction if there are several buttons.
-	 *       3: >
+	 *       2: >
 	 *          In the toolbar and in forms special regulations for the ordering
 	 *          of the buttons MAY apply.
 	 *   responsiveness:
-	 *       4: >
+	 *       1: >
 	 *          The most important standard button in multi-action bars MUST be
 	 *          sticky (stay visible on small screens).
 	 * ---
@@ -44,7 +43,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Primary
 	 * description:
 	 *   purpose: >
 	 *       The primary button indicates the most important action on a screen.
@@ -92,7 +90,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Close
 	 * description:
 	 *   purpose: >
 	 *       The close button triggers the closing of some collection displayed
@@ -108,7 +105,7 @@ interface Factory {
 	 *           The Close Button MUST always be positioned in the top right of a
 	 *           collection.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *           The functionality of the close button MUST be indicated for screen
 	 *           readers by an aria-label.
 	 * ---

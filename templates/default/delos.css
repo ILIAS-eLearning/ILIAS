@@ -6278,6 +6278,12 @@ button.close {
 .glyph {
   color: #557196;
 }
+.glyph.highlighted {
+  color: #fa8228;
+}
+.glyph.highlighted:hover {
+  color: #d15c05;
+}
 .glyph:hover {
   color: #3a4c65;
 }

@@ -12,7 +12,6 @@ interface ProperEntry {
     /**
      * ---
      *
-     * title: Proper Entry
      * description:
      *   purpose: >
      *       Description of Purpose

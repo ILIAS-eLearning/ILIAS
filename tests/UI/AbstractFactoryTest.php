@@ -107,7 +107,10 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	final public function test_check_yaml_extraction($method_reflection, $name) {
 		try {
-			$docstring_data = $this->yaml_parser->parseArrayFromString($method_reflection->getDocComment());
+			//Todo (TA) this is not pretty. We should think about using only reflection in the parser as well.
+			$function_name_string = "\n public function ".$method_reflection->getName()."()";
+			$docstring_data = $this->yaml_parser->parseArrayFromString(
+					$method_reflection->getDocComment().$function_name_string);
 			$this->assertTrue(true);
 		}
 		catch (CrawlerException\CrawlerException $e) {

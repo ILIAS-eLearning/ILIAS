@@ -5,7 +5,6 @@ class ProperEntryFixture
 {
     public $properEntryYamlArray = array(
         array(
-            "title"=>"Proper Entry",
             "description" => array(
                 "purpose" => "Description of Purpose",
                 "composition" => "Description of Composition with line break",
@@ -27,14 +26,14 @@ class ProperEntryFixture
                     4 => "Style Rule"
                 )
             ),
-            "namespace"=>"\\ILIAS\\UI\\Crawler\\Fixture\\ProperEntry"
+            "namespace"=>"\\ILIAS\\UI\\Crawler\\Fixture\\ProperEntry",
+            "function_name"=>"properEntry"
 
         )
     );
 
     public $properEntryYamlString =
-"title: Proper Entry
-description:
+"description:
   purpose: >
       Description of Purpose
   composition: >
@@ -58,7 +57,7 @@ rules:
   style:
       4: Style Rule
 namespace:   \\ILIAS\\UI\\Crawler\\Fixture\\ProperEntry
-";
+function_name: properEntry";
 
 
 }

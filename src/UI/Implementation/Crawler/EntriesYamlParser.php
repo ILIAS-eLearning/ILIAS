@@ -14,6 +14,7 @@ class EntriesYamlParser implements YamlParser
 	const PARSER_STATE_OUTSIDE = 1;
 	const PARSER_STATE_ENTRY = 2;
 	const PARSER_STATE_SEEKING_RETURN = 3;
+	const PARSER_STATE_SEEKING_FUNCTION_NAME = 4;
 
 	/**
 	 * @var array
@@ -88,7 +89,7 @@ class EntriesYamlParser implements YamlParser
 	 */
 	public function parseArrayFromString($content){
 		return $this->getPHPArrayFromYamlArray(
-			$this->getYamlEntriesFromString($content)
+				$this->getYamlEntriesFromString($content)
 		);
 	}
 
@@ -136,7 +137,11 @@ class EntriesYamlParser implements YamlParser
 				}
 				if(preg_match('/\@return/', $line)) {
 					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION,
-						" in file: ".$this->file_path.", ".$line);
+							" in file: ".$this->file_path.", ".$line);
+				}
+				if(preg_match('/public function (.*)\(/', $line)) {
+					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION,
+							" in file: ".$this->file_path.", ".$line);
 				}
 			}else if($parser_state === self::PARSER_STATE_ENTRY){
 				if(!preg_match('/(\*$)|(---)/', $line)){
@@ -147,16 +152,34 @@ class EntriesYamlParser implements YamlParser
 				}
 				if(preg_match('/\@return/', $line)) {
 					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION,
-						" in file: ".$this->file_path.", ".$line);
+							" in file: ".$this->file_path.", ".$line);
 				}
-			}else{
+				if(preg_match('/public function (.*)\(/', $line)) {
+					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION,
+							" in file: ".$this->file_path.", ".$line);
+				}
+			}else if($parser_state === self::PARSER_STATE_SEEKING_RETURN) {
 				if(preg_match('/\@return/', $line)) {
 					$current_entry .= "namespace: ".ltrim($this->purifyYamlLine($line),'@return');
+					$parser_state = self::PARSER_STATE_SEEKING_FUNCTION_NAME;
+				}
+				if(preg_match('/---/', $line)) {
+					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT,
+							" in file: ".$this->file_path." line ".$current_entry);
+				}
+				if(preg_match('/public function (.*)\(/', $line)) {
+					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT,
+							" in file: ".$this->file_path." line ".$current_entry);
+				}
+			}else{
+				if(preg_match('/public function (.*)\(/', $line,$matches)) {
+					preg_match('/public function (.*)\(/',$line, $matches);
+					$current_entry .= "function_name: ".$matches[1];
 					$yaml_entries[] = $current_entry;
 					$parser_state = self::PARSER_STATE_OUTSIDE;
 				}
 				if(preg_match('/---/', $line)) {
-						throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT,
+					throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITHOUT_FUNCTION,
 							" in file: ".$this->file_path." line ".$current_entry);
 				}
 			}
@@ -164,10 +187,13 @@ class EntriesYamlParser implements YamlParser
 		}
 		if($parser_state === self::PARSER_STATE_SEEKING_RETURN ){
 			throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT,
-				" in file: ".$this->file_path." line ".$current_entry);
+					" in file: ".$this->file_path." line ".$current_entry);
 		}else if($parser_state === self::PARSER_STATE_ENTRY){
 			throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION,
-				" in file: ".$this->file_path);
+					" in file: ".$this->file_path);
+		}else if($parser_state === self::PARSER_STATE_SEEKING_FUNCTION_NAME){;
+			throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITHOUT_FUNCTION,
+					" in file: ".$this->file_path);
 		}
 		return $yaml_entries;
 	}
@@ -198,10 +224,10 @@ class EntriesYamlParser implements YamlParser
 			}
 		}
 
+
 		array_walk_recursive($entries, function(&$item){
 			$item = rtrim($item,PHP_EOL);
 		});
-
 
 		return $entries;
 	}
@@ -226,6 +252,9 @@ class EntriesYamlParser implements YamlParser
 	 * @throws	Exception\CrawlerException
 	 */
 	protected function getEntryFromData(array $entry_data){
+
+		$entry_data['title'] = self::fromCamelCaseToWords($entry_data['function_name']);
+
 		if(!array_key_exists("title",$entry_data) || !$entry_data['title'] || $entry_data['title'] ==""){
 			throw $this->ef->exception(Exception\CrawlerException::ENTRY_TITLE_MISSING," File: ".$this->file_path);
 		}
@@ -233,17 +262,17 @@ class EntriesYamlParser implements YamlParser
 			throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT," File: ".$this->file_path);
 		}
 
-		$entry_data['id'] = self::toLowerCamelCase($entry_data['title'], ' ');
+		$entry_data['id'] = str_replace("\\","",
+						str_replace("\\ILIAS\\UI\\","", str_replace("\\ILIAS\\UI\\Component\\","",$entry_data['namespace'])) )
+				.self::toUpperCamelCase($entry_data['title'], ' ');
 		$entry_data['abstract'] = preg_match("/Factory/",$entry_data['namespace']);
 		$entry_data['path'] = str_replace("/ILIAS","src",str_replace("\\","/",$entry_data['namespace']));
-
-		$entry = null;
 
 		try{
 			$entry = new Entry\ComponentEntry($entry_data);
 		}catch(\Exception $e){
 			throw $this->ef->exception(Exception\CrawlerException::PARSING_YAML_ENTRY_FAILED,
-				" could not convert data to entry, message: '".$e->getMessage()."' file: ".$this->file_path);
+					" could not convert data to entry, message: '".$e->getMessage()."' file: ".$this->file_path);
 		}
 
 		return $entry;
@@ -265,5 +294,13 @@ class EntriesYamlParser implements YamlParser
 	 */
 	public static function toLowerCamelCase($string,$seperator){
 		return str_replace($seperator, '', lcfirst(ucwords($string)));
+	}
+
+	/**
+	 * @param $camelCaseString
+	 * @return string
+	 */
+	public static function fromCamelCaseToWords($camelCaseString) {
+		return join(preg_split('/(?<=[a-z])(?=[A-Z])/x', ucwords($camelCaseString)), " " );
 	}
 }

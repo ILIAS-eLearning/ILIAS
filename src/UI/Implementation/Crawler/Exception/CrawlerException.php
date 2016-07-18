@@ -31,7 +31,7 @@ class CrawlerException extends \Exception
 	const ENTRY_WITH_NO_VALID_RETURN_STATEMENT = 2008;
 	const PARSING_YAML_ENTRY_FAILED = 2009;
 	const ENTRY_TITLE_MISSING	= 2010;
-
+	const ENTRY_WITHOUT_FUNCTION	= 2011;
 
 	const FILE_CREATION_FAILED	 = 3000;
 	const FOLDER_CREATION_FAILED = 3001;
@@ -118,9 +118,11 @@ class CrawlerException extends \Exception
 				$this->message = "Parsing Yaml entry failed: " . $this->add_info;
 				break;
 			case self::ENTRY_TITLE_MISSING:
-				$this->message = "Entry Title missing (check if 'title:' is set for all entries): " . $this->add_info;
+				$this->message = "Entry Title missing (check if valid function name is set for all entries): " . $this->add_info;
 				break;
-
+			case self::ENTRY_WITHOUT_FUNCTION:
+				$this->message = "Entry Function missing: " . $this->add_info;
+				break;
 
 			case self::INVALID_FILE_PATH:
 				$this->message = "Invalid file path or file not readable: " . $this->add_info;
