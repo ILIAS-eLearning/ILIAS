@@ -320,6 +320,8 @@ col or row span. -->
 	Characteristic CDATA #IMPLIED
 	ActiveFrom CDATA #IMPLIED
 	ActiveTo CDATA #IMPLIED
+	Permission CDATA #IMPLIED
+	PermissionRefId CDATA #IMPLIED
 	PCID CDATA #IMPLIED
 >
 
