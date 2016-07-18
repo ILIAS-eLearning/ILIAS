@@ -65,17 +65,17 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 
 
 	/**
-	 * Returns whether the Glyph is highlighed
-
+	 * Returns whether the Glyph is highlighted.
+	 *
 	 * @return bool
 	 */
 	public function isHighlighted();
 
 	/**
-	 * Highlights a Glyph (sets the highlighted class)
+	 * Get a Glyph like this with a highlight.
 	 *
 	 * @param bool|true $highlighted
 	 * @return mixed
 	 */
-	public function highlighted($highlighted = true);
+	public function withHighlight();
 }

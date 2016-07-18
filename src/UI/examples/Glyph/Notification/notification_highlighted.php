@@ -5,6 +5,6 @@ function notification_highlighted() {
 	$renderer = $DIC->ui()->renderer();
 
 	return $renderer->render($f->glyph()->notification("#")
-			->highlighted(true)
+			->withHighlight()
 	);
 }

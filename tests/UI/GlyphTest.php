@@ -104,6 +104,21 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	/**
+	 * @dataProvider counter_type_provider
+	 */
+	public function test_with_highlight($counter_type) {
+		$gf = $this->getGlyphFactory();
+
+		$g = $gf
+			->mail()
+			;
+		$g2 = $g->withHighlight();
+
+		$this->assertFalse($g->isHighlighted());
+		$this->assertTrue($g2->isHighlighted());
+	}
+
+	/**
 	 * @dataProvider glyph_type_provider
 	 */
 	public function test_no_counter($factory_method) {

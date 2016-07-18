@@ -62,7 +62,7 @@ class Glyph implements C\Glyph\Glyph {
 	 * @param string		$type
 	 * @param string|null	$action
 	 */
-	public function __construct($type, $aria_label, $action = null, $highlighted = false) {
+	public function __construct($type, $aria_label, $action = null) {
 		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
 		$this->checkStringArg("string",$aria_label);
 
@@ -73,7 +73,7 @@ class Glyph implements C\Glyph\Glyph {
 		$this->aria_label = $aria_label;
 		$this->action = $action;
 		$this->counters = array();
-		$this->highlighted = $highlighted;
+		$this->highlighted = false;
 	}
 
 	/**
@@ -122,9 +122,9 @@ class Glyph implements C\Glyph\Glyph {
 	/**
 	 * @inheritdoc
 	 */
-	public function highlighted($highlighted = true) {
+	public function withHighlight() {
 		$clone = clone $this;
-		$clone->highlighted = $highlighted;
+		$clone->highlighted = true;
 		return $clone;
 	}
 }
