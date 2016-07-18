@@ -22,9 +22,19 @@ class Glyph implements C\Glyph\Glyph {
 	private $action;
 
 	/**
+	 * @var	string
+	 */
+	private $aria_label;
+
+	/**
 	 * @var	C\Counter[]
 	 */
 	private $counters;
+
+	/**
+	 * @var bool
+	 */
+	private $highlighted = false;
 
 	private static $types = array
 		(self::SETTINGS
@@ -52,14 +62,18 @@ class Glyph implements C\Glyph\Glyph {
 	 * @param string		$type
 	 * @param string|null	$action
 	 */
-	public function __construct($type, $action = null) {
+	public function __construct($type, $aria_label, $action = null, $highlighted = false) {
 		$this->checkArgIsElement("type", $type, self::$types, "glyph type");
+		$this->checkStringArg("string",$aria_label);
+
 		if ($action !== null) {
 			$this->checkStringArg("action", $action);
 		}
 		$this->type = $type;
+		$this->aria_label = $aria_label;
 		$this->action = $action;
 		$this->counters = array();
+		$this->highlighted = $highlighted;
 	}
 
 	/**
@@ -67,6 +81,12 @@ class Glyph implements C\Glyph\Glyph {
 	 */
 	public function getType() {
 		return $this->type;
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function getAriaLabel() {
+		return $this->aria_label;
 	}
 
 	/**
