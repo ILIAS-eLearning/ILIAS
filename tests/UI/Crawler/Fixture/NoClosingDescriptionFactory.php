@@ -11,7 +11,6 @@ use ILIAS\UI\Component as C;
 interface ProperEntry {
     /**
      * ---
-     * title: Abstract Component 2
      * description:
      * rules:
      *
@@ -21,7 +20,6 @@ interface ProperEntry {
 
     /**
      * ---
-     * title: Abstract Component 2
      * description:
      * rules:
      * ---

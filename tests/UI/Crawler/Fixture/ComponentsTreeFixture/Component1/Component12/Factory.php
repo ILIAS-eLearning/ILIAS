@@ -11,7 +11,6 @@ use ILIAS\UI\Component as C;
 interface ProperEntry {
     /**
      * ---
-     * title: Non-Abstract Component 1.2.1
      * description:
      * rules:
      * ---

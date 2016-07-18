@@ -8,26 +8,24 @@ use ILIAS\UI\Component as C;
 /**
  * Some Random Comment
  */
-interface ProperEntry {
+interface IdenticalEntries {
     /**
      * ---
-     * title: Duplicate Forever
      * description:
      * rules:
      * ---
      *
-     * @return  tests\UI\Crawler\Fixture\Component2\LoopFactory
+     * @return  tests\UI\Crawler\Fixture\Component2\component
      */
-    public function component1();
+    public function component();
 
     /**
      * ---
-     * title: Duplicate Forever
      * description:
      * rules:
      * ---
      *
-     * @return  tests\UI\Crawler\Fixture\ComponentsTreeFixture\Component2\Factory
+     * @return  tests\UI\Crawler\Fixture\Component2\component
      */
-    public function component2();
+    public function component();
 }

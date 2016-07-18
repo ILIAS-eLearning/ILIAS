@@ -41,11 +41,11 @@ class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
         $entries = $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/ComponentsTreeFixture/RootFactory.php");
         $this->assertEquals(6,count($entries));
 
-        $this->assertEquals(2,count($entries->getEntryById("abstractComponent1")->getChildren()));
-        $this->assertEquals(3,count($entries->getDescendantsOfEntry("abstractComponent1")));
-        $this->assertEquals(1,count($entries->getEntryById("abstractComponent2")->getChildren()));
-        $this->assertEquals(0,count($entries->getParentsOfEntry("abstractComponent1")));
-        $this->assertEquals(2,count($entries->getParentsOfEntry("non-AbstractComponent1.2.1")));
+        $this->assertEquals(2,count($entries->getEntryById("testsUICrawlerFixtureComponentsTreeFixtureComponent1FactoryComponent1")->getChildren()));
+        $this->assertEquals(3,count($entries->getDescendantsOfEntry("testsUICrawlerFixtureComponentsTreeFixtureComponent1FactoryComponent1")));
+        $this->assertEquals(1,count($entries->getEntryById("testsUICrawlerFixtureComponentsTreeFixtureComponent2FactoryComponent2")->getChildren()));
+        $this->assertEquals(0,count($entries->getParentsOfEntry("testsUICrawlerFixtureComponentsTreeFixtureComponent1FactoryComponent1")));
+        $this->assertEquals(2,count($entries->getParentsOfEntry("testsUICrawlerFixtureComponentsTreeFixtureComponent1component12component121Component121")));
 
     }
 
@@ -60,13 +60,22 @@ class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     *
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testDuplicateFactory() {
+    public function testIdenticalNamesFactory() {
+        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/IdenticalNamesFactory.php");
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @throws Crawler\Exception\CrawlerException
+     */
+    public function testIdenticalEntriesFactory() {
         $this->expectException(Crawler\Exception\CrawlerException::class);
         $this->expectExceptionCode(Crawler\Exception\CrawlerException::DUPLICATE_ENTRY);
-
-        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/DuplicateFactory.php");
+        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/IdenticalEntriesFactory.php");
+        $this->assertTrue(true);
     }
 
     /**

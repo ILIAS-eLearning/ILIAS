@@ -95,7 +95,7 @@ class CrawlerTest extends PHPUnit_Framework_TestCase {
         $entries = $this->parser->parseEntriesFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
 
         $this->assertEquals(1,count($entries));
-        $this->assertEquals("properEntry",$entries->getEntryById("properEntry")->getId("properEntry"));
-        $this->assertEquals("src/UI/Crawler/Fixture/ProperEntry",$entries->getEntryById("properEntry")->getPath());
+        $this->assertEquals("CrawlerFixtureProperEntryProperEntry",$entries->getEntryById("CrawlerFixtureProperEntryProperEntry")->getId());
+        $this->assertEquals("src/UI/Crawler/Fixture/ProperEntry",$entries->getEntryById("CrawlerFixtureProperEntryProperEntry")->getPath());
     }
 }
