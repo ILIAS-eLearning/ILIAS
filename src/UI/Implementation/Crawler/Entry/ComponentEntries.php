@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Crawler as Crawler;
 /**
  * Container storing a list of UI Component Entries, can act as Iterator, countable and is serializable
  *
- * @author			  Timon Amstutz <timon.amstutz@ilub.unibe.ch>*
+ * @author			  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  */
 class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countable, \JsonSerializable
 {
@@ -145,7 +145,6 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
 	}
 
 	public function expose() {
-		var_dump(get_object_vars($this));
 		return get_object_vars($this);
 	}
 
