@@ -178,7 +178,10 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 	{
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php");
 		$pageObjectGUI = new ilAssHintPageGUI($pageObjectId);
-		
+		$pageObjectGUI->obj->addUpdateListener(
+			$this->questionOBJ,
+			'saveToDb'
+		);
 		return $pageObjectGUI;
 	}
 	

@@ -192,6 +192,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
+				$page_gui->obj->addUpdateListener(
+					$question,
+					'saveToDb'
+				);
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
 				if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
