@@ -98,6 +98,11 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 	protected $examples = null;
 
 	/**
+	 * @var string
+	 */
+	protected $examples_path = "";
+
+	/**
 	 * ComponentEntry constructor.
 	 *
 	 * @param $entry_data
@@ -421,19 +426,14 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 	}
 
 	/**
+	 *
 	 */
-	public function readExamples()
+	protected function readExamples()
 	{
-		$examples_path = implode("/",
-				array_unique(
-					explode ("/",
-						str_replace("Component","examples",$this->path))))
-			."/".$this->getTitle();
-
 		$this->examples = array();
-		if(is_dir($examples_path)){
-			foreach (scandir($examples_path) as $file_name) {
-				$example_path = $examples_path."/".$file_name;
+		if(is_dir($this->getExamplesPath())){
+			foreach (scandir($this->getExamplesPath()) as $file_name) {
+				$example_path = $this->getExamplesPath()."/".$file_name;
 				if(is_file($example_path)){
 					$example_name = str_replace(".php","",$file_name);
 					$this->examples[$example_name] = $example_path;
@@ -441,6 +441,17 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 			}
 		}
 	}
+
+	public function getExamplesPath(){
+		if(!$this->examples_path){
+			$path_componants = str_replace("Component","examples",$this->getPath())
+					."/".str_replace(" ", "", $this->getTitle());
+			$path_array = array_unique(explode ("/",$path_componants));
+			$this->examples_path = implode("/",$path_array);
+		}
+		return $this->examples_path;
+	}
+
 
 	/**
 	 * @return array
