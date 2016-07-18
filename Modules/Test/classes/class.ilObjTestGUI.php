@@ -5195,7 +5195,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$orders, $obligations
 		);
 
-	    $ilCtrl->redirect($this, 'questions');
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		$ilCtrl->redirect($this, 'questions');
 	}
 
 	/**
