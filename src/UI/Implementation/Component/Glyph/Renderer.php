@@ -6,14 +6,13 @@ namespace ILIAS\UI\Implementation\Component\Glyph;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @inheritdocs
 	 */
-	public function render(Component $component, RendererInterface $default_renderer) {
+	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
 		$tpl = $this->getTemplate("tpl.glyph.html", true, true);
@@ -48,6 +47,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return array("\\ILIAS\\UI\\Component\\Glyph\\Glyph");
+		return array(Component\Glyph\Glyph::class);
 	}
 }
