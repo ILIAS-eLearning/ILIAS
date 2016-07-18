@@ -1,11 +1,12 @@
-#!/usr/bin/php
+#!/usr/bin/php -q
 <?php
 //============================================================+
 // File name   : tcpdf_addfont.php
-// Version     : 1.0.000
+// Version     : 1.0.002
 // Begin       : 2013-05-13
-// Last Update : 2013-05-14
+// Last Update : 2013-08-05
 // Authors     : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
+//               Remi Collet
 // License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
 // Copyright (C) 2011-2013 Nicola Asuni - Tecnick.com LTD
@@ -42,13 +43,12 @@
 
 if (php_sapi_name() != 'cli') {
   echo 'You need to run this command from console.';
-  exit();
+  exit(1);
 }
 
-// Include the main TCPDF library (search the library on the following directories).
-$tcpdf_include_dirs = array(realpath('../tcpdf.php'), '/usr/share/php/tcpdf/tcpdf.php', '/usr/share/tcpdf/tcpdf.php', '/usr/share/php-tcpdf/tcpdf.php', '/var/www/tcpdf/tcpdf.php', '/var/www/html/tcpdf/tcpdf.php', '/usr/local/apache2/htdocs/tcpdf/tcpdf.php');
+$tcpdf_include_dirs = array(realpath(dirname(__FILE__).'/../tcpdf.php'), '/usr/share/php/tcpdf/tcpdf.php', '/usr/share/tcpdf/tcpdf.php', '/usr/share/php-tcpdf/tcpdf.php', '/var/www/tcpdf/tcpdf.php', '/var/www/html/tcpdf/tcpdf.php', '/usr/local/apache2/htdocs/tcpdf/tcpdf.php');
 foreach ($tcpdf_include_dirs as $tcpdf_include_path) {
-	if (file_exists($tcpdf_include_path)) {
+	if (@file_exists($tcpdf_include_path)) {
 		require_once($tcpdf_include_path);
 		break;
 	}
@@ -187,7 +187,10 @@ foreach ($inopt as $opt => $val) {
 		}
 		case 'o':
 		case 'outpath': {
-			$options['outpath'] = $val;
+			$options['outpath'] = realpath($val);
+			if (substr($options['outpath'], -1) != '/') {
+				$options['outpath'] .= '/';
+			}
 			break;
 		}
 		case 'p':
@@ -225,24 +228,41 @@ foreach ($inopt as $opt => $val) {
 } // end of while loop
 
 if (empty($options['fonts'])) {
-	die("ERROR: missing input fonts (try --help for usage)\n");
+	echo "ERROR: missing input fonts (try --help for usage)\n\n";
+	exit(2);
 }
 
 // check the output path
 if (!is_dir($options['outpath']) OR !is_writable($options['outpath'])) {
-	die("ERROR: Can't write to ".$options['outpath']."\n");
+	echo "ERROR: Can't write to ".$options['outpath']."\n\n";
+	exit(3);
 }
 
-echo "*** Converting fonts for TCPDF ***\n\n";
+echo "\n>>> Converting fonts for TCPDF:\n";
 
-echo '--- Output dir set to '.$options['outpath']."\n\n";
+echo '*** Output dir set to '.$options['outpath']."\n";
 
-foreach ($options['fonts'] as $fontfile) {
+// check if there are conversion errors
+$errors = false;
+
+foreach ($options['fonts'] as $font) {
+	$fontfile = realpath($font);
 	$fontname = TCPDF_FONTS::addTTFfont($fontfile, $options['type'], $options['enc'], $options['flags'], $options['outpath'], $options['platid'], $options['encid'], $options['addcbbox'], $options['link']);
-	echo ">>> ".$fontfile.' added as '.$fontname."\n";
+	if ($fontname === false) {
+		$errors = true;
+		echo "--- ERROR: can't add ".$font."\n";
+	} else {
+		echo "+++ OK   : ".$fontfile.' added as '.$fontname."\n";
+	}
 }
 
-echo "\n";
+if ($errors) {
+	echo "--- Process completed with ERRORS!\n\n";
+	exit(4);
+}
+
+echo ">>> Process successfully completed!\n\n";
+exit(0);
 
 //============================================================+
 // END OF FILE
