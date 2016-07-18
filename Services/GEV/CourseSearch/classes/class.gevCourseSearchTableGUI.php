@@ -79,7 +79,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->almost_not_bookable_img, "gev_booking_request_pe");
 		$this->setLegend($legend);
 
-		$this->tabs = new gevCourseSearchTabGUI($a_search_options, $this->parent_obj, $this->active_tab);
+		$this->tabs = new gevCourseSearchTabGUI($a_search_options, $this->parent_obj, $this->active_tab, $crs_srch);
 
 		$order = $this->getOrderField();
 		
