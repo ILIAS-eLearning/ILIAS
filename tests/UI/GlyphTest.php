@@ -21,23 +21,44 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	static $canonical_css_classes = array
-		( C\Glyph\Glyph::SETTINGS		=> "glyphicon glyphicon-cog"
-		, C\Glyph\Glyph::EXPAND			=> "glyphicon glyphicon-triangle-right"
-		, C\Glyph\Glyph::COLLAPSE		=> "glyphicon glyphicon-triangle-bottom"
-		, C\Glyph\Glyph::ADD			=> "glyphicon glyphicon-plus-sign"
-		, C\Glyph\Glyph::REMOVE			=> "glyphicon glyphicon-minus-sign"
-		, C\Glyph\Glyph::UP				=> "glyphicon glyphicon-circle-arrow-up"
-		, C\Glyph\Glyph::DOWN			=> "glyphicon glyphicon-circle-arrow-down"
-		, C\Glyph\Glyph::BACK 			=> "glyphicon glyphicon-chevron-left"
-		, C\Glyph\Glyph::NEXT			=> "glyphicon glyphicon-chevron-right"
-		, C\Glyph\Glyph::SORT			=> "glyphicon TODO"
-		, C\Glyph\Glyph::USER			=> "glyphicon glyphicon-user"
-		, C\Glyph\Glyph::MAIL 			=> "glyphicon glyphicon-envelope"
-		, C\Glyph\Glyph::NOTIFICATION	=> "glyphicon glyphicon-bell"
-		, C\Glyph\Glyph::TAG			=> "glyphicon glyphicon-tag"
-		, C\Glyph\Glyph::NOTE			=> "glyphicon glyphicon-pushpin"
-		, C\Glyph\Glyph::COMMENT		=> "glyphicon glyphicon-comment"
+		( C\Glyph\Glyph::SETTINGS			=> "glyphicon glyphicon-cog"
+		, C\Glyph\Glyph::EXPAND				=> "glyphicon glyphicon-triangle-right"
+		, C\Glyph\Glyph::COLLAPSE			=> "glyphicon glyphicon-triangle-bottom"
+		, C\Glyph\Glyph::ADD				=> "glyphicon glyphicon-plus-sign"
+		, C\Glyph\Glyph::REMOVE				=> "glyphicon glyphicon-minus-sign"
+		, C\Glyph\Glyph::UP					=> "glyphicon glyphicon-circle-arrow-up"
+		, C\Glyph\Glyph::DOWN				=> "glyphicon glyphicon-circle-arrow-down"
+		, C\Glyph\Glyph::BACK 				=> "glyphicon glyphicon-chevron-left"
+		, C\Glyph\Glyph::NEXT				=> "glyphicon glyphicon-chevron-right"
+		, C\Glyph\Glyph::SORT_ASCENDING		=> "glyphicon glyphicon-arrow-up"
+		, C\Glyph\Glyph::SORT_DESCENDING	=> "glyphicon glyphicon-arrow-down"
+		, C\Glyph\Glyph::USER				=> "glyphicon glyphicon-user"
+		, C\Glyph\Glyph::MAIL 				=> "glyphicon glyphicon-envelope"
+		, C\Glyph\Glyph::NOTIFICATION		=> "glyphicon glyphicon-bell"
+		, C\Glyph\Glyph::TAG				=> "glyphicon glyphicon-tag"
+		, C\Glyph\Glyph::NOTE				=> "glyphicon glyphicon-pushpin"
+		, C\Glyph\Glyph::COMMENT			=> "glyphicon glyphicon-comment"
 		);
+
+	static $aria_labels = array(
+		  C\Glyph\Glyph::SETTINGS			=> "settings"
+		, C\Glyph\Glyph::EXPAND				=> "expand_content"
+		, C\Glyph\Glyph::COLLAPSE			=> "collapse_content"
+		, C\Glyph\Glyph::ADD				=> "add"
+		, C\Glyph\Glyph::REMOVE				=> "remove"
+		, C\Glyph\Glyph::UP					=> "up"
+		, C\Glyph\Glyph::DOWN				=> "down"
+		, C\Glyph\Glyph::BACK 				=> "back"
+		, C\Glyph\Glyph::NEXT				=> "next"
+		, C\Glyph\Glyph::SORT_ASCENDING		=> "sort_ascending"
+		, C\Glyph\Glyph::SORT_DESCENDING	=> "sort_descending"
+		, C\Glyph\Glyph::USER				=> "show_who_is_online"
+		, C\Glyph\Glyph::MAIL 				=> "mail"
+		, C\Glyph\Glyph::NOTIFICATION		=> "notifications"
+		, C\Glyph\Glyph::TAG				=> "tags"
+		, C\Glyph\Glyph::NOTE				=> "notes"
+		, C\Glyph\Glyph::COMMENT			=> "comments"
+	);
 
 	/**
 	 * @dataProvider glyph_type_provider
@@ -198,7 +219,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(C\Glyph\Glyph::DOWN)
 			, array(C\Glyph\Glyph::BACK)
 			, array(C\Glyph\Glyph::NEXT)
-			, array(C\Glyph\Glyph::SORT)
+			, array(C\Glyph\Glyph::SORT_ASCENDING)
+			, array(C\Glyph\Glyph::SORT_DESCENDING)
 			, array(C\Glyph\Glyph::USER)
 			, array(C\Glyph\Glyph::MAIL)
 			, array(C\Glyph\Glyph::NOTIFICATION)
@@ -226,22 +248,9 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[$type];
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
-		$this->assertEquals($expected, $html);
-	}
+		$aria_label = self::$aria_labels[$type];
 
-	/**
-	 * @dataProvider glyph_type_provider
-	 */
-	public function test_render_no_link($type) {
-		$f = $this->getGlyphFactory();
-		$r = $this->getDefaultRenderer();
-		$c = $f->$type();
-
-		$html = $this->normalizeHTML($r->render($c));
-
-		$css_classes = self::$canonical_css_classes[$type];
-		$expected = "<a class=\"glyph\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -257,7 +266,9 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\">".
+		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
+
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-$type\">42</span>".
 					"</a>";
@@ -275,7 +286,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\">".
+		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>".
@@ -284,7 +296,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_dont_render_counter() {
-		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory());
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage());
 		$f = $this->getCounterFactory();
 
 		try {
