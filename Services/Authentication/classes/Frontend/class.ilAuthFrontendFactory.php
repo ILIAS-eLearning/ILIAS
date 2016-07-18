@@ -60,7 +60,7 @@ class ilAuthFrontendFactory
 	/**
 	 * @return \ilAuthFrontendInterface
 	 */
-	public function getFrontend(ilAuthSession $session, ilAuthFrontendCredentials $credentials)
+	public function getFrontend(ilAuthSession $session, ilAuthCredentials $credentials)
 	{
 		switch($this->getContext())
 		{

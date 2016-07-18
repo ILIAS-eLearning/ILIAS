@@ -79,9 +79,10 @@ class ilAuthSession
 	 */
 	public function regenerateId()
 	{
-		$this->getLogger()->debug('Session regenrate id called');
+		$old_session_id = session_id();
 		session_regenerate_id(true);
 		$this->setId(session_id());
+		$this->getLogger()->info('Session regenrate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
 	}
 	
 	/**
@@ -91,6 +92,7 @@ class ilAuthSession
 	{
 		$this->getLogger()->debug('Logout called for: '. $this->getUserId());
 		$this->setAuthenticated(false, 0);
+		session_regenerate_id(true);
 		session_destroy();
 	}
 	

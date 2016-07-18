@@ -621,6 +621,14 @@ class ilStartUpGUI
 			$credentials->setPassword($form->getInput('password'));
 			$credentials->setCaptchaCode($form->getInput('captcha_code'));
 			
+			// set chosen auth mode
+			include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
+			$det = ilAuthModeDetermination::_getInstance();
+			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
+			{
+				$credentials->setAuthMode($form->getInput('auth_mode'));
+			}
+			
 			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 			$frontend_factory = new ilAuthFrontendFactory();
 			$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
