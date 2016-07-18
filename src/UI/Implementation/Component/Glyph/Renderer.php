@@ -24,6 +24,14 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ACTION", $component->getAction());
 			$tpl->parseCurrentBlock();
 		}
+
+		if ($component->getHighlighted()) {
+			$tpl->touchBlock("highlighted");
+		}
+
+		$tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
+
+
 		$tpl->touchBlock($component->getType());
 
 		foreach ($component->getCounters() as $counter) {

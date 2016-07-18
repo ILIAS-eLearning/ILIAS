@@ -60,4 +60,20 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	 * @return	Glyph
 	 */
 	public function withCounter(Counter $counter);
+
+
+	/**
+	 * Returns whether the Glyph is highlighed
+
+	 * @return bool
+	 */
+	public function getHighlighted();
+
+	/**
+	 * Highlights a Glyph (sets the highlighted class)
+	 *
+	 * @param bool|true $highlighted
+	 * @return mixed
+	 */
+	public function highlighted($highlighted = true);
 }

@@ -89,4 +89,20 @@ class Glyph implements C\Glyph\Glyph {
 		$clone->counters[$counter->getType()] = $counter;
 		return $clone;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function getHighlighted(){
+		return $this->highlighted;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function highlighted($highlighted = true) {
+		$clone = clone $this;
+		$clone->highlighted = $highlighted;
+		return $clone;
+	}
 }
