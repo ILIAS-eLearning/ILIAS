@@ -3222,6 +3222,9 @@
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
+			<xsl:if test="@PermissionRefId">
+				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>}}}}}
+			</xsl:if>
 			<div>
 				<xsl:if test="@Characteristic">
 					<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
@@ -3268,6 +3271,9 @@
 				</xsl:if>
 				<xsl:comment>Break</xsl:comment>
 			</div>
+			<xsl:if test="@PermissionRefId">
+				{{{{{Section;Access}}}}}
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 
