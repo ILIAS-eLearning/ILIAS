@@ -60,14 +60,18 @@ class ilAuthFrontendFactory
 	/**
 	 * @return \ilAuthFrontendInterface
 	 */
-	public function getFrontend(ilAuthSession $session, ilAuthCredentials $credentials)
+	public function getFrontend(ilAuthSession $session, ilAuthCredentials $credentials, array $providers)
 	{
 		switch($this->getContext())
 		{
 			case self::CONTEXT_STANDARD_FORM:
 				$this->getLogger()->debug('Init auth frontend with standard auth context');
 				include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
-				$frontend = new ilAuthStandardFormFrontend($session, $credentials);
+				$frontend = new ilAuthStandardFormFrontend(
+					$session, 
+					$credentials,
+					$providers
+				);
 				return $frontend;
 			
 			case self::CONTEXT_UNDEFINED:

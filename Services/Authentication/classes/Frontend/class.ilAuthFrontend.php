@@ -12,6 +12,7 @@ class ilAuthFrontend
 {
 	private $logger = null;
 	private $credentials = null;
+	private $providers = array();
 	private $auth_session = null;
 	
 	private $authenticated = false;
@@ -21,12 +22,13 @@ class ilAuthFrontend
 	 * @param ilAuthSession $session
 	 * @param ilAuthCredentials $credentials
 	 */
-	public function __construct(ilAuthSession $session, ilAuthCredentials $credentials)
+	public function __construct(ilAuthSession $session, ilAuthCredentials $credentials, array $providers)
 	{
 		$this->logger = ilLoggerFactory::getLogger('auth');
 		
 		$this->auth_session = $session;
 		$this->credentials = $credentials;
+		$this->providers = $providers;
 	}
 	
 	/**
@@ -45,6 +47,15 @@ class ilAuthFrontend
 	public function getCredentials()
 	{
 		return $this->credentials;
+	}
+	
+	/**
+	 * Get providers
+	 * @return ilAuthProviderInterface[] $provider
+	 */
+	public function getProviders()
+	{
+		return $this->providers;
 	}
 	
 	/**
@@ -73,5 +84,26 @@ class ilAuthFrontend
 	{
 		$this->authenticated = $a_status;
 	}
+	
+	/**
+	 * Try to authenticate user
+	 */
+	public final function authenticate()
+	{
+		foreach($this->getProviders() as $provider)
+		{
+			$this->getLogger()->debug('Trying authentication against: ' . get_class($provider));
+			
+			if($provider->doAuthentication())
+			{
+				$this->getLogger()->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($provider->getAuthenticatedUserId()));
+				$this->getAuthSession()->setAuthenticated(true, $provider->getAuthenticatedUserId());
+				$this->setAuthenticated(true);
+				return true;
+			}
+		}
+		$this->getLogger()->debug('Authentication failed for all authentication methods.');
+	}
+	
 }
 ?>

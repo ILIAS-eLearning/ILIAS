@@ -13,34 +13,6 @@ include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontend.ph
  */
 class ilAuthStandardFormFrontend extends ilAuthFrontend implements ilAuthFrontendInterface
 {
-	/**
-	 * Constructor
-	 * @param ilSession $session
-	 * @param ilAuthCredentials $credentials
-	 */
-	public function __construct(ilAuthSession $session, ilAuthCredentials $credentials)
-	{
-		parent::__construct($session, $credentials);
-	}
-	
-	public function authenticate()
-	{
-		if($this->getCredentials()->getUsername() != 'root')
-		{
-			$this->setAuthenticated(false);
-			$this->getAuthSession()->setAuthenticated(false, 0);
-			$this->getAuthSession()->setUserId(0);
-			#$this->getAuthSession()->regenerateId();
-			
-		}
-		
-		$this->getLogger()->info('Logged in as '. $this->getCredentials()->getUsername());
-		$this->setAuthenticated(true);
-		$this->getAuthSession()->setAuthenticated(true, 6);
-		$this->getAuthSession()->regenerateId();
-		
-		return false;
-	}
 
 }
 ?>

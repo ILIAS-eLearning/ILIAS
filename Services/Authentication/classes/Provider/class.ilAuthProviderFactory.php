@@ -34,15 +34,37 @@ class ilAuthProviderFactory
 	 * Get provider
 	 * @param \ilAuthCredentials $credentials
 	 */
-	public function getProvider(ilAuthCredentials $credentials)
+	public function getProviders(ilAuthCredentials $credentials)
 	{
 		// Fixed provider selection;
 		if(strlen($credentials->getAuthMode()))
 		{
 			$this->getLogger()->debug('Returning fixed provider for auth mode: ' . $credentials->getAuthMode());
-			return $this->getProviderByAuthMode($credentials->getAuthMode());
+			return $this->getProvidersByAuthMode($credentials);
 		}
 		
+	}
+	
+	/**
+	 * Get provider by auth mode
+	 * @return \ilAuthProvider
+	 */
+	protected function getProvidersByAuthMode(ilAuthCredentials $credentials)
+	{
+		switch((int) $credentials->getAuthMode())
+		{
+			case AUTH_LDAP:
+				$this->getLogger()->debug('Using ldap authentication');
+				break;
+			
+			case AUTH_LOCAL:
+				$this->getLogger()->debug('Using local database authentication');
+				include_once './Services/Authentication/classes/Provider/class.ilAuthProviderDatabase.php';
+				return array(
+					new ilAuthProviderDatabase($credentials)
+				);
+		}
+		return array();
 	}
 	
 }
