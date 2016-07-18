@@ -21,7 +21,6 @@ class gevCourseSearchTabGUI {
 
 		$this->gCtrl = $ilCtrl;
 		$this->gLng = $lng;
-		$a_user_id = ($a_user_id === null) ? $ilUser->getId() : $a_user_id;
 		$this->crs_srch = $crs_srch;
 
 		$this->tabs = $this->crs_srch->getPossibleTabs();
