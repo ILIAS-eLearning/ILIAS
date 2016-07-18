@@ -298,6 +298,48 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *       The Sorting Glyphs indicate the sorting direction of a column in a table as ascending (up) or descending (down).
+	 *       It is a toggle reversing the ordering of a column.
+	 *   composition: >
+	 *       The Sort Ascending Glyph uses glyphicon-arrow-up.
+	 *   effect: >
+	 *       Clicking the Sort Ascending Glyph reverses the direction of ordering in a table.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be ‘Sort Ascending'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function sortAscending($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Sorting Glyphs indicate the sorting direction of a column in a table as ascending (up) or descending (down).
+	 *       It is a toggle reversing the ordering of a column.
+	 *   composition: >
+	 *       The Sort Descending Glyph uses glyphicon-arrow-descending.
+	 *   effect: >
+	 *       Clicking the Sort Descending Glyph reverses the direction of ordering in a table.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be ‘Sort Descending'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function sortDescending($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *       The User Glyph triggers the “Who is online?” Popover in the Top Navigation.
 	 *       The User Glyph indicates the number of pending contact requests and users online via the the Novelty Counter and Status Counter respectively.
 	 *   composition: >

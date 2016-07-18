@@ -20,6 +20,8 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 	const DOWN = "down";
 	const BACK = "back";
 	const NEXT = "next";
+	const SORT_ASCENDING = "sortAscending";
+	const SORT_DESCENDING = "sortDescending";
 	const SORT = "sort";
 	const USER = "user";
 	const MAIL = "mail";

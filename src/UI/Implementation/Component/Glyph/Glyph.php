@@ -36,6 +36,8 @@ class Glyph implements C\Glyph\Glyph {
 		, self::DOWN
 		, self::BACK
 		, self::NEXT
+		, self::SORT_ASCENDING
+		, self::SORT_DESCENDING
 		, self::SORT
 		, self::USER
 		, self::MAIL

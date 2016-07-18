@@ -68,6 +68,19 @@ class Factory implements G\Factory {
 	 */
 	public function next($action = null) {
 		return new Glyph(G\Glyph::NEXT, $action);
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sortAscending($action = null) {
+		return new Glyph(G\Glyph::SORT_ASCENDING, "sort_ascending", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sortDescending($action = null) {
+		return new Glyph(G\Glyph::SORT_DESCENDING, "sort_descending", $action);
 	}
 
 	/**
