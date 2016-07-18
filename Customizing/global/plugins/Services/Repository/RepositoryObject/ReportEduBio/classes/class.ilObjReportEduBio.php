@@ -228,7 +228,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 		$res = $this->gIldb->query( "SELECT COUNT(*) cnt"
 						."  FROM hist_usercoursestatus "
 						." WHERE usr_id = ".$this->gIldb->quote($this->target_user_id, "integer")
-						."   AND certificate = ".$this->gILdb->quote($cert_id, "integer"));
+						."   AND certificate = ".$this->gIldb->quote($cert_id, "integer"));
 		if($this->gIldb->fetchAssoc($res)['cnt'] == 0) {
 			return false;
 		}
