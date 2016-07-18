@@ -94,6 +94,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	final protected function checkComponent(Component $component) {
 		$interfaces = $this->getComponentInterfaceName();
+		if(!is_array($interfaces)){
+			throw new \LogicException(
+					"Expected array, found '".(string)(null)."' when rendering.");
+		}
+
 		foreach ($interfaces as $interface) {
 			if ($component instanceof $interface) {
 				return;
