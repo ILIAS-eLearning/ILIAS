@@ -13,7 +13,7 @@ require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 class gevCourseSearchTabGUI {
 	
 
-	public function __construct($a_search_options, $a_parent_obj, $a_selected_tab) {
+	public function __construct($a_search_options, $a_parent_obj, $a_selected_tab, $crs_srch) {
 		global $ilCtrl, $ilUser, $lng;
 
 		$this->selected_tab = $a_selected_tab;
@@ -21,7 +21,7 @@ class gevCourseSearchTabGUI {
 
 		$this->gCtrl = $ilCtrl;
 		$this->gLng = $lng;
-		$this->crs_srch = gevCourseSearch::getInstance($ilUser->getId());
+		$this->crs_srch = $crs_srch;
 
 		$this->tabs = $this->crs_srch->getPossibleTabs();
 
