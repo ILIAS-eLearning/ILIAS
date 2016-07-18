@@ -58,15 +58,19 @@ class ilSession
 	protected static $enable_web_access_without_session = false;
 
 	/**
-	* Get session data from table
-	*
-	* @param	string		session id
-	* @return	string		session data
-	*/
+	 * Get session data from table
+	 * 
+	 * According to https://bugs.php.net/bug.php?id=70520 read data must return a string.
+	 * Otherwise session_regenerate_id might fail with php 7.
+	 * 
+	 * @param	string		session id
+	 * @return	string		session data
+	 */
 	static function _getData($a_session_id)
 	{
 		if(!$a_session_id) {
-			return NULL;
+			// fix for php #70520
+			return '';
 		}
 		global $ilDB;
 		
@@ -75,7 +79,8 @@ class ilSession
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
 	
-		return $rec["data"];
+		// fix for php #70520
+		return (string) $rec["data"];
 	}
 	
 	/**

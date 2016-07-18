@@ -37,7 +37,7 @@ class ilAuthStandardFormFrontend extends ilAuthFrontend implements ilAuthFronten
 		$this->getLogger()->info('Logged in as '. $this->getCredentials()->getUsername());
 		$this->setAuthenticated(true);
 		$this->getAuthSession()->setAuthenticated(true, 6);
-		#$this->getAuthSession()->regenerateId();
+		$this->getAuthSession()->regenerateId();
 		
 		return false;
 	}

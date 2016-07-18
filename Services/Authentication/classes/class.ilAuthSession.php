@@ -58,18 +58,20 @@ class ilAuthSession
 	 */
 	public function init()
 	{
-		if(session_start())
-		{
-			$this->setId(session_id());
-			$this->setUserId(ilSession::get(self::SESSION_AUTH_USER_ID));
-			$this->getLogger()->debug('Resumed session for user: ' . $this->getUserId());
-			return true;
-		}
-		// new session
-		ilSession::set(self::SESSION_AUTH_AUTHENTICATED, false);
-		ilSession::set(self::SESSION_AUTH_USER_ID, 0);
+		session_start();
 		
-		$this->setUserId(0);
+		$this->setId(session_id());
+		$this->setUserId(ilSession::get(self::SESSION_AUTH_USER_ID));
+
+		if($this->getUserId())
+		{
+			$this->getLogger()->debug('Resuming old session for user: ' . $this->getUserId());
+		}
+		else
+		{
+			$this->getLogger()->debug('Started new session.');
+		}
+		return true;
 	}
 	
 	/**
@@ -78,7 +80,7 @@ class ilAuthSession
 	public function regenerateId()
 	{
 		$this->getLogger()->debug('Session regenrate id called');
-		session_regenerate_id();
+		session_regenerate_id(true);
 		$this->setId(session_id());
 	}
 	
@@ -87,7 +89,7 @@ class ilAuthSession
 	 */
 	public function logout()
 	{
-		$this->getLogger()->debug('Logout called: Destroy user session');
+		$this->getLogger()->debug('Logout called for: '. $this->getUserId());
 		$this->setAuthenticated(false, 0);
 		session_destroy();
 	}
