@@ -213,8 +213,8 @@ class ilWebAccessChecker {
 
 
 	protected function checkPublicSection() {
-		global $ilSetting;
-		if (!$ilSetting instanceof ilSetting || !$ilSetting->get('pub_section')) {
+		global $ilSetting, $ilUser;
+		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() == ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
 			ilWACLog::getInstance()->write('public section not activated');
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
