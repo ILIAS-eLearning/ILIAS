@@ -24,7 +24,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($component->getHighlighted()) {
+		if ($component->isHighlighted()) {
 			$tpl->touchBlock("highlighted");
 		}
 

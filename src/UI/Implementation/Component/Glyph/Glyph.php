@@ -115,7 +115,7 @@ class Glyph implements C\Glyph\Glyph {
 	/**
 	 * @return bool
 	 */
-	public function getHighlighted(){
+	public function isHighlighted(){
 		return $this->highlighted;
 	}
 

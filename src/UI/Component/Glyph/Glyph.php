@@ -69,7 +69,7 @@ interface Glyph extends \ILIAS\UI\Component\Component {
 
 	 * @return bool
 	 */
-	public function getHighlighted();
+	public function isHighlighted();
 
 	/**
 	 * Highlights a Glyph (sets the highlighted class)
