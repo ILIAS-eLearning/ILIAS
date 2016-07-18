@@ -7,7 +7,6 @@ namespace ILIAS\UI\Component\Glyph;
 interface Factory {
 	/**
 	 * ---
-	 * title: Settings
 	 * description:
 	 *   purpose: >
 	 *       The Settings Glyph triggers opening a Dropdown to edit settings of the displayed block.
@@ -25,7 +24,7 @@ interface Factory {
 	 *       1: >
 	 *          The Settings Glyph MUST only be used in Blocks.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be “Settings”.
 	 * ---
 	 * @param	string|null	$action
@@ -35,7 +34,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Collapse
 	 * description:
 	 *   purpose: >
 	 *       The Collapse Glyph is used to trigger the collapsing of
@@ -54,7 +52,7 @@ interface Factory {
 	 *       1: >
 	 *          The Collapse Glyph MUST indicate if the toggled Container Collection is visible or not.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Collapse Content'.
 	 * ---
 	 * @param	string|null	$action
@@ -64,7 +62,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Expand
 	 * description:
 	 *   purpose: >
 	 *       The Expand Glyph is used to trigger the display of
@@ -83,7 +80,7 @@ interface Factory {
 	 *       1: >
 	 *          The Expand Glyph MUST indicate if the toggled Container Collection is visible or not.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Expand Content'.
 	 * ---
 	 * @param	string|null	$action
@@ -93,7 +90,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Add
 	 * description:
 	 *   purpose: >
 	 *       The glyphed add-button serves as stand-in for the respective textual
@@ -120,9 +116,9 @@ interface Factory {
 	 *          action column of a form.
 	 *       3: The Add Glyph MUST not be used to add lines to tables.
 	 *   interaction:
-	 *       4: Newly added items MUST be placed below the line in which the Add Glyph has been clicked
+	 *       1: Newly added items MUST be placed below the line in which the Add Glyph has been clicked
 	 *   accessibility:
-	 *       5: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Add'.
 	 * ---
 	 * @param	string|null	$action
@@ -132,7 +128,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Remove
 	 * description:
 	 *   purpose: >
 	 *       The Remove Glyph serves as stand-in for the respective textual
@@ -160,7 +155,7 @@ interface Factory {
 	 *          action column of a form.
 	 *       3: The Remove Glyph MUST not be used to add lines to tables.
 	 *   accessibility:
-	 *       4: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Remove'.
 	 * ---
 	 * @param	string|null	$action
@@ -170,7 +165,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Up
 	 * description:
 	 *   purpose: >
 	 *       The Up Glyph allows for manually arranging rows in tables embedded in forms.
@@ -197,7 +191,7 @@ interface Factory {
 	 *          The Up Glyph is an action and SHOULD be listed in the action
 	 *          column of a form.
 	 *   accessibility:
-	 *       4: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Up'.
 	 * ---
 	 * @param	string|null	$action
@@ -207,7 +201,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Down
 	 * description:
 	 *   purpose: >
 	 *       The Down Glyph allows for manually arranging rows in tables embedded in forms.
@@ -234,7 +227,7 @@ interface Factory {
 	 *          The Down Glyph is an action and SHOULD be listed in the action
 	 *          column of a form.
 	 *   accessibility:
-	 *       4: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Down'.
 	 * ---
 	 * @param	string|null	$action
@@ -244,7 +237,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Back
 	 * description:
 	 *   purpose: >
 	 *       The Back Glyph indicates a possible change of the view. The view change leads back to some previous view.
@@ -260,12 +252,12 @@ interface Factory {
 	 *       1: >
 	 *          Back and Next Buttons MUST be accompanied by the respective Back/Next Glyph.
 	 *   style:
-	 *       2: >
+	 *       1: >
 	 *          If clicking on the Back/Next GLYPH opens a new view of an object, the Next Glyph MUST be used.
-	 *       3: >
+	 *       2: >
 	 *          If clicking on the Back/Next GLYPH opens a previous view of an object, the Back Glyph MUST be used.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Back'.
 	 * ---
 	 * @param	string|null	$action
@@ -275,7 +267,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Next
 	 * description:
 	 *   purpose: >
 	 *       The Next Glyph indicates a possible change of the view. The view change leads back to some previous view.
@@ -290,12 +281,12 @@ interface Factory {
 	 *       1: >
 	 *          Back and Next Buttons MUST be accompanied by the respective Back/Next Glyph.
 	 *   style:
-	 *       2: >
+	 *       1: >
 	 *          If clicking on the Back/Next GLYPH opens a new view of an object, the Next Glyph MUST be used.
-	 *       3: >
+	 *       2: >
 	 *          If clicking on the Back/Next GLYPH opens a previous view of an object, the Back Glyph MUST be used.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Next'.
 	 * ---
 	 * @param	string|null	$action
@@ -305,7 +296,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: User
 	 * description:
 	 *   purpose: >
 	 *       The User Glyph triggers the “Who is online?” Popover in the Top Navigation.
@@ -328,7 +318,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Mail
 	 * description:
 	 *   purpose: >
 	 *       The Mail Glyph provides a shortcut to the mail service. The Mail Glyph indicates the number of new mails received.
@@ -351,7 +340,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Notification
 	 * description:
 	 *   purpose: >
 	 *       The Notification Glyph allows users to activate / deactivate the notification service for a specific object or sub-item.
@@ -367,13 +355,13 @@ interface Factory {
 	 *       1: >
 	 *          The Notification Glyph MUST only be used in the Content Top Actions.
 	 *   interaction:
-	 *       2: >
+	 *       1: >
 	 *          Clicking the Notification Glyph MUST toggle the activation of Notifications.
 	 *   style:
-	 *       3: >
+	 *       1: >
 	 *          If notifications are activated the Notification Glyph MUST use the brand-warning color.
 	 *   accessibility:
-	 *       4: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Notifications'.
 	 * ---
 	 * @param	string|null	$action
@@ -383,7 +371,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Tag
 	 * description:
 	 *   purpose: >
 	 *       The Tag Glyph is used to indicate the possibility of adding tags to an object.
@@ -397,7 +384,7 @@ interface Factory {
 	 *       1: >
 	 *          Novelty and Status Counter MUST show the amount of tags that has been given for an specific object.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Tags'.
 	 * ---
 	 * @param	string|null	$action
@@ -407,7 +394,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Note
 	 * description:
 	 *   purpose: >
 	 *       The Note Glyph is used to indicate the possibilty of adding notes to an object.
@@ -421,7 +407,7 @@ interface Factory {
 	 *       1: >
 	 *          Novelty and Status Counter MUST show the amount of notes that has been given for an specific object.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Notes'.
 	 * ---
 	 * @param	string|null	$action
@@ -431,7 +417,6 @@ interface Factory {
 
 	/**
 	 * ---
-	 * title: Comment
 	 * description:
 	 *   purpose: >
 	 *       The Comment Glyph is used to indicate the possibilty of adding comments to an object.
@@ -445,7 +430,7 @@ interface Factory {
 	 *       1: >
 	 *          Novelty and Status Counter MUST show the amount of comments that has been given for an specific object.
 	 *   accessibility:
-	 *       2: >
+	 *       1: >
 	 *          The aria-label MUST be ‘Comments'.
 	 * ---
 	 * @param	string|null	$action

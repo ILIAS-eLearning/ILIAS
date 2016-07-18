@@ -15,7 +15,6 @@ namespace ILIAS\UI;
 interface Factory {
 	/**
 	 * ---
-	 * title: Counter
 	 * description:
 	 *   purpose: >
 	 *       Counter inform users about the quantity of items indicated
@@ -34,17 +33,15 @@ interface Factory {
 	 *   usage:
 	 *       1: A counter MUST only be used in combination with a glyph.
 	 *   composition:
-	 *       2: >
+	 *       1: >
 	 *          A counter MUST contain exactly one number greater than zero and no
 	 *          other characters.
 	 * ---
 	 * @return  \ILIAS\UI\Component\Counter\Factory
 	 */
 	public function counter();
-
 	/**
 	 * ---
-	 * title: Glyph
 	 * description:
 	 *   purpose: >
 	 *       Glyphs map a generally known concept or symbol to a specific concept in ILIAS.
@@ -83,21 +80,19 @@ interface Factory {
 	 *       4: >
 	 *          Services such as mail MAY be represented by a glyph AND an icon.
 	 *   style:
-	 *       5: >
+	 *       1: >
 	 *          All Glyphs MUST be taken from the Bootstrap Glyphicon Halflings
 	 *          set. Exceptions MUST be approved by the JF.
 	 *   accessibility:
-	 *       6: >
+	 *       1: >
 	 *          The functionality triggered by the Glyph must be indicated to
 	 *          screen readers with by the attribute aria-label or aria-labelledby attribute.
 	 * ---
 	 * @return  \ILIAS\UI\Component\Glyph\Factory
 	 */
 	public function glyph();
-
 	/**
 	 * ---
-	 * title: Button
 	 * description:
 	 *   purpose: >
 	 *      Buttons trigger interactions that change the system’s status. Usually
@@ -129,37 +124,37 @@ interface Factory {
 	 *      1: >
 	 *           Buttons MUST NOT be used inside a Textual Paragraph.
 	 *   interaction:
-	 *      2: >
+	 *      1: >
 	 *           A Button SHOULD trigger an action. Only in Toolbars, Buttons MAY also
 	 *           change the view.
-	 *      3: >
+	 *      2: >
 	 *           If an action is temporarily not available, Buttons MUST be disabled by
 	 *           setting as type 'disabled'.
 	 *   style:
-	 *      5: >
+	 *      1: >
 	 *           If Text is used inside a Button, the Button MUST be at least six characters
 	 *           wide.
 	 *   wording:
-	 *      6: >
+	 *      1: >
 	 *           The caption of a Button SHOULD contain no more than two words.
-	 *      7: >
+	 *      2: >
 	 *           The wording of the button SHOULD describe the action the button performs
 	 *           by using a verb or a verb phrase.
-	 *      8: >
+	 *      3: >
 	 *           Every word except articles, coordinating conjunctions and prepositions
 	 *           of four or fewer letters MUST be capitalized.
-	 *      9: >
+	 *      4: >
 	 *           For standard events such as saving or canceling the existing standard
 	 *           terms MUST be used if possible: Save, Cancel, Delete, Cut, Copy.
-	 *      10: >
+	 *      5: >
 	 *           There are cases where a non-standard label such as “Send Mail” for saving
 	 *           and sending the input of a specific form might deviate from the standard.
 	 *           These cases MUST however specifically justified.
 	 *   accessibility:
-	 *      12: >
+	 *      1: >
 	 *           DOM elements of type "button" MUST be used to properly identify an
 	 *           element as a Button if there is no good reason to do otherwise.
-	 *      13: >
+	 *      2: >
 	 *           Button DOM elements MUST either be of type "button", of type "a"
 	 *           accompanied with the aria-role “Button” or input along with the type
 	 *           attribute “button” or "submit".
