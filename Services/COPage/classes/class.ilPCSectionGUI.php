@@ -12,6 +12,8 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
+*
 * @ingroup ServicesCOPage
 */
 class ilPCSectionGUI extends ilPageContentGUI
@@ -91,6 +93,12 @@ class ilPCSectionGUI extends ilPageContentGUI
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+				$form = $this->getForm(true);
+				$this->ctrl->forwardCommand($form);
+				break;
+
 			default:
 				$ret = $this->$cmd();
 				break;
@@ -192,6 +200,30 @@ class ilPCSectionGUI extends ilPageContentGUI
 		$dt_prop->setShowTime(true);
 		$form->addItem($dt_prop);
 
+		// rep selector
+		if ($this->getPageConfig()->getEnablePermissionChecks())
+		{
+			include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+			$rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id");
+			$form->addItem($rs);
+
+			// permission
+			$options = array(
+				"read" => $lng->txt("read"),
+				"write" => $lng->txt("write"),
+				"visible" => $lng->txt("visible"),
+			);
+			$si = new ilSelectInputGUI($lng->txt("permission"), "permission");
+			$si->setOptions($options);
+			$form->addItem($si);
+
+			if (!$a_insert)
+			{
+				$si->setValue($this->content_obj->getPermission());
+				$rs->setValue($this->content_obj->getPermissionRefId());
+			}
+		}
+
 		// save/cancel buttons
 		if ($a_insert)
 		{
@@ -203,7 +235,6 @@ class ilPCSectionGUI extends ilPageContentGUI
 			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
-
 		return $form;
 	}
 
@@ -280,6 +311,13 @@ class ilPCSectionGUI extends ilPageContentGUI
 		{
 			$this->content_obj->setActiveTo(0);
 		}
+
+		if ($this->getPageConfig()->getEnablePermissionChecks())
+		{
+			$this->content_obj->setPermissionRefId($_POST["permission_ref_id"]);
+			$this->content_obj->setPermission($_POST["permission"]);
+		}
+
 
 	}
 
