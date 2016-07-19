@@ -650,7 +650,6 @@ class ilStartUpGUI
 					// @todo php7 fix redirection
 					ilUtil::redirect('./goto.php?target=root_1&client_id=php7');
 				}
-				
 			} 
 			catch (Exception $ex) 
 			{

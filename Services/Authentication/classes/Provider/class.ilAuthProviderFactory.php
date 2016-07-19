@@ -40,18 +40,38 @@ class ilAuthProviderFactory
 		if(strlen($credentials->getAuthMode()))
 		{
 			$this->getLogger()->debug('Returning fixed provider for auth mode: ' . $credentials->getAuthMode());
-			return $this->getProvidersByAuthMode($credentials);
+			if($this->getProvidersByAuthMode($credentials))
+			{
+				return array(
+					$this->getProvidersByAuthMode($credentials, $credentials->getAuthMode())
+				);
+			}
 		}
 		
+		// check for dynamic provider selection
+		include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
+		$auth_determination = ilAuthModeDetermination::_getInstance();
+		$sequence = $auth_determination->getAuthModeSequence($credentials->getUsername());
+		
+		$providers = array();
+		foreach((array) $sequence as $position => $authmode)
+		{
+			$provider = $this->getProvidersByAuthMode($credentials, $authmode);
+			if($provider instanceof ilAuthProviderInterface)
+			{
+				$providers[] = $provider;
+			}
+		}
+		return $providers;
 	}
 	
 	/**
 	 * Get provider by auth mode
 	 * @return \ilAuthProvider
 	 */
-	protected function getProvidersByAuthMode(ilAuthCredentials $credentials)
+	protected function getProvidersByAuthMode(ilAuthCredentials $credentials, $a_authmode)
 	{
-		switch((int) $credentials->getAuthMode())
+		switch((int) $a_authmode)
 		{
 			case AUTH_LDAP:
 				$this->getLogger()->debug('Using ldap authentication');
@@ -60,11 +80,9 @@ class ilAuthProviderFactory
 			case AUTH_LOCAL:
 				$this->getLogger()->debug('Using local database authentication');
 				include_once './Services/Authentication/classes/Provider/class.ilAuthProviderDatabase.php';
-				return array(
-					new ilAuthProviderDatabase($credentials)
-				);
+				return new ilAuthProviderDatabase($credentials);
 		}
-		return array();
+		return null;
 	}
 	
 }
