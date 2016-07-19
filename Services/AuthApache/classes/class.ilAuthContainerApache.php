@@ -330,14 +330,14 @@ class ilAuthContainerApache extends Auth_Container
 			$internal_account = $sync->sync();
 		}
 		catch(UnexpectedValueException $e) {
-			ilLoggerFactory::getLogger('Login failed with message: ' . $e->getMessage());
+			ilLoggerFactory::getLogger('auth')->info('Login failed with message: ' . $e->getMessage());
 			$a_auth->status = AUTH_WRONG_LOGIN;
 			$a_auth->logout();
 			return false;
 		}
 		catch(ilLDAPSynchronisationForbiddenException $e) {
 			// No syncronisation allowed => create Error
-			ilLoggerFactory::getLogger('Login failed with message: ' . $e->getMessage());
+			ilLoggerFactory::getLogger('auth')->info('Login failed with message: ' . $e->getMessage());
 			$a_auth->status = AUTH_RADIUS_NO_ILIAS_USER;
 			$a_auth->logout();
 			return false;

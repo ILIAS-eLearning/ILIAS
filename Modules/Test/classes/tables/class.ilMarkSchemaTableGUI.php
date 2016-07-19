@@ -47,6 +47,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 		parent::__construct($parent, $cmd);
 
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $cmd));
+		$this->setFormName('form_' . $this->getId());
 
 		$this->setRowTemplate('tpl.il_as_tst_mark_schema_row.html', 'Modules/Test');
 
@@ -54,7 +55,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
 		if($this->object->canEditMarks())
 		{
-			$this->addCommandButton('addMarkStep', $this->lng->txt('tst_mark_create_new_mark_step'));
 			$this->addCommandButton('saveMarks', $this->lng->txt('save'));
 			$this->addMultiCommand('deleteMarkSteps', $this->lng->txt('delete'));
 

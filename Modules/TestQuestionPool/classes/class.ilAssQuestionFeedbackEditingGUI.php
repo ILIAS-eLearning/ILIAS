@@ -174,7 +174,8 @@ class ilAssQuestionFeedbackEditingGUI
 			$this->feedbackOBJ->saveSpecificFormProperties($form);
 			
 			$this->questionOBJ->cleanupMediaObjectUsage();
-			
+			$this->questionOBJ->saveToDb();
+
 			if( $this->isSyncAfterSaveRequired() )
 			{
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);

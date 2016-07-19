@@ -709,52 +709,65 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		if($this->is_multiple_choice && strlen($_GET['remImage']))
+		if(!$authorized)
 		{
-			$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s";
-			$types  = array("integer", "integer", "integer", "integer", 'integer');
-			$values = array($active_id, $this->getId(), $pass, $_GET['remImage'], (int)$authorized);
-			
-			if( $this->getStep() !== NULL )
+			if($this->is_multiple_choice && strlen($_GET['remImage']))
 			{
-				$query .= " AND step = %s ";
-				$types[]  = 'integer';
-				$values[] = $this->getStep();
-			}
-			$affectedRows = $ilDB->manipulateF($query, $types, $values);
-		}
-		elseif(!$this->is_multiple_choice)
-		{
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
-		}
+				$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s";
+				$types  = array("integer", "integer", "integer", "integer", 'integer');
+				$values = array($active_id, $this->getId(), $pass, $_GET['remImage'], (int)$authorized);
 
-		if (strlen($_GET["selImage"]))
-		{
-			$imageWasSelected = true;
-			
-			$types = array('integer', 'integer', 'integer', 'integer', 'integer');
-			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage'], (int)$authorized);
-			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s';
-			if($this->getStep() != null)
+				if($this->getStep() !== NULL)
+				{
+					$query .= " AND step = %s ";
+					$types[]  = 'integer';
+					$values[] = $this->getStep();
+				}
+				$ilDB->manipulateF($query, $types, $values);
+			}
+			elseif(!$this->is_multiple_choice)
 			{
-				$types[] = 'integer';
-				$values[] = $this->getStep();
-				$query .= ' AND step = %s';
+				$this->removeCurrentSolution($active_id, $pass, $authorized);
 			}
 
-			$ilDB->manipulateF($query, $types, $values);
+			if(!$authorized && strlen($_GET["selImage"]))
+			{
+				$imageWasSelected = true;
 
-			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
+				$types = array('integer', 'integer', 'integer', 'integer', 'integer');
+				$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage'], (int)$authorized);
+				$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s';
+				if($this->getStep() != null)
+				{
+					$types[] = 'integer';
+					$values[] = $this->getStep();
+					$query .= ' AND step = %s';
+				}
+
+				$ilDB->manipulateF($query, $types, $values);
+
+				$this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
+			}
+			else
+			{
+				$imageWasSelected = false;
+			}
 		}
 		else
 		{
-			$imageWasSelected = false;
+			$solutions = $this->getUserSolutionPreferingIntermediate($active_id, $pass);
+			$this->removeCurrentSolution($active_id, $pass, true);
+			$this->removeCurrentSolution($active_id, $pass, false);
+			foreach($solutions as $solution)
+			{
+				$this->saveCurrentSolution($active_id, $pass, $solution['value1'], null, true);
+			}
 		}
 
 		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 
 		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		if( !$authorized && ilObjAssessmentFolder::_enabledAssessmentLogging() )
 		{
 			if( $imageWasSelected )
 			{

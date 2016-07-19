@@ -105,12 +105,20 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
 		{
 			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php");
 			$pageObjectGUI = new ilAssGenFeedbackPageGUI($pageObjectId);
+			$pageObjectGUI->obj->addUpdateListener(
+				$this->questionOBJ,
+				'saveToDb'
+			);
 			return $pageObjectGUI;
 		}
 		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK)
 		{
 			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
 			$pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
+			$pageObjectGUI->obj->addUpdateListener(
+				$this->questionOBJ,
+				'saveToDb'
+			);
 			return $pageObjectGUI;
 		}
 	}

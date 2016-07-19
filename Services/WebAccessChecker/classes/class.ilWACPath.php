@@ -199,7 +199,7 @@ class ilWACPath {
 	public function getTimestamp() {
 		$param = $this->getParameters();
 
-		return ($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
+		return (int)($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
 	}
 
 
