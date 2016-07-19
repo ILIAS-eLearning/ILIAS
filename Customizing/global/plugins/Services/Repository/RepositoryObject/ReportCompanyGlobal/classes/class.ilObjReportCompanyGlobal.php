@@ -64,7 +64,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
 		$this->orgu_filter->setFilterOptionsAll();
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hc.crs_id');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hc.topic_set');
 
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
@@ -241,7 +241,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}
 
-		$query->where($this->crs_topics_filter->deliverQuery());
+		$this->crs_topics_filter->addToQuery($query);
 
 		$query	->group_by('hc.type')
 				->compile();
