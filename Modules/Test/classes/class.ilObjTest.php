@@ -10263,11 +10263,13 @@ function getAnswerFeedbackPoints()
 		
 		$query = "
 			SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass 
-			FROM tst_test_result, tst_active, qpl_questions 
-			WHERE tst_active.active_id = tst_test_result.active_fi 
-			AND tst_active.test_fi = %s 
-			AND tst_test_result.question_fi = qpl_questions.question_id 
-			AND tst_test_result.question_fi = %s";
+			FROM tst_test_result
+			INNER JOIN tst_active ON tst_active.active_id = tst_test_result.active_fi AND tst_active.test_fi = %s 
+			INNER JOIN qpl_questions ON qpl_questions.question_id = tst_test_result.question_fi
+			LEFT JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+			WHERE tst_test_result.question_fi = %s
+			ORDER BY usr_data.lastname ASC, usr_data.firstname ASC
+		";
 
 		$result = $ilDB->queryF($query,
 			array('integer', 'integer'),
