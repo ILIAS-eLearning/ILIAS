@@ -5761,6 +5761,9 @@ function getAnswerFeedbackPoints()
 				case "anonymity":
 					$this->setAnonymity($metadata["entry"]);
 					break;
+				case "use_pool":
+					$this->setPoolUsage((int)$metadata["entry"]);
+					break;
 				case "show_cancel":
 					$this->setShowCancel($metadata["entry"]);
 					break;
@@ -5997,6 +6000,11 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymity");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnonymity()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "use_pool");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getPoolUsage() ? 1 : 0);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// question set type (fixed, random, dynamic, ...)

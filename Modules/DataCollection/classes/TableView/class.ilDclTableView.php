@@ -303,10 +303,16 @@ class ilDclTableView extends ActiveRecord
     {
         $table = ilDclCache::getTableCache($this->table_id);
 
-        foreach ($table->getFieldIds(true) as $field_id)
+        foreach ($table->getFieldIds() as $field_id)
         {
             $this->createFieldSetting($field_id);
         }
+
+	    //ilDclTable->getFieldIds won't reuturn comments if they are disabled,
+	    //still we have to create a fieldsetting for this field
+	    if (!$table->getPublicCommentsEnabled()) {
+		    $this->createFieldSetting('comments');
+	    }
     }
 
     /**
