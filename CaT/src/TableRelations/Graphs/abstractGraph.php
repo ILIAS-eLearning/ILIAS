@@ -1,0 +1,52 @@
+<?php
+namespace \CaT\TableRelations\Graphs;
+
+/**
+ * Perform graph operations.
+ */
+interface abstractGraph {
+
+	/**
+	 * add a node to graph.
+	 *
+	 * @param	string	$id
+	 */
+	public function addNode(abstractNode $node, $subgraph_id = 0);
+
+	/**
+	 * connect two nodes symmetrically within graph.
+	 *
+	 * @param	abstractEdge $edge
+	 */
+	public function connectNodesSymmetric(abstractEdge $edge);
+
+	/**
+	 * connect two nodes directed within graph.
+	 * $from is connected with to, not the other way around.
+	 *
+	 * @param	abstractEdge $edge
+	 */
+	public function connectNodesDirected(abstractEdge $edge);
+
+	/**
+	 * Get all nodes lying on all possible paths between $from_id and $to_id.
+	 * We only consider connections, which visit any node at most once.
+	 *
+	 * @param	string	$from_id
+	 * @param	string	$to_id
+	 * @return	abstractNode[]	$return
+	 */
+	public function getNodesBetween($from_id, $to_id);
+
+	/**
+	 * Get all nodes lying on all possible paths between $from and $to
+	 * within a subgraph $grapher only. $from and $to may be outiside
+	 * $grapher though.
+	 * We only consider connections, which visit any node at most once.
+	 *
+	 * @param	string	$from_id
+	 * @param	string	$to_id
+	 * @return	abstractNode[]	$return
+	 */
+	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph_id = 0);
+}
