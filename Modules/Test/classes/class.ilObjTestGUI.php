@@ -3531,7 +3531,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
 		$testSequence->loadFromDb();
 		$testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
-		
+		$big_button = array();
 		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 		
 		if ($_GET['createRandomSolutions'])
