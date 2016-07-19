@@ -64,5 +64,13 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		}
 	}
 
+	/**
+	 * @return ilRepositorySelectorExplorerGUI
+	 */
+	function getExplorerGUI()
+	{
+		return $this->explorer_gui;
+	}
+
 
 }

@@ -343,9 +343,10 @@ class ilDidacticTemplateSettingsGUI
 		$lokal_templates->setChecked(count($set->getEffectiveFrom()) > 0);
 
 		//effective from (multinode)
-		include_once("./Services/Repository/classes/class.ilRepositorySelectInputGUI.php");
-		$effrom = new ilRepositorySelectInputGUI($this->lng->txt("effective_form"), "effective_from");
-		$effrom->setMulti(true);
+		include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+		$effrom = new ilRepositorySelector2InputGUI($this->lng->txt("effective_form"), "effective_from", true);
+		//$effrom->setMulti(true);
+		$effrom->getExplorerGUI()->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs"));
 		$effrom->setValue($set->getEffectiveFrom());
 
 		$lokal_templates->addSubItem($effrom);
