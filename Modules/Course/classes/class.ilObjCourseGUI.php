@@ -1696,7 +1696,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 			
 			case 'members':
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("crs_member_administration",
 													 $this->ctrl->getLinkTarget($this,'members'),
@@ -1735,7 +1735,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				
 				$childs = (array) $tree->getChildsByType($this->object->getRefId(),'sess');
-				if(count($childs) && $ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if(count($childs) && $ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("events",
 													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
@@ -2022,7 +2022,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			list($_SESSION['crs_print_sort'],$_SESSION['crs_print_order'],$tmp) = explode(':',$_GET['member_table_nav']);
 		}
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
@@ -2338,7 +2338,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateAdminStatusObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getAdmins());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
@@ -2359,7 +2359,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateTutorStatusObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getTutors());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
@@ -2380,7 +2380,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateMemberStatusObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getMembers());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
@@ -2400,7 +2400,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacreview;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 
@@ -2531,7 +2531,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function editMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$post_participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['tutors'],(array) $_POST['members'], (array) $_POST['roles']));
 		$real_participants = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
@@ -2570,7 +2570,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem, $rbacreview, $ilUser, $ilAccess;
                 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['participants']))
 		{
@@ -2710,7 +2710,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem, $ilUser;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		// CHECK MEMBER_ID
 		if(!isset($_GET["member_id"]) or !$this->object->getMembersObject()->isAssigned((int) $_GET["member_id"]))
@@ -2756,7 +2756,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		if(!count($a_usr_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
@@ -2823,7 +2823,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		if(!count($_POST["waiting"]))
 		{
@@ -2879,7 +2879,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilUser;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['waiting']))
 		{
@@ -2908,7 +2908,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -2940,7 +2940,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem,$ilErr;
 
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		if(!is_array($_POST["subscribers"]))
 		{
@@ -2975,7 +2975,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		if($this->object->isSubscriptionMembershipLimited() and $this->object->getSubscriptionMaxMembers() and 
 		   $this->object->getSubscriptionMaxMembers() <= $this->object->getMembersObject()->getCountMembers())
@@ -3006,7 +3006,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -3108,7 +3108,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilAccess, $ilUser;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$participants = array_merge((array) $_POST['admins'],(array) $_POST['tutors'], (array) $_POST['members'], (array) $_POST['roles']);
 		
@@ -3181,7 +3181,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacreview, $rbacsystem, $ilAccess, $ilUser;
                 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!is_array($_POST["participants"]) or !count($_POST["participants"]))
 		{
@@ -3244,7 +3244,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!$_POST['subscribers'])
 		{
@@ -3362,7 +3362,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
 		// member list
-		if($ilAccess->checkAccess('write','',$this->ref_id))
+		if($ilAccess->checkAccess('manage_members','',$this->ref_id))
 		{
 			$this->tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "members"), 
@@ -3666,7 +3666,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{		
 		global $ilTabs;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('back'),
@@ -3861,7 +3861,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilusersgallerygui':
-				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->object->ref_id);
+				$is_admin       = (bool)$ilAccess->checkAccess('manage_members', '', $this->object->ref_id);
 				$is_participant = (bool)ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 				if(
 					!$is_admin &&
@@ -3903,7 +3903,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			case 'ilrepositorysearchgui':
 				
-				if(!$this->checkPermissionBool('write'))
+				if(!$this->checkPermissionBool('manage_members'))
 				{
 					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
 				}
@@ -4134,7 +4134,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$mail = new ilMail($ilUser->getId());
 
 				if(!($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
-					$ilAccess->checkAccess('write',"",$this->object->getRefId())) &&
+					$ilAccess->checkAccess('manage_members',"",$this->object->getRefId())) &&
 					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
@@ -4368,7 +4368,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			);
 		}
 		
-		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
+		if ($a_add == "mem" && $ilAccess->checkAccess("manage_members", "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "members");
 		}
@@ -5068,7 +5068,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(
 			($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL or
-				$ilAccess->checkAccess('write',"",$this->object->getRefId())) and
+				$ilAccess->checkAccess('manage_members',"",$this->object->getRefId())) and
 			$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 		{
 
@@ -5108,7 +5108,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -5145,7 +5145,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -5185,7 +5185,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -5222,7 +5222,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
