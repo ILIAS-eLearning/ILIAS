@@ -5811,6 +5811,9 @@ function getAnswerFeedbackPoints()
 				case "pass_scoring":
 					$this->setPassScoring($metadata["entry"]);
 					break;
+				case "pass_deletion_allowed":
+					$this->setPassDeletionAllowed((int)$metadata["entry"]);
+					break;
 				case "show_summary":
 					$this->setListOfQuestionsSettings($metadata["entry"]);
 					break;
@@ -6071,6 +6074,11 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_scoring");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getPassScoring());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_deletion_allowed");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isPassDeletionAllowed());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// score reporting date
