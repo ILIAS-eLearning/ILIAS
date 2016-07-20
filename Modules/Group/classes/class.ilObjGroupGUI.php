@@ -69,7 +69,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilusersgallerygui':
 				$is_participant = (bool)ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
-				if(!$ilAccess->checkAccess('write', '', $this->ref_id) &&
+				if(!$ilAccess->checkAccess('manage_members', '', $this->ref_id) &&
 					(
 						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
 						!$is_participant
@@ -100,7 +100,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilrepositorysearchgui':
 
-				if(!$this->checkPermissionBool('write'))
+				if(!$this->checkPermissionBool('manage_members'))
 				{
 					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
 				}
@@ -268,7 +268,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 
-				if(!($ilAccess->checkAccess('write','',$this->object->getRefId()) ||
+				if(!($ilAccess->checkAccess('manage_members','',$this->object->getRefId()) ||
 					$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL) &&
 					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
@@ -991,7 +991,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		include_once('./Modules/Group/classes/class.ilGroupParticipantsTableGUI.php');
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
@@ -1194,7 +1194,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $lng, $ilIliasIniFile,$ilUser;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['subscribers']))
 		{
@@ -1230,7 +1230,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $lng;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['subscribers']))
 		{
@@ -1263,7 +1263,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function assignFromWaitingListObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST["waiting"]))
 		{
@@ -1321,7 +1321,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function refuseFromListObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['waiting']))
 		{
@@ -1355,7 +1355,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function confirmDeleteMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		
@@ -1408,7 +1408,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function deleteMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['participants']))
 		{
@@ -1524,7 +1524,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function editMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$post_participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		$real_participants = ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
@@ -1559,7 +1559,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['participants']))
 		{
@@ -1643,7 +1643,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateStatusObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$notification = $_POST['notification'] ? $_POST['notification'] : array();
 		foreach($this->object->members_obj->getAdmins() as $admin_id)
@@ -1879,7 +1879,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 			
 		// Members
-		if($ilAccess->checkAccess('write', '', $this->ref_id))
+		if($ilAccess->checkAccess('manage_members', '', $this->ref_id))
 		{
 			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
@@ -2135,7 +2135,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			);
 		}
 
-		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
+		if ($a_add == "mem" && $ilAccess->checkAccess("manage_members", "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "members");
 		}
@@ -2564,7 +2564,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			case 'members':
 				// for admins
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("grp_edit_members",
 						$this->ctrl->getLinkTarget($this,'members'),
@@ -2592,7 +2592,7 @@ class ilObjGroupGUI extends ilContainerGUI
 						"membersMap", get_class($this));
 				}
 				
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("events",
 													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
@@ -2790,7 +2790,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{		
 		global $ilTabs;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('back'),
@@ -2908,7 +2908,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$mail = new ilMail($ilUser->getId());
 
 		if(
-		($ilAccess->checkAccess('write','',$this->object->getRefId()) or
+		($ilAccess->checkAccess('manage_members','',$this->object->getRefId()) or
 			$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL) and
 			$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 		{
@@ -2949,7 +2949,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
@@ -2985,7 +2985,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
@@ -3025,7 +3025,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
@@ -3062,7 +3062,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
