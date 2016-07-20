@@ -34,9 +34,9 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 		$this->setFormName('showlog');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn($this->lng->txt("assessment_log_datetime"), 'date', '');
-		$this->addColumn($this->lng->txt("user"), 'user', '');
-		$this->addColumn($this->lng->txt("assessment_log_text"), 'message', '');
+		$this->addColumn($this->lng->txt("assessment_log_datetime"), 'date', '20%');
+		$this->addColumn($this->lng->txt("user"), 'user', '25%');
+		$this->addColumn($this->lng->txt("assessment_log_text"), 'message', '55%');
 	
 		$this->setRowTemplate("tpl.il_as_tst_assessment_log_row.html", "Modules/Test");
 

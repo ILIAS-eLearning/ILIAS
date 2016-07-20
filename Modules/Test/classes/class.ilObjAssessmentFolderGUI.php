@@ -567,12 +567,19 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php";
 		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$available_tests = ilObjTest::_getAvailableTests(true);
+		require_once "./Services/Link/classes/class.ilLink.php";
+		$available_tests = ilObjTest::_getAvailableTests(false);
 		$data = array();
-		foreach ($available_tests as $obj_id => $title)
+		foreach ($available_tests as $ref_id => $title)
 		{
-			$nr = $this->object->getNrOfLogEntries($obj_id);
-			array_push($data, array("title" => $title, "nr" => $nr, "id" => $obj_id));
+			$obj_id = ilObject::_lookupObjectId($ref_id);
+			array_push($data, array(
+				"title"         => $title,
+				"nr"            => $this->object->getNrOfLogEntries($obj_id),
+				"id"            => $obj_id,
+				"location_href" => ilLink::_getLink($ref_id, 'tst'),
+				"location_txt"  => $this->lng->txt("perma_link")
+			));
 		}
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
