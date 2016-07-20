@@ -527,9 +527,20 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		if($p_test)
 		{
+			require_once "Services/Link/classes/class.ilLink.php";
 			include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php";
 			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
 			$log_output = ilObjAssessmentFolder::getLog($fromdate, $untildate, $p_test);
+
+			$self = $this;
+			array_walk($log_output, function(&$row) use ($self) {
+				if(is_numeric($row['ref_id']) && $row['ref_id'] > 0)
+				{
+					$row['location_href'] = ilLink::_getLink($row['ref_id'], 'tst');
+					$row['location_txt']  = $self->lng->txt("perma_link");
+				}
+			});
+
 			$table_gui->setData($log_output);
 			$template->setVariable('LOG', $table_gui->getHTML());
 		}
