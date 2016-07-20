@@ -15744,3 +15744,5 @@ didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
 didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
+grp#:#grp_show_members#:#Mitglieder-Reiter
+grp#:#grp_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.

@@ -48,6 +48,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
+
+	public $SHOW_MEMBERS_ENABLED = 1;
+	public $SHOW_MEMBERS_DISABLED = 0;
 	
 	protected $information;
 	protected $group_type = null;
@@ -63,6 +66,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $waiting_list = false;
 	protected $auto_fill_from_waiting; // [bool]
 	protected $leave_end; // [ilDate]
+	protected $show_members;
 	
 	
 	// Map
@@ -568,7 +572,16 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	function getCancellationEnd()
 	{		
 		return $this->leave_end;
-	}	
+	}
+
+	function setShowMembers($a_status)
+	{
+		$this->show_members = $a_status;
+	}
+	function getShowMembers()
+	{
+		return $this->show_members;
+	}
 	
 	/**
 	 * validate group settings
@@ -707,7 +720,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
-			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer')." ".
+			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
+			"show_members = ".$ilDB->quote($this->getShowMembers() ,'integer')." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -790,7 +804,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setMailToMembersType($row->mail_members_type);			
 			$this->setCancellationEnd($row->leave_end ? new ilDate($row->leave_end, IL_CAL_UNIX) : null);
 			$this->setMinMembers($row->registration_min_members);
-			$this->setWaitingListAutoFill($row->auto_wait);			
+			$this->setWaitingListAutoFill($row->auto_wait);
+			$this->setShowMembers($row->show_members);
 		}
 		$this->initParticipants();
 		
@@ -826,7 +841,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableMembershipLimitation($this->isMembershipLimited());
 		$new_obj->setMaxMembers($this->getMaxMembers());
 		$new_obj->enableWaitingList($this->isWaitingListEnabled());
-		
+		$new_obj->setShowMembers($this->getShowMembers());
+
 		// map
 		$new_obj->setLatitude($this->getLatitude());
 		$new_obj->setLongitude($this->getLongitude());

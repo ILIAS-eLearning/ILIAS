@@ -69,7 +69,11 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilusersgallerygui':
 				$is_participant = (bool)ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
-				if(!$ilAccess->checkAccess('write', '', $this->ref_id) && !$is_participant)
+				if(!$ilAccess->checkAccess('write', '', $this->ref_id) &&
+					(
+						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
+						!$is_participant
+					))
 				{
 					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
 				}
@@ -1879,7 +1883,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
-		else if($is_participant)
+		else if($is_participant and $this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED)
 		{
 			$this->tabs_gui->addTarget(
 				'members',
@@ -2449,7 +2453,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			/*$notification = new ilFormSectionHeaderGUI();
 			$notification->setTitle($this->lng->txt('grp_notification'));
 			$form->addItem($notification);*/
-		
+
+			$mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'),'show_members');
+			$mem->setChecked($this->object->getShowMembers());
+			$mem->setInfo($this->lng->txt('grp_show_members_info'));
+			$form->addItem($mem);
+
 			// Show members type
 			$mail_type = new ilRadioGroupInputGUI($this->lng->txt('grp_mail_type'), 'mail_type');
 			$mail_type->setValue($this->object->getMailToMembersType());
@@ -2511,12 +2520,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
-		
-		$reg = $this->form->getItemByPostVar("reg");	
+		$this->object->setShowMembers((int) $_POST['show_members']);
+		$reg = $a_form->getItemByPostVar("reg");
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
 		
-		$cancel_end = $this->form->getItemByPostVar("cancel_end");		
+		$cancel_end = $a_form->getItemByPostVar("cancel_end");
 		$this->object->setCancellationEnd($cancel_end->getDate());		
 		
 		switch((int)$_POST['waiting_list'])
@@ -2562,13 +2571,16 @@ class ilObjGroupGUI extends ilContainerGUI
 						"members",
 						get_class($this));
 				}
-				// for all
-				$this->tabs_gui->addSubTabTarget(
-					'grp_members_gallery',
-					$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
-					'',
-					'ilUsersGalleryGUI'
-				);
+
+				if($this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED)
+				{
+					$this->tabs_gui->addSubTabTarget(
+						'grp_members_gallery',
+						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
+						'',
+						'ilUsersGalleryGUI'
+					);
+				}
 				
 				// members map
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");

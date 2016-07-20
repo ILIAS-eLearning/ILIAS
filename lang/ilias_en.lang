@@ -15741,3 +15741,5 @@ didactic#:#effective_form#:#Template Effective From
 didactic#:#more_translations#:#More Translations
 didactic#:#didactic_template_update_import#:#Update Didactic Template
 didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.
+grp#:#grp_show_members_info#:#If activated, group members can access the members gallery.
+grp#:#grp_show_members#:#Show Members

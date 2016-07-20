@@ -98,3 +98,16 @@ if(!$ilDB->tableExists('didactic_tpl_en'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'show_members'))
+{
+	$ilDB->addTableColumn('grp_settings', 'show_members', array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "1"
+		,"type" => "integer"
+	));
+}
+?>
