@@ -711,7 +711,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if(!$authorized)
 		{
-
 			$solutions = $this->getSolutionValues($active_id, $pass, false);
 			if(0 == count($solutions))
 			{
