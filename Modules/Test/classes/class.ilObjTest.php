@@ -5416,7 +5416,7 @@ function getAnswerFeedbackPoints()
 	{
 		if( $this->isStartingTimeEnabled() && $this->getStartingTime() != 0 )
 		{
-				$now = mktime();
+				$now = time();
 				if ($now < $this->getStartingTime())
 				{
 					return false;
@@ -5436,7 +5436,7 @@ function getAnswerFeedbackPoints()
 	{
 		if( $this->isEndingTimeEnabled() && $this->getEndingTime() != 0 )
 		{
-				$now = mktime();
+				$now = time();
 				if ($now > $this->getEndingTime())
 				{
 					return true;
@@ -6849,7 +6849,7 @@ function getAnswerFeedbackPoints()
 				if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
 				{
 					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now        = mktime();
+					$now        = time();
 					if($now < $epoch_time)
 					{
 						return true;
@@ -8283,7 +8283,7 @@ function getAnswerFeedbackPoints()
 				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
 				{
 					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = mktime();
+					$now = time();
 					if ($now < $epoch_time)
 					{
 						return false;
@@ -8350,12 +8350,12 @@ function getAnswerFeedbackPoints()
 			}
 			else
 			{
-				return mktime();
+				return time();
 			}
 		}
 		else
 		{
-			return mktime();
+			return time();
 		}
 	}
 
@@ -8372,7 +8372,7 @@ function getAnswerFeedbackPoints()
 		if ($this->getEnableProcessingTime())
 		{
 			$processing_time = $this->getProcessingTimeInSeconds($active_id);
-			$now = mktime();
+			$now = time();
 			if ($now > ($starting_time + $processing_time))
 			{
 				return TRUE;
@@ -9096,7 +9096,7 @@ function getAnswerFeedbackPoints()
 		$time_gap = ($this->getAllowedUsersTimeGap()) ? $this->getAllowedUsersTimeGap() : 60;
 		if (($nr_of_users > 0) && ($time_gap > 0))
 		{
-			$now = mktime();
+			$now = time();
 			$time_border = $now - $time_gap;
 			$str_time_border = strftime("%Y%m%d%H%M%S", $time_border);
 			$query = "
