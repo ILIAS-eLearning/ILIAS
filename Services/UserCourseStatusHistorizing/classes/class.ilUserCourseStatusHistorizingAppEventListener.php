@@ -69,6 +69,11 @@ class ilUserCourseStatusHistorizingAppEventListener
 			$a_parameter["crs_id"] = $a_parameter["obj_id"];
 			$a_parameter["usr_id"] =$_POST['participants'][0];
 		}
+
+		if ($a_component == "Modules/Course" && $a_event == "setWBDRelevant") {
+			$a_parameter["crs_id"] = $a_parameter["obj_id"];
+			$a_parameter["usr_id"] =$a_parameter['user_id'];
+		}
 		//gev patch end
 		
 
@@ -244,6 +249,10 @@ class ilUserCourseStatusHistorizingAppEventListener
 	 */
 	protected static function getRecordCreator($event, $parameter)
 	{
+		if($event == "setWBDRelevant") {
+			return $parameter["creator_id"];
+		}
+
 		/** @var ilObjUser $ilUser */
 		global $ilUser;
 		return $ilUser->getId();

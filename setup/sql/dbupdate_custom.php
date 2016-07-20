@@ -5066,13 +5066,47 @@ foreach ($relevant_ref_ids as $ref_id) {
 
 <#214>
 <?php
-	if (!$ilDB->tableColumnExists("hist_tep", "orgu_id")) {
+if (!$ilDB->tableColumnExists("hist_tep", "orgu_id")) {
 		$ilDB->addTableColumn('hist_tep', 'orgu_id', 
 			array(
 				'type' => 'integer', 
 				'length' => 4, 
 				'notnull' => true,
 				'default' => -1
+		));
+	}
+?>
+
+<#215>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#216>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+
+	require_once("Services/User/classes/class.ilObjUser.php");
+
+	if (!$ilDB->tableColumnExists('hist_user', 'report_points_from'))
+	{
+		$ilDB->addTableColumn('hist_user', 'report_points_from', array(
+			"type" => "date",
+			"notnull" => false,
+			"default" => "0000-00-00"
 		));
 	}
 ?>

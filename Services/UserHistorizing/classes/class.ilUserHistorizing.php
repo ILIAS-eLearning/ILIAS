@@ -142,7 +142,8 @@ class ilUserHistorizing extends ilHistorizingStorage
 			'is_active'					=> 'integer',
 			'exit_date_wbd'				=> 'date',
 			'next_wbd_action'			=> 'text',
-			'login'						=> 'text'
+			'login'						=> 'text',
+			'report_points_from'		=> 'text',
 
 
 		);

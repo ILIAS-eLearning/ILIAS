@@ -68,6 +68,7 @@ class gevWBD {
 	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
 	const USR_WBD_TP_SERVICE_OLD	= "usr_udf_wbd_tp_service_old";
 	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
+	const USR_WBD_REPORT_POINTS_FROM = "usr_udf_wbd_report_points_from";
 
 	//WBD Perioden Definer
 	const WBD_YEARS_FOR_A_PERIOD 	= 5;
@@ -178,9 +179,11 @@ class gevWBD {
 
 
 	protected function __construct($a_user_id) {
-		global $ilDB;
+		global $ilDB, $ilLog, $ilAppEventHandler;
 
 		$this->gDB = $ilDB;
+		$this->gLog = $ilLog;
+		$this->gAppEventHandler = $ilAppEventHandler;
 		$this->user_id = $a_user_id;
 		$this->user_utils = gevUserUtils::getInstance($a_user_id);
 		$this->udf_utils = gevUDFUtils::getInstance();
@@ -281,6 +284,10 @@ class gevWBD {
 
 	public function getTPServiceOld() {
 		return $this->udf_utils->getField($this->user_id, self::USR_WBD_TP_SERVICE_OLD);
+	}
+
+	public function getReportPointsFrom() {
+		return $this->udf_utils->getField($this->user_id, self::USR_WBD_REPORT_POINTS_FROM);
 	}
 
 	protected function getRawWBDOKZ() {
@@ -796,5 +803,24 @@ class gevWBD {
 		$udf_utils = gevUDFUtils::getInstance();
 		$udf_utils->setField($this->user_id,self::USR_WBD_EXIT_DATE, $exit_date);
 		$udf_utils->setField($this->user_id,self::USR_TP_TYPE, "1 - Bildungsdienstleister");
+	}
+
+	public function updateHistUserCourseRows($report_after, $creator_id) {
+		$select = "SELECT crs_id\n"
+				 ." FROM hist_usercoursestatus\n"
+				 ." WHERE usr_id = ".$this->gDB->quote($this->user_id, "integer")."\n"
+				 ."    AND hist_historic = 0\n"
+				 ."    AND credit_points > 0\n"
+				 ."    AND okz = '-empty-'\n"
+				 ."    AND end_date >= ".$this->gDB->quote($report_after, 'text');
+
+		$this->gLog->write($select);
+
+		$res = $this->gDB->query($select);
+
+		while($row = $this->gDB->fetchAssoc($res)) {
+			$this->gLog->write("Update crs: ".$row["crs_id"]);
+			$this->gAppEventHandler->raise("Modules/Course", "setWBDRelevant", array("obj_id" => $row["crs_id"], "user_id" => $this->user_id, "creator_id" => $creator_id));
+		}
 	}
 }

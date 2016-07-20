@@ -785,3 +785,31 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_PHONE);
 ?>
+
+<#15>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+gevUDFUtils::createUDFFields(array(
+	"WBD Punkte nachmelden ab" => array( gevWBD::USR_WBD_REPORT_POINTS_FROM
+											, UDF_TYPE_TEXT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> false
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, null
+											)
+	));
+
+?>
