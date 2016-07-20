@@ -398,8 +398,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		$template = new ilTemplate("tpl.assessment_logs.html", TRUE, TRUE, "Modules/Test");
 
+		require_once "./Services/Link/classes/class.ilLink.php";
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		
 		$available_tests =& ilObjTest::_getAvailableTests(1);
 		if (count($available_tests) == 0)
 		{
@@ -464,6 +466,15 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php";
 			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
 			$log_output =& $this->object->getLog($fromdate, $untildate, $p_test);
+
+			$self = $this;
+			array_walk($log_output, function(&$row) use ($self) {
+				if(is_numeric($row['ref_id']) && $row['ref_id'] > 0)
+				{
+					$row['location_href'] = ilLink::_getLink($row['ref_id'], 'tst');
+					$row['location_txt']  = $self->lng->txt("perma_link");
+				}
+			});
 			$table_gui->setData($log_output);
 			$template->setVariable('LOG', $table_gui->getHTML());	
 		}
