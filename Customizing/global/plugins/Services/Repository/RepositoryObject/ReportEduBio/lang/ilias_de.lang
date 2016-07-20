@@ -37,7 +37,7 @@ date#:#Datum
 location#:#Ort
 provider#:#Anbieter
 crs_tutor#:#Trainer
-points#:#Punkte
+points#:#WBD Punkte
 fee#:#Kosten
 status#:#Status
 wbd_reported#:#Punkte übermittelt?
