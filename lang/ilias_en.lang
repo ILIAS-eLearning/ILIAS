@@ -15737,3 +15737,4 @@ form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
 assessment#:#ass_location#:#Location
+assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
