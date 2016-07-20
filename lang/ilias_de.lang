@@ -16208,3 +16208,4 @@ grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 assessment#:#ass_location#:#Ort
+assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)

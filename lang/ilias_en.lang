@@ -16208,3 +16208,4 @@ grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 assessment#:#ass_location#:#Location
+assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip

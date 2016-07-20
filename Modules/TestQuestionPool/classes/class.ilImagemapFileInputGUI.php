@@ -339,7 +339,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 				$counter++;
 			}
 			$template->setCurrentBlock("areas");
-			$template->setVariable("TEXT_NAME", $lng->txt("hint"));
+			$template->setVariable("TEXT_NAME", $lng->txt("ass_imap_hint"));
 			if( $this->getPointsUncheckedFieldEnabled() )
 			{
 				$template->setVariable("TEXT_POINTS", $lng->txt("points_checked"));

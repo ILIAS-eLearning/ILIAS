@@ -399,7 +399,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 
 		$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
-		$this->tpl->setVariable("TEXT_SHAPETITLE", $this->lng->txt("name"));
+		$this->tpl->setVariable("TEXT_SHAPETITLE", $this->lng->txt("ass_imap_hint"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("DISABLED_SAVE", $disabled_save);
