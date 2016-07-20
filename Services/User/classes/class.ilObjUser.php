@@ -3592,7 +3592,7 @@ class ilObjUser extends ilObject
 				$return .= $current_title;
 				continue;
 			}
-			$level_one_title = ilObject2::_lookupTitle(ilObject2::_lookupObjectId($level_one_ref));
+			$level_one_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($level_one_ref));
 			$return .= $level_one_title . ' - ' . $current_title;
 		}
 
