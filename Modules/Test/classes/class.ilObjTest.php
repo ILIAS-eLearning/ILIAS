@@ -8363,13 +8363,13 @@ function getAnswerFeedbackPoints()
 		if (!$this->startingTimeReached())
 		{
 			$result["executable"] = false;
-			$result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->getStartingTime()));
+			$result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getStartingTime(), IL_CAL_TIMESTAMP)));
 			return $result;
 		}
 		if ($this->endingTimeReached())
 		{
 			$result["executable"] = false;
-			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->getEndingTime()));
+			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getEndingTime(), IL_CAL_TIMESTAMP)));
 			return $result;
 		}
 
