@@ -81,7 +81,7 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException Graph\GraphException
+	 * @expectedException Graphs\GraphException
 	 */
 	public function test_no_double_nodes_in_graph() {
 		$g = $this->circleGraph();
