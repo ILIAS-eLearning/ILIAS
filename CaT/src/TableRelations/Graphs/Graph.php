@@ -81,4 +81,13 @@ class Graph implements abstractGraph {
 	public function edges() {
 
 	}
+
+	/**
+	 * Can $to_id be directly arrived from $from_id?
+	 *
+	 * @return bool
+	 */
+	protected function directedNeighbours($from_id, $to_id) {
+
+	}
 }
