@@ -14,34 +14,12 @@ namespace \CaT\TableRelations\Graphs;
  */
 interface abstractMinimizeGraph extends abstractGraph {
 	/**
-	 * Get all nodes lying on all possible paths between $from_id and $to_id.
-	 * We only consider connections, which visit any node at most once.
-	 *
-	 * @param	string	$from_id
-	 * @param	string	$to_id
-	 * @return	abstractNode[]
-	 */
-	public function getNodesBetween($from_id, $to_id);
-
-	/**
-	 * Get all nodes lying on all possible paths between $from and $to
-	 * within a subgraph $grapher only. $from and $to may be outiside
-	 * $grapher though.
-	 * We only consider connections, which visit any node at most once.
-	 *
-	 * @param	string	$from_id
-	 * @param	string	$to_id
-	 * @return	abstractNode[]
-	 */
-	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph_id = 0);
-
-	/**
 	 * Get the smallest complete subgraph containing given Nodes.
 	 * This means to return all nodes, that are en route between any
 	 * choice of two nodes out of a given set.
 	 *
 	 * @param	abstractNode[]	$nodes
-	 * @return	abstractNode[]
+	 * @return	abstractGraph
 	 */
-	public function reduceGraphTo(array $nodes);
+	public function reduceGraphToNodes(array $nodes);
 }
