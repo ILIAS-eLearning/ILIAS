@@ -56,4 +56,26 @@ interface abstractGraph {
 	 * @return	abstractNode[]
 	 */
 	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph_id = 0);
+
+	/**
+	 * Is graph connected?
+	 *
+	 * @return bool
+	 */
+	public function isConnected();
+
+	/**
+	 * Get all nodes within graph.
+	 *
+	 * @return abstractNode[]
+	 */
+	public function nodes();
+
+	/**
+	 * Get all edges within graph.
+	 *
+	 * @return abstractEdge[]
+	 */
+	public function edges();
+
 }
