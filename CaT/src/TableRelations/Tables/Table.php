@@ -1,9 +1,9 @@
 <?php
 namespace \CaT\TableRelations\Tables;
 use \CaT\TableRelations\Graphs as Graphs;
-use CaT\Filter\Predicates as Predicates;
+use \CaT\Filter\Predicates as Predicates;
 
-class Table implements abstractTable, \Graphs\abstractNode {
+class Table implements abstractTable, Graphs\abstractNode {
 
 	protected $id;
 	protected $title;
@@ -11,16 +11,21 @@ class Table implements abstractTable, \Graphs\abstractNode {
 	protected $field_names = array();
 
 	public function __construct($title, $id) {
-
+		$this->title = $title;
+		$this->id = $id;
 	}
 
 
 	/**
 	 * @inheritdoc
 	 */
-	public function addField(Predicates\Field $field) {
-		$this->fields[] = $field;
-		$this->field_names[] = $field->name();
+	public function addField(abstractTableField $field) {
+		$f_table = $field->tableId();
+		if($f_table === null || $f_table === $this->id) {
+			$this->fields[$field->name()] = $field;
+		} elseif($f_table !== $this->id) {
+			throw new TableException("inproper table bound to field");
+		}
 	}
 
 	/**

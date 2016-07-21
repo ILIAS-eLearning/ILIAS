@@ -1,22 +1,26 @@
 <?php
 namespace \CaT\TableRelations\Tables;
 
-use CaT\Filter\Predicates as Predicates;
-
 /**
- * Store dependencies between abstract tables.
+ * Store binary dependencies between abstract tables.
  */
 interface abstractTableDependency {
+
+	/**
+	 * Get the first table of dependency
+	 */
+	public function from();
+
+	/**
+	 * Get the second table of dependency
+	 */
+	public function to();
+	
 	/**
 	 * Describe two tables as being dependent via a predicate.
 	 * The predicate should represent a boolean-return depending on table-fields.
 	 *
-	 * @param	abstractTable	$table_1
-	 * @param	abstractTable	$table_2
-	 * @param	Predicates/Predicate	$predicate
+	 * @return	Predicates\Predicate	$predicate
 	 */
-	public function dependingTables(abstractTable $table_1, abstractTable $table_2, Predicates\Predicate $predicate);
-
-
-	public function dependanceCondition();
+	public function dependencyCondition();
 }
