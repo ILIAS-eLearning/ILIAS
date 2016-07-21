@@ -8,6 +8,7 @@ class Graph implements abstractGraph {
 	protected $node_ids = array();
 	protected $edges = array();
 	protected $connections = array();
+	protected $subgraphs = array();
 
 	/**
 	 * @inheritdoc
@@ -20,7 +21,16 @@ class Graph implements abstractGraph {
 	 * @inheritdoc
 	 */
 	public function addNode(abstractNode $node, $subgraph_id = 0) {
-
+		$node_id = $node->id();
+		if(in_array($node_id, $this->node_ids)) {
+			throw new GraphException("$node_id allready in graph");
+		}
+		$this->nodes[] = $node;
+		$this->node_ids[] = $node_id;
+		if(!isset($this->subgraphs[$subgraph_id])) {
+			$this->subgraphs[$subgraph_id] = array();
+		}
+		$subgraphs[$subgraph_id] = $node_id;
 	}
 
 	/**
