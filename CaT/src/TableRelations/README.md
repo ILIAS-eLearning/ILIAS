@@ -7,8 +7,8 @@ a number of columns, or fields.
 
 The edges may be both, directed and undirected, representing
 left/right-joins and inner-joins respectively. A node may only
-have undirected and outgoing directed connections, or incoming
-directed and outgoing directed connections. This is due to 
+have undirected and outgoing directed connections (mixed node), or incoming
+directed and outgoing directed connections (directed node). This is due to 
 non-commutativity of left/right-joins.
 
 The task will be 
@@ -27,5 +27,5 @@ self-crossing paths that start and end at relevant nodes.
 
 The ordering of some graph means to sort nodes according to
  1. their connections (wether a node is connected by means of only
- directed of only undirected edges.)
+ directed of only undirected edges.) Directed node > mixed node.
  2. their minimum distance from some initial node.
