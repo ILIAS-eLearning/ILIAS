@@ -1000,7 +1000,21 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$solutionSubmit = $this->getSolutionSubmit();
-		
+
+		$tmp            = $solutionSubmit;
+		$solutionSubmit = array();
+		foreach($tmp as $key => $val)
+		{
+			if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
+			{
+				$solutionSubmit[$key] = $val;
+			}
+			else
+			{
+				$solutionSubmit[$key] = '';
+			}
+		}
+
 		$entered_values = FALSE;
 		foreach($solutionSubmit as $key => $value)
 		{
