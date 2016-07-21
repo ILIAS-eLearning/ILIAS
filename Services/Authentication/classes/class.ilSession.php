@@ -84,6 +84,27 @@ class ilSession
 	}
 	
 	/**
+	 * Lookup expire time for a specific session
+	 * @global ilDB $ilDB
+	 * @param string $a_session_id
+	 * @return int expired unix timestamp
+	 */
+	public static function lookupExpireTime($a_session_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT expires FROM usr_session WHERE session_id = '.
+			$ilDB->quote($a_session_id, 'text');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return (int) $row->expires;
+		}
+		return 0;
+	}
+
+
+	/**
 	* Write session data
 	*
 	* @param	string		session id

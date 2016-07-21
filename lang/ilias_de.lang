@@ -15739,9 +15739,7 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Berechtigungsobjekt
-<<<<<<< HEAD
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
-=======
+auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden sie sich erneut an.
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
->>>>>>> origin/trunk

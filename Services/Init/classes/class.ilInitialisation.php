@@ -713,12 +713,14 @@ class ilInitialisation
 		#session_unset();
 		#session_destroy();
 
+		/**
 		$add = "";
 		if ($_GET["soap_pw"] != "")
 		{
 			$add = "&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"];
 		}
-
+		*/
+		
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
 					
@@ -1129,23 +1131,31 @@ class ilInitialisation
 	 */
 	public static function resumeUserSession()
 	{
-		if(!$GLOBALS['DIC']['ilAuthSession']->isValid())
+		if(
+			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
+			$GLOBALS['DIC']['ilAuthSession']->isExpired()
+		)
 		{
+			ilLoggerFactory::getLogger('init')->debug('Current session is invalid');
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);		
 			if(self::blockedAuthentication($current_script))
 			{
 				// nothing todo: authentication is done in current script
 				return;
 			}
-			// @todo php7: check this
-			return self::goToLogin(AUTH_EXPIRED);
+			
+			if(ilContext::supportsRedirects())
+			{
+				return self::goToLogin();
+			}
+			return false;
 		}
 		
 		// valid session
 		return self::initUserAccount();
 		
 	}
-
+	
 	/**
 	 * Try authentication
 	 * 

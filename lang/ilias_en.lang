@@ -15736,9 +15736,7 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
-<<<<<<< HEAD
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
-=======
+auth#:#auth_err_expired#:#You session has deactivated due to inactivity.
 assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
->>>>>>> origin/trunk

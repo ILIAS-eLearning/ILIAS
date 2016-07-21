@@ -14,14 +14,16 @@ class ilAuthSession
 {
 	const SESSION_AUTH_AUTHENTICATED = '_authsession_authenticated';
 	const SESSION_AUTH_USER_ID = '_authsession_user_id';
+	const SESSION_AUTH_EXPIRED = '_authsession_expired';
 	
 	private static $instance = null;
 	
 	private $logger = null;
 	
 	private $id = '';
-	private $valid = false;
 	private $user_id = 0;
+	private $expired = false;
+	private $authenticated = false;
 	
 	/**
 	 * Consctructor
@@ -61,18 +63,25 @@ class ilAuthSession
 		session_start();
 		
 		$this->setId(session_id());
-		$this->setUserId(ilSession::get(self::SESSION_AUTH_USER_ID));
+		
+		$user_id = (int) ilSession::get(self::SESSION_AUTH_USER_ID);
 
-		if($this->getUserId())
+		if($user_id)
 		{
-			$this->getLogger()->debug('Resumed old session for user: ' . $this->getUserId());
+			$this->getLogger()->debug('Resuming old session for user: ' . $user_id);
+			$this->setUserId(ilSession::get(self::SESSION_AUTH_USER_ID));
+			$this->expired = (int) ilSession::get(self::SESSION_AUTH_EXPIRED);
+			$this->authenticated = (int) ilSession::get(self::SESSION_AUTH_AUTHENTICATED);
+			
+			$this->validateExpiration();
 		}
 		else
 		{
 			$this->getLogger()->debug('Started new session.');
+			$this->setUserId(0);
+			$this->expired = false;
+			$this->authenticated = false;
 		}
-		
-		
 		return true;
 	}
 	
@@ -103,7 +112,7 @@ class ilAuthSession
 	 */
 	public function isAuthenticated()
 	{
-		return ilSession::get(self::SESSION_AUTH_AUTHENTICATED);
+		return $this->authenticated;
 	}
 	
 	/**
@@ -113,9 +122,32 @@ class ilAuthSession
 	 */
 	public function setAuthenticated($a_status, $a_user_id)
 	{
+		
+		$this->authenticated = $a_status;
 		ilSession::set(self::SESSION_AUTH_AUTHENTICATED, $a_status);
 		ilSession::set(self::SESSION_AUTH_USER_ID, (int) $a_user_id);
+		$this->setExpired(false);
 	}
+	
+	/**
+	 * Check if current is or was expired in last request.
+	 * @return type
+	 */
+	public function isExpired()
+	{
+		return (bool) $this->expired;
+	}
+	
+	/**
+	 * Set session expired
+	 * @param type $a_status
+	 */
+	public function setExpired($a_status)
+	{
+		$this->expired = $a_status;
+		ilSession::set(self::SESSION_AUTH_EXPIRED, (int) $a_status);
+	}
+	
 	
 	/**
 	 * Set authenticated user id
@@ -136,14 +168,24 @@ class ilAuthSession
 	}
 	
 	/**
-	 * Check authenticated, valid, ...
-	 * @return type
+	 * Check expired value of session
+	 * @return bool
 	 */
-	public function isValid()
+	protected function validateExpiration()
 	{
-		return $this->isAuthenticated();
+		if($this->isExpired())
+		{
+			// keep status
+			return false;
+		}
+		
+		if(time() > ilSession::lookupExpireTime($this->getId()))
+		{
+			$this->setExpired(true);
+		}
 	}
-	
+
+
 	public function setId($a_id)
 	{
 		$this->id = $a_id;

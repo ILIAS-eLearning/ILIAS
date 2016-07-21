@@ -174,6 +174,17 @@ class ilAuthFrontend
 			return false;
 		}
 		
+		// check simultaneos logins
+		if(!$this->checkSimultaneousLogins($user))
+		{
+			$this->getLogger()->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
+			$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+			$this->getStatus()->setAuthenticatedUserId(0);
+			$this->getStatus()->setReason('simultaneous_login_detected');
+			return false;
+		}
+		
+		
 		
 		$this->getLogger()->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
 		$this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
@@ -215,6 +226,22 @@ class ilAuthFrontend
 			{
 				return false;
 			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Check simultaneous logins
+	 * @param ilObjUser $user
+	 */
+	protected function checkSimultaneousLogins(ilObjUser $user)
+	{
+		if(
+			$GLOBALS['ilSetting']->get('ps_prevent_simutanous_logins') &&
+			ilObjUser::hasActiveSession($user->getId())
+		)
+		{
+			return false;
 		}
 		return true;
 	}

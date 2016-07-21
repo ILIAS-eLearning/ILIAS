@@ -120,14 +120,13 @@ class ilStartUpGUI
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
 		$this->ctrl->setTargetScript("ilias.php");
-		// @todo: check really required
-		//$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
-
-		// @todo: check missing cookies
-//		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
-//		{
-//			ilUtil::sendFailure($this->lng->txt("err_no_cookies"));
-//		}
+		
+		// check expired session and send message
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
+		{
+			ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
+		}
+		
 
 		if(strlen($page_editor_html))
 		{
