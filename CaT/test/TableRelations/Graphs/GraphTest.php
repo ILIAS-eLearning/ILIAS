@@ -1,6 +1,6 @@
 <?php
 require_once "test/TableRelations/Graphs/GraphTestFactory.php";
-
+use \CaT\TableRelations\Graphs as Graphs;
 class GraphTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$this->gtf = new GraphTestFactory();
@@ -78,5 +78,22 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		$this->asserCount(3,$node_ids);
 		$this->assertCount(0,array_diff($node_ids, array("1","2","5")));
 		$this->assertCount(0,array_diff(array("1","2","5"), $node_ids));
+	}
+
+	/**
+	 * @expectedException Graph\GraphException
+	 */
+	public function test_no_double_nodes_in_graph() {
+		$g = $this->circleGraph();
+		$g->addNode($this->gtf->Node("3"));
+	}
+
+	public function test_graph_connected() {
+		$g = $this->starGraph();
+		$this->assertTrue($g->isConnected());
+		$g->addNode($gtf->Node("7"));
+		$g->addNode($gtf->Node("8"));
+		$g->connectNodesDirected($gtf->Edge("7","8"));
+		$this->assertFalse($g->isConnected());
 	}
 }
