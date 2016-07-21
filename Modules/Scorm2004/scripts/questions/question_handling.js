@@ -381,7 +381,7 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
 
         selectedTerms.each( function(key, term)
         {
-            answerData.choice.push(definition.id+'-'+$(term).attr('value'));
+            answerData.choice.push(definition.id+'-'+$(term).val());
             
             var found = false;
             
@@ -394,7 +394,7 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
                     continue;
                 }
 
-                if( $(term).attr('value') == matching.term_id )
+                if( $(term).val() == matching.term_id )
                 {
                     found = true;
                     break;
@@ -1123,7 +1123,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 								cvalue = questions[a_id].gaps[i].item[j].value;
 							}
 						}
-					jQuery('input#'+a_id+"_"+i).attr("value",cvalue);
+					jQuery('input#'+a_id+"_"+i).val(cvalue);
 				}
 			}
 		break;
@@ -1185,7 +1185,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				}
 				if(found === false)
 				{
-					jQuery(a_node[i]).attr("value", "");
+					jQuery(a_node[i]).val("");
 				}
 			}
 			var correct_info = "";

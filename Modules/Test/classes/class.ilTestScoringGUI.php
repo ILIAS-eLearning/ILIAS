@@ -172,23 +172,19 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$contentHTML = '';
 		
 		// pass overview table
-		
-		if( $this->object->getNrOfTries() != 1 )
-		{
-			require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
-			$table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
+		require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
+		$table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
-			$userId = $this->object->_getUserIdFromActiveId($activeId);
-			$userFullname = $this->object->userLookupFullName($userId, false, true);
-			$tableTitle = sprintf($lng->txt('tst_pass_overview_for_participant'), $userFullname);
-			$table->setTitle($tableTitle);
-			
-			$passOverviewData = $this->service->getPassOverviewData($activeId);
-			$table->setData($passOverviewData['passes']);
-			
-			$contentHTML .= $table->getHTML().'<br />';
-		}
-		
+		$userId = $this->object->_getUserIdFromActiveId($activeId);
+		$userFullname = $this->object->userLookupFullName($userId, false, true);
+		$tableTitle = sprintf($lng->txt('tst_pass_overview_for_participant'), $userFullname);
+		$table->setTitle($tableTitle);
+
+		$passOverviewData = $this->service->getPassOverviewData($activeId);
+		$table->setData($passOverviewData['passes']);
+
+		$contentHTML .= $table->getHTML().'<br />';
+
 		// pass scoring form
 		
 		if($form === null)

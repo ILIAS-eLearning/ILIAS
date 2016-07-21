@@ -711,6 +711,18 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if(!$authorized)
 		{
+			$solutions = $this->getSolutionValues($active_id, $pass, false);
+			if(0 == count($solutions))
+			{
+				$solutions = $this->getSolutionValues($active_id, $pass, true);
+				$this->removeCurrentSolution($active_id, $pass, true);
+				$this->removeCurrentSolution($active_id, $pass, false);
+				foreach($solutions as $solution)
+				{
+					$this->saveCurrentSolution($active_id, $pass, $solution['value1'], null, false);
+				}
+			}
+
 			if($this->is_multiple_choice && strlen($_GET['remImage']))
 			{
 				$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s";

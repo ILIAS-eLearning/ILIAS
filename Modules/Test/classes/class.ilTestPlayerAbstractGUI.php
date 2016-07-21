@@ -1308,7 +1308,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			if (strlen($str_processing_time) > 0) $str_processing_time .= " " . $this->lng->txt("and") . " ";
 			$str_processing_time .= $processing_time_seconds . " " . ($processing_time_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
 		}
-		$time_left = $starting_time + $processing_time - mktime();
+		$time_left = $starting_time + $processing_time - time();
 		$time_left_minutes = floor($time_left / 60);
 		$time_left_seconds = $time_left - $time_left_minutes * 60;
 		$str_time_left = "";

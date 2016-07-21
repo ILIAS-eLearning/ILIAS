@@ -104,7 +104,7 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 	function fillRow($set){
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		$Access = $DIC['Access'];
+		$ilAccess = $DIC['ilAccess'];
 		$lng = $DIC['lng'];
 		$ilAccess = $DIC['ilAccess'];
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
