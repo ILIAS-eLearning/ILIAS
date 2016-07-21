@@ -10,14 +10,14 @@ interface abstractTable {
 	/**
 	 * Add a field to this instance of abstractTable.
 	 *
-	 * @param	Predicats\Field	Field
+	 * @param	abstractTableField	Field
 	 */
-	public function addField(Predicates\Field $field);
+	public function addField(abstractTableField $field);
 
 	/**
 	 * Get the list of all fields whithin this abstractTable.
 	 *
-	 * @return	Predicats\Field[]	Field
+	 * @return	TableField[]	Field
 	 */
 	public function getFields();
 
