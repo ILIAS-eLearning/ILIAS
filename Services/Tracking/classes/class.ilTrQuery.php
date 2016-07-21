@@ -1570,6 +1570,9 @@ class ilTrQuery
 			$udf = self::buildColumns($fields, $a_additional_fields);
 				
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			
+			// #18673 - if parent supports percentage does not matter for "sub-items"
+			$fields[] = "percentage";
 																							
 			$raw = array();
 			foreach($a_obj_ids as $obj_id)
