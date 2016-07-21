@@ -1524,7 +1524,10 @@ class ilTrQuery
 			$udf = self::buildColumns($fields, $a_additional_fields);
 				
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-																							
+					
+			// #18673 - if parent supports percentage does not matter for "sub-items"
+			$fields[] = "percentage";
+																		
 			$raw = array();
 			foreach($a_obj_ids as $obj_id)
 			{				
@@ -1535,7 +1538,7 @@ class ilTrQuery
 					" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 					" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
 					self::buildFilters($where);
-
+				
 				$raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), "login");
 				if($raw["cnt"])
 				{
