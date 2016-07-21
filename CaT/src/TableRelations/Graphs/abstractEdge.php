@@ -10,12 +10,12 @@ interface abstractEdge {
 	 *
 	 * @return	string $node_id
 	 */
-	public function from();
+	public function fromId();
 
 	/**
 	 * Get the id of the node the edge instance is ending at.
 	 *
 	 * @return	string $node_id
 	 */
-	public function to();
+	public function toId();
 }

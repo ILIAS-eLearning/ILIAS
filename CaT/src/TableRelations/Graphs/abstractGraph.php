@@ -2,9 +2,16 @@
 namespace \CaT\TableRelations\Graphs;
 
 /**
- * Perform graph operations.
+ * Store graph information.
  */
 interface abstractGraph {
+
+	/**
+	 * add a whole subgraph to this graph.
+	 *
+	 * @param	abstractGraph $graph
+	 */
+	public function addGraph(abstractGraph $graph);
 
 	/**
 	 * add a node to graph.
@@ -34,7 +41,7 @@ interface abstractGraph {
 	 *
 	 * @param	string	$from_id
 	 * @param	string	$to_id
-	 * @return	abstractNode[]	$return
+	 * @return	abstractNode[]
 	 */
 	public function getNodesBetween($from_id, $to_id);
 
@@ -46,7 +53,7 @@ interface abstractGraph {
 	 *
 	 * @param	string	$from_id
 	 * @param	string	$to_id
-	 * @return	abstractNode[]	$return
+	 * @return	abstractNode[]
 	 */
 	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph_id = 0);
 }
