@@ -16,7 +16,7 @@ interface abstractGraph {
 	/**
 	 * add a node to graph.
 	 *
-	 * @param	string	$id
+	 * @param	abstractNode	$node
 	 */
 	public function addNode(abstractNode $node, $subgraph_id = 0);
 
@@ -78,4 +78,10 @@ interface abstractGraph {
 	 */
 	public function edges();
 
+	/**
+	 * Get subgraph id of a node within this graph.
+	 *
+	 * @param	abstractNode	$node
+	 */
+	public function nodeSubgraphId(abstractNode $node);
 }
