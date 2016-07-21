@@ -17,6 +17,8 @@ class TableField extends Predicates\Field implements abstractTableField {
 	/**
 	 * Any TableField may be related to a Table.
 	 * Two different Tables may contain fields with equal name.
+	 *
+	 * @return	string
 	 */
 	public function tableId() {
 		return $this->table_id;
