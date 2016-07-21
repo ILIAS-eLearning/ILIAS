@@ -165,7 +165,7 @@ class ilAuthFrontend
 		}
 		
 		// ip check
-		if(!$this->checkIp())
+		if(!$this->checkIp($user))
 		{
 			$this->getLogger()->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 			$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
