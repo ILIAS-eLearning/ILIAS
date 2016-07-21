@@ -41,13 +41,14 @@ class ilDclTableViewGUI
      */
     protected $table;
 
-    /**
-     * Constructor
-     *
-     * @param	ilObjDataCollectionGUI	$a_parent_obj
-     * @param	int $table_id
-     */
-    public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
+
+	/**
+	 * Constructor
+	 *
+	 * @param ilDclTableListGUI $a_parent_obj
+	 * @param    int                                   $table_id
+	 */
+    public function  __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -55,6 +56,10 @@ class ilDclTableViewGUI
         $ilToolbar = $DIC['ilToolbar'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
+
+	    if ($table_id == 0) {
+		    $table_id = $_GET['table_id'];
+	    }
 
         $this->parent_obj = $a_parent_obj;
         $this->ctrl = $ilCtrl;
@@ -122,7 +127,7 @@ class ilDclTableViewGUI
 
         // Show tables
         require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
-        $tables = $this->parent_obj->object->getTables();
+        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
         foreach($tables as $table)
         {
@@ -146,7 +151,7 @@ class ilDclTableViewGUI
     }
 
     /**
-     * 
+     *
      */
     public function doTableSwitch()
     {
@@ -218,6 +223,7 @@ class ilDclTableViewGUI
             $tableviews[] = ilDclTableView::find($tableview_id);
         }
         $this->table->sortTableViews($tableviews);
+	    ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_order_updated'));
         $this->ctrl->redirect($this);
     }
 

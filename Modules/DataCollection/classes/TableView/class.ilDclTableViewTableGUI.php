@@ -7,6 +7,8 @@ require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvan
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
+ *
+ *
  */
 class ilDclTableViewTableGUI extends ilTable2GUI
 {
@@ -42,6 +44,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
 
+
+	    $this->setExternalSegmentation(true);
+	    $this->setExternalSorting(true);
+
         if ($this->parent_obj instanceof ilDclTableViewGUI)
         {
             $ilCtrl->setParameterByClass('ildcltableviewgui', 'table_id', $table->getId());
@@ -69,8 +75,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt('description'), NULL, 'auto');
         $this->addColumn($lng->txt('actions'), NULL, '30px');
 
-        $this->setExternalSegmentation(true);
-        $this->setExternalSorting(true);
 
         $this->setTopCommands(true);
         $this->setEnableHeader(true);

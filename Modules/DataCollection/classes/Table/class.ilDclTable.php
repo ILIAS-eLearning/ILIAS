@@ -875,7 +875,7 @@ class ilDclTable {
 	 */
 	public function buildOrderFields() {
 		$fields = $this->getFields();
-//		$this->sortByOrder($fields);
+		$this->sortByOrder($fields);
 		$count = 10;
 		$offset = 10;
 		foreach ($fields as $field) {

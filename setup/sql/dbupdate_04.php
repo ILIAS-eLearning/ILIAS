@@ -15579,3 +15579,7 @@ if(!is_file($salt_location) || !is_readable($salt_location))
 	die("Could not determine the client salt for bcrypt password hashing.");
 }
 ?>
+<#4923>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -9,16 +9,17 @@ require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldListTableGUI.php');
 
 /**
-* @author Martin Studer <ms@studer-raimann.ch>
-* @author Marcel Raimann <mr@studer-raimann.ch>
-* @author Fabian Schmid <fs@studer-raimann.ch>
-* @author Oskar Truffer <ot@studer-raimann.ch>
-* @author Stefan Wanzenried <sw@studer-raimann.ch>
-* @version $Id: 
-*
-*
-* @ingroup ModulesDataCollection
-*/
+ * @author Martin Studer <ms@studer-raimann.ch>
+ * @author Marcel Raimann <mr@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @version $Id:
+ *
+ *
+ * @ingroup ModulesDataCollection
+ *
+ */
 class ilDclFieldListGUI
 {
 
@@ -51,10 +52,10 @@ class ilDclFieldListGUI
     /**
 	 * Constructor
 	 *
-	 * @param	ilObjDataCollectionGUI	$a_parent_obj
+	 * @param	ilDclTableListGUI	$a_parent_obj
 	 * @param	int $table_id
 	 */
-	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
+	public function  __construct(ilDclTableListGUI $a_parent_obj)
 	{
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -62,6 +63,8 @@ class ilDclFieldListGUI
         $ilToolbar = $DIC['ilToolbar'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
+
+		$table_id = $_GET['table_id'];
 
 		$this->table_id = $table_id;
 		$this->parent_obj = $a_parent_obj;
@@ -149,8 +152,17 @@ class ilDclFieldListGUI
 	 */
 	public function listFields()
 	{
-		// Show tables
-		$tables = $this->parent_obj->object->getTables();
+		//add button
+		$add_new = ilLinkButton::getInstance();
+		$add_new->setPrimary(true);
+		$add_new->setCaption("dcl_create_item");
+		$add_new->setUrl($this->ctrl->getLinkTargetByClass('ildclfieldeditgui', 'create'));
+		$this->toolbar->addStickyItem($add_new);
+
+		$this->toolbar->addSeparator();
+
+		// Show tableswitcher
+		$tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
 		foreach($tables as $table)
 		{
@@ -162,23 +174,15 @@ class ilDclFieldListGUI
 		$table_selection->setValue($this->table_id);
 
 		$this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclFieldListGUI", "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_table"));
+        $this->toolbar->addText($this->lng->txt("dcl_select"));
 		$this->toolbar->addInputItem($table_selection);
 		$this->toolbar->addFormButton($this->lng->txt('change'),'doTableSwitch');
-        $this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt("dcl_add_new_table"), $this->ctrl->getLinkTargetByClass("ildcltableeditgui", "create"));
-        $this->toolbar->addSeparator();
-        $this->ctrl->setParameterByClass("ildcltableeditgui", "table_id", $this->table_id);
-		$this->toolbar->addButton($this->lng->txt("dcl_table_settings"), $this->ctrl->getLinkTargetByClass("ildcltableeditgui", "edit"));
-		$this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt("dcl_delete_table"), $this->ctrl->getLinkTargetByClass("ildcltableeditgui", "confirmDelete"));
-		$this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt("dcl_add_new_field"), $this->ctrl->getLinkTargetByClass("ildclfieldeditgui", "create"));
+
+		//table gui
 		$list = new ilDclFieldListTableGUI($this, $this->ctrl->getCmd(), $this->table_id);
 		$this->tpl->setContent($list->getHTML());
-
 	}
-	
+
 	/*
 	 * doTableSwitch
 	 */
@@ -193,8 +197,16 @@ class ilDclFieldListGUI
      */
     protected function checkAccess()
     {
-        $ref_id = $this->parent_obj->getDataCollectionObject()->getRefId();
-        return ilObjDataCollection::_hasWriteAccess($ref_id);
+        $ref_id = $this->getDataCollectionObject()->getRefId();
+        return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
+    }
+
+
+	/**
+	 * @return ilObjDataCollection
+	 */
+    public function getDataCollectionObject() {
+    	return $this->parent_obj->getDataCollectionObject();
     }
 
 }
