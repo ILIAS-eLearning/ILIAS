@@ -93,9 +93,10 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	* @return	string		command target frame
 	*/
 	function getCommandFrame($a_cmd)
-	{
-		// #16820 / #18419		
-		if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
+	{		
+		// #16820 / #18419 / #18622
+		if($a_cmd == "" &&
+			ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 		{			
 			$link = ilObjLinkResourceAccess::_getFirstLink($this->obj_id);
 			
