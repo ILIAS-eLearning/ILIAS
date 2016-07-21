@@ -65,12 +65,14 @@ class ilAuthSession
 
 		if($this->getUserId())
 		{
-			$this->getLogger()->debug('Resuming old session for user: ' . $this->getUserId());
+			$this->getLogger()->debug('Resumed old session for user: ' . $this->getUserId());
 		}
 		else
 		{
 			$this->getLogger()->debug('Started new session.');
 		}
+		
+		
 		return true;
 	}
 	

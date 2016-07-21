@@ -60,7 +60,7 @@ class ilAuthFrontendFactory
 	/**
 	 * @return \ilAuthFrontendInterface
 	 */
-	public function getFrontend(ilAuthSession $session, ilAuthCredentials $credentials, array $providers)
+	public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
 	{
 		switch($this->getContext())
 		{
@@ -68,7 +68,8 @@ class ilAuthFrontendFactory
 				$this->getLogger()->debug('Init auth frontend with standard auth context');
 				include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
 				$frontend = new ilAuthStandardFormFrontend(
-					$session, 
+					$session,
+					$status,
 					$credentials,
 					$providers
 				);

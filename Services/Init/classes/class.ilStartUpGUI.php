@@ -633,29 +633,34 @@ class ilStartUpGUI
 			$provider_factory = new ilAuthProviderFactory();
 			$providers = $provider_factory->getProviders($credentials);
 			
+			include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+			$status = ilAuthStatus::getInstance();
+			
 			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 			$frontend_factory = new ilAuthFrontendFactory();
 			$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
 			$frontend = $frontend_factory->getFrontend(
 				$GLOBALS['DIC']['ilAuthSession'],
+				$status,
 				$credentials,
 				$providers
 			);
 			
-			try {
-				$frontend->authenticate();
-				if($frontend->isAuthenticated())
-				{
+			$frontend->authenticate();
+			
+			switch($status->getStatus())
+			{
+				case ilAuthStatus::STATUS_AUTHENTICATED:
 					ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
 					// @todo php7 fix redirection
 					ilUtil::redirect('./goto.php?target=root_1&client_id=php7');
-				}
-			} 
-			catch (Exception $ex) 
-			{
-				ilUtil::sendFailure($ex->getMessage());
-				$this->showLoginPage($form);
+					return;
+				
+				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+					ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()));
+					return $this->showLoginPage($form);
 			}
+			
 		}
 		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 		$this->showLoginPage($form);

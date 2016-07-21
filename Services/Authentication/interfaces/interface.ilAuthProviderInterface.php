@@ -12,9 +12,10 @@ interface ilAuthProviderInterface
 {
 	/**
 	 * Do authentication
+	 * @param \ilAuthStatus $status Authentication status
 	 * @return bool
 	 */
-	public function doAuthentication();
+	public function doAuthentication(\ilAuthStatus $status);
 	
 }
 ?>

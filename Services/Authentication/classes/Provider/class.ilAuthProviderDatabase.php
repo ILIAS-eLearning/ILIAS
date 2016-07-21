@@ -16,28 +16,32 @@ class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInt
 
 	
 	/**
-	 * do authentication
+	 * Do authentication
 	 * @return bool
 	 */
-	public function doAuthentication()
+	public function doAuthentication(ilAuthStatus $status)
 	{
 		include_once './Services/User/classes/class.ilUserPasswordManager.php';
 
 		/**
 		 * @var $user ilObjUser
 		 */
-		$user = ilObjectFactory::getInstanceByObjId(ilObjUser::_loginExists($this->getCredentials()->getUsername()));
+		$user = ilObjectFactory::getInstanceByObjId(ilObjUser::_loginExists($this->getCredentials()->getUsername()),false);
 		
+		$this->getLogger()->debug('Trying to authenticate user: '. $this->getCredentials()->getUsername());
 		if($user instanceof ilObjUser)
 		{
 			if(ilUserPasswordManager::getInstance()->verifyPassword($user, $this->getCredentials()->getPassword()))
 			{
-				$this->setAuthenticationStatus(self::STATUS_AUTHENTICATION_SUCCESS);
-				$this->setAuthenticatedUserId($user->getId());
+				$this->getLogger()->debug('Successfully authenticated user: ' . $this->getCredentials()->getUsername());
+				$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+				$status->setAuthenticatedUserId($user->getId());
 				return true;
+				
 			}
 		}
-		$this->setAuthenticationStatus(self::STATUS_AUTHENTICATION_FAILED);
+		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+		$status->setReason('err_wrong_login');
 		return false;
 	}
 

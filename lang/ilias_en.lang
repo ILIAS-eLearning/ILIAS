@@ -15736,3 +15736,4 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
+auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
