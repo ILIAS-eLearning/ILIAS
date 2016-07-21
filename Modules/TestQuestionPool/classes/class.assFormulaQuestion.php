@@ -1009,6 +1009,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			{
 				$solutionSubmit[$key] = $val;
 			}
+			else
+			{
+				$solutionSubmit[$key] = '';
+			}
 		}
 
 		$entered_values = FALSE;
