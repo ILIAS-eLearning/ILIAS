@@ -14,6 +14,11 @@ class ilMailPearRfc822WrapperAddressParser extends ilBaseMailRfc822AddressParser
 	 */
 	public function parseAddressString($a_addresses)
 	{
+		if(strlen($a_addresses) == 0)
+		{
+			return array();
+		}
+
 		require_once 'Services/Mail/classes/class.ilMail.php';
 		require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
 		$parser = new Mail_RFC822();
