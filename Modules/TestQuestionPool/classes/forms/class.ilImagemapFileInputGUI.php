@@ -239,7 +239,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			}
 		}
 
-		if ($max == 0 && (!$filename))
+		if ($max == 0 && (!$filename) && !$_FILES['imagemapfile']['tmp_name'])
 		{
 			$this->setAlert($lng->txt("enter_enough_positive_points"));
 			return false;

@@ -401,31 +401,24 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Uploads an image map and takes over the areas
-	*
-	* @param string $imagemap_filename Imagemap filename
-	* @return integer number of areas added
-	*/
-	function uploadImagemap($imagemap_filename = "") 
+	 * Uploads an image map and takes over the areas
+	 *
+	 * @param ASS_AnswerImagemap[] $shapes
+	 * @return integer number of areas added
+	 */
+	public function uploadImagemap(array $shapes) 
 	{
 		$added = 0;
-		if (!empty($imagemap_filename)) 
+
+		if(count($shapes) > 0)
 		{
-			$fp = fopen($imagemap_filename, "r");
-			$contents = fread($fp, filesize($imagemap_filename));
-			fclose($fp);
-			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) 
+			foreach($shapes as $shape)
 			{
-				for ($i=0; $i< count($matches[1]); $i++) 
-				{
-					preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
-					preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
-					preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
-					$this->addAnswer($alt[1], 0.0, count($this->answers), $coords[1], $shape[1]);
-					$added++;
-				}
+				$this->addAnswer($shape->getAnswertext(), 0.0, count($this->answers), $shape->getCoords(), $shape->getArea());
+				$added++;
 			}
 		}
+
 		return $added;
 	}
 

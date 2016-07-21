@@ -15745,3 +15745,5 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Berechtigungsobjekt
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
+assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
+assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden. 
