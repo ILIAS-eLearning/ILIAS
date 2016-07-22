@@ -43,7 +43,6 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 	
 	public function evaluate($a_user_id, array $a_params, array $a_config)
 	{
-		include_once "Services/User/classes/class.ilUserProfile.php";
 		$user = new ilObjUser($a_user_id);
 		
 		// use getter mapping from user profile

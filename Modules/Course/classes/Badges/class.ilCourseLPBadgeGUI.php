@@ -17,19 +17,42 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	
 	public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
 	{
-		global $lng;
+		global $lng, $tree;
 		
 		$this->parent_ref_id = (int)$a_parent_ref_id;
+	
+		include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
+		$subitems = new ilRepositorySelector2InputGUI($lng->txt("objects"), "subitems", true);
 		
-		$subitems = new ilCheckboxGroupInputGUI($lng->txt("objects"), "subitems");	
+		$exp = $subitems->getExplorerGUI();		
+		$exp->setSkipRootNode(true);
+		$exp->setRootId($this->parent_ref_id);		
+		$exp->setTypeWhiteList($this->getLPTypes($this->parent_ref_id));	
+		
 		$subitems->setRequired(true);
-		$a_form->addItem($subitems);
+		$a_form->addItem($subitems);				
+	}
+	
+	protected function getLPTypes($a_parent_ref_id)
+	{
+		global $tree;
+			
+		$res = array();
+							
+		$root = $tree->getNodeData($a_parent_ref_id);
+		$sub_items = $tree->getSubTree($root);
+		array_shift($sub_items); // remove root
 		
-		foreach(ilCourseLPBadge::getValidSubItems($this->parent_ref_id) as $item)
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		foreach($sub_items as $node)
 		{
-			$option = new ilCheckboxOption($item["title"], $item["obj_id"]);
-			$subitems->addOption($option);								
+			if(ilObjectLP::isSupportedObjectType($node["type"]))
+			{
+				$res[] = $node["type"];
+			}
 		}
+		
+		return $res;
 	}
 	
 	public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config)

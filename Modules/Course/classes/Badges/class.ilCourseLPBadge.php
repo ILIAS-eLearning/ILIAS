@@ -53,7 +53,8 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 			// check if all subitems are completed now
 			foreach($a_config["subitems"] as $subitem_id)
 			{
-				if(ilLPStatus::_lookupStatus($subitem_id, $a_user_id) != ilLPStatus::LP_STATUS_COMPLETED_NUM)
+				$subitem_obj_id = ilObject::_lookupObjId($subitem_id);
+				if(ilLPStatus::_lookupStatus($subitem_obj_id, $a_user_id) != ilLPStatus::LP_STATUS_COMPLETED_NUM)
 				{
 					$completed = false;
 					break;
@@ -64,33 +65,5 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 		}
 		
 		return false;		
-	}
-	
-	public static function getValidSubItems($a_ref_id)
-	{
-		global $tree;
-		
-		$res = array();
-		
-		$root = $tree->getNodeData($a_ref_id);
-		$sub_items = $tree->getSubTree($root);
-		array_shift($sub_items); // remove root
-		
-		include_once "Services/Object/classes/class.ilObjectLP.php";
-		foreach($sub_items as $node)
-		{
-			if(ilObjectLP::isSupportedObjectType($node["type"]))
-			{
-				$res[] = array(
-					"type" => $node["type"],
-					"obj_id" => $node["obj_id"],
-					"ref_id" => $node["ref_id"],
-					"title" => $node["title"],
-					"parent_ref_id" => $node["parent"]
-				);
-			}			
-		}		
-		
-		return $res;
-	}
+	}	
 }

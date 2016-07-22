@@ -269,3 +269,9 @@ if(!$ilDB->tableColumnExists('badge_badge','crit'))
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#16>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

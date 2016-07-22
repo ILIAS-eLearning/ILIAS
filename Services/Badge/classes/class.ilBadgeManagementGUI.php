@@ -8,6 +8,7 @@ include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
+ * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
  * @package ServicesBadge
  */
 class ilBadgeManagementGUI
@@ -54,7 +55,19 @@ class ilBadgeManagementGUI
 		$cmd = $ilCtrl->getCmd("listBadges");
 
 		switch($next_class)
-		{		
+		{					
+			case "ilpropertyformgui":
+				// ajax
+				if((int)$_REQUEST["bid"])
+				{
+					include_once "./Services/Badge/classes/class.ilBadge.php";
+					$badge = new ilBadge((int)$_REQUEST["bid"]);
+					$type = $badge->getTypeInstance();
+					$form = $this->initBadgeForm("edit", $type, $badge->getTypeId());			
+					$ilCtrl->forwardCommand($form);						
+				}
+				break;
+			
 			default:	
 				$this->$cmd();
 				break;

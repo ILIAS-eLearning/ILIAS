@@ -34,12 +34,17 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 //		$this->explorer_gui->setTypeWhiteList($this->getVisibleTypes());
 //		$this->explorer_gui->setClickableTypes($this->getClickableTypes());
 		$this->explorer_gui->setSelectMode($a_postvar."_sel", $this->multi_nodes);
-
+		
 		//$this->explorer_gui = new ilTaxonomyExplorerGUI(array("ilformpropertydispatchgui", "iltaxselectinputgui"), $this->getExplHandleCmd(), $a_taxonomy_id, "", "",
 		//	"tax_expl_".$a_postvar);
 
 		parent::__construct($a_title, $a_postvar, $this->explorer_gui, $this->multi_nodes);
 		$this->setType("rep_select");
+	}
+	
+	function getExplorerGUI()
+	{
+		return $this->explorer_gui;
 	}
 
 	/**
