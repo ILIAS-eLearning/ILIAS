@@ -299,22 +299,22 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$ttype->addOption($custom);
 		$form->addItem($ttype);
 
-		include_once("./Services/Repository/classes/class.ilRepositorySelectInputGUI.php");
-		//repository selector
-		$repo = new ilRepositorySelectInputGUI($this->lng->txt("target"), "target_id");
+		include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+		$repo = new ilRepositorySelector2InputGUI($this->lng->txt("target"), "target_id");
 		$repo->setParent($this);
 		$repo->setRequired(true);
-		$repo->setClickableTypes(array($this->getTargetType()));
+		$repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));
+		$repo->getExplorerGUI()->setTypeWhiteList(array_merge(
+				array($this->getTargetType()),
+				array("root", "cat", "grp", "fold", "crs"))
+		);
 		$repo->setInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
 
-		$repo->readFromSession();
-
-		if(!$repo->getValue() && $a_mode == self::MODE_EDIT)
+		if($a_mode == self::MODE_EDIT)
 		{
+			$repo->getExplorerGUI()->setPathOpen($this->object->getTargetRefId());
 			$repo->setValue($this->object->getTargetRefId());
 		}
-
-		$repo->clearFromSession();
 
 		$form->addItem($repo);
 		$this->form = $form;
