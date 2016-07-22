@@ -47,4 +47,11 @@ class PathTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($seq,
 			array("1"=>array(),"2"=>array(),"3"=>array(),"1a"=>array(),"2a"=>array(),"3a"=>array()));
 	}
+
+	public function test_subpath_to_inc() {
+		$seq = Graphs\Path::getInstanceBySequence(array("1a"=>array(),"2a"=>array(),"3a"=>array(),"4a"=>array(),"5a"=>array()))
+				->getSubpathUpToIncluding("3a")
+				->sequence();
+		$this->assertSame($seq,array("1a"=>array(),"2a"=>array(),"3a"=>array()));
+	}
 }
