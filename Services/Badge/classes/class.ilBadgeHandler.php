@@ -406,7 +406,7 @@ class ilBadgeHandler
 				// already assigned?
 				if(!ilBadgeAssignment::exists($badge->getId(), $a_user_id))
 				{
-					if((bool)$type->evaluate($a_user_id, $a_params, $badge->getConfiguration()))
+					if((bool)$type->evaluate($a_user_id, (array)$a_params, (array)$badge->getConfiguration()))
 					{
 						$ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
 						$ass->store();
