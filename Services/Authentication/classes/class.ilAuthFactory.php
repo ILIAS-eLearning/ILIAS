@@ -34,13 +34,7 @@ class ilAuthFactory
 	 * SOAP based authentication
 	 */
 	const CONTEXT_SOAP	= 3;
-	
-	/**
-	 * @var int
-	 * Maybe not required. Cron based authentication 
-	 */
-	const CONTEXT_CRON	= 4;
-	
+
 	/**
 	 * @var int
 	 */
@@ -166,10 +160,6 @@ class ilAuthFactory
 				$GLOBALS['ilLog']->write('Calling calendar token');
 				return new ilAuthCalendarToken(new ilAuthContainerCalendarToken(),$options);
 				
-			case self::CONTEXT_CRON:
-				include_once './cron/classes/class.ilAuthCron.php';
-				return new ilAuthCron($deco,$options);
-
 			case self::CONTEXT_ECS:
 				include_once './Services/WebServices/ECS/classes/class.ilAuthECS.php';
 				return new ilAuthECS($deco,$options);
