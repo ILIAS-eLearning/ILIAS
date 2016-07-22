@@ -180,7 +180,7 @@ class ilContentStyleSettingsGUI
 			$to_styles[0] = $this->lng->txt("sty_default_style");
 		}
 
-		if ($this->checkPermission("write", false))
+		if ($this->checkPermission("sty_write_content", false))
 		{
 			$this->toolbar->addButton($this->lng->txt("sty_add_content_style"),
 				$this->ctrl->getLinkTarget($this, "createStyle"));
@@ -212,7 +212,7 @@ class ilContentStyleSettingsGUI
 	 */
 	function moveLMStyles()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		if ($_POST["from_style"] == -1)
 		{
@@ -231,7 +231,7 @@ class ilContentStyleSettingsGUI
 	 */
 	function moveIndividualStyles()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_moveLMStyles(-1, $_GET["to_style"]);
@@ -243,7 +243,7 @@ class ilContentStyleSettingsGUI
 	 */
 	function confirmDeleteIndividualStyles()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 
@@ -266,7 +266,7 @@ class ilContentStyleSettingsGUI
 	 */
 	function deleteStyle()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		if (!isset($_POST["id"]))
 		{
@@ -301,7 +301,7 @@ class ilContentStyleSettingsGUI
 	{
 		global $ilias;
 
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		foreach($_POST["id"] as $id)
 		{
@@ -324,7 +324,7 @@ class ilContentStyleSettingsGUI
 	{
 		global $ilSetting, $lng;
 
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		if ($_GET["id"] > 0)
 		{
@@ -351,7 +351,7 @@ class ilContentStyleSettingsGUI
 	{
 		global $ilSetting, $lng;
 
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		if ($_GET["id"] > 0)
 		{
@@ -460,7 +460,7 @@ class ilContentStyleSettingsGUI
 	{
 		global $tpl, $ilCtrl;
 
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		$ilCtrl->saveParameter($this, "id");
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
@@ -480,7 +480,7 @@ class ilContentStyleSettingsGUI
 	{
 		global $tree;
 
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_content");
 
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($_GET["cat"] == $tree->readRootId())

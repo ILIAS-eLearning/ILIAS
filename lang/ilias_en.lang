@@ -15747,3 +15747,9 @@ assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.
+rbac#:#sty_write_content#:#Edit Content Styles
+rbac#:#stys_sty_write_custom#:#Edit Content Styles
+rbac#:#sty_write_system#:#Edit System Styles
+rbac#:#stys_sty_write_system#:#Edit System Styles
+rbac#:#sty_write_page_layout#:#Edit Page Layouts
+rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
