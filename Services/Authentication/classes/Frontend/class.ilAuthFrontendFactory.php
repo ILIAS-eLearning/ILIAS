@@ -16,6 +16,9 @@ class ilAuthFrontendFactory
 	// soap auth (login) but not for (CLI (cron)?) and HTTP basic authentication
 	const CONTEXT_STANDARD_FORM = 2;
 	
+	// CLI context for cron
+	const CONTEXT_CLI = 3;
+	
 	
 	private $context = self::CONTEXT_UNDEFINED;
 	private $credentials = null;
@@ -64,6 +67,7 @@ class ilAuthFrontendFactory
 	{
 		switch($this->getContext())
 		{
+			case self::CONTEXT_CLI:
 			case self::CONTEXT_STANDARD_FORM:
 				$this->getLogger()->debug('Init auth frontend with standard auth context');
 				include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
