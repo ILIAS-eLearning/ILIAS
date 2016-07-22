@@ -571,46 +571,6 @@ class ilDidacticTemplateSetting
 		
 		return false;
 	}
-
-	/**
-	 * @param ilDidacticTemplateSetting $a_settings
-	 */
-	function applyOtherSettingsObject($a_settings)
-	{
-
-		//delete all obsolete data
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
-		foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($this->getId()) as $action)
-		{
-			$action->delete();
-		}
-
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		ilDidacticTemplateObjSettings::deleteByTemplateId($this->getId());
-		$this->getTranslationObject()->delete();
-
-		//copy data from temp object
-		$this->setEffectiveFrom($a_settings->getEffectiveFrom());
-		$this->setTitle($a_settings->getTitle());
-		$this->setDescription($a_settings->getDescription());
-		$this->setInfo($a_settings->getInfo());
-		$this->setType($a_settings->getType());
-		$this->setAssignments($a_settings->getAssignments());
-
-		foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($a_settings->getId()) as $action)
-		{
-			$action->setTemplateId($this->getId());
-			$action->delete();
-			$action->save();
-		}
-		$this->update();
-
-		//copy translations
-		$trans = $a_settings->getTranslationObject();
-		$trans->setObjId($this->getId());
-		$trans->save();
-		$trans->setObjId($a_settings->getId()); //switch back to old ID to prevent deletions
-	}
 }
 
 ?>

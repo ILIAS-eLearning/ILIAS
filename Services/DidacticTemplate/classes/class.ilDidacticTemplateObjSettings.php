@@ -99,6 +99,26 @@ class ilDidacticTemplateObjSettings
 		$ilDB->manipulate($query);
 		return true;
 	}
+	/**
+	 * Lookup template id
+	 * @global ilDB $ilDB
+	 * @param int $a_tpl_id
+	 * @return array[]
+	 */
+	public static function getAssignmentsByTemplateID($a_tpl_id)
+	{
+		global $ilDB;
 
+		$query = 'SELECT * FROM didactic_tpl_objs '.
+			'WHERE tpl_id = '.$ilDB->quote($a_tpl_id, 'integer');
+		$res = $ilDB->query($query);
+		$assignments = array();
+
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$assignments[] = array("ref_id" => $row->ref_id, "obj_id" => $row->obj_id);
+		}
+		return $assignments;
+	}
 }
 ?>

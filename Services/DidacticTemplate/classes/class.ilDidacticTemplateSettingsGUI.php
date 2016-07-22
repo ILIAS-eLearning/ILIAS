@@ -161,12 +161,32 @@ class ilDidacticTemplateSettingsGUI
 			$this->ctrl->redirect($this, "overview");
 		}
 
-		$form = $this->createImportForm();
+		$edit = isset($_REQUEST['tplid']);
+
+		if($edit)
+		{
+			$form = $this->createImportForm();
+		}
+		else{
+			$form = $this->editImportForm();
+		}
+
+
 		if(!$form->checkInput())
 		{
 			ilUtil::sendFailure($this->lng->txt('err_check_input'));
 			$form->setValuesByPost();
-			return $this->showImportForm($form);
+
+			if($edit)
+			{
+
+				$this->showEditImportForm();
+			}
+			else
+			{
+				$this->showImportForm($form);
+			}
+
 		}
 
 		// Do import
@@ -186,7 +206,12 @@ class ilDidacticTemplateSettingsGUI
 		$import->setInputFile($tmp);
 
 		try {
-			$import->import();
+			$settings = $import->import();
+
+			if($edit)
+			{
+				$this->editImport($settings);
+			}
 		}
 		catch(ilDidacticTemplateImportException $e)
 		{
@@ -195,7 +220,16 @@ class ilDidacticTemplateSettingsGUI
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('didactic_import_success'),TRUE);
-		$ilCtrl->redirect($this,'overview');
+
+		if($edit)
+		{
+			$ilCtrl->redirect($this,'editTemplate');
+		}
+		else
+		{
+			$ilCtrl->redirect($this,'overview');
+		}
+
 	}
 
 	/**
@@ -547,22 +581,22 @@ class ilDidacticTemplateSettingsGUI
 		);
 		$ilCtrl->saveParameter($this, "tplid");
 		$ilTabs->addTab('edit',$this->lng->txt('edit'), $ilCtrl->getLinkTarget($this,'editTemplate'));
-		$ilTabs->addTab('import',$this->lng->txt('import'), $ilCtrl->getLinkTarget($this,'showEditXMLForm'));
+		$ilTabs->addTab('import',$this->lng->txt('import'), $ilCtrl->getLinkTarget($this,'showEditImportForm'));
 		$ilTabs->addTab('settings_trans',$this->lng->txt("obj_multilinguality"), $ilCtrl->getLinkTargetByClass(array( "ilmultilingualismgui"),'listTranslations'));
 
 		$ilTabs->setTabActive($a_tab_active);
 	}
 
-	function showEditXMLForm()
+	function showEditImportForm()
 	{
 		$this->setEditTabs("import");
 
-		$form = $this->initEditXMLForm();
+		$form = $this->editImportForm();
 		
 		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 
-	function initEditXMLForm()
+	function editImportForm()
 	{
 		global $ilCtrl;
 
@@ -571,7 +605,7 @@ class ilDidacticTemplateSettingsGUI
 		$form->setShowTopButtons(false);
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('didactic_import_table_title'));
-		$form->addCommandButton('editXML', $this->lng->txt('import'));
+		$form->addCommandButton('importTemplate', $this->lng->txt('import'));
 		$form->addCommandButton('overview', $this->lng->txt('cancel'));
 
 		$file = new ilFileInputGUI($this->lng->txt('didactic_template_update_import'), 'file');
@@ -582,55 +616,27 @@ class ilDidacticTemplateSettingsGUI
 		return $form;
 	}
 
-	function editXML()
+	/**
+	 * @global ilCtrl $ilCtrl
+	 * @param ilDidacticTemplateSetting $a_settings
+	 */
+	function editImport($a_settings)
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl;
+		$tplid = $_REQUEST['tplid'];
 
-		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$assignments = ilDidacticTemplateObjSettings::getAssignmentsByTemplateID($tplid);
+
+		$tpl = new ilDidacticTemplateSetting($tplid);
+		$tpl->delete();
+
+		foreach($assignments as $obj)
 		{
-			$this->ctrl->redirect($this, "overview");
+			ilDidacticTemplateObjSettings::assignTemplate($obj["ref_id"],$obj["obj_id"],$a_settings->getId());
 		}
 
-		$form = $this->createImportForm();
-		if(!$form->checkInput())
-		{
-			ilUtil::sendFailure($this->lng->txt('err_check_input'));
-			$form->setValuesByPost();
-			return $this->showImportForm($form);
-		}
-
-		// Do import
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateImport.php';
-
-		$import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
-
-		$file = $form->getInput('file');
-		$tmp = ilUtil::ilTempnam();
-
-		// move uploaded file
-		ilUtil::moveUploadedFile(
-			$file['tmp_name'],
-			$file['name'],
-			$tmp
-		);
-		$import->setInputFile($tmp);
-
-		try {
-			$settings = $import->import();
-			$old = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
-			$old->applyOtherSettingsObject($settings);
-
-			$settings->delete();
-		}
-		catch(ilDidacticTemplateImportException $e)
-		{
-			ilLoggerFactory::getLogger('otpl')->error('Import failed with message: ' . $e->getMessage());
-			ilUtil::sendFailure($this->lng->txt('didactic_import_failed').': '.$e->getMessage());
-			$ilCtrl->redirect($this,'overview');
-		}
-
-		ilUtil::sendSuccess($this->lng->txt('didactic_import_success'),TRUE);
-		$ilCtrl->redirect($this,'overview');
+		$ilCtrl->setParameter($this, "tplid", $a_settings->getId());
 	}
 
 }
