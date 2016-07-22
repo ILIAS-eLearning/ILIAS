@@ -38,6 +38,10 @@ class Path {
 		return $this;
 	}
 
+	public function pathEndsAt($node_id) {
+		return $this->end_node === $node_id;
+	}
+
 	protected function addSequence(array $sequence) {
 		$end_node = $this->end_node;
 		foreach ($sequence as $node_id => $data) {
@@ -85,6 +89,20 @@ class Path {
 		}
 		$this->addSequence($seq_to_add);
 		return $this;
+	}
+
+	public function getSubpathUpToIncluding($node_id) {
+		if(!$this->contains($node_id)) {
+			throw new GraphException("no $node_id in path");
+		}
+		$seq = array();
+		foreach ($this->sequence as $this_node_id => $data) {
+			$seq[$this_node_id] = $data;
+			if($this_node_id === $node_id) {
+				break;
+			}
+		}
+		return self::getInstanceBySequence($seq);
 	}
 
 	public function contains($node_id) {
