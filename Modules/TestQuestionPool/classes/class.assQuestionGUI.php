@@ -116,7 +116,7 @@ abstract class assQuestionGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -126,7 +126,7 @@ abstract class assQuestionGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		return $ret;

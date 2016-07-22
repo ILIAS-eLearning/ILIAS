@@ -15583,3 +15583,7 @@ if(!is_file($salt_location) || !is_readable($salt_location))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4924>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

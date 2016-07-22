@@ -15732,7 +15732,7 @@ sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_accept_request#:#Accept Participation
 sess#:#sess_new_registrations#:#Join Request
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
-mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
+mail#:#mail_recipient_not_found#:#%1$s (could not find a valid recipient)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
 mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
 rbac#:#mep_copy#:#User can copy media pool
@@ -15745,3 +15745,5 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
 assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
+assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
+assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.
