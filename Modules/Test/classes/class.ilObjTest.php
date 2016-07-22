@@ -5643,6 +5643,12 @@ function getAnswerFeedbackPoints()
 				case "sequence_settings":
 					$this->setSequenceSettings($metadata["entry"]);
 					break;
+				case "solution_details":
+					$this->setShowSolutionDetails((int)$metadata["entry"]);
+					break;
+				case "print_bs_with_res":
+					$this->setPrintBestSolutionWithResult((int)$metadata["entry"]);
+					break;
 				case "author":
 					$this->setAuthor($metadata["entry"]);
 					break;
@@ -6155,6 +6161,15 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "score_reporting");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getScoreReporting()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "solution_details");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getShowSolutionDetails());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "print_bs_with_res");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getShowSolutionDetails() ? (int)$this->isBestSolutionPrintedWithResult() : 0);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// solution details
