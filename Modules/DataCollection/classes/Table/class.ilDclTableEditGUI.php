@@ -177,7 +177,7 @@ class ilDclTableEditGUI {
 	 * cancel
 	 */
 	public function cancel() {
-		$this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
+		$this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
 	}
 
 
@@ -473,7 +473,7 @@ class ilDclTableEditGUI {
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table->getId());
 
-		$this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableViewGUI", "doTableSwitch"));
+		$this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableEditGUI", "doTableSwitch"));
 		$this->toolbar->addText($this->lng->txt("dcl_select"));
 		$this->toolbar->addInputItem($table_selection);
 		$button = ilSubmitButton::getInstance();

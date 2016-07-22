@@ -123,7 +123,7 @@ class ilDclTableListGUI {
 	public function listTables() {
 		$add_new = ilLinkButton::getInstance();
 		$add_new->setPrimary(true);
-		$add_new->setCaption("dcl_create_item");
+		$add_new->setCaption("dcl_add_new_table");
 		$add_new->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'create'));
 		$this->toolbar->addStickyItem($add_new);
 
@@ -139,27 +139,16 @@ class ilDclTableListGUI {
 		$this->tabs->setTabActive($active);
 	}
 
-
-	/**
-	 * save table
-	 */
-	public function save() {
-		$this->saveTableOrders();
-
-		$this->ctrl->redirect($this);
-	}
-
-
 	/**
 	 *
 	 */
-	protected function saveTableOrders() {
+	protected function save() {
 		$comments = $_POST['comments'];
 		$visible = $_POST['visible'];
-		$orders = array_flip($_POST['order']);
-		ksort($orders);
+		$orders = $_POST['order'];
+		asort($orders);
 		$order = 10;
-		foreach($orders as $table_id)
+		foreach(array_keys($orders) as $table_id)
 		{
 			$table = ilDclCache::getTableCache($table_id);
 			$table->setOrder($order);
@@ -168,6 +157,7 @@ class ilDclTableListGUI {
 			$table->doUpdate();
 			$order += 10;
 		}
+		$this->ctrl->redirect($this);
 	}
 
 	/**
@@ -236,4 +226,6 @@ class ilDclTableListGUI {
 	public function getDataCollectionObject() {
 		return $this->parent_obj->getDataCollectionObject();
 	}
+
+
 }

@@ -740,7 +740,7 @@ class ilSetup
 			return false;
 		}
 
-		if (!$this->newClient($a_auth_data["client_id"]))
+		if (!$this->newClient($a_auth_data["client_id"])) //TT: comment out to get around null db
 		{
 			$this->error = "unknown_client_id";
 			unset($this->client);

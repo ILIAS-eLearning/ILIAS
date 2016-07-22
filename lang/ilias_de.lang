@@ -12021,6 +12021,7 @@ dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
+dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
@@ -12405,7 +12406,7 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
-dcl#:#dcl_create_item#:#Ansicht Hinzufügen
+dcl#:#dcl_create_view#:#Ansicht Hinzufügen
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle

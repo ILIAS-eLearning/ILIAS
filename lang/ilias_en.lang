@@ -12197,6 +12197,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Edit Detailed View
 dcl#:#dcl_record_list_viewdefinition#:#List Detailed Views
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
+dcl#:#dcl_add_new_view#:#Add New View
 dcl#:#dcl_field_datatype#:#Field Data Type
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_edit_type_non#:#Not editable
@@ -12247,7 +12248,7 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fi
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
-dcl#:#dcl_create_item#:#Create Item
+dcl#:#dcl_create_view#:#Create View
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
@@ -12484,6 +12485,7 @@ dcl#:#dcl_update_record#:#Update Entry
 dcl#:#dcl_edit_field#:#Edit Field
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_create_field#:#Create Field
+dcl#:#dcl_create_table#:#Create Table
 dcl#:#dcl_msg_field_modified#:#Field updated
 common#:#obj_tstv#:#Test Certificate
 common#:#obj_excv#:#Exercise Certificate
