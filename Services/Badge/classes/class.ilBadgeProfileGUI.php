@@ -58,14 +58,76 @@ class ilBadgeProfileGUI
 	// list
 	// 
 	
-	protected function listBadges()
+	protected function getSubTabs($a_active)
 	{
-		global $ilTabs, $tpl;
+		global $ilTabs, $lng, $ilCtrl;
+		
+		$ilTabs->addSubTab("list", 
+			$lng->txt("badge_profile_view"), 
+			$ilCtrl->getLinkTarget($this, "listBadges"));
+		$ilTabs->addSubTab("manage", 
+			$lng->txt("badge_profile_manage"), 
+			$ilCtrl->getLinkTarget($this, "manageBadges"));
 		
 		$ilTabs->activateTab("ilias_badges");
+		$ilTabs->activateSubTab($a_active);				
+	}
+	
+	protected function listBadges()
+	{
+		global $tpl, $ilUser;
+			
+		$this->getSubTabs("list");
+		
+		$data = array();
+		
+		// see ilBadgePersonalTableGUI::getItems()
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
+		foreach(ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass)
+		{
+			$badge = new ilBadge($ass->getBadgeId());
+			
+			$data[] = array(
+				"id" => $badge->getId(),
+				"title" => $badge->getTitle(),
+				"description" => $badge->getDescription(),
+				"image" => $badge->getImagePath(),
+				"issued_on" => $ass->getTimestamp(),
+				"renderer" => new ilBadgeRenderer($ass)
+			);			
+		}	
+		
+		// :TODO:
+		$data = ilUtil::sortArray($data, "issued_on", "desc", true);
+		
+		$tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
+
+		ilDatePresentation::setUseRelativeDates(false);
+
+		foreach($data as $badge)
+		{																	
+			$tmpl->setCurrentBlock("badge_bl");
+			$tmpl->setVariable("BADGE_TITLE", $badge["title"]);
+			// $tmpl->setVariable("BADGE_DESC", $badge["description"]); :TODO:
+			$tmpl->setVariable("BADGE_IMAGE", $badge["image"]);
+			$tmpl->setVariable("BADGE_CRITERIA", $badge["renderer"]->getHref());
+			$tmpl->setVariable("BADGE_DATE", ilDatePresentation::formatDate(new ilDateTime($badge["issued_on"], IL_CAL_UNIX)));
+			$tmpl->parseCurrentBlock();															
+		}
+
+		$tpl->setContent($tmpl->get());		
+	}
+	
+	protected function manageBadges()
+	{
+		global $tpl;
+			
+		$this->getSubTabs("manage");
 		
 		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
-		$tbl = new ilBadgePersonalTableGUI($this, "listBadges");
+		$tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
 		
 		$tpl->setContent($tbl->getHTML());		
 	}
@@ -73,19 +135,19 @@ class ilBadgeProfileGUI
 	protected function applyFilter()
 	{
 		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
-		$tbl = new ilBadgePersonalTableGUI($this, "listBadges");
+		$tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
-		$this->listBadges();
+		$this->manageBadges();
 	}
 	
 	protected function resetFilter()
 	{
 		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
-		$tbl = new ilBadgePersonalTableGUI($this, "listBadges");
+		$tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
 		$tbl->resetOffset();
 		$tbl->resetFilter();
-		$this->listBadges();
+		$this->manageBadges();
 	}
 	
 	protected function getMultiSelection()
@@ -116,7 +178,7 @@ class ilBadgeProfileGUI
 		else
 		{
 			ilUtil::sendFailure($lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "listBadges");
+			$ilCtrl->redirect($this, "manageBadges");
 		}
 	}
 	
@@ -135,7 +197,7 @@ class ilBadgeProfileGUI
 		}
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-		$ilCtrl->redirect($this, "listBadges");
+		$ilCtrl->redirect($this, "manageBadges");
 	}
 	
 	protected function deactivate()
@@ -153,7 +215,7 @@ class ilBadgeProfileGUI
 		}
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-		$ilCtrl->redirect($this, "listBadges");		
+		$ilCtrl->redirect($this, "manageBadges");		
 	}
 	
 	
@@ -185,14 +247,14 @@ class ilBadgeProfileGUI
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listBadges"));
+			$ilCtrl->getLinkTarget($this, "manageBadges"));
 		
 		ilUtil::sendInfo(sprintf($lng->txt("badge_add_to_backpack_multi"), implode(", ", $titles)));
 	}
 	
 	protected function listBackpackGroups()
 	{
-		global $ilUser, $lng, $tpl, $ilCtrl, $ilTabs;
+		global $lng, $tpl, $ilCtrl, $ilTabs;
 		
 		if(!ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -200,6 +262,8 @@ class ilBadgeProfileGUI
 		}		
 		
 		$ilTabs->activateTab("backpack_badges");
+		
+		ilUtil::sendInfo($lng->txt("badge_backpack_gallery_info"));
 				
 		include_once "Services/Badge/classes/class.ilBadgeBackpack.php";
 		$bp = new ilBadgeBackpack($this->getBackpackMail());

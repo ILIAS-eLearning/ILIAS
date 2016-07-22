@@ -60,7 +60,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		$this->getItems($a_user_id);		
 	}
 	
-	public function initFilter(array $a_parents)
+	public function initFilters(array $a_parents)
 	{
 		global $lng;
 		
@@ -120,7 +120,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 			);			
 		}		
 			
-		$this->initFilter($filter_parent);	
+		$this->initFilters($filter_parent);	
 		
 		if($this->filter["title"])
 		{

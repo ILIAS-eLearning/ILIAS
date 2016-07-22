@@ -2,7 +2,9 @@
 
 <!-- BEGIN group_bl -->
 <div class="container-fluid">
+	<!-- BEGIN group_title_bl -->
 	<h3 class="ilHeader">{GROUP_TITLE}</h3>
+	<!-- END group_title_bl -->
 	<div class="row">
 		<!-- BEGIN badge_bl -->
 		<div class="col-md-3 col-sm-6">
@@ -11,11 +13,11 @@
 					<h3 class="ilBlockHeader">{BADGE_TITLE}</h3>
 				</div>		
 				<div class="ilBadgeBackpackPanelContent">
-					<p>{BADGE_DESC}</p>
+					<!-- BEGIN desc_bl --><p>{BADGE_DESC}</p><!-- END desc_bl -->
 					<p><a href="{BADGE_CRITERIA}" target="_blank"><img src="{BADGE_IMAGE}" class="img-responsive ilBadgeImage" /></a></p>	
 				</div>
 				<div class="panel-footer ilBlockInfo">
-					<a href="{BADGE_ISSUER_URL}" target="_blank">{BADGE_ISSUER}</a>, {BADGE_DATE}
+					<!-- BEGIN issuer_bl --><a href="{BADGE_ISSUER_URL}" target="_blank">{BADGE_ISSUER}</a>,<!-- END issuer_bl --> {BADGE_DATE}
 				</div>
 			</div>	
 		</div>

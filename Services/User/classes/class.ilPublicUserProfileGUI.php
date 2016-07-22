@@ -653,30 +653,50 @@ class ilPublicUserProfileGUI
 		}
 		
 		// badges
-		// :TODO: configure
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
 		$user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
 		if($user_badges)
 		{					
 			$has_public_badge = false;
+			$cnt = 0;
+			
+			$cut = 20;
 			
 			include_once "Services/Badge/classes/class.ilBadgeRenderer.php";					
 			foreach($user_badges as $ass)
-			{
-				// :TODO: limit to 5, [MORE] link
-				
+			{								
 				// only active
 				if($ass->getPosition())
-				{					
+				{				
+					$cnt++;
+					
 					$renderer = new ilBadgeRenderer($ass);
 
-					$tpl->setCurrentBlock("badge_bl");
-					$tpl->setVariable("BADGE", $renderer->getHTML());
-					$tpl->parseCurrentBlock();		
+					// limit to 20, [MORE] link
+					if($cnt <= $cut)
+					{
+						$tpl->setCurrentBlock("badge_bl");
+						$tpl->setVariable("BADGE", $renderer->getHTML());
+						$tpl->parseCurrentBlock();		
+					}
+					else
+					{
+						$tpl->setCurrentBlock("badge_hidden_item_bl");
+						$tpl->setVariable("BADGE_HIDDEN", $renderer->getHTML());
+						$tpl->parseCurrentBlock();	
+					}
 					
 					$has_public_badge = true;
 				}
 			}	
+			
+			if($cnt > $cut)
+			{				
+				$lng->loadLanguageModule("badge");
+				$tpl->setVariable("BADGE_HIDDEN_TXT_MORE", $lng->txt("badge_profile_more"));
+				$tpl->setVariable("BADGE_HIDDEN_TXT_LESS", $lng->txt("badge_profile_less"));
+				$tpl->touchBlock("badge_js_bl");
+			}
 			
 			if($has_public_badge)
 			{

@@ -62,3 +62,8 @@ badge#:#badge_criteria#:#Criteria
 badge#:#badge_edit_with_published#:#%s users have already added this badge to their backpack. Because of this changing badge attributes will lead to inconsistencies. Creating a new badge might be a better solution.
 badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.
 badge#:#badge_course_lp#:#Course LP
+badge#:#badge_profile_more#:#Show all
+badge#:#badge_profile_less#:#Show less
+badge#:#badge_backpack_gallery_info#:#These are your published badge collections in your Mozilla Backpack.
+badge#:#badge_profile_view#:#View
+badge#:#badge_profile_manage#:#Manage

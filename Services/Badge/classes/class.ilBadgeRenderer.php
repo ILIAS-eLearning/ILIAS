@@ -73,6 +73,29 @@ class ilBadgeRenderer
 		return $btpl->get();
 	}
 	
+	public function getHref()
+	{
+		global $ilCtrl, $tpl;
+		
+		if(!self::$init)
+		{
+			self::$init = true;
+			
+			$url = $ilCtrl->getLinkTargetByClass("ilBadgeHandlerGUI", 
+				"render", "", true, false);
+			
+			$tpl->addJavaScript("Services/Badge/js/ilBadgeRenderer.js");
+			$tpl->addOnLoadCode('il.BadgeRenderer.init("'.$url.'");');
+		}
+				
+		$hash = $this->getBadgeHash();
+		
+		return "#\" data-id=\"badge_".
+			$this->assignment->getUserId()."_".
+			$this->badge->getId()."_".
+			$hash;	
+	}
+	
 	protected function getBadgeHash()
 	{
 		return md5("bdg-".$this->assignment->getUserId()."-".$this->badge->getId());
