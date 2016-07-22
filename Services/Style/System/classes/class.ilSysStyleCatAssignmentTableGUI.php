@@ -37,7 +37,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("obj_cat"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.sty_cat_ass_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.sty_cat_ass_row.html", "Services/Style/System");
 
 		$this->addMultiCommand("deleteSysStyleCatAssignments", $lng->txt("delete"));
 	}

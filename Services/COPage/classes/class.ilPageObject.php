@@ -2361,6 +2361,67 @@ abstract class ilPageObject
 	}
 
 	/**
+	 * Handle repository links on copy process
+	 *
+	 * @param
+	 * @return
+	 */
+	function handleRepositoryLinksOnCopy($a_mapping, $a_source_ref_id)
+	{
+		global $tree;
+
+		$this->buildDom();
+		$this->log->debug("Handle repository links...");
+
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res = xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			$this->log->debug("Target: ".$target);
+			$t = explode("_", $target);
+			if ($type == "RepositoryItem" && ((int) $t[1] == 0 || (int) $t[1] == IL_INST_ID))
+			{
+				if (isset($a_mapping[$t[3]]))
+				{
+					// we have a mapping -> replace the ID
+					$this->log->debug("... replace " . $t[3] . " with " . $a_mapping[$t[3]] . ".");
+					$res->nodeset[$i]->set_attribute("Target",
+							"il__obj_" . $a_mapping[$t[3]]);
+				}
+				else if ($tree->isGrandChild($a_source_ref_id, $t[3]))
+				{
+					// we have no mapping, but the linked object is child of the original node -> remove link
+					$this->log->debug("... remove links.");
+					if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea")	// simply remove map areas
+					{
+						$parent = $res->nodeset[$i]->parent_node();
+						$parent->unlink_node($parent);
+					}
+					else	// replace link by content of the link for other internal links
+					{
+						$source_node = $res->nodeset[$i];
+						$new_node = $source_node->clone_node(true);
+						$new_node->unlink_node($new_node);
+						$childs = $new_node->child_nodes();
+						for ($j = 0; $j < count($childs); $j++)
+						{
+							$this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
+							$source_node->insert_before($childs[$j], $source_node);
+						}
+						$source_node->unlink_node($source_node);
+					}
+				}
+			}
+		}
+		unset($xpc);
+	}
+
+
+	/**
 	 * Create new page object with current xml content
 	 */
 	function createFromXML()

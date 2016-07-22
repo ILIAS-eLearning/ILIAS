@@ -116,19 +116,21 @@ class ilBuddySystemRelationCollectionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testRemovingAnNonExistingElementRaisesAnException()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$collection = new ilBuddySystemRelationCollection();
 		$collection->removeElement(5);
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testRemovingAnNonExistingElementByKeyRaisesAnException()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$collection = new ilBuddySystemRelationCollection();
 		$collection->remove("phpunit");
 	}

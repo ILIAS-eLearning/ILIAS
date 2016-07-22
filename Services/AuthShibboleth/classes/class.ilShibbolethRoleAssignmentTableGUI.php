@@ -47,7 +47,9 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI {
 	 * @internal param $
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = '') {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		parent::__construct($a_parent_obj, $a_parent_cmd);

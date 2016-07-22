@@ -76,7 +76,9 @@ class ShibAuth extends Auth {
 	 * @return void
 	 */
 	public function login() {
-		global $ilias, $ilSetting; // for backword compatibility of hook environment variables
+		global $DIC; // for backword compatibility of hook environment variables
+		$ilias = $DIC['ilias'];
+		$ilSetting = $DIC['ilSetting'];
 		$shibServerData = shibServerData::getInstance();
 		if ($shibServerData->getLogin()) {
 			$shibUser = shibUser::buildInstance($shibServerData);
@@ -144,7 +146,8 @@ class ShibAuth extends Auth {
 
 
 	public function logout() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		ilShibbolethPluginWrapper::getInstance()->beforeLogout($ilUser);
 		parent::logout();
 		ilShibbolethPluginWrapper::getInstance()->afterLogout($ilUser);

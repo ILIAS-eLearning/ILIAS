@@ -36,7 +36,23 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
-    private static $ERROR_MESSAGE;
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $hierarchical_access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	private static $ERROR_MESSAGE;
+
 	/**
 	 * Contructor
 	 *
@@ -44,9 +60,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'cert';
 		$this->lng->loadLanguageModule("certificate");
+
+		$this->access              = $DIC['rbacsystem'];
+		$this->error               = $DIC['ilErr'];
+		$this->hierarchical_access = $DIC['ilAccess'];
 	}
 
 	/**
@@ -57,16 +79,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if(!$this->hierarchical_access->checkAccess('read', '', $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
 		}
 
 		switch($next_class)
@@ -75,7 +96,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -95,16 +116,14 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		if($this->access->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "settings"),
 				array("settings", "view"));
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if($this->access->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),
@@ -117,8 +136,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	*/
 	public function settings()
 	{
-		global $lng, $ilAccess;
-
 		$this->tabs_gui->setTabActive('settings');
 		$form_settings = new ilSetting("certificate");
 		
@@ -170,7 +187,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$form->addItem($format);
 
 
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		if($this->hierarchical_access->checkAccess('write','',$this->object->getRefId()))
 		{
 			$form->addCommandButton('save',$this->lng->txt('save'));
 		}
@@ -196,4 +213,3 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$this->settings();
 	}
 }
-?>

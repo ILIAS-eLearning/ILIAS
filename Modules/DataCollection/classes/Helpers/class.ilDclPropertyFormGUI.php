@@ -37,7 +37,8 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @return string|void
 	 */
 	public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$user_id = $ilUser->getId();
 		if(!$user_id || $user_id == ANONYMOUS_USER_ID)

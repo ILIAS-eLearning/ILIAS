@@ -18,7 +18,7 @@ require_once  'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
  * @author		Maximilian Becker <mbecker@databay.de>
  * 
  * @version	$Id$
- * 
+ * @ilCtrl_Calls assImagemapQuestionGUI: ilPropertyFormGUI
  * @ingroup ModulesTestQuestionPool
  */
 class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
@@ -62,8 +62,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	
 	protected function deleteImage()
 	{
-		$this->writePostData(true);
+		$this->object->deleteImage();
 		$this->object->saveToDb();
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this, 'editQuestion');
 	}
 
@@ -72,17 +73,21 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	protected function writePostData($always = false)
 	{
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
+		$form = $this->buildEditForm();
+		$form->setValuesByPost();
+
+		if(!$always && !$form->checkInput())
 		{
-			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
-			$this->saveTaxonomyAssignments();
-			return 0;
+			$this->editQuestion($form);
+			return 1;
 		}
-		return 1;
+
+		$this->writeQuestionGenericPostData();
+		$this->writeQuestionSpecificPostData($form);
+		$this->writeAnswerSpecificPostData($form);
+		$this->saveTaxonomyAssignments();
+
+		return 0;
 	}
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
@@ -113,22 +118,22 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					);
 				}
 			}
-			if (strlen( $_FILES['imagemapfile']['tmp_name'] ))
+
+			if(strlen($_FILES['imagemapfile']['tmp_name']))
 			{
-				if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1)
+				if($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1)
+				{
 					$this->object->createNewQuestion();
-				$this->object->uploadImagemap( $_FILES['imagemapfile']['tmp_name'] );
+				}
+
+				$this->object->uploadImagemap($form->getItemByPostVar('imagemapfile')->getShapes());
 			}
 		}
 	}
 
 	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
-		if ($this->ctrl->getCmd() == 'deleteImage')
-		{
-			$this->object->deleteImage();
-		}
-		else
+		if ($this->ctrl->getCmd() != 'deleteImage')
 		{
 			if (strlen( $_FILES['image']['tmp_name'] ) == 0)
 			{
@@ -145,38 +150,36 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->object->setIsMultipleChoice($_POST['is_multiple_choice'] == assImagemapQuestion::MODE_MULTIPLE_CHOICE);
 	}
 
-	public function editQuestion($checkonly = FALSE)
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	private function buildEditForm()
 	{
-		$save = $this->isSaveCommand();
-		$this->getQuestionTemplate();
+		$form = $this->buildBasicEditFormObject();
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->outQuestionType());
-		$form->setMultipart(TRUE);
-		$form->setTableWidth("100%");
-		$form->setId("assimagemap");
-
-		$this->addBasicQuestionFormProperties( $form );
-		$this->populateQuestionSpecificFormPart( $form );
-		// $this->populateAnswerSpecificFormPart( $form ); Nothing to do here, this line FYI. See notes in method.
-		
+		$this->addBasicQuestionFormProperties($form);
+		$this->populateQuestionSpecificFormPart($form);
 		$this->populateTaxonomyFormSection($form);
 		$this->addQuestionFormCommandButtons($form);
 
-		$errors = false;
-		if ($save)
+		return $form;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI|null $form
+	 * @return bool
+	 */
+	public function editQuestion(ilPropertyFormGUI $form = null)
+	{
+		if(null === $form)
 		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling 
-									  // and we need this if we don't want to have duplication of backslashes
-			if ($errors) $checkonly = false;
+			$form = $this->buildEditForm();
 		}
 
-		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
-		return $errors;
+		$this->getQuestionTemplate();
+		$this->tpl->addCss('Modules/Test/templates/default/ta.css');
+
+		$this->tpl->setVariable('QUESTION_DATA', $this->ctrl->getHTML($form));
 	}
 
 	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
@@ -188,7 +191,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
 	{
-		// is MultipleChoice?
 		$radioGroup = new ilRadioGroupInputGUI($this->lng->txt( 'tst_imap_qst_mode' ), 'is_multiple_choice');
 		$radioGroup->setValue( $this->object->getIsMultipleChoice() );
 		$modeSingleChoice = new ilRadioOption($this->lng->txt( 'tst_imap_qst_mode_sc'), 
@@ -199,8 +201,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$radioGroup->addOption( $modeMultipleChoice );
 		$form->addItem( $radioGroup );
 
-		// image
-		include_once "./Modules/TestQuestionPool/classes/class.ilImagemapFileInputGUI.php";
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilImagemapFileInputGUI.php';
 		$image = new ilImagemapFileInputGUI($this->lng->txt( 'image' ), 'image');
 		$image->setPointsUncheckedFieldEnabled( $this->object->getIsMultipleChoice() );
 		$image->setRequired( true );
@@ -219,10 +220,10 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$form->addItem( $image );
 
-		// imagemapfile
-		$imagemapfile = new ilFileInputGUI($this->lng->txt( 'add_imagemap' ), 'imagemapfile');
-		$imagemapfile->setRequired( false );
-		$form->addItem( $imagemapfile );
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilHtmlImageMapFileInputGUI.php';
+		$imagemapfile = new ilHtmlImageMapFileInputGUI($this->lng->txt('add_imagemap'), 'imagemapfile');
+		$imagemapfile->setRequired(false);
+		$form->addItem($imagemapfile);
 		return $form;
 	}
 
@@ -395,7 +396,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 
 		$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
-		$this->tpl->setVariable("TEXT_SHAPETITLE", $this->lng->txt("name"));
+		$this->tpl->setVariable("TEXT_SHAPETITLE", $this->lng->txt("ass_imap_hint"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("DISABLED_SAVE", $disabled_save);
@@ -411,14 +412,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$this->tpl->setVariable("FORMACTION",	$this->ctrl->getFormaction($this, 'addPoly'));
 				break;
 		}
-	}
-
-	function removeArea()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['removeArea']['image']);
-		$this->object->deleteArea($position);
-		$this->editQuestion();
 	}
 
 	function back()
@@ -837,7 +830,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$url,
 				array("editQuestion", "save", "addArea", "addRect", "addCircle", "addPoly", 
 					 "uploadingImage", "uploadingImagemap", "areaEditor",
-					"removeArea", "saveShape", "saveEdit", "originalSyncForm"),
+					 "saveShape", "saveEdit", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

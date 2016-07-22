@@ -47,6 +47,31 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	public $factory;
 
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+	
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLog
+	 */
+	protected $log;
+
+	/**
 	 * @param int $a_id
 	 * @param int $a_id_type
 	 * @param int $a_parent_node_id
@@ -57,15 +82,22 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		 * @var $lng  ilLanguage
 		 * @var $ilDB ilDBInterface
 		 */
-		global $lng, $ilDB;
+		global $DIC;
+
+		$this->lng        = $DIC['lng'];
+		$this->rbacsystem = $DIC['rbacsystem'];
+		$this->error      = $DIC['ilErr'];
+		$this->log        = $DIC['ilLog'];
+		$this->toolbar    = $DIC['ilToolbar'];
+		$this->user       = $DIC['ilUser'];
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
 		$this->lng->loadLanguageModule('tos');
 
 		$this->factory = new ilTermsOfServiceTableDataProviderFactory();
-		$this->factory->setLanguageAdapter($lng);
-		$this->factory->setDatabaseAdapter($ilDB);
+		$this->factory->setLanguageAdapter($this->lng);
+		$this->factory->setDatabaseAdapter($DIC['ilDB']);
 	}
 
 	/**
@@ -105,33 +137,28 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	}
 
 	/**
-	 * @param ilTabsGUI $tabs_gui
+	 * 
 	 */
 	public function getAdminTabs()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
-
-		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
 		}
 
-		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
 		}
 
-		if($rbacsystem->checkAccess('read', $this->object->getRefId()) &&
-			$rbacsystem->checkAccess('read', USER_FOLDER_ID)
+		if($this->rbacsystem->checkAccess('read', $this->object->getRefId()) &&
+			$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
 		)
 		{
 			$this->tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
 		}
 
-		if($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
 		}
@@ -161,15 +188,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function saveSettings()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilErr      ilErrorHandling
-		 */
-		global $rbacsystem, $ilErr;
-
-		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$provider = $this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
@@ -213,16 +234,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function settings($init_from_database = true)
 	{
-		/**
-		 * @var $rbacsystem  ilRbacSystem
-		 * @var $ilErr       ilErrorHandling
-		 * @var $tpl         ilTemplate
-		 */
-		global $rbacsystem, $ilErr, $tpl;
-
-		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if(!$this->rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->showMissingDocuments();
@@ -239,7 +253,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			$this->form->setValuesByPost();
 		}
 
-		$tpl->setContent($this->form->getHtml());
+		$this->tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -247,16 +261,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function confirmReset()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilErr      ilErrorHandling
-		 * @var $tpl        ilTemplate
-		 */
-		global $rbacsystem, $ilErr, $tpl;
-
-		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$confirmation = new ilConfirmationGUI();
@@ -265,7 +272,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$confirmation->setCancel($this->lng->txt('cancel'), 'showAgreementByLanguage');
 		$confirmation->setHeaderText($this->lng->txt('tos_sure_reset_tos'));
 
-		$tpl->setContent($confirmation->getHtml());
+		$this->tpl->setContent($confirmation->getHTML());
 	}
 
 	/**
@@ -273,21 +280,13 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function reset()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilErr      ilErrorHandling
-		 * @var $ilLog      ilLog
-		 * @var $ilUser     ilObjUser
-		 */
-		global $rbacsystem, $ilErr, $ilLog, $ilUser;
-
-		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->object->resetAll();
-		$ilLog->write(__METHOD__ . ': Terms of service reset by ' . $ilUser->getId() . ' [' . $ilUser->getLogin() . ']');
+		$this->log->write(__METHOD__ . ': Terms of service reset by ' . $this->user->getId() . ' [' . $this->user->getLogin() . ']');
 		ilUtil::sendSuccess($this->lng->txt('tos_reset_successfull'));
 
 		$this->showAgreementByLanguage();
@@ -298,25 +297,17 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function showAgreementByLanguage()
 	{
-		/**
-		 * @var $rbacsystem  ilRbacSystem
-		 * @var $ilErr       ilErrorHandling
-		 * @var $tpl         ilTemplate
-		 * @var $ilToolbar   ilToolbarGUI
-		 */
-		global $rbacsystem, $ilErr, $tpl, $ilToolbar;
-
-		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if(!$this->rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule('meta');
 
-		if($rbacsystem->checkAccess('write', $this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
-			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'settings'));
-			$ilToolbar->addFormButton($this->lng->txt('tos_reset_tos_for_all_users'), 'confirmReset');
+			$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'settings'));
+			$this->toolbar->addFormButton($this->lng->txt('tos_reset_tos_for_all_users'), 'confirmReset');
 		}
 
 		$this->showLastResetDate();
@@ -325,7 +316,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE));
 		$table->populate();
 
-		$tpl->setContent($table->getHtml());
+		$this->tpl->setContent($table->getHTML());
 	}
 
 	/**
@@ -333,16 +324,11 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function showLastResetDate()
 	{
-		/**
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilToolbar;
-
 		if($this->object->getLastResetDate() && $this->object->getLastResetDate()->get(IL_CAL_UNIX) != 0)
 		{
 			$status = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
-			$ilToolbar->addText(sprintf($this->lng->txt('tos_last_reset_date'), ilDatePresentation::formatDate($this->object->getLastResetDate())));
+			$this->toolbar->addText(sprintf($this->lng->txt('tos_last_reset_date'), ilDatePresentation::formatDate($this->object->getLastResetDate())));
 			ilDatePresentation::setUseRelativeDates($status);
 		}
 	}
@@ -405,15 +391,13 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function getAgreementTextByFilenameAsynch()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
-
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceJsonResponse.php';
 		$response = new ilTermsOfServiceJsonResponse();
 
-		if(!isset($_GET['agreement_document']) || !strlen($_GET['agreement_document']) || !$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if(
+			!isset($_GET['agreement_document']) ||
+			!strlen($_GET['agreement_document']) ||
+			!$this->rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$response->setStatus(ilTermsOfServiceJsonResponse::STATUS_FAILURE);
 			echo $response;
@@ -447,18 +431,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function showAcceptanceHistory()
 	{
-		/**
-		 * @var $rbacsystem  ilRbacSystem
-		 * @var $ilErr       ilErrorHandling
-		 * @var $tpl         ilTemplate
-		 */
-		global $rbacsystem, $ilErr, $tpl;
-
-		if(!$rbacsystem->checkAccess('read', '', $this->object->getRefId()) ||
-			!$rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+		if(
+			!$this->rbacsystem->checkAccess('read', '', $this->object->getRefId()) ||
+			!$this->rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
 		)
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule('meta');
@@ -467,7 +445,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 		$table->populate();
 
-		$tpl->setContent($table->getHtml());
+		$this->tpl->setContent($table->getHTML());
 	}
 
 	/**
@@ -495,13 +473,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	 */
 	protected function addUserAutoComplete()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess('read', '', $this->object->getRefId()) ||
-			!$rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+		if(
+			!$this->rbacsystem->checkAccess('read', '', $this->object->getRefId()) ||
+			!$this->rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
 		)
 		{
 			echo json_encode(array());

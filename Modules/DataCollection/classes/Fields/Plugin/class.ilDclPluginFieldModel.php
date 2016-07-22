@@ -23,4 +23,11 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
 	public function getCustomValidFieldProperties() {
 		return array();
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
+	}
 }

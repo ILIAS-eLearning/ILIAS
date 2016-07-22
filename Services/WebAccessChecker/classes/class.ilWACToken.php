@@ -58,7 +58,8 @@ class ilWACToken {
 		$this->setClient($client);
 		$parts = parse_url($path);
 		$this->setPath($parts['path']);
-		$this->setSessionId(isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : '-');
+		$session_id = session_id();
+		$this->setSessionId($session_id ? $session_id : '-');
 		$this->setIp($_SERVER['REMOTE_ADDR']);
 		$this->setTimestamp(time());
 		$this->generateToken();

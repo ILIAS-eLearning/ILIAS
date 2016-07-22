@@ -12,7 +12,11 @@ ilInitialisation::initILIAS();
  * @var $ilUser ilObjUser
  * @var $https ilHttps
  */
-global $ilIliasIniFile, $lng, $ilUser, $https;
+global $DIC;
+$ilIliasIniFile = $DIC['ilIliasIniFile'];
+$lng = $DIC['lng'];
+$ilUser = $DIC['ilUser'];
+$https = $DIC['https'];
 
 $lng->loadLanguageModule("form");
 

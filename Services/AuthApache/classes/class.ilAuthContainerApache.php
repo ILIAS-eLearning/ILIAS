@@ -41,6 +41,8 @@ class ilAuthContainerApache extends Auth_Container
 	 */
 	function fetchData($a_username, $password, $isChallengeResponse = false)
 	{
+		ilLoggerFactory::getLogger('auth')->debug('Starting apache auth');
+		
 		/**
 		 * @var $ilDB      ilDB
 		 * @var $ilSetting ilSetting
@@ -52,14 +54,17 @@ class ilAuthContainerApache extends Auth_Container
 
 		if(!$settings->get('apache_enable_auth'))
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Apache auth disabled');
 			return false;
 		}
 		if(!$settings->get('apache_auth_indicator_name') || !$settings->get('apache_auth_indicator_value'))
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Apache auth indicator match failed');
 			return false;
 		}
 		if(!ilUtil::isLogin($a_username))
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Apache auth wrong login');
 			return false;
 		}
 
@@ -84,9 +89,11 @@ class ilAuthContainerApache extends Auth_Container
 					// This is because the auth session variable can change so a static call to setAuthData does not make sense
 					$this->_auth_obj->setAuthData($key, $value);
 				}
+				ilLoggerFactory::getLogger('auth')->debug('Apache local auth successful.');
 				$this->_auth_obj->setAuth($userRow['login']);
 				return true;
 			}
+			ilLoggerFactory::getLogger('auth')->debug('Apache local auth unsuccessful.');
 			return false;
 		}
 
@@ -114,16 +121,27 @@ class ilAuthContainerApache extends Auth_Container
 					$list[] = $auth_mode;
 				}
 			}
+			
+			// Apache with ldap as data source
+			include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+			if($settings->get('apache_enable_ldap'))
+			{
+				return $this->handleLDAPDataSource($this->_auth_obj,$a_username, $settings);
+			}
+
 
 			foreach($list as $auth_mode)
 			{
+				ilLoggerFactory::getLogger('auth')->debug('Current auth mode: ' . $auth_mode);
+				
 				if(AUTH_LDAP == $auth_mode)
 				{
+					ilLoggerFactory::getLogger('auth')->debug('Trying ldap synchronisation');
 					// if no local user has been found AND ldap lookup is enabled
 					if($settings->get('apache_enable_ldap'))
 					{
 						include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
-						$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
+						$this->server = new ilLDAPServer($settings->get('apache_ldap_sid'));
 						$this->server->doConnectionCheck();
 
 						$config = $this->server->toPearAuthArray();
@@ -134,7 +152,7 @@ class ilAuthContainerApache extends Auth_Container
 
 						if($ldapUser && $ldapUser[$a_username] && $ldapUser[$a_username][$config['userattr']] == $a_username)
 						{
-							$ldapUser[$a_username]['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap", $a_username);
+							$ldapUser[$a_username]['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap_".$this->server->getServerId(), $a_username);
 							$user_data                                  = $ldapUser[$a_username]; //array_change_key_case($a_auth->getAuthData(),CASE_LOWER);
 							if($this->server->enabledSyncOnLogin())
 							{
@@ -168,12 +186,12 @@ class ilAuthContainerApache extends Auth_Container
 									$this->initLDAPAttributeToUser();
 									$this->ldap_attr_to_user->setUserData($ldapUser);
 									$this->ldap_attr_to_user->refresh();
-									$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap", $a_username);
+									$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap_".$this->server->getServerId(), $a_username);
 								}
 								else
 								{
 									// User exists and no update required
-									$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap", $a_username);
+									$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap_".$this->server->getServerId(), $a_username);
 								}
 							}
 							if($user_data['ilInternalAccount'])
@@ -258,7 +276,7 @@ class ilAuthContainerApache extends Auth_Container
 	 */
 	protected function updateRequired($a_username)
 	{
-		if(!ilObjUser::_checkExternalAuthAccount("ldap", $a_username))
+		if(!ilObjUser::_checkExternalAuthAccount("ldap_".$this->server->getServerId(), $a_username))
 		{
 			return true;
 		}
@@ -285,4 +303,53 @@ class ilAuthContainerApache extends Auth_Container
 		include_once('Services/LDAP/classes/class.ilLDAPAttributeToUser.php');
 		$this->ldap_attr_to_user = new ilLDAPAttributeToUser($this->server);
 	}
+	
+	
+	/**
+	 * Handle ldap as data source
+	 * @param Auth $auth
+	 * @param string $ext_account
+	 */
+	protected function handleLDAPDataSource($a_auth,$ext_account, $settings)
+	{
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		$server = ilLDAPServer::getInstanceByServerId(
+			$settings->get('apache_ldap_sid')
+		);
+
+		ilLoggerFactory::getLogger('auth')->debug('Using ldap data source with server configuration: ' . $server->getName());
+
+		include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
+		$sync = new ilLDAPUserSynchronisation('ldap_'.$server->getServerId(), $server->getServerId());
+		$sync->setExternalAccount($ext_account);
+		$sync->setUserData(array());
+		$sync->forceCreation($this->force_creation);
+		$sync->forceReadLdapData(true);
+
+		try {
+			$internal_account = $sync->sync();
+		}
+		catch(UnexpectedValueException $e) {
+			ilLoggerFactory::getLogger('auth')->info('Login failed with message: ' . $e->getMessage());
+			$a_auth->status = AUTH_WRONG_LOGIN;
+			$a_auth->logout();
+			return false;
+		}
+		catch(ilLDAPSynchronisationForbiddenException $e) {
+			// No syncronisation allowed => create Error
+			ilLoggerFactory::getLogger('auth')->info('Login failed with message: ' . $e->getMessage());
+			$a_auth->status = AUTH_RADIUS_NO_ILIAS_USER;
+			$a_auth->logout();
+			return false;
+		}
+		catch(ilLDAPAccountMigrationRequiredException $e) {
+			ilLoggerFactory::getLogger('auth')->debug('Starting account migration');
+			$a_auth->logout();
+			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
+		}
+
+		$a_auth->setAuth($internal_account);
+		return true;
+	}
+	
 }

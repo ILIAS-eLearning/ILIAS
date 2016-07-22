@@ -70,7 +70,8 @@ class ilGlobalCacheQueryWrapper {
 	 * @return array
 	 */
 	protected function getFromDb() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var ilDB
 		 */

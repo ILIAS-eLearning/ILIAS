@@ -193,7 +193,7 @@ class ilObjStudyProgramme extends ilContainer {
 		parent::update();
 
 		// Update selection for advanced meta data of the type
-		if ($this->getSubtypeId()) {
+		if ($this->getSubType()) {
 			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', $this->getSubType()->getAssignedAdvancedMDRecordIds());
 		} else {
 			// If no type is assigned, delete relations by passing an empty array
@@ -351,7 +351,7 @@ class ilObjStudyProgramme extends ilContainer {
 	* @return ilStudyProgrammeType
 	*/
 	public function getSubType() {
-		if($this->getSubtypeId() != "-") {
+		if(!in_array($this->getSubtypeId(), array("-", "0"))) {
 			$subtype_id = $this->getSubtypeId();
 			return new ilStudyProgrammeType($subtype_id);
 		}
@@ -530,7 +530,7 @@ class ilObjStudyProgramme extends ilContainer {
 				$lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
 
 				// filter out all StudyProgramme instances
-				return ($lp_obj instanceof $self)? null : $lp_obj;
+				return ($lp_obj instanceof $this)? null : $lp_obj;
 			}, $ref_ids);
 
 			$this->lp_children = array_filter($lp_children);

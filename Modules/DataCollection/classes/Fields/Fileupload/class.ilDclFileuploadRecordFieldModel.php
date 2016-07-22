@@ -14,7 +14,8 @@ require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecord
  */
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 	public function parseValue($value) {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$file = $value;
 

@@ -36,7 +36,8 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 	 * @param SimpleXMLElement $a
 	 */
 	public function simpleUserImportElement(SimpleXMLElement $a) {
-		global $rbacadmin;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
 
 		$attributes = $a->attributes();
 		$action = $attributes->action;
@@ -88,7 +89,8 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 	 * @return bool
 	 */
 	private function buildUserId($id, $type) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if ($type == 'ilias_login') {
 			$user_id = ilObjUser::_lookupId($id);
 

@@ -124,7 +124,7 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		$tpl = new ilTemplate("tpl.prop_background_image.html", true, true, "Services/Style");
+		$tpl = new ilTemplate("tpl.prop_background_image.html", true, true, "Services/Style/Content");
 
 		$tpl->setVariable("POSTVAR", $this->getPostVar());
 		

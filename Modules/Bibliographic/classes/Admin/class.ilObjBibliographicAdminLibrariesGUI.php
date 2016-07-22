@@ -36,7 +36,9 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * @param ilObjBibliographicAdminGUI $parent_gui
 	 */
 	public function __construct($parent_gui) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;
@@ -50,7 +52,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 *
 	 */
 	public function executeCommand() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$cmd = $ilCtrl->getCmd();
 		switch ($cmd) {
 			case 'view':
@@ -84,7 +87,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * @return bool
 	 */
 	public function view() {
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 		/**
 		 * @var $ilToolbar ilToolbarGUI;
 		 */

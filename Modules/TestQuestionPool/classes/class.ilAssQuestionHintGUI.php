@@ -132,7 +132,12 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
 			$questionHint->save();
 			ilUtil::sendSuccess($lng->txt('tst_question_hints_form_saved_msg'), true);
-			
+
+			if(!$this->questionOBJ->isAdditionalContentEditingModePageObject())
+			{
+				$this->questionOBJ->saveToDb();
+			}
+
 			$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId()))

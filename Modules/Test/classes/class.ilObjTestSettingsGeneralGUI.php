@@ -790,6 +790,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$password = new ilTextInputGUI($this->lng->txt("tst_password_enter"), "password");
 		$password->setRequired(true);
 		$password->setSize(20);
+		$password->setMaxLength(20);
 		$password->setValue($this->testOBJ->getPassword());
 		$pwEnabled->addSubItem($password);
 		$form->addItem($pwEnabled);

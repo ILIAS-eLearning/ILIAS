@@ -527,9 +527,20 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		if($p_test)
 		{
+			require_once "Services/Link/classes/class.ilLink.php";
 			include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php";
 			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
 			$log_output = ilObjAssessmentFolder::getLog($fromdate, $untildate, $p_test);
+
+			$self = $this;
+			array_walk($log_output, function(&$row) use ($self) {
+				if(is_numeric($row['ref_id']) && $row['ref_id'] > 0)
+				{
+					$row['location_href'] = ilLink::_getLink($row['ref_id'], 'tst');
+					$row['location_txt']  = $self->lng->txt("perma_link");
+				}
+			});
+
 			$table_gui->setData($log_output);
 			$template->setVariable('LOG', $table_gui->getHTML());
 		}
@@ -567,12 +578,19 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php";
 		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$available_tests = ilObjTest::_getAvailableTests(true);
+		require_once "./Services/Link/classes/class.ilLink.php";
+		$available_tests = ilObjTest::_getAvailableTests(false);
 		$data = array();
-		foreach ($available_tests as $obj_id => $title)
+		foreach ($available_tests as $ref_id => $title)
 		{
-			$nr = $this->object->getNrOfLogEntries($obj_id);
-			array_push($data, array("title" => $title, "nr" => $nr, "id" => $obj_id));
+			$obj_id = ilObject::_lookupObjectId($ref_id);
+			array_push($data, array(
+				"title"         => $title,
+				"nr"            => $this->object->getNrOfLogEntries($obj_id),
+				"id"            => $obj_id,
+				"location_href" => ilLink::_getLink($ref_id, 'tst'),
+				"location_txt"  => $this->lng->txt("perma_link")
+			));
 		}
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	

@@ -52,7 +52,7 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"), "");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.style_media_query_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.style_media_query_row.html", "Services/Style/Content");
 		//$this->setSelectAllCheckbox("file");
 		$this->getItems();
 

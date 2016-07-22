@@ -110,7 +110,6 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 		$options = array();
 		// Get Tables
-		require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
 		$tables = $dcl->getTables();
 		foreach ($tables as $table) {
 			foreach ($table->getRecordFields() as $field) {

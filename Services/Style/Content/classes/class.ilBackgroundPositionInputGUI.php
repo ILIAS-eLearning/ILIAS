@@ -196,11 +196,11 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
-		$layout_tpl = new ilTemplate("tpl.prop_hv_layout.html", true, true, "Services/Style");
+		$layout_tpl = new ilTemplate("tpl.prop_hv_layout.html", true, true, "Services/Style/Content");
 		
 		foreach ($this->dirs as $dir)
 		{
-			$tpl = new ilTemplate("tpl.prop_background_position.html", true, true, "Services/Style");
+			$tpl = new ilTemplate("tpl.prop_background_position.html", true, true, "Services/Style/Content");
 			$unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits();
 			$pre_options = ilObjStyleSheet::_getStyleParameterValues("background-position");
 			$pre_options = $pre_options[$dir];

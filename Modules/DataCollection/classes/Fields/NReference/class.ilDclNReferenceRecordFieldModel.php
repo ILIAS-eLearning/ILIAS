@@ -33,7 +33,8 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 
 
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$values = $this->getValue();
 		if (!is_array($values)) {
@@ -73,7 +74,8 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 	protected function loadValueSorted() {
 		if ($this->value === NULL) {
 
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			$datatype = $this->getField()->getDatatype();
 			$refField = ilDclCache::getFieldCache($this->getField()->getFieldRef());
 
@@ -133,7 +135,8 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 
 	protected function loadValue() {
 		if ($this->value === NULL) {
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			$datatype = $this->getField()->getDatatype();
 			$query = "SELECT * FROM il_dcl_stloc" . $datatype->getStorageLocation() . "_value WHERE record_field_id = "
 				. $ilDB->quote($this->id, "integer");
@@ -182,7 +185,8 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel {
 	}
 
 	public function getValueFromExcel($excel, $row, $col){
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$stringValue = parent::getValueFromExcel($excel, $row, $col);
 		$this->getReferencesFromString($stringValue);
 		$referenceIds = $this->getReferencesFromString($stringValue);

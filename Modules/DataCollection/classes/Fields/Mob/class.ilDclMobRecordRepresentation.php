@@ -39,7 +39,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 		$field = $this->getRecordField()->getField();
 
 		$is_linked_field = $field->getProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
-		$has_view = ilDclRecordViewViewdefinition::getIdByTableId($this->getRecordField()->getRecord()->getTableId());
+		$has_view = ilDclDetailedViewDefinition::isActive($_GET['tableview_id']);
 
 		if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
 			// Image
@@ -50,8 +50,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 			$html = ilUtil::img(ilWACSignedPath::signFile($dir . "/" . $med->getLocation()), '', $width, $height);
 
 			if ($is_linked_field && $has_view && $link) {
-				$this->ctrl->setParameterByClass('ildclrecordviewgui', 'record_id', $this->getRecordField()->getRecord()->getId());
-				$html = '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
+				$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
+				$html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $html . '</a>';
 			}
 
 		} else {
@@ -65,8 +65,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 			$html = $mpl->getPreviewHtml();
 
 			if ($is_linked_field && $has_view) {
-				$this->ctrl->setParameterByClass('ildclrecordviewgui', 'record_id', $this->getRecordField()->getRecord()->getId());
-				$html = $html . '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordviewgui", 'renderRecord') . '">' . $this->lng->txt('details') . '</a>';
+				$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
+				$html = $html . '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $this->lng->txt('details') . '</a>';
 			}
 		}
 		return $html;

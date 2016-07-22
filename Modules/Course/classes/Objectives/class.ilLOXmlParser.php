@@ -212,6 +212,8 @@ class ilLOXmlParser
 					$new_mat->setLMObjId($obj_id);
 					$new_mat->setType((string) $mat->attributes()->type);
 					$new_mat->add();
+					$new_id  = $new_mat->add();
+					$new_mat->writePosition($new_id, (int) (string) $mat->attributes());
 				}
 			}
 		}

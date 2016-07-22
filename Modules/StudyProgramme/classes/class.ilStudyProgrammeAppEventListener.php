@@ -13,7 +13,7 @@
  */
 
 class ilStudyProgrammeAppEventListener {
-	
+
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		switch ($a_component) {
@@ -62,24 +62,24 @@ class ilStudyProgrammeAppEventListener {
 			$ass->deassign();
 		}
 	}
-	
+
 	private static function onServiceTrackingUpdateStatus($a_par) {
 		require_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		if ($a_par["status"] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 			return;
 		}
-		
+
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		ilObjStudyProgramme::setProgressesCompletedFor($a_par["obj_id"], $a_par["usr_id"]);
 	}
-	
+
 	private static function onServiceTreeInsertNode($a_parameter) {
 		$node_ref_id = $a_parameter["node_id"];
 		$parent_ref_id = $a_parameter["parent_id"];
-		
+
 		$node_type = ilObject::_lookupType($node_ref_id, true);
 		$parent_type = ilObject::_lookupType($parent_ref_id, true);
-	
+
 		if ($node_type == "crsr" && $parent_type == "prg") {
 			self::adjustProgrammeLPMode($parent_ref_id);
 		}
@@ -87,12 +87,12 @@ class ilStudyProgrammeAppEventListener {
 			self::addMissingProgresses($parent_ref_id);
 		}
 	}
-	
+
 	private static function onServiceTreeMoveTree($a_parameter) {
 		$node_ref_id = $a_parameter["source_id"];
 		$new_parent_ref_id = $a_parameter["target_id"];
 		$old_parent_ref_id = $a_parameter["old_parent_id"];
-		
+
 		$node_type = ilObject::_lookupType($node_ref_id, true);
 		$new_parent_type = ilObject::_lookupType($new_parent_ref_id, true);
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
@@ -100,7 +100,7 @@ class ilStudyProgrammeAppEventListener {
 		if ($node_type != "crsr" || ($new_parent_type != "prg" && $old_parent_type != "prg")) {
 			return;
 		}
-		
+
 		if ($new_parent_type == "prg") {
 			self::adjustProgrammeLPMode($new_parent_ref_id);
 		}
@@ -108,7 +108,7 @@ class ilStudyProgrammeAppEventListener {
 			self::adjustProgrammeLPMode($old_parent_ref_id);
 		}
 	}
-	
+
 	private static function onServiceObjectDeleteOrToTrash($a_parameter) {
 		$node_ref_id = $a_parameter["ref_id"];
 		$old_parent_ref_id = $a_parameter["old_parent_ref_id"];
@@ -119,21 +119,21 @@ class ilStudyProgrammeAppEventListener {
 		if ($old_parent_type != "prg") {
 			return;
 		}
-		
+
 		self::adjustProgrammeLPMode($old_parent_ref_id);
 	}
-	
-	private function getStudyProgramme($a_ref_id) {
+
+	private static function getStudyProgramme($a_ref_id) {
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		return ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 	}
-	
-	private function adjustProgrammeLPMode($a_ref_id) {
+
+	private static function adjustProgrammeLPMode($a_ref_id) {
 		$obj = self::getStudyProgramme($a_ref_id);
 		$obj->adjustLPMode();
 	}
-	
-	private function addMissingProgresses($a_ref_id) {
+
+	private static function addMissingProgresses($a_ref_id) {
 		$obj = self::getStudyProgramme($a_ref_id);
 		$obj->addMissingProgresses();
 	}
