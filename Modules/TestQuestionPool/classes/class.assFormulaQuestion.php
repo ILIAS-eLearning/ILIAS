@@ -699,6 +699,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
 			$this->setSuggestedSolution($data["solution_hint"]);
+			$this->setPoints($data['points']);
 			$this->setOriginalId($data["original_id"]);
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
@@ -816,6 +817,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$clone->saveToDb();
 		}
 
+		$clone->unitrepository->cloneUnits($this_id, $clone->getId());
+
 		// copy question page content
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
@@ -848,6 +851,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$clone->setTitle($title);
 		}
 		$clone->saveToDb();
+
+		$clone->unitrepository->cloneUnits($original_id, $clone->getId());
+
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
@@ -994,7 +1000,21 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$solutionSubmit = $this->getSolutionSubmit();
-		
+
+		$tmp            = $solutionSubmit;
+		$solutionSubmit = array();
+		foreach($tmp as $key => $val)
+		{
+			if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
+			{
+				$solutionSubmit[$key] = $val;
+			}
+			else
+			{
+				$solutionSubmit[$key] = '';
+			}
+		}
+
 		$entered_values = FALSE;
 		foreach($solutionSubmit as $key => $value)
 		{
@@ -1138,6 +1158,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		);
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM il_qpl_qst_fq_res_unit WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM il_qpl_qst_fq_ucat WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM il_qpl_qst_fq_unit WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);

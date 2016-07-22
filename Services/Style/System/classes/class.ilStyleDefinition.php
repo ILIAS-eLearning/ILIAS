@@ -539,7 +539,7 @@ class ilStyleDefinition extends ilSaxParser
 	 * @param
 	 * @return
 	 */
-	function writeSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
+	static function writeSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
 		$a_substyle, $a_ref_id)
 	{
 		global $ilDB;
@@ -559,7 +559,7 @@ class ilStyleDefinition extends ilSaxParser
 	 * @param
 	 * @return
 	 */
-	function deleteSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
+	static function deleteSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
 		$a_substyle, $a_ref_id)
 	{
 		global $ilDB;

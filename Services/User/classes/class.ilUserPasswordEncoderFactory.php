@@ -63,7 +63,7 @@ class ilUserPasswordEncoderFactory
 			{
 				$reflection = new ReflectionClass($class_name);
 				$encoder    = $reflection->newInstanceArgs(array($config));
-				if($encoder instanceof ilPasswordEncoder)
+				if($encoder instanceof ilPasswordEncoder && $encoder->isSupportedByRuntime())
 				{
 					$this->encoders[$encoder->getName()] = $encoder;
 				}

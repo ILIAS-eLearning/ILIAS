@@ -268,7 +268,7 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initColorPicker();
 		
-		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style");
+		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
 		
 		$funcs = array(
 			"all" => "getAllValue", "top" => "getTopValue",
@@ -292,9 +292,9 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 				$value = strtoupper($value);
 			}
 
-			$ctpl = new ilTemplate("tpl.prop_trbl_color.html", true, true, "Services/Style");
+			$ctpl = new ilTemplate("tpl.prop_trbl_color.html", true, true, "Services/Style/Content");
 
-			$js_tpl = new ilTemplate('tpl.trbl_color_picker.js',true,true,'Services/Style');
+			$js_tpl = new ilTemplate('tpl.trbl_color_picker.js',true,true,'Services/Style/Content');
 			$js_tpl->setVariable('THUMB_PATH',ilUtil::getImagePath('color_picker_thumb.png','Services/Form'));
 			$js_tpl->setVariable('HUE_THUMB_PATH',ilUtil::getImagePath('color_picker_hue_thumb.png','Services/Form'));
 			$js_tpl->setVariable('COLOR_ID',$this->getFieldId()."_".$dir);

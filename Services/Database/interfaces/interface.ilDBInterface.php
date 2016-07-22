@@ -705,4 +705,10 @@ interface ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function checkIndexName($name);
+
+
+	/**
+	 * @return int
+	 */
+	public function getLastInsertId();
 }

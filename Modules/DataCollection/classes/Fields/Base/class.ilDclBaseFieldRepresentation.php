@@ -22,7 +22,9 @@ abstract class ilDclBaseFieldRepresentation {
 	protected $ctrl;
 
 	public function __construct(ilDclBaseFieldModel $field) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->field = $field;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;

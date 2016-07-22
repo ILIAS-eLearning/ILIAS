@@ -89,7 +89,6 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$skin_styles = array();
 		include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$styleDefinition = new ilStyleDefinition();
-		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		$templates = $styleDefinition->getAllTemplates();
 		
 		if (is_array($templates))
@@ -104,7 +103,8 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 				
 				foreach($styles as $style)
 				{
-					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+					if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 					{
 						continue;
 					}

@@ -35,4 +35,3 @@ if (! $_SERVER[$ilias->getSetting('shib_login')] || ! $_SERVER[$ilias->getSettin
 
 // We only get here if we didn't login successfully
 ilUtil::redirect("login.php");
-?>

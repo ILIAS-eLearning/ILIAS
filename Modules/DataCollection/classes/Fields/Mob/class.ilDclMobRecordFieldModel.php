@@ -112,7 +112,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 */
 	public function parseExportValue($value) {
 		$file = $value;
-		if ($file != "-") {
+		if (is_numeric($file)) {
 			$mob = new ilObjMediaObject($file, false);
 			$mob_name = $mob->getTitle();
 

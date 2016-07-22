@@ -257,11 +257,12 @@ class ilLDAPQuery
 				continue;
 			}
 			$this->log->info('Found '.$tmp_result->numRows().' users.');
+			$attribute = strtolower($this->settings->getUserAttribute());
 			foreach($tmp_result->getRows() as $data)
 			{
-				if(isset($data[$this->settings->getUserAttribute()]))
+				if(isset($data[$attribute]))
 				{
-					$this->readUserData($data[$this->settings->getUserAttribute()],false,false);
+					$this->readUserData($data[$attribute],false,false);
 				}
 				else
 				{

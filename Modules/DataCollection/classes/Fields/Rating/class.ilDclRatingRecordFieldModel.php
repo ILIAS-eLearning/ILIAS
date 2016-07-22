@@ -81,7 +81,8 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
 	  */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
 			"obj_id = ".$ilDB->quote((int) $this->getRecord()->getId(), "integer")." AND ".

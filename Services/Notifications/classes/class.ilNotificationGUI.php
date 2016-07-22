@@ -71,6 +71,8 @@ class ilNotificationGUI
 	{
 		global $ilUser;
 
+		ilSession::enableWebAccessWithoutSession(true);
+
 		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			return '{}';
@@ -90,6 +92,8 @@ class ilNotificationGUI
 	public function removeOSDNotificationsObject()
 	{
 		global $ilUser;
+
+		ilSession::enableWebAccessWithoutSession(true);
 
 		require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
 		require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';

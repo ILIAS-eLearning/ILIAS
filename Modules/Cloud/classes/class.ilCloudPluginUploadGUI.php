@@ -25,7 +25,8 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
      */
     public function executeCommand()
     {
-        global $ilCtrl;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
 
         $cmd = $ilCtrl->getCmd();
 
@@ -39,7 +40,8 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
     function asyncUploadFile()
     {
-        global $ilTabs;
+        global $DIC;
+        $ilTabs = $DIC['ilTabs'];
 
         $ilTabs->activateTab("content");
         $this->initUploadForm();
@@ -63,7 +65,9 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
     public function initUploadForm()
     {
-        global $ilCtrl, $lng;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
 
         include_once("./Services/Form/classes/class.ilDragDropFileInputGUI.php");
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
@@ -201,7 +205,8 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
             if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file))
             {
-                global $lng;
+                global $DIC;
+                $lng = $DIC['lng'];
                 throw new ilCloudException($lng->txt("filenames_not_supported") , ilFileUtilsException::$BROKEN_FILE);
             }
             if ($file != '.' && $file != '..')

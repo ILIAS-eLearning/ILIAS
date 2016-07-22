@@ -17,45 +17,92 @@ class ilContactGUI
 	const CONTACTS_VIEW_GALLERY = 1;
 	const CONTACTS_VIEW_TABLE   = 2;
 
-	private $tpl = null;
-	public $ctrl = null;
-	private $lng = null;
-	private $tabs_gui = null;
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
 
 	/**
 	 * @var ilFormatMail
 	 */
-	private $umail;
+	protected $umail;
 
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var bool
+	 */
+	protected $has_sub_tabs = false;
+
+	/**
+	 * ilContactGUI constructor.
+	 */
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser, $ilTabs;
+		global $DIC;
 
-		$this->tpl      = $tpl;
-		$this->ctrl     = $ilCtrl;
-		$this->lng      = $lng;
-		$this->tabs_gui = $ilTabs;
+		$this->tpl        = $DIC['tpl'];
+		$this->ctrl       = $DIC['ilCtrl'];
+		$this->lng        = $DIC['lng'];
+		$this->tabs_gui   = $DIC['ilTabs'];
+		$this->help       = $DIC['ilHelp'];
+		$this->toolbar    = $DIC['ilToolbar'];
+		$this->user       = $DIC['ilUser'];
+		$this->error      = $DIC['ilErr'];
+		$this->rbacsystem = $DIC['rbacsystem'];
 
 		$this->ctrl->saveParameter($this, "mobj_id");
 
-		$this->umail = new ilFormatMail($ilUser->getId());
+		$this->umail = new ilFormatMail($this->user->getId());
 		$this->lng->loadLanguageModule('buddysystem');
 	}
 
 	public function executeCommand()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilErr  ilErrorHandling
-		 */
-		global $ilUser, $ilErr;
-
 		$this->showSubTabs();
 
 		$forward_class = $this->ctrl->getNextClass($this);
 
 		// delete all stored maildata
-		$this->umail->savePostData($ilUser->getId(), array(), '', '', '', '', '', '', '', '');
+		$this->umail->savePostData($this->user->getId(), array(), '', '', '', '', '', '', '', '');
 		
 		switch($forward_class)
 		{
@@ -85,7 +132,7 @@ class ilContactGUI
 			case 'ilmailinglistsgui':
 				if(!ilBuddySystem::getInstance()->isEnabled())
 				{
-					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+					$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 				}
 
 				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
@@ -99,7 +146,7 @@ class ilContactGUI
 			case 'ilusersgallerygui':
 				if(!ilBuddySystem::getInstance()->isEnabled())
 				{
-					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+					$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 				}
 
 				$this->tabs_gui->activateSubTab('buddy_view_gallery');
@@ -144,12 +191,6 @@ class ilContactGUI
 	 */
 	private function showSubTabs()
 	{
-		/**
-		 * @var $ilHelp     ilHelpGUI
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilHelp, $ilToolbar;
-
 		if($this->tabs_gui->hasTabs())
 		{
 			if(ilBuddySystem::getInstance()->isEnabled())
@@ -167,14 +208,14 @@ class ilContactGUI
 					$view_selection->setValue(
 						strtolower($this->ctrl->getCmdClass()) == 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
 					);
-					$ilToolbar->addInputItem($view_selection);
+					$this->toolbar->addInputItem($view_selection);
 
 					require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 					$contact_view_btn = ilSubmitButton::getInstance();
 					$contact_view_btn->setCaption('submit');
 					$contact_view_btn->setCommand('changeContactsView');
-					$ilToolbar->addButtonInstance($contact_view_btn);
-					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
+					$this->toolbar->addButtonInstance($contact_view_btn);
+					$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
 				}
 
 				$this->tabs_gui->addSubTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
@@ -186,7 +227,7 @@ class ilContactGUI
 		}
 		else
 		{
-			$ilHelp->setScreenIdComponent("contacts");
+			$this->help->setScreenIdComponent('contacts');
 
 			if(ilBuddySystem::getInstance()->isEnabled())
 			{
@@ -205,11 +246,14 @@ class ilContactGUI
 			$this->tabs_gui->addTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
 		}
 	}
-	
-	function activateTab($a_id)
+
+	/**
+	 * @param string $a_id
+	 */
+	protected function activateTab($a_id)
 	{
 		if($this->has_sub_tabs)
-		{		
+		{
 			$this->tabs_gui->activateSubTab($a_id);
 		}
 		else
@@ -223,14 +267,9 @@ class ilContactGUI
 	 */
 	protected function changeContactsView()
 	{
-		/**
-		 * @var $ilErr ilErrorHandling
-		 */
-		global $ilErr;
-
 		if(!ilBuddySystem::getInstance()->isEnabled())
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
 		if(isset($_POST['contacts_view']))
@@ -255,14 +294,9 @@ class ilContactGUI
 	 */
 	protected function applyContactsTableFilter()
 	{
-		/**
-		 * @var $ilErr ilErrorHandling
-		 */
-		global $ilErr;
-
 		if(!ilBuddySystem::getInstance()->isEnabled())
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
 		require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
@@ -279,14 +313,9 @@ class ilContactGUI
 	 */
 	protected function resetContactsTableFilter()
 	{
-		/**
-		 * @var $ilErr ilErrorHandling
-		 */
-		global $ilErr;
-
 		if(!ilBuddySystem::getInstance()->isEnabled())
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
 		require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
@@ -303,14 +332,9 @@ class ilContactGUI
 	 */
 	protected function showContacts()
 	{
-		/**
-		 * @var $ilErr ilErrorHandling
-		 */
-		global $ilErr;
-
 		if(!ilBuddySystem::getInstance()->isEnabled())
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
 		$this->tabs_gui->activateSubTab('buddy_view_table');
@@ -328,16 +352,9 @@ class ilContactGUI
 	 */
 	protected function mailToUsers()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem 
-		 * @var $ilErr      ilErrorHandling 
-		 * @var $ilUser     ilObjUser 
-		 */
-		global $rbacsystem, $ilErr, $ilUser;
-
-		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		if(!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
 		if(!isset($_POST['usr_id']) || !is_array($_POST['usr_id']) || 0 == count($_POST['usr_id']))
@@ -352,7 +369,7 @@ class ilContactGUI
 		$mail_data = $this->umail->getSavedData();
 		if(!is_array($mail_data))
 		{
-			$this->umail->savePostData($ilUser->getId(), array(), '', '', '', '', '', '', '', '');
+			$this->umail->savePostData($this->user->getId(), array(), '', '', '', '', '', '', '', '');
 		}
 
 		$logins = array();
@@ -390,22 +407,15 @@ class ilContactGUI
 	 */
 	public function submitInvitation()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng    ilLanguage
-		 */
-		global $ilUser, $ilCtrl, $lng;
-
 		if(!isset($_POST['usr_id']) || !strlen($_POST['usr_id']))
 		{
-			ilUtil::sendInfo($lng->txt('select_one'), true);
-			$ilCtrl->redirect($this);
+			ilUtil::sendInfo($this->lng->txt('select_one'), true);
+			$this->ctrl->redirect($this);
 		}
 
 		if(!$_POST['room_id'])
 		{
-			ilUtil::sendInfo($lng->txt('select_one'));
+			ilUtil::sendInfo($this->lng->txt('select_one'));
 			$_POST['usr_id'] = explode(',', $_POST['usr_id']);
 			$this->inviteToChat();
 			return;
@@ -463,7 +473,7 @@ class ilContactGUI
 
 			if(count($no_access) > 0)
 			{
-				$message .= $lng->txt('chat_users_without_permission') . ':<br>';
+				$message .= $this->lng->txt('chat_users_without_permission') . ':<br>';
 				$list = '';
 
 				foreach($no_access as $usr_id => $login)
@@ -478,7 +488,7 @@ class ilContactGUI
 
 			if(count($no_login))
 			{
-				$message .= $lng->txt('chat_users_without_login') . ':<br>';
+				$message .= $this->lng->txt('chat_users_without_login') . ':<br>';
 				$list = '';
 
 				foreach($no_login as $usr_id)
@@ -508,24 +518,24 @@ class ilContactGUI
 		{
 			$url = ilLink::_getStaticLink($ref_id, 'chtr');
 		}
-		$link = '<p><a target="chatframe" href="' . $url . '" title="' . $lng->txt('goto_invitation_chat') . '">' .$lng->txt('goto_invitation_chat') . '</a></p>';
+		$link = '<p><a target="chatframe" href="' . $url . '" title="' . $this->lng->txt('goto_invitation_chat') . '">' .$this->lng->txt('goto_invitation_chat') . '</a></p>';
 
 		$userlist = array();
 		foreach($valid_users as $id)
 		{
 			$room->inviteUserToPrivateRoom($id, $scope);
 			$room->sendInvitationNotification(
-				null, $ilUser->getId(), $id, (int)$scope, $url
+				null, $this->user->getId(), $id, (int)$scope, $url
 			);
 			$userlist[] = '<li>'.$valid_user_to_login_map[$id].'</li>';
 		}
 
 		if($userlist)
 		{
-			ilUtil::sendSuccess($lng->txt('chat_users_have_been_invited') . '<ul>'.implode('', $userlist).'</ul>' . $link, true);
+			ilUtil::sendSuccess($this->lng->txt('chat_users_have_been_invited') . '<ul>'.implode('', $userlist).'</ul>' . $link, true);
 		}
 
-		$ilCtrl->redirect($this);
+		$this->ctrl->redirect($this);
 	}
 
 	/**
@@ -533,50 +543,42 @@ class ilContactGUI
 	 */
 	protected function inviteToChat()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 * @var $tpl    ilTemplate
-		 */
-		global $ilUser, $lng, $ilCtrl, $tpl;
-
 		$this->tabs_gui->activateSubTab('buddy_view_table');
 		$this->activateTab('my_contacts');
 
-		$lng->loadLanguageModule('chatroom');
+		$this->lng->loadLanguageModule('chatroom');
 
 		if(!isset($_POST['usr_id']) || !is_array($_POST['usr_id']) || 0 == count($_POST['usr_id']))
 		{
-			ilUtil::sendInfo($lng->txt('select_one'), true);
-			$ilCtrl->redirect($this);
+			ilUtil::sendInfo($this->lng->txt('select_one'), true);
+			$this->ctrl->redirect($this);
 		}
 		$usr_ids = $_POST['usr_id'];
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		$ilChatroom = new ilChatroom();
-		$chat_rooms = $ilChatroom->getAllRooms($ilUser->getId());
+		$chat_rooms = $ilChatroom->getAllRooms($this->user->getId());
 		$subrooms   = array();
 
 		foreach($chat_rooms as $room_id => $title)
 		{
-			$subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $ilUser->getId());
+			$subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $this->user->getId());
 		}
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($lng->txt('mail_invite_users_to_chat'));
+		$form->setTitle($this->lng->txt('mail_invite_users_to_chat'));
 
-		$psel    = new ilSelectInputGUI($lng->txt('chat_select_room'), 'room_id');
+		$psel    = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
 		$options = array();
 
 		foreach($chat_rooms as $room_id => $room)
 		{
 			$ref_id = $room_id;
 
-			if($ilChatroom->isUserBanned($ilUser->getId()))
+			if($ilChatroom->isUserBanned($this->user->getId()))
 			{
 				continue;
 			}
@@ -603,10 +605,10 @@ class ilContactGUI
 		$form->addItem($phidden);
 		$form->addCommandButton('submitInvitation', $this->lng->txt('submit'));
 		$form->addCommandButton('showContacts', $this->lng->txt('cancel'));
-		$form->setFormAction($ilCtrl->getFormAction($this, 'showContacts'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'showContacts'));
 
-		$tpl->setTitle($lng->txt('mail_invite_users_to_chat'));
-		$tpl->setContent($form->getHtml());
-		$tpl->show();
+		$this->tpl->setTitle($this->lng->txt('mail_invite_users_to_chat'));
+		$this->tpl->setContent($form->getHTML());
+		$this->tpl->show();
 	}
 }

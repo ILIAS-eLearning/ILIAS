@@ -824,7 +824,6 @@ class ilPersonalSettingsGUI
 		}
 
 		// skin/style
-		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		if ($this->userSettingVisible("skin_style"))
 		{
 			$templates = $styleDefinition->getAllTemplates();
@@ -842,7 +841,8 @@ class ilPersonalSettingsGUI
 
 					foreach($styles as $style)
 					{
-						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 						{
 							continue;
 						}

@@ -37,9 +37,30 @@ include_once 'Services/Search/classes/class.ilSearchResult.php';
 */
 class ilMailSearchGUI
 {
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
+	/**
+	 * @var ilTemplate
+	 */
+	private $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
+	private $ctrl;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $object_data_cache;
+
+	/**
+	 * @var ilLanguage
+	 */
+	private $lng;
 	
 	private $umail = null;
 
@@ -47,12 +68,14 @@ class ilMailSearchGUI
 
 	public function __construct($wsp_access_handler = null, $wsp_node_id = null)
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
+		$this->tpl               = $DIC['tpl'];
+		$this->ctrl              = $DIC['ilCtrl'];
+		$this->lng               = $DIC['lng'];
+		$this->rbacreview        = $DIC['rbacreview'];
+		$this->object_data_cache = $DIC['ilObjDataCache'];
+
 		// personal workspace
 		$this->wsp_access_handler = $wsp_access_handler;
 		$this->wsp_node_id = $wsp_node_id;
@@ -60,7 +83,7 @@ class ilMailSearchGUI
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->ctrl->saveParameter($this, "ref");
 
-		$this->umail = new ilFormatMail($ilUser->getId());
+		$this->umail = new ilFormatMail($DIC->user()->getId());
 	}
 
 	public function executeCommand()
@@ -152,8 +175,6 @@ class ilMailSearchGUI
 	
 	protected function initSearchForm()
 	{
-		global $ilCtrl;
-		
 		if($_GET["ref"] != "wsp")
 		{
 			$this->saveMailData();
@@ -170,11 +191,11 @@ class ilMailSearchGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($title);
 		$form->setId('search_rcp');
-		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'search'));
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
 		$inp->setSize(30);
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
+		$dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
 		$inp->setDataSource($dsDataLink);
 		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
@@ -219,8 +240,6 @@ class ilMailSearchGUI
 
 	public function showResults()
 	{
-		global $lng, $ilUser, $rbacreview, $ilObjDataCache;
-
 		$form = $this->initSearchForm();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Contact");
@@ -273,7 +292,7 @@ class ilMailSearchGUI
 			$users = array_intersect($users, $relations->getKeys());
 
 			$tbl_contacts = new ilTable2GUI($this);
-			$tbl_contacts->setTitle($lng->txt('mail_addressbook'));
+			$tbl_contacts->setTitle($this->lng->txt('mail_addressbook'));
 			$tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
 
 			$has_mail_addr = false;
@@ -379,7 +398,7 @@ class ilMailSearchGUI
 		if(count($users))
 		{
 			$tbl_users = new ilTable2GUI($this);
-			$tbl_users->setTitle($lng->txt('system') . ': ' . $lng->txt('persons'));
+			$tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
 			$tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
 
 			$result  = array();
@@ -477,13 +496,13 @@ class ilMailSearchGUI
 		if($group_results->getResults())
 		{
 			$tbl_grp = new ilTable2GUI($this);
-			$tbl_grp->setTitle($lng->txt('system') . ': ' . $lng->txt('groups'));
+			$tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
 			$tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
 
 			$result  = array();
 			$counter = 0;
 
-			$ilObjDataCache->preloadReferenceCache(array_keys($group_results->getResults()));
+			$this->object_data_cache->preloadReferenceCache(array_keys($group_results->getResults()));
 
 			$groups = $group_results->getResults();
 			foreach($groups as $grp)
@@ -496,7 +515,7 @@ class ilMailSearchGUI
 				if($_GET["ref"] != "wsp")
 				{
 					$members = array();
-					$roles   = $rbacreview->getAssignableChildRoles($grp['ref_id']);
+					$roles   = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
 					foreach($roles as $role)
 					{
 						if(substr($role['title'], 0, 14) == 'il_grp_member_' ||
@@ -518,8 +537,8 @@ class ilMailSearchGUI
 				{
 					$result[$counter]['check'] = ilUtil::formCheckbox(0, 'search_name_to_grp[]', $grp['obj_id']);
 				}
-				$result[$counter]['title']       = $ilObjDataCache->lookupTitle($grp['obj_id']);
-				$result[$counter]['description'] = $ilObjDataCache->lookupDescription($grp['obj_id']);
+				$result[$counter]['title']       = $this->object_data_cache->lookupTitle($grp['obj_id']);
+				$result[$counter]['description'] = $this->object_data_cache->lookupDescription($grp['obj_id']);
 
 				++$counter;
 				$visible_groups[] = $grp;

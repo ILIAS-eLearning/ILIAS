@@ -2506,44 +2506,6 @@ class ilObjUser extends ilObject
 		return $this->loc_zoom;
 	}
 
-	function &getAppliedUsers()
-	{
-		$this->applied_users = array();
-		$this->__readAppliedUsers($this->getId());
-
-		return $this->applied_users ? $this->applied_users : array();
-	}
-
-	function isChild($a_usr_id)
-	{
-		if($a_usr_id == $this->getId())
-		{
-			return true;
-		}
-
-		$this->applied_users = array();
-		$this->__readAppliedUsers($this->getId());
-
-		return in_array($a_usr_id,$this->applied_users);
-	}
-
-	function __readAppliedUsers($a_parent_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE time_limit_owner = %s",
-			array("integer"),
-			array($a_parent_id));
-		while ($row = $ilDB->fetchObject($res))
-		{
-			$this->applied_users[] = $row->usr_id;
-
-			// recursion
-			$this->__readAppliedUsers($row->usr_id);
-		}
-		return true;
-	}
 	
 	/**
 	 * Check for simultaneous login
@@ -5150,9 +5112,9 @@ class ilObjUser extends ilObject
 
 		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
 
-		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s";
+		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s OR (ISNULL(last_login) AND create_date < %s)";
 
-		$res = $ilDB->queryF($query, array('timestamp'), array($date));
+		$res = $ilDB->queryF($query, array('timestamp', 'timestamp'), array($date, $date));
 
 		$ids = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

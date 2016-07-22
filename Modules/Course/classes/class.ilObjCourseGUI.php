@@ -3916,9 +3916,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilrepositorysearchgui':
+				
+				if(!$this->checkPermissionBool('write'))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
-				
 				if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
 				{
 					$rep_search->setCallback($this,
@@ -4739,7 +4743,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * Handle member view
 	 * @return 
 	 */
-	protected function prepareOutput($a_show_subobjects = true)
+	public function prepareOutput($a_show_subobjects = true)
 	{
 		global $rbacsystem;
 		if(!$this->getCreationMode())

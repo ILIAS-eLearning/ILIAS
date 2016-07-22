@@ -95,6 +95,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilrepositorysearchgui':
+
+				if(!$this->checkPermissionBool('write'))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
@@ -2308,13 +2313,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur->setShowTime(true);
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());
-			$this->form->addItem($dur);
-			
+			$form->addItem($dur);
+
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
 			$cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
 			$cancel->setDate($this->object->getCancellationEnd());			
-			$this->form->addItem($cancel);
+			$form->addItem($cancel);
 
 			// max member
 			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');

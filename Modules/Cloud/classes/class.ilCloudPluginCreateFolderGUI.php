@@ -21,7 +21,8 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
 
     function asyncCreateFolder()
     {
-        global $tpl;
+        global $DIC;
+        $tpl = $DIC['tpl'];
         $response           = new stdClass();
         $response->success  = null;
         $response->error    = null;
@@ -49,7 +50,9 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
      */
     public function initCreateFolder()
     {
-        global $ilCtrl, $lng;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
 
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
@@ -79,7 +82,9 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
      */
     public function createFolder()
     {
-        global $tpl, $lng;
+        global $DIC;
+        $tpl = $DIC['tpl'];
+        $lng = $DIC['lng'];
 
         $response        = new stdClass();
         $response->success = null;

@@ -1723,8 +1723,6 @@ class ilObjUserGUI extends ilObjectGUI
 				'skin_style');
 			$templates = $styleDefinition->getAllTemplates();
 
-			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
-
 			$options = array();
 			if (count($templates) > 0 && is_array ($templates))
 			{
@@ -1735,7 +1733,8 @@ class ilObjUserGUI extends ilObjectGUI
 					$styles = $styleDef->getStyles();
 					foreach ($styles as $style)
 					{
-						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 						{
 							continue;
 						}
@@ -2932,7 +2931,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// Append login info only if password has been chacnged
-		if($_POST['passwd'] != '********')
+		if($_POST['passwd'] != '')
 		{
 			$body .= $usr_lang->txt("reg_mail_body_text2")."\n".
 				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".

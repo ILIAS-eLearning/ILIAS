@@ -175,16 +175,7 @@ class ASS_Mark {
   function setMinimumLevel($minimum_level) 
   {
 	$minimum_level = (float) $minimum_level;
-	/*
-	 * Due to a defect in import, non-numeric levels get casted
-	 * to zero using the above statement. Accordingly, no exception
-	 * is thrown. @todo Get this clean.
-	if (!is_numeric($minimum_level))
-	{
-		throw new Exception ('Markstep: minimum level must be numeric.');
-	}
-    else
-	*/
+
 	if (($minimum_level >= 0) && ($minimum_level <= 100))
 	{
       $this->minimum_level = $minimum_level;

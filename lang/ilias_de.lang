@@ -566,13 +566,13 @@ assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
 assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden: [%s] oder [%s]
 assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#tst_feedback#:#Rückmeldung
-assessment#:#ass_process_lock#:#Verwende Lock Mechanismus während Test Durchläufen
-assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Test Ergebnissen führen.
-assessment#:#ass_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
-assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem Locks
-assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
-assessment#:#ass_process_lock_mode_db#:#Verwende Datenbank Tabellen Locks
-assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_process_lock#:#Verwende Lock-Mechanismus während Testdurchläufen
+assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
+assessment#:#ass_process_lock_mode#:#Lock-Modus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem-Locks
+assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_process_lock_mode_db#:#Verwende Datenbanktabellen-Locks
+assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking-Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -1048,7 +1048,7 @@ assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
-assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Fragen geschehen, die Sie ggfs. bereits gegeben haben?
+assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Frage geschehen, die Sie ggfs. bereits gegeben haben?
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Speichern
 assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Nicht Speichern
 assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Abbrechen
@@ -1444,7 +1444,7 @@ assessment#:#tst_score_mcmr_questions#:#Nicht bearbeitete Multiple-Choice-Fragen
 assessment#:#tst_score_mcmr_use_scoring_system#:#Punktevergabe, auch wenn keine Antwort ausgewählt wurde
 assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Teilnehmer erhalten auch für nicht bearbeitete Multiple-Choice-Fragen Punkte. In der Frage müssen dafür Punkte für das Nicht-Auswählen einer Antwortoption vergeben werden.
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#0 Punkte, wenn keine Antwort ausgewählt wurde
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Teilnehmer erhalten 0 Punkte für Multiple-Choice-Fragen, bei denen sie keine Antwortoption ausgewählt haben .
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Teilnehmer erhalten 0 Punkte für Multiple-Choice-Fragen, bei denen sie keine Antwortoption ausgewählt haben.
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
@@ -1666,7 +1666,7 @@ assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
+assessment#:#tst_activate_skill_service#:#Kompetenzen
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#qpl_tab_competences#:#Kompetenzen
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
@@ -4094,7 +4094,7 @@ common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
-common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Einfügen-Button.
+common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, wohin die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Weiter-Button.
 common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs oder die Gruppe aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
@@ -8337,6 +8337,7 @@ license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen erre
 license#:#used_licenses#:#Verbrauchte Lizenzen
 license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Benutzers verbraucht eine Lizenz.
 license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizenzierung zu deaktivieren.
+mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie den vom System bereinigten Inhalt und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
@@ -11963,7 +11964,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#Ein weiterer Reiter 'Kompetenzen' wird eingeblendet. In diesem Reiter können Fragen zu Kompetenzen zugeordnet werden, sowie Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen festgelegt werden.
+assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzausprägungen.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
@@ -11999,6 +12000,7 @@ dcl#:#dcl_copy#:#Datensammlung kopieren
 dcl#:#dcl_edit#:#Datensammlung bearbeiten
 dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Exportierbar
+dcl#:#dcl_tables#:#Tabellen
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
 rbac#:#dcl_copy#:#Datensammlung kopieren
@@ -12031,6 +12033,7 @@ dcl#:#dcl_edit_start#:#Startdatum
 dcl#:#dcl_edit_end#:#Enddatum
 dcl#:#dcl_export#:#Export
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
+dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
 dcl#:#dcl_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
@@ -12049,7 +12052,7 @@ dcl#:#dcl_length#:#Länge
 dcl#:#dcl_length_info#:#Maximale Anzahl von Zeichen, die ein Benutzer eingeben kann. Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
 dcl#:#dcl_regex#:#Regulärer Ausdruck
 dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
-dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
@@ -12076,13 +12079,14 @@ dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
 dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
-dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern
+dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
+dcl#:#dcl_confirm_storing_records_no_permission#:#Sie haben keine Rechte, den Datensatz später nochmals zu bearbeiten.
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_export_finished#:#Export Abgeschlossen
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
-dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
@@ -12372,9 +12376,10 @@ dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
-dcl#:#dcl_title#:#Feldtitel
+dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
+dcl#:#dcl_save_order#:#Sortierung Speichern
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Keine exportierbaren Felder definiert oder keine Daten vorhanden
@@ -12391,6 +12396,8 @@ dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_import_enabled#:#Tabelle importieren
+dcl#:#dcl_import_enabled_desc#:#Alle Benutzer können selber Daten in die Tabellen importieren, solange Sie entsprechende Schreibrechte besitzen.
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_prop_expression#:#Ausdruck
@@ -12398,6 +12405,30 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
+dcl#:#dcl_create_item#:#Ansicht Hinzufügen
+dcl#:#dcl_select#:#Auswahl der Tabelle
+dcl#:#dcl_tableviews#:#Ansichten
+dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
+dcl#:#dcl_tableview#:#Ansicht
+dcl#:#dcl_tableorder#:#Tabellenanordnung
+dcl#:#dcl_detailed_view#:#Einzelansicht
+dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
+dcl#:#dcl_delete_views#:#Ansichten löschen
+dcl#:#dcl_delete_tables#:#Tabellen löschen
+dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
+dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt
+dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
+dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
+dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
+dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
+dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
+dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
+dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
+dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
+dcl#:#dcl_field_visible#:#Sichtbar
+dcl#:#dcl_standardview#:#Standardansicht
+dcl#:#dcl_std_filter#:#Filtervorbelegung
+dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender
@@ -12556,7 +12587,7 @@ dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
-dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die zentrale Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
+dcl#:#dcl_cant_delete_last_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die einzige Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 common#:#search_globally#:#Im gesamten Magazin
@@ -12849,7 +12880,7 @@ cron#:#cron_result_status_crashed#:#Abbruch
 cron#:#cron_result_status_reset#:#Reset
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
-cron#:#cron_action_reset#:#Reset
+cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_edit#:#Bearbeiten
 cron#:#cron_status_active#:#Aktiv
 cron#:#cron_status_inactive#:#Inaktiv
@@ -12892,12 +12923,14 @@ dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_creation_date#:#Erstellungs Datum
+dcl#:#dcl_create_date#:#Erstellungs Datum
 dcl#:#dcl_creation_date_description#:#Das Datum an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum an dem dieser Eintrag zuletzt geändert wurde.
 dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
+dcl#:#dcl_last_edit_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
@@ -13243,7 +13276,7 @@ cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
 cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll:
 cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll:
 cld#:#cld_create_folder#:#Ordner anlegen
-cld#:#cld_delete_failed#:#Löschen Fehlgeschlagen
+cld#:#cld_delete_failed#:#Löschen fehlgeschlagen
 cld#:#cld_file_deleted#:#Objekt gelöscht
 cld#:#cld_edit_Settings#:#Cloud Einstellungen
 cld#:#cld_empty#:#Leer
@@ -14015,6 +14048,7 @@ exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an au
 survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
+cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
 crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
@@ -14553,7 +14587,7 @@ common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests ler
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
 crs#:#crs_loc_tbl_tst_type#:#Auswahl der Testfragen
-crs#:#crs_loc_form_assign_it#:#Test auswählen 
+crs#:#crs_loc_form_assign_it#:#Test auswählen
 crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
 crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
 crs#:#crs_loc_form_available_tsts#:#Verfügbare Tests:
@@ -14988,7 +15022,7 @@ sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
 sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:
 sysc#:#sysc_status_na#:#Noch nicht ausgeführt
 sysc#:#sysc_status_running#:#Wird durchgeführt
-sysc#:#sysc_status_failed#:#Fehlgschlagen
+sysc#:#sysc_status_failed#:#Fehlgeschlagen
 sysc#:#sysc_status_completed#:#Erfüllt
 sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
 sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur
@@ -15707,3 +15741,9 @@ grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
+auth#:#auth_ldap_server_ds#:#LDAP-Server
+content#:#cont_permission_object#:#Berechtigungsobjekt
+assessment#:#ass_location#:#Ort
+assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
+assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
+assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden. 

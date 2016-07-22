@@ -5,7 +5,6 @@
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php';
-require_once './Modules/DataCollection/classes/class.ilDclRecordViewGUI.php';
 require_once("./Services/Link/classes/class.ilLink.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionImporter.php");
 
@@ -41,28 +40,44 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * @return int|string
 	 */
 	public function getExportValue() {
-		if ($this->getValue()) {
-			$ref_rec = ilDclCache::getRecordCache($this->getValue());
-			$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+		$value = $this->getValue();
+		if ($value) {
+			if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+				foreach ($value as $val) {
+					if ($val) {
+						$ref_rec = ilDclCache::getRecordCache($val);
+						$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+						if($ref_record_field) {
+							$names[] = $ref_record_field->getExportValue();
+						}
 
-			$exp_value = "";
-			if($ref_record_field) {
-				$exp_value = $ref_record_field->getExportValue();
+					}
+				}
+				return implode(', ', $names);
+			} else {
+				$ref_rec = ilDclCache::getRecordCache($this->getValue());
+				$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+
+				$exp_value = "";
+				if($ref_record_field) {
+					$exp_value = $ref_record_field->getExportValue();
+				}
+
+				return $exp_value;
 			}
-
-			return $exp_value;
 		} else {
 			return "";
 		}
 	}
 
 	public function getValueFromExcel($excel, $row, $col){
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$value = parent::getValueFromExcel($excel, $row, $col);
 		$old = $value;
 		$value = $this->getReferenceFromValue($value);
-		if (!$value) {
-			$warning = "(" . $col . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
+		if (!$value && $old) {
+			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col+1) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $old;
 			return array('warning' => $warning);
 		}

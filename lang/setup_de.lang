@@ -579,20 +579,6 @@ tree_implementation_mp#:#Materialized Path-Modell
 tree_implementation_switch_btn#:#Ändere Baumstruktur-Implementierung
 tree_implementation_switched#:#Baumstruktur-Implementierung wurde geändert.
 feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "Administration kontaktieren" genutzt.
-passwd#:#Passwort Kodierung
-step_passwd#:#Passwort Kodierung
-setup_process_step_passwd#:#Passwörter
-info_text_passwd#:#Passwort Einstellungen
-passwd_encoder_md5#:#md5
-passwd_encoder_bcrypt#:#bcrypt
-passwd_default_encoder#:#Kodierer
-passwd_default_encoder_info#:#Wählen Sie hier den Standard-Kodierer für die Speicherung von Passwörtern des ILIAS-Mandanten.
-passwd_encoder_bcrypt_client_salt#:#Mandantenweiter Salt
-passwd_encoder_client_bcrypt_salt_info#:#Für die Hashfunktion bcrypt wird ein globaler Salt vorausgesetzt. Dieser wird von ILIAS automatisch generiert und in oben genannter Datei hinterlegt, sobald Sie bcrypt <span style="font-weight:bold">zum ersten Mal auswählen</span>. Dieser Salt wird Teil der Kordierung sein, sobald ein Benutzerpasswort gespeichert wird. Daher empfehlen wir Ihnen, sich diesen Salt an einem geheimen Ort zusätzlich zu notieren. Vor jedem Speichern eines Passworts wird zudem noch ein invididueller Salt für das Passwort generiert. <span style="color:red">Achtung: Sobald der mandantenweite Salt einmal generiert wurde, darf dieser nicht mehr geändert werden. Gleiches gilt für Salts, die in der Datenbank gespeichert wurden. Ansonsten werden sich Benutzer nicht mehr anmelden können!</span>
-passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">Die von Ihnen eingesetzte PHP Version %s weist bzgl. bcrypt Sicherheitslücken auf (<a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>). Wir empfehlen Ihnen daher ein Upgrade auf PHP 5.3.7+.</span>
-passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS konnte keinen Mandanten-Salt ermitteln oder der ermittelte Salt entspricht nicht den Kriterien, die zum Zeitpunkt der Erstellung galten. Bitte prüfen Sie die den Inhalt  der respektive die Leseberechtigung auf die oben genannte Datei.
-passwd_encoding_configured#:#konfiguriert
-passwd_encoding_not_configured#:#nicht konfiguriert
 global_cache#:#Global Cache
 global_cache_configuration#:#Global Cache-Konfiguration
 activate_global_cache#:#Aktivieren

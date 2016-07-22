@@ -11,17 +11,17 @@ class shibServerData extends shibConfig {
 	/**
 	 * @var bool
 	 */
-	protected static $cache = NULL;
+	protected static $cache = null;
 
 
 	/**
 	 * @param array $data
 	 */
-	protected function __construct(array $data) {
+	protected function __construct($data) {
 		$shibConfig = shibConfig::getInstance();
 		foreach (array_keys(get_class_vars('shibConfig')) as $field) {
 			$str = $shibConfig->getValueByKey($field);
-			if ($str !== NULL) {
+			if ($str !== null) {
 				$this->{$field} = $data[$str];
 			}
 		}
@@ -29,17 +29,13 @@ class shibServerData extends shibConfig {
 
 
 	/**
-	 * @param array $data
-	 *
-	 * @return shibServerData
+	 * @return bool|\shibServerData
 	 */
-	public static function getInstance(array $data) {
-		if (! isset(self::$cache)) {
-			self::$cache = new self($data);
+	public static function getInstance() {
+		if (!isset(self::$cache)) {
+			self::$cache = new self($_SERVER);
 		}
 
 		return self::$cache;
 	}
 }
-
-?>

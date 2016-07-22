@@ -1763,4 +1763,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		return false;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getLastInsertId() {
+		return $this->pdo->lastInsertId();
+	}
 }

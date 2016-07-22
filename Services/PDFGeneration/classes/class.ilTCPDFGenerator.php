@@ -35,6 +35,8 @@ class ilTCPDFGenerator
 		$pdf->setImageScale($job->getImageScale());
 		$pdf->SetFont('dejavusans', '', 10); // TODO
 
+		$pdf->setSpacesRE('/[^\S\xa0]/'); // Fixing unicode/PCRE-mess #17547
+
 		/* // TODO
 		// set some language-dependent strings (optional)
 		if (file_exists(dirname(__FILE__).'/lang/eng.php')) {
@@ -46,10 +48,10 @@ class ilTCPDFGenerator
 
 		foreach ($job->getPages() as $page)
 		{
+			$page = ' '.$page;
 			$pdf->AddPage();
-			$pdf->writeHTML($page, true, false, true, false, '');			
+			$pdf->writeHTML($page, true, false, true, false, '');
 		}
-
 		$result = $pdf->Output($job->getFilename(), $job->getOutputMode() ); // (I - Inline, D - Download, F - File)
 	}
 }

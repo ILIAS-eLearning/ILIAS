@@ -541,7 +541,9 @@ il.UICore = {
 		if (tabs) {
 			tabsHeight = tabs.innerHeight();
 			if (tabsHeight >= 50) {
-				$('#ilLastTab a').removeClass("ilNoDisplay");
+				if (tabsHeight > 50) {
+					$('#ilLastTab a').removeClass("ilNoDisplay");
+				}
 				// as long as we have two lines...
 				while (tabsHeight > 50) {
 					children = tabs.children('li:not(:last-child)');
@@ -753,6 +755,35 @@ il.Util.addOnLoad(function () {
 				? e.pageY-offset.top-menu_height
 				: e.pageY-offset.top
 		});												
+	});
+
+	// Handled IE/Edge issues with HTML5 buttons and form attribute, see: http://caniuse.com/#search=form
+	$('button[form][type="submit"]').filter(function() {
+		return (function () {
+			return (
+				typeof navigator != "undefined" &&
+				typeof navigator.appName != "undefined" &&
+				typeof navigator.appVersion != "undefined" &&
+				(
+					navigator.appName == 'Microsoft Internet Explorer' ||
+					(navigator.appName == "Netscape" && (navigator.appVersion.indexOf('Trident') > -1 || navigator.appVersion.indexOf('Edge') > -1))
+				)
+			);
+		})();
+	}).on('click', function(e) {
+		var $elm = $(this), $form = $('#' + $elm.attr("form"));
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		$('<input/>')
+			.attr("type", "hidden")
+			.attr("name", $elm.attr("name"))
+			.val(1)
+			.appendTo($form);
+
+		$form.find('input[type="submit"]').prop("disabled", true);
+		$form.submit();
 	});
 
 	il.UICore.initFixedDropDowns();

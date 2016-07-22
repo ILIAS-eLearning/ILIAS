@@ -208,6 +208,9 @@ class ilMarkSchemaGUI
 
 		$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
 
+		require_once 'Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php';
+		$mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', '', $this->object);
+
 		if($this->object->canEditMarks())
 		{
 			require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
@@ -215,10 +218,16 @@ class ilMarkSchemaGUI
 			$create_simple_mark_schema_button->setCaption($this->lng->txt('tst_mark_create_simple_mark_schema'), false);
 			$create_simple_mark_schema_button->setCommand('addSimpleMarkSchema');
 			$this->toolbar->addButtonInstance($create_simple_mark_schema_button);
+
+			require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
+			$create_new_mark_step_button = ilButton::getInstance();
+			$create_new_mark_step_button->setCaption($this->lng->txt('tst_mark_create_new_mark_step'), false);
+			$create_new_mark_step_button->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
+			$create_new_mark_step_button->setForm('form_' . $mark_schema_table->getId());
+			$create_new_mark_step_button->setName('addMarkStep');
+			$this->toolbar->addButtonInstance($create_new_mark_step_button);
 		}
 
-		require_once 'Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php';
-		$mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', '', $this->object);
 
 		$content_parts = array($mark_schema_table->getHTML());
 

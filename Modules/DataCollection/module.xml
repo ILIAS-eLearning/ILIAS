@@ -16,7 +16,7 @@
 		</object>
 	</objects>
 	<copage>
-		<pageobject parent_type="dclf" class_name="ilDclRecordViewViewdefinition" directory="classes"/>
+		<pageobject parent_type="dclf" class_name="ilDclDetailedViewDefinition" directory="classes/DetailedView"/>
 	</copage>
 	<pluginslots>
 		<pluginslot id="dclfth" name="FieldTypeHook" />

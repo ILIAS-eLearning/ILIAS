@@ -17,9 +17,9 @@ class ilContentStylesTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_data, $a_style_settings)
+	function __construct(ilContentStyleSettingsGUI $a_parent_obj, $a_parent_cmd, $a_data, $a_style_settings)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilSetting, $rbacsystem;
+		global $ilCtrl, $lng, $ilSetting;
 
 		$this->fixed_style = $ilSetting->get("fixed_content_style_id");
 		$this->default_style = $ilSetting->get("default_content_style_id");
@@ -40,9 +40,8 @@ class ilContentStylesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.content_style_row.html", "Services/Style");
-
-		if ($rbacsystem->checkAccess("write",$this->parent_obj->object->getRefId()))
+		$this->setRowTemplate("tpl.content_style_row.html", "Services/Style/Content");
+		if ($this->parent_obj->checkPermission("write", false))
 		{
 			$this->addMultiCommand("deleteStyle", $lng->txt("delete"));
 			$this->addCommandButton("saveActiveStyles", $lng->txt("sty_save_active_styles"));
@@ -83,7 +82,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
 		}
 
 		$ilCtrl->setParameter($this->parent_obj, "id", $a_set["id"]);
-		if ($a_set["id"] > 0 && $rbacsystem->checkAccess("write",$this->parent_obj->object->getRefId()))
+		if ($a_set["id"] > 0 && $this->parent_obj->checkPermission("write", false))
 		{
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setListTitle($lng->txt("actions"));

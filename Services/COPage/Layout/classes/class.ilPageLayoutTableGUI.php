@@ -32,7 +32,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("actions"));
 		
 		// show command buttons, if write permission is given
-		if ($rbacsystem->checkAccess("write",$this->parent_obj->object->getRefId()))
+		if ($a_parent_obj->checkPermission("write", false))
 		{
 			$this->addMultiCommand("activate", $lng->txt("activate"));
 			$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
@@ -46,7 +46,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.stys_pglayout_table_row.html",
-			"Services/Style");
+			"Services/COPage/Layout");
 		$this->setTitle($lng->txt("page_layouts"));
 		
 		//build form
@@ -112,8 +112,8 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_DESCRIPTION", $a_set['description']);
 		$this->tpl->setVariable("CHECKBOX_ID", $a_set['layout_id']);
 		
-		$ilCtrl->setParameterByClass("ilobjstylesettingsgui", "obj_id", $a_set['layout_id']);
-		$this->tpl->setVariable("HREF_EDIT_PGLAYOUT",$ilCtrl->getLinkTargetByClass("ilobjstylesettingsgui","editPg"));
+		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set['layout_id']);
+		$this->tpl->setVariable("HREF_EDIT_PGLAYOUT",$ilCtrl->getLinkTarget($this->parent_obj, "editPg"));
 		
 		$pgl_obj = new ilPageLayout($a_set['layout_id']);
 		$this->tpl->setVariable("VAL_PREVIEW_HTML",$pgl_obj->getPreview());

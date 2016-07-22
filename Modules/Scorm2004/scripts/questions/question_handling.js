@@ -381,7 +381,7 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
 
         selectedTerms.each( function(key, term)
         {
-            answerData.choice.push(definition.id+'-'+$(term).attr('value'));
+            answerData.choice.push(definition.id+'-'+$(term).val());
             
             var found = false;
             
@@ -394,7 +394,7 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
                     continue;
                 }
 
-                if( $(term).attr('value') == matching.term_id )
+                if( $(term).val() == matching.term_id )
                 {
                     found = true;
                     break;
@@ -549,9 +549,12 @@ ilias.questions.assClozeTest = function(a_id) {
 			// numeric
 			else if (type==2) {				
 				for(var j=0;j<questions[a_id].gaps[i].item.length;j++)
-				{				
-					if (questions[a_id].gaps[i].item[j].lowerbound <= a_node.value && 
-						questions[a_id].gaps[i].item[j].upperbound >= a_node.value) {
+				{
+					var lb = parseFloat(questions[a_id].gaps[i].item[j].lowerbound),
+						ub = parseFloat(questions[a_id].gaps[i].item[j].upperbound),
+						val = parseFloat(a_node.value);
+
+					if (!isNaN(a_node.value) && lb <= val && ub >= val) {
 						value_found=true;
 						if (questions[a_id].gaps[i].item[j].points <= 0) {
 							answers[a_id].passed = false;
@@ -1120,7 +1123,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 								cvalue = questions[a_id].gaps[i].item[j].value;
 							}
 						}
-					jQuery('input#'+a_id+"_"+i).attr("value",cvalue);
+					jQuery('input#'+a_id+"_"+i).val(cvalue);
 				}
 			}
 		break;
@@ -1182,7 +1185,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				}
 				if(found === false)
 				{
-					jQuery(a_node[i]).attr("value", "");
+					jQuery(a_node[i]).val("");
 				}
 			}
 			var correct_info = "";

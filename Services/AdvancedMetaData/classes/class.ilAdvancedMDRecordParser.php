@@ -34,7 +34,7 @@
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
-class ilAdvancedMDRecordParser extends ilSAXParser
+class ilAdvancedMDRecordParser extends ilSaxParser
 {
 	const MODE_UPDATE = 1;
 	const MODE_INSERT = 2;

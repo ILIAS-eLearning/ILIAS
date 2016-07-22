@@ -64,7 +64,9 @@ class ilObjCloud extends ilObject2
      */
     function doCreate()
     {
-        global $ilDB, $ilUser;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC['ilUser'];
 
         /**
          * The owner of the cloud Object is only set once, when the object is created. This prevents, that users
@@ -88,7 +90,8 @@ class ilObjCloud extends ilObject2
      */
     function doRead()
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
         $set = $ilDB->query("SELECT * FROM il_cld_data " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
@@ -109,7 +112,8 @@ class ilObjCloud extends ilObject2
      */
     function doUpdate()
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
         $ilDB->manipulate($up = "UPDATE il_cld_data SET " .
                 " is_online = " . $ilDB->quote($this->getOnline(), "integer") . "," .
@@ -127,7 +131,8 @@ class ilObjCloud extends ilObject2
      */
     function doDelete()
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
         if ($this->getServiceName() != null)
         {
@@ -149,7 +154,8 @@ class ilObjCloud extends ilObject2
      */
     function doClone($a_target_id, $a_copy_id, $new_obj)
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -287,7 +293,8 @@ class ilObjCloud extends ilObject2
      */
     public function currentUserIsOwner()
     {
-        global $ilUser;
+        global $DIC;
+        $ilUser = $DIC['ilUser'];
         return $ilUser->getId() == $this->getOwnerId();
     }
 

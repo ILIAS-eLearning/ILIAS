@@ -17,7 +17,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLinkResourceGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjRoleTemplateGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjRoleTemplateGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRootFolderGUI, ilObjSessionGUI, ilObjPortfolioTemplateGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSystemFolderGUI, ilObjRoleFolderGUI, ilObjAuthSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjChatServerGUI, ilObjLanguageFolderGUI, ilObjMailGUI
@@ -185,8 +185,7 @@ class ilAdministrationGUI
 					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
-						|| $next_class == "ilobjroletemplategui"
-						|| $next_class == "ilobjstylesheetgui"))
+						|| $next_class == "ilobjroletemplategui"))
 					{
 						if ($_GET["obj_id"] != "")
 						{

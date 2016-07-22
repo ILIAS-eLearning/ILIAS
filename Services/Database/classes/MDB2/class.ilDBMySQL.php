@@ -345,7 +345,7 @@ class ilDBMySQL extends ilDB
 	*/
 	function now()
 	{
-		return "now()";
+		return "NOW()";
 	}
 
 	/**

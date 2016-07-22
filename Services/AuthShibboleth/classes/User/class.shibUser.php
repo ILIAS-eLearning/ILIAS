@@ -18,17 +18,6 @@ class shibUser extends ilObjUser {
 	/**
 	 * @param shibServerData $shibServerData
 	 *
-	 * @deprecated
-	 * @return shibUser
-	 */
-	public static function getInstance(shibServerData $shibServerData) {
-		return self::buildInstance($shibServerData);
-	}
-
-
-	/**
-	 * @param shibServerData $shibServerData
-	 *
 	 * @return shibUser
 	 */
 	public static function buildInstance(shibServerData $shibServerData) {
@@ -149,7 +138,7 @@ class shibUser extends ilObjUser {
 	 */
 	protected function returnNewLoginName() {
 		$login = substr(self::cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
-		$appendix = NULL;
+		$appendix = null;
 		$login_tmp = $login;
 		while (self::loginExists($login, $this->getId())) {
 			$login = $login_tmp . $appendix;
@@ -175,20 +164,20 @@ class shibUser extends ilObjUser {
 	 */
 	protected static function cleanName($name) {
 		$upas = array(
-			'ä' => 'ae',
-			'ü' => 'ue',
-			'ö' => 'oe',
-			'Ä' => 'Ae',
-			'Ü' => 'Ue',
-			'Ö' => 'Oe',
-			'é' => 'e',
-			'è' => 'e',
-			'ê' => 'e',
-			'Á' => 'A',
+			'ä'  => 'ae',
+			'ü'  => 'ue',
+			'ö'  => 'oe',
+			'Ä'  => 'Ae',
+			'Ü'  => 'Ue',
+			'Ö'  => 'Oe',
+			'é'  => 'e',
+			'è'  => 'e',
+			'ê'  => 'e',
+			'Á'  => 'A',
 			'\'' => '',
-			' ' => '',
-			'-' => '',
-			'.' => '',
+			' '  => '',
+			'-'  => '',
+			'.'  => '',
 		);
 
 		return strtolower(strtr($name, $upas));
@@ -202,7 +191,8 @@ class shibUser extends ilObjUser {
 	 * @return bool
 	 */
 	private static function loginExists($login, $usr_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var $ilDB ilDB
 		 */
@@ -219,7 +209,8 @@ class shibUser extends ilObjUser {
 	 * @return bool
 	 */
 	protected static function getUsrIdByExtId($ext_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var $ilDB ilDB
 		 */
@@ -234,5 +225,3 @@ class shibUser extends ilObjUser {
 		}
 	}
 }
-
-?>

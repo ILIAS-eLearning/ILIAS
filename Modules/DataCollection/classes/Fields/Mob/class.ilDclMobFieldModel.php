@@ -18,4 +18,11 @@ class ilDclMobFieldModel extends ilDclFileuploadFieldModel {
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_WIDTH, ilDclBaseFieldModel::PROP_HEIGHT, ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
+	}
 }
