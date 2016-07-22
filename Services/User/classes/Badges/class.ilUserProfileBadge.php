@@ -46,36 +46,52 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 		include_once "Services/User/classes/class.ilUserProfile.php";
 		$user = new ilObjUser($a_user_id);
 		
-		// see ilPersonalProfileGUI::savePersonalData()		
-		// if form field name differs from setter
-		$map = array(
-			"firstname" => "FirstName",
-			"lastname" => "LastName",
-			"title" => "UTitle",
-			"sel_country" => "SelectedCountry",
-			"phone_office" => "PhoneOffice",
-			"phone_home" => "PhoneHome",
-			"phone_mobile" => "PhoneMobile",
-			"referral_comment" => "Comment",
-			"interests_general" => "GeneralInterests",
-			"interests_help_offered" => "OfferingHelp",
-			"interests_help_looking" => "LookingForHelp"
-		);
+		// use getter mapping from user profile
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$pfields = $up->getStandardFields();
 		
 		foreach($a_config["profile"] as $field)
 		{
 			$field = substr($field, 4);
-			$m = ucfirst($field);			
-			if(isset($map[$field]))
+			
+			// instant messengers 
+			if(substr($field, 0, 3) == "im_")
 			{
-				$m = $map[$field];
-			}	
-			if(!$user->{"get".$m}())
-			{				
-				return false;
+				$im = substr($field, 3);
+				if(!$user->getInstantMessengerId($im))
+				{
+					return false;
+				}
 			}
+			// udf
+			else if(substr($field, 0, 4) == "udf_")
+			{
+				$udf = $user->getUserDefinedData();			
+				if($udf["f_".substr($field, 4)] == "")
+				{
+					return false;
+				}				
+			}
+			// picture
+			else if($field == "upload")
+			{
+				if(!ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true))
+				{
+					return false;
+				}
+			}
+			// use profile mapping if possible
+			else if(isset($pfields[$field]["method"]))
+			{
+				$m = $pfields[$field]["method"];		
+				if(!$user->{$m}())
+				{				
+					return false;
+				}				
+			}						
 		}
-
+		
 		return true;		
 	}
 }
