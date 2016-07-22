@@ -1,5 +1,6 @@
 <?php
-namespace \CaT\TableRelations\Graphs;
+
+namespace CaT\TableRelations\Graphs;
 
 class GraphFactory {
 	public function Graph() {

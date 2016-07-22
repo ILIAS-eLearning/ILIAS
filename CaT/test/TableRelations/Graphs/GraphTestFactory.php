@@ -1,5 +1,5 @@
 <?php
-use \CaT\TableRelations\Graphs as Graphs;
+use CaT\TableRelations\Graphs as Graphs;
 
 class GraphTestFactory extends Graphs\GraphFactory {
 	public function Node($id) {
@@ -21,7 +21,7 @@ class TestNode implements Graphs\abstractNode {
 	}
 }
 
-class TestEdge implements Graphs\abstracEdge {
+class TestEdge implements Graphs\abstractEdge {
 	public function __construct($from_id, $to_id) {
 		$this->from_id = $from_id;
 		$this->to_id = $to_id;

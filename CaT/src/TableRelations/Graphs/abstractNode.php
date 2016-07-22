@@ -1,5 +1,5 @@
 <?php
-namespace \CaT\TableRelations\Graphs;
+namespace CaT\TableRelations\Graphs;
 
 /**
  * Represents a Node within abstractGraph.

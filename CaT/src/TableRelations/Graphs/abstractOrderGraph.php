@@ -1,5 +1,5 @@
 <?php
-namespace \CaT\TableRelations\Graphs;
+namespace CaT\TableRelations\Graphs;
 
 /**
  * We will need to sort nodes according to
