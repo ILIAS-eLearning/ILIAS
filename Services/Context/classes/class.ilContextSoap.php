@@ -81,7 +81,7 @@ class ilContextSoap implements ilContextTemplate
 	 */
 	public static function doAuthentication()
 	{
-		return true;
+		return false;
 	}
 	
 	/**

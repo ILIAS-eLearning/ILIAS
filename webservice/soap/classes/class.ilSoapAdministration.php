@@ -101,6 +101,15 @@ class ilSoapAdministration
 			$this->__setMessageCode('Client');
 			return false;	
 		}
+		
+		if(!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
+		{
+			$this->__setMessage('Session invalid');
+			$this->__setMessageCode('Client');
+			return false;
+		}
+		
+		/**
 		if(!$ilAuth->getAuth())
 		{
 			switch($ilAuth->getStatus())
@@ -126,6 +135,8 @@ class ilSoapAdministration
 					return false;
 			}
 		}
+		 * 
+		 */
 
 		if($ilUser->hasToAcceptTermsOfService())
 		{
@@ -191,15 +202,17 @@ class ilSoapAdministration
 	{
 		return $this->message_code;
 	}
-	
+
+	/**
+	 * Init authentication
+	 * @param string $sid
+	 */
 	public function initAuth($sid)
 	{
 		list($sid,$client) = $this->__explodeSid($sid);
 		define('CLIENT_ID',$client);
 		$_COOKIE['ilClientId'] = $client;
 		$_COOKIE['PHPSESSID'] = $sid;
-		#$_SESSION['_authhttp'.md5(CLIENT_ID)] = true;
-		#$_SESSION['PHPSESSID'] = $sid;
 	}
 
 	public function initIlias()

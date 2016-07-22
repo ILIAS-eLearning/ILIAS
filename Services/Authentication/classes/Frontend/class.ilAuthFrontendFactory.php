@@ -19,6 +19,9 @@ class ilAuthFrontendFactory
 	// CLI context for cron
 	const CONTEXT_CLI = 3;
 	
+	// Rest soap context
+	const CONTEXT_WS = 4;
+	
 	
 	private $context = self::CONTEXT_UNDEFINED;
 	private $credentials = null;
@@ -68,6 +71,27 @@ class ilAuthFrontendFactory
 		switch($this->getContext())
 		{
 			case self::CONTEXT_CLI:
+				$this->getLogger()->debug('Init auth frontend with standard auth context');
+				include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCLI.php';
+				$frontend = new ilAuthFrontendCLI(
+					$session,
+					$status,
+					$credentials,
+					$providers
+				);
+				return $frontend;
+				
+			case self::CONTEXT_WS:
+				$this->getLogger()->debug('Init auth frontend with webservice auth context');
+				include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendWS.php';
+				$frontend = new ilAuthFrontendWS(
+					$session,
+					$status,
+					$credentials,
+					$providers
+				);
+				return $frontend;
+				
 			case self::CONTEXT_STANDARD_FORM:
 				$this->getLogger()->debug('Init auth frontend with standard auth context');
 				include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
