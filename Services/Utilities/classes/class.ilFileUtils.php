@@ -52,7 +52,7 @@ class ilFileUtils
 	 * @throws ilFileUtilsException
 	 */
 	 
-	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
+	public static function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
 
 		global $lng;
 		
@@ -194,7 +194,7 @@ class ilFileUtils
 	 * @param string containerType object type of created containerobjects (folder or category)
 	 * @return integer errorcode
 	 */	
-	function createObjects($dir, $structure, $ref_id, $containerType, $tree = null, $access_handler = null)
+	public static function createObjects($dir, $structure, $ref_id, $containerType, $tree = null, $access_handler = null)
 	{
 		$dirlist = opendir($dir);
 		
@@ -365,7 +365,7 @@ class ilFileUtils
 	 * @param string $string String to encode
 	 * @return string utf-8-encoded string
 	 */
-	function utf8_encode($string) {
+	public static function utf8_encode($string) {
 	   
 		// From http://w3.org/International/questions/qa-forms-utf-8.html
 		return (preg_match('%^(?:
