@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-06-11 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-07-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -7225,6 +7225,7 @@ license#:#remaining_licenses#:#Felhasználható licencek
 license#:#used_licenses_explanation#:#A felhasználók minden első hozzáférése felhasznál egy licencet.
 license#:#used_licenses#:#Felhasznált licencek
 license#:#zero_licenses_explanation#:#Adjon meg 0-t a licencelés kikapcsolásához.
+mail#:#mail_serial_letter_placeholders#:#Körlevél helyőrzők
 mail#:#activate_serial_letter_placeholders#:#Körlevél helyőrzők aktiválása
 mail#:#advice_mail_body_secured#:#Biztonsági okokból az ILIAS néhány elemet eltávolított az Ön üzenetéből. Ellenőrizze az üzenetet, majd küldje újra.
 mail#:#also_as_email#:#E-mailként is
@@ -13119,6 +13120,7 @@ exc#:#exc_team_notification_link#:#Link a beadandó feladathoz
 poll#:#poll_absolute#:#Szavazatok száma
 dcl#:#dcl_reference_link#:#Link megjelenítése hivatkozott bejegyzésként
 dcl#:#dcl_reference_link_info#:#A részletes megjelenítést be kell kapcsolani a hivatkozott táblában
+dcl#:#dcl_ilias_reference_link#:#Táblanézetben linkként jelenjen meg
 dcl#:#dcl_text_area#:#Szövegterület
 dcl#:#dcl_delete_table#:#Tábla törlése
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' fület) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok szerkesztése' jogosultságú felhasználók (lásd a 'Jogosultságok' fület) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
@@ -16204,5 +16206,6 @@ rbac#:#mep_copy#:#A felhasználó másolhat médiagyűjteményt
 crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
 grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
 crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
-mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###06 07 2016 new variable
-dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###06 07 2016 new variable
+auth#:#auth_ldap_server_ds#:#LDAP szerver
+assessment#:#ass_location#:#Helyszín
+assessment#:#ass_imap_hint#:#Tippek buboréksúgóként jelenjenek meg
