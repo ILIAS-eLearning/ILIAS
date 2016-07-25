@@ -13,11 +13,11 @@
 */
 class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 {
-    public static function suite()
-    {
+	public static function suite()
+	{
 		$suite = new ilGlobalSuite();
 
-        require_once('include/inc.get_pear.php');
+		require_once('include/inc.get_pear.php');
 		echo "\n";
 		
 		// scan Modules and Services directories
