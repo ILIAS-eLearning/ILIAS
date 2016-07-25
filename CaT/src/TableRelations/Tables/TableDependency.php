@@ -1,7 +1,7 @@
 <?php
-namespace \CaT\TableRelations\Tables;
-use \CaT\TableRelations\Graphs as Graphs;
-use \CaT\Filter\Predicates as Predicates;
+namespace CaT\TableRelations\Tables;
+use CaT\TableRelations\Graphs as Graphs;
+use CaT\Filter\Predicates as Predicates;
 
 abstract class TableDependency implements abstractTableDependency, Graphs\abstractEdge {
 	public function dependingTables(abstractTable $from, abstractTable $to, Predicates\Predicate $predicate) {
@@ -20,5 +20,9 @@ abstract class TableDependency implements abstractTableDependency, Graphs\abstra
 
 	public function dependencyCondition() {
 		return $this->predicate;
+	}
+
+	public function fields() {
+		return $this->predicate->fields();
 	}
 }
