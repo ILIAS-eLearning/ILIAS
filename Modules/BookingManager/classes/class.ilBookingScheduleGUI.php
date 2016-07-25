@@ -208,15 +208,13 @@ class ilBookingScheduleGUI
 		$form_gui->addItem($av);
 				
 		// #18221
-		$lng->loadLanguageModule('rep');
+		$lng->loadLanguageModule('rep');		
 		
-		$from = new ilDateTimeInputGUI($lng->txt("rep_activation_limited_start"), "from");
-		$from->enableDateActivation("", "from_tgl", $schedule ? is_object($schedule->getAvailabilityFrom()) : false);
+		$from = new ilDateTimeInputGUI($lng->txt("rep_activation_limited_start"), "from");		
 		$from->setShowTime(true);
 		$form_gui->addItem($from);
 		
-		$to = new ilDateTimeInputGUI($lng->txt("rep_activation_limited_end"), "to");
-		$to->enableDateActivation("", "to_tgl", $schedule ? is_object($schedule->getAvailabilityTo()) : false);
+		$to = new ilDateTimeInputGUI($lng->txt("rep_activation_limited_end"), "to");		
 		$to->setShowTime(true);
 		$form_gui->addItem($to);
 	
@@ -375,13 +373,11 @@ class ilBookingScheduleGUI
 		$schedule->setTitle($form->getInput("title"));
 		$schedule->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
 		
-		$from = $form->getItemByPostVar("from");
-		$from_tgl = $from->getActivationPostVar();		
-		$schedule->setAvailabilityFrom($_POST[$from_tgl] ? $from->getDate(): null);
+		$from = $form->getItemByPostVar("from");		
+		$schedule->setAvailabilityFrom($from->getDate());
 		
 		$to = $form->getItemByPostVar("to");
-		$to_tgl = $to->getActivationPostVar();		
-		$schedule->setAvailabilityTo($_POST[$to_tgl] ? $to->getDate(): null);
+		$schedule->setAvailabilityTo($to->getDate());
 		
 		switch($form->getInput("deadline_opts"))
 		{

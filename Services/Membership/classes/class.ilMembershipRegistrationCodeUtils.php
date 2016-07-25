@@ -36,14 +36,17 @@ class ilMembershipRegistrationCodeUtils
 		{
 			switch($e->getCode())
 			{
-				case 124://added to waiting list
+				case ilMembershipRegistrationException::ADDED_TO_WAITINGLIST://added to waiting list
 					ilUtil::sendSuccess($e->getMessage(),true);
 					break;
-				case 123://object is full
+				case ilMembershipRegistrationException::OBJECT_IS_FULL://object is full
 					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_membership_limited"), true);
 					break;
-				case 789://out of registration period
+				case ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD://out of registration period
 					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_registration_period"), true);
+					break;
+				case ilMembershipRegistrationException::ADMISSION_LINK_INVALID://admission link is invalid
+					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_invalid_code"), true);
 					break;
 				default:
 					ilUtil::sendFailure($e->getMessage(), true);
@@ -74,6 +77,13 @@ class ilMembershipRegistrationCodeUtils
 		global $tree,$ilUser;
 		
 		$obj_ids = self::lookupObjectsByCode($a_code);
+
+		if(!$obj_ids)
+		{
+			include_once './Services/Membership/exceptions/class.ilMembershipRegistrationException.php';
+			throw new ilMembershipRegistrationException('Admission code is not valid', ilMembershipRegistrationException::ADMISSION_LINK_INVALID);
+		}
+
 		foreach($tree->getPathId($a_endnode) as $ref_id)
 		{
 			if(in_array(ilObject::_lookupObjId($ref_id), $obj_ids))

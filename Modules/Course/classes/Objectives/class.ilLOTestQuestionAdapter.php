@@ -18,7 +18,7 @@ class ilLOTestQuestionAdapter
 	protected $user_id = 0;
 	protected $container_id = 0;
 	
-	
+	protected $testRefId = null;
 	
 	/**
 	 * 
@@ -32,6 +32,22 @@ class ilLOTestQuestionAdapter
 		
 		$this->settings = ilLOSettings::getInstanceByObjId($this->container_id);
 		$this->assignments = ilLOTestAssignments::getInstance($this->container_id);
+	}
+	
+	/**
+	 * @return null
+	 */
+	public function getTestRefId()
+	{
+		return $this->testRefId;
+	}
+	
+	/**
+	 * @param null $testRefId
+	 */
+	public function setTestRefId($testRefId)
+	{
+		$this->testRefId = $testRefId;
 	}
 	
 	/**
@@ -183,6 +199,34 @@ class ilLOTestQuestionAdapter
 	 */
 	public function buildQuestionRelatedObjectiveList(ilTestQuestionSequence $a_test_sequence, ilTestQuestionRelatedObjectivesList $a_objectives_list)
 	{
+		$testType = $this->assignments->getTypeByTest($this->getTestRefId());
+		
+		if($testType == ilLOSettings::TYPE_TEST_INITIAL && $this->getSettings()->hasSeparateInitialTests())
+		{
+			 $this->buildQuestionRelatedObjectiveListByTest($a_test_sequence, $a_objectives_list);
+		}
+		elseif($testType == ilLOSettings::TYPE_TEST_QUALIFIED && $this->getSettings()->hasSeparateQualifiedTests())
+		{
+			$this->buildQuestionRelatedObjectiveListByTest($a_test_sequence, $a_objectives_list);
+		}
+		else
+		{
+			$this->buildQuestionRelatedObjectiveListByQuestions($a_test_sequence, $a_objectives_list);
+		}
+	}
+	
+	protected function buildQuestionRelatedObjectiveListByTest(ilTestQuestionSequence $a_test_sequence, ilTestQuestionRelatedObjectivesList $a_objectives_list)
+	{
+		$objectiveIds = array($this->getRelatedObjectivesForSeparatedTest($this->getTestRefId()));
+		
+		foreach( $a_test_sequence->getQuestionIds() as $questionId )
+		{
+			$a_objectives_list->addQuestionRelatedObjectives($questionId, $objectiveIds);
+		}
+	}
+	
+	protected function buildQuestionRelatedObjectiveListByQuestions(ilTestQuestionSequence $a_test_sequence, ilTestQuestionRelatedObjectivesList $a_objectives_list)
+	{
 		foreach( $a_test_sequence->getQuestionIds() as $questionId )
 		{
 			if( $a_test_sequence instanceof ilTestRandomQuestionSequence )
@@ -194,7 +238,7 @@ class ilLOTestQuestionAdapter
 			{
 				$objectiveIds = $this->lookupObjectiveIdByFixedQuestionId($questionId);
 			}
-
+			
 			if( count($objectiveIds) )
 			{
 				$a_objectives_list->addQuestionRelatedObjectives($questionId, $objectiveIds);
@@ -212,6 +256,19 @@ class ilLOTestQuestionAdapter
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		return ilCourseObjectiveQuestion::lookupObjectivesOfQuestion($a_question_id);
+	}
+	
+	protected function getRelatedObjectivesForSeparatedTest($testRefId)
+	{
+		foreach( $this->getAssignments()->getAssignments() as $assignment )
+		{
+			if($assignment->getTestRefId() == $testRefId)
+			{
+				return $assignment->getObjectiveId();
+			}
+		}
+		
+		return null;
 	}
 	
 	protected function getUserId()
@@ -586,6 +643,7 @@ class ilLOTestQuestionAdapter
 			$a_test_session->getObjectiveOrientedContainerId()
 		);
 		
+		$adapter->setTestRefId($a_test_session->getRefId());
 		$adapter->initTestRun($a_test_session);
 		
 		return $adapter;

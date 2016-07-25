@@ -52,7 +52,9 @@ class ilOrgUnitTypeTranslation {
 
 
     public function __construct($a_org_type_id=0, $a_lang_code='') {
-        global $ilDB, $ilLog;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilLog = $DIC['ilLog'];
         $this->db = $ilDB;
         $this->log = $ilLog;
         if ($a_org_type_id && $a_lang_code) {
@@ -101,7 +103,8 @@ class ilOrgUnitTypeTranslation {
      * @return array
      */
     public static function getAllTranslations($a_orgu_type_id) {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
         /** @var ilDB $ilDB */
         $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $ilDB->quote($a_orgu_type_id, 'integer');
         $set = $ilDB->query($sql);
@@ -126,7 +129,8 @@ class ilOrgUnitTypeTranslation {
      * @return bool
      */
     public static function exists($a_orgu_type_id, $a_member, $a_lang, $a_value) {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
         /** @var ilDB $ilDB */
         $sql = 'SELECT * FROM ' . self::TABLE_NAME . '
                 WHERE orgu_type_id != ' . $ilDB->quote($a_orgu_type_id, 'integer') . '
@@ -201,7 +205,8 @@ class ilOrgUnitTypeTranslation {
      * @param $a_orgu_type_id
      */
     public static function deleteAllTranslations($a_orgu_type_id) {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
         /** @var $ilDB ilDB */
         $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $ilDB->quote($a_orgu_type_id, 'integer');
         $ilDB->manipulate($sql);

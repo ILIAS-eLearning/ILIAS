@@ -486,6 +486,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		// end-patch mime_filter
 		
 		$last_index = new ilDateTimeInputGUI($this->lng->txt('lucene_last_index_time'),'last_index');
+		$last_index->setRequired(true);
 		$last_index->setShowTime(true);
 		$last_index->setDate($this->settings->getLastIndexTime());
 		$last_index->setInfo($this->lng->txt('lucene_last_index_time_info'));

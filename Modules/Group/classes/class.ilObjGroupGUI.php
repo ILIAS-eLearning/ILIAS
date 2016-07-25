@@ -95,6 +95,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilrepositorysearchgui':
+
+				if(!$this->checkPermissionBool('write'))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
@@ -157,7 +162,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -216,7 +221,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('export_members');
+				$this->tabs_gui->setSubTabActive('grp_export_members');
 				$export = new ilMemberExportGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($export);
 				break;
@@ -1458,12 +1463,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 
 			'members',
 			array(), 
-			array('type' => 'new', 'rcp_to' => implode(',',$rcps),'sig' => $this->createMailSignature())));
+			array('type' => 'new', 'sig' => $this->createMailSignature())));
 		return true;
 	}
 	
@@ -2277,34 +2283,19 @@ class ilObjGroupGUI extends ilContainerGUI
 			$reg_code->addSubItem($link);
 			$form->addItem($reg_code);
 
-
-			// time limit
-			$time_limit = new ilCheckboxInputGUI($this->lng->txt('grp_reg_limited'),'reg_limit_time');
-//			$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
-			$time_limit->setChecked($this->object->isRegistrationUnlimited() ? false : true);
-
+			// time limit			
 			$this->lng->loadLanguageModule('dateplaner');
-			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
-			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
-			$dur = new ilDateDurationInputGUI($this->lng->txt('grp_reg_period'),'reg');
-			$dur->setStartText($this->lng->txt('cal_start'));
-			$dur->setEndText($this->lng->txt('cal_end'));
+			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';			
+			$dur = new ilDateDurationInputGUI($this->lng->txt('grp_reg_limited'),'reg');
 			$dur->setShowTime(true);
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());
+			$form->addItem($dur);
 
-			$time_limit->addSubItem($dur);
-			$form->addItem($time_limit);
-			
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
 			$cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
-			$cancel_end = $this->object->getCancellationEnd();
-			$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
-			if($cancel_end)
-			{
-				$cancel->setDate($cancel_end);
-			}
+			$cancel->setDate($this->object->getCancellationEnd());			
 			$form->addItem($cancel);
 
 			// max member
@@ -2512,9 +2503,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setGroupType(ilUtil::stripSlashes($_POST['grp_type']));
 		$this->object->setRegistrationType(ilUtil::stripSlashes($_POST['registration_type']));
 		$this->object->setPassword(ilUtil::stripSlashes($_POST['password']));
-		$this->object->enableUnlimitedRegistration((bool) !$_POST['reg_limit_time']);
-		$this->object->setRegistrationStart($this->loadDate('start'));
-		$this->object->setRegistrationEnd($this->loadDate('end'));
+		$this->object->enableUnlimitedRegistration((bool) !$_POST['reg_limit_time']);		
 		$this->object->enableMembershipLimitation((bool) $_POST['registration_membership_limited']);
 		$this->object->setMinMembers((int) $_POST['registration_min_members']);
 		$this->object->setMaxMembers((int) $_POST['registration_max_members']);		
@@ -2523,16 +2512,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
-		$cancel_end = $a_form->getItemByPostVar('cancel_end');
-		if($_POST[$cancel_end->getActivationPostVar()])
-		{
-			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
-			$this->object->setCancellationEnd(new ilDate($dt, IL_CAL_DATETIME));
-		}
-		else
-		{
-			$this->object->setCancellationEnd(null);
-		}
+		$reg = $this->form->getItemByPostVar("reg");	
+		$this->object->setRegistrationStart($reg->getStart());
+		$this->object->setRegistrationEnd($reg->getEnd());
+		
+		$cancel_end = $this->form->getItemByPostVar("cancel_end");		
+		$this->object->setCancellationEnd($cancel_end->getDate());		
 		
 		switch((int)$_POST['waiting_list'])
 		{
@@ -2553,30 +2538,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		
 		return true;
-	}
-	
-	/**
-	 * load date
-	 *
-	 * @access protected
-	 * @param
-	 * @return
-	 */
-	protected function loadDate($a_field)
-	{
-		global $ilUser;
-
-		include_once('./Services/Calendar/classes/class.ilDateTime.php');
-		
-		$dt['year'] = (int) $_POST['reg'][$a_field]['date']['y'];
-		$dt['mon'] = (int) $_POST['reg'][$a_field]['date']['m'];
-		$dt['mday'] = (int) $_POST['reg'][$a_field]['date']['d'];
-		$dt['hours'] = (int) $_POST['reg'][$a_field]['time']['h'];
-		$dt['minutes'] = (int) $_POST['reg'][$a_field]['time']['m'];
-		$dt['seconds'] = (int) $_POST['reg'][$a_field]['time']['s'];
-		
-		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
-		return $date;		
 	}
 	
 	/**

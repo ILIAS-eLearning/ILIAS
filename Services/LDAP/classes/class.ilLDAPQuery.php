@@ -257,11 +257,12 @@ class ilLDAPQuery
 				continue;
 			}
 			$this->log->info('Found '.$tmp_result->numRows().' users.');
+			$attribute = strtolower($this->settings->getUserAttribute());
 			foreach($tmp_result->getRows() as $data)
 			{
-				if(isset($data[$this->settings->getUserAttribute()]))
+				if(isset($data[$attribute]))
 				{
-					$this->readUserData($data[$this->settings->getUserAttribute()],false,false);
+					$this->readUserData($data[$attribute],false,false);
 				}
 				else
 				{
@@ -403,8 +404,7 @@ class ilLDAPQuery
 			$user_ext = $user_data[strtolower($this->settings->getUserAttribute())];
 
 			// auth mode depends on ldap server settings
-			$auth_mode = $this->parseAuthMode();
-
+			$auth_mode = $this->settings->getAuthenticationMappingKey();
 			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount($auth_mode,$user_ext);
 			$this->users[$user_ext] = $user_data;
 		}
@@ -417,11 +417,7 @@ class ilLDAPQuery
 	 */
 	private function parseAuthMode()
 	{
-		if($this->settings->isAuthenticationEnabled() or !$this->settings->getAuthenticationMapping())
-		{
-			return 'ldap';
-		}
-		return ilAuthUtils::_getAuthModeName($this->settings->getAuthenticationMapping());
+		return $this->settings->getAuthenticationMappingKey();
 	}
 	
 	/**

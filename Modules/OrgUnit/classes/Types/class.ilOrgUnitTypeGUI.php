@@ -58,7 +58,17 @@ class ilOrgUnitTypeGUI {
 	 * @param ilObjOrgUnitGUI $parent_gui
 	 */
 	public function __construct(ilObjOrgUnitGUI $parent_gui) {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilTabs;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLocator = $DIC['ilLocator'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
+		$ilTabs = $DIC['ilTabs'];
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->access = $ilAccess;

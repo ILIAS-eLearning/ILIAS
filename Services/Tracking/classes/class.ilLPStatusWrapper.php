@@ -27,7 +27,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the number of user who have the status 'not_attempted'
 	*/
-	function _getCountNotAttempted($a_obj_id)
+	static function _getCountNotAttempted($a_obj_id)
 	{
 		return count(ilLPStatusWrapper::_getNotAttempted($a_obj_id));
 	}
@@ -35,7 +35,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the number of user who have the status 'not_attempted'
 	*/
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		if(isset(self::$not_attempted_cache[$a_obj_id]))
 		{
@@ -51,7 +51,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the number of user who have the status 'in_progress'
 	*/
-	function _getCountInProgress($a_obj_id)
+	static function _getCountInProgress($a_obj_id)
 	{
 		return count(ilLPStatusWrapper::_getInProgress($a_obj_id));
 	}
@@ -59,7 +59,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read users who have the status 'in_progress'
 	*/
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		if(isset(self::$in_progress_cache[$a_obj_id]))
 		{
@@ -77,7 +77,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the number of user who have the status 'completed'
 	*/
-	function _getCountCompleted($a_obj_id)
+	static function _getCountCompleted($a_obj_id)
 	{
 		return count(ilLPStatusWrapper::_getCompleted($a_obj_id));
 	}
@@ -85,7 +85,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the users who have the status 'completed'
 	*/
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		if(isset(self::$completed_cache[$a_obj_id]))
 		{
@@ -100,7 +100,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the number of user who have the status 'failed'
 	*/
-	function _getCountFailed($a_obj_id)
+	static function _getCountFailed($a_obj_id)
 	{
 		return count(ilLPStatusWrapper::_getFailed($a_obj_id));
 	}
@@ -108,7 +108,7 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the users who have the status 'completed'
 	*/
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		if(isset(self::$failed_cache[$a_obj_id]))
 		{
@@ -125,7 +125,7 @@ class ilLPStatusWrapper
 	/**
 	* Reads informations about the object e.g test results, tlt, number of visits
 	*/
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		if(isset(self::$info_cache[$a_obj_id]))
 		{
@@ -149,7 +149,7 @@ class ilLPStatusWrapper
 	/**
 	* Reads Typical learning time. Mode collection is recursive for all assigned items
 	*/
-	function _getTypicalLearningTime($a_obj_id)
+	static function _getTypicalLearningTime($a_obj_id)
 	{
 		static $cache = array();
 
@@ -172,12 +172,12 @@ class ilLPStatusWrapper
 	/**
 	* Static function to read the number of user who have the status 'not_attempted'
 	*/
-	function _getCountNotAttemptedByType($a_obj_id,$a_type)
+	static function _getCountNotAttemptedByType($a_obj_id,$a_type)
 	{
 		return count(ilLPStatusWrapper::_getNotAttemptedByType($a_obj_id,$a_type));
 	}
 	
-	function _getNotAttemptedByType($a_obj_id,$a_type)
+	static function _getNotAttemptedByType($a_obj_id,$a_type)
 	{
 		static $cache = array();
 
@@ -192,12 +192,12 @@ class ilLPStatusWrapper
 		return $cache[$a_obj_id.'_'.$a_type];
 	}
 	
-	function _getCountInProgressByType($a_obj_id,$a_type)
+	static function _getCountInProgressByType($a_obj_id,$a_type)
 	{
 		return count(ilLPStatusWrapper::_getInProgressByType($a_obj_id,$a_type));
 	}
 	
-	function _getInProgressByType($a_obj_id,$a_type)
+	static function _getInProgressByType($a_obj_id,$a_type)
 	{
 		static $cache = array();
 
@@ -212,12 +212,12 @@ class ilLPStatusWrapper
 		return $cache[$a_obj_id.'_'.$a_type];
 	}
 	
-	function _getCountCompletedByType($a_obj_id,$a_type)
+	static function _getCountCompletedByType($a_obj_id,$a_type)
 	{
 		return count(ilLPStatusWrapper::_getCompletedByType($a_obj_id,$a_type));
 	}
 	
-	function _getCompletedByType($a_obj_id,$a_type)
+	static function _getCompletedByType($a_obj_id,$a_type)
 	{
 		static $cache = array();
 
@@ -232,12 +232,12 @@ class ilLPStatusWrapper
 		return $cache[$a_obj_id.'_'.$a_type];
 	}
 	
-	function _getCountFailedByType($a_obj_id,$a_type)
+	static function _getCountFailedByType($a_obj_id,$a_type)
 	{
 		return count(ilLPStatusWrapper::_getFailedByType($a_obj_id,$a_type));
 	}
 	
-	function _getFailedByType($a_obj_id,$a_type)
+	static function _getFailedByType($a_obj_id,$a_type)
 	{
 		static $cache = array();
 
@@ -252,7 +252,7 @@ class ilLPStatusWrapper
 		return $cache[$a_obj_id.'_'.$a_type];
 	}
 	
-	function _getStatusInfoByType($a_obj_id,$a_type)
+	static function _getStatusInfoByType($a_obj_id,$a_type)
 	{
 		static $cache = array();
 
@@ -287,7 +287,7 @@ class ilLPStatusWrapper
 	 *
 	 * @param	integer		object id
 	 */
-	function _setDirty($a_obj_id)
+	static function _setDirty($a_obj_id)
 	{
 		$trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
 		$trac_obj->_setDirty($a_obj_id);
@@ -299,7 +299,7 @@ class ilLPStatusWrapper
 	 * @param	integer		object id
 	 * @param	array		user ids
 	 */
-	function _refreshStatus($a_obj_id, $a_users = null)
+	static function _refreshStatus($a_obj_id, $a_users = null)
 	{
 		$trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
 		$trac_obj->refreshStatus($a_obj_id, $a_users);

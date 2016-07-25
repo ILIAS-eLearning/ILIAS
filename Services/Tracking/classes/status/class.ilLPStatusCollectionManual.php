@@ -14,7 +14,7 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilLPStatusCollectionManual extends ilLPStatus
 {
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		
@@ -35,7 +35,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
 		return $users;
 	}
 	
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -59,7 +59,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
 		return $users;
 	}
 	
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{		
 		$status_info = array();
 										

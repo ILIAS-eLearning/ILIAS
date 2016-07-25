@@ -33,13 +33,11 @@ class ilQuestionExporter
 	 * Constructor
 	 * @access	public
 	 */
-	public function ilQuestionExporter($a_preview_mode = false)
+	public function __construct($a_preview_mode = false)
 	{
-		global $ilDB, $ilias, $lng;
+		global $ilDB, $lng;
 
-		$this->ref_id =& $a_ref_id;
-
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->lng = $lng;
 
 		$this->inst_id = IL_INST_ID;

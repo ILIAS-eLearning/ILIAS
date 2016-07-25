@@ -27,7 +27,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSCORM2004LearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -471,7 +471,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				}
 				if(!$raw)
 				{
-					$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["total_time"])/100);
+					$time = ilDatePresentation::secondsToString(self::_ISODurationToCentisec($data_rec["total_time"])/100);
 					$score = "";
 					if ($data_rec["c_raw"] != null) {
 						$score = $data_rec["c_raw"];
@@ -667,7 +667,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*
 	* @access static
 	*/
-	function _ISODurationToCentisec($str) {
+	static function _ISODurationToCentisec($str) {
 	    $aV = array(0, 0, 0, 0, 0, 0);
 	    $bErr = false;
 	    $bTFound = false;
@@ -876,11 +876,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* get all tracking items of scorm object
 	*
 	* currently a for learning progress only
-	*
-	* @access static
 	*/
-	
-	function _getTrackingItems($a_obj_id)
+	static function _getTrackingItems($a_obj_id)
 	{
 		global $ilDB;
 		
@@ -1548,7 +1545,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
 	{
-
 //		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
 //		$a_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
@@ -1700,7 +1696,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			// put header into file
 			$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 			include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
-			$sco_tpl = ilCOPageHTMLExport::getPreparedMainTemplate($sco_tpl);
+			$page_html_export = new ilCOPageHTMLExport($a_target_dir);
+			$sco_tpl = $page_html_export->getPreparedMainTemplate($sco_tpl);
 			
 			$sco_tpl->setCurrentBlock("js_file");
 			$sco_tpl->setVariable("JS_FILE", "./js/pure.js");
@@ -1771,14 +1768,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function prepareHTMLExporter($a_target_dir)
 	{
 		// system style html exporter
-		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
+		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($a_target_dir);
 		$this->sys_style_html_export->export();
 
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->co_page_html_export->setContentStyleId(
 			ilObjStyleSheet::getEffectiveContentStyleId($this->getStyleSheetId()));
 		$this->co_page_html_export->createDirectories();
@@ -1931,7 +1928,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilias;
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

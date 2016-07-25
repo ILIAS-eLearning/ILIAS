@@ -181,6 +181,7 @@ class ilChatroomFormFactory
 		$duration->setStartText($lng->txt('duration_from'));
 		$duration->setEndText($lng->txt('duration_to'));
 		$duration->setShowTime(true);
+		$duration->setRequired(true);
 		$form->addItem($duration);
 
 		return $form;

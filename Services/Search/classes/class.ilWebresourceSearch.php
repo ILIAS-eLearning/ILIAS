@@ -36,14 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
  
 class ilWebresourceSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilWebresourceSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
 
 	function &performSearch()
 	{

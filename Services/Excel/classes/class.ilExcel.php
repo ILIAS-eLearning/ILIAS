@@ -35,7 +35,18 @@ class ilExcel
 		$this->workbook = new PHPExcel();	
 		$this->workbook->removeSheetByIndex(0);
 	}		
-	
+
+	//
+	// loading files
+	//
+
+	/**
+	 * Loads a spreadsheet from file
+	 * @param $filename
+	 */
+	public function loadFromFile($filename) {
+		$this->workbook = PHPExcel_IOFactory::load($filename);
+	}
 	
 	// 
 	// type/format
@@ -104,6 +115,26 @@ class ilExcel
 	{
 		$this->workbook->setActiveSheetIndex($a_index);
 	}
+
+
+	/**
+	 * Returns number of sheets
+	 *
+	 * @return int
+	 */
+	public function getSheetCount() {
+		return $this->workbook->getSheetCount();
+	}
+
+
+	/**
+	 * Return the current sheet title
+	 *
+	 * @return string
+	 */
+	public function getSheetTitle() {
+		return $this->workbook->getActiveSheet()->getTitle();
+	}
 	
 	
 	//
@@ -123,26 +154,60 @@ class ilExcel
 		// :TODO: does this make sense?
 		if(is_bool($a_value))
 		{
-			$a_value = $a_value
-				? $lng->txt("yes")
-				: $lng->txt("no");
+			$a_value = $this->prepareBooleanValue($a_value);
 		}
-		else if($a_value instanceof ilDate)
-		{
-			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));			
-		}	
 		else if($a_value instanceof ilDateTime)
 		{
-			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
-		}
+			$a_value = $this->prepareDateValue($a_value);
+		}	
 		else if(is_string($a_value))
 		{
-			$a_value = strip_tags($a_value); // #14542
+			$a_value = $this->prepareString($a_value);
 		}
 		
 		return $a_value;
 	}
-	
+
+	/**
+	 * @param ilDateTime $a_value
+	 * @return string
+	 */
+	protected function prepareDateValue(ilDateTime $a_value)
+	{
+		switch(true)
+		{
+			case $a_value instanceof ilDate:
+				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));
+				break;
+
+			default:
+				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
+				break;
+		}
+
+		return $a_value;
+	}
+
+	/**
+	 * @param bool $a_value
+	 * @return string
+	 */
+	protected function prepareBooleanValue($a_value)
+	{
+		global $lng;
+
+		return $a_value ? $lng->txt('yes') : $lng->txt('no');
+	}
+
+	/**
+	 * @param string $a_value
+	 * @return string
+	 */
+	protected function prepareString($a_value)
+	{
+		return strip_tags($a_value); // #14542
+	}
+
 	/**
 	 * Set date format
 	 * 
@@ -222,6 +287,39 @@ class ilExcel
 		}
 		
 		$this->workbook->getActiveSheet()->fromArray($a_values, $a_null_value, $a_top_left);
+	}
+
+
+	/**
+	 * Returns the value of a cell
+	 *
+	 * @param int $a_row
+	 * @param int $a_col
+	 *
+	 * @return mixed
+	 */
+	public function getCell($a_row, $a_col) {
+		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($a_col, $a_row)->getValue();
+	}
+
+
+	/**
+	 * Returns the active sheet as an array
+	 * 
+	 * @return array
+	 */
+	public function getSheetAsArray() {
+		return $this->workbook->getActiveSheet()->toArray();
+	}
+
+
+	/**
+	 * Returns the number of columns the sheet contains
+	 *
+	 * @return int
+	 */
+	public function getColumnCount() {
+		return PHPExcel_Cell::columnIndexFromString($this->workbook->getActiveSheet()->getHighestDataColumn());
 	}
 
 	/**

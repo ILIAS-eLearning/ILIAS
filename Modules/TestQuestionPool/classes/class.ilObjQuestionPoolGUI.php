@@ -166,7 +166,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 				
 			case "ilassquestionpagegui":
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 				$this->tpl->parseCurrentBlock();
@@ -192,6 +192,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
+				$page_gui->obj->addUpdateListener(
+					$question,
+					'saveToDb'
+				);
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
 				if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind

@@ -1,4 +1,4 @@
-<?php xml version = "1.0" encoding = "UTF-8"?>
+<?xml version = "1.0" encoding = "UTF-8"?>
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
 	id="dcl">
 	<baseclasses>
@@ -16,6 +16,9 @@
 		</object>
 	</objects>
 	<copage>
-		<pageobject parent_type="dclf" class_name="ilDataCollectionRecordViewViewdefinition" directory="classes"/>
+		<pageobject parent_type="dclf" class_name="ilDclDetailedViewDefinition" directory="classes/DetailedView"/>
 	</copage>
+	<pluginslots>
+		<pluginslot id="dclfth" name="FieldTypeHook" />
+	</pluginslots>
 </module>

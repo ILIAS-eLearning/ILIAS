@@ -141,7 +141,7 @@ class ilCOPageDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "pgtp":
-				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$pt = new ilPageLayout();
 				$pt->setTitle($a_rec["Title"]);
 				$pt->setDescription($a_rec["Description"]);

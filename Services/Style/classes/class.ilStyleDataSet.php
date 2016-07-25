@@ -205,7 +205,7 @@ class ilStyleDataSet extends ilDataSet
 	{
 		if ($a_entity == "sty")
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$dir = ilObjStyleSheet::_getImagesDirectory($a_set["Id"]);
 			$a_set["ImagesDir"] = $dir;
 		}
@@ -358,7 +358,7 @@ class ilStyleDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "object_style":
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$style_id = ilObjStyleSheet::lookupObjectStyle($a_rec["ObjectId"]);
 				if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 				{
@@ -400,7 +400,7 @@ class ilStyleDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "sty":
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -465,7 +465,7 @@ class ilStyleDataSet extends ilDataSet
 				$style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $a_rec["StyleId"]);
 				if ($obj_id > 0 && $style_id > 0)
 				{
-					include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+					include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 					ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
 				}
 				break;

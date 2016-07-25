@@ -33,7 +33,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->getPageObject()->setWikiRefId($this->getWikiRefId());
 		
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
@@ -69,7 +69,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilUser, $ilAccess;
+		global $ilCtrl, $ilTabs, $ilUser, $ilAccess, $lng;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -116,7 +116,16 @@ class ilWikiPageGUI extends ilPageObjectGUI
 						$this->getPageObject()->getId());
 					$this->ctrl->forwardCommand($gui);
 				}
-				break;			
+				break;
+			case 'ilobjectmetadatagui':
+				
+				if(!$ilAccess->checkAccess("write", "", $this->wiki_ref_id))
+				{
+					ilUtil::sendFailure($lng->txt("permission_denied"), true);
+					$ilCtrl->redirect($this, "preview");
+				}
+				return parent::executeCommand();
+				break;
 				
 			default:
 
@@ -392,7 +401,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		global $tpl, $ilCtrl;
 		
 		// content style
-/*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+/*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
@@ -535,7 +544,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			
 			// contributors
 			$dtpl->setVariable("TXT_CONTRIBUTORS", $lng->txt("wiki_contributors"));
-			$contributors = ilWikiPage::getPageContributors($this->getWikiPage()->getId());
+			$contributors = ilWikiPage::getWikiPageContributors($this->getWikiPage()->getId());
 			foreach($contributors as $contributor)
 			{
 				$dtpl->setCurrentBlock("contributor");
@@ -618,7 +627,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $lng, $ilCtrl;
 
-		$pages = ilWikiPage::getAllPages(ilObject::_lookupObjId($this->getWikiRefId()));
+		$pages = ilWikiPage::getAllWikiPages(ilObject::_lookupObjId($this->getWikiRefId()));
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -682,7 +691,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			{
 				case "wiki":
 					include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-					$all_pages = ilWikiPage::getAllPages($this->getPageObject()->getWikiId());
+					$all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
 					foreach ($all_pages as $p)
 					{
 						$pg_ids[] = $p["id"];
@@ -744,7 +753,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		if(!sizeof($all_pages))
 		{
 			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-			$all_pages = ilWikiPage::getAllPages($this->getPageObject()->getWikiId());
+			$all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
 		}
 		
 		include_once "Modules/Wiki/classes/class.ilWikiExportOrderTableGUI.php";

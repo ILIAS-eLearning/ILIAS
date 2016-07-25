@@ -12,7 +12,7 @@ include_once("./setup/classes/class.ilDBConnections.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilSetup extends PEAR
+class ilSetup
 {
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
@@ -64,11 +64,10 @@ class ilSetup extends PEAR
 	* @param	boolean		user is authenticated? (true) or not (false)
 	* @param	string		user is admin or common user
 	*/
-	function ilSetup($a_auth,$a_auth_type)
+	public function __construct($a_auth, $a_auth_type)
 	{
-		global $log, $lng;
+		global $lng;
 
-		$this->PEAR();
 		$this->lng = $lng;
 
 		$this->db_connections = new ilDBConnections();
@@ -83,10 +82,6 @@ class ilSetup extends PEAR
 		{
 			$this->safe_mode_exec_dir = ilFile::deleteTrailingSlash(ini_get("safe_mode_exec_dir"));
 		}
-
-		// Error Handling
-		$this->error_obj = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 
 		// set path to ilias.ini
 		$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/ilias.ini.php";
@@ -195,18 +190,18 @@ class ilSetup extends PEAR
 	{
 		return true;
 		//var_dump("<pre>",$this->client,"</pre>");exit;
-
+		//Error Handling disabled!! caused by missing PEAR
 		if ($a_old_client_id != $this->client->getId())
 		{
 			// check for existing client dir
 			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
 			{
-				$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
 			}
 
 			if (!$this->saveNewClient())
 			{
-				$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
 			}
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
@@ -225,161 +220,155 @@ class ilSetup extends PEAR
 	*/
 	function createDatabase($a_collation = "")
 	{
-		if ($this->client->checkDatabaseExists())
-		{
+		if ($this->client->getDBSetup()->isDatabaseInstalled()) {
 			$this->error = $this->lng->txt("database_exists");
+
 			return false;
 		}
 
-		$this->client->getDB()->connectHost(true);
+	return $this->client->getDBSetup()->createDatabase($a_collation);
 
-		//create database
-		$db = $this->client->getDB();
-		if (MDB2::isError($db))
-		{
-			$this->error = "connection_failed";
-			return false;
-		}
 
-		$r = $db->createDatabase($this->client->getdbName(),
-			"utf8", $a_collation);
-
-		if (MDB2::isError($r))
-		{
-			$this->error = "create_database_failed";
-			return false;
-		}
-
-		//database is created, now disconnect and reconnect
-		$db->disconnect();
-
-		$this->client->db_exists = true;
-		return true;
+//
+//
+//		//create database
+//		$db = $this->client->getDB();
+//		if (MDB2::isError($db))
+//		{
+//			$this->error = "connection_failed";
+//			return false;
+//		}
+//
+//		$r = $db->createDatabase($this->client->getdbName(),
+//			"utf8", $a_collation);
+//
+//		if (MDB2::isError($r))
+//		{
+//			$this->error = "create_database_failed";
+//			return false;
+//		}
+//
+//		//database is created, now disconnect and reconnect
+//		$db->disconnect();
+//
+//		$this->client->db_exists = true;
+//		return true;
 	}
 
 	/**
 	* set the database data
 	* @return	boolean
+	 * @deprecated 
 	*/
-	function installDatabase()
+	public function installDatabase()
 	{
-/*		if (!$this->client->checkDatabaseHost())
-		{
-			$this->error = "no_connection_to_host";
-			return false;
-		}*/
-
-		if (!$this->client->connect())
-		{
+		if (!$this->client->getDBSetup()->isDatabaseConnectable()) {
 			return false;
 		}
 
-		//take sql dump an put it in
-		if ($this->readDump($this->client->db, $this->SQL_FILE))
-		{
+		if ($this->client->getDBSetup()->installDatabase()) {
 			$this->client->db_installed = true;
+
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
-	function getline( $fp, $delim )
-	{
-		$result = "";
-		while( !feof( $fp ) )
-		{
-			$tmp = fgetc( $fp );
-			if( $tmp == $delim )
-				return $result;
-			$result .= $tmp;
-		}
-		return $result;
-	}
-
-	/**
-	* execute a query
-	* @param	string
-	* @param	string
-	* @return	boolean	ture if query was processed successfully
-	*/
-	function readDump($db, $file)
-	{
-		// mysql (old procedure)
-		if ($db->getDBType() == "mysql")
-		{
-			$fp = fopen($file, 'r');
-
-			while(!feof($fp))
-			{
-				//$line = trim(fgets($fp, 200000));
-				$line = trim($this->getline($fp, "\n"));
-
-				if ($line != "" && substr($line,0,1)!="#"
-					&& substr($line,0,1)!="-")
-				{
-					//take line per line, until last char is ";"
-					if (substr($line,-1)==";")
-					{
-						//query is complete
-						$q .= " ".substr($line,0,-1);
-						$r = $db->query($q);
-
-						if ($db->getErrorNo() > 0)
-						{
-							echo "<br />ERROR: ".$db->getError().
-								"<br />SQL: $q";
-							return false;
-						}
-						unset($q);
-						unset($line);
-					} //if
-					else
-					{
-						$q .= " ".$line;
-					} //else
-				} //if
-			} //for
-
-			fclose($fp);
-		}
-
-		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
-		{
-			if(@is_dir('./setup/sql/ilDBTemplate'))
-			{
-				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
-				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
-				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
-				foreach($reader as $file)
-				{
-					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
-					try
-					{
-						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
-						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
-						$parser->startParsing();
-						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
-
-					}
-					catch(ilSaxParserException $e)
-					{
-						die($e);
-					}
-				}
-			}
-			else
-			{
-				include_once("./setup/sql/ilDBTemplate.php");
-				setupILIASDatabase();
-			}
-		}
-		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		return true;
-	}
+//	function getline( $fp, $delim )
+//	{
+//		$result = "";
+//		while( !feof( $fp ) )
+//		{
+//			$tmp = fgetc( $fp );
+//			if( $tmp == $delim )
+//				return $result;
+//			$result .= $tmp;
+//		}
+//		return $result;
+//	}
+//
+//	/**
+//	* execute a query
+//	* @param	string
+//	* @param	string
+//	* @return	boolean	ture if query was processed successfully
+//	*/
+//	function readDump($db, $file)
+//	{
+//		// mysql (old procedure)
+//		if ($db->getDBType() == "mysql")
+//		{
+//			$fp = fopen($file, 'r');
+//
+//			while(!feof($fp))
+//			{
+//				//$line = trim(fgets($fp, 200000));
+//				$line = trim($this->getline($fp, "\n"));
+//
+//				if ($line != "" && substr($line,0,1)!="#"
+//					&& substr($line,0,1)!="-")
+//				{
+//					//take line per line, until last char is ";"
+//					if (substr($line,-1)==";")
+//					{
+//						//query is complete
+//						$q .= " ".substr($line,0,-1);
+//						$r = $db->query($q);
+//
+//						if ($db->getErrorNo() > 0)
+//						{
+//							echo "<br />ERROR: ".$db->getError().
+//								"<br />SQL: $q";
+//							return false;
+//						}
+//						unset($q);
+//						unset($line);
+//					} //if
+//					else
+//					{
+//						$q .= " ".$line;
+//					} //else
+//				} //if
+//			} //for
+//
+//			fclose($fp);
+//		}
+//
+//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
+//		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
+//		{
+//			if(@is_dir('./setup/sql/ilDBTemplate'))
+//			{
+//				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
+//				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
+//				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
+//				foreach($reader as $file)
+//				{
+//					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
+//					try
+//					{
+//						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
+//						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
+//						$parser->startParsing();
+//						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
+//
+//					}
+//					catch(ilSaxParserException $e)
+//					{
+//						die($e);
+//					}
+//				}
+//			}
+//			else
+//			{
+//				include_once("./setup/sql/ilDBTemplate.php");
+//				setupILIASDatabase();
+//			}
+//		}
+//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
+//		return true;
+//	}
 
 
 	/**
@@ -631,8 +620,16 @@ class ilSetup extends PEAR
 	 */
 	protected function checkOpcacheSettings() {
 		$arr = array();
+		// correct-with-php5-removal FSX start
+		if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+			$arr["status"] = true;
+
+			return $arr;
+		}
+		// correct-with-php5-removal FSX end
+
 		$load_comments = ini_get("opcache.load_comments");
-		if($load_comments == 1) {
+		if ($load_comments == 1) {
 			$arr["status"] = true;
 		} else {
 			$arr["status"] = false;
@@ -661,7 +658,7 @@ class ilSetup extends PEAR
 		$a["xsl"] = $this->checkXsl();
 		$a["gd"] = $this->checkGd();
 		$a["memory"] = $this->checkMemoryLimit();
-//		var_dump(ini_get('opcache.enable') ); // FSX
+
 		if ($this->hasOpCacheEnabled()) {
 			$a["load_comments"] = $this->checkOpcacheSettings();
 		}
@@ -743,7 +740,7 @@ class ilSetup extends PEAR
 			return false;
 		}
 
-		if (!$this->newClient($a_auth_data["client_id"]))
+		if (!$this->newClient($a_auth_data["client_id"])) //TT: comment out to get around null db
 		{
 			$this->error = "unknown_client_id";
 			unset($this->client);
@@ -899,9 +896,6 @@ class ilSetup extends PEAR
 			$status["proxy"]["status"] = false;
 			$status["proxy"]["comment"] = $status["db"]["comment"];
 
-			$status["passwd"]["status"] = false;
-			$status["passwd"]["comment"] = $status["db"]["comment"];
-
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
@@ -911,7 +905,6 @@ class ilSetup extends PEAR
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["proxy"] = $this->checkClientProxySettings($client);
-			$status["passwd"] = $this->checkClientPasswordSettings($client);
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
 			$status["access"] = $this->checkAccess($client);
@@ -982,68 +975,68 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
 	/**
-	* check client db status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientDatabase(&$client)
-	{
-		if (!$arr["status"] = $client->db_exists)
-		{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientDatabase(ilClient $client) {
+		$arr = array();
+		$client->provideGlobalDB();
+		if (!$arr["status"] = $client->db_exists) {
 			$arr["comment"] = $this->lng->txt("no_database");
+
 			return $arr;
 		}
 
-		if (!$arr["status"] = $client->db_installed)
-		{
+		if (!$arr["status"] = $client->db_installed) {
 			$arr["comment"] = $this->lng->txt("db_not_installed");
+
 			return $arr;
 		}
-
 		// TODO: move this to client class!!
-		$client->setup_ok = (bool) $client->getSetting("setup_ok");
+		$client->setup_ok = (bool)$client->getSetting("setup_ok");
 
-		//$this->lng->setDbHandler($client->db);
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
-		$ilDB = $client->db;
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
 
-		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
-		{
+		if (!$arr["status"] = $dbupdate->getDBVersionStatus()) {
 			$arr["comment"] = $this->lng->txt("db_needs_update");
 			$arr["update"] = true;
+
 			return $arr;
-		}
-		else if ($dbupdate->hotfixAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("hotfix_available");
-			$arr["update"] = true;
-			return $arr;
-		}
-		else if ($dbupdate->customUpdatesAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("custom_updates_available");
-			$arr["update"] = true;
-			return $arr;
+		} else {
+			if ($dbupdate->hotfixAvailable()) {
+				$arr["status"] = false;
+				$arr["comment"] = $this->lng->txt("hotfix_available");
+				$arr["update"] = true;
+
+				return $arr;
+			} else {
+				if ($dbupdate->customUpdatesAvailable()) {
+					$arr["status"] = false;
+					$arr["comment"] = $this->lng->txt("custom_updates_available");
+					$arr["update"] = true;
+
+					return $arr;
+				}
+			}
 		}
 
 		// check control information
-
+		global $ilDB;
 		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
 		$crec = $ilDB->fetchAssoc($cset);
-		if ($crec["cnt"] == 0)
-		{
+		$client->revokeGlobalDB();
+		if ($crec["cnt"] == 0) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("db_control_structure_missing");
 			$arr["update"] = true;
+
 			return $arr;
 		}
 
-		//$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}
 
@@ -1088,72 +1081,65 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
 	/**
-	 * check client session config status
-	 * @param    object    client
+	 * @param \ilClient $client
+	 * @return array
 	 */
-	function checkClientProxySettings(&$client)
-	{
+	public function checkClientProxySettings(ilClient $client) {
+		$client->provideGlobalDB();
 		global $ilDB;
-		$db = $ilDB;
+		$arr = array();
+		$fields = array( 'proxy_status', 'proxy_host', 'proxy_port' );
 
-		$fields = array('proxy_status','proxy_host','proxy_port');
-
-		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
-		$res = $db->query($query);
+		$query = "SELECT keyword, value FROM settings WHERE " . $ilDB->in('keyword', $fields, false, 'text');
+		$res = $ilDB->query($query);
 
 		$proxy_settings = array();
 		$already_saved = false;
-		while($row = $db->fetchAssoc($res))
-		{
+		while ($row = $ilDB->fetchAssoc($res)) {
 			$already_saved = true;
 			$proxy_settings[$row['keyword']] = $row['value'];
 		}
 
-		if(!$already_saved)
-		{
+		if (!$already_saved) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("proxy");
 			$arr["text"] = $this->lng->txt("proxy");
+		} else {
+			if ((bool)$proxy_settings["proxy_status"] == false) {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_disabled");
+				$arr["text"] = $this->lng->txt("proxy_disabled");
+			} else {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
+				$arr["text"] = $this->lng->txt("proxy_activated_configurated");
+			}
 		}
-		else if((bool)$proxy_settings["proxy_status"] == false)
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_disabled");
-			$arr["text"] = $this->lng->txt("proxy_disabled");
-		}
-		else
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
-			$arr["text"] = $this->lng->txt("proxy_activated_configurated");
 
-		}
 		return $arr;
 	}
 
+
 	/**
-	* check client installed languages status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientLanguages(&$client)
-	{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientLanguages(ilClient $client) {
+		$client->provideGlobalDB();
 		$installed_langs = $this->lng->getInstalledLanguages();
 
 		$count = count($installed_langs);
-
-		if ($count < 1)
-		{
+		$arr = array();
+		if ($count < 1) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("lang_none_installed");
-		}
-		else
-		{
+		} else {
 			$arr["status"] = true;
 			//$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
 		}
-
+		$client->revokeGlobalDB();
 		return $arr;
 	}
 
@@ -1296,7 +1282,6 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
 		$this->ini->setVariable("tools", "ghostscript", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
-		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
 		//$this->ini->setVariable("tools", "mkisofs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"])));
 		$this->ini->setVariable("tools", "ffmpeg", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"])));
 		$this->ini->setVariable("tools", "latex", ilUtil::stripSlashes($a_formdata["latex_url"]));
@@ -1338,7 +1323,6 @@ class ilSetup extends PEAR
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 		$ghostscript_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
-		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 		//$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
 		$ffmpeg_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"]));
 		$latex_url = ilUtil::stripSlashes($a_formdata["latex_url"]);
@@ -1352,7 +1336,6 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
 		$this->ini->setVariable("tools", "ghostscript", $ghostscript_path);
 		$this->ini->setVariable("tools", "java", $java_path);
-		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
 		//$this->ini->setVariable("tools", "mkisofs", $mkisofs_path);
 		$this->ini->setVariable("tools", "ffmpeg", $ffmpeg_path);
 		$this->ini->setVariable("tools", "latex", $latex_url);
@@ -1473,24 +1456,6 @@ class ilSetup extends PEAR
 			}
 		}
 
-		// htmldoc path
-		if (!isset($a_formdata["chk_htmldoc_path"]))
-		{
-			// convert backslashes to forwardslashes
-			$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
-
-			if (empty($htmldoc_path))
-			{
-				$this->error = "no_path_htmldoc";
-				return false;
-			}
-
-			if (!$this->testHtmldoc($htmldoc_path))
-			{
-				$this->error = "check_failed_htmldoc";
-				return false;
-			}
-		}
 		/*if (!isset($a_formdata["chk_mkisofs_path"]))
 		{
 			// convert backslashes to forwardslashes
@@ -1499,12 +1464,6 @@ class ilSetup extends PEAR
 			if (empty($mkisofs_path))
 			{
 				$this->error = "no_path_mkisofs";
-				return false;
-			}
-		
-			if (!$this->testHtmldoc($mkisofs_path))
-			{
-				$this->error = "check_failed_mkisofs";
 				return false;
 			}
 		}*/
@@ -1882,73 +1841,6 @@ class ilSetup extends PEAR
 	}
 
 	/**
-	* Check htmldoc program
-	*
-	* @param	string		htmldoc_path
-	* @return	boolean		true -> OK | false -> not OK
-	*/
-	function testHtmldoc($a_htmldoc_path)
-	{
-		// java is optional, so empty path is ok
-		if (trim($a_htmldoc_path) == "")
-		{
-			return "";
-		}
-
-		if (!is_file($a_htmldoc_path))
-		{
-			return "check_failed_htmldoc";
-		}
-
-		return "";
-
-
-		$curDir = getcwd();
-
-		chdir(ILIAS_ABSOLUTE_PATH);
-
-		$html = "<html><head><title></title></head><body><p>test</p></body></html>";
-
-		$html_file = "htmldoc_test_file.html";
-
-        $fp = fopen( $html_file ,"wb");
-        fwrite($fp, $html);
-        fclose($fp);
-
-        $htmldoc = $a_htmldoc_path." ";
-        $htmldoc .= "--no-toc ";
-        $htmldoc .= "--no-jpeg ";
-        $htmldoc .= "--webpage ";
-        $htmldoc .= "--outfile htmldoc_test_file.pdf ";
-        $htmldoc .= "--bodyfont Arial ";
-        $htmldoc .= "--charset iso-8859-15 ";
-        $htmldoc .= "--color ";
-        $htmldoc .= "--size A4  ";      // --landscape
-        $htmldoc .= "--format pdf ";
-        $htmldoc .= "--footer ... ";
-        $htmldoc .= "--header ... ";
-        $htmldoc .= "--left 60 ";
-        // $htmldoc .= "--right 200 ";
-        $htmldoc .= $html_file;
-		exec($htmldoc);
-
-		unlink(ILIAS_ABSOLUTE_PATH."/".$html_file);
-
-		chdir($curDir);
-
-		if (file_exists(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf"))
-		{
-			unlink(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-
-	/**
 	* unzip file
 	*
 	* @param	string	$a_file		full path/filename
@@ -2248,28 +2140,24 @@ class ilSetup extends PEAR
 		{
 			try
 			{
-				/**
-				 *
-				 * Verifies the proxy server connection
-				*/
+				$err_str = false;
+				$wait_timeout = 100;
 
-				require_once 'Services/PEAR/lib/Net/Socket.php';
+				$fp = @fsockopen($settings['proxy_host'], $settings['proxy_port'],$err_code,$err_str,$wait_timeout);
 
-				$socket = new Net_Socket();
-				$socket->setErrorHandling(PEAR_ERROR_RETURN);
-				$response = $socket->connect($settings['proxy_host'], $settings['proxy_port']);
-				if(!is_bool($response))
+				if($err_str)
 				{
-					global $lng;
-					throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));
+					throw new ilProxyException($err_str);
 				}
+
+				fclose($fp);
 
 				ilUtil::sendSuccess($this->lng->txt('proxy_connectable'));
 
 			}
-			catch(ilProxyException $e)
+			catch(Exception $e)
 			{
-				ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+				ilUtil::sendFailure($this->lng->txt('proxy_not_connectable') . ": " . $e->getMessage());
 			}
 		}
 
@@ -2320,48 +2208,6 @@ class ilSetup extends PEAR
 	}
 
 	/**
-	 * @param array $passwd_settings
-	 */
-	public function savePasswordSettings(array $passwd_settings)
-	{
-		$this->getClient()->ini->setVariable('auth', 'password_encoder', $passwd_settings['default_encoder']);
-		$this->getClient()->ini->write();
-	}
-
-	/**
-	 * Reads password settings from persitance layer
-	 * @return array
-	 */
-	public function getPasswordSettings()
-	{
-		return array(
-			'default_encoder' =>
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') ?
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') :
-				'md5'
-		);
-	}
-
-	/**
-	 * @param $client ilClient
-	 * @return array
-	 */
-	public function checkClientPasswordSettings(ilClient $client)
-	{
-		$arr['status'] = strlen($client->ini->readVariable('auth', 'password_encoder'));
-		if($arr['status'])
-		{
-			$arr['comment'] = $this->lng->txt('passwd_encoding_configured');
-		}
-		else
-		{
-			$arr['comment'] = $this->lng->txt('session_management_not_configured');
-		}
-		return $arr;
-	}
-
-
-	/**
 	 * @return bool
 	 */
 	public function hasOpCacheEnabled() {
@@ -2369,36 +2215,5 @@ class ilSetup extends PEAR
 
 		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
-} // END class.ilSetup
-
-class tmpDirectoyIterator extends DirectoryIterator
-{
-	public function current()
-	{
-		return parent::getFileName();
-	}
-
-	public function valid()
-	{
-		if(!parent::valid())
-		{
-			return false;
-		}
-		if($this->isFile() and substr(parent::getFileName(),-4) == '.xml')
-		{
-			return false;
-		}
-		if($this->isFile() and substr(parent::getFileName(),-8) != '_inserts')
-		{
-			return true;
-		}
-		parent::next();
-		return $this->valid();
-	}
-
-	public function rewind()
-	{
-		parent::rewind();
-	}
 }
-?>
+

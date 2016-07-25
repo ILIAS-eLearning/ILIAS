@@ -29,13 +29,13 @@ class ilGlossaryDefinition
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryDefinition($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $lng, $ilias, $tpl;
 
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
 
 		$this->id = $a_id;
 		if ($a_id != 0)
@@ -111,7 +111,7 @@ class ilGlossaryDefinition
 
 	function assignPageObject(&$a_page_object)
 	{
-		$this->page_object =& $a_page_object;
+		$this->page_object = $a_page_object;
 	}
 
 	function &getPageObject()
@@ -242,7 +242,6 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
 				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
@@ -286,7 +285,6 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
 				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
@@ -327,7 +325,6 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
 				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
@@ -445,7 +442,7 @@ class ilGlossaryDefinition
 	/**
 	* static
 	*/
-	function getDefinitionList($a_term_id)
+	static function getDefinitionList($a_term_id)
 	{
 		global $ilDB;
 		
@@ -566,14 +563,14 @@ class ilGlossaryDefinition
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
 		$md = new ilMD($glo_id, $this->getId(), $this->getType());
-		$md_gen =& $md->getGeneral();
+		$md_gen = $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
 		// sets first description (maybe not appropriate)
-		$md_des_ids =& $md_gen->getDescriptionIds();
+		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 			$md_des->setDescription($this->getDescription());
 			$md_des->update();
 		}
@@ -642,7 +639,7 @@ class ilGlossaryDefinition
 	*
 	* @param	int		$a_def_id		definition id
 	*/
-	function _lookupTermId($a_def_id)
+	static function _lookupTermId($a_def_id)
 	{
 		global $ilDB;
 		

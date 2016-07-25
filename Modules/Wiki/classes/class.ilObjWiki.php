@@ -30,7 +30,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjWiki($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "wiki";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -374,7 +374,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 	}
@@ -424,7 +424,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			$start_page->create();
 		}
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
 		return true;
@@ -459,7 +459,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setEmptyPageTemplate($rec["empty_page_templ"]);
 		$this->setLinkMetadataValues($rec["link_md_values"]);
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 	}
@@ -648,7 +648,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-			$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
+			$wiki_search = ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
 			$wiki_search->setFilter(array('wpg'));
 			$search_result->mergeEntries($wiki_search->performSearch());
 		}
@@ -933,7 +933,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$new_obj->update();
 
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
@@ -945,7 +945,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
 		// copy content
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$pages = ilWikiPage::getAllPages($this->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->getId());
 		if (count($pages) > 0)
 		{
 			// if we have any pages, delete the start page first

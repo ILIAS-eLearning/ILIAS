@@ -6,6 +6,7 @@
         <label for="dcl_select_record" class="ilDclSelectRecord">{RECORD}</label>
         <form action="{FORM_ACTION}" method="POST" name="dcl_change_record" class="ilDclChangeRecord">
             <input type="hidden" name="cmd[renderRecord]" value="1">
+            <input type="hidden" name="tableview_id" value="{TABLEVIEW_ID}">
             <select name="record_id" id="dcl_select_record" onchange="document.dcl_change_record.submit()">
                 {SELECT_OPTIONS}
             </select>

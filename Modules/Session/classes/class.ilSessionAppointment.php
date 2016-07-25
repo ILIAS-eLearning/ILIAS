@@ -398,7 +398,7 @@ class ilSessionAppointment implements ilDatePeriod
 		return true;
 	}
 
-	function _readAppointmentsBySession($a_event_id)
+	static function _readAppointmentsBySession($a_event_id)
 	{
 		global $ilDB;
 

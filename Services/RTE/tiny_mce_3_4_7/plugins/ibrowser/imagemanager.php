@@ -29,7 +29,9 @@ ilInitialisation::initILIAS();
 /**
  * @var $ilIliasIniFile ilIniFile
  */
-global $ilIliasIniFile;
+global $DIC;
+
+$ilIliasIniFile = $DIC['ilIliasIniFile'];
 
 $htdocs      = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
 $weburl      = $ilIliasIniFile->readVariable('server', 'http_path') . '/';
@@ -49,7 +51,9 @@ if($iliasHttpPath)
 	/**
 	 * @var $https ilHttps
 	 */
-	global $https;
+	global $DIC;
+
+	$https = $DIC['https'];
 
 	if(strpos($iliasHttpPath, 'https://') === false && $https->isDetected())
 	{
@@ -130,15 +134,12 @@ $tpl->show();
 
 function outMobImages()
 {
-	global $mobs;
-	global $iliasMobPath;
-	global $iliasAbsolutePath;
-	global $iliasHttpPath;
-	global $tinyMCE_valid_imgs;
-	global $tpl;
-	global $errors;
-	global $img;
-	global $arr_tinyMCE_image_files;
+	/**
+	 * @var $tpl ilTemplate
+	 */
+	global $DIC, $mobs, $iliasMobPath, $iliasAbsolutePath, $iliasHttpPath, $tinyMCE_valid_imgs, $errors, $img, $arr_tinyMCE_image_files;
+
+	$tpl = $DIC['tpl'];
 
 	$arr_tinyMCE_image_files = array();
 
@@ -193,8 +194,9 @@ function deleteImg()
 
 function outMobImageParams()
 {
-	global $arr_tinyMCE_image_files;
-	global $tpl;
+	global $DIC, $arr_tinyMCE_image_files;
+
+	$tpl = $DIC['tpl'];
 	for($k = 0; $k < count($arr_tinyMCE_image_files); $k++)
 	{
 		$tpl->setCurrentBlock('imageparams');
@@ -204,7 +206,7 @@ function outMobImageParams()
 		$tpl->setVariable('IMG_WIDTH', $size[0]);
 		$tpl->setVariable('IMG_HEIGHT', $size[1]);
 		$tpl->setVariable('IMG_PATH', $arr_tinyMCE_image_files[$k]['http_dir']);
-		$tpl->setVariable('F_SIZE', ilFormat::formatSize($fsize));
+		$tpl->setVariable('F_SIZE', ilUtil::formatSize($fsize));
 		$tpl->parseCurrentBlock();
 	}
 }

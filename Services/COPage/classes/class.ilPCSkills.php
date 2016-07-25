@@ -33,7 +33,7 @@ class ilPCSkills extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->skill_node =& $a_node->first_child();		// this is the skill node
+		$this->skill_node = $a_node->first_child();		// this is the skill node
 	}
 
 	/**
@@ -97,6 +97,7 @@ class ilPCSkills extends ilPageContent
 	 */
 	static function beforePageDelete($a_page)
 	{
+		require_once('Services/COPage/classes/class.ilPageContentUsage.php'); // Mantis #18636
 		ilPageContentUsage::deleteAllUsages("skmg", $a_page->getParentType().":pg", $a_page->getId(), false,
 			$a_page->getLanguage());
 	}

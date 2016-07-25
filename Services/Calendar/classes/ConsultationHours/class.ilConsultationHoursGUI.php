@@ -37,6 +37,8 @@ class ilConsultationHoursGUI
 	const MODE_UPDATE = 2;
 	const MODE_MULTI = 3;
 	
+	const MAX_APPOINTMENTS_PER_SEQUENCE = 1000;
+	
 	protected $user_id;
 	protected $ctrl;
 
@@ -733,7 +735,7 @@ class ilConsultationHoursGUI
 			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 			$dur = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'st');
 			$dur->setShowTime(true);
-			$dur->setMinuteStepSize(5);
+			$dur->setRequired(true);
 			$this->form->addItem($dur);
 
 			// Duration
@@ -891,8 +893,15 @@ class ilConsultationHoursGUI
 		include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
 		include_once './Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php';
 		include_once './Services/Booking/classes/class.ilBookingPeriod.php';
+		
+		$num_appointments = 0;
 		foreach($concurrent_dates as $dt)
 		{
+			if($num_appointments >= self::MAX_APPOINTMENTS_PER_SEQUENCE)
+			{
+				break;
+			}
+			
 			$end = clone $dt;
 			$end->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes());
 			$end->increment(ilDateTime::HOUR,$this->form->getItemByPostVar('du')->getHours());
@@ -904,10 +913,11 @@ class ilConsultationHoursGUI
 
 			// Calculate with one year limit
 			$limit = clone $dt;
-			$limit->increment(ilDAteTime::YEAR,1);
+			$limit->increment(ilDateTime::YEAR,1);
 
 			$date_list = $calc->calculateDateList($dt,$limit);
 
+			$num = 0;
 			foreach($date_list as $app_start)
 			{
 				$app_end = clone $app_start;
@@ -929,6 +939,8 @@ class ilConsultationHoursGUI
 				
 				$cat_assign = new ilCalendarCategoryAssignments($entry->getEntryId());
 				$cat_assign->addAssignment($def_cat->getCategoryID());
+				
+				$num_appointments++;
 			}
 		}
 	}

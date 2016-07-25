@@ -32,7 +32,7 @@ class ilHACPResponse {
 	var $ref_id;
 	var $obj_id;
 
-	function ilHACPResponse($ref_id=0, $obj_id=0) {
+	function __construct($ref_id=0, $obj_id=0) {
 	
 		if (!empty($ref_id) && !empty($obj_id)) {
 			$this->ref_id=$ref_id;

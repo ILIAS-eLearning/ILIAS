@@ -172,23 +172,19 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$contentHTML = '';
 		
 		// pass overview table
-		
-		if( $this->object->getNrOfTries() != 1 )
-		{
-			require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
-			$table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
+		require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
+		$table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
-			$userId = $this->object->_getUserIdFromActiveId($activeId);
-			$userFullname = $this->object->userLookupFullName($userId, false, true);
-			$tableTitle = sprintf($lng->txt('tst_pass_overview_for_participant'), $userFullname);
-			$table->setTitle($tableTitle);
-			
-			$passOverviewData = $this->service->getPassOverviewData($activeId);
-			$table->setData($passOverviewData['passes']);
-			
-			$contentHTML .= $table->getHTML().'<br />';
-		}
-		
+		$userId = $this->object->_getUserIdFromActiveId($activeId);
+		$userFullname = $this->object->userLookupFullName($userId, false, true);
+		$tableTitle = sprintf($lng->txt('tst_pass_overview_for_participant'), $userFullname);
+		$table->setTitle($tableTitle);
+
+		$passOverviewData = $this->service->getPassOverviewData($activeId);
+		$table->setData($passOverviewData['passes']);
+
+		$contentHTML .= $table->getHTML().'<br />';
+
 		// pass scoring form
 		
 		if($form === null)
@@ -203,7 +199,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		
 		$tpl->setContent($contentHTML);
 	}
-	
+
+	/**
+	 * @param bool $redirect
+	 * @returns bool Returns a boolean flag, whether or not everything worked fine
+	 */
 	private function saveManScoringParticipantScreen($redirect = true)
 	{
 		global $tpl, $ilCtrl, $lng;
@@ -219,9 +219,10 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		if( !$form->checkInput() )
 		{
 			ilUtil::sendFailure(sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
-			return $this->showManScoringParticipantScreen($form);
+			$this->showManScoringParticipantScreen($form);
+			return false;
 		}
-		
+
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		
 		$maxPointsByQuestionId = array();
@@ -246,7 +247,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		if( $maxPointsExceeded )
 		{
 			ilUtil::sendFailure(sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
-			return $this->showManScoringParticipantScreen($form);
+			$this->showManScoringParticipantScreen($form);
+			return false;
 		}
 		
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
@@ -304,13 +306,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$scorer = new ilTestScoring($this->object);
 		$scorer->setPreserveManualScores(true);
 		$scorer->recalculateSolutions();
-
-		if ($this->object->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this->object);
-			$archiveService->archivePassesByActives($scorer->getRecalculatedPassesByActives());
-		}
 		
 		if($this->object->getAnonymity() == 0)
 		{
@@ -328,7 +323,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			return;
+			return true;
 		}
 	}
 
@@ -337,37 +332,39 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		global $ilCtrl;
 		
 		$table = $this->buildManScoringParticipantsTable(true);
-		
-		$redirect = false; 
-		$this->saveManScoringParticipantScreen($redirect);
-		
-		$participantData = $table->getInternalyOrderedDataValues();
 
-		foreach($participantData as $index => $participant)
+		if($this->saveManScoringParticipantScreen(false))
 		{
-			if($participant['active_id'] == $_GET['active_id'])
+			$participantData = $table->getInternalyOrderedDataValues();
+
+			$nextIndex = null;
+			foreach($participantData as $index => $participant)
 			{
-				$nextIndex = $index + 1;
-				break;
+				if($participant['active_id'] == $_GET['active_id'])
+				{
+					$nextIndex = $index + 1;
+					break;
+				}
 			}
-		}
-		
-		if( isset($participantData[$nextIndex]) )
-		{
-			$ilCtrl->setParameter($this, 'active_id', $participantData[$nextIndex]['active_id']);
-			$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
-		}
 
-		$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+			if($nextIndex && isset($participantData[$nextIndex]))
+			{
+				$ilCtrl->setParameter($this, 'active_id', $participantData[$nextIndex]['active_id']);
+				$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
+			}
+
+			$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+		}
 	}
 	
 	private function saveReturnManScoringParticipantScreen()
 	{
 		global $ilCtrl;
 
-		$this->saveManScoringParticipantScreen(false);
-
-		$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+		if($this->saveManScoringParticipantScreen(false))
+		{
+			$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+		}
 	}
 
 	private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)

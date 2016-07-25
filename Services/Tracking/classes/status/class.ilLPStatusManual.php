@@ -22,7 +22,7 @@ class ilLPStatusManual extends ilLPStatus
 		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -33,7 +33,7 @@ class ilLPStatusManual extends ilLPStatus
 		return $users;						
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 		

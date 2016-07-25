@@ -138,7 +138,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 			foreach ($q_ids as $q_id)
 			{
 				include_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
-				$q_gui =& assQuestionGUI::_getQuestionGUI("", $q_id);
+				$q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 				$q_gui->outAdditionalOutput();				
 				$html[$q_id] = $q_gui->getPreview(TRUE);
 			}

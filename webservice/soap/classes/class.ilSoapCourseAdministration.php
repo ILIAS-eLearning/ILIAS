@@ -39,11 +39,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 	const ADMIN = 4;
 	const OWNER = 8; 
 
-	function ilSoapCourseAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
-		
 
 	// Service methods
 	function addCourse($sid,$target_id,$crs_xml)

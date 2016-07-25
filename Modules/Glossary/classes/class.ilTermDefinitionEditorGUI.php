@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 /**
@@ -29,18 +29,19 @@ class ilTermDefinitionEditorGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilTermDefinitionEditorGUI()
+	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl, $ilTabs;
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 		$this->glossary = new ilObjGlossary($_GET["ref_id"], true);
 		$this->definition = new ilGlossaryDefinition($_GET["def"]);
 		$this->term = new ilGlossaryTerm($this->definition->getTermId());
+		$this->tabs_gui = $ilTabs;
 
 		$this->ctrl->saveParameter($this, array("def"));
 	}
@@ -71,7 +72,7 @@ class ilTermDefinitionEditorGUI
 		$gloss_loc->setGlossary($this->glossary);
 		$gloss_loc->setDefinition($this->definition);
 
-		$this->tpl->getStandardTemplate();
+//		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());
@@ -141,14 +142,14 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setHeader($this->term->getTerm());
 				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setPresentationTitle($this->term->getTerm());
-				$ret =& $this->ctrl->forwardCommand($page_gui);
+				$ret = $this->ctrl->forwardCommand($page_gui);
 				$tpl->setContent($ret);
 				break;
 
 			default:
 				$this->setTabs();
 				$gloss_loc->display();
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 
 		}

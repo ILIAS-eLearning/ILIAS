@@ -1614,7 +1614,7 @@ class ilTree
 		if($data['type'] == 'crsr' or $data['type'] == 'catr')
 		{
 			include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-			$data['title'] = ilContainerReference::_lookupTargetTitle($data['obj_id']);
+			$data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
 		}
 
 		return $data ? $data : array();
@@ -2375,14 +2375,6 @@ class ilTree
 		// LOCKED ###################################
 		if($this->__isMainTree())
 		{
-			/*
-			ilDB::_lockTables(array($this->table_tree => 'WRITE',
-									 $this->table_obj_data => 'WRITE',
-									 $this->table_obj_reference => 'WRITE',
-									 'object_translation' => 'WRITE',
-									 'object_data od' => 'WRITE',
-									 'container_reference cr' => 'WRITE'));
-			*/	
 			$ilDB->lockTables(
 				array(			
 					0 => array('name' => $this->table_tree, 'type' => ilDBConstants::LOCK_WRITE),

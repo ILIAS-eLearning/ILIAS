@@ -557,9 +557,7 @@ class ilUserProfile
 						{
 							$date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
 							$bi->setDate($date);
-						}
-						$bi->setShowEmpty(true);
-						$bi->setStartYear(1900);
+						}						
 						$bi->setRequired($ilSetting->get("require_".$f));
 						if(!$bi->getRequired() || $date)
 						{

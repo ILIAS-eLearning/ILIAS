@@ -62,6 +62,12 @@ input[type="submit"], input[type="button"] {
 	vertical-align: top;
 }
 
+body.std
+{
+	height: auto;
+	border: none;
+}
+
 .tblrow1 {
 	background: #EEEEEE;
 	border-collapse: collapse;
@@ -193,4 +199,14 @@ table.freefield_bottom {
 
 .ilAdminRow {
 	display: none;
+}
+
+.sel {
+	background-color: #9bd9fe;
+	border: 1px #666 solid;
+}
+.selGroup {
+	border: 2px #9bd9fe solid;
+	padding: 3px 2px;
+	margin-right: 2px;
 }

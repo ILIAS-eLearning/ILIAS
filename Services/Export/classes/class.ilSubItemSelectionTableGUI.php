@@ -14,7 +14,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilSubItemSelectionTableGUI extends ilTable2GUI
 {
 
-	function ilSubItemSelectionTableGUI($a_parent_obj, $a_parent_cmd,
+	public function __construct($a_parent_obj, $a_parent_cmd,
 		$a_ref_id, $a_cmd = "createExportFile", $a_cmd_txt = "")
 	{
 		global $ilCtrl, $lng;

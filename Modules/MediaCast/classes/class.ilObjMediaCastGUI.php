@@ -85,7 +85,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilobjectcopygui':
@@ -1575,11 +1575,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				
 				if (strcasecmp("Reference", $med->getLocationType()) == 0)
 				{
-					$mpl->setFile(ilWACSignedPath::signFile($med->getLocation()));
+					ilWACSignedPath::signFolderOfStartFile($med->getLocation());
+					$mpl->setFile($med->getLocation());
 				}
 				else
 				{
-					$mpl->setFile(ilWACSignedPath::signFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation()));
+					$path_to_file = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
+					ilWACSignedPath::signFolderOfStartFile($path_to_file);
+					$mpl->setFile($path_to_file);
 				}
 				$mpl->setMimeType ($med->getFormat());
 				//$mpl->setDisplayHeight($med->getHeight());

@@ -55,7 +55,7 @@ class ilObjSCORMValidator {
 			}
 		}
 
-		function ilObjSCORMValidator($directory) {
+		function __construct($directory) {
 			$this->dir = $directory.'/';
 		}
 

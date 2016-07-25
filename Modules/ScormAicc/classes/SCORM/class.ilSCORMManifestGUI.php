@@ -34,9 +34,9 @@ require_once ("./Modules/ScormAicc/classes/SCORM/class.ilSCORMManifest.php");
 class ilSCORMmanifestGUI extends ilSCORMObjectGUI
 {
 
-	function ilSCORMManifestGUI($a_id)
+	function __construct($a_id)
 	{
-		parent::ilSCORMObjectGUI();
+		parent::__construct();
 		$this->sc_object = new ilSCORMManifest($a_id);
 	}
 

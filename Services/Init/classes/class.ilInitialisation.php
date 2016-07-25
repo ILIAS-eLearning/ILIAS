@@ -64,15 +64,11 @@ class ilInitialisation
 		// ilTemplate
 		if(ilContext::usesTemplate())
 		{
-			// HTML_Template_IT support
-			require_once "HTML/Template/ITX.php";
-			require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 			require_once "./Services/UICore/classes/class.ilTemplate.php";
 		}		
 				
 		// really always required?
-		require_once "./Services/Utilities/classes/class.ilUtil.php";	
-		require_once "./Services/Utilities/classes/class.ilFormat.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";			
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";	
 		
@@ -128,7 +124,6 @@ class ilInitialisation
 		define ("PATH_TO_UNZIP",$ilIliasIniFile->readVariable("tools","unzip"));
 		define ("PATH_TO_GHOSTSCRIPT",$ilIliasIniFile->readVariable("tools","ghostscript"));
 		define ("PATH_TO_JAVA",$ilIliasIniFile->readVariable("tools","java"));
-		define ("PATH_TO_HTMLDOC",$ilIliasIniFile->readVariable("tools","htmldoc"));
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 
@@ -529,7 +524,7 @@ class ilInitialisation
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
-			 "./Services/Style/classes/class.ilStyleDefinition.php");
+			 "./Services/Style/System/classes/class.ilStyleDefinition.php");
 
 		// add user interface hook for style initialisation
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -611,6 +606,9 @@ class ilInitialisation
 				if (class_exists("Collator"))
 				{
 					$GLOBALS["ilCollator"] = new Collator($first);
+					$GLOBALS["DIC"]["ilCollator"] = function($c) {
+						return $GLOBALS["ilCollator"];
+					};
 				}				
 			}
 		}
@@ -785,6 +783,8 @@ class ilInitialisation
 	 */
 	protected static function initGlobal($a_name, $a_class, $a_source_file = null)
 	{
+		global $DIC;
+
 		if($a_source_file)
 		{
 			include_once $a_source_file;
@@ -794,6 +794,10 @@ class ilInitialisation
 		{
 			$GLOBALS[$a_name] = $a_class;
 		}
+
+		$DIC[$a_name] = function ($c) use ($a_name) {
+			return $GLOBALS[$a_name];
+		};
 	}
 			
 	/**
@@ -865,6 +869,11 @@ class ilInitialisation
 
 			return;
 		}
+
+		$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+		$GLOBALS["DIC"]["ilLoggerFactory"] = function($c) {
+			return ilLoggerFactory::getInstance();
+		};
 
 		self::$already_initialized = true;
 

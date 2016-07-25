@@ -112,7 +112,7 @@ class ilMainMenuGUI
 	{
 		echo "ilMainMenu->setTemplate is deprecated. Use getHTML instead.";
 		return;
-		$this->tpl =& $tpl;
+		$this->tpl = $tpl;
 	}
 
 	/**
@@ -986,7 +986,7 @@ class ilMainMenuGUI
 		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting, $ilUser;
 
 		// screen id
-		if (defined("OH_REF_ID") && OH_REF_ID > 0)
+		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
 		{
 			if ($ilHelp->getScreenId() != "")
 			{

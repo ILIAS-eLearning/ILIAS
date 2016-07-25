@@ -204,7 +204,8 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 	public function roundData()
 	{
 		return [
-			['2.4742', '2.47', '2']
+			['2.4742', '2.47', '2'],
+			['2.4762', '2.48', '2']
 		];
 	}
 	

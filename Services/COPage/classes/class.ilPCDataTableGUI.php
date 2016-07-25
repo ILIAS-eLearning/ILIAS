@@ -44,7 +44,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -85,7 +85,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageContent[@HierId='".$this->getHierId()."']".
 			"/Table/TableRow";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -93,7 +93,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$xpc2 = xpath_new_context($this->dom);
 			$path2 = "//PageContent[@HierId='".$this->getHierId()."']".
 				"/Table/TableRow[$i+1]/TableData";
-			$res2 =& xpath_eval($xpc2, $path2);
+			$res2 = xpath_eval($xpc2, $path2);
 			
 			// if this is the first row -> col icons
 			if ($i == 0)
@@ -372,7 +372,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		// perform table action? (move...?)
 		//$this->update(false);
 		$this->pg_obj->addHierIDs();
-
 		if ($_POST["tab_cmd"] != "")
 		{
 			$cell_hier_id = ($_POST["tab_cmd_type"] == "col")
@@ -381,7 +380,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
 			if (is_object($cell_obj))
 			{
-				$cell_obj->$_POST["tab_cmd"]();
+				$tab_cmd = $_POST["tab_cmd"];
+				$cell_obj->$tab_cmd();
 				$_SESSION["il_pg_error"] = $this->pg_obj->update();
 			}
 		}
@@ -501,7 +501,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageContent[@HierId='".$this->getHierId()."']".
 			"/Table/TableRow";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -509,7 +509,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$xpc2 = xpath_new_context($this->dom);
 			$path2 = "//PageContent[@HierId='".$this->getHierId()."']".
 				"/Table/TableRow[$i+1]/TableData";
-			$res2 =& xpath_eval($xpc2, $path2);
+			$res2 = xpath_eval($xpc2, $path2);
 
 			// if this is the first row -> col icons
 			if ($i == 0)

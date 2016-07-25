@@ -39,7 +39,7 @@ class ilMDUtils
 	 * @return array  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or false if not parsable
 	 *
 	 */
-	function _LOMDurationToArray($a_string)
+	static function _LOMDurationToArray($a_string)
 	{
 		$a_string = trim($a_string);
 		#$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';

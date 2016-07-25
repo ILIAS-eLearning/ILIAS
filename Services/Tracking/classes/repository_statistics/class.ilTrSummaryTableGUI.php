@@ -603,8 +603,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				}
 				else
 				{
-					include_once("./Services/Utilities/classes/class.ilFormat.php");
-					$value = ilFormat::_secondsToString($value, ($value < 3600 ? true : false)); // #14858
+					$value = ilDatePresentation::secondsToString($value, ($value < 3600 ? true : false)); // #14858
 				}
 				break;
 
@@ -720,7 +719,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			
 			$this->tpl->touchBlock("path_action");
 		}
-		else
+		else if($a_set["ref_ids"]) // #18446
 		{
 			// #16453
 			include_once './Services/Tree/classes/class.ilPathGUI.php';

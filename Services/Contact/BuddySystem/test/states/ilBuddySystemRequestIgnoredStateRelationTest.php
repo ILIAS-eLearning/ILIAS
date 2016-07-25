@@ -70,18 +70,20 @@ class ilBuddySystemRequestIgnoredStateRelationTest extends ilBuddySystemBaseStat
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testCanBeRequested()
 	{
+		$this->expectException(ilBuddySystemRelationStateException::class);
 		$this->relation->request();
 	}
 
 	/**
-	 *  @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testCanBeIgnored()
 	{
+		$this->expectException(ilBuddySystemRelationStateException::class);
 		$this->relation->ignore();
 	}
 }

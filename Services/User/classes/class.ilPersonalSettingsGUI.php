@@ -824,7 +824,6 @@ class ilPersonalSettingsGUI
 		}
 
 		// skin/style
-		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		if ($this->userSettingVisible("skin_style"))
 		{
 			$templates = $styleDefinition->getAllTemplates();
@@ -842,7 +841,8 @@ class ilPersonalSettingsGUI
 
 					foreach($styles as $style)
 					{
-						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 						{
 							continue;
 						}
@@ -948,7 +948,7 @@ class ilPersonalSettingsGUI
 
 			$expires = ilSession::getSessionExpireValue();
 			$lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
-			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($expires, true)));
+			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilDatePresentation::secondsToString($expires, true)));
 
 			$min_value = ilSessionReminder::MIN_LEAD_TIME;
 			$max_value = max($min_value, ((int)$expires / 60) - 1);

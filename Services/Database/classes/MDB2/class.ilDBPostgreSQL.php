@@ -19,6 +19,17 @@ class ilDBPostgreSQL extends ilDB
 {
 
 	/**
+	 * @param $module
+	 * @return mixed
+	 */
+	public function loadModule($module) {
+		return $this->db->loadModule($module);
+	}
+
+
+
+
+	/**
 	* Get DSN.
 	*/
 	function getDSN()
@@ -81,7 +92,9 @@ class ilDBPostgreSQL extends ilDB
 	 */
 	function constraintName($a_table, $a_constraint)
 	{
-		return $a_table."_".$a_constraint;
+		$a_constraint = str_replace($a_table . '_', '', $a_constraint);
+
+		return $a_table . "_" . $a_constraint;
 	}
 
 	/**
@@ -219,7 +232,9 @@ class ilDBPostgreSQL extends ilDB
 		foreach($locks as $lock)
 		{
 			$this->db->query($lock);
-			$ilLog->write(__METHOD__.': '.$lock);
+			if ($ilLog instanceof ilLog) {
+				$ilLog->write(__METHOD__ . ': ' . $lock);
+			}
 		}
 		return true;
 	}
@@ -233,5 +248,33 @@ class ilDBPostgreSQL extends ilDB
 		$this->db->commit();
 	}
 
+
+	public function getStorageEngine() {
+		return null;
+	}
+
+
+	public function dropFulltextIndex($a_table, $a_name) {
+		return false;
+	}
+
+
+	public function setStorageEngine($storage_engine) {
+		return false;
+	}
+
+
+	public function getServerVersion($native = false) {
+		// TODO: Implement getServerVersion() method.
+	}
+
+
+	public function queryCol($query, $type = ilDBConstants::FETCHMODE_DEFAULT, $colnum = 0) {
+		
+	}
+
+
+	public function queryRow($query, $types = null, $fetchmode = ilDBConstants::FETCHMODE_DEFAULT) {
+		// TODO: Implement queryRow() method.
+	}
 }
-?>

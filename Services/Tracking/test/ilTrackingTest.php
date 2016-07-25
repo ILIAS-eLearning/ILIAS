@@ -56,7 +56,6 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 
 		$res = ilChangeEvent::_lookupUncaughtWriteEvents(9,$ilUser->getId());
 		$res = ilChangeEvent::_lookupChangeState(9,$ilUser->getId());
-		$res = ilChangeEvent::_lookupInsideChangeState(9,$ilUser->getId());
 	}
 	
 	/**

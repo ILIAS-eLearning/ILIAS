@@ -35,12 +35,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSOAPStructureObjectAdministration extends ilSoapAdministration
 {
-	function ilSOAPStructureObjectAdministration ()
-	{
-		parent::ilSoapAdministration();
-	}
-
-
 	function getStructureObjects ($sid, $ref_id)
 	{
 		$this->initAuth($sid);

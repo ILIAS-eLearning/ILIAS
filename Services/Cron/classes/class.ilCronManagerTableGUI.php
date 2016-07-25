@@ -42,6 +42,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox("mjid");
 		$this->addMultiCommand("activate", $lng->txt("cron_action_activate"));
 		$this->addMultiCommand("deactivate", $lng->txt("cron_action_deactivate"));
+		$this->addMultiCommand("reset", $lng->txt("cron_action_reset"));
 						
 		$this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));

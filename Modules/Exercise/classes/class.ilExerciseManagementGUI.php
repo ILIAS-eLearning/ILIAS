@@ -813,16 +813,18 @@ class ilExerciseManagementGUI
 		if(!$members)
 		{
 			$this->ctrl->redirect($this, "members");
-		}
-		$data = array();
-		foreach(array_keys($members) as $user_id)
+		}				
+		
+		// #18408 - saveStatus() will rollout teams, we need raw (form) data here 
+		$data = array();				
+		foreach(array_keys($_POST["member"]) as $user_id)
 		{
 			$data[-1][$user_id] = array(
 				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
 				,"notice" => ilUtil::stripSlashes($_POST["notice"][$user_id])			
 				,"mark" => ilUtil::stripSlashes($_POST["mark"][$user_id])
 			);
-		}				
+		}		
 		$this->saveStatus($data);
 	}
 	
@@ -1340,7 +1342,7 @@ class ilExerciseManagementGUI
 	 */
 	function saveMultiFeedbackObject()
 	{
-		$this->assignment->saveMultiFeedbackFiles($_POST["file"]);
+		$this->assignment->saveMultiFeedbackFiles($_POST["file"], $this->exercise);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "members");

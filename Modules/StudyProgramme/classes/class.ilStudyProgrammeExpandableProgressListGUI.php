@@ -48,7 +48,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		$this->il_access = $ilAccess;
 	}
 	
-	public function getIndent() {
+	protected function getIndent() {
 		return $this->indent;
 	}
 	
@@ -116,21 +116,19 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	}
 	
 	protected function getAccordionContentProgressesHTML() {
-		// TODO: $this could be removed as soon as support for PHP 5.3 is dropped:
-		$self = $this;
 		// Make shouldShowSubProgress and newSubItem protected again afterwards, do
 		// the same in the derived class ilStudyProgrammeIndividualPlanProgressListGUI.
-		return implode("\n", array_map(function(ilStudyProgrammeUserProgress $progress) use ($self) {
-			if (!$self->shouldShowSubProgress($progress)) {
+		return implode("\n", array_map(function(ilStudyProgrammeUserProgress $progress) {
+			if (!$this->shouldShowSubProgress($progress)) {
 				return "";
 			}
-			$gui = $self->newSubItem($progress);
-			$gui->setIndent($self->getIndent() + 1);
+			$gui = $this->newSubItem($progress);
+			$gui->setIndent($this->getIndent() + 1);
 			return $gui->getHTML();
 		}, $this->progress->getChildrenProgress()));
 	}
 	
-	public function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
+	protected function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
 		if($a_progress->isRelevant()) {
 			$prg = $a_progress->getStudyProgramme();
 			$can_read = $this->il_access->checkAccess("read", "", $prg->getRefId(), "prg", $prg->getId());
@@ -144,7 +142,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		return false;
 	}
 	
-	public function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
+	protected function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
 		return new ilStudyProgrammeExpandableProgressListGUI($a_progress);
 	}
 	

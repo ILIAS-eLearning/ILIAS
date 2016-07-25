@@ -43,7 +43,9 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI {
 	 *                    "value" (string) => property value
 	 */
 	public function getProperties() {
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		$props = array();
 		include_once("./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php");

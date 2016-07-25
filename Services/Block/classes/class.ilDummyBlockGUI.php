@@ -39,7 +39,7 @@ class ilDummyBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilDummyBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng;
 		

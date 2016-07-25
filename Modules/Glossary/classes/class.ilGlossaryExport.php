@@ -44,15 +44,15 @@ class ilGlossaryExport
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryExport(&$a_glo_obj, $a_mode = "xml")
+	function __construct(&$a_glo_obj, $a_mode = "xml")
 	{
 		global $ilErr, $ilDB, $ilias;
 
-		$this->glo_obj =& $a_glo_obj;
+		$this->glo_obj = $a_glo_obj;
 
-		$this->err =& $ilErr;
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->err = $ilErr;
+		$this->ilias = $ilias;
+		$this->db = $ilDB;
 		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();

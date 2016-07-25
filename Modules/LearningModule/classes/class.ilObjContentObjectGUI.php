@@ -31,7 +31,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $lng, $ilCtrl;
 //echo "<br>ilobjcontobjgui-constructor-id-$a_id";
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$lng->loadLanguageModule("content");
 		$lng->loadLanguageModule("obj");
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -103,7 +103,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			case "ilobjstylesheetgui":
 				$this->addLocations();
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -111,7 +111,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				{
 					$style_gui->setCreationMode(true);
 				}
-				$ret =& $this->ctrl->forwardCommand($style_gui);
+				$ret = $this->ctrl->forwardCommand($style_gui);
 				//$ret =& $style_gui->executeCommand();
 
 				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
@@ -136,11 +136,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$pg_gui = new ilLMPageObjectGUI($this->object);
 				if ($_GET["obj_id"] != "")
 				{
-					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
+					$obj = ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
 					$pg_gui->setLMPageObject($obj);
 				}
 				//$ret =& $pg_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($pg_gui);
+				$ret = $this->ctrl->forwardCommand($pg_gui);
 				if ($cmd == "save" || $cmd == "cancel")
 				{
 //					$this->ctrl->redirect($this, "pages");
@@ -157,11 +157,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$st_gui = new ilStructureObjectGUI($this->object, $this->object->lm_tree);
 				if ($_GET["obj_id"] != "")
 				{
-					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
+					$obj = ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
 					$st_gui->setStructureObject($obj);
 				}
 				//$ret =& $st_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($st_gui);
+				$ret = $this->ctrl->forwardCommand($st_gui);
 				if ($cmd == "save" || $cmd == "cancel")
 				{
 					if ($_GET["obj_id"] == "")
@@ -189,7 +189,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			// infoscreen
@@ -213,7 +213,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$info->addMetaDataSections($this->object->getId(), 0,
 					$this->object->getType());
 		
-				$ret =& $this->ctrl->forwardCommand($info);
+				$ret = $this->ctrl->forwardCommand($info);
 				break;
 			
 			case "ilexportgui":
@@ -327,13 +327,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 						case "pg":
 							$this->setTabs();
 							$this->ctrl->setCmdClass("ilLMPageObjectGUI");
-							$ret =& $this->executeCommand();
+							$ret = $this->executeCommand();
 							break;
 
 						case "st":
 							$this->setTabs();
 							$this->ctrl->setCmdClass("ilStructureObjectGUI");
-							$ret =& $this->executeCommand();
+							$ret = $this->executeCommand();
 							break;
 					}
 				}
@@ -349,13 +349,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 							$cmd = "create";
 						}
 						$cmd .= "Object";
-						$ret =& $this->$cmd();
+						$ret = $this->$cmd();
 					}
 					else
 					{
 						$this->addHeaderAction();
 						$this->addLocations();
-						$ret =& $this->$cmd();
+						$ret = $this->$cmd();
 					}
 				}
 				break;
@@ -1579,17 +1579,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				== $this->object->getID())
 			{
 				$lm_page = new ilLMPageObject($this->object, $id);
-				$new_page =& $lm_page->copy();
+				$new_page = $lm_page->copy();
 				$id = $new_page->getId();
 			}
 			else
 			{
 				// get page from other content object into current content object
 				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
-				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_obj = $this->ilias->obj_factory->getInstanceByObjId($lm_id);
 				$lm_page = new ilLMPageObject($lm_obj, $id);
 				$copied_nodes = array();
-				$new_page =& $lm_page->copyToOtherContObject($this->object, $copied_nodes);
+				$new_page = $lm_page->copyToOtherContObject($this->object, $copied_nodes);
 				$id = $new_page->getId();
 				ilLMObject::updateInternalLinks($copied_nodes);
 			}
@@ -1603,11 +1603,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				!= $this->object->getID())
 			{
 				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
-				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_obj = $this->ilias->obj_factory->getInstanceByObjId($lm_id);
 				$lm_page = new ilLMPageObject($lm_obj, $id);
 				$lm_page->setLMId($this->object->getID());
 				$lm_page->update();
-				$page =& $lm_page->getPageObject();
+				$page = $lm_page->getPageObject();
 				$page->buildDom();
 				$page->setParentId($this->object->getID());
 				$page->update();
@@ -1732,7 +1732,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			if ($id != IL_FIRST_NODE)
 			{
-				$obj =& ilLMObjectFactory::getInstance($this->object, $id, false);
+				$obj = ilLMObjectFactory::getInstance($this->object, $id, false);
 				$node_data = $tree->getNodeData($id);
 				if (is_object($obj))
 				{
@@ -2423,7 +2423,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$obj_id = $_GET["obj_id"];
 		}
-		$lmtree =& $this->object->getTree();
+		$lmtree = $this->object->getTree();
 
 		if (($obj_id != 0) && $lmtree->isInTree($obj_id))
 		{

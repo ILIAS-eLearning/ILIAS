@@ -57,14 +57,14 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
 				$license_gui = new ilLicenseOverviewGUI($this,ilLicenseOverviewGUI::LIC_MODE_ADMINISTRATION);
-				$ret =& $this->ctrl->forwardCommand($license_gui);
+				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:

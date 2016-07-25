@@ -373,7 +373,7 @@ class ilChangeEvent
 	 * @param integer $a_now
 	 * @param integer $a_minimum
 	 */
-	function _syncObjectStats($a_now = null, $a_minimum = 20000)
+	static function _syncObjectStats($a_now = null, $a_minimum = 20000)
 	{
 		global $ilDB;
 		
@@ -678,70 +678,7 @@ class ilChangeEvent
 			return 0; // user catched all write events, report as unchanged (0)
 		}
 	}
-	/**
-	 * Returns the changed state of objects which are children of the specified
-	 * parent object.
-	 *
-	 * Note this gives a different result than calling _lookupChangeState of
-	 * each child object. This is because, this function treats a catch on the
-	 * write events on the parent as a catch up for all child objects.
-	 * This difference was made, because it greatly improves performance
-	 * of this function. 
-	 *
-	 * @param $parent_obj_id int The object id of the parent object.
-	 * @param $usr_id int The user who is interested into these events.
-	 * @return 0 = object has not been changed inside
-	 *         1 = object has been changed inside
-	 */
-	public static function _lookupInsideChangeState($parent_obj_id, $usr_id)
-	{
-		global $ilDB;
-		
-		$q = "SELECT ts ".
-			"FROM catch_write_events ".
-			"WHERE obj_id=".$ilDB->quote($parent_obj_id)." ".
-			"AND usr_id=".$ilDB->quote($usr_id);
-		$r = $ilDB->query($q);
-		$catchup = null;
-		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-			$catchup = $row['ts'];
-		}
-
-		if($catchup == null)
-		{
-			$ilDB->setLimit(1);
-			$query = sprintf('SELECT * FROM write_event '.
-				'WHERE parent_obj_id = %s '.
-				'AND usr_id <> %s ',
-				$ilDB->quote($parent_obj_id,'integer'),
-				$ilDB->quote($usr_id,'integer'));
-			$res = $ilDB->query($query);
-		}
-		else
-		{
-			$ilDB->setLimit(1);
-			$query = sprintf('SELECT * FROM write_event '.
-				'WHERE parent_obj_id = %s '.
-				'AND usr_id <> %s '.
-				'AND ts > %s ',
-				$ilDB->quote($parent_obj_id,'integer'),
-				$ilDB->quote($usr_id,'integer'),
-				$ilDB->quote($catchup,'timestamp'));
-			$res = $ilDB->query($query);
-		}
-		$numRows = $res->numRows();
-		if ($numRows > 0)
-		{
-			$row = $ilDB->fetchAssoc($res);
-			// if we have write events, and user never catched one, report as new (1)
-			// if we have write events, and user catched an old write event, report as changed (2)
-			return ($catchup == null) ? 1 : 2;
-		}
-		else 
-		{
-			return 0; // user catched all write events, report as unchanged (0)
-		}
-	}
+	
 	/**
 	 * Reads all read events which occured on the object 
 	 * which happened after the last time the user caught up with them.
@@ -998,7 +935,7 @@ class ilChangeEvent
 	 * called in ./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php
 	 * @return true
 	 */
-	function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
+	static function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
 		global $ilDB;
 		$res = $ilDB->queryF('UPDATE read_event SET first_access=%s, last_access = %s WHERE obj_id=%s AND usr_id=%s',
 			array('timestamp','integer','integer','integer'),

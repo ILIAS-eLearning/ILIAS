@@ -311,7 +311,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			if($q_id < 1 && $q_type)
 			{
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type);
+				$q_gui = assQuestionGUI::_getQuestionGUI($q_type);
 
 				// feedback editing mode
 				include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -348,7 +348,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		else	// behaviour in question pool
 		{
 			require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
-			$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 			$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
 		}
 	}

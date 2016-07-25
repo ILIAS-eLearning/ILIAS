@@ -24,7 +24,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSCORMLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -63,7 +63,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* get all tracking items of scorm object
 	* @access static
 	*/
-	function _getTrackingItems($a_obj_id)
+	static function _getTrackingItems($a_obj_id)
 	{
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 		$tree = new ilSCORMTree($a_obj_id);
@@ -1258,8 +1258,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			array($user_id)
 		);
 	}
-	
-	function _getScoresForUser($a_item_id, $a_user_id)
+
+	static function _getScoresForUser($a_item_id, $a_user_id)
 	{
 		global $ilDB;
 

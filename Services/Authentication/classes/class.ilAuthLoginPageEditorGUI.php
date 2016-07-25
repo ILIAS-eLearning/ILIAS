@@ -107,7 +107,7 @@ class ilAuthLoginPageEditorGUI
 
 		include_once("./Services/Authentication/classes/class.ilLoginPage.php");
 		include_once("./Services/Authentication/classes/class.ilLoginPageGUI.php");
-		include_once './Services/Style/classes/class.ilObjStyleSheet.php';
+		include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
 
 		$lng->loadLanguageModule("content");
 
@@ -120,7 +120,7 @@ class ilAuthLoginPageEditorGUI
 			$new_page_object->createFromXML();
 		}
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());

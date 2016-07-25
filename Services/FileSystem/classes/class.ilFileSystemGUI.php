@@ -209,11 +209,11 @@ class ilFileSystemGUI
 			default:
 				if (substr($cmd, 0, 11) == "extCommand_")
 				{
-					$ret =& $this->extCommand(substr($cmd, 11, strlen($cmd) - 11));
+					$ret = $this->extCommand(substr($cmd, 11, strlen($cmd) - 11));
 				}
 				else
 				{
-					$ret =& $this->$cmd();
+					$ret = $this->$cmd();
 				}
 				break;
 		}
@@ -230,7 +230,7 @@ class ilFileSystemGUI
 	{
 		$i = count($this->commands);
 
-		$this->commands[$i]["object"] =& $a_obj;
+		$this->commands[$i]["object"] = $a_obj;
 		$this->commands[$i]["method"] = $a_func;
 		$this->commands[$i]["name"] = $a_name;
 		$this->commands[$i]["single"] = $a_single;
@@ -759,7 +759,8 @@ class ilFileSystemGUI
 			$cur_dir = (!empty($cur_subdir))
 				? $this->main_dir."/".$cur_subdir
 				: $this->main_dir;
-			$file = $cur_dir."/".ilUtil::stripSlashes($post_file);
+			$pi = pathinfo($post_file);
+			$file = $cur_dir."/".ilUtil::stripSlashes($pi["basename"]);
 
 			if (@is_file($file))
 			{

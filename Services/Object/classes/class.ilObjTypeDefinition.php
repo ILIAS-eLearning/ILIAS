@@ -41,7 +41,7 @@ class ilObjTypeDefinition extends ilObject
 	* Constructor
 	* @access	public
 	*/
-	function ilObjTypeDefinition($a_id = 0,$a_call_by_reference = false)
+	public function __construct($a_id = 0,$a_call_by_reference = false)
 	{
 		parent::__construct($a_id,$a_call_by_reference);
 		$this->type = "typ";

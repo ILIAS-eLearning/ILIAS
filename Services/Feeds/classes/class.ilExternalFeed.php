@@ -268,7 +268,7 @@ class ilExternalFeed
 	* This one is by Keith Devens
 	*, see http://keithdevens.com/weblog/archive/2002/Jun/03/RSSAuto-DiscoveryPHP
 	*/
-	function _getRSSLocation($html, $location)
+	static function _getRSSLocation($html, $location)
 	{
 		if(!$html or !$location){
 			return false;

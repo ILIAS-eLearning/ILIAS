@@ -39,9 +39,9 @@ class ilAICCTree extends ilSCORMTree
 	* @param	int		$a_id		tree id (= AICC Learning Module Object ID)
 	* @access	public
 	*/
-	function ilAICCTree($a_id = 0)
+	function __construct($a_id = 0)
 	{
-		parent::ilTree($a_id);
+		parent::__construct($a_id);
 		$this->setTableNames('scorm_tree','aicc_object');
 		$this->setTreeTablePK('slm_id');
 	}

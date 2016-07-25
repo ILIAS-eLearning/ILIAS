@@ -208,11 +208,8 @@ class ilAuthUtils
 				break;
 
 			case AUTH_SHIBBOLETH:
-				// build option string for SHIB::Auth
-				$auth_params = array();
-				$auth_params['sessionName'] = "_authhttp".md5($realm);
 				include_once './Services/AuthShibboleth/classes/class.ilShibboleth.php';		
-				$ilAuth = new ShibAuth($auth_params,true);
+				$ilAuth = new ShibAuth(array(),true);
 				break;
 				
 			case AUTH_CAS:
@@ -517,16 +514,33 @@ class ilAuthUtils
 	
 	static function _getAllAuthModes()
 	{
-		return array(
-			AUTH_LOCAL => ilAuthUtils::_getAuthModeName(AUTH_LOCAL),
-			AUTH_LDAP => ilAuthUtils::_getAuthModeName(AUTH_LDAP),
-			AUTH_SHIBBOLETH => ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH),
-			AUTH_CAS => ilAuthUtils::_getAuthModeName(AUTH_CAS),
-			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
-			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS),
-			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS),
-			AUTH_APACHE => ilAuthUtils::_getAuthModeName(AUTH_APACHE)
+		$modes = array(
+			AUTH_LOCAL,
+			AUTH_LDAP,
+			AUTH_SHIBBOLETH,
+			AUTH_CAS,
+			AUTH_SOAP,
+			AUTH_RADIUS,
+			AUTH_ECS,
+			AUTH_OPENID,
+			AUTH_APACHE
 		);
+		$ret = array();
+		foreach($modes as $mode)
+		{
+			// multi ldap implementation
+			if($mode == AUTH_LDAP)
+			{
+				foreach(ilLDAPServer::_getServerList() as $ldap_id)
+				{
+					$id = AUTH_LDAP . '_' . $ldap_id;
+					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
+				}
+				continue;
+			}
+			$ret[$mode] =  ilAuthUtils::_getAuthModeName($mode);
+		}
+		return $ret;
 	}
 	
 	/**
@@ -661,8 +675,11 @@ class ilAuthUtils
 			}
 		}
 		// end-patch auth_plugins
-		
-		$options[$default]['checked'] = true;
+
+		if(array_key_exists($default, $options))
+		{
+			$options[$default]['checked'] = true;
+		}
 
 		return $options ? $options : array();
 	}

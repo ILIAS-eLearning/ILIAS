@@ -59,7 +59,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -99,7 +99,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$fileObj->getUploadFile($_FILES["file"]["tmp_name"],
 			$_FILES["file"]["name"]);
 
-		$this->file_object =& $fileObj;
+		$this->file_object = $fileObj;
 		return true;
 	}
 

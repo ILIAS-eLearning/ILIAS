@@ -39,7 +39,12 @@ class ilTranslationGUI {
 
 	function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
-		global $tpl, $ilCtrl, $ilDB, $lng, $ilAccess;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		/**
 		 * @var $tpl    ilTemplate
 		 * @var $ilCtrl ilCtrl

@@ -24,9 +24,10 @@ interface ilDBInterface {
 
 
 	/**
-	 * @return void
+	 * @param bool $return_false_on_error
+	 * @return mixed
 	 */
-	public function connect();
+	public function connect($return_false_on_error = false);
 
 
 	/**
@@ -38,12 +39,13 @@ interface ilDBInterface {
 
 
 	/**
-	 * experimental....
-	 *
-	 * @param $table_name string
-	 * @param $fields     array
+	 * @param $table_name
+	 * @param $fields
+	 * @param bool $drop_table
+	 * @param bool $ignore_erros
+	 * @return mixed
 	 */
-	public function createTable($table_name, $fields);
+	public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false);
 
 
 	/**
@@ -86,9 +88,20 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $table_name string
+	 * @param $table_name
+	 * @param bool $error_if_not_existing
+	 * @return bool
 	 */
-	public function dropTable($table_name);
+	public function dropTable($table_name, $error_if_not_existing = true);
+
+
+	/**
+	 * @param $old_name
+	 * @param $new_name
+	 *
+	 * @return mixed
+	 */
+	public function renameTable($old_name, $new_name);
 
 
 	/**
@@ -98,12 +111,14 @@ interface ilDBInterface {
 	 */
 	public function query($query);
 
+
 	/**
-	 * @param $query_result PDOStatement
-	 *
+	 * @param $query_result
+	 * @param int $fetch_mode
 	 * @return array
 	 */
-	//public function fetchAll($query_result);
+	public function fetchAll($query_result, $fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
+
 
 	/**
 	 * @param $table_name string
@@ -185,12 +200,21 @@ interface ilDBInterface {
 
 	/**
 	 * @param $table_name
-	 * @param $index_name
-	 *
-	 * @return null
+	 * @param $fields
+	 * @param string $index_name
+	 * @param bool $fulltext
+	 * @return bool
 	 */
-	public function addIndex($table_name, $index_name);
+	public function addIndex($table_name, $fields, $index_name = '', $fulltext = false);
 
+
+	/**
+	 * @param $table_name
+	 * @param $fields
+	 *
+	 * @return mixed
+	 */
+	public function indexExistsByFields($table_name, $fields);
 
 	/**
 	 * @param int $fetchMode
@@ -216,7 +240,7 @@ interface ilDBInterface {
 	 * @param array table definitions
 	 * @return
 	 */
-	public function lockTables($a_tables);
+	public function lockTables($tables);
 
 
 	/**
@@ -277,10 +301,10 @@ interface ilDBInterface {
 	 * @param string $column
 	 * @param string $type
 	 * @param mixed $value
-	 * @param bool $caseInsensitive
+	 * @param bool $case_insensitive
 	 * @return string
 	 */
-	public function like($column, $type, $value = "?", $caseInsensitive = true);
+	public function like($column, $type, $value = "?", $case_insensitive = true);
 
 
 	/**
@@ -357,7 +381,7 @@ interface ilDBInterface {
 	/**
 	 * @param $a_query
 	 * @param null $a_types
-	 * @return mixed
+	 * @return ilDBStatement
 	 */
 	public function prepareManip($a_query, $a_types = null);
 
@@ -400,6 +424,14 @@ interface ilDBInterface {
 	//
 	// type-specific methods
 	//
+
+	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature);
+
+
 	/**
 	 * @return bool
 	 */
@@ -452,9 +484,10 @@ interface ilDBInterface {
 
 	/**
 	 * @param $identifier
-	 * @return mixed
+	 * @param bool $check_option
+	 * @return string
 	 */
-	public function quoteIdentifier($identifier);
+	public function quoteIdentifier($identifier, $check_option = false);
 
 
 	/**
@@ -471,4 +504,211 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function free($a_st);
+
+
+	/**
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function checkTableName($a_name);
+
+
+	/**
+	 * @param $a_word
+	 * @return bool
+	 */
+	public static function isReservedWord($a_word);
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function beginTransaction();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function commit();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function rollback();
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_constraint
+	 * @return string
+	 */
+	public function constraintName($a_table, $a_constraint);
+
+
+	/**
+	 * @param $a_table
+	 * @param string $a_name
+	 * @return bool
+	 */
+	public function dropIndex($a_table, $a_name = "i1");
+
+
+	/**
+	 * @param $a_name
+	 * @param string $a_charset
+	 * @param string $a_collation
+	 * @return mixed
+	 */
+	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+
+
+	/**
+	 * @param $table_name
+	 * @param $afields
+	 * @return bool
+	 */
+	public function dropIndexByFields($table_name, $afields);
+
+
+	/**
+	 * @return string
+	 */
+	public function getPrimaryKeyIdentifier();
+
+
+	/**
+	 * @param $table_name
+	 * @param $afields
+	 * @param string $a_name
+	 * @return bool
+	 */
+	public function addFulltextIndex($table_name, $afields, $a_name = 'in');
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function dropFulltextIndex($a_table, $a_name);
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function isFulltextIndex($a_table, $a_name);
+
+
+	/**
+	 * @param $storage_engine
+	 */
+	public function setStorageEngine($storage_engine);
+
+
+	/**
+	 * @return string
+	 */
+	public function getStorageEngine();
+}
+
+/**
+ * Interface ilDBPdoInterface
+ */
+interface ilDBPdoInterface {
+
+	/**
+	 * @param bool $native
+	 * @return int
+	 */
+	public function getServerVersion($native = false);
+
+
+	/**
+	 * @param $query
+	 * @param int $type
+	 * @param int $colnum
+	 * @return array
+	 */
+	public function queryCol($query, $type = ilDBConstants::FETCHMODE_DEFAULT, $colnum = 0);
+
+
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param int $fetchmode
+	 * @return array
+	 */
+	public function queryRow($query, $types = null, $fetchmode = ilDBConstants::FETCHMODE_DEFAULT);
+
+
+	/**
+	 * @param $value
+	 * @param bool $escape_wildcards
+	 * @return string
+	 */
+	public function escape($value, $escape_wildcards = false);
+
+
+	/**
+	 * @param $text
+	 * @return string
+	 */
+	public function escapePattern($text);
+
+
+	/**
+	 * @param string $engine
+	 * @return array of failed tables
+	 */
+	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB);
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsEngineMigration();
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @param string $name
+	 * @return bool
+	 */
+	public function addUniqueConstraint($table, $fields, $name = "con");
+
+
+	/**
+	 * @param $table
+	 * @param string $name
+	 * @return bool
+	 */
+	public function dropUniqueConstraint($table, $name = "con");
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @return bool
+	 */
+	public function dropUniqueConstraintByFields($table, $fields);
+
+
+	/**
+	 * @param $name
+	 * @return bool
+	 */
+	public function checkIndexName($name);
+
+
+	/**
+	 * @return int
+	 */
+	public function getLastInsertId();
 }

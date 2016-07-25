@@ -51,12 +51,12 @@ class ilParameterAppender
 	* Constructor
 	* @access public
 	*/
-	function ilParameterAppender($webr_id)
+	function __construct($webr_id)
 	{
 		global $ilDB;
 
 		$this->webr_id = $webr_id;
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 	
 	/**

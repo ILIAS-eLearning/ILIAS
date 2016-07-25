@@ -38,7 +38,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*
 	* @access	public
 	*/
-	function ilObjSCORMLearningModuleGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		global $lng;
 
@@ -877,7 +877,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	/**
 	 * Init import form
 	 */
-	protected function initImportForm()
+	protected function initImportForm($a_new_type)
 	{
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();

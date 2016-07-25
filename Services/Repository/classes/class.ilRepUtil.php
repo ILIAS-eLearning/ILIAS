@@ -63,10 +63,15 @@ class ilRepUtil
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
 		if (count($not_deletable))
 		{
-			$not_deletable = implode(',',$not_deletable);
+			$not_deletable_titles = array();
+			foreach ($not_deletable as $key => $ref_id) {
+				$obj_id = ilObject::_lookupObjId($ref_id);
+				$not_deletable_titles[] = ilObject::_lookupTitle($obj_id);
+			}
+			
 			ilSession::clear("saved_post");
 			throw new ilRepositoryException(
-				$lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$lng->txt("msg_cancel"));
+				$lng->txt("msg_no_perm_delete")." ".implode(', ',$not_deletable_titles)."<br/>".$lng->txt("msg_cancel"));
 		}
 
 		// DELETE THEM
@@ -80,7 +85,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			{
 				foreach($a_ids as $id)
 				{
-					$obj =& ilObjectFactory::getInstanceByObjId($id);
+					$obj = ilObjectFactory::getInstanceByObjId($id);
 					$obj->delete();
 					
 					// write log entry
@@ -216,7 +221,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 
 			foreach ($subtree_nodes as $node)
 			{
-				if(!$node_obj =& ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
+				if(!$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
 				{
 					continue;
 				}
@@ -299,7 +304,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				{
 					foreach ($del_subtree_nodes as $node)
 					{
-						$node_obj =& ilObjectFactory::getInstanceByRefId($node["ref_id"]);
+						$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"]);
 						
 						// write log entry
 						$log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: ".$node_obj->getId().
@@ -330,7 +335,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Move objects from trash back to repository
 	*/
-	function restoreObjects($a_cur_ref_id, $a_ref_ids)
+	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
 		global $rbacsystem, $log, $ilAppEventHandler, $lng, $tree;
 
@@ -398,7 +403,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Recursive method to insert all saved nodes of the clipboard
 	*/
-	private function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
+	private static function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
 	{
 		global $rbacadmin, $rbacreview, $log, $tree;
 
@@ -423,7 +428,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		$ref_obj = $factory->getInstanceByRefId($a_source_id,FALSE);
 		if($ref_obj instanceof ilObject)
 		{
-			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,FALSE);
+			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,true);
 			foreach($lroles as $role_id)
 			{
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';

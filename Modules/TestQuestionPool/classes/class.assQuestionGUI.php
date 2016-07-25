@@ -116,7 +116,7 @@ abstract class assQuestionGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -126,7 +126,7 @@ abstract class assQuestionGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		return $ret;
@@ -362,9 +362,21 @@ abstract class assQuestionGUI
 	*/
 	function getQuestionTemplate()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "Modules/TestQuestionPool");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
+		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
+		if(!$this->tpl->blockExists('content'))
+		{
+			$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "Modules/TestQuestionPool");
+		}
+		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the STATUSLINE variable wrapped in a block named statusline)
+		if(!$this->tpl->blockExists('statusline'))
+		{
+			$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		}
+		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x because ass[XYZ]QuestionGUI::editQuestion is called multiple times
+		if(!$this->tpl->blockExists('adm_content'))
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
+		}
 	}
 
 	/**

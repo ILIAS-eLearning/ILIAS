@@ -28,7 +28,7 @@ class ilSCORMOfflineMode
 	function __construct()
 	{
 		global $ilias;
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->id = $_GET['ref_id'];
 		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";

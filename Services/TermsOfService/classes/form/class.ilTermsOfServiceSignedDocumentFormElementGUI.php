@@ -14,14 +14,23 @@ class ilTermsOfServiceSignedDocumentFormElementGUI extends ilFormPropertyGUI
 	protected $entity;
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @param string                           $a_title
 	 * @param string                           $a_postvar
-	 * @param ilTermsOfServiceAcceptanceEntity $user
+	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 */
 	public function __construct($a_title = '', $a_postvar = '', ilTermsOfServiceAcceptanceEntity $entity)
 	{
+		global $DIC;
+
 		parent::__construct($a_title, $a_postvar);
+
 		$this->entity = $entity;
+		$this->lng    = $DIC['lng'];
 	}
 
 	/**
@@ -37,16 +46,12 @@ class ilTermsOfServiceSignedDocumentFormElementGUI extends ilFormPropertyGUI
 	 */
 	public function insert(ilTemplate $tpl)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-		
 		$local_tpl = new ilTemplate('tpl.prop_tos_signed_document.html', true, true, 'Services/TermsOfService');
 
 		require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 		$modal = ilModalGUI::getInstance();
-		$modal->setHeading($lng->txt('tos_agreement_document'));
+		$modal->setType(ilModalGUI::TYPE_LARGE);
+		$modal->setHeading($this->lng->txt('tos_agreement_document'));
 		$modal->setId('accepted_tos_' . $this->entity->getUserId());
 		$modal->setBody($this->entity->getText());
 

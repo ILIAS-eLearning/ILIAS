@@ -2,7 +2,7 @@
 require_once("./Services/Export/classes/class.ilExport.php");
 require_once('./Services/Export/classes/class.ilXmlExporter.php');
 require_once('class.ilDataCollectionDataSet.php');
-require_once('class.ilDataCollectionCache.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 require_once('./Modules/MediaPool/classes/class.ilObjMediaPool.php');
 
 /**
@@ -24,7 +24,8 @@ class ilDataCollectionExporter extends ilXmlExporter {
 
 
 	public function init() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->ds = new ilDataCollectionDataSet();
 		$this->ds->setDSPrefix('ds');
 		$this->db = $ilDB;
@@ -77,12 +78,12 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		}
 
 		$dependencies = array(
-			ilDataCollectionDatatype::INPUTFORMAT_FILE => array(
+			ilDclDatatype::INPUTFORMAT_FILE => array(
 				'component' => 'Modules/File',
 				'entity' => 'file',
 				'ids' => array(),
 			),
-			ilDataCollectionDatatype::INPUTFORMAT_MOB => array(
+			ilDclDatatype::INPUTFORMAT_MOB => array(
 				'component' => 'Services/MediaObjects',
 				'entity' => 'mob',
 				'ids' => array(),
@@ -105,41 +106,16 @@ class ilDataCollectionExporter extends ilXmlExporter {
 
 		// Return external dependencies/IDs if there are any
 		$return = array();
-		if (count($dependencies[ilDataCollectionDatatype::INPUTFORMAT_FILE]['ids'])) {
-			$return[] = $dependencies[ilDataCollectionDatatype::INPUTFORMAT_FILE];
+		if (count($dependencies[ilDclDatatype::INPUTFORMAT_FILE]['ids'])) {
+			$return[] = $dependencies[ilDclDatatype::INPUTFORMAT_FILE];
 		}
-		if (count($dependencies[ilDataCollectionDatatype::INPUTFORMAT_MOB]['ids'])) {
-			$return[] = $dependencies[ilDataCollectionDatatype::INPUTFORMAT_MOB];
+		if (count($dependencies[ilDclDatatype::INPUTFORMAT_MOB]['ids'])) {
+			$return[] = $dependencies[ilDclDatatype::INPUTFORMAT_MOB];
 		}
 
 		return $return;
 	}
-
-
-	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) {
-		$page_object_ids = array();
-		foreach ($a_ids as $dcl_obj_id) {
-			// If a DCL table has a detail view, we need to export the associated page objects!
-			$sql = "SELECT il_dcl_view.id AS page_obj_id FROM il_dcl_view " . "INNER JOIN il_dcl_table ON (il_dcl_table.id = il_dcl_view.table_id) "
-				. "WHERE il_dcl_table.obj_id = " . $this->db->quote($dcl_obj_id, 'integer') . " "
-				. "AND il_dcl_view.type=0 AND il_dcl_view.formtype=0";
-			$set = $this->db->query($sql);
-			while ($rec = $this->db->fetchObject($set)) {
-				$page_object_ids[] = "dclf:" . $rec->page_obj_id;
-			}
-		}
-		if (count($page_object_ids)) {
-			return array(
-				array(
-					'component' => 'Services/COPage',
-					'entity' => 'pg',
-					'ids' => $page_object_ids,
-				)
-			);
-		}
-
-		return array();
-	}
+	
 }
 
 ?>

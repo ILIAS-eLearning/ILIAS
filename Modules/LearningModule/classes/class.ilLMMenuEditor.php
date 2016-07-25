@@ -35,7 +35,7 @@ class ilLMMenuEditor
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->link_type = "extern";
 		$this->link_ref_id = null;
 	}

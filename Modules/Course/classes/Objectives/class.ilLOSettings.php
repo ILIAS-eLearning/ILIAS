@@ -604,5 +604,27 @@ class ilLOSettings
 			$this->setQualifiedTest(0);
 		}
 	}
+	
+	/**
+	 * export to xml
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		$writer->xmlElement(
+			'Settings',
+			array(
+				'initialTestType'			=> (int) $this->getInitialTestType(),
+				'initialTestStart'			=> (int) $this->isInitialTestStart(),
+				'qualifyingTestType'		=> (int) $this->getQualifyingTestType(),
+				'qualifyingTestStart'		=> (int) $this->isQualifyingTestStart(),
+				'resetResults'				=> (int) $this->isResetResultsEnabled(),
+				'passedObjectivesMode'		=> (int) $this->getPassedObjectiveMode(),
+				'iTest'						=> (int) $this->getInitialTest(),
+				'qTest'						=> (int) $this->getQualifiedTest()
+			)
+		);
+		
+	}
 }
 ?>

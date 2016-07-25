@@ -57,7 +57,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	 * @return array int Array of user ids
 	 * 
 	 */
-	public function _getNotAttempted($a_obj_id)
+	public static function _getNotAttempted($a_obj_id)
 	{		
 		$users = array();
 	
@@ -79,7 +79,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	 * @param int object id
 	 * @return array int Array of user ids
 	 */
-	public function _getInProgress($a_obj_id)
+	public static function _getInProgress($a_obj_id)
 	{		
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -96,7 +96,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		return $users;
 	}
 	
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 		

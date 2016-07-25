@@ -81,13 +81,9 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 	}
 
 	/**
-	 * @param string    $placeholder_id
-	 * @param array     $context_parameters
-	 * @param ilObjUser $recipient
-	 * @param bool      $html_markup
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false)
+	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
 	{
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache

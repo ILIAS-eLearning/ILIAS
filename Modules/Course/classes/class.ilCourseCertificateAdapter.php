@@ -42,9 +42,8 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	*/
 	function __construct(&$object)
 	{
-		global $lng;
 		$this->object =& $object;
-		$lng->loadLanguageModule('certificate');
+		parent::__construct();
 	}
 
 	/**

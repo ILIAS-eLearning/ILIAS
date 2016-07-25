@@ -34,7 +34,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilWikiContributorsTableGUI extends ilTable2GUI
 {
 
-	function ilWikiContributorsTableGUI($a_parent_obj, $a_parent_cmd = "",
+	function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_wiki_id)
 	{
 		global $ilCtrl, $lng;
@@ -67,7 +67,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 	function getContributors()
 	{
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$contributors = ilWikiPage::getParentObjectContributors($this->wiki_id);
+		$contributors = ilWikiPage::getWikiContributors($this->wiki_id);
 		$this->setDefaultOrderField("lastname");
 		$this->setDefaultOrderDirection("asc");
 		$this->setData($contributors);

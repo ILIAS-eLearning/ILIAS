@@ -50,7 +50,12 @@ class ilSession
 	const SESSION_CLOSE_INACTIVE = 11; // inactive account
 	const SESSION_CLOSE_CAPTCHA  = 12; // invalid captcha
 	
-	private static $closing_context = null;	
+	private static $closing_context = null;
+
+	/**
+	 * @var bool
+	 */
+	protected static $enable_web_access_without_session = false;
 
 	/**
 	* Get session data from table
@@ -83,12 +88,12 @@ class ilSession
 	{
 		global $ilDB, $ilClientIniFile;
 		
-		if ($GLOBALS['WEB_ACCESS_WITHOUT_SESSION'])
+		if (self::isWebAccessWithoutSessionEnabled())
 		{
 			// Prevent session data written for web access checker
 			// when no cookie was sent (e.g. for pdf files linking others).
 			// This would result in new session records for each request.
-			return false;
+			return true;
 		}
 
 		$now = time();
@@ -412,6 +417,22 @@ class ilSession
 	public static function getClosingContext()
 	{
 		return self::$closing_context;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public static function isWebAccessWithoutSessionEnabled()
+	{
+		return (bool)self::$enable_web_access_without_session;
+	}
+
+	/**
+	 * @param boolean $enable_web_access_without_session
+	 */
+	public static function enableWebAccessWithoutSession($enable_web_access_without_session)
+	{
+		self::$enable_web_access_without_session = (bool)$enable_web_access_without_session;
 	}
 }
 

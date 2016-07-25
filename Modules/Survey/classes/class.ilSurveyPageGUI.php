@@ -1451,9 +1451,9 @@ class ilSurveyPageGUI
 							$tiny->_buildAdvancedTableButtonsFromHTMLTags($tags).
 							($tiny->getStyleSelect() ? ',styleselect' : '');
 				$buttons_3 = $tiny->_buildAdvancedButtonsFromHTMLTags(3, $tags);
-				$ttpl->setVariable('WYSIWYG_BUTTONS_1', $tiny->_removeRedundantSeparators($buttons_1));
-				$ttpl->setVariable('WYSIWYG_BUTTONS_2', $tiny->_removeRedundantSeparators($buttons_2));
-				$ttpl->setVariable('WYSIWYG_BUTTONS_3', $tiny->_removeRedundantSeparators($buttons_3));
+				$ttpl->setVariable('WYSIWYG_BUTTONS_1', ilTinyMCE::removeRedundantSeparators($buttons_1));
+				$ttpl->setVariable('WYSIWYG_BUTTONS_2', ilTinyMCE::removeRedundantSeparators($buttons_2));
+				$ttpl->setVariable('WYSIWYG_BUTTONS_3', ilTinyMCE::removeRedundantSeparators($buttons_3));
 			}
 
 			// commands

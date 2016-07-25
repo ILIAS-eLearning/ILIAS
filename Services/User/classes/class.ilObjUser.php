@@ -256,7 +256,7 @@ class ilObjUser extends ilObject
 			}
 
 			//check skin-setting
-			include_once("./Services/Style/classes/class.ilStyleDefinition.php");
+			include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 			if ($this->prefs["skin"] == "" ||
 				!ilStyleDefinition::skinExists($this->prefs["skin"]))
 			{
@@ -2302,7 +2302,7 @@ class ilObjUser extends ilObject
     }
     function getTimeLimitFrom()
     {
-        return $this->time_limit_from ? $this->time_limit_from : time();
+        return $this->time_limit_from;
     }
     function setTimeLimitUntil($a_until)
     {
@@ -2310,7 +2310,7 @@ class ilObjUser extends ilObject
     }
     function getTimeLimitUntil()
     {
-        return $this->time_limit_until ? $this->time_limit_until : time();
+        return $this->time_limit_until;
     }
     function setTimeLimitUnlimited($a_unlimited)
     {
@@ -2502,44 +2502,6 @@ class ilObjUser extends ilObject
 		return $this->loc_zoom;
 	}
 
-	function &getAppliedUsers()
-	{
-		$this->applied_users = array();
-		$this->__readAppliedUsers($this->getId());
-
-		return $this->applied_users ? $this->applied_users : array();
-	}
-
-	function isChild($a_usr_id)
-	{
-		if($a_usr_id == $this->getId())
-		{
-			return true;
-		}
-
-		$this->applied_users = array();
-		$this->__readAppliedUsers($this->getId());
-
-		return in_array($a_usr_id,$this->applied_users);
-	}
-
-	function __readAppliedUsers($a_parent_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE time_limit_owner = %s",
-			array("integer"),
-			array($a_parent_id));
-		while ($row = $ilDB->fetchObject($res))
-		{
-			$this->applied_users[] = $row->usr_id;
-
-			// recursion
-			$this->__readAppliedUsers($row->usr_id);
-		}
-		return true;
-	}
 	
 	/**
 	 * Check for simultaneous login
@@ -2830,23 +2792,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* STATIC METHOD
-	* get all user logins
-	* @param	ilias object
-	* @static
-	* @return	array of logins
-	* @access	public
+	* @return array of logins
 	*/
-	static function _getAllUserLogins(&$ilias)
+	public static function getAllUserLogins()
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
-		
-		$res = $ilDB->query("SELECT login FROM usr_data");
-		while($row = $ilDB->fetchObject($res))
+
+		$logins = array();
+
+		$res = $ilDB->query(
+			"SELECT login FROM usr_data WHERE " . $ilDB->in('usr_id', array(ANONYMOUS_USER_ID), true, 'integer')
+		);
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$logins[] = $row->login;
+			$logins[] = $row['login'];
 		}
-		return $logins ? $logins : array();
+
+		return $logins;
 	}
 
 	/**
@@ -4207,7 +4172,6 @@ class ilObjUser extends ilObject
 	function getProfileAsString(&$a_language)
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		include_once './Services/Utilities/classes/class.ilFormat.php';
 
 		global $lng,$rbacreview;
 
@@ -4336,16 +4300,7 @@ class ilObjUser extends ilObject
 			$end = new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX);
 			
 			$body .= $language->txt('time_limit').': '.$start->get(IL_CAL_DATETIME);
-			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);
-			
-			
-			#$body .= $language->txt('time_limit').': '.$period;
-			/*
-			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".
-					  $language->txt('crs_to')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
-			*/
+			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);			
 		}
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
@@ -5153,9 +5108,9 @@ class ilObjUser extends ilObject
 
 		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
 
-		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s";
+		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s OR (ISNULL(last_login) AND create_date < %s)";
 
-		$res = $ilDB->queryF($query, array('timestamp'), array($date));
+		$res = $ilDB->queryF($query, array('timestamp', 'timestamp'), array($date, $date));
 
 		$ids = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

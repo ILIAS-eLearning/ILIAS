@@ -1515,10 +1515,12 @@ class ilECSSettingsGUI
 		$duration->setInfo($this->lng->txt('ecs_cat_mapping_duration_info'));
 		
 			$dur_start = new ilDateTimeInputGUI($this->lng->txt('from'),'dur_begin');
+			$dur_start->setRequired(true);
 			$dur_start->setDate($this->rule->getDateRangeStart());
 			$duration->addSubItem($dur_start);
 			
 			$dur_end = new ilDateTimeInputGUI($this->lng->txt('to'),'dur_end');
+			$dur_end->setRequired(true);
 			$dur_end->setDate($this->rule->getDateRangeEnd());
 			$duration->addSubItem($dur_end);
 		
@@ -1698,10 +1700,22 @@ class ilECSSettingsGUI
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
 			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'begin');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'end');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
 		}
@@ -1837,10 +1851,22 @@ class ilECSSettingsGUI
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
 			$field = $settings->getMappingByECSName(0,'begin');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$field = $settings->getMappingByECSName(0,'end');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
 		}
@@ -1965,7 +1991,6 @@ class ilECSSettingsGUI
 	{
 		global $ilDB,$ilSetting;
 
-		#$ilDB->lockTables(array('name' => 'settings', 'type' => ilDBConstants::LOCK_WRITE));
 		$setting = new ilSetting('ecs');
 		$setting->set(
 			'next_execution_'.$this->settings->getServerId(),

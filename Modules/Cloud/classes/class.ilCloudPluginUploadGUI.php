@@ -25,7 +25,8 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
      */
     public function executeCommand()
     {
-        global $ilCtrl;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
 
         $cmd = $ilCtrl->getCmd();
 
@@ -39,7 +40,8 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
     function asyncUploadFile()
     {
-        global $ilTabs;
+        global $DIC;
+        $ilTabs = $DIC['ilTabs'];
 
         $ilTabs->activateTab("content");
         $this->initUploadForm();
@@ -63,7 +65,9 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
     public function initUploadForm()
     {
-        global $ilCtrl, $lng;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
 
         include_once("./Services/Form/classes/class.ilDragDropFileInputGUI.php");
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
@@ -140,12 +144,93 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         $response->fileName     = $_POST["title"];
         $response->fileSize     = intval($file_upload["size"]);
         $response->fileType     = $file_upload["type"];
-        $response->fileUnzipped = false;
+        $response->fileUnzipped = $file_upload["extract"];
         $response->error        = null;
 
         $file_tree = ilCloudFileTree::getFileTreeFromSession();
-        $file_tree->uploadFileToService($_SESSION["cld_folder_id"], $file_upload["tmp_name"], $_POST["title"]);
-        return $response;
+
+        if ($file_upload["extract"])
+        {
+            $newdir = ilUtil::ilTempnam();
+            ilUtil::makeDir($newdir);
+
+            include_once './Services/Utilities/classes/class.ilFileUtils.php';
+            try
+            {
+                ilFileUtils::processZipFile($newdir, $file_upload["tmp_name"], $file_upload["keep_structure"]);
+            }
+            catch (Exception $e)
+            {
+                $response->error = $e->getMessage();
+                ilUtil::delDir($newdir);
+                exit;
+            }
+
+            try
+            {
+                $this->uploadDirectory($newdir, $_SESSION["cld_folder_id"], $file_tree, $file_upload["keep_structure"]);
+            }
+            catch (Exception $e)
+            {
+                $response->error = $e->getMessage();
+                ilUtil::delDir($newdir);
+                exit;
+            }
+
+            ilUtil::delDir($newdir);
+            return $response;
+        }
+        else
+        {
+            $file_tree->uploadFileToService($_SESSION["cld_folder_id"], $file_upload["tmp_name"], $_POST["title"]);
+            return $response;
+        }
+
+    }
+
+    /**
+     * Recursive Method to upload a directory
+     *
+     * @param string $dir path to directory
+     * @param int $parent_id id of parent folder
+     * @param ilCloudFileTree $file_tree
+     * @param bool $keep_structure if false, only files will be extracted, without folder structure
+     * @throws ilCloudException
+     */
+    protected function uploadDirectory($dir, $parent_id, $file_tree, $keep_structure = true) {
+        $dirlist = opendir($dir);
+
+        while (false !== ($file = readdir ($dirlist)))
+        {
+
+            if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file))
+            {
+                global $DIC;
+                $lng = $DIC['lng'];
+                throw new ilCloudException($lng->txt("filenames_not_supported") , ilFileUtilsException::$BROKEN_FILE);
+            }
+            if ($file != '.' && $file != '..')
+            {
+                $newpath = $dir.'/'.$file;
+                if (is_dir($newpath))
+                {
+                    if($keep_structure)
+                    {
+                        $newnode = $file_tree->addFolderToService($parent_id, basename($newpath));
+                        $this->uploadDirectory($newpath, $newnode->getId(), $file_tree);
+                    }
+                    else
+                    {
+                        $this->uploadDirectory($newpath, $parent_id, $file_tree, false);
+                    }
+                }
+                else
+                {
+                    $file_tree->uploadFileToService($parent_id, $newpath, basename($newpath));
+                }
+            }
+        }
+        closedir($dirlist);
     }
 }
 

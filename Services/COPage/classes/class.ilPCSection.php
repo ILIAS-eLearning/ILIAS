@@ -33,7 +33,7 @@ class ilPCSection extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->sec_node =& $a_node->first_child();		// this is the Section node
+		$this->sec_node = $a_node->first_child();		// this is the Section node
 	}
 
 	/**
@@ -46,8 +46,8 @@ class ilPCSection extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->sec_node =& $this->dom->create_element("Section");
-		$this->sec_node =& $this->node->append_child($this->sec_node);
+		$this->sec_node = $this->dom->create_element("Section");
+		$this->sec_node = $this->node->append_child($this->sec_node);
 		$this->sec_node->set_attribute("Characteristic", "Block");
 	}
 
@@ -121,6 +121,7 @@ class ilPCSection extends ilPageContent
 	function modifyPageContentPostXsl($a_output, $a_mode)
 	{
 		$a_output = self::insertTimings($a_output);
+		$a_output = $this->handleAccess($a_output, $a_mode);
 
 		return $a_output;
 	}
@@ -193,6 +194,123 @@ class ilPCSection extends ilPageContent
 		}
 
 		return "";
+	}
+
+	/**
+	 * Set attribute
+	 *
+	 * @param string $a_attr attribute
+	 * @param string $a_val attribute value
+	 */
+	protected function setAttribute($a_attr, $a_val)
+	{
+		if (!empty($a_val))
+		{
+			$this->sec_node->set_attribute($a_attr, $a_val);
+		}
+		else
+		{
+			if ($this->sec_node->has_attribute($a_attr))
+			{
+				$this->sec_node->remove_attribute($a_attr);
+			}
+		}
+	}
+
+	/**
+	 * Get attribute
+	 *
+	 * @param string $a_attr attribute
+	 * @return string attribute value
+	 */
+	function getAttribute($a_attr)
+	{
+		if (is_object($this->sec_node))
+		{
+			return $this->sec_node->get_attribute($a_attr);
+		}
+		return "";
+	}
+
+	/**
+	 * Set permission
+	 *
+	 * @param string $a_val "read"|"write"|"visible"
+	 */
+	function setPermission($a_val)
+	{
+		$this->setAttribute("Permission", $a_val);
+	}
+
+	/**
+	 * Get permission
+	 *
+	 * @return string
+	 */
+	function getPermission()
+	{
+		return $this->getAttribute("Permission");
+	}
+
+
+	/**
+	 * Set permission ref id
+	 *
+	 * @param integer $a_ref_id ref id
+	 */
+	function setPermissionRefId($a_ref_id)
+	{
+		$this->setAttribute("PermissionRefId", "il__ref_".$a_ref_id);
+	}
+
+	/**
+	 * Get permission ref id
+	 *
+	 * @return int ref id
+	 */
+	function getPermissionRefId()
+	{
+		$id = explode("_", $this->getAttribute("PermissionRefId"));
+		if (in_array($id[1], array("", 0, IL_INST_ID)))
+		{
+			return $id[3];
+		}
+		return "";
+	}
+
+	/**
+	 * @param $a_html
+	 * @param $a_mode
+	 * @return mixed|string
+	 */
+	function handleAccess($a_html, $a_mode)
+	{
+		global $ilAccess;
+
+		while (($start = strpos($a_html, "{{{{{Section;Access;")) > 0)
+		{
+			$end = strpos($a_html, "}}}}}", $start);
+			$access_attr = explode(";", substr($a_html, $start, $end - $start));
+			$id = explode("_", $access_attr[3]);
+			$access = true;
+			if (in_array($id[1], array("", 0, IL_INST_ID)) && $id[3] > 0)
+			{
+				$access = $ilAccess->checkAccess($access_attr[5], "", $id[3]);
+			}
+			if ($access)
+			{
+				$a_html = substr($a_html, 0, $start).substr($a_html, $end + 5);
+			}
+			else
+			{
+				$end = strpos($a_html, "{{{{{Section;Access}}}}}", $start);
+				$a_html = substr($a_html, 0, $start).substr($a_html, $end + 24);
+			}
+		}
+
+		$a_html = str_replace("{{{{{Section;Access}}}}}", "", $a_html);
+
+		return $a_html;
 	}
 
 	/**

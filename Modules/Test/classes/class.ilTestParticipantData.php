@@ -75,7 +75,8 @@ class ilTestParticipantData
 						ta.anonymous_id,
 						ud.firstname,
 						ud.lastname,
-						ud.login
+						ud.login,
+						ud.matriculation
 			FROM		tst_active ta
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = ta.user_fi
@@ -224,5 +225,15 @@ class ilTestParticipantData
 		}
 		
 		return $anonymousActiveIds;
+	}
+	
+	public function getUserDataByActiveId($activeId)
+	{
+		if( isset($this->byActiveId[$activeId]) )
+		{
+			return $this->byActiveId[$activeId];
+		}
+		
+		return null;
 	}
 }

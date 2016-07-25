@@ -80,6 +80,7 @@ class ilDBUpdateNewObjectType
 	 * 
 	 * @param int $a_type_id
 	 * @param int $a_ops_id 
+	 * @return bool
 	 */
 	public static function addRBACOperation($a_type_id, $a_ops_id)
 	{
@@ -91,17 +92,40 @@ class ilDBUpdateNewObjectType
 			' AND ops_id = '.$ilDB->quote($a_ops_id, 'integer'));
 		if($ilDB->numRows($set))
 		{			
-			return;
+			return false;
 		}		
 		
 		$fields = array(
 			'typ_id' => array('integer', $a_type_id),
 			'ops_id' => array('integer', $a_ops_id)
 		);
-		return $ilDB->insert('rbac_ta', $fields);
+		$ilDB->insert('rbac_ta', $fields);
+		return true;
 	}
 
 	/**
+	 * Check if rbac operation exists
+	 *
+	 * @param int $a_type_id type id
+	 * @param int $a_ops_id operation id
+	 * @return bool
+	 */
+	public static function isRBACOperation($a_type_id, $a_ops_id)
+	{
+		global $ilDB;
+
+		// check if it already exists
+		$set = $ilDB->query('SELECT * FROM rbac_ta' .
+			' WHERE typ_id = ' . $ilDB->quote($a_type_id, 'integer') .
+			' AND ops_id = ' . $ilDB->quote($a_ops_id, 'integer'));
+		if ($ilDB->numRows($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+		/**
 	 * Delete rbac operation
 	 * 
 	 * @param int $a_type
@@ -124,7 +148,7 @@ class ilDBUpdateNewObjectType
 
 		$query = 'DELETE FROM rbac_ta WHERE '.
 			'typ_id = '.$ilDB->quote($type_id,'integer').' AND '.
-			'ops_id = '.$ilDB->quote($a_ops_id,'integer');		
+			'ops_id = '.$ilDB->quote($a_ops_id,'integer');
 		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		$ilDB->manipulate($query);		
 		

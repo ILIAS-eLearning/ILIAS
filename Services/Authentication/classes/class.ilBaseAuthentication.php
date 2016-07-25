@@ -52,7 +52,7 @@ class ilBaseAuthentication
 	 */
 	var $client = '';
 
-	function ilBaseAuthentication()
+	public function __construct()
 	{
 		$this->__setMessage('');
 		$this->__setMessageCode('Client');

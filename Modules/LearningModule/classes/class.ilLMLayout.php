@@ -51,7 +51,7 @@ class ilLMLayout
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 	}
 
 	/**

@@ -6822,7 +6822,7 @@ foreach($tables as $table)
 {
 	$ilDB->query("ALTER TABLE ".$table." ADD INDEX ('obj_id','rbac_id','obj_type')");
 }
-
+?>
 <#443>
 <?php
 $wd = getcwd();
@@ -8420,6 +8420,9 @@ chdir('..');
 
 $tree = new ilTree(ROOT_FOLDER_ID);
 $GLOBALS['tree'] = $tree;
+$GLOBALS["DIC"]["tree"] = function($c) {
+	return $GLOBALS["tree"];
+};
 $rbacadmin = new ilRbacAdmin();
 $rbacreview = new ilRbacReview();
 
@@ -8628,7 +8631,10 @@ $ilCtrlStructureReader->getStructure();
 <?php
 
 global $log;
-$GLOBALS['ilLog'] =& $log;
+$GLOBALS['ilLog'] = $log;
+$GLOBALS["DIC"]["ilLog"] = function($c) {
+	return $GLOBALS["ilLog"];
+};
 
 
   // add chat below ChatSettings for personal desktop chat

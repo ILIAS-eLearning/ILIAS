@@ -15,15 +15,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjFileBasedLMListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*
-	*/
-	function ilObjFileBasedLMListGUI()
-	{
-		parent::__construct();
-	}
-
-	/**
 	* initialisation
 	*
 	* this method should be overwritten by derived classes

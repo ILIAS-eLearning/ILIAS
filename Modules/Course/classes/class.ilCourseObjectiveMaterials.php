@@ -376,8 +376,8 @@ class ilCourseObjectiveMaterials
 			$ilDB->quote($this->getType() ,'text').
 			")";
 		$res = $ilDB->manipulate($query);
-
-		return true;
+		
+		return (int) $next_id;
 	}
 	function delete($lm_id)
 	{
@@ -465,6 +465,29 @@ class ilCourseObjectiveMaterials
 		
 		// end-patch lok
 		
+		return true;
+	}
+	
+	// begin-patch optes_lok_export
+	
+	/**
+	 * 
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		foreach($this->getMaterials() as $material)
+		{
+			$writer->xmlElement(
+				'Material',
+				array(
+					'refId'		=> $material['ref_id'],
+					'objId'		=> $material['obj_id'],
+					'type'		=> $material['type'],
+					'position'	=> $material['position']
+				)
+			);
+		}
 		return true;
 	}
 	

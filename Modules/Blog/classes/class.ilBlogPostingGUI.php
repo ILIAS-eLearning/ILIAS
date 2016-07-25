@@ -53,7 +53,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setEnableEditing($a_may_contribute);
 		
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
@@ -486,8 +486,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$form = $this->initDateForm();
 		if($form->checkInput())
 		{
-			$dt = $form->getInput("date");
-			$dt = new ilDateTime($dt["date"]." ".$dt["time"], IL_CAL_DATETIME);
+			$dt = $form->getItemByPostVar("date");
+			$dt = $dt->getDate();
 			
 			$page = $this->getPageObject();
 			$page->setCreated($dt);
@@ -559,6 +559,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 		else
 		{
+			$this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
 			$this->ctrl->redirectByClass("ilobjbloggui", "");
 		}
 	}
@@ -582,6 +583,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 		else
 		{
+			$this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
 			$this->ctrl->redirectByClass("ilobjbloggui", "");
 		}
 	}

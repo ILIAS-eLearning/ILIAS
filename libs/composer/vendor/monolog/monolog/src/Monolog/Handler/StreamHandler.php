@@ -59,10 +59,30 @@ class StreamHandler extends AbstractProcessingHandler
      */
     public function close()
     {
-        if (is_resource($this->stream)) {
+        if ($this->url && is_resource($this->stream)) {
             fclose($this->stream);
         }
         $this->stream = null;
+    }
+
+    /**
+     * Return the currently active stream if it is open
+     *
+     * @return resource|null
+     */
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
+    /**
+     * Return the stream URL if it was configured with a URL and not an active resource
+     *
+     * @return string|null
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**
@@ -71,7 +91,7 @@ class StreamHandler extends AbstractProcessingHandler
     protected function write(array $record)
     {
         if (!is_resource($this->stream)) {
-            if (!$this->url) {
+            if (null === $this->url || '' === $this->url) {
                 throw new \LogicException('Missing stream url, the stream can not be opened. This may be caused by a premature call to close().');
             }
             $this->createDir();

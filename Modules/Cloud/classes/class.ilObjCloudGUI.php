@@ -34,7 +34,8 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * @param int $a_parent_node_id
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$lng->loadLanguageModule("cld");
@@ -54,7 +55,11 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * @throws ilCloudException
 	 */
 	public function executeCommand() {
-		global $ilCtrl, $ilTabs, $ilNavigationHistory, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$lng = $DIC['lng'];
 
 		// Navigation History
 		$link = $ilCtrl->getLinkTarget($this, "render");
@@ -206,7 +211,11 @@ class ilObjCloudGUI extends ilObject2GUI {
 
 
 	public function setTabs() {
-		global $ilTabs, $ilCtrl, $ilAccess, $lng;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 
 		// tab for the "show content" command
 		if ($ilAccess->checkAccess("read", "", $this->object->getRefId())) {
@@ -230,7 +239,9 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * show information screen
 	 */
 	public function infoScreenForward() {
-		global $ilTabs, $ilErr;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilErr = $DIC['ilErr'];
 
 		$ilTabs->activateTab("id_info");
 
@@ -270,7 +281,8 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * @return    ilPropertyFormGUI
 	 */
 	protected function initCreateForm($a_new_type) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -355,7 +367,8 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * @param $object
 	 */
 	protected function serviceAuth(ilObjCloud $object) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		try {
 			$service = ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId());
 			$service->authService($ilCtrl->getLinkTarget($this, "afterServiceAuth") . "&authMode=true");
@@ -366,7 +379,9 @@ class ilObjCloudGUI extends ilObject2GUI {
 	}
 
 	protected function afterServiceAuth() {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		try {
 			if ($this->plugin_service->afterAuthService()) {
@@ -406,7 +421,8 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * addLocatorItems
 	 */
 	protected function addLocatorItems() {
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 
 		if (is_object($this->object)) {
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
@@ -421,7 +437,8 @@ class ilObjCloudGUI extends ilObject2GUI {
 
 
 	public function asyncGetBlock() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		$response = new stdClass();
 		$response->message = NULL;
@@ -449,7 +466,8 @@ class ilObjCloudGUI extends ilObject2GUI {
 
 
 	function getFile() {
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		if ($this->checkPermissionBool("download")) {
 			try {
 				$file_tree = ilCloudFileTree::getFileTreeFromSession();

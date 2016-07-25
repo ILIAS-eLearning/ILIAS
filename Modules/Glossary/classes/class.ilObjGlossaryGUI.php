@@ -34,11 +34,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjGlossaryGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
 		
 		$lng->loadLanguageModule("content");
@@ -101,8 +101,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "listTerms");
 				$term_gui = new ilGlossaryTermGUI($this->term_id);
 				$term_gui->setGlossary($this->object);
-				//$ret =& $term_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($term_gui);
+				//$ret = $term_gui->executeCommand();
+				$ret = $this->ctrl->forwardCommand($term_gui);
 				break;
 				
 			case "ilinfoscreengui":
@@ -111,7 +111,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 				
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -152,7 +152,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilcommonactiondispatchergui":
@@ -214,12 +214,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					$this->ctrl->setCmd("create");
 					$this->ctrl->setCmdClass("ilGlossaryTermGUI");
-					$ret =& $this->executeCommand();
+					$ret = $this->executeCommand();
 					return;
 				}
 				else
 				{
-					if (!in_array($cmd, array("frameset", "quickList")))
+					if (!in_array($cmd, array("quickList")))
 					{
 						if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 							$this->getCreationMode() == true)
@@ -240,12 +240,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 							}
 						}
 					}
-					$ret =& $this->$cmd();
+					$ret = $this->$cmd();
 				}
 				break;
 		}
 
-		if (!in_array($cmd, array("frameset", "quickList")))
+		if (!in_array($cmd, array("quickList")))
 		{
 			if (strtolower($_GET["baseClass"]) != "iladministrationgui")
 			{
@@ -688,32 +688,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tpl->setContent($this->form->getHTML());
 	}
 
-	/**
-	* glossary edit frameset
-	*/
-	function frameset()
-	{
-		global $ilCtrl;
-		
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		if ((int) $_GET["edit_term"] > 0)
-		{
-			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", (int) $_GET["edit_term"]);
-			$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
-		}
-		else
-		{
-			$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "listTerms"));
-		}
-		$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this, "quickList"));
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->show();
-		exit;
-	}
-	
 	/**
 	* quick term list
 	*/
@@ -1490,7 +1464,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $ilTabs, $ilSetting;
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$lng->loadLanguageModule("style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1590,7 +1564,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 	
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

@@ -38,7 +38,9 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 	 * is called async and prints the content from the confirmation gui
 	 */
 	public function asyncDeleteItem() {
-		global $tpl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		$response = new stdClass();
 		$response->success = null;
 		$response->message = null;
@@ -77,7 +79,9 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 
 
 	public function initDeleteItem() {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		include_once("Services/Utilities/classes/class.ilConfirmationTableGUI.php");
 		$this->gui = new ilConfirmationTableGUI(true);
@@ -111,7 +115,9 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 	 * Update properties
 	 */
 	public function deleteItem() {
-		global $tpl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		$response = new stdClass();
 		$response->success = null;

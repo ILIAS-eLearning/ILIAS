@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
 
 /**
  * Class ilDBConstants
@@ -9,40 +10,108 @@ class ilDBConstants {
 
 	const FETCHMODE_ASSOC = 2;
 	const FETCHMODE_OBJECT = 3;
-	const MODULE_MANAGER = 'Manager';
-	const MODULE_REVERSE = 'Reverse';
-	const TYPE_INNODB = 'innodb';
-	const TYPE_MYSQL = 'mysql';
+	const FETCHMODE_DEFAULT = self::FETCHMODE_ASSOC;
+	// Legacy
+	const TYPE_INNODB_LEGACY = 'innodb';
+	const TYPE_MYSQL_LEGACY = 'mysql';
+	const TYPE_POSTGRES_LEGACY = 'postgres';
+	const TYPE_MYSQLI_LEGACY = 'mysqli';
+	// Oracle
 	const TYPE_ORACLE = 'oracle';
+	// PDO
 	const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
 	const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
-	const TYPE_POSTGRES = 'postgres';
-	const TYPE_MYSQLI = 'mysqli';
+	const TYPE_PDO_POSTGRE = 'pdo-postgre';
+	// Locks
 	const LOCK_WRITE = 1;
 	const LOCK_READ = 2;
-	const T_CLOB = 'clob';
-	const T_DATE = 'date';
-	const T_DATETIME = 'datetime';
-	const T_FLOAT = 'float';
-	const T_INTEGER = 'integer';
-	const T_TEXT = 'text';
-	const T_TIME = 'time';
-	const T_TIMESTAMP = 'timestamp';
-	const T_BLOB = 'blob';
-	const INDEX_FORMAT = '%s_idx';
-	const SEQUENCE_FORMAT = '%s_seq';
-	const SEQUENCE_COLUMNS_NAME = 'sequence';
+	// Modules
+	const MODULE_MANAGER = 'Manager';
+	const MODULE_REVERSE = 'Reverse';
+	// Formats
+	const INDEX_FORMAT = ilDBPdoFieldDefinition::INDEX_FORMAT;
+	const SEQUENCE_FORMAT = ilDBPdoFieldDefinition::SEQUENCE_FORMAT;
+	const SEQUENCE_COLUMNS_NAME = ilDBPdoFieldDefinition::SEQUENCE_COLUMNS_NAME;
+	// Types
+	const T_CLOB = ilDBPdoFieldDefinition::T_CLOB;
+	const T_DATE = ilDBPdoFieldDefinition::T_DATE;
+	const T_DATETIME = ilDBPdoFieldDefinition::T_DATETIME;
+	const T_FLOAT = ilDBPdoFieldDefinition::T_FLOAT;
+	const T_INTEGER = ilDBPdoFieldDefinition::T_INTEGER;
+	const T_TEXT = ilDBPdoFieldDefinition::T_TEXT;
+	const T_TIME = ilDBPdoFieldDefinition::T_TIME;
+	const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
+	const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
+	// Engines
+	const ENGINE_INNODB = 'InnoDB';
+	const ENGINE_MYISAM = 'MyISAM';
+	
 	/**
 	 * @var array
 	 */
-	public static $allowed_attributes = array(
-		self::T_TEXT      => array( 'length', 'notnull', 'default', 'fixed' ),
-		self::T_INTEGER   => array( 'length', 'notnull', 'default', 'unsigned' ),
-		self::T_FLOAT     => array( 'notnull', 'default' ),
-		self::T_DATE      => array( 'notnull', 'default' ),
-		self::T_TIME      => array( 'notnull', 'default' ),
-		self::T_TIMESTAMP => array( 'notnull', 'default' ),
-		self::T_CLOB      => array( 'notnull', 'default' ),
-		self::T_BLOB      => array( 'notnull', 'default' ),
+	protected static $descriptions = array(
+		ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine)",
+		ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
+		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental)",
+		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher [legacy]",
+		ilDBConstants::TYPE_POSTGRES_LEGACY  => "Postgres (experimental) [legacy]",
+		ilDBConstants::TYPE_MYSQL_LEGACY     => "MySQL 5.0.x or higher (MyISAM engine) [legacy]",
+		ilDBConstants::TYPE_INNODB_LEGACY    => "MySQL 5.0.x or higher (InnoDB engine) [legacy]",
 	);
+
+
+	/**
+	 * @return array
+	 */
+	public static function getInstallableTypes() {
+		return array(
+			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
+			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
+			ilDBConstants::TYPE_MYSQL_LEGACY,
+			ilDBConstants::TYPE_INNODB_LEGACY,
+		);
+	}
+
+
+	/**
+	 * @param bool $with_descriptions
+	 * @return array
+	 */
+	public static function getAvailableTypes($with_descriptions = true) {
+		$types = array_merge(self::getSupportedTypes(), self::getLegacyTypes());
+		if ($with_descriptions) {
+			$return = array();
+			foreach ($types as $type) {
+				$return [$type] = self::$descriptions[$type];
+			}
+			$types = $return;
+		}
+
+		return $types;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getSupportedTypes() {
+		return array(
+			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
+			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
+			ilDBConstants::TYPE_PDO_POSTGRE,
+		);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getLegacyTypes() {
+		return array(
+			ilDBConstants::TYPE_ORACLE,
+			ilDBConstants::TYPE_POSTGRES_LEGACY,
+			ilDBConstants::TYPE_MYSQL_LEGACY,
+			ilDBConstants::TYPE_INNODB_LEGACY,
+		);
+	}
 }

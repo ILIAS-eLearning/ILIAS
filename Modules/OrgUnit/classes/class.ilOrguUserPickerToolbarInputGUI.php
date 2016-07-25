@@ -23,7 +23,8 @@ class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
 	}
 
 	protected function getSelectHTML(){
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$html = "
 		<select name='".$this->searchPostVar()."_role"."'>
 			<option value='employee'>".$lng->txt("employee")."</option>

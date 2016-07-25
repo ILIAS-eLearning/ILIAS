@@ -9,17 +9,17 @@
 interface ilDBStatement {
 
 	/**
-	 * @param $fetchMode int Is either ilDBConstants::FETCHMODE_ASSOC OR ilDBConstants::FETCHMODE_OBJECT
+	 * @param $fetch_mode int Is either ilDBConstants::FETCHMODE_ASSOC OR ilDBConstants::FETCHMODE_OBJECT
 	 * @return mixed Returns an array in fetchmode assoc and an object in fetchmode object.
 	 */
-	public function fetchRow($fetchMode);
+	public function fetchRow($fetch_mode);
 
 
 	/**
-	 * @param int $fetchMode
+	 * @param int $fetch_mode
 	 * @return mixed
 	 */
-	public function fetch($fetchMode = ilDBConstants::FETCHMODE_ASSOC);
+	public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
 
 
 	/**
@@ -38,4 +38,10 @@ interface ilDBStatement {
 	 * @return stdClass
 	 */
 	public function fetchObject();
+
+
+	/**
+	 * @return array
+	 */
+	public function fetchAssoc();
 }

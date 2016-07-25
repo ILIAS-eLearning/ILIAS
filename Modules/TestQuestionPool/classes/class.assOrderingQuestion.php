@@ -1430,14 +1430,15 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	
 	/***
 	 * @param integer $a_random_id
+	 * @param integer $a_question_id
 	 * @return string
 	 */
-	public function lookupAnswerTextByRandomId($a_random_id)
+	public function lookupAnswerTextByRandomId($a_random_id, $a_question_id)
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('SELECT answertext FROM qpl_a_ordering WHERE random_id = %s',
-			array('integer'), array($a_random_id));
+		$res = $ilDB->queryF('SELECT answertext FROM qpl_a_ordering WHERE random_id = %s AND question_fi = %s',
+			array('integer', 'integer'), array($a_random_id, $a_question_id));
 		$row = $ilDB->fetchAssoc($res);
 
 		return $row['answertext'];

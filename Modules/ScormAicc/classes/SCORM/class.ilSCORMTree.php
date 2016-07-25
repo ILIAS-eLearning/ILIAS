@@ -40,7 +40,7 @@ class ilSCORMTree extends ilTree
 	* @param	int		$a_id		tree id (= SCORM Learning Module Object ID)
 	* @access	public
 	*/
-	function ilSCORMTree($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		parent::__construct($a_id);
 		$this->setTableNames('scorm_tree','scorm_object');

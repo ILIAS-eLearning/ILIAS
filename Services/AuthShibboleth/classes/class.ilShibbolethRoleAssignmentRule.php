@@ -81,7 +81,8 @@ class ilShibbolethRoleAssignmentRule {
 	 * @param int $a_rule_id
 	 */
 	public function __construct($a_rule_id = 0) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->db = $ilDB;
 		$this->rule_id = $a_rule_id;
 		$this->read();
@@ -220,7 +221,8 @@ class ilShibbolethRoleAssignmentRule {
 	 * @return string
 	 */
 	public function conditionToString() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		if ($this->isPluginActive()) {
 			return $lng->txt('shib_plugin_id') . ': ' . $this->getPluginId();
 		} else {

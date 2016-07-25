@@ -74,7 +74,8 @@ abstract class ilMembershipRegistrationSettingsGUI
 
 		if(in_array(ilMembershipRegistrationSettings::TYPE_DIRECT,$this->getOptions()))
 		{
-			$opt_dir = new ilRadioOption($this->txt('reg_direct'),  ilMembershipRegistrationSettings::TYPE_DIRECT);#$this->lng->txt('grp_reg_direct_info'));
+			$opt_dir = new ilRadioOption($this->txt('reg_direct'),  ilMembershipRegistrationSettings::TYPE_DIRECT);
+			$opt_dir->setInfo($this->txt('reg_direct_info'));
 			$reg_type->addOption($opt_dir);
 		}
 		if(in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD,$this->getOptions()))

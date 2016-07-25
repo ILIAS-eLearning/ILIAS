@@ -220,30 +220,23 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 					continue;
 					
 				case 'datetime':
-					
-					list($date, $time) = explode(' ', $item->getDate()->get(IL_CAL_DATETIME));
 
-					if( $item->getMode() == ilDateTimeInputGUI::MODE_SELECT )
+					$datetime = $item->getDate();
+					if($datetime instanceof ilDateTime)
 					{
-						list($y, $m, $d) = explode('-', $date);
-
-						$confirmation->addHiddenItem("{$item->getPostVar()}[date][y]", $y);
-						$confirmation->addHiddenItem("{$item->getPostVar()}[date][m]", $m);
-						$confirmation->addHiddenItem("{$item->getPostVar()}[date][d]", $d);
-
-						if( $item->getShowTime() )
+						list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
+						if(!($date instanceof ilDate))
 						{
-							list($h, $m, $s) = explode(':', $time);
-
-							$confirmation->addHiddenItem("{$item->getPostVar()}[time][h]", $h);
-							$confirmation->addHiddenItem("{$item->getPostVar()}[time][m]", $m);
-							$confirmation->addHiddenItem("{$item->getPostVar()}[time][s]", $s);
+							$confirmation->addHiddenItem($item->getPostVar(), $date . ' ' . $time);
+						}
+						else
+						{
+							$confirmation->addHiddenItem($item->getPostVar(), $date);
 						}
 					}
 					else
 					{
-						$confirmation->addHiddenItem("{$item->getPostVar()}[date]", $date);
-						$confirmation->addHiddenItem("{$item->getPostVar()}[time]", $time);
+						$confirmation->addHiddenItem($item->getPostVar(), '');
 					}
 
 					break;
@@ -442,6 +435,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			$optionDate->setInfo($this->lng->txt('tst_results_access_date_desc'));
 				// access date
 				$reportingDate = new ilDateTimeInputGUI($this->lng->txt('tst_reporting_date'), 'reporting_date');
+				$reportingDate->setRequired(true);
 				$reportingDate->setShowTime(true);
 				if (strlen($this->testOBJ->getReportingDate()))
 				{
@@ -492,9 +486,15 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 				if( $this->testOBJ->getScoreReporting() == REPORT_AFTER_DATE )
 				{
-					$this->testOBJ->setReportingDate(
-						$form->getItemByPostVar('reporting_date')->getDate()->get(IL_CAL_FKT_DATE, 'YmdHis')
-					);
+					$reporting_date = $form->getItemByPostVar('reporting_date')->getDate();
+					if($reporting_date instanceof ilDateTime)
+					{
+						$this->testOBJ->setReportingDate($reporting_date->get(IL_CAL_FKT_DATE, 'YmdHis'));
+					}
+					else
+					{
+						$this->testOBJ->setReportingDate('');
+					}
 				}
 				else
 				{
@@ -736,9 +736,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		$fields = array('anonymity', 'enable_archiving');
-
-		if( $this->isSectionHeaderRequired($fields) || $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
 		{
 			// misc settings
 			$header_misc = new ilFormSectionHeaderGUI();
@@ -771,13 +769,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 				$form->addItem($results_presentation);
 			}
 		}
-
-		// enable_archiving
-		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
-		$enable_archiving->setInfo($this->lng->txt('test_enable_archiving_desc'));
-		$enable_archiving->setValue(1);
-		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
-		$form->addItem($enable_archiving);
 	}
 
 	/**
@@ -800,21 +791,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 				}
 
 				$this->testOBJ->setResultFilterTaxIds($taxFilters);
-			}
-		}
-
-		if( $this->formPropertyExists($form, 'enable_archiving') )
-		{
-			// Archiving
-			if($this->testOBJ->getAnonymity() == true &&
-				$form->getItemByPostVar('enable_archiving')->getChecked() == true)
-			{
-				$this->testOBJ->setEnableArchiving(false);
-				ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
-			}
-			else
-			{
-				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
 			}
 		}
 	}

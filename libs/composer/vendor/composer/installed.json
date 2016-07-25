@@ -1,5 +1,203 @@
 [
     {
+        "name": "cweagans/composer-patches",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cweagans/composer-patches.git",
+            "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+            "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "composer/composer": "~1.0",
+            "phpunit/phpunit": "~4.6"
+        },
+        "time": "2016-03-28 18:54:21",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "cweagans\\Composer\\Patches"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "cweagans\\Composer\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Cameron Eagans",
+                "email": "me@cweagans.net"
+            }
+        ],
+        "description": "Provides a way to patch Composer packages."
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.7.0",
+        "version_normalized": "4.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/ae1828d955112356f7677c465f94f7deb7d27a40",
+            "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "time": "2015-08-05 01:03:42",
+        "type": "library",
+        "extra": {
+            "patches_applied": {
+                "ILIAS HTML Purifier Patches": "patches/htmlpurifier.patch"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
+    },
+    {
+        "name": "filp/whoops",
+        "version": "2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/filp/whoops.git",
+            "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/d13505b240a6f580bc75ba591da30299d6cb0eec",
+            "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "require-dev": {
+            "mockery/mockery": "0.9.*",
+            "phpunit/phpunit": "^4.8 || ^5.0",
+            "symfony/var-dumper": "~3.0"
+        },
+        "suggest": {
+            "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
+            "whoops/soap": "Formats errors as SOAP responses"
+        },
+        "time": "2016-04-07 06:16:25",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Whoops\\": "src/Whoops/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Filipe Dobreira",
+                "homepage": "https://github.com/filp",
+                "role": "Developer"
+            }
+        ],
+        "description": "php error handling for cool kids",
+        "homepage": "https://github.com/filp/whoops",
+        "keywords": [
+            "error",
+            "exception",
+            "handling",
+            "library",
+            "whoops",
+            "zf2"
+        ]
+    },
+    {
+        "name": "geshi/geshi",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/GeSHi/geshi-1.0.git",
+            "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+            "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+            "shasum": ""
+        },
+        "time": "2016-02-01 23:14:34",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "src/geshi/",
+                "src/geshi.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Benny Baumann",
+                "email": "BenBE@geshi.org",
+                "homepage": "http://blog.benny-baumann.de/",
+                "role": "Developer"
+            }
+        ],
+        "description": "Generic Syntax Highlighter",
+        "homepage": "http://qbnz.com/highlighter/"
+    },
+    {
         "name": "psr/log",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",
@@ -40,145 +238,49 @@
         ]
     },
     {
-        "name": "filp/whoops",
-        "version": "2.1.0",
-        "version_normalized": "2.1.0.0",
+        "name": "phansys/getid3",
+        "version": "v1.9.4-p2",
+        "version_normalized": "1.9.4.0-patch2",
+        "target-dir": "GetId3",
         "source": {
             "type": "git",
-            "url": "https://github.com/filp/whoops.git",
-            "reference": "8da9523f07c62d56fe1cf36f8ae29b333afc181f"
+            "url": "https://github.com/phansys/GetId3.git",
+            "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/8da9523f07c62d56fe1cf36f8ae29b333afc181f",
-            "reference": "8da9523f07c62d56fe1cf36f8ae29b333afc181f",
+            "url": "https://api.github.com/repos/phansys/GetId3/zipball/cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+            "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
             "shasum": ""
         },
-        "require": {
-            "php": ">=5.5.9"
-        },
-        "require-dev": {
-            "mockery/mockery": "0.9.*",
-            "phpunit/phpunit": "^4.8 || ^5.0",
-            "symfony/var-dumper": "~3.0"
-        },
         "suggest": {
-            "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
-            "whoops/soap": "Formats errors as SOAP responses"
+            "ext-exif": "EXIF extension is required for graphic modules."
         },
-        "time": "2016-03-13 10:22:39",
+        "time": "2012-08-30 21:21:23",
         "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0-dev"
-            }
-        },
         "installation-source": "dist",
         "autoload": {
-            "psr-4": {
-                "Whoops\\": "src/Whoops/"
+            "psr-0": {
+                "GetId3_": ""
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "MIT"
+            "GPL"
         ],
         "authors": [
             {
-                "name": "Filipe Dobreira",
-                "homepage": "https://github.com/filp",
-                "role": "Developer"
+                "name": "James Heinrich",
+                "email": "info@getid3.org",
+                "homepage": "http://www.getid3.org"
             }
         ],
-        "description": "php error handling for cool kids",
-        "homepage": "https://github.com/filp/whoops",
+        "description": "This package integrates the GetId3 library with the Symfony2 project, emulating the PSR-0 CS",
+        "homepage": "http://www.getid3.org",
         "keywords": [
-            "error",
-            "exception",
-            "handling",
-            "library",
-            "whoops",
-            "zf2"
-        ]
-    },
-    {
-        "name": "monolog/monolog",
-        "version": "1.18.1",
-        "version_normalized": "1.18.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Seldaek/monolog.git",
-            "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
-            "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "psr/log": "~1.0"
-        },
-        "provide": {
-            "psr/log-implementation": "1.0.0"
-        },
-        "require-dev": {
-            "aws/aws-sdk-php": "^2.4.9",
-            "doctrine/couchdb": "~1.0@dev",
-            "graylog2/gelf-php": "~1.0",
-            "jakub-onderka/php-parallel-lint": "0.9",
-            "php-console/php-console": "^3.1.3",
-            "phpunit/phpunit": "~4.5",
-            "phpunit/phpunit-mock-objects": "2.3.0",
-            "raven/raven": "^0.13",
-            "ruflin/elastica": ">=0.90 <3.0",
-            "swiftmailer/swiftmailer": "~5.3",
-            "videlalvaro/php-amqplib": "~2.4"
-        },
-        "suggest": {
-            "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
-            "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
-            "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-            "ext-mongo": "Allow sending log messages to a MongoDB server",
-            "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
-            "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
-            "php-console/php-console": "Allow sending log messages to Google Chrome",
-            "raven/raven": "Allow sending log messages to a Sentry server",
-            "rollbar/rollbar": "Allow sending log messages to Rollbar",
-            "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-            "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
-        },
-        "time": "2016-03-13 16:08:35",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Monolog\\": "src/Monolog"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jordi Boggiano",
-                "email": "j.boggiano@seld.be",
-                "homepage": "http://seld.be"
-            }
-        ],
-        "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
-        "homepage": "http://github.com/Seldaek/monolog",
-        "keywords": [
-            "log",
-            "logging",
-            "psr-3"
+            "getid3",
+            "metadata",
+            "tags"
         ]
     },
     {
@@ -241,6 +343,54 @@
         ]
     },
     {
+        "name": "pimple/pimple",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/silexphp/Pimple.git",
+            "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/silexphp/Pimple/zipball/a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+            "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-09-11 15:10:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Pimple": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Pimple, a simple Dependency Injection Container",
+        "homepage": "http://pimple.sensiolabs.org",
+        "keywords": [
+            "container",
+            "dependency injection"
+        ]
+    },
+    {
         "name": "technosophos/LibRIS",
         "version": "2.0.2",
         "version_normalized": "2.0.2.0",
@@ -286,64 +436,168 @@
         ]
     },
     {
-        "name": "ezyang/htmlpurifier",
-        "version": "v4.7.0",
-        "version_normalized": "4.7.0.0",
+        "name": "tecnickcom/tcpdf",
+        "version": "6.2.12",
+        "version_normalized": "6.2.12.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
+            "url": "https://github.com/tecnickcom/TCPDF.git",
+            "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/ae1828d955112356f7677c465f94f7deb7d27a40",
-            "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
+            "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/2f732eaa91b5665274689b1d40b285a7bacdc37f",
+            "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.2"
+            "php": ">=5.3.0"
         },
-        "time": "2015-08-05 01:03:42",
+        "time": "2015-09-12 10:08:34",
         "type": "library",
+        "extra": {
+            "patches_applied": {
+                "ILIAS TCPDF Patches": "patches/tcpdf.patch"
+            }
+        },
         "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "HTMLPurifier": "library/"
-            },
-            "files": [
-                "library/HTMLPurifier.composer.php"
+            "classmap": [
+                "fonts",
+                "config",
+                "include",
+                "tcpdf.php",
+                "tcpdf_parser.php",
+                "tcpdf_import.php",
+                "tcpdf_barcodes_1d.php",
+                "tcpdf_barcodes_2d.php",
+                "include/tcpdf_colors.php",
+                "include/tcpdf_filters.php",
+                "include/tcpdf_font_data.php",
+                "include/tcpdf_fonts.php",
+                "include/tcpdf_images.php",
+                "include/tcpdf_static.php",
+                "include/barcodes/datamatrix.php",
+                "include/barcodes/pdf417.php",
+                "include/barcodes/qrcode.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL"
+            "LGPLv3"
         ],
         "authors": [
             {
-                "name": "Edward Z. Yang",
-                "email": "admin@htmlpurifier.org",
-                "homepage": "http://ezyang.com"
+                "name": "Nicola Asuni",
+                "email": "info@tecnick.com",
+                "homepage": "http://nicolaasuni.tecnick.com"
             }
         ],
-        "description": "Standards compliant HTML filter written in PHP",
-        "homepage": "http://htmlpurifier.org/",
+        "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+        "homepage": "http://www.tcpdf.org/",
         "keywords": [
-            "html"
+            "PDFD32000-2008",
+            "TCPDF",
+            "barcodes",
+            "datamatrix",
+            "pdf",
+            "pdf417",
+            "qrcode"
+        ]
+    },
+    {
+        "name": "monolog/monolog",
+        "version": "1.20.0",
+        "version_normalized": "1.20.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Seldaek/monolog.git",
+            "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/55841909e2bcde01b5318c35f2b74f8ecc86e037",
+            "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "psr/log": "~1.0"
+        },
+        "provide": {
+            "psr/log-implementation": "1.0.0"
+        },
+        "require-dev": {
+            "aws/aws-sdk-php": "^2.4.9",
+            "doctrine/couchdb": "~1.0@dev",
+            "graylog2/gelf-php": "~1.0",
+            "jakub-onderka/php-parallel-lint": "0.9",
+            "php-amqplib/php-amqplib": "~2.4",
+            "php-console/php-console": "^3.1.3",
+            "phpunit/phpunit": "~4.5",
+            "phpunit/phpunit-mock-objects": "2.3.0",
+            "ruflin/elastica": ">=0.90 <3.0",
+            "sentry/sentry": "^0.13",
+            "swiftmailer/swiftmailer": "~5.3"
+        },
+        "suggest": {
+            "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+            "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+            "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+            "ext-mongo": "Allow sending log messages to a MongoDB server",
+            "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+            "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+            "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
+            "php-console/php-console": "Allow sending log messages to Google Chrome",
+            "rollbar/rollbar": "Allow sending log messages to Rollbar",
+            "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+            "sentry/sentry": "Allow sending log messages to a Sentry server"
+        },
+        "time": "2016-07-02 14:02:10",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Monolog\\": "src/Monolog"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jordi Boggiano",
+                "email": "j.boggiano@seld.be",
+                "homepage": "http://seld.be"
+            }
+        ],
+        "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+        "homepage": "http://github.com/Seldaek/monolog",
+        "keywords": [
+            "log",
+            "logging",
+            "psr-3"
         ]
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v5.2.14",
-        "version_normalized": "5.2.14.0",
+        "version": "v5.2.16",
+        "version_normalized": "5.2.16.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "e774bc9152de85547336e22b8926189e582ece95"
+            "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e774bc9152de85547336e22b8926189e582ece95",
-            "reference": "e774bc9152de85547336e22b8926189e582ece95",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+            "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
             "shasum": ""
         },
         "require": {
@@ -354,10 +608,9 @@
             "phpunit/phpunit": "4.7.*"
         },
         "suggest": {
-            "league/oauth2-client": "Needed for XOAUTH2 authentication",
-            "league/oauth2-google": "Needed for Gmail XOAUTH2"
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2015-11-01 10:15:28",
+        "time": "2016-06-06 09:09:37",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -395,49 +648,102 @@
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
     },
     {
-        "name": "phansys/getid3",
-        "version": "v1.9.4-p2",
-        "version_normalized": "1.9.4.0-patch2",
-        "target-dir": "GetId3",
+        "name": "symfony/yaml",
+        "version": "v3.1.2",
+        "version_normalized": "3.1.2.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/phansys/GetId3.git",
-            "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd"
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "2884c26ce4c1d61aebf423a8b912950fe7c764de"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phansys/GetId3/zipball/cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
-            "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/2884c26ce4c1d61aebf423a8b912950fe7c764de",
+            "reference": "2884c26ce4c1d61aebf423a8b912950fe7c764de",
             "shasum": ""
         },
-        "suggest": {
-            "ext-exif": "EXIF extension is required for graphic modules."
+        "require": {
+            "php": ">=5.5.9"
         },
-        "time": "2012-08-30 21:21:23",
+        "time": "2016-06-29 05:41:56",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Yaml\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Yaml Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "mikey179/vfsStream",
+        "version": "v1.6.3",
+        "version_normalized": "1.6.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mikey179/vfsStream.git",
+            "reference": "c19925cd0390d3c436a0203ae859afa460d0474b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/c19925cd0390d3c436a0203ae859afa460d0474b",
+            "reference": "c19925cd0390d3c436a0203ae859afa460d0474b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.5"
+        },
+        "time": "2016-04-09 09:42:01",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.6.x-dev"
+            }
+        },
         "installation-source": "dist",
         "autoload": {
             "psr-0": {
-                "GetId3_": ""
+                "org\\bovigo\\vfs\\": "src/main/php"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "GPL"
+            "BSD-3-Clause"
         ],
         "authors": [
             {
-                "name": "James Heinrich",
-                "email": "info@getid3.org",
-                "homepage": "http://www.getid3.org"
+                "name": "Frank Kleine",
+                "homepage": "http://frankkleine.de/",
+                "role": "Developer"
             }
         ],
-        "description": "This package integrates the GetId3 library with the Symfony2 project, emulating the PSR-0 CS",
-        "homepage": "http://www.getid3.org",
-        "keywords": [
-            "getid3",
-            "metadata",
-            "tags"
-        ]
+        "description": "Virtual file system to mock the real file system in unit tests.",
+        "homepage": "http://vfs.bovigo.org/"
     }
 ]

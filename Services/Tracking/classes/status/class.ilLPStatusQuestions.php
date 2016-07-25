@@ -12,7 +12,7 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
  */
 class ilLPStatusQuestions extends ilLPStatus
 {
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -23,7 +23,7 @@ class ilLPStatusQuestions extends ilLPStatus
 		return $users;						
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{		
 		$usr_ids = array();
 		

@@ -201,7 +201,7 @@ class ilImageMapEditorGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$st_item =& $this->media_object->getMediaItem("Standard");
+		$st_item = $this->media_object->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
 		for ($i=1; $i<=$max; $i++)
 		{

@@ -530,6 +530,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
 		}
 		
+		if($this->getRequired())
+		{
+			$tpl->setVariable("REQUIRED", "required=\"required\"");
+		}
+		
 		// multi icons
 		if($this->getMulti() && !$a_mode && !$this->getDisabled())
 		{

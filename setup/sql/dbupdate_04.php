@@ -2408,12 +2408,102 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	$ilDB->manipulate($query);
 
 
-	$query = 'UPDATE rbac_fa f '.
+	/*$query = 'UPDATE rbac_fa f '.
 			'SET parent  = '.
 				'(SELECT t.parent FROM tree t where t.child = f.parent) '.
 			'WHERE f.parent != '.$ilDB->quote(8,'integer').' '.
 			'AND EXISTS (SELECT t.parent FROM tree t where t.child = f.parent) ';
-	$ilDB->manipulate($query);
+	$ilDB->manipulate($query);*/
+
+	global $ilLog;
+
+	if(!$ilDB->tableColumnExists('rbac_fa', 'old_parent'))
+	{
+	    $ilDB->addTableColumn('rbac_fa', 'old_parent',
+	        array(
+	            "type"    => "integer",
+	            "notnull" => true,
+	            "length"  => 8,
+	            "default" => 0
+	        )
+	    );
+	    $ilLog->write("Created new temporary column: rbac_fa->old_parent");
+	}
+
+	if(!$ilDB->tableExists('rbac_fa_temp'))
+	{
+	    $fields = array(
+	        'role_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+	        'parent_id'   => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0)
+	    );
+	    $ilDB->createTable('rbac_fa_temp', $fields);
+	    $ilDB->addPrimaryKey('rbac_fa_temp', array('role_id', 'parent_id'));
+	    $ilLog->write("Created new temporary table: rbac_fa_temp");
+	}
+
+
+	$stmt  = $ilDB->prepareManip("UPDATE rbac_fa SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
+	$stmt2 = $ilDB->prepareManip("INSERT INTO rbac_fa_temp (role_id, parent_id) VALUES(?, ?)", array("integer", "integer"));
+	$stmt3 = $ilDB->prepare("SELECT object_data.type FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE ref_id = ?", array("integer"));
+	    
+	$query = "
+	    SELECT f.*, t.parent grandparent
+	    FROM rbac_fa f
+	    INNER JOIN tree t ON t.child = f.parent
+	    LEFT JOIN rbac_fa_temp
+	        ON rbac_fa_temp.role_id = f.rol_id
+	        AND rbac_fa_temp.parent_id = old_parent
+	    WHERE f.parent != 8 AND rbac_fa_temp.role_id IS NULL
+	    ORDER BY f.rol_id, f.parent
+	";
+	$res = $ilDB->query($query);
+
+	$handled_roles_by_parent = array();
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+	    $role_id   = $row["rol_id"];
+	    $parent_id = $row["parent"];
+
+	    if($handled_roles_by_parent[$role_id][$parent_id])
+	    {
+	        continue;
+	    }
+
+	    $new_parent_id = $row['grandparent'];
+	        
+	    $parent_res = $ilDB->execute($stmt3, array($parent_id));
+	    $parent_row = $ilDB->fetchAssoc($parent_res);
+	    if($parent_row['type'] != 'rolf')
+	    {
+	        $ilLog->write(sprintf("Parent of role with id %s is not a 'rolf' (obj_id: %s, type: %s), so skip record", $role_id, $parent_row['obj_id'], $parent_row['type']));
+	        continue;
+	    }
+
+	    if($new_parent_id <= 0)
+	    {
+	        $ilLog->write(sprintf("Could not migrate record with role_id %s and parent id %s because the grandparent is 0", $role_id, $parent_id));
+	        continue;
+	    }
+
+	    $ilDB->execute($stmt, array($new_parent_id, $parent_id , $role_id, $parent_id));
+	    $ilDB->execute($stmt2, array($role_id, $parent_id));
+	    $ilLog->write(sprintf("Migrated record with role_id %s and parent id %s to parent with id %s", $role_id, $parent_id, $new_parent_id));
+
+	    $handled_roles_by_parent[$role_id][$parent_id] = true;
+	}
+
+	if($ilDB->tableColumnExists('rbac_fa', 'old_parent'))
+	{
+	 	$ilDB->dropTableColumn('rbac_fa', 'old_parent');  
+	    $ilLog->write("Dropped new temporary column: rbac_fa->old_parent");
+	}
+
+	if($ilDB->tableExists('rbac_fa_temp'))
+	{
+		$ilDB->dropTable('rbac_fa_temp');
+		$ilLog->write("Dropped new temporary table: rbac_fa_temp");
+	}
 ?>
 
 <#4292>
@@ -2421,12 +2511,102 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	$query = 'DELETE FROM rbac_templates WHERE parent = '.$ilDB->quote(0,'integer');
 	$ilDB->manipulate($query);
 
-	$query = 'UPDATE rbac_templates rt '.
+	/*$query = 'UPDATE rbac_templates rt '.
 			'SET parent = '.
 			'(SELECT t.parent FROM tree t WHERE t.child = rt.parent) '.
 			'WHERE rt.parent != '.$ilDB->quote(8,'integer').' '.
 			'AND EXISTS (SELECT t.parent FROM tree t WHERE t.child = rt.parent) ';
-	$ilDB->manipulate($query);
+	$ilDB->manipulate($query);*/
+
+	global $ilLog;
+
+	if(!$ilDB->tableColumnExists('rbac_templates', 'old_parent'))
+	{
+	    $ilDB->addTableColumn('rbac_templates', 'old_parent',
+	        array(
+	            "type"    => "integer",
+	            "notnull" => true,
+	            "length"  => 8,
+	            "default" => 0
+	        )
+	    );
+	    $ilLog->write("Created new temporary column: rbac_templates->old_parent");
+	}
+
+	if(!$ilDB->tableExists('rbac_templates_temp'))
+	{
+	    $fields = array(
+	        'role_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+	        'parent_id'   => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0)
+	    );
+	    $ilDB->createTable('rbac_templates_temp', $fields);
+	    $ilDB->addPrimaryKey('rbac_templates_temp', array('role_id', 'parent_id'));
+	    $ilLog->write("Created new temporary table: rbac_templates_temp");
+	}
+
+
+	$stmt  = $ilDB->prepareManip("UPDATE rbac_templates SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
+	$stmt2 = $ilDB->prepareManip("INSERT INTO rbac_templates_temp (role_id, parent_id) VALUES(?, ?)", array("integer", "integer"));
+	$stmt3 = $ilDB->prepare("SELECT object_data.type FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE ref_id = ?", array("integer"));
+
+	$query = "
+	    SELECT f.*, t.parent grandparent
+	    FROM rbac_templates f
+	    INNER JOIN tree t ON t.child = f.parent
+	    LEFT JOIN rbac_templates_temp
+	        ON rbac_templates_temp.role_id = f.rol_id
+	        AND rbac_templates_temp.parent_id = old_parent
+	    WHERE f.parent != 8 AND rbac_templates_temp.role_id IS NULL
+	    ORDER BY f.rol_id, f.parent
+	";
+	$res = $ilDB->query($query);
+
+	$handled_roles_by_parent = array();
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+	    $role_id   = $row["rol_id"];
+	    $parent_id = $row["parent"];
+
+	    if($handled_roles_by_parent[$role_id][$parent_id])
+	    {
+	        continue;
+	    }
+
+	    $new_parent_id = $row['grandparent'];
+	        
+	    $parent_res = $ilDB->execute($stmt3, array($parent_id));
+	    $parent_row = $ilDB->fetchAssoc($parent_res);
+	    if($parent_row['type'] != 'rolf')
+	    {
+	        $ilLog->write(sprintf("Parent of role with id %s is not a 'rolf' (obj_id: %s, type: %s), so skip record", $role_id, $parent_row['obj_id'], $parent_row['type']));
+	        continue;
+	    }
+
+	    if($new_parent_id <= 0)
+	    {
+	        $ilLog->write(sprintf("Could not migrate record with role_id %s and parent id %s because the grandparent is 0", $role_id, $parent_id));
+	        continue;
+	    }
+
+	    $ilDB->execute($stmt, array($new_parent_id, $parent_id , $role_id, $parent_id));
+	    $ilDB->execute($stmt2, array($role_id, $parent_id));
+	    $ilLog->write(sprintf("Migrated record with role_id %s and parent id %s to parent with id %s", $role_id, $parent_id, $new_parent_id));
+
+	    $handled_roles_by_parent[$role_id][$parent_id] = true;
+	}
+
+	if($ilDB->tableColumnExists('rbac_templates', 'old_parent'))
+	{
+	 	$ilDB->dropTableColumn('rbac_templates', 'old_parent');  
+	    $ilLog->write("Dropped new temporary column: rbac_templates->old_parent");
+	}
+
+	if($ilDB->tableExists('rbac_templates_temp'))
+	{
+		$ilDB->dropTable('rbac_templates_temp');
+		$ilLog->write("Dropped new temporary table: rbac_templates_temp");
+	}
 ?>
 <#4293>
 <?php
@@ -14739,4 +14919,740 @@ $ilDB->manipulateF(
 	array('text'),
 	array('pear_mail_enable')
 );
+?>
+<#4894>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+if($tgt_ops_id)
+{				
+	$book_type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
+	if($book_type_id)
+	{			
+		// add "copy" to booking tool - returns false if already exists
+		if(ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id))
+		{									
+			// clone settings from "write" to "copy" 
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+			ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+		}
+	}	
+}
+
+?>
+<#4895>
+<?php
+
+if(!$ilDB->tableColumnExists('webr_items','internal'))
+{
+	$ilDB->addTableColumn('webr_items', 'internal', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+
+?>
+<#4896>
+<?php
+if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
+{
+	$ilDB->addIndex('usr_data_multi',array('usr_id'), 'i1');
+}
+?>
+<#4897>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
+{
+	$ilDB->addTableColumn('tst_tests', 'starting_time_tmp', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4898>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
+{
+	$stmp_up = $ilDB->prepareManip("UPDATE tst_tests SET starting_time_tmp = ? WHERE test_id = ?", array('integer', 'integer'));
+
+	$res = $ilDB->query("SELECT test_id, starting_time FROM tst_tests WHERE starting_time_tmp = " . $ilDB->quote(0, 'integer'));
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$new_starting_time = 0;
+		$starting_time     = $row['starting_time'];
+
+		if(strlen($starting_time) > 0)
+		{
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches))
+			{
+				if(is_array($matches))
+				{
+					if(checkdate($matches[2], $matches[3], $matches[1]))
+					{	
+						$new_starting_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					}
+				}
+			}
+		}
+
+		$ilDB->execute($stmp_up, array((int)$new_starting_time, $row['test_id']));
+	}
+}
+?>
+<#4899>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'starting_time'))
+{
+	$ilDB->dropTableColumn('tst_tests', 'starting_time');
+}
+?>
+<#4900>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'starting_time') && $ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
+{
+	$ilDB->renameTableColumn('tst_tests', 'starting_time_tmp', 'starting_time');
+}
+?>
+<#4901>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
+{
+	$ilDB->addTableColumn('tst_tests', 'ending_time_tmp', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4902>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
+{
+	$stmp_up = $ilDB->prepareManip("UPDATE tst_tests SET ending_time_tmp = ? WHERE test_id = ?", array('integer', 'integer'));
+
+	$res = $ilDB->query("SELECT test_id, ending_time FROM tst_tests WHERE ending_time_tmp = " . $ilDB->quote(0, 'integer'));
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$new_ending_time = 0;
+		$ending_time     = $row['ending_time'];
+
+		if(strlen($ending_time) > 0)
+		{
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches))
+			{
+				if(is_array($matches))
+				{
+					if(checkdate($matches[2], $matches[3], $matches[1]))
+					{	
+						$new_ending_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					}
+				}
+			}
+		}
+
+		$ilDB->execute($stmp_up, array((int)$new_ending_time, $row['test_id']));
+	}
+}
+?>
+<#4903>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'ending_time'))
+{
+	$ilDB->dropTableColumn('tst_tests', 'ending_time');
+}
+?>
+<#4904>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'ending_time') && $ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
+{
+	$ilDB->renameTableColumn('tst_tests', 'ending_time_tmp', 'ending_time');
+}
+?>
+<#4905>
+<?php
+require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php');
+
+if(!$ilDB->tableColumnExists('il_dcl_field_prop', 'name')) {
+	$backup_table_name = 'il_dcl_field_prop_b';
+	$ilDB->renameTable('il_dcl_field_prop', $backup_table_name);
+	$ilDB->renameTable('il_dcl_field_prop_seq', 'il_dcl_field_prop_s_b');
+
+	$ilDB->createTable(ilDclFieldProperty::returnDbTableName(), array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 4000,
+		),
+	));
+
+	$ilDB->addPrimaryKey(ilDclFieldProperty::returnDbTableName(), array('id'));
+	$ilDB->createSequence(ilDclFieldProperty::returnDbTableName());
+	
+	if($ilDB->tableExists('il_dcl_datatype_prop')) {
+		$query = "SELECT field_id, inputformat, title, ".$backup_table_name.".value FROM ".$backup_table_name." LEFT JOIN il_dcl_datatype_prop ON il_dcl_datatype_prop.id = ".$backup_table_name.".datatype_prop_id WHERE ".$backup_table_name.".value IS NOT NULL";
+		$result = $ilDB->query($query);
+
+		while($row = $ilDB->fetchAssoc($result)) {
+			$new_entry = new ilDclFieldProperty();
+			$new_entry->setFieldId($row['field_id']);
+			$new_entry->setInputformat($row['inputformat']);
+			$new_entry->setName($row['title']);
+			$new_entry->setValue($row['value']);
+			$new_entry->store();
+		}
+	} else {
+		throw new Exception("The table 'il_dcl_datatype_prop' is missing for proper migration. Please check if the migration is already completed.");
+	}
+}
+
+?>
+
+<#4906>
+<?php
+
+$result = $ilDB->query("SELECT * FROM il_dcl_datatype WHERE id = 12");
+if($ilDB->numRows($result) == 0) {
+	$ilDB->insert('il_dcl_datatype', array(
+		'id' => array('integer', 12),
+		'title' => array('text', 'plugin'),
+		'ildb_type' => array('text', 'text'),
+		'storage_location' => array('integer', 0),
+		'sort' => array('integer', 100)
+	));
+}
+
+
+$ilDB->update('il_dcl_datatype',
+	array(
+		'title' => array('text', 'fileupload'),
+	),
+	array(
+		'id' => array('integer', 6),
+	)
+);
+
+$ilDB->update('il_dcl_datatype',
+	array(
+		'title' => array('text', 'ilias_reference'),
+	),
+	array(
+		'id' => array('integer', 8),
+	)
+);
+
+$ilDB->update('il_dcl_datatype',
+	array(
+		'title' => array('text', 'number'),
+	),
+	array(
+		'id' => array('integer', 1),
+	)
+);
+
+?>
+
+<#4907>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$dcl_type_id = ilDBUpdateNewObjectType::getObjectTypeId('dcl');
+
+if($dcl_type_id)
+{
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_content');
+	if($src_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($dcl_type_id, $src_ops_id);
+	}
+}
+
+?>
+
+<#4908>
+<?php
+
+global $ilDB;
+
+if(!$ilDB->tableColumnExists('il_dcl_table', 'save_confirmation')) {
+	$ilDB->addTableColumn('il_dcl_table', 'save_confirmation',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+}
+
+?>
+<#4909>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>
+<#4910>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#4911>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('prg');
+$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('manage_members', 'Manage Members', 'object', 2400);
+if($type_id && $new_ops_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+}
+?>
+
+<#4912>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4913>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#4914>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	ilDBUpdateNewObjectType::cloneOperation('prg', $src_ops_id, $tgt_ops_id);
+?>
+<#4915>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
+if($tgt_ops_id)
+{
+	$mep_type_id = ilDBUpdateNewObjectType::getObjectTypeId('mep');
+	if($mep_type_id)
+	{
+		if (!ilDBUpdateNewObjectType::isRBACOperation($mep_type_id, $tgt_ops_id))
+		{
+			// add "copy" to (external) feed
+			ilDBUpdateNewObjectType::addRBACOperation($mep_type_id, $tgt_ops_id);
+
+			// clone settings from "write" to "copy"
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+			ilDBUpdateNewObjectType::cloneOperation('mep', $src_ops_id, $tgt_ops_id);
+		}
+	}
+}
+?>
+<#4916>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4917>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table', 'import_enabled'))
+{
+	$ilDB->addTableColumn('il_dcl_table', 'import_enabled', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+?>
+<#4918>
+<?php
+//tableview
+$fields = array(
+    'id' => array(
+        'notnull' => '1',
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'table_id' => array(
+        'notnull' => '1',
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'title' => array(
+        'notnull' => '1',
+        'type' => 'text',
+        'length' => '128',
+
+    ),
+    'roles' => array(
+        'type' => 'text',
+        'length' => '256',
+    ),
+    'description' => array(
+        'type' => 'text',
+        'length' => '128',
+
+    ),
+    'tableview_order' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_dcl_tableview')) {
+    $ilDB->createTable('il_dcl_tableview', $fields);
+    $ilDB->addPrimaryKey('il_dcl_tableview', array( 'id' ));
+
+    if (! $ilDB->sequenceExists('il_dcl_tableview')) {
+        $ilDB->createSequence('il_dcl_tableview');
+    }
+	if(! $ilDB->indexExistsByFields('il_dcl_tableview', array('table_id'))) {
+		$ilDB->addIndex('il_dcl_tableview', array('table_id'), 't1');		
+	}
+}
+
+//tableview_field_setting
+$fields = array(
+    'id' => array(
+        'notnull' => '1',
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'tableview_id' => array(
+        'notnull' => '1',
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'field' => array(
+        'notnull' => '1',
+        'type' => 'text',
+        'length' => '128',
+
+    ),
+    'visible' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'in_filter' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'filter_value' => array(
+        'type' => 'clob',
+    ),
+    'filter_changeable' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_dcl_tview_set')) {
+    $ilDB->createTable('il_dcl_tview_set', $fields);
+    $ilDB->addPrimaryKey('il_dcl_tview_set', array( 'id' ));
+
+    if (! $ilDB->sequenceExists('il_dcl_tview_set')) {
+        $ilDB->createSequence('il_dcl_tview_set');
+    }
+
+}
+
+if (! $ilDB->tableExists('il_dcl_tview_set')) {
+    $ilDB->createTable('il_dcl_tview_set', $fields);
+    $ilDB->addPrimaryKey('il_dcl_tview_set', array( 'id' ));
+
+    if (! $ilDB->sequenceExists('il_dcl_tview_set')) {
+        $ilDB->createSequence('il_dcl_tview_set');
+    }
+	if(! $ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
+		$ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 't1');
+	}
+
+}
+
+$fields = array(
+    'id' => array(
+        'notnull' => '1',
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'table_id' => array(
+        'notnull' => '1',
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'field' => array(
+        'notnull' => '1',
+        'type' => 'text',
+        'length' => '128',
+
+    ),
+    'field_order' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'exportable' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_dcl_tfield_set')) {
+    $ilDB->createTable('il_dcl_tfield_set', $fields);
+    $ilDB->addPrimaryKey('il_dcl_tfield_set', array( 'id' ));
+
+    if (! $ilDB->sequenceExists('il_dcl_tfield_set')) {
+        $ilDB->createSequence('il_dcl_tfield_set');
+    }
+	if(! $ilDB->indexExistsByFields('il_dcl_tfield_set', array('table_id', 'field'))) {
+		$ilDB->addIndex('il_dcl_tfield_set', array('table_id', 'field'), 't2');
+	}
+}
+?>
+<#4919>
+<?php
+//migration for datacollections:
+//ĉreate a standardview for each table, set visibility/filterability for each field
+//and delete entries from old view tables
+require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableView.php");
+require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php");
+require_once("./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
+$roles = array();
+$query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote(ROLE_FOLDER_ID, 'integer') . " AND assign='y'");
+while ( $global_role = $ilDB->fetchAssoc($query) ) {
+    $roles[] = $global_role['rol_id'];
+}
+
+//set order of main tables, since main_table_id will be removed
+if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
+    $ilDB->addTableColumn('il_dcl_table', 'table_order', array('type' => 'integer', 'length' => 8));
+}
+$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
+while ($rec = $ilDB->fetchAssoc($main_table_query)) {
+    $table = ilDclCache::getTableCache($rec['main_table_id']);
+    $table->setOrder(10);
+    $table->doUpdate();
+}
+$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
+
+//
+$table_query = $ilDB->query('SELECT id, ref_id FROM il_dcl_table 
+                              INNER JOIN object_reference ON (object_reference.obj_id = il_dcl_table.obj_id)');
+
+$mapping = array();
+while ($rec = $ilDB->fetchAssoc($table_query)) {
+    $query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote($rec['ref_id'], 'integer') . " AND assign='y'");
+    while ( $local_role = $ilDB->fetchAssoc($query)) {
+        $roles[] = $local_role['rol_id'];
+    }
+    //create standardviews for each DCL Table and set id mapping
+    $tableview = new ilDclTableView();
+    $tableview->setTableId($rec['id']);
+    $tableview->setTitle('Standardview');
+    $tableview->setRoles($roles);
+    $tableview->setOrder(10);
+    $tableview->create(false);
+    $mapping[$rec['id']] = $tableview->getId();
+}
+
+//fetch information about visibility/filterability
+$view_query = $ilDB->query(
+    "SELECT il_dcl_view.table_id, tbl_visible.field, tbl_visible.is_set as visible, f.filterable
+        FROM il_dcl_viewdefinition tbl_visible
+            INNER JOIN il_dcl_view ON (il_dcl_view.id = tbl_visible.view_id
+            AND il_dcl_view.type = 1)
+            INNER JOIN
+                (SELECT table_id, field, tbl_filterable.is_set as filterable
+                    FROM il_dcl_view
+                    INNER JOIN il_dcl_viewdefinition tbl_filterable ON (il_dcl_view.id = tbl_filterable.view_id
+                    AND il_dcl_view.type = 3)) f ON (f.field = tbl_visible.field AND f.table_id = il_dcl_view.table_id)");
+
+//set visibility/filterability
+$view_id_cache = array();
+while ($rec = $ilDB->fetchAssoc($view_query)) {
+    $field_set = new ilDclTableViewFieldSetting();
+    $field_set->setTableviewId($mapping[$rec['table_id']]);
+    $field_set->setField($rec['field']);
+    $field_set->setVisible($rec['visible']);
+    $field_set->setInFilter($rec['filterable']);
+    $field_set->setFilterChangeable(true);
+    $field_set->create();
+
+}
+
+//fetch information about editability/exportability
+$view_query = $ilDB->query(
+    "SELECT il_dcl_view.table_id, tbl_exportable.field, tbl_exportable.is_set as exportable, tbl_exportable.field_order
+        FROM il_dcl_viewdefinition tbl_exportable
+            INNER JOIN il_dcl_view ON (il_dcl_view.id = tbl_exportable.view_id
+            AND il_dcl_view.type = 4)");
+
+
+//set editability/exportability
+while ($rec = $ilDB->fetchAssoc($view_query)) {
+    $field_set = new ilDclTableFieldSetting();
+    $field_set->setTableId($rec['table_id']);
+    $field_set->setField($rec['field']);
+    $field_set->setExportable($rec['exportable']);
+    $field_set->setFieldOrder($rec['field_order']);
+    $field_set->create();
+}
+
+//migrate page object
+$query = $ilDB->query('SELECT * 
+        FROM il_dcl_view 
+        INNER JOIN page_object on (il_dcl_view.id = page_object.page_id)
+          WHERE il_dcl_view.type = 0
+            AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
+
+while ($rec = $ilDB->fetchAssoc($query)) {
+    $ilDB->query('UPDATE page_object 
+                  SET page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
+                  WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
+                      AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
+}
+
+//delete old tables
+$ilDB->dropTable('il_dcl_viewdefinition');
+$ilDB->dropTable('il_dcl_view');
+
+?>
+<#4920>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4921>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4922>
+<?php
+require_once 'Services/Migration/DBUpdate_4922/classes/class.ilPasswordUtils.php';
+
+$salt_location = CLIENT_DATA_DIR . '/pwsalt.txt';
+if(!is_file($salt_location) || !is_readable($salt_location))
+{
+	$result = @file_put_contents(
+		$salt_location,
+		substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(16))), 0, 22)
+	);
+	if(!$result)
+	{
+		die("Could not create the client salt for bcrypt password hashing.");
+	}
+}
+
+if(!is_file($salt_location) || !is_readable($salt_location))
+{
+	die("Could not determine the client salt for bcrypt password hashing.");
+}
+?>
+<#4923>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4924>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4925>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('stys');
+if($type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('sty_write_content', 'Edit Content Styles', 'object', 6101);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('stys', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+?>
+<#4926>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('stys');
+if($type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('sty_write_system', 'Edit System Styles', 'object', 6100);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('stys', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+?>
+<#4927>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('stys');
+if($type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('sty_write_page_layout', 'Edit Page Layouts', 'object', 6102);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('stys', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+?>
+<#4928>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+ilDBUpdateNewObjectType::deleteRBACOperation('stys', $ops_id);
 ?>

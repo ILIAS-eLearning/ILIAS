@@ -45,7 +45,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	* @param	boolean	true: treat id as ref_id; false: treat id as obj_id
 	* @access	public
 	*/
-	function ilObjObjectFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "objf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);

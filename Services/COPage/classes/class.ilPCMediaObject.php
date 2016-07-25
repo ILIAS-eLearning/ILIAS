@@ -42,7 +42,7 @@ class ilPCMediaObject extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->mob_node =& $a_node->first_child();
+		$this->mob_node = $a_node->first_child();
 	}
 
 	/**
@@ -50,7 +50,7 @@ class ilPCMediaObject extends ilPageContent
 	*/
 	function setDom(&$a_dom)
 	{
-		$this->dom =& $a_dom;
+		$this->dom = $a_dom;
 	}
 
 	/**
@@ -102,22 +102,22 @@ class ilPCMediaObject extends ilPageContent
 	w*/
 	function createAlias(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->dom->create_element("PageContent");
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->mob_node =& $this->dom->create_element("MediaObject");
-		$this->mob_node =& $this->node->append_child($this->mob_node);
-		$this->mal_node =& $this->dom->create_element("MediaAlias");
-		$this->mal_node =& $this->mob_node->append_child($this->mal_node);
+		$this->mob_node = $this->dom->create_element("MediaObject");
+		$this->mob_node = $this->node->append_child($this->mob_node);
+		$this->mal_node = $this->dom->create_element("MediaAlias");
+		$this->mal_node = $this->mob_node->append_child($this->mal_node);
 		$this->mal_node->set_attribute("OriginId", "il__mob_".$this->getMediaObject()->getId());
 
 		// standard view
-		$item_node =& $this->dom->create_element("MediaAliasItem");
-		$item_node =& $this->mob_node->append_child($item_node);
+		$item_node = $this->dom->create_element("MediaAliasItem");
+		$item_node = $this->mob_node->append_child($item_node);
 		$item_node->set_attribute("Purpose", "Standard");
-		$media_item =& $this->getMediaObject()->getMediaItem("Standard");
+		$media_item = $this->getMediaObject()->getMediaItem("Standard");
 
-		$layout_node =& $this->dom->create_element("Layout");
-		$layout_node =& $item_node->append_child($layout_node);
+		$layout_node = $this->dom->create_element("Layout");
+		$layout_node = $item_node->append_child($layout_node);
 		if ($media_item->getWidth() > 0)
 		{
 			//$layout_node->set_attribute("Width", $media_item->getWidth());
@@ -131,8 +131,8 @@ class ilPCMediaObject extends ilPageContent
 		// caption
 		if ($media_item->getCaption() != "")
 		{
-			$cap_node =& $this->dom->create_element("Caption");
-			$cap_node =& $item_node->append_child($cap_node);
+			$cap_node = $this->dom->create_element("Caption");
+			$cap_node = $item_node->append_child($cap_node);
 			$cap_node->set_attribute("Align", "bottom");
 			$cap_node->set_content($media_item->getCaption());
 		}
@@ -140,31 +140,31 @@ class ilPCMediaObject extends ilPageContent
 		// text representation
 		if ($media_item->getTextRepresentation() != "")
 		{
-			$tr_node =& $this->dom->create_element("TextRepresentation");
-			$tr_node =& $item_node->append_child($tr_node);
+			$tr_node = $this->dom->create_element("TextRepresentation");
+			$tr_node = $item_node->append_child($tr_node);
 			$tr_node->set_content($media_item->getTextRepresentation());
 		}
 
 		$pars = $media_item->getParameters();
 		foreach($pars as $par => $val)
 		{
-			$par_node =& $this->dom->create_element("Parameter");
-			$par_node =& $item_node->append_child($par_node);
+			$par_node = $this->dom->create_element("Parameter");
+			$par_node = $item_node->append_child($par_node);
 			$par_node->set_attribute("Name", $par);
 			$par_node->set_attribute("Value", $val);
 		}
 
 		// fullscreen view
-		$fullscreen_item =& $this->getMediaObject()->getMediaItem("Fullscreen");
+		$fullscreen_item = $this->getMediaObject()->getMediaItem("Fullscreen");
 		if (is_object($fullscreen_item))
 		{
-			$item_node =& $this->dom->create_element("MediaAliasItem");
-			$item_node =& $this->mob_node->append_child($item_node);
+			$item_node = $this->dom->create_element("MediaAliasItem");
+			$item_node = $this->mob_node->append_child($item_node);
 			$item_node->set_attribute("Purpose", "Fullscreen");
 
 			// width and height
-			$layout_node =& $this->dom->create_element("Layout");
-			$layout_node =& $item_node->append_child($layout_node);
+			$layout_node = $this->dom->create_element("Layout");
+			$layout_node = $item_node->append_child($layout_node);
 			if ($fullscreen_item->getWidth() > 0)
 			{
 				$layout_node->set_attribute("Width", $fullscreen_item->getWidth());
@@ -177,8 +177,8 @@ class ilPCMediaObject extends ilPageContent
 			// caption
 			if ($fullscreen_item->getCaption() != "")
 			{
-				$cap_node =& $this->dom->create_element("Caption");
-				$cap_node =& $item_node->append_child($cap_node);
+				$cap_node = $this->dom->create_element("Caption");
+				$cap_node = $item_node->append_child($cap_node);
 				$cap_node->set_attribute("Align", "bottom");
 				$cap_node->set_content($fullscreen_item->getCaption());
 			}
@@ -186,16 +186,16 @@ class ilPCMediaObject extends ilPageContent
 			// text representation
 			if ($fullscreen_item->getTextRepresentation() != "")
 			{
-				$tr_node =& $this->dom->create_element("TextRepresentation");
-				$tr_node =& $item_node->append_child($tr_node);
+				$tr_node = $this->dom->create_element("TextRepresentation");
+				$tr_node = $item_node->append_child($tr_node);
 				$tr_node->set_content($fullscreen_item->getTextRepresentation());
 			}
 
 			$pars = $fullscreen_item->getParameters();
 			foreach($pars as $par => $val)
 			{
-				$par_node =& $this->dom->create_element("Parameter");
-				$par_node =& $item_node->append_child($par_node);
+				$par_node = $this->dom->create_element("Parameter");
+				$par_node = $item_node->append_child($par_node);
 				$par_node->set_attribute("Name", $par);
 				$par_node->set_attribute("Value", $val);
 			}
@@ -211,7 +211,7 @@ class ilPCMediaObject extends ilPageContent
 	{
 		if (is_object($this->mob_node))
 		{
-			$this->mal_node =& $this->mob_node->first_child();
+			$this->mal_node = $this->mob_node->first_child();
 			if (is_object($this->mal_node) && $this->mal_node->node_name() == "MediaAlias")
 			{
 				$this->mal_node->set_attribute("OriginId", "il__mob_".$this->getMediaObject()->getId());

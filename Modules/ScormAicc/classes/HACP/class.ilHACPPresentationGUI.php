@@ -43,14 +43,14 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilHACPPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 

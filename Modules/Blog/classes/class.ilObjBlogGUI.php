@@ -25,7 +25,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected $items; // [array]
 	protected $keyword; // [string]
 	protected $author; // [int]
-	protected $month_default; // [bool
+	protected $month_default; // [bool]
+	
+	protected static $keyword_export_map; // [array]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
@@ -451,9 +453,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$cmd = $ilCtrl->getCmd();
 		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
-		{			
-			$tpl->getStandardTemplate();
-			
+		{						
 			// add entry to navigation history
 			if(!$this->getCreationMode() &&
 				$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
@@ -466,9 +466,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		switch($next_class)
 		{
 			case 'ilblogpostinggui':	
+				if(!$this->prtf_embed)
+				{
+					$tpl->getStandardTemplate();
+				}
+				
 				// #9680
 				if($this->id_type == self::REPOSITORY_NODE_ID)
-				{						
+				{								
 					$this->setLocator();						
 				}				
 				else
@@ -643,7 +648,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -676,7 +681,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			default:				
+			default:							
 				if($cmd != "gethtml")
 				{
 					// desktop item handling, must be toggled before header action
@@ -694,8 +699,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						$ilCtrl->setCmd($cmd);
 					}					
 					$this->addHeaderActionForCommand($cmd);
+				}				
+				if(!$this->prtf_embed)
+				{
+					return parent::executeCommand();			
 				}
-				return parent::executeCommand();			
+				else
+				{
+					if(!$cmd)
+					{
+						$cmd = "render";
+					}
+					return $this->$cmd();
+				}
 		}
 		
 		return true;
@@ -1272,6 +1288,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		$last_month = null;
+		$is_empty = true;
 		foreach($items as $item)
 		{			
 			// only published items
@@ -1280,6 +1297,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				continue;
 			}
+			
+			$is_empty = false;
 			
 			if(!$this->keyword && !$this->author)
 			{
@@ -1515,7 +1534,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				: "");			
 		}
 		
-		return $wtpl->get();
+		if(!$is_empty || $a_show_inactive)
+		{
+			return $wtpl->get();
+		}
 	}
 	
 	/**
@@ -1771,7 +1793,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param bool $a_show_inactive
 	 * @return string
 	 */
-	protected function renderNavigationByKeywords($a_list_cmd = "render", $a_show_inactive = false)
+	protected function renderNavigationByKeywords($a_list_cmd = "render", $a_show_inactive = false, $a_link_template = false)
 	{
 		global $ilCtrl;
 		
@@ -1782,13 +1804,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							
 			$max = max($keywords);
 			include_once "Services/Tagging/classes/class.ilTagging.php";
-
+			
 			$wtpl->setCurrentBlock("keyword");
 			foreach($keywords as $keyword => $counter)
-			{										
-				$ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
-				$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-				$ilCtrl->setParameter($this, "kwd", "");
+			{									
+				if(!$a_link_template)
+				{
+					$ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
+					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+					$ilCtrl->setParameter($this, "kwd", "");
+				}
+				else
+				{
+					$url = $this->buildExportLink($a_link_template, "keyword", $keyword);
+				}
 
 				$wtpl->setVariable("TXT_KEYWORD", $keyword);				
 				$wtpl->setVariable("CLASS_KEYWORD", ilTagging::getRelevanceClass($counter, $max));				
@@ -1904,52 +1933,53 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive)
 			);
 		}
-				
-		// authors
-		if($this->id_type == self::REPOSITORY_NODE_ID && 
-			$this->object->hasAuthors())
-		{
-			$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
-			if($authors)
-			{
-				$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
-			}
-		}		
 		
+		if($this->object->hasKeywords())
+		{
+			// keywords 		
+			$may_edit_keywords = ($_GET["blpg"] && 
+				$this->mayEditPosting($_GET["blpg"]) && 
+				$a_list_cmd != "preview" && 
+				$a_list_cmd != "gethtml" &&				 
+				!$a_link_template);
+			$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive, $a_link_template);	
+			if($keywords || $may_edit_keywords)
+			{
+				if(!$keywords)
+				{
+					$keywords = $this->lng->txt("blog_no_keywords");
+				}
+				$cmd = null;
+				if($may_edit_keywords)
+				{
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);				
+					$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+				}
+				$blocks[$order["keywords"]] = array(
+					$this->lng->txt("blog_keywords"),
+					$keywords,
+					$cmd 
+						? array($cmd, $this->lng->txt("blog_edit_keywords")) 
+						: null
+				);
+			}
+		}
+
 		// is not part of (html) export
 		if(!$a_link_template)
-		{
-			if($this->object->hasKeywords())
+		{		
+			// authors
+			if($this->id_type == self::REPOSITORY_NODE_ID && 
+				$this->object->hasAuthors())
 			{
-				// keywords 		
-				$may_edit_keywords = ($_GET["blpg"] && 
-					$this->mayEditPosting($_GET["blpg"]) && 
-					$a_list_cmd != "preview" && 
-					$a_list_cmd != "gethtml");
-				$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive);	
-				if($keywords || $may_edit_keywords)
+				$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
+				if($authors)
 				{
-					if(!$keywords)
-					{
-						$keywords = $this->lng->txt("blog_no_keywords");
-					}
-					$cmd = null;
-					if($may_edit_keywords)
-					{
-						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);				
-						$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
-						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
-					}
-					$blocks[$order["keywords"]] = array(
-						$this->lng->txt("blog_keywords"),
-						$keywords,
-						$cmd 
-							? array($cmd, $this->lng->txt("blog_edit_keywords")) 
-							: null
-					);
+					$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
 				}
-			}
-
+			}		
+		
 			// rss
 			if($this->object->hasRSS() && 
 				$ilSetting->get('enable_global_profiles') &&
@@ -2067,7 +2097,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		ilUtil::makeDir($export_dir);
 		
 		// system style html exporter
-		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
+		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($export_dir);
 	    $this->sys_style_html_export->addImage("icon_blog.svg");
 		$this->sys_style_html_export->export();
@@ -2136,14 +2166,22 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$this->co_page_html_export = $a_co_page_html_export;
 		}
 		
+		
+		// lists
+		
+		// global nav
 		$nav = $this->renderNavigation($this->items, "", "", $a_link_template);
 		
 		// month list
 		$has_index = false;
 		foreach(array_keys($this->items) as $month)
-		{									
-			$file = $this->buildExportLink($a_link_template, "list", $month);
+		{												
 			$list = $this->renderList($this->items[$month], "render", $a_link_template, false, $a_target_directory);			
+			
+			if(!$list)
+			{
+				continue;
+			}
 			
 			if(!$a_tpl_callback)
 			{
@@ -2154,6 +2192,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$tpl = call_user_func($a_tpl_callback);				
 			}		
 			
+			$file = $this->buildExportLink($a_link_template, "list", $month);
 			$file = $this->writeExportFile($a_target_directory, $file, 
 				$tpl, $list, $nav);
 
@@ -2164,7 +2203,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			}
 		}
 
+		// keywords
+		foreach(array_keys($this->getKeywords(false)) as $keyword)
+		{
+			$this->keyword = $keyword;
+			$list_items = $this->filterItemsByKeyword($this->items, $keyword);				
+			$list = $this->renderList($list_items, "render", $a_link_template, false, $a_target_directory);			
+			
+			if(!$list)
+			{
+				continue;
+			}
+			
+			if(!$a_tpl_callback)
+			{
+				$tpl = $this->buildExportTemplate();
+			}
+			else
+			{
+				$tpl = call_user_func($a_tpl_callback);				
+			}		
+			
+			$file = $this->buildExportLink($a_link_template, "keyword", $keyword);
+			$file = $this->writeExportFile($a_target_directory, $file, 
+				$tpl, $list, $nav);
+		}
+		
+		
 		// single postings
+		
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);		
@@ -2193,6 +2260,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$tpl = call_user_func($a_tpl_callback);				
 				}		
 				
+				// posting nav
+				$_GET["blpg"] = $page["id"];
+				$nav = $this->renderNavigation($this->items, "", "", $a_link_template);
+				$_GET["blpg"] = null;
+				
 				$this->writeExportFile($a_target_directory, $file, $tpl, 
 					$page_content, $nav, $back);
 				
@@ -2212,14 +2284,27 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	protected function buildExportLink($a_template, $a_type, $a_id)
 	{
-		if($a_type == "list")
+		switch($a_type)
 		{
-			$a_type = "m";
+			case "list":
+				$a_type = "m";
+				break;
+			break;
+			
+			case "keyword":
+				if(!self::$keyword_export_map)
+				{
+					self::$keyword_export_map = array_flip(array_keys($this->getKeywords(false)));
+				}
+				$a_id = self::$keyword_export_map[$a_id];
+				$a_type = "k";				
+				break;
+				
+			default:
+				$a_type = "p";
+				break;
 		}
-		else
-		{
-			$a_type = "p";
-		}
+		
 		$link = str_replace("{TYPE}", $a_type, $a_template);
 		return str_replace("{ID}", $a_id, $link);
 	}
@@ -2259,7 +2344,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param type $a_right_content
 	 * @return string 
 	 */
-	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null)
+	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null, $a_back = null)
 	{
 		$file = $a_target_directory."/".$a_file;
 		// return if file is already existing
@@ -2270,16 +2355,25 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// export template: page content
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
-			"Modules/Blog");
-		$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
-	
-		// export template: right content			
+			"Modules/Blog");		
+		if($a_back)
+		{
+			$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
+		}
+		else
+		{
+			$ep_tpl->setVariable("LIST", $a_content);	
+		}	
+		unset($a_content);
+		$a_tpl->setContent($ep_tpl->get());		
+		unset($ep_tpl);
+
+		// template: right content			
 		if($a_right_content)
 		{
-			$ep_tpl->setVariable("RIGHT_CONTENT", $a_right_content);
-		}
-		
-		$a_tpl->setContent($ep_tpl->get());		
+			$a_tpl->setRightContent($a_right_content);
+			unset($a_right_content);
+		}			
 
 		$content = $a_tpl->get("DEFAULT", false, false, false,
 			true, true, true);		
@@ -2865,7 +2959,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilSetting;
 						
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -2942,7 +3036,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilSetting;
 	
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

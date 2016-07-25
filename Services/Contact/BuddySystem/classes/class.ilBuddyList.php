@@ -5,6 +5,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelationRe
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelationCollection.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelation.php';
 require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemException.php';
+require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemLinkedRelationState.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemUnlinkedRelationState.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRequestedRelationState.php';
@@ -42,6 +43,11 @@ class ilBuddyList
 	protected $relations_read = false;
 
 	/**
+	 * @var ilAppEventHandler
+	 */
+	protected $event_handler;
+
+	/**
 	 * @param int $usr_id
 	 * @return self
 	 * @throws ilBuddySystemException
@@ -67,12 +73,9 @@ class ilBuddyList
 	 */
 	public static function getInstanceByGlobalUser()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
+		global $DIC;
 
-		return self::getInstanceByUserId($ilUser->getId());
+		return self::getInstanceByUserId($DIC->user()->getId());
 	}
 
 	/**
@@ -80,8 +83,12 @@ class ilBuddyList
 	 */
 	protected function __construct($owner_id)
 	{
+		global $DIC;
+
 		$this->setOwnerId($owner_id);
 		$this->setRepository(new ilBuddySystemRelationRepository($this->getOwnerId()));
+
+		$this->event_handler = $DIC['ilAppEventHandler'];
 	}
 
 	/**
@@ -309,9 +316,22 @@ class ilBuddyList
 	 */
 	public function link(ilBuddySystemRelation $relation)
 	{
-		$relation->link();
-		$this->getRepository()->save($relation);
-		$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		try
+		{
+			$relation->link();
+			$this->getRepository()->save($relation);
+			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		}
+		catch(ilBuddySystemException $e)
+		{
+			if($relation->isLinked())
+			{
+				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
+				throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
+			}
+
+			throw $e;
+		}
 
 		return $this;
 	}
@@ -323,9 +343,22 @@ class ilBuddyList
 	 */
 	public function unlink(ilBuddySystemRelation $relation)
 	{
-		$relation->unlink();
-		$this->getRepository()->save($relation);
-		$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		try
+		{
+			$relation->unlink();
+			$this->getRepository()->save($relation);
+			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		}
+		catch(ilBuddySystemException $e)
+		{
+			if($relation->isUnlinked())
+			{
+				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
+				throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_unlinked');
+			}
+
+			throw $e;
+		}
 
 		return $this;
 	}
@@ -347,11 +380,24 @@ class ilBuddyList
 			throw new ilBuddySystemException(sprintf("You cannot add a non existing user (id: %s)", $this->getRelationTargetUserId($relation)));
 		}
 
-		$relation->request();
-		$this->getRepository()->save($relation);
-		$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		try
+		{
+			$relation->request();
+			$this->getRepository()->save($relation);
+			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		}
+		catch(ilBuddySystemException $e)
+		{
+			if($relation->isRequested())
+			{
+				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
+				throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_requested');
+			}
 
-		$GLOBALS['ilAppEventHandler']->raise(
+			throw $e;
+		}
+
+		$this->event_handler->raise(
 			'Services/Contact',
 			'contactRequested',
 			array(
@@ -374,9 +420,22 @@ class ilBuddyList
 			throw new ilBuddySystemException("You can only ignore a request when you are not the initiator %s");
 		}
 
-		$relation->ignore();
-		$this->getRepository()->save($relation);
-		$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		try
+		{
+			$relation->ignore();
+			$this->getRepository()->save($relation);
+			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		}
+		catch(ilBuddySystemException $e)
+		{
+			if($relation->isIgnored())
+			{
+				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
+				throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_ignored');
+			}
+
+			throw $e;
+		}
 
 		return $this;
 	}

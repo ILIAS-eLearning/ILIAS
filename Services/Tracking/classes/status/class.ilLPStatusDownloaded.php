@@ -22,7 +22,7 @@ class ilLPStatusDownloaded extends ilLPStatus
 		$this->db = $ilDB;
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		$usr_ids = array();
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';

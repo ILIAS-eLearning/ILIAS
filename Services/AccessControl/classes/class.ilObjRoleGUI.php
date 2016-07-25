@@ -83,6 +83,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilrepositorysearchgui':
+				
+				if(!$GLOBALS['ilAccess']->checkAccess('edit_permission','', $this->obj_ref_id))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setTitle($this->lng->txt('role_add_user'));
@@ -502,8 +507,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		$role->setAllowRegister($this->form->getInput('reg'));
 		$role->toggleAssignUsersStatus($this->form->getInput('la'));
-		$role->setDiskQuota($this->form->getInput('disk_quota') * pow(ilFormat::_getSizeMagnitude(),2));
-		$role->setPersonalWorkspaceDiskQuota($this->form->getInput('wsp_disk_quota') * pow(ilFormat::_getSizeMagnitude(),2));
+		$role->setDiskQuota(ilUtil::MB2Bytes($this->form->getInput('disk_quota')));
+		$role->setPersonalWorkspaceDiskQuota(ilUtil::MB2Bytes($this->form->getInput('wsp_disk_quota')));
 		return true;
 	}
 	
@@ -525,11 +530,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$data['la'] = $role->getAssignUsersStatus();
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
-			$data['disk_quota'] = $role->getDiskQuota() / (pow(ilFormat::_getSizeMagnitude(),2));
+			$data['disk_quota'] = ilUtil::Bytes2MB($role->getDiskQuota());
 		}
 		if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
-			$data['wsp_disk_quota'] = $role->getPersonalWorkspaceDiskQuota() / (pow(ilFormat::_getSizeMagnitude(),2));		
+			$data['wsp_disk_quota'] = ilUtil::Bytes2MB($role->getPersonalWorkspaceDiskQuota());		
 		}
 		$data['pro'] = $rbacreview->isProtected($this->obj_ref_id, $role->getId());
 		
@@ -1595,16 +1600,15 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function mailToRoleObject()
 	{
-		global $rbacreview;
-		
 		$obj_ids = ilObject::_getIdsForTitle($this->object->getTitle(), $this->object->getType());		
 		if(count($obj_ids) > 1)
 		{
 			$_SESSION['mail_roles'][] = '#il_role_'.$this->object->getId();
 		}
 		else
-		{		
-			$_SESSION['mail_roles'][] = $rbacreview->getRoleMailboxAddress($this->object->getId());
+		{
+			require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
+			$_SESSION['mail_roles'][] = ilMailRoleAddressType::getRoleMailboxAddress($this->object->getId());
 		}
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';

@@ -34,9 +34,9 @@ require_once ("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizations.php"
 class ilSCORMOrganizationsGUI extends ilSCORMObjectGUI
 {
 
-	function ilSCORMOrganizationsGUI($a_id)
+	function __construct($a_id)
 	{
-		parent::ilSCORMObjectGUI();
+		parent::__construct();
 		$this->sc_object = new ilSCORMOrganizations($a_id);
 	}
 

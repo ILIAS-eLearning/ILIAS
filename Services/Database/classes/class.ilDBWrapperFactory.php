@@ -6,7 +6,6 @@ require_once("./Services/Database/interfaces/interface.ilDBInterface.php");
 require_once('./Services/Database/interfaces/interface.ilDBManager.php');
 require_once('./Services/Database/interfaces/interface.ilDBReverse.php');
 
-
 /**
  * Class ilDBWrapperFactory
  *
@@ -41,7 +40,7 @@ class ilDBWrapperFactory {
 		}
 
 		switch ($a_type) {
-			case ilDBConstants::TYPE_MYSQL:
+			case ilDBConstants::TYPE_MYSQL_LEGACY:
 				include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
 				$ilDB = new ilDBMySQL();
 
@@ -53,13 +52,13 @@ class ilDBWrapperFactory {
 
 				// default: use mysqli driver if not prevented by ini setting
 				if (!(bool)$a_inactive_mysqli) {
-					$ilDB->setSubType(ilDBConstants::TYPE_MYSQLI);
+					$ilDB->setSubType(ilDBConstants::TYPE_MYSQLI_LEGACY);
 				}
 
 				break;
 
-			case ilDBConstants::TYPE_INNODB:
-				include_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
+			case ilDBConstants::TYPE_INNODB_LEGACY:
+				require_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
 				$ilDB = new ilDBInnoDB();
 
 				if ($a_inactive_mysqli === null
@@ -70,14 +69,18 @@ class ilDBWrapperFactory {
 
 				// default: use mysqli driver if not prevented by ini setting
 				if (!(bool)$a_inactive_mysqli) {
-					$ilDB->setSubType(ilDBConstants::TYPE_MYSQLI);
+					$ilDB->setSubType(ilDBConstants::TYPE_MYSQLI_LEGACY);
 				}
 
 				break;
 
-			case ilDBConstants::TYPE_POSTGRES:
+			case ilDBConstants::TYPE_POSTGRES_LEGACY:
 				include_once("./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php");
 				$ilDB = new ilDBPostgreSQL();
+				break;
+			case  ilDBConstants::TYPE_PDO_POSTGRE:
+				require_once('./Services/Database/classes/PDO/class.ilDBPdoPostgreSQL.php');
+				$ilDB = new ilDBPdoPostgreSQL();
 				break;
 			case ilDBConstants::TYPE_ORACLE:
 				include_once("./Services/Database/classes/MDB2/class.ilDBOracle.php");

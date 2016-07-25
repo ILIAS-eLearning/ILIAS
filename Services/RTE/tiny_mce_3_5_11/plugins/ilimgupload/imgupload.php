@@ -12,7 +12,11 @@ ilInitialisation::initILIAS();
  * @var $ilUser ilObjUser
  * @var $https ilHttps
  */
-global $ilIliasIniFile, $lng, $ilUser, $https;
+global $DIC;
+$ilIliasIniFile = $DIC['ilIliasIniFile'];
+$lng = $DIC['lng'];
+$ilUser = $DIC['ilUser'];
+$https = $DIC['https'];
 
 $lng->loadLanguageModule("form");
 
@@ -164,6 +168,10 @@ $tpl->setVariable("JQUERY", $jquery_path);
 if($ilUser->getLanguage() == 'de')
 {
 	$tpl->touchBlock('validation_engine_lang_de');
+}
+else if($ilUser->getLanguage() == 'hu')
+{
+	$tpl->touchBlock('validation_engine_lang_hu');
 }
 else
 {

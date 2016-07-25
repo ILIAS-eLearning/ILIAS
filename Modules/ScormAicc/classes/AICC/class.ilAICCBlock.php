@@ -39,9 +39,9 @@ class ilAICCBlock extends ilAICCObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilAICCBlock($a_id = 0)
+	function __construct($a_id = 0)
 	{
-		parent::ilAICCObject($a_id);
+		parent::__construct($a_id);
 
 		$this->type="sbl";
 

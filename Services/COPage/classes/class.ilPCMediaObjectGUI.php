@@ -27,7 +27,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		global $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
@@ -113,7 +113,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$mob_gui = new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
 				$mob_gui->setBackTitle($this->page_back_title);
 				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
-				$ret =& $this->ctrl->forwardCommand($mob_gui);
+				$ret = $this->ctrl->forwardCommand($mob_gui);
 				break;
 
 			// instance image map editing
@@ -127,7 +127,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				break;
 			
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -1253,7 +1253,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				if (is_object($st_item))
 				{
 					$format = $st_item->getFormat();
-					if (substr($format, 0, 5) == "image")
+					if (substr($format, 0, 5) == "image" && !is_int(strpos($format, "svg")))
 					{
 						$ilTabs->addTarget("cont_inst_map_areas",
 							$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),

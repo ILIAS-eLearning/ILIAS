@@ -25,7 +25,7 @@ class ilSCORM2004Node
 	/**
 	* @param	object		$a_slm_object		ilObjScorm2004LearningModule object
 	*/
-	function ilSCORM2004Node($a_slm_object, $a_id = 0)
+	function __construct($a_slm_object, $a_id = 0)
 	{
 		$this->id = $a_id;
 		$this->setSLMObject($a_slm_object);
@@ -291,7 +291,7 @@ class ilSCORM2004Node
 		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 //			$md_des->setDescription($this->getDescription());
 			$md_des->update();
 		}
@@ -459,7 +459,7 @@ class ilSCORM2004Node
 	*
 	* @return	int		id
 	*/
-	function _getIdForImportId($a_import_id)
+	static function _getIdForImportId($a_import_id)
 	{
 		global $ilDB;
 		
@@ -489,7 +489,7 @@ class ilSCORM2004Node
 	*
 	* @return	boolean		true, if lm content object exists
 	*/
-	function _exists($a_id)
+	static function _exists($a_id)
 	{
 		global $ilDB;
 		
@@ -519,7 +519,7 @@ class ilSCORM2004Node
 	*
 	* @param	object		Scorm 2004 Learning Module Object
 	*/
-	function _deleteAllSLMNodes($a_slm_object)
+	static function _deleteAllSLMNodes($a_slm_object)
 	{
 		global $ilDB;
 		
@@ -544,7 +544,7 @@ class ilSCORM2004Node
 	/**
 	* Lookup Scorm Learning Module ID for node id
 	*/
-	function _lookupSLMID($a_id)
+	static function _lookupSLMID($a_id)
 	{
 		global $ilDB;
 
@@ -578,7 +578,7 @@ class ilSCORM2004Node
 		else
 		{
 			// determine last child that serves as predecessor
-			$childs =& $tree->getChilds($parent_id);
+			$childs = $tree->getChilds($parent_id);
 
 			if (count($childs) == 0)
 			{

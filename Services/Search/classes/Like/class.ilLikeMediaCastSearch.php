@@ -36,16 +36,6 @@ include_once 'Services/Search/classes/class.ilMediaCastSearch.php';
 class ilLikeMediaCastSearch extends ilMediaCastSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeMediaCastSearch(&$qp_obj)
-	{
-		parent::ilMediaCastSearch($qp_obj);
-	}
-
-
 	function __createWhereCondition()
 	{
 		global $ilDB;

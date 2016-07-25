@@ -72,7 +72,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 				break;
 			
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 

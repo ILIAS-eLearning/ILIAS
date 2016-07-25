@@ -38,6 +38,8 @@ class ilForumExportGUI
 
 		$forum = new ilObjForum((int)$_GET['ref_id']);
 		$this->frm = $forum->Forum;
+		$this->objProperties = ilForumProperties::getInstance($forum->getId());
+		
 		$this->frm->setForumId($forum->getId());
 		$this->frm->setForumRefId($forum->getRefId());
 		
@@ -310,7 +312,7 @@ class ilForumExportGUI
 		else
 		{
 			$tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
-			if($authorinfo->getAuthorName(true))
+			if($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized() )
 			{
 				$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
 			}
@@ -377,14 +379,14 @@ class ilForumExportGUI
 			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
 				$post->getPosAuthorId(),
-				$post->getUpdateUserId(),
-				'',
+				$post->getDisplayUserId(),
+				$post->getUserAlias(),
 				''
 			);
 
 			$tpl->setVariable('POST_UPDATE_TXT', $lng->txt('edited_on') . ': ' . $this->frm->convertDate($post->getChangeDate()) . ' - ' . strtolower($lng->txt('by')));
 			$tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
-			if($authorinfo->getAuthorName(true))
+			if($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized())
 			{
 				$tpl->setVariable('UPDATE_USR_NAME', $authorinfo->getAuthorName(true));
 			}

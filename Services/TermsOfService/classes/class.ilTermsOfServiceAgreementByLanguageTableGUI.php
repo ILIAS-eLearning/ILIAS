@@ -12,6 +12,11 @@ require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * @param ilObjectGUI $a_parent_obj
 	 * @param string      $a_parent_cmd
 	 */
@@ -20,11 +25,10 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC['ilCtrl'];
 
-		// Call this immediately in constructor
 		$this->setId('tos_agreement_by_lng');
 
 		$this->setDefaultOrderDirection('ASC');
@@ -103,6 +107,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 
 			$modal = ilModalGUI::getInstance();
 			$modal->setHeading($this->lng->txt('tos_agreement_document'));
+			$modal->setType(ilModalGUI::TYPE_LARGE);
 			$modal->setId('tos_' . $unique_id);
 			$modal->setBody('');
 			$row['modal'] = $modal->getHTML();

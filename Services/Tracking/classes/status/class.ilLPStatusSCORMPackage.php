@@ -42,21 +42,21 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = $status_info['in_progress'];
 		return array_unique($users);
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = $status_info['completed'];
 		return array_unique($users);
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = $status_info['failed'];
@@ -64,7 +64,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 	}
 
 	
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
 		$status_info['subtype'] = "scorm2004";

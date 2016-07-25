@@ -13,15 +13,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 */
 class ilUserDefinedFieldSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilUserDefinedFieldSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
+	
 	function &performSearch()
 	{
 		$where = $this->__createWhereCondition();

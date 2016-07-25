@@ -24,7 +24,7 @@ class ilSCORM2004Utilities
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004Utilities($a_id)
+	function __construct($a_id)
 	{
 		$this->id = $a_id;
 	}

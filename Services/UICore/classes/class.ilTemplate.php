@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/UICore/lib/html-it/IT.php");
+include_once("./Services/UICore/lib/html-it/ITX.php");
 
 /**
 * special template class to simplify handling of ITX/PEAR
@@ -55,6 +57,7 @@ class ilTemplate extends HTML_Template_ITX
 	protected $title_alerts = array();
 	protected $header_action;
 	protected $lightbox = array();
+	protected $standard_template_loaded = false;
 
 	protected $translation_linked = false; // fix #9992: remember if a translation link is added
 
@@ -1506,7 +1509,7 @@ class ilTemplate extends HTML_Template_ITX
 			}
 
 			// use ilStyleDefinition instead of account to get the current skin
-			include_once "Services/Style/classes/class.ilStyleDefinition.php";
+			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
 				$fname = "./Customizing/global/skin/".
@@ -1595,6 +1598,11 @@ class ilTemplate extends HTML_Template_ITX
 
 	function getStandardTemplate()
 	{
+		if ($this->standard_template_loaded)
+		{
+			return;
+		}
+
 		// always load jQuery
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
@@ -1609,6 +1617,8 @@ class ilTemplate extends HTML_Template_ITX
 
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$this->standard_template_loaded = true;
 	}
 	
 	/**

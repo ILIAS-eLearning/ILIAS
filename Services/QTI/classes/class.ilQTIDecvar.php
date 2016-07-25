@@ -49,7 +49,7 @@ class ilQTIDecvar
 	var $content;
 	var $interpretvar;
 	
-	function ilQTIDecvar()
+	function __construct()
 	{
 		$this->interpretvar = array();
 	}

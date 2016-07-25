@@ -11,7 +11,7 @@
  */
 class ilTrQuery
 {
-	function getObjectsStatusForUser($a_user_id, array $obj_refs)
+	static function getObjectsStatusForUser($a_user_id, array $obj_refs)
 	{
 		global $ilDB;
 
@@ -1290,8 +1290,8 @@ class ilTrQuery
 			// what about LP_MODE_SCORM_PACKAGE ?
 			case ilLPObjSettings::LP_MODE_SCORM:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_scorm = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_SCORM);
-				$scorm = $status_scorm->_getStatusInfo($a_parent_obj_id);
+				$status_scorm = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_SCORM));				
+				$scorm = $status_scorm::_getStatusInfo($a_parent_obj_id);
 				break;
 			
 			case ilLPObjSettings::LP_MODE_OBJECTIVES:				
@@ -1305,8 +1305,8 @@ class ilTrQuery
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
 			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode);
-				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);
+				$status_coll_tlt = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode));
+				$subitems = $status_coll_tlt::_getStatusInfo($a_parent_obj_id);
 				break;
 				
 			default:
@@ -1524,7 +1524,10 @@ class ilTrQuery
 			$udf = self::buildColumns($fields, $a_additional_fields);
 				
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-																							
+					
+			// #18673 - if parent supports percentage does not matter for "sub-items"
+			$fields[] = "percentage";
+																		
 			$raw = array();
 			foreach($a_obj_ids as $obj_id)
 			{				
@@ -1535,7 +1538,7 @@ class ilTrQuery
 					" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 					" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
 					self::buildFilters($where);
-
+				
 				$raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), "login");
 				if($raw["cnt"])
 				{
@@ -1703,7 +1706,7 @@ class ilTrQuery
 		return $res;
 	}
 
-	function getObjectTypeStatistics()
+	static function getObjectTypeStatistics()
 	{
 		global $ilDB, $objDefinition;
 		
@@ -1943,7 +1946,7 @@ class ilTrQuery
 		return $res;
 	}
 	
-	function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
+	static function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
 	{
 		global $ilDB;
 		

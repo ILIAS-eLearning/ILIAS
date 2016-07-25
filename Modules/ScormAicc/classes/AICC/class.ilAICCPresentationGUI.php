@@ -43,14 +43,14 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilAICCPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
@@ -82,7 +82,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	
 	function view()
 	{
-		$sc_gui_object =& ilAICCObjectGUI::getInstance($_GET["obj_id"]);
+		$sc_gui_object = ilAICCObjectGUI::getInstance($_GET["obj_id"]);
 
 		if(is_object($sc_gui_object))
 		{

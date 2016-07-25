@@ -664,7 +664,7 @@ class ilInternalLinkGUI
 			case "WikiPage":
 				$wiki_id = ilObject::_lookupObjId($_SESSION["il_link_wiki"]);
 				require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-				$wpages = ilWikiPage::getAllPages($wiki_id);
+				$wpages = ilWikiPage::getAllWikiPages($wiki_id);
 
 				// get all glossary items
 				$tpl->setCurrentBlock("chapter_list");
@@ -1096,6 +1096,9 @@ class ilInternalLinkGUI
 		ilYuiUtil::initConnection();
 
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
+		
+		// #18721
+		$tpl->addJavaScript("Services/Form/js/Form.js");
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 		$modal = ilModalGUI::getInstance();

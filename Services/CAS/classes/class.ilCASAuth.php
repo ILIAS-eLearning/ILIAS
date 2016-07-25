@@ -40,15 +40,15 @@ class ilCASAuth extends Auth
 	* Constructor
 	* @access	public
 	*/
-	function ilCASAuth($a_params)
+	function __construct($a_params)
 	{
 		if ($a_params["sessionName"] != "")
 		{
-			parent::Auth("", array("sessionName" => $a_params["sessionName"]));
+			parent::__construct("", array("sessionName" => $a_params["sessionName"]));
 		}
 		else
 		{
-			parent::Auth("");
+			parent::__construct("");
 		}
 		
 		include_once("./Services/CAS/lib/CAS.php");

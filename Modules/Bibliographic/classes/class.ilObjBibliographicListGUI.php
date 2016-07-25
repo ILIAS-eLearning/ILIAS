@@ -39,7 +39,9 @@ class ilObjBibliographicListGUI extends ilObjectListGUI {
 	 *                    "value" (string) => property value
 	 */
 	public function getProperties() {
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		$props = array();
 		include_once("./Modules/Bibliographic/classes/class.ilObjBibliographicAccess.php");
 		if (! ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {

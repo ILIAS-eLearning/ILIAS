@@ -36,7 +36,10 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	 * @param ilOrgUnitType $type
 	 */
 	public function __construct($parent_gui, ilOrgUnitType $type) {
-		global $tpl, $ilCtrl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->parent_gui = $parent_gui;
 		$this->type = $type;
 		$this->tpl = $tpl;

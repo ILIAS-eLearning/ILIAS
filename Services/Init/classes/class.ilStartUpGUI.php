@@ -726,7 +726,7 @@ class ilStartUpGUI
 		include_once './Services/Authentication/classes/class.ilLoginPage.php';
 		include_once './Services/Authentication/classes/class.ilLoginPageGUI.php';
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
@@ -735,7 +735,7 @@ class ilStartUpGUI
 		// get page object
 		$page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(0, 'auth');
 
 		$page_gui->setPresentationTitle("");
@@ -981,6 +981,9 @@ class ilStartUpGUI
 
 			$user = new ilObjUser($user_id);
 			$user->setAuthMode(ilSession::get('tmp_auth_mode'));
+			
+			ilLoggerFactory::getLogger('auth')->debug('Auth mode is: ' . ilSession::get('tmp_auth_mode'));
+			
 			$user->setExternalAccount(ilSession::get('tmp_external_account'));
 			$user->setActive(true);
 			$user->update();
@@ -995,11 +998,11 @@ class ilStartUpGUI
 			}
 
 			// Log migration
-			$ilLog->write(__METHOD__.': Migrated '.ilSession::get('tmp_external_account').' to ILIAS account '.$user->getLogin().'.');
+			ilLoggerFactory::getLogger('auth')->info('Migrated '. ilSession::get('tmp_external_account').' to ILIAS account '. $user->getLogin());
 	 	}
 	 	elseif($_POST['account_migration'] == 2)
 	 	{
-			switch(ilSession::get('tmp_auth_mode'))
+			switch(ilSession::get('tmp_auth_mode_type'))
 			{
 				case 'apache':
 					$_POST['username'] = ilSession::get('tmp_external_account');
@@ -1015,9 +1018,10 @@ class ilStartUpGUI
 				case 'ldap':
 					$_POST['username'] = ilSession::get('tmp_external_account');
 					$_POST['password'] = ilSession::get('tmp_pass');
+					$server_id = ilSession::get('tmp_auth_mode_id');
 					
 					include_once('Services/LDAP/classes/class.ilAuthContainerLDAP.php');
-					$container = new ilAuthContainerLDAP();
+					$container = new ilAuthContainerLDAP($server_id);
 					$container->forceCreation(true);
 					$ilAuth = ilAuthFactory::factory($container);
 					$ilAuth->start();
@@ -1036,11 +1040,9 @@ class ilStartUpGUI
 					$ilAuth->start();
 					break;
 			}
-			// Redirect to acceptance
-			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
 	 	}
-		// show personal desktop
-		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		
+		$this->processStartingPage();
 	}
 
 	/**

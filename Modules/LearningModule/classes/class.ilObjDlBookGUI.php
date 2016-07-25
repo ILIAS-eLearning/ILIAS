@@ -44,17 +44,17 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjDlBookGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
         $this->type = "dbk";
-		parent::ilObjContentObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		# BETTER DO IT HERE THAN IN PARENT CLASS ( PROBLEMS FOR import, create)
 		$this->assignObject();
 		
 		// SAME REASON
 		if($a_id != 0)
 		{
-			$this->lm_tree =& $this->object->getLMTree();
+			$this->lm_tree = $this->object->getLMTree();
 		}
 	}
 
@@ -325,7 +325,9 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	* digilib book menu
 	*/
 	// ok
-    function setilLMMenu()
+    function setilLMMenu($a_offline = false, $a_export_format = "",
+						 $a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
+						 $a_cur_page = 0)
 	{
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 

@@ -36,15 +36,7 @@ include_once 'Services/Search/classes/class.ilAdvancedSearch.php';
 */
 class ilFulltextAdvancedSearch extends ilAdvancedSearch
 {
-
-	/** 
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextAdvancedSearch(&$qp_obj)
-	{
-		parent::ilAdvancedSearch($qp_obj);
-	}
+	
 	function __createTaxonWhereCondition()
 	{
 		// IN BOOLEAN MODE

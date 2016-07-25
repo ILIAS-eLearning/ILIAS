@@ -32,15 +32,15 @@ class ilPCTab extends ilPageContent
 	function newItemAfter()
 	{
 		$tab = $this->getNode();
-		$new_tab =& $this->dom->create_element("Tab");
-		if ($next_tab =& $tab->next_sibling())
+		$new_tab = $this->dom->create_element("Tab");
+		if ($next_tab = $tab->next_sibling())
 		{
-			$new_tab =& $next_tab->insert_before($new_tab, $next_tab);
+			$new_tab = $next_tab->insert_before($new_tab, $next_tab);
 		}
 		else
 		{
 			$parent_tabs = $tab->parent_node();
-			$new_tab =& $parent_tabs->append_child($new_tab);
+			$new_tab = $parent_tabs->append_child($new_tab);
 		}
 	}
 
@@ -61,7 +61,7 @@ class ilPCTab extends ilPageContent
 	*/
 	function deleteItem()
 	{
-		$tab =& $this->getNode();
+		$tab = $this->getNode();
 		$tab->unlink($tab);
 	}
 
@@ -85,7 +85,7 @@ class ilPCTab extends ilPageContent
 		$tab = $this->getNode();
 		$prev = $tab->previous_sibling();
 		$tab_copy = $tab->clone_node(true);
-		$tab_copy =& $prev->insert_before($tab_copy, $prev);
+		$tab_copy = $prev->insert_before($tab_copy, $prev);
 		$tab->unlink($tab);
 	}
 

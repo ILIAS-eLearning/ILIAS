@@ -1,5 +1,5 @@
 <?php
-
+require_once('./Services/Exceptions/classes/class.ilException.php');
 /**
  * Class arException
  *
@@ -8,7 +8,7 @@
  *
  * @version 2.0.7
  */
-class arException extends Exception {
+class arException extends ilException {
 
 	const UNKNONWN_EXCEPTION = - 1;
 	const COLUMN_DOES_NOT_EXIST = 1001;

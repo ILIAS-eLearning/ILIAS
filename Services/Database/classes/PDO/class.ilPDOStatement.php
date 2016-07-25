@@ -13,27 +13,27 @@ class ilPDOStatement implements ilDBStatement {
 	/**
 	 * @var PDOStatement
 	 */
-	protected $pdo;
+	protected $pdo_statement;
 
 
 	/**
-	 * @param $pdoStatement PDOStatement The PDO Statement to be wrapped.
+	 * @param $pdo_statement PDOStatement The PDO Statement to be wrapped.
 	 */
-	public function __construct($pdoStatement) {
-		$this->pdo = $pdoStatement;
+	public function __construct(PDOStatement $pdo_statement) {
+		$this->pdo_statement = $pdo_statement;
 	}
 
 
 	/**
-	 * @param int $fetchMode
+	 * @param int $fetch_mode
 	 * @return mixed
 	 * @throws ilDatabaseException
 	 */
-	function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
-		if ($fetchMode == ilDBConstants::FETCHMODE_ASSOC) {
-			return $this->pdo->fetch(PDO::FETCH_ASSOC);
-		} elseif ($fetchMode == ilDBConstants::FETCHMODE_OBJECT) {
-			return $this->pdo->fetch(PDO::FETCH_OBJ);
+	public function fetchRow($fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+		if ($fetch_mode == ilDBConstants::FETCHMODE_ASSOC) {
+			return $this->pdo_statement->fetch(PDO::FETCH_ASSOC);
+		} elseif ($fetch_mode == ilDBConstants::FETCHMODE_OBJECT) {
+			return $this->pdo_statement->fetch(PDO::FETCH_OBJ);
 		} else {
 			throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
 		}
@@ -41,11 +41,11 @@ class ilPDOStatement implements ilDBStatement {
 
 
 	/**
-	 * @param int $fetchMode
+	 * @param int $fetch_mode
 	 * @return mixed|void
 	 */
-	function fetch($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
-		return $this->fetchRow($fetchMode);
+	public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+		return $this->fetchRow($fetch_mode);
 	}
 
 
@@ -53,30 +53,38 @@ class ilPDOStatement implements ilDBStatement {
 	 * Pdo allows for a manual closing of the cursor.
 	 */
 	public function closeCursor() {
-		$this->pdo->closeCursor();
+		$this->pdo_statement->closeCursor();
 	}
 
 
 	/**
 	 * @return int
 	 */
-	function rowCount() {
-		return $this->pdo->rowCount();
+	public function rowCount() {
+		return $this->pdo_statement->rowCount();
 	}
 
 
 	/**
 	 * @return stdClass
 	 */
-	function fetchObject() {
+	public function fetchObject() {
 		return $this->fetch(ilDBConstants::FETCHMODE_OBJECT);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function fetchAssoc() {
+		return $this->fetch(ilDBConstants::FETCHMODE_ASSOC);
 	}
 
 
 	/**
 	 * @return int
 	 */
-	function numRows() {
-		return $this->pdo->rowCount();
+	public function numRows() {
+		return $this->pdo_statement->rowCount();
 	}
 }
