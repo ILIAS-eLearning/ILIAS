@@ -11,8 +11,7 @@ class Graph implements abstractGraph {
 
 	protected $nodes = array();
 	protected $edges = array();
-	protected $connections = array();
-	protected $subgraphs = array();
+	public $connections = array();
 	protected $node_subgraph = array();
 	protected $paths = array();
 
@@ -26,8 +25,9 @@ class Graph implements abstractGraph {
 	/**
 	 * @inheritdoc
 	 */
-	public function addNode(abstractNode $node, $subgraph_id = 0) {
+	public function addNode(abstractNode $node) {
 		$node_id = $node->id();
+		$subgraph_id = $node->subgraph();
 		if(isset($this->nodes[$node_id])) {
 			throw new GraphException("$node_id allready in graph");
 		}
@@ -82,93 +82,48 @@ class Graph implements abstractGraph {
 		else {
 			$this->connections[$from_id] = array($to_subgraph => array($to_id => $edge));
 		}
-		$this->updatePaths($from_id, $to_id, $to_subgraph);
 	}
 
 	public function nodeSubgraphId(abstractNode $node) {
 		return $this->getSubgraphOfNodeId($node->id());
 	}
 
-	protected function updatePaths($from_id, $to_id, $to_subgraph) {
-		if(!isset($this->paths[$from_id])) {
-			$this->paths[$from_id] = array();
-		}
-		$updated_paths = array();
-		$to_data = array("sg" => $to_subgraph);
-		$from_data = array("sg" => $this->nodeSubgraphId($from_id));
-		foreach ($this->paths as $path_start_id => $paths) {
-			if($path_start_id === $from_id) {
-				$new_path = Path::getInstanceByStartId($from_id,$from_data);
-				$this->paths[$path_start_id][] 
-					= $new_path;
-				$updated_paths[$path_start_id][] = $new_path;
-			} elseif($path_start_id === $to_id) {
-				continue;
-			} else {
-				foreach ($paths as $path) {
-					if($path->contains($from_id) && !$path->contains($to_id)) {
-						if(!$path->endsAt($from_id)) {
-							$this->paths[$path_start_id][] =
-								$path->getSubgraphUpToIncluding($from_id);
-						}
-						$updated_paths[$path_start_id][] = $path;
-					}
-				}
-			}
-
-		}
-		foreach ($updated_paths as $path_start_id => $paths) {
-			foreach ($paths as $path) {
-				$flag = 0;
-				foreach($this->paths[$to_id] as $path_from_to) {
-					if($flag = 0) {
-						$path->appendUpTo($path_from_to);
-						$this->paths[$path_start_id][] = $path;
-					}
-					$flag = 1;
-				}
-			}
-		}
-	}
-
 	protected function getSubgraphOfNodeId($node_id) {
-		return $this->node_subgraph[$node_id];
+		return $this->nodes[$node_id]->subgraph();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getNodesBetween($from_id, $to_id) {
-		$node_ids = array_unique($this->getNodeIdsBetween($from_id, $to_id));
-		foreach ($node_ids as $node_id) {
-			$return[] = $this->nodes[$node_id];
+	public function getNodesBetween($from_id, $to_id,  $subgraph = null) {
+		$return = array();
+		foreach ($this->DFS($from_id, $to_id, $subgraph) as $path) {
+			foreach ($path->sequence() as $node) {
+				$return[$node->id()] = $node;
+			}
 		}
-		return $return;
-	}
-
-	protected function getNodeIdsBetween() {
-
+		return array_values($return);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph_id = 0) {
-
+	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph) {
+		return $this->getNodesBetween($from_id, $to_id, $subgraph);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function isConnected() {
-
+	public function connected($from_id, $to_id) {
+		return count($this->DFS($from_id, $to_id)) > 0;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function nodes() {
-		return array_values($this->nodes);
+		return $this->nodes;
 	}
 
 	/**
@@ -178,12 +133,53 @@ class Graph implements abstractGraph {
 		return $this->edges;
 	}
 
+	public function edgeBetween($from_id,$to_id) {
+		foreach ($this->connections[$from_id] as $subgraph => $edges) {
+			if(isset($edges[$to_id])) {
+				return $edges[$to_id];
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Can $to_id be directly arrived from $from_id?
 	 *
-	 * @return bool
+	 * @return string[]
 	 */
-	protected function directedNeighbours($from_id, $to_id) {
-		
+	protected function neighbours($from_id, $subgraph = null) {
+		if(!isset($this->connections[$from_id])) {
+			return array();
+		}
+		$connections = $this->connections[$from_id];
+		if($subgraph !== null) {
+			return $connections[$subgraph] ? array_keys($connections[$subgraph]) : array();
+		} else {
+			$return = array();
+			foreach ($connections as $s_g => $s_g_connections) {
+				$return = array_merge($return, array_keys($s_g_connections));
+			}
+			return $return;
+		}
+	}
+
+	protected function DFS($from_id, $to_id, $subgraph = null) {
+		$node_paths = array(Path::getInstanceByNode($this->nodes[$from_id]));
+		$return_paths = array();
+		while( $path = array_shift($node_paths)) {
+			$path_head = $path->endNode();
+			if($path_head->id() === $to_id) {
+				array_push($return_paths, $path);
+				continue;
+			}
+			$neighbours = $this->neighbours($path_head->id(), $subgraph);
+			foreach ($neighbours as $neighbour_id) {
+				if(!$path->contains($neighbour_id)) {
+					$new_path = $path->cloneAndAddNode($this->nodes[$neighbour_id]);
+					array_push($node_paths, $new_path);
+				}
+			}
+		}
+		return $return_paths;
 	}
 }
