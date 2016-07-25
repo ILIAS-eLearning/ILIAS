@@ -45,6 +45,9 @@ class Graph implements abstractGraph {
 	public function connectNodesSymmetric(abstractEdge $edge) {
 		$from_id = $edge->fromId();
 		$to_id = $edge->toId();
+		if(!$this->connectionSymmetricFits($edge)) {
+			throw new GraphException("unfit symmetric connection with the flow rule, $from_id to $to_id");
+		}
 		$this->connectNodeIdsDirected($from_id, $to_id, $edge);
 		$this->connectNodeIdsDirected($to_id, $from_id, $edge);
 		$this->edges[] = $edge;
@@ -56,9 +59,51 @@ class Graph implements abstractGraph {
 	public function connectNodesDirected(abstractEdge $edge) {
 		$from_id = $edge->fromId();
 		$to_id = $edge->toId();
+		if(!$this->connectionDirectedFits($edge)) {
+			throw new GraphException("unfit directed connection with the flow rule, $from_id to $to_id");
+		}
 		$this->connectNodeIdsDirected($from_id, $to_id, $edge);
 		$this->edges[] = $edge;
 	}
+
+	protected function connectionDirectedFits(abstractEdge $edge) {
+		$from_id = $edge->fromId();
+		$to_id = $edge->toId();
+		return $this->checkNoCurrentSymmetricConnections($to_id);
+	}
+
+	protected function connectionSymmetricFits(abstractEdge $edge) {
+		$from_id = $edge->fromId();
+		$to_id = $edge->toId();
+		return $this->checkNoIncommingOnlyConnections($from_id) && $this->checkNoIncommingOnlyConnections($to_id);
+	}
+
+
+	protected function checkNoCurrentSymmetricConnections($node_id) {
+		foreach ($this->neighbours($node_id) as $neighbour_id) {
+			if($this->edgeBetween($neighbour_id, $node_id)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected function checkNoIncommingOnlyConnections($node_id) {
+		$neighbours_from = $this->neighbours($node_id);
+		$neighbours_to = array();
+		foreach ($this->connections as $a_node_id => $s_g_connections) {
+			foreach ($s_g_connections as $s_g => $to_ids) {
+				if(isset($to_ids[$node_id])) {
+					$neighbours_to[] = $a_node_id;
+				}
+			}
+		}
+		if(count(array_diff($neighbours_to,$neighbours_from))>0) {
+			return false;
+		}
+		return true;
+	}
+
 
 	protected function connectNodeIdsDirected($from_id, $to_id, abstractEdge $edge) {
 		if($from_id === $to_id) {
