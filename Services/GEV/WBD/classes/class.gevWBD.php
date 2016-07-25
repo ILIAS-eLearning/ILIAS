@@ -501,7 +501,7 @@ class gevWBD {
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
-		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDType.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
 
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
@@ -517,7 +517,7 @@ class gevWBD {
 					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryEntryDatePassed()
 					, new WBDPreliminaryBWVIdIsEmpty()
-					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
+					, new WBDPreliminaryHasWBDType(self::WBD_NO_SERVICE)
 					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
 					);
 	}
@@ -542,7 +542,7 @@ class gevWBD {
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
-		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDType.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
 
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
@@ -557,7 +557,7 @@ class gevWBD {
 					, new WBDPreliminaryIsActiveUser()
 					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryBWVIdIsEmpty()
-					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
+					, new WBDPreliminaryHasWBDType(self::WBD_NO_SERVICE)
 					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
 					);
 	}
