@@ -19,16 +19,15 @@ abstract class Button implements C\Button\Button {
 	 */
 	protected $label;
 
-    /**
-     * @var string
-     */
-    protected $action;
+	/**
+	 * @var string
+	 */
+	protected $action;
 
-    /**
-     * @var bool
-     */
-    protected $active = true;
-
+	/**
+	 * @var bool
+	 */
+	protected $active = true;
 
 	public function __construct($label, $action) {
         $this->checkStringArg("label", $label);
