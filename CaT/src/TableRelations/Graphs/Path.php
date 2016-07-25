@@ -12,30 +12,42 @@ class Path {
 	protected $start_node = null;
 	protected $end_node = null;
 
-	public static function getInstanceByStartId($start_node_id, array $data) {
+	public static function getInstanceByNode(abstractNode $start_node) {
 		$path = new Path;
-		return $path->addNode($start_node_id, $data);
+		return $path->addNode($start_node);
 	}
 
 	public static function getInstanceBySequence(array $sequence) {
 		$path = new Path;
-		foreach ($sequence as $node_id => $data) {
-			$path->addNode($node_id, $data);
+		foreach ($sequence as $node_id => $node) {
+			$path->addNode($node);
 		}
 		return $path;
 	}
 
+	public function startNode() {
+		return $this->sequence[$this->start_node];
+	}
 
-	public function addNode($node_id, array $data) {
+	public function endNode() {
+		return $this->sequence[$this->end_node];
+	}
+
+	public function addNode(abstractNode $node) {
+		$node_id = $node->id();
 		if(isset($this->sequence[$node_id])) {
 			throw new GraphException("$node_id allready in path");
 		}
+		$this->sequence[$node_id] = $node;
 		if($this->start_node === null) {
 			$this->start_node = $node_id;
 		}
-		$this->sequence[$node_id] = $data;
 		$this->end_node = $node_id;
 		return $this;
+	}
+
+	public function cloneAndAddNode(abstractNode $node) {
+		return self::getInstanceBySequence($this->sequence)->addNode($node);
 	}
 
 	public function pathEndsAt($node_id) {
@@ -44,23 +56,24 @@ class Path {
 
 	protected function addSequence(array $sequence) {
 		$end_node = $this->end_node;
-		foreach ($sequence as $node_id => $data) {
-			assert('is_array($data)');
-			$this->sequence[$node_id] = $data;
+		foreach ($sequence as $node_id => $node) {
+			if(!$node instanceof abstractNode) {
+				throw new GraphException("element $node_id of sequence not a node");
+			}
+			if(isset($this->sequence[$node_id])) {
+				throw new GraphException("$node_id allready in path");				
+			}
+			$this->sequence[$node_id] = $node;
 			$end_node = $node_id;
 		}
 		$this->end_node = $end_node;
-	}
-
-	public function getNodeData($node_id) {
-		return $this->sequence[$node_id];
 	}
 
 	public function intersectsPathAt(Path $path) {
 		$this_nodes = array_keys($this->sequence);
 		$other_nodes = array_keys($path->sequence);
 		if(count(array_intersect($this_nodes, $other_nodes)) > 0) {
-			foreach ($this->sequence as $node_id => $stuff) {
+			foreach ($this_nodes as $node_id) {
 				if(isset($path->sequence[$node_id])) {
 					return $node_id;
 				}
@@ -81,11 +94,11 @@ class Path {
 			$node_id = $this->intersectsPathAt($path);
 		}
 		$seq_to_add = array();
-		foreach ($path->sequence as $other_node_id => $data) {
+		foreach ($path->sequence as $other_node_id => $other_node) {
 			if($other_node_id === $node_id) {
 				break;
 			}
-			$seq_to_add[$other_node_id] = $data;
+			$seq_to_add[] = $other_node;
 		}
 		$this->addSequence($seq_to_add);
 		return $this;
@@ -96,8 +109,8 @@ class Path {
 			throw new GraphException("no $node_id in path");
 		}
 		$seq = array();
-		foreach ($this->sequence as $this_node_id => $data) {
-			$seq[$this_node_id] = $data;
+		foreach ($this->sequence as $this_node_id => $node) {
+			$seq[] = $node;
 			if($this_node_id === $node_id) {
 				break;
 			}
@@ -113,6 +126,6 @@ class Path {
 	}
 
 	public function sequence() {
-		return $this->sequence;
+		return array_values($this->sequence);
 	}
 }
