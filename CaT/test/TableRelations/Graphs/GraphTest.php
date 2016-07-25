@@ -36,6 +36,29 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		return $g;
 	}
 
+	public function twoRectGraph() {
+		$gtf = $this->gtf;
+		$g = $gtf->Graph();
+		$g->addNode($gtf->Node("a1",1));
+		$g->addNode($gtf->Node("a2",1));
+		$g->addNode($gtf->Node("a3",1));
+		$g->addNode($gtf->Node("a4",1));
+		$g->addNode($gtf->Node("b1",1));
+		$g->addNode($gtf->Node("b2",1));
+		$g->addNode($gtf->Node("b3",1));
+		$g->addNode($gtf->Node("b4",1));		
+		$g->connectNodesSymmetric($gtf->Edge("a1","a2"));
+		$g->connectNodesSymmetric($gtf->Edge("a2","a3"));
+		$g->connectNodesSymmetric($gtf->Edge("a3","a4"));
+		$g->connectNodesSymmetric($gtf->Edge("a4","a1"));
+		$g->connectNodesSymmetric($gtf->Edge("b1","b2"));
+		$g->connectNodesSymmetric($gtf->Edge("b2","b3"));
+		$g->connectNodesSymmetric($gtf->Edge("b3","b4"));
+		$g->connectNodesSymmetric($gtf->Edge("b4","b1"));
+		$g->connectNodesSymmetric($gtf->Edge("a3","b1"));
+		return $g;
+	}
+
 	public function test_add_nodes() {
 		$g = $this->circleGraph();
 		$g_edges = array("a1" => "a2"
@@ -68,6 +91,15 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		}
 		$this->assertCount(0,array_diff($node_ids, array("a1","a2","a3","a5")));
 		$this->assertCount(0,array_diff(array("a1","a2","a3","a5"), $node_ids));
+
+		$g = $this->twoRectGraph();
+		$nodes = $g->getNodesBetween("a1","b1");
+		$node_ids = array();
+		foreach ($nodes as $node) {
+			$node_ids[] = $node->id();
+		}
+		$this->assertCount(0,array_diff($node_ids, array("a1","a2","a3","a4","b1")));
+		$this->assertCount(0,array_diff(array("a1","a4","a3","a4","b1"), $node_ids));
 	}
 
 	public function test_nodes_within_subgraph_between() {
