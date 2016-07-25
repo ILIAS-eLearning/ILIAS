@@ -16,6 +16,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	const SECTION_SETTINGS = 'settings';
 	const SUB_SECTION_MAIN = 'log_general_settings';
 	const SUB_SECTION_COMPONENTS = 'log_components';
+	const SUB_SECTION_ERROR = 'log_error_settings';
 	
 	
 	public $tpl;
@@ -50,6 +51,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		$this->tabs_gui = $ilTabs;
 
 		$this->initSettings();
+		$this->initErrorSettings();
 		$this->lng->loadLanguageModule('logging');
 		$this->lng->loadLanguageModule('log');
 		
@@ -133,6 +135,11 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 				static::SUB_SECTION_MAIN,
 				$this->lng->txt(static::SUB_SECTION_MAIN),
 				$this->ctrl->getLinkTarget($this,'settings')
+		);
+		$this->tabs_gui->addSubTab(
+				static::SUB_SECTION_ERROR,
+				$this->lng->txt(static::SUB_SECTION_ERROR),
+				$this->ctrl->getLinkTarget($this,'errorSettings')
 		);
 		$this->tabs_gui->addSubTab(
 				static::SUB_SECTION_COMPONENTS,
@@ -339,5 +346,78 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		
 	}
 
+	protected function errorSettings() {
+		global $ilAccess,$ilErr;
+
+		if(!$ilAccess->checkAccess('read','',$this->object->getRefId())) {
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+
+		$this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
+		$this->setSubTabs(static::SUB_SECTION_ERROR);
+
+		if(!$form instanceof ilPropertyFormGUI) {
+			$form = $this->initFormErrorSettings();
+		}
+		$this->tpl->setContent($form->getHTML());
+
+		$this->getLogger()->debug('Currrent level is '.$this->getSettings()->getLevel());
+	}
+
+	protected function updateErrorSettings() {
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('write',$this->object->getRefId())) {
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$form = $this->initFormErrorSettings();
+		if($form->checkInput()) {
+			$this->getErrorSettings()->setFolder($form->getInput('error_folder'));
+			$this->getErrorSettings()->setMail($form->getInput('error_mail'));
+			$this->getErrorSettings()->update();
+
+			ilUtil::sendSuccess($this->lng->txt('error_settings_saved'),TRUE);
+			$this->ctrl->redirect($this,'errorSettings');
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$this->errorSettings($form);
+	}
+
+	protected function initFormErrorSettings() {
+		global $lng,$ilDB, $ilAccess;
+
+		require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		require_once './Services/Search/classes/class.ilSearchSettings.php';
+
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('logs_settings'));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		if($ilAccess->checkAccess('write','',$this->object->getRefId())) {
+			$form->addCommandButton('updateErrorSettings', $this->lng->txt('save'));
+		}
+
+		$folder = new ilTextInputGUI($this->lng->txt('log_error_folder'), 'error_folder');
+		$folder->setValue($this->getErrorSettings()->folder());
+		$form->addItem($folder);
+
+		$mail = new ilTextInputGUI($this->lng->txt('log_error_mail'), 'error_mail');
+		$mail->setValue($this->getErrorSettings()->mail());
+		$form->addItem($mail);
+
+		return $form;
+	}
+
+	protected function initErrorSettings() {
+		require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
+		$this->error_settings = ilLoggingErrorSettings::getInstance();
+	}
+
+	protected function getErrorSettings() {
+		return $this->error_settings;
+	}
 }
 ?>
