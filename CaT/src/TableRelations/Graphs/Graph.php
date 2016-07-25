@@ -163,6 +163,11 @@ class Graph implements abstractGraph {
 		}
 	}
 
+
+	public function getNodeById($id) {
+		return $this->nodes[$id];
+	}
+
 	protected function DFS($from_id, $to_id, $subgraph = null) {
 		$node_paths = array(Path::getInstanceByNode($this->nodes[$from_id]));
 		$return_paths = array();
