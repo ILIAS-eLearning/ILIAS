@@ -1,7 +1,7 @@
 <?php
-namespace \CaT\TableRelations\Tables;
+namespace CaT\TableRelations\Tables;
 
-use \CaT\Filter\Predicates as Predicates;
+use CaT\Filter\Predicates as Predicates;
 
 /**
  * Store metadata about tables.

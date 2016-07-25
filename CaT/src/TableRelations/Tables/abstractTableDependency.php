@@ -1,5 +1,5 @@
 <?php
-namespace \CaT\TableRelations\Tables;
+namespace CaT\TableRelations\Tables;
 
 /**
  * Store binary dependencies between abstract tables.
