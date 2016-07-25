@@ -122,16 +122,17 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_label($factory_method) {
+		$ln = "http://www.ilias.de";
 		$f = $this->getButtonFactory();
-		$b = $f->$factory_method("label", "http://www.ilias.de");
+		$b = $f->$factory_method("label", $ln);
 		$r = $this->getDefaultRenderer();
 
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<button type=\"button\" class=\"$css_classes\" href=\"http://www.ilias.de\" >".
+		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\">".
 					"label".
-					"</button>";
+					"</a>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -139,17 +140,18 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_disabled($factory_method) {
+		$ln = "http://www.ilias.de";
 		$f = $this->getButtonFactory();
-		$b = $f->$factory_method("label", "http://www.ilias.de")
+		$b = $f->$factory_method("label", $ln)
 				->withUnavailableAction();
 		$r = $this->getDefaultRenderer();
 
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<button type=\"button\" class=\"$css_classes\" href=\"http://www.ilias.de\" disabled>".
+		$expected = "<a class=\"$css_classes ilSubmitInactive\"  data-action=\"$ln\">".
 					"label".
-					"</button>";
+					"</a>";
 		$this->assertEquals($expected, $html);
 	}
 
