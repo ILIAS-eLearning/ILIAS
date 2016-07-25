@@ -397,7 +397,14 @@ class ilExport
 		$a_component, $a_title, $a_export_dir, $a_type_for_file = "")
 	{
 		global $objDefinition, $tpl;
-		
+
+		// if no target release specified, use latest major release number
+		if ($a_target_release == "")
+		{
+			$v = explode(".", ILIAS_VERSION_NUMERIC);
+			$a_target_release = $v[0].".".$v[1].".0";
+		}
+
 		if ($a_type_for_file == "")
 		{
 			$a_type_for_file = $a_entity;

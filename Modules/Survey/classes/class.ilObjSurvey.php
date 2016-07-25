@@ -3782,6 +3782,12 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
+				include_once("./Services/Export/classes/class.ilImport.php");
+				$imp = new ilImport();
+				$imp->getMapping()->addMapping("Modules/Survey", "svy", 0, $this->getId());
+				$imp->importFromDirectory($import_subdir, "svy", "Modules/Survey");
+				return "";
+
 				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 				$import = new SurveyImportParser($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);

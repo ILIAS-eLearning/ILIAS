@@ -65,7 +65,7 @@ class ilSkillProfileGUI
 					"assignLevelSelectSkill", "assignLevelToProfile",
 					"confirmLevelAssignmentRemoval", "removeLevelAssignments",
 					"showUsers", "assignUser",
-					"confirmUserRemoval", "removeUsers")))
+					"confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm", "importProfiles")))
 				{
 					$this->$cmd();
 				}
@@ -118,10 +118,13 @@ class ilSkillProfileGUI
 	function listProfiles()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
-		
+
 		$ilToolbar->addButton($lng->txt("skmg_add_profile"),
-			$ilCtrl->getLinkTarget($this, "create"));
-		
+				$ilCtrl->getLinkTarget($this, "create"));
+
+		$ilToolbar->addButton($lng->txt("import"),
+				$ilCtrl->getLinkTarget($this, "showImportForm"));
+
 		include_once("./Services/Skill/classes/class.ilSkillProfileTableGUI.php");
 		$tab = new ilSkillProfileTableGUI($this, "listProfiles");
 		
@@ -547,6 +550,97 @@ class ilSkillProfileGUI
 		}
 		$ilCtrl->redirect($this, "showUsers");
 	}
+
+	/**
+	 * Export profiles
+	 *
+	 * @param
+	 * @return
+	 */
+	function exportProfiles()
+	{
+		global $ilCtrl;
+
+		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
+		{
+			$ilCtrl->redirect($this, "");
+		}
+
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$exp = new ilExport();
+		$conf = $exp->getConfig("Services/Skill");
+		$conf->setMode(ilSkillExportConfig::MODE_PROFILES);
+		$conf->setSelectedProfiles($_POST["id"]);
+		$exp->exportObject("skmg", ilObject::_lookupObjId((int) $_GET["ref_id"]));
+
+		//ilExport::_createExportDirectory(0, "xml", "");
+		//$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
+		//$exp->exportEntity("skprof", $_POST["id"], "", "Services/Skill", $a_title, $a_export_dir, "skprof");
+
+		$ilCtrl->redirectByClass(array("iladministrationgui", "ilobjskillmanagementgui", "ilexportgui"), "");
+	}
+
+	/**
+	 * Show import form
+	 */
+	function showImportForm()
+	{
+		global $tpl, $ilTabs;
+
+		$tpl->setContent($this->initInputForm()->getHTML());
+	}
+
+	/**
+	 * Init input form.
+	 */
+	public function initInputForm()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("skmg_input_file"), "import_file");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
+		// save and cancel commands
+		$form->addCommandButton("importProfiles", $lng->txt("import"));
+		$form->addCommandButton("", $lng->txt("cancel"));
+
+		$form->setTitle($lng->txt("import"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
+		return $form;
+	}
+
+	/**
+	 * Import profiles
+	 */
+	public function importProfiles()
+	{
+		global $tpl, $lng, $ilCtrl, $ilTabs;
+
+		$form = $this->initInputForm();
+		if ($form->checkInput())
+		{
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "");
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
+		}
+	}
+
+
 }
 
 ?>

@@ -15753,3 +15753,6 @@ rbac#:#sty_write_system#:#Edit System Styles
 rbac#:#stys_sty_write_system#:#Edit System Styles
 rbac#:#sty_write_page_layout#:#Edit Page Layouts
 rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
+skmg#:#skmg_import_skills#:#Import
+skmg#:#skmg_input_file#:#Import File
+skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
