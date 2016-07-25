@@ -2,8 +2,8 @@
 use CaT\TableRelations\Graphs as Graphs;
 
 class GraphTestFactory extends Graphs\GraphFactory {
-	public function Node($id) {
-		return new TestNode($id);
+	public function Node($id, $subgraph = 0) {
+		return new TestNode($id, $subgraph);
 	}
 
 	public function Edge($from_id,$to_id) {
@@ -12,12 +12,17 @@ class GraphTestFactory extends Graphs\GraphFactory {
 }
 
 class TestNode implements Graphs\abstractNode {
-	public function __construct($id) {
+	public function __construct($id, $subgraph = 0) {
 		$this->id = $id;
+		$this->subgraph = $subgraph;
 	}
 
 	public function id() {
 		return $this->id;
+	}
+
+	public function subgraph() {
+		return $this->subgraph;
 	}
 }
 
