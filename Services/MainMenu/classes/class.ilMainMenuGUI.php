@@ -414,7 +414,7 @@ class ilMainMenuGUI
 		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
 			$a_tpl->setCurrentBlock('status_box');
 
-			$glyph = $ui_factory->glyph()->envelope("ilias.php?baseClass=ilMailGUI")
+			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI")
 				->withCounter(
 					$ui_factory->counter()->novelty($new_mails)
 				);
