@@ -706,6 +706,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 }
 	
 	/**
+	 * @return integer
+	 */
+	protected function getCurrentQuestionId()
+	{
+		return $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+	}
+	
+	/**
 	 * saves the user input of a question
 	 */
 	public function saveQuestionSolution($force = FALSE)

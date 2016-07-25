@@ -839,6 +839,7 @@ h4.il_ContainerItemTitle {
 
 div.il_ContainerItemTitle {
 	float: left;
+    max-width: calc(~"100% - 40px");
 	padding-bottom: 5px;
 }
 
@@ -1729,6 +1730,22 @@ table.mceToolbar {
 	> a {
 		text-decoration: underline;
 	}
+}
+.alert {
+	> a.btn {
+		text-decoration: none;
+	}
+}
+
+//mantis #0017884
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + ul.dropdown-menu > li > div.row {
+    width: 750px;
+    @media only screen and (max-width: @grid-float-breakpoint-max) {
+        width: 100% !important;
+        margin: 0;
+    }
 }
 /* basic responsiveness (beta)
 

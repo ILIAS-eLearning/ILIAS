@@ -9,6 +9,10 @@ a.mailunread:visited {
 }
 .iosMailFilter .checkbox {
   display: inline-block !important;
+  margin: 0 10px !important;
+}
+.iosMailFilter .checkbox:first-child {
+  margin: 0 15px !important;
 }
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;

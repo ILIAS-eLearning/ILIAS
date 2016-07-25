@@ -27,13 +27,24 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	private $pass = null;
 	
 	private $is_pdf_generation_request = false;
+	
+	private $tableIdsByParentClasses = array(
+		'ilTestEvaluationGUI' => 1,
+		'ilTestServiceGUI' => 2
+	);
 
 	public function __construct(ilCtrl $ctrl, $parent, $cmd)
 	{
+		$tableId = 0;
+		if( isset($this->tableIdsByParentClasses[get_class($parent)]) )
+		{
+			$tableId = $this->tableIdsByParentClasses[get_class($parent)];
+		}
+
 		$this->ctrl = $ctrl;
 
-		$this->setId('tst_pass_details_overview');
-		$this->setPrefix('tst_pass_details_overview');
+		$this->setId('tst_pdo_'.$tableId);
+		$this->setPrefix('tst_pdo_'.$tableId);
 
 		$this->setDefaultOrderField('nr');
 		$this->setDefaultOrderDirection('ASC');

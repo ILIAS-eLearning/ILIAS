@@ -140,6 +140,9 @@ class ilLPCronObjectStatistics extends ilCronJob
 					$ilDB->insert("obj_lp_stat", $set);
 					
 					$count++;
+					
+					// #17928
+					ilCronManager::ping($this->getId());
 				}						
 			}
 		}
@@ -176,6 +179,9 @@ class ilLPCronObjectStatistics extends ilCronJob
 			$ilDB->insert("obj_type_stat", $set);
 			
 			$count++;
+			
+			// #17928
+			ilCronManager::ping($this->getId());
 		}
 		
 		return $count;
@@ -213,6 +219,9 @@ class ilLPCronObjectStatistics extends ilCronJob
 			$ilDB->insert("obj_user_stat", $iset);	
 			
 			$count++;
+			
+			// #17928
+			ilCronManager::ping($this->getId());
 		}
 		
 		return $count;

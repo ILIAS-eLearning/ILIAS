@@ -125,7 +125,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$this->filter["user"] = $item->getValue();
 				
 		// incoming back link (shared)
-		if((int)$_REQUEST["shr_id"] && !$this->filter["user"])
+		if((int)$_REQUEST["shr_id"] && 
+			!is_array($_SESSION["form_".$this->getId()]) && // #17747
+			!$this->filter["user"])
 		{
 			$this->filter["user"] = ilObjUser::_lookupName((int)$_REQUEST["shr_id"]);
 			$this->filter["user"] = $this->filter["user"]["login"];
@@ -240,7 +242,13 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 				if(!isset($user_data[$item["owner"]]))
 				{
 					$user_data[$item["owner"]] = ilObjUser::_lookupName($item["owner"]);
-				}				
+				}								
+				
+				// #18535 - deleted user?
+				if(!$user_data[$item["owner"]]["login"])
+				{
+					continue;
+				}
 				
 				$data[] = array(
 					"wsp_id" => $wsp_id,

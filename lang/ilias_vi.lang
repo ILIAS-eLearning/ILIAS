@@ -1717,7 +1717,6 @@ common#:#msg_failed#:#Xin lỗi, không thực hiện được thao tác
 common#:#msg_invalid_filetype#:#Kiểu file không hợp lệ
 common#:#msg_is_last_role#:#Bạn đã xóa vai trò chung cuối cùng từ những người sử dụng sau
 common#:#msg_last_role_for_registration#:#Phải có ít nhất một vai trò trong mẫu đơn đăng ký người sử dụng mới. Vai trò này hiện đang là vai trò duy nhất.
-common#:#msg_link_clipboard#:#Những đối tượng đã chọn đã được ghi trong bộ nhớ đệm (Thao tác: liên kết)
 common#:#msg_linked#:#Những đối tượng đã chọn đã liên kết.
 common#:#msg_may_not_contain#:#Đối tượng này không thể chứa đối tượng thuộc kiểu:
 common#:#msg_min_one_active_role#:#Mỗi người sử dụng phải có ít nhất một vai trò toàn cục hoạt động!
@@ -8375,7 +8374,6 @@ common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %
 common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.###24 02 2009 new variable
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.###24 02 2009 new variable
-common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s###24 02 2009 new variable
 common#:#session_reminder#:#Session-Reminder###24 02 2009 new variable
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.###24 02 2009 new variable
 ecs#:#ecs_no_owner#:#Please select one community name.###24 02 2009 new variable
@@ -14061,7 +14059,6 @@ content#:#cont_language#:#Language###30 12 2013 new variable
 content#:#cont_add_lang#:#Add Language###30 12 2013 new variable
 content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?###30 12 2013 new variable
 content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.###30 12 2013 new variable
 content#:#cont_finish_editing#:#Finish Editing###30 12 2013 new variable
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.###30 12 2013 new variable
 assessment#:#preserve_manscoring#:#Preserve manual scorings###04 01 2014 new variable
@@ -15314,3 +15311,30 @@ content#:#cont_sqst#:#Survey Question (Assigned Material)###16 11 2015 new varia
 mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?###16 11 2015 new variable
 administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings###16 11 2015 new variable
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.###16 11 2015 new variable
+common#:#user_not_found_to_delete#:#A user could not be found to delete.###21 01 2016 new variable
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###01 03 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###06 05 2016 new variable
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###06 05 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###06 05 2016 new variable
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###06 05 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###06 05 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###06 05 2016 new variable
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###29 06 2016 new variable
+rbac#:#mep_copy#:#User can copy media pool###29 06 2016 new variable
+crs#:#crs_cannot_find_role#:#Can't find this role.###29 06 2016 new variable
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###29 06 2016 new variable
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###29 06 2016 new variable

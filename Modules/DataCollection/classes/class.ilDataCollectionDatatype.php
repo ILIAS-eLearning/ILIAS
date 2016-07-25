@@ -559,7 +559,7 @@ class ilDataCollectionDatatype {
 
 				// FSX MediaPreview
 				include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
-				if (ilFFmpeg::supportsImageExtraction($format)) {
+				if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
 					$med = $mob->getMediaItem("Standard");
 					$mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
 					$a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
@@ -692,7 +692,10 @@ class ilDataCollectionDatatype {
 
 		switch ($this->id) {
 			case self::INPUTFORMAT_DATETIME:
+				$format = ilDatePresentation::useRelativeDates();
+				ilDatePresentation::setUseRelativeDates(false);
 				$html = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATETIME));
+				ilDatePresentation::setUseRelativeDates($format);
 				break;
 
 			case self::INPUTFORMAT_FILE:

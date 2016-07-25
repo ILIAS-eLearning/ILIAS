@@ -1182,16 +1182,23 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound)
 	{
-		if( ! $this->checkForValidFormula($a_entered) )
-		{
-			return 0;
-		}
-		
+// fau: fixGapFormula - check entered value by evalMath
+//		if( ! $this->checkForValidFormula($a_entered) )
+//		{
+//			return 0;
+//		}
+
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
 		$result = 0;
-		if (($eval->e($lowerBound) !== FALSE) && ($eval->e($upperBound) !== FALSE))
+
+		if ($eval->e($a_entered) === FALSE)
+		{
+			return 0;
+		}
+		elseif (($eval->e($lowerBound) !== FALSE) && ($eval->e($upperBound) !== FALSE))
+// fau.
 		{
 			if (($eval->e($a_entered) >= $eval->e($lowerBound)) && ($eval->e($a_entered) <= $eval->e($upperBound))) $result = $max_points;
 		}

@@ -804,7 +804,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 					$class = "sel";
 					if($graphicalOutput)
 					{
-						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
+						if ($this->getPointsForSelectedPositions(array($counter)) > 0)
 						{
 							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
 						}

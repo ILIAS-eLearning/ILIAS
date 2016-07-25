@@ -92,11 +92,19 @@ class ilSoapUtils extends ilSoapAdministration
 			}
 			else
 			{
-				$attachments = explode(',', $attach);	
+				$attachments = explode(',', $attach);
 			}
-			foreach ($attachments as $attachment)
+
+			foreach($attachments as $attachment)
 			{
-				$mmail->Attach($attachment);
+				$final_filename = null;
+				$filename       = basename($attachment);
+				if(strlen($filename) > 0)
+				{
+					// #17740
+					$final_filename = preg_replace('/^(\d+?_)(.*)/', '$2', $filename);
+				}
+				$mmail->Attach($attachment, '', 'inline', $final_filename);
 			}
 		}
 

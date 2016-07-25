@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -191,9 +191,7 @@ info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlau
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
-info_text_nic#:#Registrieren Sie sich freiwillig beim ILIAS open source-Community-Server und erhalten einen eindeutige NIC-ID für diesen Mandanten. Die NIC-ID kann beim Austausch von Inhalten zwischen ILIAS-Installation genutzt werden, um die Herkunft der Inhalte zu dokumentieren.
-info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
-info_text_nic2#:#an info@ilias.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
+info_text_nic#:#Registrieren Sie Ihre ILIAS-Installation beim ILIAS-Community-Server, um eine eindeutige NIC-ID für diesen Mandanten zu erhalten. Die NIC-ID ist notwendig, wenn Sie Ihre Inhalte mit anderen Installationen austauschen oder Inhalte anderer Installationen importieren wollen. Die NIC-ID dokumentiert dabei die Herkunft der Inhalte.<br /><br /><b>Datenschutzhinweis</b><br />Bei der Registrierung werden folgende Daten auf dem NIC-Server gespeichert (es erfolgt keine spätere Aktualisierung):<br />&nbsp;•&nbsp;Host-Name<br />&nbsp;•&nbsp;Name des Mandanten<br />&nbsp;•&nbsp;Beschreibung Mandant<br />&nbsp;•&nbsp;HTTP-Adresse<br />&nbsp;•&nbsp;Kontakt Systemadministrator : Nachname<br />&nbsp;•&nbsp;Kontakt Systemadministrator : Vorname<br />&nbsp;•&nbsp;Kontakt E-Mail<br /><br />Alle Daten werden nur vom Verein <a href="http://verein.ilias.de" target="_blank">ILIAS open source e-Learning e.V.</a> für interne Zwecke der Dokumentation genutzt und nicht weitergegeben. Wir nutzen diese Informationen auch nicht für irgendwelche Marketing-Aktivitäten. Wenn Sie Ihre ILIAS-Installation gegenüber Dritten bekannt machen möchten, tragen Sie diese einfach in unsere Sammlung der ‘<a href="http://www.ilias.de/docu/goto_docu_dcl_3444.html" target="_blank">Known Installations</a>’ ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
 info_text_password#:#Hier könnnen Sie das Administrator-Password für das Setup-Programm ändern.
 info_text_pathes#:#ILIAS ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS-Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
@@ -585,20 +583,6 @@ tree_implementation_mp#:#Materialized Path
 tree_implementation_switch_btn#:#Switch Tree Implementation
 tree_implementation_switched#:#The tree implementation type has been switched.
 feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "Administration kontaktieren" genutzt.
-passwd#:#Passwort-Kodierung
-step_passwd#:#Passwort-Kodierung
-setup_process_step_passwd#:#Passwörter
-info_text_passwd#:#Passwort-Einstellungen
-passwd_encoder_md5#:#md5
-passwd_encoder_bcrypt#:#bcrypt
-passwd_default_encoder#:#Hashfunktion
-passwd_default_encoder_info#:#Wählen Sie hier kryptologische Hashfunktion, die bei der Speicherung von Passwörtern des ILIAS-Mandanten verwendet wird.
-passwd_encoder_bcrypt_client_salt#:#Mandantenweiter Salt
-passwd_encoder_client_bcrypt_salt_info#:#Für die Hashfunktion bcrypt wird ein globaler Salt vorausgesetzt. Dieser wird von ILIAS automatisch generiert und in oben genannter Datei hinterlegt, sobald Sie bcrypt <span style="font-weight:bold">zum ersten Mal auswählen</span>. Dieser Salt wird Teil der Kordierung sein, sobald ein Benutzerpasswort gespeichert wird. Daher empfehlen wir Ihnen, sich diesen Salt an einem geheimen Ort zusätzlich zu notieren. Vor jedem Speichern eines Passworts wird zudem noch ein invididueller Salt für das Passwort generiert. <span style="color:red">Achtung: Sobald der mandantenweite Salt einmal generiert wurde, darf dieser nicht mehr geändert werden. Gleiches gilt für Salts, die in der Datenbank gespeichert wurden. Ansonsten werden sich Benutzer nicht mehr anmelden können!</span>
-passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">Die von Ihnen eingesetzte PHP Version %s weist bzgl. bcrypt Sicherheitslücken auf (<a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>). Wir empfehlen Ihnen daher ein Upgrade auf PHP 5.3.7+.</span>
-passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS konnte keinen Mandanten-Salt ermitteln oder der ermittelte Salt entspricht nicht den Kriterien, die zum Zeitpunkt der Erstellung galten. Bitte prüfen Sie die den Inhalt  der respektive die Leseberechtigung auf die oben genannte Datei.
-passwd_encoding_configured#:#konfiguriert
-passwd_encoding_not_configured#:#nicht konfiguriert
 global_cache#:#Global Cache
 global_cache_configuration#:#Global-Cache Konfiguration
 activate_global_cache#:#Aktivieren

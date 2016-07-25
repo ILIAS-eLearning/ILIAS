@@ -63,6 +63,7 @@ var ilMultiFormValues = {
 		}
 		else {
 			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').attr('value', '');
+			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').find('select[id*="' + id[1] + '"]').attr('value', ''); // #18055
 		}
 	},
 	

@@ -1181,12 +1181,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		$solutionoutput = $solutiontemplate->get();
 
-		$assClozeGapCombinationObject = new assClozeGapCombination();
-		$check_for_gap_combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
-		if(count($check_for_gap_combinations) != 0)
-		{
-			$solutionoutput .= '<i>Best Combination is: ' . $assClozeGapCombinationObject->getBestSolutionCombination($this->object->getId()) . '</i>';
-		}
 		if (!$show_question_only)
 		{
 			// get page object output

@@ -74,6 +74,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilrepositorysearchgui':
+
+				if(!$this->checkPermissionBool('write'))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search =& new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
@@ -238,7 +243,9 @@ class ilObjGroupGUI extends ilContainerGUI
 			default:
 			
 				// check visible permission
-				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
+				if (!$this->getCreationMode() and
+						!$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp') and
+						!$ilAccess->checkAccess('read','',$this->object->getRefId(),'grp') )
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
@@ -1529,12 +1536,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 
 			'members',
 			array(), 
-			array('type' => 'new', 'rcp_to' => implode(',',$rcps),'sig' => $this->createMailSignature())));
+			array('type' => 'new', 'sig' => $this->createMailSignature())));
 		return true;
 	}
 	
@@ -1849,11 +1857,21 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				case $this->object->getDefaultAdminRole():
 					$part->add($new_member, IL_GRP_ADMIN);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
 					$assigned = TRUE;
 					break;
 				
 				default:
 					$part->add($new_member, IL_GRP_MEMBER);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
 					$assigned = TRUE;
 					break;
 			}

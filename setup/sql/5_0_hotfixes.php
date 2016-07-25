@@ -187,3 +187,58 @@ while($row = $ilDB->fetchAssoc($res))
 	));
 }
 ?>
+<#15>
+<?php
+if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
+{
+	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
+}
+?>
+<#16>
+<?php
+if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
+{
+	$ilDB->addIndex('usr_data_multi',array('usr_id'), 'i1');
+}
+?>
+<#17>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
+if($tgt_ops_id)
+{
+	$mep_type_id = ilDBUpdateNewObjectType::getObjectTypeId('mep');
+	if($mep_type_id)
+	{
+		if (!ilDBUpdateNewObjectType::isRBACOperation($mep_type_id, $tgt_ops_id))
+		{
+			// add "copy" to (external) feed
+			ilDBUpdateNewObjectType::addRBACOperation($mep_type_id, $tgt_ops_id);
+
+			// clone settings from "write" to "copy"
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+			ilDBUpdateNewObjectType::cloneOperation('mep', $src_ops_id, $tgt_ops_id);
+		}
+	}
+}
+?>
+<#18>
+<?php
+require_once 'Services/Password/classes/class.ilPasswordUtils.php';
+$salt_location = CLIENT_DATA_DIR . '/pwsalt.txt';
+if(!is_file($salt_location) || !is_readable($salt_location))
+{
+	$result = @file_put_contents(
+		$salt_location,
+		substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(16))), 0, 22)
+	);
+	if(!$result)
+	{
+		die("Could not create the client salt for bcrypt password hashing.");
+	}
+}
+if(!is_file($salt_location) || !is_readable($salt_location))
+{
+	die("Could not determine the client salt for bcrypt password hashing.");
+}
+?>

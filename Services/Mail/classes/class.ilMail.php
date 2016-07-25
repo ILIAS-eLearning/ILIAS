@@ -206,6 +206,11 @@ class ilMail
 
 	private $use_pear = true;
 	protected $appendInstallationSignature = false;
+
+	/**
+	 * @var string
+	 */
+	const ILIAS_HOST = 'ilias';
 	
 	/**
 	 * 
@@ -1283,9 +1288,7 @@ class ilMail
 			{
 				for ($i = 0;$i < count($tmp_names); $i++)
 				{
-					if ( substr($tmp_names[$i]->mailbox,0,1) === '#' ||
-					   (substr($tmp_names[$i]->mailbox,0,1) === '"' &&
-						substr($tmp_names[$i]->mailbox,1,1) === '#' ) )
+					if (substr($tmp_names[$i]->mailbox,0,1) == '#' || substr($tmp_names[$i]->mailbox,0,2) == '"#')
 					{
 						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
 						foreach($role_ids as $role_id)
@@ -1296,7 +1299,7 @@ class ilMail
 							}
 						}
 					}
-					else if (strtolower($tmp_names[$i]->host) == 'ilias')
+					else if (strtolower($tmp_names[$i]->host) == self::ILIAS_HOST)
 					{
 						if ($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i]->mailbox)))
 						{
@@ -1332,7 +1335,7 @@ class ilMail
 			$tmp_names = $this->explodeRecipients($a_recipients,  $this->getUsePear());
 			for ($i = 0;$i < count($tmp_names); $i++)
 			{
-				if (substr($tmp_names[$i],0,1) == '#')
+				if (substr($tmp_names[$i],0,1) == '#' || substr($tmp_names[$i], 0, 2) == '"#')
 				{
 					if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
 					{
@@ -1425,9 +1428,9 @@ class ilMail
 				foreach ($tmp_rcp as $rcp)
 				{
 					// NO GROUP
-					if (substr($rcp->mailbox,0,1) != '#')
+					if (substr($rcp->mailbox,0,1) != '#' && substr($rcp->mailbox,0, 2) != '"#')
 					{
-						if (strtolower($rcp->host) != 'ilias')
+						if (strtolower($rcp->host) != self::ILIAS_HOST)
 						{
 							$addresses[] = $rcp->mailbox.'@'.$rcp->host;
 							continue;
@@ -1463,7 +1466,7 @@ class ilMail
 			foreach ($tmp_rcp as $rcp)
 			{
 				// NO GROUP
-				if (substr($rcp,0,1) != '#')
+				if (substr($rcp,0,1) != '#' && substr($rcp,0,2) != '"#')
 				{
 					if (strpos($rcp,'@'))
 					{
@@ -1530,11 +1533,11 @@ class ilMail
 				foreach ($tmp_rcp as $rcp)
 				{
 					// NO ROLE MAIL ADDRESS
-					if (substr($rcp->mailbox,0,1) != '#')
+					if (substr($rcp->mailbox,0,1) != '#' && substr($rcp->mailbox,0,2) != '"#')
 					{
 						// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
-						$user_id = ($rcp->host == 'ilias') ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
-						if ($user_id == false && $rcp->host == 'ilias')
+						$user_id = ($rcp->host == self::ILIAS_HOST) ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
+						if ($user_id == false && $rcp->host == self::ILIAS_HOST)
 						{
 							$wrong_rcps .= "<br />".htmlentities($rcp->mailbox);
 							continue;
@@ -1604,7 +1607,7 @@ class ilMail
 					continue;
 				}
 				// NO GROUP
-				if (substr($rcp,0,1) != '#')
+				if (substr($rcp,0,1) != '#' && substr($rcp,0,2) != '"#')
 				{
 					// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
 					if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
@@ -2007,13 +2010,23 @@ class ilMail
 				}
 				else
 				{
-					if(!$maintain_lists)
+					$tmp_rcpt = '';
+					if($item->host == self::ILIAS_HOST)
 					{
-						$new_rcpt[] = $item->mailbox.'@'.$item->host;
+						$tmp_rcpt = $item->mailbox;
 					}
 					else
 					{
-						$new_rcpt[0][] = $item->mailbox.'@'.$item->host;
+						$tmp_rcpt = $item->mailbox.'@'.$item->host;
+					}
+
+					if(!$maintain_lists)
+					{
+						$new_rcpt[] = $tmp_rcpt;
+					}
+					else
+					{
+						$new_rcpt[0][] = $tmp_rcpt;
 					}
 				}
 			}
@@ -2258,7 +2271,7 @@ class ilMail
 			{
 				foreach ($a_attachments as $attachment)
 				{
-					$mmail->Attach($this->mfile->getAbsolutePath($attachment));
+					$mmail->Attach($this->mfile->getAbsolutePath($attachment), '', 'inline', $attachment);
 				}
 			}
 
@@ -2346,7 +2359,7 @@ class ilMail
 			{
 				require_once './Services/PEAR/lib/Mail/RFC822.php';
 				$parser = new Mail_RFC822();
-				return $parser->parseAddressList($a_recipients, "ilias", false, true);
+				return $parser->parseAddressList($a_recipients, self::ILIAS_HOST, false, true);
 			} else {
 				return array();
 			}
@@ -2384,10 +2397,10 @@ class ilMail
 							continue;
 						}
 
-						// Addresses which aren't on the ilias host, and
+						// Addresses which aren't on the self::ILIAS_HOST host, and
 						// which have a mailbox which does not start with '#',
 						// are external e-mail addresses
-						if ($to->host != 'ilias' && substr($to->mailbox,0,1) != '#')
+						if ($to->host != 'ilias' && substr($to->mailbox,0,1) != '#' && substr($to->mailbox,0,2) != '"#')
 						{
 							++$counter;
 						}
@@ -2444,7 +2457,7 @@ class ilMail
 			{
 				foreach ($tmp_rcp as $to)
 				{
-					if(substr($to->mailbox,0,1) != '#' && $to->host != 'ilias')
+					if(substr($to->mailbox,0,1) != '#' && substr($to->mailbox,0,2) != '"#' && $to->host != 'ilias')
 					{
 						// Fixed mantis bug #5875
 						if(ilObjUser::_lookupId($to->mailbox.'@'.$to->host))
@@ -2635,7 +2648,7 @@ class ilMail
 
 		$lang->loadLanguageModule('mail');
 		return sprintf($lang->txt('mail_auto_generated_info'),
-			$ilSetting->get('inst_name','ILIAS 4'),
+			$ilSetting->get('inst_name','ILIAS 5'),
 			$http_path)."\n\n";
 	}
 
@@ -2708,7 +2721,8 @@ class ilMail
 		$clientdirs = glob(ILIAS_WEB_DIR."/*", GLOB_ONLYDIR);
 		if(is_array($clientdirs) && count($clientdirs) > 1)
 		{
-			$signature .= '/?client_id='.CLIENT_ID;
+			// #18051
+			$signature .= '/login.php?client_id='.CLIENT_ID;
 		}
 		
 		$signature .= "\n\n";

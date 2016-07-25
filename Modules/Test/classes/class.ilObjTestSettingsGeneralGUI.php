@@ -204,7 +204,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
-
+		
 		// return to form when online is to be set, but no questions are configured
 
 		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
@@ -296,7 +296,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				}
 			}
 		}
-
+		
 		// perform saving the form data
 
 		$this->performSaveForm($form);

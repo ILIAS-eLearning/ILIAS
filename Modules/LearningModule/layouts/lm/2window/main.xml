@@ -22,7 +22,7 @@
 			<ilLMNotes />
 		</PageObject>
 	</ilFrame>
-	<ilFrame name="right" template="tpl.blank.html" template_location="module">
+	<ilFrame name="right_top" template="tpl.blank.html" template_location="module">
 		<PageObject template="tpl.page.html" template_location="module">
 			<ilPage/>
 		</PageObject>
@@ -35,8 +35,8 @@
 	</ilFrame>
 	<ilLinkTargets>
 		<LinkTarget Type="New" Frame="_blank"/>
-		<LinkTarget Type="FAQ" Frame="right" OnClick="return il.LearningModule.showContentFrame(event, 'right');"/>
-		<LinkTarget Type="Glossary" Frame="right" OnClick="return il.LearningModule.showContentFrame(event, 'right');"/>
-		<LinkTarget Type="Media" Frame="right" OnClick="return il.LearningModule.showContentFrame(event, 'right');"/>
+		<LinkTarget Type="FAQ" Frame="right_top" OnClick="return il.LearningModule.showContentFrame(event, 'right_top');"/>
+		<LinkTarget Type="Glossary" Frame="right_top" OnClick="return il.LearningModule.showContentFrame(event, 'right_top');"/>
+		<LinkTarget Type="Media" Frame="right_top" OnClick="return il.LearningModule.showContentFrame(event, 'right_top');"/>
 	</ilLinkTargets>
 </ilLayout>

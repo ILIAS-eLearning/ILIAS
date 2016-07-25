@@ -243,12 +243,21 @@ class ilExAssignmentGUI
 						$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
 						if(sizeof($team_members))
 						{
-							$team = array();						
+							$team = array();												
 							foreach($team_members as $member_id)
-							{
+							{																							
 								$team[] = ilObjUser::_lookupFullname($member_id);
 							}						
 							$team = implode(", ", $team);
+							
+							// any team member upload?
+							if(!ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId()))
+							{
+								$button = ilLinkButton::getInstance();							
+								$button->setCaption("exc_delete_team");
+								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "confirmDeleteTeam"));							
+								$team .= " ".$button->render();	
+							}
 							
 							$button = ilLinkButton::getInstance();							
 							$button->setCaption("exc_manage_team");
@@ -680,21 +689,7 @@ class ilExAssignmentGUI
 		}
 		else
 		{
-			$time_diff = ilUtil::int2array($a_deadline - time(),null);	
-			// #11576  - order ascending!
-			if (isset($time_diff['minutes']))
-			{
-				unset($time_diff['seconds']);
-			}			
-			if (isset($time_diff['days']))
-			{
-				unset($time_diff['minutes']);
-			}
-			if (isset($time_diff['months']))
-			{
-				unset($time_diff['hours']);
-			}		
-			$time_str = ilUtil::timearray2string($time_diff);
+			$time_str = ilUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
 		}
 
 		return $time_str;

@@ -19,7 +19,7 @@ class ilDataCollectionRecordViewViewdefinitionConfig extends ilPageConfig
 	function init()
 	{
         // config
-		$this->setPreventHTMLUnmasking(true);
+		$this->setPreventHTMLUnmasking(false);
 		$this->setEnableInternalLinks(false);
 		$this->setEnableWikiLinks(false);						
 		$this->setEnableActivation(false);

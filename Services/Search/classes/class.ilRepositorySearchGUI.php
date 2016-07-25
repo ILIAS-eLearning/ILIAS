@@ -231,6 +231,15 @@ class ilRepositorySearchGUI
 	 */
 	protected function doUserAutoComplete()
 	{
+		// hide anonymout request
+		if($GLOBALS['ilUser']->getId() == ANONYMOUS_USER_ID)
+		{
+			include_once './Services/JSON/classes/class.ilJsonUtil.php';
+			return ilJsonUtil::encode(new stdClass());
+			exit;
+		}
+		
+		
 		if(!isset($_GET['autoCompleteField']))
 		{
 			$a_fields = array('login','firstname','lastname','email');
@@ -249,7 +258,8 @@ class ilRepositorySearchGUI
 		{
 			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
 		}
-		
+
+		$auto->setMoreLinkAvailable(true);
 		$auto->setSearchFields($a_fields);
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);

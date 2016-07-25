@@ -10,6 +10,11 @@
 class ilMailFormCall
 {
 	/**
+	 *
+	 */
+	const SESSION_KEY = 'mail_transport';
+
+	/**
 	 * HTTP-GET parameter for the referer url
 	 */
 	const REFERER_KEY = 'r';
@@ -152,5 +157,24 @@ class ilMailFormCall
 	public static function isRefererStored()
 	{
 		return isset($_SESSION[self::REFERER_KEY]) && strlen($_SESSION[self::REFERER_KEY]) ? true : false;
+	}
+
+	/**
+	 * @param array $recipients
+	 */
+	public static function setRecipients(array $recipients)
+	{
+		$session = ilSession::get(self::SESSION_KEY);
+		$session['rcp_to'] = $recipients;
+		ilSession::set(self::SESSION_KEY, $session);
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getRecipients()
+	{
+		$session = ilSession::get(self::SESSION_KEY);
+		return (array)$session['rcp_to'];
 	}
 }

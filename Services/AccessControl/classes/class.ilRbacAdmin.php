@@ -1108,6 +1108,75 @@ class ilRbacAdmin
 	}
 	
 	/**
+	 * Init intersection permissions.
+	 * @global type $rbacreview
+	 * @param type $a_ref_id
+	 * @param type $a_role_id
+	 * @param type $a_role_parent
+	 * @param type $a_template_id
+	 * @param type $a_template_parent
+	 * @return type
+	 */
+	public function initIntersectionPermissions($a_ref_id, $a_role_id, $a_role_parent, $a_template_id, $a_template_parent)
+	{
+		global $rbacreview;
+		
+		if($rbacreview->isProtected($a_role_parent, $a_role_id))
+		{
+			// Assign object permissions
+			$new_ops = $rbacreview->getOperationsOfRole(
+				$a_role_id,
+				ilObject::_lookupType($a_ref_id, true),
+				$a_role_parent
+			);
+
+			// set new permissions for object
+			$this->grantPermission(
+				$a_role_id,
+				(array) $new_ops,
+				$a_ref_id
+			);
+			return;
+		}
+		if(!$a_template_id)
+		{
+			return;
+		}
+		// create template permission intersection
+		$this->copyRolePermissionIntersection(
+			$a_template_id,
+			$a_template_parent,
+			$a_role_id,
+			$a_role_parent,
+			$a_ref_id,
+			$a_role_id
+		);
+
+		// assign role to folder
+		$this->assignRoleToFolder(
+			$a_role_id,
+			$a_ref_id,
+			'n'
+		);
+
+		// Assign object permissions
+		$new_ops = $rbacreview->getOperationsOfRole(
+			$a_role_id,
+			ilObject::_lookupType($a_ref_id, true),
+			$a_ref_id
+		);
+
+		// set new permissions for object
+		$this->grantPermission(
+			$a_role_id,
+			(array) $new_ops,
+			$a_ref_id
+		);
+			
+		return;
+	}
+	
+	/**
 	 * Adjust permissions of moved objects
 	 * - Delete permissions of parent roles that do not exist in new context
 	 * - Delete role templates of parent roles that do not exist in new context
@@ -1125,7 +1194,7 @@ class ilRbacAdmin
 		$new_parent = $tree->getParentId($a_ref_id);
 		$old_context_roles = $rbacreview->getParentRoleIds($a_old_parent,false);
 		$new_context_roles = $rbacreview->getParentRoleIds($new_parent,false);
-
+		
 		$for_addition = $for_deletion = array();
 		foreach($new_context_roles as $new_role_id => $new_role)
 		{
@@ -1152,7 +1221,7 @@ class ilRbacAdmin
 		{
 			return true;
 		}
-
+		
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_active = ilRbacLog::isActive();
 		if($rbac_log_active)
@@ -1160,7 +1229,7 @@ class ilRbacAdmin
 			$role_ids = array_unique(array_merge(array_keys($for_deletion), array_keys($for_addition)));
 		}
 		
-		foreach($nodes = $tree->getSubTree($node_data = $tree->getNodeData($a_ref_id),true) as $node_data)
+		foreach($nodes = $tree->getSubTree($tree->getNodeData($a_ref_id),true) as $node_data)
 		{
 			$node_id = $node_data['child'];
 
@@ -1192,10 +1261,44 @@ class ilRbacAdmin
 			}
 			foreach($for_addition as $role_id => $role_data)
 			{
-				$this->grantPermission(
-					$role_id,
-					$ops = $rbacreview->getOperationsOfRole($role_id,$node_data['type'],$role_data['parent']),
-					$node_id);
+				switch($node_data['type'])
+				{
+					case 'grp':
+						include_once './Modules/Group/classes/class.ilObjGroup.php';
+						$tpl_id = ilObjGroup::lookupGroupStatusTemplateId($node_data['obj_id']);
+						$this->initIntersectionPermissions(
+							$node_data['child'],
+							$role_id,
+							$role_data['parent'],
+							$tpl_id,
+							ROLE_FOLDER_ID
+						);
+						break;
+					
+					case 'crs':
+						include_once './Modules/Course/classes/class.ilObjCourse.php';
+						$tpl_id = ilObjCourse::lookupCourseNonMemberTemplatesId();
+						$this->initIntersectionPermissions(
+							$node_data['child'],
+							$role_id,
+							$role_data['parent'],
+							$tpl_id,
+							ROLE_FOLDER_ID
+						);
+						break;
+							
+							
+					default:
+						$this->grantPermission(
+							$role_id,
+							$ops = $rbacreview->getOperationsOfRole($role_id,$node_data['type'],$role_data['parent']),
+							$node_id);
+						break;
+						
+							
+				}
+				
+				
 //var_dump("<pre>",'GRANT',$role_id,$ops,$role_id,$node_data['type'],$role_data['parent'],"</pre>");
 			}
 
