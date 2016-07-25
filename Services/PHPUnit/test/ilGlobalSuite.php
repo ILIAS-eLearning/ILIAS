@@ -39,9 +39,9 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 						include_once($suite_path);
 						
 						$name = "il".$basedir.$file."Suite";
-						$s = new $name();
+						$s = $name::suite();
 						echo "Adding Suite: ".$name."\n";
-						$suite->addTest($s->suite());
+						$suite->addTest($s);
 						//$suite->addTestSuite("ilSettingTest");
 					}
 				}
