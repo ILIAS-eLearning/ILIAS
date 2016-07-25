@@ -18,7 +18,7 @@ interface abstractGraph {
 	 *
 	 * @param	abstractNode	$node
 	 */
-	public function addNode(abstractNode $node, $subgraph_id = 0);
+	public function addNode(abstractNode $node);
 
 	/**
 	 * connect two nodes symmetrically within graph.
@@ -43,26 +43,14 @@ interface abstractGraph {
 	 * @param	string	$to_id
 	 * @return	abstractNode[]
 	 */
-	public function getNodesBetween($from_id, $to_id);
-
-	/**
-	 * Get all nodes lying on all possible paths between $from and $to
-	 * within a subgraph $grapher only. $from and $to may be outiside
-	 * $grapher though.
-	 * We only consider connections, which visit any node at most once.
-	 *
-	 * @param	string	$from_id
-	 * @param	string	$to_id
-	 * @return	abstractNode[]
-	 */
-	public function getNodesWithinSubgraphBetween($from_id, $to_id, $subgraph_id = 0);
+	public function getNodesBetween($from_id, $to_id, $subgraph_id = null);
 
 	/**
 	 * Is graph connected?
 	 *
 	 * @return bool
 	 */
-	public function isConnected();
+	public function connected($from_id, $to_id);
 
 	/**
 	 * Get all nodes within graph.
