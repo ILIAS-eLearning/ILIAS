@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Environment/classes/class.ilRuntime.php';
 
@@ -11,6 +12,7 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
 * @author	Stefan Meyer <meyer@leifos.com>
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
+* @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version	$Id$
 * @extends PEAR
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
@@ -356,8 +358,19 @@ class ilErrorHandling extends PEAR
 	protected function defaultHandler() {
 		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
 		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
+			global $lng;
+
+			require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
+			require_once("Services/Logging/classes/error/class.ilLoggingErrorFileStorage.php");
 			require_once("Services/Utilities/classes/class.ilUtil.php");
-			ilUtil::sendFailure($exception->getMessage(), true);
+
+			$lwriter = new ilLoggingErrorFileStorage($inspector);
+			$lwriter->write("10.log");
+
+			$logger = ilLoggingErrorSettings::getInstance();
+			$message = sprintf($lng->txt("log_error_message"), 10, $logger->mail(),10,$logger->mail());
+
+			ilUtil::sendFailure($message, true);
 			ilUtil::redirect("error.php");
 		});
 	}
