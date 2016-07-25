@@ -13,6 +13,21 @@
 */
 class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 {
+	/**
+	 * @var	string
+	 */
+	const PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS = "needsInstalledILIAS";
+
+	/**
+	 * Check if there is an installed ILIAS to run tests on.
+	 *
+	 * TODO: implement me correctly!
+	 * @return	bool
+	 */
+	public function hasInstalledILIAS() {
+		return false;
+	}
+
 	public static function suite()
 	{
 		$suite = new ilGlobalSuite();
@@ -48,6 +63,19 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 			}
 		}
 		echo "\n";
+
+		if (!$suite->hasInstalledILIAS()) {
+			echo "Removing tests requiring an installed ILIAS.\n";
+			$ff = new PHPUnit_Runner_Filter_Factory();
+			$ff->addFilter
+				( new ReflectionClass("PHPUnit_Runner_Filter_Group_Exclude")
+				, array(self::PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS)
+				);
+			$suite->injectFilter($ff);
+		}
+		else {
+			echo "Found installed ILIAS, running all tests.\n";
+		}
 
         return $suite;
     }
