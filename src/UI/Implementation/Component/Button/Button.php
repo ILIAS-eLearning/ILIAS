@@ -30,49 +30,49 @@ abstract class Button implements C\Button\Button {
 	protected $active = true;
 
 	public function __construct($label, $action) {
-        $this->checkStringArg("label", $label);
-        $this->checkStringArg("action", $action);
+		$this->checkStringArg("label", $label);
+		$this->checkStringArg("action", $action);
 		$this->label = $label;
-        $this->action = $action;
+		$this->action = $action;
 	} 
 
 	/**
 	 * @inheritdocs 
 	 */
 	public function getLabel() {
-        return $this->label;
+		return $this->label;
 	}
 
 	/**
 	 * @inheritdocs 
 	 */
 	public function withLabel($label) {
-        $this->checkStringArg("label", $label);
-        $clone = clone $this;
-        $clone->label = $label;
-        return $clone;
+		$this->checkStringArg("label", $label);
+		$clone = clone $this;
+		$clone->label = $label;
+		return $clone;
 	}
 
 	/**
 	 * @inheritdocs 
 	 */
 	public function getAction() {
-        return $this->action;
+		return $this->action;
 	}
 
 	/**
 	 * @inheritdocs 
 	 */
 	public function isActive() {
-        return $this->active;
+		return $this->active;
 	}
 
 	/**
 	 * @inheritdocs 
 	 */
 	public function withUnavailableAction() {
-        $clone = clone $this;
-        $clone->active = false;
-        return $clone;
+		$clone = clone $this;
+		$clone->active = false;
+		return $clone;
 	}
 }
