@@ -15754,3 +15754,7 @@ rbac#:#sty_write_system#:#System-Styles bearbeiten
 rbac#:#stys_sty_write_system#:#System-Styles bearbeiten
 rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
 rbac#:#stys_sty_write_page_layout#:#Seitenlayouts bearbeiten
+common#:#log_error_message#:#Fehler %d ist aufgetreten. Bitte wenden Sie sich an <a href="mailto:%s?subject=Fehlercode_%d">%s</a>
+common#:#log_error_folder#:#Dateipfad
+common#:#log_error_mail#:#Email Empfänger
+common#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
