@@ -45,7 +45,6 @@ class ilTemplateTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @backupGlobals enabled
-	 * @group needsInstalledILIAS
 	 */
 	public function testilTemplateGet()
 	{
