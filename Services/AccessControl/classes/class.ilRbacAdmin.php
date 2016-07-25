@@ -246,7 +246,7 @@ class ilRbacAdmin
 		$ilLog->write("param rol_id:");
 		$ilLog->dump($a_rol_id);
 		$ilLog->write("param user_id:");
-		$ilLog->dump($a_user_id);
+		$ilLog->dump($a_usr_id);
 		$ilLog->write("param default:");
 		$ilLog->dump($a_default);
 		//gev-patch end

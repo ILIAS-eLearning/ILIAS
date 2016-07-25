@@ -809,7 +809,7 @@ class ilParticipants
 	 	global $ilLog;
 	 	$ilLog->write("enter ilParticipants::add");
 	 	$ilLog->write("param usr_id:");
-	 	$ilLog->dump($usr_id);
+	 	$ilLog->dump($a_usr_id);
 	 	$ilLog->write("param role");
 	 	$ilLog->dump($a_role);
 
