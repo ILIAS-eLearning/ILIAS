@@ -321,7 +321,7 @@ class ilGlossaryPresentationGUI
 	/**
 	* list definitions of a term
 	*/
-	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false)
+	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false, $a_page_mode = IL_PAGE_PRESENTATION)
 	{
 		global $ilUser, $ilAccess, $ilias, $lng, $ilCtrl;
 
@@ -426,7 +426,7 @@ class ilGlossaryPresentationGUI
 		$this->mobs = array();
 
 		// toc
-		if (count($defs) > 1)
+		if (count($defs) > 1 && $a_page_mode == IL_PAGE_PRESENTATION)
 		{
 			$tpl->setCurrentBlock("toc");
 			for($j=1; $j<=count($defs); $j++)
@@ -445,7 +445,7 @@ class ilGlossaryPresentationGUI
 			$def = $defs[$j];
 			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
 			$page_gui->setGlossary($this->glossary);
-			$page_gui->setOutputMode(IL_PAGE_PRINT);
+			$page_gui->setOutputMode($a_page_mode);
 			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page = $page_gui->getPageObject();
 
@@ -1286,7 +1286,7 @@ class ilGlossaryPresentationGUI
 
 		foreach ($terms as $t_id)
 		{
-			$page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true);
+			$page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true, IL_PAGE_PRINT);
 		}
 		$tpl->setVariable("CONTENT", $page_content.
 		'<script type="text/javascript" language="javascript1.2">
