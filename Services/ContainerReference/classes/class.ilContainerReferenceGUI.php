@@ -300,7 +300,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$form->addItem($ttype);
 
 		include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
-		$repo = new ilRepositorySelector2InputGUI($this->lng->txt("target"), "target_id");
+		$repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
 		$repo->setParent($this);
 		$repo->setRequired(true);
 		$repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));

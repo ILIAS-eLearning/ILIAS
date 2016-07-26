@@ -12201,8 +12201,6 @@ common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
 objref#:#objref_edit_ref#:#Ziel der Referenz
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_title_settings#:#Titel der Referenz
 objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
 objref#:#objref_custom_title#:#Eigenen Titel verwenden
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
