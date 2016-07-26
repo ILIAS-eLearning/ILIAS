@@ -15549,10 +15549,21 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 		if (!$mapping[$rec['table_id']]) {
 			continue;
 		}
-		$ilDB->query('UPDATE page_object 
+
+		$sql = $ilDB->query('SELECT * FROM page_object 
+						WHERE page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
+						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
+
+		if ($ilDB->numRows($sql)) {
+			$ilDB->query('DELETE FROM page_object 
+						WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
+						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
+		} else {
+			$ilDB->query('UPDATE page_object 
                   SET page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
                   WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
                       AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
+		}
 	}
 
 	//delete old tables
