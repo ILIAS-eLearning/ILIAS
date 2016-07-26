@@ -19,7 +19,7 @@ class TableSpace {
 	public function addTable(AbstractTable\Table $table) {
 		$table_id = $table->id();
 		if(isset($this->tables[$table_id])) {
-			throw new TableException("$table_id allready in table");
+			throw new TableException("$table_id allready in space");
 		}
 		$this->fields[$table_id] = array();
 		foreach ($table->fields() as $field) {
