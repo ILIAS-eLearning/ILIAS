@@ -208,7 +208,9 @@ class Graph implements abstractGraph {
 		}
 	}
 
-
+	/**
+	 * @inheritdoc
+	 */
 	public function getNodeById($id) {
 		return $this->nodes[$id];
 	}
