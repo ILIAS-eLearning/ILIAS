@@ -12,14 +12,14 @@ namespace CaT\TableRelations\Graphs;
  * some node N, i.e. there a paths starting inside a subgraph and finishing
  * at N.
  */
-interface abstractMinimizeGraph extends abstractGraph {
+interface AbstractMinimizeGraph extends AbstractGraph {
 	/**
 	 * Get the smallest complete subgraph containing given Nodes.
 	 * This means to return all nodes, that are en route between any
 	 * choice of two nodes out of a given set.
 	 *
-	 * @param	abstractNode[]	$nodes
-	 * @return	abstractGraph
+	 * @param	AbstractNode[]	$nodes
+	 * @return	AbstractGraph
 	 */
 	public function reduceGraphToNodes(array $nodes);
 }

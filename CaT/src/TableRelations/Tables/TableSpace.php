@@ -12,11 +12,11 @@ class TableSpace {
 	protected $graph;
 	protected $fields = array();
 	protected $tables = array();
-	public function __construct(Graphs\abstractGraph $graph) {
+	public function __construct(Graphs\AbstractGraph $graph) {
 		$this->graph = $graph;
 	}
 
-	public function addTable(abstractTable\Table $table) {
+	public function addTable(AbstractTable\Table $table) {
 		$table_id = $table->id();
 		if(isset($this->tables[$table_id])) {
 			throw new TableException("$table_id allready in table");
@@ -29,7 +29,7 @@ class TableSpace {
 		return $this;
 	}
 
-	public function addDependency(abstractTableDependency $dep) {
+	public function addDependency(AbstractTableDependency $dep) {
 		
 		return $this;
 	}

@@ -1,7 +1,7 @@
 <?php
 namespace CaT\TableRelations\Tables;
 
-interface abstractTableField  {
+interface AbstractTableField  {
 	public function tableId();
 	public function name();
 }

@@ -20,13 +20,13 @@ class TableFactory {
 		return $table;
 	}
 
-	public function TableJoin(abstractTable $from, abstractTable $to, Filters\Predicates\Predicate $predicate) {
+	public function TableJoin(AbstractTable $from, AbstractTable $to, Filters\Predicates\Predicate $predicate) {
 		$table = new TableJoin;
 		$table->dependingTables($from, $to, $predicate);
 		return $table;
 	}
 
-	public function TableLeftJoin(abstractTable $from, abstractTable $to, Filters\Predicates\Predicate $predicate) {
+	public function TableLeftJoin(AbstractTable $from, AbstractTable $to, Filters\Predicates\Predicate $predicate) {
 		$table = new TableLeftJoin;
 		$table->dependingTables($from, $to, $predicate);
 		return $table;

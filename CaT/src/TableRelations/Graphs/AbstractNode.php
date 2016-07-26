@@ -2,9 +2,9 @@
 namespace CaT\TableRelations\Graphs;
 
 /**
- * Represents a Node within abstractGraph.
+ * Represents a Node within AbstractGraph.
  */
-interface abstractNode {
+interface AbstractNode {
 	/**
 	 * Get the id of the node.
 	 *

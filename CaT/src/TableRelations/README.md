@@ -1,4 +1,4 @@
-We intend to represent reports abstractly by graphs.
+We intend to represent reports Abstractly by graphs.
 
 A report consists of tables which will be represented by
 nodes of a graph. Relations between tables, such as join-

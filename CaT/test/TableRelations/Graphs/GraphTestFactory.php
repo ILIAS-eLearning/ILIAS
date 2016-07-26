@@ -11,7 +11,7 @@ class GraphTestFactory extends Graphs\GraphFactory {
 	}
 }
 
-class TestNode implements Graphs\abstractNode {
+class TestNode implements Graphs\AbstractNode {
 	public function __construct($id, $subgraph = 0) {
 		$this->id = $id;
 		$this->subgraph = $subgraph;
@@ -26,7 +26,7 @@ class TestNode implements Graphs\abstractNode {
 	}
 }
 
-class TestEdge implements Graphs\abstractEdge {
+class TestEdge implements Graphs\AbstractEdge {
 	public function __construct($from_id, $to_id) {
 		$this->from_id = $from_id;
 		$this->to_id = $to_id;

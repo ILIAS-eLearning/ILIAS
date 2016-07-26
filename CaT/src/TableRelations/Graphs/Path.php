@@ -13,7 +13,7 @@ class Path {
 	protected $start_node = null;
 	protected $end_node = null;
 
-	public static function getInstanceByNode(abstractNode $start_node) {
+	public static function getInstanceByNode(AbstractNode $start_node) {
 		$path = new Path;
 		return $path->addNode($start_node);
 	}
@@ -34,7 +34,7 @@ class Path {
 		return $this->sequence[$this->end_node];
 	}
 
-	public function addNode(abstractNode $node) {
+	public function addNode(AbstractNode $node) {
 		$node_id = $node->id();
 		if(isset($this->sequence[$node_id])) {
 			throw new GraphException("$node_id allready in path");
@@ -48,7 +48,7 @@ class Path {
 		return $this;
 	}
 
-	public function cloneAndAddNode(abstractNode $node) {
+	public function cloneAndAddNode(AbstractNode $node) {
 		return self::getInstanceBySequence($this->sequence)->addNode($node);
 	}
 

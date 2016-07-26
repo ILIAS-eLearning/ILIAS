@@ -7,7 +7,7 @@ namespace CaT\TableRelations\Graphs;
  * This means we will create for any node a set of paths starting
  * from it, and update them successive as we add edges.
  */
-class Graph implements abstractGraph {
+class Graph implements AbstractGraph {
 
 	protected $nodes = array();
 	protected $edges = array();
@@ -18,14 +18,14 @@ class Graph implements abstractGraph {
 	/**
 	 * @inheritdoc
 	 */
-	public function addGraph(abstractGraph $graph) {
+	public function addGraph(AbstractGraph $graph) {
 
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function addNode(abstractNode $node) {
+	public function addNode(AbstractNode $node) {
 		$node_id = $node->id();
 		$subgraph_id = $node->subgraph();
 		if(isset($this->nodes[$node_id])) {
@@ -42,7 +42,7 @@ class Graph implements abstractGraph {
 	/**
 	 * @inheritdoc
 	 */
-	public function connectNodesSymmetric(abstractEdge $edge) {
+	public function connectNodesSymmetric(AbstractEdge $edge) {
 		$from_id = $edge->fromId();
 		$to_id = $edge->toId();
 		if(!$this->connectionSymmetricFits($edge)) {
@@ -56,7 +56,7 @@ class Graph implements abstractGraph {
 	/**
 	 * @inheritdoc
 	 */
-	public function connectNodesDirected(abstractEdge $edge) {
+	public function connectNodesDirected(AbstractEdge $edge) {
 		$from_id = $edge->fromId();
 		$to_id = $edge->toId();
 		if(!$this->connectionDirectedFits($edge)) {
@@ -66,13 +66,13 @@ class Graph implements abstractGraph {
 		$this->edges[] = $edge;
 	}
 
-	protected function connectionDirectedFits(abstractEdge $edge) {
+	protected function connectionDirectedFits(AbstractEdge $edge) {
 		$from_id = $edge->fromId();
 		$to_id = $edge->toId();
 		return $this->checkNoCurrentSymmetricConnections($to_id);
 	}
 
-	protected function connectionSymmetricFits(abstractEdge $edge) {
+	protected function connectionSymmetricFits(AbstractEdge $edge) {
 		$from_id = $edge->fromId();
 		$to_id = $edge->toId();
 		return $this->checkNoIncommingOnlyConnections($from_id) && $this->checkNoIncommingOnlyConnections($to_id);
@@ -105,7 +105,7 @@ class Graph implements abstractGraph {
 	}
 
 
-	protected function connectNodeIdsDirected($from_id, $to_id, abstractEdge $edge) {
+	protected function connectNodeIdsDirected($from_id, $to_id, AbstractEdge $edge) {
 		if($from_id === $to_id) {
 			throw new GraphException("cant't connect $from_id to itself");
 		}
@@ -129,7 +129,7 @@ class Graph implements abstractGraph {
 		}
 	}
 
-	public function nodeSubgraphId(abstractNode $node) {
+	public function nodeSubgraphId(AbstractNode $node) {
 		return $this->getSubgraphOfNodeId($node->id());
 	}
 

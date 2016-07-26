@@ -2,9 +2,9 @@
 namespace CaT\TableRelations\Tables;
 
 /**
- * Store binary dependencies between abstract tables.
+ * Store binary dependencies between Abstract tables.
  */
-interface abstractTableDependency {
+interface AbstractTableDependency {
 
 	/**
 	 * Get the first table of dependency

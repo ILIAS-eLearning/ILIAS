@@ -6,23 +6,23 @@ use CaT\Filter\Predicates as Predicates;
 /**
  * Store metadata about tables.
  */
-interface abstractTable {
+interface AbstractTable {
 	/**
-	 * Add a field to this instance of abstractTable.
+	 * Add a field to this instance of AbstractTable.
 	 *
-	 * @param	abstractTableField	Field
+	 * @param	AbstractTableField	Field
 	 */
-	public function addField(abstractTableField $field);
+	public function addField(AbstractTableField $field);
 
 	/**
-	 * Get the list of all fields whithin this abstractTable.
+	 * Get the list of all fields whithin this AbstractTable.
 	 *
 	 * @return	TableField[]	Field
 	 */
 	public function fields();
 
 	/**
-	 * Add a constrain to this instance of abstractTable.
+	 * Add a constrain to this instance of AbstractTable.
 	 * It must be a predicate solely operating on the 
 	 * fields within this table.
 	 *
@@ -46,7 +46,7 @@ interface abstractTable {
 	public function id();
 
 	/**
-	 * Add a constrain to this instance of abstractTable.
+	 * Add a constrain to this instance of AbstractTable.
 	 * It must be a predicate solely operating on the 
 	 * fields within this table.
 	 *

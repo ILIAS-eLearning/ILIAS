@@ -3,7 +3,7 @@ namespace CaT\TableRelations\Tables;
 use CaT\TableRelations\Graphs as Graphs;
 use CaT\Filter\Predicates as Predicates;
 
-class Table implements abstractTable, Graphs\abstractNode {
+class Table implements AbstractTable, Graphs\AbstractNode {
 
 	protected $id;
 	protected $title;
@@ -20,7 +20,7 @@ class Table implements abstractTable, Graphs\abstractNode {
 	/**
 	 * @inheritdoc
 	 */
-	public function addField(abstractTableField $field) {
+	public function addField(AbstractTableField $field) {
 		$f_table = $field->tableId();
 		if($f_table === $this->id) {
 			$this->fields[$field->name()] = $field;

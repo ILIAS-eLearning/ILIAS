@@ -7,7 +7,7 @@ namespace CaT\TableRelations\Graphs;
  * directed of only undirected edges.)
  * 2. their minimum distance from some initial node.
  */
-interface abstractMinimizeGraph extends abstractGraph {
+interface AbstractMinimizeGraph extends AbstractGraph {
 	public function getPathsStartingAt($node_id);
 	public function orderNodesStartingAtNodeId($node_id);
 }

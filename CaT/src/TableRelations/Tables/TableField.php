@@ -7,7 +7,7 @@ use CaT\Filter as Filters;
  * A field combining Predicate-Fields and table functinality.
  * Note: it may still be used in Predicates.
  */
-class TableField extends Filters\Predicates\Field implements abstractTableField {
+class TableField extends Filters\Predicates\Field implements AbstractTableField {
 
 	public function __construct(Filters\PredicateFactory $f, $name, $table_id = null) {
 		$this->table_id = $table_id;

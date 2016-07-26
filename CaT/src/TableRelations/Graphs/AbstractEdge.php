@@ -2,9 +2,9 @@
 namespace CaT\TableRelations\Graphs;
 
 /**
- * Represents na edge within abstractGraph.
+ * Represents na edge within AbstractGraph.
  */
-interface abstractEdge {
+interface AbstractEdge {
 	/**
 	 * Get the id of the node the edge instance is starting at.
 	 *
