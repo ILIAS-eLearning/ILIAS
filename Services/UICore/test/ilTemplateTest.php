@@ -48,7 +48,7 @@ class ilTemplateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testilTemplateGet()
 	{
-		require_once 'HTML/Template/ITX.php';
+		#require_once 'HTML/Template/ITX.php';
 		include_once("./Services/UICore/classes/class.ilTemplateHTMLITX.php");
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$tpl = new ilTemplate("tpl.test_template_1.html", true, true, "Services/UICore/test");
