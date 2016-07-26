@@ -238,11 +238,21 @@ abstract class ilParticipant
 	 */
 	public function add($a_usr_id,$a_role)
 	{
-	 	global $rbacadmin,$ilLog,$ilAppEventHandler,$rbacreview;
-	 	
+		global $rbacadmin,$ilLog,$ilAppEventHandler,$rbacreview;
+		//gev-patch start
+		$ilLog->write("enter ilParticipant::add");
+		$ilLog->write("param usr_id:");
+		$ilLog->dump($a_usr_id);
+		$ilLog->write("param role");
+		$ilLog->dump($a_role);
+		//gev-patch end
 
 		if($rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id,$this->roles))
 		{
+			//gev-patch start
+			$ilLog->write("Add failed: User is not assigned to any of these roles");
+			$ilLog->dump($this->roles);
+			//gev-patch end
 			return false;
 		}
 	 	
@@ -269,14 +279,24 @@ abstract class ilParticipant
 	 			break;
 	 	}
 
+		//gev-patch start
+		$ilLog->write("RBAC Assign user");
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
+		$ilLog->write("RBAC Assign user finished");
+		$ilLog->write("Push to personal desktop");
 		$this->addDesktopItem($a_usr_id);
+		$ilLog->write("Push to personal desktop finished");
 		
 		// Delete subscription request
+		$ilLog->write("Delete subscriber");
 		$this->deleteSubscriber($a_usr_id);
+		$ilLog->write("Delete subscriber finished");
 		
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
+		$ilLog->write("Delete from waiting list");
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
+		$ilLog->write("Delete from waiting list finished");
+		//gev-patch end
 
 		if($this->type == 'crs')
 		{

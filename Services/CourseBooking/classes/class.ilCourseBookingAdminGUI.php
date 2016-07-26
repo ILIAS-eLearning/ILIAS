@@ -803,10 +803,10 @@ class ilCourseBookingAdminGUI
 		//gev-patch start
 		$this->gLog->write("enter ilCourseBookingAdminGUI::assignMembers");
 		$this->gLog->write("param user_ids:");
-		$this->gLog->dump($user_ids);
+		$this->gLog->dump($a_user_ids);
 		$this->gLog->write("param status");
-		$this->gLog->dump($status);
-
+		$this->gLog->dump($a_status);
+		
 		if(!$this->getPermissions()->bookCourseForOthers())
 		{
 			$ilCtrl->redirect($this, "listBookings");
