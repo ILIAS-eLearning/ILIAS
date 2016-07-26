@@ -143,12 +143,19 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
 		$this->setTabs("levels");
-		
-		$ilToolbar->addButton($lng->txt("skmg_add_level"),
-			$ilCtrl->getLinkTarget($this, "addLevel"));
+
+		if ($this->isInUse())
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
+		else
+		{
+			$ilToolbar->addButton($lng->txt("skmg_add_level"),
+					$ilCtrl->getLinkTarget($this, "addLevel"));
+		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
-		$table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit");
+		$table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit", 0, $this->isInUse());
 		$tpl->setContent($table->getHTML());
 	}
 
@@ -235,7 +242,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function editLevel()
 	{
-		global $tpl;
+		global $tpl, $lng;
+
+		if ($this->isInUse())
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
 
 		$this->initLevelForm();
 		$this->getLevelValues();

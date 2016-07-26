@@ -41,7 +41,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.content_style_row.html", "Services/Style/Content");
-		if ($this->parent_obj->checkPermission("write", false))
+		if ($this->parent_obj->checkPermission("sty_write_content", false))
 		{
 			$this->addMultiCommand("deleteStyle", $lng->txt("delete"));
 			$this->addCommandButton("saveActiveStyles", $lng->txt("sty_save_active_styles"));
@@ -82,7 +82,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
 		}
 
 		$ilCtrl->setParameter($this->parent_obj, "id", $a_set["id"]);
-		if ($a_set["id"] > 0 && $this->parent_obj->checkPermission("write", false))
+		if ($a_set["id"] > 0 && $this->parent_obj->checkPermission("sty_write_content", false))
 		{
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setListTitle($lng->txt("actions"));

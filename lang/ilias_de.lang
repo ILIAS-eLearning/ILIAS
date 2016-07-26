@@ -15748,3 +15748,12 @@ assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
 assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden. 
+rbac#:#sty_write_content#:#Content-Styles bearbeiten
+rbac#:#stys_sty_write_custom#:#Content-Styles bearbeiten
+rbac#:#sty_write_system#:#System-Styles bearbeiten
+rbac#:#stys_sty_write_system#:#System-Styles bearbeiten
+rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
+rbac#:#stys_sty_write_page_layout#:#Seitenlayouts bearbeiten
+skmg#:#skmg_import_skills#:#Importieren
+skmg#:#skmg_input_file#:#Importdatei
+skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.

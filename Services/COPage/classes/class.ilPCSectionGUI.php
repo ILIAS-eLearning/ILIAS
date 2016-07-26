@@ -95,7 +95,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		{
 			case "ilpropertyformgui":
 				include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-				$form = $this->getForm(true);
+				$form = $this->initForm();
 				$this->ctrl->forwardCommand($form);
 				break;
 

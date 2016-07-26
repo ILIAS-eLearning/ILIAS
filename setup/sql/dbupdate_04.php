@@ -15594,3 +15594,118 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4925>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('stys');
+if($type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('sty_write_content', 'Edit Content Styles', 'object', 6101);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('stys', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+?>
+<#4926>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('stys');
+if($type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('sty_write_system', 'Edit System Styles', 'object', 6100);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('stys', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+?>
+<#4927>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('stys');
+if($type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('sty_write_page_layout', 'Edit Page Layouts', 'object', 6102);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('stys', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+?>
+<#4928>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+ilDBUpdateNewObjectType::deleteRBACOperation('stys', $ops_id);
+?>
+<#4929>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4930>
+<?php
+	if (!$ilDB->tableColumnExists('skl_tree_node', 'creation_date'))
+	{
+		$ilDB->addTableColumn('skl_tree_node', 'creation_date', array(
+				"type" => "timestamp",
+				"notnull" => false,
+		));
+	}
+?>
+<#4931>
+<?php
+if (!$ilDB->tableColumnExists('skl_tree_node', 'import_id'))
+{
+	$ilDB->addTableColumn('skl_tree_node', 'import_id', array(
+			"type" => "text",
+			"length" => 50,
+			"notnull" => false
+	));
+}
+?>
+<#4932>
+<?php
+if (!$ilDB->tableColumnExists('skl_level', 'creation_date'))
+{
+	$ilDB->addTableColumn('skl_level', 'creation_date', array(
+			"type" => "timestamp",
+			"notnull" => false,
+	));
+}
+?>
+<#4933>
+<?php
+if (!$ilDB->tableColumnExists('skl_level', 'import_id'))
+{
+	$ilDB->addTableColumn('skl_level', 'import_id', array(
+			"type" => "text",
+			"length" => 50,
+			"notnull" => false
+	));
+}
+?>

@@ -37,7 +37,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.sys_styles_row.html", "Services/Style/System");
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($rbacsystem->checkAccess("sty_write_system", (int) $_GET["ref_id"]))
 		{
 			$this->addCommandButton("saveStyleSettings", $lng->txt("save"));
 		}

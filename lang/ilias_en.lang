@@ -15747,3 +15747,12 @@ assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.
+rbac#:#sty_write_content#:#Edit Content Styles
+rbac#:#stys_sty_write_custom#:#Edit Content Styles
+rbac#:#sty_write_system#:#Edit System Styles
+rbac#:#stys_sty_write_system#:#Edit System Styles
+rbac#:#sty_write_page_layout#:#Edit Page Layouts
+rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
+skmg#:#skmg_import_skills#:#Import
+skmg#:#skmg_input_file#:#Import File
+skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.

@@ -154,26 +154,60 @@ class ilExcel
 		// :TODO: does this make sense?
 		if(is_bool($a_value))
 		{
-			$a_value = $a_value
-				? $lng->txt("yes")
-				: $lng->txt("no");
+			$a_value = $this->prepareBooleanValue($a_value);
 		}
-		else if($a_value instanceof ilDate)
-		{
-			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));			
-		}	
 		else if($a_value instanceof ilDateTime)
 		{
-			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
-		}
+			$a_value = $this->prepareDateValue($a_value);
+		}	
 		else if(is_string($a_value))
 		{
-			$a_value = strip_tags($a_value); // #14542
+			$a_value = $this->prepareString($a_value);
 		}
 		
 		return $a_value;
 	}
-	
+
+	/**
+	 * @param ilDateTime $a_value
+	 * @return string
+	 */
+	protected function prepareDateValue(ilDateTime $a_value)
+	{
+		switch(true)
+		{
+			case $a_value instanceof ilDate:
+				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));
+				break;
+
+			default:
+				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
+				break;
+		}
+
+		return $a_value;
+	}
+
+	/**
+	 * @param bool $a_value
+	 * @return string
+	 */
+	protected function prepareBooleanValue($a_value)
+	{
+		global $lng;
+
+		return $a_value ? $lng->txt('yes') : $lng->txt('no');
+	}
+
+	/**
+	 * @param string $a_value
+	 * @return string
+	 */
+	protected function prepareString($a_value)
+	{
+		return strip_tags($a_value); // #14542
+	}
+
 	/**
 	 * Set date format
 	 * 
