@@ -8,7 +8,7 @@ class TableFactory {
 		$this->predicate_factory = new Filters\PredicateFactory;
 	}
 
-	public function TableField($name, $table_id = null) {
+	public function Field($name, $table_id = null) {
 		return new TableField($this->predicate_factory, $name, $table_id);
 	}
 
