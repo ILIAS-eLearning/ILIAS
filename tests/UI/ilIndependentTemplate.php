@@ -19,7 +19,7 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 	 * @param	string	Filename
 	 * @return   string	Filecontent
 	*/
-	function getFile($filename)
+	public function getFile($filename)
 	{
 		if ($filename{0} == '/' && substr($this->fileRoot, -1) == '/') {
 			$filename = substr($filename, 1);
@@ -70,7 +70,7 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 	 * @see	  $template, setTemplate(), $removeUnknownVariables,
 	 *		   $removeEmptyBlocks
 	 */
-	function loadTemplatefile( $filename,
+	public function loadTemplatefile( $filename,
 							   $removeUnknownVariables = true,
 							   $removeEmptyBlocks = true )
 	{
