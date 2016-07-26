@@ -46,6 +46,14 @@ interface abstractGraph {
 	public function getNodesBetween($from_id, $to_id, $subgraph_id = null);
 
 	/**
+	 * Get node by id.
+	 *
+	 * @param	string	$node_id
+	 * @return	abstractNode
+	 */
+	public function getNodeById($node_id);
+
+	/**
 	 * Is graph connected?
 	 *
 	 * @return bool
