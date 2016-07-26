@@ -231,6 +231,12 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		// copy each selected object
 		foreach ($this->getRefIds() as $ref_id)
 		{
+			// has been cancelled: hurry up
+			if($this->task->isToBeCancelled())
+			{
+				return;
+			}		
+			
 			if (!$this->validateFile($ref_id))
 			{
 				continue;
@@ -275,7 +281,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		foreach ($subtree as $child) 
 		{			
 			// has been cancelled: hurry up
-			if($this->task->getStatus() == ilBackgroundTask::STATUS_CANCELLING)
+			if($this->task->isToBeCancelled())
 			{
 				return;
 			}		

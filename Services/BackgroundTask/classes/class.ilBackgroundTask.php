@@ -76,6 +76,12 @@ class ilBackgroundTask
 		return $res;
 	}
 	
+	public function isToBeCancelled()
+	{
+		$this->doRead($this->getId());
+		return ($this->getStatus() == self::STATUS_CANCELLING);
+	}
+	
 
 	//
 	// setter/getter

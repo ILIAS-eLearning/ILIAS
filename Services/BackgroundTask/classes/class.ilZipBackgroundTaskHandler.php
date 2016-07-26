@@ -58,7 +58,7 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		$current_step = $this->gatherFiles();
 		
 		// has been cancelled?
-		if($this->task->getStatus() == ilBackgroundTask::STATUS_CANCELLING)
+		if($this->task->isToBeCancelled())
 		{
 			return $this->cancel();
 		}
@@ -76,7 +76,7 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		ilUtil::delDir($tmpdir);		
 		
 		// has been cancelled?
-		if($this->task->getStatus() == ilBackgroundTask::STATUS_CANCELLING)
+		if($this->task->isToBeCancelled())
 		{
 			return $this->cancel();
 		}
