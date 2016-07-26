@@ -25,11 +25,24 @@ class TableField extends Filters\Predicates\Field implements abstractTableField 
 	}
 
 	/**
-	 * To avoid ambiguity we have to include related table-id into fieldname.
+	 * To avoid ambiguity we have to include related table-id into fieldname,
+	 * i.e. return fully qualified name for query.
 	 *
 	 * @return	string
 	 */
 	public function name() {
 		return $this->table_id.'.'.parent::name();
+	}
+	/**
+	 * Return plain field name.
+	 *
+	 * @return	string
+	 */
+	public function name_simple() {
+		return parent::name();
+	}
+
+	public function setTableId($table_id) {
+		$this->table_id = $table_id;
 	}
 }
