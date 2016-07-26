@@ -4,7 +4,8 @@ include_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
 
 /**
  * Class ilObjDataCollectionTest
- *
+ * @group needsInstalledILIAS
+ *        
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilObjDataCollectionTest extends PHPUnit_Framework_TestCase
