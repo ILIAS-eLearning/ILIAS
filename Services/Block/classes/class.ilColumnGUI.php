@@ -149,6 +149,7 @@ class ilColumnGUI
 			"pdusers" => true,
 			"pdbookm" => true,
 			"pdtag" => true,
+			"pdsysmess" => true,
 			"pdnotes" => true,
 			"chatviewer" => true,
 			"tagcld" => true,
