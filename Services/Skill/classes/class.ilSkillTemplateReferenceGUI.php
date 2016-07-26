@@ -311,7 +311,12 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function listItems()
 	{
-		global $tpl;
+		global $tpl, $lng;
+
+		if ($this->isInUse())
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
 
 		$this->setTabs("content");
 		

@@ -76,6 +76,10 @@ class ilSkillCatTableGUI extends ilTable2GUI
 			$this->addMultiCommand("cutItems", $lng->txt("cut"));
 			$this->addMultiCommand("copyItems", $lng->txt("copy"));
 			$this->addMultiCommand("deleteNodes", $lng->txt("delete"));
+			if ($a_mode == self::MODE_SCAT)
+			{
+				$this->addMultiCommand("exportSelectedNodes", $lng->txt("export"));
+			}
 			$this->addCommandButton("saveOrder", $lng->txt("skmg_save_order"));
 		}
 	}

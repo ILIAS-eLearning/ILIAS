@@ -106,18 +106,20 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 * @param	string	title
 	 * @param	string	description
 	 */
-	function addLevel($a_title, $a_description)
+	function addLevel($a_title, $a_description, $a_import_id = "")
 	{
 		global $ilDB;
 
 		$nr = $this->getMaxLevelNr();
 		$nid = $ilDB->nextId("skl_level");
 		$ilDB->insert("skl_level", array(
-			"id" => array("integer", $nid),
-			"skill_id" => array("integer", $this->getId()),
-			"nr" => array("integer", $nr+1),
-			"title" => array("text", $a_title),
-			"description" => array("clob", $a_description)
+				"id" => array("integer", $nid),
+				"skill_id" => array("integer", $this->getId()),
+				"nr" => array("integer", $nr+1),
+				"title" => array("text", $a_title),
+				"description" => array("clob", $a_description),
+				"import_id" => array("text", $a_import_id),
+				"creation_date" => array("timestamp", ilUtil::now())
 			));
 
 	}
@@ -760,6 +762,132 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 				"skl_user_skill_level", "user_id");
 	}
 
+	/**
+	 * Get common skill ids for import IDs (newest first)
+	 *
+	 * @param int $a_source_inst_id source installation id, must be <>0
+	 * @param int $a_skill_import_id source skill id (type basic skill ("skll") or basic skill template ("sktp"))
+	 * @param int $a_tref_import_id source template reference id (if > 0 skill_import_id will be of type "sktp")
+	 * @return array array of common skill ids, keys are "skill_id", "tref_id", "creation_date"
+	 */
+	static function getCommonSkillIdForImportId($a_source_inst_id, $a_skill_import_id, $a_tref_import_id = 0)
+	{
+		global $ilDB;
+
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+		$tree = new ilSkillTree();
+
+		if ($a_source_inst_id == 0)
+		{
+			return array();
+		}
+
+		$template_ids = array();
+		if ($a_tref_import_id > 0)
+		{
+			$skill_node_type = "sktp";
+
+			// get all matching tref nodes
+			$set = $ilDB->query("SELECT * FROM skl_tree_node n JOIN skl_tree t ON (n.obj_id = t.child) ".
+					" WHERE n.import_id = ".$ilDB->quote("il_".((int)$a_source_inst_id)."_sktr_".$a_tref_import_id, "text").
+					" ORDER BY n.creation_date DESC ");
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				if (($t = ilSkillTemplateReference::_lookupTemplateId($rec["obj_id"])) > 0)
+				{
+					$template_ids[$t] = $rec["obj_id"];
+				}
+			}
+		}
+		else
+		{
+			$skill_node_type = "skll";
+		}
+		$set = $ilDB->query("SELECT * FROM skl_tree_node n JOIN skl_tree t ON (n.obj_id = t.child) ".
+			" WHERE n.import_id = ".$ilDB->quote("il_".((int)$a_source_inst_id)."_".$skill_node_type."_".$a_skill_import_id, "text").
+			" ORDER BY n.creation_date DESC ");
+		$results = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$matching_trefs = array();
+			if ($a_tref_import_id > 0)
+			{
+				$skill_template_id = $tree->getTopParentNodeId($rec["obj_id"]);
+
+				// check of skill is in template
+				foreach ($template_ids as $templ => $tref)
+				{
+					if ($skill_template_id == $templ)
+					{
+						$matching_trefs[] = $tref;
+					}
+				}
+			}
+			else
+			{
+				$matching_trefs = array(0);
+			}
+
+			foreach ($matching_trefs as $t)
+			{
+				$results[] = array("skill_id" => $rec["obj_id"], "tref_id" => $t, "creation_date" => $rec["creation_date"]);
+			}
+		}
+		return $results;
+	}
+
+	/**
+	 * Get level ids for import IDs (newest first)
+	 *
+	 * @param int $a_source_inst_id source installation id, must be <>0
+	 * @param int $a_skill_import_id source skill id (type basic skill ("skll") or basic skill template ("sktp"))
+	 * @return array array of common skill ids, keys are "level_id", "creation_date"
+	 */
+	static function getLevelIdForImportId($a_source_inst_id, $a_level_import_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM skl_level l JOIN skl_tree t ON (l.skill_id = t.child) " .
+				" WHERE l.import_id = " . $ilDB->quote("il_" . ((int)$a_source_inst_id) . "_sklv_" . $a_level_import_id, "text") .
+				" ORDER BY l.creation_date DESC ");
+		$results = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$results[] = array("level_id" => $rec["id"], "creation_date" => $rec["creation_date"]);
+		}
+		return $results;
+	}
+
+	/**
+	 * Get level ids for import Ids matching common skills
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getLevelIdForImportIdMatchSkill($a_source_inst_id, $a_level_import_id, $a_skill_import_id, $a_tref_import_id = 0)
+	{
+		$level_id_data = self::getLevelIdForImportId($a_source_inst_id, $a_level_import_id);
+		$skill_data = self::getCommonSkillIdForImportId($a_source_inst_id, $a_skill_import_id, $a_tref_import_id);
+		$matches = array();
+		foreach($level_id_data as $l)
+		{
+			reset($skill_data);
+			foreach ($skill_data as $s)
+			{
+				if (ilBasicSkill::lookupLevelSkillId($l["level_id"]) == $s["skill_id"])
+				{
+					$matches[] = array(
+							"level_id" => $l["level_id"],
+							"creation_date" => $l["creation_date"],
+							"skill_id" => $s["skill_id"],
+							"tref_id" => $s["tref_id"]
+					);
+				}
+			}
+		}
+		return $matches;
+	}
 
 }
 ?>
