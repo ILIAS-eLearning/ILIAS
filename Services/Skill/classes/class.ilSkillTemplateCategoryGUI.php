@@ -111,8 +111,13 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function listItems()
 	{
-		global $tpl;
-		
+		global $tpl, $lng;
+
+		if ($this->isInUse())
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
+
 		if ($this->tref_id == 0)
 		{
 			self::addCreationButtons();

@@ -148,7 +148,7 @@ class ilDBUpdateNewObjectType
 
 		$query = 'DELETE FROM rbac_ta WHERE '.
 			'typ_id = '.$ilDB->quote($type_id,'integer').' AND '.
-			'ops_id = '.$ilDB->quote($a_ops_id,'integer');		
+			'ops_id = '.$ilDB->quote($a_ops_id,'integer');
 		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		$ilDB->manipulate($query);		
 		

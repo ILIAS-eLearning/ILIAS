@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-06-11
+* @version	5.2.x 2016-07-23
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -1486,7 +1486,7 @@ assessment#:#tst_num_marked_questions#:#Megjelölt kérdések
 assessment#:#tst_change_dyn_test_question_selection#:#Kérdéskiválasztás módosítása
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#A kiválasztott kérdésgyűjtemény összes kérdését sikeresen megválaszolta. Akkor folyathatja a tesztet, ha új kérdés jelenik meg a kérdésgyűjteményben, vagy módosítanak egy már benne lévőt.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#A jelenlegi kérdéskiválasztások alapján az összes kérdést sikeresen megválaszolta. Módosítsa a kérdéskiválasztást a teszt folytatásához.
-assessment#:#tst_activate_skill_service#:#Kompetencia-szolgáltatás bekapcsolása
+assessment#:#tst_activate_skill_service#:#Kompetencia-szolgáltatás
 assessment#:#tst_tab_competences#:#Kompetenciák
 assessment#:#qpl_tab_competences#:#Kompetenciák
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Kérdés/kompetencia összerendelés
@@ -7207,6 +7207,7 @@ license#:#remaining_licenses#:#Felhasználható licencek
 license#:#used_licenses_explanation#:#A felhasználók minden első hozzáférése felhasznál egy licencet.
 license#:#used_licenses#:#Felhasznált licencek
 license#:#zero_licenses_explanation#:#Adjon meg 0-t a licencelés kikapcsolásához.
+mail#:#mail_serial_letter_placeholders#:#Körlevél helyőrzők
 mail#:#activate_serial_letter_placeholders#:#Körlevél helyőrzők aktiválása
 mail#:#advice_mail_body_secured#:#Biztonsági okokból az ILIAS néhány elemet eltávolított az Ön üzenetéből. Ellenőrizze az üzenetet, majd küldje újra.
 mail#:#also_as_email#:#E-mailként is
@@ -12013,7 +12014,7 @@ assessment#:#tst_question_hints_back_to_question#:#Vissza a kérdéshez
 assessment#:#tst_question_hints_index_column_label#:#%s segítség
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Kért segítségek
-assessment#:#tst_activate_skill_service_desc#:#Egy új, 'Kompetencia' nevű fül jelenik meg. Itt kérdéseket rendelhet a kompetenciákhoz, majd küszöbértéket kompetenciaszintekhez.
+assessment#:#tst_activate_skill_service_desc#:#Kérdések kompetenciákhoz rendelését és meghatározott kompetenciaszint eléréshez küszöbérték meghatározását teszi lehetővé.###XXX Egy új, 'Kompetencia' nevű fül jelenik meg. Itt kérdéseket rendelhet a kompetenciákhoz, majd küszöbértéket kompetenciaszintekhez. 
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Pontok szerkesztése
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Oldal szerkesztése
 assessment#:#tst_question_hints_form_cmd_save_points#:#Pontok mentése
@@ -12050,7 +12051,8 @@ dcl#:#dcl_add#:#Adatgyűjtés létrehozása
 dcl#:#dcl_copy#:#Adatgyűjtés másolása
 dcl#:#dcl_edit#:#Adatgyűjtés szerkesztése
 dcl#:#dcl_import#:#Adatgyűjtés importálása
-dcl#:#dcl_in_export#:#Exportálható 
+dcl#:#dcl_in_export#:#Exportálható
+dcl#:#dcl_tables#:#Táblák
 rbac#:#dcl_visible#:#Adatgyűjtés látható
 rbac#:#dcl_read#:#Olvasási hozzáférés az adatgyűjtéshez
 rbac#:#dcl_copy#:#A felhasználó másolhat adatgyűjtést
@@ -12195,6 +12197,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Nézetsablon szerkesztése
 dcl#:#dcl_record_list_viewdefinition#:#Nézetsablon felsorolása
 dcl#:#dcl_add_new_field#:#Új mező létrehozása
 dcl#:#dcl_add_new_table#:#Új tábla létrehozása
+dcl#:#dcl_add_new_view#:#Új nézet létrehozása
 dcl#:#dcl_field_datatype#:#Adattípus
 dcl#:#dcl_required#:#Kötelező (NOT NULL)
 dcl#:#dcl_edit_type_non#:#Nem szerkeszthető
@@ -12207,6 +12210,7 @@ dcl#:#dcl_edit_start#:#Kezdő időpont
 dcl#:#dcl_edit_end#:#Záró időpont
 dcl#:#dcl_export#:#Exportálás
 dcl#:#dcl_table_list_fields#:#Kiválasztott tábla mezői
+dcl#:#dcl_table_list_tables#:#Elérhető táblák
 dcl#:#dcl_view_viewdefinition#:#Nézetsablon
 dcl#:#dcl_new_table#:#Új tábla
 dcl#:#dcl_table_create#:#Tábla létrehozása
@@ -12244,6 +12248,30 @@ dcl#:#dcl_create_fields#:#Kérem hozzon létre legalább egy mezőt a 'Mezők' f
 dcl#:#dcl_inconsistent_at#:#Az adatgyűjtés inkonzisztens. A hivatkozás már nem létezik.
 dcl#:#dcl_all_entries#:#Összes bejegyzés
 dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
+dcl#:#dcl_create_view#:#Nézet létrehozása
+dcl#:#dcl_select#:#Kiválasztás megjelenítéshez
+dcl#:#dcl_tableviews#:#Nézetek
+dcl#:#dcl_tableviews_table#:#Kiválasztott tábla nézetei
+dcl#:#dcl_tableview#:#Nézet
+dcl#:#dcl_tableorder#:#Táblarendezés
+dcl#:#dcl_detailed_view#:#Részletes nézet
+dcl#:#dcl_tableview_add#:#Új nézet létrehozása
+dcl#:#dcl_delete_views#:#Nézetek törlése
+dcl#:#dcl_delete_tables#:#Táblák törlése
+dcl#:#dcl_msg_tableview_updated#:#Nézetet sikeresen módosította
+dcl#:#dcl_msg_tableview_created#:#Nézetet sikeresen léterhozta
+dcl#:#dcl_msg_tableview_deleted#:#Nézetet sikeresen törölte
+dcl#:#dcl_msg_tableviews_deleted#:#Nézeteket sikeresen törölte
+dcl#:#dcl_msg_tableviews_delete_all#:#Nem törlöhető: legalább egy nézetnek maradni kell
+dcl#:#dcl_msg_tables_delete_all#:#Nem törlöhető: legalább egy táblának maradni kell
+dcl#:#dcl_msg_tableviews_order_updated#:#Nézetek sorrendjét sikeresen mentette
+dcl#:#dcl_msg_info_alternatives#:#Nincs megfelelő jogosultsága ezen rekord megtekintéséhez, vagy nincs részletes változtata ennek a nézetnek. a A rekord megtekintéséhez válasszon egy nézetet a felsorolásból.
+dcl#:#dcl_tableviews_confirm_delete#:#Biztos, hogy törli az alábbi nézteteket?
+dcl#:#dcl_tableview_confirm_delete#:#Biztos, hogy törli az alábbi néztetet?
+dcl#:#dcl_tableview_fieldsettings#:#Mezőfüggő beállítások
+dcl#:#dcl_std_filter#:#Standard szűrő
+dcl#:#dcl_field_visible#:#Látható
+dcl#:#dcl_filter_changeable#:#Szűrő módosítható
 common#:#mail_member#:#E-mail a tagoknak
 exc#:#exc_type_upload_team#:#Csapatfeltöltés
 exc#:#exc_team#:#Csapat
@@ -12395,10 +12423,11 @@ dcl#:#dcl_export_table_excel#:#Exportálás Excel (.xlsx) fájlba
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Nincs exportálható mező vagy adat
 dcl#:#dcl_owner_editable#:#Csak saját bejegyzések szerkesztése
 dcl#:#dcl_order#:#Sorrend
-dcl#:#dcl_title#:#Mező címe
+dcl#:#dcl_fieldtitle#:#Mező címe
 dcl#:#dcl_description#:#Mező leírása
 dcl#:#dcl_msg_table_created#:#Sikeresen létrehozott egy táblát
 dcl#:#dcl_save#:#Tábla mentése
+dcl#:#dcl_save_order#:#Sorrend mentése
 dcl#:#dcl_record_deleted#:#Bejegyzést sikeresen törölte
 dcl#:#dcl_confirm_delete_record#:#Biztos, hogy törli ezt a bejegyzést?
 content#:#cont_resources_of_type#:#Típus forrásai
@@ -12456,6 +12485,7 @@ dcl#:#dcl_update_record#:#Bejegyzés módosítása
 dcl#:#dcl_edit_field#:#Mező módosítása
 dcl#:#dcl_update_field#:#Mező frissítése
 dcl#:#dcl_create_field#:#Mező létrehozása
+dcl#:#dcl_create_table#:#Tábla létrehozása
 dcl#:#dcl_msg_field_modified#:#Mezőt sikeresen módosította
 common#:#obj_tstv#:#Teszt tanúsítványa
 common#:#obj_excv#:#Beadandó feladat tanúsítványa
@@ -12581,7 +12611,7 @@ dcl#:#dcl_text_area#:#Szövegterület
 dcl#:#dcl_delete_table#:#Tábla törlése
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' fület) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok szerkesztése' jogosultságú felhasználók (lásd a 'Jogosultságok' fület) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
 dcl#:#dcl_confirm_delete_table#:#Biztos, hogy törli a táblát annak tartalmával és szerkezetével?
-dcl#:#dcl_cant_delete_main_table#:#Nem távolíthatja el teljes egészében ezt a táblát, mert ez az adatgyűjtéshez alapértelmezett táblája. Tartalmát és szerkezetét viszont töröltük.
+dcl#:#dcl_cant_delete_last_table#:#Nem távolíthatja el teljes egészében ezt a táblát, mert ez az adatgyűjtéshez egyetlen táblája. Tartalmát és szerkezetét viszont töröltük.
 forum#:#frm_notification_activated#:#Értesítés bekapcsolva
 forum#:#frm_notification_deactivated#:#Értesítés kikapcsolva
 administration#:#feedback_recipient_info#:#Ez a cím a lábléc '%s' linkben van használva.
@@ -12877,18 +12907,20 @@ dcl#:#dcl_please_select#:#--- Válasszon ---
 dcl#:#dcl_asc#:#Növekvő sorrend (NÖV)
 dcl#:#dcl_desc#:#Csökkenő sorrend (CSÖKK)
 dcl#:#dcl_comments#:#Megjegyzések
-dcl#:#dcl_comments_description#:#Megjegyzések számának megjelenítése a bejegyzéshez.
+dcl#:#dcl_comments_desc#:#Megjegyzések számának megjelenítése a bejegyzéshez.
 dcl#:#dcl_confirm_delete_fields#:#Biztos, hogy törli ezeket a mezőket?
 dcl#:#dcl_msg_fields_deleted#:#Törölt mezők
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#A belső azonosító (internal-ID).
 dcl#:#dcl_creation_date#:#Létrehozás dátuma
+dcl#:#dcl_create_date#:#Létrehozás dátuma
 dcl#:#dcl_creation_date_description#:#A bejegyzés létrehozásának dátuma.
 dcl#:#dcl_last_update#:#Utolsó módosítás dátuma
 dcl#:#dcl_last_update_description#:#Az a dátum, amikor a rekordot utoljára módosították.
 dcl#:#dcl_owner#:#Tulajdonos
 dcl#:#dcl_owner_description#:#Az a felhasználó, aki a bejegyzés tulajdonosa.
 dcl#:#dcl_last_edited_by#:#Utoljára módosította
+dcl#:#dcl_last_edit_by#:#Utoljára módosította
 dcl#:#dcl_last_edited_by_description#:#Az a felhasználó, aki utoljára módosította a bejegyzést.
 dcl#:#dcl_public_comments#:#Nyilvános megjegyzések engedélyezése
 dcl#:#dcl_default_sort_field#:#Alapértelmezett rendezési mező
@@ -12911,7 +12943,7 @@ dcl#:#dcl_plugin#:#Bővítmény
 dcl#:#dcl_plugin_desc#:#Adatgyűjtés mező-bővítmények
 dcl#:#dcl_plugin_hooks#:#Elérhető bővítmények
 dcl#:#dcl_save_confirmation#:#Mentés megerősítése
-dcl#:#dcl_save_confirmation_desc#:#Felhasználóknak jóvá kell hagyniuk minden új adatgyűjtemény bejegyzést
+dcl#:#dcl_save_confirmation_desc#:#Felhasználóknak jóvá kell hagyniuk minden új adatgyűjtemény bejegyzést.
 dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Nincs jogosultsága a bejegyzést utólag módosítani.
 dcl#:#dcl_save_record#:#Bejegyzés mentése
@@ -14084,6 +14116,7 @@ exc#:#exc_peer_review_cron_info#:#Ha be van kapcsolva, a beadandó feladat rész
 survey#:#survey_reminder_cron_info#:#Ha be van kapcsolva, a felhasználóknak emlékeztetőt küldünk, hogy vegyenek részt a kérdőív kitöltésében.
 cron#:#cron_action_activate_sure_multi#:#Biztos, hogy bekapcsolja az alábbi ütemezett feladatot?
 cron#:#cron_action_deactivate_sure_multi#:#Biztos, hogy kikapcsolja az alábbi ütemezett feladatot?
+cron#:#cron_action_reset_sure_multi#:#Biztos, hogy reseteled az alábbi ütemezett feladatot?
 crs#:#crs_status_determination_lp_info#:#Amikor a tanulási haladás 'Befejezett'-re vált, a kurzusállapot automatikusan 'Sikeresen teljesítette' lesz. Ettől függetlenül a tutorok kézzel is módosíthatják az állapotot.
 grp#:#grp_reg_no_selfreg#:#Senki sem regisztrálhatja saját magát
 crs#:#crs_mail_tutors_only_info#:#Csak vezetők és tutorok használhatják a 'Tagok' fülön lévő 'Levél küldése tagoknak' lehetőséget.
@@ -15708,3 +15741,15 @@ grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen
 crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
 form#:#form_date_duration_start#:#Kezdő időpont
 form#:#form_date_duration_end#:#Záró időpont
+auth#:#auth_ldap_server_ds#:#LDAP szerver
+content#:#cont_permission_object#:#Permission Object
+assessment#:#ass_location#:#Helyszín
+assessment#:#ass_imap_hint#:#A tippek buboréksúgóként jelenljenek meg
+assessment#:#ass_imap_map_file_not_readable#:#A feltöltött képtérkép nem olvasható.
+assessment#:#ass_imap_no_map_found#:#Egy űrlap sem található a feltöltött képtérképben.
+rbac#:#sty_write_content#:#Tartalomstílusok módosítása
+rbac#:#stys_sty_write_custom#:#Tartalomstílusok módosítása
+rbac#:#sty_write_system#:#endszerstílusok módosítása
+rbac#:#stys_sty_write_system#:#Rendszerstílusok módosítása
+rbac#:#sty_write_page_layout#:#Lapelrendezések módosítása
+rbac#:#stys_sty_write_page_layout#:#Lapelrendezések módosítása

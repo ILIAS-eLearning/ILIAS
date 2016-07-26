@@ -1096,6 +1096,9 @@ class ilInternalLinkGUI
 		ilYuiUtil::initConnection();
 
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
+		
+		// #18721
+		$tpl->addJavaScript("Services/Form/js/Form.js");
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 		$modal = ilModalGUI::getInstance();

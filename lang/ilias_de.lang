@@ -12000,6 +12000,7 @@ dcl#:#dcl_copy#:#Datensammlung kopieren
 dcl#:#dcl_edit#:#Datensammlung bearbeiten
 dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Exportierbar
+dcl#:#dcl_tables#:#Tabellen
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
 rbac#:#dcl_copy#:#Datensammlung kopieren
@@ -12020,6 +12021,7 @@ dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
+dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
@@ -12032,6 +12034,7 @@ dcl#:#dcl_edit_start#:#Startdatum
 dcl#:#dcl_edit_end#:#Enddatum
 dcl#:#dcl_export#:#Export
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
+dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
 dcl#:#dcl_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
@@ -12403,7 +12406,7 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
-dcl#:#dcl_create_item#:#Ansicht Hinzufügen
+dcl#:#dcl_create_view#:#Ansicht Hinzufügen
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
@@ -12412,11 +12415,13 @@ dcl#:#dcl_tableorder#:#Tabellenanordnung
 dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
 dcl#:#dcl_delete_views#:#Ansichten löschen
+dcl#:#dcl_delete_tables#:#Tabellen löschen
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
 dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt
 dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
 dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
+dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
@@ -12583,7 +12588,7 @@ dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
-dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die zentrale Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
+dcl#:#dcl_cant_delete_last_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die einzige Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 common#:#search_globally#:#Im gesamten Magazin
@@ -15743,3 +15748,14 @@ auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines 
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden sie sich erneut an.
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
+assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
+assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden. 
+rbac#:#sty_write_content#:#Content-Styles bearbeiten
+rbac#:#stys_sty_write_custom#:#Content-Styles bearbeiten
+rbac#:#sty_write_system#:#System-Styles bearbeiten
+rbac#:#stys_sty_write_system#:#System-Styles bearbeiten
+rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
+rbac#:#stys_sty_write_page_layout#:#Seitenlayouts bearbeiten
+skmg#:#skmg_import_skills#:#Importieren
+skmg#:#skmg_input_file#:#Importdatei
+skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.

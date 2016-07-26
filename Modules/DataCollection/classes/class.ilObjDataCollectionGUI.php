@@ -21,12 +21,10 @@ require_once('./Modules/DataCollection/classes/class.ilDclExportGUI.php');
  *
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclFieldEditGUI, ilDclRecordEditGUI, ilDclTreePickInputGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTreePickInputGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDclRecordEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclDetailedViewGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableEditGUI, ilDclFieldListGUI, ilObjFileGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableViewGUI, ilDclTableViewEditGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListViewdefinitionGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableListGUI, ilObjFileGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  *
@@ -175,38 +173,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->ctrl->forwardCommand($cp);
 				break;
 
-			case "ildclfieldlistgui":
+			case "ildcltablelistgui":
 				$this->prepareOutput();
-				$this->addListFieldsTabs("list_fields");
-				$ilTabs->setTabActive("id_fields");
-				require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php');
-				$fieldlist_gui = new ilDclFieldListGUI($this, $this->table_id);
-				$this->ctrl->forwardCommand($fieldlist_gui);
-				break;
-	
-			case "ildcltableviewgui":
-				$this->prepareOutput();
-				$this->addListFieldsTabs("show_tableviews");
-				$ilTabs->setTabActive("id_fields");
-				require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php');
-				$tableview_gui = new ilDclTableViewGUI($this, $this->table_id);
-				$this->ctrl->forwardCommand($tableview_gui);
-				break;
-
-			case "ildcltableeditgui":
-				$this->prepareOutput();
-				$ilTabs->setTabActive("id_fields");
-				require_once("./Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php");
-				$tableedit_gui = new ilDclTableEditGUI($this);
-				$this->ctrl->forwardCommand($tableedit_gui);
-				break;
-
-			case "ildclfieldeditgui":
-				$this->prepareOutput();
-				$ilTabs->activateTab("id_fields");
-				require_once("./Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php");
-				$fieldedit_gui = new ilDclFieldEditGUI($this, $this->table_id, $_REQUEST["field_id"]);
-				$this->ctrl->forwardCommand($fieldedit_gui);
+				$ilTabs->setTabActive("id_tables");
+				require_once('./Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php');
+				$tablelist_gui = new ilDclTableListGUI($this);
+				$this->ctrl->forwardCommand($tablelist_gui);
 				break;
 
 			case "ildclrecordlistgui":
@@ -244,6 +216,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->ctrl->forwardCommand($file_gui);
 				break;
 
+			case "ilratinggui":
+				$rgui = new ilRatingGUI();
+				$rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
+				$rgui->executeCommand();
+				$ilCtrl->redirectByClass("ilDclRecordListGUI", "listRecords");
+				break;
+
 			case "ildcldetailedviewgui":
 				$this->prepareOutput();
 				require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php');
@@ -251,13 +230,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->ctrl->forwardCommand($recordview_gui);
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
-				break;
-
-			case "ilratinggui":
-				$rgui = new ilRatingGUI();
-				$rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
-				$rgui->executeCommand();
-				$ilCtrl->redirectByClass("ilDclRecordListGUI", "listRecords");
 				break;
 
 			case 'ilnotegui':
@@ -275,6 +247,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$exp_gui = new ilDclExportGUI($this);
 				$exp_gui->addFormat("xml");
 
+				require_once 'Modules/DataCollection/classes/Content/class.ilDclContentExporter.php';
 				$exporter = new ilDclContentExporter($this->object->getRefId());
 				$exp_gui->addFormat("xls", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
 
@@ -377,7 +350,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 */
 	protected function afterSave(ilObject $a_new_object) {
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
+		$this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
 	}
 
 
@@ -411,9 +384,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 			$ilTabs->addTab("id_settings", $lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
 		}
 
-		// list fields
+		// list tables
 		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
-			$ilTabs->addTab("id_fields", $lng->txt("dcl_list_fields"), $this->ctrl->getLinkTargetByClass("ildclfieldlistgui", "listFields"));
+			$ilTabs->addTab("id_tables", $lng->txt("dcl_tables"), $this->ctrl->getLinkTargetByClass("ildcltablelistgui", "listTables"));
 		}
 
 		// export
@@ -426,25 +399,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 			$ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
 	}
-
-
-	/**
-	 * @param $a_active
-	 */
-	public function addListFieldsTabs($a_active) {
-		global $DIC;
-		$ilTabs = $DIC['ilTabs'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-
-		$ilTabs->addSubTab("list_fields", $lng->txt("dcl_list_fields"), $ilCtrl->getLinkTargetByClass("ildclfieldlistgui", "listFields"));
-
-		$ilCtrl->setParameterByClass("ildcltableviewgui", "table_id", $this->table_id);
-		$ilTabs->addSubTab("show_tableviews", $lng->txt("dcl_tableviews"), $ilCtrl->getLinkTargetByClass("ildcltableviewgui", "show"));
-
-		$ilTabs->activateSubTab($a_active);
-	}
-
 
 	/**
 	 * @param ilPropertyFormGUI $a_form

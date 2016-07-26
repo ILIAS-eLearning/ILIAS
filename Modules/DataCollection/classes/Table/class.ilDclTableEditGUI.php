@@ -38,6 +38,10 @@ class ilDclTableEditGUI {
 	 */
 	protected $tpl;
 	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+	/**
 	 * @var ilPropertyFormGUI
 	 */
 	protected $form;
@@ -45,17 +49,19 @@ class ilDclTableEditGUI {
 	/**
 	 * Constructor
 	 *
-	 * @param    ilObjDataCollectionGUI $a_parent_obj
+	 * @param    ilDclTableListGUI $a_parent_obj
 	 */
-	public function __construct(ilObjDataCollectionGUI $a_parent_obj) {
+	public function __construct(ilDclTableListGUI $a_parent_obj) {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		$tpl = $DIC['tpl'];
+		$toolbar = $DIC['ilToolbar'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
+		$this->toolbar = $toolbar;
 		$this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
@@ -129,11 +135,9 @@ class ilDclTableEditGUI {
 			'limited' => $this->table->getLimited(),
 			'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), - 8),
 			'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), - 8),
-			'is_visible' => $this->table->getIsVisible(),
 			'default_sort_field' => $this->table->getDefaultSortField(),
 			'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
 			'description' => $this->table->getDescription(),
-			'public_comments' => $this->table->getPublicCommentsEnabled(),
 			'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
 			'save_confirmation' => $this->table->getSaveConfirmation(),
 		);
@@ -153,7 +157,6 @@ class ilDclTableEditGUI {
 	public function getStandardValues() {
 		$values = array(
 			'title' => "",
-			'is_visible' => 1,
 			'add_perm' => 1,
 			'edit_perm' => 1,
 			'edit_perm_mode' => 'all',
@@ -174,7 +177,7 @@ class ilDclTableEditGUI {
 	 * cancel
 	 */
 	public function cancel() {
-		$this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
+		$this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
 	}
 
 
@@ -190,12 +193,11 @@ class ilDclTableEditGUI {
 		$item = new ilTextInputGUI($this->lng->txt('title'), 'title');
 		$item->setRequired(true);
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_visible'), 'is_visible');
-        $item->setInfo($this->lng->txt('dcl_visible_desc'));
-		$this->form->addItem($item);
 
-		// Show default order field and direction only in edit mode, because table id is not yet given and there are no fields to select
+		// Show default order field, direction and tableswitcher only in edit mode, because table id is not yet given and there are no fields to select
 		if ($a_mode != 'create') {
+			$this->createTableSwitcher();
+
 			$item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
 			$fields = $this->table->getFields();
@@ -217,10 +219,6 @@ class ilDclTableEditGUI {
         $item->setInfo($this->lng->txt('dcl_additional_info_desc'));
 		//        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
 		$item->setRteTagSet('mini');
-		$this->form->addItem($item);
-
-		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_public_comments'), 'public_comments');
-        $item->setInfo($this->lng->txt('dcl_public_comments_desc'));
 		$this->form->addItem($item);
 
 		$section = new ilFormSectionHeaderGUI();
@@ -295,6 +293,14 @@ class ilDclTableEditGUI {
 		}
 	}
 
+	/**
+	 *
+	 */
+	public function doTableSwitch()
+	{
+		$this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
+		$this->ctrl->redirect($this, "edit");
+	}
 
 	/**
 	 * save
@@ -324,7 +330,6 @@ class ilDclTableEditGUI {
 
 			$this->table->setTitle($this->form->getInput("title"));
 			$this->table->setObjId($this->obj_id);
-			$this->table->setIsVisible((bool)$this->form->getInput("is_visible"));
 			$this->table->setSaveConfirmation((bool)$this->form->getInput('save_confirmation'));
 			$this->table->setAddPerm((bool)$this->form->getInput("add_perm"));
 			$this->table->setEditPerm((bool)$this->form->getInput("edit_perm"));
@@ -342,7 +347,6 @@ class ilDclTableEditGUI {
 			$this->table->setImportEnabled($this->form->getInput("import_enabled"));
 			$this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
 			$this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
-			$this->table->setPublicCommentsEnabled($this->form->getInput('public_comments'));
 			$this->table->setLimited($this->form->getInput("limited"));
 			$this->table->setDescription($this->form->getInput('description'));
 			$limit_start = $this->form->getInput("limit_start");
@@ -428,20 +432,16 @@ class ilDclTableEditGUI {
 		$this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
 	}
 
-
 	/*
 	  * delete
 	  */
 	public function delete() {
-		$mainTableId = $this->table->getCollectionObject()->getMainTableId();
 		if (count($this->table->getCollectionObject()->getTables()) < 2) {
-			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_main_table"), true); //TODO change lng var
-		} else {
-			$this->ctrl->setParameterByClass("ildclfieldlistgui", "table_id", $mainTableId);
+			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
 		}
 
 		$this->table->doDelete();
-		$this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
 	}
 
 
@@ -452,5 +452,35 @@ class ilDclTableEditGUI {
 		$ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
 
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
+	}
+
+
+	/**
+	 * @param $options
+	 *
+	 * @return mixed
+	 */
+	protected function createTableSwitcher() {
+		// Show tables
+		require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
+		$tables = $this->parent_object->getDataCollectionObject()->getTables();
+
+		foreach ($tables as $table) {
+			$options[$table->getId()] = $table->getTitle(); //TODO order tables
+		}
+		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+		$table_selection = new ilSelectInputGUI('', 'table_id');
+		$table_selection->setOptions($options);
+		$table_selection->setValue($this->table->getId());
+
+		$this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableEditGUI", "doTableSwitch"));
+		$this->toolbar->addText($this->lng->txt("dcl_select"));
+		$this->toolbar->addInputItem($table_selection);
+		$button = ilSubmitButton::getInstance();
+		$button->setCommand("doTableSwitch");
+		$button->setCaption('change');
+		$this->toolbar->addButtonInstance($button);
+
+		return $options;
 	}
 }
