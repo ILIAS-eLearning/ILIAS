@@ -82,6 +82,9 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 			return false;
 		}
 
+		$result->close();
+		$mysqli->close();
+
 		return true;
 	}
 
