@@ -74,6 +74,34 @@ il.BgTask = {
 				// start the progress loop
 				il.BgTask.progress(json.task_id, $modal, json.steps, json.current);
 			}
+			else if(json.status == "block")
+			{
+				var $modal = il.Modal.dialogue({
+					show: true,
+					header: "blocked", // :TODO:
+					body: json.title,
+					buttons: [
+						{
+							type:      "button",
+							label:     "cancel old", // :TODO:
+							className: "btn btn-default",
+							callback:  function (e) {	
+								$modal.hide();
+								il.BgTask.doAjax({"tid": json.task_id, "cmd":"unblock"});
+							}	
+						},
+						{
+							type:      "button",
+							label:     "cancel new", // :TODO:
+							className: "btn btn-default",
+							callback:  function (e) {
+								$modal.hide();
+								il.BgTask.cancel(json.task_id);
+							}	
+						}
+					]
+				});
+			}
 			else if(json.status == "processing")
 			{
 				// still in progress
@@ -89,6 +117,15 @@ il.BgTask = {
 						o.argument.modal.hide();
 					}
 					window.location.href = json.result;
+				}
+			}
+			else if(json.status == "cancelled")
+			{
+				// could be cancelled by other task (see "unblock")
+				// no modal if background task was not needed
+				if(o.argument !== undefined)
+				{
+					o.argument.modal.hide();
 				}
 			}
 		}

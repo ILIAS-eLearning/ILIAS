@@ -59,6 +59,23 @@ class ilBackgroundTask
 		}
 	}
 	
+	public static function getActiveByUserId($a_user_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT id FROM ".self::DB_NAME.
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND status = ".$ilDB->quote(self::STATUS_PROCESSING, "text"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["id"];
+		}
+		
+		return $res;
+	}
+	
 
 	//
 	// setter/getter

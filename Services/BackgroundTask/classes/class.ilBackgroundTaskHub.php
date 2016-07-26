@@ -72,21 +72,25 @@ class ilBackgroundTaskHub
 		}
 	}
 	
-	protected function check()
+	protected function unblock()
 	{
-		// needs user-id 
+		global $ilUser;
 		
-		// a) has running => modal
-		// b) no other => continue [::init]
+		foreach(ilBackgroundTask::getActiveByUserId($ilUser->getId()) as $task_id)
+		{
+			// leave current task alone
+			if($task_id != $this->task->getId())
+			{
+				$task = new ilBackgroundTask($task_id);
+				$task->setStatus(ilBackgroundTask::STATUS_CANCELLING);
+				$task->save();
+			}				
+		}
+		
+		$json = $this->handler->init();
+		$this->sendJson($json);
 	}
 	
-	protected function cancelExisting()
-	{
-		// needs user-id
-		
-		// => ::init
-	}
-
 	protected function process()
 	{										
 		$this->task->setStatus(ilBackgroundTask::STATUS_PROCESSING);

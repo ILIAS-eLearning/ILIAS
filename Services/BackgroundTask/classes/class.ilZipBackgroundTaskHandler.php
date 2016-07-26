@@ -87,7 +87,12 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	
 	public function cancel()
 	{					
-		return $this->deleteTempFiles();		
+		$this->deleteTempFiles();		
+		
+		$this->task->setStatus(ilBackgroundTask::STATUS_CANCELLED);
+		$this->task->save();
+		
+		return true;
 	}
 	
 	public function finish()

@@ -75,11 +75,14 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		$this->ref_ids = $a_val;
 	}
 
-	public function init($params)
+	public function init($a_params = null)
 	{
 		global $lng, $ilUser;
 		
-		$this->setRefIds(array((int)$params)); // :TODO: multi?
+		if($a_params)
+		{
+			$this->setRefIds(array((int)$a_params)); // :TODO: multi?
+		}
 		
 		$file_count = $total_bytes = 0;
 		$this->calculateRecursive($this->getRefIds(), $file_count, $total_bytes);
@@ -121,17 +124,21 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 
 				if ($file_count >= $this->getFileCountThreshold()
 					|| $total_bytes >= $this->getTotalSizeThreshold() * 1024 * 1024) 
-				{
-					
-					
-					// :TODO: check for other tasks from same user
-				
-					
-					$bytes_formatted = ilUtil::formatSize($total_bytes);
-						
-					$json->status = "bg";
-					$json->title = sprintf($lng->txt("bgtask_download_long"), $file_count, $bytes_formatted);	
-					$json->steps = $file_count+1;
+				{										
+					// check for other tasks from same user
+					$existing = ilBackgroundTask::getActiveByUserId($ilUser->getId());
+					if(sizeof($existing))
+					{
+						$json->status = "block";						
+					}
+					else
+					{
+						$bytes_formatted = ilUtil::formatSize($total_bytes);
+
+						$json->status = "bg";
+						$json->title = sprintf($lng->txt("bgtask_download_long"), $file_count, $bytes_formatted);	
+						$json->steps = $file_count+1;
+					}
 				}
 				else
 				{							
