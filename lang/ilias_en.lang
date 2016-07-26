@@ -15756,3 +15756,5 @@ rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
 skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
+form#:#form_no_link#:#No Link
+copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.

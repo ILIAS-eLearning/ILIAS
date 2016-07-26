@@ -609,7 +609,7 @@ echo htmlentities($a_text);*/
 		// external link
 		$ws= "[ \t\r\f\v\n]*";
 		// remove empty external links
-		while (preg_match('~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]~i', $a_text, $found))
+		while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]~i", $a_text, $found))
 		{
 			$a_text = str_replace($found[0], "",$a_text);
 		}
@@ -618,7 +618,7 @@ echo htmlentities($a_text);*/
 			$a_text = str_replace($found[0], "",$a_text);
 		}
 		// external links
-		while (preg_match('~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i', $a_text, $found))
+		while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			if (isset($attribs["url"]))

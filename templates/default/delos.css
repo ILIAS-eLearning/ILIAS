@@ -7766,6 +7766,9 @@ input:invalid {
   background-color: #FFEBEB;
   border-color: #D08080;
 }
+.il_non_editable_value {
+  padding-top: 4px;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
@@ -8558,6 +8561,10 @@ a.nostyle:hover {
 ul#ilAdvSelListTable_style_selection {
   overflow: auto;
   max-height: 400px;
+}
+a.ilCOPageSection {
+  color: inherit;
+  text-decoration: inherit;
 }
 /* Services/Calendar */
 td.even {
