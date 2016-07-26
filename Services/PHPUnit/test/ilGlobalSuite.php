@@ -57,6 +57,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		}
 
 		$client_ini = new ilIniFile($client_data_path."/".$client_name."/client.ini.php");
+		$client_ini->read();
 		$host = $client_ini->readVariable("db", "host");
 		$user = $client_ini->readVariable("db", "user");
 		$pass = $client_ini->readVariable("db", "pass");
