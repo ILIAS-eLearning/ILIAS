@@ -74,8 +74,10 @@ class ilAuthProviderFactory
 		switch((int) $a_authmode)
 		{
 			case AUTH_LDAP:
-				$this->getLogger()->debug('Using ldap authentication');
-				break;
+				$ldap_info = explode('_', $a_authmode);
+				$this->getLogger()->debug('Using ldap authentication with credentials ' . print_r($ldap_info,true));
+				include_once './Services/LDAP/classes/class.ilAuthProviderLDAP.php';
+				return new ilAuthProviderLDAP($credentials, $ldap_info[1]);
 			
 			case AUTH_LOCAL:
 				$this->getLogger()->debug('Using local database authentication');
