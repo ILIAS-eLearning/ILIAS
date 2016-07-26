@@ -19,7 +19,7 @@ interface abstractTable {
 	 *
 	 * @return	TableField[]	Field
 	 */
-	public function getFields();
+	public function fields();
 
 	/**
 	 * Add a constrain to this instance of abstractTable.
