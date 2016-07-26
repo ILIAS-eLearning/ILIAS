@@ -72,7 +72,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		$query = "SELECT value FROM settings WHERE module = 'common' AND keyword = 'setup_ok'";
 		$result = $mysqli->query($query);
 
-		if($result->numRows == 0) {
+		if($result->num_rows == 0) {
 			return false;
 		}
 
