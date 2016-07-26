@@ -82,10 +82,9 @@ class ilSoapAdministration
 	function __checkSession($sid)
 	{
 		/**
-		 * @var $ilAuth Auth
 		 * @var $ilUser ilObjUser
 		 */
-		global $ilAuth, $ilUser;
+		global $ilUser;
 		
 		list($sid,$client) = $this->__explodeSid($sid);
 		
