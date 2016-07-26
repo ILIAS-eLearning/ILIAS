@@ -61,7 +61,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		$host = $client_ini->readVariable("db", "host");
 		$user = $client_ini->readVariable("db", "user");
 		$pass = $client_ini->readVariable("db", "pass");
-		$db = $client_ini->readVariable("db", "ilias_generali");
+		$db = $client_ini->readVariable("db", "name");
 
 		$mysqli = new mysqli($host, $user, $pass, $db);
 
