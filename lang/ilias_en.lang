@@ -13513,7 +13513,7 @@ content#:#cont_verification_placeh#:#Click and edit to insert certificate
 content#:#cont_verification_placehl#:#Certificate Placeholder
 content#:#cont_ed_plachverification#:#Placeholder Certificate
 cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
-dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
+dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Units
 common#:#obj_orgu#:#Organisational Unit

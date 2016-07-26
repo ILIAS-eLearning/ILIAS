@@ -54,7 +54,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 * @param ilDclStandardField $original_record
 	 */
 	public function cloneStructure($original_record) {
-		$this->setEditable($original_record->isEditable());
 		$this->setLocked($original_record->getLocked());
 		$this->setOrder($original_record->getOrder());
 		$this->setRequired($original_record->getRequired());
