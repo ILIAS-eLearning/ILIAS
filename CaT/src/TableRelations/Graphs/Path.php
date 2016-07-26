@@ -9,6 +9,7 @@ namespace CaT\TableRelations\Graphs;
  */
 class Path {
 	protected $sequence = array();
+	protected $order = array();
 	protected $start_node = null;
 	protected $end_node = null;
 
@@ -39,6 +40,7 @@ class Path {
 			throw new GraphException("$node_id allready in path");
 		}
 		$this->sequence[$node_id] = $node;
+		$this->order[$node_id] = count($this->sequence);
 		if($this->start_node === null) {
 			$this->start_node = $node_id;
 		}
@@ -55,18 +57,9 @@ class Path {
 	}
 
 	protected function addSequence(array $sequence) {
-		$end_node = $this->end_node;
-		foreach ($sequence as $node_id => $node) {
-			if(!$node instanceof abstractNode) {
-				throw new GraphException("element $node_id of sequence not a node");
-			}
-			if(isset($this->sequence[$node_id])) {
-				throw new GraphException("$node_id allready in path");				
-			}
-			$this->sequence[$node_id] = $node;
-			$end_node = $node_id;
+		foreach ($sequence as $node) {
+			$this->addNode($node);
 		}
-		$this->end_node = $end_node;
 	}
 
 	public function intersectsPathAt(Path $path) {
@@ -127,5 +120,9 @@ class Path {
 
 	public function sequence() {
 		return array_values($this->sequence);
+	}
+
+	public function positionOf($node_id) {
+		return isset($this->order[$node_id]) ? $this->order[$node_id] : 0;
 	}
 }
