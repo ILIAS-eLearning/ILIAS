@@ -806,7 +806,7 @@ class ilCourseBookingAdminGUI
 		$this->gLog->dump($a_user_ids);
 		$this->gLog->write("param status");
 		$this->gLog->dump($a_status);
-		
+
 		if(!$this->getPermissions()->bookCourseForOthers())
 		{
 			$ilCtrl->redirect($this, "listBookings");
@@ -869,7 +869,8 @@ class ilCourseBookingAdminGUI
 			{
 				$user_status = $a_status;
 			}
-			
+			$this->gLog->write("User status in front of booking");
+			$this->gLog->dump($user_status);
 			if($user_status == ilCourseBooking::STATUS_BOOKED)
 			{
 				// nothing to do
