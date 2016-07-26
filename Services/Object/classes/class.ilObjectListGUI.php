@@ -2104,10 +2104,21 @@ class ilObjectListGUI
 			}
 			
 			$prevent_background_click = false;
-			if ($a_cmd =='mount_webfolder')
+			if ($a_cmd == 'mount_webfolder')
 			{
 				$prevent_background_click = true;
 			}
+			
+			if ($a_cmd == "downloadFolder")
+			{
+				include_once "Services/BackgroundTask/classes/class.ilFolderDownloadBackgroundTaskHandler.php";
+				if(ilFolderDownloadBackgroundTaskHandler::isActive())
+				{
+					$a_onclick = ilFolderDownloadBackgroundTaskHandler::getObjectListAction($this->ref_id);
+					$a_href = "#";
+				}				
+			}			
+			
 			$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
 				"", $prevent_background_click, $a_onclick);
 		}				

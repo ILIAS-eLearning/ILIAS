@@ -174,7 +174,8 @@
 			},
 			hide: function() {
 				$modal.modal("hide");
-			}
+			},
+			modal: $modal
 		};
 	};
 
