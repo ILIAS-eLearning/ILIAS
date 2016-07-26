@@ -173,6 +173,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_pdmail_include_sysnmess"), "pd_pdmail_include_sysnmess");
 		$cb_prop->setValue(1);
+		$cb_prop->setInfo($lng->txt("pd_pdmail_include_sysnmess_info"));
 		$cb_prop->setChecked(($ilSetting->get("pd_pdmail_include_sysnmess")));
 		$form->addItem($cb_prop);
 
