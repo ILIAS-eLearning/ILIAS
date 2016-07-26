@@ -15502,6 +15502,9 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 	//set visibility/filterability
 	$view_id_cache = array();
 	while ($rec = $ilDB->fetchAssoc($view_query)) {
+		if (!$mapping[$rec['table_id']]) {
+			continue;
+		}
 		$next_id = $ilDB->nextId('il_dcl_tview_set');
 		$ilDB->query('INSERT INTO il_dcl_tview_set (id, tableview_id, field, visible, in_filter, filter_value, 
         filter_changeable) VALUES ('
@@ -15543,6 +15546,9 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
             AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
 
 	while ($rec = $ilDB->fetchAssoc($query)) {
+		if (!$mapping[$rec['table_id']]) {
+			continue;
+		}
 		$ilDB->query('UPDATE page_object 
                   SET page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
                   WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
