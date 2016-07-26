@@ -9,6 +9,7 @@ class Table implements abstractTable, Graphs\abstractNode {
 	protected $title;
 	protected $fields = array();
 	protected $field_names = array();
+	protected $subgraph;
 
 	public function __construct($title, $id) {
 		$this->title = $title;
@@ -23,7 +24,7 @@ class Table implements abstractTable, Graphs\abstractNode {
 		$f_table = $field->tableId();
 		if($f_table === $this->id) {
 			$this->fields[$field->name()] = $field;
-		} elseif($_table = null) {
+		} elseif($f_table === null) {
 			$field->setTableId($this->id);
 			$this->fields[$field->name()] = $field;
 		} elseif($f_table !== $this->id) {
@@ -35,19 +36,28 @@ class Table implements abstractTable, Graphs\abstractNode {
 	/**
 	 * @inheritdoc
 	 */
-	public function getFields() {
-		return $this->fields;
+	public function fields() {
+		return array_values($this->fields);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function addConstrain(Predicates\Predicate $predicate) {
-		if(count(array_diff($predicate->fields(),$this->field_names))) {
+		if($this->fieldsExistsInTable(array_map(function($field) {return $field->name();},$predicate->fields()))) {
 			$this->constrain = $predicate;
 		} else {
 			throw new TableException("unknown fields in predicate");
 		}
+	}
+
+	protected function fieldsExistsInTable($full_field_names) {
+		foreach ($full_field_names as $full_field_name) {
+			if(!isset($this->fields[$full_field_name])) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -62,5 +72,17 @@ class Table implements abstractTable, Graphs\abstractNode {
 	 */
 	public function title() {
 		return $this->title;
+	}
+
+	public function constrain() {
+		return $this->constrain;
+	}
+
+	public function subgraph() {
+		return $this->subgraph;
+	}
+
+	public function setSubgraph($subgraph) {
+		$this->subgraph = $subgraph;
 	}
 }
