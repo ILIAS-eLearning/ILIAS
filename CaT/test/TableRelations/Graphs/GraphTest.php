@@ -36,7 +36,7 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		return $g;
 	}
 
-	public function twoRectGraph() {
+	public function twoRectGraph($connected = true) {
 		$gtf = $this->gtf;
 		$g = $gtf->Graph();
 		$g->addNode($gtf->Node("a1",1));
@@ -55,7 +55,9 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		$g->connectNodesSymmetric($gtf->Edge("b2","b3"));
 		$g->connectNodesSymmetric($gtf->Edge("b3","b4"));
 		$g->connectNodesSymmetric($gtf->Edge("b4","b1"));
-		$g->connectNodesSymmetric($gtf->Edge("a3","b1"));
+		if($connected) {
+			$g->connectNodesSymmetric($gtf->Edge("a3","b1"));
+		}
 		return $g;
 	}
 
@@ -100,6 +102,14 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		}
 		$this->assertCount(0,array_diff($node_ids, array("a1","a2","a3","a4","b1")));
 		$this->assertCount(0,array_diff(array("a1","a4","a3","a4","b1"), $node_ids));
+
+		$g = $this->twoRectGraph(false);
+		$nodes = $g->getNodesBetween("a1","b1");
+		$node_ids = array();
+		foreach ($nodes as $node) {
+			$node_ids[] = $node->id();
+		}
+		$this->assertCount(0,$node_ids);
 	}
 
 	public function test_nodes_within_subgraph_between() {
