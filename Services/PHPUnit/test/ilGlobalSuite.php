@@ -25,7 +25,63 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 	 * @return	bool
 	 */
 	public function hasInstalledILIAS() {
-		return false;
+		$ilias_ini_path = __DIR__."/../../../ilias.ini.php";
+
+		if(!is_file($ilias_ini_path)) {
+			return false;
+		}
+
+		$ilias_ini = new ilIniFile($ilias_ini_path);
+		$ilias_ini->read();
+		$client_data_path = $ilias_ini->readVariable("server", "absolute_path")."/".$ilias_ini->readVariable("clients", "path");
+
+		if(!is_dir($client_data_path)) {
+			return false;
+		}
+
+		$client_data_path = null;
+		$dir = opendir($client_data_path);
+		while($file = readdir($dir)) {
+			if ($file != "." && $file != ".." && is_dir($client_data_path."/".$file)) {
+				$client_name = $file;
+				break;
+			}
+		}
+
+		if(!$client_name) {
+			return false;
+		}
+
+		if(!is_file($client_data_path."/".$client_name."/client.ini.php")) {
+			return false;
+		}
+
+		$client_ini = new ilIniFile($client_data_path."/".$client_name."/client.ini.php");
+		$host = $client_ini->readVariable("db", "host");
+		$user = $client_ini->readVariable("db", "user");
+		$pass = $client_ini->readVariable("db", "pass");
+		$db = $client_ini->readVariable("db", "ilias_generali");
+
+		$mysqli = new mysqli($host, $user, $pass, $db);
+
+		if($mysqli->connect_error) {
+			return false;
+		}
+
+		$query = "SELECT value FROM settings WHERE module = 'common' AND keyword = 'setup_ok'";
+		$result = $mysqli->query($query);
+
+		if($result->numRows == 0) {
+			return false;
+		}
+
+		$row = $result->fetch_assoc();
+
+		if(!(bool)$row["value"]) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public static function suite()
