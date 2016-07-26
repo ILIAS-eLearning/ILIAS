@@ -121,6 +121,8 @@ class ilBackgroundTaskHub
 	
 	protected function deliver()
 	{
+		// :TODO: delete task?
+		
 		$this->handler->deliver();
 	}
 	

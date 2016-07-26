@@ -331,6 +331,8 @@ class ilBackgroundTask
 		$fields["id"] = array("integer", $this->getId());
 		
 		$ilDB->insert(self::DB_NAME, $fields);
+		
+		$this->exists = true;
 	}
 	
 	protected function doUpdate()

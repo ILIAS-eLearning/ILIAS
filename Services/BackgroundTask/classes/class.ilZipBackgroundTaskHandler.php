@@ -103,8 +103,8 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	}		
 	
 	public function deliver()
-	{			
-		$tmpzipfile = $this->getTempZipFilePath();
+	{					
+		$tmpzipfile = $this->getTempZipFilePath();		
 		$deliverFilename = ilUtil::getAsciiFilename($this->getDeliveryFilename()) . ".zip";
 		ilUtil::deliverFile($tmpzipfile, $deliverFilename, '', false, true, false);		
 	}

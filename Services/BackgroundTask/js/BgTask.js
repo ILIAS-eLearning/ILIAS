@@ -16,16 +16,13 @@ il.BgTask = {
 	
 	progress: function (task_id, modal, steps, current) {
 					
+		// :TODO: layout
 		modal.modal.find(".modal-body").html(current+"/"+steps);
 					
 		setTimeout(function() {			
 			il.BgTask.doAjax({"tid": task_id, "cmd":"progress"}, {task_id: task_id, modal: modal});
 		}, 500);
-		
-		
-		
-		
-		
+
 	},
 	
 	doAjax: function (par, args) {
@@ -33,8 +30,8 @@ il.BgTask = {
 	},	
 	
 	processAjax: function (o) {		
-		console.log(o.responseText);
-		console.log(o);
+		// console.log(o.responseText);
+		// console.log(o);
 		if(o.responseText !== undefined && o.responseText !== "")
 		{
 			var json = $.parseJSON(o.responseText);
@@ -86,7 +83,11 @@ il.BgTask = {
 			{
 				if(json.result_cmd == "redirect")	
 				{
-					o.argument.modal.hide();
+					// no modal if background task was not needed
+					if(o.argument !== undefined)
+					{
+						o.argument.modal.hide();
+					}
 					window.location.href = json.result;
 				}
 			}

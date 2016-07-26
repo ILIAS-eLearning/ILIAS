@@ -114,14 +114,19 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 				$task->setSteps($file_count+1); // +1 = create zip
 				$task->setStatus(ilBackgroundTask::STATUS_INITIALIZED);
 				$task->save();
+				
+				$this->setTask($task);
 							
 				$json->task_id = $task->getId();	
 
-				// :TODO: check for other tasks from same user
-				
 				if ($file_count >= $this->getFileCountThreshold()
 					|| $total_bytes >= $this->getTotalSizeThreshold() * 1024 * 1024) 
 				{
+					
+					
+					// :TODO: check for other tasks from same user
+				
+					
 					$bytes_formatted = ilUtil::formatSize($total_bytes);
 						
 					$json->status = "bg";
@@ -130,12 +135,18 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 				}
 				else
 				{							
-					$this->process(false);		
+					$this->process();		
 					
-					$task->setStatus(ilBackgroundTask::STATUS_PROCESSED);
-					$task->update();
+					$task->setStatus(ilBackgroundTask::STATUS_FINISHED);
+					$task->save();
 					
-					$json->status = "direct";
+					$res = $this->finish();
+					
+					$json->status = "finished";
+					
+					// see ilBackgroundTaskHub::progress()
+					$json->result_cmd = $res[0];
+					$json->result = $res[1];
 				}
 			}
 		}
@@ -314,11 +325,13 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	
 	protected function getFileCountThreshold()
 	{
-		
+		return 0;
+		return 100;
 	}
 	
 	protected function getTotalSizeThreshold() 
 	{
-		
+		return 0;
+		return 10000;
 	}
 }
