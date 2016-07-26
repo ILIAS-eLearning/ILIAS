@@ -15469,6 +15469,10 @@ $table_query = $ilDB->query('SELECT id, ref_id FROM il_dcl_table
 
 $mapping = array();
 while ($rec = $ilDB->fetchAssoc($table_query)) {
+	$sql = $ilDB->query('SELECT * FROM il_dcl_tableview WHERE table_id = ' . $ilDB->quote($rec['id']));
+	if ($ilDB->numRows($sql)) {
+		continue;
+	}
 	$query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote($rec['ref_id'], 'integer') . " AND assign='y'");
 	while ( $local_role = $ilDB->fetchAssoc($query)) {
 		$roles[] = $local_role['rol_id'];
@@ -15528,14 +15532,20 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 
 	//set editability/exportability
 	while ($rec = $ilDB->fetchAssoc($view_query)) {
-		$next_id = $ilDB->nextId('il_dcl_tfield_set');
-		$ilDB->query('INSERT INTO il_dcl_tfield_set (id, table_id, field, field_order, exportable) VALUES ('
-			. $ilDB->quote($next_id, 'integer') . ', '
-			. $ilDB->quote($rec['table_id'], 'integer') . ', '
-			. $ilDB->quote($rec['field'], 'text') . ', '
-			. $ilDB->quote($rec['field_order'], 'integer') . ', '
-			. $ilDB->quote($rec['exportable'], 'integer') . ')'
-		);
+		$sql = $ilDB->query('SELECT * FROM il_dcl_tfield_set 
+								WHERE table_id = ' . $ilDB->quote($rec['table_id'], 'integer') . '
+								AND field = ' . $ilDB->quote($rec['field'], 'text'));
+
+		if (!$ilDB->numRows($sql)) {
+			$next_id = $ilDB->nextId('il_dcl_tfield_set');
+			$ilDB->query('INSERT INTO il_dcl_tfield_set (id, table_id, field, field_order, exportable) VALUES ('
+				. $ilDB->quote($next_id, 'integer') . ', '
+				. $ilDB->quote($rec['table_id'], 'integer') . ', '
+				. $ilDB->quote($rec['field'], 'text') . ', '
+				. $ilDB->quote($rec['field_order'], 'integer') . ', '
+				. $ilDB->quote($rec['exportable'], 'integer') . ')'
+			);
+		}
 	}
 
 	//migrate page object
