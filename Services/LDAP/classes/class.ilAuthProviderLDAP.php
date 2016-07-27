@@ -125,7 +125,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 			return false;
 		}
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
-		$status->setAuthenticatedUserId(ilObjUser::_lookupId($user['ilinternalaccount']));
+		$status->setAuthenticatedUserId(ilObjUser::_lookupId($internal_account));
 		return true;
 		
 	}
