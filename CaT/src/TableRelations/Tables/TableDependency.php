@@ -18,6 +18,14 @@ Abstract class TableDependency implements AbstractTableDependency, Graphs\Abstra
 		return $this->to->id();
 	}
 
+	public function from() {
+		return $this->from;
+	}
+
+	public function to() {
+		return $this->to;
+	}
+
 	public function dependencyCondition() {
 		return $this->predicate;
 	}
