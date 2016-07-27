@@ -711,8 +711,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Last try in limited tries & confirmed?
 		if(($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
 		{
-			$ilAuth->setIdle(ilSession::getIdleValue(), false);
-			$ilAuth->setExpire(0);
+			// @todo: php7 ask mister test
+			#$ilAuth->setIdle(ilSession::getIdleValue(), false);
+			#$ilAuth->setExpire(0);
 			switch($this->object->getMailNotification())
 			{
 				case 1:

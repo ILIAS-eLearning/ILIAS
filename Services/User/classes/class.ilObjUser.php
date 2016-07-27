@@ -2545,19 +2545,17 @@ class ilObjUser extends ilObject
 	{
 		global $ilAuth;
 
+		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
+		$login = ilObjUser::_lookupLogin($uid);
+
 		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if(ilDAVActivationChecker::_isActive())
 		{
 			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 			require_once ('Services/Database/classes/class.ilAuthContainerMDB2.php');
-			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($ilAuth->getUsername());
+			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($login);
 		}
-		else
-		{
-			$login = $ilAuth->getUsername();
-		}
-
 		return $login;
 	}
 

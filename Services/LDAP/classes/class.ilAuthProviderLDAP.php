@@ -34,6 +34,13 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		return $this->server;
 	}
 	
+	/**
+	 * Migrate account
+	 */
+	public function doMigrateAccount($a_usr_id)
+	{
+		
+	}
 	
 	/**
 	 * Do authentication

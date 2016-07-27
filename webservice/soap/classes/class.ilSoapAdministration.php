@@ -107,35 +107,6 @@ class ilSoapAdministration
 			$this->__setMessageCode('Client');
 			return false;
 		}
-		
-		/**
-		if(!$ilAuth->getAuth())
-		{
-			switch($ilAuth->getStatus())
-			{
-				case AUTH_EXPIRED:
-					$this->__setMessage('Session expired');
-					$this->__setMessageCode('Server');
-					return false;
-	
-				case AUTH_IDLED:
-					$this->__setMessage('Session idled');
-					$this->__setMessageCode('Server');
-					return false;
-					
-				case AUTH_WRONG_LOGIN:
-					$this->__setMessage('Wrong Login or Password');
-					$this->__setMessageCode('Client');
-					return false;
-					
-				default:
-					$this->__setMessage('Session invalid');
-					$this->__setMessageCode('Client');
-					return false;
-			}
-		}
-		 * 
-		 */
 
 		if($ilUser->hasToAcceptTermsOfService())
 		{
