@@ -134,12 +134,21 @@ class GraphTest extends PHPUnit_Framework_TestCase {
 		$g->addNode($this->gtf->Node("a3",1));
 	}
 
-	/*public function test_graph_connected() {
+	public function test_connection_fron_to() {
 		$g = $this->starGraph();
-		$this->assertTrue($g->isConnected());
+		$gtf = $this->gtf;
+		$this->assertNull($g->edge("a1","a5"));
+		$this->assertEquals($g->edge("a1","a4"), $gtf->Edge("a1","a4"));
+	}
+
+	public function test_graph_connected() {
+		$gtf = $this->gtf;
+		$g = $this->starGraph();
+		$this->assertTrue($g->connected("a1","a5"));
 		$g->addNode($gtf->Node("a7"));
 		$g->addNode($gtf->Node("a8"));
 		$g->connectNodesDirected($gtf->Edge("a7","a8"));
-		$this->assertFalse($g->isConnected());
-	}*/
+		$this->assertFalse($g->connected("a1","a7"));
+		$this->assertTrue($g->connected("a1","a1"));
+	}
 }
