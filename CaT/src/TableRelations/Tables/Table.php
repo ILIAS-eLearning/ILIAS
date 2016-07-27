@@ -23,10 +23,10 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 	public function addField(AbstractTableField $field) {
 		$f_table = $field->tableId();
 		if($f_table === $this->id) {
-			$this->fields[$field->name()] = $field;
+			$this->fields[$field->name_simple()] = $field;
 		} elseif($f_table === null) {
 			$field->setTableId($this->id);
-			$this->fields[$field->name()] = $field;
+			$this->fields[$field->name_simple()] = $field;
 		} elseif($f_table !== $this->id) {
 			throw new TableException("inproper table bound to field");
 		}
@@ -44,21 +44,24 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 	 * @inheritdoc
 	 */
 	public function addConstrain(Predicates\Predicate $predicate) {
-		if($this->fieldsExistsInTable(array_map(function($field) {return $field->name();},$predicate->fields()))) {
-			$this->constrain = $predicate;
-		} else {
-			throw new TableException("unknown fields in predicate");
+		foreach ($predicate->fields() as $field) {
+			if(!$this->fieldInTable($field)) {
+				throw new TableException("unknown fields in predicate");
+			}
 		}
+		$this->constrain = $predicate;
 	}
 
-	protected function fieldsExistsInTable($full_field_names) {
-		foreach ($full_field_names as $full_field_name) {
-			if(!isset($this->fields[$full_field_name])) {
-				return false;
-			}
+	public function fieldInTable(AbstractTableField $field) {
+		if(!isset($this->fields[$field->name_simple()])) {
+			return false;
+		}
+		if($field != $this->fields[$field->name_simple()]) {
+			return false;
 		}
 		return true;
 	}
+
 
 	/**
 	 * @inheritdoc
