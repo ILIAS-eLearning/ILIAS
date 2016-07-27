@@ -166,6 +166,17 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
 		$form->addItem($cb_prop);
 
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_mail_pdsysmess"), "block_activated_pdsysmess");
+		$cb_prop->setValue(1);
+		$cb_prop->setChecked(($ilSetting->get("block_activated_pdsysmess")));
+		$form->addItem($cb_prop);
+
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_pdmail_include_sysnmess"), "pd_pdmail_include_sysnmess");
+		$cb_prop->setValue(1);
+		$cb_prop->setInfo($lng->txt("pd_pdmail_include_sysnmess_info"));
+		$cb_prop->setChecked(($ilSetting->get("pd_pdmail_include_sysnmess")));
+		$form->addItem($cb_prop);
+
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
@@ -266,8 +277,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
 		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
 
-		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
-		
+		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));
+		$ilSetting->set("block_activated_pdsysmess", (int) ($_POST["block_activated_pdsysmess"]));
+		$ilSetting->set("pd_pdmail_include_sysnmess", (int) ($_POST["pd_pdmail_include_sysnmess"]));
+
 //		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 //		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
