@@ -1,12 +1,14 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+
 /**
  * Class ilBuddySystemRelationTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
+class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 {
 	const RELATION_OWNER_ID = -1;
 	const RELATION_BUDDY_ID = -2;
@@ -70,11 +72,11 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testUsersAreNotAbleToRequestThemselves()
 	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
+		$this->assertException(ilBuddySystemRelationStateException::class);
 		$state_mock = $this->getMockBuilder('ilBuddySystemUnlinkedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 
@@ -85,11 +87,11 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testUsersAreNotAbleToUnlinkThemselves()
 	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
+		$this->assertException(ilBuddySystemRelationStateException::class);
 		$state_mock = $this->getMockBuilder('ilBuddySystemLinkedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
@@ -99,11 +101,11 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testUsersAreNotAbleToLinkThemselves()
 	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
+		$this->assertException(ilBuddySystemRelationStateException::class);
 		$state_mock = $this->getMockBuilder('ilBuddySystemRequestedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
@@ -113,11 +115,11 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testUsersAreNotAbleToIgnoreThemselves()
 	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
+		$this->assertException(ilBuddySystemRelationStateException::class);
 		$state_mock = $this->getMockBuilder('ilBuddySystemRequestedRelationState')->getMock();
 		$expected_relation  = new ilBuddySystemRelation($state_mock);
 		$expected_relation->setUserId(self::RELATION_OWNER_ID);
