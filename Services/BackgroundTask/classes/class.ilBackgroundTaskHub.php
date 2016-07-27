@@ -123,8 +123,37 @@ class ilBackgroundTaskHub
 		$this->task->setStatus(ilBackgroundTask::STATUS_PROCESSING);
 		$this->task->save();
 		
-		// :TODO: start background/SOAP call
-		$this->handler->process();		
+		if(!$this->isSOAPEnabled())
+		{
+			$this->handler->process();	
+		}
+		else
+		{
+			require_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+			$soap_client = new ilSoapClient();
+			$soap_client->setResponseTimeout(1);
+			$soap_client->enableWSDL(true);
+			$soap_client->init();
+			$soap_client->call('processBackgroundTask', array(
+				session_id() . '::' . $_COOKIE['ilClientId'],
+				$this->task->getId()
+			));
+		}
+	}
+	
+	/**
+	 * Is soap enabled?
+	 * 
+	 * @see ilMail
+	 * @return bool
+	 */
+	public function isSOAPEnabled()
+	{		
+		global $ilSetting;
+
+		return (extension_loaded('curl') &&
+			$ilSetting->get('soap_user_administration') &&
+			ilContext::getType() != ilContext::CONTEXT_CRON);
 	}
 	
 	/**
