@@ -1,0 +1,11 @@
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+bgtask#:#bgtask_failure#:#Fehler
+bgtask#:#bgtask_empty_folder#:#Die Auswahl enthält keine Objekte, die heruntergeladen werden können.
+bgtask#:#bgtask_download_too_large#:#Der Download überschreitet das Limit von %s.
+bgtask#:#bgtask_blocked#:#Laufender Download
+bgtask#:#bgtask_blocked_info#:#Es wird bereits ein Download für Sie erzeugt.
+bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen
+bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
+bgtask#:#bgtask_processing#:#Download erzeugen
+bgtask#:#bgtask_download_long#:#Die Erstellung des Downloads wird mit %1$s Dateien (%2$s) einige Zeit dauern.

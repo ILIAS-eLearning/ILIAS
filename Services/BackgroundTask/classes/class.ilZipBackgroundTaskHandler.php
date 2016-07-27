@@ -13,11 +13,15 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 {
 	protected $task; // [ilBackgroundTask]
 	protected $filename; // [string]
+	
+	// 
+	// setter/getter
+	//
 			
 	/**
-	 * Sets the delivery file name.
+	 * Sets the delivery file name
 	 *
-	 * @param string The value.
+	 * @param string 
 	 */
 	public function setDeliveryFilename($a_value)
 	{
@@ -25,14 +29,24 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	}
 	
 	/**
-	 * Gets the delivery file name.
+	 * Gets the delivery file name
 	 *
-	 * @return string.
+	 * @return string
 	 */
 	public function getDeliveryFilename()
 	{
 		return $this->filename;
 	}
+	
+	/**
+	 * Set current task instance
+	 * 
+	 * @param ilBackgroundTask $a_task
+	 */
+	protected function setTask(ilBackgroundTask $a_task)
+	{
+		$this->task = $a_task;
+	}			
 	
 	
 	//
@@ -44,17 +58,13 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		return $this->task;
 	}
 	
-	protected function setTask(ilBackgroundTask $a_task)
-	{
-		$this->task = $a_task;
-	}			
-	
 	public function process()
 	{					
 		// create temporary file to download
 		$tmpdir = $this->getTempFolderPath();
 		ilUtil::makeDirParents($tmpdir);
 		
+		// gather all files
 		$current_step = $this->gatherFiles();
 		
 		// has been cancelled?
@@ -85,6 +95,11 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		$this->task->save();
 	}
 	
+	/**
+	 * Cancel download
+	 * 
+	 * @return boolean
+	 */
 	public function cancel()
 	{					
 		$this->deleteTempFiles();		
@@ -95,6 +110,9 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		return true;
 	}
 	
+	/**
+	 * Finish download
+	 */
 	public function finish()
 	{
 		global $ilCtrl;
@@ -107,6 +125,9 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		return array("redirect", $url);
 	}		
 	
+	/**
+	 * Deliver file
+	 */
 	public function deliver()
 	{					
 		$tmpzipfile = $this->getTempZipFilePath();		
@@ -119,10 +140,17 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	// zip handling
 	//
 	
+	/**
+	 * Copy files to target directory
+	 * 
+	 * @return int current step
+	 */
 	abstract protected function gatherFiles();	
 	
 	/**
-	 * Deletes the temporary files and folders belonging to this download.
+	 * Deletes the temporary files and folders belonging to this download
+	 * 
+	 * @param bool $a_delete_zip
 	 */
 	protected function deleteTempFiles($a_delete_zip = true)
 	{				
@@ -130,27 +158,34 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		
 		// delete temp directory
 		$tmp_folder = $this->getTempFolderPath();
-		if (is_dir($tmp_folder))
+		if(is_dir($tmp_folder))
 		{
 			ilUtil::delDir($tmp_folder);
-			$successful &= !file_exists($tmp_folder);
+			$successful = !file_exists($tmp_folder);
 		}
 		
 		if($a_delete_zip)
 		{
 			// delete temp zip file
 			$tmp_file = $this->getTempZipFilePath();
-			if (file_exists($tmp_file))
-				$successful &= @unlink($tmp_file);
+			if(file_exists($tmp_file))
+			{
+				$successful = @unlink($tmp_file);
+			}
 		}
 		
 		return $successful;
 	}
 	
+	
+	//
+	// temp directories
+	//
+	
 	/**
-	 * Gets the temporary folder path to copy the files and folders to.
+	 * Gets the temporary folder path to copy the files and folders to
 	 *
-	 * @return int The value.
+	 * @return int 
 	 */
 	protected function getTempFolderPath()
 	{
@@ -158,9 +193,9 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	}
 	
 	/**
-	 * Gets the full path of the temporary zip file that gets created.
+	 * Gets the full path of the temporary zip file that gets created
 	 *
-	 * @return int The value.
+	 * @return int 
 	 */
 	protected function getTempZipFilePath()
 	{
@@ -168,12 +203,37 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	}
 	
 	/**
-	 * Gets the temporary base path for all files and folders related to this download.
+	 * Gets the temporary base path for all files and folders related to this download
 	 *
-	 * @return int The value.
+	 * @return int 
 	 */
 	protected function getTempBasePath()
 	{
 		return ilUtil::getDataDir() . "/temp/dl_" . $this->task->getId();
 	}	
+	
+	
+	
+	//
+	// helper
+	//
+
+	/**
+	 * Makes the specified string safe for JSON
+	 *
+	 * @param string $a_text 
+	 * @return string
+	 */
+	protected function jsonSafeString($a_text)
+	{
+		if(!is_string($a_text)) 
+		{
+			return $a_text;
+		}
+
+		$a_text = htmlentities($a_text, ENT_COMPAT | ENT_HTML401, "UTF-8");
+		$a_text = str_replace("'", "&#039;", $a_text);
+
+		return $a_text;
+	}		
 }

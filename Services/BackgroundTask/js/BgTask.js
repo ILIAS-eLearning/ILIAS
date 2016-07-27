@@ -15,14 +15,21 @@ il.BgTask = {
 	},
 	
 	progress: function (task_id, modal, steps, current) {
-					
-		// :TODO: layout
-		modal.modal.find(".modal-body").html(current+"/"+steps);
-					
+		
+		// update progress bar
+		if(current !== undefined)
+		{
+			var pbar = modal.modal.find("#progress_div_bgtask");
+			var perc = Math.round(current/steps*100);
+
+			pbar.css('width', perc + '%');
+			pbar.text(perc + '%');
+			pbar.attr('aria-valuenow', perc);
+		}
+				
 		setTimeout(function() {			
 			il.BgTask.doAjax({"tid": task_id, "cmd":"progress"}, {task_id: task_id, modal: modal});
 		}, 500);
-
 	},
 	
 	doAjax: function (par, args) {
@@ -39,11 +46,11 @@ il.BgTask = {
 			{
 				var $modal = il.Modal.dialogue({
 					show: true,
-					header: "failure", // :TODO:
+					header: json.title,
 					body: json.message,
 					buttons: [{
 						type:      "button",
-						label:     "ok", // :TODO:
+						label:     json.button,
 						className: "btn btn-default",
 						callback:  function (e) {
 							$modal.hide();
@@ -53,13 +60,16 @@ il.BgTask = {
 			}
 			else if(json.status == "bg")
 			{
+				// progress bar
+				var pbar = "<div class=\"progress\"><div id=\"progress_div_bgtask\" class=\"progress-bar progress-bar-info progress-bar-striped active\"  valmax=\"100\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0\"></div>";
+				
 				var $modal = il.Modal.dialogue({
 					show: true,
-					header: "processing", // :TODO:
-					body: json.title,
+					header: json.title,
+					body: "<p>" + json.message + "</p>" + pbar,
 					buttons: [{
 						type:      "button",
-						label:     "cancel", // :TODO:
+						label:     json.button,
 						className: "btn btn-default",
 						callback:  function (e) {
 							$modal.hide();
@@ -78,12 +88,12 @@ il.BgTask = {
 			{
 				var $modal = il.Modal.dialogue({
 					show: true,
-					header: "blocked", // :TODO:
-					body: json.title,
+					header: json.title,
+					body: json.message,
 					buttons: [
 						{
 							type:      "button",
-							label:     "cancel old", // :TODO:
+							label:     json.button_old,
 							className: "btn btn-default",
 							callback:  function (e) {	
 								$modal.hide();
@@ -92,7 +102,7 @@ il.BgTask = {
 						},
 						{
 							type:      "button",
-							label:     "cancel new", // :TODO:
+							label:     json.button_new,
 							className: "btn btn-default",
 							callback:  function (e) {
 								$modal.hide();

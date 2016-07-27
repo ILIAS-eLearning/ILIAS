@@ -4,7 +4,7 @@
 include_once "Services/BackgroundTask/classes/class.ilBackgroundTask.php";
 
 /**
- * Class ilBackgroundTaskHub
+ * background task hub (aka ajax handler, GUI)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
@@ -15,8 +15,17 @@ class ilBackgroundTaskHub
 	protected $task; // [ilBackgroundTask]
 	protected $handler; // [ilBackgroundTaskHandler]
 	
+	/**
+	 * Constructor
+	 * 
+	 * @return \self
+	 */
 	public function __construct()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("bgtask");
+		
 		if((int)$_REQUEST["tid"])
 		{
 			$this->task = new ilBackgroundTask((int)$_REQUEST["tid"]);		
@@ -29,6 +38,9 @@ class ilBackgroundTaskHub
 	// ajax
 	// 
 	
+	/**
+	 * Execute current command	 
+	 */
 	public function executeCommand()
 	{
 		global $ilCtrl;
@@ -47,9 +59,15 @@ class ilBackgroundTaskHub
 				}
 		}		
 		
+		// deliver file and ajax require exit
 		exit();
 	}	
 	
+	/**
+	 * Send Json to client
+	 * 
+	 * @param stdClass $a_json
+	 */
 	protected function sendJson(stdClass $a_json)
 	{		
 		echo json_encode($a_json);
@@ -72,6 +90,10 @@ class ilBackgroundTaskHub
 		}
 	}
 	
+	/**
+	 * Cancel all other tasks, start current one
+	 * 
+	 */
 	protected function unblock()
 	{
 		global $ilUser;
@@ -81,16 +103,21 @@ class ilBackgroundTaskHub
 			// leave current task alone
 			if($task_id != $this->task->getId())
 			{
+				// emit cancelling status, running processes will cancel
 				$task = new ilBackgroundTask($task_id);
 				$task->setStatus(ilBackgroundTask::STATUS_CANCELLING);
 				$task->save();
 			}				
 		}
 		
+		// init/start current task
 		$json = $this->handler->init();
 		$this->sendJson($json);
 	}
 	
+	/**
+	 * Process current task
+	 */
 	protected function process()
 	{										
 		$this->task->setStatus(ilBackgroundTask::STATUS_PROCESSING);
@@ -100,6 +127,9 @@ class ilBackgroundTaskHub
 		$this->handler->process();		
 	}
 	
+	/**
+	 * Check progress of current task
+	 */
 	protected function progress() 
 	{		
 		$json = new stdClass();
@@ -107,6 +137,7 @@ class ilBackgroundTaskHub
 		$json->steps = $this->task->getSteps();
 		$json->current = $this->task->getCurrentStep();		
 		
+		// if task has been finished, get result action
 		if($this->task->getStatus() == ilBackgroundTask::STATUS_FINISHED)
 		{
 			$result = $this->handler->finish();
@@ -117,41 +148,23 @@ class ilBackgroundTaskHub
 		$this->sendJson($json);
 	}
 	
+	/**
+	 * Cancel current task
+	 */
 	protected function cancel()
 	{
+		// just emit cancelling status, (background) process will stop ASAP
 		$this->task->setStatus(ilBackgroundTask::STATUS_CANCELLING);
 		$this->task->save();				
 	}
 	
+	/**
+	 * Deliver result
+	 */
 	protected function deliver()
 	{
 		// :TODO: delete task?
 		
 		$this->handler->deliver();
-	}
-	
-	
-	//
-	// helper
-	//
-
-	/**
-	 * Makes the specified string safe for JSON.
-	 *
-	 * @param string $text The text to make JSON safe.
-	 *
-	 * @return The JSON safe text.
-	 */
-	protected static function jsonSafeString($text)
-	{
-		if (!is_string($text)) 
-		{
-			return $text;
-		}
-
-		$text = htmlentities($text, ENT_COMPAT | ENT_HTML401, "UTF-8");
-		$text = str_replace("'", "&#039;", $text);
-
-		return $text;
-	}		
+	}	
 }
