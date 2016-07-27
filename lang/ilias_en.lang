@@ -15743,3 +15743,6 @@ didactic#:#didactic_template_update_import#:#Update Didactic Template
 didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.
 grp#:#grp_show_members_info#:#If activated, group members can access the members gallery.
 grp#:#grp_show_members#:#Show Members
+didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.
+didactic#:#didactic_auto_generated#:#Automatic Generated

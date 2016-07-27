@@ -153,3 +153,15 @@ $tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members'
 ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
 
 ?>
+<#10>
+<?php
+if(!$ilDB->tableColumnExists('didactic_tpl_settings', 'auto_generated'))
+{
+	$ilDB->addTableColumn('didactic_tpl_settings', 'auto_generated', array (
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0,
+		"type" => "integer"
+	));
+}
+?>

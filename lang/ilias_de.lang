@@ -15746,3 +15746,6 @@ didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlage
 didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
 grp#:#grp_show_members#:#Mitglieder-Reiter
 grp#:#grp_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
+didactic#:#didactic_cannot_delete_auto_generated#:#Das löschen von automatisch generierten Didaktische Vorlagen ist nicht erlaubt.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eines der gewählten Didaktische Vorlagen sind automatisch generiert und können daher nicht gelöscht werden.
+didactic#:#didactic_auto_generated#:#Automatisch generiert
