@@ -166,16 +166,20 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
 		$form->addItem($cb_prop);
 
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_mail_pdsysmess"), "block_activated_pdsysmess");
-		$cb_prop->setValue(1);
-		$cb_prop->setChecked(($ilSetting->get("block_activated_pdsysmess")));
-		$form->addItem($cb_prop);
+		require_once 'Services/Mail/classes/class.ilObjMail.php';
+		$pd_sys_msg = new ilRadioGroupInputGUI($lng->txt('show_system_messages'), 'pd_sys_msg_mode');
 
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_pdmail_include_sysnmess"), "pd_pdmail_include_sysnmess");
-		$cb_prop->setValue(1);
-		$cb_prop->setInfo($lng->txt("pd_pdmail_include_sysnmess_info"));
-		$cb_prop->setChecked(($ilSetting->get("pd_pdmail_include_sysnmess")));
-		$form->addItem($cb_prop);
+		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_own_block'), ilObjMail::PD_SYS_MSG_OWN_BLOCK);
+		$pd_sys_msg->addOption($sys_msg_own_block);
+
+		$sys_msg_mail_block = new ilRadioOption($lng->txt('pd_sys_msg_mail_block'), ilObjMail::PD_SYS_MSG_MAIL_BLOCK);
+		$pd_sys_msg->addOption($sys_msg_mail_block);
+
+		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_no_block'), ilObjMail::PD_SYS_MSG_NO_BLOCK);
+		$pd_sys_msg->addOption($sys_msg_own_block);
+
+		$pd_sys_msg->setValue((int)($ilSetting->get('pd_sys_msg_mode')));
+		$form->addItem($pd_sys_msg);
 
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
@@ -278,8 +282,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
 
 		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));
-		$ilSetting->set("block_activated_pdsysmess", (int) ($_POST["block_activated_pdsysmess"]));
-		$ilSetting->set("pd_pdmail_include_sysnmess", (int) ($_POST["pd_pdmail_include_sysnmess"]));
+		$ilSetting->set("pd_sys_msg_mode", (int) ($_POST["pd_sys_msg_mode"]));
 
 //		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);

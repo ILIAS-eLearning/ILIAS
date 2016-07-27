@@ -15758,6 +15758,6 @@ skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
-pd#:#pd_enable_mail_pdsysmess#:#Enable System Messages Block
-pd#:#pd_pdmail_include_sysnmess#:#System Messages in Mail Block
-pd#:#pd_pdmail_include_sysnmess_info#:#If enabled, system messages are included in the mail block.
+pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
+pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
+pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the persondal desktop
