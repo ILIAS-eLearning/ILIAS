@@ -335,6 +335,14 @@ class ilLanguage
 		if(is_array($this->cached_modules[$a_module])) {
 			$this->text = array_merge($this->text, $this->cached_modules[$a_module]);
 
+			if($this->usage_log_enabled)
+			{
+				foreach (array_keys($this->cached_modules[$a_module]) as $key)
+				{
+					$this->map_modules_txt[$key] = $a_module;
+				}
+			}
+
 			return;
 		}
 
