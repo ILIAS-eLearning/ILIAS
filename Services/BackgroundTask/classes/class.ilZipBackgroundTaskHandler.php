@@ -133,6 +133,19 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		ilUtil::deliverFile($tmpzipfile, $deliverFilename, '', false, true, false);		
 	}
 	
+	public function deleteTaskAndFiles()
+	{
+		if(!$this->task)
+		{
+			return;
+		} 
+		
+		$this->deleteTempFiles();
+		
+		$this->task->delete();		
+		unset($this->task);
+	}
+	
 	
 	//
 	// zip handling

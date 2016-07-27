@@ -144,13 +144,13 @@ class ilBackgroundTaskHub
 	/**
 	 * Is soap enabled?
 	 * 
-	 * @see ilMail
 	 * @return bool
 	 */
 	public function isSOAPEnabled()
 	{		
 		global $ilSetting;
 
+		// see ilMail
 		return (extension_loaded('curl') &&
 			$ilSetting->get('soap_user_administration') &&
 			ilContext::getType() != ilContext::CONTEXT_CRON);

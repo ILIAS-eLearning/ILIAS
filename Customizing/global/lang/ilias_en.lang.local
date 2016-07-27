@@ -17,3 +17,5 @@ bgtask#:#bgtask_setting_threshold_count#:#Mininum Number
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
+bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection
+bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.

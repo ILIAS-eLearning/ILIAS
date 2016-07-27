@@ -45,4 +45,9 @@ interface ilBackgroundTaskHandler
 	 * Finish the task
 	 */
 	public function finish();
+	
+	/**
+	 * Remove task and its files
+	 */
+	public function deleteTaskAndFiles();
 }

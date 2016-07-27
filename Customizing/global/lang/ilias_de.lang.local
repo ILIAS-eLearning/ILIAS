@@ -17,3 +17,5 @@ bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
+bgtask#:#bgtask_cron_gc_title#:#Hintergrundaufgaben-Bereinigung
+bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien.
