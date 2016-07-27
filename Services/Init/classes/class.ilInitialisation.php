@@ -1568,4 +1568,37 @@ class ilInitialisation
 			self::abortAndDie($mess);			
 		}
 	}
+	
+	/**
+	 * Requires valid authenticated user
+	 */
+	public static function redirectToStartingPage()
+	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
+		// fallback, should never happen
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		{ 
+			ilInitialisation::goToPublicSection();
+		}
+		else
+		{										
+			// for password change and incomplete profile 
+			// see ilPersonalDesktopGUI
+			if(!$_GET["target"])
+			{										
+				// Redirect here to switch back to http if desired
+				include_once './Services/User/classes/class.ilUserUtil.php';						
+				ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+			}
+			else
+			{
+				ilUtil::redirect("goto.php?target=".$_GET["target"]);
+			}
+		}
+		
+	}
 }

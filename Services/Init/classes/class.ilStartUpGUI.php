@@ -164,8 +164,10 @@ class ilStartUpGUI
 			if ($_GET["rep_ref_id"] != "")
 			{
 				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}			
-			$this->processStartingPage();
+			}
+			include_once './Services/Init/classes/class.ilInitialisation.php';
+			ilInitialisation::redirectToStartingPage();
+			return;
 		}
 		
 		// if authentication of soap user failed, but email address is
@@ -651,8 +653,8 @@ class ilStartUpGUI
 			{
 				case ilAuthStatus::STATUS_AUTHENTICATED:
 					ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-					// @todo php7 fix redirection
-					ilUtil::redirect('./goto.php?target=root_1&client_id=php7');
+					include_once './Services/Init/classes/class.ilInitialisation.php';
+					ilInitialisation::redirectToStartingPage();
 					return;
 					
 				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
@@ -1220,9 +1222,11 @@ class ilStartUpGUI
 					$ilAuth->start();
 					break;
 			}
-	 	}
-		
-		$this->processStartingPage();
+		}
+
+		include_once './Services/Init/classes/class.ilInitialisation.php';
+		ilInitialisation::redirectToStartingPage();
+		return;
 	}
 
 	/**
@@ -1559,12 +1563,10 @@ class ilStartUpGUI
 
 		if($GLOBALS['DIC']['ilAuthSession']->isValid())
 		{
-			return $this->processStartingPage();
+			include_once './Services/Init/classes/class.ilInitialisation.php';
+			ilInitialisation::redirectToStartingPage();
+			return;
 		}
-//		if($ilAuth->getAuth() && $ilAuth->getStatus() == "")
-//		{					
-//			$this->processStartingPage();
-//		}
 		
 		//
 		// index.php is called and public section is enabled
@@ -1584,39 +1586,6 @@ class ilStartUpGUI
 		}
 	}
 
-	/**
-	* open start page (personal desktop or repository)
-	*
-	* precondition: authentication (maybe anonymous) successfull
-	*/
-	function processStartingPage()
-	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		// fallback, should never happen
-		if ($ilUser->getId() == ANONYMOUS_USER_ID)
-		{ 
-			ilInitialisation::goToPublicSection();
-		}
-		else
-		{										
-			// for password change and incomplete profile 
-			// see ilPersonalDesktopGUI
-			if(!$_GET["target"])
-			{										
-				// Redirect here to switch back to http if desired
-				include_once './Services/User/classes/class.ilUserUtil.php';						
-				ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
-			}
-			else
-			{
-				ilUtil::redirect("goto.php?target=".$_GET["target"]);
-			}
-		}
-	}
 
 	static function _checkGoto($a_target)
 	{
