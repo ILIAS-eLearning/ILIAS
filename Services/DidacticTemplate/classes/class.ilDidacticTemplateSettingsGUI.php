@@ -475,7 +475,7 @@ class ilDidacticTemplateSettingsGUI
 		$confirm->setConfirm($this->lng->txt('delete'), 'deleteTemplates');
 		$confirm->setCancel($this->lng->txt('cancel'), 'overview');
 
-		$forbidden[] = array();
+		$forbidden = array();
 
 		foreach((array) $_REQUEST['tpls'] as $tplid)
 		{
