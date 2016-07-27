@@ -7,7 +7,7 @@
  * @author Alex Killing <killing@leifos.de>
  *
  * @version $Id$
- *
+ * @group needsInstalledILIAS
  * @ingroup ServicesUICore
  */
 class ilTemplateTest extends PHPUnit_Framework_TestCase

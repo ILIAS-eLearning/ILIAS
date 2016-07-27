@@ -37,7 +37,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		
 		// scan Modules and Services directories
 		$basedirs = array("Services", "Modules");
-		
+
 		foreach ($basedirs as $basedir)
 		{
 			// read current directory
