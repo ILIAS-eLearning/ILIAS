@@ -125,6 +125,13 @@ class ilObjReportEduBio extends ilObjReportBase {
 		$this->academy_data = $this->getAcademyData();
 	}
 
+	public function checkUserWBDStatus() {
+		$wbd = gevWBD::getInstance($this->target_user_id);
+		if($wbd->getWBDTPType() === gevWBD::WBD_NO_SERVICE && $wbd->hasWBDRelevantRole()) {
+			ilUtil::sendInfo($this->plugin->txt("wbd_role_no_service_warning"));
+		}
+	}
+
 	protected function getWBDData() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		$wbd_data = array();
