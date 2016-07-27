@@ -428,7 +428,7 @@ class ilObjForum extends ilObject
 			array('integer'), array($new_deadline));
 	}
 
-	function _deleteUser($a_usr_id)
+	public static function _deleteUser($a_usr_id)
 	{
 		/**
 		 * @var $ilDB ilDBInterface
