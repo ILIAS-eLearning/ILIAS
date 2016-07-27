@@ -10,17 +10,22 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 	protected $fields = array();
 	protected $field_names = array();
 	protected $subgraph;
+	protected $constrain = null;
 
 	public function __construct($title, $id) {
 		$this->title = $title;
 		$this->id = $id;
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function addField(AbstractTableField $field) {
+		if($this->fieldInTable($field)) {
+			$name = $field->name_simple;
+			$id = $this->id;
+			throw new TableException("field $name in table $id allready");
+		}
 		$f_table = $field->tableId();
 		if($f_table === $this->id) {
 			$this->fields[$field->name_simple()] = $field;
@@ -54,9 +59,6 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 
 	public function fieldInTable(AbstractTableField $field) {
 		if(!isset($this->fields[$field->name_simple()])) {
-			return false;
-		}
-		if($field != $this->fields[$field->name_simple()]) {
 			return false;
 		}
 		return true;
