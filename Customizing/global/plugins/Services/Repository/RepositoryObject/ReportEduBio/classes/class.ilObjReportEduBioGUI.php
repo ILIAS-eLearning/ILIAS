@@ -79,7 +79,9 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function render() {
 		$this->gTpl->setTitle(null);
-		$this->object->checkUserWBDStatus();
+		if(!$this->object->userTPStatusOK()) {
+			ilUtil::sendInfo($this->plugin->txt("wbd_role_no_service_warning"));
+		}
 		return 	$this->title->render()
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
 				. ($this->spacer !== null ? $this->spacer->render() : "")
