@@ -43,3 +43,4 @@ status#:#Status
 wbd_reported#:#Punkte übermittelt?
 period#:#Zeitraum:
 until#:#bis
+wbd_role_no_service_warning#:#Wie es scheint sollten Ihre Punkte gemeldet werden, jedoch sind Sie nach unserem Wissensstand nicht bei der WBD angemeldet.
