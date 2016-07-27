@@ -19,7 +19,7 @@ il.BgTask = {
 		// update progress bar
 		if(current !== undefined)
 		{
-			var pbar = modal.modal.find("#progress_div_bgtask");
+			var pbar = modal.modal.find("#progress_div_bgtask_" + task_id);
 			var perc = Math.round(current/steps*100);
 
 			pbar.css('width', perc + '%');
@@ -61,7 +61,7 @@ il.BgTask = {
 			else if(json.status == "bg")
 			{
 				// progress bar
-				var pbar = "<div class=\"progress\"><div id=\"progress_div_bgtask\" class=\"progress-bar progress-bar-info progress-bar-striped active\"  valmax=\"100\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0\"></div>";
+				var pbar = "<div class=\"progress\"><div id=\"progress_div_bgtask_" + json.task_id + "\" class=\"progress-bar progress-bar-info progress-bar-striped active\"  valmax=\"100\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0\"></div>";
 				
 				var $modal = il.Modal.dialogue({
 					show: true,

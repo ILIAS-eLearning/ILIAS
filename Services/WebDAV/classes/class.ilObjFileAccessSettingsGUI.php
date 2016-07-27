@@ -206,6 +206,40 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$dl_prop->setInfo($lng->txt('enable_multi_download_info'));
 		$form->addItem($dl_prop);
 		
+		
+		// background task
+		
+		$lng->loadLanguageModule("bgtask");
+		$dl_bg = new ilCheckboxInputGUI($lng->txt("bgtask_setting"), "enable_bg");
+		$dl_bg->setInfo($lng->txt("bgtask_setting_info"));
+		$dl_bg->setChecked($this->folderSettings->get("bgtask_download", 0));		
+		$form->addItem($dl_bg);
+		
+		$dl_bgl = new ilNumberInputGUI($lng->txt("bgtask_setting_limit"), "bg_limit");		
+		$dl_bgl->setInfo($lng->txt("bgtask_setting_limit_info"));
+		$dl_bgl->setRequired(true);
+		$dl_bgl->setSize(10);
+		$dl_bgl->setSuffix($lng->txt("lang_size_mb"));
+		$dl_bgl->setValue($this->folderSettings->get("bgtask_download_limit", null));
+		$dl_bg->addSubItem($dl_bgl);
+		
+		$dl_bgtc = new ilNumberInputGUI($lng->txt("bgtask_setting_threshold_count"), "bg_tcount");
+		$dl_bgtc->setInfo($lng->txt("bgtask_setting_threshold_count_info"));
+		$dl_bgtc->setRequired(true);
+		$dl_bgtc->setSize(10);
+		$dl_bgtc->setValue($this->folderSettings->get("bgtask_download_tcount", null));
+		$dl_bg->addSubItem($dl_bgtc);
+		
+		$dl_bgts = new ilNumberInputGUI($lng->txt("bgtask_setting_threshold_size"), "bg_tsize");
+		$dl_bgts->setInfo($lng->txt("bgtask_setting_threshold_size_info"));
+		$dl_bgts->setRequired(true);
+		$dl_bgts->setSize(10);
+		$dl_bgts->setSuffix($lng->txt("lang_size_mb"));
+		$dl_bgts->setValue($this->folderSettings->get("bgtask_download_tsize", null));
+		$dl_bg->addSubItem($dl_bgts);
+		
+		
+		
 		// Inline file extensions
 		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');
 		$tai_prop->setValue($this->object->getInlineFileExtensions());
@@ -240,7 +274,15 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
 		$this->folderSettings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
-
+		
+		$this->folderSettings->set("bgtask_download", (bool)$_POST["enable_bg"]);
+		if((bool)$_POST["enable_bg"])
+		{
+			$this->folderSettings->set("bgtask_download_limit", (int)$_POST["bg_limit"]);
+			$this->folderSettings->set("bgtask_download_tcount", (int)$_POST["bg_tcount"]);
+			$this->folderSettings->set("bgtask_download_tsize", (int)$_POST["bg_tsize"]);
+		}
+				
 		ilUtil::sendInfo($lng->txt('settings_saved'),true);
 		$ilCtrl->redirect($this, "editDownloadingSettings");
 	}

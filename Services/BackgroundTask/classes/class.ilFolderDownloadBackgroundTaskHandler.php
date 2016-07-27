@@ -11,6 +11,7 @@ include_once "Services/BackgroundTask/classes/class.ilZipBackgroundTaskHandler.p
  */
 class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 {
+	protected $settings; // [ilSetting]
 	protected $ref_ids = array(); // [array]
 	
 	protected static $initialized; // [bool]
@@ -18,6 +19,16 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	//
 	// constructor
 	//
+	
+	/**
+	 * Constructor
+	 * 
+	 * @return self
+	 */
+	public function __construct()
+	{
+		$this->settings = new ilSetting("fold");
+	}
 	
 	public static function getInstanceFromTask(ilBackgroundTask $a_task)
 	{
@@ -45,8 +56,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	public static function isActive()
 	{
-		// :TODO:
-		return true;
+		$settings = new ilSetting("fold");
+		return (bool)$settings->get("bgtask_download", false);
 	}
 	
 	/**
@@ -391,7 +402,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	
 	
 	//
-	// settings :TODO:
+	// settings
 	//
 	
 	/**
@@ -401,8 +412,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	protected function getDownloadSizeLimit()
 	{
-		return 1;
-		return 100000;
+		return (int)$this->settings->get("bgtask_download_limit", 0);
 	}
 	
 	/**
@@ -412,8 +422,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	protected function getFileCountThreshold()
 	{
-		return 0;
-		return 100;
+		return (int)$this->settings->get("bgtask_download_tcount", 0);
 	}
 	
 	/**
@@ -423,7 +432,6 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	protected function getTotalSizeThreshold() 
 	{
-		return 0;
-		return 10000;
+		return (int)$this->settings->get("bgtask_download_tsize", 0);
 	}
 }
