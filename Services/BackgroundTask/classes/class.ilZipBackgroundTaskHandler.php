@@ -78,8 +78,6 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		$this->task->setCurrentStep(++$current_step);
 		$this->task->save();
 		
-		sleep(1);
-		
 		// create archive to download
 		$tmpzipfile = $this->getTempZipFilePath();
 		ilUtil::zip($tmpdir, $tmpzipfile, true);

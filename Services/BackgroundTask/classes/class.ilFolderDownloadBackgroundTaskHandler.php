@@ -32,13 +32,17 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	
 	public static function getInstanceFromTask(ilBackgroundTask $a_task)
 	{
+		global $tree;
+		
 		$obj = new self();
 		$obj->setTask($a_task);
 		
 		$params = $a_task->getParams();
 		$obj->setRefIds($params["ref_ids"]);
 		
-		$ref_id = $params["ref_ids"][0];		
+		$ref_id = (sizeof($params["ref_ids"]) == 1)
+			? $params["ref_ids"][0]		
+			: $tree->getParentId($params["ref_ids"][0]);				
 		$obj->setDeliveryFilename(ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)));
 		
 		return $obj;
@@ -125,7 +129,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		
 		if($a_params)
 		{
-			$this->setRefIds(array((int)$a_params)); // :TODO: multi?
+			$this->setRefIds(explode(",", $a_params)); 
 		}
 		
 		$file_count = $total_bytes = 0;
@@ -361,8 +365,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		// :TODO: every file?
 		$this->task->setCurrentStep(++$a_current_step);
 		$this->task->save();	
-				
-		sleep(5);
+		
+		sleep(1);
 		
 		$new_filename = $a_tmpdir . "/" . ilUtil::getASCIIFilename($a_title);
 		

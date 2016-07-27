@@ -10,6 +10,32 @@ il.BgTask = {
 		this.doAjax({hid: handler_id, par: params});
 	},
 	
+	initMultiForm: function(handler_id) {	
+		$('input.ilbgtasksubmit').each(function() {
+			$(this).click(function(e) {	
+				// gather selected objects
+				var form = $(this).closest("form").serializeArray();
+				var ref_ids = [];
+				$.each(form, function() {					
+					if(this.name == "id[]")
+					{
+						ref_ids.push(parseInt(this.value));
+					}					
+				});
+				// any selection?
+				if(ref_ids.length)
+				{
+					// stop the form submit
+					e.preventDefault();
+					e.stopPropagation();
+					
+					// init modal/bgtask
+					il.BgTask.init(handler_id, ref_ids);
+				}
+			})
+		})		
+	},
+	
 	cancel: function (task_id) {						
 		il.BgTask.doAjax({"tid": task_id, "cmd":"cancel"});
 	},

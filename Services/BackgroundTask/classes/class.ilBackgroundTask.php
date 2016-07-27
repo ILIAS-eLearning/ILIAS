@@ -239,7 +239,7 @@ class ilBackgroundTask
 	 * @param int $a_val The new value.
 	 */
 	public function setCurrentStep($a_val)
-	{
+	{		
 		$this->current_step = min(abs($a_val), $this->getSteps());
 	}
 	
