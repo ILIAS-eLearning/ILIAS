@@ -79,6 +79,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function render() {
 		$this->gTpl->setTitle(null);
+		$this->object->checkUserWBDStatus();
 		return 	$this->title->render()
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
 				. ($this->spacer !== null ? $this->spacer->render() : "")
