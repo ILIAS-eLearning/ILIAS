@@ -465,7 +465,7 @@ class ilPublicUserProfileGUI
 		if ($this->getPublicPref($user, "public_org_units") == "y")
 		{
 			$tpl->setCurrentBlock("org_units");
-			$tpl->setVariable("TXT_ORG_UNITS", $lng->txt("org_units"));
+			$tpl->setVariable("TXT_ORG_UNITS", $lng->txt("objs_orgu"));
 			$tpl->setVariable("ORG_UNITS", $user->getOrgUnitsRepresentation());
 			$tpl->parseCurrentBlock();
 		}

@@ -22,20 +22,6 @@ class ilCronUpdateOrgUnits extends ilCronJob
 	 */
 	protected $tree;
 
-	/**
-	 * ilCronUpdateOrgUnits constructor.
-	 */
-	public function __construct() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
-		$tree = $DIC['tree'];
-		$this->db = $ilDB;
-		$this->log = $ilLog;
-		$this->tree = $tree;
-	}
-
-
 	public function getId() {
 		return "user_orgunits";
 	}
@@ -77,6 +63,14 @@ class ilCronUpdateOrgUnits extends ilCronJob
 	 * @return ilCronJobResult
 	 */
 	public function run() {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
+		$tree = $DIC['tree'];
+		$this->db = $ilDB;
+		$this->log = $ilLog;
+		$this->tree = $tree;
+
 		$map_role_orgu = $this->fetchRoleOrgUnitMapping();
 		$users_orgunits = $this->createUsersOrgUnitsMapping($map_role_orgu);
 

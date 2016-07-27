@@ -13538,6 +13538,7 @@ cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Units
+common#:#org_units#:#Organisational Units
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#il_orgu_superior#:#Superior

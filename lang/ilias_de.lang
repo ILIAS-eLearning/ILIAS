@@ -13512,6 +13512,7 @@ content#:#cont_verification_placehl#:#Zertifikat-Platzhalter
 content#:#cont_ed_plachverification#:#Platzhalter Zertifikat
 cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen. Es wurde kein Cloud-Objekt angelegt.
 common#:#objs_orgu#:#Organisationseinheiten
+common#:#org_units#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#il_orgu_employee#:#Mitarbeiter
