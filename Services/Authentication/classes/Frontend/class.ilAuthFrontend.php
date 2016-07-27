@@ -215,13 +215,16 @@ class ilAuthFrontend
 	 * Check ip
 	 */
 	protected function checkIp(ilObjUser $user)
-	{
+	{		
 		$clientip = $user->getClientIP();
 		if (trim($clientip) != "")
 		{
 			$clientip = preg_replace("/[^0-9.?*,:]+/","",$clientip);
 			$clientip = str_replace(".","\\.",$clientip);
 			$clientip = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $clientip);
+			
+			ilLoggerFactory::getLogger('auth')->debug('Check ip ' . $clientip . ' against ' . $_SERVER['REMOTE_ADDR']);
+
 			if (!preg_match("/^".$clientip."$/", $_SERVER["REMOTE_ADDR"]))
 			{
 				return false;

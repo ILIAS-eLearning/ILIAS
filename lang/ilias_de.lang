@@ -15746,6 +15746,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Berechtigungsobjekt
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden sie sich erneut an.
+auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.

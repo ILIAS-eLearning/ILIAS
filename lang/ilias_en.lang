@@ -15745,6 +15745,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_expired#:#You session has deactivated due to inactivity.
+auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
 assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
