@@ -1,7 +1,8 @@
 <?php
 /**
  * TestCase for the ilContext
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilInitialisationTest extends PHPUnit_Framework_TestCase {
