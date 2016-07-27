@@ -56,7 +56,7 @@ class ilAuthProviderFactory
 		$providers = array();
 		foreach((array) $sequence as $position => $authmode)
 		{
-			$provider = $this->getProvidersByAuthMode($credentials, $authmode);
+			$provider = $this->getProviderByAuthMode($credentials, $authmode);
 			if($provider instanceof ilAuthProviderInterface)
 			{
 				$providers[] = $provider;
@@ -69,7 +69,7 @@ class ilAuthProviderFactory
 	 * Get provider by auth mode
 	 * @return \ilAuthProvider
 	 */
-	protected function getProvidersByAuthMode(ilAuthCredentials $credentials, $a_authmode)
+	public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode)
 	{
 		switch((int) $a_authmode)
 		{

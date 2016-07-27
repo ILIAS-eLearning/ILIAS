@@ -321,7 +321,6 @@ class ilAuthUtils
 
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
-		$GLOBALS['ilAuth'] =& $ilAuth;
 
 		ilSessionControl::checkExpiredSession();
 

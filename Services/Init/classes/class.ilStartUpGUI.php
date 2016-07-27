@@ -654,7 +654,10 @@ class ilStartUpGUI
 					// @todo php7 fix redirection
 					ilUtil::redirect('./goto.php?target=root_1&client_id=php7');
 					return;
-				
+					
+				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+					return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+
 				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 					ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()));
 					return $this->showLoginPage($form);
@@ -1110,11 +1113,42 @@ class ilStartUpGUI
 		 		$this->showAccountMigration($lng->txt('err_wrong_login'));
 		 		return false;
 			}
-			$_POST['username'] = $_POST['mig_username'];
-			$_POST['password'] = $_POST['mig_password'];
-
 			include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 			include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+			
+			// try database authentication
+			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
+			$credentials = new ilAuthFrontendCredentials();
+			$credentials->setUsername($_POST['mig_username']);
+			$credentials->setPassword($_POST['mig_password']);
+			
+			// set chosen auth mode
+			include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
+			$det = ilAuthModeDetermination::_getInstance();
+			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
+			{
+				$credentials->setAuthMode($form->getInput('auth_mode'));
+			}
+			
+			include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+			$provider_factory = new ilAuthProviderFactory();
+			$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LOCAL);
+			$provider->getProviderByAuthMode($credentials, AUTH_LOCAL);
+
+			$status = new ilAuthStatus();
+			$provider->doAuthentication($status);
+			switch($status->getStatus())
+			{
+				case ilAuthStatus::STATUS_AUTHENTICATED:
+					break;
+				
+				default:
+					$this->showAccountMigration($lng->txt('err_wrong_login'));
+					return false;
+			}
+			// auth success
+			
+			
 			
 			$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
 			$ilAuth->start();

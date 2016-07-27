@@ -108,7 +108,9 @@ class ilAuthFrontend
 					return $this->handleAuthenticationSuccess($provider);
 					
 				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-					$this->getLogger()->notice("Missing handling for account migration");
+					$this->getLogger()->notice("Account migration required.");
+					return false;
+					
 				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				default:
 					$this->getLogger()->debug('Authentication failed against: ' . get_class($provider));
