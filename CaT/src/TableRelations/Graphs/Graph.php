@@ -22,6 +22,15 @@ class Graph implements AbstractGraph {
 
 	}
 
+	public function edge($from,$to) {
+		foreach($this->connections[$from] as $subgraph => $edges) {
+			if(isset($edges[$to])) {
+				return $edges[$to];
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
