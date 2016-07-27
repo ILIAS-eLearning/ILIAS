@@ -23,7 +23,6 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 
 	public function performCustomCommand($cmd) {
-		//die($cmd);
 		switch ($cmd) {
 			case "getCertificate":
 				$this->object->prepareRelevantParameters();
