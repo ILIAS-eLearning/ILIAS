@@ -127,6 +127,7 @@ class ilPageObjectGUI
 		$this->change_comments = false;
 		$this->page_back_title = $this->lng->txt("page");
 		$lng->loadLanguageModule("content");
+		$lng->loadLanguageModule("copg");
 		
 		$this->setTemplateOutput(false);
 		
@@ -1546,8 +1547,8 @@ return;
 			$this->obj->addFileSizes();
 		}
 
-//echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
-//echo "<br>-".htmlentities($this->getLinkXML())."-";
+//echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>"; exit;
+//echo "<br>-".htmlentities($this->getLinkXML())."-"; exit;
 
 		// set default link xml, if nothing was set yet
 		if (!$this->link_xml_set)

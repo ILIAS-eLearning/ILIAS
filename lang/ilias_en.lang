@@ -13513,7 +13513,7 @@ content#:#cont_verification_placeh#:#Click and edit to insert certificate
 content#:#cont_verification_placehl#:#Certificate Placeholder
 content#:#cont_ed_plachverification#:#Placeholder Certificate
 cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
-dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
+dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Units
 common#:#obj_orgu#:#Organisational Unit
@@ -15758,3 +15758,8 @@ rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
 skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
+form#:#form_no_link#:#No Link
+copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
+pd#:#pd_enable_mail_pdsysmess#:#Enable System Messages Block
+pd#:#pd_pdmail_include_sysnmess#:#System Messages in Mail Block
+pd#:#pd_pdmail_include_sysnmess_info#:#If enabled, system messages are included in the mail block.
