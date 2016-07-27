@@ -658,6 +658,8 @@ class ilDidacticTemplateSettingsGUI
 		$tplid = $_REQUEST['tplid'];
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		ilDidacticTemplateObjSettings::transferAutoGenerateStatus($tplid, $a_settings->getId());
+
 		$assignments = ilDidacticTemplateObjSettings::getAssignmentsByTemplateID($tplid);
 
 		$tpl = new ilDidacticTemplateSetting($tplid);
