@@ -580,7 +580,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		if(!$parent_obj_id)
 		{
 			$ilCtrl->redirect($this, "listObjectBadges");
-		}
+		}			
 		
 		$this->assertActive();
 		
@@ -591,14 +591,14 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$ilCtrl->saveParameter($this, "pid");
 		
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
-		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id, (int)$_REQUEST["bid"]);
 		$tpl->setContent($tbl->getHTML());
 	}
 	
 	protected function applyUserFilter()
 	{
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
-		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id, (int)$_REQUEST["bid"]);
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
 		$this->listObjectBadgeUsers();
@@ -607,7 +607,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	protected function resetUserFilter()
 	{
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
-		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id, (int)$_REQUEST["bid"]);
 		$tbl->resetOffset();
 		$tbl->resetFilter();
 		$this->listObjectBadgeUsers();

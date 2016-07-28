@@ -16,7 +16,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 	protected $award_badge; // [ilBadge]
 	protected $do_parent; // [bool]
 	
-	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null)
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
 	{
 		global $ilCtrl, $lng;
 		
@@ -37,6 +37,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		if($this->award_badge)
 		{				
 			$this->setTitle($lng->txt("badge_award_badge").": ".$a_award_bagde->getTitle());		
+			$this->setDescription($a_award_bagde->getDescription());
 			
 			$this->addColumn("", "", 1);
 			
@@ -58,6 +59,12 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 					{
 						$title = $title["title"];
 					}
+				}
+				if($a_restrict_badge_id)
+				{
+					include_once("Services/Badge/classes/class.ilBadge.php");
+					$badge = new ilBadge($a_restrict_badge_id);
+					$title .= " - ".$badge->getTitle();
 				}
 				$parent = $title.": ";				
 			}
@@ -85,7 +92,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 
 		$this->initFilter();		
 				
-		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id);					
+		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id, $a_restrict_badge_id);					
 	}
 	
 	public function initFilter()
@@ -96,7 +103,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		$this->filter["name"] = $name->getValue();		
 	}
 	
-	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null)
+	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
 	{		
 		global $tree;
 		
@@ -136,6 +143,12 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 
 			foreach(ilBadgeAssignment::getInstancesByParentId($obj_id) as $ass)
 			{
+				if($a_restrict_badge_id && 
+					$a_restrict_badge_id != $ass->getBadgeId())
+				{
+					continue;
+				}
+				
 				// when awarding we only want to see the current badge
 				if($this->award_badge &&
 					$ass->getBadgeId() != $this->award_badge->getId())
@@ -184,7 +197,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 						"user_id" => $user["usr_id"],
 						"name" => $user["lastname"].", ".$user["firstname"],
 						"login" => $user["login"],
-						"type" => $badge->getTypeInstance()->getCaption(),
+						"type" => ilBadge::getExtendedTypeCaption($badge->getTypeInstance()),
 						"title" => $badge->getTitle(),
 						"issued" => $user_ass->getTimestamp(),
 						"parent_id" => $parent["id"],

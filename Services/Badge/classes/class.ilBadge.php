@@ -542,5 +542,15 @@ class ilBadge
 			ilUtil::delDir($path);
 		}		
 	}
+	
+	public static function getExtendedTypeCaption(ilBadgeType $a_type)
+	{
+		global $lng;
+		
+		return $a_type->getCaption()." (".
+			($a_type instanceof ilBadgeAuto
+				? $lng->txt("badge_subtype_auto")
+				: $lng->txt("badge_subtype_manual")).")";
+	}
 }
 

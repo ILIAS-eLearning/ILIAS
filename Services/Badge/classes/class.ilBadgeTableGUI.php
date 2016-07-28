@@ -81,7 +81,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 			$options = array("" => $lng->txt("search_any"));
 			foreach($valid_types as $id => $type)
 			{
-				$options[$id] = $type->getCaption();
+				$options[$id] = ilBadge::getExtendedTypeCaption($type);
 			}
 			asort($options);		
 
@@ -95,14 +95,19 @@ class ilBadgeTableGUI extends ilTable2GUI
 	{		
 		$data = array();
 		
+		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
+		
 		foreach(ilBadge::getInstancesByParentId($a_parent_obj_id, $this->filter) as $badge)
 		{				
 			$data[] = array(
 				"id" => $badge->getId(),
 				"title" => $badge->getTitle(),	
 				"active" => $badge->isActive(),
-				"type" => $badge->getTypeInstance()->getCaption(),
-				"manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto)
+				"type" => ($this->parent_type != "bdga")
+					? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
+					: $badge->getTypeInstance()->getCaption(),
+				"manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto),
+				"renderer" => new ilBadgeRenderer(null, $badge)
 			);												
 		}
 		
@@ -118,6 +123,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		}
 		
+		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());	
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);	
 		$this->tpl->setVariable("TXT_TYPE", $a_set["type"]);	
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]

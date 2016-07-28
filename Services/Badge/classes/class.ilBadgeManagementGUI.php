@@ -115,10 +115,13 @@ class ilBadgeManagementGUI
 			$valid_types = $handler->getAvailableTypesForObjType($this->parent_obj_type);
 			if($valid_types)
 			{
+				include_once "Services/Badge/classes/class.ilBadge.php";
 				$options = array();
 				foreach($valid_types as $id => $type)
 				{
-					$options[$id] = $type->getCaption();
+					$options[$id] = ($this->parent_obj_type != "bdga")
+						? ilBadge::getExtendedTypeCaption($type)
+						: $type->getCaption();
 				}
 				asort($options);
 				

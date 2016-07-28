@@ -18,10 +18,17 @@ class ilBadgeRenderer
 	
 	protected static $init; // [bool]
 	
-	public function __construct(ilBadgeAssignment $a_assignment)
+	public function __construct(ilBadgeAssignment $a_assignment = null, ilBadge $a_badge = null)
 	{
-		$this->assignment = $a_assignment;					
-		$this->badge = new ilBadge($this->assignment->getBadgeId());
+		if($a_assignment)
+		{
+			$this->assignment = $a_assignment;					
+			$this->badge = new ilBadge($this->assignment->getBadgeId());
+		}
+		else
+		{
+			$this->badge = $a_badge;
+		}
 	}
 	
 	public static function initFromId($a_id)
@@ -32,17 +39,26 @@ class ilBadgeRenderer
 			$user_id = $id[0];
 			$badge_id = $id[1];
 			$hash = $id[2];
-		
-			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-			$assignment = new ilBadgeAssignment($badge_id, $user_id);
-			if($assignment->getTimestamp())
-			{
-				$obj = new self($assignment);
-				if($hash == $obj->getBadgeHash())
+			
+			if($user_id)
+			{		
+				include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+				$assignment = new ilBadgeAssignment($badge_id, $user_id);
+				if($assignment->getTimestamp())
 				{
-					return $obj;
-				}				
+					$obj = new self($assignment);							
+				}
 			}
+			else
+			{
+				include_once "Services/Badge/classes/class.ilBadge.php";
+				$badge = new ilBadge($badge_id);
+				$obj = new self(null, $badge);
+			}
+			if($hash == $obj->getBadgeHash())
+			{
+				return $obj;
+			}		
 		}
 	}
 	
@@ -67,7 +83,9 @@ class ilBadgeRenderer
 		$btpl->setVariable("BADGE_IMG", $this->badge->getImagePath());
 		$btpl->setVariable("BADGE_TXT", $this->badge->getTitle());
 		$btpl->setVariable("BADGE_ID", "badge_".
-			$this->assignment->getUserId()."_".
+			($this->assignment 
+				? $this->assignment->getUserId()
+				: "")."_".
 			$this->badge->getId()."_".
 			$hash);	
 		return $btpl->get();
@@ -91,14 +109,20 @@ class ilBadgeRenderer
 		$hash = $this->getBadgeHash();
 		
 		return "#\" data-id=\"badge_".
-			$this->assignment->getUserId()."_".
+			($this->assignment 
+				? $this->assignment->getUserId()
+				: "")."_".
 			$this->badge->getId()."_".
 			$hash;	
 	}
 	
 	protected function getBadgeHash()
 	{
-		return md5("bdg-".$this->assignment->getUserId()."-".$this->badge->getId());
+		return md5("bdg-".
+			($this->assignment 
+				? $this->assignment->getUserId()
+				: "")."-".
+			$this->badge->getId());
 	}
 	
 	public function renderModal()
@@ -128,10 +152,13 @@ class ilBadgeRenderer
 		$tpl->setVariable("TXT_CRITERIA", $lng->txt("badge_criteria"));	
 		$tpl->setVariable("CRITERIA", nl2br($this->badge->getCriteria()));
 		
-		$tpl->setVariable("TXT_TSTAMP", $lng->txt("badge_issued_on"));	
-		$tpl->setVariable("TSTAMP", 
-			ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));		
-		
+		if($this->assignment)
+		{
+			$tpl->setVariable("TXT_TSTAMP", $lng->txt("badge_issued_on"));	
+			$tpl->setVariable("TSTAMP", 
+				ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));		
+		}
+
 		if($this->badge->getParentId())
 		{
 			$parent = $this->badge->getParentMeta();	

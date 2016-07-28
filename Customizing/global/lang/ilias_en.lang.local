@@ -67,3 +67,5 @@ badge#:#badge_profile_less#:#Show less
 badge#:#badge_backpack_gallery_info#:#These are your published badge collections in your Mozilla Backpack.
 badge#:#badge_profile_view#:#View
 badge#:#badge_profile_manage#:#Manage
+badge#:#badge_subtype_manual#:#manual
+badge#:#badge_subtype_auto#:#automatic
