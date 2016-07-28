@@ -15754,7 +15754,12 @@ rbac#:#sty_write_system#:#System-Styles bearbeiten
 rbac#:#stys_sty_write_system#:#System-Styles bearbeiten
 rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
 rbac#:#stys_sty_write_page_layout#:#Seitenlayouts bearbeiten
-common#:#log_error_message#:#Fehler %d ist aufgetreten. Bitte wenden Sie sich an <a href="mailto:%s?subject=Fehlercode_%d">%s</a>
-common#:#log_error_folder#:#Dateipfad
-common#:#log_error_mail#:#Email Empfänger
-common#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
+logging#:#log_error_message#:#Fehler %s ist aufgetreten. Bitte wenden Sie sich an <a href="mailto:%s?subject=Fehlercode: %s">%s</a>
+logging#:#log_error_folder#:#Dateipfad
+logging#:#log_error_mail#:#Email Empfänger
+logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
+logging#:#error_settings_saved#:#Einstellungen gespeichert
+logging#:#log_error_file_cleanup_title#:#Das ist mein Titel
+logging#:#log_error_file_cleanup_info#:#Und ich bin die Info und natürlich viel länger als der Titel
+logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
+logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
