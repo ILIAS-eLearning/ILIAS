@@ -13,6 +13,14 @@ class ilObjReportEduBio extends ilObjReportBase {
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
+		$self_id = $this->user_utils->getId();
+		$target_user_id = $_POST["target_user_id"]
+					  ? $_POST["target_user_id"]
+					  : ( $_GET["target_user_id"]
+					  	? $_GET["target_user_id"]
+					  	: $self_id
+					  	);
+		$this->target_user_id = $target_user_id;
 	}
 
 	public function initType() {
@@ -26,18 +34,11 @@ class ilObjReportEduBio extends ilObjReportBase {
 
 	public function prepareRelevantParameters() {
 		$self_id = $this->user_utils->getId();
-		$target_user_id = $_POST["target_user_id"]
-					  ? $_POST["target_user_id"]
-					  : ( $_GET["target_user_id"]
-					  	? $_GET["target_user_id"]
-					  	: $self_id
-					  	);
-		if ($target_user_id != $self_id) {
-			if ( !in_array($target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
-				$target_user_id = $self_id;
+		if ($this->target_user_id != $self_id) {
+			if ( !in_array($this->target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
+				$this->target_user_id = $self_id;
 			}
 		}
-		$this->target_user_id = $target_user_id;
 		$this->addRelevantParameter("target_user_id", $this->target_user_id);
 	}
 
@@ -125,15 +126,10 @@ class ilObjReportEduBio extends ilObjReportBase {
 		$this->academy_data = $this->getAcademyData();
 	}
 
-	public function userTPStatusOK() {
-		$wbd = gevWBD::getInstance($this->target_user_id);
-		return !($wbd->getWBDTPType() === gevWBD::WBD_NO_SERVICE && $wbd->hasWBDRelevantRole());
-	}
-
 	protected function getWBDData() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		$wbd_data = array();
-		$wbd = gevWBD::getInstance($this->target_user_id);
+		$wbd = $this->getWBD();
 
 		$cy_start = $wbd->getStartOfCurrentCertificationYear();
 		$cy_end = $wbd->getStartOfCurrentCertificationYear();
@@ -268,5 +264,12 @@ class ilObjReportEduBio extends ilObjReportBase {
 			return $return;
 		}
 		return "";
+	}
+
+	public function getWBD() {
+		if(!$this->wbd) {
+			$this->wbd = gevWBD::getInstance($this->target_user_id);
+		}
+		return $this->wbd;
 	}
 }
