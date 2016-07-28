@@ -39,51 +39,25 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 			return false;
 		}
 
-		$client_data_path = null;
-		$dir = opendir($client_data_path);
-		while($file = readdir($dir)) {
-			if ($file != "." && $file != ".." && is_dir($client_data_path."/".$file)) {
-				$client_name = $file;
-				break;
-			}
-		}
-
-		if(!$client_name) {
+		if(!is_file($ilias_ini->readVariable("server", "absolute_path")."/Services/PHPUnit/config/cfg.phpunit.php")) {
 			return false;
 		}
 
-		if(!is_file($client_data_path."/".$client_name."/client.ini.php")) {
+		include_once($ilias_ini->readVariable("server", "absolute_path")."/Services/PHPUnit/config/cfg.phpunit.php");
+
+		if(!isset($_GET["client_id"])) {
 			return false;
 		}
 
-		$client_ini = new ilIniFile($client_data_path."/".$client_name."/client.ini.php");
-		$client_ini->read();
-		$host = $client_ini->readVariable("db", "host");
-		$user = $client_ini->readVariable("db", "user");
-		$pass = $client_ini->readVariable("db", "pass");
-		$db = $client_ini->readVariable("db", "name");
+		$phpunit_client = $_GET["client_id"];
 
-		$mysqli = new mysqli($host, $user, $pass, $db);
-
-		if($mysqli->connect_error) {
+		if(!$phpunit_client) {
 			return false;
 		}
 
-		$query = "SELECT value FROM settings WHERE module = 'common' AND keyword = 'setup_ok'";
-		$result = $mysqli->query($query);
-
-		if($result->num_rows == 0) {
+		if(!is_file($client_data_path."/".$phpunit_client."/client.ini.php")) {
 			return false;
 		}
-
-		$row = $result->fetch_assoc();
-
-		if(!(bool)$row["value"]) {
-			return false;
-		}
-
-		$result->close();
-		$mysqli->close();
 
 		return true;
 	}
