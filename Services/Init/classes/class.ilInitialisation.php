@@ -1079,7 +1079,7 @@ class ilInitialisation
 	 */
 	protected static function initUser()
 	{
-		global $ilias, $ilAuth, $ilUser;
+		global $ilias, $ilUser;
 		
 		if(ilContext::usesHTTP())
 		{								
