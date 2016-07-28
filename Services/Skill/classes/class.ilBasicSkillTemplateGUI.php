@@ -248,15 +248,23 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
 		$this->setTabs("levels");
-		
-		if ($this->tref_id == 0)
+
+		if ($this->isInUse())
 		{
-			$ilToolbar->addButton($lng->txt("skmg_add_level"),
-				$ilCtrl->getLinkTarget($this, "addLevel"));
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
+		else
+		{
+
+			if ($this->tref_id == 0)
+			{
+				$ilToolbar->addButton($lng->txt("skmg_add_level"),
+						$ilCtrl->getLinkTarget($this, "addLevel"));
+			}
 		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
-		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id);
+		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id, $this->isInUse());
 		$tpl->setContent($table->getHTML());
 	}
 

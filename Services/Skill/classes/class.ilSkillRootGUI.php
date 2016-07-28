@@ -43,8 +43,6 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilCtrl, $tpl, $ilTabs;
 		
-//		$tpl->getStandardTemplate();
-		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
@@ -124,6 +122,68 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 		else
 		{
 			$ilCtrl->redirect($this, "listSkills");
+		}
+	}
+
+	/**
+	 * Show import form
+	 */
+	function showImportForm()
+	{
+		global $tpl, $ilTabs;
+
+		$ilTabs->activateTab("skills");
+		$tpl->setContent($this->initInputForm()->getHTML());
+	}
+
+	/**
+	 * Init input form.
+	 */
+	public function initInputForm()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("skmg_input_file"), "import_file");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
+		// save and cancel commands
+		$form->addCommandButton("importSkills", $lng->txt("import"));
+		$form->addCommandButton("listSkills", $lng->txt("cancel"));
+
+		$form->setTitle($lng->txt("skmg_import_skills"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
+		return $form;
+	}
+
+	/**
+	 * Import skills
+	 */
+	public function importSkills()
+	{
+		global $tpl, $lng, $ilCtrl, $ilTabs;
+
+		$form = $this->initInputForm();
+		if ($form->checkInput())
+		{
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "listSkills");
+		}
+		else
+		{
+			$ilTabs->activateTab("skills");
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
 		}
 	}
 

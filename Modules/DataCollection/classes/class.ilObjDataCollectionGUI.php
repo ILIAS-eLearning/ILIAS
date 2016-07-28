@@ -223,6 +223,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$ilCtrl->redirectByClass("ilDclRecordListGUI", "listRecords");
 				break;
 
+			case "ildcldetailedviewgui":
+				$this->prepareOutput();
+				require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php');
+				$recordview_gui = new ilDclDetailedViewGUI($this);
+				$this->ctrl->forwardCommand($recordview_gui);
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+				break;
+
 			case 'ilnotegui':
 				$this->prepareOutput();
 				require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php'); //Forward the command to recordViewGUI

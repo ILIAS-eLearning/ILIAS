@@ -45,12 +45,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
 		}
 
-		$cmd        = $this->ctrl->getCmd();
+		$cmd        = $this->ctrl->getCmd('showManScoringByQuestionParticipantsTable');
 		$next_class = $this->ctrl->getNextClass($this);
-		if(strlen($cmd) == 0)
-		{
-			$this->ctrl->redirect($this, 'manscoring');
-		}
 
 		$cmd = $this->getCommand($cmd);
 		$this->buildSubTabs('man_scoring_by_qst');

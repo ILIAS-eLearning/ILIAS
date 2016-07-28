@@ -1227,11 +1227,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$clientid = substr($sid, strpos($sid, "::") + 2);
 			$sessionid = str_replace("::".$clientid, "", $sid);
 			// call container clone
-			return $source_object->cloneAllObject($sessionid, $clientid,
+			$ret = $source_object->cloneAllObject($sessionid, $clientid,
 				$source_object_type,
 				$target_id,
 				$source_id,
 				$options, true);
+
+			return $ret['ref_id'];
 			
 		} else {
 			// create copy wizard settings

@@ -15,11 +15,15 @@ include_once("./Services/Link/classes/class.ilLink.php");
  */
 class ilSkillLevelTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var bool
+	 */
+	protected $in_use = false;
 
 	/**
 	 * Constructor
 	 */
-	function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd, $a_tref_id = 0)
+	function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd, $a_tref_id = 0, $a_in_use = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
@@ -27,6 +31,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->skill_id = $a_skill_id;
 		$this->skill = new ilBasicSkill($a_skill_id);
 		$this->tref_id = $a_tref_id;
+		$this->in_use = $a_in_use;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
@@ -37,7 +42,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 			$this->setDescription($lng->txt("skmg_from_lower_to_higher_levels"));
 		}
 
-		if ($this->tref_id == 0)
+		if ($this->tref_id == 0 && !$this->in_use)
 		{
 			$this->addColumn("", "", "1", true);
 			$this->addColumn($this->lng->txt("skmg_nr"));
@@ -56,7 +61,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.skill_level_row.html", "Services/Skill");
 		$this->setEnableTitle(true);
 
-		if ($this->tref_id == 0)
+		if ($this->tref_id == 0 && !$this->in_use)
 		{
 			$this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
 			if (count($this->getData()) > 0)
@@ -114,7 +119,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
-		if ($this->tref_id == 0)
+		if ($this->tref_id == 0 && !$this->in_use)
 		{
 			$this->tpl->setCurrentBlock("cb");
 			$this->tpl->setVariable("CB_ID", $a_set["id"]);

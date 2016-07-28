@@ -13513,7 +13513,7 @@ content#:#cont_verification_placeh#:#Click and edit to insert certificate
 content#:#cont_verification_placehl#:#Certificate Placeholder
 content#:#cont_ed_plachverification#:#Placeholder Certificate
 cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
-dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
+dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Units
 common#:#obj_orgu#:#Organisational Unit
@@ -15753,3 +15753,11 @@ rbac#:#sty_write_system#:#Edit System Styles
 rbac#:#stys_sty_write_system#:#Edit System Styles
 rbac#:#sty_write_page_layout#:#Edit Page Layouts
 rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
+skmg#:#skmg_import_skills#:#Import
+skmg#:#skmg_input_file#:#Import File
+skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
+form#:#form_no_link#:#No Link
+copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
+pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
+pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
+pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop

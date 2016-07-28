@@ -10,7 +10,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI
+ * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  *
  * @ingroup ServicesSkill
@@ -127,6 +127,15 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case "ilexportgui":
+				$this->tabs_gui->activateTab('export');
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("xml");
+				//$exp_gui->addFormat("html", "", $this, "exportHTML");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
+				break;
+
 			default:
 				if(!$cmd || $cmd == 'view')
 				{
@@ -173,6 +182,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 			$this->tabs_gui->addTab("profiles",
 				$lng->txt("skmg_skill_profiles"),
 				$this->ctrl->getLinkTargetByClass("ilskillprofilegui"));
+
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			{
+				$this->tabs_gui->addTab("export",
+						$lng->txt("export"),
+						$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+			}
 
 			if (DEVMODE == 1)
 			{

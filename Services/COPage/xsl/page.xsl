@@ -1317,6 +1317,8 @@
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:choose>
+		<xsl:when test="name(..) = 'Section'">
+		</xsl:when>
 		<!-- internal link to external resource (other installation) -->
 		<xsl:when test="substring-after(@Target,'__') = ''">
 			[could not resolve link target: <xsl:value-of select="@Target"/>]
@@ -1340,40 +1342,15 @@
 		</xsl:when>
 		<!-- all internal links except inline mob vris -->
 		<xsl:when test="((@Type != 'MediaObject' or @TargetFrame) and @Type != 'User')">
-			<xsl:variable name="target" select="@Target"/>
-			<xsl:variable name="type" select="@Type"/>
-			<xsl:variable name="anchor" select="@Anchor"/>
-			<xsl:variable name="link_href">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
-			</xsl:variable>
-			<xsl:variable name="link_target">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
-			</xsl:variable>
-			<xsl:variable name="on_click">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@OnClick"/>
-			</xsl:variable>
 			<xsl:if test="$mode != 'print'">
 				<a class="ilc_link_IntLink">
-					<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
-					<xsl:if test="$link_target != ''">
-						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
-						<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$on_click != ''">
-						<xsl:attribute name="on_click"><xsl:value-of select="$on_click"/></xsl:attribute>
-					</xsl:if>
+					<xsl:call-template name="SetIntLinkAttributes"><xsl:with-param name="targetframe"><xsl:value-of select="$targetframe"/></xsl:with-param></xsl:call-template>
 					<xsl:if test="@Type = 'File'">
 						<xsl:attribute name="class">ilc_link_FileLink</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@Type = 'GlossaryItem'">
 						<xsl:attribute name="class">ilc_link_GlossaryLink</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="$on_click != ''">
-						<xsl:attribute name="on_click"><xsl:value-of select="$on_click"/></xsl:attribute>
-					</xsl:if>
-					<xsl:attribute name="id"><xsl:value-of select="$target"/>_<xsl:value-of select="$pg_id"/>_<xsl:number count="IntLink" level="any"/></xsl:attribute>
 					<xsl:apply-templates/>
 				</a>
 			</xsl:if>
@@ -1462,25 +1439,58 @@
 <xsl:template match="StyleTemplates">
 </xsl:template>
 
-<!-- ExtLink -->
-<xsl:template match="ExtLink">
-	<a class="ilc_link_ExtLink">
-		<xsl:variable name="targetframe"><xsl:value-of select="@TargetFrame"/></xsl:variable>
-		<xsl:variable name="link_target">
-			<xsl:if test="$targetframe != ''"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@LinkTarget"/></xsl:if>
-			<xsl:if test="$targetframe = ''">_blank</xsl:if>
-		</xsl:variable>
-		<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
-			<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
-		</xsl:if>
+<xsl:template name="SetIntLinkAttributes">
+	<xsl:param name="targetframe"/>
+	<xsl:variable name="target" select="@Target"/>
+	<xsl:variable name="type" select="@Type"/>
+	<xsl:variable name="anchor" select="@Anchor"/>
+	<xsl:variable name="link_href">
+		<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
+	</xsl:variable>
+	<xsl:variable name="link_target">
+		<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
+	</xsl:variable>
+	<xsl:variable name="on_click">
+		<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@OnClick"/>
+	</xsl:variable>
+	<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+	<xsl:if test="$link_target != ''">
 		<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
-		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
-		<xsl:apply-templates/>
-	</a>
+	</xsl:if>
+	<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
+		<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
+	</xsl:if>
+	<xsl:if test="$on_click != ''">
+		<xsl:attribute name="on_click"><xsl:value-of select="$on_click"/></xsl:attribute>
+	</xsl:if>
+	<xsl:attribute name="id"><xsl:value-of select="$target"/>_<xsl:value-of select="$pg_id"/>_<xsl:number count="IntLink" level="any"/></xsl:attribute>
 </xsl:template>
 
+<!-- ExtLink -->
+<xsl:template match="ExtLink">
+	<xsl:if test="not(name(..) = 'Section')">
+	<a class="ilc_link_ExtLink">
+		<xsl:call-template name="SetExtLinkAttributes" />
+		<xsl:apply-templates/>
+	</a>
+	</xsl:if>
+</xsl:template>
 
-<!-- Tables -->
+<!-- SetExtLinkAttributes -->
+<xsl:template name="SetExtLinkAttributes">
+	<xsl:variable name="targetframe"><xsl:value-of select="@TargetFrame"/></xsl:variable>
+	<xsl:variable name="link_target">
+		<xsl:if test="$targetframe != ''"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@LinkTarget"/></xsl:if>
+		<xsl:if test="$targetframe = ''">_blank</xsl:if>
+	</xsl:variable>
+	<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
+		<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
+	</xsl:if>
+	<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+	<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+</xsl:template>
+
+	<!-- Tables -->
 <xsl:template match="Table">
 	<!-- Label -->
 	<xsl:if test="@DataTable != 'y' or not(@DataTable)">
@@ -3225,59 +3235,86 @@
 			<xsl:if test="@PermissionRefId">
 				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>}}}}}
 			</xsl:if>
-			<div>
-				<xsl:if test="@Characteristic">
-					<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
-						<xsl:attribute name="class">ilc_section_<xsl:value-of select="substring-after(@Characteristic, 'ilc_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="substring(@Characteristic, 1, 4) != 'ilc_'">
-						<xsl:attribute name="class">ilc_section_<xsl:value-of select="@Characteristic"/></xsl:attribute>
-					</xsl:if>
-				</xsl:if>
-				<xsl:if test="$mode = 'edit'">
-					<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px; position:static;</xsl:attribute>
-				</xsl:if>
-				<xsl:call-template name="EditReturnAnchors"/>
-				<!-- command selectbox -->
-				<xsl:if test="$mode = 'edit'">
-					<xsl:call-template name="DropArea">
-						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
-				<xsl:if test="($mode = 'edit')">
-					<xsl:if test="@ActiveFrom or @ActiveTo">
-						<div style="text-align:right;" class="small">{{{{{Section;ActiveFrom;<xsl:value-of select="@ActiveFrom"/>;ActiveTo;<xsl:value-of select="@ActiveTo"/>}}}}}</div>
-					</xsl:if>
-				</xsl:if>
-				<xsl:apply-templates/>
-				<xsl:if test="$mode = 'edit'">
-					<!-- <xsl:value-of select="../@HierId"/> -->
-					<xsl:if test="$javascript='disable'">
-						<br />
-						<input type="checkbox" name="target[]">
-							<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
-							</xsl:attribute>
-						</input>
-					</xsl:if>
-					<xsl:call-template name="EditMenu">
-						<xsl:with-param name="hier_id" select="../@HierId" />
-						<xsl:with-param name="pc_id" select="../@PCID" />
-						<xsl:with-param name="edit">y</xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
-				<xsl:if test="$mode = 'edit'">
-					<br />
-				</xsl:if>
-				<xsl:comment>Break</xsl:comment>
-			</div>
+			<xsl:if test="(./ExtLink or ./IntLink) and not($mode = 'edit')">
+				<a style="display:block;">
+					<xsl:for-each select="./ExtLink">
+						<xsl:call-template name="SetExtLinkAttributes" />
+					</xsl:for-each>
+					<xsl:for-each select="./IntLink">
+						<xsl:variable name="targetframe">
+							<xsl:choose>
+								<xsl:when test="@TargetFrame">
+									<xsl:value-of select="@TargetFrame"/>
+								</xsl:when>
+								<xsl:otherwise>None</xsl:otherwise>
+							</xsl:choose>
+						</xsl:variable>
+						<xsl:call-template name="SetIntLinkAttributes"><xsl:with-param name="targetframe"><xsl:value-of select="$targetframe"/></xsl:with-param></xsl:call-template>
+					</xsl:for-each>
+					<xsl:call-template name="SectionContent" />
+				</a>
+			</xsl:if>
+			<xsl:if test="(not(./ExtLink) and not(./IntLink)) or $mode = 'edit'">
+				<div>
+					<xsl:call-template name="SectionContent" />
+				</div>
+			</xsl:if>
 			<xsl:if test="@PermissionRefId">
 				{{{{{Section;Access}}}}}
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 
-<!-- Resources -->
+
+<!-- Section Div -->
+<xsl:template name="SectionContent">
+		<xsl:if test="@Characteristic">
+			<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
+				<xsl:attribute name="class">ilc_section_<xsl:value-of select="substring-after(@Characteristic, 'ilc_')"/> ilCOPageSection</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="substring(@Characteristic, 1, 4) != 'ilc_'">
+				<xsl:attribute name="class">ilc_section_<xsl:value-of select="@Characteristic"/> ilCOPageSection</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px; position:static; display: block;</xsl:attribute>
+		</xsl:if>
+		<xsl:call-template name="EditReturnAnchors"/>
+		<!-- command selectbox -->
+		<xsl:if test="$mode = 'edit'">
+			<xsl:call-template name="DropArea">
+				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="($mode = 'edit')">
+			<xsl:if test="@ActiveFrom or @ActiveTo">
+				<div style="text-align:right;" class="small">{{{{{Section;ActiveFrom;<xsl:value-of select="@ActiveFrom"/>;ActiveTo;<xsl:value-of select="@ActiveTo"/>}}}}}</div>
+			</xsl:if>
+		</xsl:if>
+		<xsl:apply-templates/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="$mode = 'edit'">
+			<br />
+		</xsl:if>
+		<xsl:comment>Break</xsl:comment>
+</xsl:template>
+
+	<!-- Resources -->
 <xsl:template match="Resources">
 	<div>
 		<xsl:if test="./ResourceList">

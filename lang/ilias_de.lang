@@ -12649,7 +12649,7 @@ dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
-dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
+dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#add_value#:#Neuen Eintrag hinzufügen
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
@@ -15754,6 +15754,14 @@ rbac#:#sty_write_system#:#System-Styles bearbeiten
 rbac#:#stys_sty_write_system#:#System-Styles bearbeiten
 rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
 rbac#:#stys_sty_write_page_layout#:#Seitenlayouts bearbeiten
+skmg#:#skmg_import_skills#:#Importieren
+skmg#:#skmg_input_file#:#Importdatei
+skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
+form#:#form_no_link#:#Kein Link
+copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
+pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
+pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
+pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 logging#:#log_error_message#:#Fehler %s ist aufgetreten. Bitte wenden Sie sich an <a href="mailto:%s?subject=Fehlercode: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#Email Empfänger
