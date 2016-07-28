@@ -39,10 +39,6 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 			return false;
 		}
 
-		if(!is_file($ilias_ini->readVariable("server", "absolute_path")."/Services/PHPUnit/config/cfg.phpunit.php")) {
-			return false;
-		}
-
 		include_once($ilias_ini->readVariable("server", "absolute_path")."/Services/PHPUnit/config/cfg.phpunit.php");
 
 		if(!isset($_GET["client_id"])) {
