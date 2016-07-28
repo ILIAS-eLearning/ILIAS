@@ -49,9 +49,9 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->column("venue", $this->plugin->txt("location"), true)
 				->column("provider", $this->plugin->txt("provider"), true)
 				->column("tutor", $this->plugin->txt("crs_tutor"), true)
-				->column("credit_points", $this->plugin->txt("points"), true)
 				->column("fee", $this->plugin->txt("fee"), true)
 				->column("status", $this->plugin->txt("status"), true)
+				->column("credit_points", $this->plugin->txt("points"), true)
 				->column("wbd_reported", $this->plugin->txt("wbd_reported"), true)
 				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true);
 		return parent::buildTable($table);
