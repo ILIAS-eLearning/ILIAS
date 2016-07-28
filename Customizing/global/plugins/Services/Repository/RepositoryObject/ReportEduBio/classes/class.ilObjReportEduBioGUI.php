@@ -23,7 +23,6 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 
 	public function performCustomCommand($cmd) {
-		//die($cmd);
 		switch ($cmd) {
 			case "getCertificate":
 				$this->object->prepareRelevantParameters();
@@ -80,6 +79,9 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function render() {
 		$this->gTpl->setTitle(null);
+		if(!$this->object->getWBD()->userTPStatusOK()) {
+			ilUtil::sendInfo($this->plugin->txt("wbd_role_no_service_warning"));
+		}
 		return 	$this->title->render()
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
 				. ($this->spacer !== null ? $this->spacer->render() : "")
