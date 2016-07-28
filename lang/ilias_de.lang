@@ -15765,3 +15765,6 @@ copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen,
 pd#:#pd_enable_mail_pdsysmess#:#Block Systemnachrichten aktivieren
 pd#:#pd_pdmail_include_sysnmess#:#Systemnachrichten im Block Mail
 pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systmenachrichten im Block "Mail" dargestellt.
+pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
+pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
+pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
