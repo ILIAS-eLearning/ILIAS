@@ -80,7 +80,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 			// no activity badges
 			if(!in_array("bdga", $type->getValidObjectTypes()))
 			{
-				$options[$id] = $type->getCaption();
+				$options[$id] = ilBadge::getExtendedTypeCaption($type);
 			}
 		}
 		asort($options);
@@ -124,7 +124,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 				}
 			}
 			
-			$type_caption = $types[$badge_item["type_id"]]->getCaption();
+			$type_caption = ilBadge::getExtendedTypeCaption($types[$badge_item["type_id"]]);
 									
 			$data[] = array(
 				"id" => $badge_item["id"],
