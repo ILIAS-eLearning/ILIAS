@@ -21,7 +21,20 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	protected $int_link_default_type = "RepositoryItem";
 	protected $int_link_default_obj = 0;
 	protected $int_link_filter_types = array("RepositoryItem");
-	
+	protected $filter_white_list = true;
+
+	static protected $iltypemap = array(
+		"page" => "PageObject",
+		"chap" => "StructureObject",
+		"term" => "GlossaryItem",
+		"wpage" => "WikiPage"
+	);
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	/**
 	* Constructor
 	*
@@ -30,8 +43,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("link");
+
+		$this->obj_definition = $DIC["objDefinition"];
 	}
 	
 	/**
@@ -75,7 +91,47 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	{
 		$this->int_link_filter_types = $a_val;
 	}
+
+	/**
+	 * Get internal types to xml attribute types map
+	 *
+	 * @return string[]
+	 */
+	static function getTypeToAttrType()
+	{
+		return self::$iltypemap;
+	}
+
+	/**
+	 * Get internal types to xml attribute types map (reverse)
+	 *
+	 * @return string[]
+	 */
+	static function getAttrTypeToType()
+	{
+		return array_flip(self::$iltypemap);
+	}
+
+	/**
+	 * Set filter white list
+	 *
+	 * @param bool $a_val filter list is white list	
+	 */
+	function setFilterWhiteList($a_val)
+	{
+		$this->filter_white_list = $a_val;
+	}
 	
+	/**
+	 * Get filter white list
+	 *
+	 * @return bool filter list is white list
+	 */
+	function getFilterWhiteList()
+	{
+		return $this->filter_white_list;
+	}
+
 	/**
 	* Execute current command
 	*/
@@ -97,7 +153,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				{
 					$link_gui->filterLinkType($t);
 				}
-				$link_gui->setFilterWhiteList(true);
+				$link_gui->setFilterWhiteList($this->getFilterWhiteList());
 				$link_gui->setMode("asynch");
 			
 				$ret = $ilCtrl->forwardCommand($link_gui);
@@ -154,6 +210,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				}
 				break;
 
+			case "no":
+				break;
+
 			default:
 				if($a_values[$this->getPostVar()])
 				{
@@ -195,7 +254,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 						return false;
 					}					
 					break;
-					
+
+				case "no":
 				default:
 					$this->setAlert($lng->txt("msg_input_is_required"));
 					return false;
@@ -217,6 +277,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			}
 
 			$_POST[$this->getPostVar()] = $val;
+		}
+		else if($_POST[$this->getPostVar()."_mode"] == "no")
+		{
+			$_POST[$this->getPostVar()] = "";
 		}
 		else
 		{
@@ -250,6 +314,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$has_ext = true;
 				$has_radio = true;
 				break;
+		}
+		if (!$this->getRequired())
+		{
+			$has_radio = true;
 		}
 		
 		// external
@@ -300,6 +368,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			$int->addSubItem($ne);
 			
 			$mode = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode");
+			if (!$this->getRequired())
+			{
+				$no = new ilRadioOption($lng->txt("form_no_link"), "no");
+				$mode->addOption($no);
+			}
 			$mode->addOption($ext);
 			$mode->addOption($int);
 		}
@@ -333,7 +406,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$hidden_target->setValue($value[2]);
 				
 				$itpl->setVariable("VAL_OBJECT_TYPE", $value_trans["type"]);						
-				$itpl->setVariable("VAL_OBJECT_NAME", $value_trans["name"]);						
+				$itpl->setVariable("VAL_OBJECT_NAME", $value_trans["name"]);
+				if ($value[2] != "")
+				{
+					$itpl->setVariable("VAL_TARGET_FRAME", "(" . $value[2].")");
+				}
 			}
 			else if($has_ext)
 			{
@@ -341,6 +418,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				
 				$ti->setValue($value);
 			}
+		}
+		else if (!$this->getRequired())
+		{
+			$mode->setValue("no");
 		}
 		
 		// #10185 - default for external urls
@@ -433,6 +514,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$name =	ilLMPageObject::_lookupTitle($value[1]);
 				break;
 
+			case "chap":
+				include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
+				$type = $lng->txt("obj_st");
+				$name =	ilStructureObject::_lookupTitle($value[1]);
+				break;
+
 			case "term":
 				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$type = $lng->txt("term");
@@ -461,4 +548,88 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		$a_tpl->setVariable("PROP_GENERIC", $html);
 		$a_tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Get value as internal link attributes
+	 *
+	 * @return array (with keys "Type", "Target" and "TargetFrame")
+	 */
+	function getIntLinkAttributes()
+	{
+		$val = explode("|", $_POST[$this->getPostVar()]);
+
+		$ret = false;
+		$type = "";
+		$target = "";
+		if (self::isInternalLink($_POST[$this->getPostVar()]))
+		{
+			$target_frame = $val[2];
+			$map = self::getTypeToAttrType();
+			if (isset($map[$val[0]]))
+			{
+				$type = $map[$val[0]];
+				$target_type = $val[0];
+				if ($val[0] == "chap")
+				{
+					$target_type = "st";
+				}
+				if ($val[0] == "term")
+				{
+					$target_type = "git";
+				}
+				if ($val[0] == "page")
+				{
+					$target_type = "pg";
+				}
+				$target = "il__".$target_type."_".$val[1];
+			}
+			else if ($this->obj_definition->isRBACObject($val[0]))
+			{
+				$type = "RepositoryItem";
+				$target = "il__obj_".$val[1];
+			}
+			if ($type != "")
+			{
+				$ret = array(
+					"Target" => $target,
+					"Type" => $type,
+					"TargetFrame" => $target_frame
+				);
+			}
+		}
+		return $ret;
+	}
+	
+	/**
+	 * Set value by internal links attributes
+	 *
+	 * @param
+	 * @return
+	 */
+	function setValueByIntLinkAttributes($a_type, $a_target, $a_target_frame = "")
+	{
+		$t = explode("_", $a_target);
+		$target_id = $t[3];
+		$type = "";
+		$map = self::getAttrTypeToType();
+		if ($a_type == "RepositoryItem")
+		{
+			$type = ilObject::_lookupType($target_id, true);
+		}
+		else if (isset($map[$a_type]))
+		{
+			$type = $map[$a_type];
+		}
+		if ($type != "" && $target_id != "")
+		{
+			$val = $type."|".$target_id;
+			if ($a_target_frame != "")
+			{
+				$val.= 	"|".$a_target_frame;
+			}
+			$this->setValue($val);
+		}
+	}
+	
+
 }

@@ -134,15 +134,24 @@ class ilDclFieldListGUI
 	{
 		$table = ilDclCache::getTableCache($_GET['table_id']);
 		$fields = $table->getFields();
+		$order = $_POST['order'];
+		asort($order);
+		$val = 10;
+		foreach (array_keys($order) as $field_id) {
+			$order[$field_id] = $val;
+			$val += 10;
+		}
+
 
 		foreach($fields as $field)
 		{
 			$field->setLocked($_POST['locked'][$field->getId()] == "on");
 			$field->setExportable($_POST['exportable'][$field->getId()] == "on");
-			$field->setOrder($_POST['order'][$field->getId()]);
+			$field->setOrder($order[$field->getId()]);
 			$field->doUpdate();
 		}
-		$table->buildOrderFields();
+
+		$table->reloadFields();
 		ilUtil::sendSuccess($this->lng->txt("dcl_table_settings_saved"));
 		$this->listFields();
 	}
@@ -155,7 +164,7 @@ class ilDclFieldListGUI
 		//add button
 		$add_new = ilLinkButton::getInstance();
 		$add_new->setPrimary(true);
-		$add_new->setCaption("dcl_create_item");
+		$add_new->setCaption("dcl_add_new_field");
 		$add_new->setUrl($this->ctrl->getLinkTargetByClass('ildclfieldeditgui', 'create'));
 		$this->toolbar->addStickyItem($add_new);
 

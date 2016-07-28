@@ -405,33 +405,21 @@ class ilMainMenuGUI
 	/**
 	 * Render status box
 	 */
-	function renderStatusBox($a_tpl)
+	public function renderStatusBox($a_tpl)
 	{
-		global $ilUser, $lng;
-		
-		$box = false;
-		
-		// new mails?
-		if($this->mail)
-		{
-			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
-			if($new_mails > 0)
-			{
-				$a_tpl->setCurrentBlock('status_text');
-				$a_tpl->setVariable('STATUS_TXT', $new_mails);
-				$a_tpl->parseCurrentBlock();
-			}
-			$a_tpl->setCurrentBlock('status_item');
-			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail.svg'));
-			$a_tpl->setVariable('STATUS_IMG_ALT', $lng->txt("mail"));
-			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
-			$a_tpl->parseCurrentBlock();
-			$box = true;
-		}
-		
-		if ($box)
-		{
-			$a_tpl->setCurrentBlock("status_box");
+		global $ilUser, $lng, $DIC;
+		$ui_factory = $DIC->ui()->factory();
+		$ui_renderer = $DIC->ui()->renderer();
+
+		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
+			$a_tpl->setCurrentBlock('status_box');
+
+			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI")
+				->withCounter(
+					$ui_factory->counter()->novelty($new_mails)
+				);
+
+			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->parseCurrentBlock();
 		}
 	}

@@ -61,7 +61,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// action commands
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
 			
@@ -96,7 +96,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
 		$ilCtrl->setParameter($this->parent_obj, "t_id", $a_set["id"]);
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->tpl->setVariable("LINK_EDIT_TEMPLATE",
 				$ilCtrl->getLinkTarget($this->parent_obj, "editTemplate"));

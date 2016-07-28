@@ -33,6 +33,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.skill_profile_row.html", "Services/Skill");
 
+		$this->addMultiCommand("exportProfiles", $lng->txt("export"));
 		$this->addMultiCommand("confirmDeleteProfiles", $lng->txt("delete"));
 		//$this->addCommandButton("", $lng->txt(""));
 	}

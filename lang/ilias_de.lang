@@ -12021,6 +12021,7 @@ dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
+dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
@@ -12405,7 +12406,7 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
-dcl#:#dcl_create_item#:#Ansicht Hinzufügen
+dcl#:#dcl_create_view#:#Ansicht Hinzufügen
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
@@ -12648,7 +12649,7 @@ dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
-dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
+dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#add_value#:#Neuen Eintrag hinzufügen
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
@@ -15747,3 +15748,17 @@ assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
 assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden. 
+rbac#:#sty_write_content#:#Content-Styles bearbeiten
+rbac#:#stys_sty_write_custom#:#Content-Styles bearbeiten
+rbac#:#sty_write_system#:#System-Styles bearbeiten
+rbac#:#stys_sty_write_system#:#System-Styles bearbeiten
+rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
+rbac#:#stys_sty_write_page_layout#:#Seitenlayouts bearbeiten
+skmg#:#skmg_import_skills#:#Importieren
+skmg#:#skmg_input_file#:#Importdatei
+skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
+form#:#form_no_link#:#Kein Link
+copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
+pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
+pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
+pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen

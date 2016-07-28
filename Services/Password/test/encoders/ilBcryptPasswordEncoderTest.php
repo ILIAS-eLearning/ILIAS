@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/encoders/class.ilBcryptPasswordEncoder.php';
+require_once 'Services/Password/test/ilPasswordBaseTest.php';
 
 use org\bovigo\vfs;
 
@@ -10,7 +11,7 @@ use org\bovigo\vfs;
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
+class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 {
 	/**
 	 * @var string
@@ -134,19 +135,21 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetAboveRange(ilBcryptPasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(32);
 	}
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetBelowRange(ilBcryptPasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(3);
 	}
 
@@ -173,10 +176,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), self::PASSWORD_SALT);
 	}
@@ -215,11 +219,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfSaltIsMissingIsOnEncoding()
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder = new ilBcryptPasswordEncoder();
 		$encoder->setClientSalt(null);
 		$encoder->setCosts(self::VALID_COSTS);
@@ -227,11 +231,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfSaltIsMissingIsOnVerification()
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder = new ilBcryptPasswordEncoder();
 		$encoder->setClientSalt(null);
 		$encoder->setCosts(self::VALID_COSTS);
@@ -285,11 +289,11 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfTheRawPasswordContainsA8BitCharacterAndBackwardCompatibilityIsEnabled()
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder = new ilBcryptPasswordEncoder();
 		$encoder->setClientSalt(self::CLIENT_SALT);
 		$encoder->setBackwardCompatibility(true);

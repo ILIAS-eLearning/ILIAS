@@ -869,8 +869,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			if (strlen($solution["value1"]))
 			{
-				$worksheet->write($startrow + $i, 1, $solution["value1"]);
-				$worksheet->write($startrow + $i, 2, $solution["value2"]);
+				$worksheet->setCell($startrow + $i, 1, $solution["value1"]);
+				$worksheet->setCell($startrow + $i, 2, $solution["value2"]);
 			}
 			$i++;
 		}

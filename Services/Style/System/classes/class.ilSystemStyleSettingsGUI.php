@@ -119,7 +119,7 @@ class ilSystemStyleSettingsGUI
 		$this->checkPermission("visible,read");
 
 		// default skin/style
-		if ($this->checkPermission("write", false))
+		if ($this->checkPermission("sty_write_system", false))
 		{
 			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 			$options = array();
@@ -153,7 +153,7 @@ class ilSystemStyleSettingsGUI
 	 */
 	function moveUserStyles()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_system");
 
 		$to = explode(":", $_POST["to_style"]);
 
@@ -192,7 +192,7 @@ class ilSystemStyleSettingsGUI
 	 */
 	function saveStyleSettings()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_system");
 
 		// check if one style is activated
 		if (count($_POST["st_act"]) < 1)
@@ -258,7 +258,7 @@ class ilSystemStyleSettingsGUI
 	{
 		$this->ctrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
 
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_system");
 
 		$all_styles = ilStyleDefinition::getAllSkinStyles();
 		$sel_style = $all_styles[$_GET["style_id"]];
@@ -296,7 +296,7 @@ class ilSystemStyleSettingsGUI
 	 */
 	function addStyleCatAssignment()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_system");
 
 		$this->ctrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
 		$this->ctrl->setParameter($this, "substyle", urlencode($_REQUEST["substyle"]));
@@ -324,7 +324,7 @@ class ilSystemStyleSettingsGUI
 	 */
 	function saveStyleCatAssignment()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_system");
 
 		$this->ctrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
 
@@ -341,7 +341,7 @@ class ilSystemStyleSettingsGUI
 	 */
 	function deleteSysStyleCatAssignments()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_system");
 
 		$this->ctrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
 		$style_arr = explode(":", $_GET["style_id"]);

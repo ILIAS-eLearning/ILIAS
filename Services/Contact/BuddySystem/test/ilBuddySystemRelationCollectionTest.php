@@ -1,12 +1,14 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+
 /**
  * Class ilBuddySystemRelationCollectionTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilBuddySystemRelationCollectionTest extends PHPUnit_Framework_TestCase
+class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 {
 	/**
 	 * @var bool
@@ -116,21 +118,21 @@ class ilBuddySystemRelationCollectionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 * @expectedException InvalidArgumentException
 	 */
 	public function testRemovingAnNonExistingElementRaisesAnException()
 	{
-		$this->expectException(InvalidArgumentException::class);
+		$this->assertException(InvalidArgumentException::class);
 		$collection = new ilBuddySystemRelationCollection();
 		$collection->removeElement(5);
 	}
 
 	/**
-	 * 
+	 * @expectedException InvalidArgumentException
 	 */
 	public function testRemovingAnNonExistingElementByKeyRaisesAnException()
 	{
-		$this->expectException(InvalidArgumentException::class);
+		$this->assertException(InvalidArgumentException::class);
 		$collection = new ilBuddySystemRelationCollection();
 		$collection->remove("phpunit");
 	}
