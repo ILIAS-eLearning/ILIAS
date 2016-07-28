@@ -823,4 +823,13 @@ class gevWBD {
 			$this->gAppEventHandler->raise("Modules/Course", "setWBDRelevant", array("obj_id" => $row["crs_id"], "user_id" => $this->user_id, "creator_id" => $creator_id));
 		}
 	}
+
+	/**
+	 * Checks, wether users set TP-status fits users position.
+	 *
+	 * @return bool
+	 */
+	public function userTPStatusOK() {
+		return !($this->getWBDTPType() === gevWBD::WBD_NO_SERVICE && $this->hasWBDRelevantRole());
+	}
 }
