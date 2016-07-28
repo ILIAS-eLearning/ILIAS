@@ -275,7 +275,7 @@ class ilObjectSearchFactory
 	 * @param object query parser object
 	 * @return object reference of ilWebresourceAdvancedSearch
 	 */
-	public function _getWebresourceSearchInstance($query_parser)
+	public static function _getWebresourceSearchInstance($query_parser)
 	{
 		if(ilSearchSettings::getInstance()->enabledIndex())
 		{

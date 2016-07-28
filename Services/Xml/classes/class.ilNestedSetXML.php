@@ -1461,7 +1461,7 @@ class ilNestedSetXML
 	*	@see _getAllChildIds()
 	*	@return boolean
 	*/
-	function _deleteAllChildMetaData($a_ids)
+	static function _deleteAllChildMetaData($a_ids)
 	{
 		global $ilBench,$ilDB;
 
@@ -1506,7 +1506,7 @@ class ilNestedSetXML
 	*	@param int obj_id
 	*	@return boolean
 	*/
-	function _getAllChildIds($a_obj_id)
+	static function _getAllChildIds($a_obj_id)
 	{
 		global $ilDB;
 
