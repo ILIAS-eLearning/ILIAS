@@ -1828,7 +1828,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 		include_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 
 		foreach ($user_ids as $new_member)
 		{

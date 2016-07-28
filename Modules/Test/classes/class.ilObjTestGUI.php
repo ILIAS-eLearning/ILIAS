@@ -3677,7 +3677,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->populateDeleteDynamicTestResultsButton($testSession, $big_button);
 			}
 			
-			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				$enter_anonymous_code = true;
 			}

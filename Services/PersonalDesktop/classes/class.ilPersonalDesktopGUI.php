@@ -55,7 +55,7 @@ class ilPersonalDesktopGUI
 		$this->lng->loadLanguageModule("pd"); // #16813
 		
 		// catch hack attempts
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_not_available_for_anon"),$this->ilias->error_obj->MESSAGE);
 		}
