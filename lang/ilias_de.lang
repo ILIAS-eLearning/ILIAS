@@ -15759,7 +15759,7 @@ logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#Email Empfänger
 logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
 logging#:#error_settings_saved#:#Einstellungen gespeichert
-logging#:#log_error_file_cleanup_title#:#Das ist mein Titel
-logging#:#log_error_file_cleanup_info#:#Und ich bin die Info und natürlich viel länger als der Titel
+logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog Dateien
+logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
