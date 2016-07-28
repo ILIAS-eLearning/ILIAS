@@ -57,4 +57,9 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
 		
 		return array("profile" => $fields);
 	}
+	
+	public function validateForm(ilPropertyFormGUI $a_form)
+	{
+		return true;
+	}
 }

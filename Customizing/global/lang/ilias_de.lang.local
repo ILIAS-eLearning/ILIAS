@@ -69,3 +69,4 @@ badge#:#badge_profile_view#:#Anzeigen
 badge#:#badge_profile_manage#:#Verwalten
 badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
+badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.

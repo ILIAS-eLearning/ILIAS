@@ -68,4 +68,45 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	{		
 		return array("subitems" => $a_form->getInput("subitems"));
 	}
+	
+	public function validateForm(ilPropertyFormGUI $a_form)
+	{		
+		global $lng;
+		
+		$invalid = array();
+		
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+		include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
+		
+		$invalid_modes = array(ilLPObjSettings::LP_MODE_DEACTIVATED,	
+			ilLPObjSettings::LP_MODE_UNDEFINED);
+		
+		// without active LP the following modes cannot be supported
+		if(!ilObjUserTracking::_enabledLearningProgress())
+		{
+			$invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL;
+			$invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
+			$invalid_modes[] = ilLPObjSettings::LP_MODE_COLLECTION_MANUAL;
+		}
+		
+		foreach($a_form->getInput("subitems") as $ref_id)
+		{			
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$olp = ilObjectLP::getInstance($obj_id);
+			if(in_array($olp->getCurrentMode(), $invalid_modes))
+			{
+				$invalid[] = ilObject::_lookupTitle($obj_id);
+			}
+		}		
+		
+		if(sizeof($invalid))
+		{
+			$mess = sprintf($lng->txt("badge_course_lp_invalid"), implode(", ", $invalid));
+			$a_form->getItemByPostVar("subitems")->setAlert($mess);
+			return false;
+		}
+		
+		return true;
+	}
 }

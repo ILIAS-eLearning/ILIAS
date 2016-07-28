@@ -454,18 +454,23 @@ class ilBadgeManagementGUI
 		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($badge_id);
 		$type = $badge->getTypeInstance();
+		$custom = $type->getConfigGUIInstance();
+		if($custom &&
+			!($custom instanceof ilBadgeTypeGUI))
+		{
+			$custom = null;
+		}
 		$form = $this->initBadgeForm("update", $type, $badge->getTypeId());		
-		if($form->checkInput())
+		if($form->checkInput() &&
+			(!$custom || $custom->validateForm($form)))
 		{			
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
 			$badge->setCriteria($form->getInput("crit"));
 			$badge->setValid($form->getInput("valid"));
-						
-			$custom = $type->getConfigGUIInstance();
-			if($custom &&
-				$custom instanceof ilBadgeTypeGUI)
+								
+			if($custom)
 			{
 				$badge->setConfiguration($custom->getConfigFromForm($form));
 			}
@@ -478,6 +483,7 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listBadges");
 		}
 		
+		ilUtil::sendFailure($lng->txt("form_input_not_valid"));
 		$form->setValuesByPost();
 		$this->editBadge($form);
 	}

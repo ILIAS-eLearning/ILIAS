@@ -34,4 +34,12 @@ interface ilBadgeTypeGUI
 	 * @return array
 	 */
 	public function getConfigFromForm(ilPropertyFormGUI $a_form);	
+	
+	/**
+	 * Custom form validation
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @return bool
+	 */
+	public function validateForm(ilPropertyFormGUI $a_form);
 }
