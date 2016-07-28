@@ -117,7 +117,6 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	protected function insertAcademyPoints($tpl) {
 		$tpl->setVariable("ACA_TRANSFERED_SUM_TITLE", $this->object->plugin->txt("aca_transferred_points_filter"));
 		$tpl->setVariable("ACA_TO_TRANSFER_SUM_TITLE", $this->object->plugin->txt("aca_to_transdfer_points_filter"));
-		//$tpl->setVariable("ACA_TO_TRANSFER_SUM_SUBTITLE", $this->object->plugin->txt("aca_to_transdfer_points_filter_sub"));
 		if ($aux = $this->object->academy_points["transfered_sum"]) {
 			$tpl->setVariable("ACA_TRANSFERED_SUM", $aux ? $aux : 0);
 		}
