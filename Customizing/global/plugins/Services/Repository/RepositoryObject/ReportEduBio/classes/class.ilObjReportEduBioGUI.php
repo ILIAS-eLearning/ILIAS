@@ -79,7 +79,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function render() {
 		$this->gTpl->setTitle(null);
-		if(	!$this->object->getWBD()->userTPStatusOK() && 
+		if(!$this->object->getWBD()->userTPStatusOK() &&
 			!$this->object->getWBD()->wbdRegistrationIsPending()) {
 			ilUtil::sendFailure($this->plugin->txt("wbd_role_no_service_warning"));
 		}
@@ -96,20 +96,18 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		$this->insertAcademyPoints($tpl);
 		if($this->object->getWBD()->getWBDTPType() === gevWBD::WBD_TP_SERVICE ) {
 			$this->insertWBDPoints($tpl);
-			if ($this->object->getWBD()->transferPointsFromWBD() || true) {
+			if ($this->object->getWBD()->transferPointsFromWBD()) {
 				$tpl->setVariable("WBDPOINTSVISIBIBLE", "visible");
 			} else {
 				$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
 				if($this->object->getWBD()->transferPointsToWBD()) {
-					$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
 					ilUtil::sendInfo($this->plugin->txt("wbd_transfer_on"));
 				} elseif($this->object->getWBD()->wbdRegistrationIsPending()) {
-					$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
 					ilUtil::sendInfo($this->plugin->txt("wbd_reg_pending"));
-				} else {
-					$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
 				}
 			}
+		} else {
+			$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
 		}
 		return $tpl->get();
 	}
@@ -118,10 +116,10 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		$tpl->setVariable("ACA_TRANSFERED_SUM_TITLE", $this->object->plugin->txt("aca_transferred_points_filter"));
 		$tpl->setVariable("ACA_TO_TRANSFER_SUM_TITLE", $this->object->plugin->txt("aca_to_transdfer_points_filter"));
 		if ($aux = $this->object->academy_points["transfered_sum"]) {
-			$tpl->setVariable("ACA_TRANSFERED_SUM", $aux ? $aux : 0);
+			$tpl->setVariable("ACA_TRANSFERED_SUM", $aux);
 		}
 		if ($aux = $this->object->academy_points["to_transfer_sum"]) {
-			$tpl->setVariable("ACA_TO_TRANSFER_SUM", $aux ? $aux : 0);
+			$tpl->setVariable("ACA_TO_TRANSFER_SUM", $aux);
 		}
 	}
 
@@ -130,10 +128,10 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->object->plugin->txt("points_in_wbd_cert_period"));
 		$tpl->setVariable("WBD_CERT_PERIOD", $this->object->wbd_data["cert_period"]);
 		if ($aux = $this->object->wbd_data["sum"]) {
-			$tpl->setVariable("WBD_SUM", $aux ? $aux : 0);
+			$tpl->setVariable("WBD_SUM", $aux);
 		}
 		if ($aux = $this->object->wbd_data["sum_cert_period"]) {
-			$tpl->setVariable("WBD_SUM_CERT_PERIOD", $aux ? $aux : 0);
+			$tpl->setVariable("WBD_SUM_CERT_PERIOD", $aux);
 		}
 	}
 
