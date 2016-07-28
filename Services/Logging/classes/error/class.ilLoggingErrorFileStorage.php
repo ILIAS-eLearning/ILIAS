@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
-
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
+require_once './libs/composer/vendor/autoload.php';
 
 use Whoops\Exception\Formatter;
 
@@ -10,21 +9,20 @@ use Whoops\Exception\Formatter;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilLoggingErrorFileStorage extends ilFileSystemStorage {
+class ilLoggingErrorFileStorage {
 	const KEY_SPACE = 25;
+	const FILE_FORMAT = ".log";
 
-	public function __construct($inspector, $a_container_id = 0) {
+	public function __construct($inspector, $file_path, $file_name) {
 		$this->inspector = $inspector;
-		parent::__construct(self::STORAGE_WEB, true, $a_container_id);
-		$this->create();
+		$this->file_path = $file_path;
+		$this->file_name = $file_name;
 	}
 
-	protected function getPathPostfix() {
-		return 'errl';
-	}
-
-	protected function getPathPrefix() {
-		return 'errl';
+	protected function createDir($path) {
+		if(!is_dir($this->file_path)) {
+			ilUtil::makeDirParents($this->file_path);
+		}
 	}
 
 	protected function content() {
@@ -34,8 +32,14 @@ class ilLoggingErrorFileStorage extends ilFileSystemStorage {
 			  ;
 	}
 
-	public function write($filename) {
-		$this->writeToFile($this->content(), $this->getAbsolutePath()."/".$filename);
+	public function write() {
+		$this->createDir($this->file_path);
+
+		$file_name = $this->file_path."/".$this->file_name.self::FILE_FORMAT;
+		$stream = fopen($file_name, 'w+');
+		fwrite($stream, $this->content());
+		fclose($stream);
+		chmod($file_name, 0755);
 	}
 
 	/**
