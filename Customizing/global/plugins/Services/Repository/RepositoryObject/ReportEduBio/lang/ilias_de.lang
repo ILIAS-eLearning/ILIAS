@@ -25,7 +25,7 @@ others_edu_bio#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trai
 wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
 wbd_reg_pending#:#Ihre Anmeldung bei der WBD wird in Kürze erfolgen.
 points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
-points_in_academy#:#Bildungspunkte in der Generali Online Akademie im ausgewählten Zeitraum
+points_in_academy#:#Witerbildungspunkte in der Generali Online Akademie im ausgewählten Zeitraum
 points_in_five_years#:#Punkte im 5-Jahres-Zeitraum
 points_in_wbd#:#Bildungspunkte in der WBD im ausgewählten Zeitraum<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
 points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
@@ -44,3 +44,5 @@ wbd_reported#:#Punkte übermittelt?
 period#:#Zeitraum:
 until#:#bis
 wbd_role_no_service_warning#:#Wie es scheint sollten Ihre Punkte gemeldet werden, jedoch sind Sie, nach unserem Wissensstand, nicht bei der WBD angemeldet.
+aca_transferred_points_filter#:#An die WBD gemeldete Weiterbildungspunkte im ausgewählten Zeitraum
+aca_to_transdfer_points_filter#:#Noch an die WBD zu meldende Weiterbildungspunkte im ausgewählten Zeitraum<br><small>Die Weiterbildungspunkte werden jeweils nächtens an die WBD übertragen.</small>
