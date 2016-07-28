@@ -11,9 +11,20 @@ class ilLoggingErrorSettings {
 	protected $mail;
 
 	protected function __construct() {
-		global $ilIliasIniFile;
+		global $ilIliasIniFile, $ini;
 
-		$this->ilias_ini = $ilIliasIniFile;
+		//realy not nice but necessary to initalize logger at setup
+		//ilias_ini is named only as $ini in inc.setup_header.php
+		if(!$ilIliasIniFile) {
+			if(!$ini) {
+				throw new Exception("No ILIAS ini");
+			} else {
+				$this->ilias_ini = $ini;
+			}
+		} else {
+			$this->ilias_ini = $ilIliasIniFile;
+		}
+
 		$this->read();
 	}
 
