@@ -359,16 +359,21 @@ class ilErrorHandling extends PEAR
 		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
 		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
 			global $lng;
+			$lng->loadLanguageModule('logging');
 
 			require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
 			require_once("Services/Logging/classes/error/class.ilLoggingErrorFileStorage.php");
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 
-			$lwriter = new ilLoggingErrorFileStorage($inspector);
-			$lwriter->write("10.log");
+			$session_id = substr(session_id(),0,5);
+			$err_num = rand(1, 9999);
+			$file_name = $session_id."_".$err_num;
 
 			$logger = ilLoggingErrorSettings::getInstance();
-			$message = sprintf($lng->txt("log_error_message"), 10, $logger->mail(),10,$logger->mail());
+			$lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
+			$lwriter->write();
+
+			$message = sprintf($lng->txt("log_error_message"), $file_name, $logger->mail(), $file_name, $logger->mail());
 
 			ilUtil::sendFailure($message, true);
 			ilUtil::redirect("error.php");
