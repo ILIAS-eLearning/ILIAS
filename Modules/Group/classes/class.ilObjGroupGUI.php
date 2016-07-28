@@ -2512,11 +2512,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
-		$reg = $this->form->getItemByPostVar("reg");	
+		$reg = $a_form->getItemByPostVar("reg");	
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
 		
-		$cancel_end = $this->form->getItemByPostVar("cancel_end");		
+		$cancel_end = $a_form->getItemByPostVar("cancel_end");		
 		$this->object->setCancellationEnd($cancel_end->getDate());		
 		
 		switch((int)$_POST['waiting_list'])
