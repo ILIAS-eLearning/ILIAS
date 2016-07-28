@@ -54,7 +54,7 @@ class ilBackgroundTaskCronGarbageCollection extends ilCronJob
 
 	public function run()
 	{				
-		global $lng, $ilDB;
+		global $ilDB;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		

@@ -366,7 +366,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		$this->task->setCurrentStep(++$a_current_step);
 		$this->task->save();	
 		
-		sleep(1);
+		// sleep(1);		
 		
 		$new_filename = $a_tmpdir . "/" . ilUtil::getASCIIFilename($a_title);
 		
