@@ -45,11 +45,7 @@ class ilBadgeProfileGUI
 		{
 			$ilTabs->addTab("backpack_badges",
 				$lng->txt("badge_backpack_list"),
-				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));
-			
-			$ilTabs->addTab("backpack_settings",
-				$lng->txt("settings"),
-				$ilCtrl->getLinkTarget($this, "editSettings"));
+				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));			
 		}
 	}
 	
@@ -252,6 +248,21 @@ class ilBadgeProfileGUI
 		ilUtil::sendInfo(sprintf($lng->txt("badge_add_to_backpack_multi"), implode(", ", $titles)));
 	}
 	
+	protected function setBackpackSubTabs()
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		
+		$ilTabs->addSubTab("backpack_badges",
+			$lng->txt("obj_bdga"),
+			$ilCtrl->getLinkTarget($this, "listBackpackGroups"));
+		
+		$ilTabs->addSubTab("backpack_settings",
+			$lng->txt("settings"),
+			$ilCtrl->getLinkTarget($this, "editSettings"));
+		
+		$ilTabs->activateTab("backpack_badges");
+	}
+	
 	protected function listBackpackGroups()
 	{
 		global $lng, $tpl, $ilCtrl, $ilTabs;
@@ -260,8 +271,9 @@ class ilBadgeProfileGUI
 		{
 			$ilCtrl->redirect($this, "listBadges");
 		}		
-		
-		$ilTabs->activateTab("backpack_badges");
+				
+		$this->setBackpackSubTabs();
+		$ilTabs->activateSubTab("backpack_badges");
 		
 		ilUtil::sendInfo($lng->txt("badge_backpack_gallery_info"));
 				
@@ -419,8 +431,9 @@ class ilBadgeProfileGUI
 			$ilCtrl->redirect($this, "listBadges");
 		}		
 		
-		$ilTabs->activateTab("backpack_settings");
-		
+		$this->setBackpackSubTabs();
+		$ilTabs->activateSubTab("backpack_settings");
+	
 		if(!$a_form)
 		{
 			$a_form = $this->initSettingsForm();
