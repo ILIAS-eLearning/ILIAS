@@ -60,11 +60,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case 'ilobjectmetadatagui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
+				$this->checkPermission('write'); // #18563
 				$this->prepareOutput();	
 				$ilTabs->activateTab('id_meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
