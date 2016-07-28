@@ -109,8 +109,6 @@ class ilBadgeManagementGUI
 		
 		$this->setTabs("badges");
 		
-		var_dump($this->parent_obj_type);
-		
 		if($this->hasWrite())
 		{
 			$handler = ilBadgeHandler::getInstance();				
