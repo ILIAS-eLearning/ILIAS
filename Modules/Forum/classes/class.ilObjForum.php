@@ -488,13 +488,19 @@ class ilObjForum extends ilObject
 	 * update forum data
 	 * @access    public
 	 */
-	function update()
+	function update($a_update_user_id = 0)
 	{
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
+		if(!$a_update_user_id)
+		{
+			$a_update_user_id = $GLOBALS['DIC']['ilUser']->getId();
+		}
+		
+		
 		if(parent::update())
 		{
 
@@ -510,7 +516,7 @@ class ilObjForum extends ilObject
 					$this->getTitle(),
 					$this->getDescription(),
 					date("Y-m-d H:i:s"),
-					(int)$_SESSION["AccountId"],
+					(int) $a_update_user_id,
 					(int)$this->getId()
 				));
 
