@@ -1575,12 +1575,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$items = new ilLinkResourceItems($this->object->getId());
 		foreach($items->getAllItems() as $item)
 		{
-			/* :TODO:
 			if(!$item["active"])
 			{
 				continue;
 			}
-			*/
 			
 			$target = $this->handleSubItemLinks($item["target"]);
 			
