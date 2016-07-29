@@ -3,7 +3,7 @@
 namespace CaT\TableRelations\Tables;
 
 
-class DerivedTable implements AbstractTable{
+class DerivedTable implements AbstractTable, Graphs\AbstractNode{
 	protected $space;
 	protected $fields;
 	protected $id;
