@@ -11,9 +11,13 @@ namespace \CaT\TableRelations\Tables;
 class TableSpace {
 	protected $graph;
 	protected $fields = array();
-	protected $requested = array();
+	protected $requested_fields = array();
+	protected $derived_fields = array();
 	protected $filter = array();
 	protected $group_by;
+	protected $releavent_tables;
+	protected $root_table;
+
 	public function __construct(Graphs\AbstractGraph $graph) {
 		$this->graph = $graph;
 	}
@@ -55,15 +59,25 @@ class TableSpace {
 	}
 
 	public function request(Predicate\Field $field, $id = null) {
+		if(!$field instanceof AbstractTableField || !$field instanceof AbstractDerivedField) {
+			throw new TableExcepton("invalid field");
+		}
+		$designated_id = $id !== null ? $id : $field->name_simple();
+		if( isset($this->requested_fields[$designated_name]) ||
+			isset($this->derived_fields[$designated_name])) {
+			throw new TableExcepton("id $designated_id allready requested");
+		}
+		$this->derived_fields[$designated_id] = $derived_field;
 		if($field instanceof AbstractTableField) {
 			if($this->fieldInSpace($field)) {
+				$this->releavant_table_ids[] = $field->tableId();
 				if($id === null) {
 					if(!isset($this->requested[$field->name_simple()])) {
-						$this->requested[$field->name_simple()] = $field;
+						$this->requested_field_ids[$field->name_simple()] = $field;
 						return $this;
 					} 
 				} elseif( !isset($this->requested[$id])) {
-					$this->requested[$id] = $field;
+					$this->requested_fields[$id] = $field;
 					return $this;
 				}
 				$name = $id ? $id : $field->name();
@@ -72,13 +86,13 @@ class TableSpace {
 			$name = $field->name();
 			throw new TableExcepton("requested field $name not in space");
 		} elseif($field instanceof AbstractDerivedField) {
-			foreach($derived_field->derivedFrom() as $filed) {
+			foreach($field->derivedFrom() as $filed) {
 				if(!$this->fieldInSpace($field)) {
 					$name = $field->name_simple();
 					throw new TableExcepton("requested field $name not in space");
 				}
+				$this->releavant_table_ids[] = $field->tableId();
 			}
-			$this->requested[$derived_field->name()] = $derived_field;
 			return $this;
 		} else {
 			throw new TableExcepton("invalid field type");
@@ -112,12 +126,13 @@ class TableSpace {
 		$this->having = $field;
 	}
 
-	protected function getRelevantTables() {
-
-	}
-
-	public function addRootTable() {
-
+	public function setRootTable(AbstractTable $table) {
+		$id = $table->id();
+		if($this->graph->getNodeById($id) != $table) {
+			throw new TableExcepton("$id not in space");
+		}
+		$this->root_table = $id;
+		return $this;
 	}
 
 	public function addTablePrimary() {
