@@ -31,4 +31,8 @@ class TableFactory {
 		$table->dependingTables($from, $to, $predicate);
 		return $table;
 	}
+
+	public function DerivedField($name, \Closure $postprocess,$fields) {
+		return new DerivedField($this->predicate_factory,$name,$postprocess,$fields);
+	}
 }
