@@ -22,7 +22,7 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 	 */
 	public function addField(AbstractTableField $field) {
 		if($this->fieldInTable($field)) {
-			$name = $field->name_simple;
+			$name = $field->name_simple();
 			$id = $this->id;
 			throw new TableException("field $name in table $id allready");
 		}
