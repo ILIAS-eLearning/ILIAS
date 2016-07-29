@@ -1,11 +1,15 @@
 <?php
+namespace CaT\TableRelations\Tables;
+
 use CaT\Filter as Filters;
 
-class DerivedField extends Filters\Predicates\Field implements AbstractDerivedField {
+class DerivedField extends Filters\Predicates\Field implements AbstractDerivedField{
 
 	protected $derived_from = array();
-	public function __construct(Filters\PredicateFactory $f, $name) {
+	public function __construct(Filters\PredicateFactory $f, $name, \Closure $postprocess, $fields = array()) {
 		$this->table_id = $table_id;
+		$this->derived_from = $fields;
+		$this->postprocess = $postprocess;
 		parent::__construct($f, $name);
 	}
 
@@ -24,7 +28,7 @@ class DerivedField extends Filters\Predicates\Field implements AbstractDerivedFi
 	 * @return	closure 
 	 */
 	public function postprocess() {
-		
+		return $this->postprocess;
 	}
 
 	public function name_simple() {
