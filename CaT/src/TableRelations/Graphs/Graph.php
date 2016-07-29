@@ -159,6 +159,10 @@ class Graph implements AbstractGraph {
 		return array_values($return);
 	}
 
+	public function getPathsBetween($from_id, $to_id) {
+		return $this->DFS($from_id, $to_id);
+	}
+
 	/**
 	 * @inheritdoc
 	 */
