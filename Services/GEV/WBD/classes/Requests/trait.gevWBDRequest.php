@@ -233,7 +233,7 @@ trait gevWBDRequest{
 						break;
 					case "maxlen":
 						if(strlen($value) > $setting){
-							$errors[] = self::createError("too long: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+							$errors[] = self::createError("too long: ".$field." length: ".$length, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
 						}
 						break;
 					case "list":

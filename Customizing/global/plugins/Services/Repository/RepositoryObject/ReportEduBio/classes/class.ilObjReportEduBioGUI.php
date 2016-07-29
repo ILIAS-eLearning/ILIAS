@@ -23,7 +23,6 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 
 	public function performCustomCommand($cmd) {
-		//die($cmd);
 		switch ($cmd) {
 			case "getCertificate":
 				$this->object->prepareRelevantParameters();
@@ -80,78 +79,56 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function render() {
 		$this->gTpl->setTitle(null);
+		if(!$this->object->getWBD()->userTPStatusOK() &&
+			!$this->object->getWBD()->wbdRegistrationIsPending()) {
+			ilUtil::sendFailure($this->plugin->txt("wbd_role_no_service_warning"));
+		}
 		return 	$this->title->render()
-				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
-				. ($this->spacer !== null ? $this->spacer->render() : "")
-				. $this->renderOverview()
-				. ($this->spacer !== null ? $this->spacer->render() : "")
-				. $this->renderTable();
+				.($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
+				.($this->spacer !== null ? $this->spacer->render() : "")
+				.($this->object->getWBD()->getWBDTPType() !== gevWBD::WBD_NO_SERVICE ?
+					$this->renderOverview().($this->spacer !== null ? $this->spacer->render() : "") : "")
+				.$this->renderTable();
 	}
 
 	protected function renderOverview() {
 		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, $this->object->plugin->getDirectory());
 		$this->insertAcademyPoints($tpl);
-		if (gevWBD::getInstance($this->object->target_user_id)->transferPointsFromWBD()) {
+		if($this->object->getWBD()->getWBDTPType() === gevWBD::WBD_TP_SERVICE ) {
 			$this->insertWBDPoints($tpl);
-			$tpl->setVariable("WBDPOINTSVISIBIBLE", "visible");
-		}
-		else {
-			$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
-			if(gevWBD::getInstance($this->object->target_user_id)->transferPointsToWBD()) {
-				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
-				$tpl->setCurrentBlock("wbd_transfer");
-				$tpl->setVariable("TRANSFER_TITLE", $this->object->plugin->txt("wbd_transfer_on"));
-				$tpl->parseCurrentBlock();
-			}
-			elseif (gevWBD::getInstance($this->object->target_user_id)->wbdRegistrationIsPending()){
+			if ($this->object->getWBD()->transferPointsFromWBD()) {
+				$tpl->setVariable("WBDPOINTSVISIBIBLE", "visible");
+			} else {
 				$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
-				$tpl->setCurrentBlock("wbd_reg_pending");
-				$tpl->setVariable("WBDREGPENDINGVISIBIBLE", "visible");
-				$tpl->setVariable("WBD_REG_PENDING", $this->object->plugin->txt("wbd_reg_pending"));
-				$tpl->parseCurrentBlock();
+				if($this->object->getWBD()->transferPointsToWBD()) {
+					ilUtil::sendInfo($this->plugin->txt("wbd_transfer_on"));
+				} elseif($this->object->getWBD()->wbdRegistrationIsPending()) {
+					ilUtil::sendInfo($this->plugin->txt("wbd_reg_pending"));
+				}
 			}
-			else {
-				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
-			}
+		} else {
+			$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
 		}
 		return $tpl->get();
 	}
 
 	protected function insertAcademyPoints($tpl) {
-		$tpl->setVariable("ACADEMY_SUM_TITLE",$this->object->plugin->txt("points_in_academy"));
-		$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR_TITLE", $this->object->plugin->txt("points_in_five_years"));
-
-		$tpl->setVariable("ACADEMY_FIVE_YEAR", $this->object->academy_data["five_year"]);
-
-		if ($aux = $this->object->academy_data["sum"]) {
-			$tpl->setVariable("ACADEMY_SUM", $aux ? $aux : 0);
-		}
-		if ($aux = $this->object->academy_data["sum_five_year"]) {
-			$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR", $aux ? $aux : 0);
-		}
+		$tpl->setVariable("ACA_TRANSFERED_SUM_TITLE", $this->object->plugin->txt("aca_transferred_points_filter"));
+		$tpl->setVariable("ACA_TO_TRANSFER_SUM_TITLE", $this->object->plugin->txt("aca_to_transdfer_points_filter"));
+		$aux = $this->object->academy_points["transfered_sum"];
+		$tpl->setVariable("ACA_TRANSFERED_SUM", $aux ? $aux : 0);
+		$aux = $this->object->academy_points["to_transfer_sum"];
+		$tpl->setVariable("ACA_TO_TRANSFER_SUM", $aux ? $aux : 0);
 	}
 
 	protected function insertWBDPoints($tpl) {
 		$tpl->setVariable("WBD_SUM_TITLE", $this->object->plugin->txt("points_in_wbd"));
 		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->object->plugin->txt("points_in_wbd_cert_period"));
-		$tpl->setVariable("WBD_SUM_CUR_YEAR_TITLE", $this->object->plugin->txt("points_in_wbd_cert_year"));
-		$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED_TITLE", $this->object->plugin->txt("points_at_end_of_cert_year"));
-
 		$tpl->setVariable("WBD_CERT_PERIOD", $this->object->wbd_data["cert_period"]);
-		$tpl->setVariable("WBD_CERT_YEAR", $this->object->wbd_data["cert_year"]);
-
-		if ($aux = $this->object->wbd_data["sum"]) {
-			$tpl->setVariable("WBD_SUM", $aux ? $aux : 0);
-		}
-		if ($aux = $this->object->wbd_data["sum_year"]) {
-			$tpl->setVariable("WBD_SUM_CUR_YEAR", $aux ? $aux : 0);
-		}
-		if ($aux = $this->object->wbd_data["sum_cert_period"]) {
-			$tpl->setVariable("WBD_SUM_CERT_PERIOD", $aux ? $aux : 0);
-		}
-		if ($aux = $this->object->wbd_data["sum_cur_year_pred"]) {
-			$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED", $aux ? $aux : 0);
-		}
+		$aux = $this->object->wbd_data["sum"];
+		$tpl->setVariable("WBD_SUM", $aux ? $aux : 0);
+		$aux = $this->object->wbd_data["sum_cert_period"];
+		$tpl->setVariable("WBD_SUM_CERT_PERIOD", $aux ? $aux : 0);
 	}
 
 	protected function getBill() {

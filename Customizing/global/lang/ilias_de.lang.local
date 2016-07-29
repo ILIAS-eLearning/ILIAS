@@ -1531,3 +1531,5 @@ gev#:#rep_robj_xrea_rbac_create_xrea#:#Report Teilnahme nach Mitarbeiter / Vertr
 gev#:#rep_robj_xttc_rbac_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie anlegen
 gev#:#rep_robj_xrta_rbac_create_xrta#:#Report über Teilnahmen an Trainings anlegen
 gev#:#rep_robj_xtda_rbac_create_xtda#:#Report Trainingsauslastung (Ausblick) anlegen
+gev#:#cron_wbd_relevant_title#:#Setzt Trainings auf WBD relevant.
+gev#:#cron_wbd_relevant_description#:#Wenn beim Benutzer das UDF Feld 'WBD Punkte nachmelden ab' einen Wert besitzt, werden alle Trainings deren Enddatum >= ist auf WBD relevant gestzt.
