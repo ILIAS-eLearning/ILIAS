@@ -1,6 +1,6 @@
 <?php
 namespace \CaT\TableRelations\Tables;
-
+use CaT\TableRelations\Graphs as Graphs;
 /**
  * Table management takes place here.
  * Translates tables to graphs and operates them
@@ -19,11 +19,13 @@ class TableSpace {
 	protected $derived_fields = array();
 	protected $filter = array();
 	protected $group_by;
-	protected $releavent_tables;
+	protected $releavent_table_ids;
 	protected $root_table;
+	protected $f;
 
-	public function __construct(Graphs\AbstractGraph $graph) {
+	public function __construct(Graphs\AbstractGraph $graph, TableFactory $f) {
 		$this->graph = $graph;
+		$this->f = $f;
 	}
 
 	/**
@@ -52,7 +54,7 @@ class TableSpace {
 	public function addDependency(AbstractTableDependency $dep) {
 		$from = $dep->from();
 		$to = $dep->to();
-		if(!$from == $this->graph->getNodeById($from->id()) || !$to == $this->graph->getNodeById($to->id())) {
+		if(!$this->fieldInSpace($from)|| !$this->fieldInSpace($to)) {
 			throw new TableException("tables ".$from->id.", ".$to->id." seem not to be in space");
 		}
 		if($dep instanceof TableJoin) {
@@ -123,6 +125,16 @@ class TableSpace {
 		$this->requested_fields[$designated_id] = $field;
 	}
 
+	public function addFilter(Predicates\Predicate $predicate) {
+		foreach($predicate->fields() as $field) {
+			if(!$this->fieldInSpace[$field->name()]) {
+				throw new TableExcepton("unknown field");
+			}
+			$this->relevant_table_ids[] = $this->field->tableId();
+		}
+		$this->filter[] = $predicate;
+	}
+
 	public function groupBy(Predicates\Field $field) {
 		if($field instanceof AbstractTableField) {
 			if(!$this->fieldInSpace($field)) {
@@ -150,26 +162,54 @@ class TableSpace {
 	}
 
 	public function query() {
-		$paths = array();
-		foreach ($this->releavent_tables as $node_id) {
-			$paths = array_merge($this->graph->getPatsBetween($this->root_table, $node_id));
-		}
-
-		$this->getOrderedPathFromPaths($this->getPathsFromGraph());
-
+		$paths = $this->getPathsFromGraph();
+		$o_path = $this->getOrderedPathFromPaths($paths);
+		$join_conditions = $this->getConditionsOnPaths($paths);
 	}
 
 	protected function getPathsFromGraph() {
 		$paths = array();
-		foreach (array_unique($this->releavent_tables)
-		 as $node_id) {
+		foreach (array_unique($this->relevant_table_ids) as $node_id) {
+			$sg = $this->graph->getSubgraphOfNodeId($node_id) === self::PRIMARY ? self::PRIMARY : null;
 			$paths = array_merge($this->graph->getPatsBetween($this->root_table, $node_id));
 		}
 		return $paths;
 	}
 
 	protected function getOrderedPathFromPaths(array $paths) {
+		$o_path = current($paths);
+		while($path = next($paths)) {
+			$prev_table_id = null;
+			foreach($path as $table_id => $table) {
+				if($o_path->contains($table_id)) {
+					$prev_table_id = $table_id;
+					continue;
+				}
+				$o_path = $o_path->insertAfter($prev_table_id,$table);
+				$prev_table_id = $table_id;
+			}
+		}
+		return $o_path;
+	}
 
+	protected function getConditionsOnPaths($paths) {
+		$join_condition = array();
+		foreach($paths as $path) {
+			$prev_table_id = null;
+			foreach ($path as $table_id => $table) {
+				if($table_id !== $this->root_table) {
+					if(!isset($join_conditions[$table_id])) {
+						$join_conditions[$table_id] = array();
+					}
+					if(!isset($join_conditions[$table_id][$prev_table_id])) {
+						$join_conditions[$table_id][$prev_table_id]
+							= $this->graph->edgeBetween($prev_table_id,$table_id);
+					}
+				}
+				$prev_table_id = $table_id;
+			}
+		}
+		return $join_conditions;
 	}
 
 	/**
@@ -193,5 +233,4 @@ class TableSpace {
 			return $this;
 		}
 	}
-
 }
