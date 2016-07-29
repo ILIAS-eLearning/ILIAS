@@ -115,24 +115,20 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	protected function insertAcademyPoints($tpl) {
 		$tpl->setVariable("ACA_TRANSFERED_SUM_TITLE", $this->object->plugin->txt("aca_transferred_points_filter"));
 		$tpl->setVariable("ACA_TO_TRANSFER_SUM_TITLE", $this->object->plugin->txt("aca_to_transdfer_points_filter"));
-		if ($aux = $this->object->academy_points["transfered_sum"]) {
-			$tpl->setVariable("ACA_TRANSFERED_SUM", $aux);
-		}
-		if ($aux = $this->object->academy_points["to_transfer_sum"]) {
-			$tpl->setVariable("ACA_TO_TRANSFER_SUM", $aux);
-		}
+		$aux = $this->object->academy_points["transfered_sum"];
+		$tpl->setVariable("ACA_TRANSFERED_SUM", $aux ? $aux : 0);
+		$aux = $this->object->academy_points["to_transfer_sum"];
+		$tpl->setVariable("ACA_TO_TRANSFER_SUM", $aux ? $aux : 0);
 	}
 
 	protected function insertWBDPoints($tpl) {
 		$tpl->setVariable("WBD_SUM_TITLE", $this->object->plugin->txt("points_in_wbd"));
 		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->object->plugin->txt("points_in_wbd_cert_period"));
 		$tpl->setVariable("WBD_CERT_PERIOD", $this->object->wbd_data["cert_period"]);
-		if ($aux = $this->object->wbd_data["sum"]) {
-			$tpl->setVariable("WBD_SUM", $aux);
-		}
-		if ($aux = $this->object->wbd_data["sum_cert_period"]) {
-			$tpl->setVariable("WBD_SUM_CERT_PERIOD", $aux);
-		}
+		$aux = $this->object->wbd_data["sum"];
+		$tpl->setVariable("WBD_SUM", $aux ? $aux : 0);
+		$aux = $this->object->wbd_data["sum_cert_period"];
+		$tpl->setVariable("WBD_SUM_CERT_PERIOD", $aux ? $aux : 0);
 	}
 
 	protected function getBill() {
