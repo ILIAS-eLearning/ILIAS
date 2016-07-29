@@ -38,4 +38,6 @@ interface AbstractTable {
 	 * @return	Predicates\Predicate|null	$predicate
 	 */
 	public function constrain();
+
+	public function fieldInTable(AbstractTableField $field);
 }
