@@ -11,7 +11,7 @@ class DerivedTable implements AbstractTable{
 	protected $constrain = null;
 	public function __construct(TableSpace $space, $id) {
 		if(count($space->requested()) === 0) {
-			throw new TableException("$id:can't contruct by space, no fields requested");
+			throw new TableException("$id:can't construct by space, no fields requested");
 		}
 		foreach ($space->requested as $field) {
 			$this->fields[$field->name_simple()] = new TableField($field->name_simple(), $id);
