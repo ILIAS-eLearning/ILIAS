@@ -1,5 +1,7 @@
 <?php
 
+namespace CaT\TableRelations\Tables;
+
 interface AbstractDerivedField {
 
 	/**
