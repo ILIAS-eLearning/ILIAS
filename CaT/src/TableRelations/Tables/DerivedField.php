@@ -7,7 +7,6 @@ class DerivedField extends Filters\Predicates\Field implements AbstractDerivedFi
 
 	protected $derived_from = array();
 	public function __construct(Filters\PredicateFactory $f, $name, \Closure $postprocess, $fields = array()) {
-		$this->table_id = $table_id;
 		$this->derived_from = $fields;
 		$this->postprocess = $postprocess;
 		parent::__construct($f, $name);
