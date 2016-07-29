@@ -1564,6 +1564,46 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			ilUtil::redirect($a_url);
 		}		
 	}
+		
+	public function exportHTML()
+	{
+		global $ilSetting;
+		
+		$tpl = new ilTemplate("tpl.export_html.html", true, true, "Modules/WebResource");
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$items = new ilLinkResourceItems($this->object->getId());
+		foreach($items->getAllItems() as $item)
+		{
+			/* :TODO:
+			if(!$item["active"])
+			{
+				continue;
+			}
+			*/
+			
+			$target = $this->handleSubItemLinks($item["target"]);
+			
+			$tpl->setCurrentBlock("link_bl");
+			$tpl->setVariable("LINK_URL", $target);
+			$tpl->setVariable("LINK_TITLE", $item["title"]);
+			$tpl->setVariable("LINK_DESC", $item["description"]);
+			$tpl->setVariable("LINK_CREATE", $item["create_date"]);
+			$tpl->setVariable("LINK_UPDATE", $item["last_update"]);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable("CREATE_DATE", $this->object->getCreateDate());
+		$tpl->setVariable("LAST_UPDATE", $this->object->getLastUpdateDate());
+		$tpl->setVariable("TXT_TITLE", $this->object->getTitle());
+		$tpl->setVariable("TXT_DESC", $this->object->getLongDescription());
+		
+		$tpl->setVariable("INST_ID", ($ilSetting->get('short_inst_name') != "")
+			? $ilSetting->get('short_inst_name')
+			: "ILIAS");			
+		
+		ilUtil::deliverData($tpl->get(), "bookmarks.html");
+	}	
 
 	public static function _goto($a_target, $a_additional = null)
 	{
@@ -1602,5 +1642,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
+	
 } // END class.ilObjLinkResource
 ?>
