@@ -7,11 +7,43 @@ namespace CaT\TableRelations\Graphs;
  * A path is never self-crossing.
  * One may also add some metadata associated with a node.
  */
-class Path {
+class Path implements \Iterator {
 	protected $sequence = array();
 	protected $order = array();
 	protected $start_node = null;
 	protected $end_node = null;
+
+	protected $current = 0;
+
+	/**
+	 * Iterator-functions
+	 */
+
+	public function valid() {
+		return $this->current > 0 && $this->current <= count($this->sequence);
+	}
+
+	public function key() {
+		return key($this->sequence);
+	}
+
+	public function current() {
+		return current($this->sequence);
+	}
+
+	public function next() {
+		$this->current++;
+		return next($this->sequence);
+	}
+
+	public function rewind() {
+		$this->current = count($this->sequence) > 0 ? 1 : 0;
+		reset($this->sequence);
+	}
+
+	public function __construct() {
+		$this->current = 0;
+	}
 
 	public static function getInstanceByNode(AbstractNode $start_node) {
 		$path = new Path;
@@ -35,6 +67,9 @@ class Path {
 	}
 
 	public function addNode(AbstractNode $node) {
+		if($this->current === 0) {
+			$this->current = 1;
+		}
 		$node_id = $node->id();
 		if(isset($this->sequence[$node_id])) {
 			throw new GraphException("$node_id allready in path");
@@ -124,5 +159,23 @@ class Path {
 
 	public function positionOf($node_id) {
 		return isset($this->order[$node_id]) ? $this->order[$node_id] : 0;
+	}
+
+	public function insertAfter($node_id, AbstractNode $node) {
+		if(!$this->contains($node_id)) {
+			throw new GraphException("cant insert after nonexistent node $node_id");
+		}
+		$sequence = $this->sequence;
+		$this->sequence = array();
+		$this->order = array();
+		$this->start_node = null;
+		$this->end_node = null;
+		foreach ($sequence as $i_node_id => $i_node) {
+			$this->addNode($i_node);
+			if($i_node_id === $node_id) {
+				$this->addNode($node);
+			}
+		}
+		return $this;
 	}
 }
