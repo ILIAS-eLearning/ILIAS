@@ -149,7 +149,7 @@ class Graph implements AbstractGraph {
 	/**
 	 * @inheritdoc
 	 */
-	public function getNodesBetween($from_id, $to_id,  $subgraph = null) {
+	public function getNodesBetween($from_id, $to_id, $subgraph = null) {
 		$return = array();
 		foreach ($this->DFS($from_id, $to_id, $subgraph) as $path) {
 			foreach ($path->sequence() as $node) {
@@ -159,8 +159,8 @@ class Graph implements AbstractGraph {
 		return array_values($return);
 	}
 
-	public function getPathsBetween($from_id, $to_id) {
-		return $this->DFS($from_id, $to_id);
+	public function getPathsBetween($from_id, $to_id, $sg = null) {
+		return $this->DFS($from_id, $to_id, $sg);
 	}
 
 	/**
@@ -191,10 +191,12 @@ class Graph implements AbstractGraph {
 		return $this->edges;
 	}
 
-	public function edgeBetween($from_id,$to_id) {
-		foreach ($this->connections[$from_id] as $subgraph => $edges) {
-			if(isset($edges[$to_id])) {
-				return $edges[$to_id];
+	public function edgeBetween($from_id, $to_id) {
+		if(isset($this->connections[$from_id])) {
+			foreach ($this->connections[$from_id] as $subgraph => $edges) {
+				if(isset($edges[$to_id])) {
+					return $edges[$to_id];
+				}
 			}
 		}
 		return null;
