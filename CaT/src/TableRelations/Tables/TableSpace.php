@@ -9,6 +9,10 @@ namespace \CaT\TableRelations\Tables;
  * Also it runs consistency-checks on Tables/fields provided.
  */
 class TableSpace {
+
+	const PRIMARY = 'primary_sg';
+	const SECONDARY = 'secondary_sg';
+
 	protected $graph;
 	protected $fields = array();
 	protected $requested_fields = array();
@@ -22,9 +26,12 @@ class TableSpace {
 		$this->graph = $graph;
 	}
 
+	/**
+	 * Space setup.
+	 */
 	public function addTable(AbstractTable\Table $table) {
 		$table_id = $table->id();
-		if($this->graph->getNodeById($from->id())) {
+		if($this->graph->getNodeById($table_id)) {
 			throw new TableException("$table_id allready in space");
 		}
 		if(count($table->fields) === 0) {
@@ -58,16 +65,39 @@ class TableSpace {
 		return $this;
 	}
 
+	public function addTablePrimary(AbstractTable $table) {
+		$table->setSubgraph(self::PRIMARY);
+		$this->releavent_tables = $table->id();
+		$this->graph->addTable($table);
+		return $this;
+	}
+
+	public function addTableSecondary() {
+		$table->setSubgraph(self::SECONDARY);
+		$this->graph->addTable($table);
+		return $this;
+	}
+
+	public function setRootTable(AbstractTable $table) {
+		$id = $table->id();
+		if($this->graph->getNodeById($id) != $table) {
+			throw new TableExcepton("$id not in space");
+		}
+		$this->root_table = $id;
+		return $this;
+	}
+
+	/**
+	 * Query definition.
+	 */
 	public function request(Predicate\Field $field, $id = null) {
 		if(!$field instanceof AbstractTableField || !$field instanceof AbstractDerivedField) {
 			throw new TableExcepton("invalid field");
 		}
 		$designated_id = $id !== null ? $id : $field->name_simple();
-		if( isset($this->requested_fields[$designated_name]) ||
-			isset($this->derived_fields[$designated_name])) {
+		if(isset($this->requested_fields[$designated_id])) {
 			throw new TableExcepton("id $designated_id allready requested");
 		}
-		$this->derived_fields[$designated_id] = $derived_field;
 		if($field instanceof AbstractTableField) {
 			if($this->fieldInSpace($field)) {
 				$this->releavant_table_ids[] = $field->tableId();
@@ -76,14 +106,8 @@ class TableSpace {
 						$this->requested_field_ids[$field->name_simple()] = $field;
 						return $this;
 					} 
-				} elseif( !isset($this->requested[$id])) {
-					$this->requested_fields[$id] = $field;
-					return $this;
 				}
-				$name = $id ? $id : $field->name();
-				throw new TableExcepton("$name allready requested");
 			}
-			$name = $field->name();
 			throw new TableExcepton("requested field $name not in space");
 		} elseif($field instanceof AbstractDerivedField) {
 			foreach($field->derivedFrom() as $filed) {
@@ -93,19 +117,71 @@ class TableSpace {
 				}
 				$this->releavant_table_ids[] = $field->tableId();
 			}
-			return $this;
 		} else {
 			throw new TableExcepton("invalid field type");
 		}
+		$this->requested_fields[$designated_id] = $field;
 	}
 
+	public function groupBy(Predicates\Field $field) {
+		if($field instanceof AbstractTableField) {
+			if(!$this->fieldInSpace($field)) {
+				throw new TableExcepton("requested field $name not in space");
+			}
+			$this->releavant_table_ids[$field->tableId()];
+		} elseif($field instanceof AbstractDerivedField) {
+			if(!isset($this->requested_fields[$field->name_simple()])) {
+				throw new TableExcepton("requested field $name not in space");
+			}
+		} else {
+			throw new TableExcepton("unknown field type");
+		}
+		$this->group_by = $field;
+		return $this;
+	}
+
+	public function having(Predicate\Predicate $predicate) {
+		foreach($predicate->fields() as $field) {
+			if(!isset($this->requested_fields[$field->name()])) {
+				throw new TableExcepton("unknown field");
+			}
+		}
+		$this->having = $predicate;
+	}
+
+	public function query() {
+		$paths = array();
+		foreach ($this->releavent_tables as $node_id) {
+			$paths = array_merge($this->graph->getPatsBetween($this->root_table, $node_id));
+		}
+
+		$this->getOrderedPathFromPaths($this->getPathsFromGraph());
+
+	}
+
+	protected function getPathsFromGraph() {
+		$paths = array();
+		foreach (array_unique($this->releavent_tables)
+		 as $node_id) {
+			$paths = array_merge($this->graph->getPatsBetween($this->root_table, $node_id));
+		}
+		return $paths;
+	}
+
+	protected function getOrderedPathFromPaths(array $paths) {
+
+	}
+
+	/**
+	 * misc.
+	 */
 	protected function fieldInSpace(AbstractTableField $field) {
 		return $this->graph->getNodeById($field->tableId())->fieldInTable($field);
 	}
 
 	protected function fieldRequested(Predicates\Field $field) {
 		if($field instanceof AbstractTableField) {
-			return isset($this->requested[$field->name_simple()]);
+			return isset($this->requested_fields[$field->name_simple()]);
 		} elseif($field instanceof AbstractDerivedField) {
 			foreach($derived_field->derivedFrom() as $filed) {
 				if(!$this->fieldInSpace($field)) {
@@ -118,28 +194,4 @@ class TableSpace {
 		}
 	}
 
-	public function groupBy(Predicates\Field $field) {
-		$this->group_by = $field;
-	}
-
-	public function having(Predicate\Predicate $predicate) {
-		$this->having = $field;
-	}
-
-	public function setRootTable(AbstractTable $table) {
-		$id = $table->id();
-		if($this->graph->getNodeById($id) != $table) {
-			throw new TableExcepton("$id not in space");
-		}
-		$this->root_table = $id;
-		return $this;
-	}
-
-	public function addTablePrimary() {
-		
-	}
-
-	public function addTableSecondary() {
-
-	}
 }
