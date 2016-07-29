@@ -90,4 +90,32 @@ class PathTest extends PHPUnit_Framework_TestCase {
 		}
 		$this->assertSame($seq,array("1a","2a","3a"));
 	}
+
+	public function test_path_position() {
+		$gtf = $this->gtf;
+		$path = Graphs\Path::getInstanceBySequence(array($gtf->Node("a1"),$gtf->Node("a2"),$gtf->Node("a3")));
+		$this->assertEquals($path->positionOf("a1"),1);
+		$this->assertEquals($path->positionOf("foo"),0);
+	}
+
+	public function test_iterate() {
+		$gtf = $this->gtf;
+		$seq = array("1a" => $gtf->Node("1a"),"2a" =>  $gtf->Node("2a"), "3a" =>  $gtf->Node("3a"), "4a"  => $gtf->node("4a"));
+		$path = Graphs\Path::getInstanceBySequence($seq);
+		foreach($path as $node_id => $node) {
+			$this->assertSame($node,$seq[$node_id]);
+		}
+	}
+
+	public function test_insert() {
+		$gtf = $this->gtf;
+		$new = $gtf->Node("2aa");
+		$seq = array("1a" => $gtf->Node("1a"),"2a" =>  $gtf->Node("2a"), "3a" =>  $gtf->Node("3a"), "4a"  => $gtf->node("4a"));
+		$seq_ref = array("1a" => $gtf->Node("1a"),"2a" =>  $gtf->Node("2a"), "2aa" => $new, "3a" =>  $gtf->Node("3a"), "4a" => $gtf->node("4a"));
+		$path = Graphs\Path::getInstanceBySequence($seq);
+		$path->insertAfter("2a",$new);
+		foreach($path as $node_id => $node) {
+			$this->assertEquals($node,$seq_ref[$node_id]);
+		}
+	}
 }
