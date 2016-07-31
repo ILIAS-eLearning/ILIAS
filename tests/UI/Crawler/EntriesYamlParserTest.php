@@ -30,10 +30,13 @@ class CrawlerTest extends PHPUnit_Framework_TestCase {
      * @throws Crawler\Exception\CrawlerException
      */
     public function testParseInvalidFile() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::INVALID_FILE_PATH);
+        try{
+            $this->parser->parseYamlStringArrayFromFile("Invalid Path");
+            $this->assertFalse("This should not happen");
 
-        $this->parser->parseYamlStringArrayFromFile("Invalid Path");
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::INVALID_FILE_PATH);
+        }
     }
 
     /**
@@ -55,29 +58,38 @@ class CrawlerTest extends PHPUnit_Framework_TestCase {
      * @throws Crawler\Exception\CrawlerException
      */
     public function testNoDescriptionEntry() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION);
+        try{
+            $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoDescriptionEntry.php");
+            $this->assertFalse("This should not happen");
 
-        $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoDescriptionEntry.php");
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION);
+        }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testNoReturnValueEntry() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT);
+        try{
+            $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoReturnValueEntry.php");
+            $this->assertFalse("This should not happen");
 
-        $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoReturnValueEntry.php");
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT);
+        }
     }
 
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testInvalidYamlEntry() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::PARSING_YAML_ENTRY_FAILED);
+        try{
+            $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/InvalidYamlEntry.php");
+            $this->assertFalse("This should not happen");
 
-        $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/InvalidYamlEntry.php");
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::PARSING_YAML_ENTRY_FAILED);
+        }
     }
 
     public function testCamelCase() {
