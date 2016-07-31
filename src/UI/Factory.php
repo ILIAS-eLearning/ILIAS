@@ -162,4 +162,38 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Button\Factory
 	 */
 	public function button();
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     	A card is a flexible content container for small chunks of structured data.
+     *      Cards are often used in so-called Decks which are a gallery of Cards.
+     *   composition: >
+     *      Cards contain a header, which often includes an Image or Icon and a Title as well as possible actions as
+     *      Default Buttons and 0 to n sections that may contain further textual descriptions, links and buttons.
+     *   effect: >
+     *      Cards may contain Interaction Triggers.
+     *   rivals:
+     *      Heading Panel: Heading Panels fill up the complete available width in the Center Content Section. Multiple Heading Panels are stacked vertically.
+     *      Block Panels: Block Panels are used in Sidebars
+     *
+     * featurewiki:
+     *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_3208_1357.html
+     *
+     * rules:
+     *   composition:
+     *      1: Cards MUST contain a title.
+     *      2: Cards SHOULD contain an Image or Icon in the header section.
+     *      3: Cards MAY contain Interaction Triggers.
+     *   style:
+     *      1: Sections of  Cards MUST be separated by Dividers.
+     *   accessibility:
+     *      1: If multiple Cards are used, they MUST be contained in a Deck.
+     * ---
+     * @param string $title
+     * @param \ILIAS\UI\Component\Image\Image $image
+     * @return \ILIAS\UI\Component\Card\Card
+     */
+    public function card($title, \ILIAS\UI\Component\Image\Image $image = null);
 }
