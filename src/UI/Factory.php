@@ -196,4 +196,32 @@ interface Factory {
      * @return \ILIAS\UI\Component\Card\Card
      */
     public function card($title, \ILIAS\UI\Component\Image\Image $image = null);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     	Decks are used to display multiple Cards in a grid.
+     *      They should be used if a  page contains many content items that have similar style and importance.
+     *      A Deck gives each item equal horizontal space indicating that they are of equal importance.
+     *   composition: >
+     *      Decks are composed only of Cards arranged in a grid. The cards displayed by decks are all of equal size. This
+     *      Size ranges very small (XS) to very large (XL).
+     *   effect: >
+     *      The Deck is a mere scaffolding element, is has no effect.
+     *
+     * featurewiki:
+     *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_3992_1357.html
+     *
+     * rules:
+     *   usage:
+     *      1: Decks MUST only be used to display multiple Cards.
+     *   style:
+     *      1: The number of cards displayed per row MUST adapt to the screen size.
+     * ---
+     * @param \ILIAS\UI\Component\Card\Card[] $cards
+     * @return \ILIAS\UI\Component\Deck\Deck
+     */
+    public function deck($cards);
+
 }
