@@ -217,6 +217,12 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		global $lng;
 		
+		// #18756
+		if($this->getDisabled())
+		{
+			return true;
+		}
+		
 		// if no information is received, something went wrong
 		// this is e.g. the case, if the post_max_size has been exceeded
 		if (!is_array($_FILES[$this->getPostVar()]))
