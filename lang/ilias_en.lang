@@ -15132,7 +15132,7 @@ exc#:#exc_team_management_tutor#:#Team Management by Tutors
 exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
 exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
 exc#:#exc_max_file#:#Max Number of Files
-exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached.
+exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached. In team assignments the limit is also enforced per participant not team-wide.
 exc#:#exc_max_file_tgl#:#Limit Uploads
 exc#:#exc_max_file_reached#:#You cannot upload more than %s files.
 exc#:#exc_deadline_extended#:#Grace Period
