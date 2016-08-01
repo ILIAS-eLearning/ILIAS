@@ -275,3 +275,26 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#17>
+<?php
+
+if(!$ilDB->tableExists('ut_lp_defaults'))
+{
+	$ilDB->createTable('ut_lp_defaults', array(	
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => ""
+		),
+		'lp_mode' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));	
+	$ilDB->addPrimaryKey('ut_lp_defaults',array('type_id'));
+}
+
+?>

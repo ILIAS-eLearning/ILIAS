@@ -147,8 +147,17 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	{		
 		$this->checkPermission('read');
 
-		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->addSubTab('lp_settings',
+			$this->lng->txt('settings'),
+			$this->ctrl->getLinkTarget($this, 'settings'));
 
+		$this->tabs_gui->addSubTab('lpdef',
+			$this->lng->txt('trac_defaults'),
+			$this->ctrl->getLinkTarget($this, 'editLPDefaults'));
+
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('lp_settings');
+		
 		if(!$a_form)
 		{
 			$a_form = $this->initSettingsForm();
@@ -338,6 +347,131 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	
 		$form->setValuesByPost();
 		$this->settingsObject($form);
+		return false;
+	}
+	
+	
+	//
+	// LP DEFAULTS
+	//
+	
+	protected function editLPDefaultsObject($a_form = null)
+	{
+		$this->checkPermission('read');
+
+		$this->tabs_gui->addSubTab('lp_settings',
+			$this->lng->txt('settings'),
+			$this->ctrl->getLinkTarget($this, 'settings'));
+
+		$this->tabs_gui->addSubTab('lpdef',
+			$this->lng->txt('trac_defaults'),
+			$this->ctrl->getLinkTarget($this, 'editLPDefaults'));
+
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('lpdef');
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initLPDefaultsForm();
+		}
+
+		$this->tpl->setContent($a_form->getHTML());
+	}			
+	
+	protected function initLPDefaultsForm()
+	{	
+		global $objDefinition;
+		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('trac_defaults'));
+		
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+		
+		$types = array();
+		foreach($objDefinition->getAllRepositoryTypes() as $type)
+		{
+			if(ilObjectLP::isSupportedObjectType($type))
+			{
+				$types[$type] = array(
+					"type" => $type,
+					"caption" => $this->lng->txt("obj_".$type)
+				);
+			}			
+		}
+		$types = ilUtil::sortArray($types, "caption", "asc");
+		foreach($types as $item)
+		{			
+			$def_type = new ilSelectInputGUI($item["caption"], "def_".$item["type"]);			
+			$form->addItem($def_type);
+			
+			$class = ilObjectLP::getTypeClass($item["type"]);
+			
+			$modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
+			if($modes)
+			{				
+				$def_type->setRequired(true);								
+				$def_type->setValue(ilObjectLP::getTypeDefault($item["type"]));				
+				
+				$options = array();
+				foreach($modes as $mode)
+				{
+					$options[$mode] = ilLPObjSettings::_mode2Text($mode);		
+				}				
+				$def_type->setOptions($options);
+			}
+			else
+			{
+				$def_type->setDisabled(true);
+			}
+		}
+		
+		if($this->checkPermissionBool("write"))
+		{	
+			$form->addCommandButton('saveLPDefaults', $this->lng->txt('save'));
+		}
+		else
+		{
+			foreach($types as $item)
+			{
+				$form->getItemByPostVar("def_".$item["type"])->setDisabled(true);
+			}	
+		}
+				
+		return $form;
+	}
+	
+	protected function saveLPDefaultsObject()
+	{		
+		global $objDefinition;
+		
+		$this->checkPermission('write');
+		
+		$form = $this->initLPDefaultsForm();
+		if($form->checkInput())
+		{		
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			
+			$res = array();
+			foreach($objDefinition->getAllRepositoryTypes() as $type)
+			{
+				if(ilObjectLP::isSupportedObjectType($type))
+				{					
+					$res[$type] = $form->getInput("def_".$type);
+				}			
+			}
+			
+			ilObjectLP::saveTypeDefaults($res);		
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "editLPDefaults");
+		}
+	
+		$form->setValuesByPost();
+		$this->editLPDefaultsObject($form);
 		return false;
 	}
 } 
