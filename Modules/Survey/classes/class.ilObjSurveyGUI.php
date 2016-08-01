@@ -583,6 +583,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$tut_ids->setAlert($this->lng->txt("survey_notification_tutor_recipients_invalid"));					
 						$valid = false;
 					}													
+				}					
+				if($form->getInput("tut_res"))
+				{				
+					$end = $form->getItemByPostVar("end_date");		
+					if(!$end->getDate())
+					{
+						$tut_res = $form->getItemByPostVar("tut_res");
+						$tut_res->setAlert($this->lng->txt("svy_notification_tutor_results_alert"));					
+						$valid = false;
+					}
+					
+					// check if given "tutors" have write permission
+					$tut_res_ids =array();
+					$tut_logins = $form->getInput("tut_res_ids");
+					foreach($tut_logins as $tut_login)
+					{
+						$tut_id = ilObjUser::_lookupId($tut_login);
+						if($tut_id && $rbacsystem->checkAccessOfUser($tut_id, "write", $this->object->getRefId()))
+						{					
+							$tut_res_ids[] = $tut_id;
+						}				
+					}
+					if(!$tut_res_ids)
+					{
+						$tut_res_ids = $form->getItemByPostVar("tut_res_ids");
+						$tut_res_ids->setAlert($this->lng->txt("survey_notification_tutor_recipients_invalid"));					
+						$valid = false;
+					}													
 				}			
 			}
 			
@@ -649,6 +677,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 					else
 					{
 						$this->object->setTutorNotificationStatus(false);
+					}
+					
+					if($form->getInput("tut_res"))
+					{
+						$this->object->setTutorResultsStatus(true);		
+						$this->object->setTutorResultsRecipients($tut_res_ids); // see above						
+					}		
+					else
+					{
+						$this->object->setTutorResultsStatus(false);
 					}
 				}
 			
@@ -1221,6 +1259,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 				ilObjSurvey::NOTIFICATION_INVITED_USERS);
 			$tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
 			$tut_grp->addOption($tut_grp_inv);
+			
+			$tut_res =  new ilCheckboxInputGUI($this->lng->txt("svy_notification_tutor_results"), "tut_res");
+			$tut_res->setInfo($this->lng->txt("svy_notification_tutor_results_info"));
+			$tut_res->setChecked($this->object->getTutorResultsStatus());
+			$form->addItem($tut_res);
+			
+			$tut_res_logins = array();
+			$tuts = $this->object->getTutorResultsRecipients();
+			if($tuts)
+			{
+				foreach($tuts as $tut_id)
+				{
+					$tmp = ilObjUser::_lookupName($tut_id);
+					if($tmp["login"])
+					{
+						$tut_res_logins[] = $tmp["login"];
+					}
+				}
+			}		
+			$tut_res_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_res_ids");
+			$tut_res_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
+			$tut_res_ids->setRequired(true);
+			$tut_res_ids->setMulti(true);		
+			$tut_res_ids->setMultiValues($tut_res_logins);
+			$tut_res_ids->setValue(array_shift($tut_res_logins));		
+			$tut_res->addSubItem($tut_res_ids);
 		}		
 		
 		

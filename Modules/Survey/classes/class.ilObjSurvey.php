@@ -180,6 +180,8 @@ class ilObjSurvey extends ilObject
 	protected $tutor_ntf_status; // [bool]
 	protected $tutor_ntf_recipients; // [array]
 	protected $tutor_ntf_target; // [int]
+	protected $tutor_res_status; // [bool]
+	protected $tutor_res_recipients; // [array]
 	
 	protected $view_own_results; // [bool]
 	protected $mail_own_results; // [bool]
@@ -815,6 +817,8 @@ class ilObjSurvey extends ilObject
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
 				"own_results_view" => array("integer", $this->hasViewOwnResults()),
 				"own_results_mail" => array("integer", $this->hasMailOwnResults()),
+				"tutor_res_status" => array("integer", (int)$this->getTutorResultsStatus()),
+				"tutor_res_reci" => array("text", implode(";", (array)$this->getTutorResultsRecipients())),
 				"confirmation_mail" => array("integer", $this->hasMailConfirmation()),				
 				"anon_user_list" => array("integer", $this->hasAnonymousUserList())
  			));
@@ -864,6 +868,8 @@ class ilObjSurvey extends ilObject
 				"tutor_ntf_target" => array("integer", $this->getTutorNotificationTarget()),
 				"own_results_view" => array("integer", $this->hasViewOwnResults()),
 				"own_results_mail" => array("integer", $this->hasMailOwnResults()),
+				"tutor_res_status" => array("integer", (int)$this->getTutorResultsStatus()),
+				"tutor_res_reci" => array("text", implode(";", (array)$this->getTutorResultsRecipients())),
 				"confirmation_mail" => array("integer", $this->hasMailConfirmation()),				
 				"anon_user_list" => array("integer", $this->hasAnonymousUserList())				
 			), array(
@@ -1170,6 +1176,8 @@ class ilObjSurvey extends ilObject
 			$this->setTutorNotificationStatus($data["tutor_ntf_status"]);
 			$this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"]));
 			$this->setTutorNotificationTarget($data["tutor_ntf_target"]);
+			$this->setTutorResultsStatus($data["tutor_res_status"]);
+			$this->setTutorResultsRecipients(explode(";", $data["tutor_res_reci"]));
 			
 			$this->setViewOwnResults($data["own_results_view"]);
 			$this->setMailOwnResults($data["own_results_mail"]);
@@ -4079,6 +4087,8 @@ class ilObjSurvey extends ilObject
 		$newObj->setTutorNotificationStatus($this->getTutorNotificationStatus());
 		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
 		$newObj->setTutorNotificationTarget($this->getTutorNotificationTarget());
+		$newObj->setTutorResultsStatus($this->getTutorResultsStatus());
+		$newObj->setTutorResultsRecipients($this->getTutorResultsRecipients());
 
 		$newObj->setMailNotification($this->getMailNotification());
 		$newObj->setMailAddresses($this->getMailAddresses());
@@ -6173,6 +6183,26 @@ class ilObjSurvey extends ilObject
 		$this->tutor_ntf_target = (int)$a_value;
 	}	
 	
+	public function getTutorResultsStatus()
+	{
+		return (bool)$this->tutor_res_status;
+	}
+	
+	public function setTutorResultsStatus($a_value)
+	{
+		$this->tutor_res_status = (bool)$a_value;
+	}
+	
+	public function getTutorResultsRecipients()
+	{
+		return $this->tutor_res_recipients;
+	}
+	
+	public function setTutorResultsRecipients(array $a_value)
+	{
+		$this->tutor_res_recipients = $a_value;			
+	}
+	
 	protected function checkTutorNotification()
 	{
 		$ilDB = $this->db;
@@ -6675,6 +6705,89 @@ class ilObjSurvey extends ilObject
 	public function getSelfEvaluationResults()
 	{
 		return $this->mode_self_eval_results;
+	}
+	
+	public static function getSurveysWithTutorResults()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT obj_fi FROM svy_svy".
+			" WHERE tutor_res_cron IS NULL".
+			" AND tutor_res_status = ".$ilDB->quote(1, "integer").
+			" AND enddate < ".$ilDB->quote(date("Ymd000000"), "text"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_fi"];
+		}
+		
+		return $res;
+	}
+	
+	public function sendTutorResults()
+	{
+		global $ilCtrl, $ilDB;
+		
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		include_once "./Services/User/classes/class.ilObjUser.php";
+		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+		include_once "./Services/User/classes/class.ilUserUtil.php";
+		
+		include_once "./Services/Link/classes/class.ilLink.php";
+		$link = ilLink::_getStaticLink($this->getRefId(), "svy");
+		
+		// somehow needed in cron-calls
+		$ilCtrl->setTargetScript("ilias.php");
+		$ilCtrl->initBaseClass("ilobjsurveygui");
+		
+		// yeah, I know...
+		$_GET["ref_id"] = $this->getRefId();
+		$ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
+			
+		include_once "./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php";		
+		$gui = new ilSurveyEvaluationGUI($this);
+		$url = $ilCtrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEvaluationGUI"), "evaluationdetails", "", false, false);
+		$pdf = $gui->callPhantom($url, "pdf", true);
+		
+		if(!$pdf || 
+			!file_exists($pdf))
+		{
+			return false;
+		}
+		
+		// prepare mail attachment
+		require_once 'Services/Mail/classes/class.ilFileDataMail.php';	
+		$att = "survey_".$this->getRefId().".pdf";
+		$mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
+		$mail_data->copyAttachmentFile($pdf, $att);
+			
+		foreach($this->getTutorResultsRecipients() as $user_id)
+		{																
+			// use language of recipient to compose message
+			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+			$ulng->loadLanguageModule('survey');
+
+			$subject = sprintf($ulng->txt('survey_results_tutor_subject'), $this->getTitle());
+			$message = sprintf($ulng->txt('survey_notification_tutor_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+			$message .= $ulng->txt('survey_results_tutor_body').":\n\n";
+			$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
+			$message .= "\n".$ulng->txt('survey_notification_tutor_link').": ".$link;		
+			
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+			$mail_obj->appendInstallationSignature(true);			
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array($att), array("system"));
+		}
+		
+		/*
+		$ilDB->manipulate("UPDATE svy_vy".
+			" SET tutor_res_cron = ".$ilDB->quote(1, "integer").
+			" WHERE survey_id = ".$ilDB->quote($this->getSurveyId(), "integer"));		 
+		*/
+		
+		return true;
 	}
 	
 } // END class.ilObjSurvey

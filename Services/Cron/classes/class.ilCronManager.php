@@ -172,7 +172,7 @@ class ilCronManager implements \ilCronManagerInterface
 		}
 		// initiate run?
 		else if($a_job->isActive($a_job_data["job_result_ts"], 
-			$a_job_data["schedule_type"], $a_job_data["schedule_value"], $a_manual))
+			$a_job_data["schedule_type"], $a_job_data["schedule_value"], $a_manual) || $a_job->getId() == "survey_notification"))
 		{
 			$ilLog->write("CRON - job ".$a_job_data["job_id"]." started");
 
