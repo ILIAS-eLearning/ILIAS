@@ -1,26 +1,27 @@
 <?php
 
 namespace CaT\TableRelations\Tables;
+use CaT\TableRelations\Graphs as Graphs;
+use CaT\Filter as Filters;
 
-
-class DerivedTable implements AbstractTable, Graphs\AbstractNode{
+class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 	protected $space;
 	protected $fields;
 	protected $id;
 	protected $subgraph;
 	protected $constrain = null;
-	public function __construct(TableSpace $space, $id) {
+	public function __construct(Filters\PredicateFactory $pf,TableSpace $space, $id) {
 		if(count($space->requested()) === 0) {
 			throw new TableException("$id:can't construct by space, no fields requested");
 		}
-		foreach ($space->requested as $field) {
-			$this->fields[$field->name_simple()] = new TableField($field->name_simple(), $id);
+		foreach ($space->requested() as $designated_id => $field) {
+			$this->fields[$designated_id] = new TableField($pf, $designated_id, $id);
 		}
 		$this->space = $space;
 		$this->id = $id;
 	}
 
-	public function addConstrain(Predicates\Predicate $constrain) {
+	public function addConstrain(Filters\Predicates\Predicate $constrain) {
 		foreach($constrain->fields() as $field) {
 			if(!$this->fieldInTable($field)) {
 				$name = $field->name_simple();
