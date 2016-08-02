@@ -137,6 +137,10 @@ class TableSpace {
 		return $this;
 	}
 
+	public function requested() {
+		return $this->requested_fields;
+	} 
+
 	public function addFilter(Predicates\Predicate $predicate) {
 		foreach($predicate->fields() as $field) {
 			if(!$this->fieldInSpace($field)) {
@@ -188,14 +192,20 @@ class TableSpace {
 		$o_path = $this->getOrderedPathFromPaths($paths);
 		$join_conditions = $this->getConditionsOnPaths($paths);
 		$query = $this->f->query()
-						->setRequested($this->requested_fields)
-						->setRootTable($this->graph->getNodeById($this->root_table))
-						->setJoins($o_path)
-						->setJoinConditions($join_conditions)
-						->setFilter($this->filter)
-						->setHaving($this->having);
+						->withRequested($this->requested_fields)
+						->withRootTable($this->graph->getNodeById($this->root_table));
+		if($o_path) {
+			$query = $query->withJoins($o_path)
+						->withJoinConditions($join_conditions);
+		}
+		if($this->filter) {
+			$query = $query->withFilter($this->filter);
+		}
+		if($this->having) {
+			$query = $query->withHaving($this->having);
+		}
 		foreach ($this->group_by as $field) {
-			$query->setGroupBy($field);
+			$query->withGroupByField($field);
 		}
 		return $query;
 	}
@@ -213,21 +223,24 @@ class TableSpace {
 	}
 
 	protected function getOrderedPathFromPaths(array $paths) {
-		$o_path = clone current($paths);
-		while($path = next($paths)) {
-			$prev_table_id = null;
-			foreach($path as $table_id => $table) {
-				if($o_path->contains($table_id)) {
-					if($o_path->positionOf($table_id) < $o_path->positionOf($prev_table_id)) {
+		if(count($paths) > 0) {
+			$o_path = clone current($paths);
+			while($path = next($paths)) {
+				$prev_table_id = null;
+				foreach($path as $table_id => $table) {
+					if($o_path->contains($table_id)) {
+						if($o_path->positionOf($table_id) < $o_path->positionOf($prev_table_id)) {
+							$o_path->insertAfter($prev_table_id,$table);
+						}
+					} else {
 						$o_path->insertAfter($prev_table_id,$table);
 					}
-				} else {
-					$o_path->insertAfter($prev_table_id,$table);
+					$prev_table_id = $table_id;
 				}
-				$prev_table_id = $table_id;
 			}
+			return $o_path;
 		}
-		return $o_path;
+		return null;
 	}
 
 	protected function getConditionsOnPaths($paths) {
