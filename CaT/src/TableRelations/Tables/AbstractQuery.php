@@ -29,7 +29,7 @@ interface AbstractQuery extends \Iterator {
 	/**
 	 * Return having condition
 	 *
-	 * @return Predicates\Predicate
+	 * @return Predicates\Predicate|null
 	 */
 	public function having();
 
@@ -38,5 +38,12 @@ interface AbstractQuery extends \Iterator {
 	 *
 	 * @return Predicates\Field|null
 	 */
-	public function groupedBy();
+	public function groupBy();
+
+	/**
+	 * Get a field to group by, if any.
+	 *
+	 * @return Predicates\Predicvate|null
+	 */
+	public function filter();
 }
