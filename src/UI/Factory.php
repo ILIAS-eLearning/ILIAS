@@ -222,6 +222,6 @@ interface Factory {
      * @param \ILIAS\UI\Component\Card\Card[] $cards
      * @return \ILIAS\UI\Component\Deck\Deck
      */
-    public function deck($cards);
+    public function deck(array $cards);
 
 }
