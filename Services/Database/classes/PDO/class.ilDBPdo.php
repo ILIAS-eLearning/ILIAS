@@ -940,7 +940,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$ilLog->write('ilDB::lockTables(): ' . $lock);
 		}
 
-		$this->query($lock);
+		$this->pdo->exec($lock);
 	}
 
 
@@ -949,7 +949,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @throws \ilDatabaseException
 	 */
 	public function unlockTables() {
-		$this->query($this->manager->getQueryUtils()->unlock());
+		$this->pdo->exec($this->manager->getQueryUtils()->unlock());
 	}
 
 
