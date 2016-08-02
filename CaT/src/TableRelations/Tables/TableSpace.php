@@ -205,7 +205,7 @@ class TableSpace {
 			$query = $query->withHaving($this->having);
 		}
 		foreach ($this->group_by as $field) {
-			$query->withGroupByField($field);
+			$query = $query->withGroupByField($field);
 		}
 		return $query;
 	}
