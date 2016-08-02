@@ -1,7 +1,8 @@
 <?php
 use CaT\TableRelations\Graphs as Graphs;
+use CaT\TableRelations as TR;
 
-class GraphTestFactory extends Graphs\GraphFactory {
+class GraphTestFactory extends TR\GraphFactory {
 	public function Node($id, $subgraph = 0) {
 		return new TestNode($id, $subgraph);
 	}
