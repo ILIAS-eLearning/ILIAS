@@ -1,10 +1,10 @@
 <?php
-use CaT\TableRelations\Tables as Tables;
+use CaT\TableRelations as TableRelations;
 use CaT\Filter as Filters;
 class TableFieldTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->tf = new Tables\TableFactory(new Filters\PredicateFactory());
+		$this->tf = new TableRelations\TableFactory(new Filters\PredicateFactory(), new TableRelations\GraphFactory);
 	}
 
 	public function test_field() {
