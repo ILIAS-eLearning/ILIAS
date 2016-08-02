@@ -26,6 +26,8 @@
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
+ *
+ * @group   needsInstalledILIAS
  */
 class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
