@@ -26,6 +26,8 @@ require_once('ilDatabaseImplementationBaseTest.php');
 /**
  * TestCase for the ilDatabasePDOInnodbTest
  *
+ * @group needsInstalledILIAS
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
