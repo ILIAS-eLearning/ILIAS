@@ -22,8 +22,8 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("TITLE",$component->getTitle());
 
-		if(is_array($component->getContentSections())){
-			foreach($component->getContentSections() as $section){
+		if(is_array($component->getSections())){
+			foreach($component->getSections() as $section){
 				$tpl->setCurrentBlock("section");
 				$tpl->setVariable("SECTION",$default_renderer->render($section,$default_renderer));
 				$tpl->parseCurrentBlock();
