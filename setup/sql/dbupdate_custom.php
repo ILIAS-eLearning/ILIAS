@@ -165,3 +165,16 @@ if(!$ilDB->tableColumnExists('didactic_tpl_settings', 'auto_generated'))
 	));
 }
 ?>
+<#11>
+<?php
+if(!$ilDB->tableColumnExists('didactic_tpl_settings', 'exclusive_tpl'))
+{
+	$ilDB->addTableColumn('didactic_tpl_settings', 'exclusive_tpl', array (
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0,
+		"type" => "integer"
+	));
+}
+?>
+

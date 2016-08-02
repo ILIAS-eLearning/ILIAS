@@ -291,7 +291,7 @@ class ilDidacticTemplateSettingsGUI
 				$temp->setAssignments(array($form->getInput('type')));
 			}
 
-			if($form->getInput('local_templates') && count($form->getInput('effective_from')) > 0)
+			if($form->getInput('local_template') && count($form->getInput('effective_from')) > 0)
 			{
 				$temp->setEffectiveFrom($form->getInput('effective_from'));
 			}
@@ -299,6 +299,8 @@ class ilDidacticTemplateSettingsGUI
 			{
 				$temp->setEffectiveFrom(array());
 			}
+
+			$temp->setExclusive((bool) $form->getInput('exclusive_template'));
 
 			$temp->update();
 			
@@ -382,7 +384,7 @@ class ilDidacticTemplateSettingsGUI
 		}
 
 
-		$lokal_templates = new ilCheckboxInputGUI($this->lng->txt("activate_local_didactic_templeates"), "local_templates");
+		$lokal_templates = new ilCheckboxInputGUI($this->lng->txt("activate_local_didactic_templeate"), "local_template");
 		$lokal_templates->setChecked(count($set->getEffectiveFrom()) > 0);
 
 		//effective from (multinode)
@@ -394,6 +396,11 @@ class ilDidacticTemplateSettingsGUI
 
 		$lokal_templates->addSubItem($effrom);
 		$form->addItem($lokal_templates);
+
+		$excl =  new ilCheckboxInputGUI($this->lng->txt("activate_exclusive_template"), "exclusive_template");
+		$excl->setChecked($set->isExclusive());
+
+		$form->addItem($excl);
 
 
 		return $form;

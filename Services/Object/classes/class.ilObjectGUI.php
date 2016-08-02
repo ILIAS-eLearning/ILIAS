@@ -881,7 +881,7 @@ class ilObjectGUI
 		global $lng;
 		
 		$lng->loadLanguageModule('didactic');
-					
+		$existing_exclusive = false;
 		$options = array();
 		$options['dtpl_0'] = array($this->lng->txt('didactic_default_type'),
 			sprintf(
@@ -896,8 +896,16 @@ class ilObjectGUI
 			foreach($templates as $template)
 			{
 				if($template->isEffective($_GET["ref_id"]))
-				$options["dtpl_".$template->getId()] = array($template->getTitle(),
-					$template->getDescription());			
+				{
+					$options["dtpl_".$template->getId()] = array($template->getTitle(),
+						$template->getDescription());
+
+					if($template->isExclusive())
+					{
+						$existing_exclusive = true;
+					}
+				}
+
 			}
 		}
 		
@@ -919,7 +927,17 @@ class ilObjectGUI
 			}
 			else
 			{
-				$type->setValue('dtpl_0');
+				if($existing_exclusive)
+				{
+					//if an exclusive template exists use the second template as default value
+					$keys = array_keys($options);
+					$type->setValue($keys[1]);
+				}
+				else
+				{
+					$type->setValue('dtpl_0');
+				}
+
 			}
 			$form->addItem($type);		
 
@@ -927,6 +945,13 @@ class ilObjectGUI
 			foreach($options as $id => $data)
 			{
 				$option = new ilRadioOption($data[0], $id, $data[1]);
+
+				if($existing_exclusive && $id == "dtpl_0")
+				{
+					//set default disabled if an exclusive template exists
+					$option->setDisabled(true);
+				}
+
 				$type->addOption($option);
 			}
 		}

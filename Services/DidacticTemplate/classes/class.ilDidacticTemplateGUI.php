@@ -70,23 +70,45 @@ class ilDidacticTemplateGUI
 		// Add template switch
 		$toolbar->addText($this->lng->txt('didactic_selected_tpl_option'));
 
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
+
 		// Show template options
 		$options = array(0 => $this->lng->txt('didactic_default_type'));
+		$excl_tpl = false;
+
 		foreach($tpls as $tpl)
 		{
-			$options[$tpl->getId()] = $tpl->getTitle();
+			//just add if template is effective except template is already applied to this object
+			if($tpl->isEffective($_GET['ref_id']) || $tpl->getId() == $value)
+			{
+				$options[$tpl->getId()] = $tpl->getTitle();
+
+				if($tpl->isExclusive())
+				{
+					$excl_tpl = true;
+				}
+			}
+		}
+
+		if($excl_tpl && $value != 0)
+		{
+			//remove default entry if an exclusive template exists but only if the actual entry isn't the default
+			unset($options[0]);
+		}
+
+		if(count($options) < 2)
+		{
+			return false;
 		}
 
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 		$tpl_selection = new ilSelectInputGUI(
 			'',
 			'tplid'
 		);
 		$tpl_selection->setOptions($options);
-		$tpl_selection->setValue(ilDidacticTemplateObjSettings::lookupTemplateId(
-			$this->getParentObject()->object->getRefId()
-		));
+		$tpl_selection->setValue($value);
 		$toolbar->addInputItem($tpl_selection);
 
 		// Apply templates switch

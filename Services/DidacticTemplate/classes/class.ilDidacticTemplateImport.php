@@ -124,8 +124,11 @@ class ilDidacticTemplateImport
 				
 				$setting->setEffectiveFrom($node);
 			}
-			
-			
+
+			if(isset($tpl->exclusive))
+			{
+				$setting->setExclusive(true);
+			}
 
 			foreach($tpl->assignments->assignment as $element)
 			{
