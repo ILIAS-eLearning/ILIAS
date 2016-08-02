@@ -55,6 +55,7 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 			}
 		}
 		$this->constrain = $predicate;
+		return $this;
 	}
 
 	public function fieldInTable(AbstractTableField $field) {
