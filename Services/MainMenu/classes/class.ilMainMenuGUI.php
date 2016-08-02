@@ -228,6 +228,7 @@ class ilMainMenuGUI
 			$this->renderHelpButtons();
 
 			$this->populateWithBuddySystem();
+			$this->populateWithOnScreenChat();
 			$this->renderAwareness();
 		}
 
@@ -1070,6 +1071,14 @@ class ilMainMenuGUI
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
 			ilBuddySystemGUI::initializeFrontend();
 		}
+	}
+
+	protected function populateWithOnScreenChat()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChat.php';
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php';
+
+		ilOnScreenChat::initializeFrontend();
 	}
 
 	/**
