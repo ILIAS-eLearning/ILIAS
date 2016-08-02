@@ -7,7 +7,7 @@ use CaT\TableRelations\Graphs as Graphs;
 /**
  * @inheritdoc
  */
-class Query implements AbstractQuery{
+class Query implements AbstractQuery {
 
 	protected $path;
 	protected $having = null;
@@ -16,9 +16,11 @@ class Query implements AbstractQuery{
 	protected $filter = null;
 	protected $root_table;
 
-
+	/**
+	 * Iterator-functions
+	 */
 	public function valid() {
-		return $this->path->valid();
+		return $this->path ? $this->path->valid() : false;
 	}
 
 	public function key() {
@@ -38,8 +40,10 @@ class Query implements AbstractQuery{
 	 * We ignore root table in $path.
 	 */
 	public function rewind() {
-		$this->path->rewind();
-		$this->path->next();
+		if($this->path) {
+			$this->path->rewind();
+			$this->path->next();
+		}
 	}
 
 	public function currentJoinCondition() {
@@ -75,6 +79,9 @@ class Query implements AbstractQuery{
 		return $this->group_by;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function filter() {
 		return $this->filter;
 	}
@@ -84,72 +91,65 @@ class Query implements AbstractQuery{
 	 */
 
 	/**
-	 * Set the fields to be returned in query.
-	 *
-	 * @param Predicates\Field[] $requested_fields
+	 * @inheritdoc
 	 */
-	public function setRequested(array $requested_fields) {
-		$this->requested = $requested_fields;
-		return $this;
+	public function withRequested(array $requested_fields) {
+		$return = clone $this;
+		$return->requested = $requested_fields;
+		return $return;
 	}
 
 	/**
-	 * Set the root table.
-	 *
-	 * @param Predicates\Field[] $requested_fields
+	 * @inheritdoc
 	 */
-	public function setRootTable(AbstractTable $root_table) {
-		$this->root_table = $root_table;
-		return $this;
+	public function withRootTable(AbstractTable $root_table) {
+		$return = clone $this;
+		$return->root_table = $root_table;
+		return $return;
 	}
 
 	/**
-	 * Set a number of joins. Non obligatory.
-	 *
-	 * @param Predicates\Field[] $requested_fields
+	 * @inheritdoc
 	 */
-	public function setJoins(Graphs\Path $path) {
-		$this->path = $path;
-		return $this;
+	public function withJoins(Graphs\Path $path) {
+		$return = clone $this;
+		$return->path = $path;
+		return $return;
 	}
 
 	/**
-	 * Set the joins associated whith join-tables.
-	 *
-	 * @param Predicates\Predicate[] $requested_fields
+	 * @inheritdoc
 	 */
-	public function setJoinConditions(array $join_conditions) {
-		$this->join_conditions = $join_conditions;
-		return $this;
+	public function withJoinConditions(array $join_conditions) {
+		$return = clone $this;
+		$return->join_conditions = $join_conditions;
+		return $return;
 	}
 
 	/**
-	 * Set filter (i.e. where).
-	 *
-	 * @param Predicates\Predicate $filter
+	 * @inheritdoc
 	 */
-	public function setFilter(Predicates\Predicate $filter) {
-		$this->filter = $filter;
-		return $this;
+	public function withFilter(Predicates\Predicate $filter) {
+		$return = clone $this;
+		$return->filter = $filter;
+		return $return;
 	}
 
 	/**
-	 * Set having (i.e. where).
-	 *
-	 * @param Predicates\Predicate $having
+	 * @inheritdoc
 	 */
-	public function setHaving(Predicates\Predicate $having) {
-		$this->having = $having;
-		return $this;
+	public function withHaving(Predicates\Predicate $having) {
+		$return = clone $this;
+		$return->having = $having;
+		return $return;
 	}
 
 	/**
-	 * Set having (i.e. where).
-	 *
-	 * @param Predicate\Field[] $group_by
+	 * @inheritdoc
 	 */
-	public function setGroupBy($group_by) {
-		$this->group_by[] = $group_by;
-		return $this;
+	public function withGroupByField($group_by) {
+		$return = clone $this;
+		$return->group_by[] = $group_by;
+		return $return;
 	}
 }
