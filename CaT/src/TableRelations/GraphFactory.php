@@ -1,9 +1,9 @@
 <?php
 
-namespace CaT\TableRelations\Graphs;
+namespace CaT\TableRelations;
 
 class GraphFactory {
 	public function Graph() {
-		return new Graph();
+		return new Graphs\Graph();
 	}
 }
