@@ -1186,6 +1186,31 @@ class ilInitialisation
 			self::goToLogin($status);
 		}
 	}
+
+	/**
+	 * init the ILIAS UI framework.
+	 */
+	protected static function initUIFramework(\ILIAS\DI\Container $c) {
+		$c["ui.factory"] = function ($c) {
+			return new ILIAS\UI\Implementation\Factory();
+		};
+		$c["ui.renderer"] = function($c) {
+			return new ILIAS\UI\Implementation\DefaultRenderer
+							( $c["ui.factory"]
+							, $c["ui.template_factory"]
+							, $c["ui.resource_registry"]
+							, $c["lng"]
+							);
+		};
+		$c["ui.template_factory"] = function($c) {
+			return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory
+							( $c["tpl"]
+							);
+		};
+		$c["ui.resource_registry"] = function($c) {
+			return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);
+		};
+	}
 	
 	/**
 	 * init HTML output (level 3)
@@ -1200,6 +1225,8 @@ class ilInitialisation
 			// use the init function with plugin hook here, too
 			self::initStyle();
 		}
+
+		self::initUIFramework($GLOBALS["DIC"]);
 
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1471,5 +1498,3 @@ class ilInitialisation
 		}
 	}
 }
-
-?>

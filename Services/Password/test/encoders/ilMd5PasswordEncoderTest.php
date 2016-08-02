@@ -2,13 +2,14 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/encoders/class.ilMd5PasswordEncoder.php';
+require_once 'Services/Password/test/ilPasswordBaseTest.php';
 
 /**
  * Class ilMd5PasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilMd5PasswordEncoderTest  extends PHPUnit_Framework_TestCase
+class ilMd5PasswordEncoderTest  extends ilPasswordBaseTest
 {
 	/**
 	 * @return ilMd5PasswordEncoder
@@ -54,10 +55,11 @@ class ilMd5PasswordEncoderTest  extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilMd5PasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}
 

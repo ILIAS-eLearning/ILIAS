@@ -240,8 +240,8 @@ class ilDclFieldEditGUI {
 
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$text_prop->setRequired(true);
-//		$text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'), ilDclBaseFieldModel::_getTitleValidChars(false)));
-//		$text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleValidChars(true));
+		$text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'), ilDclBaseFieldModel::_getTitleInvalidChars(false)));
+		$text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
 		$this->form->addItem($text_prop);
 
         // Description

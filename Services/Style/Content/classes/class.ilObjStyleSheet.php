@@ -1617,6 +1617,8 @@ class ilObjStyleSheet extends ilObject
 					continue;
 				}
 				fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+//				echo "<br>";
+//				var_dump($tag[0]["type"]);
 				if ($tag[0]["tag"] == "td")
 				{
 					fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
@@ -1625,6 +1627,10 @@ class ilObjStyleSheet extends ilObject
 				{
 					fwrite ($css_file, ",div.ilc_text_block_".$tag[0]["class"]."\n");
 					fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
+				}
+				if ($tag[0]["type"] == "section")	// sections can use a tags, if links are used
+				{
+					fwrite ($css_file, ",a.ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
 				}
 				if ($tag[0]["type"] == "text_block")
 				{
@@ -1749,7 +1755,7 @@ class ilObjStyleSheet extends ilObject
 			}
 		}
 		fclose($css_file);
-		
+//	exit;
 		$this->setUpToDate(true);
 		$this->_writeUpToDate($this->getId(), true);
 	}

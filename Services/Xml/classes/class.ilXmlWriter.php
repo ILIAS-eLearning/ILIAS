@@ -129,7 +129,7 @@ class ilXmlWriter
 	* @return	string	escaped text
 	* @access	static
 	*/
-	function _xmlEscapeData($data)
+	static function _xmlEscapeData($data)
 	{
 		$position = 0;
 		$length = strlen($data);
