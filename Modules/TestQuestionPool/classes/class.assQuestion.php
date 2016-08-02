@@ -4871,6 +4871,14 @@ abstract class assQuestion
 	{
 		$this->obligationsToBeConsidered = $obligationsToBeConsidered;
 	}
-	
-	
+
+	public function updateTimestamp()
+	{
+		global $ilDB;
+
+		$ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",
+			array('integer', 'integer'),
+			array(time(), $this->getId())
+		);
+	}
 }

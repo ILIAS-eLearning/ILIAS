@@ -107,7 +107,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
 			$pageObjectGUI = new ilAssGenFeedbackPageGUI($pageObjectId);
 			$pageObjectGUI->obj->addUpdateListener(
 				$this->questionOBJ,
-				'saveToDb'
+				'updateTimestamp'
 			);
 			return $pageObjectGUI;
 		}
@@ -117,7 +117,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
 			$pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
 			$pageObjectGUI->obj->addUpdateListener(
 				$this->questionOBJ,
-				'saveToDb'
+				'updateTimestamp'
 			);
 			return $pageObjectGUI;
 		}

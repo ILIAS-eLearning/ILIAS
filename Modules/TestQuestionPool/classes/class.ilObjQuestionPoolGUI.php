@@ -194,7 +194,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
 				$page_gui->obj->addUpdateListener(
 					$question,
-					'saveToDb'
+					'updateTimestamp'
 				);
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
