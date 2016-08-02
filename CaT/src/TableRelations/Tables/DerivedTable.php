@@ -16,6 +16,7 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode{
 		foreach ($space->requested as $field) {
 			$this->fields[$field->name_simple()] = new TableField($field->name_simple(), $id);
 		}
+		$this->space = $space;
 		$this->id = $id;
 	}
 
@@ -71,5 +72,9 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode{
 
 	public function setSubgraph($subgraph) {
 		$this->subgraph = $subgraph;
+	}
+
+	public function space() {
+		return $this->space;
 	}
 }
