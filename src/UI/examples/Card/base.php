@@ -22,7 +22,7 @@ function base() {
 	$card = $f->card(
 		"Title",
 		$image
-	)->withContentSections(array($content));
+	)->withSections(array($content));
 
 	//Render
 	return $renderer->render($card);

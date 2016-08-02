@@ -21,7 +21,7 @@ function xl_cards() {
 	$card = $f->card(
 		"Title",
 		$image
-	)->withContentSections(array(
+	)->withSections(array(
 		$content
 	));
 

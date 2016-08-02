@@ -16,14 +16,11 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
 
-		$tpl->setVariable("TITLE",$component->getTitle());
-		if($component->getHeaderSection()){
-			$tpl->setVariable("HEADER_SECTION",$default_renderer->render($component->getHeaderSection(),$default_renderer));
-
-		}
 		if($component->getImage()){
 			$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
 		}
+
+		$tpl->setVariable("TITLE",$component->getTitle());
 
 		if(is_array($component->getContentSections())){
 			foreach($component->getContentSections() as $section){

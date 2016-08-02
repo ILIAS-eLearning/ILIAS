@@ -22,7 +22,7 @@ function with_sections() {
 	$card = $f->card(
 		"Title",
 		$image
-	)->withContentSections(array(
+	)->withSections(array(
 		$content,
 		$content,
 		$content

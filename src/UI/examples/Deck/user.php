@@ -33,7 +33,7 @@ function user() {
 	$card = $f->card(
 		"Timon Amstutz",
 		$image
-	)->withContentSections(array($meta_content,$actions));
+	)->withSections(array($meta_content,$actions));
 
 	$deck = $f->deck(array($card,$card,$card,$card,$card,$card,$card))
 		->withCardsSize(ILIAS\UI\Component\Deck\Deck::SIZE_L);

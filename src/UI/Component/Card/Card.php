@@ -24,30 +24,17 @@ interface Card extends \ILIAS\UI\Component\Component {
     public function getTitle();
 
     /**
-     * Set additional content displayed directly underneath the title
-     * @param \ILIAS\UI\Component\Component $section
-     * @return Card
-     */
-    public function withHeaderSection(\ILIAS\UI\Component\Component $section);
-
-    /**
-     * Get content displayed directly underneath the title
-     * @return \ILIAS\UI\Component\Component
-     */
-    public function getHeaderSection();
-
-    /**
      * Set multiple sections of the card as array
      * @param \ILIAS\UI\Component\Component[] $sections
      * @return Card
      */
-    public function withContentSections($sections);
+    public function withSections(array $sections);
 
     /**
      * Get the multiple sections of the card as array
      * @return \ILIAS\UI\Component\Component[]
      */
-    public function getContentSections();
+    public function getSections();
 
     /**
      * Set the image of the card
