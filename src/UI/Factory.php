@@ -167,7 +167,7 @@ interface Factory {
      * ---
      * description:
      *   purpose: >
-     *     	A card is a flexible content container for small chunks of structured data.
+     *      A card is a flexible content container for small chunks of structured data.
      *      Cards are often used in so-called Decks which are a gallery of Cards.
      *   composition: >
      *      Cards contain a header, which often includes an Image or Icon and a Title as well as possible actions as
@@ -201,7 +201,7 @@ interface Factory {
      * ---
      * description:
      *   purpose: >
-     *     	Decks are used to display multiple Cards in a grid.
+     *      Decks are used to display multiple Cards in a grid.
      *      They should be used if a  page contains many content items that have similar style and importance.
      *      A Deck gives each item equal horizontal space indicating that they are of equal importance.
      *   composition: >

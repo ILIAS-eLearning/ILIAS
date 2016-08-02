@@ -3,31 +3,31 @@
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 function base() {
-    //Init Factory and Renderer
-    global $DIC;
-    $f = $DIC->ui()->factory();
-    $renderer = $DIC->ui()->renderer();
+	//Init Factory and Renderer
+	global $DIC;
+	$f = $DIC->ui()->factory();
+	$renderer = $DIC->ui()->renderer();
 
-    $content = $f->listing()->descriptive(
-        array(
-            "Entry 1" => "Some text",
-            "Entry 2" => "Some more text",
-        )
-    );
+	$content = $f->listing()->descriptive(
+		array(
+			"Entry 1" => "Some text",
+			"Entry 2" => "Some more text",
+		)
+	);
 
-    $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
+	$image = $f->image()->responsive(
+		"./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
 
-    $card = $f->card(
-        "Title",
-        $image
-    )->withContentSections(array(
-        $content,
-    ));
+	$card = $f->card(
+		"Title",
+		$image
+	)->withContentSections(array(
+		$content,
+	));
 
-    $deck = $f->deck(array($card,$card,$card,$card,$card,
-        $card,$card,$card,$card));
+	$deck = $f->deck(array($card,$card,$card,$card,$card,
+		$card,$card,$card,$card));
 
-    //Render
-    return $renderer->render($deck);
+	//Render
+	return $renderer->render($deck);
 }
