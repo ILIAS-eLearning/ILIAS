@@ -206,7 +206,7 @@ class ilDidacticTemplateSetting
 	/**
 	 * @return boolean
 	 */
-	public function isExclusive(): bool
+	public function isExclusive()
 	{
 		return $this->exclusive;
 	}
@@ -214,7 +214,7 @@ class ilDidacticTemplateSetting
 	/**
 	 * @param boolean $exclusive
 	 */
-	public function setExclusive(bool $exclusive)
+	public function setExclusive($exclusive)
 	{
 		$this->exclusive = $exclusive;
 	}
