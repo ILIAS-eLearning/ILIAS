@@ -57,7 +57,7 @@ class SqlQueryInterpreter {
 	}
 
 	protected function interpreteDerivedTable(Tables\DerivedTable $table) {
-		return "(".$this->getSql($table->query()).") AS ".$table->id();
+		return "(".$this->getSql($table->space->query()).") AS ".$table->id();
 	}
 
 	protected function interpretePredicate(Filter\Predicates\Predicate $predicate) {
