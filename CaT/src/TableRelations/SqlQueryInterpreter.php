@@ -126,6 +126,6 @@ class SqlQueryInterpreter {
 		foreach($query->groupBy() as $field) {
 			$group_by[] = $field->name();
 		}
-		return implode(", ",$group_by);
+		return "GROUP BY ".implode(", ",$group_by);
 	}
 };
