@@ -41,6 +41,10 @@ class TableFactory {
 		return new Tables\TableSpace($this, $this->graph_factory,$this->predicate_factory);
 	}
 
+	public function DerivedTable(Tables\TableSpace $space, $id) {
+		return new Tables\DerivedTable($this->predicate_factory, $space, $id);
+	}
+
 	public function query() {
 		return new Tables\Query;
 	}
