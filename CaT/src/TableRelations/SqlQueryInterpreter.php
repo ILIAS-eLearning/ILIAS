@@ -95,7 +95,7 @@ class SqlQueryInterpreter {
 			}
 			$joins[] = $join." ON ".$this->interpretePredicate($condition_aggregate);
 		}
-		return count($joins) > 0 ? implode(" ",$joins) : "";
+		return count($joins) > 0 ? implode(PHP_EOL,$joins) : "";
 	}
 
 	protected function where(Tables\AbstractQuery $query) {
