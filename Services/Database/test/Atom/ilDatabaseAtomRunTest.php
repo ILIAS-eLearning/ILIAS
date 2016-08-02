@@ -89,9 +89,6 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/**
-	 * @depends testConnection
-	 */
 	public function setupTable() {
 		if ($this->ilDBInterfaceGalera->sequenceExists('il_db_tests_atom')) {
 			$this->ilDBInterfaceGalera->dropSequence('il_db_tests_atom');
@@ -113,46 +110,51 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/**
-	 * @depends testConnection
-	 */
 	public function testTableExists() {
 		$this->assertTrue($this->ilDBInterfaceGalera->tableExists('il_db_tests_atom'));
 	}
 
 
-	/**
-	 * @depends testConnection
-	 */
 	public function testWriteWithTransactions() {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->lockTable('il_db_tests_atom');
+		$ilAtomQuery->lockTable('il_db_tests_atom', true);
 		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
 		$ilAtomQuery->run();
 
-		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
 	}
 
 
-	/**
-	 * @depends testConnection
-	 */
 	public function testWriteWithLocks() {
-		$this->setExpectedException('ilDatabaseException');
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
-		$query = $this->getInsertQueryCallable();
-		$ilAtomQuery->addQueryCallable($query);
+		$ilAtomQuery->lockTable('il_db_tests_atom', true);
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
 		$ilAtomQuery->run();
 
-		$this->assertEquals($this->getExpectedresult(), $this->getResultFromDB());
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
 	}
 
 
-	/**
-	 * @depends testConnection
-	 */
+	public function testNoTables() {
+		$this->setExpectedException('ilDatabaseException');
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+
+		$ilAtomQuery->run();
+	}
+
+
+	public function testNoQueries() {
+		$this->setExpectedException('ilDatabaseException');
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->lockTable('il_db_tests_atom');
+
+		$ilAtomQuery->run();
+	}
+
+
 	public function testUpdateDuringTransaction() {
 		$this->ilDBInterfaceGalera->insert('il_db_tests_atom', array(
 			'id'        => array( 'integer', $this->ilDBInterfaceGalera->nextId('il_db_tests_atom') ),
@@ -182,9 +184,6 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/**
-	 * @depends testConnection
-	 */
 	public function testUpdateDuringLock() {
 		$this->ilDBInterfaceInnoDB->insert('il_db_tests_atom', array(
 			'id'        => array( 'integer', $this->ilDBInterfaceInnoDB->nextId('il_db_tests_atom') ),
@@ -240,7 +239,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @return array
 	 */
-	protected function gettableLocksForDbInterface() {
+	protected function getTableLocksForDbInterface() {
 		$tables = array(
 			array(
 				'name'     => 'il_db_tests_atom',
@@ -270,7 +269,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @return array
 	 */
-	protected function getExpectedresult() {
+	protected function getExpectedResult() {
 		return array(
 			0 => array(
 				'id'        => '1',
