@@ -9,6 +9,12 @@ class SqlQueryInterpreter {
 		$this->pf = $pf;
 	}
 
+	/**
+	 * Get the data corresponding to query object.
+	 *
+	 * @param	Tables\AbstractQuery	$query
+	 * @return	array[]
+	 */
 	public function interprete(Tables\AbstractQuery $query) {
 		$res = $this->gIldb->query($this->getSql($query));
 		$data = array();
@@ -32,6 +38,12 @@ class SqlQueryInterpreter {
 		return implode(", ", $sql_requested);
 	}
 
+	/**
+	 * Get the sql query corresponding to query object.
+	 *
+	 * @param	Tables\AbstractQuery	$query
+	 * @return	string
+	 */
 	public function getSql($query) {
 		return 
 			"SELECT ".$this->requested($query).PHP_EOL
