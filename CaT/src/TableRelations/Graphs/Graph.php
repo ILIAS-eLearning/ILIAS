@@ -142,7 +142,7 @@ class Graph implements AbstractGraph {
 		return $this->getSubgraphOfNodeId($node->id());
 	}
 
-	protected function getSubgraphOfNodeId($node_id) {
+	public function getSubgraphOfNodeId($node_id) {
 		return $this->nodes[$node_id]->subgraph();
 	}
 
@@ -227,7 +227,7 @@ class Graph implements AbstractGraph {
 	 * @inheritdoc
 	 */
 	public function getNodeById($id) {
-		return $this->nodes[$id];
+		return isset($this->nodes[$id]) ? $this->nodes[$id] : null;
 	}
 
 	protected function DFS($from_id, $to_id, $subgraph = null) {
