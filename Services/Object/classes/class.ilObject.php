@@ -503,7 +503,7 @@ class ilObject
 	/**
 	* lookup owner name for owner id
 	*/
-	function _lookupOwnerName($a_owner_id)
+	static function _lookupOwnerName($a_owner_id)
 	{
 		global $lng;
 
@@ -874,7 +874,7 @@ class ilObject
 	*
 	* @return	int		id
 	*/
-	function _getIdForImportId($a_import_id)
+	static function _getIdForImportId($a_import_id)
 	{
 		global $ilDB;
 		
@@ -982,7 +982,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupLastUpdate($a_id, $a_as_string = false)
+	static function _lookupLastUpdate($a_id, $a_as_string = false)
 	{
 		global $ilObjDataCache;
 		
@@ -1027,7 +1027,7 @@ class ilObject
 	/**
 	* only called in ilTree::saveSubTree
 	*/
-	function _setDeletedDate($a_ref_id)
+	static function _setDeletedDate($a_ref_id)
 	{
 		global $ilDB;
 		
@@ -1069,7 +1069,7 @@ class ilObject
 	/**
 	* only called in ilObjectGUI::insertSavedNodes
 	*/
-	function _lookupDeletedDate($a_ref_id)
+	static function _lookupDeletedDate($a_ref_id)
 	{
 		global $ilDB;
 		
@@ -1089,7 +1089,7 @@ class ilObject
 	* @param	string	$a_title		title
 	* @access	public
 	*/
-	function _writeTitle($a_obj_id, $a_title)
+	static function _writeTitle($a_obj_id, $a_title)
 	{
 		global $ilDB;
 
@@ -1109,7 +1109,7 @@ class ilObject
 	* @param	string	$a_desc			description
 	* @access	public
 	*/
-	function _writeDescription($a_obj_id, $a_desc)
+	static function _writeDescription($a_obj_id, $a_desc)
 	{
 		global $ilDB,$objDefinition;
 
@@ -1154,7 +1154,7 @@ class ilObject
 	* @param	string	$a_import_id		import id
 	* @access	public
 	*/
-	function _writeImportId($a_obj_id, $a_import_id)
+	static function _writeImportId($a_obj_id, $a_import_id)
 	{
 		global $ilDB;
 
@@ -1232,7 +1232,7 @@ class ilObject
 	* @return	array		array of object data arrays ("id", "title", "type",
 	*						"description")
 	*/
-	function _getObjectsDataForType($a_type, $a_omit_trash = false)
+	static function _getObjectsDataForType($a_type, $a_omit_trash = false)
 	{
 		global $ilDB;
 
@@ -2106,7 +2106,7 @@ class ilObject
 	 * @param
 	 * @return
 	 */
-	function _lookupCreationDate($a_id)
+	static function _lookupCreationDate($a_id)
 	{
 		global $ilDB;
 		

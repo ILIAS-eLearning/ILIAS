@@ -407,7 +407,7 @@ class ilCourseObjectiveResult
 		return $objectives ? $objectives : array();
 	}
 
-	function _updateObjectiveStatus($a_user_id,$objectives)
+	static function _updateObjectiveStatus($a_user_id,$objectives)
 	{
 		global $ilDB,$ilUser;
 

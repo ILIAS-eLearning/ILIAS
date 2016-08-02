@@ -928,6 +928,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
+	 * @deprecated Use ilAtomQuery instead
 	 * @param array $tables
 	 */
 	public function lockTables($tables) {
@@ -939,12 +940,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$ilLog->write('ilDB::lockTables(): ' . $lock);
 		}
 
-		$this->query($lock);
+		$this->pdo->exec($lock);
 	}
 
 
+	/**
+	 * @deprecated Use ilAtomQuery instead
+	 * @throws \ilDatabaseException
+	 */
 	public function unlockTables() {
-		$this->query($this->manager->getQueryUtils()->unlock());
+		$this->pdo->exec($this->manager->getQueryUtils()->unlock());
 	}
 
 
@@ -1770,5 +1775,15 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function getLastInsertId() {
 		return $this->pdo->lastInsertId();
+	}
+
+
+	/**
+	 * @return \ilAtomQuery
+	 */
+	public function buildAtomQuery() {
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
+
+		return new ilAtomQueryLock($this);
 	}
 }

@@ -86,47 +86,65 @@ class ComponentEntryDescriptionTest extends PHPUnit_Framework_TestCase {
      * @throws Crawler\Exception\CrawlerException
      */
     public function testInvalidDescription() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::ARRAY_EXPECTED);
+        try{
+            new Entry\ComponentEntryDescription(null);
+            new Entry\ComponentEntryDescription("desc1");
+            $this->assertFalse("This should not happen");
 
-        new Entry\ComponentEntryDescription(null);
-        new Entry\ComponentEntryDescription("desc1");
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::ARRAY_EXPECTED);
+        }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testInvalidCategories1() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::INVALID_INDEX);
+        try{
+            new Entry\ComponentEntryDescription($this->invalid_categories1_array);
+            $this->assertFalse("This should not happen");
 
-        new Entry\ComponentEntryDescription($this->invalid_categories1_array);
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::INVALID_INDEX);
+        }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testInvalidCategories2() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::INVALID_INDEX);
+        try{
+            new Entry\ComponentEntryDescription($this->invalid_categories2_array);
+            $this->assertFalse("This should not happen");
 
-        new Entry\ComponentEntryDescription($this->invalid_categories2_array);
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::INVALID_INDEX);
+        }
+
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testInvalidCategoryItem() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::STRING_EXPECTED);
+        try{
+            new Entry\ComponentEntryDescription($this->invalid_category_item_array);
+            $this->assertFalse("This should not happen");
 
-        new Entry\ComponentEntryDescription($this->invalid_category_item_array);
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::STRING_EXPECTED);
+        }
+
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testInvalidCategoryValue() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::STRING_EXPECTED);
+        try{
+            new Entry\ComponentEntryDescription($this->invalid_category_value_array);
+            $this->assertFalse("This should not happen");
 
-        new Entry\ComponentEntryDescription($this->invalid_category_value_array);
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::STRING_EXPECTED);
+        }
+
     }
     /**
      * @throws Crawler\Exception\CrawlerException

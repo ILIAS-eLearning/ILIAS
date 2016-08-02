@@ -1297,6 +1297,11 @@ class ilCalendarAppointmentGUI
 		$cat->setType(ilCalendarCategory::TYPE_USR);
 		$cat->setTitle($this->lng->txt('cal_default_calendar'));
 		$cat->setObjId($ilUser->getId());
+		
+		// delete calendar cache
+		include_once './Services/Calendar/classes/class.ilCalendarCache.php';
+		ilCalendarCache::getInstance()->deleteUserEntries($ilUser->getId());
+
 		return $cat->add();
 	}
 	

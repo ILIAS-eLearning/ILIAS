@@ -24,14 +24,15 @@ class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
      * @throws Crawler\Exception\CrawlerException
      */
     public function testAccessInvalidEntry() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::INVALID_ID);
+        try{
+            $entries = $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/ComponentsTreeFixture/RootFactory.php");
+            $entries->getEntryById("NonExistent")->getChildren();
+            $entries->getParentsOfEntry("NonExistent");
+            $this->assertFalse("This should not happen");
 
-        $entries = $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/ComponentsTreeFixture/RootFactory.php");
-        $entries->getEntryById("NonExistent")->getChildren();
-        $entries->getParentsOfEntry("NonExistent");
-
-
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::INVALID_ID);
+        }
     }
 
     /**
@@ -53,10 +54,14 @@ class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
      * @throws Crawler\Exception\CrawlerException
      */
     public function testLoopFactory() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::CRAWL_MAX_NESTING_REACHED);
+        try{
+            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/LoopFactory.php");
 
-        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/LoopFactory.php");
+            $this->assertFalse("This should not happen");
+
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::CRAWL_MAX_NESTING_REACHED);
+        }
     }
 
     /**
@@ -72,29 +77,40 @@ class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
      * @throws Crawler\Exception\CrawlerException
      */
     public function testIdenticalEntriesFactory() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::DUPLICATE_ENTRY);
-        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/IdenticalEntriesFactory.php");
-        $this->assertTrue(true);
+        try{
+            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/IdenticalEntriesFactory.php");
+            $this->assertFalse("This should not happen");
+
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::DUPLICATE_ENTRY);
+        }
     }
 
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testNoNamespaceFactory() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT);
+        try{
+            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/NoNamespaceFactory.php");
+            $this->assertFalse("This should not happen");
 
-        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/NoNamespaceFactory.php");
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT);
+        }
+
     }
 
     /**
      * @throws Crawler\Exception\CrawlerException
      */
     public function testNoClosingDescriptionFactory() {
-        $this->expectException(Crawler\Exception\CrawlerException::class);
-        $this->expectExceptionCode(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION);
+        try{
+            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/NoClosingDescriptionFactory.php");
 
-        $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/NoClosingDescriptionFactory.php");
+            $this->assertFalse("This should not happen");
+
+        }catch(Crawler\Exception\CrawlerException $e){
+            $this->assertEquals($e->getCode(),Crawler\Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION);
+        }
     }
 }

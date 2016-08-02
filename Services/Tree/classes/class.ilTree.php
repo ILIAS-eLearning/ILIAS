@@ -2510,7 +2510,7 @@ class ilTree
 	* @param	integer	child id
 	* @param	string	db_table name. default is 'tree' (optional)
 	*/
-	function _removeEntry($a_tree,$a_child,$a_db_table = "tree")
+	static function _removeEntry($a_tree,$a_child,$a_db_table = "tree")
 	{
 		global $ilDB,$ilLog,$ilErr;
 
@@ -2519,7 +2519,7 @@ class ilTree
 			if($a_tree == 1 and $a_child == ROOT_FOLDER_ID)
 			{
 				$message = sprintf('%s::_removeEntry(): Tried to delete root node! $a_tree: %s $a_child: %s',
-								   get_class($this),
+								   __CLASS__,
 								   $a_tree,
 								   $a_child);
 				$ilLog->write($message,$ilLog->FATAL);

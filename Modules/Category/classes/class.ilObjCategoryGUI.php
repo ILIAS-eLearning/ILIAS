@@ -982,7 +982,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	/**
 	* get user import directory name
 	*/
-	function _getImportDir()
+	static function _getImportDir()
 	{
 		return ilUtil::getDataDir()."/cat_import";
 	}
