@@ -1,6 +1,6 @@
 <?php
 namespace CaT\TableRelations;
 
-class TableRelationsExceptions extends \Exception{
+class TableRelationsException extends \Exception{
 	
 }
