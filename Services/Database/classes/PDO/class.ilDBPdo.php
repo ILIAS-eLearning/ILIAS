@@ -1278,6 +1278,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	}
 
 
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param null $result_types
+	 * @return \PDOStatement
+	 */
+	public function prepare($query, $types = null, $result_types = null) {
+		return $this->pdo->prepare($query, $types, $result_types);
+	}
+
 	public function enableResultBuffering($a_status) {
 		$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $a_status);
 	}
