@@ -257,7 +257,7 @@ class assOrderingQuestionImport extends assQuestionImport
 			if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES)
 			{
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				if( strlen($answer['answerimage']['label']) && atrlen($answer['answerimage']['content']) )
+				if( strlen($answer['answerimage']['label']) && strlen($answer['answerimage']['content']) )
 				{
 					$image =& base64_decode($answer["answerimage"]["content"]);
 					$imagepath = $this->object->getImagePath();

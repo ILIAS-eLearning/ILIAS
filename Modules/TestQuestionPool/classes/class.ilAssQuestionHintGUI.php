@@ -135,7 +135,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
 			if(!$this->questionOBJ->isAdditionalContentEditingModePageObject())
 			{
-				$this->questionOBJ->saveToDb();
+				$this->questionOBJ->updateTimestamp();
 			}
 
 			$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);

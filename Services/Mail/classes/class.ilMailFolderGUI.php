@@ -312,7 +312,7 @@ class ilMailFolderGUI
 					$pre = '';
 					for ($i = 2; $i < $folder_d['depth'] - 1; $i++)
 					{
-						$pre .= '&nbsp';
+						$pre .= '&nbsp;';
 					}
 					
 					if ($folder_d['depth'] > 1)

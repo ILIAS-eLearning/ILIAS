@@ -317,7 +317,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$value = $field_set->getFilterValue();
 			$filter->setValueByArray($value);
 
-			$this->applyFilter($field->getId(), $filter->getValue());
+			$this->applyFilter($field->getId(), $value ? $filter->getValue() : null);
 
 			//Disable filters
 			if (!$field_set->isFilterChangeable())

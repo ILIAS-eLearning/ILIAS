@@ -6,7 +6,8 @@ require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the assignment of users to a programme.
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0

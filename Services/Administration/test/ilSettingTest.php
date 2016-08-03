@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/**
+ * Class ilSettingTest
+ * @group needsInstalledILIAS 
+ */
 class ilSettingTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;

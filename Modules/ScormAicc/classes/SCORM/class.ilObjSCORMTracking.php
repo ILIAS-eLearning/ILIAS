@@ -254,7 +254,7 @@ class ilObjSCORMTracking
 					));
 					if ($b_messageLog) {
 						$ilLog->write("ScormAicc: storeJsApi Inserted - L:".$a_data["left"].",R:".
-						$a_data["right"]." for obj_id:".$obj_id.",sco_id:".$$a_data["sco_id"].",user_id:".$user_id);
+						$a_data["right"]." for obj_id:".$obj_id.",sco_id:".$a_data["sco_id"].",user_id:".$user_id);
 					}
 				}
 			}

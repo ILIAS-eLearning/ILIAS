@@ -140,7 +140,7 @@ class ilAuthFrontend
 					
 			}
 		}
-		$this->handleAuthenticationFail();
+		return $this->handleAuthenticationFail();
 	}
 
 
