@@ -15,4 +15,4 @@ ilInitialisation::initILIAS();
 
 global $ilErr;
 
-$ilErr->raiseError("This is your error message", $ilErr->MESSAGE);
+$ilErr->raiseError("This is your error message", $ilErr->FATAL);
