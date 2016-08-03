@@ -391,7 +391,9 @@ class ilWikiStat
 		// wiki: num_pages (count)
 		self::writeStat($a_page_obj->getWikiId(), 
 			array(
-				"num_pages" => array("integer", self::countPages($a_page_obj->getWikiId()))
+				"num_pages" => array("integer", self::countPages($a_page_obj->getWikiId())),
+				"del_pages" => array("integer", 0),
+				"avg_rating" => array("integer", 0)
 			));
 		
 		// user: new_pages+1
@@ -422,7 +424,9 @@ class ilWikiStat
 			"ext_links" => array("integer", $a_page_data["ext_links"]),
 			"footnotes" => array("integer", $a_page_data["footnotes"]),
 			"num_words" => array("integer", $a_page_data["num_words"]),
-			"num_chars" => array("integer", $a_page_data["num_chars"])
+			"num_chars" => array("integer", $a_page_data["num_chars"]),
+			"num_ratings" => array("integer", 0),
+			"avg_rating" => array("integer", 0)
 		);
 		self::writeStatPage($a_page_obj->getWikiId(), $a_page_obj->getId(), $values);
 	}

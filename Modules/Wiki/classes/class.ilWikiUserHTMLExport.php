@@ -30,7 +30,7 @@ class ilWikiUserHTMLExport
 	 * @param
 	 * @return
 	 */
-	function __construct(ilObjWiki $a_wiki, ilDB $a_db, ilObjUser $a_user)
+	function __construct(ilObjWiki $a_wiki, ilDBInterface $a_db, ilObjUser $a_user)
 	{
 		$this->db = $a_db;
 		$this->wiki = $a_wiki;
