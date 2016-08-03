@@ -38,7 +38,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	const CAL_REG_START = 1;
 	const CAL_REG_END = 2;
 	const CAL_ACTIVATION_START = 3;
-	const CAL_ACTIVATION_END = 4;
+	const CAL_ACTIVATION_END = 4
 	const CAL_COURSE_START = 5;
 	const CAL_COURSE_END = 6;
 	

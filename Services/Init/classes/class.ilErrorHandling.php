@@ -373,7 +373,11 @@ class ilErrorHandling extends PEAR
 			$lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
 			$lwriter->write();
 
-			$message = sprintf($lng->txt("log_error_message"), $file_name, $logger->mail(), $file_name, $logger->mail());
+			$message = sprintf($lng->txt("log_error_message"), $file_name);
+
+			if($logger->mail()) {
+				$message .= " ".sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
+			}
 
 			ilUtil::sendFailure($message, true);
 			ilUtil::redirect("error.php");

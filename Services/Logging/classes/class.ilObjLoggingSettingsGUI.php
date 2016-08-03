@@ -373,7 +373,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
 		$form = $this->initFormErrorSettings();
 		if($form->checkInput()) {
-			$this->getErrorSettings()->setFolder($form->getInput('error_folder'));
 			$this->getErrorSettings()->setMail($form->getInput('error_mail'));
 			$this->getErrorSettings()->update();
 
@@ -400,7 +399,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 			$form->addCommandButton('updateErrorSettings', $this->lng->txt('save'));
 		}
 
-		$folder = new ilTextInputGUI($this->lng->txt('log_error_folder'), 'error_folder');
+		$folder = new ilNonEditableValueGUI($this->lng->txt('log_error_folder'), 'error_folder');
 		$folder->setValue($this->getErrorSettings()->folder());
 		$form->addItem($folder);
 

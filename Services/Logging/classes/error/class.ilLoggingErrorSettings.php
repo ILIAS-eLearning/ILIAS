@@ -11,7 +11,7 @@ class ilLoggingErrorSettings {
 	protected $mail;
 
 	protected function __construct() {
-		global $ilIliasIniFile, $ini;
+		global $ilIliasIniFile, $ini, $ilClientIniFile;
 
 		//realy not nice but necessary to initalize logger at setup
 		//ilias_ini is named only as $ini in inc.setup_header.php
@@ -25,6 +25,13 @@ class ilLoggingErrorSettings {
 			$this->ilias_ini = $ilIliasIniFile;
 		}
 
+		if($ilClientIniFile !== null) {
+			$this->gClientIniFile = $ilClientIniFile;
+		}
+
+		$this->folder = null;
+		$this->mail = null;
+
 		$this->read();
 	}
 
@@ -32,7 +39,7 @@ class ilLoggingErrorSettings {
 		return new ilLoggingErrorSettings();
 	}
 
-	public function setFolder($folder) {
+	protected function setFolder($folder) {
 		assert('is_string($folder)');
 		$this->folder = $folder;
 	}
@@ -54,19 +61,19 @@ class ilLoggingErrorSettings {
 	 * reads the values from ilias.ini.php
 	 */
 	protected function read() {
-		if($this->ilias_ini->groupExists("error_log")) {
-			$this->setFolder($this->ilias_ini->readVariable("error_log","folder"));
-			$this->setMail($this->ilias_ini->readVariable("error_log","mail"));
+		$this->setFolder($this->ilias_ini->readVariable("log","error_path"));
+
+		if($this->gClientIniFile) {
+			$this->setMail($this->gClientIniFile->readVariable("log","error_recipient"));
 		}
 	}
 
 	/**
-	 * writes user entries to ilias.ini.php
+	 * writes mail recipient into client.ini.php
 	 */
 	public function update() {
-		$this->ilias_ini->addGroup("error_log");
-		$this->ilias_ini->setVariable("error_log", "folder", trim($this->folder()));
-		$this->ilias_ini->setVariable("error_log", "mail", trim($this->mail()));
-		$this->ilias_ini->write();
+		$this->gClientIniFile->addGroup("log");
+		$this->gClientIniFile->setVariable("log", "error_recipient", trim($this->mail()));
+		$this->gClientIniFile->write();
 	}
 }
