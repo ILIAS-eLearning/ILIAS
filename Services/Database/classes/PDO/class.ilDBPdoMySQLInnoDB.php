@@ -25,6 +25,14 @@ class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL implements ilDBInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function supportsTransactions() {
+		return false;
+	}
+
+
+	/**
 	 * @param $table_name
 	 * @param $afields
 	 * @param string $a_name
