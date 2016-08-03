@@ -20,10 +20,46 @@
 	border: 1px solid #dcdcdc;
 }
 
+#onscreenchat-container .panel-heading {
+	font-size: 80%;
+	padding: 5px 5px 5px 15px;
+	pointer-events: auto;
+	margin: 0;
+	border: 1px solid #dcdcdc;
+	vertical-align: middle;
+}
+
+#onscreenchat-container .panel-heading .btn {
+	padding: 0 4px;
+}
+
 #onscreenchat-container .chat-window-wrapper{
 	bottom: 0;
 	padding-left: 5px;
 	padding-right: 5px;
+}
+
+#onscreenchat-container .chat-window-wrapper .chat-img img {
+	height: 28px;
+	width: 28px;
+}
+
+#onscreenchat-container .chat-window-wrapper li.left .chat-img {
+	margin-right: 5px;
+}
+#onscreenchat-container .chat-window-wrapper li.right .chat-img {
+	margin-left: 5px;
+}
+
+
+#onscreenchat-container .chat-window-wrapper .chat-message {
+
+	height:25px;
+	/*line-height:15px;*/
+
+	transition: width 0.25s;
+	resize:none;
+	overflow:hidden;
 }
 
 .chat
@@ -40,21 +76,14 @@
 	border-bottom: 1px dotted #B3A9A9;
 }
 
-.chat li.left .chat-body
-{
-	margin-left: 60px;
+.chat li .chat-body .header strong{
+	font-size: 0.8em;
 }
-
-.chat li.right .chat-body
-{
-	margin-right: 60px;
-}
-
-
 .chat li .chat-body p
 {
 	margin: 0;
 	color: #777777;
+	font-size: 0.9em;
 }
 
 .panel .slidedown .glyphicon, .chat .glyphicon
@@ -84,4 +113,89 @@
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #555;
+}
+
+.ilOnScreenChatMenuDropDown .popover {
+	max-width: 300px;
+	min-width: 300px;
+}
+
+
+.ilOnScreenChatMenuDropDown .popover-content {
+	padding: 0;
+}
+.ilOnScreenChatMenuDropDown .popover-title {
+	padding: 3px 10px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #777777;
+	white-space: nowrap;
+	background-color: #f3f3f3;
+}
+
+.ilOnScreenChatMenuItem {
+	position: relative;
+	border-bottom: 1px solid #E9E9E9;
+	color: #000;
+}
+
+.ilOnScreenChatMenuItem .media {
+	overflow: visible;
+	padding: 0;
+	cursor: pointer;
+}
+
+.ilOnScreenChatMenuItem .media:after {
+	content: ".";
+	clear: both;
+	display: block;
+	visibility: hidden;
+	height: 0px;
+}
+
+.ilOnScreenChatMenuItem .media:first-child {
+	margin-top: 0;
+}
+
+.ilOnScreenChatMenuItem .media-left,
+.ilOnScreenChatMenuItem .media-body,
+.ilOnScreenChatMenuItem .media-right {
+	//display: table-cell;
+	vertical-align: top;
+}
+
+.ilOnScreenChatMenuItem .media-left {
+	padding-right: 10px;
+	float: left;
+}
+
+.ilOnScreenChatMenuItem .media-body {
+	padding: 4px 4px 0 0;
+	white-space: nowrap;
+	max-width: 100%;
+	overflow: visible;
+}
+
+.ilOnScreenChatMenuItem .media-body p,
+.ilOnScreenChatMenuItem .media-body h4 {
+	font-size: 12px;
+	padding: 0 3px 0 3px;
+	line-height: 1em;
+	margin: 0;
+}
+
+.ilOnScreenChatMenuItem .media-body h4 {
+	padding-top: 0;
+	color: #606060;
+}
+
+.ilOnScreenChatMenuItem .media-body p {
+	color: #A0A0A0;
+}
+
+.ilOnScreenChatMenuItem .media-body p.lastMessage {
+	padding: 0.5rem 3px 0 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	color: #606060;
 }

@@ -230,6 +230,7 @@ class ilMainMenuGUI
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
 			$this->renderAwareness();
+			$this->renderOnScreenChatMenu();
 		}
 
 		if($this->getMode() == self::MODE_FULL)
@@ -1066,7 +1067,17 @@ class ilMainMenuGUI
 		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChat.php';
 		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php';
 
-		ilOnScreenChat::initializeFrontend();
+		ilOnScreenChatGUI::initializeFrontend();
+	}
+
+	protected function renderOnScreenChatMenu()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php';
+
+		$menu = new ilOnScreenChatMenuGUI();
+		$menu->initialize();
+
+		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
 	}
 
 	/**

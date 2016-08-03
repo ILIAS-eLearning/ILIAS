@@ -1,17 +1,10 @@
-<div class="col-md-3 chat-window-wrapper pull-right">
+<div class="col-md-2 chat-window-wrapper pull-right">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-comment"></span> [[participants]]
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </button>
-                <ul class="dropdown-menu slidedown">
-                    <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-plus">
-                    </span>Add User</a></li>
-                    <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-remove">
-                    </span>Close</a></li>
-                </ul>
+                <a href="#" class="btn btn-secondary add-user" title="Add User"><span class="glyphicon glyphicon-plus"></span></a>
+                <a href="#" class="btn btn-secondary close" title="Close"><span class="glyphicon glyphicon-remove"></span></a>
             </div>
         </div>
         <div class="panel-body">
@@ -19,10 +12,10 @@
         </div>
         <div class="panel-footer">
             <div class="input-group">
-                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+                <textarea class="form-control chat-message" placeholder="Type your message here..." data-autosize-input='{ "space": 40 }'></textarea>
+                <!--<input id="btn-input" type="text" class="form-control input-sm chat-message" placeholder="Type your message here...">-->
                 <span class="input-group-btn">
-                    <button class="btn btn-default btn-sm" id="btn-chat">
-                        Send</button>
+                    <button class="btn btn-default btn-sm submit">Send</button>
                 </span>
             </div>
         </div>
