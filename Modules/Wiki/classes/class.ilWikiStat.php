@@ -198,78 +198,82 @@ class ilWikiStat
 		
 		$tstamp = self::getTimestamp();		
 		$a_primary["ts"] = array("timestamp", $tstamp);
-		
-		$ilDB->lockTables(array(0 => array('name' => $a_table, 'type' => ilDBConstants::LOCK_WRITE)));
-		
-		$primary = array();
-		foreach($a_primary as $column => $value)
-		{
-			$primary[] = $column." = ".$ilDB->quote($value[1], $value[0]);
-		}		
-		$primary = implode(" AND ", $primary);
-		
-		$set = $ilDB->query("SELECT ts FROM ".$a_table.
-			" WHERE ".$primary);		
-		
-		$is_update = (bool)$ilDB->numRows($set);
-		
-		// update (current timeframe)
-		if($is_update)
-		{
-			$values = array();
-			foreach($a_values as $column => $value)
+
+		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery->lockTable($a_table);
+
+		$ilAtomQuery->addQueryCallable(
+			function(ilDBInterface $ilDB) use($a_table,  $a_primary, $a_values, $tstamp, &$is_update){
+
+			$primary = array();
+			foreach($a_primary as $column => $value)
 			{
-				if($value[0] == "increment")
+				$primary[] = $column." = ".$ilDB->quote($value[1], $value[0]);
+			}
+			$primary = implode(" AND ", $primary);
+
+			$set = $ilDB->query("SELECT ts FROM ".$a_table.
+				" WHERE ".$primary);
+
+			$is_update = (bool)$ilDB->numRows($set);
+
+			// update (current timeframe)
+			if($is_update)
+			{
+				$values = array();
+				foreach($a_values as $column => $value)
 				{
-					$values[] = $column." = ".$column."+1";
+					if($value[0] == "increment")
+					{
+						$values[] = $column." = ".$column."+1";
+					}
+					else if($value[0] == "decrement")
+					{
+						$values[] = $column." = ".$column."-1";
+					}
+					else
+					{
+						$values[] = $column." = ".$ilDB->quote($value[1], $value[0]);
+					}
 				}
-				else if($value[0] == "decrement")
+				$values = implode(", ", $values);
+
+				$sql = "UPDATE ".$a_table.
+					" SET ".$values.
+					" WHERE ".$primary;
+			}
+			// insert (no entry yet for current time frame)
+			else
+			{
+				$a_values = array_merge($a_primary, $a_values);
+				$a_values["ts_day"] = array("text", substr($tstamp, 0, 10));
+				$a_values["ts_hour"] = array("integer", (int)substr($tstamp, 11, 2));
+
+				$values = array();
+				foreach($a_values as $column => $value)
 				{
-					$values[] = $column." = ".$column."-1";
-				}			
-				else
-				{
-					$values[] = $column." = ".$ilDB->quote($value[1], $value[0]);
-				}				
-			}		
-			$values = implode(", ", $values);
-			
-			$sql = "UPDATE ".$a_table.
-				" SET ".$values.
-				" WHERE ".$primary;						
-		}
-		// insert (no entry yet for current time frame)
-		else
-		{					
-			$a_values = array_merge($a_primary, $a_values);
-			$a_values["ts_day"] = array("text", substr($tstamp, 0, 10));
-			$a_values["ts_hour"] = array("integer", (int)substr($tstamp, 11, 2));
-			
-			$values = array();
-			foreach($a_values as $column => $value)
-			{	
-				$columns[] = $column;		
-				if($value[0] == "increment")
-				{
-					$value[0] = "integer";
+					$columns[] = $column;
+					if($value[0] == "increment")
+					{
+						$value[0] = "integer";
+					}
+					else if($value[0] == "decrement")
+					{
+						$value[0] = "integer";
+						$value[1] = 0;
+					}
+					$values[] = $ilDB->quote($value[1], $value[0]);
 				}
-				else if($value[0] == "decrement")
-				{
-					$value[0] = "integer";
-					$value[1] = 0;
-				}								
-				$values[] = $ilDB->quote($value[1], $value[0]);						
-			}		
-			$values = implode(", ", $values);
-			$columns = implode(", ", $columns);
-			
-			$sql = "INSERT INTO ".$a_table.
-				" (".$columns.")".
-				" VALUES (".$values.")";
-		}
-		$ilDB->manipulate($sql);
-		
-		$ilDB->unlockTables();
+				$values = implode(", ", $values);
+				$columns = implode(", ", $columns);
+
+				$sql = "INSERT INTO ".$a_table.
+					" (".$columns.")".
+					" VALUES (".$values.")";
+			}
+			$ilDB->manipulate($sql);
+		});
+		$ilAtomQuery->run();
 		
 		return $is_update;
 	}
