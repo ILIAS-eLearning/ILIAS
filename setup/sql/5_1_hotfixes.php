@@ -176,3 +176,8 @@ if(!is_file($salt_location) || !is_readable($salt_location))
 	die("Could not determine the client salt for bcrypt password hashing.");
 }
 ?>
+<#13>
+<?php
+global $ilDB;
+$ilDB->query('ALTER TABLE ldap_role_assignments MODIFY rule_id int(11)');
+?>
