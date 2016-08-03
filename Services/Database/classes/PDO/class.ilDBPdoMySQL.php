@@ -14,7 +14,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 	 * @return bool
 	 */
 	public function supportsTransactions() {
-		return true;
+		return false;
 	}
 
 

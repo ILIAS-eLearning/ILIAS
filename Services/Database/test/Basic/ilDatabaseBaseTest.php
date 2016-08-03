@@ -25,7 +25,9 @@
 
 /**
  * TestCase for the ilDatabaseCommonTest
- *
+ * 
+ * @group needsInstalledILIAS
+ *        
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -49,10 +51,6 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 
 
 	protected function setUp() {
-		if ($this->set_up) {
-			return;
-		}
-		echo phpversion() . "\n";
 		$this->error_reporting_backup = error_reporting();
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING & ~E_STRICT); // Due to PEAR Lib MDB2
 

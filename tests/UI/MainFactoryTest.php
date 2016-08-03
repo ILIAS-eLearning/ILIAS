@@ -3,7 +3,10 @@
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class MainFactoryTest extends AbstractFactoryTest {
-	public $kitchensink_info_settings = array();
+	public $kitchensink_info_settings = array(
+			"card"		=> array("context" => false)
+			, "deck"			=> array("context" => false)
+    );
 
 	public $factory_title = 'ILIAS\\UI\\Factory';
 
