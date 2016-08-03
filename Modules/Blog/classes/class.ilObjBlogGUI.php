@@ -819,7 +819,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// toolbar
 		if($this->mayContribute())
-		{
+		{		
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
 
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
@@ -831,6 +831,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$button->setCaption("blog_add_posting");
 			$button->setCommand("createPosting");
 			$ilToolbar->addStickyItem($button);
+			
+			// #18763
+			$first = array_shift((array_keys($this->items)));
+			if($first != $this->month)
+			{
+				$ilToolbar->addSeparator();
+								
+				$ilCtrl->setParameter($this, "bmn", $first);
+				$url = $ilCtrl->getLinkTarget($this, "");
+				$ilCtrl->setParameter($this, "bmn", $this->month);
+				
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("blog_show_latest");
+				$button->setUrl($url);
+				$ilToolbar->addButtonInstance($button);
+			}			
 						
 			// exercise blog?			
 			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
