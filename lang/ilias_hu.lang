@@ -16209,3 +16209,4 @@ auth#:#auth_ldap_server_ds#:#LDAP szerver
 assessment#:#ass_location#:#Helyszín
 assessment#:#ass_imap_hint#:#Tippek buboréksúgóként jelenjenek meg
 dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###03 08 2016 new variable
+blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
