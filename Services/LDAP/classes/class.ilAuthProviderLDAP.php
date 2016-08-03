@@ -4,6 +4,7 @@
 
 include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
 include_once './Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
+include_once './Services/Authentication/interfaces/interface.ilAuthProviderAccountMigrationInterface.php';
 
 /**
  * Description of class class 
@@ -11,9 +12,11 @@ include_once './Services/Authentication/interfaces/interface.ilAuthProviderInter
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
  *
  */
-class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterface
+class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
 {
 	private $server = null;
+	private $migration_account = '';
+	private $force_new_account = false;
 	
 	/**
 	 * Constructor
@@ -34,13 +37,6 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		return $this->server;
 	}
 	
-	/**
-	 * Migrate account
-	 */
-	public function doMigrateAccount($a_usr_id)
-	{
-		
-	}
 	
 	/**
 	 * Do authentication
@@ -83,8 +79,6 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			$query->bind(IL_LDAP_BIND_AUTH, $users[$this->getCredentials()->getUsername()]['dn'], $this->getCredentials()->getPassword());
-			$status->setAuthenticatedUserId(6);
-			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		} 
 		catch (ilLDAPQueryException $e) {
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
@@ -109,10 +103,11 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		$sync = new ilLDAPUserSynchronisation('ldap_'.$this->getServer()->getServerId(), $this->getServer()->getServerId());
 		$sync->setExternalAccount($this->getCredentials()->getUsername());
 		$sync->setUserData($user);
-		$sync->forceCreation(false);
+		$sync->forceCreation($this->force_new_account);
 
 		try {
 			$internal_account = $sync->sync();
+			$this->getLogger()->debug('Internal account: ' . $internal_account);
 		}
 		catch(UnexpectedValueException $e) {
 			$this->getLogger()->info('Login failed with message: ' . $e->getMessage());
@@ -127,6 +122,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 		catch(ilLDAPAccountMigrationRequiredException $e) {
 			// Account migration required
+			$this->setExternalAccountName($this->getCredentials()->getUsername());
 			$this->getLogger()->info('Authentication failed: account migration required for external account: ' . $this->getCredentials()->getUsername());
 			$status->setStatus(ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED);
 			return false;
@@ -158,5 +154,92 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
 		$this->server = new ilLDAPServer($a_server_id);
 	}
+
+	// Account migration
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function createNewAccount(ilAuthStatus $status)
+	{
+		$this->force_new_account = true;
+		
+		try 
+		{
+			include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
+			$query = new ilLDAPQuery($this->getServer());
+			$query->bind(IL_LDAP_BIND_DEFAULT);			
+		}
+		catch(ilLDAPQueryException $e)
+		{
+			$this->getLogger()->error('Cannot bind to LDAP server... '. $e->getMessage());
+			$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+			return false;
+		}
+		try 
+		{
+			// fetch user
+			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			if(!$users)
+			{
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
+			}
+			if(!array_key_exists($this->getCredentials()->getUsername(), $users))
+			{
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
+			}
+		} 
+		catch (ilLDAPQueryException $e) {
+			$this->getLogger()->error('Cannot fetch LDAP user data... '. $e->getMessage());
+			$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+			return false;
+		}
+
+		// authentication success update profile
+		$this->updateAccount($status, $users[$this->getCredentials()->getUsername()]);
+	}
+	
+	
+
+	public function migrateAccount($a_usr_id)
+	{
+		
+	}
+
+	/**
+	 * Get trigger auth mode
+	 */
+	public function getTriggerAuthMode()
+	{
+		return AUTH_LDAP.'_'.$this->getServer()->getServerId();
+	}
+
+	/**
+	 * Get user auth mode name
+	 */
+	public function getUserAuthModeName()
+	{
+		return 'ldap_'.$this->getServer()->getServerId();
+	}
+
+	/**
+	 * Get external account name
+	 * @return string
+	 */
+	public function getExternalAccountName()
+	{
+		return $this->migration_account;
+	}
+	
+	/**
+	 * Set external account name
+	 * @param string $a_name
+	 */
+	public function setExternalAccountName($a_name)
+	{
+		$this->migration_account = $a_name;
+	}
+
 }
 ?>

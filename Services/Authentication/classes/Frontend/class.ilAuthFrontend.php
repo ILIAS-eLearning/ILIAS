@@ -10,6 +10,10 @@
  */
 class ilAuthFrontend
 {
+	const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
+	const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
+	const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
+	
 	private $logger = null;
 	private $credentials = null;
 	private $status = null;
@@ -88,6 +92,60 @@ class ilAuthFrontend
 	}
 	
 	/**
+	 * Migrate Account
+	 * @param ilAuthSession $session
+	 * @param type $a_username
+	 * @param type $a_auth_mode
+	 * @param type $a_desired_authmode
+	 */
+	public function migrateAccount(ilAuthSession $session)
+	{
+		if(!$session->isAuthenticated())
+		{
+			$this->getLogger()->warning('Desired user account is not authenticated');
+			return false;
+		}
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$user_factory = new ilObjectFactory();
+		$user = $user_factory->getInstanceByObjId($session->getUserId(), false);
+		
+		if(!$user instanceof ilObjUser)
+		{
+			$this->getLogger()->info('Cannot instanitate user account for account migration: ' . $session->getUserId());
+			return false;
+		}
+		
+		$user->setAuthMode(ilSession::get(static::MIG_DESIRED_AUTHMODE));
+		$user->setExternalAccount(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
+		$user->update();
+		
+		// @todo call provider and update account data, role assignment, ...
+		
+		return true;
+	}
+	
+	/**
+	 * Create new user account
+	 */
+	public function migrateAccountNew()
+	{
+		foreach($this->providers as $provider)
+		{
+			$provider->createNewAccount($this->getStatus());
+
+			switch($this->getStatus()->getStatus())
+			{
+				case ilAuthStatus::STATUS_AUTHENTICATED:
+					return $this->handleAuthenticationSuccess($provider);
+					
+			}
+		}
+		$this->handleAuthenticationFail();
+	}
+
+
+	
+	/**
 	 * Try to authenticate user
 	 */
 	public function authenticate()
@@ -109,7 +167,7 @@ class ilAuthFrontend
 					
 				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
 					$this->getLogger()->notice("Account migration required.");
-					return false;
+					return $this->handleAccountMigration($provider);
 					
 				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				default:
@@ -118,6 +176,28 @@ class ilAuthFrontend
 			}
 		}
 		return $this->handleAuthenticationFail();
+	}
+	
+	/**
+	 * Handle account migration
+	 * @param ilAuthProvider $provider
+	 */
+	protected function handleAccountMigration(ilAuthProviderAccountMigrationInterface $provider)
+	{
+		$this->getLogger()->debug('Trigger auth mode: ' . $provider->getTriggerAuthMode());
+		$this->getLogger()->debug('Desired auth mode: ' . $provider->getUserAuthModeName());
+		$this->getLogger()->debug('External account: ' . $provider->getExternalAccountName());
+		
+		$this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
+		#$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+		
+		ilSession::set(static::MIG_TRIGGER_AUTHMODE, $provider->getTriggerAuthMode());
+		ilSession::set(static::MIG_DESIRED_AUTHMODE, $provider->getUserAuthModeName());
+		ilSession::set(static::MIG_EXTERNAL_ACCOUNT, $provider->getExternalAccountName());
+		
+		$this->getLogger()->dump($_SESSION, ilLogLevel::DEBUG);
+		
+		return true;
 	}
 	
 	/**
@@ -185,8 +265,6 @@ class ilAuthFrontend
 			$this->getStatus()->setReason('simultaneous_login_detected');
 			return false;
 		}
-		
-		
 		
 		$this->getLogger()->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
 		$this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());

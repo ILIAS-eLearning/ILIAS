@@ -122,8 +122,8 @@ class ilAuthSession
 	 */
 	public function setAuthenticated($a_status, $a_user_id)
 	{
-		
 		$this->authenticated = $a_status;
+		$this->user_id = $a_user_id;
 		ilSession::set(self::SESSION_AUTH_AUTHENTICATED, $a_status);
 		ilSession::set(self::SESSION_AUTH_USER_ID, (int) $a_user_id);
 		$this->setExpired(false);
