@@ -180,7 +180,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 		$pageObjectGUI = new ilAssHintPageGUI($pageObjectId);
 		$pageObjectGUI->obj->addUpdateListener(
 			$this->questionOBJ,
-			'saveToDb'
+			'updateTimestamp'
 		);
 		return $pageObjectGUI;
 	}

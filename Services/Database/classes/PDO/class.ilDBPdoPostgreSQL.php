@@ -103,7 +103,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 */
 	public function constraintName($a_table, $a_constraint) {
 		$a_constraint = str_replace($a_table . '_', '', $a_constraint);
-		
+
 		return $a_table . '_' . $a_constraint;
 	}
 
@@ -176,6 +176,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 
 	/**
 	 * @param array $a_tables
+	 * @deprecated Use ilAtomQuery instead
 	 * @return bool
 	 */
 	public function lockTables($a_tables) {
@@ -214,6 +215,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 
 	/**
 	 * @throws \ilDatabaseException
+	 * @deprecated Use ilAtomQuery instead
 	 */
 	public function unlockTables() {
 		$this->commit();

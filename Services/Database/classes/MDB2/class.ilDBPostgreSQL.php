@@ -190,15 +190,16 @@ class ilDBPostgreSQL extends ilDB
 		}*/
 		return $r;
 	}
-	
+
 	/**
 	 * Lock table
-	 * 
+	 *
 	 * E.g $ilDB->lockTable('tree',ilDBConstants::LOCK_WRITE,'t1')
 	 * @param array $a_tables
 	 * @param int $a_mode
 	 * @param string $a_alias
-	 * @return 
+	 * @deprecated Use ilAtomQuery instead
+	 * @return
 	 */
 	public function lockTables($a_tables)
 	{
@@ -241,6 +242,7 @@ class ilDBPostgreSQL extends ilDB
 	
 	/**
 	 * Unlock tables
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	public function unlockTables()
