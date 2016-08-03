@@ -13728,7 +13728,7 @@ if (!$ilDB->tableExists('obj_stat_tmp'))
 		),
 	));
 	$ilDB->addPrimaryKey('obj_stat_tmp', array('log_id'));
-	$ilDB->addIndex('obj_stat_tmp',array('obj_id, obj_type, yyyy, mm, dd, hh'),'i1');
+	$ilDB->addIndex('obj_stat_tmp',array('obj_id', 'obj_type', 'yyyy', 'mm', 'dd', 'hh'),'i1');
 }
 ?>
 <#4845>
