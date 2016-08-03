@@ -15761,3 +15761,13 @@ copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensur
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
+logging#:#log_error_message#:#Error %s occurred.
+logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
+logging#:#log_error_folder#:#Path
+logging#:#log_error_mail#:#Mail recipient
+logging#:#log_error_settings#:#Error logging settings
+logging#:#error_settings_saved#:#Saved settings
+logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
+logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
+logging#:#frm_clear_older_then#:#Deletes files older then
+logging#:#frm_clear_older_then_info#:#Please enter duration in days.

@@ -613,3 +613,5 @@ cache_flush#:#Összes gyorsítótár ürítése
 cache_activate_tpl_blocks#:#Sablon (blokkok)
 cache_activate_tpl_variables#:#Sablon (változók)
 cache_activate_all#:#Összes
+error_log_path#:#Path to error log files
+error_log_path_comment#:#Please enter only the path. Files will be automaticly saved on error.

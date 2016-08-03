@@ -623,3 +623,5 @@ cache_flush#:#Flush all caches###30 08 2015 new variable
 cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
 cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
 cache_activate_all#:#Alle
+error_log_path#:#Ort der Fehlerdateien
+error_log_path_comment#:#Bitte nur den Pfad angeben. Hier werden die Dateien im Falle eines Fehlers abgelegt.

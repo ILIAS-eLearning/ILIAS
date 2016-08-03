@@ -15762,7 +15762,8 @@ copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen,
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
-logging#:#log_error_message#:#Fehler %s ist aufgetreten. Bitte wenden Sie sich an <a href="mailto:%s?subject=Fehlercode: %s">%s</a>
+logging#:#log_error_message#:#Fehler %s ist aufgetreten.
+logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#Email Empfänger
 logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll

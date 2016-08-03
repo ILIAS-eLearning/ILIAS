@@ -613,3 +613,5 @@ cache_flush#:#Flush all caches
 cache_activate_tpl_blocks#:#Template (Blocks)
 cache_activate_tpl_variables#:#Template (Variables)
 cache_activate_all#:#All
+error_log_path#:#Path to error log files
+error_log_path_comment#:#Please enter only the path. Files will be automaticly saved on error.
