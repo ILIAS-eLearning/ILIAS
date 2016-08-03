@@ -67,7 +67,7 @@ class ilWACSignedPath {
 			return '';
 		}
 		if (!$this->getPathObject()->fileExists()) {
-			return $this->getPathObject()->getOriginalRequest();
+			//			return $this->getPathObject()->getOriginalRequest();
 		}
 
 		if (strpos($this->getPathObject()->getPath(), '?')) {
@@ -252,7 +252,18 @@ class ilWACSignedPath {
 		$cookie_timestamp = $this->getPathObject()->getTimestamp();
 		$current_timestamp = $this->getTokenInstance()->getTimestamp();
 
-		$timestamp_valid = ($cookie_timestamp > ($current_timestamp - self::getCookieMaxLifetimeInSeconds()));
+		switch ($this->getType()) {
+			case self::TYPE_FOLDER:
+				$timestamp_valid = ($cookie_timestamp > ($current_timestamp - self::getCookieMaxLifetimeInSeconds()));
+				break;
+			case self::TYPE_FILE:
+				$timestamp_valid = ($cookie_timestamp > ($current_timestamp - self::getTokenMaxLifetimeInSeconds()));
+				break;
+			default:
+				$timestamp_valid = false;
+				break;
+		}
+
 		if (!$timestamp_valid) {
 			ilWACLog::getInstance()->write('cookie no longer valid: TS');
 		}
