@@ -9,7 +9,7 @@
 		"monolog/monolog": "^1.15",
 		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
-		"ezyang/htmlpurifier": "^4.7.0",
+		"ezyang/htmlpurifier": "^4.8.0",
 		"phpmailer/phpmailer": "^5.2",
 		"phansys/getid3": "^1.9.4",
 		"geshi/geshi": "dev-master",
@@ -66,10 +66,10 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.7.0",
+			"used_version" : "v4.8.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2016-04-01",
+			"last_update" : "2016-08-04",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phpmailer/phpmailer" : {
@@ -131,9 +131,6 @@
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
-			},
-			"ezyang/htmlpurifier": {
-				"ILIAS HTML Purifier Patches": "patches/htmlpurifier.patch"
 			}
 		}
 	}
