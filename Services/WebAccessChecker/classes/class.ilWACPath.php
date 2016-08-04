@@ -104,8 +104,8 @@ class ilWACPath {
 		$this->setSecurePathId($results[3]);
 		$parts = parse_url($path);
 		$this->setFileName(basename($parts['path']));
-		$parts_query = $parts['query'];
-		if ($parts_query) {
+		if (isset($parts['query'])) {
+			$parts_query = $parts['query'];
 			$this->setQuery($parts_query);
 			parse_str($parts_query, $query);
 			$this->setParameters($query);
