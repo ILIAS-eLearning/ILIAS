@@ -27,13 +27,13 @@ class Renderer extends AbstractComponentRenderer {
 		if(count($component->getItems())>0){
 			$tpl->setVariable("TYPE",$component->getType());
 			foreach($component->getItems() as $item){
-                $tpl->setCurrentBlock("item");
+				$tpl->setCurrentBlock("item");
 				if(is_string($item)){
-                    $tpl->setVariable("ITEM", $item);
+					$tpl->setVariable("ITEM", $item);
 				}else{
-                    $tpl->setVariable("ITEM", $default_renderer->render($item));
-                }
-                $tpl->parseCurrentBlock();
+					$tpl->setVariable("ITEM", $default_renderer->render($item));
+				}
+				$tpl->parseCurrentBlock();
 			}
 		}
 		return $tpl->get();

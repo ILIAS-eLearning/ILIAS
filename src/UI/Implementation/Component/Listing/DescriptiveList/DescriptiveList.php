@@ -40,4 +40,3 @@ class DescriptiveList implements C\Listing\DescriptiveList {
 		return $this->items;
 	}
 }
-?>
