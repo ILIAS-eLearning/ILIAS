@@ -15759,8 +15759,8 @@ obj#:#obj_target_location#:#Target Location
 obj#:#obj_copy_progress#:#Copy Progress
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
-crs#:#crs_mail_context_tutor_title#:#Course Tutor 
-crs#:#crs_mail_context_member_title#:#Course Member
+crs#:#crs_mail_context_tutor_title#:#Mail to Course Member
+crs#:#crs_mail_context_member_title#:#Info Page Course
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template

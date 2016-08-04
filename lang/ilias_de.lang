@@ -15748,8 +15748,8 @@ obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
-crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
-crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
+crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
+crs#:#crs_mail_context_member_title#:#Infoseite Kurs
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
