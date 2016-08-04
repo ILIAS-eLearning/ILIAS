@@ -38,6 +38,9 @@ class ilServicesWebAccessCheckerSuite extends PHPUnit_Framework_TestSuite {
 		require_once('./Services/WebAccessChecker/test/Token/ilWACTokenTest.php');
 		$suite->addTestSuite('ilWACTokenTest');
 
+		//		require_once('./Services/WebAccessChecker/test/CheckingInstance/ilWACCheckingInstanceTest.php');
+		//		$suite->addTestSuite('ilWACCheckingInstanceTest');
+
 		return $suite;
 	}
 }
