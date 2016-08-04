@@ -20,7 +20,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	
 	/**
 	 * Constructor
-	 * @param ilTree $tree
+	 * @param ilTree $a_tree
 	 */
 	public function __construct(ilTree $a_tree)
 	{
@@ -30,7 +30,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	
 	/**
 	 * Get maximum possible depth
-	 * @return type
+	 * @return int
 	 */
 	protected function getMaximumPossibleDepth()
 	{
@@ -49,6 +49,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	/**
 	 * Get subtree ids
 	 * @param type $a_node_id
+	 * @return array
 	 */
 	public function getSubTreeIds($a_node_id)
 	{
@@ -78,43 +79,48 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 * Get relation of two nodes
 	 * @param type $a_node_a
 	 * @param type $a_node_b
+	 * @return int
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
 		if($a_node_a['child'] == $a_node_b['child'])
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': EQUALS');
+			ilLoggerFactory::getLogger('tree')->debug('EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
 		if(stristr($a_node_a['path'], $a_node_b['path']))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
+			ilLoggerFactory::getLogger('tree')->debug('CHILD');
 			return ilTree::RELATION_CHILD;
 		}
 		if(stristr($a_node_b['path'], $a_node_a['path']))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
+			ilLoggerFactory::getLogger('tree')->debug('PARENT');
 			return ilTree::RELATION_PARENT;
 		}
 		$path_a = substr($a_node_a['path'],0,strrpos($a_node_a['path'],'.'));
 		$path_b = substr($a_node_b['path'],0,strrpos($a_node_b['path'],'.'));
-		$GLOBALS['ilLog']->write(__METHOD__.': Comparing '.$path_a .' '. 'with '.$path_b);
+
+		ilLoggerFactory::getLogger('tree')->debug('Comparing '.$path_a .' '. 'with '.$path_b);
 
 		if($a_node_a['path'] and (strcmp($path_a,$path_b) === 0))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
+			ilLoggerFactory::getLogger('tree')->debug('SIBLING');
 			return ilTree::RELATION_SIBLING;
 		}
 
-		$GLOBALS['ilLog']->write(__METHOD__.': NONE');
+		ilLoggerFactory::getLogger('tree')->debug('NONE');
 		return ilTree::RELATION_NONE;
 	}
 
 	/**
 	 * Get subtree query
 	 * @param type $a_node
-	 * @param type $a_types
-	 * 
+	 * @param string $a_types
+	 * @param bool $a_force_join_reference
+	 * @param array $a_fields
+	 *
+	 * @return string query
 	 */
 	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
 	{
@@ -165,6 +171,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 * Get path ids
 	 * @param int $a_endnode
 	 * @param int $a_startnode
+	 * @return array
 	 */
 	public function getPathIds($a_endnode, $a_startnode = 0)
 	{
@@ -195,14 +202,15 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	
 	/**
 	 * Insert new node under parent node
-	 * @param type $a_node_id
-	 * @param type $a_parent_id
-	 * @param type $a_pos
+	 * @param int $a_node_id
+	 * @param int $a_parent_id
+	 * @param int $a_pos
+	 *
+	 * @throws ilInvalidTreeStructureException
 	 */
 	public function insertNode($a_node_id, $a_parent_id, $a_pos)
 	{
 		global $ilDB;
-		$error = false;
 
 		$insert_node_callable = function(ilDBInterface $ilDB) use ($a_node_id, $a_parent_id, $a_pos)
 		{
@@ -220,14 +228,14 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
 			if ($r->parent == NULL)
 			{
-				$GLOBALS['ilLog']->logStack();
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 				throw new ilInvalidTreeStructureException('Parent node not found in tree');
 
 			}
 
 			if ($r->depth >= $this->getMaximumPossibleDepth())
 			{
-				$GLOBALS['ilLog']->logStack();
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 				throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
 			}
 
@@ -268,6 +276,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	/**
 	 * Delete a subtree
 	 * @param int $a_node_id
+	 *
+	 * @return bool
 	 */
 	public function deleteTree($a_node_id)
 	{
@@ -286,6 +296,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	/**
 	 * Move subtree to trash
 	 * @param type $a_node_id
+	 *
+	 * @return bool
 	 */
 	public function moveToTrash($a_node_id)
 	{
@@ -327,9 +339,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	
 	/**
 	 * move source subtree to target node
-	 * @param type $a_source_id
-	 * @param type $a_target_id
-	 * @param type $a_position
+	 * @param int $a_source_id
+	 * @param int $a_target_id
+	 * @param int $a_position
+	 * @return bool
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_position)
 	{
@@ -349,8 +364,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			// Check in tree
 			if ($ilDB->numRows($res) != 2)
 			{
-				$GLOBALS['ilLog']->logStack();
-				$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR, 'Objects not found in tree');
 				throw new InvalidArgumentException('Error moving subtree');
 			}
 
@@ -387,17 +401,15 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
 				if ($row->max_depth - $source_depth + $target_depth + 1 > $this->getMaximumPossibleDepth())
 				{
-					$GLOBALS['ilLog']->logStack();
-					$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+					ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR, 'Objects not found in tree');
 					throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
 				}
 			}
 			// Check target not child of source
 			if (substr($target_path . '.', 0, strlen($source_path) . '.') == $source_path . '.')
 			{
-				$GLOBALS['ilLog']->logStack();
-				$GLOBALS['ilLog']->write(__METHOD__.': Target is child of source');
-				throw new ilInvalidArgumentException('Error moving subtree: target is child of source');
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR, 'Target is child of source');
+				throw new InvalidArgumentException('Error moving subtree: target is child of source');
 			}
 			$depth_diff = $target_depth - $source_depth + 1;
 
@@ -419,8 +431,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
                 AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
 
-			$GLOBALS['ilLog']->write(__METHOD__.': query is ' . $query);
-
+			ilLoggerFactory::getLogger('tree')->debug('Query is ' . $query);
 
 			$ilDB->manipulate($query);
 		};
@@ -456,8 +467,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			}
 		}
 	}
-	
-	
+
+	/**
+	 * @param type $parent
+	 * @param type $parentPath
+	 * @return bool
+	 */
 	private static function createMaterializedPath($parent, $parentPath)
 	{
 		global $ilDB;
@@ -476,6 +491,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		return true;
 	}
 
+	/**
+	 * @param int $a_endnode_id
+	 * @return array
+	 */
 	public function getSubtreeInfo($a_endnode_id)
 	{
 		global $ilDB;
@@ -509,7 +528,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		$depth_first_compare = function($a, $b)
 		{
 			$a_exploded = explode('.', $a['path']);
-			#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_exploded,TRUE));
+			#ilLoggerFactory::getLogger('tree')->debug(print_r($a_exploded,TRUE));
 			$b_exploded = explode('.', $b['path']);
 			
 			$a_padded = '';
@@ -522,16 +541,16 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			{
 				$b_padded .= (str_pad((string) $num, 14, '0', STR_PAD_LEFT));
 			}
-			#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_padded);
-			#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_padded);
+
+			#ilLoggerFactory::getLogger('tree')->debug($a_padded);
 			return strcasecmp($a_padded, $b_padded);
 		};
-		
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
+
+		#ilLoggerFactory::getLogger('tree')->debug(print_r($nodes,TRUE));
 		
 		uasort($nodes,$depth_first_compare);
 
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
+		#ilLoggerFactory::getLogger('tree')->debug(print_r($nodes,TRUE));
 
 		return (array) $nodes;
 	}

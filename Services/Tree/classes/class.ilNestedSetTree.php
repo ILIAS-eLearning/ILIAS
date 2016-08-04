@@ -19,7 +19,7 @@ class ilNestedSetTree implements ilTreeImplementation
 	
 	/**
 	 * Constructor
-	 * @param ilTree $tree
+	 * @param ilTree $a_tree
 	 */
 	public function __construct(ilTree $a_tree)
 	{
@@ -38,6 +38,7 @@ class ilNestedSetTree implements ilTreeImplementation
 	/**
 	 * Get subtree ids
 	 * @param type $a_node_id
+	 * @return int[]
 	 */
 	public function getSubTreeIds($a_node_id)
 	{
@@ -66,8 +67,11 @@ class ilNestedSetTree implements ilTreeImplementation
 	/**
 	 * Get subtree
 	 * @param type $a_node
-	 * @param type $a_with_data
-	 * @param type $a_types
+	 * @param string $a_types
+	 * @param bool $a_force_join_reference
+	 * @param array $a_fields
+	 *
+	 * @return string query
 	 */
 	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
 	{
@@ -108,8 +112,8 @@ class ilNestedSetTree implements ilTreeImplementation
 			"AND ".$this->getTree()->getTreeTable().".".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer').' '.
 			$type_str.' '.
 			"ORDER BY ".$this->getTree()->getTreeTable().".lft";
-		
-		#$GLOBALS['ilLog']->write(__METHOD__.'-----------------: '. $query);
+
+		#ilLoggerFactory::getLogger('tree')->debug('-----------------: '. $query);
 		
 		return $query;
 	}
@@ -119,32 +123,33 @@ class ilNestedSetTree implements ilTreeImplementation
 	 * Get relation
 	 * @param type $a_node_a
 	 * @param type $a_node_b
+	 * @return int
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
 		if($a_node_a['child'] == $a_node_b['child'])
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': EQUALS');
+			ilLoggerFactory::getLogger('tree')->debug('EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
 		if($a_node_a['lft'] < $a_node_b['lft'] and $a_node_a['rgt'] > $a_node_b['rgt'])
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
+			ilLoggerFactory::getLogger('tree')->debug('PARENT');
 			return ilTree::RELATION_PARENT;
 		}
 		if($a_node_b['lft'] < $a_node_a['lft'] and $a_node_b['rgt'] > $a_node_a['rgt'])
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
+			ilLoggerFactory::getLogger('tree')->debug('CHILD');
 			return ilTree::RELATION_CHILD;
 		}
 		
 		// if node is also parent of node b => sibling
 		if($a_node_a['parent'] == $a_node_b['parent'])
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
+			ilLoggerFactory::getLogger('tree')->debug('SIBLING');
 			return ilTree::RELATION_SIBLING;
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': NONE');
+		ilLoggerFactory::getLogger('tree')->debug('NONE');
 		return ilTree::RELATION_NONE;
 	}
 	
@@ -152,6 +157,7 @@ class ilNestedSetTree implements ilTreeImplementation
 	 * Get path ids
 	 * @param int $a_endnode
 	 * @param int $a_startnode
+	 * @return int[]
 	 */
 	public function getPathIds($a_endnode, $a_startnode = 0)
 	{
@@ -163,6 +169,8 @@ class ilNestedSetTree implements ilTreeImplementation
 	 * @param type $a_node_id
 	 * @param type $a_parent_id
 	 * @param type $a_pos
+	 *
+	 * @throws ilInvalidTreeStructureException
 	 */
 	public function insertNode($a_node_id, $a_parent_id, $a_pos)
 	{
@@ -186,7 +194,7 @@ class ilNestedSetTree implements ilTreeImplementation
 
 					if ($r->parent == NULL)
 					{
-						$GLOBALS['ilLog']->logStack();
+						ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 						throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
 					}
 
@@ -220,7 +228,7 @@ class ilNestedSetTree implements ilTreeImplementation
 
 						if ($r['parent'] == null)
 						{
-							$GLOBALS['ilLog']->logStack();
+							ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 							throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
 						}
 						$parentRgt = $r['rgt'];
@@ -296,7 +304,7 @@ class ilNestedSetTree implements ilTreeImplementation
 
 						if ($r->parent == null)
 						{
-							$GLOBALS['ilLog']->logStack();
+							ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 							throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
 						}
 
@@ -331,7 +339,7 @@ class ilNestedSetTree implements ilTreeImplementation
 					// crosscheck parents of sibling and new node (must be identical)
 					if ($r->parent != $a_parent_id)
 					{
-						$GLOBALS['ilLog']->logStack();
+						ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 						throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
 					}
 
@@ -382,7 +390,8 @@ class ilNestedSetTree implements ilTreeImplementation
 
 	/**
 	 * Delete a subtree
-	 * @param type $a_node_id
+	 * @param int $a_node_id
+	 * @return bool
 	 */
 	public function deleteTree($a_node_id)
 	{
@@ -454,9 +463,11 @@ class ilNestedSetTree implements ilTreeImplementation
 	
 	/**
 	 * Move to trash
-	 * @param type $a_node_id
+	 * @param int $a_node_id
+	 * @return bool
 	 * 
 	 * @todo lock table
+	 * locktable already active due to calling method
 	 */
 	public function moveToTrash($a_node_id)
 	{
@@ -646,6 +657,8 @@ class ilNestedSetTree implements ilTreeImplementation
 	 * @param type $a_source_id
 	 * @param type $a_target_id
 	 * @param type $a_position
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_position)
 	{
@@ -665,8 +678,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			// Check in tree
 			if ($res->numRows() != 2)
 			{
-				$GLOBALS['ilLog']->logStack();
-				$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR,'Objects not found in tree');
 				throw new InvalidArgumentException('Error moving subtree');
 			}
 			while ($row = $ilDB->fetchObject($res))
@@ -689,8 +701,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			// Check target not child of source
 			if ($target_lft >= $source_lft and $target_rgt <= $source_rgt)
 			{
-				$GLOBALS['ilLog']->logStack();
-				$GLOBALS['ilLog']->write(__METHOD__.': Target is child of source');
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR,'Target is child of source');
 				throw new InvalidArgumentException('Error moving subtree: target is child of source');
 			}
 
@@ -776,7 +787,7 @@ class ilNestedSetTree implements ilTreeImplementation
 	 * Get rbac subtree info
 	 * @global type $ilDB
 	 * @param type $a_endnode_id
-	 * @return type
+	 * @return array
 	 */
 	public function getSubtreeInfo($a_endnode_id)
 	{
@@ -791,8 +802,8 @@ class ilNestedSetTree implements ilTreeImplementation
 			"AND t1.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
 			"AND t2.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
 			"ORDER BY t2.lft";
-		
-		 $GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+
+		ilLoggerFactory::getLogger('tree')->debug($query);
 		
 			
 		$res = $ilDB->query($query);
