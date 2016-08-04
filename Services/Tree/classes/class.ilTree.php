@@ -1891,51 +1891,52 @@ class ilTree
 			throw new InvalidArgumentException('No valid parameter given! $a_node_id: '.$a_node_id);
 		}
 
-		// LOCKED ###############################################
-		if($this->__isMainTree())
-		{
-			$ilDB->lockTables(
-				array(
-					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE),
-					1 => array('name' => 'object_reference', 'type' => ilDBConstants::LOCK_WRITE)));
-		}
+		$ret = true;
 
-		$query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id),'',false);
-		$res = $ilDB->query($query);
+		$save_sub_tree_callable = function(ilDBInterface $ilDB) use ($a_node_id, $a_set_deleted, &$ret)
+		{
 
-		$subnodes = array();
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			$subnodes[] = $row['child'];
-		}
-		
-		if(!count($subnodes))
-		{
-			// Possibly already deleted
-			// Unlock locked tables before returning
-			if($this->__isMainTree())
+			$query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id),'',false);
+			$res = $ilDB->query($query);
+
+			$subnodes = array();
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
-				$ilDB->unlockTables();
+				$subnodes[] = $row['child'];
 			}
-			return false;
-		}
-		
-		if($a_set_deleted)
-		{
-			include_once './Services/Object/classes/class.ilObject.php';
-			ilObject::setDeletedDates($subnodes);
-		}
-		
-		// netsted set <=> mp
-		$this->getTreeImplementation()->moveToTrash($a_node_id);
-		
+
+			if(!count($subnodes))
+			{
+				// Possibly already deleted
+				$ret =  false;
+				return;
+			}
+
+			if($a_set_deleted)
+			{
+				include_once './Services/Object/classes/class.ilObject.php';
+				ilObject::setDeletedDates($subnodes);
+			}
+
+			// netsted set <=> mp
+			$this->getTreeImplementation()->moveToTrash($a_node_id);
+
+		};
+
 		if($this->__isMainTree())
 		{
-			$ilDB->unlockTables();
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable('tree');
+			$ilAtomQuery->lockTable('object_reference');
+			$ilAtomQuery->addQueryCallable($save_sub_tree_callable);
+			$ilAtomQuery->run();
+		}
+		else
+		{
+			$save_sub_tree_callable($ilDB);
 		}
 
-		// LOCKED ###############################################
-		return true;
+		return $ret;
 	}
 
 	/**
@@ -2371,26 +2372,32 @@ class ilTree
 	function renumber($node_id = 1, $i = 1)
 	{
 		global $ilDB;
-		
+
+		$renumber_callable = function($ilDB) use($node_id,$i,&$return)
+		{
+
+			$return = $this->__renumber($node_id,$i);
+
+		};
+
 		// LOCKED ###################################
 		if($this->__isMainTree())
 		{
-			$ilDB->lockTables(
-				array(			
-					0 => array('name' => $this->table_tree, 'type' => ilDBConstants::LOCK_WRITE),
-					1 => array('name' => $this->table_obj_data, 'type' => ilDBConstants::LOCK_WRITE),
-					2 => array('name' => $this->table_obj_reference, 'type' => ilDBConstants::LOCK_WRITE),
-					3 => array('name' => 'object_translation', 'type' => ilDBConstants::LOCK_WRITE),
-					4 => array('name' => 'object_data', 'type' => ilDBConstants::LOCK_WRITE, 'alias' => 'od'),
-					5 => array('name' => 'container_reference', 'type' => ilDBConstants::LOCK_WRITE, 'alias' => 'cr')
-				));
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable( $this->table_tree );
+			$ilAtomQuery->lockTable( $this->table_obj_data );
+			$ilAtomQuery->lockTable( $this->table_obj_reference );
+			$ilAtomQuery->lockTable( 'object_translation' );
+			$ilAtomQuery->lockTable( 'object_data' );
+			$ilAtomQuery->lockTable('container_reference' );
+
+			$ilAtomQuery->addQueryCallable($renumber_callable);
+			$ilAtomQuery->run();
 		}
-		$return = $this->__renumber($node_id,$i);
-		if($this->__isMainTree())
+		else
 		{
-			$ilDB->unlockTables();
+			$renumber_callable($ilDB);
 		}
-		// LOCKED ###################################
 		return $return;
 	}
 

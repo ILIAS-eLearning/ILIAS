@@ -202,66 +202,65 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	public function insertNode($a_node_id, $a_parent_id, $a_pos)
 	{
 		global $ilDB;
+		$error = false;
+
+		$insert_node_callable = function(ilDBInterface $ilDB) use ($a_node_id, $a_parent_id, $a_pos)
+		{
+			// get path and depth of parent
+			$ilDB->setLimit(1);
+
+			$res = $ilDB->queryF(
+				'SELECT parent, depth, path FROM ' . $this->getTree()->getTreeTable() . ' ' .
+				'WHERE child = %s '. ' '.
+				'AND ' . $this->getTree()->getTreePk() . ' = %s', array('integer', 'integer'),
+				array($a_parent_id, $this->getTree()->getTreeId()));
+
+
+			$r = $ilDB->fetchObject($res);
+
+			if ($r->parent == NULL)
+			{
+				$GLOBALS['ilLog']->logStack();
+				throw new ilInvalidTreeStructureException('Parent node not found in tree');
+
+			}
+
+			if ($r->depth >= $this->getMaximumPossibleDepth())
+			{
+				$GLOBALS['ilLog']->logStack();
+				throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
+			}
+
+			$parentPath = $r->path;
+			$depth = $r->depth + 1;
+			$lft = 0;
+			$rgt = 0;
+
+
+			$ilDB->insert($this->getTree()->getTreeTable(), array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
+				'child' => array('integer', $a_node_id),
+				'parent' => array('integer', $a_parent_id),
+				'lft' => array('integer', $lft),
+				'rgt' => array('integer', $rgt),
+				'depth' => array('integer', $depth),
+				'path' => array('text', $parentPath . "." . $a_node_id)));
+
+		};
 		 
-		// LOCKED ###########################################################
-		if ($this->getTree()->__isMainTree())
+		// use ilAtomQuery to lock tables if tree is main tree
+		// otherwise just call this closure without locking
+		if ($this-> getTree()->__isMainTree())
 		{
-			$ilDB->lockTables(
-					array(
-						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable("tree");
+
+			$ilAtomQuery->addQueryCallable($insert_node_callable);
+
+			$ilAtomQuery->run();
 		}
-
-		// get path and depth of parent
-		$ilDB->setLimit(1);
-		
-		$res = $ilDB->queryF(
-			'SELECT parent, depth, path FROM ' . $this->getTree()->getTreeTable() . ' ' .
-			'WHERE child = %s '. ' '.
-			'AND ' . $this->getTree()->getTreePk() . ' = %s', array('integer', 'integer'), 
-			array($a_parent_id, $this->getTree()->getTreeId()));
-
-
-		$r = $ilDB->fetchObject($res);
-
-		if ($r->parent == NULL)
+		else
 		{
-			if ($this->getTree()->__isMainTree())
-			{
-				$ilDB->unlockTables();
-			}
-			$GLOBALS['ilLog']->logStack();
-			throw new ilInvalidTreeStructureException('Parent node not found in tree');
-		}
-
-		if ($r->depth >= $this->getMaximumPossibleDepth())
-		{
-			// LOCKED ###########################################################
-			if ($this->getTree()->__isMainTree())
-			{
-				$ilDB->unlockTables();
-			}
-			$GLOBALS['ilLog']->logStack();
-			throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
-		}
-
-		$parentPath = $r->path;
-		$depth = $r->depth + 1;
-		$lft = 0;
-		$rgt = 0;
-
-
-		$ilDB->insert($this->getTree()->getTreeTable(), array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
-			'child' => array('integer', $a_node_id),
-			'parent' => array('integer', $a_parent_id),
-			'lft' => array('integer', $lft),
-			'rgt' => array('integer', $rgt),
-			'depth' => array('integer', $depth),
-			'path' => array('text', $parentPath . "." . $a_node_id)));
-		
-		
-		if ($this->getTree()->__isMainTree())
-		{
-			$ilDB->unlockTables();
+			$insert_node_callable($ilDB);
 		}
 	}
 	
@@ -291,43 +290,38 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	public function moveToTrash($a_node_id)
 	{
 		global $ilDB;
- 
-		// LOCKED ###########################################################
-		if ($this->getTree()->__isMainTree())
-		{
-			$ilDB->lockTables(
-					array(
-						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
-		}
-		try 
+
+		$move_to_trash_callable = function(ilDBInterface $ilDB) use($a_node_id)
 		{
 			$node = $this->getTree()->getNodeTreeData($a_node_id);
-		}
-		catch(Exception $e) 
-		{
-			if ($this->getTree()->__isMainTree())
-			{
-				$ilDB->unlockTables();
-			}
-			throw $e;
-		}
 
+			// Set the nodes deleted (negative tree id)
+			$ilDB->manipulateF('
+				UPDATE ' . $this->getTree()->getTreeTable().' '.
+				'SET tree = %s' .' '.
+				'WHERE ' . $this->getTree()->getTreePk() . ' = %s ' .
+				'AND path BETWEEN %s AND %s',
+			array('integer', 'integer', 'text', 'text'),
+			array(-$a_node_id, $this->getTree()->getTreeId(), $node['path'], $node['path'] . '.Z'));
 
-		// Set the nodes deleted (negative tree id)
-		$ilDB->manipulateF('
-			UPDATE ' . $this->getTree()->getTreeTable().' '.
-			'SET tree = %s' .' '.
-			'WHERE ' . $this->getTree()->getTreePk() . ' = %s ' .
-			'AND path BETWEEN %s AND %s', 
-		array('integer', 'integer', 'text', 'text'),
-		array(-$a_node_id, $this->getTree()->getTreeId(), $node['path'], $node['path'] . '.Z'));
+		};
 
-		
-		// LOCKED ###########################################################
+		// use ilAtomQuery to lock tables if tree is main tree
+		// otherwise just call this closure without locking
 		if ($this->getTree()->__isMainTree())
 		{
-			$ilDB->unlockTables();
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable("tree");
+
+			$ilAtomQuery->addQueryCallable($move_to_trash_callable);
+
+			$ilAtomQuery->run();
 		}
+		else
+		{
+			$move_to_trash_callable($ilDB);
+		}
+
 		return true;
 	}
 	
@@ -340,91 +334,75 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	public function moveTree($a_source_id, $a_target_id, $a_position)
 	{
 		global $ilDB;
-		
-		if ($this->getTree()->__isMainTree())
+
+		$move_tree_callable = function(ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position)
 		{
-			$ilDB->lockTables(
-					array(
-						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
-		}
+			// Receive node infos for source and target
+			$ilDB->setLimit(2);
 
-		// Receive node infos for source and target
-		$ilDB->setLimit(2);
-		$res = $ilDB->query(
-			'SELECT depth, child, parent, path FROM ' . $this->getTree()->getTreeTable() . ' '.
-			'WHERE ' . $ilDB->in('child', array($a_source_id, $a_target_id), false, 'integer') . ' '.
-			'AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer')
-		);
+			$res = $ilDB->query(
+				'SELECT depth, child, parent, path FROM ' . $this->getTree()->getTreeTable() . ' '.
+				'WHERE ' . $ilDB->in('child', array($a_source_id, $a_target_id), false, 'integer') . ' '.
+				'AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer')
+			);
 
-		// Check in tree
-		if ($ilDB->numRows($res) != 2)
-		{
-			if ($this->getTree()->__isMainTree())
+			// Check in tree
+			if ($ilDB->numRows($res) != 2)
 			{
-				$ilDB->unlockTables();
-			}
-			$GLOBALS['ilLog']->logStack();
-			$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
-			throw new InvalidArgumentException('Error moving subtree');
-		}
-
-		while ($row = $ilDB->fetchObject($res))
-		{
-			if ($row->child == $a_source_id)
-			{
-				$source_path = $row->path;
-				$source_depth = $row->depth;
-				$source_parent = $row->parent;
-			}
-			else
-			{
-				$target_path = $row->path;
-				$target_depth = $row->depth;
-			}
-		}
-
-		if ($target_depth >= $source_depth)
-		{
-			// We move nodes deeper into the tree. Therefore we need to
-			// check whether we might exceed the maximal path length.
-			// We use FOR UPDATE here, because we don't want anyone to
-			// insert new nodes while we move the subtree.
-
-			$res = $ilDB->queryF(
-                    'SELECT  MAX(depth) max_depth '.
-                    'FROM    ' . $this->getTree()->getTreeTable() . ' '.
-                    'WHERE   path BETWEEN %s AND %s'.' '.
-                    'AND     tree = %s ', 
-				array('text', 'text', 'integer'), array($source_path, $source_path . '.Z', $this->getTree()->getTreeId()));
-
-			$row = $ilDB->fetchObject($res);
-
-			if ($row->max_depth - $source_depth + $target_depth + 1 > $this->getMaximumPossibleDepth())
-			{
-				if ($this->getTree()->__isMainTree())
-				{
-					$ilDB->unlockTables();
-				}
 				$GLOBALS['ilLog']->logStack();
 				$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
-				throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
+				throw new InvalidArgumentException('Error moving subtree');
 			}
-		}
-		// Check target not child of source
-		if (substr($target_path . '.', 0, strlen($source_path) . '.') == $source_path . '.')
-		{
-			if ($this->getTree()->__isMainTree())
-			{
-				$ilDB->unlockTables();
-			}
-			$GLOBALS['ilLog']->logStack();
-			$GLOBALS['ilLog']->write(__METHOD__.': Target is child of source');
-			throw new ilInvalidArgumentException('Error moving subtree: target is child of source');
-		}
-		$depth_diff = $target_depth - $source_depth + 1;
 
-		// move subtree:
-		$query = '
+			while ($row = $ilDB->fetchObject($res))
+			{
+				if ($row->child == $a_source_id)
+				{
+					$source_path = $row->path;
+					$source_depth = $row->depth;
+					$source_parent = $row->parent;
+				}
+				else
+				{
+					$target_path = $row->path;
+					$target_depth = $row->depth;
+				}
+			}
+
+			if ($target_depth >= $source_depth)
+			{
+				// We move nodes deeper into the tree. Therefore we need to
+				// check whether we might exceed the maximal path length.
+				// We use FOR UPDATE here, because we don't want anyone to
+				// insert new nodes while we move the subtree.
+
+				$res = $ilDB->queryF(
+					'SELECT  MAX(depth) max_depth '.
+					'FROM    ' . $this->getTree()->getTreeTable() . ' '.
+					'WHERE   path BETWEEN %s AND %s'.' '.
+					'AND     tree = %s ',
+					array('text', 'text', 'integer'), array($source_path, $source_path . '.Z', $this->getTree()->getTreeId()));
+
+				$row = $ilDB->fetchObject($res);
+
+				if ($row->max_depth - $source_depth + $target_depth + 1 > $this->getMaximumPossibleDepth())
+				{
+					$GLOBALS['ilLog']->logStack();
+					$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+					throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
+				}
+			}
+			// Check target not child of source
+			if (substr($target_path . '.', 0, strlen($source_path) . '.') == $source_path . '.')
+			{
+				$GLOBALS['ilLog']->logStack();
+				$GLOBALS['ilLog']->write(__METHOD__.': Target is child of source');
+				throw new ilInvalidArgumentException('Error moving subtree: target is child of source');
+			}
+			$depth_diff = $target_depth - $source_depth + 1;
+
+			// move subtree:
+			$query = '
                 UPDATE ' . $this->getTree()->getTreeTable() . '
                 SET parent = CASE WHEN parent = ' . $ilDB->quote($source_parent, 'integer') . '
                              THEN ' . $ilDB->quote($a_target_id, 'integer') . '
@@ -440,15 +418,25 @@ class ilMaterializedPathTree implements ilTreeImplementation
                             AND ' . $ilDB->quote($source_path . '.Z', 'text') . '
 
                 AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
+
+			$GLOBALS['ilLog']->write(__METHOD__.': query is ' . $query);
+
+
+			$ilDB->manipulate($query);
+		};
+
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': query is ' . $query);
-
-
-		$ilDB->manipulate($query);
 		if ($this->getTree()->__isMainTree())
 		{
-			$ilDB->unlockTables();
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable("tree");
+			$ilAtomQuery->addQueryCallable($move_tree_callable);
+			$ilAtomQuery->run();
 		}
+		else{
+			$move_tree_callable($ilDB);
+		}
+
 		return true;
 	}
 	
