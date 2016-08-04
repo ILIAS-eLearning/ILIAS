@@ -251,5 +251,3 @@ class ilWACToken {
 		$this->client = $client;
 	}
 }
-
-?>

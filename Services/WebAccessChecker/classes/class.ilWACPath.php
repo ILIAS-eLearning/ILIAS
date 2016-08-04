@@ -430,5 +430,3 @@ class ilWACPath {
 		$this->in_sec_folder = $in_sec_folder;
 	}
 }
-
-?>
