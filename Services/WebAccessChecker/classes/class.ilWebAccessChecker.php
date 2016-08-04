@@ -5,6 +5,7 @@ require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/Init/classes/class.ilInitialisation.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACCookie.php');
 
 /**
  * Class ilWebAccessChecker
@@ -17,6 +18,10 @@ class ilWebAccessChecker {
 	const DISPOSITION = 'disposition';
 	const STATUS_CODE = 'status_code';
 	const REVALIDATE = 'revalidate';
+	const CM_FILE_TOKEN = 1;
+	const CM_FOLDER_TOKEN = 2;
+	const CM_CHECKINGINSTANCE = 3;
+	const CM_SECFOLDER = 4;
 	/**
 	 * @var ilWACPath
 	 */
@@ -53,15 +58,25 @@ class ilWebAccessChecker {
 	 * @var bool
 	 */
 	protected static $use_seperate_logfile = false;
+	/**
+	 * @var ilWACCookieInterface
+	 */
+	protected $cookie = null;
+	/**
+	 * @var array
+	 */
+	protected $applied_checking_methods = array();
 
 
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
-	 * @param string $path
+	 * @param $path
+	 * @param \ilWACCookieInterface|null $ilWACCookieInterface
 	 */
-	public function __construct($path) {
+	public function __construct($path, ilWACCookieInterface $ilWACCookieInterface = null) {
 		$this->setPathObject(new ilWACPath($path));
+		$this->setCookie($ilWACCookieInterface ? $ilWACCookieInterface : new ilWACCookie());
 	}
 
 
@@ -76,8 +91,9 @@ class ilWebAccessChecker {
 		}
 
 		// Check if Path has been signed with a token
-		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject());
+		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject(), $this->cookie);
 		if ($ilWACSignedPath->isSignedPath()) {
+			$this->addAppliedCheckingMethod(self::CM_FILE_TOKEN);
 			if ($ilWACSignedPath->isSignedPathValid()) {
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using token');
@@ -88,6 +104,7 @@ class ilWebAccessChecker {
 
 		// Check if the whole secured folder has been signed
 		if ($ilWACSignedPath->isFolderSigned()) {
+			$this->addAppliedCheckingMethod(self::CM_FOLDER_TOKEN);
 			if ($ilWACSignedPath->isFolderTokenValid()) {
 				if ($this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->revalidatingFolderToken();
@@ -105,6 +122,7 @@ class ilWebAccessChecker {
 		// Maybe the path has been registered, lets check
 		$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
 		if ($checkingInstance instanceof ilWACCheckingClass) {
+			$this->addAppliedCheckingMethod(self::CM_CHECKINGINSTANCE);
 			ilWACLog::getInstance()->write('has checking instance: ' . get_class($checkingInstance));
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
@@ -128,10 +146,12 @@ class ilWebAccessChecker {
 		$this->setChecked(true);
 		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
+			$this->addAppliedCheckingMethod(self::CM_SECFOLDER);
 			ilWACLog::getInstance()->write('file is in sec-folder, no delivery');
 
 			return false;
 		} else {
+			$this->addAppliedCheckingMethod(self::CM_SECFOLDER);
 			ilWACLog::getInstance()->write('file is not in sec-folder, delivery');
 
 			return true;
@@ -139,12 +159,16 @@ class ilWebAccessChecker {
 	}
 
 
+	/**
+	 * @return bool
+	 * @throws \ilWACException
+	 */
 	public function initILIAS() {
 		if ($this->isInitialized()) {
 			return true;
 		}
 		$GLOBALS['COOKIE_PATH'] = '/';
-		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
+		$this->cookie->set('ilClientId', $this->getPathObject()->getClient(), 0, '/');
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
@@ -329,5 +353,45 @@ class ilWebAccessChecker {
 	 */
 	public static function setUseSeperateLogfile($use_seperate_logfile) {
 		self::$use_seperate_logfile = $use_seperate_logfile;
+	}
+
+
+	/**
+	 * @return \ilWACCookieInterface
+	 */
+	public function getCookie() {
+		return $this->cookie;
+	}
+
+
+	/**
+	 * @param \ilWACCookieInterface $cookie
+	 */
+	public function setCookie($cookie) {
+		$this->cookie = $cookie;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getAppliedCheckingMethods() {
+		return $this->applied_checking_methods;
+	}
+
+
+	/**
+	 * @param array $applied_checking_methods
+	 */
+	public function setAppliedCheckingMethods($applied_checking_methods) {
+		$this->applied_checking_methods = $applied_checking_methods;
+	}
+
+
+	/**
+	 * @param int $method
+	 */
+	protected function addAppliedCheckingMethod($method) {
+		$this->applied_checking_methods[] = $method;
 	}
 }
