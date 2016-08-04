@@ -430,6 +430,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		{			
 			$options["webr"] = $lng->txt("objs_webr");
 			$options["wiki"] = $lng->txt("objs_wiki");
+			$options["blog"] = $lng->txt("objs_blog");
+			$options["prtf"] = $lng->txt("objs_prtf");
+			$options["prtt"] = $lng->txt("objs_prtt");
 		}
 		
 		// repository plugins (currently only active)
