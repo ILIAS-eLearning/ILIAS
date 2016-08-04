@@ -308,6 +308,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	function duplicateImage($question_id, $objectId = null)
 	{
+		global $ilLog;
+
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		
@@ -315,13 +317,24 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
 		}
-		
-		if (!file_exists($imagepath)) {
+
+		if(!file_exists($imagepath))
+		{
 			ilUtil::makeDirParents($imagepath);
 		}
 		$filename = $this->getImageFilename();
-		if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-			print "image could not be duplicated!!!! ";
+
+		// #18755
+		if(!file_exists($imagepath_original . $filename))
+		{
+			$ilLog->write("Could not find an image map file when trying to duplicate image: " . $imagepath_original . $filename);
+			$imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
+			$ilLog->write("Using fallback source directory:" . $imagepath_original);
+		}
+
+		if(!file_exists($imagepath_original . $filename) || !copy($imagepath_original . $filename, $imagepath . $filename))
+		{
+			$ilLog->write("Could not duplicate image for image map question: " . $imagepath_original . $filename);
 		}
 	}
 
