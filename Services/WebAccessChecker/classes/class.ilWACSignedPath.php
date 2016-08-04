@@ -55,15 +55,6 @@ class ilWACSignedPath {
 	}
 
 
-	protected function generateTokenInstance() {
-		if (!$this->getType()) {
-			throw new ilWACException(ilWACException::CODE_NO_TYPE);
-		}
-
-		$this->setTokenInstance(new ilWACToken($this->getPathObject()->getPath(), $this->getPathObject()->getClient()));
-	}
-
-
 	/**
 	 * @return string
 	 * @throws ilWACException
@@ -255,26 +246,64 @@ class ilWACSignedPath {
 	 * @return bool
 	 */
 	protected function checkToken() {
-		$cookie_timestamp = $this->getPathObject()->getTimestamp();
-		$current_timestamp = $this->getTokenInstance()->getTimestamp();
+		$token_timestamp = $this->getPathObject()->getTimestamp();
+		$current_timestamp = time();
 		$life_time = $this->getRelevantLifeTime();
 
-		$timestamp_valid = ($cookie_timestamp > ($current_timestamp - $life_time));
+		$timestamp_valid = ($token_timestamp > ($current_timestamp - $life_time));
 
 		if (!$timestamp_valid) {
 			ilWACLog::getInstance()->write('cookie no longer valid: TS');
+
+			return false;
 		}
-		$token_valid = ($this->getPathObject()->getToken() == $this->getTokenInstance()->getToken());
+		$i = 1;
+		$ilWACToken = $this->getTokenInstance();
+
+		do {
+			$request_token = $this->getPathObject()->getToken();
+			$calculated_token = $ilWACToken->getToken();
+			$token_valid = ($request_token == $calculated_token);
+
+			$simulated_time = $token_timestamp + $i;
+			$ilWACToken = $this->buildTokenInstance($simulated_time);
+			$i ++;
+		} while ((!$token_valid && ($simulated_time <= $current_timestamp) && ($i <= $life_time + 1)));
+
 		if (!$token_valid) {
 			ilWACLog::getInstance()->write('cookie no longer valid: ID');
+
+			return false;
 		}
 
-		return ($timestamp_valid && $token_valid);
+		return true;
+	}
+
+
+	/**
+	 * @param null $timestamp
+	 * @return \ilWACToken
+	 * @throws \ilWACException
+	 */
+	protected function buildTokenInstance($timestamp = null) {
+		if (!$this->getType()) {
+			throw new ilWACException(ilWACException::CODE_NO_TYPE);
+		}
+		$path = $this->getPathObject()->getSecurePath();
+		$client = $this->getPathObject()->getClient();
+		$timestamp = $timestamp ? $timestamp : $this->getPathObject()->getTimestamp();
+
+		return new ilWACToken($path, $client, $timestamp);
 	}
 
 
 	protected function generateFolderToken() {
-		$this->setTokenInstance(new ilWACToken($this->getPathObject()->getSecurePath(), $this->getPathObject()->getClient()));
+		$this->setTokenInstance($this->buildTokenInstance());
+	}
+
+
+	protected function generateTokenInstance() {
+		$this->setTokenInstance($this->buildTokenInstance());
 	}
 
 
