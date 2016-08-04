@@ -116,11 +116,11 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 	}
 
 	/**
-     * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
-     *
-     * @param	ilGlobalSuite	$suite
-     * @return	ilGloblaSuite	$suite
-     */
+	 * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
+	 *
+	 * @param	ilGlobalSuite	$suite
+	 * @return	ilGloblaSuite	$suite
+	 */
 	protected static function addTestFolderToSuite(ilGlobalSuite $suite) {
 		$test_directories = array("tests");
 		while($aux_dir = current($test_directories)) {
