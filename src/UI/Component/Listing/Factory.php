@@ -41,7 +41,7 @@ interface Factory {
 	 *     Descriptive Lists are composed of a key acting as title describing the type of
 	 *     information being displayed underneath.
 	 * ----
-	 * @param string[] $items
+	 * @param string[] $items string (key) => string (value)
 	 * @return  \ILIAS\UI\Component\Listing\DescriptiveList
 	 */
 	public function descriptive(array $items);
