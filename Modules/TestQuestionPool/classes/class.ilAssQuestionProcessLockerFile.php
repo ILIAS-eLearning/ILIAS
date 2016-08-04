@@ -32,26 +32,42 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 		$this->lockFileHandles = array();
 	}
 
-	public function requestPersistWorkingStateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingPersistWorkingStateOperation()
 	{
+		parent::onBeforeExecutingPersistWorkingStateOperation();
 		$this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 
-	public function releasePersistWorkingStateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAfterExecutingPersistWorkingStateOperation()
 	{
 		$this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
+		parent::onAfterExecutingPersistWorkingStateOperation();
 	}
 
-	public function requestUserSolutionAdoptLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingUserSolutionAdoptOperation()
 	{
+		parent::onBeforeExecutingUserSolutionAdoptOperation();
 		$this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 
-	public function releaseUserSolutionAdoptLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAfterExecutingUserSolutionAdoptOperation()
 	{
 		$this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
+		parent::onAfterExecutingUserSolutionAdoptOperation();
 	}
-	
+
 	private function requestLock($processName)
 	{
 		$lockFilePath = $this->getLockFilePath($processName);
