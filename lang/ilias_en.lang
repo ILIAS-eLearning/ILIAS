@@ -15764,3 +15764,4 @@ pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
 blog#:#blog_show_latest#:#Show latest postings/drafts
+common#:#objs_prtf#:#Portfolios
