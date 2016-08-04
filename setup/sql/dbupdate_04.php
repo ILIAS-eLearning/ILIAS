@@ -15736,3 +15736,81 @@ if (!$ilDB->tableColumnExists('skl_level', 'import_id'))
 	));
 }
 ?>
+<#4934>
+
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$obj_type_id = ilDBUpdateNewObjectType::addNewType("mass", "Manual Assessment");
+$existing_ops = array("visible", "write", "copy", "delete", "edit_permission");
+foreach ($existing_ops as $op) {
+	$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
+	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);		
+}
+$parent_types = array('root', 'cat', 'crs');
+ilDBUpdateNewObjectType::addRBACCreate('create_mass', 'Create Manuall Assessment', $parent_types);
+if(!$ilDB->tableExists("mass_settings")) {
+	$fields =  array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'content' => array(
+			'type' => 'text',
+			'lngth' => 1000,
+			'notnull' => false,
+			'default' => ''
+		),
+		'record_template' => array(
+			'type' => 'text',
+			'lngth' => 1000,
+			'notnull' => false,
+			'default' => ''
+		)
+	);
+	$ilDB->createTable('mass_settings',$fields);
+}
+
+if(!$ilDB->tableExists('mass_members')) {
+	$fields =  array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'record' => array(
+			'type' => 'text',
+			'lngth' => 1000,
+			'notnull' => false,
+			'default' => ''
+		),
+		'internal_note' => array(
+			'type' => 'text',
+			'lngth' => 1000,
+			'notnull' => false,
+			'default' => ''
+		),
+		'notify' => array(
+			'type' => 'integer',
+			'lngth' => 1,
+			'notnull' => false,
+			'default' => ''
+		),
+		'grade' => array(
+			'type' => 'text',
+			'lngth' => 50,
+			'notnull' => false,
+			'default' => ''
+		)
+	);
+	$ilDB->createTable('mass_members',$fields);
+}
+?>
