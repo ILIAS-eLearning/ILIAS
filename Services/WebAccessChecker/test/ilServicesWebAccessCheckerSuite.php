@@ -35,8 +35,8 @@ class ilServicesWebAccessCheckerSuite extends PHPUnit_Framework_TestSuite {
 	public static function suite() {
 		$suite = new self();
 
-		require_once("ilWACTokenTest.php");
-		$suite->addTestSuite("ilWACTokenTest");
+		require_once('./Services/WebAccessChecker/test/Token/ilWACTokenTest.php');
+		$suite->addTestSuite('ilWACTokenTest');
 
 		return $suite;
 	}

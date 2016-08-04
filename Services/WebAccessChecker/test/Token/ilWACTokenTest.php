@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./libs/composer/vendor/autoload.php');
 /*
 	+-----------------------------------------------------------------------------+
@@ -60,11 +59,11 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	 * Setup
 	 */
 	protected function setUp() {
-		error_reporting(E_ALL);
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
-		require_once('./Services/WebAccessChecker/test/mock/class.ilWACDummyCookie.php');
+		require_once('./Services/WebAccessChecker/test/Token/mock/class.ilWACDummyCookie.php');
 		require_once('./libs/composer/vendor/autoload.php');
 		$this->root = vfs\vfsStream::setup('ilias.de');
 		$this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')->at($this->root)->setContent('dummy');
