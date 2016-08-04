@@ -83,6 +83,11 @@ class ilAuthProviderFactory
 				$this->getLogger()->debug('Using local database authentication');
 				include_once './Services/Authentication/classes/Provider/class.ilAuthProviderDatabase.php';
 				return new ilAuthProviderDatabase($credentials);
+				
+			case AUTH_APACHE:
+				$this->getLogger()->debug('Using apache authentication.');
+				include_once './Services/AuthApache/classes/class.ilAuthProviderApache.php';
+				return new ilAuthProviderApache($credentials);
 		}
 		return null;
 	}

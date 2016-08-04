@@ -215,7 +215,11 @@ class ilInitialisation
 				$uri = dirname($uri);
 			}
 		}
-		
+		if(strlen($_SERVER['REMOTE_USER']))
+		{
+			return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators(dirname($protocol.$host.$uri)));
+			
+		}
 		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
 	}
 

@@ -47,6 +47,18 @@ abstract class ilAuthProvider
 	{
 		return $this->credentials;
 	}
+	
+	/**
+	 * Handle failed authentication
+	 * @param string $a_reason
+	 */
+	protected function handleAuthenticationFail(ilAuthStatus $status, $a_reason)
+	{
+		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+		$status->setReason($a_reason);
+		return false;
+	}
+	
 
 }
 ?>

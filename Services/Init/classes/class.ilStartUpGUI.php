@@ -42,8 +42,6 @@ class ilStartUpGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilLog;
-		
 		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLoginPage'));
 		$next_class = $this->ctrl->getNextClass($this);
 		
@@ -609,6 +607,62 @@ class ilStartUpGUI
 
 		return $form;
 	}
+	
+	/**
+	 * Try apache auth
+	 */
+	protected function doApacheAuthentication()
+	{
+		$this->getLogger()->debug('Trying apache authentication');
+		
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
+		$credentials = new ilAuthFrontendCredentialsApache();
+		$credentials->initFromRequest();
+		
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_APACHE);
+		
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+		
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+			
+		$frontend->authenticate();
+		
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				include_once './Services/Init/classes/class.ilInitialisation.php';
+				ilInitialisation::redirectToStartingPage();
+				return;
+					
+			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+		return false;
+		
+		
+		
+	}
+	
 	
 	/**
 	 * Check form input; authenticate user

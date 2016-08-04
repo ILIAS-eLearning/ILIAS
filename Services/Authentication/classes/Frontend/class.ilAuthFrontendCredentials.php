@@ -12,6 +12,8 @@ include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.p
  */
 class ilAuthFrontendCredentials implements ilAuthCredentials
 {
+	private $logger = null;
+	
 	private $username = '';
 	private $password = '';
 	private $captcha = '';
@@ -19,7 +21,16 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
 	
 	public function __construct()
 	{
-		
+		$this->logger = ilLoggerFactory::getLogger('auth');
+	}
+	
+	/**
+	 * Get logger
+	 * @return \ilLogger
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
 	}
 
 	/**
