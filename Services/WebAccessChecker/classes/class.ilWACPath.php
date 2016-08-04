@@ -182,6 +182,9 @@ class ilWACPath {
 	 */
 	public function getToken() {
 		$param = $this->getParameters();
+		if (!isset($param[ilWACSignedPath::WAC_TOKEN_ID])) {
+			return false;
+		}
 
 		return ($param[ilWACSignedPath::WAC_TOKEN_ID]);
 	}
@@ -202,6 +205,9 @@ class ilWACPath {
 	 */
 	public function getTimestamp() {
 		$param = $this->getParameters();
+		if (!isset($param[ilWACSignedPath::WAC_TIMESTAMP_ID])) {
+			return false;
+		}
 
 		return (int)($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
 	}

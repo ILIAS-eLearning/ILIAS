@@ -52,7 +52,7 @@ class ilWACDummyCookie implements ilWACCookieInterface {
 	 * @return bool
 	 */
 	public function exists($name) {
-		if (static::$expires[$name] !== 0 && static::$expires[$name] <= time()) {
+		if (!isset(static::$expires[$name]) || (static::$expires[$name] !== 0 && static::$expires[$name] <= time())) {
 			return false;
 		}
 
