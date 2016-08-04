@@ -22,6 +22,7 @@ class assLongMenuImport extends assQuestionImport
 		$answers = array();
 		$correct_answers = array();
 		$presentation = $item->getPresentation();
+		$gap_types = json_decode($item->getMetadataEntry("gapTypes"));
 		foreach ($presentation->order as $entry)
 		{
 			switch ($entry["type"])
@@ -69,7 +70,10 @@ class assLongMenuImport extends assQuestionImport
 							$id = $this->getIdFromGapIdent($gapident);
 							$correct_answers[$id][0][] = $equals;
 							$correct_answers[$id][1] = $setvar->getContent();
-							$_POST['points'][$id] = $setvar->getContent();
+							if(is_array($gap_types) && key_exists($id, $gap_types))
+							{
+								$correct_answers[$id][2] = $gap_types[$id];
+							}
 						}
 					}
 				}
@@ -193,6 +197,7 @@ class assLongMenuImport extends assQuestionImport
 		$this->object->setAuthor($item->getAuthor());
 		$this->object->setOwner($ilUser->getId());
 		$this->object->setObjId($questionpool_id);
+		$this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setCorrectAnswers($correct_answers);
 		$this->object->setPoints($sum);
