@@ -94,7 +94,34 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 				}
 			}
 		}
-		// find and add all testSuits beneath ILIAS_ROOL/tests - folder
+
+		$suite = self::addTestFolderToSuite($suite);
+
+		echo "\n";
+
+		if (!$suite->hasInstalledILIAS()) {
+			echo "Removing tests requiring an installed ILIAS.\n";
+			$ff = new PHPUnit_Runner_Filter_Factory();
+			$ff->addFilter
+				( new ReflectionClass("PHPUnit_Runner_Filter_Group_Exclude")
+				, array(self::PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS)
+				);
+			$suite->injectFilter($ff);
+		}
+		else {
+			echo "Found installed ILIAS, running all tests.\n";
+		}
+
+        return $suite;
+	}
+
+	/**
+     * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
+     *
+     * @param	ilGlobalSuite	$suite
+     * @return	ilGloblaSuite	$suite
+     */
+	protected static function addTestFolderToSuite(ilGlobalSuite $suite) {
 		$test_directories = array("tests");
 		while($aux_dir = current($test_directories)) {
 			if($handle = opendir($aux_dir)) {
@@ -123,21 +150,6 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 			}
 			next($test_directories);
 		}
-		echo "\n";
-
-		if (!$suite->hasInstalledILIAS()) {
-			echo "Removing tests requiring an installed ILIAS.\n";
-			$ff = new PHPUnit_Runner_Filter_Factory();
-			$ff->addFilter
-				( new ReflectionClass("PHPUnit_Runner_Filter_Group_Exclude")
-				, array(self::PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS)
-				);
-			$suite->injectFilter($ff);
-		}
-		else {
-			echo "Found installed ILIAS, running all tests.\n";
-		}
-
-        return $suite;
+		return $suite;
     }
 }
