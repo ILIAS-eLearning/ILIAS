@@ -69,7 +69,7 @@ class ilWACToken {
 
 	protected function generateToken() {
 		$this->initSalt();
-		$token = implode('-', array( self::getSALT(), $this->getSessionId(), $this->getIp(), $this->getClient(), $this->getTimestamp() ));
+		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp() ));
 		$token = sha1($token);
 		$this->setToken($token);
 	}
@@ -251,5 +251,3 @@ class ilWACToken {
 		$this->client = $client;
 	}
 }
-
-?>

@@ -358,5 +358,3 @@ class ilWACSignedPath {
 		return $life_time;
 	}
 }
-
-?>
