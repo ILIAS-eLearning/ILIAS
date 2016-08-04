@@ -32,6 +32,8 @@ use org\bovigo\vfs;
  */
 class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
+	const ADDITIONAL_TIME = 0.1;
+	const LIFETIME = 1;
 	/**
 	 * @var bool
 	 */
@@ -58,6 +60,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	 * Setup
 	 */
 	protected function setUp() {
+		error_reporting(E_ALL);
 		require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
@@ -82,8 +85,21 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testModifiedTimestamp() {
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::LIFETIME);
+		$lifetime = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
+		sleep($lifetime + self::ADDITIONAL_TIME);
+
+		// Modify timestamp
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path . '2'));
+		$this->assertTrue($ilWACSignedPath->isSignedPath());
+		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
+	}
+
+
 	public function testFileToken() {
-		ilWACSignedPath::setTokenMaxLifetimeInSeconds(1);
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
 
 		// Request within lifetime
@@ -102,7 +118,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 		// Request after lifetime
 		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
-		sleep($lifetime + 0.5);
+		sleep($lifetime + self::ADDITIONAL_TIME);
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
@@ -111,7 +127,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 	public function testFolderToken() {
 		ilWACDummyCookie::clear();
-		ilWACSignedPath::setCookieMaxLifetimeInSeconds(3);
+		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getCookieMaxLifetimeInSeconds();
 
 		$signed_path = $this->file_one->url();
@@ -130,7 +146,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 		// Request after lifetime
 		ilWACSignedPath::signFolderOfStartFile($signed_path, new ilWACDummyCookie());
-		sleep($lifetime + 1);
+		sleep($lifetime + self::ADDITIONAL_TIME);
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), new ilWACDummyCookie());
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
@@ -148,7 +164,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testFolderTokenWithSecondFile() {
-		ilWACSignedPath::setCookieMaxLifetimeInSeconds(3);
+		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getCookieMaxLifetimeInSeconds();
 		// Sign File One
 		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), new ilWACDummyCookie());
@@ -160,7 +176,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 		// Request after lifetime
 		ilWACSignedPath::signFolderOfStartFile($file_two, new ilWACDummyCookie());
-		sleep($lifetime + 1);
+		sleep($lifetime + self::ADDITIONAL_TIME);
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), new ilWACDummyCookie());
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
