@@ -42,7 +42,7 @@ class assClozeTestImport extends assQuestionImport
 		$questiontext = null;
 		if( !$packageIliasVersion || version_compare($packageIliasVersion, '5.0.0', '<') )
 		{
-			$questiontext = '&nbsp';
+			$questiontext = '&nbsp;';
 		}
 		elseif($seperate_question_field)
 		{

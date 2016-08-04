@@ -24,10 +24,6 @@ class ilWACToken {
 	 */
 	protected $timestamp = 0;
 	/**
-	 * @var int
-	 */
-	protected $type = self::TYPE_FILE;
-	/**
 	 * @var string
 	 */
 	protected $ip = '';
@@ -155,22 +151,6 @@ class ilWACToken {
 	 */
 	public function setTimestamp($timestamp) {
 		$this->timestamp = $timestamp;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getType() {
-		return $this->type;
-	}
-
-
-	/**
-	 * @param int $type
-	 */
-	public function setType($type) {
-		$this->type = $type;
 	}
 
 

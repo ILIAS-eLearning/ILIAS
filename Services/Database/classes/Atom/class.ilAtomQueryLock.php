@@ -26,7 +26,12 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 	 */
 	protected function runWithLocks() {
 		$this->ilDBInstance->lockTables($this->getLocksForDBInstance());
-		$this->runQueries();
+		try {
+			$this->runQueries();
+		} catch (Exception $e) {
+			$this->ilDBInstance->unlockTables();
+			throw $e;
+		}
 		$this->ilDBInstance->unlockTables();
 	}
 

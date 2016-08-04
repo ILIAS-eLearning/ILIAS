@@ -1,6 +1,7 @@
 <?php
 require_once('./Services/Logging/classes/class.ilLog.php');
 require_once('./Services/Init/classes/class.ilIniFile.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACLogDummy.php');
 
 /**
  * Class ilWACLog
@@ -66,9 +67,8 @@ class ilWACLog extends ilLog {
 			parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
 			if ($ilUser instanceof ilObjUser) {
 				parent::write('User_ID: ' . $ilUser->getId());
-
 			}
-//			parent::write('SERVER: ' . print_r($_SERVER, true));
+			//			parent::write('SERVER: ' . print_r($_SERVER, true));
 			foreach ($this->getStack() as $msg) {
 				parent::write($msg);
 			}
@@ -114,21 +114,6 @@ class ilWACLog extends ilLog {
 	 */
 	public function setStack($stack) {
 		$this->stack = $stack;
-	}
-}
-
-/**
- * Class ilWACLogDummy
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-class ilWACLogDummy {
-
-	/**
-	 * @param $dummy
-	 */
-	public function write($dummy) {
-		unset($dummy);
 	}
 }
 

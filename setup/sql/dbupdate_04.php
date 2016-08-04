@@ -15736,3 +15736,21 @@ if (!$ilDB->tableColumnExists('skl_level', 'import_id'))
 	));
 }
 ?>
+<#4934>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
+{
+	$ilDB->addTableColumn('qpl_qst_lome', 'min_auto_complete', array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'default' => 1)
+	);
+}
+if($ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
+{
+	$ilDB->modifyTableColumn('qpl_qst_lome', 'min_auto_complete', array(
+			'default' => 3)
+	);
+}
+?>
+	

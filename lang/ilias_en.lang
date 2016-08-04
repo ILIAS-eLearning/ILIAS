@@ -293,6 +293,8 @@ assessment#:#average_reached_points#:#Average Points
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#assLongMenu#:#Long Menu
 assessment#:#answers_text_box#:#Text
+assessment#:#min_auto_complete#:#Autocomplete
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.
 assessment#:#answers_select#:#Select
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#manual_editing#:#Manual Editing
@@ -15761,3 +15763,4 @@ copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensur
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
+blog#:#blog_show_latest#:#Show latest postings/drafts

@@ -104,12 +104,16 @@ class ilWACPath {
 		$this->setSecurePathId($results[3]);
 		$parts = parse_url($path);
 		$this->setFileName(basename($parts['path']));
-		$this->setQuery($parts['query']);
-		parse_str($parts['query'], $query);
-		$this->setParameters($query);
+		$parts_query = $parts['query'];
+		if ($parts_query) {
+			$this->setQuery($parts_query);
+			parse_str($parts_query, $query);
+			$this->setParameters($query);
+		}
 		$this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
-		preg_match("/\\/" . self::DIR_DATA . "\\/({$regex_client})\\/(" . self::DIR_SEC . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
-		$this->setSecurePath(isset($results3[0]) ? '.' . $results3[0] : NULL);
+		preg_match("/\\/" . self::DIR_DATA . "\\/({$regex_client})\\/(" . self::DIR_SEC
+		           . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
+		$this->setSecurePath(isset($results3[0]) ? '.' . $results3[0] : null);
 	}
 
 
