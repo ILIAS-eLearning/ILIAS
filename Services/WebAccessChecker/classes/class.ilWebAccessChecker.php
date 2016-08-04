@@ -1,11 +1,10 @@
 <?php
-require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
-require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
 require_once('./Services/Init/classes/class.ilInitialisation.php');
+require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 
 /**
  * Class ilWebAccessChecker
@@ -49,7 +48,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = false;
+	protected static $DEBUG = true;
 	/**
 	 * @var bool
 	 */
@@ -57,51 +56,11 @@ class ilWebAccessChecker {
 
 
 	/**
-	 * @param string $path
-	 */
-	public static function run($path) {
-		ilInitialisation::handleErrorReporting();
-		$ilWebAccessChecker = new self($path);
-		if (isset($_GET[self::DISPOSITION])) {
-			$ilWebAccessChecker->setDisposition($_GET[self::DISPOSITION]);
-		}
-		if (isset($_GET[self::STATUS_CODE])) {
-			$ilWebAccessChecker->setSendStatusCode($_GET[self::STATUS_CODE]);
-		}
-		if (isset($_GET[self::REVALIDATE])) {
-			$ilWebAccessChecker->setRevalidateFolderTokens($_GET[self::REVALIDATE]);
-		}
-
-		try {
-			if ($ilWebAccessChecker->check()) {
-				$ilWebAccessChecker->deliver();
-			} else {
-				$ilWebAccessChecker->deny();
-			}
-		} catch (ilWACException $e) {
-			switch ($e->getCode()) {
-				case ilWACException::ACCESS_DENIED:
-				case ilWACException::ACCESS_DENIED_NO_PUB:
-				case ilWACException::ACCESS_DENIED_NO_LOGIN:
-					$ilWebAccessChecker->handleAccessErrors($e);
-					break;
-				case ilWACException::ACCESS_WITHOUT_CHECK:
-				case ilWACException::INITIALISATION_FAILED:
-				case ilWACException::NO_CHECKING_INSTANCE:
-				default:
-					$ilWebAccessChecker->handleErrors($e);
-					break;
-			}
-		}
-	}
-
-
-	/**
 	 * ilWebAccessChecker constructor.
 	 *
 	 * @param string $path
 	 */
-	protected function __construct($path) {
+	public function __construct($path) {
 		$this->setPathObject(new ilWACPath($path));
 	}
 
@@ -110,7 +69,7 @@ class ilWebAccessChecker {
 	 * @return bool
 	 * @throws ilWACException
 	 */
-	protected function check() {
+	public function check() {
 		ilWACLog::getInstance()->write('Checking File: ' . $this->getPathObject()->getPathWithoutQuery());
 		if (!$this->getPathObject()) {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
@@ -180,7 +139,7 @@ class ilWebAccessChecker {
 	}
 
 
-	protected function initILIAS() {
+	public function initILIAS() {
 		if ($this->isInitialized()) {
 			return true;
 		}
@@ -226,82 +185,6 @@ class ilWebAccessChecker {
 		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() == 0 && strpos($_SERVER['HTTP_REFERER'], 'login.php') === false)) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
-	}
-
-
-	protected function deliver() {
-		if (!$this->isChecked()) {
-			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
-		}
-
-		$ilFileDelivery = new ilFileDelivery($this->getPathObject()->getPath());
-		$ilFileDelivery->setCache(false);
-		$ilFileDelivery->setDisposition($this->getDisposition());
-		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
-		if ($this->getPathObject()->isStreamable()) { // fixed 0016468
-			ilWACLog::getInstance()->write('begin streaming');
-			$ilFileDelivery->stream();
-		} else {
-			$ilFileDelivery->deliver();
-		}
-	}
-
-
-	protected function deny() {
-		if (!$this->isChecked()) {
-			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
-		}
-		throw new ilWACException(ilWACException::ACCESS_DENIED);
-	}
-
-
-	protected function deliverDummyImage() {
-		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.png', $this->getPathObject()->getFileName());
-		$ilFileDelivery->setDisposition($this->getDisposition());
-		$ilFileDelivery->deliver();
-	}
-
-
-	protected function deliverDummyVideo() {
-		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->getPathObject()->getFileName());
-		$ilFileDelivery->setDisposition($this->getDisposition());
-		$ilFileDelivery->stream();
-	}
-
-
-	/**
-	 * @param ilWACException $e
-	 */
-	protected function handleAccessErrors(ilWACException $e) {
-		if ($this->isSendStatusCode()) {
-			ilHTTP::status(401);
-		}
-		if ($this->getPathObject()->isImage()) {
-			$this->deliverDummyImage();
-		}
-		if ($this->getPathObject()->isVideo()) {
-			$this->deliverDummyVideo();
-		}
-		try {
-			$this->initILIAS(true);
-		} catch (ilWACException $ilWACException) {
-		}
-
-		global $tpl, $ilLog;
-		$ilLog->write($e->getMessage());
-		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', true) . '/');
-		ilUtil::sendFailure($e->getMessage());
-		$tpl->getStandardTemplate();
-		$tpl->show();
-	}
-
-
-	/**
-	 * @param ilWACException $e
-	 */
-	protected function handleErrors(ilWACException $e) {
-		ilHTTP::status(500);
-		echo $e->getMessage();
 	}
 
 
