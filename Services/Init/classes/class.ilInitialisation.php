@@ -699,38 +699,29 @@ class ilInitialisation
 	 * 
 	 * @param int $a_auth_stat
 	 */
-	protected static function goToLogin($a_auth_stat = "")
+	protected static function goToLogin()
 	{		
 		global $ilAuth;
 		
-		// close current session
-		if($a_auth_stat == AUTH_EXPIRED ||
-			$a_auth_stat == AUTH_IDLED)
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
 		}
-		else
+		if(!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
 		{
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
 		}
-		#$ilAuth->logout();
-		#session_unset();
-		#session_destroy();
-
-		/**
-		$add = "";
-		if ($_GET["soap_pw"] != "")
-		{
-			$add = "&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"];
-		}
-		*/
 		
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
-			"&auth_stat=".$a_auth_stat.$add;
+			"&auth_stat=".$a_auth_stat;
 					
-		self::redirect($script, "init_error_authentication_fail",
-			array("en" => "Authentication failed.",
-				"de" => "Authentifizierung fehlgeschlagen."));
+		self::redirect(
+			$script, 
+			"init_error_authentication_fail",
+			array(
+				"en" => "Authentication failed.",
+				"de" => "Authentifizierung fehlgeschlagen.")
+		);
 	}
 
 	/**
@@ -1147,12 +1138,7 @@ class ilInitialisation
 				// nothing todo: authentication is done in current script
 				return;
 			}
-			
-			if(ilContext::supportsRedirects())
-			{
-				return self::goToLogin();
-			}
-			return false;
+			return self::goToLogin();
 		}
 		
 		// valid session
@@ -1392,14 +1378,11 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{
-		
-		ilLoggerFactory::getLogger('init')->debug(substr($_SERVER['PHP_SELF'], -14));
-		if(substr($_SERVER['PHP_SELF'], -14) == '/sso/index.php')
+		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
 			return true;
 		}
-		
 		
 		if(
 			$a_current_script == "register.php" || 
