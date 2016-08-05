@@ -357,6 +357,13 @@ class HTML_Template_IT
     );
 
     /**
+     * Property own file content cache to speed up template engine
+     *
+     * @var array   string => string
+     */
+    protected $this->file_content_cache;
+
+    /**
      * Builds some complex regular expressions and optinally sets the
      * file root directory.
      *
@@ -383,6 +390,8 @@ class HTML_Template_IT
                              ')\s+-->(.*)<!--\s+END\s+\1\s+-->@sm';
 
         $this->setRoot($root);
+
+        $this->file_content_cache = array();
     } // end constructor
 
 
