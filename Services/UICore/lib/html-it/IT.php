@@ -361,7 +361,7 @@ class HTML_Template_IT
      *
      * @var array   string => string
      */
-    protected $this->file_content_cache;
+    protected $file_content_cache;
 
     /**
      * Builds some complex regular expressions and optinally sets the
