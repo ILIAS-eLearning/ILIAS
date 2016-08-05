@@ -648,42 +648,43 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$test_id = $row["test_fi"];
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$this->updateCurrentSolutionsAuthorization($active_id, $pass, $authorized);
-
 		$entered_values = false;
-		if( $_POST['cmd'][$this->questionActionCmd] == $this->lng->txt('delete') )
-		{
-			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
+
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $checkUploadResult, $test_id, $active_id, $pass, $authorized) {
+
+			$this->updateCurrentSolutionsAuthorization($active_id, $pass, $authorized);
+
+			if( $_POST['cmd'][$this->questionActionCmd] == $this->lng->txt('delete') )
 			{
-				$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id, $authorized);
+				if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
+				{
+					$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id, $authorized);
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+				}
 			}
-			else
+			elseif( $checkUploadResult )
 			{
-				ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+				if(!@file_exists($this->getFileUploadPath($test_id, $active_id)))
+				{
+					ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+				}
+
+				$version = time();
+				$filename_arr = pathinfo($_FILES["upload"]["name"]);
+				$extension = $filename_arr["extension"];
+				$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
+
+				ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
+
+				$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], $authorized);
+
+				$entered_values = true;
 			}
-		}
-		elseif( $checkUploadResult )
-		{
-			if(!@file_exists($this->getFileUploadPath($test_id, $active_id)))
-			{
-				ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
-			}
-			
-			$version = time();
-			$filename_arr = pathinfo($_FILES["upload"]["name"]);
-			$extension = $filename_arr["extension"];
-			$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
-			
-			ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
-			
-			$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], $authorized);
-			
-			$entered_values = true;
-		}
-		
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+
+		});
 
 		if ($entered_values)
 		{

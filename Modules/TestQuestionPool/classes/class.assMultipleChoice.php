@@ -614,24 +614,24 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		}
 
 		$entered_values = 0;
-		
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
 
-		$solutionSubmit = $this->getSolutionSubmit();
-		
-		foreach($solutionSubmit as $value)
-		{
-			if (strlen($value))
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			$solutionSubmit = $this->getSolutionSubmit();
+
+			foreach($solutionSubmit as $value)
 			{
-				$this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
-				$entered_values++;
+				if(strlen($value))
+				{
+					$this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
+					$entered_values++;
+				}
 			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-		
+		});
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

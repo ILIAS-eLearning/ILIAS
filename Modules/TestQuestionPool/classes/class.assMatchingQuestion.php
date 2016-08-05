@@ -1164,23 +1164,22 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				include_once "./Modules/Test/classes/class.ilObjTest.php";
 				$pass = ilObjTest::_getPass($active_id);
 			}
-			
-			$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
+			$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$matchingsExist, $submittedMatchings, $active_id, $pass, $authorized) {
 
-			foreach( $submittedMatchings as $definition => $terms )
-			{
-				foreach( $terms as $i => $term )
+				$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+				foreach($submittedMatchings as $definition => $terms)
 				{
-					$affectedRows = $this->saveCurrentSolution($active_id, $pass, $term, $definition, $authorized);
-
-					$matchingsExist = true;
+					foreach($terms as $i => $term)
+					{
+						$this->saveCurrentSolution($active_id, $pass, $term, $definition, $authorized);
+						$matchingsExist = true;
+					}
 				}
-			}
 
-			$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-			
+			});
+
 			$saveWorkingDataResult = true;
 		}
 		else
