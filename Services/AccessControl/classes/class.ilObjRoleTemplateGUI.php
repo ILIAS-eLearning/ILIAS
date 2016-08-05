@@ -313,12 +313,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 											    "type"		=> $info['type']);
 			
 			$txt = $objDefinition->isPlugin($info['type'])
-				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				? ilPlugin::lookupTxtById($info['type'], $info['type']."_".$info['operation'])
 				: $this->lng->txt($info['type']."_".$info['operation']);
 			if (substr($info['operation'], 0, 7) == "create_" &&
 				$objDefinition->isPlugin(substr($info['operation'], 7)))
 			{
-				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+				$txt = ilPlugin::lookupTxtById(substr($info['operation'], 7), $info['type']."_".$info['operation']);
 			}
 			elseif(substr($info['operation'],0,6) == 'create')
 			{
@@ -342,7 +342,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			if ($objDefinition->isPlugin($obj_data["type"]))
 			{
-				$rbac_objects[$key]["name"] = ilPlugin::lookupTxt("rep_robj", $obj_data["type"],
+				$rbac_objects[$key]["name"] = ilPlugin::lookupTxtById($obj_data["type"],
 						"obj_".$obj_data["type"]);
 			}
 			else

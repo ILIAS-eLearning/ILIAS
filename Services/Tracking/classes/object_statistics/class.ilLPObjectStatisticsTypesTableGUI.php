@@ -154,7 +154,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			if($objDefinition->isPluginTypeName($type))
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+				$data[$type]["title"] = ilPlugin::lookupTxtById($type, "obj_".$type);
 				$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
 			}			
 			else 
@@ -189,7 +189,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 				if($objDefinition->isPluginTypeName($type))
 				{
 					include_once("./Services/Component/classes/class.ilPlugin.php");
-					$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+					$data[$type]["title"] = ilPlugin::lookupTxtById($type, "obj_".$type);
 					$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
 				}			
 				else

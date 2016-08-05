@@ -17,5 +17,7 @@
 	<pluginslots>
 		<pluginslot id="orgutypehk" name="OrgUnitTypeHook" />
 	</pluginslots>
-
+	<pluginslots>
+		<pluginslot id="orguext" name="OrgUnitExtension" />
+	</pluginslots>
 </module>

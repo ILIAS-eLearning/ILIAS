@@ -3277,7 +3277,7 @@ class ilObjectListGUI
 			{
 				include_once("Services/Component/classes/class.ilPlugin.php");
 				$this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".
-					ilPlugin::lookupTxt("rep_robj", $this->getIconImageType(), "obj_".$this->getIconImageType()));
+					ilPlugin::lookupTxtById($this->getIconImageType(), "obj_".$this->getIconImageType()));
 			}
 
 			$this->tpl->setVariable("SRC_ICON",

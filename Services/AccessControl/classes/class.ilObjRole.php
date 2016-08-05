@@ -608,12 +608,12 @@ class ilObjRole extends ilObject
 			
 			// handle plugin permission texts
 			$txt = $objDefinition->isPlugin($info['type'])
-				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				? ilPlugin::lookupTxtById($info['type'], $info['type']."_".$info['operation'])
 				: $lng->txt($info['type']."_".$info['operation']);
 			if (substr($info['operation'], 0, 7) == "create_" &&
 				$objDefinition->isPlugin(substr($info['operation'], 7)))
 			{
-				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+				$txt = ilPlugin::lookupTxtById(substr($info['operation'], 7), $info['type']."_".$info['operation']);
 			}
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],

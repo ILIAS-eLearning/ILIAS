@@ -66,10 +66,10 @@ class ilObjPluginDispatchGUI
 		if ($type != "")
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$pl_name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type);
-			if ($pl_name != "")
+			$plugin = ilPlugin::getRepoPluginObjectByType($type);
+			if ($plugin)
 			{
-				$gui_cn = "ilObj".$pl_name."GUI";
+				$gui_cn = "ilObj".$plugin->getPluginName()."GUI";
 				$ilCtrl->setParameterByClass($gui_cn, "ref_id", $_GET["ref_id"]);
 				$ilCtrl->redirectByClass($gui_cn, $_GET["forwardCmd"]);
 			}

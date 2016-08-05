@@ -77,7 +77,7 @@ class ilObjectOwnershipManagementGUI
 				else
 				{					
 					include_once("./Services/Component/classes/class.ilPlugin.php");
-					$options[$type] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+					$options[$type] = ilPlugin::lookupTxtById($type, "obj_".$type);
 				}
 			}		
 			asort($options);

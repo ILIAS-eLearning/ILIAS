@@ -170,7 +170,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$type_txt = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+			$type_txt = ilPlugin::lookupTxtById($type, "obj_".$type);
 			$icon = ilObject::_getIcon($obj_id,'small',$type);
 		}
 

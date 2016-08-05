@@ -1243,7 +1243,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
 			$title =
-				ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+				ilPlugin::lookupTxtById($a_type, "objs_".$a_type);
 
 		}
 		$header_id = "th_".$a_type;

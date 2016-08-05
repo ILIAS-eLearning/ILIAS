@@ -1671,7 +1671,7 @@ class ilObject
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$options[0] = ilPlugin::lookupTxt("rep_robj", $new_type, "obj_".$new_type."_select");
+			$options[0] = ilPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 
 		while($row = $ilDB->fetchObject($res))

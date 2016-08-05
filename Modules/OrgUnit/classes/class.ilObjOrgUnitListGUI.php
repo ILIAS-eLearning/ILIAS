@@ -59,7 +59,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 	/**
 	 * no social commands needed in orgunits.
 	 */
-	public function insertCommonSocialCommands() {
+	public function insertCommonSocialCommands($a_header_actions = false) {
 		return;
 	}
 

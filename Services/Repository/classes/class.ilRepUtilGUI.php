@@ -68,7 +68,7 @@ class ilRepUtilGUI
 			$type = ilObject::_lookupType($obj_id);
 			$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'),$obj_id);
 			$alt = ($objDefinition->isPlugin($type))
-				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type)
+				? $lng->txt("icon")." ".ilPlugin::lookupTxtById($type, "obj_".$type)
 				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
 			
 			$title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);		
@@ -398,7 +398,7 @@ class ilRepUtilGUI
 			$type = ilObject::_lookupType($obj_id);
 			$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'),$obj_id);
 			$alt = ($objDefinition->isPlugin($type))
-				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type)
+				? $lng->txt("icon")." ".ilPlugin::lookupTxtById($type, "obj_".$type)
 				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
 
 			$cgui->addItem("trash_id[]", $id, $title,

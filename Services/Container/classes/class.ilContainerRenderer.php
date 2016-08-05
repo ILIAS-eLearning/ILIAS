@@ -579,7 +579,8 @@ class ilContainerRenderer
 			else
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$title = ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+				$pl = ilPlugin::getRepoPluginObjectByType($a_type);
+				$title= $pl->txt("objs_".$a_type);
 			}
 		}
 		else

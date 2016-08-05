@@ -86,7 +86,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			
 		if($objDefinition->isPluginTypeName($a_set["type"]))
 		{
-			$alt = ilPlugin::lookupTxt("rep_robj", $a_set['type'], "obj_".$a_set['type']);
+			$alt = ilPlugin::lookupTxtById($a_set['type'], "obj_".$a_set['type']);
 		}
 		else
 		{

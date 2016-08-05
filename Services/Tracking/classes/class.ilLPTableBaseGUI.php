@@ -443,7 +443,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
 			if(ilRepositoryObjectPluginSlot::isTypePluginWithLP($pl_id))
 			{
-				$options[$pl_id] = ilPlugin::lookupTxt("rep_robj", $pl_id, "objs_".$pl_id);
+				$options[$pl_id] = ilPlugin::lookupTxtById($pl_id, "objs_".$pl_id);
 			}
 		}
 		

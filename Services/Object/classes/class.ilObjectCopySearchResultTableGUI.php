@@ -62,8 +62,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 		else
 		{
 			include_once "Services/Component/classes/class.ilPlugin.php";
-			$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
-					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->type));
+			$plugin = ilPlugin::getRepoPluginObjectByType($this->type);
 			$title = $plugin->txt('obj_'.$this->type.'_duplicate');
 		}		
 		

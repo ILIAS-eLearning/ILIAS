@@ -246,7 +246,7 @@ class ilObjectAddNewItemGUI
 						if ($subitem["plugin"])
 						{
 							include_once("./Services/Component/classes/class.ilPlugin.php");
-							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+							$title = ilPlugin::lookupTxtById($type, "obj_".$type);
 						}	
 						else
 						{

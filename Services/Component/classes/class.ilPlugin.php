@@ -511,6 +511,16 @@ abstract class ilPlugin
 	}
 
 	/**
+	 * @param $pluginId
+	 * @param $langVar
+	 * @return string
+	 */
+	static function lookupTxtById($pluginId, $langVar) {
+		$pl = ilPlugin::getRepoPluginObjectByType($pluginId);
+		return $pl->txt($langVar);
+	}
+
+	/**
 	 * Get template from plugin
 	 */
 	public function getTemplate($a_template, $a_par1 = true, $a_par2 = true)
@@ -1005,6 +1015,21 @@ abstract class ilPlugin
 		return null;
 	}
 
+	/**
+	 * Return either a repoObject plugin or a orgunit extension plugin or null if the type is not a plugin.
+	 * @param $type
+	 * @return null|ilPlugin
+	 */
+	public static function getRepoPluginObjectByType($type) {
+		$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type));
+		if(!$plugin) {
+			$plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext",
+				ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type));
+		}
+		return $plugin;
+	}
+
 
 	/**
 	 * Lookup information data in il_plugin
@@ -1027,20 +1052,14 @@ abstract class ilPlugin
 	}
 
 	/**
-	 * Get all active plugins for a slot
+	 * Get all active plugin names for a slot
 	 */
 	static function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $ilPluginAdmin;
 
 		$plugins = array();
 
-		//		$q = "SELECT * FROM il_plugin WHERE component_type = ".$ilDB->quote($a_ctype, "text").
-		//			" AND component_name = ".$ilDB->quote($a_cname, "text").
-		//			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
-		//			" AND active = ".$ilDB->quote(1, "integer");
-		//
-		//		$set = $ilDB->query($q);
 		$cached_component = ilCachedComponentData::getInstance();
 		//		while($rec = $ilDB->fetchAssoc($set))
 		$lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
@@ -1049,6 +1068,30 @@ abstract class ilPlugin
 			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
 			{
 				$plugins[] = $rec["name"];
+			}
+		}
+
+		return $plugins;
+	}
+
+	/**
+	 * Get All active plugin ids for a slot.
+	 * @param $a_ctype
+	 * @param $a_cname
+	 * @param $a_slot_id
+	 * @return array
+	 */
+	public static function getActivePluginIdsForSlot($a_ctype, $a_cname, $a_slot_id) {
+		global $ilPluginAdmin;
+
+		$plugins = array();
+		$cached_component = ilCachedComponentData::getInstance();
+		$lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
+		foreach($lookupActivePluginsBySlotId as $rec)
+		{
+			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
+			{
+				$plugins[] = $rec["plugin_id"];
 			}
 		}
 

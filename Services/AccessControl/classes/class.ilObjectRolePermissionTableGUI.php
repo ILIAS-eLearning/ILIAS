@@ -295,7 +295,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			{
 				if ($objDefinition->isPlugin(substr($row['perm']['operation'],7)))
 				{
-					$perm = ilPlugin::lookupTxt("rep_robj", substr($row['perm']['operation'],7),
+					$perm = ilPlugin::lookupTxtById(substr($row['perm']['operation'],7),
 						"obj_".substr($row['perm']['operation'],7));
 				}
 				else
@@ -319,7 +319,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			
 			if ($objDefinition->isPlugin($this->getObjType()))
 			{
-				$this->tpl->setVariable('PERM_LONG',ilPlugin::lookupTxt("rep_robj", $this->getObjType(),
+				$this->tpl->setVariable('PERM_LONG',ilPlugin::lookupTxtById($this->getObjType(),
 						$this->getObjType()."_".$row['perm']['operation']));
 			}
 			elseif(substr($row['perm']['operation'],0,6) == 'create')

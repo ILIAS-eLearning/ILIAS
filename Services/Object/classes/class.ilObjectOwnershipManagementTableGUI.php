@@ -100,7 +100,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$txt_type = ilPlugin::lookupTxt("rep_robj", $row["type"], "obj_".$row["type"]);						
+			$txt_type = ilPlugin::lookupTxtById($row["type"], "obj_".$row["type"]);
 		}
 		
 		$this->tpl->setVariable("TITLE", $row["title"]);

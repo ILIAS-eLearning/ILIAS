@@ -122,7 +122,7 @@ class ilAdministrationGUI
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
-		if ($new_type != "" && $this->ctrl->getCmd() == "create")
+		if ($new_type != "")
 		{
 			$this->creation_mode = true;
 		}
@@ -206,14 +206,28 @@ class ilAdministrationGUI
 						}
 						else
 						{
-							if(is_subclass_of($class_name, "ilObject2GUI"))
+							if (!$this->creation_mode)
 							{
-								$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+								if(is_subclass_of($class_name, "ilObject2GUI"))
+								{
+									$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+								}
+								else
+								{
+									$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+								}
 							}
 							else
 							{
-								$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-							}						
+								if(is_subclass_of($class_name, "ilObject2GUI"))
+								{
+									$this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
+								}
+								else
+								{
+									$this->gui_obj = new $class_name("", 0, true, false);
+								}
+							}
 						}
 						$this->gui_obj->setCreationMode($this->creation_mode);
 					}

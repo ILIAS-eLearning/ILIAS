@@ -743,7 +743,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($objDefinition->isPlugin($subtype))
 			{
-				$translation = ilPlugin::lookupTxt("rep_robj", $subtype,"obj_".$subtype);
+				$translation = ilPlugin::lookupTxtById($subtype,"obj_".$subtype);
 			}
 			elseif($objDefinition->isSystemObject($subtype))
 			{
@@ -764,7 +764,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($objDefinition->isPlugin($subtype))
 			{
-				$translation = ilPlugin::lookupTxt("rep_robj", $subtype,"obj_".$subtype);
+				$translation = ilPlugin::lookupTxtById($subtype,"obj_".$subtype);
 			}
 			elseif($objDefinition->isSystemObject($subtype))
 			{
