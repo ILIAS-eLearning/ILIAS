@@ -129,10 +129,8 @@ class ilAICCObject
 	}
 	
 	function prepForStore($string) {
-		if (!get_magic_quotes_runtime()) {
     	$string = addslashes($string);
-    }
-    return $string;
+		return $string;
 	}
 
 	function read()

@@ -182,7 +182,7 @@ class ilObjSCORMTracking
 		if($rval==true) print("ok");
 	}
 
-	function storeJsApiCmi($user_id, $obj_id, $data) {
+	static function storeJsApiCmi($user_id, $obj_id, $data) {
 		global $ilLog, $ilDB;
 		
 		$b_updateStatus=false;
@@ -270,7 +270,7 @@ class ilObjSCORMTracking
 	}
 
 //erase later see ilSCORM2004StoreData
-	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
+	public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
 
 		global $ilDB, $ilLog;
 		$saved_global_status=$data->saved_global_status;
