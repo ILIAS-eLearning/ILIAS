@@ -419,7 +419,7 @@ ul.shortlist li.active {
 	font-weight: bold;
 }
 
-ul.shortlist li.listEntry a,
+ul.shortlist li.listEntry a
 {
 	text-decoration:none;
 	color:#0033AA;
