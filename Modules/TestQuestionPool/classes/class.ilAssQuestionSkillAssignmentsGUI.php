@@ -421,9 +421,16 @@ class ilAssQuestionSkillAssignmentsGUI
 				$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
 				return;
 			}
-			
-			$assignment->setEvalMode($form->getItemByPostVar('eval_mode')->getValue());
-			
+
+			if($form->getItemByPostVar('eval_mode'))
+			{
+				$assignment->setEvalMode($form->getItemByPostVar('eval_mode')->getValue());
+			}
+			else
+			{
+				$assignment->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
+			}
+
 			if($assignment->hasEvalModeBySolution())
 			{
 				$solCmpExprInput = $form->getItemByPostVar('solution_compare_expressions');
