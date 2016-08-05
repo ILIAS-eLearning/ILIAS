@@ -420,7 +420,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$form->addItem($cloze_text);
 
 		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
-// patch-begin: splitbutton		
+
 		$button = new ilCustomInputGUI('&nbsp;','');
 		require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
 		require_once 'Services/UIComponent/Button/classes/class.ilJsLinkButton.php';
@@ -446,7 +446,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		$tpl->setVariable('BUTTON', $action_button->render());
 		$tpl->parseCurrentBlock();
-// patch-end: splitbutton		
+
 		$button->setHtml($tpl->get());
 		$form->addItem($button);
 
