@@ -304,9 +304,9 @@ class ilFileUtils
 	 * @param string $path Path to file 
 	 * @param integer $ref_id ref_id of parent
 	 */
-	function createFile ($filename, $path, $ref_id, $tree = null, $access_handler = null)
+	public static function createFile ($filename, $path, $ref_id, $tree = null, $access_handler = null)
 	{
-		global $rbacsystem;	
+		global $rbacsystem, $lng, $ilErr;
 		
 		if(!$access_handler)
 		{
@@ -321,7 +321,7 @@ class ilFileUtils
 			// create and insert file in grp_tree
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$fileObj = new ilObjFile();
-			$fileObj->setType($this->type);
+			$fileObj->setType('file');
 			$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 			$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 		
@@ -351,7 +351,7 @@ class ilFileUtils
 			$fileObj->storeUnzipedFile($path. "/" . $filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 		}
 		else {
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 	}
 	

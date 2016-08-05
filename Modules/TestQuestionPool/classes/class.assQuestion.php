@@ -3538,6 +3538,15 @@ abstract class assQuestion
 		{
 			$collected .= $solution_array["value"];
 		}
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
+		$questionHintList = ilAssQuestionHintList::getListByQuestionId($this->getId());
+		foreach($questionHintList as $questionHint)
+		{
+			/* @var $questionHint ilAssQuestionHint */
+			$collected .= $questionHint->getText();
+		}
+
 		return $collected;
 	}
 
