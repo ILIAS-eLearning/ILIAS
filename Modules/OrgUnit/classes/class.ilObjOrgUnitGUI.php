@@ -381,7 +381,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 	protected function getTreeWhiteList() {
 		$whiteList = array("orgu");
-		$pls = ilOrgUnitObjectPluginGUI::getActivePluginIdsForTree();
+		$pls = ilOrgUnitObjectPlugin::getActivePluginIdsForTree();
 		return array_merge($whiteList, $pls);
 	}
 

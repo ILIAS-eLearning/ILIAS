@@ -2,7 +2,7 @@
 
 require_once "Services/Repository/classes/class.ilObjectPlugin.php";
 
-abstract class ilOrgUnitObjectPluginGUI extends ilObjectPlugin {
+abstract class ilOrgUnitObjectPlugin extends ilObjectPlugin {
 	/**
 	 * Get plugin object
 	 * @return object plugin object
