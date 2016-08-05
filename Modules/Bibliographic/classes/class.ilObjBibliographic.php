@@ -322,7 +322,7 @@ class ilObjBibliographic extends ilObject2 {
 		$bibtex_reader->loadFile($full_filename);
 		//replace bibtex special chars with the real characters
 		$bibtex_reader->content = self::__convertBibSpecialChars($bibtex_reader->content);
-		$bibtex_reader->setOption('extractAuthor', false);
+		$bibtex_reader->setOption('extractAuthors', false);
 		$bibtex_reader->parse();
 		// Remove library-bug: if there is no cite, the library mixes up the key for the type and the first attribute.
 		// It also shows an empty and therefore unwanted cite in the array.
