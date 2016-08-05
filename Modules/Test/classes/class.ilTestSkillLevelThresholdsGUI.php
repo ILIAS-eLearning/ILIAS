@@ -107,21 +107,50 @@ class ilTestSkillLevelThresholdsGUI
 	{
 		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
 
-		if( is_array($_POST['threshold']) )
+		if(strtolower($_SERVER['REQUEST_METHOD']) == 'post')
 		{
-			$threshold = $_POST['threshold'];
 			$assignmentList = $this->buildSkillQuestionAssignmentList();
 			$assignmentList->loadFromDb();
 
+			$valid = true;
+
+			$table    = $this->getPopulatedTable();
+			$elements = $table->getInputElements();
+			foreach($elements as $elm)
+			{
+				if(!$elm->checkInput())
+				{
+					$valid = false;
+				}
+
+				$elm->setValueByArray($_POST);
+			}
+
+			if(!$valid)
+			{
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+				return $this->showSkillThresholdsCmd($table);
+			}
+
+			$threshold = array();
+			foreach($_POST as $key => $value)
+			{
+				$matches = null;
+				if(preg_match('/^threshold_(\d+?):(\d+?)_(\d+?)$/', $key, $matches) && is_array($matches))
+				{
+					$threshold[$matches[1] . ':' . $matches[2]][$matches[3]] = $value;
+				}
+			}
+
 			foreach($assignmentList->getUniqueAssignedSkills() as $data)
 			{
-				$skill = $data['skill'];
-				$skillKey = $data['skill_base_id'].':'.$data['skill_tref_id'];
-				$levels = $skill->getLevelData();
+				$skill    = $data['skill'];
+				$skillKey = $data['skill_base_id'] . ':' . $data['skill_tref_id'];
+				$levels   = $skill->getLevelData();
 
 				foreach($levels as $level)
 				{
-					if( isset($threshold[$skillKey]) && isset($threshold[$skillKey][$level['id']]) )
+					if(isset($threshold[$skillKey]) && isset($threshold[$skillKey][$level['id']]))
 					{
 						$skillLevelThreshold = new ilTestSkillLevelThreshold($this->db);
 
@@ -136,13 +165,30 @@ class ilTestSkillLevelThresholdsGUI
 					}
 				}
 			}
+
+			ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_lvl_thresholds_saved'), true);
 		}
 
-		ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_lvl_thresholds_saved'), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_THRESHOLDS);
 	}
 
-	private function showSkillThresholdsCmd()
+	/**
+	 * @param ilTestSkillLevelThresholdsTableGUI|null $table
+	 */
+	private function showSkillThresholdsCmd(ilTestSkillLevelThresholdsTableGUI $table = null)
+	{
+		if(null === $table)
+		{
+			$table = $this->getPopulatedTable();
+		}
+
+		$this->tpl->setContent($this->ctrl->getHTML($table));
+	}
+
+	/**
+	 * @return ilTestSkillLevelThresholdsTableGUI
+	 */
+	protected function getPopulatedTable()
 	{
 		$table = $this->buildTableGUI();
 
@@ -152,12 +198,11 @@ class ilTestSkillLevelThresholdsGUI
 
 		$assignmentList = $this->buildSkillQuestionAssignmentList();
 		$assignmentList->loadFromDb();
-		
+
 		$table->setData($table->completeCompetenceTitles(
 			$assignmentList->getUniqueAssignedSkills()
 		));
-
-		$this->tpl->setContent($this->ctrl->getHTML($table));
+		return $table;
 	}
 
 	private function buildTableGUI()
