@@ -17,16 +17,11 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	protected $db;
 
 	/**
-	 * @var ilAtomQuery
+	 * @var ilAtomQuery|null
 	 */
 	protected $atom_query;
 
 	private $assessmentLogEnabled = false;
-
-	/**
-	 * @var bool
-	 */
-	protected $has_table_locked = false;
 
 	/**
 	 * @param ilDBInterface $db
@@ -97,7 +92,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 		{
 			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
 		}
-		$this->has_table_locked = true;
 	}
 
 	/**
@@ -112,7 +106,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 		{
 			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
 		}
-		$this->has_table_locked = true;
 	}
 
 	/**
@@ -124,12 +117,11 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 
 		$this->atom_query = $this->db->buildAtomQuery();
 		foreach(array_merge(
-					$this->getTablesUsedDuringSolutionUpdate(), $this->getTablesUsedDuringResultUpdate()
-				) as $table)
+			$this->getTablesUsedDuringSolutionUpdate(), $this->getTablesUsedDuringResultUpdate()
+		) as $table)
 		{
 			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
 		}
-		$this->has_table_locked = true;
 	}
 
 	/**
@@ -141,7 +133,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 
 		$this->atom_query = $this->db->buildAtomQuery();
 		$this->atom_query->lockTable('tst_result_cache');
-		$this->has_table_locked = true;
 	}
 
 	/**
@@ -149,9 +140,9 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected function executeOperation(callable $operation)
 	{
-		if($this->has_table_locked)
+		if($this->atom_query)
 		{
-			$this->atom_query->addQueryCallable(function (ilDBInterface $ilDB) use ($operation) {
+			$this->atom_query->addQueryCallable(function(ilDBInterface $ilDB) use ($operation) {
 				$operation();
 			});
 			$this->atom_query->run();
@@ -161,6 +152,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 			$operation();
 		}
 
-		$this->has_table_locked = false;
+		$this->atom_query = null;
 	}
 }
