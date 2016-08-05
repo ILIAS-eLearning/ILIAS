@@ -602,10 +602,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 
 		$entered_values = 0;
+		$solutionSubmit = $this->getSolutionSubmit();
 
-		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
-
-			$solutionSubmit = $this->getSolutionSubmit();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $solutionSubmit, $active_id, $pass, $authorized) {
 
 			$this->removeCurrentSolution($active_id, $pass, $authorized);
 
