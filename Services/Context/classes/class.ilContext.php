@@ -30,6 +30,7 @@ class ilContext
 	const CONTEXT_REST = "ilContextRest";
 	const CONTEXT_SCORM = "ilContextScorm";
 	const CONTEXT_WAC = "ilContextWAC";
+	const CONTEXT_APACHE_SSO = 'ilContextApacheSSO';
 	
 	/**
 	 * Init context by type

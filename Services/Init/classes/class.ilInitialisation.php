@@ -215,7 +215,7 @@ class ilInitialisation
 				$uri = dirname($uri);
 			}
 		}
-		if(strlen($_SERVER['REMOTE_USER']))
+		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators(dirname($protocol.$host.$uri)));
 			
@@ -1391,7 +1391,16 @@ class ilInitialisation
 	 * @return boolean 
 	 */
 	protected static function blockedAuthentication($a_current_script)
-	{		
+	{
+		
+		ilLoggerFactory::getLogger('init')->debug(substr($_SERVER['PHP_SELF'], -14));
+		if(substr($_SERVER['PHP_SELF'], -14) == '/sso/index.php')
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
+			return true;
+		}
+		
+		
 		if(
 			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
