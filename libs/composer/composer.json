@@ -15,7 +15,8 @@
 		"geshi/geshi": "dev-master",
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
-		"symfony/yaml": "^3.1"
+		"symfony/yaml": "^3.1",
+		"moment/moment": "^2.14"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6"
@@ -127,6 +128,14 @@
 			"wrapped_by": "",
 			"last_update": "2016-07-07",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>"
+		},
+		"moment/moment" : {
+			"source": "https://github.com/moment/moment",
+			"used_version": "v2.14.1",
+			"added_by": "Thomas Joußen <tjoussen@databay.de>",
+			"wrapped_by": "",
+			"last_update": "2016-08-03",
+			"last_update_by": "Thomas Joußen <tjoussen@databay.de>"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

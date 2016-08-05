@@ -16,6 +16,13 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 	protected static $user_access = array();
 	protected $pub_ref_id = 0;
 
+	/**
+	 * Boolean to indicate if on screen chat is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $im_enabled;
+
 		/**
 	 * Constructor
 	 */
@@ -28,6 +35,8 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 
 		$chatSettings = new ilSetting('chatroom');
 		$this->chat_enabled = $chatSettings->get('chat_enabled');
+
+		$this->im_enabled = true;
 	}
 
 	/**
@@ -82,6 +91,18 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 					$coll->addFeature($f);
 				}
 			}
+		}
+
+		//@todo check if user also enabled im messages to receive
+		if($this->im_enabled)
+		{
+			$f = new ilAwarenessFeature();
+			$f->setText($this->lng->txt('on_screen_chat'));
+			$f->setHref('#');
+			$f->setData(array(
+					'participant' => $a_target_user,
+			));
+			$coll->addFeature($f);
 		}
 
 		return $coll;

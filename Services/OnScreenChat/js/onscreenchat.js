@@ -1,100 +1,146 @@
-(function($, $scope){
+(function($, $scope, $chat){
 	$scope.il.OnScreenChat = {
 		config: {},
 		container: undefined,
-		windows: [],
+		storage: undefined,
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChat.config = config;
 		},
 
 		init: function() {
-			var module = $scope.il.OnScreenChat;
+			//localStorage.clear();
+			getModule().container = $('<div></div>').addClass('row');
+			getModule().storage = new Storage();
 
-			module.container = $('<div></div>').addClass('row');
+			$.each(getModule().storage.all(), function(key, conversation){
+				if(conversation.open) {
+					getModule().open(conversation.id);
+				}
+			});
 
 			$('body').append(
 				$('<div></div>')
 					.attr('id', 'onscreenchat-container')
 					.addClass('container')
-					.append(module.container)
-			);
-		},
+					.append(getModule().container)
+			).on('click', '[data-participant]', function(e) {
+				e.preventDefault();
+				var imActionLink = $(this);
+				var dataConversationId = imActionLink.attr('data-conversation');
 
-		open: function() {
-			$scope.il.OnScreenChat.createWindow();
-		},
+				if(dataConversationId == undefined) {
+					var participants = [imActionLink.attr('data-participant'), getModule().config.userId];
 
-		createWindow: function() {
-			var participants = ['Michael Jansen'];
-			var module = $scope.il.OnScreenChat;
-			var template = module.config.chatWindowTemplate;
-
-			template = template.replace('[[participants]]', participants.join(', '));
-			template = $(template);
-
-			module.windows.push(template);
-			module.container.append(template);
-
-			$('.close').on('click', function() {
-				$scope.il.OnScreenChat.close($(this).closest('.chat-window-wrapper'));
-
-			});
-			$('.chat-window-wrapper').on('click', '.submit', function() {
-				$scope.il.OnScreenChat.handleSubmit($(this));
-			}).on('keydown', function(e) {
-				if(e && e.keyCode == 13 && !e.shiftKey) {
-					$scope.il.OnScreenChat.handleSubmit($(this));
+					$chat.getConversation(participants, function(conversationId) {
+						imActionLink.attr('data-conversation', conversationId);
+						getModule().start(conversationId, participants);
+					});
+				} else {
+					getModule().open(getModule.storage.find(dataConversationId));
 				}
-			});
-
-			$('textarea').on('keydown', function(e) {
+			}).on('click', '[data-onscreenchat-close]', function() {
+				getModule().close($(this).attr('data-onscreenchat-close'));
+			}).on('click', '[data-onscreenchat-submit]', function() {
+				getModule().handleSubmit($(this));
+			}).on('keydown', '[data-onscreenchat-window]', function(e) {
+				if(e && e.keyCode == 13 && !e.shiftKey) {
+					getModule().handleSubmit($(this));
+				}
+			}).on('keydown', '[data-onscreenchat-message]', function(e) {
 				if(e.which == 13 && !e.shiftKey) {
 					e.preventDefault();
 				}
-			}).on('input', function() {
-				$scope.il.OnScreenChat.resizeInput($(this));
+			}).on('input', '[data-onscreenchat-message]', function() {
+				getModule().resizeInput($(this));
 			});
+
+			$chat.receiveMessage(getModule().receiveMessage);
 		},
 
-		addMessage: function(window, from, message) {
-			var module = $scope.il.OnScreenChat;
-			var template = module.config.messageTemplate;
+		start: function(conversationId, participants) {
+			var conversation = getModule().storage.find(conversationId);
+			if(conversation === null)
+			{
+				conversation = new Conversation(conversationId, [participants]);
+			}
+
+			getModule().open(conversation);
+		},
+
+		open: function(conversation) {
+			var conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
+
+			if(conversationWindow.length == 0)
+			{
+				conversationWindow = $(getModule().createWindow(conversation.id, conversation.participants));
+				getModule().container.append(conversationWindow);
+			}
+
+			conversation.open = true;
+			conversationWindow.show();
+
+			getModule().storage.add(conversation);
+		},
+
+		createWindow: function(conversationId, participants) {
+			var template = getModule().config.chatWindowTemplate;
+
+			template = template.replace('[[participants]]', participants.join(', '));
+			template = template.replace(/\[\[conversationId\]\]/g, conversationId);
+
+			return template;
+		},
+
+		addMessage: function(conversationId, from, message, timestamp) {
+			var template = getModule().config.messageTemplate;
+			var position = (from == getModule().config.userId)? 'right' : 'left';
+
+			console.log(template);
 
 			message = message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
-			template = template.replace(/\[\[username\]\]/g, 'USERNAME');
-			template = template.replace(/\[\[time\]\]/g, '1 Hour ago');
+			template = template.replace(/\[\[username\]\]/g, from);
+			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime((new Date()).setTime(timestamp), "DD.MM.YYYY H:mm"));
 			template = template.replace(/\[\[message]\]/g, message);
-			template = template.replace(/\[\[avatar\]\]/g, (from == '.left')? 'http://placehold.it/50/55C1E7/fff&amp;text=U': 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
+			template = template.replace(/\[\[avatar\]\]/g, (from == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 
-			template = $(template).find('li.' + from).html();
+			template = $(template).find('li.' + position).html();
 
-			$(window).find('.chat').append(
+			console.log($(['data-onscreenchat-window=' + conversationId + ']']));
+
+			$('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-body]').append(
 				$('<li></li>')
-					.addClass(from)
+					.addClass(position)
 					.addClass('clearfix')
 					.append(template)
 			);
 		},
 
-		close: function(window) {
-			$(window).remove();
+		close: function(conversationId) {
+			var conversation = getModule().storage.find(conversationId);
+			conversation.open = false;
+			console.log("close");
+			$('[data-onscreenchat-window=' + conversationId + ']').hide();
+
+			getModule().storage.add(conversation);
 		},
 
 		handleSubmit: function(trigger) {
-			var window = $(trigger).closest('.chat-window-wrapper');
+			var conversationId = $(trigger).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 
-			$scope.il.OnScreenChat.send(window);
-			$scope.il.OnScreenChat.resizeInput(window.find('.chat-message'));
+
+			getModule().send(conversationId);
+			//getModule().resizeInput(window.find('.chat-message'));
 		},
 
-		send: function(window) {
-			var message = $(window).find('.chat-message').val();
+		send: function(conversationId) {
+			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
+			var message = input.val();
 			if(message != "")
 			{
-				$scope.il.OnScreenChat.addMessage(window, 'right', message);
-				$(window).find('.chat-message').val('');
+				$chat.sendMessage(conversationId, message);
+				input.val('')
 			}
 		},
 
@@ -102,6 +148,65 @@
 			$(input).height(1);
 			var totalHeight = $(input).prop('scrollHeight') - parseInt($(input).css('padding-top')) - parseInt($(input).css('padding-bottom'));
 			$(input).height(totalHeight);
+		},
+
+		receiveMessage: function(messageObject) {
+			getModule().addMessage(messageObject.conversationId, messageObject.userId, messageObject.message, messageObject.timestamp);
 		}
+	};
+
+	/**
+	 * @returns {window.il.OnScreenChat}
+	 */
+	function getModule() {
+		return $scope.il.OnScreenChat;
 	}
-})(jQuery, window);
+
+	var Conversation = function Conversation(id, participants) {
+		this.id = id;
+		this.participants = participants;
+		this.open = false;
+	};
+
+	var Storage = function Storage() {
+		const _STORAGE_KEY = 'onscreenchat';
+
+		if(localStorage.getItem(_STORAGE_KEY) == null)
+		{
+			localStorage.setItem(_STORAGE_KEY, JSON.stringify({}));
+		}
+
+		this.all = function() {
+			return _load();
+		};
+
+		this.find = function(conversationId) {
+			var conversations = _load();
+
+			if(conversations.hasOwnProperty(conversationId)) {
+				return conversations[conversationId];
+			}
+
+			return null;
+		};
+
+		this.add = function(conversation) {
+			var conversations = _load();
+
+			conversations[conversation.id] = conversation;
+
+			_save(conversations);
+		};
+
+		var _load = function() {
+			return JSON.parse(localStorage.getItem(_STORAGE_KEY));
+		};
+
+		var _save = function(data) {
+			localStorage.setItem(_STORAGE_KEY, JSON.stringify(data));
+		}
+	};
+
+
+
+})(jQuery, window, window.il.Chat);

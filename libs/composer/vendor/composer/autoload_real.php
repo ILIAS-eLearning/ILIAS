@@ -23,35 +23,24 @@ class ComposerAutoloaderInit52a6e2a81f6d9c254f5f67d3bf073dee
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInit52a6e2a81f6d9c254f5f67d3bf073dee', 'loadClassLoader'));
 
-        $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION');
-        if ($useStaticLoader) {
-            require_once __DIR__ . '/autoload_static.php';
+        $map = require __DIR__ . '/autoload_namespaces.php';
+        foreach ($map as $namespace => $path) {
+            $loader->set($namespace, $path);
+        }
 
-            call_user_func(\Composer\Autoload\ComposerStaticInit52a6e2a81f6d9c254f5f67d3bf073dee::getInitializer($loader));
-        } else {
-            $map = require __DIR__ . '/autoload_namespaces.php';
-            foreach ($map as $namespace => $path) {
-                $loader->set($namespace, $path);
-            }
+        $map = require __DIR__ . '/autoload_psr4.php';
+        foreach ($map as $namespace => $path) {
+            $loader->setPsr4($namespace, $path);
+        }
 
-            $map = require __DIR__ . '/autoload_psr4.php';
-            foreach ($map as $namespace => $path) {
-                $loader->setPsr4($namespace, $path);
-            }
-
-            $classMap = require __DIR__ . '/autoload_classmap.php';
-            if ($classMap) {
-                $loader->addClassMap($classMap);
-            }
+        $classMap = require __DIR__ . '/autoload_classmap.php';
+        if ($classMap) {
+            $loader->addClassMap($classMap);
         }
 
         $loader->register(true);
 
-        if ($useStaticLoader) {
-            $includeFiles = Composer\Autoload\ComposerStaticInit52a6e2a81f6d9c254f5f67d3bf073dee::$files;
-        } else {
-            $includeFiles = require __DIR__ . '/autoload_files.php';
-        }
+        $includeFiles = require __DIR__ . '/autoload_files.php';
         foreach ($includeFiles as $fileIdentifier => $file) {
             composerRequire52a6e2a81f6d9c254f5f67d3bf073dee($fileIdentifier, $file);
         }

@@ -1,3 +1,5 @@
+var ConversationCollection = require('./ConversationCollection');
+
 /**
  * @class Namespace
  * @param {engine.io/Server} io
@@ -29,12 +31,24 @@ var Namespace = function Namespace(name)
 
 	/**
 	 * @type {JSON}
-	 * @typedef {Subscriber}
+	 * @typedef {Subscriber|Participant}
 	 * @private
 	 */
 	var _subscribers = {};
 
 	var _database;
+
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	var _isIm = false;
+
+	/**
+	 * @tyoe {ConversationCollection}
+	 * @private
+	 */
+	var _conversations = new ConversationCollection();
 
 	/**
 	 * @returns {string}
@@ -111,7 +125,7 @@ var Namespace = function Namespace(name)
 
 	/**
 	 * @param {number} id
-	 * @returns {Subscriber|null}
+	 * @returns {Subscriber|Participant|null}
 	 */
 	this.getSubscriber = function(id) {
 		if(this.hasSubscriber(id)) {
@@ -128,8 +142,6 @@ var Namespace = function Namespace(name)
 			delete _subscribers[id];
 		}
 	};
-
-
 
 	this.setDatabase = function(database) {
 		_database = database;
@@ -152,8 +164,24 @@ var Namespace = function Namespace(name)
 				}
 			}
 		}
+	};
+
+	this.setIsIM = function(isIM) {
+		_isIm = isIM;
+	};
+
+	this.isIM = function() {
+		return _isIm;
+	};
+
+	/**
+	 * @returns {ConversationCollection}
+	 */
+	this.getConversations = function() {
+		return _conversations;
 	}
 };
+
 
 
 module.exports = Namespace;

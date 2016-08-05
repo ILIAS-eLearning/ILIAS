@@ -3,6 +3,7 @@ var constants = require('constants');
 var SocketIO = require('socket.io');
 var async = require('async');
 var SocketHandler = require('../Handler/SocketHandler');
+var IMSocketHandler = require('../Handler/IMSocketHandler');
 var FileHandler	= require('../Handler/FileHandler');
 
 module.exports = function SetupServer(callback) {
@@ -22,7 +23,18 @@ module.exports = function SetupServer(callback) {
 
 	async.eachSeries(Container.getNamespaces(), function(namespace, next){
 		namespace.setIO(io.of(namespace.getName()));
-		namespace.getIO().on('connect', SocketHandler);
+
+		var handler = SocketHandler;
+
+		if(namespace.isIM())
+		{
+			handler = IMSocketHandler;
+			Container.getLogger().info('IMSocketHandler used');
+		}
+
+		namespace.getIO().on('connect', handler);
+
+
 
 		next();
 	}, function(err) {
