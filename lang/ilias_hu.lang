@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-07-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-08-07 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -223,7 +223,7 @@ assessment#:#add_matching_pair#:#Összeillő párok hozzáadása
 assessment#:#add_poly#:#Sokszög alakú terület hozzáadása
 assessment#:#add_questionpool#:#Kérdésgyűjtemény hozzáadása
 assessment#:#add_rect#:#Téglalap alakú terület hozzáadása
-assessment#:#add_solution#:#Javasolt megoldás hozzáadása
+assessment#:#add_solution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
 assessment#:#addSuggestedSolution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
 assessment#:#all_available_question_pools#:#Összes elérhető kérdésgyűjtemény
 assessment#:#allow_images#:#Képsegítség válaszokhoz
@@ -293,6 +293,8 @@ assessment#:#average_reached_points#:#Elért pontok átlaga
 assessment#:#backtocallingtest#:#Vissza a teszthez
 assessment#:#assLongMenu#:#Hosszú menü
 assessment#:#answers_text_box#:#Szöveg
+assessment#:#min_auto_complete#:#Autokiegészítés
+assessment#:#autocomplete_error#:#Autokiegészítése túl nagy szám. Mivel válaszai rövidebbek, sosem fognak megjelenni.
 assessment#:#answers_select#:#Legördülő
 assessment#:#info_text_upload#:#Válasszon egy UTF-8 kódolású válaszfájlt a feltöltéshez
 assessment#:#manual_editing#:#Kézi szerkesztés
@@ -310,10 +312,10 @@ assessment#:#cannot_export_test#:#Nincs megfelelő jogosultsága a teszt export�
 assessment#:#cannot_maintain_test#:#Nincs megfelelő jogosultsága a teszt karbantartásához.
 assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához.
 assessment#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok mentéséhez.
-assessment#:#change_solution#:#Javasolt megoldás változtatása.
+assessment#:#change_solution#:#Ismétléshez tartalom módosítása
 assessment#:#changelog_description#:#Az alábbi táblázat a szerzők minden teszten elvégzett változtatását tartalmazzák.
 assessment#:#changelog_heading#:#Változtatás
-assessment#:#changeSuggestedSolution#:#Javasolt megoldás típusának kiválasztása
+assessment#:#changeSuggestedSolution#:#Ismétléshez tartalomtípus kiválasztása
 assessment#:#checkbox_checked#:#Kiválasztott
 assessment#:#checkbox_unchecked#:#Nem kiválasztott
 assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjába.
@@ -360,7 +362,7 @@ assessment#:#delete_image_header#:#Kép eltávolítása
 assessment#:#delete_image_question#:#Biztos, hogy eltávolítja a képet?
 assessment#:#delete_image#:#Kép eltávolítása
 assessment#:#delete_user_data#:#Kiválasztott felhasználók tesztadatainak eltávolítása
-assessment#:#deleteSuggestedSolution#:#Ennek a javasolt megoldás eltávolítása
+assessment#:#deleteSuggestedSolution#:#Ezen tartalom eltávolítása
 assessment#:#description_maxchars#:#Ha a maximális karakterszám nincs megadva, a válasz terjedelme nem lesz korlátozva.
 assessment#:#detail_ending_time_reached#:#Lejárt a teszt szerkesztési ideje. A teszt nem elérhető % óta
 assessment#:#detail_max_processing_time_reached#:#Lejárt a teszt kitöltési ideje.
@@ -663,7 +665,7 @@ assessment#:#log_mark_added#:#Érdemjegy hozzáadva.
 assessment#:#log_mark_changed#:#Érdemjegyet sikeresen lecserélte.
 assessment#:#log_mark_removed#:#Érdemjegyet sikeresen eltávolította.
 assessment#:#log_modified_test#:#A teszt megváltozott.
-assessment#:#tst_results_presentation_description#:#Ha a 'Futó tesztek kitöltési részleteinek megjelenítése' be van kapcsolva, a még be nem fejezett tesztek összes kérdésének címe és rá kapott pontszáma elérhető. Ha a 'Teszteredményekben a megoldások megjelenítése' be van kapcsolva, részletes megoldás elérhető a kitöltő számára teszteredményei bemutatásakor. Ez az összes válasz részletes pontozását jelenti, máskülönben csak a kérdés címét és az elért pontszámot tartalmazó áttekintés jelenik meg. Ha a válaszok felsorolása be van kapcsolva, egy áttekintést generálunk az összes kérdésről a résztvevő válaszával. Ez a felsorolás a tesztkitölés után közvetlenül a végső tesztbeadás előtt érhető el az 'Információ' fülön. Ha a 'Válaszfüggő visszajelzés megjelenítése a teszteredményekben' be van kapcsolva, a teszteredményekben a kérdések után megjelennek a válaszfüggő visszajelzések. Ha a 'Eredmények nyomtatási nézete (csak válaszok)' be van kapcsolva, a kérdéshez a 'Tartalom szerkesztése' fülön megadott tartalom nem jelennek meg nyomtatáskor. Amennyiben papíron helyet szeretne megtakarítani, válassza ezt az opciót. Ha az 'Aláírás-helyőrző' megjelenítése' be van kapcsolva, a nyomtatásakor egy helyőrző jelenik meg az aláírás számára. Ha a 'Javasolt megoldás megjelenítése' be van kapcsolva, a teszteredmények áttekintésében a kérdések javasolt megoldása megjelenik (amennyiben az létezik).
+assessment#:#tst_results_presentation_description#:#Ha a 'Futó tesztek kitöltési részleteinek megjelenítése' be van kapcsolva, a még be nem fejezett tesztek összes kérdésének címe és rá kapott pontszáma elérhető. Ha a 'Teszteredményekben a megoldások megjelenítése' be van kapcsolva, részletes megoldás elérhető a kitöltő számára teszteredményei bemutatásakor. Ez az összes válasz részletes pontozását jelenti, máskülönben csak a kérdés címét és az elért pontszámot tartalmazó áttekintés jelenik meg. Ha a válaszok felsorolása be van kapcsolva, egy áttekintést generálunk az összes kérdésről a résztvevő válaszával. Ez a felsorolás a tesztkitölés után közvetlenül a végső tesztbeadás előtt érhető el az 'Információ' fülön. Ha a 'Válaszfüggő visszajelzés megjelenítése a teszteredményekben' be van kapcsolva, a teszteredményekben a kérdések után megjelennek a válaszfüggő visszajelzések. Ha a 'Eredmények nyomtatási nézete (csak válaszok)' be van kapcsolva, a kérdéshez a 'Tartalom szerkesztése' fülön megadott tartalom nem jelennek meg nyomtatáskor. Amennyiben papíron helyet szeretne megtakarítani, válassza ezt az opciót. Ha az 'Aláírás-helyőrző' megjelenítése' be van kapcsolva, a nyomtatásakor egy helyőrző jelenik meg az aláírás számára. Ha az 'Ismétlő összefoglaló tartalmának megjelenítése' be van kapcsolva, a teszteredmények áttekintésében az ismétlő összefoglaló tartalom megjelenik (amennyiben az létezik).
 assessment#:#log_question_added#:#A kérdést sikeren hozzáadta az megadott helyen.
 assessment#:#log_question_position_changed#:#A kérdés helyét sikeresen megváltoztatta.
 assessment#:#log_question_removed#:#Kérdést sikeresen eltávolította.
@@ -911,7 +913,7 @@ assessment#:#redirectAfterSave#:#Elérkezett a maximális munkaidő vége, és a
 assessment#:#region#:#Régió
 assessment#:#remove_as_participant#:#Meghatározottként eltávolítás
 assessment#:#remove_question#:#Eltávolítás
-assessment#:#remove_solution#:#Ajánlott megoldás eltávolítása
+assessment#:#remove_solution#:#Ismétlő összefoglaló tartalmának eltávolítása
 assessment#:#report_date_not_reached#:#Nem érte el a jelentéskészítési dátumot. A teszteredményeket megtekintheti %n
 assessment#:#reset_definitions#:#Rendezés visszaállítása
 assessment#:#reset_filter#:#Szűrő alapállapotba állítása
@@ -958,7 +960,7 @@ assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Válaszok zárolá
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#A 'Válasz' gombra kattintás után a válasz már nem módosítható. A résztevőknek a visszajelzés jelenik meg az 'Azonnali visszajelzés' alatt beállítottaknak megfelelően.
 assessment#:#tst_instant_feedback_handling_force#:#Válaszok ne legyenek zárolva, de a visszajelzés legyen kikényszerítve
 assessment#:#tst_instant_feedback_handling_force_desc#:#A 'Válasz' gombra kattintás után a résztevőknek a visszajelzés jelenik meg az 'Azonnali visszajelzés' alatt beállítottaknak megfelelően. A résztvevők válaszaikat bármelyik kitöltés alatt módosíthatják.
-assessment#:#see_details_for_further_information#:#Nézze meg a javasolt megoldások részleteit!
+assessment#:#see_details_for_further_information#:#Nézze meg az ismétlő összefoglaló tartalmának részleteit!
 assessment#:#select_an_answer#:#--- Válasszon ki egy választ! ---
 assessment#:#select_gap#:#Szöveghelyre választás
 assessment#:#select_max_one_item#:#Csak egy elemet válasszon!
@@ -990,7 +992,7 @@ assessment#:#start_tag#:#Kezdő címke
 assessment#:#starting_time_not_reached#:#Nem érte el a kezdő időpontot
 assessment#:#statistical_data#:#Statisztikai adatok
 assessment#:#statistics#:#Statisztika
-assessment#:#suggested_solution_added_successfully#:#Sikeresen beállított egy javasolt megoldást.
+assessment#:#suggested_solution_added_successfully#:#Sikeresen beállított tartalmat ismétlő összefoglaláshoz.
 assessment#:#suggestedSolutionType#:#Hivatkozás a következőre
 assessment#:#symbol#:#Szimbólum
 assessment#:#term_image#:#Kifejezéskép
@@ -13120,6 +13122,7 @@ exc#:#exc_team_notification_link#:#Link a beadandó feladathoz
 poll#:#poll_absolute#:#Szavazatok száma
 dcl#:#dcl_reference_link#:#Link megjelenítése hivatkozott bejegyzésként
 dcl#:#dcl_reference_link_info#:#A részletes megjelenítést be kell kapcsolani a hivatkozott táblában
+dcl#:#dcl_ilias_reference_link#:#Táblanézetben linkként jelenjen meg
 dcl#:#dcl_text_area#:#Szövegterület
 dcl#:#dcl_delete_table#:#Tábla törlése
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' fület) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok szerkesztése' jogosultságú felhasználók (lásd a 'Jogosultságok' fület) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
@@ -15631,7 +15634,7 @@ exc#:#exc_team_management_tutor#:#Tutorok kezelik a csapatokat
 exc#:#exc_team_management_tutor_info#:#Ha be van kapcsolva, a résztvevők nem oszthatják saját magukat csoportokba.
 exc#:#exc_no_team_yet_info_tutor#:#A beadandó feladat tutorai kezelik a csapatokat.
 exc#:#exc_max_file#:#Fájlok maximális száma
-exc#:#exc_max_file_info#:#A korlát elérése után a felhasználók már tudnak több fájlt feltölteni.
+exc#:#exc_max_file_info#:#A korlát elérése után a felhasználók már tudnak több fájlt feltölteni. Csapattagság esetén nincs csapatszintű korlát, ott is a felhasználónkénti korlát él.
 exc#:#exc_max_file_tgl#:#Feltöltési korlát
 exc#:#exc_max_file_reached#:#%s fájlnál többet nem tud feltölteni.
 exc#:#exc_deadline_extended#:#Türelmi időszak
@@ -15756,8 +15759,8 @@ obj#:#obj_target_location#:#Célhely
 obj#:#obj_copy_progress#:#Másolási folyamat
 cntr#:#cntr_copy_repo_tree#:#Taneszköztároló
 cntr#:#cntr_copy_crs_grp#:#Kurzusaim és csoportjaim
-crs#:#crs_mail_context_tutor_title#:#Kurzustutor 
-crs#:#crs_mail_context_member_title#:#Kurzustag
+crs#:#crs_mail_context_tutor_title#:#Levél kurzustagoknak 
+crs#:#crs_mail_context_member_title#:#Kurzus infolapja
 sahs#:#sahs_mail_context_lp#:#SCORM tanulási folyamat
 mail#:#mail_templates#:#Szövegminták
 mail#:#mail_new_template#:#Új szövegminta
@@ -16208,5 +16211,4 @@ crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen
 auth#:#auth_ldap_server_ds#:#LDAP szerver
 assessment#:#ass_location#:#Helyszín
 assessment#:#ass_imap_hint#:#Tippek buboréksúgóként jelenjenek meg
-dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###03 08 2016 new variable
-blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
+blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
