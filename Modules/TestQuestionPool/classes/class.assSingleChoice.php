@@ -762,15 +762,6 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		// nothing to rework!
 	}
 
-	function syncWithOriginal()
-	{
-		if ($this->getOriginalId())
-		{
-			$this->syncImages();
-			parent::syncWithOriginal();
-		}
-	}
-
 	/**
 	* Returns the question type of the question
 	*
@@ -1293,6 +1284,24 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		else
 		{
 			return $this->getAnswers();
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+
+		$origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
+		$dupImagePath  = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+
+		ilUtil::delDir($origImagePath);
+		if(is_dir($dupImagePath))
+		{
+			ilUtil::makeDirParents($origImagePath);
+			ilUtil::rCopy($dupImagePath, $origImagePath);
 		}
 	}
 }
