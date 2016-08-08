@@ -709,6 +709,12 @@ class SurveyImportParser extends ilSaxParser
 							case "own_results_mail":
 								$this->survey->setMailOwnResults($value["entry"]);
 								break;
+							case "confirmation_mail":
+								$this->survey->setMailConfirmation($value["entry"]);
+								break;
+							case "anon_user_list":
+								$this->survey->setAnonymousUserList($value["entry"]);
+								break;
 							case "mode_360":
 								$this->survey->set360Mode($value["entry"]);
 								break;

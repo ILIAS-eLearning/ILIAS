@@ -11,12 +11,12 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
 class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	private $answerType, $long_menu_text, $answers, $correct_answers, $json_structure, $ilDB;
-	private $specificFeedbackSetting;
+	private $specificFeedbackSetting, $minAutoComplete;
 	
 	const ANSWER_TYPE_SELECT_VAL	= 0;
 	const ANSWER_TYPE_TEXT_VAL		= 1;
 	const GAP_PLACEHOLDER			= 'Longmenu';
-	const MIN_LENGTH_AUTOCOMPLETE 	= 1;
+	const MIN_LENGTH_AUTOCOMPLETE 	= 3;
 	const MAX_INPUT_FIELDS 			= 500;
 
 	function __construct(
@@ -29,6 +29,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
 		$this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
+		$this->minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
 		parent::__construct($title, $comment, $author, $owner, $question);
 		global $ilDB;
 		$this->ilDB = $ilDB;
@@ -130,6 +131,16 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	public function getSpecificFeedbackSetting()
 	{
 		return $this->specificFeedbackSetting;
+	}
+
+	public function setMinAutoComplete($minAutoComplete)
+	{
+		$this->minAutoComplete = $minAutoComplete;
+	}
+
+	public function getMinAutoComplete()
+	{
+		return $this->minAutoComplete ? $this->minAutoComplete  : self::MIN_LENGTH_AUTOCOMPLETE;
 	}
 	
 	public function isComplete()
@@ -239,12 +250,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			array( $this->getId() )
 		);
 		$this->ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
-			) . " (question_fi, long_menu_text, feedback_setting) VALUES (%s, %s, %s)",
-			array( "integer", "text", "integer"),
+			) . " (question_fi, long_menu_text, feedback_setting, min_auto_complete) VALUES (%s, %s, %s, %s)",
+			array( "integer", "text", "integer", "integer"),
 			array(
 				$this->getId(),
 				$this->getLongMenuTextValue(),
-				(int)$this->getSpecificFeedbackSetting()
+				(int)$this->getSpecificFeedbackSetting(),
+				(int)$this->getMinAutoComplete()
 			)
 		);
 		$this->createFileFromArray();
@@ -373,6 +385,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc($data['long_menu_text'], 1));
 			$this->loadCorrectAnswerData($question_id);
+			$this->setMinAutoComplete($data["min_auto_complete"]);
 			if( isset($data['feedback_setting']) )
 			{
 				$this->setSpecificFeedbackSetting((int)$data['feedback_setting']);

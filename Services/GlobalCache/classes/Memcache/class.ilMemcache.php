@@ -65,12 +65,12 @@ class ilMemcache extends ilGlobalCacheService {
 	/**
 	 * @param      $key
 	 * @param      $serialized_value
-	 * @param null $ttl
+	 * @param null|int $ttl
 	 *
 	 * @return bool
 	 */
 	public function set($key, $serialized_value, $ttl = null) {
-		return $this->getMemcacheObject()->set($this->returnKey($key), $serialized_value, $ttl);
+		return $this->getMemcacheObject()->set($this->returnKey($key), $serialized_value, (int)$ttl);
 	}
 
 
