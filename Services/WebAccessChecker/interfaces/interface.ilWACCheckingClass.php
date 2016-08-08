@@ -16,5 +16,3 @@ interface ilWACCheckingClass {
 	 */
 	public function canBeDelivered(ilWACPath $ilWACPath);
 }
-
-?>
