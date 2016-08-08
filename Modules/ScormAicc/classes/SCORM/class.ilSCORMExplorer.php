@@ -274,7 +274,7 @@ class ilSCORMExplorer extends ilExplorer
 		}
 
 		//get scorm item
-		$sc_object =& new ilSCORMItem($option["id"]);
+		$sc_object = new ilSCORMItem($option["id"]);
 		$id_ref = $sc_object->getIdentifierRef();
 
 		//get scorm resource ref id

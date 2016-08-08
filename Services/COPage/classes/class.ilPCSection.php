@@ -279,6 +279,69 @@ class ilPCSection extends ilPageContent
 	}
 
 	/**
+	 * Set no link
+	 */
+	function setNoLink()
+	{
+		ilDOMUtil::deleteAllChildsByName($this->sec_node, array("IntLink", "ExtLink"));
+	}
+
+	/**
+	 * Set link of area to an external one
+	 * @param string $a_href
+	 */
+	function setExtLink($a_href)
+	{
+		$this->setNoLink();
+		if (trim($a_href) != "")
+		{
+			$attributes = array("Href" => trim($a_href));
+			ilDOMUtil::setFirstOptionalElement($this->dom, $this->sec_node, "ExtLink",
+				array(""), "", $attributes);
+		}
+	}
+
+	/**
+	 * Set link of area to an internal one
+	 */
+	function setIntLink($a_type, $a_target, $a_target_frame)
+	{
+		$this->setNoLink();
+		$attributes = array("Type" => $a_type, "Target" => $a_target,
+			"TargetFrame" => $a_target_frame);
+		ilDOMUtil::setFirstOptionalElement($this->dom, $this->sec_node, "IntLink",
+			array(""), "", $attributes);
+	}
+
+	/**
+	 * Get link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getLink()
+	{
+		$childs = $this->sec_node->child_nodes();
+		foreach($childs as $child)
+		{
+			if ($child->node_name() == "ExtLink")
+			{
+				return array("LinkType" => "ExtLink",
+					"Href" => $child->get_attribute("Href"));
+			}
+			if ($child->node_name() == "IntLink")
+			{
+				return array("LinkType" => "IntLink",
+					"Target" => $child->get_attribute("Target"),
+					"Type" => $child->get_attribute("Type"),
+					"TargetFrame" => $child->get_attribute("TargetFrame"));
+			}
+		}
+		return array("LinkType" => "NoLink");
+	}
+
+
+	/**
 	 * @param $a_html
 	 * @param $a_mode
 	 * @return mixed|string

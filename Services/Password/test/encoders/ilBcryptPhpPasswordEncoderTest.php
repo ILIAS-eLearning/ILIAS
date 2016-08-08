@@ -2,13 +2,14 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncoder.php';
+require_once 'Services/Password/test/ilPasswordBaseTest.php';
 
 /**
  * Class ilBcryptPhpPasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
+class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 {
 	/**
 	 * @var string
@@ -57,7 +58,7 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return ilBcryptPasswordEncoder
+	 * @return ilBcryptPhpPasswordEncoder
 	 */
 	public function testInstanceCanBeCreated()
 	{
@@ -85,19 +86,21 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetAboveRange(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(32);
 	}
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetBelowRange(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(3);
 	}
 
@@ -124,10 +127,11 @@ class ilBcryptPhpPasswordEncoderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testInstanceCanBeCreated
+	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->expectException(ilPasswordException::class);
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}

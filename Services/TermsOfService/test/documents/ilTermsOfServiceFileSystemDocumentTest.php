@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceFileSystemDocument.php';
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
 
 use org\bovigo\vfs;
 
@@ -9,7 +10,7 @@ use org\bovigo\vfs;
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceFileSystemDocumentTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool
@@ -76,12 +77,12 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *
+	 * @expectedException ilTermsOfServiceNoSignableDocumentFoundException
 	 */
 	public function testExceptionIsRaisedWhenNoSingableDocumentCouldBeFoundForCurrentLanguage()
 	{
-		$this->expectException(ilTermsOfServiceNoSignableDocumentFoundException::class);
-		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
+		$this->assertException(ilTermsOfServiceNoSignableDocumentFoundException::class);
+		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->setMethods(array('getLangKey', 'getDefaultLanguage', 'toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
 		$document->setSourceFiles(array());
 		$document->determine();
 	}

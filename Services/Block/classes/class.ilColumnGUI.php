@@ -149,6 +149,7 @@ class ilColumnGUI
 			"pdusers" => true,
 			"pdbookm" => true,
 			"pdtag" => true,
+			"pdsysmess" => true,
 			"pdnotes" => true,
 			"chatviewer" => true,
 			"tagcld" => true,
@@ -1088,6 +1089,11 @@ class ilColumnGUI
 							'cont_show_news',
 							true
 					);
+			}
+			else if($a_type == 'pdsysmess')
+			{
+				require_once 'Services/Mail/classes/class.ilObjMail.php';
+				return ((int)$ilSetting->get('pd_sys_msg_mode')) == ilObjMail::PD_SYS_MSG_OWN_BLOCK;
 			}
 			else if ($ilSetting->get("block_activated_".$a_type))
 			{

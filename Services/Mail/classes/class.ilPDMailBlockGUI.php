@@ -106,7 +106,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	protected function getMails()
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
+
+		require_once 'Services/Mail/classes/class.ilObjMail.php';
 
 		$umail       = new ilMail($ilUser->getId());
 		$mbox        = new ilMailBox($ilUser->getId());
@@ -116,7 +118,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->inbox,
 			array(
 				 'status'  => 'unread',
-				 'type'	=> 'normal'
+				 'type'	=> ((int)$ilSetting->get('pd_sys_msg_mode')) != ilObjMail::PD_SYS_MSG_MAIL_BLOCK ? 'normal' : ''
 			)
 		);
 	}

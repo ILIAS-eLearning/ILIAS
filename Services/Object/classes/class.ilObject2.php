@@ -60,7 +60,7 @@ abstract class ilObject2 extends ilObject
 	final static function _lookupObjIdByImportId($a_import_id) { return parent::_lookupObjIdByImportId($a_import_id); }
 	final function getOwner() { return parent::getOwner(); }
 	final function getOwnerName() { return parent::getOwnerName(); }
-	final function _lookupOwnerName($a_owner_id) { return parent::_lookupOwnerName($a_owner_id); }
+	final static function _lookupOwnerName($a_owner_id) { return parent::_lookupOwnerName($a_owner_id); }
 	final function setOwner($a_owner) { return parent::setOwner($a_owner); }
 	final function getCreateDate() { return parent::getCreateDate(); }
 	final function getLastUpdateDate() { return parent::getLastUpdateDate(); }
@@ -185,26 +185,26 @@ abstract class ilObject2 extends ilObject
 	
 	final function deleteMetaData() { return parent::deleteMetaData(); }
 	final function updateOwner() { return parent::updateOwner(); }
-	final function _getIdForImportId($a_import_id) { return parent::_getIdForImportId($a_import_id); }
+	final static function _getIdForImportId($a_import_id) { return parent::_getIdForImportId($a_import_id); }
 	static final function _getAllReferences($a_id) { return parent::_getAllReferences($a_id); }
 	final static function _lookupTitle($a_id) { return parent::_lookupTitle($a_id); }
 	final static function _lookupOwner($a_id) { return parent::_lookupOwner($a_id); }
 	final static function _getIdsForTitle($title, $type = '', $partialmatch = false) { return parent::_getIdsForTitle($title, $type, $partialmatch); }
 	final static function _lookupDescription($a_id) { return parent::_lookupDescription($a_id); }
-	final function _lookupLastUpdate($a_id, $a_as_string = false) { return parent::_lookupLastUpdate($a_id, $a_as_string); }
+	final static function _lookupLastUpdate($a_id, $a_as_string = false) { return parent::_lookupLastUpdate($a_id, $a_as_string); }
 	final static function _getLastUpdateOfObjects($a_objs) { return parent::_getLastUpdateOfObjects($a_objs); }
 	final static function _lookupObjId($a_id) { return parent::_lookupObjId($a_id); }
-	final function _setDeletedDate($a_ref_id) { return parent::_setDeletedDate($a_ref_id); }
+	final static function _setDeletedDate($a_ref_id) { return parent::_setDeletedDate($a_ref_id); }
 	final public static function _resetDeletedDate($a_ref_id) { return parent::_resetDeletedDate($a_ref_id); }
-	final function _lookupDeletedDate($a_ref_id) { return parent::_lookupDeletedDate($a_ref_id); }
-	final function _writeTitle($a_obj_id, $a_title) { return parent::_writeTitle($a_obj_id, $a_title); }
-	final function _writeDescription($a_obj_id, $a_desc) { return parent::_writeDescription($a_obj_id, $a_desc); }
-	final function _writeImportId($a_obj_id, $a_import_id) { return parent::_writeImportId($a_obj_id, $a_import_id); }
+	final static function _lookupDeletedDate($a_ref_id) { return parent::_lookupDeletedDate($a_ref_id); }
+	final static function _writeTitle($a_obj_id, $a_title) { return parent::_writeTitle($a_obj_id, $a_title); }
+	final static function _writeDescription($a_obj_id, $a_desc) { return parent::_writeDescription($a_obj_id, $a_desc); }
+	final static function _writeImportId($a_obj_id, $a_import_id) { return parent::_writeImportId($a_obj_id, $a_import_id); }
 	final static function _lookupType($a_id,$a_reference = false) { return parent::_lookupType($a_id,$a_reference); }
 	final public static function _isInTrash($a_ref_id) { return parent::_isInTrash($a_ref_id); }
 	final static function _hasUntrashedReference($a_obj_id) { return parent::_hasUntrashedReference($a_obj_id); }
 	final static function _lookupObjectId($a_ref_id) { return parent::_lookupObjectId($a_ref_id); }
-	final function _getObjectsDataForType($a_type, $a_omit_trash = false) { return parent::_getObjectsDataForType($a_type, $a_omit_trash); }
+	final static function _getObjectsDataForType($a_type, $a_omit_trash = false) { return parent::_getObjectsDataForType($a_type, $a_omit_trash); }
 	final function putInTree($a_parent_ref) { return parent::putInTree($a_parent_ref); }
 	final function setPermissions($a_parent_ref) { return parent::setPermissions($a_parent_ref); }
 	final function createReference() { return parent::createReference(); }

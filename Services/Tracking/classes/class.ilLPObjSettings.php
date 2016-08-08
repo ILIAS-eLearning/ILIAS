@@ -255,7 +255,7 @@ class ilLPObjSettings
 		ilLPStatusWrapper::_refreshStatus($this->getObjId());
 	}
 
-	function _delete($a_obj_id)
+	static function _delete($a_obj_id)
 	{
 		global $ilDB;
 
@@ -268,7 +268,7 @@ class ilLPObjSettings
 
 	// Static
 	
-	function _lookupVisits($a_obj_id)
+	static function _lookupVisits($a_obj_id)
 	{
 		global $ilDB;
 

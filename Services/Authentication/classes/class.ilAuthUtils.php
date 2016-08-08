@@ -547,7 +547,7 @@ class ilAuthUtils
 	* generate free login by starting with a default string and adding
 	* postfix numbers
 	*/
-	function _generateLogin($a_login)
+	static function _generateLogin($a_login)
 	{
 		global $ilDB;
 		

@@ -114,6 +114,7 @@ class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 
 	private static function _insertDefaultValues()
 	{
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		$values = array(
@@ -132,7 +133,7 @@ class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 			array("icon_thumbdown.gif", ":thumbdown:"),
 		);
 
-		$stmt = $ilDB->prepare("
+		$stmt = $ilDB->prepareManip("
 	    INSERT INTO chatroom_smilies (smiley_id, smiley_keywords, smiley_path)
 	    VALUES (?, ?, ?)",
 			array("integer", "text", "text")
@@ -141,7 +142,7 @@ class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 		foreach($values as $val)
 		{
 			$row = array(
-				$ilDB->nextID("chatroom_smilies"),
+				$ilDB->nextId("chatroom_smilies"),
 				$val[1],
 				$val[0]
 			);

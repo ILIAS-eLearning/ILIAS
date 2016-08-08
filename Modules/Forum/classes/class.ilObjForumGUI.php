@@ -1469,7 +1469,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->replyEditForm->addItem($captcha);
 		}
 
-		if(count($oFDForum->getFilesOfPost()) && ($_GET['action'] == 'showedit' || $_GET['action'] == 'ready_showedit'))
+		$attachments_of_node = $oFDForum->getFilesOfPost();
+		if(count($attachments_of_node) && ($_GET['action'] == 'showedit' || $_GET['action'] == 'ready_showedit'))
 		{
 			$oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI($this->lng->txt('forums_delete_file'), 'del_file');
 			foreach($oFDForum->getFilesOfPost() as $file)
@@ -2586,11 +2587,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					// download post attachments
 					$tmp_file_obj = new ilFileDataForum($forumObj->getId(), $node->getId());
-					if (count($tmp_file_obj->getFilesOfPost()))
+					$attachments_of_node = $tmp_file_obj->getFilesOfPost();
+					if(count($attachments_of_node))
 					{
 						if ($node->getId() != $this->objCurrentPost->getId() || $_GET['action'] != 'showedit')
 						{
-							foreach ($tmp_file_obj->getFilesOfPost() as $file)
+							foreach($attachments_of_node as $file)
 							{
 								$tpl->setCurrentBlock('attachment_download_row');
 								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());								

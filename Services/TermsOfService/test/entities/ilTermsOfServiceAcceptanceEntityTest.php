@@ -2,12 +2,13 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceEntity.php';
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool

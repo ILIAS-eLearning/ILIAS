@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
+
 use org\bovigo\vfs;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool

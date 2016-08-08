@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
+require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
 
 /**
  * Class ilDBConstants
@@ -20,11 +21,12 @@ class ilDBConstants {
 	const TYPE_ORACLE = 'oracle';
 	// PDO
 	const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
+	const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
 	const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
 	const TYPE_PDO_POSTGRE = 'pdo-postgre';
 	// Locks
-	const LOCK_WRITE = 1;
-	const LOCK_READ = 2;
+	const LOCK_WRITE = ilAtomQuery::LOCK_WRITE;
+	const LOCK_READ = ilAtomQuery::LOCK_READ;
 	// Modules
 	const MODULE_MANAGER = 'Manager';
 	const MODULE_REVERSE = 'Reverse';
@@ -45,13 +47,13 @@ class ilDBConstants {
 	// Engines
 	const ENGINE_INNODB = 'InnoDB';
 	const ENGINE_MYISAM = 'MyISAM';
-	
 	/**
 	 * @var array
 	 */
 	protected static $descriptions = array(
 		ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine)",
 		ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
+		ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental)",
 		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental)",
 		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher [legacy]",
 		ilDBConstants::TYPE_POSTGRES_LEGACY  => "Postgres (experimental) [legacy]",
@@ -67,6 +69,7 @@ class ilDBConstants {
 		return array(
 			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
 			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
+			ilDBConstants::TYPE_PDO_MYSQL_GALERA,
 			ilDBConstants::TYPE_MYSQL_LEGACY,
 			ilDBConstants::TYPE_INNODB_LEGACY,
 		);
@@ -99,6 +102,7 @@ class ilDBConstants {
 			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
 			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
 			ilDBConstants::TYPE_PDO_POSTGRE,
+			ilDBConstants::TYPE_PDO_MYSQL_GALERA,
 		);
 	}
 

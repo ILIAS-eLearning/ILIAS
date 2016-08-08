@@ -989,7 +989,7 @@ class ilObjQuestionPool extends ilObject
 	* @param integer $a_obj_id Object id of the question pool
 	* @access private
 	*/
-	function _hasEqualPoints($a_obj_id, $is_reference = FALSE)
+	public static function _hasEqualPoints($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
 		

@@ -110,7 +110,7 @@ var Logger = function Logger()
 	};
 
 	function _log(type, message) {
-		console.log(type, message);
+		//console.log(type, message);
 	}
 };
 
@@ -1148,8 +1148,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 
 		_socket.on('message', _onMessage);
 		_socket.on('connect', function(){
-			console.log(user.login);
-			console.log(user.id);
 			_socket.emit('login', user.login, user.id);
 		});
 		_socket.on('user_invited', _onUserInvited);
@@ -1164,7 +1162,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		_socket.on('notice', _onNotice);
 		_socket.on('userlist', _onUserlist);
 		_socket.on('shutdown', function(){
-			console.log('shutdown received');
 			_socket.removeAllListeners();
 			_socket.close();
 			window.location.href = redirectUrl;
@@ -1193,7 +1190,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 */
 	this.onLoggedIn = function(callback) {
 		_socket.on('loggedIn', function(){
-			console.log("loggedIn");
 			callback();
 		});
 	};
@@ -1276,8 +1272,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _onPrivateRoomLeft(messageObject){
-		console.log('private_room_left', messageObject);
-
 		if (messageObject.sub && messageObject.sub == subRoomId) {
 			$('#chat_users').find('.user_' + messageObject.user).hide();
 		}
@@ -1334,8 +1328,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _onPrivateRoomDeleted(messageObject){
-		console.log('private_room_deleted');
-
 		$('#private_rooms').ilChatList('removeById', messageObject.subRoomId);
 		$('#chat_actions').find('span.room_'+messageObject.subRoomId).closest('li').remove();
 
@@ -1346,7 +1338,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	}
 
 	function _onConnected(messageObject){
-		console.log('connected');
 		$(messageObject.users).each(function (i) {
 			var data = {
 				id:    this.id,
@@ -1414,7 +1405,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _onUserBanned(messageObject){
-		console.log('bann received');
 		if (_socket) {
 			_socket.removeAllListeners();
 			_socket.close();
@@ -1479,7 +1469,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	function _onUserlist(messageObject) {
 		logger.logServerResponse("onUserlist");
 		var users = messageObject.users;
-		console.log(users);
 
 		userManager.clear(messageObject.subRoomId);
 
@@ -1870,7 +1859,6 @@ il.Util.addOnLoad(function () {
 						type:    'notice',
 						message: messageObject.type
 					});
-					console.log(messageObject);
 				}
 
 				//@todo was passiert hier?

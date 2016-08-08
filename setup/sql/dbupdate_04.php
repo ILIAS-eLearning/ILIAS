@@ -15445,51 +15445,55 @@ if (! $ilDB->tableExists('il_dcl_tfield_set')) {
 //migration for datacollections:
 //ĉreate a standardview for each table, set visibility/filterability for each field
 //and delete entries from old view tables
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableView.php");
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php");
-require_once("./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php");
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
 $roles = array();
 $query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote(ROLE_FOLDER_ID, 'integer') . " AND assign='y'");
 while ( $global_role = $ilDB->fetchAssoc($query) ) {
-    $roles[] = $global_role['rol_id'];
+	$roles[] = $global_role['rol_id'];
 }
 
 //set order of main tables, since main_table_id will be removed
 if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
-    $ilDB->addTableColumn('il_dcl_table', 'table_order', array('type' => 'integer', 'length' => 8));
+	$ilDB->addTableColumn('il_dcl_table', 'table_order', array('type' => 'integer', 'length' => 8));
 }
-$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
-while ($rec = $ilDB->fetchAssoc($main_table_query)) {
-    $table = ilDclCache::getTableCache($rec['main_table_id']);
-    $table->setOrder(10);
-    $table->doUpdate();
-}
-$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 
+if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
+	$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
+	while ($rec = $ilDB->fetchAssoc($main_table_query)) {
+		$ilDB->query('UPDATE il_dcl_table SET table_order = 10 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
+	}
+	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
+}
 //
 $table_query = $ilDB->query('SELECT id, ref_id FROM il_dcl_table 
-                              INNER JOIN object_reference ON (object_reference.obj_id = il_dcl_table.obj_id)');
+                          INNER JOIN object_reference ON (object_reference.obj_id = il_dcl_table.obj_id)');
 
 $mapping = array();
 while ($rec = $ilDB->fetchAssoc($table_query)) {
-    $query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote($rec['ref_id'], 'integer') . " AND assign='y'");
-    while ( $local_role = $ilDB->fetchAssoc($query)) {
-        $roles[] = $local_role['rol_id'];
-    }
-    //create standardviews for each DCL Table and set id mapping
-    $tableview = new ilDclTableView();
-    $tableview->setTableId($rec['id']);
-    $tableview->setTitle('Standardview');
-    $tableview->setRoles($roles);
-    $tableview->setOrder(10);
-    $tableview->create(false);
-    $mapping[$rec['id']] = $tableview->getId();
+	$sql = $ilDB->query('SELECT * FROM il_dcl_tableview WHERE table_id = ' . $ilDB->quote($rec['id']));
+	if ($ilDB->numRows($sql)) {
+		continue;
+	}
+	$query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote($rec['ref_id'], 'integer') . " AND assign='y'");
+	while ( $local_role = $ilDB->fetchAssoc($query)) {
+		$roles[] = $local_role['rol_id'];
+	}
+	//create standardviews for each DCL Table and set id mapping
+	$next_id = $ilDB->nextId('il_dcl_tableview');
+	$ilDB->query('INSERT INTO il_dcl_tableview (id, table_id, title, roles, description, tableview_order) VALUES ('
+		. $ilDB->quote($next_id, 'integer') . ', '
+		. $ilDB->quote($rec['id'], 'integer') . ', '
+		. $ilDB->quote('Standardview', 'text') . ', '
+		. $ilDB->quote(json_encode($roles), 'text') . ', '
+		. $ilDB->quote('', 'text') . ', '
+		. $ilDB->quote(10, 'integer') . ')');
+	$mapping[$rec['id']] = $next_id;
 }
 
-//fetch information about visibility/filterability
-$view_query = $ilDB->query(
-    "SELECT il_dcl_view.table_id, tbl_visible.field, tbl_visible.is_set as visible, f.filterable
+if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefinition')) {
+
+	//fetch information about visibility/filterability
+	$view_query = $ilDB->query(
+		"SELECT il_dcl_view.table_id, tbl_visible.field, tbl_visible.is_set as visible, f.filterable
         FROM il_dcl_viewdefinition tbl_visible
             INNER JOIN il_dcl_view ON (il_dcl_view.id = tbl_visible.view_id
             AND il_dcl_view.type = 1)
@@ -15499,54 +15503,84 @@ $view_query = $ilDB->query(
                     INNER JOIN il_dcl_viewdefinition tbl_filterable ON (il_dcl_view.id = tbl_filterable.view_id
                     AND il_dcl_view.type = 3)) f ON (f.field = tbl_visible.field AND f.table_id = il_dcl_view.table_id)");
 
-//set visibility/filterability
-$view_id_cache = array();
-while ($rec = $ilDB->fetchAssoc($view_query)) {
-    $field_set = new ilDclTableViewFieldSetting();
-    $field_set->setTableviewId($mapping[$rec['table_id']]);
-    $field_set->setField($rec['field']);
-    $field_set->setVisible($rec['visible']);
-    $field_set->setInFilter($rec['filterable']);
-    $field_set->setFilterChangeable(true);
-    $field_set->create();
+	//set visibility/filterability
+	$view_id_cache = array();
+	while ($rec = $ilDB->fetchAssoc($view_query)) {
+		if (!$mapping[$rec['table_id']]) {
+			continue;
+		}
+		$next_id = $ilDB->nextId('il_dcl_tview_set');
+		$ilDB->query('INSERT INTO il_dcl_tview_set (id, tableview_id, field, visible, in_filter, filter_value, 
+        filter_changeable) VALUES ('
+			. $ilDB->quote($next_id, 'integer') . ', '
+			. $ilDB->quote($mapping[$rec['table_id']], 'integer') . ', '
+			. $ilDB->quote($rec['field'], 'text') . ', '
+			. $ilDB->quote($rec['visible'], 'integer') . ', '
+			. $ilDB->quote($rec['filterable'], 'integer') . ', '
+			. $ilDB->quote('', 'text') . ', '
+			. $ilDB->quote(1, 'integer') . ')'
+		);
+	}
 
-}
-
-//fetch information about editability/exportability
-$view_query = $ilDB->query(
-    "SELECT il_dcl_view.table_id, tbl_exportable.field, tbl_exportable.is_set as exportable, tbl_exportable.field_order
+	//fetch information about editability/exportability
+	$view_query = $ilDB->query(
+		"SELECT il_dcl_view.table_id, tbl_exportable.field, tbl_exportable.is_set as exportable, tbl_exportable.field_order
         FROM il_dcl_viewdefinition tbl_exportable
             INNER JOIN il_dcl_view ON (il_dcl_view.id = tbl_exportable.view_id
             AND il_dcl_view.type = 4)");
 
 
-//set editability/exportability
-while ($rec = $ilDB->fetchAssoc($view_query)) {
-    $field_set = new ilDclTableFieldSetting();
-    $field_set->setTableId($rec['table_id']);
-    $field_set->setField($rec['field']);
-    $field_set->setExportable($rec['exportable']);
-    $field_set->setFieldOrder($rec['field_order']);
-    $field_set->create();
-}
+	//set editability/exportability
+	while ($rec = $ilDB->fetchAssoc($view_query)) {
+		$sql = $ilDB->query('SELECT * FROM il_dcl_tfield_set 
+								WHERE table_id = ' . $ilDB->quote($rec['table_id'], 'integer') . '
+								AND field = ' . $ilDB->quote($rec['field'], 'text'));
 
-//migrate page object
-$query = $ilDB->query('SELECT * 
+		if (!$ilDB->numRows($sql)) {
+			$next_id = $ilDB->nextId('il_dcl_tfield_set');
+			$ilDB->query('INSERT INTO il_dcl_tfield_set (id, table_id, field, field_order, exportable) VALUES ('
+				. $ilDB->quote($next_id, 'integer') . ', '
+				. $ilDB->quote($rec['table_id'], 'integer') . ', '
+				. $ilDB->quote($rec['field'], 'text') . ', '
+				. $ilDB->quote($rec['field_order'], 'integer') . ', '
+				. $ilDB->quote($rec['exportable'], 'integer') . ')'
+			);
+		}
+	}
+
+	//migrate page object
+	$query = $ilDB->query('SELECT * 
         FROM il_dcl_view 
         INNER JOIN page_object on (il_dcl_view.id = page_object.page_id)
           WHERE il_dcl_view.type = 0
             AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
 
-while ($rec = $ilDB->fetchAssoc($query)) {
-    $ilDB->query('UPDATE page_object 
+	while ($rec = $ilDB->fetchAssoc($query)) {
+		if (!$mapping[$rec['table_id']]) {
+			continue;
+		}
+
+		$sql = $ilDB->query('SELECT * FROM page_object 
+						WHERE page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
+						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
+
+		if ($ilDB->numRows($sql)) {
+			$ilDB->query('DELETE FROM page_object 
+						WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
+						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
+		} else {
+			$ilDB->query('UPDATE page_object 
                   SET page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
                   WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
                       AND page_object.parent_type = ' . $ilDB->quote('dclf', 'text'));
-}
+		}
+	}
 
-//delete old tables
-$ilDB->dropTable('il_dcl_viewdefinition');
-$ilDB->dropTable('il_dcl_view');
+	//delete old tables
+	$ilDB->dropTable('il_dcl_viewdefinition');
+	$ilDB->dropTable('il_dcl_view');
+
+}
 
 ?>
 <#4920>
@@ -15701,4 +15735,64 @@ if (!$ilDB->tableColumnExists('skl_level', 'import_id'))
 			"notnull" => false
 	));
 }
+?>
+<#4934>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
+{
+	$ilDB->addTableColumn('qpl_qst_lome', 'min_auto_complete', array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'default' => 1)
+	);
+}
+if($ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
+{
+	$ilDB->modifyTableColumn('qpl_qst_lome', 'min_auto_complete', array(
+			'default' => 3)
+	);
+}
+?>
+<#4935>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy','confirmation_mail')) 
+{
+    $ilDB->addTableColumn(
+        'svy_svy',
+        'confirmation_mail',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => null
+        ));
+}
+
+?>
+<#4936>
+<?php
+
+$ilDB->manipulate("UPDATE svy_svy".	
+	" SET confirmation_mail = ".$ilDB->quote(1, "integer").
+	" WHERE own_results_mail = ".$ilDB->quote(1, "integer").
+	" AND confirmation_mail IS NULL");
+
+?>
+<#4937>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy','anon_user_list')) 
+{
+    $ilDB->addTableColumn(
+        'svy_svy',
+        'anon_user_list',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
 ?>

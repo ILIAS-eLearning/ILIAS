@@ -3612,6 +3612,15 @@ abstract class assQuestion
 		{
 			$collected .= $solution_array["value"];
 		}
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
+		$questionHintList = ilAssQuestionHintList::getListByQuestionId($this->getId());
+		foreach($questionHintList as $questionHint)
+		{
+			/* @var $questionHint ilAssQuestionHint */
+			$collected .= $questionHint->getText();
+		}
+
 		return $collected;
 	}
 
@@ -4868,6 +4877,14 @@ abstract class assQuestion
 	{
 		$this->obligationsToBeConsidered = $obligationsToBeConsidered;
 	}
-	
-	
+
+	public function updateTimestamp()
+	{
+		global $ilDB;
+
+		$ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",
+			array('integer', 'integer'),
+			array(time(), $this->getId())
+		);
+	}
 }

@@ -323,7 +323,6 @@
 			},
 			removeById: function(id) {
 				var line = $(this).data('ilChatList')._index['id_' + id];
-				console.log(line);
 				if (line) {
 					var data = line.data('ilChatList');
 					//line.remove();
@@ -369,10 +368,11 @@
 				$('#chat_users').find('div').not('.no_users').remove();
 				menuContainer.html('');
 				$(this).data('ilChatList', {
-					_index: {}
+					_index: {},
+					_menuitems: $(this).data('ilChatList')._menuitems
 				});
-			},
-		}
+			}
+		};
 	
 		if ( methods[method] ) {
 			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));

@@ -238,7 +238,7 @@ class ilECSImport
 	 * @access public
 	 * 
 	 */
-	public function _lookupObjIds($a_server_id,$a_econtent_id)
+	public static function _lookupObjIds($a_server_id,$a_econtent_id)
 	{
 	 	global $ilDB;
 	 	
@@ -292,7 +292,7 @@ class ilECSImport
 	 * @access public
 	 * 
 	 */
-	public function _lookupMID($a_server_id,$a_obj_id)
+	public static function _lookupMID($a_server_id,$a_obj_id)
 	{
 	 	global $ilDB;
 	 	

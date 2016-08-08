@@ -182,7 +182,7 @@ class ilObjSCORMTracking
 		if($rval==true) print("ok");
 	}
 
-	function storeJsApiCmi($user_id, $obj_id, $data) {
+	static function storeJsApiCmi($user_id, $obj_id, $data) {
 		global $ilLog, $ilDB;
 		
 		$b_updateStatus=false;
@@ -254,7 +254,7 @@ class ilObjSCORMTracking
 					));
 					if ($b_messageLog) {
 						$ilLog->write("ScormAicc: storeJsApi Inserted - L:".$a_data["left"].",R:".
-						$a_data["right"]." for obj_id:".$obj_id.",sco_id:".$$a_data["sco_id"].",user_id:".$user_id);
+						$a_data["right"]." for obj_id:".$obj_id.",sco_id:".$a_data["sco_id"].",user_id:".$user_id);
 					}
 				}
 			}
@@ -270,7 +270,7 @@ class ilObjSCORMTracking
 	}
 
 //erase later see ilSCORM2004StoreData
-	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
+	public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
 
 		global $ilDB, $ilLog;
 		$saved_global_status=$data->saved_global_status;

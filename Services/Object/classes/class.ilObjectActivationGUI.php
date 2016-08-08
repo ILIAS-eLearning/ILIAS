@@ -285,7 +285,7 @@ class ilObjectActivationGUI
 			$item = $this->form->getItemByPostVar('early_start');				
 			if($item)
 			{
-				$date = $date->getDate();			
+				$date = $item->getDate();			
 			}
 			$activation->setEarliestStart($date ? $date->get(IL_CAL_UNIX) : null);
 	
@@ -293,7 +293,7 @@ class ilObjectActivationGUI
 			$item = $this->form->getItemByPostVar('late_end');
 			if($item)
 			{
-				$date = $date->getDate();									
+				$date = $item->getDate();									
 			}
 			$activation->setLatestEnd($date ? $date->get(IL_CAL_UNIX) : null);
 	

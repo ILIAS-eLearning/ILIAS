@@ -11,8 +11,7 @@
 */
 class ilSCORM2004StoreData
 {
-
-	public function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
+	public static function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
 	{
 		global $ilDB;
 				
@@ -56,7 +55,7 @@ class ilSCORM2004StoreData
 	}
 
 
-	public function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
+	public static function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
 	{
 		global $ilLog;
 
@@ -113,7 +112,7 @@ class ilSCORM2004StoreData
 		else die("not allowed");
 	}
 
-	public function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives) {
+	public static function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives) {
 		global $ilDB, $ilLog;
 
 		$result = array();
@@ -357,7 +356,7 @@ class ilSCORM2004StoreData
 		}
 	}
 
-	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms) {
+	public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms) {
 
 		global $ilDB, $ilLog;
 		$saved_global_status=$data->saved_global_status;
