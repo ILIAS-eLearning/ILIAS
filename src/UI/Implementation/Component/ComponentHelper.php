@@ -133,7 +133,13 @@ trait ComponentHelper {
 			, $values
 			, function($_, $value) use (&$classes) {
 				foreach ($classes as $cls) {
-					if ($value instanceof $cls) {
+					if ($cls === "string" && is_string($value)) {
+						return true;
+					}
+					if ($cls === "int" && is_int($value)) {
+						return true;
+					}
+					else if ($value instanceof $cls) {
 						return true;
 					}
 				}
