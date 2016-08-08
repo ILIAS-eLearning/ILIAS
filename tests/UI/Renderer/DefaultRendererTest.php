@@ -3,7 +3,8 @@
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Test {
-require_once("libs/composer/vendor/autoload.php");
+	require_once("libs/composer/vendor/autoload.php");
+
 
 use \ILIAS\UI\Implementation\Render\ResourceRegistry;
 use \ILIAS\UI\Renderer as DefaultRenderer;
@@ -30,7 +31,7 @@ class Renderer implements \ILIAS\UI\Implementation\Render\ComponentRenderer {
 namespace {
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__."/Base.php");
+	require_once(__DIR__."/../Base.php");
 
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;

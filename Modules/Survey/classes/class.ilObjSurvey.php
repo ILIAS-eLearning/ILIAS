@@ -266,6 +266,17 @@ class ilObjSurvey extends ilObject
 	}
 	
 	/**
+	* Adds a question to the survey (used in importer!)
+	*
+	* @param	integer	$question_id The question id of the question
+	* @access	public
+	*/
+	function addQuestion($question_id)
+	{
+		array_push($this->questions, $question_id);
+	}
+	
+	/**
 	* delete object and all related data
 	*
 	* @access	public
