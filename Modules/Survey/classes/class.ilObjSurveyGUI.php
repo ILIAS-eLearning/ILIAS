@@ -569,6 +569,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				
 				$this->object->setViewOwnResults($_POST["view_own"]);
 				$this->object->setMailOwnResults($_POST["mail_own"]);
+				$this->object->setMailConfirmation($_POST["mail_confirm"]);
 
 				// both are saved in object, too
 				$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -707,6 +708,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 								{
 									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
 								}
+								
+								$this->object->setAnonymousUserList($_POST["anon_list"]);		
 							}	
 
 							// if settings were changed get rid of existing code
@@ -952,10 +955,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$view_own->setChecked($this->object->hasViewOwnResults());
 		$form->addItem($view_own);
 		
-		$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
-		$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
-		$mail_own->setChecked($this->object->hasMailOwnResults());
-		$form->addItem($mail_own);				
+		$mail_confirm = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_confirm"), "mail_confirm");
+		$mail_confirm->setInfo($this->lng->txt("svy_results_mail_confirm_info"));
+		$mail_confirm->setChecked($this->object->hasMailConfirmation());
+		$form->addItem($mail_confirm);		
+
+			$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
+			$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
+			$mail_own->setChecked($this->object->hasMailOwnResults());
+			$mail_confirm->addSubItem($mail_own);		
 		
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("outro"), "outro");
@@ -1169,10 +1177,30 @@ class ilObjSurveyGUI extends ilObjectGUI
 				: "statpers");				
 			$form->addItem($anonymization_options);
 			
-			if (ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
+			$surveySetting = new ilSetting("survey");
+			if($surveySetting->get("anonymous_participants", false))
+			{		
+				$min = "";
+				if($surveySetting->get("anonymous_participants_min", 0))
+				{
+					$min = " (".$this->lng->txt("svy_anonymous_participants_min").": ".
+						$surveySetting->get("anonymous_participants_min").")";
+				}						
+				
+				$anon_list = new ilCheckboxInputGUI($this->lng->txt("svy_anonymous_participants_svy"), "anon_list");
+				$anon_list->setInfo($this->lng->txt("svy_anonymous_participants_svy_info").$min);
+				$anon_list->setChecked($this->object->hasAnonymousUserList());
+				$option->addSubItem($anon_list);				
+			}			
+			
+			if ($this->object->_hasDatasets($this->object->getSurveyId()))
 			{
 				$anonymization_options->setDisabled(true);
-			}						
+				if($anon_list)
+				{
+					$anon_list->setDisabled(true);
+				}
+			}							
 		}
 		// 360°
 		else
@@ -1620,26 +1648,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$ilToolbar->addButtonInstance($button);		
 							}
 
-							if($this->object->hasMailOwnResults())
+							// see ilSurveyExecutionGUI
+							if($this->object->hasMailConfirmation())
 							{
 								if($this->object->hasViewOwnResults())
 								{
 									$ilToolbar->addSeparator();
 								}
 
-								require_once "Services/Form/classes/class.ilTextInputGUI.php";								
-								$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-								$mail->setSize(25);		
-								$mail->setValue($ilUser->getEmail());															
-								$ilToolbar->addInputItem($mail, true);							
+								if($ilUser->getId() == ANONYMOUS_USER_ID ||
+									!$ilUser->getEmail())
+								{
+									require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+									$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+									$mail->setSize(25);		
+									$mail->setValue($ilUser->getEmail());															
+									$ilToolbar->addInputItem($mail, true);		
+								}
 
 								$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-								
+
 								include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 								$button = ilSubmitButton::getInstance();
-								$button->setCaption("svy_mail_own_results");
+								$button->setCaption("svy_mail_send_confirmation");
 								$button->setCommand("mailUserResults");
-								$ilToolbar->addButtonInstance($button);																				
+								$ilToolbar->addButtonInstance($button);																			
 							}						
 						}
 						
@@ -2115,7 +2148,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$body .= ilLink::_getLink($this->object->getRefId(), "svy")."\n";
 		$body .= "\n".$this->lng->txt("survey_results_finished").": ".$finished."\n\n";
 		
-		$body .= $this->getUserResultsPlain($a_active_id);
+		if($this->object->hasMailOwnResults())
+		{
+			$subject = "svy_mail_own_results_subject";
+			$body .= $this->getUserResultsPlain($a_active_id);
+		}
+		else
+		{
+			$subject = "svy_mail_confirmation_subject";
+		}
 		
 		// $body .= ilMail::_getAutoGeneratedMessageString($this->lng);
 		$body .= ilMail::_getInstallationSignature();
@@ -2126,7 +2167,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$a_recipient,
 			null,
 			null,
-			sprintf($this->lng->txt("svy_mail_own_results_subject"), $this->object->getTitle()),
+			sprintf($this->lng->txt($subject), $this->object->getTitle()),
 			$body,
 			null,
 			true
@@ -2146,6 +2187,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}			
 		
 		$recipient = $_POST["mail"];	
+		if(!$recipient)
+		{
+			$recipient = $ilUser->getEmail();
+		}
 		if(!ilUtil::is_email($recipient))
 		{
 			$this->ctrl->redirect($this, "infoScreen");
