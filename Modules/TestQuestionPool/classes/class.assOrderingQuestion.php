@@ -320,7 +320,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id)
 	{
 		global $ilLog;
-		if ($this->getOrderingType() == OQ_PICTURES)
+		if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 			$imagepath_original = $this->getImagePath($src_question_id, $src_object_id);
 			$imagepath = $this->getImagePath($dest_question_id, $dest_object_id);
@@ -1578,5 +1578,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			return $this->getAnswers();
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+		$this->duplicateImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
 	}
 }
