@@ -39,16 +39,14 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 * @return ilOrgUnitExtensionPlugin plugin object
 	 * @throws ilPluginException
 	 */
-	protected function getPlugin()
-	{
-		if(!$this->plugin) {
-			$this->plugin =
-				ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext",
-					ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));
-			if (!is_object($this->plugin)) {
+	protected function getPlugin() {
+		if (!$this->plugin) {
+			$this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));
+			if (!$this->plugin instanceof ilOrgUnitExtensionPlugin) {
 				throw new ilPluginException("ilObjectPluginGUI: Could not instantiate plugin object for type " . $this->getType() . ".");
 			}
 		}
+
 		return $this->plugin;
 	}
 
@@ -62,19 +60,21 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 				$row["title"] = $this->lng->txt("objs_orgu");
 			}
 			$this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $row["child"]);
-			$this->ilLocator->addItem($row["title"], $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjorgunitgui"), "view"), ilFrameTargetInfo::_getFrame("MainContent"), $row["child"]);
+			$this->ilLocator->addItem($row["title"], $this->ctrl->getLinkTargetByClass(array(
+				"iladministrationgui",
+				"ilobjorgunitgui",
+			), "view"), ilFrameTargetInfo::_getFrame("MainContent"), $row["child"]);
 			$this->ctrl->setParameterByClass("ilobjplugindispatchgui", "ref_id", $_GET["ref_id"]);
 		}
 		$tpl->setLocator();
 	}
 
+
 	public function showTree() {
 		$this->ctrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $_GET["ref_id"]);
 		$this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
-		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", array("ilAdministrationGUI", "ilObjOrgUnitGUI"), "showTree", new ilTree(1));
-		$tree->setTypeWhiteList(
-			$this->getTreeWhiteList()
-		);
+		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "showTree", new ilTree(1));
+		$tree->setTypeWhiteList($this->getTreeWhiteList());
 		if (!$tree->handleCommand()) {
 			$this->tpl->setLeftNavContent($tree->getHTML());
 		}
@@ -85,8 +85,9 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 * @return array
 	 */
 	protected function getTreeWhiteList() {
-		$whiteList = array("orgu");
+		$whiteList = array( "orgu" );
 		$pls = ilOrgUnitObjectPlugin::getActivePluginIdsForTree();
+
 		return array_merge($whiteList, $pls);
 	}
 }
