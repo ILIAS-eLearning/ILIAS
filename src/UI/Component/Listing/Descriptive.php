@@ -5,20 +5,21 @@
 namespace ILIAS\UI\Component\Listing;
 
 /**
- * Interface DescriptiveList
+ * Interface Descriptive
  * @package ILIAS\UI\Component\Listing
  */
-interface DescriptiveList extends \ILIAS\UI\Component\Component {
+interface Descriptive extends Listing {
 
 	/**
 	 * Sets a key value pair as items for the list. Key is used as title and value as content.
-	 * @param string[] $items string (key) => string (value)
-	 * @return \ILIAS\UI\Component\Listing\DescriptiveList
+	 * @param string[] $items string => Component | string
+	 * @return \ILIAS\UI\Component\Listing\Descriptive
 	 */
 	public function withItems(array $items);
 
 	/**
-	 * @return string[] $items
+	 * Gets the key value pair as items for the list. Key is used as title and value as content.
+	 * @return [] $items string => Component | string
 	 */
 	public function getItems();
 }
