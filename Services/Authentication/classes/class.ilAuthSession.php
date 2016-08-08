@@ -86,6 +86,15 @@ class ilAuthSession
 	}
 	
 	/**
+	 * Check if current session is valid (authenticated and not expired)
+	 * @return bool
+	 */
+	public function isValid()
+	{
+		return !$this->isExpired() && $this->isAuthenticated();
+	}
+	
+	/**
 	 * Regenerate id
 	 */
 	public function regenerateId()

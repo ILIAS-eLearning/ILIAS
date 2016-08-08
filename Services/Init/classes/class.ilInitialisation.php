@@ -701,7 +701,7 @@ class ilInitialisation
 	 */
 	protected static function goToLogin()
 	{		
-		global $ilAuth;
+		ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 		
 		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
@@ -894,14 +894,6 @@ class ilInitialisation
 				{
 					self::resumeUserSession();
 				}
-				
-				/**
-				 * @todo: php7 remove
-				 */
-//				if(ilContext::doAuthentication())
-//				{
-//					self::authenticate();
-//				}				
 			}	
 
 			// init after Auth otherwise breaks CAS
@@ -1135,11 +1127,23 @@ class ilInitialisation
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);		
 			if(self::blockedAuthentication($current_script))
 			{
+				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
 				// nothing todo: authentication is done in current script
 				return;
 			}
+			
+			
+			
+			
+			
 			return self::goToLogin();
 		}
+		// valid session given
+		#if(static::isAuthenticationMandatory())
+		{
+			
+		}
+		
 		
 		// valid session
 		return self::initUserAccount();
@@ -1577,7 +1581,7 @@ class ilInitialisation
 
 		// fallback, should never happen
 		if ($ilUser->getId() == ANONYMOUS_USER_ID)
-		{ 
+		{
 			ilInitialisation::goToPublicSection();
 		}
 		else

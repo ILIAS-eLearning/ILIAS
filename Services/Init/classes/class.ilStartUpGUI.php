@@ -1748,41 +1748,39 @@ class ilStartUpGUI
 	/**
 	* process index.php
 	*/
-	function processIndexPHP()
+	protected function processIndexPHP()
 	{
 		global $ilIliasIniFile, $ilAuth, $ilSetting;
 
-		// display client selection list if enabled
-		if (!isset($_GET["client_id"]) &&
-			$_GET["cmd"] == "" &&
-			$ilIliasIniFile->readVariable("clients","list"))
-		{
-			return $this->showClientList();
-		}
-
+		// In case of an valid session, redirect to starting page
 		if($GLOBALS['DIC']['ilAuthSession']->isValid())
 		{
 			include_once './Services/Init/classes/class.ilInitialisation.php';
 			ilInitialisation::redirectToStartingPage();
 			return;
 		}
-		
-		//
-		// index.php is called and public section is enabled
-		//
-		// && $ilAuth->status == -101 is important for soap auth (public section on + user mapping, alex)
-		// $ilAuth->status -1 is given, if session ends (if public section -> jump to public section)
-
-		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1"
-			&& ($ilAuth->getStatus() != -101 && $_GET["soap_pw"] == ""))
-		{
-			ilInitialisation::goToPublicSection();
-		}
 		else
 		{
-			// index.php is called and public section is disabled
-			$this->showLoginPage();
+			
 		}
+
+		// no valid session => show client list, if no client info is given
+		if (
+			!isset($_GET["client_id"]) &&
+			($_GET["cmd"] == "") &&
+			$ilIliasIniFile->readVariable("clients","list"))
+		{
+			return $this->showClientList();
+		}
+
+		if($GLOBALS['ilSetting']->get('pub_section', false)
+		)
+		{
+			return ilInitialisation::goToPublicSection();
+		}
+		
+		// otherwise show login page
+		return $this->showLoginPage();
 	}
 
 
