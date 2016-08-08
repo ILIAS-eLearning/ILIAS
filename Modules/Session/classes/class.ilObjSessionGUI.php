@@ -12,7 +12,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
 * @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI
 *
 * @ingroup ModulesSession 
@@ -110,8 +110,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			case 'ilmembershipgui':				
 				$this->ctrl->setReturn($this,'members');
-				include_once './Services/Membership/classes/class.ilMembershipGUI.php';
-				$mem = new ilMembershipGUI($this);
+				include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
+				$mem = new ilMembershipMailGUI($this);
 				$this->ctrl->forwardCommand($mem);
 				break;
 			
@@ -1980,8 +1980,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$GLOBALS['ilCtrl']->setReturn($this,'members');
 		$GLOBALS['ilCtrl']->setCmdClass('ilmembershipgui');
-		include_once './Services/Membership/classes/class.ilMembershipGUI.php';
-		$mem = new ilMembershipGUI($this);
+		include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
+		$mem = new ilMembershipMailGUI($this);
 		$GLOBALS['ilCtrl']->forwardCommand($mem);
 	}
 	

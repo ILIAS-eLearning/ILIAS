@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *  Membership GUI
+ *  Membership Mail GUI
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
@@ -10,7 +10,7 @@
  *
  * @ingroup ServicesMembership
  */
-class ilMembershipGUI
+class ilMembershipMailGUI
 {
 	protected $ctrl;
 	protected $lng;
