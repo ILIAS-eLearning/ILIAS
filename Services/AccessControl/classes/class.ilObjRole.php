@@ -356,7 +356,7 @@ class ilObjRole extends ilObject
 	* @param	int			$a_role_id		role id
 	* @return	boolean		true if role is allowed in user registration
 	*/
-	function _lookupAllowRegister($a_role_id)
+	static function _lookupAllowRegister($a_role_id)
 	{
 		global $ilDB;
 		
@@ -527,7 +527,7 @@ class ilObjRole extends ilObject
 	
 	
 	
-	function _updateAuthMode($a_roles)
+	static function _updateAuthMode($a_roles)
 	{
 		global $ilDB;
 
@@ -540,7 +540,7 @@ class ilObjRole extends ilObject
 		}
 	}
 
-	function _getAuthMode($a_role_id)
+	static function _getAuthMode($a_role_id)
 	{
 		global $ilDB;
 

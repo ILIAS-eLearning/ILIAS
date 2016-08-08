@@ -19,7 +19,7 @@ class UIServices {
 	/**
 	 * Get the factory that crafts UI components.
  	 *
-	 * @return ILIAS\UI\Factory
+	 * @return \ILIAS\UI\Factory
 	 */
 	public function factory() {
 		return $this->container["ui.factory"];
@@ -28,7 +28,7 @@ class UIServices {
 	/**
 	 * Get a renderer for UI components.
  	 *
-	 * @return ILIAS\UI\Renderer
+	 * @return \ILIAS\UI\Renderer
 	 */
 	public function renderer() {
 		return $this->container["ui.renderer"];

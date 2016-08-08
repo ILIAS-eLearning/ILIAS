@@ -128,7 +128,6 @@ class ilSCORM13Package
 		header('content-type: text/xml');
 		header('content-disposition: attachment; filename="manifest.xml"');
 
-		//$row = ilSCORM13DB::getRecord("cp_package", "obj_id",$this->packageId);
 		$res = $ilDB->queryF(
 			'SELECT xmldata FROM cp_package WHERE obj_id = %s', 
 			array('integer'),
@@ -920,12 +919,6 @@ class ilSCORM13Package
 			case XML_DOCUMENT_NODE:
 
 				// insert into cp_package
-				/*ilSCORM13DB::setRecord('cp_package', array(
-				'obj_id' => $this->packageId,
-				'identifier' => $this->packageName,
-				'persistPreviousAttempts' => 0,
-				'settings' => '',
-				));*/				
 
 				$res = $ilDB->queryF(
 					'SELECT * FROM cp_package WHERE obj_id = %s AND c_identifier = %s',
@@ -1127,17 +1120,6 @@ class ilSCORM13Package
 	{
 		global $ilDB;
 		
-		//$this->packageId = 100;
-		//return true;
-		//ilSCORM13DB::getRecord('sahs_lm', array());
-		//	$this->packageId = ilSCORM13DB::getRecord('sahs_lm', array());
-/*		ilSCORM13DB::setRecord('cp_package', array(
-		'obj_id' => $this->packageId,
-		'xmldata' => $x->asXML(),
-		'jsdata' => json_encode($j),
-		), 'obj_id');
-*/
-
 		$ilDB->insert('cp_package', array(
 			'obj_id'		=> array('integer', $this->packageId),
 			'xmldata'		=> array('clob', $x->asXML()),

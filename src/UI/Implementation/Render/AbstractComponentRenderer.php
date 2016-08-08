@@ -76,7 +76,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @param	bool	$purge_unfilled_vars
 	 * @param	bool	$purge_unused_blocks
 	 * @throws	\InvalidArgumentException	if there is no such template
-	 * @return	Template\Template
+	 * @return	\ILIAS\UI\Implementation\Render\Template
 	 */
 	final protected function getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks) {
 		$component = $this->getMyComponent();

@@ -28,7 +28,7 @@ class ilNotificationGUI
 		require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
 	}
 
-	function _forwards()
+	static function _forwards()
 	{
 		return array();
 	}

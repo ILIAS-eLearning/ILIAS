@@ -679,7 +679,7 @@ class JSMin {
      *                                  If outFileName === FALSE, we assume that inFileName is in fact the string to be minified!!!
      * @param   array   $comments       Optional lines to present as comments at the beginning of the output.
      */
-	function JSMin($inFileName = '-', $outFileName = '-', $comments = NULL) {
+	function __construct($inFileName = '-', $outFileName = '-', $comments = NULL) {
 		if ($outFileName === FALSE) {
 			$this->JSMin_String($inFileName, $comments);
 		}

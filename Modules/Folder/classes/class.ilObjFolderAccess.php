@@ -15,11 +15,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 class ilObjFolderAccess extends ilObjectAccess
 {
     private static $folderSettings; 
-    
-    function _construct () {
-        parent::__construct();
-    }
-    
+
     private static function getFolderSettings() {
         if (is_null (ilObjFolderAccess::$folderSettings))
         {

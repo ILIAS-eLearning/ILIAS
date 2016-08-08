@@ -10,8 +10,12 @@
 class iljQueryUtil
 {		
 	private static $ver = "2_2_4"; 
-	// private static $ver = "3_0_0_rc1"; 
-	private static $ui_ver = "1_11_4";
+	
+	// bootstrap 3 datepicker currently not working with jquery 3.0+
+	// https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1714
+	// private static $ver = "3_1_0"; 
+	
+	private static $ui_ver = "1_12_0";
 	private static $maphilight_ver = "14_03_20";
 	private static $min = "-min";
 	

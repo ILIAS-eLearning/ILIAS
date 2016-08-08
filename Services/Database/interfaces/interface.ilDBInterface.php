@@ -63,6 +63,13 @@ interface ilDBInterface {
 
 
 	/**
+	 * @param $table_name
+	 * @return string
+	 */
+	public function getSequenceName($table_name);
+
+
+	/**
 	 * @param $table_name string
 	 *
 	 * @return bool
@@ -237,6 +244,7 @@ interface ilDBInterface {
 	/**
 	 * Abstraction of lock table
 	 *
+	 * @deprecated Use ilAtomQuery instead
 	 * @param array table definitions
 	 * @return
 	 */
@@ -246,6 +254,7 @@ interface ilDBInterface {
 	/**
 	 * Unlock tables locked by previous lock table calls
 	 *
+	 * @deprecated Use ilAtomQuery instead
 	 * @return
 	 */
 	public function unlockTables();
@@ -443,6 +452,12 @@ interface ilDBInterface {
 	 */
 	public function supportsSlave();
 
+
+	/**
+	 * @return bool
+	 */
+	public function supportsTransactions();
+
 	//
 	//
 	//
@@ -615,6 +630,12 @@ interface ilDBInterface {
 	 * @return string
 	 */
 	public function getStorageEngine();
+
+
+	/**
+	 * @return \ilAtomQuery
+	 */
+	public function buildAtomQuery();
 }
 
 /**
@@ -711,4 +732,13 @@ interface ilDBPdoInterface {
 	 * @return int
 	 */
 	public function getLastInsertId();
+
+
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param null $result_types
+	 * @return bool
+	 */
+	public function prepare($query, $types = null, $result_types = null);
 }

@@ -81,7 +81,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	/**
 	* Get class name
 	*/
-	function _getName($a_id)
+	static function _getName($a_id)
 	{
 		$name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj",$a_id);
 		if ($name != "")

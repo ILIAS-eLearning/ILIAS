@@ -52,7 +52,7 @@ class ilLearningProgress
 		return true;
 	}
 
-	function _getProgress($a_user_id,$a_obj_id)
+	static function _getProgress($a_user_id,$a_obj_id)
 	{
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		$events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
