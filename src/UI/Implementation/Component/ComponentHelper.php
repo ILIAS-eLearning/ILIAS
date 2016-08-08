@@ -85,6 +85,38 @@ trait ComponentHelper {
 	}
 
 	/**
+	 * Check every key and value of the list with a supplied closure.
+	 *
+	 * @param	string				$which
+	 * @param	mixed[]				&$values
+	 * @param	\Closure 			$check 		takes key and value, should return false if those don't fit
+	 * @param	\Closure			$message 	create an error message from key and value
+	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
+	 * @return	null
+	 */
+	protected function checkArgList($which, array &$values, \Closure $check, $message) {
+		$failed_k = null;
+		$failed_v = null;
+		foreach ($values as $key => $value) {
+			$ok = $check($key, $value);
+			if (!$ok) {
+				$failed_k = $key;
+				$failed_v = $value;
+				break;
+			}
+		}
+
+		if ($failed_k !== null) {
+			$m = $message($failed_k, $failed_v);
+		}
+		else {
+			$m = "";
+		}
+
+		$this->checkArg($which, $failed_k === null, $m);
+	}
+
+	/**
 	 * Check every element of the list if it is an instance of one of the given
 	 * classes. Throw an InvalidArgumentException if that is not the case.
 	 *
@@ -94,24 +126,28 @@ trait ComponentHelper {
 	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
 	 * @return	null
 	 */
-	protected function checkArgListElements($which, array &$values, $classes) {
-		$failed = null;
+	protected function checkArgListElements($which, array &$values, &$classes) {
 		$classes = $this->toArray($classes);
-		foreach ($values as $value) {
-			$ok = false;
-			foreach ($classes as $cls) {
-				if ($value instanceof $cls) {
-					$ok = true;
-					break;
+		$this->checkArgList
+			( $which
+			, $values
+			, function($_, $value) use (&$classes) {
+				foreach ($classes as $cls) {
+					if ($cls === "string" && is_string($value)) {
+						return true;
+					}
+					if ($cls === "int" && is_int($value)) {
+						return true;
+					}
+					else if ($value instanceof $cls) {
+						return true;
+					}
 				}
+				return false;
 			}
-			if (!$ok) {
-				$failed = $value;
-				break;
-			}
-		}
-
-		$this->checkArg($which, $failed === null, $this->wrongTypeMessage(implode(", ", $classes), $failed));
+			, function ($_, $failed) use (&$classes) {
+				return $this->wrongTypeMessage(implode(", ", $classes), $failed);
+			});
 	}
 
 	/**

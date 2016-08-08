@@ -28,6 +28,9 @@ class ComponentMock {
 	public function _checkArgListElements($which, &$value, $classes) {
 		$this->checkArgListElements($which, $value, $classes);
 	}
+	public function _checkArgList($which, &$value, $check, $message) {
+		$this->checkArgList($which, $value, $check, $message);
+	}
 }
 
 class Class1 {
@@ -194,6 +197,86 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertEquals("Argument 'some_arg': expected Class1, Class2, got Class3", $e->getMessage());
+		}
+	}
+
+	public function test_check_arg_list_elements_string_or_int_ok() {
+		$l = array(1, "foo");
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_arg_list_elements_string_or_int_not_ok() {
+		$l = array(1, new Class1());
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected string, int, got Class1", $e->getMessage());
+		}
+	}
+
+	public function test_check_arg_list_ok() {
+		$l = array("a" => 1, "b" => 2, "c" => 3);
+		try {
+			$this->mock->_checkArgList
+				( "some_arg"
+				, $l
+				, function($k,$v) {
+					return is_string($k) && is_int($v);
+				}
+				, function($k, $v) {
+					return "expected keys of type string and integer values, got ($k => $v)";
+				});
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_arg_list_not_ok_1() {
+		$l = array("a" => 1, "b" => 2, 4 => 3);
+		try {
+			$this->mock->_checkArgList
+				( "some_arg"
+				, $l
+				, function($k,$v) {
+					return is_string($k) && is_int($v);
+				}
+				, function($k, $v) {
+					return "expected keys of type string and integer values, got ($k => $v)";
+				});
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$m = "expected keys of type string and integer values, got (4 => 3)";
+			$this->assertEquals("Argument 'some_arg': $m", $e->getMessage());
+		}
+	}
+
+	public function test_check_arg_list_not_ok_2() {
+		$l = array("a" => 1, "b" => 2, "c" => "d");
+		try {
+			$this->mock->_checkArgList
+				( "some_arg"
+				, $l
+				, function($k,$v) {
+					return is_string($k) && is_int($v);
+				}
+				, function($k, $v) {
+					return "expected keys of type string and integer values, got ($k => $v)";
+				});
+
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$m = "expected keys of type string and integer values, got (c => d)";
+			$this->assertEquals("Argument 'some_arg': $m", $e->getMessage());
 		}
 	}
 }
