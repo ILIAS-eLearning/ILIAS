@@ -370,7 +370,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the image
-		$clone->duplicateImages($this_id, $thisObjId);
+		$clone->duplicateImages($this_id, $thisObjId, $clone->getId(), $testObjId);
 
 		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 		
@@ -1673,6 +1673,24 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		else
 		{
 			return $this->getMatchingPairs();
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+
+		$origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
+		$dupImagePath  = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+
+		ilUtil::delDir($origImagePath);
+		if(is_dir($dupImagePath))
+		{
+			ilUtil::makeDirParents($origImagePath);
+			ilUtil::rCopy($dupImagePath, $origImagePath);
 		}
 	}
 }
