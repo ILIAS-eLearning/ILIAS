@@ -27,7 +27,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->prg_obj_id = $a_prg_obj_id;
 		$this->prg_ref_id = $a_prg_ref_id;
 
-		global $ilCtrl, $lng, $ilDB;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->db = $ilDB;

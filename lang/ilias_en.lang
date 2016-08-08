@@ -223,7 +223,7 @@ assessment#:#add_matching_pair#:#Add Matching Pair
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_questionpool#:#Add Question Pool
 assessment#:#add_rect#:#Add rectangle area
-assessment#:#add_solution#:#Add Suggested Solution
+assessment#:#add_solution#:#Add Content for Recapitulation
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#allow_images#:#Image Support for Answers
@@ -312,10 +312,10 @@ assessment#:#cannot_export_test#:#You do not possess sufficient permissions to e
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
-assessment#:#change_solution#:#Change Suggested Solution
+assessment#:#change_solution#:#Change Content for Recapitulation
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
 assessment#:#changelog_heading#:#Changelog
-assessment#:#changeSuggestedSolution#:#Select type of suggested solution
+assessment#:#changeSuggestedSolution#:#Select type of content for recapitulation
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle_click_center#:#Please click on center of the desired area.
@@ -362,7 +362,7 @@ assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_image#:#Remove Image
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
-assessment#:#deleteSuggestedSolution#:#Remove this suggested solution
+assessment#:#deleteSuggestedSolution#:#Remove this content for recapitulation
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
@@ -653,7 +653,7 @@ assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments fo
 assessment#:#tst_save_comp_points#:#Save Competence Points
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
-assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
+assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
@@ -665,7 +665,7 @@ assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
 assessment#:#log_mark_removed#:#Mark removed
 assessment#:#log_modified_test#:#The test was modified
-assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
+assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Content for Recapitulation" is selected, the content for recapitulation (if existent) will be shown in the test results overview.
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
 assessment#:#log_question_removed#:#Question removed
@@ -913,7 +913,7 @@ assessment#:#redirectAfterSave#:#The maximum working time has been reached and y
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_question#:#Remove
-assessment#:#remove_solution#:#Remove Suggested Solution
+assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
 assessment#:#reset_definitions#:#Reset Ordering
 assessment#:#reset_filter#:#Reset Filter
@@ -960,7 +960,7 @@ assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and F
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.
 assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
 assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Answer', they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.
-assessment#:#see_details_for_further_information#:#See details for suggested solutions
+assessment#:#see_details_for_further_information#:#See details for content for recapitulation
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
@@ -992,7 +992,7 @@ assessment#:#start_tag#:#Start Tag
 assessment#:#starting_time_not_reached#:#You have not reached the start time
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
-assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
+assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
 assessment#:#suggestedSolutionType#:#refer to
 assessment#:#symbol#:#Symbol
 assessment#:#term_image#:#Term Image
@@ -14320,9 +14320,7 @@ blog#:#blog_nav_sortorder#:#Order of Blocks
 survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
-survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.
 survey#:#svy_results_view_own#:#Participants can View Own Answers
-survey#:#svy_results_mail_own#:#Participants can Mail Own Answers
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties
@@ -14757,7 +14755,6 @@ content#:#cont_table_cellpadding_info#:#Keep this empty to make content style se
 survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. 
 survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
 survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
-survey#:#svy_results_mail_own_info#:#Particiants can request a mail containing their own answers.
 survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
 survey#:#survey_360_self_evaluation_info#:#Appraisees are allowed to rate themselves using the questions.
 survey#:#survey_360_self_raters_info#:#Appraisees autonomously select and invite those persons that are supposed to provide feedback to them.
@@ -15259,8 +15256,8 @@ obj#:#obj_target_location#:#Target Location
 obj#:#obj_copy_progress#:#Copy Progress
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
-crs#:#crs_mail_context_tutor_title#:#Course Tutor 
-crs#:#crs_mail_context_member_title#:#Course Member
+crs#:#crs_mail_context_tutor_title#:#Mail to Course Member
+crs#:#crs_mail_context_member_title#:#Info Page Course
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
@@ -15764,3 +15761,20 @@ pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
 blog#:#blog_show_latest#:#Show latest postings/drafts
+common#:#objs_prtf#:#Portfolios
+survey#:#svy_results_mail_confirm#:#Participants can request participation confirmation
+survey#:#svy_results_mail_confirm_info#:#Participants can request a mail with a confirmation of participation at the end of the survey.
+survey#:#svy_results_mail_own#:#Include given answers
+survey#:#svy_results_mail_own_info#:#The given answers will be included in the confirmation of participation.
+survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation
+survey#:#svy_mail_confirmation_subject#:#Survey "%s" - Your participation confirmation
+survey#:#svy_anonymous_participants#:#List of Participants
+survey#:#svy_anonymous_participants_info#:#If activated a list of participants can be enabled in anonymous surveys.
+survey#:#svy_anonymous_participants_min#:#Minimum Number of Participants
+survey#:#svy_anonymous_participants_min_info#:#The list will only be available if there are at least the minimum number of participants.
+survey#:#svy_anonymous_participants_svy#:#List of Participants
+survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participants is available after the end date.
+survey#:#survey_results_started#:#Survey started
+survey#:#survey_results_not_started#:#Survey not started
+survey#:#svy_mail_own_results_body#:#you participated in the following survey:
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.

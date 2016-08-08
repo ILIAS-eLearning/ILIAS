@@ -63,8 +63,12 @@ class ilWACLog extends ilLog {
 			global $ilUser;
 			parent::write('WebAccessChecker Request ' . str_repeat('#', 50));
 			parent::write('PID: ' . $this->getPid());
-			parent::write('User-Agent: ' . $_SERVER['HTTP_USER_AGENT']);
-			parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
+			if (isset($_SERVER['HTTP_USER_AGENT'])) {
+				parent::write('User-Agent: ' . $_SERVER['HTTP_USER_AGENT']);
+			}
+			if (isset($_SERVER['HTTP_COOKIE'])) {
+				parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
+			}
 			if ($ilUser instanceof ilObjUser) {
 				parent::write('User_ID: ' . $ilUser->getId());
 			}

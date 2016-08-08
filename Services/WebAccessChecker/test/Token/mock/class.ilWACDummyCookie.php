@@ -31,6 +31,7 @@ class ilWACDummyCookie implements ilWACCookieInterface {
 	public function set($name, $value = "", $expire = 0, $path = "", $domain = "", $secure = false, $httponly = false) {
 		static::$expires[$name] = $expire;
 		static::$values[$name] = $value;
+		$_COOKIE[$name] = $value;
 	}
 
 

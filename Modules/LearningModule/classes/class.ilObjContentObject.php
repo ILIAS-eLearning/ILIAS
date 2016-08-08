@@ -3145,33 +3145,6 @@ class ilObjContentObject extends ilObject
 		$mess =  $this->importFromDirectory(
 			$this->getImportDirectory()."/".$subdir, $a_validate);
 
-		// this should only be true for help modules
-		if ($a_import_into_help_module > 0)
-		{
-			// search the zip file
-			$dir = $this->getImportDirectory()."/".$subdir;
-			$files = ilUtil::getDir($dir);
-			foreach ($files as $file)
-			{
-				if (is_int(strpos($file["entry"], "__help_")) && 
-					is_int(strpos($file["entry"], ".zip")))
-				{
-					include_once("./Services/Export/classes/class.ilImport.php");
-					$imp = new ilImport();
-					$imp->getMapping()->addMapping('Services/Help', 'help_module', 0, $a_import_into_help_module);
-					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-					$chaps = ilLMObject::getObjectList($this->getId(), "st");
-					foreach ($chaps as $chap)
-					{
-						$chap_arr = explode("_", $chap["import_id"]);
-						$imp->getMapping()->addMapping('Services/Help', 'help_chap',
-							$chap_arr[count($chap_arr) - 1], $chap["obj_id"]);
-					}
-					$imp->importEntity($dir."/".$file["entry"], $file["entry"],
-						"help", "Services/Help", true);
-				}
-			}
-		}
 		
 		// delete import directory
 		ilUtil::delDir($this->getImportDirectory());
