@@ -32,7 +32,8 @@ class ilStudyProgrammeLeafMock extends ilObject2 implements ilStudyProgrammeLeaf
 	
 	// from ilStudyProgrammeLeaf
 	/*public function getParentId() {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		if (!$tree->isInTree($this->getRefId())) {
 			return null;
 		}
@@ -43,7 +44,8 @@ class ilStudyProgrammeLeafMock extends ilObject2 implements ilStudyProgrammeLeaf
 	
 	// Mark this leaf as completed for a user.
 	public function markCompletedFor($a_user_id) {
-		global $ilAppEventHandler;
+		global $DIC;
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
 			"obj_id" => $this->getId(),
