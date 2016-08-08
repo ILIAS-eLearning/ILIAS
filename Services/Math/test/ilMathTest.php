@@ -170,11 +170,15 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 	 */
 	public function sqrtData()
 	{
-		return [
+		$values = [
 			['9', '3', self::DEFAULT_SCALE],
-			['4294967296', '65536', self::DEFAULT_SCALE],
-			['12345678901234567890', '3513641828', '0']
+			['4294967296', '65536', self::DEFAULT_SCALE]
 		];
+		if(extension_loaded('bcmath')) 
+		{
+			array_push($values, ['4294967296', '65536', self::DEFAULT_SCALE]);
+		}
+		return $values;
 	}
 	
 	/**

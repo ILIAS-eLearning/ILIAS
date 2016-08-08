@@ -397,6 +397,8 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#assLongMenu#:#‘Long Menu’-Frage
 assessment#:#answers_text_box#:#Textfeld
+assessment#:#min_auto_complete#:#Autovervollständigung
+assessment#:#autocomplete_error#:#Ihre Wert für die Autovervollständigung ist zu groß, Sie haben Antworten in Ihren Antwortoptionen, welche weniger Zeichen besitzen und somit niemals ausgewählt werden können.
 assessment#:#answers_select#:#Auswahl
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#manual_editing#:#Manuelle Editierung
@@ -15247,8 +15249,8 @@ obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
-crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
-crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
+crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
+crs#:#crs_mail_context_member_title#:#Infoseite Kurs
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
@@ -15769,3 +15771,4 @@ pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
+common#:#objs_prtf#:#Portfolios

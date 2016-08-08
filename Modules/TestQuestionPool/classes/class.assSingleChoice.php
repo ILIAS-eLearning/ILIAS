@@ -1013,8 +1013,12 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			$worksheet->setCell($startrow + $i, 0,$answer->getAnswertext());
 			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-			
-			if ($id == $solution[0]["value1"])
+			if(
+				count($solution) > 0 &&
+				isset($solution[0]) &&
+				is_array($solution[0]) &&
+				strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
+			)
 			{
 				$worksheet->setCell($startrow + $i, 1, 1);
 			}
