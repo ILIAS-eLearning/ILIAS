@@ -2,18 +2,22 @@
 
 require_once "Services/Repository/classes/class.ilObjectPlugin.php";
 require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
-
+/**
+ * Class ilOrgUnitExtension
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 abstract class ilOrgUnitExtension extends ilObjectPlugin {
 
 	/**
 	 * @var ilObjOrgUnitTree
 	 */
-	protected $orguTree;
+	protected $ilObjOrgUnitTree;
 
 	/**
 	 * @var int
 	 */
-	protected $parentRefId;
+	protected $parent_ref_id;
 
 	/**
 	 * ilOrgUnitExtension constructor.
@@ -23,12 +27,12 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 		global $tree;
 
 		parent::__construct($a_ref_id);
-		$this->orguTree= ilObjOrgUnitTree::_getInstance();
-		$this->parentRefId = $tree->getParentId($a_ref_id?$a_ref_id:$_GET['ref_id']);
+		$this->ilObjOrgUnitTree= ilObjOrgUnitTree::_getInstance();
+		$this->parent_ref_id = $tree->getParentId($a_ref_id?$a_ref_id: $_GET['ref_id']);
 	}
 
 	/**
-	 * @return null|object
+	 * @return ilOrgUnitExtensionPlugin
 	 * @throws ilPluginException
 	 */
 	protected function getPlugin() {
@@ -44,12 +48,12 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 	}
 
 	/**
-	 * @param $ref_id returns all employees of the given org unit.
+	 * @param int $ref_id returns all employees of the given org unit.
 	 * @param bool $recursively include all employees in the suborgunits
 	 * @return int[]
 	 */
 	public function getEmployees($ref_id, $recursively = false) {
-		return $this->orguTree->getEmployees($ref_id, $recursively);
+		return $this->ilObjOrgUnitTree->getEmployees($ref_id, $recursively);
 	}
 
 	/**
@@ -58,7 +62,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 	 * @return int[]
 	 */
 	public function getMyEmployees($recursively = false) {
-		return $this->getEmployees($this->parentRefId, $recursively);
+		return $this->getEmployees($this->parent_ref_id, $recursively);
 	}
 
 	/**
@@ -67,7 +71,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 	 * @return int[]
 	 */
 	public function getSuperiors($ref_id, $recursively = false) {
-		return $this->orguTree->getSuperiors($ref_id, $recursively);
+		return $this->ilObjOrgUnitTree->getSuperiors($ref_id, $recursively);
 	}
 
 	/**
@@ -75,15 +79,14 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 	 * @return int[]
 	 */
 	public function getMySuperiors($recursively = false) {
-
-		return $this->getSuperiors($this->parentRefId, $recursively);
+		return $this->getSuperiors($this->parent_ref_id, $recursively);
 	}
 
 	/**
 	 * @return ilObjOrgUnit
 	 */
 	public function getOrgUnit() {
-		return new ilObjOrgUnit($this->parentRefId);
+		return new ilObjOrgUnit($this->parent_ref_id);
 	}
 
 

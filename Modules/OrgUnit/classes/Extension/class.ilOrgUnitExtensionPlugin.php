@@ -2,14 +2,18 @@
 
 require_once("./Services/Component/classes/class.ilPlugin.php");
 require_once("Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-
+/**
+ * Class ilOrgUnitExtensionPlugin
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin {
 	/**
 	 * Get Component Type
 	 *
 	 * @return        string        Component Type
 	 */
-	final function getComponentType() {
+	public final function getComponentType() {
 		return IL_COMP_MODULE;
 	}
 
@@ -18,7 +22,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin {
 	 *
 	 * @return        string        Component Name
 	 */
-	final function getComponentName() {
+	public final function getComponentName() {
 		return 'OrgUnit';
 	}
 
@@ -27,7 +31,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin {
 	 *
 	 * @return        string        Slot Name
 	 */
-	final function getSlot() {
+	public final function getSlot() {
 		return 'OrgUnitExtension';
 	}
 
@@ -36,7 +40,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin {
 	 *
 	 * @return        string        Slot Id
 	 */
-	final function getSlotId() {
+	public final function getSlotId() {
 		return 'orguext';
 	}
 
@@ -47,13 +51,20 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin {
 		// nothing to do here
 	}
 
+
+	/**
+	 * @return array
+	 */
 	public function getParentTypes() {
 		$par_types = array("orgu");
 		return $par_types;
 	}
 
+
 	/**
-	 * Get Icon
+	 * @param $a_type
+	 * @param $a_size
+	 * @return string
 	 */
 	public static function _getIcon($a_type, $a_size)
 	{
@@ -62,8 +73,10 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin {
 			"icon_".$a_type.".svg");
 	}
 
+
 	/**
-	 * Get class name
+	 * @param $a_id
+	 * @return string
 	 */
 	static function _getName($a_id)
 	{

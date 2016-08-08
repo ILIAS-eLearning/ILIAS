@@ -1,11 +1,15 @@
 <?php
 
 require_once "Services/Repository/classes/class.ilObjectPluginListGUI.php";
-
+/**
+ * Class ilOrgUnitExtensionListGUI
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {
 
 	/**
-	 * @return ilObjectPlugin|null
+	 * @return ilOrgUnitExtensionPlugin
 	 */
 	protected function getPlugin() {
 		if(!$this->plugin) {
@@ -16,9 +20,6 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {
 		return $this->plugin;
 	}
 
-	/**
-	 *
-	 */
 	protected function initListActions() {
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
@@ -49,8 +50,7 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {
 	 * @param bool $a_enable_comments_settings
 	 * @return bool
 	 */
-	function enableComments($a_value, $a_enable_comments_settings = true)
-	{
+	public function enableComments($a_value, $a_enable_comments_settings = true) {
 		return false;
 	}
 
@@ -58,7 +58,7 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {
 	 * @param bool $a_value
 	 * @return bool
 	 */
-	function enableNotes($a_value) {
+	public function enableNotes($a_value) {
 		return false;
 	}
 
@@ -66,7 +66,7 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {
 	 * @param bool $a_value
 	 * @return bool
 	 */
-	function enableTags($a_value) {
+	public function enableTags($a_value) {
 		return false;
 	}
 

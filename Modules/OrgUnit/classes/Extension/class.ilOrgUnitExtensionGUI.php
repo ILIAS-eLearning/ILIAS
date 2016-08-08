@@ -5,6 +5,11 @@ require_once "Modules/OrgUnit/classes/class.ilObjOrgUnit.php";
 require_once "Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php";
 require_once('./Modules/OrgUnit/classes/Extension/class.ilOrgUnitObjectPlugin.php');
 
+/**
+ * Class ilOrgUnitExtensionGUI
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 
 	/**
@@ -12,6 +17,14 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 */
 	protected $ilLocator;
 
+
+	/**
+	 * ilOrgUnitExtensionGUI constructor.
+	 *
+	 * @param int $a_ref_id
+	 * @param int $a_id_type
+	 * @param int $a_parent_node_id
+	 */
 	public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
 		global $ilLocator;
 		parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
@@ -19,9 +32,11 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 		$this->showTree();
 	}
 
+
 	/**
 	 * Get plugin object
-	 * @return object plugin object
+	 *
+	 * @return ilOrgUnitExtensionPlugin plugin object
 	 * @throws ilPluginException
 	 */
 	protected function getPlugin()
@@ -37,9 +52,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 		return $this->plugin;
 	}
 
-	/*
-	 *
-	 */
+
 	protected function setLocator() {
 		global $tpl;
 		$path = $this->tree->getPathFull($_GET["ref_id"], ilObjOrgUnit::getRootOrgRefId());
@@ -67,6 +80,10 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 		}
 	}
 
+
+	/**
+	 * @return array
+	 */
 	protected function getTreeWhiteList() {
 		$whiteList = array("orgu");
 		$pls = ilOrgUnitObjectPlugin::getActivePluginIdsForTree();
