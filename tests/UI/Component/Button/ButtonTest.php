@@ -2,11 +2,10 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__."/Base.php");
+require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
 
 /**
  * Test on button implementation.
