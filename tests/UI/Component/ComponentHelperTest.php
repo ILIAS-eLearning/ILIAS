@@ -210,6 +210,17 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	public function test_check_arg_list_elements_string_or_int_not_ok() {
+		$l = array(1, new Class1());
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected string, int, got Class1", $e->getMessage());
+		}
+	}
+
 	public function test_check_arg_list_ok() {
 		$l = array("a" => 1, "b" => 2, "c" => 3);
 		try {
