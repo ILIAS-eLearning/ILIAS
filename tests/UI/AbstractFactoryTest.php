@@ -1,6 +1,7 @@
 <?php
 
 require_once("libs/composer/vendor/autoload.php");
+
 use ILIAS\UI\Implementation\Crawler\Exception as CrawlerException;
 use ILIAS\UI\Implementation\Crawler as Crawler;
 
@@ -24,17 +25,17 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	 * Notice, some properties (MUST/MUST NOT) will always be checked.
 	 */
 	private $kitchensink_info_settings_default
-		= array('description'
+			= array('description'
+			=> true
+			,'background'
+					=> false
+			,'context'
 					=> true
-				,'background'
+			,'featurewiki'
 					=> false
-				,'context'
-					=> true
-				,'featurewiki'
+			,'javascript'
 					=> false
-				,'javascript'
-					=> false
-				,'rules'
+			,'rules'
 					=> true);
 
 	/* You can overwrite these settings per factory method when using this test
@@ -45,11 +46,11 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	// Definitions and Helpers:
 
 	private $description_categories =
-		array('purpose', 'composition', 'effect', 'rival');
+			array('purpose', 'composition', 'effect', 'rival');
 
 	private $rules_categories =
-		array('usage', 'interaction', 'wording', 'style', 'ordering', 'responsiveness',
-			  'composition','accessibility');
+			array('usage', 'interaction', 'wording', 'style', 'ordering', 'responsiveness',
+					'composition','accessibility');
 
 	final protected function returnsFactory($docstring_data) {
 		return $this->isFactoryName($docstring_data["namespace"]);
@@ -85,19 +86,19 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	public function test_proper_namespace() {
 		$message = "TODO: Put your factory into the proper namespace.";
 		$this->assertRegExp
-			( "#^ILIAS\\\\UI\\\\Component.#"
-			, $this->reflection->getNamespaceName()
-			, $message
-			);
+		( "#^ILIAS\\\\UI\\\\Component.#"
+				, $this->reflection->getNamespaceName()
+				, $message
+		);
 	}
 
 	public function test_proper_name() {
 		$name = $this->reflection->getName();
 		$message = "TODO: Give your factory a proper name.";
 		$this->assertTrue
-			( $this->isFactoryName($name)
-			, $message
-			);
+		( $this->isFactoryName($name)
+				, $message
+		);
 	}
 
 	/**
@@ -157,10 +158,10 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 		$message = "TODO ($name): fix @return, it does not match the method name.";
 		if ($this->returnsFactory($docstring_data)) {
 			$this->assertRegExp
-				( "$regex_head\\\\$name_uppercase\\\\Factory$#"
-				, $return_doc
-				, $message
-				);
+			( "$regex_head\\\\$name_uppercase\\\\Factory$#"
+					, $return_doc
+					, $message
+			);
 		}
 		else { // returnsComponent
 			// Every component MUST be described by a single interface, where the name of
@@ -213,10 +214,10 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 			$existing_keys = array_keys($docstring_data["description"]);
 			$existing_expected_keys = array_intersect($this->description_categories, $existing_keys);
 			$this->assertGreaterThanOrEqual
-				( 1
-				, $existing_expected_keys
-				, $message
-				);
+			( 1
+					, $existing_expected_keys
+					, $message
+			);
 		}
 	}
 
@@ -275,10 +276,10 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 			$existing_keys = array_keys($docstring_data["rules"]);
 			$existing_expected_keys = array_intersect($this->rules_categories, $existing_keys);
 			$this->assertGreaterThanOrEqual
-				( 1
-				, $existing_expected_keys
-				, $message
-				);
+			( 1
+					, $existing_expected_keys
+					, $message
+			);
 		}
 	}
 
@@ -305,9 +306,9 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 	final public function kitchensink_info_settings_merged_with_defaults($name) {
 		if (array_key_exists($name, $this->kitchensink_info_settings)) {
 			return array_merge
-				( $this->kitchensink_info_settings_default
-				, $this->kitchensink_info_settings[$name]
-				);
+			( $this->kitchensink_info_settings_default
+					, $this->kitchensink_info_settings[$name]
+			);
 		}
 		else {
 			return $this->kitchensink_info_settings_default;

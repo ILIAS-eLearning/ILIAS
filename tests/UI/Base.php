@@ -4,7 +4,7 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-require_once(__DIR__."/ilIndependentTemplate.php");
+require_once(__DIR__."/Renderer/ilIndependentTemplate.php");
 require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Implementation\Render\TemplateFactory;
@@ -24,6 +24,10 @@ class NoUIFactory implements Factory {
 	public function card($title, \ILIAS\UI\Component\Image\Image $image = null) {}
 	public function deck(array $cards) {}
 	public function listing() {}
+	public function link($href,$caption="") {}
+	public function panel() {}
+	public function image() {}
+	public function generic() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -47,7 +51,7 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
-} 
+}
 
 /**
  * Provides common functionality for UI tests.
@@ -85,10 +89,10 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$resource_registry = $this->getResourceRegistry();
 		$lng = $this->getLanguage();
 		return new DefaultRendererTesting(
-						$ui_factory, $tpl_factory, $resource_registry, $lng);
+				$ui_factory, $tpl_factory, $resource_registry, $lng);
 	}
 
 	public function normalizeHTML($html) {
 		return trim(str_replace("\n", "", $html));
-	}        
+	}
 }
