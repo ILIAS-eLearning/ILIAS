@@ -94,7 +94,7 @@ trait ComponentHelper {
 	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
 	 * @return	null
 	 */
-	protected function checkArgList($which, array &$values, \Closure $check, $message) {
+	protected function checkArgList($which, array &$values, \Closure $check, \Closure $message) {
 		$failed_k = null;
 		$failed_v = null;
 		foreach ($values as $key => $value) {
