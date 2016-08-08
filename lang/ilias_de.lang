@@ -754,7 +754,7 @@ assessment#:#ass_lac_expression_not_supported_by_question#:#Für die Frage "Q%s"
 assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Für die aktuelle Frage ist der Ausdruck "%s" nicht unterstützt.
 assessment#:#ass_lac_operator_not_supported_by_expression#:#Die Operation "%s" wird für den Vergleich mit dem Ausdruck "%s" nicht unterstützt.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung des Kompetenz-Levels beitragen.
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -1689,7 +1689,7 @@ assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
-assessment#:#tst_level#:#Kompetenz Level
+assessment#:#tst_level#:#Kompetenz-Ausprägung
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
@@ -16212,3 +16212,4 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
