@@ -1581,4 +1581,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return $this->getAnswers();
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+		$this->duplicateImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
+	}
 }
