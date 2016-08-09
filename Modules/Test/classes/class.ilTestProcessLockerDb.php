@@ -17,54 +17,58 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 	protected $db;
 
 	/**
+	 * @var ilAtomQuery
+	 */
+	protected $atom_query;
+
+	/**
 	 * @param ilDBInterface $db
 	 */
 	public function __construct(ilDBInterface $db)
 	{
-		$this->db = $db;
-	}
-
-	public function requestTestStartLockCheckLock()
-	{
-		$tables = array(
-			array('name' => 'tst_active', 'type' => ilDBConstants::LOCK_WRITE)
-		);
-
-		$this->db->lockTables($tables);
-	}
-
-	public function releaseTestStartLockCheckLock()
-	{
-		$this->db->unlockTables();
+		$this->db         = $db;
+		$this->atom_query = $this->db->buildAtomQuery(); 
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function requestRandomPassBuildLock($withTaxonomyTables = false)
+	protected function onBeforeExecutingTestStartOperation()
 	{
-		$tables = array();
-		
-		$tables[] = array('name' => 'tst_rnd_cpy', 'type' => ilDBConstants::LOCK_WRITE);
-		$tables[] = array('name' => 'qpl_questions', 'type' => ilDBConstants::LOCK_WRITE);
-		$tables[] = array('name' => 'qpl_qst_type', 'type' => ilDBConstants::LOCK_WRITE);
-		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDBConstants::LOCK_WRITE);
-		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true);
-		$tables[] = array('name' => 'il_pluginslot', 'type' => ilDBConstants::LOCK_WRITE);
-		$tables[] = array('name' => 'il_plugin', 'type' => ilDBConstants::LOCK_WRITE);
-
-		if( $withTaxonomyTables )
-		{
-			$tables[] = array('name' => 'tax_tree s', 'type' => ilDBConstants::LOCK_WRITE);
-			$tables[] = array('name' => 'tax_tree t', 'type' => ilDBConstants::LOCK_WRITE);
-			$tables[] = array('name' => 'tax_node_assignment', 'type' => ilDBConstants::LOCK_WRITE);
-		}
-
-		$this->db->lockTables($tables);
+		parent::onBeforeExecutingTestStartOperation();
+		$this->atom_query->lockTable('tst_active');
 	}
 
-	public function releaseRandomPassBuildLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
-		$this->db->unlockTables();
+		parent::onBeforeExecutingTestStartOperation();
+
+		$this->atom_query->lockTable('tst_rnd_cpy');
+		$this->atom_query->lockTable('qpl_questions');
+		$this->atom_query->lockTable('qpl_qst_type');
+		$this->atom_query->lockTable('tst_test_rnd_qst', true);
+		$this->atom_query->lockTable('il_plugin');
+		$this->atom_query->lockTable('tst_active');
+
+		if($withTaxonomyTables)
+		{
+			$this->atom_query->lockTable('tax_tree s');
+			$this->atom_query->lockTable('tax_tree t');
+			$this->atom_query->lockTable('tax_node_assignment');
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function executeOperation(callable $operation)
+	{
+		$this->atom_query ->addQueryCallable(function(ilDBInterface $ilDB) use ($operation) {
+			$operation();
+		});
+		$this->atom_query->run();
 	}
 } 
