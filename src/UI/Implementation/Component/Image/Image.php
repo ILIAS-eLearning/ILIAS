@@ -54,17 +54,6 @@ class Image implements C\Image\Image {
 	/**
 	 * @inheritdoc
 	 */
-	public function withType($type){
-		$this->checkArgIsElement("type", $type, self::$types, "image type");
-
-		$clone = clone $this;
-		$clone->type = $type;
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function getType() {
 		return $this->type;
 	}

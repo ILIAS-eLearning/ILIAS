@@ -31,13 +31,6 @@ interface Image extends \ILIAS\UI\Component\Component {
 	public function getSource();
 
 	/**
-	 * Set the type of the image.
-	 * @param string $type
-	 * @return \ILIAS\UI\Component\Image\Image
-	 */
-	public function withType($type);
-
-	/**
 	 * Get the type of the image
 	 * @return string
 	 */
