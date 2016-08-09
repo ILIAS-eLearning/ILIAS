@@ -23,7 +23,7 @@ class Renderer extends AbstractComponentRenderer {
 		 */
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Listing\descriptive) {
+		if ($component instanceof Component\Listing\Descriptive) {
 			return $this->render_descriptive($component, $default_renderer);
 		}
 		else {
@@ -36,7 +36,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param RendererInterface $default_renderer
 	 * @return string
 	 */
-	protected function render_descriptive(Component\Listing\descriptive $component, RendererInterface $default_renderer)
+	protected function render_descriptive(Component\Listing\Descriptive $component, RendererInterface $default_renderer)
 	{
 		$tpl = $this->getTemplate("tpl.descriptive.html", true, true);
 

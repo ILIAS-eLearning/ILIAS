@@ -15,7 +15,7 @@ class Listing implements C\Listing\Listing {
 	use ComponentHelper;
 
 	/**
-	 * @var	string
+	 * @var	array
 	 */
 	private  $items;
 

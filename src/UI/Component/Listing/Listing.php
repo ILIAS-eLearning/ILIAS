@@ -9,7 +9,7 @@ interface Listing extends \ILIAS\UI\Component\Component {
 	/**
 	 * Sets the items to be listed
 	 *
-	 * @param [] $items (Component|string)
+	 * @param array $items (Component|string)[]
 	 * @return Listing
 	 */
 	public function withItems(array $items);
@@ -17,7 +17,7 @@ interface Listing extends \ILIAS\UI\Component\Component {
 	/**
 	 * Gets the items to be listed
 	 *
-	 * @return [] $items (Component|string)
+	 * @return array $items (Component|string)[]
 	 */
 	public function getItems();
 }
