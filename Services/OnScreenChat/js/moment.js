@@ -1,3 +1,3 @@
-function momentFromNowToTime(time, format) {
-	return moment(time, format).fromNow();
+function momentFromNowToTime(time) {
+	return moment(time).fromNow();
 }

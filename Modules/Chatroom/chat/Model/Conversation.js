@@ -1,5 +1,4 @@
 
-
 var Conversation = function Conversation(id, participants)
 {
 
@@ -22,6 +21,12 @@ var Conversation = function Conversation(id, participants)
 	var _group = false;
 
 	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	var _closed = false;
+
+	/**
 	 * Returns the ID of the conversation;
 	 *
 	 * @returns {*}
@@ -33,7 +38,7 @@ var Conversation = function Conversation(id, participants)
 	this.matchesParticipants = function(participants) {
 		for(var index in participants)
 		{
-			if(participants.hasOwnProperty(index) && _participants.indexOf(participants[index]) === -1)
+			if(participants.hasOwnProperty(index) && _participants.indexOf(participants[index].id) === -1)
 			{
 				return false;
 			}
@@ -50,7 +55,23 @@ var Conversation = function Conversation(id, participants)
 
 	this.getParticipants = function() {
 		return _participants;
-	}
+	};
+
+	this.isGroup = function() {
+		return _group;
+	};
+
+	this.setIsGroup = function(isGroup) {
+		_group = isGroup;
+	};
+
+	this.isClosed = function() {
+		return _closed;
+	};
+
+	this.setIsClose = function(isClosed) {
+		_closed = isClosed;
+	};
 };
 
 module.exports = Conversation;

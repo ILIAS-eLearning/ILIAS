@@ -1,2 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" version="$Id$" id="onscreenchat"></service>
+<service xmlns="http://www.w3.org" version="$Id$" id="onscreenchat">
+	<baseclasses>
+		<baseclass name="ilOnScreenChatGUI" dir="classes" />
+	</baseclasses>
+</service>

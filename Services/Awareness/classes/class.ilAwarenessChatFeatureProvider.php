@@ -70,6 +70,8 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 		$coll = ilAwarenessFeatureCollection::getInstance();
 		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
 
+		require_once "Services/User/classes/class.ilObjUser.php";
+
 		if (!$this->chat_enabled)
 		{
 			return $coll;
@@ -101,6 +103,7 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 			$f->setHref('#');
 			$f->setData(array(
 					'participant' => $a_target_user,
+					'username' => ilObjUser::_lookupLogin($a_target_user),
 			));
 			$coll->addFeature($f);
 		}

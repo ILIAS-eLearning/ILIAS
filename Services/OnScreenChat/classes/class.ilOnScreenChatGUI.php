@@ -16,6 +16,12 @@ class ilOnScreenChatGUI
 	 */
 	protected static $frontend_initialized = false;
 
+
+	public function executeCommand()
+	{
+
+	}
+
 	/**
 	 * Initialize frontend and delivers required javascript files and configuration to the global template.
 	 */
@@ -32,7 +38,10 @@ class ilOnScreenChatGUI
 			$guiConfig = array(
 				'chatWindowTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-window.html'),
 				'messageTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-message.html'),
-				'userId' => $DIC->user()->getId()
+				'modalTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-add-user.html'),
+				'userId' => $DIC->user()->getId(),
+				'username' => $DIC->user()->getLogin(),
+				'userListURL' => $DIC->ctrl()->getLinkTarget(new ilOnScreenChatGUI(), 'getUserList', '', true, true)
 			);
 			$chatConfig = array(
 				'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',

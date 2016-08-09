@@ -60,7 +60,7 @@
 					template = template.replace('[[public_username]]', 'Thomas Joußen');
 					template = template.replace('[[username]]', 'tjoussen' + i);
 					template = template.replace('[[last_message]]', 'Hast du dir den Kursinhalt in Lineare Algebra schon angesehen?');
-					template = template.replace('[[last_message_time]]', momentFromNowToTime("03.08.2016 11:43", "DD.MM.YYYY H:mm"));
+					template = template.replace('[[last_message_time]]', momentFromNowToTime((new Date()).getTime()));
 					module.content.find('#onscreenchatmenu-content').append(template);
 				}
 				module.rendered = true;

@@ -51,7 +51,6 @@
 	margin-left: 5px;
 }
 
-
 #onscreenchat-container .chat-window-wrapper .chat-message {
 
 	height:25px;
@@ -60,6 +59,22 @@
 	transition: width 0.25s;
 	resize:none;
 	overflow:hidden;
+}
+
+#invite_users_available {
+	border: 1px solid #BCCAE5;
+	padding: 0;
+}
+
+#invite_users_available li{
+	list-style-image: none;
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0;
+	padding: 0;
+	padding-left: 30px;
+	margin: 3px 0;
+
 }
 
 .chat

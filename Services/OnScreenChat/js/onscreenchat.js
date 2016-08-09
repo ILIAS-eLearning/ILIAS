@@ -3,13 +3,16 @@
 		config: {},
 		container: undefined,
 		storage: undefined,
+		user: undefined,
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChat.config = config;
 		},
 
 		init: function() {
-			//localStorage.clear();
+			getModule().user = new Participant(getModule().config.userId, getModule().config.username);
+
+			localStorage.clear();
 			getModule().container = $('<div></div>').addClass('row');
 			getModule().storage = new Storage();
 
@@ -30,7 +33,8 @@
 				var dataConversationId = imActionLink.attr('data-conversation');
 
 				if(dataConversationId == undefined) {
-					var participants = [imActionLink.attr('data-participant'), getModule().config.userId];
+					var participant = new Participant(imActionLink.attr('data-participant'), imActionLink.attr('data-username'));
+					var participants = [getModule().user, participant];
 
 					$chat.getConversation(participants, function(conversationId) {
 						imActionLink.attr('data-conversation', conversationId);
@@ -53,6 +57,30 @@
 				}
 			}).on('input', '[data-onscreenchat-message]', function() {
 				getModule().resizeInput($(this));
+			}).on('click', '[data-onscreenchat-add]', function(){
+				$scope.il.Modal.dialogue({
+					header: "Invite user to conversation",
+					show: true,
+					body: getModule().config.modalTemplate
+				});
+			}).on('keyup', '#invite_user_text', function(){
+				if($(this).val().length > 2) {
+					$.get(
+						getModule().config.userListUrl + '&q=' + $('#invite_user_text').val(),
+						function(response){
+							$('#invite_users_available').children().remove();
+							$(response.items).each(function() {
+								var usersInRoom = userManager.getUsersInRoom(currentRoom);
+								if(!isIdInArray(this.id, usersInRoom)) {
+									_addUserForInvitation(this.value, 'byLogin', this.value);
+								}
+							});
+						},
+						'json'
+					);
+				} else {
+					$('#invite_users_available').children().remove();
+				}
 			});
 
 			$chat.receiveMessage(getModule().receiveMessage);
@@ -62,7 +90,7 @@
 			var conversation = getModule().storage.find(conversationId);
 			if(conversation === null)
 			{
-				conversation = new Conversation(conversationId, [participants]);
+				conversation = new Conversation(conversationId, participants);
 			}
 
 			getModule().open(conversation);
@@ -85,25 +113,30 @@
 
 		createWindow: function(conversationId, participants) {
 			var template = getModule().config.chatWindowTemplate;
+			var participantsName = [];
 
-			template = template.replace('[[participants]]', participants.join(', '));
+			for(var key in participants) {
+				if(getModule().user.id != participants[key].id) {
+					participantsName.push(participants[key].username);
+				}
+			}
+
+			template = template.replace('[[participants]]', participantsName.join(', '));
 			template = template.replace(/\[\[conversationId\]\]/g, conversationId);
 
 			return template;
 		},
 
-		addMessage: function(conversationId, from, message, timestamp) {
+		addMessage: function(conversationId, userId, message, timestamp) {
 			var template = getModule().config.messageTemplate;
-			var position = (from == getModule().config.userId)? 'right' : 'left';
-
-			console.log(template);
+			var position = (userId == getModule().config.userId)? 'right' : 'left';
 
 			message = message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
-			template = template.replace(/\[\[username\]\]/g, from);
-			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime((new Date()).setTime(timestamp), "DD.MM.YYYY H:mm"));
+			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(conversationId, userId));
+			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(timestamp));
 			template = template.replace(/\[\[message]\]/g, message);
-			template = template.replace(/\[\[avatar\]\]/g, (from == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
+			template = template.replace(/\[\[avatar\]\]/g, (userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 
 			template = $(template).find('li.' + position).html();
 
@@ -168,6 +201,11 @@
 		this.open = false;
 	};
 
+	var Participant = function Participant(id, username) {
+		this.id = id;
+		this.username = username;
+	};
+
 	var Storage = function Storage() {
 		const _STORAGE_KEY = 'onscreenchat';
 
@@ -207,6 +245,15 @@
 		}
 	};
 
+	var findUsernameInConversation = function(conversationId, userId) {
+		var conversation = getModule().storage.find(conversationId);
 
+		for(var index in conversation.participants) {
+			if(conversation.participants[index].id == userId) {
+				return conversation.participants[index].username;
+			}
+		}
+		return "";
+	};
 
 })(jQuery, window, window.il.Chat);

@@ -17,13 +17,16 @@ module.exports = function(participants) {
 		conversations.add(conversation);
 	}
 	for(var key in participants) {
-		var participant = namespace.getSubscriber(participants[key]);
+		var participant = namespace.getSubscriber(participants[key].id);
+		conversation.addParticipant(participants[key].id);
 
 		if (participant !== null) {
-			conversation.addParticipant(participant);
 			participant.join(conversation.id);
 		}
 	}
+
+	console.log(conversation.getId());
+	console.log(conversation.getParticipants());
 
 	this.emit('conversation', conversation.getId());
 };
