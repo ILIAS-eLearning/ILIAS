@@ -207,7 +207,7 @@ var ClozeGapBuilder = (function () {
 		tinymce_iframe_selector.blur(function () {
 			pro.checkTextAreaAgainstJson();
 		});
-		tinymce_iframe_selector.bind('paste', function (event) {
+		tinymce_iframe_selector.on('paste', function (event) {
 			event.preventDefault();
 			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
 			clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
@@ -588,7 +588,7 @@ var ClozeGapBuilder = (function () {
 			}
 			return false;
 		});
-		cloze_text_selector.bind('paste', function (event) {
+		cloze_text_selector.on('paste', function (event) {
 			event.preventDefault();
 			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
 			clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
@@ -696,7 +696,7 @@ var ClozeGapBuilder = (function () {
 		var listener = 'blur';
 		var selector = $('.text_field');
 		selector.off('blur');
-		selector.bind(listener, function (event) {
+		selector.on(listener, function (event) {
 			var pos = pro.getPositionFromInputs($(this));
 			ClozeSettings.gaps_php[0][pos[0]].values[pos[1]].answer = $(this).val();
 			pro.editTextarea(pos[0]);
@@ -709,7 +709,7 @@ var ClozeGapBuilder = (function () {
 		});
 		listener = 'keyup';
 		selector.off(listener);
-		selector.bind(listener, function (event) {
+		selector.on(listener, function (event) {
 			pro.checkTextBoxQuick($(this));
 		});
 		selector = $('.gapsize');
@@ -1535,7 +1535,7 @@ var ClozeGapCombinationBuilder = (function () {
 				'name':  'create_gap_combination_in_form',
 				'class': 'btn btn-default btn-sm'
 			}).prependTo(ClozeGlobals.form_footer_buttons);
-			$('#create_gap_combination_in_form').live('click', function () {
+			$('#create_gap_combination_in_form').on('click', function () {
 				var position = ClozeSettings.gaps_combination.length;
 				var gaps = new Array(null, null);
 				var answers = new Array(new Array(null, null));
