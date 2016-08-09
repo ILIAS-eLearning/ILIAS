@@ -15796,3 +15796,28 @@ if(!$ilDB->tableColumnExists('svy_svy','anon_user_list'))
 }
 
 ?>
+<#4938>
+<?php
+
+	//Create new object type grpr 'Group Reference'
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$grpr_type_id = ilDBUpdateNewObjectType::addNewType('grpr', 'Group Reference Object');
+
+	$rbac_ops = array(
+		ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+		ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+		ilDBUpdateNewObjectType::RBAC_OP_READ,
+		ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+		ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+		ilDBUpdateNewObjectType::RBAC_OP_COPY
+	);
+	ilDBUpdateNewObjectType::addRBACOperations($grpr_type_id, $rbac_ops);
+
+	$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+	ilDBUpdateNewObjectType::addRBACCreate('create_grpr', 'Create Group Reference', $parent_types);
+?>
+<#4939>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

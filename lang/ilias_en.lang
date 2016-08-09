@@ -15778,3 +15778,16 @@ survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#svy_mail_own_results_body#:#you participated in the following survey:
 assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+common#:#grpr_edit_info#:#Please choose one group, for creating a new reference.
+common#:#grpr_edit#:#Edit Group Reference
+common#:#grpr_new#:#Create Group Reference
+common#:#grpr#:#Group Reference
+common#:#obj_grpr#:#Group Reference
+common#:#objs_grpr#:#Group References
+rbac#:#grpr_copy#:#User can copy group reference
+rbac#:#grpr_delete#:#User can move or delete group reference
+rbac#:#grpr_edit_permission#:#User can change permission settings
+rbac#:#grpr_read#:#Read access to Group Reference
+rbac#:#grpr_visible#:#Group reference is visible
+rbac#:#grpr_write#:#User can edit settings of group reference
+rbac#:#rbac_create_grpr#:#Create Group Reference

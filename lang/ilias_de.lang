@@ -15779,3 +15779,16 @@ survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
+common#:#grpr#:#Gruppen-Referenz
+common#:#grpr_edit#:#Gruppen-Referenz bearbeiten
+common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
+common#:#grpr_new#:#Neue Gruppen-Referenz anlegen
+common#:#obj_grpr#:#Gruppen-Referenz
+common#:#objs_grpr#:#Gruppen-Referenzen
+rbac#:#grpr_copy#:#Gruppen-Referenzen kopieren
+rbac#:#grpr_delete#:#Gruppen-Referenzen verschieben oder löschen
+rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
+rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
+rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
+rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
