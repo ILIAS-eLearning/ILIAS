@@ -1380,25 +1380,28 @@ PROTOTYPE._storeMouse = function(event) {
 	return this;
 };
 
+// PATCH
+
 // Bind events
 PROTOTYPE._bind = function(targets, events, method, suffix, context) {
 	if(!targets || !method || !events.length) { return; }
 	var ns = '.' + this._id + (suffix ? '-'+suffix : '');
-	$(targets).bind(
+	$(targets).on(
 		(events.split ? events : events.join(ns + ' ')) + ns,
 		$.proxy(method, context || this)
 	);
 	return this;
 };
 PROTOTYPE._unbind = function(targets, suffix) {
-	targets && $(targets).unbind('.' + this._id + (suffix ? '-'+suffix : ''));
+	targets && $(targets).off('.' + this._id + (suffix ? '-'+suffix : ''));
 	return this;
 };
 
 // Global delegation helper
 function delegate(selector, events, method) {
-	$(document.body).delegate(selector,
+	$(document.body).on(
 		(events.split ? events : events.join('.'+NAMESPACE + ' ')) + '.'+NAMESPACE,
+		selector,
 		function() {
 			var api = QTIP.api[ $.attr(this, ATTR_ID) ];
 			api && !api.disabled && method.apply(api, arguments);

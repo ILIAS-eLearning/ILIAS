@@ -10,9 +10,6 @@
 class iljQueryUtil
 {		
 	private static $ver = "2_2_4"; 
-	
-	// bootstrap 3 datepicker currently not working with jquery 3.0+
-	// https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1714
 	// private static $ver = "3_1_0"; 
 	
 	private static $ui_ver = "1_12_0";
@@ -25,6 +22,8 @@ class iljQueryUtil
 	static function initjQuery($a_tpl = null)
 	{
 		global $tpl;
+			
+		self::handleDevMode();
 		
 		if ($a_tpl == null)
 		{
@@ -38,14 +37,7 @@ class iljQueryUtil
 		$major = $major[0]*100+$major[1];
 		if($major >= 109)
 		{
-			$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());
-			
-			// this will enable console error logging!
-			if(DEVMODE)
-			{
-				$path = str_replace(self::$min, "", $path);
-			}
-			
+			$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());			
 			$a_tpl->addJavaScript($path, true, 1);
 		}
 	}
@@ -57,7 +49,19 @@ class iljQueryUtil
 	{
 		global $tpl;
 		
-		 $tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+		self::handleDevMode();
+		
+		$tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+	}
+	
+	static protected function handleDevMode()
+	{
+		self::$ver = DEVMODE 
+			? "3_1_0"
+			: "2_2_4";
+		self::$min = DEVMODE
+			? ""
+			: "-min";
 	}
 	
 	/**
@@ -73,7 +77,7 @@ class iljQueryUtil
 	 */
 	static function getLocaljQueryUIPath()
 	{
-		return "./Services/jQuery/js/ui_".self::$ui_ver."/jquery-ui.min.js";
+		return "./Services/jQuery/js/ui_".self::$ui_ver."/jquery-ui".self::$min.".js";
  	}
 
  	//
