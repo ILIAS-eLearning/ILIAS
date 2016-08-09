@@ -634,37 +634,38 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
+
 		$entered_values = 0;
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
 
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
-		$row = $ilDB->fetchAssoc($result);
-		$update = $row["solution_id"];
-		
-		if ($update)
-		{
-			if (strlen($_POST["multiple_choice_result"]))
+			$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
+			$row    = $ilDB->fetchAssoc($result);
+			$update = $row["solution_id"];
+
+			if($update)
 			{
-				$this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
-				$entered_values++;
+				if(strlen($_POST["multiple_choice_result"]))
+				{
+					$this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
+					$entered_values++;
+				}
+				else
+				{
+					$this->removeSolutionRecordById($update);
+				}
 			}
 			else
 			{
-				$this->removeSolutionRecordById($update);
+				if(strlen($_POST["multiple_choice_result"]))
+				{
+					$this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
+					$entered_values++;
+				}
 			}
-		}
-		else
-		{
-			if (strlen($_POST["multiple_choice_result"]))
-			{
-				$this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
-				$entered_values++;
-			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-		
+		});
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

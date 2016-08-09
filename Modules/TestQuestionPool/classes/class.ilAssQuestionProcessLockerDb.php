@@ -16,6 +16,14 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected $db;
 
+	/**
+	 * @var ilAtomQuery|null
+	 */
+	protected $atom_query;
+
+	/**
+	 * @var bool
+	 */
 	private $assessmentLogEnabled = false;
 
 	/**
@@ -35,100 +43,111 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	{
 		$this->assessmentLogEnabled = $assessmentLogEnabled;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	private function getTablesUsedDuringAssessmentLog()
 	{
 		return array(
-			array('name' => 'qpl_questions', 'type' => ilDBConstants::LOCK_WRITE),
-			array('name' => 'tst_tests', 'type' => ilDBConstants::LOCK_WRITE),
-			array('name' => 'tst_active', 'type' => ilDBConstants::LOCK_WRITE),
-			array('name' => 'ass_log', 'type' => ilDBConstants::LOCK_WRITE),
-			array('name' => 'ass_log', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true)
+			array('name' => 'qpl_questions', 'sequence' => false),
+			array('name' => 'tst_tests', 'sequence' => false),
+			array('name' => 'tst_active', 'sequence' => false),
+			array('name' => 'ass_log', 'sequence' => true)
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	private function getTablesUsedDuringSolutionUpdate()
 	{
 		return array(
-			array('name' => 'tst_solutions', 'type' => ilDBConstants::LOCK_WRITE),
-			array('name' => 'tst_solutions', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true)
+			array('name' => 'tst_solutions', 'sequence' => true)
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	private function getTablesUsedDuringResultUpdate()
 	{
 		return array(
-			array('name' => 'tst_test_result', 'type' => ilDBConstants::LOCK_WRITE),
-			array('name' => 'tst_test_result', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true)
+			array('name' => 'tst_test_result', 'sequence' => true)
 		);
 	}
 
-	public function requestUserSolutionUpdateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingUserSolutionUpdateOperation()
 	{
 		$tables = $this->getTablesUsedDuringSolutionUpdate();
-		
-		if( $this->isAssessmentLogEnabled() )
+
+		if($this->isAssessmentLogEnabled())
 		{
 			$tables = array_merge($tables, $this->getTablesUsedDuringAssessmentLog());
 		}
-		
-		$this->db->lockTables($tables);
+
+		$this->atom_query = $this->db->buildAtomQuery();
+		foreach($tables as $table)
+		{
+			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
+		}
 	}
 
-	public function releaseUserSolutionUpdateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingUserQuestionResultUpdateOperation()
 	{
-		$this->db->unlockTables();
+		$this->atom_query = $this->db->buildAtomQuery();
+		foreach($this->getTablesUsedDuringResultUpdate() as $table)
+		{
+			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
+		}
 	}
 
-	public function requestUserSolutionAdoptLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingUserSolutionAdoptOperation()
 	{
-		$this->db->lockTables(array_merge(
+		$this->atom_query = $this->db->buildAtomQuery();
+		foreach(array_merge(
 			$this->getTablesUsedDuringSolutionUpdate(), $this->getTablesUsedDuringResultUpdate()
-		));
+		) as $table)
+		{
+			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
+		}
 	}
 
-	public function releaseUserSolutionAdoptLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingUserTestResultUpdateOperation()
 	{
-		$this->db->unlockTables();
+		$this->atom_query = $this->db->buildAtomQuery();
+		$this->atom_query->lockTable('tst_result_cache');
 	}
 
-	public function requestUserQuestionResultUpdateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function executeOperation(callable $operation)
 	{
-		$this->db->lockTables(
-			$this->getTablesUsedDuringResultUpdate()
-		);
-	}
+		if($this->atom_query)
+		{
+			$this->atom_query->addQueryCallable(function(ilDBInterface $ilDB) use ($operation) {
+				$operation();
+			});
+			$this->atom_query->run();
+		}
+		else
+		{
+			$operation();
+		}
 
-	public function releaseUserQuestionResultUpdateLock()
-	{
-		$this->db->unlockTables();
+		$this->atom_query = null;
 	}
-
-	public function requestUserPassResultUpdateLock()
-	{
-		// no lock neccessary, because a single replace query is used
-		
-		//$this->db->lockTables(array(
-		//	array('name' => 'tst_pass_result', 'type' => ilDBConstants::LOCK_WRITE)
-		//));
-	}
-
-	public function releaseUserPassResultUpdateLock()
-	{
-		// no lock neccessary, because a single replace query is used
-
-		//$this->db->unlockTables();
-	}
-
-	public function requestUserTestResultUpdateLock()
-	{
-		$this->db->lockTables(array(
-			array('name' => 'tst_result_cache', 'type' => ilDBConstants::LOCK_WRITE)
-		));
-	}
-
-	public function releaseUserTestResultUpdateLock()
-	{
-		$this->db->unlockTables();
-	}
-} 
+}
