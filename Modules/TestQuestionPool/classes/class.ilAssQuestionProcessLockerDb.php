@@ -21,6 +21,9 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected $atom_query;
 
+	/**
+	 * @var bool
+	 */
 	private $assessmentLogEnabled = false;
 
 	/**
@@ -28,7 +31,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	public function __construct(ilDBInterface $db)
 	{
-		$this->db         = $db;
+		$this->db = $db;
 	}
 
 	public function isAssessmentLogEnabled()
@@ -79,7 +82,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected function onBeforeExecutingUserSolutionUpdateOperation()
 	{
-		parent::onBeforeExecutingUserSolutionUpdateOperation();
 		$tables = $this->getTablesUsedDuringSolutionUpdate();
 
 		if($this->isAssessmentLogEnabled())
@@ -99,8 +101,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected function onBeforeExecutingUserQuestionResultUpdateOperation()
 	{
-		parent::onBeforeExecutingUserQuestionResultUpdateOperation();
-
 		$this->atom_query = $this->db->buildAtomQuery();
 		foreach($this->getTablesUsedDuringResultUpdate() as $table)
 		{
@@ -113,8 +113,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected function onBeforeExecutingUserSolutionAdoptOperation()
 	{
-		parent::onBeforeExecutingUserSolutionAdoptOperation();
-
 		$this->atom_query = $this->db->buildAtomQuery();
 		foreach(array_merge(
 			$this->getTablesUsedDuringSolutionUpdate(), $this->getTablesUsedDuringResultUpdate()
@@ -129,8 +127,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected function onBeforeExecutingUserTestResultUpdateOperation()
 	{
-		parent::onBeforeExecutingUserTestResultUpdateOperation();
-
 		$this->atom_query = $this->db->buildAtomQuery();
 		$this->atom_query->lockTable('tst_result_cache');
 	}
