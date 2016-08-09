@@ -224,4 +224,15 @@ interface Factory {
 	 */
 	public function deck(array $cards);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: The Image component is used to display images of various sources.
+	 *   composition: An Image is composed of the image and an alternative text for screen readers.
+	 *   effect: Images may be included in interacted components but not interactive on their own.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Image\Factory
+	 */
+	public function image();
 }
