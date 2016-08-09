@@ -85,7 +85,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 				else
 				{
 					$this->groups[$group_data["ref_id"]] = $group_data["title"];
-					$this->groups_rights[$group_data["ref_id"]]["write"] = (bool)$ilAccess->checkAccess("write", "", $group_data["ref_id"]);
+					$this->groups_rights[$group_data["ref_id"]]["manage_members"] = (bool)$ilAccess->checkAccess("manage_members", "", $group_data["ref_id"]);
 					$this->groups_rights[$group_data["ref_id"]]["edit_permission"] = (bool)$ilAccess->checkAccess("edit_permission", "", $group_data["ref_id"]);
 					$gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
 					$this->participants[$group_data["ref_id"]]["members"] = $gobj->getMembers();
@@ -192,7 +192,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 				foreach($groups as $grp_id => $title)
 				{
 					if(($type == "admins" && $this->groups_rights[$grp_id]["edit_permission"]) ||
-						($type == "members" && $this->groups_rights[$grp_id]["write"]))
+						($type == "members" && $this->groups_rights[$grp_id]["manage_members"]))
 					{
 						$this->tpl->setCurrentBlock("groups_remove");
 
