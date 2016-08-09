@@ -974,6 +974,7 @@ class ilTestServiceGUI
 					// check if re-instantiation is really neccessary
 					$question_gui = $this->object->createQuestionGUI("", $passes[$i]["qid"]);
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass + 1);
+					$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
 					$output .= $question_gui->getSolutionOutput(
 						$active_id,
 						$resultpass,
