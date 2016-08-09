@@ -30,14 +30,28 @@ class Factory implements \ILIAS\UI\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function card($title,\ILIAS\UI\Component\Image\Image $image = null){
+	public function card($title,\ILIAS\UI\Component\Image\Image $image = null) {
 		return new Component\Card\Card($title,$image);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function deck(array $cards){
+	public function deck(array $cards) {
 		return new Component\Deck\Deck($cards, Component\Deck\Deck::SIZE_S);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function listing() {
+		return new Component\Listing\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function image() {
+		return new Component\Image\Factory();
 	}
 }
