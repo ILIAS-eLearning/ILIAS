@@ -9,26 +9,60 @@
  */
 abstract class ilTestProcessLocker
 {
-	public function requestTestStartLockCheckLock()
+	/**
+	 * @param callable $operation
+	 */
+	protected function executeOperation(callable $operation)
 	{
-		// overwrite method in concrete locker if something to do
+		$operation();
 	}
-	
-	public function releaseTestStartLockCheckLock()
+
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeTestStartLockOperation(callable $operation)
 	{
-		// overwrite method in concrete locker if something to do
+		$this->onBeforeExecutingTestStartOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingTestStartOperation();
+	}
+
+	/**
+	 * 
+	 */
+	protected function onBeforeExecutingTestStartOperation()
+	{
+	}
+
+	/**
+	 * 
+	 */
+	protected function onAfterExecutingTestStartOperation()
+	{
+	}
+
+	/**
+	 * @param callable $operation
+	 * @param bool     $withTaxonomyTables
+	 */
+	final public function executeRandomPassBuildOperation(callable $operation, $withTaxonomyTables = false)
+	{
+		$this->onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables);
+		$this->executeOperation($operation);
+		$this->onAfterExecutingRandomPassBuildOperation($withTaxonomyTables);
 	}
 
 	/**
 	 * @param bool $withTaxonomyTables
 	 */
-	public function requestRandomPassBuildLock($withTaxonomyTables = false)
+	protected function onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
-		// overwrite method in concrete locker if something to do
 	}
 
-	public function releaseRandomPassBuildLock()
+	/**
+	 * @param bool $withTaxonomyTables
+	 */
+	protected function onAfterExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
-		// overwrite method in concrete locker if something to do
 	}
 }

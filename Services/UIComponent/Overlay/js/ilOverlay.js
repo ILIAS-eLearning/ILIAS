@@ -17,14 +17,14 @@ il.Overlay = {
 			new YAHOO.widget.Overlay(id, cfg.yuicfg);
 		il.Overlay.cfg[id] = cfg;
 		il.Overlay.closeCnt[id] = -1;
-		$("#" + id).bind("mouseover",
+		$("#" + id).on("mouseover",
 			function (e) {il.Overlay.mouseOver(e, id); });
-		$("#" + id).bind("mouseout",
+		$("#" + id).on("mouseout",
 			function (e) {il.Overlay.mouseOut(e, id); });
 
 		// close element
 		if (this.getCfg(id, 'close_el') != '') {
-			$("#" + this.getCfg(id, 'close_el')).bind("click",
+			$("#" + this.getCfg(id, 'close_el')).on("click",
 				function (e) {il.Overlay.hide(e, id); });
 		}
 
@@ -43,8 +43,8 @@ il.Overlay = {
 		var trigger = document.getElementById(tr_id);
 
 		// added this line instead due to bug 6724
-		$("#" + tr_id).unbind(tr_ev);
-		$("#" + tr_id).bind(tr_ev,
+		$("#" + tr_id).off(tr_ev);
+		$("#" + tr_id).on(tr_ev,
 			function (event) {il.Overlay.togglePerTrigger(event, tr_id); return false; });
 
 	},
@@ -339,5 +339,5 @@ il.Overlay = {
 	}
 };
 
-$(document).bind("click",
+$(document).on("click",
 	function (e) {il.Overlay.hideAllOverlays(e, false, ""); });

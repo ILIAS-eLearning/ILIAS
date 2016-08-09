@@ -119,4 +119,13 @@ abstract class ilQueryUtils implements ilQueryUtilsInterface {
 	 * @return mixed
 	 */
 	abstract public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+
+
+	/**
+	 * @param $table
+	 * @return string
+	 */
+	public function optimize($table) {
+		return 'OPTIMIZE TABLE ' . $table;
+	}
 }

@@ -9,6 +9,7 @@ var longMenuQuestion = (function () {
 	pub.questionParts = []; 
 	pub.answers = [];
 	pri.ignoreCallbackItemOnRedraw = true;
+	pri.gapTypeText = 1;
 
 	pro.buildAndInitGapWizard = function()
 	{
@@ -96,6 +97,7 @@ var longMenuQuestion = (function () {
 		pro.addEditListeners();
 		pro.addPointsListener();
 		pro.addSelectsListener();
+		pro.addAutocompleteListener();
 	};
 
 	pro.appendSelectBox = function (footer_class, index)  {
@@ -163,9 +165,47 @@ var longMenuQuestion = (function () {
 	pro.addSelectsListener = function()  {
 		$( '.type_selection' ).on( 'change', function() {
 			pro.selectChangeFunction($(this));
+			pro.ensureAutoCompleteIsPossibleWithTextInput();
 		});
 	};
 
+	pro.addAutocompleteListener = function()  {
+		$( '#min_auto_complete' ).on( 'blur', function() 
+		{
+			pro.ensureAutoCompleteIsPossibleWithTextInput();
+		});
+	};
+
+	pro.ensureAutoCompleteIsPossibleWithTextInput = function()
+	{
+		$('.autocomplete_error').addClass('prototype_long_menu');
+		$.each(pub.questionParts.list , function( index ) {
+			if(pub.questionParts.list[index][2] == pri.gapTypeText)
+			{
+				pro.ensureAutoCompleteIsPossibleWithAllValues(index);
+			}
+		});
+	};
+
+	pro.ensureAutoCompleteIsPossibleWithAllValues = function(gap_index)
+	{
+		var min_length_autocomplete = $('#min_auto_complete').val();
+		var constraint_violation = false;
+
+		$.each(pub.answers[gap_index], function(index, value) {
+			if(value.length < min_length_autocomplete)
+			{
+				constraint_violation = true;
+				return false;
+			}
+		});
+
+		if(constraint_violation)
+		{
+			$('#' +'error_answer_' + gap_index).find('.autocomplete_error').removeClass('prototype_long_menu');
+		}
+	};
+	
 	pro.selectChangeFunction = function (that)
 	{
 		var question_id = parseInt(that.attr('data-id'), 10);
@@ -316,6 +356,7 @@ var longMenuQuestion = (function () {
 		debugPrinter('redraw form parts');
 		$('.longmenu').remove();
 		pro.appendFormParts();
+		pro.ensureAutoCompleteIsPossibleWithTextInput();
 	};
 
 	pro.redrawAnswerList = function(question_id)
@@ -627,6 +668,7 @@ var longMenuQuestion = (function () {
 			//Todo: implement workaround
 			alert('FileReader not usable, implement workaround.');
 		}
+		pro.ensureAutoCompleteIsPossibleWithTextInput();
 	};
 	
 	//Return just the public parts

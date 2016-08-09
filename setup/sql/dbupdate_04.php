@@ -15736,3 +15736,88 @@ if (!$ilDB->tableColumnExists('skl_level', 'import_id'))
 	));
 }
 ?>
+<#4934>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
+{
+	$ilDB->addTableColumn('qpl_qst_lome', 'min_auto_complete', array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'default' => 1)
+	);
+}
+if($ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
+{
+	$ilDB->modifyTableColumn('qpl_qst_lome', 'min_auto_complete', array(
+			'default' => 3)
+	);
+}
+?>
+<#4935>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy','confirmation_mail')) 
+{
+    $ilDB->addTableColumn(
+        'svy_svy',
+        'confirmation_mail',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => null
+        ));
+}
+
+?>
+<#4936>
+<?php
+
+$ilDB->manipulate("UPDATE svy_svy".	
+	" SET confirmation_mail = ".$ilDB->quote(1, "integer").
+	" WHERE own_results_mail = ".$ilDB->quote(1, "integer").
+	" AND confirmation_mail IS NULL");
+
+?>
+<#4937>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy','anon_user_list')) 
+{
+    $ilDB->addTableColumn(
+        'svy_svy',
+        'anon_user_list',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+?>
+<#4938>
+<?php
+
+	//Create new object type grpr 'Group Reference'
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$grpr_type_id = ilDBUpdateNewObjectType::addNewType('grpr', 'Group Reference Object');
+
+	$rbac_ops = array(
+		ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+		ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+		ilDBUpdateNewObjectType::RBAC_OP_READ,
+		ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+		ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+		ilDBUpdateNewObjectType::RBAC_OP_COPY
+	);
+	ilDBUpdateNewObjectType::addRBACOperations($grpr_type_id, $rbac_ops);
+
+	$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+	ilDBUpdateNewObjectType::addRBACCreate('create_grpr', 'Create Group Reference', $parent_types);
+?>
+<#4939>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

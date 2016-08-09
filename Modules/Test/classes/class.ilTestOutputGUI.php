@@ -700,20 +700,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this->object, $sourcePoolDefinitionFactory);
 		$sourcePoolDefinitionList->loadDefinitions();
 
-		$this->processLocker->requestRandomPassBuildLock($sourcePoolDefinitionList->hasTaxonomyFilters());
-		
-		if( !$this->performTearsAndAngerBrokenConfessionChecks() )
-		{
-			require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-			$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
+		$this->processLocker->executeRandomPassBuildOperation(function() use ($ilDB, $ilPluginAdmin, $questionSetConfig, $sourcePoolDefinitionList) {
 
-			require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
-			$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
+			if(!$this->performTearsAndAngerBrokenConfessionChecks())
+			{
+				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
+				$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
 
-			$questionSetBuilder->performBuild($this->testSession);
-		}
-		
-		$this->processLocker->releaseRandomPassBuildLock();
+				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
+				$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
+
+				$questionSetBuilder->performBuild($this->testSession);
+			}
+
+		}, $sourcePoolDefinitionList->hasTaxonomyFilters());
 	}
 
 	/**

@@ -70,19 +70,71 @@ class ilObjHelpSettings extends ilObject2
 		$id = $this->createHelpModule();
 		
 		// create and insert object in objecttree
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+		/*include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		$newObj = new ilObjContentObject();
 		$newObj->setType("lm");
 		$newObj->setTitle("Help Module");
 		$newObj->create(true);
-		$newObj->createLMTree();
-		
-		self::writeHelpModuleLmId($id, $newObj->getId());
+		$newObj->createLMTree();*/
 
-		// import help learning module
-		$mess = $newObj->importFromZipFile($a_file["tmp_name"], $a_file["name"],
-			false, $id);
-		
+		try
+		{
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$conf = $imp->getConfig("Services/Help");
+			$conf->setModuleId($id);
+			$new_id = $imp->importObject("", $a_file["tmp_name"], $a_file["name"], "lm", "Modules/LearningModule");
+			$newObj = new ilObjLearningModule($new_id, false);
+
+			self::writeHelpModuleLmId($id, $newObj->getId());
+		}
+		catch (ilManifestFileNotFoundImportException $e)
+		{
+			// old import
+			$t = $imp->getTemporaryImportDir();
+
+			// create and insert object in objecttree
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			$newObj = new ilObjContentObject();
+			$newObj->setType("lm");
+			$newObj->setTitle("Help Module");
+			$newObj->create(true);
+			$newObj->createLMTree();
+
+			$mess =  $newObj->importFromDirectory($t, false);
+
+			// this should only be true for help modules
+			// search the zip file
+			$dir = $t;
+			$files = ilUtil::getDir($dir);
+			foreach ($files as $file)
+			{
+				if (is_int(strpos($file["entry"], "__help_")) &&
+					is_int(strpos($file["entry"], ".zip")))
+				{
+					include_once("./Services/Export/classes/class.ilImport.php");
+					$imp = new ilImport();
+					$imp->getMapping()->addMapping('Services/Help', 'help_module', 0, $id);
+					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+					$chaps = ilLMObject::getObjectList($newObj->getId(), "st");
+					foreach ($chaps as $chap)
+					{
+						$chap_arr = explode("_", $chap["import_id"]);
+						$imp->getMapping()->addMapping('Services/Help', 'help_chap',
+							$chap_arr[count($chap_arr) - 1], $chap["obj_id"]);
+					}
+					$imp->importEntity($dir."/".$file["entry"], $file["entry"],
+						"help", "Services/Help", true);
+				}
+			}
+
+			// delete import directory
+			ilUtil::delDir($t);
+
+			self::writeHelpModuleLmId($id, $newObj->getId());
+		}
+
+
 		$GLOBALS['ilAppEventHandler']->raise(
 			'Services/Help',
 			'create',

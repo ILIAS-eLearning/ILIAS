@@ -160,7 +160,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * @see ilObjectGUI::prepareOutput()
      */
-    protected function prepareOutput($a_show_subobjects = true)
+    public function prepareOutput($a_show_subobjects = true)
     {
         parent::prepareOutput($a_show_subobjects);
 		
