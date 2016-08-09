@@ -703,7 +703,9 @@ class ilMemberExport
 				else
 				{
 					$this->groups[$group_data["ref_id"]] = $group_data["title"];
-					$this->groups_rights[$group_data["ref_id"]] = (bool)$ilAccess->checkAccess("write", "", $group_data["ref_id"]);
+					//TODO: change permissions from write to manage_members plus "|| ilObjGroup->getShowMembers()"----- uncomment below; testing required
+					//$obj = new ilObjGroup($group_data["ref_id"], true);
+					$this->groups_rights[$group_data["ref_id"]] = (bool)$ilAccess->checkAccess("write", "", $group_data["ref_id"])/* || $obj->getShowMembers()*/;
 					$gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
 					$this->groups_participants[$group_data["ref_id"]] = $gobj->getParticipants();
 				}
