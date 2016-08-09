@@ -20,6 +20,12 @@ abstract class ilPlugin
 	 * @var bool
 	 */
 	protected $lang_initialised = false;
+
+	/**
+	 * @var
+	 */
+	protected static $pluginByType = array();
+
 	/**
 	 * @var string
 	 */
@@ -47,6 +53,22 @@ abstract class ilPlugin
 	 * @return	string	Component Name
 	 */
 	abstract function getComponentName();
+
+	/**
+	 * @param $type
+	 */
+	protected static function loadRepoPlugin($type) {
+		$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type));
+		if (!$plugin) {
+			$plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext",
+				ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type));
+		}
+		if (!$plugin) {
+			ilLoggerFactory::getLogger("obj")->log("Try to get repo plugin obj by type: $type. No such type exists for Repository and Org Unit pluginss.");
+		}
+		self::$pluginByType[$type] = $plugin;
+	}
 
 	/**
 	 * Get Slot Name.
@@ -1021,13 +1043,10 @@ abstract class ilPlugin
 	 * @return null|ilPlugin
 	 */
 	public static function getRepoPluginObjectByType($type) {
-		$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
-			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type));
-		if(!$plugin) {
-			$plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext",
-				ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type));
+		if(!self::$pluginByType[$type]) {
+			self::loadRepoPlugin($type);
 		}
-		return $plugin;
+		return self::$pluginByType[$type];
 	}
 
 
