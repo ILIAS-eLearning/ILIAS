@@ -21,12 +21,6 @@ var Conversation = function Conversation(id, participants)
 	var _group = false;
 
 	/**
-	 * @type {boolean}
-	 * @private
-	 */
-	var _closed = false;
-
-	/**
 	 * Returns the ID of the conversation;
 	 *
 	 * @returns {*}
@@ -63,14 +57,6 @@ var Conversation = function Conversation(id, participants)
 
 	this.setIsGroup = function(isGroup) {
 		_group = isGroup;
-	};
-
-	this.isClosed = function() {
-		return _closed;
-	};
-
-	this.setIsClose = function(isClosed) {
-		_closed = isClosed;
 	};
 };
 

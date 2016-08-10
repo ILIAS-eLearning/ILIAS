@@ -1,4 +1,30 @@
 (function($, $scope, $chat){
+'use strict';
+	$scope.il.OnScreenChatJQueryTriggers = {
+		triggers: {
+			participantEvent: function(){},
+			closeEvent: function(){},
+			submitEvent: function(){},
+			addEvent: function(){},
+			searchEvent: function(){}
+		},
+
+		init: function() {
+			$('body')
+				.on('click', '[data-onscreenchat-participant]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
+				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
+				.on('click', '[data-onscreenchat-submit]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
+				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
+				.on('keydown', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
+				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
+				.on('keydown', '[data-onscreenchat-message]', function(e) {
+					console.log("shift + enter event");
+				}).on('input', '[data-onscreenchat-message]', function() {
+					console.log("resizeEvent");
+				})
+		}
+	};
+
 	$scope.il.OnScreenChat = {
 		config: {},
 		container: undefined,
@@ -61,19 +87,36 @@
 				$scope.il.Modal.dialogue({
 					header: "Invite user to conversation",
 					show: true,
-					body: getModule().config.modalTemplate
+					body: getModule().config.modalTemplate.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
 				});
-			}).on('keyup', '#invite_user_text', function(){
+			}).on('keyup', '[data-onscreenchat-usersearch]', function(){
+				console.log("type...");
 				if($(this).val().length > 2) {
 					$.get(
-						getModule().config.userListUrl + '&q=' + $('#invite_user_text').val(),
+						getModule().config.userListURL + '&q=' + $('#invite_user_text').val(),
 						function(response){
-							$('#invite_users_available').children().remove();
+							var list = $('[data-onscreenchat-userlist]');
+							list.children().remove();
+
 							$(response.items).each(function() {
-								var usersInRoom = userManager.getUsersInRoom(currentRoom);
-								if(!isIdInArray(this.id, usersInRoom)) {
-									_addUserForInvitation(this.value, 'byLogin', this.value);
-								}
+								var userId = this.id;
+								var link = $('<a></a>')
+									.prop('href', '#')
+									.text(this.value)
+									.click(function (e) {
+										e.preventDefault();
+										e.stopPropagation();
+										getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId)
+									});
+								var line =  $('<li></li>')
+									.addClass('invite_user_line_id')
+									.addClass('invite_user_line')
+									.append(link);
+
+								list.append(line);
+								/*if(!isIdInArray(this.id, usersInRoom)) {
+
+								}*/
 							});
 						},
 						'json'
@@ -185,6 +228,12 @@
 
 		receiveMessage: function(messageObject) {
 			getModule().addMessage(messageObject.conversationId, messageObject.userId, messageObject.message, messageObject.timestamp);
+		},
+
+		addUser: function(conversationId, userId) {
+			$chat.addUser(conversationId, userId, function(result){
+				console.log(result);
+			});
 		}
 	};
 

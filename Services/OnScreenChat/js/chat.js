@@ -1,41 +1,46 @@
 (function($, $scope, $io) {
 	$scope.il.Chat = {
 		config: {},
-		_socket: null,
+		socket: null,
 
 		setConfig: function(config) {
 			getModule().config = config;
 		},
 
 		init: function() {
-			_socket = $io.connect(getModule().config.url);
-			_socket.emit('login', getModule().config.username, getModule().config.userId);
+			getModule().socket = $io.connect(getModule().config.url);
+		},
+
+		login: function(userId, username, callback) {
+			getModule().socket.emit('login', getModule().config.userId, getModule().config.username);
+			getModule().socket.on('login', callback);
 		},
 
 		getConversation: function(participants, callback) {
-			_socket.emit('conversation', participants);
-			_socket.on('conversation', callback)
+			getModule().socket.emit('conversation', participants);
+			getModule().socket.on('conversation', callback)
 		},
 
 		getConversations: function() {
-			_socket.emit('conversations');
+			getModule().socket.emit('conversations');
 		},
 
 		sendMessage: function(conversationId, message) {
-			_socket.emit('message', conversationId, getModule().config.userId, message);
+			getModule().socket.emit('message', conversationId, getModule().config.userId, message);
 		},
 
 		getHistory: function(conversationId, callback) {
-			_socket.emit('history', conversationId);
-			_socket.on('history', callback)
+			getModule().socket.emit('history', conversationId);
+			getModule().socket.on('history', callback)
 		},
 
-		addParticipant: function() {
-			_socket.emit('addParticipant');
+		addUser: function(conversationId, userId, callback) {
+			getModule().socket.emit('addUser', conversationId, userId);
+			getModule().socket.on('addUser', callback);
 		},
 
 		receiveMessage: function(callback) {
-			_socket.on('message', callback);
+			getModule().socket.on('message', callback);
 		}
 	};
 

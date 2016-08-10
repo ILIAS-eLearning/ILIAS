@@ -16,10 +16,42 @@ class ilOnScreenChatGUI
 	 */
 	protected static $frontend_initialized = false;
 
-
 	public function executeCommand()
 	{
+		global $DIC;
 
+		$cmd = $DIC->ctrl()->getCmd();
+
+		switch($cmd) {
+			case 'getUserlist':
+			default:
+				echo $this->getUserList();
+		}
+	}
+
+	public function getUserList()
+	{
+		global $DIC;
+
+		if(!$DIC->user() || $DIC->user()->isAnonymous())
+		{
+			return;
+		}
+
+		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setUser($DIC->user());
+		$auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
+		if(($_REQUEST['fetchall']))
+		{
+			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+		}
+		$auto->setMoreLinkAvailable(true);
+		$auto->setSearchFields(array('firstname', 'lastname'));
+		$auto->setResultField('login');
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['q']);
+		exit;
 	}
 
 	/**
@@ -41,7 +73,7 @@ class ilOnScreenChatGUI
 				'modalTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-add-user.html'),
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
-				'userListURL' => $DIC->ctrl()->getLinkTarget(new ilOnScreenChatGUI(), 'getUserList', '', true, true)
+				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true)
 			);
 			$chatConfig = array(
 				'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',

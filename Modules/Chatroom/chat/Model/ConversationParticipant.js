@@ -7,13 +7,21 @@ function Participant(id, name) {
 
 	/**
 	 * @type {number}
+	 * @private
 	 */
 	var _id = id;
 
 	/**
 	 * @type {string}
+	 * @private
 	 */
 	var _name = name;
+
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	var _online = false;
 
 	/**
 	 * @type {Array}
@@ -24,12 +32,37 @@ function Participant(id, name) {
 	/**
 	 * @returns {number}
 	 */
-	this.getId = function() { return _id; };
+	this.getId = function() {
+		return _id;
+	};
+
+	/**
+	 * @param {string} name
+	 */
+	this.setName = function(name) {
+		_name = name;
+	};
 
 	/**
 	 * @returns {string}
 	 */
-	this.getName = function() { return _name; };
+	this.getName = function() {
+		return _name;
+	};
+
+	/**
+	 * @returns {boolean}
+	 */
+	this.isOnline = function() {
+		return _online;
+	};
+
+	/**
+	 * @param {boolean} isOnline
+	 */
+	this.setOnline = function(isOnline) {
+		_online = isOnline;
+	};
 
 	this.removeSocket = function(socket) {
 		var index = _sockets.indexOf(socket);
@@ -54,6 +87,10 @@ function Participant(id, name) {
 		});
 	};
 
+	/**
+	 * @param {Function} callback
+	 * @private
+	 */
 	var forSockets = function(callback) {
 		for(var key in _sockets) {
 			if(_sockets.hasOwnProperty(key)) {
