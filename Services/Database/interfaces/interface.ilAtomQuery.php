@@ -4,6 +4,9 @@ require_once('./Services/Database/exceptions/exception.ilAtomQueryException.php'
 /**
  * Interface ilAtomQuery
  *
+ * Use ilAtomQuery to fire Database-Actions which have to be done without beeing influenced by other queries or which can influence other queries as
+ * well. Depending on the current Database-engine, this can be done by using transaction or with table-locks
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilAtomQuery {
@@ -99,12 +102,16 @@ interface ilAtomQuery {
 
 
 	/**
+	 * Returns the current Isolation-Level
+	 *
 	 * @return int
 	 */
 	public function getIsolationLevel();
 
 
 	/**
+	 * Provides a check if your callable is ready to be used in ilAtomQuery
+	 *
 	 * @param callable $query
 	 * @return bool
 	 */
