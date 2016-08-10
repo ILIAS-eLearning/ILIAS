@@ -1192,15 +1192,21 @@ class ilPersonalProfileGUI
 			
 			if ($this->userSettingVisible($key))
 			{
-				// public setting
-				if ($key == "upload")
+				// #18795 - we should use ilUserProfile 
+				switch($key)
 				{
-					$cb = new ilCheckboxInputGUI($this->lng->txt("personal_picture"), "chk_".$key);
-				}
-				else
-				{
-					$cb = new ilCheckboxInputGUI($this->lng->txt($key), "chk_".$key);
-				}
+					case "upload":
+						$caption = "personal_picture";
+						break;
+					
+					case "title":
+						$caption = "person_title";
+						break;
+					
+					default:
+						$caption = $key;							
+				}				
+				$cb = new ilCheckboxInputGUI($this->lng->txt($caption), "chk_".$key);							
 				if ($prefs["public_".$key] == "y")
 				{
 					$cb->setChecked(true);
