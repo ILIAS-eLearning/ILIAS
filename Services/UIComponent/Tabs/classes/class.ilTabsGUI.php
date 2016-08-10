@@ -85,7 +85,7 @@ class ilTabsGUI
 	
 
 	/**
-	* DEPRECATED.
+	* @deprecated since version 5.0
 	*
 	* Use addTab/addSubTab and activateTab/activateSubTab.
 	*

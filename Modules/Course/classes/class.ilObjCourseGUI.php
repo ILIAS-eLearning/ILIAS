@@ -5,26 +5,27 @@
 require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 /**
-* Class ilObjCourseGUI
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de> 
-* $Id$
-*
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
-*
-* @extends ilContainerGUI
-*/
+ * Class ilObjCourseGUI
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * $Id$
+ *
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI
+ *
+ * @extends ilContainerGUI
+ */
 class ilObjCourseGUI extends ilContainerGUI
 {
 	/**
@@ -3360,6 +3361,44 @@ class ilObjCourseGUI extends ilContainerGUI
 		$is_participant = ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
+		
+		
+		// new implementation
+		if($this->checkPermissionBool('write'))
+		{
+			$this->tabs_gui->addTab(
+				'members',
+				$this->lng->txt('members'),
+				$this->ctrl->getLinkTargetByClass('ilCourseMembershipGUI', '')
+			);
+		}
+		elseif(
+			(bool) $this->object->getShowMembers() &&
+			$is_participant
+		)
+		{
+			$this->tabs_gui->addTab(
+				'members',
+				$this->lng->txt('members'),
+				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
+				'',
+				'ilUserGalleryGUI'
+			);
+		}
+		elseif(
+			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL &&
+			$GLOBALS['rbacsystem']->checkAccess('internal_mail',$mail->getMailObjectReferenceId ()) &&
+			$is_participant
+		)
+		{
+			$this->tabs_gui->addTab(
+				'members',
+				$this->lng->txt('members'),
+				$this->ctrl->getLinkTarget($this, "mailMembersBtn")
+			);
+			
+		}
+		
 		
 		// member list
 		if($ilAccess->checkAccess('write','',$this->ref_id))
