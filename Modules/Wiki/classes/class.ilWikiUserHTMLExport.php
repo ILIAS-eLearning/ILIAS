@@ -101,8 +101,8 @@ class ilWikiUserHTMLExport
 					" WHERE status = ".$ilDB->quote(self::NOT_RUNNING, "integer").
 					" AND wiki_id = ".$ilDB->quote($this->wiki->getId(), "integer")
 				);
+				$this->read();
 			}
-			$this->read();
 
 			if ($this->data["start_ts"] == $ts && $this->data["usr_id"] == $this->user->getId())
 			{

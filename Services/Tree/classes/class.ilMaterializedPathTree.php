@@ -282,14 +282,36 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	public function deleteTree($a_node_id)
 	{
 		global $ilDB;
-		
-		$a_node = $this->getTree()->getNodeData($a_node_id);
-		
-		$query = 'DELETE FROM '.$this->getTree()->getTreeTable().' '.
-				'WHERE path BETWEEN '.$ilDB->quote($a_node['path'],'text').' '.
-				'AND '.$ilDB->quote($a_node['path'].'.Z','text').' '.
-				'AND '.$this->getTree()->getTreePk().' = '.$ilDB->quote($a_node[$this->getTree()->getTreePk()]);
-		$ilDB->manipulate($query);
+		$delete_tree_callable = function(ilDBInterface $ilDB) use($a_node_id)
+		{
+			$query = 'SELECT * FROM '.$this->getTree()->getTreeTable().' '.
+				'WHERE '.$this->getTree()->getTreeTable().'.child = %s '.
+				'AND '.$this->getTree()->getTreeTable().'.'.$this->getTree()->getTreePk().' = %s ';
+			$res = $ilDB->queryF($query,array('integer','integer'),array(
+				$a_node_id,
+				$this->getTree()->getTreeId()));
+			$row = $ilDB->fetchAssoc($res);
+
+			$query = 'DELETE FROM '.$this->getTree()->getTreeTable().' '.
+				'WHERE path BETWEEN '.$ilDB->quote($row['path'],'text').' '.
+				'AND '.$ilDB->quote($row['path'].'.Z','text').' '.
+				'AND '.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(), 'integer');
+			$ilDB->manipulate($query);
+		};
+
+		// get lft and rgt values. Don't trust parameter lft/rgt values of $a_node
+		if($this->getTree()->__isMainTree())
+		{
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable('tree');
+			$ilAtomQuery->addQueryCallable($delete_tree_callable);
+			$ilAtomQuery->run();
+		}
+		else
+		{
+			$delete_tree_callable($ilDB);
+		}
+
 		return true;
 	}
 	

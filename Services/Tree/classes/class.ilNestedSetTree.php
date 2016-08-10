@@ -473,14 +473,34 @@ class ilNestedSetTree implements ilTreeImplementation
 	{
 		global $ilDB;
 
-		$node = $this->getTree()->getNodeTreeData($a_node_id);
+		$move_to_trash_callable = function(ilDBInterface $ilDB) use($a_node_id)
+		{
+			$node = $this->getTree()->getNodeTreeData($a_node_id);
 
-		$query = 'UPDATE '.$this->getTree()->getTreeTable().' '.
-			'SET tree = '.$ilDB->quote(-1 * $node['child'],'integer').' '.
-			'WHERE '.$this->getTree()->getTreePk().' =  '.$ilDB->quote($this->getTree()->getTreeId(),'integer').' '.
-			'AND lft BETWEEN '.$ilDB->quote($node['lft'],'integer').' AND '.$ilDB->quote($node['rgt'],'integer').' ';
+			$query = 'UPDATE '.$this->getTree()->getTreeTable().' '.
+				'SET tree = '.$ilDB->quote(-1 * $node['child'],'integer').' '.
+				'WHERE '.$this->getTree()->getTreePk().' =  '.$ilDB->quote($this->getTree()->getTreeId(),'integer').' '.
+				'AND lft BETWEEN '.$ilDB->quote($node['lft'],'integer').' AND '.$ilDB->quote($node['rgt'],'integer').' ';
 
-		$ilDB->manipulate($query);
+			$ilDB->manipulate($query);
+		};
+
+		// use ilAtomQuery to lock tables if tree is main tree
+		// otherwise just call this closure without locking
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->lockTable("tree");
+
+			$ilAtomQuery->addQueryCallable($move_to_trash_callable);
+
+			$ilAtomQuery->run();
+		}
+		else
+		{
+			$move_to_trash_callable($ilDB);
+		}
+
 		return true;
 	}
 

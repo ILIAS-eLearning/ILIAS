@@ -1891,14 +1891,47 @@ class ilTree
 	
 	/**
 	 * Wrapper for saveSubTree
-	 * @param type $a_node_id
+	 * @param int $a_node_id
 	 * @param bool $a_set_deleted
 	 * @return integer
 	 * @throws InvalidArgumentException
 	 */
 	public function moveToTrash($a_node_id, $a_set_deleted = false)
 	{
-		return $this->saveSubTree($a_node_id, $a_set_deleted);
+		global $ilDB;
+
+		if(!$a_node_id)
+		{
+			$this->log->logStack(ilLogLevel::ERROR);
+			throw new InvalidArgumentException('No valid parameter given! $a_node_id: '.$a_node_id);
+		}
+
+
+		$query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id),'',false);
+		$res = $ilDB->query($query);
+
+		$subnodes = array();
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
+		{
+			$subnodes[] = $row['child'];
+		}
+
+		if(!count($subnodes))
+		{
+			// Possibly already deleted
+			return false;
+		}
+
+		if($a_set_deleted)
+		{
+			include_once './Services/Object/classes/class.ilObject.php';
+			ilObject::setDeletedDates($subnodes);
+		}
+
+		// netsted set <=> mp
+		$this->getTreeImplementation()->moveToTrash($a_node_id);
+
+		return true;
 	}
 
 	/**
@@ -1913,60 +1946,7 @@ class ilTree
 	 */
 	public function saveSubTree($a_node_id, $a_set_deleted = false)
 	{
-		global $ilDB;
-		
-		if(!$a_node_id)
-		{
-			$this->log->logStack(ilLogLevel::ERROR);
-			throw new InvalidArgumentException('No valid parameter given! $a_node_id: '.$a_node_id);
-		}
-
-		$ret = true;
-
-		$save_sub_tree_callable = function(ilDBInterface $ilDB) use ($a_node_id, $a_set_deleted, &$ret)
-		{
-
-			$query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id),'',false);
-			$res = $ilDB->query($query);
-
-			$subnodes = array();
-			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-			{
-				$subnodes[] = $row['child'];
-			}
-
-			if(!count($subnodes))
-			{
-				// Possibly already deleted
-				$ret =  false;
-				return;
-			}
-
-			if($a_set_deleted)
-			{
-				include_once './Services/Object/classes/class.ilObject.php';
-				ilObject::setDeletedDates($subnodes);
-			}
-
-			// netsted set <=> mp
-			$this->getTreeImplementation()->moveToTrash($a_node_id);
-
-		};
-
-		if($this->__isMainTree())
-		{
-			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('tree');
-			$ilAtomQuery->lockTable('object_reference');
-			$ilAtomQuery->addQueryCallable($save_sub_tree_callable);
-			$ilAtomQuery->run();
-		}
-		else
-		{
-			$save_sub_tree_callable($ilDB);
-		}
-
-		return $ret;
+		return $this->moveToTrash($a_node_id, $a_set_deleted);
 	}
 
 	/**
@@ -2421,7 +2401,7 @@ class ilTree
 	{
 		global $ilDB;
 
-		$renumber_callable = function($ilDB) use($node_id,$i,&$return)
+		$renumber_callable = function(ilDBInterface $ilDB) use($node_id,$i,&$return)
 		{
 
 			$return = $this->__renumber($node_id,$i);
@@ -2433,11 +2413,6 @@ class ilTree
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
 			$ilAtomQuery->lockTable( $this->table_tree );
-			$ilAtomQuery->lockTable( $this->table_obj_data );
-			$ilAtomQuery->lockTable( $this->table_obj_reference );
-			$ilAtomQuery->lockTable( 'object_translation' );
-			$ilAtomQuery->lockTable( 'object_data' );
-			$ilAtomQuery->lockTable('container_reference' );
 
 			$ilAtomQuery->addQueryCallable($renumber_callable);
 			$ilAtomQuery->run();
