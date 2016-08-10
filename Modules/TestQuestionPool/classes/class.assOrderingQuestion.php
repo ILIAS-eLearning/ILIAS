@@ -825,6 +825,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
+		$entered_values = 0;
+
 		$saveWorkingDataResult = $this->checkSaveData();
 		if ($saveWorkingDataResult)
 		{
@@ -834,18 +836,17 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				$pass = ilObjTest::_getPass($active_id);
 			}
 
-			$this->getProcessLocker()->requestUserSolutionUpdateLock();
+			$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
 
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
+				$this->removeCurrentSolution($active_id, $pass, $authorized);
 
-			$entered_values = 0;
-			foreach($this->getSolutionSubmit() as $val1 => $val2)
-			{
-				$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2), $authorized);
-				$entered_values++;
-			}
+				foreach($this->getSolutionSubmit() as $val1 => $val2)
+				{
+					$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2), $authorized);
+					$entered_values++;
+				}
 
-			$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+			});
 		}
 		if ($entered_values)
 		{

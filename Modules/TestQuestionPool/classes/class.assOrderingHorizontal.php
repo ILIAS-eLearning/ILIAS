@@ -352,21 +352,23 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
-		
-		$solutionSubmit = $this->getSolutionSubmit();
-		
 		$entered_values = false;
-		if (strlen($solutionSubmit))
-		{
-			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null, $authorized);
-			$entered_values = true;
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-		
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			$solutionSubmit = $this->getSolutionSubmit();
+
+			$entered_values = false;
+			if (strlen($solutionSubmit))
+			{
+				$this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null, $authorized);
+				$entered_values = true;
+			}
+
+		});
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

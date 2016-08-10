@@ -339,14 +339,14 @@
             // remove keyboard events
             if (keyHandler != null)
             {
-                $(document).unbind("keydown keyup", keyHandler);
+                $(document).off("keydown keyup", keyHandler);
             }
 
             // remove mouse wheel events
             if (mouseWheelHandler != null)
             {
-                $qtip.unbind("mousewheel", mouseWheelHandler);
-                $label.unbind("mousewheel", mouseWheelHandler);
+                $qtip.off("mousewheel", mouseWheelHandler);
+                $label.off("mousewheel", mouseWheelHandler);
             }
 
             keyHandler = null;
@@ -584,8 +584,8 @@
                 // attach mouse wheel
                 // (assign to variable is important that it can be removed later on)
                 mouseWheelHandler = handleMouseWheel;
-                $qtip.bind("mousewheel", mouseWheelHandler);
-                $label.bind("mousewheel", mouseWheelHandler);
+                $qtip.on("mousewheel", mouseWheelHandler);
+                $label.on("mousewheel", mouseWheelHandler);
             }
             else
             {
@@ -596,7 +596,7 @@
             // key handlers
             // (assign to variable is important that it can be removed later on)
             keyHandler = handleKeyUp;
-            $(document).bind("keydown keyup", keyHandler);
+            $(document).on("keydown keyup", keyHandler);
 
             // hide items and show first
             showIndex(0);
