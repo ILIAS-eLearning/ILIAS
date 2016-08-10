@@ -8307,11 +8307,12 @@ function getAnswerFeedbackPoints()
 				return $result;
 			}
 		}
-		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass())
+		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass() !== null)
 		{
 			$lastPass = $testPassesSelector->getLastPassTimestamp();
-			if($lastPass)
+			if($lastPass && strlen($this->getPassWaiting()))
 			{
+				
 				$pass_waiting_string = $this->getPassWaiting();
 				$time_values         = explode(":", $pass_waiting_string);
 				$next_pass_allowed   = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $lastPass);
