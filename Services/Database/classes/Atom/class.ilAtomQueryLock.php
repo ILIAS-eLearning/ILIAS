@@ -57,12 +57,12 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 			if (in_array($full_name, $this->locked_table_full_names)) {
 				throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_IDENTICAL_TABLES);
 			}
-			if (in_array($table->getTableName(), $this->locked_table_names)) {
-				continue;
-			}
 			$this->locked_table_full_names[] = $full_name;
-			$this->locked_table_names[] = $table->getTableName();
-			$locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel() );
+			
+			if (!in_array($table->getTableName(), $this->locked_table_names)) {
+				$locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel() );
+				$this->locked_table_names[] = $table->getTableName();
+			}
 			if ($table->getAlias()) {
 				$locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel(), 'alias' => $table->getAlias() );
 			}
