@@ -92,7 +92,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 		$this->atom_query = $this->db->buildAtomQuery();
 		foreach($tables as $table)
 		{
-			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
+			$this->atom_query->addTableLock($table['name'])->lockSequence((bool)$table['sequence']);
 		}
 	}
 
@@ -104,7 +104,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 		$this->atom_query = $this->db->buildAtomQuery();
 		foreach($this->getTablesUsedDuringResultUpdate() as $table)
 		{
-			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
+			$this->atom_query->addTableLock($table['name'])->lockSequence((bool)$table['sequence']);
 		}
 	}
 
@@ -118,7 +118,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 			$this->getTablesUsedDuringSolutionUpdate(), $this->getTablesUsedDuringResultUpdate()
 		) as $table)
 		{
-			$this->atom_query->lockTable($table['name'], (bool)$table['sequence']);
+			$this->atom_query->addTableLock($table['name'])->lockSequence((bool)$table['sequence']);
 		}
 	}
 
@@ -128,7 +128,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	protected function onBeforeExecutingUserTestResultUpdateOperation()
 	{
 		$this->atom_query = $this->db->buildAtomQuery();
-		$this->atom_query->lockTable('tst_result_cache');
+		$this->atom_query->addTableLock('tst_result_cache');
 	}
 
 	/**
