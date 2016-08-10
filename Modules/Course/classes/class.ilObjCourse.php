@@ -854,6 +854,15 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->enablemap = $a_enablemap;
 	}
+	
+	/**
+	 * Type independent wrapper
+	 * @return type
+	 */
+	public function getEnableMap()
+	{
+		return $this->getEnableCourseMap();
+	}
 
 	/**
 	* Get Enable Course Map.

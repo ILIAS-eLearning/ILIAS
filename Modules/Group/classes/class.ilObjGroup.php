@@ -499,6 +499,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
+	 * Type independent wrapper
+	 * @return type
+	 */
+	public function getEnableMap()
+	{
+		return $this->getEnableGroupMap();
+	}
+	
+	/**
 	* Get Enable Group Map.
 	*
 	* @return	boolean	Enable Group Map

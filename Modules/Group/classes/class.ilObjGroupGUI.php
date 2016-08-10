@@ -16,8 +16,8 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI
 * 
 *
@@ -225,17 +225,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
 				break;
-				
-			case 'ilmemberexportgui':
-				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
-				
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('grp_export_members');
-				$export = new ilMemberExportGUI($this->object->getRefId());
-				$this->ctrl->forwardCommand($export);
-				break;
-				
+								
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
@@ -258,18 +248,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($service);
 				break;
 			
-			case 'ilsessionoverviewgui':								
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('events');
-				
-				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
-				$prt = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
-				
-				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
-				$overview = new ilSessionOverviewGUI($this->object->getRefId(), $prt);
-				$this->ctrl->forwardCommand($overview);				
-				break;
 			case 'ilmailmembersearchgui':
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
@@ -792,47 +770,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->update();
 		
 		$ilCtrl->redirect($this, "editMapSettings");
-	}
-	
-	/**
-	* Members map
-	*/
-	public function membersMapObject()
-	{
-		global $tpl;
-		
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		
-		include_once("./Services/Maps/classes/class.ilMapUtil.php");
-		if (!ilMapUtil::isActivated() || !$this->object->getEnableGroupMap())
-		{
-			return;
-		}
-		
-		$map = ilMapUtil::getMapGUI();
-		$map->setMapId("group_map")
-			->setWidth("700px")
-			->setHeight("500px")
-			->setLatitude($this->object->getLatitude())
-			->setLongitude($this->object->getLongitude())
-			->setZoom($this->object->getLocationZoom())
-			->setEnableTypeControl(true)
-			->setEnableNavigationControl(true)
-			->setEnableCentralMarker(true);
-		
-		
-		$member_ids = $this->object->getGroupMemberIds();
-		$admin_ids = $this->object->getGroupAdminIds();
-		
-		// fetch all users data in one shot to improve performance
-		$members = $this->object->getGroupMemberData($member_ids);
-		foreach($member_ids as $user_id)
-		{
-			$map->addUserMarker($user_id);
-		}
-		$tpl->setContent($map->getHTML());
-		$tpl->setLeftContent($map->getUserListHTML());
 	}
 	
 	
@@ -2556,38 +2493,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		switch($a_tab)
 		{
 			case 'members':
-				// for admins
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$this->tabs_gui->addSubTabTarget("grp_edit_members",
-						$this->ctrl->getLinkTarget($this,'members'),
-						"members",
-						get_class($this));
-				}
-				// for all
-				$this->tabs_gui->addSubTabTarget(
-					'grp_members_gallery',
-					$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
-					'',
-					'ilUsersGalleryGUI'
-				);
 				
-				// members map
-				include_once("./Services/Maps/classes/class.ilMapUtil.php");
-				if (ilMapUtil::isActivated() &&
-					$this->object->getEnableGroupMap())
-				{
-					$this->tabs_gui->addSubTabTarget("grp_members_map",
-						$this->ctrl->getLinkTarget($this,'membersMap'),
-						"membersMap", get_class($this));
-				}
 				
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$this->tabs_gui->addSubTabTarget("events",
-													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
-													 "", 'ilsessionoverviewgui');
-				}
 				
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()))

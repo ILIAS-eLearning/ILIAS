@@ -45,6 +45,7 @@ class ilMembershipGUI
 		$this->repository_object = $repository_obj;
 		
 		$this->lng = $GLOBALS['DIC']['lng'];
+		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule($this->getParentObject()->getType());
 		
 		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
@@ -119,6 +120,8 @@ class ilMembershipGUI
 				
 			case 'ilusersgallerygui':
 				
+				$this->setSubTabs($GLOBALS['ilTabs']);
+				
 				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->getParentObject()->getRefId());
 				$is_participant = (bool)ilParticipants::_isParticipant($this->getParentObject()->getRefId(), $ilUser->getId());
 				if(
@@ -143,7 +146,43 @@ class ilMembershipGUI
 				$this->ctrl->forwardCommand($gallery_gui);
 				break;
 				
+			case 'ilcourseparticipantsgroupsgui':
+
+				$this->setSubTabs($GLOBALS['ilTabs']);
+				
+				
+				include_once './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php';
+				$cmg_gui = new ilCourseParticipantsGroupsGUI($this->getParentObject()->getRefId());
+				if($cmd == "show" || $cmd = "")
+				{
+					$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar']);
+				}
+				$this->ctrl->forwardCommand($cmg_gui);
+				break;
+				
+			case 'ilsessionoverviewgui':								
+
+				$this->setSubTabs($GLOBALS['ilTabs']);
+
+				include_once './Services/Membership/classes/class.ilParticipants.php';
+				$prt = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+			
+				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
+				$overview = new ilSessionOverviewGUI($this->getParentObject()->getRefId(), $prt);
+				$this->ctrl->forwardCommand($overview);				
+				break;
+			
+			case 'ilmemberexportgui':
+
+				$this->setSubTabs($GLOBALS['ilTabs']);
+
+				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
+				$export = new ilMemberExportGUI($this->getParentObject()->getRefId());
+				$this->ctrl->forwardCommand($export);
+				break;
+				
 			default:
+				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
 				$this->$cmd();
 				break;
 		}
@@ -157,9 +196,55 @@ class ilMembershipGUI
 		$this->showParticipantsToolbar();
 		
 		
-		$GLOBALS['tpl']->setContent('Hallo');
-		
 	}
+	
+	/**
+	 * Members map
+	 */
+	protected function membersMap()
+	{
+		global $tpl;
+
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (!ilMapUtil::isActivated() || !$this->getParentObject()->getEnableMap())
+		{
+			return;
+		}
+		
+		$map = ilMapUtil::getMapGUI();
+		$map->setMapId("course_map")
+			->setWidth("700px")
+			->setHeight("500px")
+			->setLatitude($this->getParentObject()->getLatitude())
+			->setLongitude($this->getParentObject()->getLongitude())
+			->setZoom($this->getParentObject()->getLocationZoom())
+			->setEnableTypeControl(true)
+			->setEnableNavigationControl(true)
+			->setEnableCentralMarker(true);
+
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		$members = ilParticipants::getInstanceByObjId($this->getParentObject()->getId())->getParticipants();
+		foreach((array) $members as $user_id)
+		{
+			$map->addUserMarker($user_id);
+		}
+
+		$tpl->setContent($map->getHTML());
+		$tpl->setLeftContent($map->getUserListHTML());
+	}
+	
+	/**
+	 * Mail to members view
+	 * @global type $ilToolbar
+	 */
+	protected function mailMembersBtn()
+	{
+		global $ilToolbar;
+		
+		$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'mailMembersBtn');
+	}
+	
+	
 	
 	
 	/**
@@ -202,16 +287,6 @@ class ilMembershipGUI
 		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', true);
 	}
 
-	/**
-	 * Mail to members view
-	 * @global type $ilToolbar
-	 */
-	protected function mailMembersBtn()
-	{
-		global $ilToolbar;
-		
-		$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'mailMembersBtn');
-	}
 	
 	
 	/**
@@ -297,6 +372,85 @@ class ilMembershipGUI
 				'members',
 				$this->lng->txt('members'),
 				$this->ctrl->getLinkTarget($this, "mailMembersBtn")
+			);
+		}
+	}
+	
+	/**
+	 * Set sub tabs
+	 */
+	protected function setSubTabs(ilTabsGUI $tabs)
+	{
+		global $ilAccess;
+		
+		if($ilAccess->checkAccess('write','',$this->getParentObject()->getRefId()))
+		{
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType()."_member_administration",
+				$this->ctrl->getLinkTarget($this,'participants'),
+				"members", 
+				get_class($this)
+			);
+
+			// show group overview
+			if($this instanceof ilCourseMembershipGUI)
+			{
+				$tabs->addSubTabTarget(
+					"crs_members_groups",
+					$this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
+					"", 
+					"ilCourseParticipantsGroupsGUI"
+				);
+			}
+			
+			$childs = (array) $GLOBALS['tree']->getChildsByType($this->getParentObject()->getRefId(),'sess');
+			if(count($childs))
+			{
+				$tabs->addSubTabTarget(
+					'events',
+					$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilsessionoverviewgui'),'listSessions'),
+					'',
+					'ilsessionoverviewgui'
+				);
+			}
+
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType().'_members_gallery',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+				'view',
+				'ilUsersGalleryGUI'
+			);
+		}
+		else if($this->getParentObject()->getShowMembers())
+		{
+			// gallery
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType().'_members_gallery',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+				'view',
+				'ilUsersGalleryGUI'
+			);
+		}
+		
+		include_once './Services/Maps/classes/class.ilMapUtil.php';
+		if(ilMapUtil::isActivated() && $this->getParentObject()->getEnableMap())
+		{
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType().'_members_map',
+				$this->ctrl->getLinkTarget($this,'membersMap'),
+				"membersMap", 
+				get_class($this)
+			);
+		}
+		
+		include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+		if(ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->getRefId()))
+		{
+			$tabs->addSubTabTarget(
+				'export_members',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilmemberexportgui'),'show'),
+				'',
+				'ilmemberexportgui'
 			);
 		}
 	}

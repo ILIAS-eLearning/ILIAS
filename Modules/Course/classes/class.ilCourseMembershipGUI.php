@@ -11,7 +11,9 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  * 
  * 
  * @ilCtrl_Calls ilCourseMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI
- *
+ * @ilCtrl_Calls ilCourseMembershipGUI: ilCourseParticipantsGroupsGUI
+ * @ilCtrl_Calls ilCourseMembershipGUI: ilSessionOverviewGUI
+ * @ilCtrl_Calls ilCourseMembershipGUI: ilMemberExportGUI
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {

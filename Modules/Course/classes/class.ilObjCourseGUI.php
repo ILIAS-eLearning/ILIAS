@@ -13,8 +13,8 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
@@ -1696,61 +1696,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 			
 			case 'members':
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$this->tabs_gui->addSubTabTarget("crs_member_administration",
-													 $this->ctrl->getLinkTarget($this,'members'),
-													 "members", get_class($this));
 
-					$this->tabs_gui->addSubTabTarget("crs_members_groups",
-													 $this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
-													 "", "ilCourseParticipantsGroupsGUI");
-
-					$this->tabs_gui->addSubTabTarget(
-						'crs_members_gallery',
-						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-						'',
-						'ilUsersGalleryGUI'
-					);
-				}
-				elseif(
-					$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED
-				)
-				{
-					$this->tabs_gui->addSubTabTarget(
-						'crs_members_gallery',
-						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-						'',
-						'ilUsersGalleryGUI'
-					);
-				}
-				
-				// members map
-				include_once("./Services/Maps/classes/class.ilMapUtil.php");
-				if (ilMapUtil::isActivated() && $this->object->getEnableCourseMap())
-				{
-					$this->tabs_gui->addSubTabTarget("crs_members_map",
-						$this->ctrl->getLinkTarget($this,'membersMap'),
-						"membersMap", get_class($this));
-				}
-				
-				$childs = (array) $tree->getChildsByType($this->object->getRefId(),'sess');
-				if(count($childs) && $ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$this->tabs_gui->addSubTabTarget("events",
-													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
-													 "", 'ilsessionoverviewgui');
-				}
-
-				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
-				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()))
-				{
-					$this->tabs_gui->addSubTabTarget('export_members',
-													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'),
-													"", 'ilmemberexportgui');
-				}
-				
-				break;
 
 				
 		}
@@ -3371,43 +3317,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$membership_gui = new ilCourseMembershipGUI($this, $this->object);
 		$membership_gui->addMemberTab($this->tabs_gui, $is_participant);
 		
-		// member list
-		/*
-		if($ilAccess->checkAccess('write','',$this->ref_id))
-		{
-			$this->tabs_gui->addTarget("members",
-								 $this->ctrl->getLinkTarget($this, "members"), 
-								 "members",
-								 get_class($this));
-		}			
-		elseif(
-			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED and
-			$is_participant
-		)
-		{
-			$this->tabs_gui->addTarget(
-				'members',
-				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-				'',
-				'ilUsersGalleryGUI'
-			);
-		}
-		elseif(
-			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
-			$GLOBALS['rbacsystem']->checkAccess('internal_mail',$mail->getMailObjectReferenceId ()) and
-			$is_participant
-		)
-		{
-			$this->tabs_gui->addTarget("members",
-				$this->ctrl->getLinkTarget($this, "mailMembersBtn"),
-				"members",
-				get_class($this));
-			
-		}
-		 * 
-		 */
-
-
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
@@ -3418,8 +3327,6 @@ class ilObjCourseGUI extends ilContainerGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
-		
-
 		// license overview
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id)
@@ -3962,15 +3869,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tpl->setVariable("ADM_CONTENT", $html);				
 				break;
 
-			case 'ilmemberexportgui':
-				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
-				
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('export_members');
-				$export = new ilMemberExportGUI($this->object->getRefId());
-				$this->ctrl->forwardCommand($export);
-				break;
 				
 			case 'ilmemberagreementgui':
 				include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
@@ -3981,18 +3879,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($agreement);
 				break;
 				
-			case 'ilsessionoverviewgui':								
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('events');
-				
-				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-				$prt = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
-			
-				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
-				$overview = new ilSessionOverviewGUI($this->object->getRefId(), $prt);
-				$this->ctrl->forwardCommand($overview);				
-				break;
 			
 			// container page editing
 			case "ilcontainerpagegui":
@@ -4025,19 +3911,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->forwardToStyleSheet();
 				break;
 
-			case 'ilcourseparticipantsgroupsgui':
-				include_once './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php';
-
-				$cmg_gui = new ilCourseParticipantsGroupsGUI($this->object->getRefId());
-				$this->setSubTabs('members');
-
-				if($cmd == "show" || $cmd = "")
-				{
-					$this->addMailToMemberButton($ilToolbar, "members");
-				}
-				$this->tabs_gui->setTabActive('members');
-				$this->ctrl->forwardCommand($cmg_gui);
-				break;
 				
 			case 'ilexportgui':
 				$this->tabs_gui->setTabActive('export');
@@ -4463,47 +4336,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilCtrl->redirect($this, "editMapSettings");
 	}
 
-	/**
-	* Members map
-	*/
-	function membersMapObject()
-	{
-		global $tpl;
-
-		$this->tabs_gui->setTabActive("members");
-		$this->setSubTabs('members');
-		$this->tabs_gui->setSubTabActive("crs_members_map");
-		
-		include_once("./Services/Maps/classes/class.ilMapUtil.php");
-		if (!ilMapUtil::isActivated() || !$this->object->getEnableCourseMap())
-		{
-			return;
-		}
-		
-		$map = ilMapUtil::getMapGUI();
-		$map->setMapId("course_map")
-			->setWidth("700px")
-			->setHeight("500px")
-			->setLatitude($this->object->getLatitude())
-			->setLongitude($this->object->getLongitude())
-			->setZoom($this->object->getLocationZoom())
-			->setEnableTypeControl(true)
-			->setEnableNavigationControl(true)
-			->setEnableCentralMarker(true);
-
-		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$members = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
-		if(count($members))
-		{
-			foreach($members as $user_id)
-			{
-				$map->addUserMarker($user_id);
-			}
-		}
-
-		$tpl->setContent($map->getHTML());
-		$tpl->setLeftContent($map->getUserListHTML());
-	}
 
 	/**
 	 * Modify Item ListGUI for presentation in container
