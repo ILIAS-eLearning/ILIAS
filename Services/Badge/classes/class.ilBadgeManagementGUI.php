@@ -80,12 +80,6 @@ class ilBadgeManagementGUI
 	{
 		global $ilTabs, $lng, $ilCtrl;
 		
-		// :TODO: deactivating activity badge user list for now
-		if($this->parent_obj_type == "bdga")
-		{
-			return;
-		}
-		
 		$ilTabs->addSubTab("badges", 
 			$lng->txt("obj_bdga"),
 			$ilCtrl->getLinkTarget($this, "listBadges"));
