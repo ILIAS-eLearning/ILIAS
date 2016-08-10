@@ -578,6 +578,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	private $tmpCopyWizardCopyId;
 	
+	/**
+	 * @var string mm:ddd:hh:ii:ss
+	 */
+	protected $pass_waiting = "00:000:00:00:00";
 	#endregion
 	
 	/**
@@ -1315,7 +1319,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
 				'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
 				'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
-				'broken'                     => array('integer', (int)$this->isTestFinalBroken())
+				'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
+				'pass_waiting'              => array('text', (string)$this->getPassWaiting())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1436,7 +1441,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
 						'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
 						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
-						'broken'                     => array('integer', (int)$this->isTestFinalBroken())
+						'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
+						'pass_waiting'              => array('text', (string)$this->getPassWaiting())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1925,6 +1931,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setInstantFeedbackAnswerFixationEnabled((bool)$data->inst_fb_answer_fixation);
 			$this->setForceInstantFeedbackEnabled((bool)$data->force_inst_fb);
 			$this->setTestFinalBroken((bool)$data->broken);
+			$this->setPassWaiting($data->pass_waiting);
 			$this->loadQuestions();
 		}
 
@@ -3305,7 +3312,34 @@ function getAnswerFeedbackPoints()
 				break;
 		}
 	}
-
+	
+	/**
+	 * @return string
+	 */
+	public function getPassWaiting()
+	{
+		return $this->pass_waiting;
+	}
+	
+	/**
+	 * @param string $pass_waiting   mm:ddd:hh:ii:ss
+	 */
+	public function setPassWaiting($pass_waiting)
+	{
+		$this->pass_waiting = $pass_waiting;
+	}
+	/**
+	 * @return bool
+	 */
+	public function isPassWaitingEnabled()
+	{
+		if(array_sum(explode(':', $this->getPassWaiting())) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 /**
 * Removes a question from the test object
 *
@@ -5655,6 +5689,9 @@ function getAnswerFeedbackPoints()
 				case "nr_of_tries":
 					$this->setNrOfTries($metadata["entry"]);
 					break;
+				case "pass_waiting":
+					$this->setPassWaiting($metadata["entry"]);
+					break;				
 				case "kiosk":
 					$this->setKiosk($metadata["entry"]);
 					break;
@@ -6101,7 +6138,13 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
+		
+		// pass_waiting
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_waiting");
+		$a_xml_writer->xmlElement("fieldentry", NULL,  $this->getPassWaiting());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		// kiosk
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "kiosk");
@@ -8248,14 +8291,13 @@ function getAnswerFeedbackPoints()
 				}
 			}
 		}
-
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
+		$testPassesSelector->setActiveId($active_id);
+		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+		
 		if ($this->hasNrOfTriesRestriction() && ($active_id > 0))
 		{
-			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-			$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
-			$testPassesSelector->setActiveId($active_id);
-			$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-
 			$closedPasses = $testPassesSelector->getClosedPasses();
 
 			if( count($closedPasses) >= $this->getNrOfTries() )
@@ -8265,7 +8307,23 @@ function getAnswerFeedbackPoints()
 				return $result;
 			}
 		}
-
+		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass())
+		{
+			$lastPass = $testPassesSelector->getLastPassTimestamp();
+			if($lastPass)
+			{
+				$pass_waiting_string = $this->getPassWaiting();
+				$time_values         = explode(":", $pass_waiting_string);
+				$next_pass_allowed   = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $lastPass);
+				
+				if(time() < $next_pass_allowed)
+				{
+					$result["executable"]   = false;
+					$result["errormessage"] = $this->lng->txt("allow_next_pass_date");
+					return $result;
+				}
+			}
+		}
 		return $result;
 	}
 
