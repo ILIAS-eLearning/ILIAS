@@ -1,0 +1,23 @@
+<?php
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+chdir('../..');
+include_once './include/inc.header.php';
+
+if(!$rbacsystem->checkAccess('visible,read', SYSTEM_FOLDER_ID))
+{
+	die('Sorry, this script requires administrative privileges!');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+if(!$ilDB->tableColumnExists('tst_tests','pass_waiting'))
+{
+	$ilDB->addTableColumn('tst_tests', 'pass_waiting', array(
+			'type'    => 'text',
+			'length'  => 15,
+			'notnull' => true,
+			'default' => '00:000:00:00:00')
+	);
+}
