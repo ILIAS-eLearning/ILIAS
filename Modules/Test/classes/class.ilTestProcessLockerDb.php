@@ -35,7 +35,7 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 	 */
 	protected function onBeforeExecutingTestStartOperation()
 	{
-		$this->atom_query->lockTable('tst_active');
+		$this->atom_query->addTableLock('tst_active');
 	}
 
 	/**
@@ -43,18 +43,18 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 	 */
 	protected function onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
-		$this->atom_query->lockTable('tst_rnd_cpy');
-		$this->atom_query->lockTable('qpl_questions');
-		$this->atom_query->lockTable('qpl_qst_type');
-		$this->atom_query->lockTable('tst_test_rnd_qst', true);
-		$this->atom_query->lockTable('il_plugin');
-		$this->atom_query->lockTable('tst_active');
+		$this->atom_query->addTableLock('tst_rnd_cpy');
+		$this->atom_query->addTableLock('qpl_questions');
+		$this->atom_query->addTableLock('qpl_qst_type');
+		$this->atom_query->addTableLock('tst_test_rnd_qst')->lockSequence(true);
+		$this->atom_query->addTableLock('il_plugin');
+		$this->atom_query->addTableLock('tst_active');
 
 		if($withTaxonomyTables)
 		{
-			$this->atom_query->lockTable('tax_tree s');
-			$this->atom_query->lockTable('tax_tree t');
-			$this->atom_query->lockTable('tax_node_assignment');
+			$this->atom_query->addTableLock('tax_tree s');
+			$this->atom_query->addTableLock('tax_tree t');
+			$this->atom_query->addTableLock('tax_node_assignment');
 		}
 	}
 
