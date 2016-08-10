@@ -32,7 +32,7 @@
 */
 class ilDiskQuotaChecker
 {
-	function ilDiskQuotaChecker()
+	function __construct()
 	{
 	}
 
@@ -71,7 +71,8 @@ class ilDiskQuotaChecker
 	{
 		$info = array();
 
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryf("SELECT keyword, value ".
 			"FROM usr_pref ".
@@ -142,7 +143,8 @@ class ilDiskQuotaChecker
 		$info = array();
 		$details = array();
 
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->query("SELECT keyword, value ".
 			"FROM usr_pref ".
@@ -219,7 +221,8 @@ class ilDiskQuotaChecker
 	public static function _fetchDiskQuotaReport($a_usage_filter = 3, $a_access_filter = 1,  $a_order_column='disk_usage',$a_order_by='desc')
 	{
 		$data = array();
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (! $a_order_column) {
 			$a_order_column = 'disk_usage';
@@ -331,7 +334,8 @@ class ilDiskQuotaChecker
 	 */
 	public static function _updateDiskUsageReport()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// delete old values
 		$ilDB->manipulate("DELETE FROM usr_pref ".
@@ -418,7 +422,8 @@ class ilDiskQuotaChecker
 	 */
 	private static function __saveUserData($a_user_id, $a_type, $a_size, $a_count)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if ($a_user_id && $a_size != null && $a_count != null)
 		{
@@ -482,7 +487,8 @@ class ilDiskQuotaChecker
 	 */
 	private static function __getRepositoryObjectsByType($a_type)
 	{		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		return $ilDB->query("SELECT DISTINCT d.obj_id, d.owner ".
 			"FROM object_data d ".
@@ -503,7 +509,8 @@ class ilDiskQuotaChecker
 	 */
 	private static function __getWorkspaceObjectsByType($a_type)
 	{		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		return $ilDB->query("SELECT DISTINCT d.obj_id, d.owner ".
 			"FROM object_data d ".
@@ -530,7 +537,8 @@ class ilDiskQuotaChecker
 	 */
 	private static function __updateDiskUsageReportOfUsers($a_access_obj, $a_type)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// get all users
 		$res = $ilDB->query("SELECT usr_id FROM usr_data");
@@ -544,7 +552,8 @@ class ilDiskQuotaChecker
 	
 	public static function _sendSummaryMails()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		
 		$lastStart = $ilSetting->get('last_cronjob_disk_quota_sum_start_ts', 0);
 		if( !$lastStart || date('dmY', $lastStart) != date('dmY') )
@@ -564,7 +573,8 @@ class ilDiskQuotaChecker
 	 */
 	public static function _sendReminderMails()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
 		$mail = new ilDiskQuotaReminderMail();
@@ -666,7 +676,8 @@ class ilDiskQuotaChecker
 	*/
 	public static function _lookupDiskUsageReportLastUpdate()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
 		$mail = new ilDiskQuotaReminderMail();
@@ -679,7 +690,8 @@ class ilDiskQuotaChecker
 	
 	public static function _lookupPersonalWorkspaceDiskQuota($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$info = array();
 

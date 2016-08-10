@@ -79,7 +79,8 @@ class ilObjDiskQuotaSettings extends ilObject
 	 */
 	public static function getInstance()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
 			"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID,'integer')." ".
@@ -197,7 +198,8 @@ class ilObjDiskQuotaSettings extends ilObject
 	 */
 	public static function _lookupReminderMailTemplate($a_lang)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT * FROM mail_template ".
 			" WHERE type='dqta' AND lang = ".$ilDB->quote($a_lang,'text'));
@@ -211,7 +213,8 @@ class ilObjDiskQuotaSettings extends ilObject
 
 	function _writeReminderMailTemplate($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if(self::_lookupReminderMailTemplate($a_lang))
 		{
