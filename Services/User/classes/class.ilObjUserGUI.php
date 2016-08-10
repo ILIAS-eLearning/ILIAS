@@ -1443,7 +1443,11 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			if($this->isSettingChangeable($field))
 			{
-				$inp = new ilTextInputGUI($lng->txt($field), $field);
+				// #18795
+				$caption = ($field == "title")
+					? "person_title"
+					: $field;
+				$inp = new ilTextInputGUI($lng->txt($caption), $field);			
 				$inp->setSize(32);
 				$inp->setMaxLength(32);
 				$inp->setRequired($req);
