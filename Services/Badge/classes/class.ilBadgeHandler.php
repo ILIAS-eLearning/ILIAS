@@ -580,6 +580,7 @@ class ilBadgeHandler
 		include_once "Services/Badge/classes/class.ilBadge.php";
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		include_once "Services/Notification/classes/class.ilSystemNotification.php";
+		include_once "Services/Link/classes/class.ilLink.php";
 		
 		foreach($a_user_map as $user_id => $badge_ids)
 		{

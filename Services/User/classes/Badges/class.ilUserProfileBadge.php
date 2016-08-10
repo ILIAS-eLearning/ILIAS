@@ -43,21 +43,45 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 	
 	public function evaluate($a_user_id, array $a_params, array $a_config)
 	{
+		global $ilSetting;
+		
 		$user = new ilObjUser($a_user_id);
+		
+		// active profile portfolio?
+		$has_prtf = false;
+		if ($ilSetting->get('user_portfolios'))
+		{
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			$has_prtf = ilObjPortfolio::getDefaultPortfolio($a_user_id);
+		}
+		if(!$has_prtf)
+		{
+			// is profile public?
+			if(!in_array($user->getPref("public_profile"), array("y", "g")))
+			{
+				return false;
+			}
+		}
 		
 		// use getter mapping from user profile
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
 		$pfields = $up->getStandardFields();
 		
+		// check for value AND publication status
+		
 		foreach($a_config["profile"] as $field)
-		{
+		{			
 			$field = substr($field, 4);
 			
 			// instant messengers 
 			if(substr($field, 0, 3) == "im_")
 			{
 				$im = substr($field, 3);
+				if($user->getPref("public_im_".$im) != "y")
+				{
+					return false;					
+				}
 				if(!$user->getInstantMessengerId($im))
 				{
 					return false;
@@ -66,29 +90,44 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 			// udf
 			else if(substr($field, 0, 4) == "udf_")
 			{
+				$udf_field_id = substr($field, 4);
+				if($user->getPref("public_udf_".$udf_field_id) != "y")
+				{
+					return false;					
+				}
 				$udf = $user->getUserDefinedData();			
-				if($udf["f_".substr($field, 4)] == "")
+				if($udf["f_".$udf_field_id] == "")
 				{
 					return false;
 				}				
 			}
 			// picture
-			else if($field == "upload")
+			else 
 			{
-				if(!ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true))
+				if($user->getPref("public_".$field) != "y")
 				{
 					return false;
+				}					
+				if($field == "upload")
+				{
+					if(!ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true))
+					{
+						return false;
+					}
+				}
+				// use profile mapping if possible
+				else 
+				{							
+					if(isset($pfields[$field]["method"]))
+					{
+						$m = $pfields[$field]["method"];		
+						if(!$user->{$m}())
+						{				
+							return false;
+						}				
+					}						
 				}
 			}
-			// use profile mapping if possible
-			else if(isset($pfields[$field]["method"]))
-			{
-				$m = $pfields[$field]["method"];		
-				if(!$user->{$m}())
-				{				
-					return false;
-				}				
-			}						
 		}
 		
 		return true;		
