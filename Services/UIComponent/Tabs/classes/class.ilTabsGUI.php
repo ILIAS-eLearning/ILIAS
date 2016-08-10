@@ -280,15 +280,16 @@ class ilTabsGUI
 	}
 
 	/**
-	* DEPRECATED.
-	*
-	* Use addTab/addSubTab and activateTab/activateSubTab.
-	*
-	* Activate a specific tab identified by name
-	* This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
-	*
-	* @param	string		$a_text			menu item text		
-	*/
+	 * DEPRECATED.
+	 * @deprecated since version 5.2
+	 *
+	 * Use addTab/addSubTab and activateTab/activateSubTab.
+	 *
+	 * Activate a specific tab identified by name
+	 * This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
+	 *
+	 * @param	string		$a_text			menu item text		
+	 */
 	function setTabActive($a_id)
 	{
 		foreach($this->target as $key => $target)

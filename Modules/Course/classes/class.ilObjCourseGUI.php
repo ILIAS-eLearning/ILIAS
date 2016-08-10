@@ -20,7 +20,6 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI
  *
@@ -3310,8 +3309,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			$this->tabs_gui->addTab('view_content', $lng->txt("content"),
-								 $this->ctrl->getLinkTarget($this,''));
+			$this->tabs_gui->addTab(
+				'view_content', 
+				$lng->txt("content"),
+				$this->ctrl->getLinkTarget($this,'')
+			);
+			// default activation
+			$this->tabs_gui->activateTab('view_content');
 		}
 		
 		// learning objectives
@@ -3363,44 +3367,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
 		
-		// new implementation
-		if($this->checkPermissionBool('write'))
-		{
-			$this->tabs_gui->addTab(
-				'members',
-				$this->lng->txt('members'),
-				$this->ctrl->getLinkTargetByClass('ilCourseMembershipGUI', '')
-			);
-		}
-		elseif(
-			(bool) $this->object->getShowMembers() &&
-			$is_participant
-		)
-		{
-			$this->tabs_gui->addTab(
-				'members',
-				$this->lng->txt('members'),
-				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-				'',
-				'ilUserGalleryGUI'
-			);
-		}
-		elseif(
-			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL &&
-			$GLOBALS['rbacsystem']->checkAccess('internal_mail',$mail->getMailObjectReferenceId ()) &&
-			$is_participant
-		)
-		{
-			$this->tabs_gui->addTab(
-				'members',
-				$this->lng->txt('members'),
-				$this->ctrl->getLinkTarget($this, "mailMembersBtn")
-			);
-			
-		}
-		
+		include_once './Modules/Course/classes/class.ilCourseMembershipGUI.php';
+		$membership_gui = new ilCourseMembershipGUI($this, $this->object);
+		$membership_gui->addMemberTab($this->tabs_gui, $is_participant);
 		
 		// member list
+		/*
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			$this->tabs_gui->addTarget("members",
@@ -3432,6 +3404,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				get_class($this));
 			
 		}
+		 * 
+		 */
 
 
 		// learning progress
@@ -3813,6 +3787,15 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilcoursemembershipgui':
+				
+				$this->tabs_gui->activateTab('members');
+				
+				include_once './Modules/Course/classes/class.ilCourseMembershipGUI.php';
+				$mem_gui = new ilCourseMembershipGUI($this, $this->object);
+				$this->ctrl->forwardCommand($mem_gui);
+				break;
+			
 			case "ilinfoscreengui":
 				$this->infoScreen();	// forwards command
 				break;
@@ -3899,32 +3882,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 
-			case 'ilusersgallerygui':
-				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->object->ref_id);
-				$is_participant = (bool)ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
-				if(
-					!$is_admin &&
-					(
-						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
-						!$is_participant
-					)
-				)
-				{
-					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
-				}
-
-				$this->addMailToMemberButton($ilToolbar, 'jump2UsersGallery');
-
-				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
-				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('crs_members_gallery');
-
-				$provider    = new ilUsersGalleryParticipants($this->object->getMembersObject());
-				$gallery_gui = new ilUsersGalleryGUI($provider);
-				$this->ctrl->forwardCommand($gallery_gui);
-				break;
 
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
@@ -5034,7 +4991,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * returns all local roles [role_id] => title
 	 * @return array localroles
 	 */
-	protected function getLocalRoles($a_exclude = array())
+	public function getLocalRoles($a_exclude = array())
 	{
 		$crs_admin = $this->object->getDefaultAdminRole();
 		$crs_member = $this->object->getDefaultMemberRole();
@@ -5082,50 +5039,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		or $this->checkPermissionBool('edit_permission');
 	}
 
-	protected function mailMembersBtnObject()
-	{
-		global $ilToolbar;
-		$this->checkPermission('read');
-
-		$this->tabs_gui->setTabActive('members');
-
-		$this->addMailToMemberButton($ilToolbar, "mailMembersBtn");
-	}
-
-	/**
-	 * add Mail to Member button to toolbar
-	 *
-	 * @param ilToolbarGUI $ilToolbar
-	 * @param string $back_cmd
-	 * @param bool $a_separator
-	 */
-	protected function addMailToMemberButton($ilToolbar, $back_cmd = null, $a_separator = false)
-	{
-		global $ilUser, $rbacsystem, $ilAccess;
-		include_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($ilUser->getId());
-
-		if(
-			($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL or
-				$ilAccess->checkAccess('write',"",$this->object->getRefId())) and
-			$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
-		{
-
-			if($a_separator)
-			{
-				$ilToolbar->addSeparator();
-			}
-
-			if($back_cmd)
-			{
-				$this->ctrl->setParameter($this, "back_cmd", $back_cmd);
-			}
-
-			$ilToolbar->addButton($this->lng->txt("mail_members"),
-				$this->ctrl->getLinkTargetByClass('ilMailMemberSearchGUI','')
-			);
-		}
-	}
 
 	/**
 	 * 

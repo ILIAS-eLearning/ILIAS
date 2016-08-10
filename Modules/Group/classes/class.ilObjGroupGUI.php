@@ -18,7 +18,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilMailMemberSearchGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI
 * 
 *
 * @extends ilObjectGUI
@@ -58,7 +58,17 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		switch($next_class)
-		{			
+		{	
+			case 'ilgroupmembershipgui':
+				
+				$this->tabs_gui->activateTab('members');
+				
+				include_once './Modules/Group/classes/class.ilGroupMembershipGUI.php';
+				$mem_gui = new ilGroupMembershipGUI($this, $this->object);
+				$this->ctrl->forwardCommand($mem_gui);
+				break;
+			
+			
 			case 'ilgroupregistrationgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setTabActive('join');
@@ -1875,19 +1885,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 			
 		// Members
-		if($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
-		}
-		else if($is_participant)
-		{
-			$this->tabs_gui->addTarget(
-				'members',
-				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
-				'',
-				'ilUsersGalleryGUI'
-			);
-		}
+		include_once './Modules/Group/classes/class.ilGroupMembershipGUI.php';
+		$membership_gui = new ilGroupMembershipGUI($this, $this->object);
+		$membership_gui->addMemberTab($this->tabs_gui, $is_participant);
+		
+		
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
@@ -2861,7 +2863,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * returns all local roles [role_id] => title
 	 * @return array
 	 */
-	protected function getLocalRoles()
+	public function getLocalRoles()
 	{
 		$local_roles = $this->object->getLocalGroupRoles(false);
 		$grp_member = $this->object->getDefaultMemberRole();

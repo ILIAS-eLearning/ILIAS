@@ -5,15 +5,14 @@
 include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 
 /**
- * Member-tab content
+ * GUI class for membership features
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
- * 
- * 
- * @ilCtrl_Calls ilCourseMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI
+ *
+ * @ilCtrl_Calls ilGroupMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI
  *
  */
-class ilCourseMembershipGUI extends ilMembershipGUI
+class ilGroupMembershipGUI extends ilMembershipGUI
 {
 	
 }
