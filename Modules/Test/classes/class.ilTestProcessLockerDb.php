@@ -35,7 +35,6 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 	 */
 	protected function onBeforeExecutingTestStartOperation()
 	{
-		parent::onBeforeExecutingTestStartOperation();
 		$this->atom_query->lockTable('tst_active');
 	}
 
@@ -44,8 +43,6 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 	 */
 	protected function onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
-		parent::onBeforeExecutingTestStartOperation();
-
 		$this->atom_query->lockTable('tst_rnd_cpy');
 		$this->atom_query->lockTable('qpl_questions');
 		$this->atom_query->lockTable('qpl_qst_type');
