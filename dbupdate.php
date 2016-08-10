@@ -17,7 +17,7 @@ if(!$ilDB->tableColumnExists('tst_tests','pass_waiting'))
 	$ilDB->addTableColumn('tst_tests', 'pass_waiting', array(
 			'type'    => 'text',
 			'length'  => 15,
-			'notnull' => true,
-			'default' => '00:000:00:00:00')
+			'notnull' => false,
+			'default' => null)
 	);
 }
