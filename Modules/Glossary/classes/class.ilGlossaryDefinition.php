@@ -190,7 +190,7 @@ class ilGlossaryDefinition
 		$this->setId($ilDB->nextId("glossary_definition"));
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('glossary_definition');
+		$ilAtomQuery->addTableLock('glossary_definition');
 
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
 
@@ -243,7 +243,7 @@ class ilGlossaryDefinition
 		global $ilDB;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable("glossary_definition");
+		$ilAtomQuery->addTableLock("glossary_definition");
 
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB){
 
@@ -285,7 +285,7 @@ class ilGlossaryDefinition
 		global $ilDB;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('glossary_definition');
+		$ilAtomQuery->addTableLock('glossary_definition');
 
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
 
@@ -321,7 +321,7 @@ class ilGlossaryDefinition
 		global $ilDB;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('glossary_definition');
+		$ilAtomQuery->addTableLock('glossary_definition');
 
 		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB){
 

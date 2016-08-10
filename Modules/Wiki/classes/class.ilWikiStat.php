@@ -200,7 +200,7 @@ class ilWikiStat
 		$a_primary["ts"] = array("timestamp", $tstamp);
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable($a_table);
+		$ilAtomQuery->addTableLock($a_table);
 
 		$ilAtomQuery->addQueryCallable(
 			function(ilDBInterface $ilDB) use($a_table,  $a_primary, $a_values, $tstamp, &$is_update){

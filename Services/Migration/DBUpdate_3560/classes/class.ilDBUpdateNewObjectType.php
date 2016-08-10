@@ -455,7 +455,7 @@ class ilDBUpdateNewObjectType
 		// oracle does not support ALTER TABLE varchar2 to CLOB
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable($a_table_name);
+		$ilAtomQuery->addTableLock($a_table_name);
 
 		$ilAtomQuery->addQueryCallable(
 			function(ilDBInterface $ilDB) use ($a_table_name, $a_column_name, $tmp_column_name)

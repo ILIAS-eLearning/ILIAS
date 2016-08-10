@@ -66,7 +66,7 @@ class ilWikiUserHTMLExport
 		$last_change = ilPageObject::getLastChangeByParent("wpg", $this->wiki->getId());
 
 		$ilAtomQuery = $this->db->buildAtomQuery();
-		$ilAtomQuery->lockTable('wiki_user_html_export');
+		$ilAtomQuery->addTableLock('wiki_user_html_export');
 
 		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($last_change, &$ret){
 

@@ -469,7 +469,7 @@ class ilObjectActivation
 		
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable("crs_items");
+		$ilAtomQuery->addTableLock("crs_items");
 
 		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($a_ref_id, $parent_id, &$a_item){
 

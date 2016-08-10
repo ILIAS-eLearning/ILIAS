@@ -204,7 +204,7 @@ class ilRbacAdmin
 		global $ilDB;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('rbac_ua');
+		$ilAtomQuery->addTableLock('rbac_ua');
 
 		$ilAtomQuery->addQueryCallable(
 			function(ilDBInterface $ilDB) use(&$ret, $a_role_id, $a_usr_id,$a_limit, $a_limited_roles)

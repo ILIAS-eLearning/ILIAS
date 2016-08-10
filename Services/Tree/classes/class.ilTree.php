@@ -2412,7 +2412,7 @@ class ilTree
 		if($this->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable( $this->table_tree );
+			$ilAtomQuery->addTableLock( $this->table_tree );
 
 			$ilAtomQuery->addQueryCallable($renumber_callable);
 			$ilAtomQuery->run();

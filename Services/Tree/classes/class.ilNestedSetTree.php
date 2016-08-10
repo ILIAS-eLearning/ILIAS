@@ -378,7 +378,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		if($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('tree');
+			$ilAtomQuery->addTableLock('tree');
 			$ilAtomQuery->addQueryCallable($insert_node_callable);
 			$ilAtomQuery->run();
 		}else
@@ -450,7 +450,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		if($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('tree');
+			$ilAtomQuery->addTableLock('tree');
 			$ilAtomQuery->addQueryCallable($delete_tree_callable);
 			$ilAtomQuery->run();
 		}
@@ -490,7 +490,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		if ($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable("tree");
+			$ilAtomQuery->addTableLock("tree");
 
 			$ilAtomQuery->addQueryCallable($move_to_trash_callable);
 
@@ -793,7 +793,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('tree');
+			$ilAtomQuery->addTableLock('tree');
 			$ilAtomQuery->addQueryCallable($move_tree_callable);
 			$ilAtomQuery->run();
 		}

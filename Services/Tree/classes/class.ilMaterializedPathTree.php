@@ -260,7 +260,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		if ($this-> getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable("tree");
+			$ilAtomQuery->addTableLock("tree");
 
 			$ilAtomQuery->addQueryCallable($insert_node_callable);
 
@@ -303,7 +303,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		if($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('tree');
+			$ilAtomQuery->addTableLock('tree');
 			$ilAtomQuery->addQueryCallable($delete_tree_callable);
 			$ilAtomQuery->run();
 		}
@@ -345,7 +345,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		if ($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable("tree");
+			$ilAtomQuery->addTableLock("tree");
 
 			$ilAtomQuery->addQueryCallable($move_to_trash_callable);
 
@@ -462,7 +462,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		if ($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable("tree");
+			$ilAtomQuery->addTableLock("tree");
 			$ilAtomQuery->addQueryCallable($move_tree_callable);
 			$ilAtomQuery->run();
 		}

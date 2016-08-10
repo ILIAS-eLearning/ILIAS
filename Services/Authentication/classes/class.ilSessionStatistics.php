@@ -232,7 +232,7 @@ class ilSessionStatistics
 		global $ilDB;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
-		$ilAtomQuery->lockTable("usr_session_stats");
+		$ilAtomQuery->addTableLock("usr_session_stats");
 
 		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($a_now, &$slot){
 

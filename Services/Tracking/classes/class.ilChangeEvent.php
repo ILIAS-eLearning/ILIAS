@@ -390,8 +390,8 @@ class ilChangeEvent
 		if($row["counter"] >= $a_minimum)
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('obj_stat_log');
-			$ilAtomQuery->lockTable('obj_stat_tmp');
+			$ilAtomQuery->addTableLock('obj_stat_log');
+			$ilAtomQuery->addTableLock('obj_stat_tmp');
 
 			$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use($a_now, $a_minimum, &$ret){
 
@@ -424,8 +424,8 @@ class ilChangeEvent
 			if($ret)
 			{
 				$ilAtomQuery = $ilDB->buildAtomQuery();
-				$ilAtomQuery->lockTable('obj_stat_tmp');
-				$ilAtomQuery->lockTable('obj_stat');
+				$ilAtomQuery->addTableLock('obj_stat_tmp');
+				$ilAtomQuery->addTableLock('obj_stat');
 
 				$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use($a_now, $a_minimum){
 
