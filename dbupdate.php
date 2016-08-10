@@ -2,7 +2,6 @@
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-chdir('../..');
 include_once './include/inc.header.php';
 
 if(!$rbacsystem->checkAccess('visible,read', SYSTEM_FOLDER_ID))
@@ -21,3 +20,7 @@ if(!$ilDB->tableColumnExists('tst_tests','pass_waiting'))
 			'default' => null)
 	);
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+echo "Thank you for updating the database successfully ;-) Yours Developer -.-";
