@@ -18,6 +18,8 @@ class ilTestPassesSelector
 	
 	private $lastFinishedPass;
 	
+	protected $loadLastPassTimestamp = array();
+	
 	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
@@ -70,7 +72,22 @@ class ilTestPassesSelector
 
 		return $reportablePasses;
 	}
-	
+	private function loadTestPassResults()
+	{
+		$query = "
+			SELECT DISTINCT tst_pass_result.pass, tst_pass_result.tstamp FROM tst_pass_result
+			LEFT JOIN tst_test_result
+			ON tst_pass_result.pass = tst_test_result.pass
+			AND tst_pass_result.active_fi = tst_test_result.active_fi
+			WHERE tst_pass_result.active_fi = %s
+			ORDER BY tst_pass_result.pass
+		";
+		
+		$res = $this->db->queryF(
+			$query, array('integer'), array($this->getActiveId())
+		);
+		return $res;
+	}
 	private function loadExistingPasses()
 	{
 		$query = "
@@ -94,6 +111,28 @@ class ilTestPassesSelector
 		}
 		
 		return $existingPasses;
+	}
+	
+	/**
+	 * 
+	 */
+	private function loadLastPassTimestamp()
+	{
+		$res = $this->loadTestPassResults();
+		
+		while($row = $this->db->fetchAssoc($res))
+		{
+			$this->lastPassTimestamp[$row['pass']] = $row['tstamp'];
+		}
+	}
+	
+	/**
+	 * @return int timestamp
+	 */
+	public function getLastPassTimestamp()
+	{
+		$this->loadLastPassTimestamp();
+		return end($this->lastPassTimestamp);
 	}
 	
 	private function fetchReportablePasses($existingPasses)
