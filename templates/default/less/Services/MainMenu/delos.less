@@ -269,20 +269,20 @@ input.ilOpenIDBox {
 
 .ilMainHeader {
 	background-color: white;
-	height: 80px;
+	height: @il-main-header-height;
 	border-bottom: 3px solid @body-bg;
 	&.ilTopFixed {
-		top: 40px;
+		top: @il-top-bar-height;
 	}
 	> header > .row > a.navbar-brand {
 		//height: 70px;
-		height: 50px;
+		height: @il-logo-height;
 		display: inline-block;
 		padding: 0;
 		margin: 15px 15px 0;
 		> img {
-			width: 50px;
-			height: 50px;
+			width: @il-logo-width;
+			height: @il-logo-height;
 		}
 	}
 }
@@ -290,7 +290,9 @@ input.ilOpenIDBox {
 .ilMainMenu {
 	background-color: white;//@body-bg;
 	&.ilTopFixed {
-		top: 110px;
+		// This 7px seems arbitrary, no obvious choice for variable.
+		// This is just to get the current 110px in the standard.
+		top: floor((@il-header-height - 7px));
 	}
 }
 					
