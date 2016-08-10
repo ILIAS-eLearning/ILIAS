@@ -15719,7 +15719,7 @@ chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
 chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
-chatroom#:#connection_url_info#:#Please insert an URL without using the Protocol-Definition
+chatroom#:#connection_url_info#:#Please insert an URL <b>without</b> specifying the protocol definition.
 chatroom#:#log#:#Chatserver Log
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
@@ -15791,3 +15791,9 @@ rbac#:#grpr_read#:#Read access to Group Reference
 rbac#:#grpr_visible#:#Group reference is visible
 rbac#:#grpr_write#:#User can edit settings of group reference
 rbac#:#rbac_create_grpr#:#Create Group Reference
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
+chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
+chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
+chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory. 
+chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
