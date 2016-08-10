@@ -15337,3 +15337,4 @@ dcl#:#dcl_reference_link_info#:#La vista detallada debe estar activa en la tabla
 rbac#:#mep_copy#:#El usuario puede copiar un repositorio multimedia###29 06 2016 new variable
 crs#:#crs_cannot_find_role#:#No se puede encontrar este rol.###29 06 2016 new variable
 grp#:#grp_admission_link_failure_invalid_code#:#No se puede registrar: el enlace no es válido.###29 06 2016 new variable
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###10 08 2016 new variable
