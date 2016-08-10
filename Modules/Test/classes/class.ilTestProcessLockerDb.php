@@ -52,8 +52,8 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 
 		if($withTaxonomyTables)
 		{
-			$this->atom_query->addTableLock('tax_tree s');
-			$this->atom_query->addTableLock('tax_tree t');
+			$this->atom_query->addTableLock('tax_tree')->aliasName('s');
+			$this->atom_query->addTableLock('tax_tree')->aliasName('t');
 			$this->atom_query->addTableLock('tax_node_assignment');
 		}
 	}
