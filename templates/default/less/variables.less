@@ -90,6 +90,16 @@
 @border-radius-large:       0px;
 @border-radius-small:       0px;
 
+// This controls the heights of the header components.
+// controls height of the "topbar" (that gray thingy on top of the page in the standard).
+@il-top-bar-height:			40px;
+// controls the height of the "main header" (that white thingy with the logo and the main menu in it).
+@il-main-header-height:		80px;
+// that is the height of the complete header, that is that thingy upon the real content of the page.
+@il-header-height:			ceil((@il-main-header-height + @il-top-bar-height - @padding-base-vertical));
+// controls the height of the "logo" (that [ILIAS] thingy on top the page in the standard).
+@il-logo-height:			50px;
+
 //== Navs
 @nav-link-padding:          5px 10px;
 @nav-tabs-border-color:     #e0e0e0;
@@ -97,7 +107,6 @@
 @nav-tabs-active-link-hover-border-color: #e0e0e0;
 
 // this is related to the main menu
-@il-fixed-menu-height: 117px;
 @il-fixed-menu-height-bar-only: 40px;
 
 //== Breadcrumbs
