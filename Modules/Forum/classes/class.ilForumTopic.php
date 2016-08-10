@@ -568,8 +568,8 @@ class ilForumTopic
 			$current_id = $this->id;
 
 			$ilAtomQuery = $ilDB->buildAtomQuery();
-			$ilAtomQuery->lockTable('frm_user_read');
-			$ilAtomQuery->lockTable('frm_thread_access');
+			$ilAtomQuery->addTableLock('frm_user_read');
+			$ilAtomQuery->addTableLock('frm_thread_access');
 
 			$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
 				$ilDB->manipulateF('

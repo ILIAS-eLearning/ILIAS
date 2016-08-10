@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id:$"
+	id="grpr">
+	<baseclasses>
+		<baseclass name="ilObjGroupReferenceGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="grpr" class_name="GroupReference" dir="classes" default_pos="51" default_pres_pos="20"
+			checkbox="1" inherit="0" allow_link="0" allow_copy="1" translate="0" rbac="1" devmode="0" group="grp" export="1">
+			<parent id="recf">recf</parent>
+			<parent id="cat">cat</parent>
+			<parent id="grp">grp</parent>
+			<parent id="root">root</parent>
+			<parent id="crs">crs</parent>
+		</object>
+	</objects>
+</module>

@@ -444,35 +444,35 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 			$returnvalue = false;
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $numeric_result, $ilDB, $active_id, $pass, $authorized) {
 
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
+			$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 
-		$row = $ilDB->fetchAssoc($result);
-		$update = $row["solution_id"];
-		if ($update)
-		{
-			if (strlen($numeric_result))
+			$row    = $ilDB->fetchAssoc($result);
+			$update = $row["solution_id"];
+			if($update)
 			{
-				$this->updateCurrentSolution($update, trim($numeric_result), null, $authorized);
-				$entered_values++;
+				if(strlen($numeric_result))
+				{
+					$this->updateCurrentSolution($update, trim($numeric_result), null, $authorized);
+					$entered_values++;
+				}
+				else
+				{
+					$this->removeSolutionRecordById($update);
+				}
 			}
 			else
 			{
-				$this->removeSolutionRecordById($update);
+				if(strlen($numeric_result))
+				{
+					$this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null, $authorized);
+					$entered_values++;
+				}
 			}
-		}
-		else
-		{
-			if (strlen($numeric_result))
-			{
-				$this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null, $authorized);
-				$entered_values++;
-			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-		
+		});
+
 		if ($entered_values)
 		{
 			require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';

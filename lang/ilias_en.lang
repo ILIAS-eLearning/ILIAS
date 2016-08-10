@@ -653,7 +653,7 @@ assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments fo
 assessment#:#tst_save_comp_points#:#Save Competence Points
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
-assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
+assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
@@ -14320,9 +14320,7 @@ blog#:#blog_nav_sortorder#:#Order of Blocks
 survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
-survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.
 survey#:#svy_results_view_own#:#Participants can View Own Answers
-survey#:#svy_results_mail_own#:#Participants can Mail Own Answers
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties
@@ -14757,7 +14755,6 @@ content#:#cont_table_cellpadding_info#:#Keep this empty to make content style se
 survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. 
 survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
 survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
-survey#:#svy_results_mail_own_info#:#Particiants can request a mail containing their own answers.
 survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
 survey#:#survey_360_self_evaluation_info#:#Appraisees are allowed to rate themselves using the questions.
 survey#:#survey_360_self_raters_info#:#Appraisees autonomously select and invite those persons that are supposed to provide feedback to them.
@@ -15766,3 +15763,32 @@ pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal deskto
 blog#:#blog_show_latest#:#Show latest postings/drafts
 common#:#objs_prtf#:#Portfolios
 grp#:#grp_member_administration#:#Edit Participants
+survey#:#svy_results_mail_confirm#:#Participants can request participation confirmation
+survey#:#svy_results_mail_confirm_info#:#Participants can request a mail with a confirmation of participation at the end of the survey.
+survey#:#svy_results_mail_own#:#Include given answers
+survey#:#svy_results_mail_own_info#:#The given answers will be included in the confirmation of participation.
+survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation
+survey#:#svy_mail_confirmation_subject#:#Survey "%s" - Your participation confirmation
+survey#:#svy_anonymous_participants#:#List of Participants
+survey#:#svy_anonymous_participants_info#:#If activated a list of participants can be enabled in anonymous surveys.
+survey#:#svy_anonymous_participants_min#:#Minimum Number of Participants
+survey#:#svy_anonymous_participants_min_info#:#The list will only be available if there are at least the minimum number of participants.
+survey#:#svy_anonymous_participants_svy#:#List of Participants
+survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participants is available after the end date.
+survey#:#survey_results_started#:#Survey started
+survey#:#survey_results_not_started#:#Survey not started
+survey#:#svy_mail_own_results_body#:#you participated in the following survey:
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+common#:#grpr_edit_info#:#Please choose one group, for creating a new reference.
+common#:#grpr_edit#:#Edit Group Reference
+common#:#grpr_new#:#Create Group Reference
+common#:#grpr#:#Group Reference
+common#:#obj_grpr#:#Group Reference
+common#:#objs_grpr#:#Group References
+rbac#:#grpr_copy#:#User can copy group reference
+rbac#:#grpr_delete#:#User can move or delete group reference
+rbac#:#grpr_edit_permission#:#User can change permission settings
+rbac#:#grpr_read#:#Read access to Group Reference
+rbac#:#grpr_visible#:#Group reference is visible
+rbac#:#grpr_write#:#User can edit settings of group reference
+rbac#:#rbac_create_grpr#:#Create Group Reference

@@ -9,8 +9,8 @@ use ILIAS\UI\Component as C;
  * Some Random Comment
  */
 interface Factory {
-    /**
-     * @return  \ILIAS\UI\Factory\NoDescriptionEntry
-     */
-    public function noDescriptionEntry();
+	/**
+	 * @return  \ILIAS\UI\Factory\NoDescriptionEntry
+	 */
+	public function noDescriptionEntry();
 }

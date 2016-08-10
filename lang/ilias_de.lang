@@ -754,7 +754,7 @@ assessment#:#ass_lac_expression_not_supported_by_question#:#Für die Frage "Q%s"
 assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Für die aktuelle Frage ist der Ausdruck "%s" nicht unterstützt.
 assessment#:#ass_lac_operator_not_supported_by_expression#:#Die Operation "%s" wird für den Vergleich mit dem Ausdruck "%s" nicht unterstützt.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung des Kompetenz-Levels beitragen.
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -1689,7 +1689,7 @@ assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
-assessment#:#tst_level#:#Kompetenz Level
+assessment#:#tst_level#:#Kompetenz-Ausprägung
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
@@ -14276,9 +14276,7 @@ blog#:#blog_nav_sortorder#:#Sortierung
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
-survey#:#svy_mail_own_results_body#:#nachfolgend ist Ihre Teilnahme gelistet.
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
-survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail mit den eigenen Antworten senden
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
 wiki#:#wiki_add_page_properties#:#Erweiterte Metadaten von Wikiseiten
@@ -14757,7 +14755,6 @@ content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B.
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
 survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht 'Einstellungen bearbeiten') haben Zugriff auf die Ergebnisse der Umfrage.
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teigenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
-survey#:#svy_results_mail_own_info#:#Teilnehmer können sich die eigenen Antworten per Mail zusenden lassen.
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
@@ -15767,3 +15764,32 @@ pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 common#:#objs_prtf#:#Portfolios
 grp#:#grp_member_administration#:#Teilnehmerverwaltung
+survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
+survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
+survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
+survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
+survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung senden
+survey#:#svy_mail_confirmation_subject#:#Umfrage "%s" - Ihre Teilnahmebestätigung
+survey#:#svy_anonymous_participants#:#Teilnehmerliste
+survey#:#svy_anonymous_participants_info#:#Wenn aktiviert kann eine Teilnehmerliste bei anonymen Umfragen erzeugt werden.
+survey#:#svy_anonymous_participants_min#:#Mindestteilnehmeranzahl
+survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Teilnehmer.
+survey#:#svy_anonymous_participants_svy#:#Teilnehmerliste
+survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehmerliste nach dem Enddatum verfügbar.
+survey#:#survey_results_started#:#Umfrage begonnen
+survey#:#survey_results_not_started#:#Umfrage nicht begonnen
+survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
+common#:#grpr#:#Gruppen-Referenz
+common#:#grpr_edit#:#Gruppen-Referenz bearbeiten
+common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
+common#:#grpr_new#:#Neue Gruppen-Referenz anlegen
+common#:#obj_grpr#:#Gruppen-Referenz
+common#:#objs_grpr#:#Gruppen-Referenzen
+rbac#:#grpr_copy#:#Gruppen-Referenzen kopieren
+rbac#:#grpr_delete#:#Gruppen-Referenzen verschieben oder löschen
+rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
+rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
+rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
+rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
