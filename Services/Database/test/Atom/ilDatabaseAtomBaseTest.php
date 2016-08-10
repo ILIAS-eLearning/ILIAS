@@ -218,4 +218,24 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDBInterface) { });
 		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDBInterface) { });
 	}
+
+
+	public function testLockSameTable() {
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_IDENTICAL_TABLES);
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom');
+		$ilAtomQuery->addTableLock('il_db_tests_atom');
+		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDBInterface) { });
+		$ilAtomQuery->run();
+	}
+
+
+	public function testLockSameTableWithAlias() {
+		$this->setExpectedException('ilAtomQueryException', ilAtomQueryException::DB_ATOM_IDENTICAL_TABLES);
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->aliasName('alias_one');
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->aliasName('alias_one');
+		$ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDBInterface) { });
+		$ilAtomQuery->run();
+	}
 }
