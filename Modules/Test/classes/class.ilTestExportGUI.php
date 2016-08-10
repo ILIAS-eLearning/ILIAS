@@ -136,12 +136,21 @@ class ilTestExportGUI extends ilExportGUI
 			require_once './Modules/Test/classes/class.ilTestScoring.php';
 			$scoring = new ilTestScoring($this->obj);
 			$best_solution = $scoring->calculateBestSolutionForTest();
-			
+
+			$tmpFileName = ilUtil::ilTempnam();
+			if(!is_dir($tmpFileName))
+			{
+				ilUtil::makeDirParents($tmpFileName);
+			}
+
+			$directory_name = realpath($tmpFileName);
+			$file_name      = $directory_name . DIRECTORY_SEPARATOR . 'Best_Solution.pdf';
+
 			require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
 			$generator = new ilTestPDFGenerator();
-			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, 'Best_Solution.pdf');
-			$archive_exp->handInTestBestSolution($best_solution, 'Best_Solution.pdf');
-			unlink('Best_Solution.pdf');
+			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name);
+			$archive_exp->handInTestBestSolution($best_solution, $file_name);
+			ilUtil::delDir($directory_name);
 			
 			$archive_exp->updateTestArchive();
 			$archive_exp->compressTestArchive();

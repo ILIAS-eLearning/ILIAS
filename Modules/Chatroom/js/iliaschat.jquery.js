@@ -227,7 +227,7 @@ var Smileys = function Smileys(_smileys) {
 				$(this).removeClass("active");
 			});
 
-			$emoticons_panel.bind('clickoutside', function (event) {
+			$emoticons_panel.on('clickoutside', function (event) {
 				if ($emoticons_flyout_trigger.hasClass("active")) {
 					$emoticons_flyout_trigger.click();
 				}
@@ -815,7 +815,7 @@ var ChatActions = function ChatActions(selector, _translation, _connector, _priv
 									}
 								});
 
-								if($(availableUsers).children().size() == 0) {
+								if($(availableUsers).children().length == 0) {
 									$('#invite_users_in_room').remove();
 									$('#radioText').remove();
 									$('#invite_users_global').prop('checked', 'checked').click();
@@ -1167,7 +1167,7 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 			window.location.href = redirectUrl;
 		});
 
-		$(window).bind('beforeunload',function() {
+		$(window).on('beforeunload',function() {
 			_socket.close();
 		});
 

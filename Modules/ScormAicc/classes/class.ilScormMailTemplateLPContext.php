@@ -170,7 +170,10 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 				if($coll->getItems())
 				{				
 					include_once 'Services/Tracking/classes/class.ilTrQuery.php';		
-					foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
+					//changed static call into dynamic one//ukohnle
+					//foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
+					$SCOStatusForUser = (new ilTrQuery)->getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems());
+					foreach($SCOStatusForUser as $item)
 					{
 						$scores[] = $item['title'].': '.$item['score'];
 					}	
