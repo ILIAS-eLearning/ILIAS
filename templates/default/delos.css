@@ -6435,6 +6435,7 @@ span.ilAlert {
   width: 22px;
   height: 22px;
   margin: 0 3px 0 0;
+  display: inline;
 }
 .ilAdvNoImg {
   display: inline-block;
@@ -9015,6 +9016,7 @@ input.ilOpenIDBox {
 .dropdown-menu li > a {
   padding: 3px 10px;
   color: #5d5d5d;
+  font-size: 14px;
 }
 .dropdown-header {
   padding: 3px 10px;
