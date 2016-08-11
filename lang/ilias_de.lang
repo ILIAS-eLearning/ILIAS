@@ -771,6 +771,7 @@ assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilneh
 assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
+assessment#:#new_test_created#:#Neuer Test
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
 assessment#:#log_mark_added#:#Note hinzugefügt
 assessment#:#log_mark_changed#:#Note geändert
