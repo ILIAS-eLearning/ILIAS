@@ -253,4 +253,23 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Image\Factory
 	 */
 	public function image();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     This component is used to wrap an existing ILIAS UI element into a UI component. This is useful if a container
+	 *     of the UI components needs to contain content that is not yet implement in the centralized UI components.
+	 *   composition: >
+	 *     The generic component contains html or any other content as string.
+	 *
+	 * rules:
+	 *   wording:
+	 *      1: This component MUST only be used to ensure backwards compatibility with existing UI elements in ILIAS.
+	 * ---
+	 *
+	 * @param   string $content
+	 * @return  \ILIAS\UI\Component\Generic\Generic
+	 */
+	public function generic($content);
 }
