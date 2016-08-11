@@ -33,12 +33,7 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 				.'		AND massme.usr_id = '.$this->db->quote($usr_id,'integer');
 		$rec = $this->db->fetchAssoc($this->db->query($sql));
 		if($rec) {
-			$member = new ilManualAssessmentMember($obj,$usr);
-			$member = $member->withRecord($rec[self::FIELD_RECORD])
-						->withInternalNote($rec[self::FIELD_INTERNAL_NOTE])
-						->withNotify($rec[self::FIELD_NOTIFY])
-						->withGrade($rec[self::FIELD_GRADE]);
-			$member = $rec[self::FIELD_EXAMINER_ID] !== null ? $member->withExaminerId($rec[self::FIELD_EXAMINER_ID]) : $member;
+			$member = new ilManualAssessmentMember($obj, $usr, $rec);
 			return $member;
 		} else {
 			throw new ilManualAssessmentException("invalid usr-obj combination");
@@ -62,11 +57,12 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 
 	public function updateMember(ilManualAssessmentMember $member) {
 		$sql = 'UPDATE mass_members SET '
-				.'	'.self::FIELD_GRADE.' = '.$this->db->quote($member->grade(),'text')
-				.'	,'.self::FIELD_EXAMINER_ID.' = '.$this->db->quote($member->examinerId(),'integer')
-				.'	,'.self::FIELD_RECORD.' = '.$this->db->quote($member->record(),'text')
-				.'	,'.self::FIELD_INTERNAL_NOTE.' = '.$this->db->quote($member->internalNote(),'text')
-				.'	,'.self::FIELD_NOTIFY.' = '.$this->db->quote($member->notify(),'integer')
+				.'	'.ilManualAssessmentMembers::FIELD_GRADE.' = '.$this->db->quote($member->grade(),'text')
+				.'	,'.ilManualAssessmentMembers::FIELD_EXAMINER_ID.' = '.$this->db->quote($member->examinerId(),'integer')
+				.'	,'.ilManualAssessmentMembers::FIELD_RECORD.' = '.$this->db->quote($member->record(),'text')
+				.'	,'.ilManualAssessmentMembers::FIELD_INTERNAL_NOTE.' = '.$this->db->quote($member->internalNote(),'text')
+				.'	,'.ilManualAssessmentMembers::FIELD_NOTIFY.' = '.$this->db->quote($member->notify(),'integer')
+				.'	,'.ilManualAssessmentMembers::FIELD_FINALIZED.' = '.$this->db->quote($member->notify(),'integer')
 				.'	WHERE obj_id = '.$this->db->quote($member->assessmentId(),'integer')
 				.'		AND usr_id = '.$this->db->quote($member->id(),'integer');
 		$this->db->manipulate($sql);
@@ -78,11 +74,11 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 	}
 
 	protected function loadMembersQuery($obj_id) {
-		return 'SELECT ex.firstname as '.self::FIELD_EXAMINER_FIRSTNAME
-				.'	, ex.lastname as '.self::FIELD_EXAMINER_LASTNAME
-				.'	,usr.firstname as '.self::FIELD_FIRSTNAME
-				.'	,usr.lastname as '.self::FIELD_LASTNAME
-				.'	,usr.login as '.self::FIELD_LOGIN
+		return 'SELECT ex.firstname as '.ilManualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME
+				.'	, ex.lastname as '.ilManualAssessmentMembers::FIELD_EXAMINER_LASTNAME
+				.'	,usr.firstname as '.ilManualAssessmentMembers::FIELD_FIRSTNAME
+				.'	,usr.lastname as '.ilManualAssessmentMembers::FIELD_LASTNAME
+				.'	,usr.login as '.ilManualAssessmentMembers::FIELD_LOGIN
 				.'	,massme.*'
 				.' FROM mass_members massme'
 				.'	JOIN usr_data usr ON massme.usr_id = usr.usr_id'
@@ -94,8 +90,8 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		$sql = 'INSERT INTO mass_members (obj_id,usr_id,record,notify) '
 				.'	VALUES ('
 				.'		'.$this->db->quote($mass->getId(),'integer')
-				.'		,'.$this->db->quote($record[self::FIELD_USR_ID],'integer')
-				.'		,'.$this->db->quote($record[self::FIELD_RECORD],'text')
+				.'		,'.$this->db->quote($record[ilManualAssessmentMembers::FIELD_USR_ID],'integer')
+				.'		,'.$this->db->quote($record[ilManualAssessmentMembers::FIELD_RECORD],'text')
 				.'		,'.$this->db->quote(0,'integer')
 				.'	)';
 		$this->db->manipulate($sql);
@@ -104,7 +100,7 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 	protected function removeMembersRecord(ilObjManualAssessment $mass,array $record) {
 		$sql = 'DELETE FROM mass_members'
 				.'	WHERE obj_id = '.$this->db->quote($mass->getId(), 'integer')
-				.'		AND usr_id = '.$this->db->quote($record[self::FIELD_USR_ID], 'integer');
+				.'		AND usr_id = '.$this->db->quote($record[ilManualAssessmentMembers::FIELD_USR_ID], 'integer');
 		$this->db->manipulate($sql);
 	}
 }

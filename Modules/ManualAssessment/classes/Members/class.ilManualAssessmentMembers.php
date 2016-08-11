@@ -8,6 +8,20 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	protected $position = 0;
 	protected $mass;
 
+	const FIELD_FIRSTNAME = 'firstname';
+	const FIELD_LASTNAME = 'lastname';
+	const FIELD_LOGIN = 'login';
+	const FIELD_USR_ID = 'usr_id';
+	const FIELD_GRADE = 'grade';
+	const FIELD_EXAMINER_ID = 'examiner_id';
+	const FIELD_EXAMINER_FIRSTNAME = 'examiner_firstname';
+	const FIELD_EXAMINER_LASTNAME = 'examiner_lastname';
+	const FIELD_RECORD = 'record';
+	const FIELD_INTERNAL_NOTE = 'internal_note';
+	const FIELD_NOTIFY = 'notify';
+	const FIELD_FINALIZED = 'finalized';
+
+
 	public function __construct(ilObjManualAssessment $mass) {
 		$this->mass = $mass;
 	}
@@ -21,8 +35,9 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	}
 
 	public function recordOK(array $record) {
-		if(isset($record[ilManualAssessmentMembersStorageDB::FIELD_USR_ID])) {
-			if($this->userExists($record[ilManualAssessmentMembersStorageDB::FIELD_USR_ID]) && !$this->userAllreadyMemberByUsrId($record[ilManualAssessmentMembersStorageDB::FIELD_USR_ID])) {
+		if(isset($record[self::FIELD_USR_ID])) {
+			if($this->userExists($record[self::FIELD_USR_ID]) 
+				&& !$this->userAllreadyMemberByUsrId($record[self::FIELD_USR_ID])) {
 				return true;
 			}
 		}
@@ -44,7 +59,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	public function withAdditionalRecord(array $record) {
 		if($this->recordOK($record)) {
 			$clone = clone $this;
-			$clone->member_records[$record[ilManualAssessmentMembersStorageDB::FIELD_USR_ID]] = $record;
+			$clone->member_records[$record[self::FIELD_USR_ID]] = $record;
 			return $clone;
 		}
 		throw new ilManualAssessmentException('illdefined record');
@@ -61,17 +76,18 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 
 	protected function buildNewRecordOfUser(ilObjUser $usr) {
 		return array(
-			  ilManualAssessmentMembersStorageDB::FIELD_USR_ID		=> $usr->getId()
-			, ilManualAssessmentMembersStorageDB::FIELD_RECORD		=> $this->mass->getSettings()->recordTemplate()
-			, ilManualAssessmentMembersStorageDB::FIELD_NOTIFY		=> 0
-			, ilManualAssessmentMembersStorageDB::FIELD_FIRSTNAME	=> $usr->getFirstname()
-			, ilManualAssessmentMembersStorageDB::FIELD_LASTNAME	=> $usr->getLastname()
-			, ilManualAssessmentMembersStorageDB::FIELD_LOGIN		=> $usr->getLogin()
-			, ilManualAssessmentMembersStorageDB::FIELD_GRADE 		=> null
-			, ilManualAssessmentMembersStorageDB::FIELD_EXAMINER_ID => null
-			, ilManualAssessmentMembersStorageDB::FIELD_EXAMINER_FIRSTNAME	=> null
-			, ilManualAssessmentMembersStorageDB::FIELD_EXAMINER_LASTNAME	=> null
-			, ilManualAssessmentMembersStorageDB::FIELD_INTERNAL_NOTE		=> null
+			  self::FIELD_USR_ID				=> $usr->getId()
+			, self::FIELD_RECORD				=> $this->mass->getSettings()->recordTemplate()
+			, self::FIELD_NOTIFY				=> 0
+			, self::FIELD_FIRSTNAME				=> $usr->getFirstname()
+			, self::FIELD_LASTNAME				=> $usr->getLastname()
+			, self::FIELD_LOGIN					=> $usr->getLogin()
+			, self::FIELD_GRADE					=> null
+			, self::FIELD_EXAMINER_ID			=> null
+			, self::FIELD_EXAMINER_FIRSTNAME	=> null
+			, self::FIELD_EXAMINER_LASTNAME		=> null
+			, self::FIELD_INTERNAL_NOTE			=> null
+			, self::FIELD_FINALIZED				=> 0
 			);
 	}
 
