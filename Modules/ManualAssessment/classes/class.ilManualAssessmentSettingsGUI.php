@@ -8,13 +8,13 @@ class ilManualAssessmentSettingsGUI {
 	const PROP_DESCRIPTION = "description";
 
 	public function __construct($a_parent_gui, $a_ref_id) {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
-		$this->ctrl = $ilCtrl;
+		global $DIC;
+		$this->ctrl = $DIC['ilCtrl'];
 		$this->parent_gui = $a_parent_gui;
 		$this->object = $a_parent_gui->object;
 		$this->ref_id = $a_ref_id;
-		$this->tpl = $tpl;
-		$this->lng = $lng;
+		$this->tpl = $DIC['tpl'];
+		$this->lng = $DIC['lng'];
 	}
 	
 	public function executeCommand() {
@@ -36,7 +36,7 @@ class ilManualAssessmentSettingsGUI {
 	protected function view() {
 		$form = $this->fillForm($this->initSettingsForm()
 					,$this->object
-					,$this->object->loadSettings());
+					,$this->object->getSettings());
 		$this->renderForm($form);
 	}
 
@@ -48,10 +48,10 @@ class ilManualAssessmentSettingsGUI {
 		$form = $this->initSettingsForm();
 		$form->setValuesByArray($_POST);
 		if($form->checkInput()) {
-			$settings = new ilManualAssessmentSettings($this->object);
-			$settings = $settings->withContent($_POST[self::PROP_CONTENT])
-								->withRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE]);
-			$this->object->updateSettings($settings);
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setDescription($_POST["description"]);
+			$this->object->getSettings()->setContent($_POST[self::PROP_CONTENT])
+								->setRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE]);
 			$this->object->update();
 		}
 		$this->renderForm($form);
@@ -86,9 +86,9 @@ class ilManualAssessmentSettingsGUI {
 		return $form;
 	}
 	protected function fillForm(ilPropertyFormGUI $a_form,ilObjManualAssessment $mass, ilManualAssessmentSettings $settings) {
-		$a_form->setValuesByArray(array
-			( 'title' => $mass->getTitle()
-			, 'description' => $mass->getDescription()
+		$a_form->setValuesByArray(array(
+			  self::PROP_TITLE => $mass->getTitle()
+			, self::PROP_DESCRIPTION => $mass->getDescription()
 			, self::PROP_CONTENT => $settings->content()
 			, self::PROP_RECORD_TEMPLATE => $settings->recordTemplate()
 			));
