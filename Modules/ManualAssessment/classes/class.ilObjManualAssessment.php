@@ -54,4 +54,8 @@ class ilObjManualAssessment extends ilObject {
 		parent::update();
 		$this->settings_storage->updateSettings($this->settings);
 	}
+
+	public function membersStorage() {
+		return $this->members_storage;
+	}
 }
