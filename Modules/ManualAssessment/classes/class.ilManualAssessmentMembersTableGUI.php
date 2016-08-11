@@ -1,7 +1,7 @@
 <?php
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
-
+require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -15,6 +15,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/ManualAssessment");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
+		$this->parent_obj = $a_parent_obj;
 		$columns = array( "name" 				=> array("name")
 						, "login" 				=> array("login")
 						, "grade" 				=> array("grade")
@@ -24,7 +25,6 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		foreach ($columns as $lng_var => $params) {
 			$this->addColumn($this->lng->txt($lng_var), $params[0]);
 		}
-
 		$this->setData(iterator_to_array($a_parent_obj->object->loadMembers()));
 	}
 
@@ -34,6 +34,26 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("GRADE", $a_set["grade"]);
 		$this->tpl->setVariable("GRADED_BY", $a_set["graded_by"]);
-		$this->tpl->setVariable("ACTIONS", "fill_me");
+		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
 	}
+
+	protected function buildActionDropDown($a_set) {
+		$l = new ilAdvancedSelectionListGUI();
+		$lng_var_edit = "mass_usr_view";
+		if(!$a_set['finalized']) {
+			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
+			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUser');
+			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
+			$l->addItem($this->lng->txt("mass_usr_remove"), 'removeUser', $target);
+			$lng_var_edit = "mass_usr_edit";
+		}
+		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
+		$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
+		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', null);
+		$l->addItem($this->lng->txt($lng_var_edit), 'edit', $target);
+		$this->ctrl->setParameter($this->parent_obj,'usr_id',null);
+
+		return $l->getHTML();
+	}
+
 }
