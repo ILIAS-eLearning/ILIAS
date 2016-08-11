@@ -16,6 +16,16 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
 
+		$this->items = array
+			( "Buchungen"
+			, "Bildungsbiografie"
+			, "Profil"
+			, "TEP"
+			, "Trainingseinsätze"
+			, "Trainingsverwaltung"
+			);
+
+		$this->addCss();
 		$html = $this->getSubmenuHTML();
 
 		return array
@@ -25,10 +35,20 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	}
 
 	protected function getSubMenuHTML() {
-		global $tpl;
+		$tpl = $this->plugin_object->getTemplate("tpl.submenu.html", true, true);
+		$count = 1;
+		foreach ($this->items as $item) {
+			$tpl->setCurrentBlock("item");
+			$tpl->setVariable("NUM", $count);
+			$tpl->setVariable("LABEL", $item);
+			$tpl->parseCurrentBlock();
+			$count++;
+		}
+		return $tpl->get();
+	}
 
-		$my_tpl = $this->plugin_object->getTemplate("tpl.submenu.html", false, false);
+	protected function addCss() {
+		global $tpl;
 		$tpl->addCss($this->plugin_object->getStyleSheetLocation("submenu.css"));
-		return $my_tpl->get();
 	}
 }

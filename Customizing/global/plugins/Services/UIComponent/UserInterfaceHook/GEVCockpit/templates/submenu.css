@@ -32,22 +32,22 @@ ul {
 }
 
 #catSubMenuItem1 {
-	background-image: url("GEV_SubMenueImg1.png");
+	background-image: url("images/GEV_SubMenueImg1.png");
 }
 #catSubMenuItem2 {
-	background-image: url("GEV_SubMenueImg2.png");
+	background-image: url("images/GEV_SubMenueImg2.png");
 }
 #catSubMenuItem3 {
-	background-image: url("GEV_SubMenueImg3.png");
+	background-image: url("images/GEV_SubMenueImg3.png");
 }
 #catSubMenuItem4 {
-	background-image: url("GEV_SubMenueImg4.png");
+	background-image: url("images/GEV_SubMenueImg4.png");
 }
 #catSubMenuItem5 {
-	background-image: url("GEV_SubMenueImg5.png");
+	background-image: url("images/GEV_SubMenueImg5.png");
 }
 #catSubMenuItem6 {
-	background-image: url("GEV_SubMenueImg6.png");
+	background-image: url("images/GEV_SubMenueImg6.png");
 }
 
 .catSubMenuItem {
