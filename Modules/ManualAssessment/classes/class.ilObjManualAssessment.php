@@ -11,12 +11,16 @@
 require_once 'Services/Object/classes/class.ilObject.php';
 require_once 'Modules/ManualAssessment/classes/Settings/class.ilManualAssessmentSettings.php';
 require_once 'Modules/ManualAssessment/classes/Settings/class.ilManualAssessmentSettingsStorageDB.php';
+require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
 class ilObjManualAssessment extends ilObject {
+	protected $gDic;
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		global $DIC;
-		$this->type = "mass";
+		$this->gDic = $DIC;
+		$this->type = 'mass';
 		parent::__construct($a_id, $a_call_by_reference);
-		$this->settings_storage = new ilManualAssessmentSettingsStorageDB($DIC["ilDB"]);
+		$this->settings_storage = new ilManualAssessmentSettingsStorageDB($this->gDic['ilDB']);
+		$this->members_storage =  new ilManualAssessmentMembersStorageDB($this->gDic['ilDB']);
 	}
 
 	public function create() {
@@ -25,16 +29,29 @@ class ilObjManualAssessment extends ilObject {
 		$this->settings_storage->createSettings($this->settings);
 	}
 
-	public function loadSettings() {
-		return $this->settings_storage->loadSettings($this);
+	public function getSettings() {
+		if(!$this->settings) {
+			$this->settings = $this->settings_storage->loadSettings($this);
+		}
+		return $this->settings;
 	}
 
-	public function updateSettings(ilManualAssessmentSettings $settings) {
-		$this->settings_storage->updateSettings($settings);
+	public function loadMembers() {
+		return $this->members_storage->loadMembers($this);
+	}
+
+	public function updateMembers(ilManualAssessmentMembers $members) {
+		$this->members_storage->updateMembers($members);
 	}
 
 	public function delete() {
 		$this->settings_storage->deleteSettings($this);
+		$this->members_storage->deleteMembers($this);
 		parent::delete();
+	}
+
+	public function update() {
+		parent::update();
+		$this->settings_storage->updateSettings($this->settings);
 	}
 }
