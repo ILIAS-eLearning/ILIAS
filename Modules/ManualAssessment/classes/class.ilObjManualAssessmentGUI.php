@@ -13,6 +13,7 @@
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilObjTaxonomyGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentSettingsGUI
+ * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentMembersGUI
  */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
@@ -20,9 +21,10 @@ require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
 
 
 class ilObjManualAssessmentGUI extends ilObjectGUI {
-	const TAB_SETTINGS = "settings";
-	const TAB_INFO = "info_short";
+	const TAB_SETTINGS = 'settings';
+	const TAB_INFO = 'info_short';
 	const TAB_PERMISSION = 'perm_settings';
+	const TAB_MEMBERS = 'members';
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 		global $DIC;
 		$this->type = 'mass';
@@ -51,6 +53,12 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$gui = new ilManualAssessmentSettingsGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
+			case "ilmanualassessmentmembersgui":
+				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php");
+				$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
 				$info = new ilInfoScreenGUI($this);
@@ -77,6 +85,10 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 								, $this->lng->txt("settings")
 								, $this->getLinkTarget("settings")
 								);
+		$this->tabs_gui->addTab( self::TAB_MEMBERS
+								, $this->lng->txt("members")
+								, $this->getLinkTarget("members")
+								);
 		$this->tabs_gui->addTab( self::TAB_INFO
 								, $this->lng->txt("info_short")
 								, $this->getLinkTarget("info")
@@ -96,6 +108,9 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		}
 		if ($a_cmd == "info") {
 			return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "view");
+		}
+		if ($a_cmd == "members") {
+			return $this->ctrl->getLinkTargetByClass("ilmanualassessmentmembersgui", "view");
 		}
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
 	}
