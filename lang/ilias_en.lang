@@ -660,6 +660,7 @@ assessment#:#log_answer_changed_points#:#Manual change of points of test person 
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
+assessment#:#new_test_created#:#New Test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
