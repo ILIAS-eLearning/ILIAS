@@ -20,7 +20,7 @@ class ilManualAssessmentSettingsGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
-			case "view":
+			case "edit":
 			case "update":
 			case "cancel":
 				$this->$cmd();
@@ -33,7 +33,7 @@ class ilManualAssessmentSettingsGUI {
 		$this->ctrl->redirect($this->parent_gui);
 	}
 
-	protected function view() {
+	protected function edit() {
 		$form = $this->fillForm($this->initSettingsForm()
 					,$this->object
 					,$this->object->getSettings());
@@ -48,8 +48,8 @@ class ilManualAssessmentSettingsGUI {
 		$form = $this->initSettingsForm();
 		$form->setValuesByArray($_POST);
 		if($form->checkInput()) {
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setDescription($_POST["description"]);
+			$this->object->setTitle($_POST[self::PROP_TITLE]);
+			$this->object->setDescription($_POST[self::PROP_DESCRIPTION]);
 			$this->object->getSettings()->setContent($_POST[self::PROP_CONTENT])
 								->setRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE]);
 			$this->object->update();
@@ -85,7 +85,7 @@ class ilManualAssessmentSettingsGUI {
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		return $form;
 	}
-	protected function fillForm(ilPropertyFormGUI $a_form,ilObjManualAssessment $mass, ilManualAssessmentSettings $settings) {
+	protected function fillForm(ilPropertyFormGUI $a_form, ilObjManualAssessment $mass, ilManualAssessmentSettings $settings) {
 		$a_form->setValuesByArray(array(
 			  self::PROP_TITLE => $mass->getTitle()
 			, self::PROP_DESCRIPTION => $mass->getDescription()
