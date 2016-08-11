@@ -73,11 +73,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$this->$cmd();
 				break;
 		}
-		$this->addHeaderAction(); 
 		return true;
 	}
 
 	public function viewObject() {
+
 	}
 
 	public function getTabs() {
@@ -99,12 +99,13 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 								, 'ilpermissiongui'
 								);
 		parent::getTabs();
+	//	$this->tabs_gui->clearTargets();
 	}
 
 
 	protected function getLinkTarget($a_cmd) {
 		if ($a_cmd == "settings") {
-			return $this->ctrl->getLinkTargetByClass("ilmanualassessmentsettingsgui", "view");
+			return $this->ctrl->getLinkTargetByClass("ilmanualassessmentsettingsgui", "edit");
 		}
 		if ($a_cmd == "info") {
 			return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "view");
