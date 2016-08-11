@@ -10,6 +10,7 @@ class MainFactoryTest extends AbstractFactoryTest {
 		"card"		        => array("context" => false)
 		, "deck"			=> array("context" => false)
 		, "image"			=> array("context" => false, "rules" => false)
+		, "generic"			=> array("context" => false)
 	);
 
 	public $factory_title = 'ILIAS\\UI\\Factory';
