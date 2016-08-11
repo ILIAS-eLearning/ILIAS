@@ -320,7 +320,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id)
 	{
 		global $ilLog;
-		if ($this->getOrderingType() == OQ_PICTURES)
+		if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 			$imagepath_original = $this->getImagePath($src_question_id, $src_object_id);
 			$imagepath = $this->getImagePath($dest_question_id, $dest_object_id);
@@ -1443,14 +1443,15 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	
 	/***
 	 * @param integer $a_random_id
+	 * @param integer $a_question_id
 	 * @return string
 	 */
-	public function lookupAnswerTextByRandomId($a_random_id)
+	public function lookupAnswerTextByRandomId($a_random_id, $a_question_id)
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('SELECT answertext FROM qpl_a_ordering WHERE random_id = %s',
-			array('integer'), array($a_random_id));
+		$res = $ilDB->queryF('SELECT answertext FROM qpl_a_ordering WHERE random_id = %s AND question_fi = %s',
+			array('integer', 'integer'), array($a_random_id, $a_question_id));
 		$row = $ilDB->fetchAssoc($res);
 
 		return $row['answertext'];
@@ -1579,5 +1580,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			return $this->getAnswers();
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+		$this->duplicateImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
 	}
 }

@@ -492,8 +492,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
-			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-			$obj->setTimeLimitOwner($ilUser->getId());
+			$obj = $this->ilias->obj_factory->getInstanceByObjId($id);
 			$obj->setTimeLimitUnlimited(1);
 			$obj->setTimeLimitFrom("");
 			$obj->setTimeLimitUntil("");
@@ -599,8 +598,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
-			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-			$obj->setTimeLimitOwner($ilUser->getId());
+			$obj = $this->ilias->obj_factory->getInstanceByObjId($id);
 			$obj->setTimeLimitUnlimited(0);
 			$obj->setTimeLimitFrom($timefrom);
 			$obj->setTimeLimitUntil($timeuntil);
