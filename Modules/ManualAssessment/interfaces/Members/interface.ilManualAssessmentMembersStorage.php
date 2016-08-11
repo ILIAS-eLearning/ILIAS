@@ -2,18 +2,6 @@
 require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
 interface ilManualAssessmentMembersStorage {
 
-	const FIELD_FIRSTNAME = 'firstname';
-	const FIELD_LASTNAME = 'lastname';
-	const FIELD_LOGIN = 'login';
-	const FIELD_USR_ID = 'usr_id';
-	const FIELD_GRADE = 'grade';
-	const FIELD_EXAMINER_ID = 'examiner_id';
-	const FIELD_EXAMINER_FIRSTNAME = 'examiner_firstname';
-	const FIELD_EXAMINER_LASTNAME = 'examiner_lastname';
-	const FIELD_RECORD = 'record';
-	const FIELD_INTERNAL_NOTE = 'internal_note';
-	const FIELD_NOTIFY = 'notify';
-
 	/**
 	 * Get ilManualAssessmentMembers-object containing meberinfo
 	 * associated with $obj.
