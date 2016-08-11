@@ -15748,6 +15748,7 @@ foreach ($existing_ops as $op) {
 }
 $parent_types = array('root', 'cat', 'crs');
 ilDBUpdateNewObjectType::addRBACCreate('create_mass', 'Create Manuall Assessment', $parent_types);
+require_once 'Services/Modules/ManualAssessment/classes/Settings/class.ilObjManualAssessementSettings.php';
 if(!$ilDB->tableExists("mass_settings")) {
 	$fields =  array(
 		'obj_id' => array(
@@ -15758,15 +15759,15 @@ if(!$ilDB->tableExists("mass_settings")) {
 		),
 		'content' => array(
 			'type' => 'text',
-			'lngth' => 1000,
+			'length' => 1000,
 			'notnull' => false,
-			'default' => ''
+			'default' => ilObjManualAssessementSettings::DEF_CONTENT
 		),
 		'record_template' => array(
 			'type' => 'text',
-			'lngth' => 1000,
+			'length' => 1000,
 			'notnull' => false,
-			'default' => ''
+			'default' =>  ilObjManualAssessementSettings::DEF_RECORD_TEMPLATE
 		)
 	);
 	$ilDB->createTable('mass_settings',$fields);
@@ -15786,27 +15787,33 @@ if(!$ilDB->tableExists('mass_members')) {
 			'notnull' => true,
 			'default' => 0
 		),
+		'examiner_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		),
 		'record' => array(
 			'type' => 'text',
-			'lngth' => 1000,
+			'length' => 1000,
 			'notnull' => false,
-			'default' => ''
+			'default' =>  ''
 		),
 		'internal_note' => array(
 			'type' => 'text',
-			'lngth' => 1000,
+			'length' => 1000,
 			'notnull' => false,
 			'default' => ''
 		),
 		'notify' => array(
 			'type' => 'integer',
-			'lngth' => 1,
+			'length' => 1,
 			'notnull' => false,
-			'default' => ''
+			'default' => 0
 		),
 		'grade' => array(
 			'type' => 'text',
-			'lngth' => 50,
+			'length' => 50,
 			'notnull' => false,
 			'default' => ''
 		)
