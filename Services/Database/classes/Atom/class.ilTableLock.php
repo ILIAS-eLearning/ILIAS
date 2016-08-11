@@ -85,7 +85,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @return string
 	 */
-	public function getTableName(): string {
+	public function getTableName() {
 		return $this->table_name;
 	}
 
@@ -93,7 +93,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @param string $table_name
 	 */
-	public function setTableName(string $table_name) {
+	public function setTableName($table_name) {
 		$this->table_name = $table_name;
 	}
 
@@ -101,7 +101,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @return boolean
 	 */
-	public function isLockSequence(): bool {
+	public function isLockSequence() {
 		return $this->lock_sequence;
 	}
 
@@ -109,7 +109,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @param boolean $lock_sequence
 	 */
-	public function setLockSequence(bool $lock_sequence) {
+	public function setLockSequence($lock_sequence) {
 		$this->lock_sequence = $lock_sequence;
 	}
 
@@ -117,7 +117,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @return string
 	 */
-	public function getAlias(): string {
+	public function getAlias() {
 		return $this->alias;
 	}
 
@@ -125,7 +125,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @param string $alias
 	 */
-	public function setAlias(string $alias) {
+	public function setAlias($alias) {
 		$this->alias = $alias;
 	}
 
@@ -133,7 +133,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @return int
 	 */
-	public function getLockLevel(): int {
+	public function getLockLevel() {
 		return $this->lock_level;
 	}
 
@@ -141,7 +141,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @param int $lock_level
 	 */
-	public function setLockLevel(int $lock_level) {
+	public function setLockLevel($lock_level) {
 		$this->lock_level = $lock_level;
 	}
 
@@ -149,7 +149,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @return boolean
 	 */
-	public function isChecked(): bool {
+	public function isChecked() {
 		return $this->checked;
 	}
 
@@ -157,7 +157,7 @@ class ilTableLock implements ilTableLockInterface {
 	/**
 	 * @param boolean $checked
 	 */
-	public function setChecked(bool $checked) {
+	public function setChecked($checked) {
 		$this->checked = $checked;
 	}
 }

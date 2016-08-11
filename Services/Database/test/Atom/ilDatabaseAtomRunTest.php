@@ -150,6 +150,30 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testWriteWithMultipleLocksAndAlias() {
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_alias');
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_second_alias');
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+
+		$ilAtomQuery->run();
+
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
+	}
+
+
+	public function testWriteWithMultipleLocksWithAndWithoutAlias() {
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true);
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_alias');
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+
+		$ilAtomQuery->run();
+
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
+	}
+
+
 	public function testNoTables() {
 		$this->setExpectedException('ilDatabaseException');
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
