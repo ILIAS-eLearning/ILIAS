@@ -15821,3 +15821,8 @@ if(!$ilDB->tableColumnExists('svy_svy','anon_user_list'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#4940>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
