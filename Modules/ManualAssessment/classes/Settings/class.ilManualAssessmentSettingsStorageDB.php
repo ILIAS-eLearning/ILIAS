@@ -15,22 +15,26 @@ class ilManualAssessmentSettingsStorageDB implements ilManualAssessmentSettingsS
 	}
 
 	public function loadSettings(ilObjManualAssessment $obj) {
-		$obj_id = $obj->getId();
-		assert('is_numeric($obj_id)');
-		$sql = "SELECT content, record_template FROM mass_settings WHERE obj_id = ".$this->db->quote($obj_id,'integer');
-		if($res = $this->db->fetchAssoc($this->db->query($sql))) {
-			return new ilManualAssessmentSettings($obj, $res["content"],$res["record_template"]);
+		if(ilObjManualAssessment::_exists($obj->getId(), false, 'mass')) {
+			$obj_id = $obj->getId();
+			assert('is_numeric($obj_id)');
+			$sql = 'SELECT content, record_template FROM mass_settings WHERE obj_id = '.$this->db->quote($obj_id,'integer');
+			if($res = $this->db->fetchAssoc($this->db->query($sql))) {
+				return new ilManualAssessmentSettings($obj, $res["content"],$res["record_template"]);
+			}
+			throw new ilManualAssessmentException("$obj_id not in database");
+		} else {
+			return new ilManualAssessmentSettings($obj, ilManualAssessmentSettings::DEF_CONTENT, ilManualAssessmentSettings::DEF_RECORD_TEMPLATE);
 		}
-		throw new ilManualAssessmentException("no $obj_id");
 	}
 	
 	public function updateSettings(ilManualAssessmentSettings $settings) {
-		$sql = "UPDATE mass_settings SET content = %s,record_template = %s WHERE obj_id = %s";
+		$sql = 'UPDATE mass_settings SET content = %s,record_template = %s WHERE obj_id = %s';
 		$this->db->manipulateF($sql,array("text","text","integer"),array($settings->content(),$settings->recordTemplate(),$settings->getId()));
 	}
 
 	public function deleteSettings(ilObjManualAssessment $obj) {
-		$sql = "DELETE FROM mass_settings WHERE obj_id = %s";
+		$sql = 'DELETE FROM mass_settings WHERE obj_id = %s';
 		$this->db->manipulateF($sql,array("integer"),array($obj->getId()));
 	}
 }
