@@ -54,4 +54,12 @@ class Factory implements \ILIAS\UI\Factory {
 	public function image() {
 		return new Component\Image\Factory();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function generic($content)
+	{
+		return new Component\Generic\Generic($content);
+	}
 }
