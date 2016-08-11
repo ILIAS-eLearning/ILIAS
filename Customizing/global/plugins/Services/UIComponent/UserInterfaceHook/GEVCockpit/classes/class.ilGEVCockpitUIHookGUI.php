@@ -12,7 +12,10 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	 * @inheritdoc
 	 */
 	function getHTML($a_comp, $a_part, $a_par = array()) {
-		if ($a_part != "template_get" || $a_par["tpl_id"] != "Services/MainMenu/tpl.main_menu.html") {
+		if ( 	$a_part != "template_get"
+			|| 	$a_par["tpl_id"] != "Services/MainMenu/tpl.main_menu.html"
+			|| 	!$this->isCockpit()
+		   ) {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
 
@@ -32,6 +35,13 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			( "mode" => ilUIHookPluginGUI::APPEND
 			, "html" => $html
 			);
+	}
+
+	protected function isCockpit() {
+		return $_GET["baseClass"] == "gevDesktopGUI"
+			&& $_GET["cmdClass"] != "gevcoursesearchgui"
+			&& $_GET["cmdClass"] != "iladminsearchgui"
+			;
 	}
 
 	protected function getSubMenuHTML() {
