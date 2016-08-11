@@ -78,7 +78,7 @@ var longMenuQuestion = (function () {
 	};
 	
 	pro.appendFormParts = function()  {
-		var footer_class 	= $('.ilFormFooter');
+		var footer_class 	= $('.ilFormFooter').last();
 		var new_title 		= $('.gap_title').find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
 		var title 			= 0;
 		var t0 = pro.benchmarkCallsDummyNotForUsage('appendFormParts');
