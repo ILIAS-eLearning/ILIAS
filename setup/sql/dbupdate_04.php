@@ -15821,8 +15821,170 @@ if(!$ilDB->tableColumnExists('svy_svy','anon_user_list'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
 <#4940>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#4941>
+<?php
+//step 1/2 il_request_token deletes old table
+
+if($ilDB->tableExists('il_request_token'))
+{
+    $ilDB->dropTable('il_request_token');
+}
+
+?>
+<#4942>
+<?php
+//step 2/2 il_request_token creates table with primary key
+
+if(!$ilDB->tableExists('il_request_token'))
+{
+	$fields = array(
+		"user_id" => array(
+			"notnull" => true
+		, "length" => 4
+		, "unsigned" => false
+		, "default" => "0"
+		, "type" => "integer"
+		)
+	, "token" => array(
+			"notnull" => false
+		, "length" => 64
+		, "fixed" => true
+		, "type" => "text"
+		)
+	, "stamp" => array(
+			"notnull" => false
+		, "type" => "timestamp"
+		)
+	, "session_id" => array(
+			"notnull" => false
+		, "length" => 100
+		, "fixed" => false
+		, "type" => "text"
+		)
+	);
+
+	$ilDB->createTable("il_request_token", $fields);
+	$ilDB->addPrimaryKey("il_request_token", array('token'));
+	$ilDB->addIndex("il_request_token", array('user_id', 'session_id'), 'i1');
+	$ilDB->addIndex("il_request_token", array('user_id', 'stamp'), 'i2');
+}
+?>
+<#4943>
+<?php
+//step 1/3 il_event_handling deletes old table
+if($ilDB->tableExists('il_event_handling'))
+{
+    $ilDB->dropTable('il_event_handling');
+}
+
+?>
+<#4944>
+<?php
+//step 2/3 il_event_handling creates table with primary key
+if(!$ilDB->tableExists('il_event_handling'))
+{
+	$fields = array(
+		'component' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true,
+			'fixed' => false
+		),
+		'type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'fixed' => false
+		),
+		'id' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'fixed' => false
+		));
+	$ilDB->createTable('il_event_handling', $fields);
+	$ilDB->addPrimaryKey("il_event_handling", array('component', 'type', 'id'));
+}
+?>
+<#4945>
+<?php
+//step 3/3 il_event_handling fill table
+$ilCtrlStructureReader->getStructure();
+?>
+<#4946>
+<?php
+//step 1/4 copg_section_timings renames old table
+
+if ($ilDB->tableExists('copg_section_timings') && !$ilDB->tableExists('copg_section_t_old'))
+{
+    $ilDB->renameTable("copg_section_timings", "copg_section_t_old");
+}
+?>
+<#4947>
+<?php
+//step 2/4 copg_section_timings create new table with primary keys
+if (!$ilDB->tableExists("copg_section_timings"))
+{
+    $fields = array(
+        "page_id" => array (
+            "type" => "integer",
+            "length" => 4,
+            "notnull" => true
+        ),
+        "parent_type" => array (
+            "type" => "text",
+            "length" => 10,
+            "notnull" => true
+        ),
+        "unix_ts" => array(
+            "type"    => "integer",
+            "notnull" => true,
+            "length"  => 4,
+            "default" => 0
+        )
+    );
+
+    $ilDB->createTable("copg_section_timings", $fields);
+    $ilDB->addPrimaryKey("copg_section_timings", array('page_id', 'parent_type', 'unix_ts'));
+}
+?>
+<#4948>
+<?php
+//step 3/4 copg_section_timings moves all data to new table
+
+if ($ilDB->tableExists('copg_section_timings') && $ilDB->tableExists('copg_section_t_old'))
+{
+    $res = $ilDB->query("
+        SELECT *
+        FROM copg_section_t_old
+    ");
+
+    while($row = $ilDB->fetchAssoc($res))
+    {
+        $ilDB->replace("copg_section_timings", array(
+            "page_id" => array("integer", $row['page_id']),
+            "parent_type" => array("text", $row['parent_type']),
+            "unix_ts" => array("integer",$row['unix_ts'])
+        ), array());
+
+        $ilDB->manipulateF(
+            "DELETE FROM copg_section_t_old WHERE page_id = %s AND parent_type = %s AND unix_ts = %s ",
+            array('integer', 'text', 'integer'),
+            array($row['page_id'], $row['parent_type'], $row['unix_ts'])
+        );
+    }
+}
+?>
+<#4949>
+<?php
+//step 4/4 copg_section_timings removes old table
+
+if ($ilDB->tableExists('copg_section_t_old'))
+{
+    $ilDB->dropTable('copg_section_t_old');
+}
 ?>
