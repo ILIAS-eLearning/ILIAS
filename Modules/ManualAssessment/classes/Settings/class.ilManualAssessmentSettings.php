@@ -25,17 +25,15 @@ class ilManualAssessmentSettings {
 		return $this->record_template;
 	}
 
-	public function withContent($content) {
+	public function setContent($content) {
 		assert('is_string($content)');
-		$clone = clone $this;
-		$clone->content = $content;
-		return $clone;
+		$this->content = $content;
+		return $this;
 	}
 
-	public function withRecordTemplate($record_template) {
+	public function setRecordTemplate($record_template) {
 		assert('is_string($record_template)');
-		$clone = clone $this;
-		$clone->record_template = $record_template;
-		return $clone;
+		$this->record_template = $record_template;
+		return $this;
 	}
 }
