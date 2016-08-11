@@ -44,7 +44,7 @@ class ilBookmarkFolder
 		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
-			$a_tree_id = $_SESSION["AccountId"];
+			$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		}
 
 		$this->tree = new ilTree($a_tree_id);
@@ -120,7 +120,7 @@ class ilBookmarkFolder
 				"INSERT INTO bookmark_data (obj_id, user_id, title, type) ".
 				"VALUES (%s,%s,%s,%s)",
 				$ilDB->quote($this->getId(), "integer"),
-				$ilDB->quote($_SESSION["AccountId"], "integer"),
+				$ilDB->quote($GLOBALS['DIC']['ilUser']->getId(), "integer"),
 				$ilDB->quote($this->getTitle(), "text"),
 				$ilDB->quote('bmf', "text")
 			);
@@ -196,7 +196,7 @@ class ilBookmarkFolder
 	*/
 	static function getObjects($a_id)
 	{
-		$a_tree_id = $_SESSION["AccountId"];
+		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 
@@ -235,7 +235,7 @@ class ilBookmarkFolder
 	*/
 	static function _getNumberOfObjects()
 	{
-		$a_tree_id = $_SESSION["AccountId"];
+		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 
@@ -261,7 +261,7 @@ class ilBookmarkFolder
 	*/
 	function getObject($a_id)
 	{
-		$a_tree_id = $_SESSION["AccountId"];
+		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 
@@ -276,7 +276,7 @@ class ilBookmarkFolder
 
 	static function isRootFolder($a_id)
 	{
-		$a_tree_id = $_SESSION["AccountId"];
+		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 
@@ -292,7 +292,7 @@ class ilBookmarkFolder
 
 	function getRootFolder()
 	{
-		$a_tree_id = $_SESSION["AccountId"];
+		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 
@@ -301,7 +301,7 @@ class ilBookmarkFolder
 
 	static function _getParentId($a_id)
 	{
-		$a_tree_id = $_SESSION["AccountId"];
+		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 		return $tree->getParentId($a_id);

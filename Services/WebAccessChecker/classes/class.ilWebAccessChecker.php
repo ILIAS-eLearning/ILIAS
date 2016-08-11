@@ -181,6 +181,7 @@ class ilWebAccessChecker {
 			}
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
 				$_REQUEST["baseClass"] = "ilStartUpGUI";
+				// @todo authentication: fix request show login
 				$_REQUEST["cmd"] = "showLogin";
 
 				$_POST['username'] = 'anonymous';

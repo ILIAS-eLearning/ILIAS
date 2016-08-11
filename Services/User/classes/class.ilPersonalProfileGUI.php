@@ -831,7 +831,7 @@ class ilPersonalProfileGUI
 	*/
 	public function savePersonalData()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting, $ilAuth;
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
 	
 		$this->initPersonalDataForm();
 		if ($this->form->checkInput())
@@ -947,8 +947,6 @@ class ilPersonalProfileGUI
 					try 
 					{
 						$ilUser->updateLogin($ilUser->getLogin());
-						$ilAuth->setAuth($ilUser->getLogin());
-						$ilAuth->start();
 					}
 					catch (ilUserException $e)
 					{

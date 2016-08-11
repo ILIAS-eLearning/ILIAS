@@ -256,7 +256,7 @@ class ilMainMenuGUI
 				: "";
 		
 			// login stuff
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
@@ -436,7 +436,7 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilAccess;
 
 		// personal desktop
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
@@ -452,7 +452,7 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			if($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");

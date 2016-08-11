@@ -165,6 +165,7 @@ class ilTree
 		
 		if (!isset($a_tree_id) or (func_num_args() == 0) )
 		{
+			ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::DEBUG);
 			$this->ilErr->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilErr->WARNING);
 		}
 

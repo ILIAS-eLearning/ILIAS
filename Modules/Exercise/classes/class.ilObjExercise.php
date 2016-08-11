@@ -356,7 +356,7 @@ class ilObjExercise extends ilObject
 		if(count($files))
 		{
 			include_once "./Services/Mail/classes/class.ilFileDataMail.php";
-			$mfile_obj = new ilFileDataMail($_SESSION["AccountId"]);
+			$mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
 			foreach($files as $file)
 			{
 				$mfile_obj->copyAttachmentFile($file["fullpath"], $file["name"]);

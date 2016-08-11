@@ -660,6 +660,7 @@ assessment#:#log_answer_changed_points#:#Manual change of points of test person 
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
+assessment#:#new_test_created#:#New Test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
@@ -15742,6 +15743,9 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
+auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
+auth#:#auth_err_expired#:#You session has deactivated due to inactivity.
+auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
 assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
@@ -15757,6 +15761,9 @@ skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
+pd#:#pd_enable_mail_pdsysmess#:#Enable System Messages Block
+pd#:#pd_pdmail_include_sysnmess#:#System Messages in Mail Block
+pd#:#pd_pdmail_include_sysnmess_info#:#If enabled, system messages are included in the mail block.
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop

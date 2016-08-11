@@ -771,6 +771,7 @@ assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilneh
 assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
+assessment#:#new_test_created#:#Neuer Test
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
 assessment#:#log_mark_added#:#Note hinzugefügt
 assessment#:#log_mark_changed#:#Note geändert
@@ -15743,6 +15744,9 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Berechtigungsobjekt
+auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
+auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden sie sich erneut an.
+auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
@@ -15758,6 +15762,9 @@ skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
 copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
+pd#:#pd_enable_mail_pdsysmess#:#Block Systemnachrichten aktivieren
+pd#:#pd_pdmail_include_sysnmess#:#Systemnachrichten im Block Mail
+pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systmenachrichten im Block "Mail" dargestellt.
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
