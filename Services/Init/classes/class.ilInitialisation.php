@@ -628,7 +628,7 @@ class ilInitialisation
 	 * 
 	 * @param int $a_auth_stat
 	 */
-	public static function goToPublicSection($a_auth_stat = "")
+	public static function goToPublicSection()
 	{
 		global $ilAuth;
 				
@@ -636,45 +636,28 @@ class ilInitialisation
 		{
 			self::abortAndDie("Public Section enabled, but no Anonymous user found.");
 		}
-
-		// logout and end previous session
-		if($a_auth_stat == AUTH_EXPIRED ||
-			$a_auth_stat == AUTH_IDLED)
+		
+		$session_destroyed = false; 
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
+			$session_destroyed = true; 
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
 		}
-		else
+		if(!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
 		{
+			$session_destroyed = true; 
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_PUBLIC);
 		}
-		$ilAuth->logout();
-		session_unset();
-		session_destroy();
 		
-		// new session and login as anonymous
-		self::setSessionHandler();
-		session_start();
-		$_POST["username"] = "anonymous";
-		$_POST["password"] = "anonymous";
-		ilAuthUtils::_initAuth();
-		
-		// authenticate (anonymous)
-		$oldSid = session_id();		
-		$ilAuth->start();
-
-		if (!$ilAuth->getAuth())
+		if($session_destroyed)
 		{
-			self::abortAndDie("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
+			$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
 		}
 		
 		self::initUserAccount();
 		
-		$mess_id = "init_error_authentication_fail";
-		$mess = array("en" => "Authentication failed.",
-			"de" => "Authentifizierung fehlgeschlagen.");
-		
 		// if target given, try to go there
-		if ($_GET["target"] != "")
+		if(strlen($_GET["target"]))
 		{	
 			// when we are already "inside" goto.php no redirect is needed
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);	
@@ -682,16 +665,16 @@ class ilInitialisation
 			{
 				return;
 			}		
-			
 			// goto will check if target is accessible or redirect to login
-			self::redirect("goto.php?target=".$_GET["target"], $mess_id, $mess);			
+			self::redirect("goto.php?target=".$_GET["target"]);			
 		}
 		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		$_GET["cmd"] = "frameset";
-		self::redirect("ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".
-			$_GET["cmd"]."&ref_id=".$_GET["ref_id"], $mess_id, $mess);
+		self::redirect(
+			"ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".
+			$_GET["cmd"]."&ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -1123,7 +1106,7 @@ class ilInitialisation
 			$GLOBALS['DIC']['ilAuthSession']->isExpired()
 		)
 		{
-			ilLoggerFactory::getLogger('init')->debug('Current session is invalid');
+			ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);		
 			if(self::blockedAuthentication($current_script))
 			{
@@ -1131,20 +1114,8 @@ class ilInitialisation
 				// nothing todo: authentication is done in current script
 				return;
 			}
-			
-			
-			
-			
-			
-			return self::goToLogin();
+			return self::handleAuthenticationFail();
 		}
-		// valid session given
-		#if(static::isAuthenticationMandatory())
-		{
-			
-		}
-		
-		
 		// valid session
 		return self::initUserAccount();
 		
@@ -1217,30 +1188,32 @@ class ilInitialisation
 	protected static function handleAuthenticationFail()
 	{
 		/**
-		 * @var $ilAuth    Auth
+		 * @var ilAuth
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilAuth, $ilSetting;
-						
+		
+		ilLoggerFactory::getLogger('init')->debug('Handling of failed authentication.');
+		
 		// #10608
-		if(ilContext::getType() == ilContext::CONTEXT_SOAP || ilContext::getType() == ilContext::CONTEXT_WAC)
+		if(
+			ilContext::getType() == ilContext::CONTEXT_SOAP || 
+			ilContext::getType() == ilContext::CONTEXT_WAC)
 		{
 			throw new Exception("Authentication failed.");
-		}				
-
-		$status = $ilAuth->getStatus();
-
-		if($ilSetting->get('pub_section') &&
-			($status == '' || $status == AUTH_EXPIRED || $status == AUTH_IDLED) &&
-			$_GET['reloadpublic'] != '1'
-		)
-		{
-			self::goToPublicSection($status);
 		}
-		else
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
-			self::goToLogin($status);
+			ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
+			return self::goToLogin();
 		}
+		if($ilSetting->get('pub_section'))
+		{
+			ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
+			return self::goToPublicSection();
+		}
+		ilLoggerFactory::getLogger('init')->debug('Redirect to login page.');
+		return self::goToLogin();
 	}
 
 	/**
@@ -1524,7 +1497,7 @@ class ilInitialisation
 	 * @param string $a_message_id
 	 * @param array $a_message_details
 	 */
-	protected static function redirect($a_target, $a_message_id, $a_message_static)
+	protected static function redirect($a_target, $a_message_id = '', $a_message_static = '')
 	{		
 		// #12739
 		if(defined("ILIAS_HTTP_PATH") &&
