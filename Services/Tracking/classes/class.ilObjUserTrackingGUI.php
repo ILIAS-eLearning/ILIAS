@@ -151,9 +151,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->lng->txt('settings'),
 			$this->ctrl->getLinkTarget($this, 'settings'));
 
-		$this->tabs_gui->addSubTab('lpdef',
-			$this->lng->txt('trac_defaults'),
-			$this->ctrl->getLinkTarget($this, 'editLPDefaults'));
+		if(!ilObjUserTracking::_enabledLearningProgress())
+		{
+			$this->tabs_gui->addSubTab('lpdef',
+				$this->lng->txt('trac_defaults'),
+				$this->ctrl->getLinkTarget($this, 'editLPDefaults'));
+		}
 
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('lp_settings');
@@ -386,6 +389,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('trac_defaults'));
+		$form->setDescription($this->lng->txt('trac_defaults_info'));
 		
 		include_once "Services/Object/classes/class.ilObjectLP.php";
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
@@ -418,9 +422,17 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				$options = array();
 				foreach($modes as $mode)
 				{
-					$options[$mode] = ilLPObjSettings::_mode2Text($mode);		
+					$caption = ($mode == ilLPObjSettings::LP_MODE_DEACTIVATED)
+						? $this->lng->txt("trac_defaults_inactive")
+						: ilLPObjSettings::_mode2Text($mode);					
+					$options[$mode] = $caption;		
 				}				
 				$def_type->setOptions($options);
+				
+				if(sizeof($options) == 1)
+				{
+					$def_type->setDisabled(true);
+				}
 			}
 			else
 			{

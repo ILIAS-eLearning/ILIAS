@@ -17,7 +17,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	
 	public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
 	{
-		global $lng, $tree;
+		global $lng;
 		
 		$this->parent_ref_id = (int)$a_parent_ref_id;
 	
@@ -30,7 +30,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 		$exp->setTypeWhiteList($this->getLPTypes($this->parent_ref_id));	
 		
 		$subitems->setRequired(true);
-		$a_form->addItem($subitems);				
+		$a_form->addItem($subitems);		
 	}
 	
 	protected function getLPTypes($a_parent_ref_id)
@@ -57,10 +57,44 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	
 	public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config)
 	{
+		global $ilCtrl, $lng;
+		
 		if(is_array($a_config["subitems"]))
 		{	
 			$items = $a_form->getItemByPostVar("subitems");		
-			$items->setValue($a_config["subitems"]);			
+			$items->setValue($a_config["subitems"]);		
+						
+			/*
+			include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
+			if(!ilObjUserTracking::_enabledLearningProgress())
+			{
+				$lng->loadLanguageModule("trac");
+				$lp = new ilNonEditableValueGUI($lng->txt("tracking_settings"), "", true);				
+				$a_form->addItem($lp);		
+				
+				include_once "Services/Object/classes/class.ilObjectLP.php";
+
+				$links = array();
+				foreach($a_config["subitems"] as $ref_id)
+				{
+					$obj_id = ilObject::_lookupObjId($ref_id);
+					
+					$olp = ilObjectLP::getInstance($obj_id);
+					$mode = $olp->getCurrentMode();
+
+					$ilCtrl->setParameterByClass("ilLPListOfSettingsGUI", "lpid", $ref_id);
+					$url = $ilCtrl->getLinkTargetByClass("ilLPListOfSettingsGUI", "");
+					$ilCtrl->setParameterByClass("ilLPListOfSettingsGUI", "lpid", "");
+
+					$links[] = '<p><a href="'.$url.'">'.
+						'<img src="'.ilObject::_getIcon("", "tiny", ilObject::_lookupType($obj_id)).'" /> ' .
+						ilObject::_lookupTitle($obj_id).						
+						'</a><div class="help-block">'.$olp->getModeText($mode).'</div>'.
+						'</p>';				
+				}
+				$lp->setValue(implode("\n", $links));				
+			}			 
+			*/
 		}
 	}
 	

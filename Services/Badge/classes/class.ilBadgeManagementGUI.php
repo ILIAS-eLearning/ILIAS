@@ -49,7 +49,7 @@ class ilBadgeManagementGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs, $lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listBadges");
@@ -67,7 +67,28 @@ class ilBadgeManagementGUI
 					$ilCtrl->forwardCommand($form);						
 				}
 				break;
-			
+				
+			/*
+			case "illplistofsettingsgui":				
+				$id = $_GET["lpid"];
+				if($id)
+				{
+					$ilCtrl->saveParameter($this, "bid");
+					$ilCtrl->saveParameter($this, "lpid");					
+					
+					$ilTabs->clearTargets();
+					$ilTabs->setBackTarget(
+						$lng->txt("back"), 
+						$ilCtrl->getLinkTarget($this, "editBadge")
+					);
+					include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+					include_once "Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php";
+					$lpgui = new ilLPListOfSettingsGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $id);
+					$ilCtrl->forwardCommand($lpgui);			
+					break;
+				}
+			*/
+				
 			default:	
 				$this->$cmd();
 				break;

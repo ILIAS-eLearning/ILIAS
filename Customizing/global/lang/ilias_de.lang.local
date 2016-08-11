@@ -70,4 +70,6 @@ badge#:#badge_profile_manage#:#Verwalten
 badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
-trac#:#trac_defaults#:#Lernfortschrittsmodus-Defaults
+trac#:#trac_defaults#:#Bestanden-Status
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_inactive#:#Inaktiv
