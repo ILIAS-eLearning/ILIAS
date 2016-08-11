@@ -625,20 +625,21 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
-		
-		$text = $this->getSolutionSubmit();
-		
 		$entered_values = 0;
-		if (strlen($text))
-		{
-			$this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
-			$entered_values++;
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			$text = $this->getSolutionSubmit();
+
+			if(strlen($text))
+			{
+				$this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
+				$entered_values++;
+			}
+
+		});
 
 		if ($entered_values)
 		{

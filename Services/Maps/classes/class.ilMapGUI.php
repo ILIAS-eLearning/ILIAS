@@ -46,7 +46,9 @@ abstract class ilMapGUI
 	
 	function __construct()
 	{
-		global $lng, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 			
 		$lng->loadLanguageModule("maps");
 	}

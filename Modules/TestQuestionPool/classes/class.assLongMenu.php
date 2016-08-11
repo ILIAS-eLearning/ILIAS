@@ -666,22 +666,25 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$entered_values = 0;
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
-
-		foreach($this->getSolutionSubmit() as $val1 => $val2)
-		{
-			$value = ilUtil::stripSlashes($val2, FALSE);
-			if (strlen($value))
-			{
-				$this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
-				$entered_values++;
-			}
-		}
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 		
+		$entered_values = 0;
+
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			foreach($this->getSolutionSubmit() as $val1 => $val2)
+			{
+				$value = ilUtil::stripSlashes($val2, FALSE);
+				if(strlen($value))
+				{
+					$this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
+					$entered_values++;
+				}
+			}
+
+		});
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

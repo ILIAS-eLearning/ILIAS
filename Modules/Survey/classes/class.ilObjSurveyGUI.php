@@ -569,6 +569,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				
 				$this->object->setViewOwnResults($_POST["view_own"]);
 				$this->object->setMailOwnResults($_POST["mail_own"]);
+				$this->object->setMailConfirmation($_POST["mail_confirm"]);
 
 				// both are saved in object, too
 				$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -707,6 +708,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 								{
 									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
 								}
+								
+								$this->object->setAnonymousUserList($_POST["anon_list"]);		
 							}	
 
 							// if settings were changed get rid of existing code
@@ -952,10 +955,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$view_own->setChecked($this->object->hasViewOwnResults());
 		$form->addItem($view_own);
 		
-		$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
-		$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
-		$mail_own->setChecked($this->object->hasMailOwnResults());
-		$form->addItem($mail_own);				
+		$mail_confirm = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_confirm"), "mail_confirm");
+		$mail_confirm->setInfo($this->lng->txt("svy_results_mail_confirm_info"));
+		$mail_confirm->setChecked($this->object->hasMailConfirmation());
+		$form->addItem($mail_confirm);		
+
+			$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
+			$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
+			$mail_own->setChecked($this->object->hasMailOwnResults());
+			$mail_confirm->addSubItem($mail_own);		
 		
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("outro"), "outro");
@@ -1169,10 +1177,30 @@ class ilObjSurveyGUI extends ilObjectGUI
 				: "statpers");				
 			$form->addItem($anonymization_options);
 			
-			if (ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
+			$surveySetting = new ilSetting("survey");
+			if($surveySetting->get("anonymous_participants", false))
+			{		
+				$min = "";
+				if($surveySetting->get("anonymous_participants_min", 0))
+				{
+					$min = " (".$this->lng->txt("svy_anonymous_participants_min").": ".
+						$surveySetting->get("anonymous_participants_min").")";
+				}						
+				
+				$anon_list = new ilCheckboxInputGUI($this->lng->txt("svy_anonymous_participants_svy"), "anon_list");
+				$anon_list->setInfo($this->lng->txt("svy_anonymous_participants_svy_info").$min);
+				$anon_list->setChecked($this->object->hasAnonymousUserList());
+				$option->addSubItem($anon_list);				
+			}			
+			
+			if ($this->object->_hasDatasets($this->object->getSurveyId()))
 			{
 				$anonymization_options->setDisabled(true);
-			}						
+				if($anon_list)
+				{
+					$anon_list->setDisabled(true);
+				}
+			}							
 		}
 		// 360°
 		else
@@ -1467,125 +1495,178 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
-				
-		// "active" survey?
-		$canStart = $this->object->canStartSurvey(null, $this->external_rater_360);
 		
-		$showButtons = $canStart["result"];
-		if (!$showButtons)
+		
+		$is_appraisee = false; 
+		
+		// 360° - appraisee infos									
+		if($this->object->get360Mode() && 
+			$this->object->isAppraisee($ilUser->getId()))
 		{
-			if($canStart["edit_settings"] &&
-				$this->checkPermissionBool("write"))
+			$is_appraisee = true;
+
+			$info->addSection($this->lng->txt("survey_360_appraisee_info"));
+
+			$appr_data = $this->object->getAppraiseesData();
+			$appr_data = $appr_data[$ilUser->getId()];
+			$info->addProperty($this->lng->txt("survey_360_raters_status_info"), $appr_data["finished"]);		
+
+			if(!$appr_data["closed"])
 			{
-				$canStart["messages"][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">&raquo; ".
-					$this->lng->txt("survey_edit_settings")."</a>";
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("survey_360_appraisee_close_action");
+				$button->setUrl($this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose"));
+				$close_button_360 = '<div>'.$button->render().'</div>';
+
+				$txt = "survey_360_appraisee_close_action_info";
+				if($this->object->get360SkillService())
+				{
+					$txt .= "_skill";
+				}								
+				$info->addProperty($this->lng->txt("status"), 
+					$close_button_360.$this->lng->txt($txt));									
 			}
-			ilUtil::sendInfo(implode("<br />", $canStart["messages"]));
-		}				
-				
-		$big_button = false;
-		if ($showButtons)
-		{				
-			// closing survey?
-			$is_appraisee = false; 
-			if($this->object->get360Mode() && 
-				$this->object->isAppraisee($ilUser->getId()))
+			else								
+			{									
+				ilDatePresentation::setUseRelativeDates(false);
+
+				$dt = new ilDateTime($appr_data["closed"], IL_CAL_UNIX);								
+				$info->addProperty($this->lng->txt("status"), 
+					sprintf($this->lng->txt("survey_360_appraisee_close_action_status"),
+						ilDatePresentation::formatDate($dt)));										
+			}								
+		}		
+		
+		
+		// handle (anonymous) code
+
+		// validate incoming
+		$code_input = false;
+		$anonymous_code = $_POST["anonymous_id"];	
+		if ($anonymous_code)
+		{
+			$code_input = true;
+			// if(!$this->object->isUnusedCode($anonymous_code, $ilUser->getId()))
+			if(!$this->object->checkSurveyCode($anonymous_code)) // #15031 - valid as long survey is not finished
 			{
-				$info->addSection($this->lng->txt("survey_360_appraisee_info"));
+				$anonymous_code = null;
+			}		
+			else
+			{
+				// #15860
+				$this->object->bindSurveyCodeToUser($ilUser->getId(), $anonymous_code);
+			}
+		}
+		if ($anonymous_code)
+		{
+			$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;			
+		}	
+		else 
+		{
+			$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];											
+			if($anonymous_code)
+			{
+				$code_input = true;
+			}
+		}		
 
-				$appr_data = $this->object->getAppraiseesData();
-				$appr_data = $appr_data[$ilUser->getId()];
-				$info->addProperty($this->lng->txt("survey_360_raters_status_info"), $appr_data["finished"]);		
+		// try to find code for current (registered) user from existing run
+		if($this->object->getAnonymize() && !$anonymous_code)
+		{
+			$anonymous_code = $this->object->findCodeForUser($ilUser->getId());						
+		}
 
-				if(!$appr_data["closed"])
+		// get existing runs for current user, might generate code
+		$participant_status = $this->object->getUserSurveyExecutionStatus($anonymous_code);
+		if($participant_status)
+		{				
+			$anonymous_code = $participant_status["code"];				
+			$participant_status = $participant_status["runs"];
+		}
+
+		// (final) check for proper anonymous code
+		if(!$this->object->isAccessibleWithoutCode() && 
+			!$is_appraisee &&
+			$code_input && // #11346
+			(!$anonymous_code || !$this->object->isAnonymousKey($anonymous_code)))
+		{				
+			 $anonymous_code = null;
+			 ilUtil::sendInfo($this->lng->txt("wrong_survey_code_used"));
+		}						
+
+		// :TODO: really save in session?			
+		$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;
+			
+		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);	
+								
+		$showButtons = $big_button = false;
+						
+		// already finished?
+		if(!$this->object->get360Mode() &&
+			$survey_started === 1)
+		{					
+			ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
+			
+			if($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				if($this->object->hasViewOwnResults())
 				{
 					include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 					$button = ilLinkButton::getInstance();
-					$button->setCaption("survey_360_appraisee_close_action");
-					$button->setUrl($this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose"));
-					$close_button_360 = '<div>'.$button->render().'</div>';
+					$button->setCaption("svy_view_own_results");								
+					$button->setUrl($this->ctrl->getLinkTarget($this, "viewUserResults"));										
+					$ilToolbar->addButtonInstance($button);		
+				}
 
-					$txt = "survey_360_appraisee_close_action_info";
-					if($this->object->get360SkillService())
+				// see ilSurveyExecutionGUI
+				if($this->object->hasMailConfirmation())
+				{
+					if($this->object->hasViewOwnResults())
 					{
-						$txt .= "_skill";
-					}								
-					$info->addProperty($this->lng->txt("status"), 
-						$close_button_360.$this->lng->txt($txt));									
-				}
-				else								
-				{									
-					ilDatePresentation::setUseRelativeDates(false);
+						$ilToolbar->addSeparator();
+					}
 
-					$dt = new ilDateTime($appr_data["closed"], IL_CAL_UNIX);								
-					$info->addProperty($this->lng->txt("status"), 
-						sprintf($this->lng->txt("survey_360_appraisee_close_action_status"),
-							ilDatePresentation::formatDate($dt)));										
-				}
-				
-				$is_appraisee = true;
-			}
-			
-			
-			// handle code
-			
-			// validate incoming
-			$code_input = false;
-			$anonymous_code = $_POST["anonymous_id"];	
-			if ($anonymous_code)
-			{
-				$code_input = true;
-				// if(!$this->object->isUnusedCode($anonymous_code, $ilUser->getId()))
-				if(!$this->object->checkSurveyCode($anonymous_code)) // #15031 - valid as long survey is not finished
-				{
-					$anonymous_code = null;
-				}		
-				else
-				{
-					// #15860
-					$this->object->bindSurveyCodeToUser($ilUser->getId(), $anonymous_code);
-				}
-			}
-			if ($anonymous_code)
-			{
-				$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;			
-			}	
-			else 
-			{
-				$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];											
-				if($anonymous_code)
-				{
-					$code_input = true;
-				}
+					if($ilUser->getId() == ANONYMOUS_USER_ID ||
+						!$ilUser->getEmail())
+					{
+						require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+						$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+						$mail->setSize(25);		
+						$mail->setValue($ilUser->getEmail());															
+						$ilToolbar->addInputItem($mail, true);		
+					}
+
+					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
+
+					include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+					$button = ilSubmitButton::getInstance();
+					$button->setCaption("svy_mail_send_confirmation");
+					$button->setCommand("mailUserResults");
+					$ilToolbar->addButtonInstance($button);																				
+				}						
 			}		
-										
-			// try to find code for current (registered) user from existing run
-			if($this->object->getAnonymize() && !$anonymous_code)
+		}
+		else
+		{
+			// "active" survey?
+			$canStart = $this->object->canStartSurvey(null, $this->external_rater_360);
+
+			$showButtons = $canStart["result"];
+			if (!$showButtons)
 			{
-				$anonymous_code = $this->object->findCodeForUser($ilUser->getId());						
-			}
-			
-			// get existing runs for current user, might generate code
-			$participant_status = $this->object->getUserSurveyExecutionStatus($anonymous_code);
-			if($participant_status)
-			{				
-				$anonymous_code = $participant_status["code"];				
-				$participant_status = $participant_status["runs"];
-			}
-			
-			// (final) check for proper anonymous code
-			if(!$this->object->isAccessibleWithoutCode() && 
-				!$is_appraisee &&
-				$code_input && // #11346
-				(!$anonymous_code || !$this->object->isAnonymousKey($anonymous_code)))
-			{				
-				 $anonymous_code = null;
-				 ilUtil::sendInfo($this->lng->txt("wrong_survey_code_used"));
-			}						
-			
-			// :TODO: really save in session?			
-			$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;
-			
+				if($canStart["edit_settings"] &&
+					$ilAccess->checkAccess("write", "", $this->ref_id))
+				{
+					$canStart["messages"][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">&raquo; ".
+						$this->lng->txt("survey_edit_settings")."</a>";
+				}
+				ilUtil::sendInfo(implode("<br />", $canStart["messages"]));
+			}				
+		}
+		
+		if ($showButtons)
+		{				
 			// code is mandatory and not given yet
 			if(!$is_appraisee &&
 				!$anonymous_code && 
@@ -1604,48 +1685,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					if($anonymous_code)
 					{
 						$info->addHiddenElement("anonymous_id", $anonymous_code);
-					}				
-					
-					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);				
-					if ($survey_started === 1)
-					{							
-						if($ilUser->getId() != ANONYMOUS_USER_ID)
-						{
-							if($this->object->hasViewOwnResults())
-							{
-								include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-								$button = ilLinkButton::getInstance();
-								$button->setCaption("svy_view_own_results");								
-								$button->setUrl($this->ctrl->getLinkTarget($this, "viewUserResults"));										
-								$ilToolbar->addButtonInstance($button);		
-							}
-
-							if($this->object->hasMailOwnResults())
-							{
-								if($this->object->hasViewOwnResults())
-								{
-									$ilToolbar->addSeparator();
-								}
-
-								require_once "Services/Form/classes/class.ilTextInputGUI.php";								
-								$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-								$mail->setSize(25);		
-								$mail->setValue($ilUser->getEmail());															
-								$ilToolbar->addInputItem($mail, true);							
-
-								$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-								
-								include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-								$button = ilSubmitButton::getInstance();
-								$button->setCaption("svy_mail_own_results");
-								$button->setCommand("mailUserResults");
-								$ilToolbar->addButtonInstance($button);																				
-							}						
-						}
-						
-						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
-					}
-					elseif ($survey_started === 0)
+					}									
+					if ($survey_started === 0)
 					{
 						$big_button = array("resume", $this->lng->txt("resume_survey"));
 					}
@@ -2115,7 +2156,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$body .= ilLink::_getLink($this->object->getRefId(), "svy")."\n";
 		$body .= "\n".$this->lng->txt("survey_results_finished").": ".$finished."\n\n";
 		
-		$body .= $this->getUserResultsPlain($a_active_id);
+		if($this->object->hasMailOwnResults())
+		{
+			$subject = "svy_mail_own_results_subject";
+			$body .= $this->getUserResultsPlain($a_active_id);
+		}
+		else
+		{
+			$subject = "svy_mail_confirmation_subject";
+		}
 		
 		// $body .= ilMail::_getAutoGeneratedMessageString($this->lng);
 		$body .= ilMail::_getInstallationSignature();
@@ -2126,7 +2175,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$a_recipient,
 			null,
 			null,
-			sprintf($this->lng->txt("svy_mail_own_results_subject"), $this->object->getTitle()),
+			sprintf($this->lng->txt($subject), $this->object->getTitle()),
 			$body,
 			null,
 			true
@@ -2146,6 +2195,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}			
 		
 		$recipient = $_POST["mail"];	
+		if(!$recipient)
+		{
+			$recipient = $ilUser->getEmail();
+		}
 		if(!ilUtil::is_email($recipient))
 		{
 			$this->ctrl->redirect($this, "infoScreen");

@@ -168,8 +168,12 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			if (!isset($cols[$f]) && !$fd["lists_hide"])
 			{
+				// #18795
+				$caption = $fd["lang_var"]
+					? $fd["lang_var"]
+					: $f;
 				$cols[$f] = array(
-					"txt" => $lng->txt($f),
+					"txt" => $lng->txt($caption),
 					"default" => false);
 			}
 		}

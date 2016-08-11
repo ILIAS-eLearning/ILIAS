@@ -451,6 +451,7 @@ if ($this->private_enabled && $this->public_enabled
 		{			
 			switch($this->obj_type)
 			{
+				case "grpr":
 				case "catr":
 				case "crsr":
 					include_once "Services/ContainerReference/classes/class.ilContainerReference.php";
@@ -1195,7 +1196,7 @@ return;
 								
 								// for references, get original title
 								// (link will lead to orignal, which basically is wrong though)
-								if($a_obj_type == "crsr" || $a_obj_type == "catr")
+								if($a_obj_type == "crsr" || $a_obj_type == "catr" ||  $a_obj_type == "grpr")
 								{
 									include_once "Services/ContainerReference/classes/class.ilContainerReference.php";
 									$tgt_obj_id = ilContainerReference::_lookupTargetId($a_rep_obj_id);

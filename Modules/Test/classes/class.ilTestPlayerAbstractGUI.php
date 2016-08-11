@@ -401,16 +401,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$testStartLock = $this->getLockParameter();
 		$isFirstTestStartRequest = false;
 
-		$this->processLocker->requestTestStartLockCheckLock();
-		
-		if( $this->testSession->lookupTestStartLock() != $testStartLock )
-		{
-			$this->testSession->persistTestStartLock($testStartLock);
-			$isFirstTestStartRequest = true;
-		}
+		$this->processLocker->executeTestStartLockOperation(function() use ($testStartLock, &$isFirstTestStartRequest) {
 
-		$this->processLocker->releaseTestStartLockCheckLock();
-		
+			if($this->testSession->lookupTestStartLock() != $testStartLock)
+			{
+				$this->testSession->persistTestStartLock($testStartLock);
+				$isFirstTestStartRequest = true;
+			}
+
+		});
+
 		if( $isFirstTestStartRequest )
 		{
 			$this->handleUserSettings();

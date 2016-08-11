@@ -3123,6 +3123,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
 		$questionHeaderBlockBuilder->setHeaderMode($this->object->getTitleOutput());
 
+		if($isPdfDeliveryRequest)
+		{
+			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+		}
+
 		foreach ($this->object->questions as $question) 
 		{		
 			$template->setCurrentBlock("question");
@@ -3157,7 +3163,6 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if( $isPdfDeliveryRequest )
 		{
-			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
 			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
 		}
@@ -3188,6 +3193,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
+		$isPdfDeliveryRequest = isset($_GET['pdf']) && $_GET['pdf'];
+
 		global $ilUser;
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 		$max_points= 0;
@@ -3196,6 +3203,12 @@ class ilObjTestGUI extends ilObjectGUI
 		require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
 		$questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
 		$questionHeaderBlockBuilder->setHeaderMode($this->object->getTitleOutput());
+
+		if($isPdfDeliveryRequest)
+		{
+			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+		}
 		
 		foreach ($this->object->questions as $question)
 		{
@@ -3227,11 +3240,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
 		$template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
 
-		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		if($isPdfDeliveryRequest)
 		{
-			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
-			$content = $template->get();
 			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
 		}
 		else

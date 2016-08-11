@@ -9,7 +9,7 @@ il.Classification = {
 		this.ajax_content_id = content_id;
 		this.ajax_content_url = content_url;
 		
-		$(document).bind('il_classification_redraw',  this.redraw);
+		$(document).on('il_classification_redraw',  this.redraw);
 	},
 	toggle: function(args) {
 		this.loader(this.ajax_block_id + '_loader');	

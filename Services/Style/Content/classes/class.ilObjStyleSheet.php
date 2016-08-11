@@ -1839,9 +1839,12 @@ class ilObjStyleSheet extends ilObject
 				$style = new ilObjStyleSheet($a_style_id);
 				$style->writeCSSFile();
 			}
-			
-			return ilUtil::getWebspaceDir("output").
-				"/css/style_".$a_style_id.".css?dummy=$rand";
+
+			$path = ilUtil::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css?dummy=$rand";
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			$path = ilWACSignedPath::signFile($path);
+
+			return $path;
 		}
 		else		// todo: work this out
 		{
