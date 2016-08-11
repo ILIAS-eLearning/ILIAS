@@ -8,6 +8,7 @@ require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersTa
  * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilManualAssessmentMembersGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilManualAssessmentMembersGUI: ilManualAssessmentMemberGUI
  */
 class ilManualAssessmentMembersGUI {
 
@@ -34,14 +35,22 @@ class ilManualAssessmentMembersGUI {
 
 		switch($next_class) {
 			case "ilrepositorysearchgui":
-				require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,"addUsers");
 				$this->ctrl->forwardCommand($rep_search);
-			break;
+				break;
+			case "ilmanualassessmentmembergui":
+				require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMemberGUI.php';
+				$member = new ilManualAssessmentMemberGUI($this, $this->parent_gui, $this->ref_id);
+				$this->ctrl->forwardCommand($member);
+				break;
 			default:
+				if(!$cmd) {
+					$cmd = 'view';
+				}
 				$this->$cmd();
-			break;
+				break;
 		}
 
 	}
@@ -76,6 +85,13 @@ class ilManualAssessmentMembersGUI {
 			}
 		}
 		$mass->updateMembers($members);
+		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
+	}
+
+	public function removeUser() {
+		$usr_id = $_GET['usr_id'];
+		$mass = $this->object;
+		$mass->updateMembers($mass->loadMembers()->withoutPresentUser(new ilObjUser($usr_id)));
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 }
