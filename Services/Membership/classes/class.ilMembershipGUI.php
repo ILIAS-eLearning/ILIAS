@@ -86,6 +86,40 @@ class ilMembershipGUI
 		
 		switch($next_class)
 		{
+			case 'ilrepositorysearchgui':
+				
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				include_once './Services/Membership/classes/class.ilParticipants.php';
+				$rep_search = new ilRepositorySearchGUI();
+
+				$participants = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+				if(
+					$participants->isAdmin($GLOBALS['ilUser']->getId()) ||
+					$ilAccess->checkAccess('write','', $this->getParentObject()->getRefId())
+				)
+				{
+					$rep_search->setCallback(
+						$this,
+						'assignMembers',
+						$this->getParentGUI()->getLocalRoles()
+					);
+				}
+				else
+				{
+					//#18445 excludes admin role
+					$rep_search->setCallback(
+						$this,
+						'assignMembersObject',
+					    $this->getLocalRoles(array($this->getParentObject()->getDefaultAdminRole()))
+					);
+				}
+				
+				// Set tabs
+				$this->ctrl->setReturn($this,'participants');
+				$ret = $this->ctrl->forwardCommand($rep_search);
+				break;
+			
+			
 			case 'ilmailmembersearchgui':
 
 				$ilTabs->clearTargets();
