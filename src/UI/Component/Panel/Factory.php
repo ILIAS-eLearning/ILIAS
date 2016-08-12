@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Component\Panel;
 
+use \ILIAS\UI\Component\Component as Component;
 /**
  * This is how the factory for UI elements looks. This should provide access
  * to all UI elements at some point.
@@ -28,7 +29,7 @@ interface Factory {
 	 *      2: Standard Panels SHOULD be used in the Center Content as primary Container for grouping content of varying content.
 	 * ---
 	 * @param string $title
-	 * @param mixed $content \ILIAS\UI\Component\Component[] | \ILIAS\UI\Component\Component
+	 * @param Component[]|Component
 	 * @return \ILIAS\UI\Component\Panel\Standard
 	 */
 	public function standard($title,$content);
@@ -54,7 +55,7 @@ interface Factory {
 	 *      1: Sub Panels MUST NOT contain Sub Panels or Standard Panels as content.
 	 * ---
 	 * @param string $title
-	 * @param mixed $content \ILIAS\UI\Component\Component[] | \ILIAS\UI\Component\Component
+	 * @param Component[]|Component
 	 * @return \ILIAS\UI\Component\Panel\Sub
 	 */
 	public function sub($title,$content);
