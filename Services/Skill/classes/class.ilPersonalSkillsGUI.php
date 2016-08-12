@@ -23,6 +23,9 @@ class ilPersonalSkillsGUI
 	protected $actual_levels = array();
 	protected $gap_self_eval_levels = array();
 	protected $mode = "";
+	protected $history_view = false;
+	protected $intro_text = "";
+	protected $hidden_skills = array();
 	
 	/**
 	 * Contructor
@@ -86,6 +89,58 @@ class ilPersonalSkillsGUI
 	{
 		return $this->gap_self_eval_levels;
 	}
+	
+	/**
+	 * Set history view
+	 *
+	 * @param bool $a_val history view	
+	 */
+	function setHistoryView($a_val)
+	{
+		$this->history_view = $a_val;
+	}
+	
+	/**
+	 * Get history view
+	 *
+	 * @return bool history view
+	 */
+	function getHistoryView()
+	{
+		return $this->history_view;
+	}
+	
+	/**
+	 * Set intro text
+	 *
+	 * @param string $a_val intro text html	
+	 */
+	function setIntroText($a_val)
+	{
+		$this->intro_text = $a_val;
+	}
+	
+	/**
+	 * Get intro text
+	 *
+	 * @return string intro text html
+	 */
+	function getIntroText()
+	{
+		return $this->intro_text;
+	}
+
+	/**
+	 * Hide skill
+	 *
+	 * @param
+	 * @return
+	 */
+	function hideSkill($a_skill_id, $a_tref_id = 0)
+	{
+		$this->hidden_skills[] = $a_skill_id.":".$a_tref_id;
+	}
+
 	
 	/**
 	 * Execute command
@@ -286,24 +341,22 @@ $bs["tref"] = $bs["tref_id"];
 			$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
 			$level_data = $skill->getLevelData();
 
-			if ($this->mode == "gap")
+			if ($this->getProfileId() > 0)
 			{
-				if ($this->getProfileId() > 0)
-				{
-					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
-				}
+				$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
+			}
+			if ($this->mode != "gap")
+			{
+				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
+			}
+
+			if ($this->mode == "gap" && !$this->history_view)
+			{
 				$this->renderActualLevelsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				$this->renderGapSelfEvalRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
-				$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
 			}
 			else
 			{
-				if ($this->getProfileId() > 0)
-				{
-					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
-				}
-				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
-				
 				// get date of self evaluation
 				$se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
 				$se_rendered = ($se_date == "")
@@ -316,19 +369,13 @@ $bs["tref"] = $bs["tref_id"];
 					// render the self evaluation at the correct position within the list of object triggered entries
 					if ($se_date > $level_entry["status_date"] && !$se_rendered)
 					{
-//						$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 						$se_rendered = true;
 					}
 					$this->renderObjectEvalRow($tpl, $level_data, $level_entry);
 				}
 				
-				// if not rendered yet, render self evaluation now
-				if (!$se_rendered)
-				{
-//					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
-				}
-				$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
 			}
+			$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
 			
 			$too_low = true;
 			$current_target_level = 0;
@@ -951,6 +998,16 @@ $bs["tref"] = $bs["tref_id"];
 	function getGapAnalysisHTML($a_user_id = 0, $a_skills = null)
 	{
 		global $ilUser, $lng;
+
+		include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
+
+		if ($this->getIntroText() != "")
+		{
+			$pan = ilPanelGUI::getInstance();
+			$pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
+			$pan->setBody($this->getIntroText());
+			$intro_html = $pan->getHTML();
+		}
 		
 //		$this->setTabs("list_skills");
 		
@@ -1011,20 +1068,30 @@ $bs["tref"] = $bs["tref_id"];
 		// output spider stuff
 		$all_chart_html = "";
 
-		if (count($skills) >= 3)
+		// determine skills that should be shown in the spider web
+		$sw_skills = array();
+		foreach ($skills as $sk)
+		{
+			if (!in_array($sk["base_skill_id"].":".$sk["tref_id"], $this->hidden_skills))
+			{
+				$sw_skills[] = $sk;
+			}
+		}
+
+		if (count($sw_skills) >= 3)
 		{
 			$skill_packages = array();
 
-			if (count($skills) < 8)
+			if (count($sw_skills) < 8)
 			{
-				$skill_packages[1] = $skills;
+				$skill_packages[1] = $sw_skills;
 			}
 			else
 			{
-				$mod = count($skills) % 7;
-				$pkg_num = floor((count($skills) - 1) / 7) + 1;
+				$mod = count($sw_skills) % 7;
+				$pkg_num = floor((count($sw_skills) - 1) / 7) + 1;
 				$cpkg = 1;
-				foreach ($skills as $k => $s)
+				foreach ($sw_skills as $k => $s)
 				{
 					$skill_packages[$cpkg][$k] = $s;
 					if ($mod < 3 && count($skill_packages) == ($pkg_num - 1) && count($skill_packages[$cpkg]) == 3+$mod)
@@ -1150,7 +1217,7 @@ $bs["tref"] = $bs["tref_id"];
 				$chart_html = $chart->getHTML();
 				$all_chart_html.= $chart_html;
 			}
-			include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
+
 			$pan = ilPanelGUI::getInstance();
 			$pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
 			$pan->setBody($all_chart_html);
@@ -1178,7 +1245,7 @@ $bs["tref"] = $bs["tref_id"];
 //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
 //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
 		
-		return $all_chart_html.$html;
+		return $intro_html.$all_chart_html.$html;
 	}
 	
 	/**
