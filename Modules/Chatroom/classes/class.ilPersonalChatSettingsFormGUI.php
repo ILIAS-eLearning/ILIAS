@@ -22,11 +22,16 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	 * @var ilObjUser
 	 */
 	protected $user;
-	
+
 	/**
 	 * @var ilTemplate
 	 */
 	protected $mainTpl;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
 
 	/**
 	 * @var array
@@ -48,10 +53,11 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		
 		parent::__construct();
 
-		$this->user    = $DIC->user();
-		$this->ctrl    = $DIC->ctrl();
-		$this->mainTpl = $DIC['tpl'];
-		$this->lng     = $DIC['lng'];
+		$this->user     = $DIC->user();
+		$this->ctrl     = $DIC->ctrl();
+		$this->settings = $DIC['ilSetting'];
+		$this->mainTpl  = $DIC['tpl'];
+		$this->lng      = $DIC['lng'];
 
 		$this->chatSettings         = new ilSetting('chatroom');
 		$this->notificationSettings = new ilSetting('notifications');
@@ -105,7 +111,11 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	 */
 	protected function shouldShowOnScreenChatOptions()
 	{
-		return $this->chatSettings->get('enable_osc', false);
+		return (
+			$this->chatSettings->get('enable_osc', false) &&
+			!(bool)$this->settings->get('usr_settings_hide_chat_osc_allow_to_contact_me', false) &&
+			!(bool)$this->settings->get('usr_settings_disable_chat_osc_allow_to_contact_me', false)
+		);
 	}
 
 	/**

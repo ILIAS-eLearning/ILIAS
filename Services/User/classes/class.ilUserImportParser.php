@@ -1162,7 +1162,12 @@ class ilUserImportParser extends ilSaxParser
 									}
 								}
 							}
-														
+
+							if(!is_array($this->prefs) || array_search('chat_osc_allow_to_contact_me', $this->prefs) === false)
+							{
+								$this->userObj->setPref('chat_osc_allow_to_contact_me', $ilSetting->get('def_chat_osc_allow_to_contact_me', 'n'));
+							}
+
 							$this->userObj->writePrefs();
 
 							// update mail preferences, to be extended

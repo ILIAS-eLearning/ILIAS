@@ -312,7 +312,8 @@ class ilUserProfile
 			"visib_reg_hide" => true,
 			"course_export_hide" => true,
 			"group_export_hide" => true,
-			"group" => "settings"),
+			"group" => "settings"
+		),
 		"chat_osc_allow_to_contact_me" => array(
 			"input" => "selection",
 			"lang_var" => "chat_osc_allow_to_contact_me",
@@ -320,7 +321,13 @@ class ilUserProfile
 			"visib_reg_hide" => true,
 			"course_export_hide" => true,
 			"group_export_hide" => true,
-			"group" => "settings"),
+			"group" => "settings",
+			"default" => "n",
+			"options" => array(
+				"n" => "chat_osc_accepts_messages_no",
+				"y" => "chat_osc_accepts_messages_yes"
+			)
+		),
 		"preferences" => array(
 						"visible_fix_value" => 1,
 						"changeable_fix_value" => 1,

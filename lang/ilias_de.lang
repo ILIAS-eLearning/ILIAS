@@ -15803,3 +15803,5 @@ chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat j
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
 chatroom#:#chat_osc_allow_to_contact_me#:#Anchatten erlauben
 chatroom#:#chat_osc_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
+chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
+chatroom#:#chat_osc_accepts_messages_yes#:#Empfängt Chat-Nachrichten

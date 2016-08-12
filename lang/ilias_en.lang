@@ -15802,3 +15802,5 @@ chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be a
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
 chatroom#:#chat_osc_allow_to_contact_me#:#Allow On-Screen Chat Conversations
 chatroom#:#chat_osc_allow_to_contact_me_info#:#If activated, other users are allowed start a conversation with me.
+chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
+chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
