@@ -15808,14 +15808,20 @@ if(!$ilDB->tableExists('mass_members')) {
 		'notify' => array(
 			'type' => 'integer',
 			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'learning_progress' => array(
+			'type' => 'integer',
+			'length' => 1,
 			'notnull' => false,
 			'default' => 0
 		),
-		'grade' => array(
-			'type' => 'text',
-			'length' => 50,
-			'notnull' => false,
-			'default' => ''
+		'finalized' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
 		)
 	);
 	$ilDB->createTable('mass_members',$fields);

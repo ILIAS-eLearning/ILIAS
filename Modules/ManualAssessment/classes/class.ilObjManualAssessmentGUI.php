@@ -14,6 +14,7 @@
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentSettingsGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentMembersGUI
+ * @ilCtrl_Calls ilObjManualAssessmentGUI: ilLearningProgressGUI
  */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
@@ -25,6 +26,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	const TAB_INFO = 'info_short';
 	const TAB_PERMISSION = 'perm_settings';
 	const TAB_MEMBERS = 'members';
+	const TAB_LP = 'learning_progress';
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 		global $DIC;
 		$this->type = 'mass';
@@ -65,6 +67,14 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$this->fillInfoScreen($info);
 				$this->ctrl->forwardCommand($info);
 				break;
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$this->tabs_gui->setTabActive(self::TAB_LP);
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				break;
 			default:						
 				if(!$cmd) {
 					$cmd = "view";
@@ -98,6 +108,10 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 								, array()
 								, 'ilpermissiongui'
 								);
+		$this->tabs_gui->addTarget(self::TAB_LP
+								, $this->ctrl->getLinkTargetByClass(array('illearningprogressgui','illplistofprogressgui'))
+								, array('illplistofprogressgui')
+								, $this->lng->txt("LP"));
 		parent::getTabs();
 	//	$this->tabs_gui->clearTargets();
 	}
@@ -112,6 +126,9 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		}
 		if ($a_cmd == "members") {
 			return $this->ctrl->getLinkTargetByClass("ilmanualassessmentmembersgui", "view");
+		}
+		if ($a_cmd == "members") {
+			return $this->ctrl->getLinkTargetByClass("illearningprocessgui", "view");
 		}
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
 	}
