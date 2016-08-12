@@ -57,12 +57,12 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 
 	public function updateMember(ilManualAssessmentMember $member) {
 		$sql = 'UPDATE mass_members SET '
-				.'	'.ilManualAssessmentMembers::FIELD_GRADE.' = '.$this->db->quote($member->grade(),'text')
+				.'	'.ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS.' = '.$this->db->quote($member->LPStatus(),'text')
 				.'	,'.ilManualAssessmentMembers::FIELD_EXAMINER_ID.' = '.$this->db->quote($member->examinerId(),'integer')
 				.'	,'.ilManualAssessmentMembers::FIELD_RECORD.' = '.$this->db->quote($member->record(),'text')
 				.'	,'.ilManualAssessmentMembers::FIELD_INTERNAL_NOTE.' = '.$this->db->quote($member->internalNote(),'text')
 				.'	,'.ilManualAssessmentMembers::FIELD_NOTIFY.' = '.$this->db->quote($member->notify(),'integer')
-				.'	,'.ilManualAssessmentMembers::FIELD_FINALIZED.' = '.$this->db->quote($member->notify(),'integer')
+				.'	,'.ilManualAssessmentMembers::FIELD_FINALIZED.' = '.$this->db->quote($member->finalized(),'integer')
 				.'	WHERE obj_id = '.$this->db->quote($member->assessmentId(),'integer')
 				.'		AND usr_id = '.$this->db->quote($member->id(),'integer');
 		$this->db->manipulate($sql);
@@ -87,11 +87,12 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 	}
 
 	protected function insertMembersRecord(ilObjManualAssessment $mass, array $record) {
-		$sql = 'INSERT INTO mass_members (obj_id,usr_id,record,notify) '
+		$sql = 'INSERT INTO mass_members (obj_id,usr_id,record,learning_progress,notify) '
 				.'	VALUES ('
 				.'		'.$this->db->quote($mass->getId(),'integer')
 				.'		,'.$this->db->quote($record[ilManualAssessmentMembers::FIELD_USR_ID],'integer')
 				.'		,'.$this->db->quote($record[ilManualAssessmentMembers::FIELD_RECORD],'text')
+				.'		,'.$this->db->quote($record[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS],'integer')
 				.'		,'.$this->db->quote(0,'integer')
 				.'	)';
 		$this->db->manipulate($sql);
