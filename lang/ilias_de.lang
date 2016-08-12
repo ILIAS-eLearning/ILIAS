@@ -15872,3 +15872,4 @@ badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht un
 trac#:#trac_defaults#:#Bestanden-Status
 trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
+copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
