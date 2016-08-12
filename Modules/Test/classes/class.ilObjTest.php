@@ -8309,7 +8309,7 @@ function getAnswerFeedbackPoints()
 		}
 		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass() !== null)
 		{
-			$lastPass = $testPassesSelector->getLastPassTimestamp();
+			$lastPass = $testPassesSelector->getLastFinishedPassTimestamp();
 			if($lastPass && strlen($this->getPassWaiting()))
 			{
 				$pass_waiting_string = $this->getPassWaiting();
@@ -8318,8 +8318,10 @@ function getAnswerFeedbackPoints()
 				
 				if(time() < $next_pass_allowed)
 				{
+					$date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));
+					
 					$result["executable"]   = false;
-					$result["errormessage"] = $this->lng->txt("allow_next_pass_date");
+					$result["errormessage"] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
 					return $result;
 				}
 			}

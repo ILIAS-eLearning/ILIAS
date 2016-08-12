@@ -930,12 +930,12 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$form->addItem($limitPasses);
 
 		// pass_waiting time between testruns
-		$pass_waiting_enabled = new ilCheckboxInputGUI($this->lng->txt('tst_pass_waiting'), 'pass_waiting_enabled');
-		$pass_waiting_enabled->setInfo($this->lng->txt('tst_waiting_time_info'));
+		$pass_waiting_enabled = new ilCheckboxInputGUI($this->lng->txt('tst_pass_waiting_enabled'), 'pass_waiting_enabled');
+		$pass_waiting_enabled->setInfo($this->lng->txt('tst_pass_waiting_info'));
 		$pass_waiting_enabled->setChecked($this->testOBJ->isPassWaitingEnabled());
 
 		// pass_waiting
-		$duration = new ilDurationInputGUI($this->lng->txt("tst_pass_waiting"), "pass_waiting");
+		$duration = new ilDurationInputGUI($this->lng->txt("tst_pass_waiting_time"), "pass_waiting");
 		
 		$duration->setShowMonths(TRUE);
 		$duration->setShowDays(TRUE);
