@@ -1009,117 +1009,152 @@ $bs["tref"] = $bs["tref_id"];
 		}
 
 		// output spider stuff
+		$all_chart_html = "";
+
 		if (count($skills) >= 3)
 		{
-			$max_cnt = 0;
-			$leg_labels = array();
-//var_dump($this->profile_levels);
-			//foreach ($this->profile_levels as $k => $l)
-			
-			// write target, actual and self counter to skill array 
-			foreach ($skills as $k => $l)
+			$skill_packages = array();
+
+			if (count($skills) < 8)
 			{
-				//$bs = new ilBasicSkill($l["base_skill_id"]);
-				$bs = new ilBasicSkill($l["base_skill_id"]);
-				$leg_labels[] = ilBasicSkill::_lookupTitle($l["base_skill_id"] , $l["tref_id"]);
-				$levels = $bs->getLevelData();
-				$cnt = 0;
-				foreach ($levels as $lv)
+				$skill_packages[1] = $skills;
+			}
+			else
+			{
+				$mod = count($skills) % 7;
+				$pkg_num = floor((count($skills) - 1) / 7) + 1;
+				$cpkg = 1;
+				foreach ($skills as $k => $s)
 				{
-					$cnt++;
-					if ($l["level_id"] == $lv["id"])
+					$skill_packages[$cpkg][$k] = $s;
+					if ($mod < 3 && count($skill_packages) == ($pkg_num - 1) && count($skill_packages[$cpkg]) == 3+$mod)
 					{
-						$skills[$k]["target_cnt"] = $cnt;
+						$cpkg+=1;
 					}
-					if ($this->actual_levels[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"])
+					else if (count($skill_packages[$cpkg]) == 7)
 					{
-						$skills[$k]["actual_cnt"] = $cnt;
+						$cpkg+=1;
 					}
-					if ($incl_self_eval)
-					{
-						if ($self_vals[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"])
-						{
-							$skills[$k]["self_cnt"] = $cnt;
-						}
-					}
-					$max_cnt = max($max_cnt, $cnt);
 				}
 			}
-			
-//			$leg_labels = array("AAAAA", "BBBBB", "CCCCC");
-			
-//var_dump($this->profile_levels);
-//var_dump($this->actual_levels);
 
-			include_once("./Services/Chart/classes/class.ilChart.php");
-			$chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart");
-			$chart->setsize(800, 300);			
-			$chart->setYAxisMax($max_cnt);
-			$chart->setLegLabels($leg_labels);
-			
-			// target level
-			$cd = $chart->getDataInstance();
-			$cd->setLabel($lng->txt("skmg_target_level"));
-			$cd->setFill(true, "#A0A0A0");
+			$pkg_cnt = 0;
+			foreach ($skill_packages as $pskills)
+			{
+				$pkg_cnt++;
+				$max_cnt = 0;
+				$leg_labels = array();
+	//var_dump($this->profile_levels);
+				//foreach ($this->profile_levels as $k => $l)
 
-			// other users
-			$cd2 = $chart->getDataInstance();
-			if ($this->gap_cat_title != "")
-			{
-				$cd2->setLabel($this->gap_cat_title);
-			}
-			else if ($this->gap_mode == "max_per_type")
-			{
-				$cd2->setLabel($lng->txt("objs_".$this->gap_mode_type));
-			}
-			else if ($this->gap_mode == "max_per_object")
-			{
-				$cd2->setLabel(ilObject::_lookupTitle($this->gap_mode_obj_id));
-			}
-			$cd2->setFill(true, "#8080FF");
-			
-			// self evaluation
-			if ($incl_self_eval)
-			{
-				$cd3 = $chart->getDataInstance();
-				$cd3->setLabel($lng->txt("skmg_self_evaluation"));
-				$cd3->setFill(true, "#FF8080");
-			}
-			
-			// fill in data
-			$cnt = 0;
-			foreach ($skills as $pl)
-			{
-				$cd->addPoint($cnt, (int) $pl["target_cnt"]);
-				$cd2->addPoint($cnt, (int) $pl["actual_cnt"]);
+				// write target, actual and self counter to skill array
+				foreach ($pskills as $k => $l)
+				{
+					//$bs = new ilBasicSkill($l["base_skill_id"]);
+					$bs = new ilBasicSkill($l["base_skill_id"]);
+					$leg_labels[] = ilBasicSkill::_lookupTitle($l["base_skill_id"] , $l["tref_id"]);
+					$levels = $bs->getLevelData();
+					$cnt = 0;
+					foreach ($levels as $lv)
+					{
+						$cnt++;
+						if ($l["level_id"] == $lv["id"])
+						{
+							$pskills[$k]["target_cnt"] = $cnt;
+						}
+						if ($this->actual_levels[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"])
+						{
+							$pskills[$k]["actual_cnt"] = $cnt;
+						}
+						if ($incl_self_eval)
+						{
+							if ($self_vals[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"])
+							{
+								$pskills[$k]["self_cnt"] = $cnt;
+							}
+						}
+						$max_cnt = max($max_cnt, $cnt);
+					}
+				}
+
+	//			$leg_labels = array("AAAAA", "BBBBB", "CCCCC");
+
+	//var_dump($this->profile_levels);
+	//var_dump($this->actual_levels);
+
+				include_once("./Services/Chart/classes/class.ilChart.php");
+				$chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart".$pkg_cnt);
+				$chart->setsize(800, 300);
+				$chart->setYAxisMax($max_cnt);
+				$chart->setLegLabels($leg_labels);
+
+				// target level
+				$cd = $chart->getDataInstance();
+				$cd->setLabel($lng->txt("skmg_target_level"));
+				$cd->setFill(true, "#A0A0A0");
+
+				// other users
+				$cd2 = $chart->getDataInstance();
+				if ($this->gap_cat_title != "")
+				{
+					$cd2->setLabel($this->gap_cat_title);
+				}
+				else if ($this->gap_mode == "max_per_type")
+				{
+					$cd2->setLabel($lng->txt("objs_".$this->gap_mode_type));
+				}
+				else if ($this->gap_mode == "max_per_object")
+				{
+					$cd2->setLabel(ilObject::_lookupTitle($this->gap_mode_obj_id));
+				}
+				$cd2->setFill(true, "#8080FF");
+
+				// self evaluation
 				if ($incl_self_eval)
 				{
-					$cd3->addPoint($cnt, (int) $pl["self_cnt"]);
+					$cd3 = $chart->getDataInstance();
+					$cd3->setLabel($lng->txt("skmg_self_evaluation"));
+					$cd3->setFill(true, "#FF8080");
 				}
-				$cnt++;
+
+				// fill in data
+				$cnt = 0;
+				foreach ($pskills as $pl)
+				{
+					$cd->addPoint($cnt, (int) $pl["target_cnt"]);
+					$cd2->addPoint($cnt, (int) $pl["actual_cnt"]);
+					if ($incl_self_eval)
+					{
+						$cd3->addPoint($cnt, (int) $pl["self_cnt"]);
+					}
+					$cnt++;
+				}
+
+				// add data to chart
+				if ($this->getProfileId() > 0)
+				{
+					$chart->addData($cd);
+				}
+				$chart->addData($cd2);
+				if ($incl_self_eval && count($this->getGapAnalysisSelfEvalLevels()) > 0)
+				{
+					$chart->addData($cd3);
+				}
+
+				if ($pkg_cnt == 1)
+				{
+					$lg = new ilChartLegend();
+					$chart->setLegend($lg);
+				}
+
+				$chart_html = $chart->getHTML();
+				$all_chart_html.= $chart_html;
 			}
-			
-			// add data to chart
-			if ($this->getProfileId() > 0)
-			{
-				$chart->addData($cd);
-			}
-			$chart->addData($cd2);
-			if ($incl_self_eval && count($this->getGapAnalysisSelfEvalLevels()) > 0)
-			{
-				$chart->addData($cd3);
-			}
-			
-			$lg = new ilChartLegend();
-			$chart->setLegend($lg);
-			
-			$chart_html = $chart->getHTML();
-			
 			include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 			$pan = ilPanelGUI::getInstance();
 			$pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
-			$pan->setBody($chart_html);
-			$chart_html = $pan->getHTML();
+			$pan->setBody($all_chart_html);
+			$all_chart_html = $pan->getHTML();
 		}
 
 		$stree = new ilSkillTree();
@@ -1143,7 +1178,7 @@ $bs["tref"] = $bs["tref_id"];
 //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
 //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
 		
-		return $chart_html.$html;
+		return $all_chart_html.$html;
 	}
 	
 	/**
