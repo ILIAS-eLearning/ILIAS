@@ -42,24 +42,6 @@ class Report implements C\Panel\Report {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTitle($title){
-		$this->checkStringArg("title", $title);
-
-		$clone = clone $this;
-		$clone->title = $title;
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function withSubPanels($sub_panels){
 		$sub_panels = $this->toArray($sub_panels);
 		$types = [C\Panel\Sub::class];
