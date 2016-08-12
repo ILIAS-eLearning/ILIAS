@@ -2406,6 +2406,12 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
 				}
 				break;
+			case 'chat_osc_allow_to_contact_me':
+				if(!in_array($value, array('y', 'n')))
+				{
+					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
+				}
+				break;
 			case 'public_profile':
 				if (!in_array($value, array('y', 'n', 'g')))
 					$this->logFailure("---", "Wrong value '$value': Value 'y', 'g' or 'n' expected for preference $key.");				

@@ -19,6 +19,11 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 	protected static $user_access = array();
 
 	/**
+	 * @var array
+	 */
+	protected static $accepts_messages_cache = array();
+
+	/**
 	 * @var int|string
 	 */
 	protected $pub_ref_id = 0;
@@ -65,7 +70,19 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 		return self::$user_access[$a_user_id];
 	}
 
+	/**
+	 * @param  int $a_user_id
+	 * @return bool
+	 */
+	protected function acceptsMessages($a_user_id)
+	{
+		if(!array_key_exists($a_user_id, self::$accepts_messages_cache))
+		{
+			self::$accepts_messages_cache[$a_user_id] = ilUtil::yn2tf(ilObjUser::_lookupPref($a_user_id, 'chat_osc_allow_to_contact_me'));
+		}
 
+		return self::$accepts_messages_cache[$a_user_id];
+	}
 
 	/**
 	 * Collect all features
@@ -101,9 +118,8 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 			}
 		}
 
-		if($this->osc_enabled)
+		if($this->osc_enabled && $this->acceptsMessages($a_target_user))
 		{
-			// @todo: Check whether or not a user wants to receice os 
 			$f = new ilAwarenessFeature();
 			$f->setText($this->lng->txt('chat_osc_start_conversation'));
 			$f->setHref('#');

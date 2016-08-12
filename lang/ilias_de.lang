@@ -15801,3 +15801,5 @@ chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad 
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann individuell entschieden werden, ob man von anderen Benutzern angesprochen werden möchte. Konversationen können über das  ‘Who is online?’-Tool begonnen werden.
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_allow_to_contact_me#:#Anchatten erlauben
+chatroom#:#chat_osc_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
