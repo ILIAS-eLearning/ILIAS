@@ -28,7 +28,7 @@ class ilObjDefReader extends ilSaxParser
 	 */
 	protected $mail_templates_by_component = array();
 
-	function ilObjDefReader($a_path, $a_name, $a_type)
+	function __construct($a_path, $a_name, $a_type)
 	{
 		// init specialized readers
 		foreach ($this->readers as $k => $reader)
