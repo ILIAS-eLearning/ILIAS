@@ -2,6 +2,7 @@
 
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
+require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilManualAssessmentMembers implements Iterator, Countable {
 	protected $member_records = array();
@@ -12,7 +13,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	const FIELD_LASTNAME = 'lastname';
 	const FIELD_LOGIN = 'login';
 	const FIELD_USR_ID = 'usr_id';
-	const FIELD_GRADE = 'grade';
+	const FIELD_LEARNING_PROGRESS = 'learning_progress';
 	const FIELD_EXAMINER_ID = 'examiner_id';
 	const FIELD_EXAMINER_FIRSTNAME = 'examiner_firstname';
 	const FIELD_EXAMINER_LASTNAME = 'examiner_lastname';
@@ -21,6 +22,9 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	const FIELD_NOTIFY = 'notify';
 	const FIELD_FINALIZED = 'finalized';
 
+	const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+	const LP_COMPLETED = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+	const LP_FAILED = ilLPStatus::LP_STATUS_FAILED_NUM;
 
 	public function __construct(ilObjManualAssessment $mass) {
 		$this->mass = $mass;
@@ -36,12 +40,20 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 
 	public function recordOK(array $record) {
 		if(isset($record[self::FIELD_USR_ID])) {
-			if($this->userExists($record[self::FIELD_USR_ID]) 
-				&& !$this->userAllreadyMemberByUsrId($record[self::FIELD_USR_ID])) {
-				return true;
+			if(!$this->userExists($record[self::FIELD_USR_ID])
+				|| $this->userAllreadyMemberByUsrId($record[self::FIELD_USR_ID])) {
+				var_dump($record);
+				die();
+				return fasle;
 			}
 		}
-		return false;
+		if(!in_array($record[self::FIELD_LEARNING_PROGRESS],
+			array(self::LP_FAILED, self::LP_COMPLETED, self::LP_IN_PROGRESS))) {
+			var_dump($record);
+			die();
+			return false;
+		}
+		return true;
 	}
 
 	public function userAllreadyMemberByUsrId($usr_id) {
@@ -82,7 +94,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 			, self::FIELD_FIRSTNAME				=> $usr->getFirstname()
 			, self::FIELD_LASTNAME				=> $usr->getLastname()
 			, self::FIELD_LOGIN					=> $usr->getLogin()
-			, self::FIELD_GRADE					=> null
+			, self::FIELD_LEARNING_PROGRESS		=> self::LP_IN_PROGRESS
 			, self::FIELD_EXAMINER_ID			=> null
 			, self::FIELD_EXAMINER_FIRSTNAME	=> null
 			, self::FIELD_EXAMINER_LASTNAME		=> null
@@ -119,6 +131,10 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 
 	public function valid() {
 		return $this->position < count($this->member_records);
+	}
+
+	public function membersIds() {
+		return array_keys($this->member_records);
 	}
 	
 }
