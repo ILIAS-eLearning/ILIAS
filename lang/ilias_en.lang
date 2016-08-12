@@ -15798,3 +15798,76 @@ rbac#:#grpr_read#:#Read access to Group Reference
 rbac#:#grpr_visible#:#Group reference is visible
 rbac#:#grpr_write#:#User can edit settings of group reference
 rbac#:#rbac_create_grpr#:#Create Group Reference
+common#:#obj_bdga#:#Badges
+common#:#obj_bdga_desc#:#Administrate types, image templates and activity badges
+rbac#:#bdga_visible#:#Badge administration is visible
+rbac#:#bdga_read#:#User can read badge administration content
+rbac#:#bdga_write#:#User can edit badge administration settings
+rbac#:#bdga_edit_permission#:#User can change permission settings
+badge#:#badge_settings#:#Badge Settings
+badge#:#badge_service_activate#:#Activate Service
+badge#:#badge_service_activate_info#:#Activate the service to make badges available
+badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
+badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_organisation#:#Organisation
+badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_contact#:#Contact Email
+badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_salt#:#Salt
+badge#:#badge_obi_salt_info#:#
+badge#:#badge_types#:#Types
+badge#:#badge_image_templates#:#Image Templates
+badge#:#badge_activity_badges#:#Activity Badges
+badge#:#badge_crs_merit#:#Merit
+badge#:#badge_manual#:#Manual Awarding
+badge#:#badge_user_profile#:#User Profil
+badge#:#badge_badge#:#Badge
+obj#:#obj_tool_setting_badges#:#Badges
+obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.
+badge#:#badge_add_template#:#Add Template
+badge#:#badge_image_template_form#:#Image Template
+badge#:#badge_image_from_upload#:#Upload Image
+badge#:#badge_image_from_template#:#Use Template
+badge#:#badge_award_badge#:#Award Badge
+badge#:#badge_remove_badge#:#Revoke Badge
+badge#:#badge_template_deletion_confirmation#:#Are you sure you want to delete the following image templates?
+badge#:#badge_assignment_deletion_confirmation#:#Are you sure you want to revoke the following badge assignments for "%s"?
+badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments? 
+badge#:#badge_template_types#:#Valid Types
+badge#:#badge_template_types_all#:#All
+badge#:#badge_template_types_specific#:#Specific
+badge#:#badge_valid#:#Valid until
+badge#:#badge_object_badges#:#Object Badges
+badge#:#badge_backpack_connect_failed#:#The Mozilla Backpack could not be requested for %s.
+badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.
+badge#:#badge_backpack_list#:#My Backpack
+badge#:#badge_personal_badges#:#My Badges
+badge#:#badge_issued_on#:#Issued On
+badge#:#badge_add_to_backpack#:#Add to Backpack
+badge#:#badge_add_to_backpack_multi#:#Trying to add %s to Backpack
+badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
+badge#:#badge_notification_subject#:#Badges received
+badge#:#badge_notification_body#:#you just received new badges.
+badge#:#badge_notification_osd#:#You just received new badges: [BADGE_LIST]
+badge#:#badge_notification_badges#:#New Badges
+badge#:#badge_notification_badges_goto#:#To your badges
+badge#:#badge_notification_parent_goto#:#To repository
+badge#:#badge_notification_reason#:#You are receiving this message to be able to add the badges to your profile.
+badge#:#badge_in_profile#:#In Profile
+badge#:#badge_add_to_profile#:#Add to Profile
+badge#:#badge_remove_from_profile#:#Remove from Profile
+badge#:#badge_criteria#:#Criteria
+badge#:#badge_edit_with_published#:#%s users have already added this badge to their backpack. Because of this changing badge attributes will lead to inconsistencies. Creating a new badge might be a better solution.
+badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.
+badge#:#badge_course_lp#:#Course LP
+badge#:#badge_profile_more#:#Show all
+badge#:#badge_profile_less#:#Show less
+badge#:#badge_backpack_gallery_info#:#These are your published badge collections in your Mozilla Backpack.
+badge#:#badge_profile_view#:#View
+badge#:#badge_profile_manage#:#Manage
+badge#:#badge_subtype_manual#:#manual
+badge#:#badge_subtype_auto#:#automatic
+badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
+trac#:#trac_defaults#:#Completion Status
+trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
+trac#:#trac_defaults_inactive#:#Inactive
