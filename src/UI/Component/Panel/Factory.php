@@ -76,7 +76,7 @@ interface Factory {
 	 *       Report Panels are predominantly used for displaying data. They may however comprise links or buttons.
 	 *   rivals:
 	 *      Standard Panels: >
-	 *        The Report Panels contains one Standard Panel containing the block panels used to structure information.
+	 *        The Report Panels contains one Standard Panel containing the sub panels used to structure information.
 	 *
 	 * rules:
 	 *   usage:
