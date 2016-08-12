@@ -299,22 +299,27 @@ class ilChatroomFormFactory
 		$protocol->addOption($https);
 
 		$certificate = new ilTextInputGUI($lng->txt('certificate'), 'cert');
+		$certificate->setInfo($lng->txt('chat_https_cert_info'));
 		$certificate->setRequired(true);
 		$https->addSubItem($certificate);
 
 		$key = new ilTextInputGUI($lng->txt('key'), 'key');
+		$key->setInfo($lng->txt('chat_https_key_info'));
 		$key->setRequired(true);
 		$https->addSubItem($key);
 
 		$dhparam = new ilTextInputGUI($lng->txt('dhparam'), 'dhparam');
+		$dhparam->setInfo($lng->txt('chat_https_dhparam_info'));
 		$dhparam->setRequired(true);
 		$https->addSubItem($dhparam);
 
 		$chatLog = new ilTextInputGUI($lng->txt('log'), 'log');
+		$chatLog->setInfo($lng->txt('chat_log_info'));
 		$chatLog->setRequired(false);
 		$form->addItem($chatLog);
 
 		$chatErrorLog = new ilTextInputGUI($lng->txt('error_log'), 'error_log');
+		$chatErrorLog->setInfo($lng->txt('chat_error_log_info'));
 		$chatErrorLog->setRequired(false);
 		$form->addItem($chatErrorLog);
 
@@ -384,6 +389,7 @@ class ilChatroomFormFactory
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php';
 		$auth = new ilChatroomAuthInputGUI($lng->txt('chatroom_auth'), 'auth');
+		$auth->setInfo($lng->txt('chat_auth_token_info'));
 		$auth->setCtrlPath(array('iladministrationgui', 'ilobjchatroomgui', 'ilpropertyformgui', 'ilformpropertydispatchgui', 'ilchatroomauthinputgui'));
 		$auth->setRequired(true);
 		$form->addItem($auth);

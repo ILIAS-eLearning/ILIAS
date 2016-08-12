@@ -15717,10 +15717,10 @@ chatroom#:#chatroom_auth_btn_txt#:#Schüssel generieren
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
-chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, eine alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
+chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
-chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, eine alternative URL für die Verbindung zwischen Client und Server zu definieren.
-chatroom#:#connection_url_info#:#Tragen Sie hier eine URL ohne Protokoll-Definition ein.
+chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
+chatroom#:#connection_url_info#:#Tragen Sie hier einen URL <b>ohne</b> Protokoll-Definition ein.
 chatroom#:#log#:#Chatserver Log-File
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
@@ -15792,3 +15792,9 @@ rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
 rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
 rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
 rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
+chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
+chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
+chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
+chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt. 
+chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
