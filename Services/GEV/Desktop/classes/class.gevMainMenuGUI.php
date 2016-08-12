@@ -198,17 +198,19 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			}
 		}
 
+		$count = 1;
 		foreach ($menu as $id => $entry) {
 			if (! $entry[1]) {
 				continue;
 			}
 			
 			if ($entry[0]) {
-				$this->_renderSingleEntry($a_tpl, $id, $entry);
+				$this->_renderSingleEntry($a_tpl, $id, $entry, $count);
 			}
 			else{
-				$this->_renderDropDownEntry($a_tpl, $id, $entry);
+				$this->_renderDropDownEntry($a_tpl, $id, $entry, $count);
 			}
+			$count++;
 		}
 		
 		// Some ILIAS idiosyncracy copied from ilMainMenuGUI.
@@ -219,10 +221,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		return "";
 	}
 	
-	protected function _renderSingleEntry($a_tpl, $a_id, $a_entry) {
+	protected function _renderSingleEntry($a_tpl, $a_id, $a_entry, $count) {
 		$a_tpl->setCurrentBlock("single_entry");
 		
 		$a_tpl->setVariable("ENTRY_ID", 'id="'.$a_id.'"');
+		$a_tpl->setVariable("NUM", $count);
 		$this->_setActiveClass($a_tpl, $a_id);
 		$a_tpl->setVariable("ENTRY_TARGET", $a_entry[2]);
 		$a_tpl->setVariable("ENTRY_TITLE", $a_entry[3]);
@@ -230,12 +233,12 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$a_tpl->parseCurrentBlock();
 	}
 	
-	protected function _renderDropDownEntry($a_tpl, $a_id, $a_entry) {
+	protected function _renderDropDownEntry($a_tpl, $a_id, $a_entry, $count) {
 		if ($a_id == self::IL_STANDARD_ADMIN) {
-			$this->_renderAdminMenu($a_tpl);
+			$this->_renderAdminMenu($a_tpl, $count);
 		}
 		else if ($a_id == self::GEV_REPORTING_MENU) {
-			$this->_renderReportingMenu($a_tpl);
+			$this->_renderReportingMenu($a_tpl, $count);
 		} 
 		else {
 			
@@ -244,6 +247,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			
 			$tpl = new ilTemplate("tpl.gev_main_menu_entry.html", true, true, "Services/GEV/Desktop");
 			$tpl->setVariable("ENTRY_ID", 'id="'.$trigger_id.'"');
+			$a_tpl->setVariable("NUM", $count);
 			$tpl->setVariable("ENTRY_ID_OV", 'id="'.$target_id.'"');
 			$this->_setActiveClass($tpl, $a_id);
 			$tpl->setVariable("ENTRY_TITLE", $a_entry[3]);
@@ -257,12 +261,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			$ov->add();
 			
 			$a_tpl->setCurrentBlock("multi_entry");
+			$a_tpl->setVariable("NUM", $count);
 			$a_tpl->setVariable("CONTENT", $tpl->get());
 			$a_tpl->parseCurrentBlock();
 		}
 	}
 	
-	protected function _renderAdminMenu($a_tpl) {
+	protected function _renderAdminMenu($a_tpl, $count) {
 		require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
 		$selection = new ilAdvancedSelectionListGUI();
@@ -277,11 +282,12 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$selection->setAsynchUrl("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch");
 		
 		$a_tpl->setCurrentBlock("multi_entry");
+		$a_tpl->setVariable("NUM", $count);
 		$a_tpl->setVariable("CONTENT", $selection->getHTML());
 		$a_tpl->parseCurrentBlock();
 	}
 
-	protected function _renderReportingMenu($a_tpl) {
+	protected function _renderReportingMenu($a_tpl, $count) {
 		require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 		$selection = new ilAdvancedSelectionListGUI();
