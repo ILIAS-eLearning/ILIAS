@@ -38,7 +38,7 @@ var Conversation = function Conversation(id, participants)
 	this.matchesParticipants = function(participants) {
 		for(var index in participants)
 		{
-			if(participants.hasOwnProperty(index) && _participants.indexOf(participants[index].id) === -1)
+			if(participants.hasOwnProperty(index) && !hasParticipant(participants[index]))
 			{
 				return false;
 			}
@@ -99,6 +99,15 @@ var Conversation = function Conversation(id, participants)
 				callback(_participants[key]);
 			}
 		}
+	};
+
+	var hasParticipant = function(participant) {
+		for(var key in _participants) {
+			if(_participants.hasOwnProperty(key) && _participants[key].getId() == participant.id) {
+				return true;
+			}
+		}
+		return false;
 	}
 };
 

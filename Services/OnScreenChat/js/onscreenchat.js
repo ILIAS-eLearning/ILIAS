@@ -70,13 +70,10 @@
 			getModule().storage = new ConversationStorage();
 
 			$(window).bind('storage', function(e){
-				console.log(e);
 				var conversation = e.originalEvent.newValue;
 				if(!(conversation instanceof Object)) {
 					conversation = JSON.parse(conversation);
 				}
-
-				console.log(conversation);
 
 				if(conversation.open) {
 					getModule().open(conversation);
@@ -87,7 +84,6 @@
 			$chat.login(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.receiveConversation(function(conversation) {
-				console.log("received conversation");
 				getModule().storage.save(conversation);
 			});
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
@@ -184,7 +180,6 @@
 		},
 
 		receiveMessage: function(messageObject) {
-			console.log("received message");
 			var template = getModule().config.messageTemplate;
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
 			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -242,9 +237,6 @@
 								.append(link);
 
 							list.append(line);
-							/*if(!isIdInArray(this.id, usersInRoom)) {
-
-							 }*/
 						});
 					},
 					'json'
@@ -255,7 +247,6 @@
 		},
 
 		addUser: function(conversationId, userId, name) {
-			console.log(name)
 			$chat.addUser(conversationId, userId, name, function(){
 				$scope.il.Modal.hide();
 			});

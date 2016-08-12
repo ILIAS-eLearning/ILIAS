@@ -16,6 +16,7 @@ module.exports = function(participants) {
 		conversation = new Conversation(UUID.v4());
 		conversations.add(conversation);
 	}
+
 	for(var key in participants) {
 		var participant = namespace.getSubscriberWithOfflines(participants[key].id, participants[key].name);
 		conversation.addParticipant(participant);

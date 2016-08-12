@@ -7,9 +7,16 @@ module.exports = function(conversationId, userId, name) {
 	var conversation = namespace.getConversations().getById(conversationId);
 
 	if(!conversation.isGroup()) {
-		conversation = new Conversation(UUID.v4(), conversation.getParticipants());
+		var participants = conversation.getParticipants();
+		conversation = new Conversation(UUID.v4());
 		conversation.setIsGroup(true);
 		namespace.getConversations().add(conversation);
+
+		for(var key in participants) {
+			if(participants.hasOwnProperty(key)) {
+				conversation.addParticipant(participants[key]);
+			}
+		}
 	}
 
 	var participant = namespace.getSubscriberWithOfflines(userId, name);
