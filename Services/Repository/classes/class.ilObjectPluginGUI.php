@@ -90,7 +90,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ilTabs->setTabActive("perm_settings");
-				$ret = $ilCtrl->forwardCommand($perm_gui);
+				$ilCtrl->forwardCommand($perm_gui);
 				break;
 		
 			case 'ilobjectcopygui':
@@ -98,6 +98,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType($this->getType());
 				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			case 'ilexportgui':
+				// only if plugin supports it?
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);		
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
 				break;
 						
 			case 'illearningprogressgui':
@@ -212,11 +220,17 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	 */
 	protected function initCreationForms($a_new_type)
 	{
-		$forms = array(
-			self::CFORM_NEW => $this->initCreateForm($a_new_type),
-			// self::CFORM_IMPORT => $this->initImportForm($a_new_type),
-			self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
-			);
+		global $ilPluginAdmin;
+		
+		$forms = array();
+		$forms[self::CFORM_NEW] = $this->initCreateForm($a_new_type);
+		
+		if($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName()))
+		{
+			$forms[self::CFORM_IMPORT] = $this->initImportForm($a_new_type);
+		}		
+			
+		$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
 
 		return $forms;
 	}
