@@ -5,6 +5,8 @@ require_once 'Services/Form/classes/class.ilTextInputGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 //require_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
 require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
+require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the ManualAssessment is used.
@@ -64,15 +66,16 @@ class ilManualAssessmentMemberGUI {
 		$form = $this->initGradingForm();
 		$form->setValuesByArray($_POST);
 		if($form->checkInput()) {
-			$member = $this->updateDataIn($this->member);
+			$member = $this->updateDataInMemberByArray($this->member,$_POST);
 			if($member->mayBeFinalized()) {
 				$this->member = $member->withFinalized();
 				$this->object->membersStorage()->updateMember($this->member);
+				ilManualAssessmentLPInterface::updateLPStatusOfMember($member);
 			} else {
-				ilUtil::sendFalure('member may not be finalized');
+				ilUtil::sendFailure('member may not be finalized');
 			}
 		}
-		$this->renderForm();
+		$this->renderForm($this->fillForm($this->initGradingForm(),$this->member));
 	}
 
 	protected function  edit() {
@@ -88,17 +91,17 @@ class ilManualAssessmentMemberGUI {
 		$form = $this->initGradingForm();
 		$form->setValuesByArray($_POST);
 		if($form->checkInput()) {
-			$this->member = $this->updateDataIn($this->member);
+			$this->member = $this->updateDataInMemberByArray($this->member,$_POST);
 			$this->object->membersStorage()->updateMember($this->member);
 		}
 		$this->renderForm($form);
 	}
 
-	protected function updateDataIn(ilManualAssessmentMember $member) {
-		$data = $_POST;
+	protected function updateDataInMemberByArray(ilManualAssessmentMember $member, $data) {
 		$member = $member->withRecord($data["record"])
 					->withInternalNote($data["internal_note"])
-					->withNotify($data["notify"]  == 1 ? 1 : 0);
+					->withLPStatus($data["learning_progress"])
+					->withNotify(($data["notify"]  == 1 ? 1 : 0));
 		return $member;
 	}
 
@@ -129,6 +132,14 @@ class ilManualAssessmentMemberGUI {
 		$ta->setDisabled($non_editable);
 		$form->addItem($ta);
 
+		$learning_progress = new ilSelectInputGUI($this->lng->txt("LP"),"learning_progress");
+		$learning_progress->setOptions(
+			array(ilManualAssessmentMembers::LP_IN_PROGRESS => "--"
+				, ilManualAssessmentMembers::LP_FAILED => "failed"
+				, ilManualAssessmentMembers::LP_COMPLETED => "completed"));
+		$learning_progress->setDisabled($non_editable);
+		$form->addItem($learning_progress);
+
 		// notify examinee
 		$notify = new ilCheckboxInputGUI($this->lng->txt("notify"), "notify");
 		$notify->setChecked($to_notify);
@@ -149,6 +160,7 @@ class ilManualAssessmentMemberGUI {
 			, "record" => $member->record()
 			, "internal_note" => $member->internalNote()
 			, "notify" => $member->notify()
+			, "learning_progress" => (int)$member->LPStatus()
 			));
 		return $a_form;
 	}
