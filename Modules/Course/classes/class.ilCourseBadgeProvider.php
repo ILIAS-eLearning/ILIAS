@@ -18,8 +18,9 @@ class ilCourseBadgeProvider implements ilBadgeProvider
 		include_once "Modules/Course/classes/Badges/class.ilCourseMeritBadge.php";
 		include_once "Modules/Course/classes/Badges/class.ilCourseLPBadge.php";
 		return array(
-			new ilCourseMeritBadge(),
-			new ilCourseLPBadge()
+			new ilCourseMeritBadge() 
+			// not ready for trunk
+			// ,new ilCourseLPBadge()
 		);
 	}	
 }
