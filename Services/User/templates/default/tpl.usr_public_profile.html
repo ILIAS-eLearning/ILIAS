@@ -79,6 +79,27 @@
 	<a target="_blank" href="http://delicious.com/{DEL_ACCOUNT}">{DEL_ACCOUNT}</a>
 </div>
 <!-- END delicious_row -->
+<!-- BEGIN badges_row -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_BADGES}</h3>
+	<div>
+		<!-- BEGIN badge_bl -->
+		<span style="margin:5px">{BADGE}</span>
+		<!-- END badge_bl -->
+	</div>
+	<!-- BEGIN badge_hidden_bl -->
+	<div id="ilbdgprfhd" style="display:none;">
+		<!-- BEGIN badge_hidden_item_bl -->
+		<span style="margin:5px">{BADGE_HIDDEN}</span>
+		<!-- END badge_hidden_item_bl -->	
+	</div>
+	<!-- BEGIN badge_hidden_bl -->
+	<!-- BEGIN badge_hidden_actions_bl -->
+	<a href="#" id="ilbdgprfhdm" class="btn btn-default" onclick="ilbdgprfhdtgl();">{BADGE_HIDDEN_TXT_MORE}</a>
+	<a href="#" id="ilbdgprfhdl" class="btn btn-default" onclick="ilbdgprfhdtgl();" style="display:none">{BADGE_HIDDEN_TXT_LESS}</a>
+	<!-- END badge_hidden_actions_bl -->
+</div>
+<!-- END badges_row -->
 <div style="clear:both;"></div>
 </div>
 <br />
@@ -86,3 +107,14 @@
 <!-- END table_start -->
 <!-- BEGIN table_end -->
 <!-- END table_end -->
+<!-- BEGIN badge_js_bl -->
+<script type="text/javascript">
+function ilbdgprfhdtgl() {
+  $('#ilbdgprfhd').slideToggle('slow',  function() {
+    $('#ilbdgprfhdl').toggle(); 
+	$('#ilbdgprfhdm').toggle();
+  });
+  return false;
+}
+</script>
+<!-- END badge_js_bl -->

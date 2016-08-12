@@ -15799,3 +15799,76 @@ rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
 rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
 rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
 rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+common#:#obj_bdga#:#Badges
+common#:#obj_bdga_desc#:#Verwaltung der Typen, Bildvorlagen und Activity Badges
+rbac#:#bdga_visible#:#Badge-Verwaltung ist sichtbar
+rbac#:#bdga_read#:#Badge-Verwaltung lesen
+rbac#:#bdga_write#:#Badge-Verwaltung bearbeiten
+rbac#:#bdga_edit_permission#:#Rechteeinstellungen ändern
+badge#:#badge_settings#:#Badge Einstellungen
+badge#:#badge_service_activate#:#Service aktivieren
+badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
+badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
+badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_organisation#:#Organisation
+badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_contact#:#Kontakt-Email
+badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_salt#:#Salt
+badge#:#badge_obi_salt_info#:#
+badge#:#badge_types#:#Typen
+badge#:#badge_image_templates#:#Bildvorlagen
+badge#:#badge_activity_badges#:#Activity Badges
+badge#:#badge_crs_merit#:#Verdienst
+badge#:#badge_manual#:#Manuelle Vergabe
+badge#:#badge_user_profile#:#Benutzerprofil
+badge#:#badge_badge#:#Badge
+obj#:#obj_tool_setting_badges#:#Badges
+obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
+badge#:#badge_add_template#:#Template hinzufügen
+badge#:#badge_image_template_form#:#Bildvorlage
+badge#:#badge_image_from_upload#:#Bild hochlanden
+badge#:#badge_image_from_template#:#Vorlage nutzen
+badge#:#badge_award_badge#:#Badge verleihen
+badge#:#badge_remove_badge#:#Badge entziehen
+badge#:#badge_template_deletion_confirmation#:#Wollen Sie wirklich die folgenden Bildvorlagen löschen?
+badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
+badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
+badge#:#badge_template_types#:#Gültige Typen
+badge#:#badge_template_types_all#:#Alle
+badge#:#badge_template_types_specific#:#Bestimmte
+badge#:#badge_valid#:#Gültig bis
+badge#:#badge_object_badges#:#Objekt-Badges
+badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
+badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
+badge#:#badge_backpack_list#:#Mein Backpack
+badge#:#badge_personal_badges#:#Meine Badges
+badge#:#badge_issued_on#:#Erhalten am
+badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
+badge#:#badge_add_to_backpack_multi#:#Versuche %s zum Backpack hinzuzufügen
+badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
+badge#:#badge_notification_subject#:#Badge erhalten
+badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
+badge#:#badge_notification_osd#:#Sie haben gerade neue Badges erhalten: [BADGE_LIST]
+badge#:#badge_notification_badges#:#Neue Badges
+badge#:#badge_notification_badges_goto#:#Zu den Badges
+badge#:#badge_notification_parent_goto#:#Zum Repository
+badge#:#badge_notification_reason#:#Sie erhalten diese Nachricht, um die neuen Badges in Ihr Profil einbinden zu können.
+badge#:#badge_in_profile#:#Im Profil
+badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
+badge#:#badge_remove_from_profile#:#Aus Profil entfernen
+badge#:#badge_criteria#:#Kriterien
+badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
+badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Keine neuen Badges können erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
+badge#:#badge_course_lp#:#Course LP
+badge#:#badge_profile_more#:#Alle zeigen
+badge#:#badge_profile_less#:#Weniger zeigen
+badge#:#badge_backpack_gallery_info#:#Dies sind deine veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_profile_view#:#Anzeigen
+badge#:#badge_profile_manage#:#Verwalten
+badge#:#badge_subtype_manual#:#manuell
+badge#:#badge_subtype_auto#:#automatisch
+badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
+trac#:#trac_defaults#:#Bestanden-Status
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_inactive#:#Inaktiv
