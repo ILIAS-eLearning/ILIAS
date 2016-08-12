@@ -41,7 +41,8 @@ class ilDBConnections
 	function connectHost($a_dsn_host)
 	{
 //echo "<br>connectingHost:".$a_dsn_host;
-		$db = MDB2::connect($a_dsn_host);
+		$mdb = new MDB2();
+		$db = $mdb->connect($a_dsn_host);
 		return $db;
 	}
 	
