@@ -29,8 +29,10 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			, "Trainingsverwaltung"
 			);
 
-		$this->addCss();
-		$html = $this->getSubmenuHTML();
+		$current_skin = ilStyleDefinition::getCurrentSkin();
+
+		$this->addCss($current_skin);
+		$html = $this->getSubMenuHTML($current_skin);
 
 		return array
 			( "mode" => ilUIHookPluginGUI::APPEND
@@ -45,8 +47,9 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			;
 	}
 
-	protected function getSubMenuHTML() {
-		$tpl = $this->plugin_object->getTemplate("tpl.submenu.html", true, true);
+	protected function getSubMenuHTML($current_skin) {
+		assert('is_string($current_skin)');
+		$tpl = $this->getTemplate($current_skin, true, true); 
 		$count = 1;
 		foreach ($this->items as $item) {
 			if ($this->active == $item) {
@@ -61,8 +64,31 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		return $tpl->get();
 	}
 
-	protected function addCss() {
+	protected function addCss($current_skin) {
+		assert('is_string($current_skin)');
 		global $tpl;
 		$tpl->addCss($this->plugin_object->getStyleSheetLocation("submenu.css"));
+	}
+
+	protected function getTemplate($current_skin, $remove_unknown_vars, $remove_empty_blocks) {
+		assert('is_string($current_skin)');
+		$skin_folder = $this->getSkinFolder($current_skin);
+		$tpl_file = "tpl.submenu.html";
+		$tpl_path = "$skin_folder/Plugins/GEVCockpit/$tpl_file";
+		if (is_file($tpl_path)) {
+			return new ilTemplate($tpl_path, $remove_unknown_vars, $remove_empty_blocks);
+		}
+		else {
+			return $this->plugin_object->getTemplate("tpl.submenu.html", $remove_unknown_vars, $remove_empty_blocks);
+		}
+	}
+
+	protected function getStyleSheetLocation($current_skin) {
+		assert('is_string($current_skin)');
+	}
+
+	protected function getSkinFolder($current_skin) {
+		assert('is_string($current_skin)');
+		return "./Customizing/global/skin/$current_skin";
 	}
 }
