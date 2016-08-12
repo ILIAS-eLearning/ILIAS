@@ -19,6 +19,7 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
 
+		$this->active = "Bildungsbiografie";
 		$this->items = array
 			( "Buchungen"
 			, "Bildungsbiografie"
@@ -48,6 +49,9 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		$tpl = $this->plugin_object->getTemplate("tpl.submenu.html", true, true);
 		$count = 1;
 		foreach ($this->items as $item) {
+			if ($this->active == $item) {
+				$tpl->touchBlock("active");
+			}
 			$tpl->setCurrentBlock("item");
 			$tpl->setVariable("NUM", $count);
 			$tpl->setVariable("LABEL", $item);
