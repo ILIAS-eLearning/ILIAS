@@ -102,8 +102,8 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 			$f->setText($this->lng->txt('on_screen_chat'));
 			$f->setHref('#');
 			$f->setData(array(
-					'participant' => $a_target_user,
-					'username' => ilObjUser::_lookupLogin($a_target_user),
+					'onscreenchat-userid' => $a_target_user,
+					'onscreenchat-username' => ilObjUser::_lookupLogin($a_target_user),
 			));
 			$coll->addFeature($f);
 		}

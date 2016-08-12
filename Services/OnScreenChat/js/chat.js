@@ -34,13 +34,17 @@
 			getModule().socket.on('history', callback)
 		},
 
-		addUser: function(conversationId, userId, callback) {
-			getModule().socket.emit('addUser', conversationId, userId);
+		addUser: function(conversationId, userId, name, callback) {
+			getModule().socket.emit('addUser', conversationId, userId, name);
 			getModule().socket.on('addUser', callback);
 		},
 
 		receiveMessage: function(callback) {
 			getModule().socket.on('message', callback);
+		},
+
+		receiveConversation: function(callback) {
+			getModule().socket.on('conversation', callback);
 		}
 	};
 

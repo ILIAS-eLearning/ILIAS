@@ -21,6 +21,12 @@ var Conversation = function Conversation(id, participants)
 	var _group = false;
 
 	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	var _opened = true;
+
+	/**
 	 * Returns the ID of the conversation;
 	 *
 	 * @returns {*}
@@ -38,6 +44,18 @@ var Conversation = function Conversation(id, participants)
 			}
 		}
 		return true;
+	};
+
+	this.send = function(message) {
+		forParticipants(function(participant){
+			participant.send(message);
+		});
+	};
+
+	this.emit = function(event, data) {
+		forParticipants(function(participant){
+			participant.emit(event, data);
+		});
 	};
 
 	this.addParticipant = function(participant) {
@@ -58,6 +76,30 @@ var Conversation = function Conversation(id, participants)
 	this.setIsGroup = function(isGroup) {
 		_group = isGroup;
 	};
+
+
+	this.json = function() {
+		var participants = [];
+
+		for(var key in _participants) {
+			participants.push(_participants[key].json());
+		}
+
+		return {
+			id: _id,
+			participants: participants,
+			open: _opened
+		}
+	};
+
+	var forParticipants = function(callback) {
+		for(var key in _participants) {
+			if(_participants.hasOwnProperty(key)) {
+				console.log(_participants[key].isOnline());
+				callback(_participants[key]);
+			}
+		}
+	}
 };
 
 module.exports = Conversation;

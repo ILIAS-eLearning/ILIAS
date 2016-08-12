@@ -1,3 +1,11 @@
+
+/*$.each(getModule().storage.all(), function(key, conversation){
+	if(conversation.open) {
+		getModule().open(conversation.id);
+	}
+});*/
+
+
 (function($, $scope, $chat){
 'use strict';
 	$scope.il.OnScreenChatJQueryTriggers = {
@@ -9,134 +17,110 @@
 			searchEvent: function(){}
 		},
 
+		setTriggers: function(triggers) {
+			if(triggers.hasOwnProperty('participantEvent')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent = triggers.participantEvent;
+			}
+			if(triggers.hasOwnProperty('closeEvent')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent = triggers.closeEvent;
+			}
+			if(triggers.hasOwnProperty('submitEvent')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent = triggers.submitEvent;
+			}
+			if(triggers.hasOwnProperty('addEvent')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.addEvent = triggers.addEvent;
+			}
+			if(triggers.hasOwnProperty('searchEvent')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent = triggers.searchEvent;
+			}
+
+			return this;
+		},
+
 		init: function() {
 			$('body')
-				.on('click', '[data-onscreenchat-participant]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
+				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
 				.on('click', '[data-onscreenchat-submit]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('keydown', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
-				.on('keydown', '[data-onscreenchat-message]', function(e) {
+				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
 				}).on('input', '[data-onscreenchat-message]', function() {
 					console.log("resizeEvent");
-				})
+				})*/;
 		}
 	};
 
+
+
 	$scope.il.OnScreenChat = {
 		config: {},
-		container: undefined,
+		container: $('<div></div>').addClass('row'),
 		storage: undefined,
 		user: undefined,
 
 		setConfig: function(config) {
-			$scope.il.OnScreenChat.config = config;
+			getModule().config = config;
 		},
 
 		init: function() {
-			getModule().user = new Participant(getModule().config.userId, getModule().config.username);
-
 			localStorage.clear();
-			getModule().container = $('<div></div>').addClass('row');
-			getModule().storage = new Storage();
+			getModule().storage = new ConversationStorage();
 
-			$.each(getModule().storage.all(), function(key, conversation){
+			$(window).bind('storage', function(e){
+				console.log(e);
+				var conversation = e.originalEvent.newValue;
+				if(!(conversation instanceof Object)) {
+					conversation = JSON.parse(conversation);
+				}
+
+				console.log(conversation);
+
 				if(conversation.open) {
-					getModule().open(conversation.id);
+					getModule().open(conversation);
 				}
 			});
+
+
+			$chat.login(getConfig().userId, getConfig().username, getModule().onLogin);
+			$chat.receiveMessage(getModule().receiveMessage);
+			$chat.receiveConversation(function(conversation) {
+				console.log("received conversation");
+				getModule().storage.save(conversation);
+			});
+			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
+				participantEvent: getModule().startConversation,
+				closeEvent: getModule().close,
+				submitEvent: getModule().handleSubmit,
+				addEvent: getModule().openInviteUser,
+				searchEvent: getModule().searchUser
+			}).init();
 
 			$('body').append(
 				$('<div></div>')
 					.attr('id', 'onscreenchat-container')
 					.addClass('container')
 					.append(getModule().container)
-			).on('click', '[data-participant]', function(e) {
-				e.preventDefault();
-				var imActionLink = $(this);
-				var dataConversationId = imActionLink.attr('data-conversation');
-
-				if(dataConversationId == undefined) {
-					var participant = new Participant(imActionLink.attr('data-participant'), imActionLink.attr('data-username'));
-					var participants = [getModule().user, participant];
-
-					$chat.getConversation(participants, function(conversationId) {
-						imActionLink.attr('data-conversation', conversationId);
-						getModule().start(conversationId, participants);
-					});
-				} else {
-					getModule().open(getModule.storage.find(dataConversationId));
-				}
-			}).on('click', '[data-onscreenchat-close]', function() {
-				getModule().close($(this).attr('data-onscreenchat-close'));
-			}).on('click', '[data-onscreenchat-submit]', function() {
-				getModule().handleSubmit($(this));
-			}).on('keydown', '[data-onscreenchat-window]', function(e) {
-				if(e && e.keyCode == 13 && !e.shiftKey) {
-					getModule().handleSubmit($(this));
-				}
-			}).on('keydown', '[data-onscreenchat-message]', function(e) {
-				if(e.which == 13 && !e.shiftKey) {
-					e.preventDefault();
-				}
-			}).on('input', '[data-onscreenchat-message]', function() {
-				getModule().resizeInput($(this));
-			}).on('click', '[data-onscreenchat-add]', function(){
-				$scope.il.Modal.dialogue({
-					header: "Invite user to conversation",
-					show: true,
-					body: getModule().config.modalTemplate.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
-				});
-			}).on('keyup', '[data-onscreenchat-usersearch]', function(){
-				console.log("type...");
-				if($(this).val().length > 2) {
-					$.get(
-						getModule().config.userListURL + '&q=' + $('#invite_user_text').val(),
-						function(response){
-							var list = $('[data-onscreenchat-userlist]');
-							list.children().remove();
-
-							$(response.items).each(function() {
-								var userId = this.id;
-								var link = $('<a></a>')
-									.prop('href', '#')
-									.text(this.value)
-									.click(function (e) {
-										e.preventDefault();
-										e.stopPropagation();
-										getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId)
-									});
-								var line =  $('<li></li>')
-									.addClass('invite_user_line_id')
-									.addClass('invite_user_line')
-									.append(link);
-
-								list.append(line);
-								/*if(!isIdInArray(this.id, usersInRoom)) {
-
-								}*/
-							});
-						},
-						'json'
-					);
-				} else {
-					$('#invite_users_available').children().remove();
-				}
-			});
-
-			$chat.receiveMessage(getModule().receiveMessage);
+			);
 		},
 
-		start: function(conversationId, participants) {
-			var conversation = getModule().storage.find(conversationId);
-			if(conversation === null)
-			{
-				conversation = new Conversation(conversationId, participants);
+		startConversation: function(){
+			var link = $(this);
+			var conversationId = $(link).attr('data-onscreenchat-conversation');
+			var participant = { id: $(link).attr('data-onscreenchat-userid'), name: $(link).attr('data-onscreenchat-username') };
+			var conversation = getModule().storage.get(conversationId);
+
+			if(conversation == null) {
+				$chat.getConversation([getModule().user, participant], function(conversation) {
+					getModule().storage.save(conversation);
+				});
+				return;
 			}
 
-			getModule().open(conversation);
+			conversation.open = true;
+			getModule().storage.save(conversation);
 		},
 
 		open: function(conversation) {
@@ -144,70 +128,43 @@
 
 			if(conversationWindow.length == 0)
 			{
-				conversationWindow = $(getModule().createWindow(conversation.id, conversation.participants));
+				conversationWindow = $(getModule().createWindow(conversation));
 				getModule().container.append(conversationWindow);
 			}
-
-			conversation.open = true;
 			conversationWindow.show();
-
-			getModule().storage.add(conversation);
 		},
 
-		createWindow: function(conversationId, participants) {
+		createWindow: function(conversation) {
 			var template = getModule().config.chatWindowTemplate;
 			var participantsName = [];
 
-			for(var key in participants) {
-				if(getModule().user.id != participants[key].id) {
-					participantsName.push(participants[key].username);
+			for(var key in conversation.participants) {
+				if(getModule().user.id != conversation.participants[key].id) {
+					participantsName.push(conversation.participants[key].name);
 				}
 			}
 
 			template = template.replace('[[participants]]', participantsName.join(', '));
-			template = template.replace(/\[\[conversationId\]\]/g, conversationId);
+			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 
 			return template;
 		},
 
-		addMessage: function(conversationId, userId, message, timestamp) {
-			var template = getModule().config.messageTemplate;
-			var position = (userId == getModule().config.userId)? 'right' : 'left';
-
-			message = message.replace(/(?:\r\n|\r|\n)/g, '<br />');
-
-			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(conversationId, userId));
-			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(timestamp));
-			template = template.replace(/\[\[message]\]/g, message);
-			template = template.replace(/\[\[avatar\]\]/g, (userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
-
-			template = $(template).find('li.' + position).html();
-
-			console.log($(['data-onscreenchat-window=' + conversationId + ']']));
-
-			$('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-body]').append(
-				$('<li></li>')
-					.addClass(position)
-					.addClass('clearfix')
-					.append(template)
-			);
-		},
-
 		close: function(conversationId) {
-			var conversation = getModule().storage.find(conversationId);
+			var button = $(this);
+			var conversation = getModule().storage.find($(button).attr('data-onscreenchat-close'));
 			conversation.open = false;
-			console.log("close");
 			$('[data-onscreenchat-window=' + conversationId + ']').hide();
 
 			getModule().storage.add(conversation);
 		},
 
-		handleSubmit: function(trigger) {
-			var conversationId = $(trigger).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
-
-
-			getModule().send(conversationId);
-			//getModule().resizeInput(window.find('.chat-message'));
+		handleSubmit: function(e) {
+			if(e.keyCode == 13 && !e.shiftKey)
+			{
+				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
+				getModule().send(conversationId);
+			}
 		},
 
 		send: function(conversationId) {
@@ -227,12 +184,80 @@
 		},
 
 		receiveMessage: function(messageObject) {
-			getModule().addMessage(messageObject.conversationId, messageObject.userId, messageObject.message, messageObject.timestamp);
+			console.log("received message");
+			var template = getModule().config.messageTemplate;
+			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
+			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
+			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
+			template = template.replace(/\[\[message]\]/g, message);
+			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
+			template = $(template).find('li.' + position).html();
+
+
+			$('[data-onscreenchat-window=' + messageObject.conversationId + ']').find('[data-onscreenchat-body]').append(
+				$('<li></li>')
+					.addClass(position)
+					.addClass('clearfix')
+					.append(template)
+			);
 		},
 
-		addUser: function(conversationId, userId) {
-			$chat.addUser(conversationId, userId, function(result){
-				console.log(result);
+		onLogin: function(participant) {
+			getModule().user = participant;
+		},
+
+		openInviteUser: function() {
+			$scope.il.Modal.dialogue({
+				header: "Invite user to conversation",
+				show: true,
+				body: getModule().config.modalTemplate.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
+			});
+		},
+
+		searchUser: function() {
+			if($(this).val().length > 2) {
+				$.get(
+					getModule().config.userListURL + '&q=' + $('#invite_user_text').val(),
+					function(response){
+						var list = $('[data-onscreenchat-userlist]');
+						list.children().remove();
+
+						$(response.items).each(function() {
+							console.log(this);
+							var userId = this.id;
+							var name = this.value;
+							var link = $('<a></a>')
+								.prop('href', '#')
+								.text(name)
+								.click(function (e) {
+									e.preventDefault();
+									e.stopPropagation();
+									getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
+								});
+							var line =  $('<li></li>')
+								.addClass('invite_user_line_id')
+								.addClass('invite_user_line')
+								.append(link);
+
+							list.append(line);
+							/*if(!isIdInArray(this.id, usersInRoom)) {
+
+							 }*/
+						});
+					},
+					'json'
+				);
+			} else {
+				$('#invite_users_available').children().remove();
+			}
+		},
+
+		addUser: function(conversationId, userId, name) {
+			console.log(name)
+			$chat.addUser(conversationId, userId, name, function(){
+				$scope.il.Modal.hide();
 			});
 		}
 	};
@@ -242,6 +267,13 @@
 	 */
 	function getModule() {
 		return $scope.il.OnScreenChat;
+	}
+
+	/**
+	 * @returns {window.il.OnScreenChat.config|{}}
+	 */
+	function getConfig() {
+		return $scope.il.OnScreenChat.config;
 	}
 
 	var Conversation = function Conversation(id, participants) {
@@ -255,51 +287,32 @@
 		this.username = username;
 	};
 
-	var Storage = function Storage() {
-		const _STORAGE_KEY = 'onscreenchat';
 
-		if(localStorage.getItem(_STORAGE_KEY) == null)
-		{
-			localStorage.setItem(_STORAGE_KEY, JSON.stringify({}));
-		}
-
-		this.all = function() {
-			return _load();
+	var ConversationStorage = function ConversationStorage() {
+		this.get = function(id) {
+			return JSON.parse(window.localStorage.getItem(id));
 		};
 
-		this.find = function(conversationId) {
-			var conversations = _load();
+		this.save = function(conversation) {
+			var oldValue = this.get(conversation.id);
+			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
 
-			if(conversations.hasOwnProperty(conversationId)) {
-				return conversations[conversationId];
-			}
-
-			return null;
+			var e = $.Event('storage');
+			e.originalEvent = {
+				key: conversation.id,
+				oldValue: oldValue,
+				newValue: conversation
+			};
+			$(window).trigger(e);
 		};
-
-		this.add = function(conversation) {
-			var conversations = _load();
-
-			conversations[conversation.id] = conversation;
-
-			_save(conversations);
-		};
-
-		var _load = function() {
-			return JSON.parse(localStorage.getItem(_STORAGE_KEY));
-		};
-
-		var _save = function(data) {
-			localStorage.setItem(_STORAGE_KEY, JSON.stringify(data));
-		}
 	};
 
-	var findUsernameInConversation = function(conversationId, userId) {
-		var conversation = getModule().storage.find(conversationId);
+	var findUsernameInConversation = function(messageObject) {
+		var conversation = getModule().storage.get(messageObject.conversationId);
 
 		for(var index in conversation.participants) {
-			if(conversation.participants[index].id == userId) {
-				return conversation.participants[index].username;
+			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == messageObject.userId) {
+				return conversation.participants[index].name;
 			}
 		}
 		return "";

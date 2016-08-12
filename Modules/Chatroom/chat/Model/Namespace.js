@@ -1,4 +1,5 @@
 var ConversationCollection = require('./ConversationCollection');
+var Participant = require('./ConversationParticipant');
 
 /**
  * @class Namespace
@@ -132,6 +133,17 @@ var Namespace = function Namespace(name)
 			return _subscribers[id];
 		}
 		return null;
+	};
+
+	this.getSubscriberWithOfflines = function(id, name) {
+		var subscriber = this.getSubscriber(id);
+
+		if(subscriber == null) {
+			subscriber = new Participant(id, name);
+			_subscribers[id] = subscriber;
+		}
+
+		return subscriber;
 	};
 
 	/**

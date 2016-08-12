@@ -75,16 +75,33 @@ function Participant(id, name) {
 		_sockets.push(socket);
 	};
 
-	this.join = function(name) {
+	this.emit = function(event, data) {
 		forSockets(function(socket){
-			socket.join(name);
-		});
+			socket.emit(event, data);
+		})
+	};
+
+	this.join = function(name) {
+		if(this.isOnline()) {
+			forSockets(function(socket){
+				socket.join(name);
+			});
+		}
 	};
 
 	this.send = function(message) {
-		forSockets(function(socket){
-			socket.emit('message', message)
-		});
+		if(this.isOnline()) {
+			forSockets(function(socket){
+				socket.emit('message', message)
+			});
+		}
+	};
+
+	this.json = function() {
+		return {
+			id: _id,
+			name: _name
+		}
 	};
 
 	/**

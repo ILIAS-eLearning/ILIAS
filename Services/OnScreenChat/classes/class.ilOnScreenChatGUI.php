@@ -25,7 +25,7 @@ class ilOnScreenChatGUI
 		switch($cmd) {
 			case 'getUserlist':
 			default:
-				echo $this->getUserList();
+				$this->getUserList();
 		}
 	}
 
