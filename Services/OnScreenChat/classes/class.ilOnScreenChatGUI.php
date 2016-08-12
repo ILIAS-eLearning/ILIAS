@@ -101,8 +101,6 @@ class ilOnScreenChatGUI
 
 			$DIC->language()->loadLanguageModule('onscreenchat');
 
-			$DIC['tpl']->addCss('./Services/OnScreenChat/templates/default/onscreenchat.css');
-
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
 			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
