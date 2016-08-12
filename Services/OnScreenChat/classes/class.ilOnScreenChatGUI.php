@@ -75,7 +75,7 @@ class ilOnScreenChatGUI
 
 		if(!self::$frontend_initialized)
 		{
-			if(self::isOnScreenChatAccessible()
+			if(self::isOnScreenChatAccessible())
 			{
 				self::$frontend_initialized = true;
 				return;
