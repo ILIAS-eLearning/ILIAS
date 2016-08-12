@@ -266,7 +266,7 @@ interface Factory {
 	 *
 	 * rules:
 	 *   wording:
-	 *      1: Panels MUST contain a heading.
+	 *      1: Panels MUST contain a title.
 	 * ---
 	 * @return \ILIAS\UI\Component\Panel\Factory
 	 */
