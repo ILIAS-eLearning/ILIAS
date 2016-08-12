@@ -63,6 +63,13 @@ class ilOnScreenChatGUI
 
 		if(!self::$frontend_initialized)
 		{
+			$chatSettings = new ilSetting('chatroom');
+			if(!$chatSettings->get('chat_enabled') || !$chatSettings->get('enable_osc') || !$DIC->user() || $DIC->user()->isAnonymous())
+			{
+				self::$frontend_initialized = true;
+				return;
+			}
+
 			require_once 'Services/JSON/classes/class.ilJsonUtil.php';
 
 			$settings = self::loadServerSettings();
