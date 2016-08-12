@@ -62,6 +62,19 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_indicator_match_failure');
 			return false;
 		}
+		
+		if(
+			!in_array(
+				$_SERVER[$this->getSettings()->get('apache_auth_indicator_name')],
+				array_filter(array_map('trim', str_getcsv($this->getSettings()->get('apache_auth_indicator_value'))))
+			)
+		)
+		{
+			$this->getLogger()->warning('Apache authentication failed (indicator name <-> value');
+			$this->handleAuthenticationFail($status, 'err_wrong_login');
+			return false;
+		}
+		
 		include_once './Services/Utilities/classes/class.ilUtil.php';
 		if(!ilUtil::isLogin($this->getCredentials()->getUsername()))
 		{
