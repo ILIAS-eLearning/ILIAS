@@ -1409,6 +1409,10 @@ class ilObject
 			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
 			
+			// keep log of core object data 
+			include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
+			ilObjectDataDeletionLog::add($this);
+			
 			// remove news
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$news_item = new ilNewsItem();
