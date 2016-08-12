@@ -13,7 +13,7 @@ class ilManualAssessmentMember {
 	protected $examiner_id;
 	protected $notify;
 	protected $finalized;
-	protected $grade;
+	protected $lp_status;
 
 	public function __construct(ilObjManualAssessment $mass, ilObjUser $usr, array $data) {
 
@@ -21,8 +21,9 @@ class ilManualAssessmentMember {
 		$this->internal_note = $data[ilManualAssessmentMembers::FIELD_INTERNAL_NOTE];
 		$this->examiner_id = $data[ilManualAssessmentMembers::FIELD_EXAMINER_ID];
 		$this->notify = $data[ilManualAssessmentMembers::FIELD_NOTIFY];
-		$this->grade = $data[ilManualAssessmentMembers::FIELD_GRADE];
+		$this->grade = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->finalized = $data[ilManualAssessmentMembers::FIELD_FINALIZED];
+		$this->lp_status = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 
 		$this->mass = $mass;
 		$this->usr = $usr;
@@ -57,11 +58,12 @@ class ilManualAssessmentMember {
 	}
 
 	public function finalized() {
-		return $this->finalized === 1 ? true : false;
+		return (string)$this->finalized === "1" ? true : false;
 	}
 
 	public function mayBeFinalized() {
-		return !($this->grade === null);
+		return (string)$this->lp_status === (string)ilManualAssessmentMembers::LP_COMPLETED
+				||(string)$this->lp_status === (string)ilManualAssessmentMembers::LP_FAILED;
 	}
 
 	public function withRecord($record) {
@@ -101,13 +103,19 @@ class ilManualAssessmentMember {
 		throw new ilManualAssessmentException('user allready finalized');
 	}
 
-	public function withGrade($grade) {
-		if(!$this->finalized()) {
+	protected function LPStatusValid($lp_status) {
+		return (string)$lp_status === (string)ilManualAssessmentMembers::LP_IN_PROGRESS
+				||(string)$lp_status === (string)ilManualAssessmentMembers::LP_COMPLETED
+				||(string)$lp_status === (string)ilManualAssessmentMembers::LP_FAILED;
+	}
+
+	public function withLPStatus($lp_status) {
+		if(!$this->finalized() && $this->LPStatusValid($lp_status)) {
 			$clone = clone $this;
-			$clone->grade = $grade;
+			$clone->lp_status = $lp_status;
 			return $clone;
 		}
-		throw new ilManualAssessmentException('user allready finalized');
+		throw new ilManualAssessmentException('user allready finalized or invalid learning progress status');
 	}
 
 	public function lastname() {
@@ -126,12 +134,16 @@ class ilManualAssessmentMember {
 		return $this->usr->getLastname().', '.$this->usr->getFirstname();
 	}
 
-	public function withFinilized() {
-		if(!$this->grade) {
+	public function LPStatus() {
+		return $this->lp_status;
+	}
+
+	public function withFinalized() {
+		if($this->mayBeFinalized()) {
 			$clone = clone $this;
 			$clone->finalized = 1;
 			return $clone;
 		}
-		throw new ilManualAssessmentException('user not graded');
+		throw new ilManualAssessmentException('user cant be finalized');
 	}
 }
