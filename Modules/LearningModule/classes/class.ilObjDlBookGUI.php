@@ -522,7 +522,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	{
 		include_once("./Services/Search/classes/class.ilSearch.php");
 
-		$search = new ilSearch($_SESSION["AccountId"]);
+		$search = new ilSearch($GLOBALS['DIC']['ilUser']->getId());
 		$search->setPerformUpdate(false);
 		$search->setSearchString($_POST["search_str"]);
 		$search->setCombination("and");

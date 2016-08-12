@@ -1,7 +1,7 @@
 <?php
 
-interface ilAuthInterface {
-
+interface ilAuthPDOInterface {
+	
     /**
      * Set maximum idle time.
      * @param int $time Time in seconds.

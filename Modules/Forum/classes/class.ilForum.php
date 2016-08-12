@@ -755,7 +755,7 @@ class ilForum
 				update_user = %s
 			WHERE pos_pk = %s',
 			array('text', 'timestamp', 'integer', 'integer', 'integer'),
-			array($message, $cens_date, $cens, $_SESSION['AccountId'], $pos_pk));
+			array($message, $cens_date, $cens, $GLOBALS['DIC']['ilUser']->getId(), $pos_pk));
 		
 		// Change news item accordingly
 		include_once("./Services/News/classes/class.ilNewsItem.php");

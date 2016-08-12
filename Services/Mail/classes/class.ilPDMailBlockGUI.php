@@ -276,8 +276,8 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
 		$lng->loadLanguageModule('mail');
 
-		$umail = new ilMail($_SESSION['AccountId']);
-		$mbox  = new ilMailBox($_SESSION['AccountId']);
+		$umail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
+		$mbox  = new ilMailBox($GLOBALS['DIC']['ilUser']->getId());
 
 		if(!$_GET['mobj_id'])
 		{

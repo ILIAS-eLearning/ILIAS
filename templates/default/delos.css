@@ -11320,6 +11320,24 @@ div.ilPCMyCoursesPath {
 .modal-body .jstree a {
   display: inline;
 }
+/* Services/Badge */
+img.ilBadgeImage {
+  max-width: 150px;
+  max-height: 150px;
+}
+img.ilBadgeImageThumbnail {
+  max-width: 50px;
+  max-height: 50px;
+}
+img.ilBadgeImageModal {
+  margin: auto;
+}
+div.ilBadgeBackpackPanelContent {
+  min-height: 200px;
+}
+div.ilBadgeBackpackPanelContent img {
+  margin: auto;
+}
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
