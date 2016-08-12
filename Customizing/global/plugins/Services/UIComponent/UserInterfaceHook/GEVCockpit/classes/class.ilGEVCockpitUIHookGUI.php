@@ -67,14 +67,15 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	protected function addCss($current_skin) {
 		assert('is_string($current_skin)');
 		global $tpl;
-		$tpl->addCss($this->plugin_object->getStyleSheetLocation("submenu.css"));
+		$loc = $this->getStyleSheetLocation($current_skin);
+		$tpl->addCss($loc);
 	}
 
 	protected function getTemplate($current_skin, $remove_unknown_vars, $remove_empty_blocks) {
 		assert('is_string($current_skin)');
 		$skin_folder = $this->getSkinFolder($current_skin);
 		$tpl_file = "tpl.submenu.html";
-		$tpl_path = "$skin_folder/Plugins/GEVCockpit/$tpl_file";
+		$tpl_path = $skin_folder."/Plugins/GEVCockpit/$tpl_file";
 		if (is_file($tpl_path)) {
 			return new ilTemplate($tpl_path, $remove_unknown_vars, $remove_empty_blocks);
 		}
@@ -85,6 +86,15 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 
 	protected function getStyleSheetLocation($current_skin) {
 		assert('is_string($current_skin)');
+		$skin_folder = $this->getSkinFolder($current_skin);
+		$css_file = "submenu.css";
+		$css_path = $skin_folder."/Plugins/GEVCockpit/$css_file";
+		if (is_file($css_path)) {
+			return $css_path;
+		}
+		else {
+			return $this->plugin_object->getStyleSheetLocation("submenu.css");
+		}
 	}
 
 	protected function getSkinFolder($current_skin) {
