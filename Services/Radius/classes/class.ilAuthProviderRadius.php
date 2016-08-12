@@ -60,26 +60,20 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
 		$this->getLogger()->debug('Using: ' . $this->settings->getServersAsString().':'. $this->settings->getPort());
 		
 		radius_create_request($radius, RADIUS_ACCESS_REQUEST);
-		
-		
 		radius_put_attr($radius, RADIUS_USER_NAME, $this->getCredentials()->getUsername());
 		radius_put_attr($radius, RADIUS_USER_PASSWORD, $this->getCredentials()->getPassword());
-		
+
 		$this->getLogger()->debug('username: ' . $this->getCredentials()->getUsername());
-		$this->getLogger()->debug('password: ' . $this->getCredentials()->getPassword());
-		
+
 		$result = radius_send_request($radius);
 		
 		switch($result)
 		{
-			case RADIUS_ACCESS_REQUEST:
+			case RADIUS_ACCESS_ACCEPT:
 				$this->getLogger()->info('Radius authentication successful.');
 				$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 				
-				$local_login = ilObjUser::_checkExternalAuthAccount(
-					'radius',
-					$this->getCredentials()->getUsername()
-				);
+				$local_login = ilObjUser::_checkExternalAuthAccount('radius',$this->getCredentials()->getUsername());
 				$status->setAuthenticatedUserId(ilObjUser::_lookupId($local_login));
 				return true;
 				
@@ -89,8 +83,12 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
 				return false;
 				
 			case RADIUS_ACCESS_CHALLENGE:
-			default:
-				$this->getLogger()->info('Radius authentication failed with message: ' . radius_strerror($radius));
+				$this->getLogger()->info('Radius authentication failed (access challenge): ' . radius_strerror($radius));
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
+				
+				default:
+					$this->getLogger()->info('Radius authentication failed with message: ' . radius_strerror($radius));
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 		}
