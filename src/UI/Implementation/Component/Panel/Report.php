@@ -11,19 +11,13 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  * Class Panel
  * @package ILIAS\UI\Implementation\Component\Panel
  */
-class Report implements C\Panel\Report {
+class Report extends Panel implements C\Panel\Report {
 	use ComponentHelper;
-
-	/**
-	 * @var string
-	 */
-	private  $title;
 
 	/**
 	 * @var \ILIAS\UI\Component\Panel\Sub[]
 	 */
 	private  $sub_panels;
-
 
 	/**
 	 * @param string $title
@@ -59,4 +53,3 @@ class Report implements C\Panel\Report {
 		return $this->sub_panels;
 	}
 }
-?>

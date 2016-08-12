@@ -17,7 +17,7 @@ class Panel implements C\Panel\Panel {
 	/**
 	 * @var string
 	 */
-	private  $title;
+	protected  $title;
 
 	/**
 	 * @var mixed content \ILIAS\UI\Component\Component[] | \ILIAS\UI\Component\Component
@@ -37,8 +37,6 @@ class Panel implements C\Panel\Panel {
 
 		$this->title = $title;
 		$this->content = $content;
-
-		return $this;
 	}
 
 	/**
