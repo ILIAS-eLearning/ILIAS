@@ -20,6 +20,7 @@ class ilOnScreenChatMenuGUI
 		);
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');
+		$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.setConfig(".ilJsonUtil::encode($config).");");
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.init();");
 
