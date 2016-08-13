@@ -113,8 +113,8 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	{
 		return (
 			$this->chatSettings->get('enable_osc', false) &&
-			!(bool)$this->settings->get('usr_settings_hide_chat_osc_allow_to_contact_me', false) &&
-			!(bool)$this->settings->get('usr_settings_disable_chat_osc_allow_to_contact_me', false)
+			!(bool)$this->settings->get('usr_settings_hide_chat_osc_accept_msg', false) &&
+			!(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)
 		);
 	}
 
@@ -136,8 +136,8 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 
 		if($this->shouldShowOnScreenChatOptions())
 		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('chat_osc_allow_to_contact_me'), 'chat_osc_allow_to_contact_me');
-			$chb->setInfo($this->lng->txt('chat_osc_allow_to_contact_me_info'));
+			$chb = new ilCheckboxInputGUI($this->lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
+			$chb->setInfo($this->lng->txt('chat_osc_accept_msg_info'));
 			$this->addItem($chb);
 		}
 
@@ -155,8 +155,8 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		}
 
 		$this->setValuesByArray(array(
-			'play_invitation_sound'        => $this->user->getPref('chat_play_invitation_sound'),
-			'chat_osc_allow_to_contact_me' => $this->user->getPref('chat_osc_allow_to_contact_me')
+			'play_invitation_sound' => $this->user->getPref('chat_play_invitation_sound'),
+			'chat_osc_accept_msg'   => $this->user->getPref('chat_osc_accept_msg')
 		));
 
 		$this->mainTpl->setContent($this->getHTML());
@@ -186,7 +186,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 
 		if($this->shouldShowOnScreenChatOptions())
 		{
-			$this->user->setPref('chat_osc_allow_to_contact_me', (int)$this->getInput('chat_osc_allow_to_contact_me'));
+			$this->user->setPref('chat_osc_accept_msg', (int)$this->getInput('chat_osc_accept_msg'));
 		}
 		$this->user->writePrefs();
 

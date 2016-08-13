@@ -20,7 +20,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
 		$from_part .= '
 			INNER JOIN usr_pref chat_osc_am
 				ON chat_osc_am.usr_id = ud.usr_id
-				AND chat_osc_am.keyword = ' . $DIC->database()->quote('chat_osc_allow_to_contact_me', 'text') . '
+				AND chat_osc_am.keyword = ' . $DIC->database()->quote('chat_osc_accept_msg', 'text') . '
 				AND chat_osc_am.value = '   . $DIC->database()->quote('y', 'text') . ' ';
 
 		return $from_part;
@@ -34,7 +34,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
 		global $DIC;
 		
 		$where  = parent::getWherePart($search_query);
-		$where .= ' AND (ud.usr_id != ' . $DIC->database()->quote($this->getUser(), 'integer') . ') '; 
+		$where .= ' AND (ud.usr_id != ' . $DIC->database()->quote($this->getUser()->getId(), 'integer') . ') ';
 
 		return $where;
 	}

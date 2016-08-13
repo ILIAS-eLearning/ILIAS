@@ -1163,9 +1163,9 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 
-							if(!is_array($this->prefs) || array_search('chat_osc_allow_to_contact_me', $this->prefs) === false)
+							if(!is_array($this->prefs) || array_search('chat_osc_accept_msg', $this->prefs) === false)
 							{
-								$this->userObj->setPref('chat_osc_allow_to_contact_me', $ilSetting->get('def_chat_osc_allow_to_contact_me', 'n'));
+								$this->userObj->setPref('chat_osc_accept_msg', $ilSetting->get('def_chat_osc_accept_msg', 'n'));
 							}
 
 							$this->userObj->writePrefs();
@@ -2411,7 +2411,7 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
 				}
 				break;
-			case 'chat_osc_allow_to_contact_me':
+			case 'chat_osc_accept_msg':
 				if(!in_array($value, array('y', 'n')))
 				{
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");

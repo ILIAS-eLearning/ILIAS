@@ -102,11 +102,18 @@
 			);
 		},
 
-		startConversation: function(){
+		startConversation: function(e){
 			var link = $(this);
 			var conversationId = $(link).attr('data-onscreenchat-conversation');
 			var participant = { id: $(link).attr('data-onscreenchat-userid'), name: $(link).attr('data-onscreenchat-username') };
 			var conversation = getModule().storage.get(conversationId);
+
+			e.preventDefault();
+			e.stopPropagation();
+
+			if (typeof il.Awareness != "undefined") {
+				il.Awareness.close();
+			}
 
 			if(conversation == null) {
 				$chat.getConversation([getModule().user, participant], function(conversation) {

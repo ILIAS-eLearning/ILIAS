@@ -460,9 +460,9 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$userObj->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
 			}
-			if($this->isSettingChangeable('chat_osc_allow_to_contact_me'))
+			if($this->isSettingChangeable('chat_osc_accept_msg'))
 			{
-				$userObj->setPref('chat_osc_allow_to_contact_me', $_POST['chat_osc_allow_to_contact_me'] ? 'y' : 'n');
+				$userObj->setPref('chat_osc_accept_msg', $_POST['chat_osc_accept_msg'] ? 'y' : 'n');
 			}
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
@@ -899,9 +899,9 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->object->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
 			}
-			if($this->isSettingChangeable('chat_osc_allow_to_contact_me'))
+			if($this->isSettingChangeable('chat_osc_accept_msg'))
 			{
-				$this->object->setPref('chat_osc_allow_to_contact_me', $_POST['chat_osc_allow_to_contact_me'] ? 'y' : 'n');
+				$this->object->setPref('chat_osc_accept_msg', $_POST['chat_osc_accept_msg'] ? 'y' : 'n');
 			}
 
 			// set a timestamp for last_password_change
@@ -1093,7 +1093,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
 		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
-		$data['chat_osc_allow_to_contact_me'] = $this->object->prefs['chat_osc_allow_to_contact_me'] == 'y';
+		$data['chat_osc_accept_msg'] = $this->object->prefs['chat_osc_accept_msg'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
 
 		$data["send_mail"] = ($this->object->prefs['send_info_mails'] == 'y');
@@ -1690,7 +1690,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->isSettingChangeable( 'hits_per_page') or
 			$this->isSettingChangeable( 'hide_own_online_status') or
 			$this->isSettingChangeable( 'bs_allow_to_contact_me') or
-			$this->isSettingChangeable( 'chat_osc_allow_to_contact_me')
+			$this->isSettingChangeable( 'chat_osc_accept_msg')
 		)
 		{
 			$sec_st = new ilFormSectionHeaderGUI();
@@ -1798,10 +1798,10 @@ class ilObjUserGUI extends ilObjectGUI
 			$os = new ilCheckboxInputGUI($lng->txt('buddy_allow_to_contact_me'), 'bs_allow_to_contact_me');
 			$this->form_gui->addItem($os);
 		}
-		if($this->isSettingChangeable('chat_osc_allow_to_contact_me'))
+		if($this->isSettingChangeable('chat_osc_accept_msg'))
 		{
 			$lng->loadLanguageModule('chatroom');
-			$chat_osc_acm = new ilCheckboxInputGUI($lng->txt('chat_osc_allow_to_contact_me'), 'chat_osc_allow_to_contact_me');
+			$chat_osc_acm = new ilCheckboxInputGUI($lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
 			$this->form_gui->addItem($chat_osc_acm);
 		}
 
@@ -2479,13 +2479,13 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->object->setPref('bs_allow_to_contact_me', 'n');
 		}
-		if(isset($_POST['Fobject']['chat_osc_allow_to_contact_me']) && $_POST['Fobject']['chat_osc_allow_to_contact_me'] == 1)
+		if(isset($_POST['Fobject']['chat_osc_accept_msg']) && $_POST['Fobject']['chat_osc_accept_msg'] == 1)
 		{
-			$this->object->setPref('chat_osc_allow_to_contact_me', 'y');
+			$this->object->setPref('chat_osc_accept_msg', 'y');
 		}
 		else
 		{
-			$this->object->setPref('chat_osc_allow_to_contact_me', 'n');
+			$this->object->setPref('chat_osc_accept_msg', 'n');
 		}
 
 		$this->update = $this->object->update();
