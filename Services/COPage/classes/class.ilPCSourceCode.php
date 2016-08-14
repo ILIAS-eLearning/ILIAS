@@ -160,26 +160,16 @@ class ilPCSourceCode extends ilPCParagraph
 	/**
 	 * Highligths Text with given ProgLang
 	 */
-	function highlightText($a_text, $proglang, $autoindent)
+	function highlightText($a_text, $proglang, $autoindent = "")
 	{
 
-		if (!$this->hasHighlighter($proglang))
+		include_once("./Services/UIComponent/SyntaxHighlighter/classes/class.ilSyntaxHighlighter.php");
+		$proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
+		if (ilSyntaxHighlighter::isSupported($proglang))
 		{
-			$proglang="plain";
+			$highl = ilSyntaxHighlighter::getInstance($proglang);
+			$a_text = $highl->highlight($a_text);
 		}
-
-		require_once("./Services/COPage/syntax_highlight/php/HFile/HFile_".$proglang.".php");
-		$classname =  "HFile_$proglang";
-		$h_instance = new $classname();
-		if ($autoindent == "n") {
-			$h_instance ->notrim   = 1;
-			$h_instance ->indent   = array ("");
-			$h_instance ->unindent = array ("");
-		}
-
-		$highlighter = new Core($h_instance, new Output_css());
-		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));
-
 		return $a_text;
 	}
 

@@ -77,8 +77,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 			$form->getItemByPostVar("par_downloadtitle")->setValue( $this->content_obj->getDownloadTitle());
 			$form->getItemByPostVar("par_showlinenumbers")->setChecked(
 				$this->content_obj->getShowLineNumbers()=="y"?true:false);
-			$form->getItemByPostVar("par_autoindent")->setChecked(
-				$this->content_obj->getAutoIndent()=="y"?true:false);
+//			$form->getItemByPostVar("par_autoindent")->setChecked(
+//				$this->content_obj->getAutoIndent()=="y"?true:false);
 
 			$par_content = $this->content_obj->xml2output($this->content_obj->getText());
 
@@ -128,7 +128,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 			}
 
 			$form->getItemByPostVar("par_showlinenumbers")->setChecked(true);
-			$form->getItemByPostVar("par_autoindent")->setChecked(true);
+//			$form->getItemByPostVar("par_autoindent")->setChecked(true);
 			$form->getItemByPostVar("par_subcharacteristic")->setValue("");
 			$form->getItemByPostVar("par_content")->setValue("");
 		}
@@ -160,7 +160,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 		$this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
 		$this->content_obj->setShowLineNumbers($_POST["par_showlinenumbers"]?"y":"n");
-		$this->content_obj->setAutoIndent($_POST["par_autoindent"]?"y":"n");
+		//$this->content_obj->setAutoIndent($_POST["par_autoindent"]?"y":"n");
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 			$this->content_obj->setCharacteristic("Code");
 
@@ -215,7 +215,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$this->content_obj->setDownloadTitle    (str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
 		$this->content_obj->setShowLineNumbers  ($_POST["par_showlinenumbers"]?'y':'n');
 		$this->content_obj->setCharacteristic   ('Code');
-		$this->content_obj->setAutoIndent   	($_POST["par_autoindent"]?'y':'n');
+		//$this->content_obj->setAutoIndent   	($_POST["par_autoindent"]?'y':'n');
 
 		if ($uploaded) {
 			$this->insert ();
@@ -270,19 +270,23 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		}				
 		
 		return false;
-	} 
-	
-	
-	function readProgLangs () {
-		$prog_langs_ini = file ("Services/COPage/syntax_highlight/php/admin/prog_langs.ini");
-		$prog_langs = array ("" => $this->lng->txt("cont_src_other"));
-		foreach ($prog_langs_ini as $prog_lang) {
-			$prog_lang_prop = explode(":", $prog_lang);
-			if ($prog_lang_prop[2] == 1) {
-				$prog_langs[$prog_lang_prop[0]] = $prog_lang_prop[1];
-			}
+	}
+
+
+	/**
+	 * Get selectable programming languages
+	 *
+	 * @return string[]
+	 */
+	function getProgLangOptions()
+	{
+		$prog_langs = array(
+			"" => "other");
+		include_once("./Services/UIComponent/SyntaxHighlighter/classes/class.ilSyntaxHighlighter.php");
+		foreach (ilSyntaxHighlighter::getSupportedLanguagesV51() as $k => $v)
+		{
+			$prog_langs[$k] = $v;
 		}
-		
 		return $prog_langs;
 	}
 
@@ -312,15 +316,15 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$lang->setOptions($lang_var);
 		$form->addItem($lang);
 
-		$prog_langs = $this->readProgLangs ();
+		$prog_langs = $this->getProgLangOptions();
 		$code_style = new ilSelectInputGUI( $this->lng->txt("cont_src"), "par_subcharacteristic");
 		$code_style->setOptions($prog_langs);
 		$form->addItem($code_style);
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$line_number = new ilCheckboxInputGUI($this->lng->txt("cont_show_line_numbers"), "par_showlinenumbers");
 		$form->addItem($line_number);
-		$indent = new ilCheckboxInputGUI($this->lng->txt("cont_autoindent"), "par_autoindent");
-		$form->addItem($indent);
+		//$indent = new ilCheckboxInputGUI($this->lng->txt("cont_autoindent"), "par_autoindent");
+		//$form->addItem($indent);
 
 
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
