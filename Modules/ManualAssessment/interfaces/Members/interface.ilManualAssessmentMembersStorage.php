@@ -29,17 +29,13 @@ interface ilManualAssessmentMembersStorage {
 	public function updateMember(ilManualAssessmentMember $member);
 
 	/**
-	 * Update storage entry associated with member-object.
-	 *
-	 * @param	ilManualAssessmentMember	$member
-	 */
-	public function updateMembers(ilManualAssessmentMembers $members);
-
-	/**
 	 * Delete entries associated with members-object.
 	 *
 	 * @param	ilManualAssessmentMember	$member
 	 */
 	public function deleteMembers(ilObjManualAssessment $obj);
 
+	public function insertMembersRecord(ilObjManualAssessment $mass, array $record);
+
+	public function removeMembersRecord(ilObjManualAssessment $mass,array $record);
 }
