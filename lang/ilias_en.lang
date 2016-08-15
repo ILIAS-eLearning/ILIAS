@@ -15800,3 +15800,7 @@ chatroom#:#chat_error_log_info#:#Please define an absolute server path to the ch
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
+chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
+chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
+chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages

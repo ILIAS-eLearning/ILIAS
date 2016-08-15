@@ -694,6 +694,7 @@ class ilAccountRegistrationGUI
 		}
 		$this->userObj->setPref("show_users_online", $show_online);*/
 		$this->userObj->setPref('bs_allow_to_contact_me', 'y');
+		$this->userObj->setPref('chat_osc_accept_msg', $ilSetting->get('def_chat_osc_accept_msg', 'n'));
 		$this->userObj->writePrefs();
 
 		

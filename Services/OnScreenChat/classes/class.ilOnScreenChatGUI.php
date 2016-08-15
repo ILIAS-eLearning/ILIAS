@@ -50,8 +50,8 @@ class ilOnScreenChatGUI
 			return;
 		}
 
-		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
-		$auto = new ilUserAutoComplete();
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php';
+		$auto = new ilOnScreenChatUserUserAutoComplete();
 		$auto->setUser($DIC->user());
 		$auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
 		if(($_REQUEST['fetchall']))
@@ -100,8 +100,6 @@ class ilOnScreenChatGUI
 			);
 
 			$DIC->language()->loadLanguageModule('onscreenchat');
-
-			$DIC['tpl']->addCss('./Services/OnScreenChat/templates/default/onscreenchat.css');
 
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
