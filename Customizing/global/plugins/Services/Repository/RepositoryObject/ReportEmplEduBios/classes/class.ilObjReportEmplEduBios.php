@@ -70,11 +70,11 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 
 		$no_tp_service_condition =
 			"(roles.num_tp_service_roles = 0"
-			."	AND ".$this->gIldb->in("usr.wbd_type",$services,true,"text")
+			."	AND usr.wbd_type != ".$this->gIldb->quote(gevWBD::WBD_TP_SERVICE,"text")
 			.")";
 		$tp_service_condition =
 			"(roles.num_tp_service_roles > 0"
-			."	OR ".$this->gIldb->in("usr.wbd_type",$services,false,"text")
+			."	OR usr.wbd_type = ".$this->gIldb->quote(gevWBD::WBD_TP_SERVICE,"text")
 			.")";
 
 		$earliest_possible_cert_period_begin = "2013-09-01"; 
@@ -124,8 +124,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 							)
 				->select_raw($points_in_current_period." as points_sum")
 				->select_raw("CASE "
-							."		WHEN ".$no_tp_service_condition
-							."			 AND usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
+							."		WHEN ".$no_tp_service_condition." THEN ''"
 							."		WHEN ".$tp_service_condition
 							."			 AND usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN 'X'"
 							."		WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
