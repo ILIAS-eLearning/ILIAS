@@ -32,6 +32,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		$this->type = 'mass';
 		$this->tpl = $DIC['tpl'];
 		$this->ctrl = $DIC['ilCtrl'];
+		$this->usr = $DIC['ilUser'];
 		$this->tpl->getStandardTemplate();
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
@@ -70,9 +71,9 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->tabs_gui->setTabActive(self::TAB_LP);
-				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(3,
 													  $this->object->getRefId(),
-													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+													  $this->usr->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			default:						
@@ -109,7 +110,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 								, 'ilpermissiongui'
 								);
 		$this->tabs_gui->addTarget(self::TAB_LP
-								, $this->ctrl->getLinkTargetByClass(array('illearningprogressgui','illplistofprogressgui'))
+								, $this->ctrl->getLinkTargetByClass(array('illearningprogressgui','illplistofprogressgui'),"show")
 								, array('illplistofprogressgui')
 								, $this->lng->txt("LP"));
 		parent::getTabs();
