@@ -44,6 +44,7 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testBasic() {
+		require_once('./Services/User/classes/class.ilObjUser.php');
 		$ilWebAccessChecker = new ilWebAccessChecker($this->file_one->url(), new ilWACDummyCookie());
 		$check = false;
 		try {

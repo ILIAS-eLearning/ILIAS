@@ -26,12 +26,17 @@ use org\bovigo\vfs;
 /**
  * TestCase for the ilWACTokenTest
  *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @author                 Fabian Schmid <fs@studer-raimann.ch>
+ * @version                1.0.0
+ *
+ * @runInSeparateProcess
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
  */
 class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
-	const ADDITIONAL_TIME = 0.1;
+	const ADDITIONAL_TIME = 0.5;
 	const LIFETIME = 1;
 	/**
 	 * @var bool
@@ -49,6 +54,10 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	 * @var vfs\vfsStreamFile
 	 */
 	protected $file_three;
+	/**
+	 * @var vfs\vfsStreamFile
+	 */
+	protected $file_four;
 	/**
 	 * @var vfs\vfsStreamDirectory
 	 */
@@ -69,6 +78,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')->at($this->root)->setContent('dummy');
 		$this->file_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy2.jpg')->at($this->root)->setContent('dummy2');
 		$this->file_three = vfs\vfsStream::newFile('data/client_name/mobs/mm_124/dummy.jpg')->at($this->root)->setContent('dummy');
+		$this->file_four = vfs\vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')->at($this->root)->setContent('dummy');
 		ilWACToken::setSALT('d48024096ba3abe92341ad7aaba45351');
 		parent::setUp();
 	}
@@ -84,16 +94,20 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testModifiedTimestamp() {
-		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::LIFETIME);
-		$lifetime = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
-		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
-		sleep($lifetime + self::ADDITIONAL_TIME);
+	public function testSomeBasics() {
+		$query = 'myparam=1234';
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_four->url() . '?' . $query), new ilWACDummyCookie());
 
-		// Modify timestamp
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path . '2'));
-		$this->assertTrue($ilWACSignedPath->isSignedPath());
-		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
+		$this->assertEquals('dummy.jpg', $ilWACSignedPath->getPathObject()->getFileName());
+		$this->assertEquals($query, $ilWACSignedPath->getPathObject()->getQuery());
+		$this->assertEquals('./data/client_name/sec/ilBlog/', $ilWACSignedPath->getPathObject()->getSecurePath());
+		$this->assertEquals('ilBlog', $ilWACSignedPath->getPathObject()->getSecurePathId());
+		$this->assertFalse($ilWACSignedPath->getPathObject()->isStreamable());
+
+		$this->assertEquals('ilWACLogDummy', get_class(ilWACLog::getInstance()));
+
+		$this->assertFalse(ilWebAccessChecker::isDEBUG());
+		$this->assertFalse(ilWACToken::DEBUG);
 	}
 
 
@@ -116,7 +130,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($ilWACSignedPath->getPathObject()->hasToken());
 
 		// Request after lifetime
-		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
+		$signed_path = ilWACSignedPath::signFile($this->file_four->url());
 		sleep($lifetime + self::ADDITIONAL_TIME);
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
@@ -152,6 +166,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 		// Revalidating cookie
 		$ilWACSignedPath->revalidatingFolderToken();
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), new ilWACDummyCookie());
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
@@ -189,5 +204,51 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), new ilWACDummyCookie());
 		$this->assertFalse($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
+	}
+
+
+	public function testModifiedTimestamp() {
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::LIFETIME);
+		$lifetime = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
+
+		$parts = parse_url($signed_path);
+		$path = $parts['path'];
+		$query = $parts['query'];
+		parse_str($query, $query_array);
+		$token = $query_array['il_wac_token'];
+		$ttl = (int)$query_array['il_wac_ttl'];
+		$ts = (int)$query_array['il_wac_ts'];
+		$path_with_token = $path . '?il_wac_token=' . $token;
+		sleep($lifetime + self::ADDITIONAL_TIME);
+
+		// Modify timestamp
+		$modified_ts = $ts + $lifetime + self::ADDITIONAL_TIME + 1;
+		$modified_req = $path_with_token . '&il_wac_ttl=' . $ttl . '&il_wac_ts=' . $modified_ts;
+		$_GET['mod'] = $modified_req;
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($modified_req));
+		$this->assertTrue($ilWACSignedPath->isSignedPath());
+		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
+
+		// Modify timestamp
+		$modified_ts = $ts + $lifetime - self::ADDITIONAL_TIME;
+		$modified_req = $path_with_token . '&il_wac_ttl=' . $ttl . '&il_wac_ts=' . $modified_ts;
+		$_GET['mod'] = $modified_req;
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($modified_req));
+		$this->assertTrue($ilWACSignedPath->isSignedPath());
+		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
+
+		// Modify ttl
+		$modified_ttl = $ttl + $lifetime + 1;
+		$modified_req = $path_with_token . '&il_wac_ttl=' . $modified_ttl . '&il_wac_ts=' . $ts;
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($modified_req));
+		$this->assertTrue($ilWACSignedPath->isSignedPath());
+		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
+
+		// Modify ttl + ts
+		$modified_req = $path_with_token . '&il_wac_ttl=' . $modified_ttl . '&il_wac_ts=' . $modified_ts;
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($modified_req));
+		$this->assertTrue($ilWACSignedPath->isSignedPath());
+		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
 }

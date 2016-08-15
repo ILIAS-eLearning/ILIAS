@@ -39,17 +39,15 @@ class ilWACLog extends ilLog {
 	public static function getInstance() {
 		$key = getmypid();
 		if (ilWebAccessChecker::isDEBUG()) {
-			if (!isset(self::$instances[$key])) {
-				$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
-				$ilIliasIniFile->read();
-				if (ilWebAccessChecker::isUseSeperateLogfile()) {
-					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG, 'WAC');
-				} else {
-					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
-				}
-				$instance->setPid($key);
-				self::$instances[$key] = $instance;
+			$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
+			$ilIliasIniFile->read();
+			if (ilWebAccessChecker::isUseSeperateLogfile()) {
+				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG, 'WAC');
+			} else {
+				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
 			}
+			$instance->setPid($key);
+			self::$instances[$key] = $instance;
 		} else {
 			self::$instances[$key] = new ilWACLogDummy();
 		}
