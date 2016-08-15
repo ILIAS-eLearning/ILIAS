@@ -3,7 +3,7 @@
 require_once "Services/Repository/classes/class.ilObjectPluginGUI.php";
 require_once "Modules/OrgUnit/classes/class.ilObjOrgUnit.php";
 require_once "Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php";
-require_once('./Modules/OrgUnit/classes/Extension/class.ilOrgUnitObjectPlugin.php');
+require_once("./Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php");
 
 /**
  * Class ilOrgUnitExtensionGUI
@@ -51,9 +51,12 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	}
 
 
+	/**
+	 * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
+	 */
 	protected function setLocator() {
 		global $tpl;
-		$path = $this->tree->getPathFull($_GET["ref_id"], ilObjOrgUnit::getRootOrgRefId());
+		$path = $this->tree->getPathFull($this->ref_id, ilObjOrgUnit::getRootOrgRefId());
 		// add item for each node on path
 		foreach ((array)$path as $key => $row) {
 			if ($row["title"] == "__OrgUnitAdministration") {
@@ -70,6 +73,9 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	}
 
 
+	/**
+	 * Views in the Org Unit have the Navigation Tree enabled by default. Thus we display it as well in the plugins.
+	 */
 	public function showTree() {
 		$this->ctrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $_GET["ref_id"]);
 		$this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
@@ -86,7 +92,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 */
 	protected function getTreeWhiteList() {
 		$whiteList = array( "orgu" );
-		$pls = ilOrgUnitObjectPlugin::getActivePluginIdsForTree();
+		$pls = ilOrgUnitExtension::getActivePluginIdsForTree();
 
 		return array_merge($whiteList, $pls);
 	}

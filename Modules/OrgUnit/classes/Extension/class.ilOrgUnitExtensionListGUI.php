@@ -5,6 +5,7 @@ require_once "Services/Repository/classes/class.ilObjectPluginListGUI.php";
 /**
  * Class ilOrgUnitExtensionListGUI
  *
+ *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {

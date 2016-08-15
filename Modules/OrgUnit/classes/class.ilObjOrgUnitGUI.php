@@ -25,7 +25,7 @@ require_once(dirname(__FILE__) . '/Types/class.ilOrgUnitTypeGUI.php');
 require_once(dirname(__FILE__) . '/Settings/class.ilObjOrgUnitSettingsFormGUI.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 require_once('./Services/Container/classes/class.ilContainerByTypeContentGUI.php');
-require_once("Modules/OrgUnit/classes/Extension/class.ilOrgUnitObjectPlugin.php");
+require_once("./Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php");
 
 /**
  * Class ilObjOrgUnit GUI class
@@ -381,7 +381,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 	protected function getTreeWhiteList() {
 		$whiteList = array("orgu");
-		$pls = ilOrgUnitObjectPlugin::getActivePluginIdsForTree();
+		$pls = ilOrgUnitExtension::getActivePluginIdsForTree();
 		return array_merge($whiteList, $pls);
 	}
 
