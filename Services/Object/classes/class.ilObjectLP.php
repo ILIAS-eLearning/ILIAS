@@ -17,6 +17,8 @@ class ilObjectLP
 	protected $collection_instance; // [ilLPCollection]
 	protected $mode; // [int]
 	
+	protected static $type_defaults; // [array]
+	
 	protected function __construct($a_obj_id)
 	{		
 		$this->obj_id = (int)$a_obj_id;
@@ -45,7 +47,7 @@ class ilObjectLP
 		return $instances[$a_obj_id];
 	}
 			
-	protected static function getTypeClass($a_type)
+	public static function getTypeClass($a_type)
 	{
 		global $objDefinition;
 		
@@ -160,6 +162,7 @@ class ilObjectLP
 	
 	public function getDefaultMode()
 	{
+						
 		return ilLPObjSettings::LP_MODE_UNDEFINED;
 	}
 	
@@ -172,10 +175,21 @@ class ilObjectLP
 	{		
 		if($this->mode === null)
 		{				
-			$mode = ilLPObjSettings::_lookupDBMode($this->obj_id);		
-			if($mode === null)
+			// using global type default if LP is inactive
+			include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
+			if(false /* !ilObjUserTracking::_enabledLearningProgress() */) // not ready for trunk
 			{
-				$mode = $this->getDefaultMode();
+				$mode = self::getTypeDefaultFromDB(ilObject::_lookupType($this->obj_id));
+			}
+			// use object LP setting
+			else
+			{
+				$mode = ilLPObjSettings::_lookupDBMode($this->obj_id);		
+			}						
+			// fallback: object type default
+			if($mode === null)
+			{								
+				$mode = $this->getDefaultMode();				
 			}		
 			$this->mode = (int)$mode;
 		}
@@ -669,6 +683,68 @@ class ilObjectLP
 	{
 		return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg'));
 	}		
+	
+	
+	// type-wide default
+		
+	/**
+	 * Get available type-specific default modes (no administration needed)
+	 * @param bool $a_lp_active
+	 * @return array
+	 */
+	public static function getDefaultModes($a_lp_active)
+	{
+		return array(ilLPObjSettings::LP_MODE_UNDEFINED);
+	}	
+	
+	protected static function getTypeDefaultFromDB($a_type)
+	{
+		global $ilDB;
+		
+		if(!is_array(self::$type_defaults))
+		{
+			self::$type_defaults = array();
+			$set = $ilDB->query("SELECT * FROM ut_lp_defaults");
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				self::$type_defaults[$row["type_id"]] = $row["lp_mode"];
+			}
+		}
+		return self::$type_defaults[$a_type];
+	}
+	
+	public static function saveTypeDefaults(array $a_data)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM ut_lp_defaults");
+		foreach($a_data as $type => $mode)
+		{
+			$ilDB->insert("ut_lp_defaults", array(
+				"type_id" => array("text", $type),
+				"lp_mode" => array("integer", $mode)
+			));
+		}
+	}
+	
+	/**
+	 * Get current type default
+	 * 
+	 * @param string $a_type
+	 * @return int
+	 */
+	public static function getTypeDefault($a_type)
+	{
+		$db = self::getTypeDefaultFromDB($a_type);
+		if($db !== null)
+		{
+			return $db;
+		}					
+		
+		$class = self::getTypeClass($a_type);
+		$olp = new $class(0);
+		return $olp->getDefaultMode();
+	}	
 }
 
 ?>

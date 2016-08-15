@@ -83,6 +83,16 @@ class ilContextSoapWithoutClient implements ilContextTemplate
 	{
 		return false;
 	}
+	
+	/**
+	 * Check if persistent session handling is supported
+	 * @return boolean
+	 */
+	public static function supportsPersistentSessions()
+	{
+		return false;
+	}
+	
 }
 
 ?>

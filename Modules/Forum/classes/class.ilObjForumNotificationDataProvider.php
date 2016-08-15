@@ -331,7 +331,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			WHERE thread_id = %s
 			AND user_id <> %s',
 			array('integer', 'integer'),
-			array($this->getThreadId(), $_SESSION['AccountId']));
+			array($this->getThreadId(), $GLOBALS['DIC']['ilUser']->getId()));
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());

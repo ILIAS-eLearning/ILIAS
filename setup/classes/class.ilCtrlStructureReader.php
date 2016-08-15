@@ -16,7 +16,7 @@ class ilCtrlStructureReader
 	var $class_childs;
 	var $executed;
 
-	function ilCtrlStructureReader()
+	function __construct()
 	{
 		$this->class_script = array();
 		$this->class_childs = array();

@@ -94,7 +94,7 @@ trait ComponentHelper {
 	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
 	 * @return	null
 	 */
-	protected function checkArgList($which, array &$values, \Closure $check, $message) {
+	protected function checkArgList($which, array &$values, \Closure $check, \Closure $message) {
 		$failed_k = null;
 		$failed_v = null;
 		foreach ($values as $key => $value) {
@@ -133,7 +133,13 @@ trait ComponentHelper {
 			, $values
 			, function($_, $value) use (&$classes) {
 				foreach ($classes as $cls) {
-					if ($value instanceof $cls) {
+					if ($cls === "string" && is_string($value)) {
+						return true;
+					}
+					if ($cls === "int" && is_int($value)) {
+						return true;
+					}
+					else if ($value instanceof $cls) {
 						return true;
 					}
 				}

@@ -46,7 +46,7 @@ require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
-$ilCtrl->setCmd("showLogin");
+$ilCtrl->setCmd('showLoginPage');
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
 $ilBench->save();

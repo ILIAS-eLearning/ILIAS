@@ -15796,3 +15796,537 @@ if(!$ilDB->tableColumnExists('svy_svy','anon_user_list'))
 }
 
 ?>
+<#4938>
+<?php
+
+	//Create new object type grpr 'Group Reference'
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$grpr_type_id = ilDBUpdateNewObjectType::addNewType('grpr', 'Group Reference Object');
+
+	$rbac_ops = array(
+		ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+		ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+		ilDBUpdateNewObjectType::RBAC_OP_READ,
+		ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+		ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+		ilDBUpdateNewObjectType::RBAC_OP_COPY
+	);
+	ilDBUpdateNewObjectType::addRBACOperations($grpr_type_id, $rbac_ops);
+
+	$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+	ilDBUpdateNewObjectType::addRBACCreate('create_grpr', 'Create Group Reference', $parent_types);
+?>
+<#4939>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4940>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4941>
+<?php
+//step 1/2 il_request_token deletes old table
+
+if($ilDB->tableExists('il_request_token'))
+{
+    $ilDB->dropTable('il_request_token');
+}
+
+?>
+<#4942>
+<?php
+//step 2/2 il_request_token creates table with primary key
+
+if(!$ilDB->tableExists('il_request_token'))
+{
+	$fields = array(
+		"user_id" => array(
+			"notnull" => true
+		, "length" => 4
+		, "unsigned" => false
+		, "default" => "0"
+		, "type" => "integer"
+		)
+	, "token" => array(
+			"notnull" => false
+		, "length" => 64
+		, "fixed" => true
+		, "type" => "text"
+		)
+	, "stamp" => array(
+			"notnull" => false
+		, "type" => "timestamp"
+		)
+	, "session_id" => array(
+			"notnull" => false
+		, "length" => 100
+		, "fixed" => false
+		, "type" => "text"
+		)
+	);
+
+	$ilDB->createTable("il_request_token", $fields);
+	$ilDB->addPrimaryKey("il_request_token", array('token'));
+	$ilDB->addIndex("il_request_token", array('user_id', 'session_id'), 'i1');
+	$ilDB->addIndex("il_request_token", array('user_id', 'stamp'), 'i2');
+}
+?>
+<#4943>
+<?php
+//step 1/3 il_event_handling deletes old table
+if($ilDB->tableExists('il_event_handling'))
+{
+    $ilDB->dropTable('il_event_handling');
+}
+
+?>
+<#4944>
+<?php
+//step 2/3 il_event_handling creates table with primary key
+if(!$ilDB->tableExists('il_event_handling'))
+{
+	$fields = array(
+		'component' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true,
+			'fixed' => false
+		),
+		'type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'fixed' => false
+		),
+		'id' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'fixed' => false
+		));
+	$ilDB->createTable('il_event_handling', $fields);
+	$ilDB->addPrimaryKey("il_event_handling", array('component', 'type', 'id'));
+}
+?>
+<#4945>
+<?php
+//step 3/3 il_event_handling fill table
+$ilCtrlStructureReader->getStructure();
+?>
+<#4946>
+<?php
+//step 1/4 copg_section_timings renames old table
+
+if ($ilDB->tableExists('copg_section_timings') && !$ilDB->tableExists('copg_section_t_old'))
+{
+    $ilDB->renameTable("copg_section_timings", "copg_section_t_old");
+}
+?>
+<#4947>
+<?php
+//step 2/4 copg_section_timings create new table with primary keys
+if (!$ilDB->tableExists("copg_section_timings"))
+{
+    $fields = array(
+        "page_id" => array (
+            "type" => "integer",
+            "length" => 4,
+            "notnull" => true
+        ),
+        "parent_type" => array (
+            "type" => "text",
+            "length" => 10,
+            "notnull" => true
+        ),
+        "unix_ts" => array(
+            "type"    => "integer",
+            "notnull" => true,
+            "length"  => 4,
+            "default" => 0
+        )
+    );
+
+    $ilDB->createTable("copg_section_timings", $fields);
+    $ilDB->addPrimaryKey("copg_section_timings", array('page_id', 'parent_type', 'unix_ts'));
+}
+?>
+<#4948>
+<?php
+//step 3/4 copg_section_timings moves all data to new table
+
+if ($ilDB->tableExists('copg_section_timings') && $ilDB->tableExists('copg_section_t_old'))
+{
+    $res = $ilDB->query("
+        SELECT *
+        FROM copg_section_t_old
+    ");
+
+    while($row = $ilDB->fetchAssoc($res))
+    {
+        $ilDB->replace("copg_section_timings", array(
+            "page_id" => array("integer", $row['page_id']),
+            "parent_type" => array("text", $row['parent_type']),
+            "unix_ts" => array("integer",$row['unix_ts'])
+        ), array());
+
+        $ilDB->manipulateF(
+            "DELETE FROM copg_section_t_old WHERE page_id = %s AND parent_type = %s AND unix_ts = %s ",
+            array('integer', 'text', 'integer'),
+            array($row['page_id'], $row['parent_type'], $row['unix_ts'])
+        );
+    }
+}
+?>
+<#4949>
+<?php
+//step 4/4 copg_section_timings removes old table
+
+if ($ilDB->tableExists('copg_section_t_old'))
+{
+    $ilDB->dropTable('copg_section_t_old');
+}
+?>
+<#4950>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('bdga', 'Badge Settings');
+
+?>
+<#4951>
+<?php
+
+if(!$ilDB->tableExists('badge_badge'))
+{
+	$ilDB->createTable('badge_badge', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),		
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'descr' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'conf' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_badge',array('id'));
+	$ilDB->createSequence('badge_badge');
+}
+
+?>
+<#4952>
+<?php
+
+if(!$ilDB->tableExists('badge_image_template'))
+{
+	$ilDB->createTable('badge_image_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),		
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'image' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_image_template',array('id'));
+	$ilDB->createSequence('badge_image_template');
+}
+
+?>
+<#4953>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','image')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'image',
+        array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#4954>
+<?php
+
+if(!$ilDB->tableExists('badge_image_templ_type'))
+{
+	$ilDB->createTable('badge_image_templ_type', array(
+		'tmpl_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => ""
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_image_templ_type',array('tmpl_id', 'type_id'));
+}
+
+?>
+<#4955>
+<?php
+
+if(!$ilDB->tableExists('badge_user_badge'))
+{
+	$ilDB->createTable('badge_user_badge', array(
+		'badge_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'awarded_by' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_user_badge',array('badge_id', 'user_id'));
+}
+
+?>
+<#4956>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','valid')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'valid',
+        array(            
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#4957>
+<?php
+
+if(!$ilDB->tableExists('object_data_del'))
+{
+	$ilDB->createTable('object_data_del', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),		
+	));	
+	$ilDB->addPrimaryKey('object_data_del',array('obj_id'));
+}
+
+?>
+<#4958>
+<?php
+
+if(!$ilDB->tableColumnExists('object_data_del','type')) 
+{
+    $ilDB->addTableColumn(
+        'object_data_del',
+        'type',
+        array(            
+			'type' => 'text',
+			'length' => 4,
+			'fixed' => true,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#4959>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','crit')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'crit',
+        array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		)
+	);
+}
+
+?>
+<#4960>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>
+<#4961>
+<?php
+
+if(!$ilDB->tableExists('ut_lp_defaults'))
+{
+	$ilDB->createTable('ut_lp_defaults', array(	
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => ""
+		),
+		'lp_mode' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));	
+	$ilDB->addPrimaryKey('ut_lp_defaults',array('type_id'));
+}
+
+?>
+<#4962>
+<?php
+
+$dubs_sql = "SELECT * FROM (".
+                    "SELECT tree, child ".
+                    "FROM bookmark_tree ".
+                    "GROUP BY tree, child ".
+                    "HAVING COUNT(*) > 1 ) ".
+                "duplicateBookmarkTree";
+
+$res  = $ilDB->query($dubs_sql);
+$dublicates = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+    $dublicates[] = $row;
+}
+
+if(count($dublicates))
+{
+    $ilSetting = new ilSetting();
+    $ilSetting->set('bookmark_tree_renumber', 1);
+
+    foreach($dublicates as $key => $row)
+    {
+        $res  = $ilDB->query("SELECT * FROM bookmark_tree WHERE tree = " . $ilDB->quote($row["tree"], "integer") .
+			" AND child = ". $ilDB->quote( $row["child"],"integer"));
+
+		$first = $ilDB->fetchAssoc($res);
+
+        $ilDB->manipulate("DELETE FROM bookmark_tree WHERE tree = " . $ilDB->quote($row["tree"], "integer") .
+			" AND child = ". $ilDB->quote( $row["child"],"integer"));
+
+        $ilDB->query('INSERT INTO bookmark_tree (tree, child, parent, lft, rgt, depth) VALUES ('
+        				. $ilDB->quote($first['tree'], 'integer') . ', '
+        				. $ilDB->quote($first['child'], 'integer') . ', '
+        				. $ilDB->quote($first['parent'], 'integer') . ', '
+        				. $ilDB->quote($first['lft'], 'integer') . ', '
+        				. $ilDB->quote($first['rgt'], 'integer') . ', '
+                        . $ilDB->quote($first['depth'], 'integer') . ')'
+        			);
+    }
+}
+
+?>
+<#4963>
+<?php
+$ilSetting = new ilSetting();
+if($ilSetting->get('bookmark_tree_renumber', "0") == "1")
+{
+    include_once('./Services/Migration/DBUpdate_4963/classes/class.ilDBUpdate4963.php');
+	ilDBUpdate4963::renumberBookmarkTree();
+    $ilSetting->delete('bookmark_tree_renumber');
+}
+
+?>
+<#4964>
+<?php
+$manager = $ilDB->loadModule('Manager');
+
+if(!$manager)
+{
+	$manager = $ilDB->db->loadModule('Manager');
+}
+
+$const = $manager->listTableConstraints("bookmark_tree");
+if(!in_array("primary", $const))
+{
+    $ilDB->addPrimaryKey('bookmark_tree', array('tree', 'child'));
+}
+
+?>

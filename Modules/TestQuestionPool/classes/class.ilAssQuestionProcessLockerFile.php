@@ -32,39 +32,61 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 		$this->lockFileHandles = array();
 	}
 
-	public function requestPersistWorkingStateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingPersistWorkingStateOperation()
 	{
 		$this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 
-	public function releasePersistWorkingStateLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAfterExecutingPersistWorkingStateOperation()
 	{
 		$this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 
-	public function requestUserSolutionAdoptLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingUserSolutionAdoptOperation()
 	{
 		$this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 
-	public function releaseUserSolutionAdoptLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAfterExecutingUserSolutionAdoptOperation()
 	{
 		$this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
-	
+
+	/**
+	 * @param string $processName
+	 */
 	private function requestLock($processName)
 	{
 		$lockFilePath = $this->getLockFilePath($processName);
 		$this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
 		flock($this->lockFileHandles[$processName], LOCK_EX);
 	}
-	
+
+	/**
+	 * @param string $processName
+	 * @return string
+	 */
 	private function getLockFilePath($processName)
 	{
 		$path = $this->lockFileStorage->getPath();
 		return $path.'/'.$processName.'.lock';
 	}
-	
+
+	/**
+	 * @param string $processName
+	 */
 	private function releaseLock($processName)
 	{
 		flock($this->lockFileHandles[$processName], LOCK_UN);

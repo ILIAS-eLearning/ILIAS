@@ -667,17 +667,21 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// try to keep uploads even if checking input fails
-		if($this->getMultipart())
+		// #18808
+		if ($this->getMode() != "subform")
 		{
-			$hash = $_POST["ilfilehash"];
-			if(!$hash)
+			// try to keep uploads even if checking input fails
+			if($this->getMultipart())
 			{
-				$hash = md5(uniqid(mt_rand(), true));
-			}		
-			$fhash = new ilHiddenInputGUI("ilfilehash");
-			$fhash->setValue($hash);
-			$this->addItem($fhash);
+				$hash = $_POST["ilfilehash"];
+				if(!$hash)
+				{
+					$hash = md5(uniqid(mt_rand(), true));
+				}		
+				$fhash = new ilHiddenInputGUI("ilfilehash");
+				$fhash->setValue($hash);
+				$this->addItem($fhash);
+			}
 		}
 		
 		// hidden properties

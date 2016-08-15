@@ -453,24 +453,28 @@ class ilDBUpdateNewObjectType
 		}
 		
 		// oracle does not support ALTER TABLE varchar2 to CLOB
-	
-		$ilDB->lockTables(array(
-			array('name'=> $a_table_name, 'type'=>ilDBConstants::LOCK_WRITE)
-		));
 
-		$def = array(
-			'type'    => 'clob',
-			'notnull' => false
-		);
-		$ilDB->addTableColumn($a_table_name, $tmp_column_name, $def);	
+		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock($a_table_name);
 
-		$ilDB->manipulate('UPDATE '.$a_table_name.' SET '.$tmp_column_name.' = '.$a_column_name);
+		$ilAtomQuery->addQueryCallable(
+			function(ilDBInterface $ilDB) use ($a_table_name, $a_column_name, $tmp_column_name)
+		{
+				$def = array(
+					'type'    => 'clob',
+					'notnull' => false
+				);
+				$ilDB->addTableColumn($a_table_name, $tmp_column_name, $def);
 
-		$ilDB->dropTableColumn($a_table_name, $a_column_name);
+				$ilDB->manipulate('UPDATE '.$a_table_name.' SET '.$tmp_column_name.' = '.$a_column_name);
 
-		$ilDB->renameTableColumn($a_table_name, $tmp_column_name, $a_column_name);
+				$ilDB->dropTableColumn($a_table_name, $a_column_name);
 
-		$ilDB->unlockTables();
+				$ilDB->renameTableColumn($a_table_name, $tmp_column_name, $a_column_name);
+
+		});
+
+		$ilAtomQuery->run();
 		
 		return true;
 	}

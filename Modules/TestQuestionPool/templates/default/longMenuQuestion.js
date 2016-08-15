@@ -78,7 +78,7 @@ var longMenuQuestion = (function () {
 	};
 	
 	pro.appendFormParts = function()  {
-		var footer_class 	= $('.ilFormFooter');
+		var footer_class 	= $('.ilFormFooter').last();
 		var new_title 		= $('.gap_title').find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
 		var title 			= 0;
 		var t0 = pro.benchmarkCallsDummyNotForUsage('appendFormParts');
@@ -485,13 +485,13 @@ var longMenuQuestion = (function () {
 		{
 			var t0 = pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEventAnswers');
 			$.each($('.answerlist') , function() {
-				answers.push($(this).attr('value'));
+				answers.push($(this).val());
 			});
 			pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEventAnswers', t0);
 		}
 		else
 		{
-			answers  = $('.input-large').attr('value').split('\n');
+			answers  = $('.input-large').val().split('\n');
 		}
 		pub.answers[gap_id] = answers;
 		pro.checkAnswersArray(gap_id);
@@ -571,8 +571,8 @@ var longMenuQuestion = (function () {
 
 	pro.syncWithHiddenTextField = function() 
 	{
-		$('#hidden_text_files').attr('value', JSON.stringify(pub.answers));
-		$('#hidden_correct_answers').attr('value', JSON.stringify(pub.questionParts.list));
+		$('#hidden_text_files').val(JSON.stringify(pub.answers));
+		$('#hidden_correct_answers').val(JSON.stringify(pub.questionParts.list));
 	};
 
 	pro.sliceInNewQuestionPart = function (gap_id)

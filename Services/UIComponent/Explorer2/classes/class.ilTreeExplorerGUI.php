@@ -283,13 +283,23 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getRootNode()
 	{
-		if (isset($this->root_node_data))
+		if (!isset($this->root_node_data))
 		{
-			return $this->root_node_data;
-		}
-		$root_id = $this->getTree()->readRootId();
-		$this->root_node_data =  $this->getTree()->getNodeData($root_id);
+			$this->root_node_data =  $this->getTree()->getNodeData($this->getRootId());
+		}		
 		return $this->root_node_data;
+	}
+	
+	function setRootId($a_root)
+	{
+		$this->root_id = $a_root;
+	}
+	
+	protected function getRootId()
+	{
+		return $this->root_id
+			? $this->root_id
+			: $this->getTree()->readRootId();
 	}
 	
 	/**

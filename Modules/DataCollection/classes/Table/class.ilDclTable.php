@@ -456,6 +456,13 @@ class ilDclTable {
 		}
 	}
 
+	public function getCustomFields() {
+		if (!$this->fields) {
+			$this->loadCustomFields();
+		}
+		return $this->fields;
+	}
+
 
 	/**
 	 * getNewOrder
@@ -479,7 +486,7 @@ class ilDclTable {
 	 */
 	public function getNewTableviewOrder() 
 	{
-		return ilDclTableView::getCountForTableId($this->getId()) + 1;
+		return (ilDclTableView::getCountForTableId($this->getId()) + 1) * 10;
 	}
 
 	/**
