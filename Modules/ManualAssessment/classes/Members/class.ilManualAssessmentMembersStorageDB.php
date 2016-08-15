@@ -40,21 +40,6 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		}
 	}
 
-	public function updateMembers(ilManualAssessmentMembers $new) {
-		$current = $this->loadMembers($new->referencedObject());
-		foreach($new as $usr_id => $record) {
-			if(!$current->userAllreadyMemberByUsrId($usr_id)) {
-				$this->insertMembersRecord($new->referencedObject(),$record);
-			}
-		}
-
-		foreach($current as $usr_id => $record) {
-			if(!$new->userAllreadyMemberByUsrId($usr_id)) {
-				$this->removeMembersRecord($new->referencedObject(),$record);
-			}
-		}
-	}
-
 	public function updateMember(ilManualAssessmentMember $member) {
 		$sql = 'UPDATE mass_members SET '
 				.'	'.ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS.' = '.$this->db->quote($member->LPStatus(),'text')
@@ -86,7 +71,7 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 				.'	WHERE obj_id = '.$this->db->quote($obj_id, 'integer');
 	}
 
-	protected function insertMembersRecord(ilObjManualAssessment $mass, array $record) {
+	public function insertMembersRecord(ilObjManualAssessment $mass, array $record) {
 		$sql = 'INSERT INTO mass_members (obj_id,usr_id,record,learning_progress,notify) '
 				.'	VALUES ('
 				.'		'.$this->db->quote($mass->getId(),'integer')
@@ -98,7 +83,7 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		$this->db->manipulate($sql);
 	}
 
-	protected function removeMembersRecord(ilObjManualAssessment $mass,array $record) {
+	public function removeMembersRecord(ilObjManualAssessment $mass,array $record) {
 		$sql = 'DELETE FROM mass_members'
 				.'	WHERE obj_id = '.$this->db->quote($mass->getId(), 'integer')
 				.'		AND usr_id = '.$this->db->quote($record[ilManualAssessmentMembers::FIELD_USR_ID], 'integer');

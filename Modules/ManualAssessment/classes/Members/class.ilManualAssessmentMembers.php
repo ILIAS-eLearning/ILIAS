@@ -104,11 +104,13 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	}
 
 	public function withoutPresentUser(ilObjUser $usr) {
-		$clone = clone $this;
-		if(isset($this->member_records[$usr->getId()])) {
+		$usr_id = $usr->getId();
+		if(isset($this->member_records[$usr_id]) && (string)$this->member_records[$usr_id][self::FIELD_FINALIZED] !== "1") {
+			$clone = clone $this;
 			unset($clone->member_records[$usr->getId()]);
+			return $clone;
 		}
-		return $clone;
+		throw new ilManualAssessmentException('User not member or allready finished');
 	}
 
 	public function current() {
@@ -137,4 +139,17 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		return array_keys($this->member_records);
 	}
 	
+	public function updateStorageAndRBAC(ilManualAssessmentMembersStorage $storage) {
+		$current = $storage->loadMembers($this->referencedObject());
+		foreach($this as $usr_id => $record) {
+			if(!$current->userAllreadyMemberByUsrId($usr_id)) {
+				$storage->insertMembersRecord($this->referencedObject(),$record);
+			}
+		}
+		foreach($current as $usr_id => $record) {
+			if(!$this->userAllreadyMemberByUsrId($usr_id)) {
+				$storage->removeMembersRecord($this->referencedObject(),$record);
+			}
+		}
+	}
 }
