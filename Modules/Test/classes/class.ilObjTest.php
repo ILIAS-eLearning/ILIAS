@@ -1522,7 +1522,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		// news item creation/deletion
 		include_once 'Services/News/classes/class.ilNewsItem.php';
-		if( !$this->getOldOnlineStatus() && $this->getOnline() )
+		if( !$this->getOldOnlineStatus() && $this->isOnline() )
 		{
 			global $ilUser;
 			$news_item = new ilNewsItem();
@@ -1534,7 +1534,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
 		}
-		elseif( $this->getOldOnlineStatus() && !$this->getOnline() )
+		elseif( $this->getOldOnlineStatus() && !$this->isOnline() )
 		{
 			ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
 		}
