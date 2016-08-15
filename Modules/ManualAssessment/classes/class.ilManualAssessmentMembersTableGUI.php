@@ -2,6 +2,8 @@
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+require_once 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
+require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -18,7 +20,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->parent_obj = $a_parent_obj;
 		$columns = array( "name" 				=> array("name")
 						, "login" 				=> array("login")
-						, "grade" 				=> array("grade")
+						, "lp_status" 			=> array("lp_status")
 						, "graded_by"			=> array("graded_by")
 						, "actions"				=> array(null)
 						);
@@ -32,9 +34,32 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
-		$this->tpl->setVariable("GRADE", $a_set["grade"]);
-		$this->tpl->setVariable("GRADED_BY", $a_set["graded_by"]);
+		$this->tpl->setVariable("LP_STATUS",
+			$this->getImagetPathForStatus($a_set[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS]));
+
+		if($a_set[ilManualAssessmentMembers::FIELD_EXAMINER_ID]) {
+			$this->tpl->setVariable("GRADED_BY", $a_set[ilManualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", "
+												.$a_set[ilManualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME]);
+		}
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
+	}
+
+	protected function getImagetPathForStatus($a_status) {
+		switch($a_status) {
+			case ilManualAssessmentMembers::LP_IN_PROGRESS :
+				$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+				break;
+			case ilManualAssessmentMembers::LP_COMPLETED :
+				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+				break;
+			case ilManualAssessmentMembers::LP_FAILED :
+				$status = ilLPStatus::LP_STATUS_FAILED_NUM;
+				break;
+			default :
+				$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED ;
+				break;
+		}
+		return ilLearningProgressBaseGUI::_getImagePathForStatus($status);
 	}
 
 	protected function buildActionDropDown($a_set) {
