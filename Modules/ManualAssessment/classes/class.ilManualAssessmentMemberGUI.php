@@ -101,6 +101,7 @@ class ilManualAssessmentMemberGUI {
 		$member = $member->withRecord($data["record"])
 					->withInternalNote($data["internal_note"])
 					->withLPStatus($data["learning_progress"])
+					->withExaminerId($this->examiner->getId())
 					->withNotify(($data["notify"]  == 1 ? 1 : 0));
 		return $member;
 	}
