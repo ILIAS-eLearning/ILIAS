@@ -53,6 +53,17 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	 * @var integer height
 	 */
 	private $height = 100;
+
+	/**
+	 * @var string
+	 */
+	protected $widthUnit = 'px';
+
+	/**
+	 * @var string
+	 */
+	protected $heightUnit = 'px';
+
 	/**
 	 * @var array
 	 */
@@ -284,11 +295,11 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 
 		if($this->getWidth())
 		{
-			$tpl->setVariable("WIDTH", $this->getWidth());
+			$tpl->setVariable("WIDTH", $this->getWidth().($this->getWidthUnit()?$this->getWidthUnit():''));
 		}
 		if($this->getHeight())
 		{
-			$tpl->setVariable("HEIGHT", $this->getHeight());
+			$tpl->setVariable("HEIGHT", $this->getHeight().($this->getHeightUnit()?$this->getHeightUnit():''));
 		}
 		
 		return $tpl->get();
@@ -339,4 +350,31 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 		$this->custom_attributes[] = $custom_attribute;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getWidthUnit() {
+		return $this->widthUnit;
+	}
+
+	/**
+	 * @param string $widthUnit
+	 */
+	public function setWidthUnit($widthUnit) {
+		$this->widthUnit = $widthUnit;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHeightUnit() {
+		return $this->heightUnit;
+	}
+
+	/**
+	 * @param string $heightUnit
+	 */
+	public function setHeightUnit($heightUnit) {
+		$this->heightUnit = $heightUnit;
+	}
 }
