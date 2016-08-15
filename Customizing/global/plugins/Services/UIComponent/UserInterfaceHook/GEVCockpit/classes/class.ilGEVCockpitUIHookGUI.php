@@ -14,7 +14,7 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	function getHTML($a_comp, $a_part, $a_par = array()) {
 		if ( 	$a_part != "template_get"
 			|| 	$a_par["tpl_id"] != "Services/MainMenu/tpl.main_menu.html"
-			|| 	!$this->isCockpit()
+			|| 	(!$this->isCockpit() && !$this->isSearch())
 		   ) {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
@@ -22,21 +22,41 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		global $ilUser;
 		$user_utils = gevUserUtils::getInstanceByObj($ilUser);
 
-		$this->active = "Bildungsbiografie";
-		$this->items = array
-			( "bookings"
-				=> array("Buchungen", "http://www.google.de")
-			, "edubio"
-				=> array("Bildungsbiografie", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
-			, "profile"
-				=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
-			, "tep"
-				=> array("TEP", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
-			, "trainer_ops"
-				=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
-			, "training_admin"
-				=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
-			);
+		if ($this->isCockpit()) { 
+			$this->active = "edubio";
+			$this->items = array
+				( "bookings"
+					=> array("Buchungen", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+				, "edubio"
+					=> array("Bildungsbiografie", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+				, "profile"
+					=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
+				, "tep"
+					=> array("TEP", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+				, "trainer_ops"
+					=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+				, "training_admin"
+					=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+				);
+		}
+		else if ($this->isSearch()) {
+			$this->active = "search_all";
+			$this->items = array
+				( "search"
+					=> array("Suche", "http://www.google.de")
+				, "search_all"
+					=> array("Alle", "http://www.google.de")
+				, "search_onside"
+					=> array("Präsenz", "http://www.google.de")
+				, "search_webinar"
+					=> array("Webinar", "http://www.google.de")
+				, "search_wbt"
+					=> array("Selbstlernkurs", "http://www.google.de")
+				);
+		}
+		else {
+			throw new \LogicException("Should not get here...");
+		}
 
 		$current_skin = ilStyleDefinition::getCurrentSkin();
 
@@ -56,13 +76,19 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			;
 	}
 
+	protected function isSearch() {
+		return $_GET["baseClass"] == "gevDesktopGUI"
+			&& $_GET["cmdClass"] == "gevcoursesearchgui"
+			;
+	}
+
 	protected function getSubMenuHTML($current_skin) {
 		assert('is_string($current_skin)');
 		$tpl = $this->getTemplate($current_skin, true, true); 
 		$count = 1;
 		foreach ($this->items as $id => $data) {
 			list($label, $link) = $data;
-			if ($this->active == $item) {
+			if ($this->active == $id) {
 				$tpl->touchBlock("active");
 			}
 			$tpl->setCurrentBlock("item");

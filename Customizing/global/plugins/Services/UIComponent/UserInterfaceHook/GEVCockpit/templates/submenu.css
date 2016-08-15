@@ -39,6 +39,22 @@ ul {
 #catSubMenuItem_training_admin {
 	background-image: url("images/GEV_SubMenueImg6.png");
 }
+#catSubMenuItem_search {
+	background-image: url("images/GEV_SubMenueImg1.png");
+}
+#catSubMenuItem_search_all {
+	background-image: url("images/GEV_SubMenueImg2.png");
+}
+#catSubMenuItem_search_onside {
+	background-image: url("images/GEV_SubMenueImg3.png");
+}
+#catSubMenuItem_search_webinar {
+	background-image: url("images/GEV_SubMenueImg4.png");
+}
+#catSubMenuItem_search_wbt {
+	background-image: url("images/GEV_SubMenueImg5.png");
+}
+
 
 .catSubMenuItem {
 	float: left;
