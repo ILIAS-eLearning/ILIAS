@@ -62,8 +62,9 @@ class ilManualAssessmentMember {
 	}
 
 	public function mayBeFinalized() {
-		return (string)$this->lp_status === (string)ilManualAssessmentMembers::LP_COMPLETED
-				||(string)$this->lp_status === (string)ilManualAssessmentMembers::LP_FAILED;
+		return ((string)$this->lp_status === (string)ilManualAssessmentMembers::LP_COMPLETED
+				||(string)$this->lp_status === (string)ilManualAssessmentMembers::LP_FAILED)
+				&& !$this->finalized();
 	}
 
 	public function withRecord($record) {
