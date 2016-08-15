@@ -29,6 +29,8 @@ function Participant(id, name) {
 	 */
 	var _sockets = [];
 
+	var _conversations = [];
+
 	/**
 	 * @returns {number}
 	 */
@@ -102,6 +104,14 @@ function Participant(id, name) {
 			id: _id,
 			name: _name
 		}
+	};
+
+	this.addConversation = function(conversation) {
+		_conversations.push(conversation);
+	};
+
+	this.getConversations = function() {
+		return _conversations;
 	};
 
 	/**

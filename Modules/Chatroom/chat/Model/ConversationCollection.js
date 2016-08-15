@@ -9,6 +9,10 @@ var ConversationCollection = function ConversationCollection() {
 	 */
 	var _collection = {};
 
+	this.all = function() {
+		return _collection;
+	};
+
 	this.add = function(conversation) {
 		_collection[conversation.getId()] = conversation;
 	};

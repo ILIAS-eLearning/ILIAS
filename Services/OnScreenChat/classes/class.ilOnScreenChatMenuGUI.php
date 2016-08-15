@@ -17,6 +17,7 @@ class ilOnScreenChatMenuGUI
 
 		$config = array(
 			'conversationTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-menu-item.html'),
+			'userId' => $DIC->user()->getId()
 		);
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');

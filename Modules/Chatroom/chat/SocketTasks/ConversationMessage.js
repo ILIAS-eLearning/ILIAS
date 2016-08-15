@@ -2,14 +2,17 @@ var Container = require('../AppContainer');
 
 module.exports = function(conversationId, userId, message) {
 	Container.getLogger().info('SendMessage "%s" by "%s" in conversation %s', message, userId, conversationId);
-
-	var conversation = Container.getNamespace(this.nsp.name).getConversations().getById(conversationId);
-
-	conversation.emit('conversation', conversation.json());
-	conversation.send({
+	var namespace = Container.getNamespace(this.nsp.name);
+	var conversation = namespace.getConversations().getById(conversationId);
+	var messageObj = {
 		conversationId: conversationId,
 		userId: userId,
 		message: message,
 		timestamp: (new Date).getTime()
-	});
+	};
+
+	namespace.getDatabase().persistConversationMessage(messageObj);
+
+	conversation.emit('conversation', conversation.json());
+	conversation.send(messageObj);
 };

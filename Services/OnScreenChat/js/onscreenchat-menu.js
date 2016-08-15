@@ -3,8 +3,10 @@
 		config: {},
 		rendered: false,
 		content: $(''),
+		conversations: [],
 
 		setConfig: function(config) {
+			console.log(config);
 			$scope.il.OnScreenChatMenu.config = config;
 		},
 
@@ -31,12 +33,6 @@
 					}
 				});
 			});
-
-
-			$('.ilOnScreenChatMenuDropDown').on('click', '.media', function() {
-				$scope.il.OnScreenChat.open();
-				$('#onscreenchat_trigger').popover('hide');
-			});
 		},
 
 		show: function() {
@@ -48,25 +44,42 @@
 		},
 
 		getContent: function() {
-			var module = $scope.il.OnScreenChatMenu;
-			module.content = $('#onscreenchatmenu-content-container');
+			getModule().content = $('#onscreenchatmenu-content-container');
 
-			if(!module.rendered)
+			if(!getModule().rendered)
 			{
-				for(var i = 0; i < 5; i++)
-				{
-					var template = module.config.conversationTemplate;
-					template = template.replace('[[avatar]]', 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
-					template = template.replace('[[public_username]]', 'Thomas Joußen');
-					template = template.replace('[[username]]', 'tjoussen' + i);
-					template = template.replace('[[last_message]]', 'Hast du dir den Kursinhalt in Lineare Algebra schon angesehen?');
-					template = template.replace('[[last_message_time]]', momentFromNowToTime((new Date()).getTime()));
-					module.content.find('#onscreenchatmenu-content').append(template);
+				for(var index in getModule().conversations){
+					if(getModule().conversations[index].messages.length > 0)
+					{
+						var participants = getModule().conversations[index].participants;
+						var participantNames = [];
+
+						for(var key in participants) {
+							if(participants.hasOwnProperty(key) && participants[key].id !== getModule().config.userId) {
+								participantNames.push(participants[key].name);
+							}
+						}
+
+						var template = getModule().config.conversationTemplate;
+						template = template.replace('[[avatar]]', 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
+						template = template.replace('[[participants]]', participantNames.join(', '));
+						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
+						template = template.replace('[[last_message]]', getModule().conversations[index].messages[0].message);
+						template = template.replace('[[last_message_time]]', momentFromNowToTime(getModule().conversations[index].messages[0].timestamp));
+						getModule().content.find('#onscreenchatmenu-content').append(template);
+					}
 				}
-				module.rendered = true;
+				getModule().rendered = true;
 			}
 
-			return module.content.html();
+			return getModule().content.html();
+		},
+
+		add: function(conversation) {
+			if (!getModule().hasConversation(conversation)) {
+				getModule().conversations.push(conversation);
+				getModule().rendered = false;
+			}
 		},
 
 		updateList: function() {
@@ -75,6 +88,20 @@
 
 		afterListUpdate: function() {
 			$('.ilOnScreenChatMenuLoader').remove();
+		},
+
+		hasConversation: function(conversation) {
+			for(var index in getModule().conversations) {
+				if (getModule().conversations.hasOwnProperty(index) && getModule().conversations[index].id == conversation.id) {
+					return true;
+				}
+			}
+
+			return false;
 		}
+	};
+
+	var getModule = function() {
+		return $scope.il.OnScreenChatMenu;
 	}
 })(jQuery, window);

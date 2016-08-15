@@ -15,6 +15,8 @@ module.exports = function(participants) {
 		Container.getLogger().info('No Conversation found. Creating new one');
 		conversation = new Conversation(UUID.v4());
 		conversations.add(conversation);
+
+		namespace.getDatabase().persistConversation(conversation);
 	}
 
 	for(var key in participants) {
@@ -23,5 +25,6 @@ module.exports = function(participants) {
 		participant.join(conversation.id);
 	}
 
+	namespace.getDatabase().updateConversation(conversation);
 	this.participant.emit('conversation', conversation.json());
 };

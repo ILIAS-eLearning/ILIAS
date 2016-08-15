@@ -1,6 +1,7 @@
 var Container = require('../AppContainer');
 var async = require('async');
 var Date = require('../Helper/Date');
+var UUID = require('node-uuid');
 
 var Database = function Database(config) {
 
@@ -197,6 +198,86 @@ var Database = function Database(config) {
 				if(err) throw err;
 			});
 		})
+	};
+
+	/**
+	 *
+	 * @param message
+	 */
+	this.persistConversationMessage = function(message) {
+		//message.timestamp = parseInt(message.timestamp / 1000);
+
+		_pool.query('INSERT INTO osc_messages SET ?', {
+			id: UUID.v4(),
+			conversationId: message.conversationId,
+			userId: message.userId,
+			message: message.message,
+			timestamp: message.timestamp
+		}, function(err) {
+			if(err) throw err;
+		});
+	};
+
+	this.loadConversations = function(onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_conversation'),
+			onResult,
+			onEnd
+		);
+	};
+
+	this.loadConversationHistory = function(conversation, onResult, onEnd){
+		var query = 'SELECT * FROM osc_messages WHERE conversationId = ?';
+		var params = [conversation.getId()];
+		if(conversation.getLastMessageTimestamp() != null)
+		{
+			query += ' AND timestamp < ?';
+			params.push(conversation.getLastMessageTimestamp());
+		}
+
+		query += " ORDER BY timestamp DESC LIMIT 0, 5";
+
+		_onQueryEvents(
+			_pool.query(query, params),
+			onResult,
+			onEnd
+		);
+	};
+
+	/**
+	 * @param {Conversation} conversation
+	 */
+	this.updateConversation = function(conversation) {
+		var participantsJson = [];
+		var participants = conversation.getParticipants();
+
+		for(var index in participants) {
+			if(participants.hasOwnProperty(index)){
+				participantsJson.push(participants[index].json())
+			}
+		}
+		participantsJson = JSON.stringify(participantsJson);
+
+		_pool.query('UPDATE osc_conversation SET participants = ?, isGroup = ? WHERE id = ?',
+			[participantsJson, conversation.isGroup(), conversation.getId()],
+			function(err){
+				if(err) throw err;
+			}
+		);
+	};
+
+
+	/**
+	 * @param {Conversation} conversation
+	 */
+	this.persistConversation = function(conversation) {
+		_pool.query('INSERT INTO osc_conversation SET ?', {
+			id: conversation.getId(),
+			isGroup: conversation.isGroup(),
+			participants: JSON.stringify(conversation.getParticipants())
+		}, function(err){
+			if(err) throw err;
+		});
 	};
 
 

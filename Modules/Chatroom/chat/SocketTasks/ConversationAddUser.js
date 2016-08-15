@@ -12,6 +12,8 @@ module.exports = function(conversationId, userId, name) {
 		conversation.setIsGroup(true);
 		namespace.getConversations().add(conversation);
 
+		namespace.getDatabase().persistConversation(conversation);
+
 		for(var key in participants) {
 			if(participants.hasOwnProperty(key)) {
 				conversation.addParticipant(participants[key]);
@@ -23,6 +25,7 @@ module.exports = function(conversationId, userId, name) {
 	conversation.addParticipant(participant);
 	participant.join(conversation.id);
 
+	namespace.getDatabase().updateConversation(conversation);
 	this.participant.emit('conversation', conversation.json());
 	this.emit('addUser', true);
 };

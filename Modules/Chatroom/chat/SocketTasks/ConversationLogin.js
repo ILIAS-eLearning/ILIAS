@@ -1,5 +1,6 @@
 var Container = require('../AppContainer');
 var Participant = require('../Model/ConversationParticipant');
+var ListConversations = require('./ListConversations');
 
 module.exports = function(id, name)
 {
@@ -10,6 +11,7 @@ module.exports = function(id, name)
 	var participant = namespace.getSubscriber(id);
 
 	if(participant == null) {
+		console.log("new");
 		participant = new Participant(id, name);
 		namespace.addSubscriber(participant);
 	}
@@ -17,6 +19,10 @@ module.exports = function(id, name)
 	participant.addSocket(this);
 	participant.setOnline(true);
 
+	console.log(participant.getConversations());
+
 	this.participant = participant;
 	this.emit('login', participant.json());
+
+	ListConversations.call(this);
 };

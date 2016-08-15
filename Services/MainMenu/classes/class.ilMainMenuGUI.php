@@ -227,10 +227,10 @@ class ilMainMenuGUI
 			// online help
 			$this->renderHelpButtons();
 
+			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
 			$this->renderAwareness();
-			$this->renderOnScreenChatMenu();
 		}
 
 		if($this->getMode() == self::MODE_FULL)
