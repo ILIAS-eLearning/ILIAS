@@ -251,11 +251,14 @@ class ilDataCollectionDatatype
 				$input = new ilFileInputGUI($title, 'field_'.$field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                if(!$field->isNRef())
-				    $input = new ilSelectInputGUI($title, 'field_'.$field->getId());
-                else
-                    $input = new ilMultiSelectInputGUI($title,'field_'.$field->getId());
-                break;
+				if (!$field->isNRef()) {
+					$input = new ilSelectInputGUI($title, 'field_' . $field->getId());
+				} else {
+					$input = new ilMultiSelectInputGUI($title, 'field_' . $field->getId());
+					$input->setWidth(100);
+					$input->setWidthUnit('%');
+				}
+				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
 				$input->setValue($lng->txt("dcl_editable_in_table_gui"));
@@ -362,7 +365,7 @@ class ilDataCollectionDatatype
 			
 		return $input;
 	}
-	
+
 	/*
 	 * passThroughFilter
 	 */
@@ -659,7 +662,6 @@ class ilDataCollectionDatatype
 				break;
 
             case self::INPUTFORMAT_MOB:
-
                 $mob = new ilObjMediaObject($value,false);
                 $dir  = ilObjMediaObject::_getDirectory($mob->getId());
                 $media_item = $mob->getMediaItem('Standard');
@@ -696,6 +698,7 @@ class ilDataCollectionDatatype
 					if ($preg_match) {
 						$value = "mailto:" . $value;
 					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value))) {
+
 						return $link;
 					}
 
@@ -744,7 +747,7 @@ class ilDataCollectionDatatype
 		if (strlen($value) > self::LINK_MAX_LENGTH) {
 			$link = substr($value, 0, (self::LINK_MAX_LENGTH - 3) / 2);
 			$link .= "...";
-			$link .= substr($value, - (self::LINK_MAX_LENGTH - 3) / 2);
+			$link .= substr($value, -(self::LINK_MAX_LENGTH - 3) / 2);
 		}
 
 		return $link;
