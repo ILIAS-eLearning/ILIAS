@@ -72,7 +72,7 @@ class ilManualAssessmentMembersGUI {
 		$this->tpl->setContent($table->getHTML());
 	}
 
-	public function addUsers($user_ids) {
+	public function addUsers(array $user_ids) {
 		$mass = $this->object;
 		$members = $mass->loadMembers();
 		foreach ($user_ids as $user_id) {
@@ -84,14 +84,14 @@ class ilManualAssessmentMembersGUI {
 				ilUtil::sendFailure("allready_member");
 			}
 		}
-		$mass->updateMembers($members);
+		$members->updateStorageAndRBAC($mass->membersStorage());
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
 	public function removeUser() {
 		$usr_id = $_GET['usr_id'];
 		$mass = $this->object;
-		$mass->updateMembers($mass->loadMembers()->withoutPresentUser(new ilObjUser($usr_id)));
+		$mass->loadMembers()->withoutPresentUser(new ilObjUser($usr_id))->updateStorageAndRBAC($mass->membersStorage());
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 }
