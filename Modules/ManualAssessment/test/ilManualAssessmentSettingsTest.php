@@ -9,6 +9,7 @@ require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
  */
 class ilManualAssessmentSettingsTest extends PHPUnit_Framework_TestCase {
 	public static $mass;
+	public static $mass_id;
 	public static $storage;
 	public static $db;
 
@@ -22,6 +23,7 @@ class ilManualAssessmentSettingsTest extends PHPUnit_Framework_TestCase {
 		self::$mass ->create();
 		self::$mass ->createReference();
 		self::$mass ->putInTree(ROOT_FOLDER_ID);
+		self::$mass_id = self::$mass->getId();
 		global $ilDB;
 		self::$storage = new ilManualAssessmentSettingsStorageDB($ilDB);
 	}
@@ -40,7 +42,7 @@ class ilManualAssessmentSettingsTest extends PHPUnit_Framework_TestCase {
 	 * @depends test_create_settings
 	 */
 	public function test_settings_change($settings) {
-		$settings = $settings->withContent('some_content')->withRecordTemplate('some_template');
+		$settings = $settings->setContent('some_content')->setRecordTemplate('some_template');
 		$this->assertEquals($settings->content(),'some_content');
 		$this->assertEquals($settings->recordTemplate(),'some_template');
 		self::$storage->updateSettings($settings);
@@ -58,10 +60,29 @@ class ilManualAssessmentSettingsTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_settings_load
-	 * @expectedException ilManualAssessmentException
+	 */ 
+	public function test_settings_update() {
+		$mass = new ilObjManualAssessment(self::$mass_id,false);
+		$settings = $mass->getSettings();
+		$this->assertEquals($settings->content(),'some_content');
+		$this->assertEquals($settings->recordTemplate(),'some_template');
+		$settings = $settings->setContent('some_content2')->setRecordTemplate('some_template2');
+		$mass->update();
+		$mass = new ilObjManualAssessment(self::$mass_id,false);
+		$settings = $mass->getSettings();
+		$this->assertEquals($settings->content(),'some_content2');
+		$this->assertEquals($settings->recordTemplate(),'some_template2');
+		return $settings;
+	}
+
+
+	/**
+	 * @depends test_settings_update
 	 */ 
 	public function test_settings_delete($settings) {
 		self::$mass->delete();
-		self::$storage->loadSettings(self::$mass);
+		$settings = self::$storage->loadSettings(self::$mass);
+		$this->assertEquals($settings->content(),'');
+		$this->assertEquals($settings->recordTemplate(),'');
 	}
 }
