@@ -77,6 +77,8 @@
 
 				if(conversation.open) {
 					getModule().open(conversation);
+				} else {
+					$('[data-onscreenchat-window=' + conversation.id + ']').hide();
 				}
 			});
 
@@ -146,13 +148,12 @@
 			return template;
 		},
 
-		close: function(conversationId) {
+		close: function() {
 			var button = $(this);
-			var conversation = getModule().storage.find($(button).attr('data-onscreenchat-close'));
+			var conversation = getModule().storage.get($(button).attr('data-onscreenchat-close'));
 			conversation.open = false;
-			$('[data-onscreenchat-window=' + conversationId + ']').hide();
 
-			getModule().storage.add(conversation);
+			getModule().storage.save(conversation);
 		},
 
 		handleSubmit: function(e) {

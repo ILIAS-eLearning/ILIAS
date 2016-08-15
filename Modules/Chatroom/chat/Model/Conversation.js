@@ -26,6 +26,8 @@ var Conversation = function Conversation(id, participants)
 	 */
 	var _opened = true;
 
+	var _hasMessages = false;
+
 	/**
 	 * Returns the ID of the conversation;
 	 *
@@ -88,7 +90,8 @@ var Conversation = function Conversation(id, participants)
 		return {
 			id: _id,
 			participants: participants,
-			open: _opened
+			open: _opened,
+			hasMessages: _hasMessages
 		}
 	};
 
