@@ -988,6 +988,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$processing->setDisabled(true);
 			$processingtime->setDisabled(true);
 			$resetprocessing->setDisabled(true);
+			
+			$duration->setDisabled(true);
+			$pass_waiting_enabled->setDisabled(true);
 		}
 
 		// kiosk mode
