@@ -58,7 +58,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 
 		$this->log				= ilLoggerFactory::getLogger('tst');
 		$this->lng				= $lng;
-		$this->lng->loadLanguageModule('tst');
+		$this->lng->loadLanguageModule('assessment');
 		$this->db				= $ilDB;
 		$this->obj_data_cache	= $ilObjDataCache;
 		$this->now				= time();
