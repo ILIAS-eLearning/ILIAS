@@ -21,32 +21,22 @@ ul {
 	margin: auto;
 }
 
-#catSubMenuItem1,
-#catSubMenuItem2,
-#catSubMenuItem3,
-#catSubMenuItem4,
-#catSubMenuItem5,
-#catSubMenuItem6 {
-	background-repeat: no-repeat;
-	background-position: center 30px;
-}
-
-#catSubMenuItem1 {
+#catSubMenuItem_bookings {
 	background-image: url("images/GEV_SubMenueImg1.png");
 }
-#catSubMenuItem2 {
+#catSubMenuItem_edubio {
 	background-image: url("images/GEV_SubMenueImg2.png");
 }
-#catSubMenuItem3 {
+#catSubMenuItem_profile {
 	background-image: url("images/GEV_SubMenueImg3.png");
 }
-#catSubMenuItem4 {
+#catSubMenuItem_tep {
 	background-image: url("images/GEV_SubMenueImg4.png");
 }
-#catSubMenuItem5 {
+#catSubMenuItem_trainer_ops {
 	background-image: url("images/GEV_SubMenueImg5.png");
 }
-#catSubMenuItem6 {
+#catSubMenuItem_training_admin {
 	background-image: url("images/GEV_SubMenueImg6.png");
 }
 
@@ -55,6 +45,8 @@ ul {
 	min-width: 100px;
 	padding: 100px 20px 30px;
 	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center 30px;
 }
 
 .catSubMenuItem:hover {

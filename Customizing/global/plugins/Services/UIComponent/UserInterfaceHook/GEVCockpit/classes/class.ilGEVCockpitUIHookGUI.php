@@ -19,14 +19,23 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
 
+		global $ilUser;
+		$user_utils = gevUserUtils::getInstanceByObj($ilUser);
+
 		$this->active = "Bildungsbiografie";
 		$this->items = array
-			( "Buchungen"
-			, "Bildungsbiografie"
-			, "Profil"
-			, "TEP"
-			, "Trainingseinsätze"
-			, "Trainingsverwaltung"
+			( "bookings"
+				=> array("Buchungen", "http://www.google.de")
+			, "edubio"
+				=> array("Bildungsbiografie", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+			, "profile"
+				=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
+			, "tep"
+				=> array("TEP", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+			, "trainer_ops"
+				=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+			, "training_admin"
+				=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
 			);
 
 		$current_skin = ilStyleDefinition::getCurrentSkin();
@@ -51,13 +60,15 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		assert('is_string($current_skin)');
 		$tpl = $this->getTemplate($current_skin, true, true); 
 		$count = 1;
-		foreach ($this->items as $item) {
+		foreach ($this->items as $id => $data) {
+			list($label, $link) = $data;
 			if ($this->active == $item) {
 				$tpl->touchBlock("active");
 			}
 			$tpl->setCurrentBlock("item");
-			$tpl->setVariable("NUM", $count);
-			$tpl->setVariable("LABEL", $item);
+			$tpl->setVariable("ID", $id);
+			$tpl->setVariable("LABEL", $label);
+			$tpl->setVariable("LINK", $link);
 			$tpl->parseCurrentBlock();
 			$count++;
 		}
