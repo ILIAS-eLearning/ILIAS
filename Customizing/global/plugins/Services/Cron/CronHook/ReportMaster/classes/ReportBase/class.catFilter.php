@@ -576,7 +576,7 @@ class catCheckboxFilterType {
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		$a_tpl->setVariable("PROPERTY_CHECKED", $this->initialLoad() ?
+		$a_tpl->setVariable("PROPERTY_CHECKED", $this->initialLoad($a_pars) ?
 													($a_conf[6] ? "checked" : "") : 
 														($a_pars ? "checked" : ""));
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
@@ -584,8 +584,8 @@ class catCheckboxFilterType {
 		return true;
 	}
 
-	protected function initialLoad() {
-		return !$_POST;
+	protected function initialLoad($a_pars) {
+		return !$_POST && !$a_pars;
 	}
 	
 	public function isInWhere($a_conf) {
