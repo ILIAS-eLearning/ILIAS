@@ -25,7 +25,7 @@ class NoUIFactory implements Factory {
 	public function deck(array $cards) {}
 	public function listing() {}
 	public function image() {}
-	public function generic($content) {}
+	public function legacy($content) {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

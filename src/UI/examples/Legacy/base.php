@@ -9,8 +9,8 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 
 	//Init Component
-	$generic = $f->generic("Legacy Content");
+	$legacy = $f->legacy("Legacy Content");
 
 	//Render
-	return $renderer->render($generic);
+	return $renderer->render($legacy);
 }

@@ -9,8 +9,8 @@ function inside_panel() {
 	$renderer = $DIC->ui()->renderer();
 
 	//Init Component
-	$generic = $f->generic("Legacy Content");
-	$panel = $f->panel()->standard("Panel Title",$generic);
+	$legacy = $f->legacy("Legacy Content");
+	$panel = $f->panel()->standard("Panel Title",$legacy);
 
 	//Render
 	return $renderer->render($panel);

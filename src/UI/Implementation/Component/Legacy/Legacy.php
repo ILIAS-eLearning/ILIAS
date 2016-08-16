@@ -2,16 +2,16 @@
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Generic;
+namespace ILIAS\UI\Implementation\Component\Legacy;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * Class Generic
- * @package ILIAS\UI\Implementation\Component\Generic
+ * Class Legacy
+ * @package ILIAS\UI\Implementation\Component\Legacy
  */
-class Generic implements C\Generic\Generic {
+class Legacy implements C\Legacy\Legacy {
 	use ComponentHelper;
 
 	/**
@@ -21,7 +21,7 @@ class Generic implements C\Generic\Generic {
 
 
 	/**
-	 * Generic constructor.
+	 * Legacy constructor.
 	 * @param string $content
 	 */
 	public function __construct($content) {
@@ -36,17 +36,5 @@ class Generic implements C\Generic\Generic {
 	public function getContent(){
 		return $this->content;
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withContent($content){
-		$this->checkStringArg("content", $content);
-
-		$clone = clone $this;
-		$clone->content = $content;
-		return $clone;
-	}
-
 }
 ?>

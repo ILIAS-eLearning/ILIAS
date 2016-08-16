@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Generic;
+namespace ILIAS\UI\Implementation\Component\Legacy;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -10,7 +10,7 @@ use ILIAS\UI\Component;
 
 /**
  * Class Renderer
- * @package ILIAS\UI\Implementation\Component\Generic\Html
+ * @package ILIAS\UI\Implementation\Component\Legacy\Html
  */
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -18,7 +18,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		/**
-		 * @var Component\Generic\Generic $component
+		 * @var Component\Legacy\Legacy $component
 		 */
 		$this->checkComponent($component);
 
@@ -29,6 +29,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return [Component\Generic\Generic::class];
+		return [Component\Legacy\Legacy::class];
 	}
 }

@@ -58,8 +58,8 @@ class Factory implements \ILIAS\UI\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function generic($content)
+	public function legacy($content)
 	{
-		return new Component\Generic\Generic($content);
+		return new Component\Legacy\Legacy($content);
 	}
 }

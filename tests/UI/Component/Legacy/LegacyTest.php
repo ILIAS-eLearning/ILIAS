@@ -11,7 +11,7 @@ use \ILIAS\UI\Component as C;
 /**
  * Test on button implementation.
  */
-class GenericTest extends ILIAS_UI_TestBase {
+class LegacyTest extends ILIAS_UI_TestBase {
 
 	/**
 	 * @return \ILIAS\UI\Implementation\Factory
@@ -25,33 +25,25 @@ class GenericTest extends ILIAS_UI_TestBase {
 
 		$this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
 		$this->assertInstanceOf
-		( "ILIAS\\UI\\Component\\Generic\\Generic"
-				, $f->generic("Generic Content")
+		( "ILIAS\\UI\\Component\\Legacy\\Legacy"
+				, $f->legacy("Legacy Content")
 		);
 	}
 
 	public function test_get_content() {
 		$f = $this->getFactory();
-		$g = $f->generic("Generic Content");
+		$g = $f->legacy("Legacy Content");
 
-		$this->assertEquals($g->getContent(), "Generic Content");
+		$this->assertEquals($g->getContent(), "Legacy Content");
 	}
 
-	public function test_standard_with_content() {
-		$f = $this->getFactory();
-		$g = $f->generic("Generic Content");
-
-		$g = $g->withContent("Generic New Content");
-
-		$this->assertEquals($g->getContent(), "Generic New Content");
-	}
 
 	public function test_render_content() {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$g = $f->generic("Generic Content");
+		$g = $f->legacy("Legacy Content");
 
-		$this->assertEquals($r->render($g), "Generic Content");
+		$this->assertEquals($r->render($g), "Legacy Content");
 	}
 }

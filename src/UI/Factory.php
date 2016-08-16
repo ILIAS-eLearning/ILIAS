@@ -261,7 +261,7 @@ interface Factory {
 	 *     This component is used to wrap an existing ILIAS UI element into a UI component. This is useful if a container
 	 *     of the UI components needs to contain content that is not yet implement in the centralized UI components.
 	 *   composition: >
-	 *     The generic component contains html or any other content as string.
+	 *     The legacy component contains html or any other content as string.
 	 *
 	 * rules:
 	 *   wording:
@@ -269,7 +269,7 @@ interface Factory {
 	 * ---
 	 *
 	 * @param   string $content
-	 * @return  \ILIAS\UI\Component\Generic\Generic
+	 * @return  \ILIAS\UI\Component\Legacy\Legacy
 	 */
-	public function generic($content);
+	public function legacy($content);
 }
