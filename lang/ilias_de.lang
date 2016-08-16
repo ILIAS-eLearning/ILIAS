@@ -14,6 +14,35 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
+forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
+forum#:#restore#:#Wiederherstellen
+forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
+forum#:#autosave_draft_info#:#<span class="asterisk">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>
+forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>
+forum#:#publishThreadDrafts#:#Themenentwurf veröffentlichen
+forum#:#deleteThreadDrafts#:#Themenentwurf löschen
+forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
+common#:#pd_enable_pdfrmpostdraft#:#'Meine Beitragsentwürfe' aktivieren
+common#:#pd_enable_pdfrmpostdraft_info#:#Sofern aktiviert, wird auf dem Persönlichen Schreibtisch ein Block 'Meine Beitragsentwürfe' angezeigt, in welchem die Beitragsentwürfe des Benutzers in Foren aufgelistet werden.
+pd#:#block_show_pdfrmpostdraft#:#'Meine Beitragsentwürfe' anzeigen
+forum#:#forums_thread_drafts_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht.
+forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht.
+forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert. 
+forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
+forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
+forum#:#forums_edit_draft#:#Entwurf bearbeiten
+forum#:#publish#:#Veröffentlichen
+forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
+forum#:#frm_posting_draft#:#Entwurf
+forum#:#frm_posting_drafts#:#Entwürfe
+forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
+forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
+forum#:#adm_save_drafts#:#Entwürfe speichern   
+forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beiträge in Foren als Entwurf speichern 
+forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern   
+forum#:#adm_autosave_ival#:#Speicherintervall
+forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum

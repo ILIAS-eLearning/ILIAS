@@ -16330,3 +16330,163 @@ if(!in_array("primary", $const))
 }
 
 ?>
+<#4965>
+<?php
+if(!$ilDB->tableExists('frm_posts_drafts'))
+{
+	$fields = array(
+		'draft_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'thread_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'forum_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_author_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_subject' => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => true
+		),
+		'post_message' => array(
+			'type'    => 'clob',
+			'notnull' => true
+		),
+		'post_notify' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_date' => array(
+			'type'    => 'timestamp',
+			'notnull' => true
+		),
+		'post_update' => array(
+			'type'    => 'timestamp',
+			'notnull' => true
+		),
+		'update_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_user_alias' => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false
+		),
+		'pos_display_usr_id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'notify' => array(
+			'type'	=> 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	    
+	);
+
+	$ilDB->createTable('frm_posts_drafts', $fields);
+	$ilDB->addPrimaryKey('frm_posts_drafts', array('draft_id'));
+	$ilDB->createSequence('frm_posts_drafts');
+}
+?>
+<#4966>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_drafts', array('post_id')))
+{
+	$ilDB->addIndex('frm_posts_drafts', array('post_id'), 'i1');
+}
+?>
+<#4967>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_drafts', array('thread_id')))
+{
+	$ilDB->addIndex('frm_posts_drafts', array('thread_id'), 'i2');
+}
+?>
+<#4968>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_drafts', array('forum_id')))
+{
+	$ilDB->addIndex('frm_posts_drafts', array('forum_id'), 'i3');
+}
+?>
+<#4969>
+<?php
+if(!$ilDB->tableExists('frm_drafts_history'))
+{
+	$fields = array(
+		'history_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'draft_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_subject' => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => true
+		),
+		'post_message' => array(
+			'type'    => 'clob',
+			'notnull' => true
+		),
+		'draft_date' => array(
+			'type'    => 'timestamp',	
+			'notnull' => true
+			)	
+	);
+	
+	$ilDB->createTable('frm_drafts_history', $fields);
+	$ilDB->addPrimaryKey('frm_drafts_history', array('history_id'));
+	$ilDB->createSequence('frm_drafts_history');
+}
+?>
+<#4970>
+<?php
+ if(!$ilDB->indexExistsByFields('frm_drafts_history', array('draft_id')))
+ {
+	 $ilDB->addIndex('frm_drafts_history', array('draft_id'),'i1');
+ }
+?>
+<#4971>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
