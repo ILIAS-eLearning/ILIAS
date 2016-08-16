@@ -15741,14 +15741,14 @@ if (!$ilDB->tableColumnExists('skl_level', 'import_id'))
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $obj_type_id = ilDBUpdateNewObjectType::addNewType("mass", "Manual Assessment");
-$existing_ops = array("visible", "write", "copy", "delete", "edit_permission");
+$existing_ops = array("visible", "read", "write", "copy", "delete", "edit_permission");
 foreach ($existing_ops as $op) {
 	$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
-	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);		
+	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);
 }
 $parent_types = array('root', 'cat', 'crs');
 ilDBUpdateNewObjectType::addRBACCreate('create_mass', 'Create Manuall Assessment', $parent_types);
-require_once 'Services/Modules/ManualAssessment/classes/Settings/class.ilObjManualAssessementSettings.php';
+
 if(!$ilDB->tableExists("mass_settings")) {
 	$fields =  array(
 		'obj_id' => array(
@@ -15761,13 +15761,13 @@ if(!$ilDB->tableExists("mass_settings")) {
 			'type' => 'text',
 			'length' => 1000,
 			'notnull' => false,
-			'default' => ilObjManualAssessementSettings::DEF_CONTENT
+			'default' => null
 		),
 		'record_template' => array(
 			'type' => 'text',
 			'length' => 1000,
 			'notnull' => false,
-			'default' =>  ilObjManualAssessementSettings::DEF_RECORD_TEMPLATE
+			'default' => null
 		)
 	);
 	$ilDB->createTable('mass_settings',$fields);
@@ -15825,5 +15825,21 @@ if(!$ilDB->tableExists('mass_members')) {
 		)
 	);
 	$ilDB->createTable('mass_members',$fields);
+}
+
+$mass_type_id = ilDBUpdateNewObjectType::getObjectTypeId('mass');
+if($mass_type_id) {
+	$custom_ops = array('edit_grades' => 'Edit grades',
+						'read_grades' => 'View grades',
+						'edit_members' => 'Manage members');
+	$counter = 1;
+	foreach ($custom_ops as $ops_id => $ops_description) {
+		$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation($ops_id, $ops_description, 
+							'object', 8000 + $counter*100);
+		$counter++;
+		if($new_ops_id) {
+			ilDBUpdateNewObjectType::addRBACOperation($mass_type_id, $new_ops_id);
+		}
+	}
 }
 ?>
