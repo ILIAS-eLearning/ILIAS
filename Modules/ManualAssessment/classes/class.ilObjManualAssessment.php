@@ -12,15 +12,21 @@ require_once 'Services/Object/classes/class.ilObject.php';
 require_once 'Modules/ManualAssessment/classes/Settings/class.ilManualAssessmentSettings.php';
 require_once 'Modules/ManualAssessment/classes/Settings/class.ilManualAssessmentSettingsStorageDB.php';
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
+require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
 class ilObjManualAssessment extends ilObject {
-	protected $gDic;
+
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		global $DIC;
-		$this->gDic = $DIC;
 		$this->type = 'mass';
 		parent::__construct($a_id, $a_call_by_reference);
-		$this->settings_storage = new ilManualAssessmentSettingsStorageDB($this->gDic['ilDB']);
-		$this->members_storage =  new ilManualAssessmentMembersStorageDB($this->gDic['ilDB']);
+		$this->settings_storage = new ilManualAssessmentSettingsStorageDB($DIC['ilDB']);
+		$this->members_storage =  new ilManualAssessmentMembersStorageDB($DIC['ilDB']);
+		$this->access_handler = new ilManualAssessmentAccessHandler(
+				 $DIC['ilAccess']
+				,$DIC['rbacadmin']
+				,$DIC['rbacreview']
+				,$DIC['ilUser']);
+
 	}
 
 	public function create() {
@@ -41,7 +47,7 @@ class ilObjManualAssessment extends ilObject {
 	}
 
 	public function updateMembers(ilManualAssessmentMembers $members) {
-		$this->members_storage->updateMembers($members);
+		$members->updateStorageAndRBAC($this->members_storage, $this->access_handler);
 	}
 
 	public function delete() {
@@ -57,5 +63,13 @@ class ilObjManualAssessment extends ilObject {
 
 	public function membersStorage() {
 		return $this->members_storage;
+	}
+
+	public function initDefaultRoles() {
+		$this->access_handler->initDefaultRolesForObject($this);
+	}
+
+	public function accessHandler() {
+		return $this->access_handler;
 	}
 }
