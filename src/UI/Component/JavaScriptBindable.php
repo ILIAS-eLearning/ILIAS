@@ -42,7 +42,7 @@ interface JavaScriptBindable {
 	/**
 	 * Get the currently bound on load code.
 	 *
-	 * @return	\Closure
+	 * @return	\Closure|null
 	 */
 	public function getOnLoadCode();
 }
