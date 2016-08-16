@@ -31,11 +31,24 @@ interface ilManualAssessmentMembersStorage {
 	/**
 	 * Delete entries associated with members-object.
 	 *
-	 * @param	ilManualAssessmentMember	$member
+	 * @param	ilObjManualAssessment	$obj
 	 */
 	public function deleteMembers(ilObjManualAssessment $obj);
 
+	/**
+	 * Create a membership inside storage.
+	 *
+	 * @param	ilObjManualAssessment	$mass
+	 * @param	string|int[]	$record
+	 */
 	public function insertMembersRecord(ilObjManualAssessment $mass, array $record);
 
-	public function removeMembersRecord(ilObjManualAssessment $mass,array $record);
+	/**
+	 * Remove a membership associated with a ManualAssessment object
+	 * inside storage.
+	 *
+	 * @param	ilObjManualAssessment	$mass
+	 * @param	string|int[]	$record
+	 */
+	public function removeMembersRecord(ilObjManualAssessment $mass, array $record);
 }
