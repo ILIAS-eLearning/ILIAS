@@ -1262,6 +1262,12 @@ assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
+assessment#:#unfinished_passes#:#Unbeendeter Testdurchlauf
+assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie wirklich den Test Durchlauf beenden?
+assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
+assessment#:#finish_all_user_passes#:#Alle Test Durchläufe beenden
+assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
+assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet. 
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmer zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmer in diesem Test. Wenn Sie diese Teilnehmer entfernen, werden die Testergebnisse der Teilnehmer nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?

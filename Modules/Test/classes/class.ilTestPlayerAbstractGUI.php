@@ -747,20 +747,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		$this->performTestPassFinishedTasks($actualpass);
 
-		$this->testSession->setLastFinishedPass($this->testSession->getPass());
-		$this->testSession->increaseTestPass();
-
 		$this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
 	}
 
 	protected function performTestPassFinishedTasks($finishedPass)
 	{
-		if( !$this->testSession->isSubmitted() )
-		{
-			$this->testSession->setSubmitted(1);
-			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
-			$this->testSession->saveToDb();
-		}
+		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
+
+		$finishTasks = new ilTestPassFinishTasks($this->testSession->getActiveId(), $this->object->getId());
+		$finishTasks->performFinishTasksBeforeArchiving();
+		$finishTasks->performFinishTasksAfterArchiving();
 	}
 
 	protected function afterTestPassFinishedCmd()

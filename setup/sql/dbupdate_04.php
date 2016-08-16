@@ -16488,5 +16488,3 @@ if(!$ilDB->tableExists('frm_drafts_history'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
