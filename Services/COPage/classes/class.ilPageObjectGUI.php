@@ -433,12 +433,23 @@ class ilPageObjectGUI
 		return $this->template_output_var;
 	}
 
-	// @todo 1: can we get rid of this?
-	function setSourcecodeDownloadScript ($script_name) {
+	/**
+	 * Set sourcecode download script
+	 *
+	 * @param string $script_name
+	 */
+	function setSourcecodeDownloadScript ($script_name)
+	{
 		$this->sourcecode_download_script = $script_name;
 	}
 
-	function getSourcecodeDownloadScript () {
+	/**
+	 * Get sourcecode download script
+	 *
+	 * @return string
+	 */
+	function getSourcecodeDownloadScript ()
+	{
 		return $this->sourcecode_download_script;
 	}
 
@@ -467,23 +478,41 @@ class ilPageObjectGUI
 		$this->page_back_title = $a_title;
 	}
 
-	// @todo 1: can we get rid of this?
+	/**
+	 * Set file download link
+	 *
+	 * @param string $a_download_link download link
+	 */
 	function setFileDownloadLink($a_download_link)
 	{
 		$this->file_download_link = $a_download_link;
 	}
 
+	/**
+	 * Get file download link
+	 *
+	 * @return string
+	 */
 	function getFileDownloadLink()
 	{
 		return $this->file_download_link;
 	}
 
-	// @todo 1: can we get rid of this?
+	/**
+	 * Set fullscreen link
+	 *
+	 * @param string $a_download_link download link
+	 */
 	function setFullscreenLink($a_fullscreen_link)
 	{
 		$this->fullscreen_link = $a_fullscreen_link;
 	}
 
+	/**
+	 * Get fullscreen link
+	 *
+	 * @return string
+	 */
 	function getFullscreenLink()
 	{
 		return $this->fullscreen_link;
@@ -1805,7 +1834,7 @@ return;
 		$output = ilUtil::insertLatexImages($output);
 
 		// insert page snippets
-		$output = $this->insertContentIncludes($output);
+		//$output = $this->insertContentIncludes($output);
 
 		// insert resource blocks
 		$output = $this->insertResources($output);
@@ -1844,7 +1873,10 @@ return;
 			ilCOPagePCDef::requirePCClassByName($def["name"]);
 			$pc_class = $def["pc_class"];
 			$pc_obj = new $pc_class($this->getPageObject());
-			
+			$pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
+			$pc_obj->setFileDownloadLink($this->determineFileDownloadLink());
+			$pc_obj->setFullscreenLink($this->determineFullscreenLink());
+
 			// post xsl page content modification by pc elements
 			$output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode());
 			
@@ -2593,7 +2625,7 @@ return;
 		xslt_free($xh);
 
 		// unmask user html
-		require_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+		require_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -2616,81 +2648,6 @@ return;
 	{
 		$pg_obj = $this->getPageObject();
 		$pg_obj->send_paragraph($_GET["par_id"], $_GET["downloadtitle"]);
-	}
-
-	/**
-	 * Insert content includes
-	 */
-	function insertContentIncludes($a_html)
-	{
-		global $ilCtrl, $lng;
-		
-		$c_pos = 0;
-		$start = strpos($a_html, "{{{{{ContentInclude;");
-		if (is_int($start))
-		{
-			$end = strpos($a_html, "}}}}}", $start);
-		}
-		$i = 1;
-		while ($end > 0)
-		{
-			$param = substr($a_html, $start + 20, $end - $start - 20);
-			$param = explode(";", $param);
-
-			if ($param[0] == "mep" && is_numeric($param[1]))
-			{
-				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
-
-				$snippet_lang = $this->getLanguage();
-				if (!ilPageObject::_exists("mep", $param[1], $snippet_lang))
-				{
-					$snippet_lang = "-";
-				}
-				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilPageObject::_exists("mep", $param[1]))
-				{
-					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
-					if ($this->getOutputMode() != "offline")
-					{
-						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());
-						$page_gui->setFullscreenLink($this->determineFullscreenLink());
-						$page_gui->setSourceCodeDownloadScript($this->determineSourcecodeDownloadScript());
-					}
-					else
-					{
-						$page_gui->setOutputMode(IL_PAGE_OFFLINE);
-					}
-		
-					$html = $page_gui->getRawContent();
-				}
-				else
-				{
-					if ($this->getOutputMode() == "edit")
-					{
-						if ($param[2] <= 0)
-						{
-							$html = "// ".$lng->txt("cont_missing_snippet")." //";
-						}
-						else
-						{
-							$html = "// ".$lng->txt("cont_snippet_from_another_installation")." //";
-						}
-					}
-				}
-				$h2 = substr($a_html, 0, $start).
-					$html.
-					substr($a_html, $end + 5);
-				$a_html = $h2;
-				$i++;
-			}
-
-			$start = strpos($a_html, "{{{{{ContentInclude;", $start + 5);
-			$end = 0;
-			if (is_int($start))
-			{
-				$end = strpos($a_html, "}}}}}", $start);
-			}
-		}
-		return $a_html;
 	}
 
 	/**

@@ -25,6 +25,7 @@ class NoUIFactory implements Factory {
 	public function deck(array $cards) {}
 	public function listing() {}
 	public function image() {}
+	public function legacy($content) {}
 	public function panel() {}
 }
 
@@ -92,25 +93,5 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 
 	public function normalizeHTML($html) {
 		return trim(str_replace("\n", "", $html));
-	}
-
-	/**
-	 * @param string $expected_html_as_string
-	 * @param string $html_as_string
-	 */
-	public function assertHTMLEquals($expected_html_as_string,$html_as_string){
-		$html = new DOMDocument();
-		$html->formatOutput = true;
-		$html->preserveWhiteSpace = false;
-
-		$expected = new DOMDocument();
-		$expected->formatOutput = true;
-		$expected->preserveWhiteSpace = false;
-
-		$html->loadXML($this->normalizeHTML($html_as_string));
-		$expected->loadXML($this->normalizeHTML($expected_html_as_string));
-
-		$this->assertEquals($expected->saveHTML(), $html->saveHTML());
-
 	}
 }

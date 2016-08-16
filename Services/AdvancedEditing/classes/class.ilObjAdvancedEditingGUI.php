@@ -212,11 +212,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		if ($_POST["use_tiny"])
 		{
-			$this->object->_setRichTextEditor("tinymce");
+			$this->object->setRichTextEditor("tinymce");
 		}
 		else
 		{
-			$this->object->_setRichTextEditor("");
+			$this->object->setRichTextEditor("");
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
@@ -331,7 +331,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 				unset($_POST['html_tags'][0]);				
 			}
 			
-			$this->object->_setUsedHTMLTags((array)$_POST['html_tags'], $a_id);
+			$this->object->setUsedHTMLTags((array)$_POST['html_tags'], $a_id);
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 		}
 		catch(ilAdvancedEditingRequiredTagsException $e)

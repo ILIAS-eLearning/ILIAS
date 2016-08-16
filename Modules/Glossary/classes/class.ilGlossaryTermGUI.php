@@ -510,8 +510,8 @@ class ilGlossaryTermGUI
 	function confirmDefinitionDeletion()
 	{
 		global $ilTabs;
-		
-		$this->getTemplate();
+
+		//$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
@@ -600,8 +600,8 @@ class ilGlossaryTermGUI
 	function addDefinition()
 	{
 		global $ilTabs;
-		
-		$this->getTemplate();
+
+		//$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
@@ -647,16 +647,6 @@ class ilGlossaryTermGUI
 		$def->create();
 
 		$this->ctrl->redirect($this, "listDefinitions");
-	}
-
-
-	/**
-	* get template
-	*/
-	function getTemplate()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 
 	/**

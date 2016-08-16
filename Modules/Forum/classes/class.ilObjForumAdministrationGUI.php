@@ -6,7 +6,7 @@ require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 
 /**
  * Forum Administration Settings.
- * @author            Nadia Ahmad <nahmad@databay.de>
+ * @author            Nadia Matuschek <nmatuschek@databay.de>
  * @version           $Id:$
  * @ilCtrl_Calls      ilObjForumAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjForumAdministrationGUI: ilAdministrationGUI
@@ -119,6 +119,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$frma_set = new ilSetting('frma');
 		$frma_set->set('forum_overview', $form->getInput('forum_overview'));
 		$ilSetting->set('file_upload_allowed_fora',  (int)$form->getInput('file_upload_allowed_fora'));
+		$ilSetting->set('send_attachments_by_mail', (int)$form->getInput('send_attachments_by_mail'));
 		$ilSetting->set('enable_fora_statistics', (int)$form->getInput('fora_statistics'));
 		$ilSetting->set('enable_anonymous_fora', (int)$form->getInput('anonymous_fora'));
 
@@ -131,6 +132,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		ilCaptchaUtil::setActiveForForum((bool)$form->getInput('activate_captcha_anonym'));
 
+		$ilSetting->set('save_post_drafts', (int)$form->getInput('save_post_drafts'));
+		$ilSetting->set('autosave_drafts', (int)$form->getInput('autosave_drafts'));
+		$ilSetting->set('autosave_drafts_ival', (int)$form->getInput('autosave_drafts_ival'));
+		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$form->setValuesByPost();
 		$this->editSettings($form);
@@ -156,7 +161,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 			'anonymous_fora'           => (bool)$ilSetting->get('enable_anonymous_fora', false),
 			'forum_notification'       => (int)$ilSetting->get('forum_notification') === 1 ? true : false,
 			'activate_captcha_anonym'  => ilCaptchaUtil::isActiveForForum(),
-			'file_upload_allowed_fora' => (int)$ilSetting->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED)
+			'file_upload_allowed_fora' => (int)$ilSetting->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
+			'save_post_drafts'         => (int)$ilSetting->get('save_post_drafts', 0),
+			'autosave_drafts'          => (int)$ilSetting->get('autosave_drafts', 0),
+			'autosave_drafts_ival'     => (int)$ilSetting->get('autosave_drafts_ival', 30),
+			'send_attachments_by_mail' => (bool)$ilSetting->get('send_attachments_by_mail', false)
 		));
 	}
 
@@ -208,6 +217,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 			$form->addItem($notifications);
 		}
 
+		$check = new ilCheckboxInputGui($this->lng->txt('enable_send_attachments'), 'send_attachments_by_mail');
+		$check->setInfo($this->lng->txt('enable_send_attachments_desc'));
+		$check->setValue(1);
+		$form->addItem($check);
+
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
 		$cap->setInfo($this->lng->txt('adm_captcha_anonymous_frm'));
@@ -218,6 +232,24 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		}
 		$form->addItem($cap);
 
+		$drafts = new ilCheckboxInputGUI($this->lng->txt('adm_save_drafts'), 'save_post_drafts');
+		$drafts->setInfo($this->lng->txt('adm_save_drafts_desc'));
+		$drafts->setValue(1);
+
+		$autosave_drafts = new ilCheckboxInputGUI($this->lng->txt('adm_autosave_drafts'), 'autosave_drafts');
+		$autosave_drafts->setInfo($this->lng->txt('adm_autosave_drafts_desc'));
+		$autosave_drafts->setValue(1);
+
+		$autosave_interval = new ilNumberInputGUI($this->lng->txt('adm_autosave_ival'), 'autosave_drafts_ival');
+		$autosave_interval->allowDecimals(false);
+		$autosave_interval->setMinValue(30);
+		$autosave_interval->setMaxValue(60 * 60);
+		$autosave_interval->setSize(10);
+		$autosave_interval->setSuffix($this->lng->txt('seconds'));
+		$autosave_drafts->addSubItem($autosave_interval);
+		$drafts->addSubItem($autosave_drafts);
+		$form->addItem($drafts);
+		
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		$form->addCommandButton('editSettings', $this->lng->txt('cancel'));
 

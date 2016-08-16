@@ -1051,49 +1051,15 @@ class ilInitialisation
 	{
 		global $ilias, $ilUser;
 		
-		if(ilContext::usesHTTP())
-		{								
-			// allow login by submitting user data
-			// in query string when DEVMODE is enabled
-			if( DEVMODE
-				&& isset($_GET['username']) && strlen($_GET['username'])
-				&& isset($_GET['password']) && strlen($_GET['password'])
-			){
-				$_POST['username'] = $_GET['username'];
-				$_POST['password'] = $_GET['password'];
-			}										
-		}		
-
-		// $ilAuth 
-		/**
-		 * @todo php7 remove
-		 */
-//		include_once "./Services/Authentication/classes/class.ilAuthUtils.php";
-//		ilAuthUtils::_initAuth();
-//		$ilias->auth = $ilAuth;
-
 		// $ilUser 
-		self::initGlobal("ilUser", "ilObjUser", 
-			"./Services/User/classes/class.ilObjUser.php");
+		self::initGlobal(
+			"ilUser", 
+			"ilObjUser", 
+			"./Services/User/classes/class.ilObjUser.php"
+		);
 		$ilias->account = $ilUser;
 				
 		self::initAccessHandling();
-
-		
-		// force login
-		/**
-		 * @todo php7 remove
-		 */
-//		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login"))
-//		{			
-//			$ilAuth->logout();
-//			
-//			// we need to do this for the session statistics
-//			// could we use session_destroy() instead?
-//			// [this is done after every $ilAuth->logout() call elsewhere] 
-//			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
-//			$_SESSION = array();
-//		}
 	}
 	
 	/**

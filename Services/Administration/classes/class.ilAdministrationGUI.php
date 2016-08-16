@@ -37,6 +37,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI, ilObjLoggingSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBibliographicAdminGUI, ilObjBibliographicGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
@@ -445,7 +446,7 @@ class ilAdministrationGUI
 				"user_administration" =>
 					array("usrf", 'tos', "rolf", "auth", "ps", "orgu"),
 				"learning_outcomes" =>
-					array("skmg", "cert", "trac")
+					array("skmg", "cert", "trac", "bdga")
 				),
 			2 => array(
 				"user_services" =>

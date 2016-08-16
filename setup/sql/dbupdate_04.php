@@ -15988,3 +15988,505 @@ if ($ilDB->tableExists('copg_section_t_old'))
     $ilDB->dropTable('copg_section_t_old');
 }
 ?>
+<#4950>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('bdga', 'Badge Settings');
+
+?>
+<#4951>
+<?php
+
+if(!$ilDB->tableExists('badge_badge'))
+{
+	$ilDB->createTable('badge_badge', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),		
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'descr' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'conf' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_badge',array('id'));
+	$ilDB->createSequence('badge_badge');
+}
+
+?>
+<#4952>
+<?php
+
+if(!$ilDB->tableExists('badge_image_template'))
+{
+	$ilDB->createTable('badge_image_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),		
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'image' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_image_template',array('id'));
+	$ilDB->createSequence('badge_image_template');
+}
+
+?>
+<#4953>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','image')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'image',
+        array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#4954>
+<?php
+
+if(!$ilDB->tableExists('badge_image_templ_type'))
+{
+	$ilDB->createTable('badge_image_templ_type', array(
+		'tmpl_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => ""
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_image_templ_type',array('tmpl_id', 'type_id'));
+}
+
+?>
+<#4955>
+<?php
+
+if(!$ilDB->tableExists('badge_user_badge'))
+{
+	$ilDB->createTable('badge_user_badge', array(
+		'badge_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'awarded_by' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_user_badge',array('badge_id', 'user_id'));
+}
+
+?>
+<#4956>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','valid')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'valid',
+        array(            
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#4957>
+<?php
+
+if(!$ilDB->tableExists('object_data_del'))
+{
+	$ilDB->createTable('object_data_del', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),		
+	));	
+	$ilDB->addPrimaryKey('object_data_del',array('obj_id'));
+}
+
+?>
+<#4958>
+<?php
+
+if(!$ilDB->tableColumnExists('object_data_del','type')) 
+{
+    $ilDB->addTableColumn(
+        'object_data_del',
+        'type',
+        array(            
+			'type' => 'text',
+			'length' => 4,
+			'fixed' => true,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#4959>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','crit')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'crit',
+        array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		)
+	);
+}
+
+?>
+<#4960>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>
+<#4961>
+<?php
+
+if(!$ilDB->tableExists('ut_lp_defaults'))
+{
+	$ilDB->createTable('ut_lp_defaults', array(	
+		'type_id' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => ""
+		),
+		'lp_mode' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	));	
+	$ilDB->addPrimaryKey('ut_lp_defaults',array('type_id'));
+}
+
+?>
+<#4962>
+<?php
+
+$dubs_sql = "SELECT * FROM (".
+                    "SELECT tree, child ".
+                    "FROM bookmark_tree ".
+                    "GROUP BY tree, child ".
+                    "HAVING COUNT(*) > 1 ) ".
+                "duplicateBookmarkTree";
+
+$res  = $ilDB->query($dubs_sql);
+$dublicates = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+    $dublicates[] = $row;
+}
+
+if(count($dublicates))
+{
+    $ilSetting = new ilSetting();
+    $ilSetting->set('bookmark_tree_renumber', 1);
+
+    foreach($dublicates as $key => $row)
+    {
+        $res  = $ilDB->query("SELECT * FROM bookmark_tree WHERE tree = " . $ilDB->quote($row["tree"], "integer") .
+			" AND child = ". $ilDB->quote( $row["child"],"integer"));
+
+		$first = $ilDB->fetchAssoc($res);
+
+        $ilDB->manipulate("DELETE FROM bookmark_tree WHERE tree = " . $ilDB->quote($row["tree"], "integer") .
+			" AND child = ". $ilDB->quote( $row["child"],"integer"));
+
+        $ilDB->query('INSERT INTO bookmark_tree (tree, child, parent, lft, rgt, depth) VALUES ('
+        				. $ilDB->quote($first['tree'], 'integer') . ', '
+        				. $ilDB->quote($first['child'], 'integer') . ', '
+        				. $ilDB->quote($first['parent'], 'integer') . ', '
+        				. $ilDB->quote($first['lft'], 'integer') . ', '
+        				. $ilDB->quote($first['rgt'], 'integer') . ', '
+                        . $ilDB->quote($first['depth'], 'integer') . ')'
+        			);
+    }
+}
+
+?>
+<#4963>
+<?php
+$ilSetting = new ilSetting();
+if($ilSetting->get('bookmark_tree_renumber', "0") == "1")
+{
+    include_once('./Services/Migration/DBUpdate_4963/classes/class.ilDBUpdate4963.php');
+	ilDBUpdate4963::renumberBookmarkTree();
+    $ilSetting->delete('bookmark_tree_renumber');
+}
+
+?>
+<#4964>
+<?php
+$manager = $ilDB->loadModule('Manager');
+
+if(!$manager)
+{
+	$manager = $ilDB->db->loadModule('Manager');
+}
+
+$const = $manager->listTableConstraints("bookmark_tree");
+if(!in_array("primary", $const))
+{
+    $ilDB->addPrimaryKey('bookmark_tree', array('tree', 'child'));
+}
+
+?>
+<#4965>
+<?php
+if(!$ilDB->tableExists('frm_posts_drafts'))
+{
+	$fields = array(
+		'draft_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'thread_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'forum_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_author_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_subject' => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => true
+		),
+		'post_message' => array(
+			'type'    => 'clob',
+			'notnull' => true
+		),
+		'post_notify' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_date' => array(
+			'type'    => 'timestamp',
+			'notnull' => true
+		),
+		'post_update' => array(
+			'type'    => 'timestamp',
+			'notnull' => true
+		),
+		'update_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_user_alias' => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false
+		),
+		'pos_display_usr_id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'notify' => array(
+			'type'	=> 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	    
+	);
+
+	$ilDB->createTable('frm_posts_drafts', $fields);
+	$ilDB->addPrimaryKey('frm_posts_drafts', array('draft_id'));
+	$ilDB->createSequence('frm_posts_drafts');
+}
+?>
+<#4966>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_drafts', array('post_id')))
+{
+	$ilDB->addIndex('frm_posts_drafts', array('post_id'), 'i1');
+}
+?>
+<#4967>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_drafts', array('thread_id')))
+{
+	$ilDB->addIndex('frm_posts_drafts', array('thread_id'), 'i2');
+}
+?>
+<#4968>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_drafts', array('forum_id')))
+{
+	$ilDB->addIndex('frm_posts_drafts', array('forum_id'), 'i3');
+}
+?>
+<#4969>
+<?php
+if(!$ilDB->tableExists('frm_drafts_history'))
+{
+	$fields = array(
+		'history_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'draft_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'post_subject' => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => true
+		),
+		'post_message' => array(
+			'type'    => 'clob',
+			'notnull' => true
+		),
+		'draft_date' => array(
+			'type'    => 'timestamp',	
+			'notnull' => true
+			)	
+	);
+	
+	$ilDB->createTable('frm_drafts_history', $fields);
+	$ilDB->addPrimaryKey('frm_drafts_history', array('history_id'));
+	$ilDB->createSequence('frm_drafts_history');
+}
+?>
+<#4970>
+<?php
+ if(!$ilDB->indexExistsByFields('frm_drafts_history', array('draft_id')))
+ {
+	 $ilDB->addIndex('frm_drafts_history', array('draft_id'),'i1');
+ }
+?>
+<#4971>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+

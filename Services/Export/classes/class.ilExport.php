@@ -322,10 +322,6 @@ class ilExport
 			$v = explode(".", ILIAS_VERSION_NUMERIC);
 			$a_target_release = $v[0].".".$v[1].".0";
 		}
-				
-		$comp = $objDefinition->getComponentForType($a_type);
-		$c = explode("/", $comp);
-		$class = "il".$c[1]."Exporter";
 		
 		// manifest writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
@@ -353,6 +349,10 @@ class ilExport
 		ilUtil::makeDirParents($this->export_run_dir);
 
 		$this->cnt = array();
+				
+		include_once './Services/Export/classes/class.ilImportExportFactory.php';
+		$class = ilImportExportFactory::getExporterClass($a_type);
+		$comp = ilImportExportFactory::getComponentForExport($a_type);		
 		
 		$success = $this->processExporter($comp, $class, $a_type, $a_target_release, $a_id);
 
@@ -476,14 +476,17 @@ class ilExport
 		}
 
 		// get exporter object
-		$export_class_file = "./".$a_comp."/classes/class.".$a_class.".php";
-//echo "1-".$export_class_file."-"; exit;
-		if (!is_file($export_class_file))
+		if(!class_exists($a_class))
 		{
-			include_once("./Services/Export/exceptions/class.ilExportException.php");
-			throw new ilExportException('Export class file "'.$export_class_file.'" not found.');
+			$export_class_file = "./".$a_comp."/classes/class.".$a_class.".php";
+			if (!is_file($export_class_file))
+			{
+				include_once("./Services/Export/exceptions/class.ilExportException.php");
+				throw new ilExportException('Export class file "'.$export_class_file.'" not found.');
+			}
+			include_once($export_class_file);
 		}
-		include_once($export_class_file);
+		
 		$exp = new $a_class();
 		$exp->setExport($this);
 		if (!isset($this->cnt[$a_comp]))
@@ -498,8 +501,6 @@ class ilExport
 		$set_dir_absolute = $this->export_run_dir."/".$set_dir_relative;
 		ilUtil::makeDirParents($set_dir_absolute);
 		$exp->init();
-
-		$sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
 
 		// process head dependencies
 		$sequence = $exp->getXmlExportHeadDependencies($a_entity, $a_target_release, $a_id);
@@ -518,6 +519,8 @@ class ilExport
 		// write export.xml file
 		$export_writer = new ilXmlWriter();
 		$export_writer->xmlHeader();
+
+		$sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
 
 		$attribs = array("InstallationId" => IL_INST_ID,
 			"InstallationUrl" => ILIAS_HTTP_PATH,

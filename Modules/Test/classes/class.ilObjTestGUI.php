@@ -1016,18 +1016,6 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$a_new_object->saveToDb();
 
-		global $ilUser;
-
-		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news_item = new ilNewsItem();
-		$news_item->setContext($a_new_object->getId(), 'tst');
-		$news_item->setPriority(NEWS_NOTICE);
-		$news_item->setContent($a_new_object->getTitle());
-		$news_item->setTitle($this->lng->txt('new_test'));
-		$news_item->setUserId($ilUser->getId());
-		$news_item->setVisibility(NEWS_USERS);
-		$news_item->create();
-
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 		$this->ctrl->setParameter($this, 'ref_id', $a_new_object->getRefId());

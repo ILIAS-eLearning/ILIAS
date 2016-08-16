@@ -202,30 +202,38 @@ class ilRbacAdmin
 	public function assignUserLimited($a_role_id, $a_usr_id, $a_limit, $a_limited_roles = array())
 	{
 		global $ilDB;
-		
-		$GLOBALS['ilDB']->lockTables(
-				array(
-					0 => array('name' => 'rbac_ua', 'type' => ilDBConstants::LOCK_WRITE)
-				)
-		);
-		
-		$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
-				'WHERE '.$GLOBALS['ilDB']->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
-		$res = $GLOBALS['ilDB']->query($limit_query);
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		if($row->num >= $a_limit)
+
+		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('rbac_ua');
+
+		$ilAtomQuery->addQueryCallable(
+			function(ilDBInterface $ilDB) use(&$ret, $a_role_id, $a_usr_id,$a_limit, $a_limited_roles)
 		{
-			$GLOBALS['ilDB']->unlockTables();
-			return FALSE;
-		}
-		
-		$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
-			"VALUES (".
+			$ret = true;
+			$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
+				'WHERE '.$ilDB->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
+			$res = $ilDB->query($limit_query);
+			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+			if($row->num >= $a_limit)
+			{
+				$ret = false;
+				return;
+			}
+
+			$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
+				"VALUES (".
 				$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_role_id,'integer').
-			")";
+				")";
 			$res = $ilDB->manipulate($query);
-		
-		$GLOBALS['ilDB']->unlockTables();
+		});
+
+		$ilAtomQuery->run();
+
+		if(!$ret)
+		{
+			return false;
+		}
+
 		$GLOBALS['rbacreview']->setAssignedCacheEntry($a_role_id,$a_usr_id,TRUE);
 		
 		$this->addDesktopItem($a_role_id,$a_usr_id);

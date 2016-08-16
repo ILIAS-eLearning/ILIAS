@@ -466,7 +466,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var bool $online
 	 */
 	private $online = null;
-
+	
+	protected $oldOnlineStatus = null;
+	
 	/**
 	 * @var bool
 	 */
@@ -1517,6 +1519,36 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				}
 			}
 		}
+		
+		// news item creation/update/deletion
+		include_once 'Services/News/classes/class.ilNewsItem.php';
+		if( !$this->getOldOnlineStatus() && $this->isOnline() )
+		{
+			global $ilUser;
+			$newsItem = new ilNewsItem();
+			$newsItem->setContext($this->getId(), 'tst');
+			$newsItem->setPriority(NEWS_NOTICE);
+			$newsItem->setTitle($this->lng->txt('new_test_online'));
+			$newsItem->setContent('');
+			$newsItem->setUserId($ilUser->getId());
+			$newsItem->setVisibility(NEWS_USERS);
+			$newsItem->create();
+		}
+		elseif( $this->getOldOnlineStatus() && !$this->isOnline() )
+		{
+			ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
+		}
+		elseif( $this->isOnline() )
+		{
+			$newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
+			if($newsId > 0)
+			{
+				$newsItem = new ilNewsItem($newsId);
+				$newsItem->setTitle($this->lng->txt('new_test_online'));
+				$newsItem->setContent('');
+				$newsItem->update();
+			}
+		}
 				
 		// moved activation to ilObjectActivation
 		if($this->ref_id)
@@ -1904,6 +1936,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setHighscoreTopTable((bool) $data->highscore_top_table);
 			$this->setHighscoreTopNum((int) $data->highscore_top_num);
 			$this->setOnline((bool) $data->online_status);
+			$this->setOldOnlineStatus((bool) $data->online_status);
 			$this->setSpecificAnswerFeedback((int) $data->specific_feedback);
 			$this->setAutosave((bool)$data->autosave);
 			$this->setAutosaveIval((int)$data->autosave_ival);
@@ -10886,6 +10919,22 @@ function getAnswerFeedbackPoints()
 	public function setOnline($a_online = true)
 	{
 		$this->online = (bool)$a_online;
+	}
+	
+	/**
+	 * @return null
+	 */
+	public function getOldOnlineStatus()
+	{
+		return $this->oldOnlineStatus;
+	}
+	
+	/**
+	 * @param null $oldOnlineStatus
+	 */
+	public function setOldOnlineStatus($oldOnlineStatus)
+	{
+		$this->oldOnlineStatus = $oldOnlineStatus;
 	}
 	
 	public function setPrintBestSolutionWithResult($status)

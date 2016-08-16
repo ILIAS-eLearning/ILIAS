@@ -14,6 +14,35 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
+forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
+forum#:#restore#:#Wiederherstellen
+forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
+forum#:#autosave_draft_info#:#<span class="asterisk">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>
+forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>
+forum#:#publishThreadDrafts#:#Themenentwurf veröffentlichen
+forum#:#deleteThreadDrafts#:#Themenentwurf löschen
+forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
+common#:#pd_enable_pdfrmpostdraft#:#'Meine Beitragsentwürfe' aktivieren
+common#:#pd_enable_pdfrmpostdraft_info#:#Sofern aktiviert, wird auf dem Persönlichen Schreibtisch ein Block 'Meine Beitragsentwürfe' angezeigt, in welchem die Beitragsentwürfe des Benutzers in Foren aufgelistet werden.
+pd#:#block_show_pdfrmpostdraft#:#'Meine Beitragsentwürfe' anzeigen
+forum#:#forums_thread_drafts_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht.
+forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht.
+forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert. 
+forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
+forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
+forum#:#forums_edit_draft#:#Entwurf bearbeiten
+forum#:#publish#:#Veröffentlichen
+forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
+forum#:#frm_posting_draft#:#Entwurf
+forum#:#frm_posting_drafts#:#Entwürfe
+forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
+forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
+forum#:#adm_save_drafts#:#Entwürfe speichern   
+forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beiträge in Foren als Entwurf speichern 
+forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern   
+forum#:#adm_autosave_ival#:#Speicherintervall
+forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -1245,6 +1274,7 @@ assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse v
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_side_list#:#Fragenliste aus
+assessment#:#new_test_online#:#Der Test wurde online geschaltet.
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -15799,3 +15829,77 @@ rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
 rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
 rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
 rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+common#:#obj_bdga#:#Badges
+common#:#obj_bdga_desc#:#Verwaltung der Typen, Bildvorlagen und Activity Badges
+rbac#:#bdga_visible#:#Badge-Verwaltung ist sichtbar
+rbac#:#bdga_read#:#Badge-Verwaltung lesen
+rbac#:#bdga_write#:#Badge-Verwaltung bearbeiten
+rbac#:#bdga_edit_permission#:#Rechteeinstellungen ändern
+badge#:#badge_settings#:#Badge Einstellungen
+badge#:#badge_service_activate#:#Service aktivieren
+badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
+badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
+badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_organisation#:#Organisation
+badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_contact#:#Kontakt-Email
+badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_salt#:#Salt
+badge#:#badge_obi_salt_info#:#
+badge#:#badge_types#:#Typen
+badge#:#badge_image_templates#:#Bildvorlagen
+badge#:#badge_activity_badges#:#Activity Badges
+badge#:#badge_crs_merit#:#Verdienst
+badge#:#badge_manual#:#Manuelle Vergabe
+badge#:#badge_user_profile#:#Benutzerprofil
+badge#:#badge_badge#:#Badge
+obj#:#obj_tool_setting_badges#:#Badges
+obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
+badge#:#badge_add_template#:#Template hinzufügen
+badge#:#badge_image_template_form#:#Bildvorlage
+badge#:#badge_image_from_upload#:#Bild hochlanden
+badge#:#badge_image_from_template#:#Vorlage nutzen
+badge#:#badge_award_badge#:#Badge verleihen
+badge#:#badge_remove_badge#:#Badge entziehen
+badge#:#badge_template_deletion_confirmation#:#Wollen Sie wirklich die folgenden Bildvorlagen löschen?
+badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
+badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
+badge#:#badge_template_types#:#Gültige Typen
+badge#:#badge_template_types_all#:#Alle
+badge#:#badge_template_types_specific#:#Bestimmte
+badge#:#badge_valid#:#Gültig bis
+badge#:#badge_object_badges#:#Objekt-Badges
+badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
+badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
+badge#:#badge_backpack_list#:#Mein Backpack
+badge#:#badge_personal_badges#:#Meine Badges
+badge#:#badge_issued_on#:#Erhalten am
+badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
+badge#:#badge_add_to_backpack_multi#:#Versuche %s zum Backpack hinzuzufügen
+badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
+badge#:#badge_notification_subject#:#Badge erhalten
+badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
+badge#:#badge_notification_osd#:#Sie haben gerade neue Badges erhalten: [BADGE_LIST]
+badge#:#badge_notification_badges#:#Neue Badges
+badge#:#badge_notification_badges_goto#:#Zu den Badges
+badge#:#badge_notification_parent_goto#:#Zum Repository
+badge#:#badge_notification_reason#:#Sie erhalten diese Nachricht, um die neuen Badges in Ihr Profil einbinden zu können.
+badge#:#badge_in_profile#:#Im Profil
+badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
+badge#:#badge_remove_from_profile#:#Aus Profil entfernen
+badge#:#badge_criteria#:#Kriterien
+badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
+badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Keine neuen Badges können erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
+badge#:#badge_course_lp#:#Course LP
+badge#:#badge_profile_more#:#Alle zeigen
+badge#:#badge_profile_less#:#Weniger zeigen
+badge#:#badge_backpack_gallery_info#:#Dies sind deine veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_profile_view#:#Anzeigen
+badge#:#badge_profile_manage#:#Verwalten
+badge#:#badge_subtype_manual#:#manuell
+badge#:#badge_subtype_auto#:#automatisch
+badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
+trac#:#trac_defaults#:#Bestanden-Status
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_inactive#:#Inaktiv
+copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.

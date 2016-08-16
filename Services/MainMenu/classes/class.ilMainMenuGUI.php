@@ -681,6 +681,17 @@ class ilMainMenuGUI
 				$gl->addSeparator();
 			}
 			
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+				
+				$gl->addSeparator();
+			}
+			
 			// profile
 			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),

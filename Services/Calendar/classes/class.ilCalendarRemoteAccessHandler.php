@@ -129,9 +129,6 @@ class ilCalendarRemoteAccessHandler
 		include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CALENDAR_TOKEN);
 		
-		$_POST['username'] = 'cal_auth_token';
-		$_POST['password'] = 'cal_auth_token';
-		
 		require_once("Services/Init/classes/class.ilInitialisation.php");
 		ilInitialisation::initILIAS();
 		
