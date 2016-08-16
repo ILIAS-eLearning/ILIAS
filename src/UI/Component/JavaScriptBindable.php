@@ -18,6 +18,13 @@ interface JavaScriptBindable {
 	 * id may change between different requests or on different pages. The id can not be
 	 * known when the component is created and will be generated at rendering time.
 	 *
+	 * This binding to an id can not be achieved via an getId-method. The id of an HTML
+	 * element can not be known at creation time of the component, since we don't know how
+	 * often a component will be rendered there. Thus, a truely unique id can only be
+	 * created at rendering time. To still give full flexibility to the user of a component,
+	 * we use a closure to create the binding code. A strictly less powerfull alternative
+	 * would have been to pass some string with a known placeholder for the id.
+	 *
 	 * ATTENTION: This is the method of choice to bind JS to UI-components at this point in
 	 * the development of the UI-Framework. It most probably will be replaced by a more
 	 * powerful abstraction.
