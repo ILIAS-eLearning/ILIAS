@@ -28,53 +28,76 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	const TAB_MEMBERS = 'members';
 	const TAB_LP = 'learning_progress';
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
+
 		global $DIC;
 		$this->type = 'mass';
 		$this->tpl = $DIC['tpl'];
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->usr = $DIC['ilUser'];
+		$this->ilias = $DIC['ilias'];
+		$this->lng = $DIC['lng'];
 		$this->tpl->getStandardTemplate();
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
 	function executeCommand() {
-		global $ilUser,$ilCtrl, $ilTabs, $lng;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-		
+		$access_control = $this->object->accessHandler();
 		switch($next_class) {
 			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
-				$ilPermissionGUI = new ilPermissionGUI($this);
-				$this->ctrl->forwardCommand($ilPermissionGUI);
+				if($access_control->checkAccessToObj($this->object,'edit_permission')) {
+					$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
+					$ilPermissionGUI = new ilPermissionGUI($this);
+					$this->ctrl->forwardCommand($ilPermissionGUI);
+				} else {
+					$this->handleAccessViolation();
+				}
 				break;
 			case "ilmanualassessmentsettingsgui":
-				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
-				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentSettingsGUI.php");
-				$gui = new ilManualAssessmentSettingsGUI($this, $this->ref_id);
-				$this->ctrl->forwardCommand($gui);
+				if($access_control->checkAccessToObj($this->object,'write')) {
+					$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+					require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentSettingsGUI.php");
+					$gui = new ilManualAssessmentSettingsGUI($this, $this->ref_id);
+					$this->ctrl->forwardCommand($gui);
+				} else {
+					$this->handleAccessViolation();
+				}
 				break;
 			case "ilmanualassessmentmembersgui":
-				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php");
-				$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
-				$this->ctrl->forwardCommand($gui);
+				if($access_control->checkAccessToObj($this->object,'edit_members')) {
+					$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+					require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php");
+					$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
+					$this->ctrl->forwardCommand($gui);
+				} else {
+					$this->handleAccessViolation();
+				}
 				break;
 			case "ilinfoscreengui":
-				$this->tabs_gui->setTabActive(self::TAB_INFO);
-				$info = new ilInfoScreenGUI($this);
-				$this->fillInfoScreen($info);
-				$this->ctrl->forwardCommand($info);
+				if($access_control->checkAccessToObj($this->object,'view')) {
+					$this->tabs_gui->setTabActive(self::TAB_INFO);
+					$info = new ilInfoScreenGUI($this);
+					$this->fillInfoScreen($info);
+					$this->ctrl->forwardCommand($info);
+				} else {
+					$this->handleAccessViolation();
+				}
 				break;
 			case "illearningprogressgui":
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$this->tabs_gui->setTabActive(self::TAB_LP);
-				$new_gui = new ilLearningProgressGUI(3,
-													  $this->object->getRefId(),
-													  $this->usr->getId());
-				$this->ctrl->forwardCommand($new_gui);
+				if($access_control->checkAccessToObj($this->object,'read_grades') ||
+					$access_control->checkAccessToObj($this->object,'edit_grades')||
+					$this->object->membersStorage()->userAllreadyMember($this->usr)) {
+					include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+					$this->tabs_gui->setTabActive(self::TAB_LP);
+					$new_gui = new ilLearningProgressGUI(3,
+														  $this->object->getRefId(),
+														  $this->usr->getId());
+					$this->ctrl->forwardCommand($new_gui);
+				} else {
+					$this->handleAccessViolation();	
+				}
 				break;
 			default:						
 				if(!$cmd) {
@@ -114,7 +137,6 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 								, array('illplistofprogressgui')
 								, $this->lng->txt("LP"));
 		parent::getTabs();
-	//	$this->tabs_gui->clearTargets();
 	}
 
 
@@ -136,5 +158,10 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 
 	public function getBaseEditForm() {
 		return $this->initEditForm();
+	}
+
+	public function handleAccessViolation() {
+		global $DIC;
+		$DIC['ilias']->raiseError($DIC['lng']->txt("msg_no_perm_read"), $DIC['ilias']->error_obj->WARNING);
 	}
 }
