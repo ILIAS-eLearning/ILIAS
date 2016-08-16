@@ -16,13 +16,13 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 	}
 
 	public function checkAccessOfUserToObj(ilObjUser $usr, ilObjManualAssessment $mass, $operation) {
-		return $this->handler->checkAccessOfUser($usr->getId(), $operation, '',  $mass->getRefId(), 'mass');
+		return $this->handler->checkAccessOfUser($usr->getId(), $operation, '', $mass->getRefId(), 'mass');
 	}
 
 	public function initDefaultRolesForObject(ilObjManualAssessment $mass) {
 		$role = ilObjRole::createDefaultRole(
 				$this->getRoleTitleByObj($mass),
-				"Admin of crs obj_no.".$mass->getId(),
+				"Admin of mass obj_no.".$mass->getId(),
 				self::DEAFULT_ROLE,
 				$mass->getRefId()
 		);
