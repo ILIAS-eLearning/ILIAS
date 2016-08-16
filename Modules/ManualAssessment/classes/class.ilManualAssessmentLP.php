@@ -5,9 +5,7 @@
 require_once("./Services/Object/classes/class.ilObjectLP.php");
 
 class ilManualAssessmentLP extends ilObjectLP {
-	/**
-	 * @var ilObjStudyProgramme|null
-	 */
+ 
 	protected $members_ids = null;
 	
 	public function getDefaultMode() {
