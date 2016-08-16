@@ -1585,7 +1585,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
-	 * @deprecated
 	 * @return ilCourseParticipants
 	 */
 	public function getMembersObject()
@@ -1807,7 +1806,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	
-	function getDefaultMemberRole()
+	public function getDefaultMemberRole()
 	{
 		$local_roles = $this->__getLocalRoles();
 
@@ -1821,7 +1820,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		return 0;
 	}
-	function getDefaultTutorRole()
+	public function getDefaultTutorRole()
 	{
 		$local_roles = $this->__getLocalRoles();
 
@@ -1837,7 +1836,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		return false;
 	}
-	function getDefaultAdminRole()
+	public function getDefaultAdminRole()
 	{
 		$local_roles = $this->__getLocalRoles();
 

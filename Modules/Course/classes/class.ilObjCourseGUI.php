@@ -12,7 +12,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  *
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilConditionHandlerGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
@@ -2693,79 +2693,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 	
-	/**
-	 * callback from repository search gui
-	 * @global ilRbacSystem $rbacsystem
-	 * @param int $a_type role_id
-	 * @param array $a_usr_ids
-	 * @return bool
-	 */
-	public function assignMembersObject(array $a_usr_ids,$a_type)
-	{
-		global $rbacsystem;
-
-		$this->checkPermission('write');
-		if(!count($a_usr_ids))
-		{
-			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
-			return false;
-		}
-
-		$added_users = 0;
-		foreach($a_usr_ids as $user_id)
-		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
-			{
-				continue;
-			}
-			if($this->object->getMembersObject()->isAssigned($user_id))
-			{
-				continue;
-			}
-			switch($a_type)
-			{
-				case $this->object->getDefaultMemberRole():
-					$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
-					break;
-				case $this->object->getDefaultTutorRole():
-					$this->object->getMembersObject()->add($user_id,IL_CRS_TUTOR);
-					break;
-				case $this->object->getDefaultAdminRole():
-					$this->object->getMembersObject()->add($user_id,IL_CRS_ADMIN);
-					break;
-				default:
-					if(in_array($a_type,$this->object->getLocalCourseRoles(true)))
-					{
-						$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
-						$this->object->getMembersObject()->updateRoleAssignments($user_id,(array)$a_type);
-					}
-					else
-					{
-						$GLOBALS['ilLog']->write(__METHOD__.': Can\'t find role with role id "' . $a_type . '" to assign users to.');
-						ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"),true);
-						return false;
-					}
-					break;
-			}
-			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
-
-			$this->object->checkLPStatusSync($user_id);
-
-			++$added_users;
-		}
-		if($added_users)
-		{
-			ilUtil::sendSuccess($this->lng->txt("crs_users_added"),true);
-			unset($_SESSION["crs_search_str"]);
-			unset($_SESSION["crs_search_for"]);
-			unset($_SESSION['crs_usr_search_result']);
-
-			$this->checkLicenses(true);
-			$this->ctrl->redirect($this,'members');
-		}
-		ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"),true);
-		return false;
-	}
 
 	public function assignFromWaitingListObject()
 	{
@@ -3819,41 +3746,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			case 'ilrepositorysearchgui':
-				
-				if(!$this->checkPermissionBool('write'))
-				{
-					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
-				}
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search = new ilRepositorySearchGUI();
-				if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
-				{
-					$rep_search->setCallback($this,
-						'assignMembersObject',
-						$this->getLocalRoles()
-						);
-				}
-				else
-				{
-					//#18445 excludes admin role
-					$rep_search->setCallback($this,
-						'assignMembersObject',
-					    $this->getLocalRoles(array($this->object->getDefaultAdminRole()))
-						);
-					
-				}
-				
-
-				$this->checkLicenses();
-						
-				// Set tabs
-				$this->ctrl->setReturn($this,'members');
-				$ret =& $this->ctrl->forwardCommand($rep_search);
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('crs_member_administration');
-				break;
 
 			case 'ilcoursecontentinterface':
 

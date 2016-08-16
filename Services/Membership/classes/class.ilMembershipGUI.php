@@ -36,6 +36,10 @@ class ilMembershipGUI
 	protected $logger = null;
 	
 	/**
+	 * var ilParticipants
+	 */
+	
+	/**
 	 * Constructor
 	 * @param ilObject $repository_obj
 	 */
@@ -69,6 +73,20 @@ class ilMembershipGUI
 	public function getParentObject()
 	{
 		return $this->repository_object;
+	}
+	
+	/**
+	 * Get member object
+	 * @return ilParticipants
+	 */
+	public function getMembersObject()
+	{
+		if($this->participants instanceof ilParticipants)
+		{
+			return $this->participants;
+		}
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		return $this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
 	}
 	
 	/**
@@ -109,7 +127,7 @@ class ilMembershipGUI
 					//#18445 excludes admin role
 					$rep_search->setCallback(
 						$this,
-						'assignMembersObject',
+						'assignMembers',
 					    $this->getLocalRoles(array($this->getParentObject()->getDefaultAdminRole()))
 					);
 				}
