@@ -97,6 +97,7 @@ class ilWebAccessChecker {
 			if ($ilWACSignedPath->isSignedPathValid()) {
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using token');
+				$this->sendHeader('checked using token');
 
 				return true;
 			}
@@ -111,6 +112,7 @@ class ilWebAccessChecker {
 				}
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using secure folder');
+				$this->sendHeader('checked using secure folder');
 
 				return true;
 			}
@@ -127,7 +129,8 @@ class ilWebAccessChecker {
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
 				ilWACLog::getInstance()->write('checked using fallback');
-				if ($this->isRevalidateFolderTokens()) {
+				$this->sendHeader('checked using fallback');
+				if ($ilWACSignedPath->isFolderSigned()&& $this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
 
@@ -181,6 +184,7 @@ class ilWebAccessChecker {
 			}
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
 				$_REQUEST["baseClass"] = "ilStartUpGUI";
+				// @todo authentication: fix request show login
 				$_REQUEST["cmd"] = "showLogin";
 
 				$_POST['username'] = 'anonymous';
@@ -393,5 +397,13 @@ class ilWebAccessChecker {
 	 */
 	protected function addAppliedCheckingMethod($method) {
 		$this->applied_checking_methods[] = $method;
+	}
+
+
+	/**
+	 * @param $message
+	 */
+	protected function sendHeader($message) {
+		header('X-ILIAS-WebAccessChecker: ' . $message);
 	}
 }
