@@ -82,7 +82,7 @@ class ilWACToken {
 	}
 
 
-	protected function generateToken() {
+	public function generateToken() {
 		$this->initSalt();
 		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTTL() ));
 		$token = self::isDEBUG() ? $token : sha1($token);
@@ -130,14 +130,6 @@ class ilWACToken {
 		}
 	}
 
-	//	/**
-	//	 * @param $path
-	//	 *
-	//	 * @return ilWACToken
-	//	 */
-	//	public static function getInstance($path) {
-	//		return new self($path);
-	//	}
 
 	/**
 	 * @return string
