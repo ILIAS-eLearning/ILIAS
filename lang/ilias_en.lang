@@ -3956,7 +3956,6 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passed#:#Passed
-common#:#passwd_generation_info#:#If enabled, a user can select a password only from a list of automatically generated passwords.
 common#:#passwd_generation#:#Password Generation
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#List of Passwords
@@ -14453,8 +14452,7 @@ obj#:#obj_tool_setting_tag_cloud_info#:#The ‘Tag Cloud’ block will be displa
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 tagging#:#tagging_other_users#:#Tags of Other Users
 common#:#autocomplete_more#:#more
-user#:#passwd_generation_pre#:#Pre-defined Passwords
-mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). 
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)

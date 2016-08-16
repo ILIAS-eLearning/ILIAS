@@ -545,19 +545,8 @@ class ilPersonalSettingsGUI
 			$ipass->setRequired(true);
 			$ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
 
-			if ($ilSetting->get("passwd_auto_generate") == 1)	// auto generation list
-			{
-				$ipass->setPreSelection(true);
-				
-				$this->form->addItem($ipass);
-				$this->form->addCommandButton("savePassword", $lng->txt("save"));
-				$this->form->addCommandButton("showPassword", $lng->txt("new_list_password"));
-			}
-			else  								// user enters password
-			{
-				$this->form->addItem($ipass);
-				$this->form->addCommandButton("savePassword", $lng->txt("save"));
-			}
+			$this->form->addItem($ipass);
+			$this->form->addCommandButton("savePassword", $lng->txt("save"));
 			
 			switch ($ilUser->getAuthMode(true))
 			{
@@ -650,17 +639,7 @@ class ilPersonalSettingsGUI
 				}
 			}
 
-			// select password from auto generated passwords
-			if ($this->ilias->getSetting("passwd_auto_generate") == 1 &&
-				(!ilUtil::isPassword($_POST["new_password"])))
-			{
-				$error = true;
-				$np->setAlert($this->lng->txt("passwd_not_selected"));
-			}
-				
-	
-			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				!ilUtil::isPassword($_POST["new_password"],$custom_error))
+			if(!ilUtil::isPassword($_POST["new_password"],$custom_error))
 			{
 				$error = true;
 				if ($custom_error != '')
@@ -673,18 +652,15 @@ class ilPersonalSettingsGUI
 				}
 			}
 			$error_lng_var = '';
-			if(
-				$this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var)
-			)
+			if(!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var))
 			{
 				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 				$np->setAlert($this->lng->txt($error_lng_var));
 				$error = true;
 			}
-			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				($ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded()) &&
-				($_POST["current_password"] == $_POST["new_password"]))
+			if(
+				$ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded() &&
+				$_POST["current_password"] == $_POST["new_password"])
 			{
 				$error = true;
 				$np->setAlert($this->lng->txt("new_pass_equals_old_pass"));
