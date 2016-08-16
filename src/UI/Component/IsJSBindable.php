@@ -6,7 +6,7 @@ namespace ILIAS\UI\Component;
  * Interface to be extended by components that have the possibility to bind
  * to Javascript.
  */
-interface IsJSBindable {
+interface JSBindable {
 	/**
  	 * Add some JS-code that binds to the given component on load.
 	 *
