@@ -110,7 +110,7 @@ class ilMembershipGUI
 				include_once './Services/Membership/classes/class.ilParticipants.php';
 				$rep_search = new ilRepositorySearchGUI();
 
-				$participants = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+				$participants = $this->getMembersObject();
 				if(
 					$participants->isAdmin($GLOBALS['ilUser']->getId()) ||
 					$ilAccess->checkAccess('write','', $this->getParentObject()->getRefId())

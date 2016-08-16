@@ -964,7 +964,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	* returns object id of created default member role
 	* @access	public
 	*/
-	function getDefaultMemberRole()
+	public function getDefaultMemberRole()
 	{
 		$local_group_Roles = $this->getLocalGroupRoles();
 
@@ -975,7 +975,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	* returns object id of created default adminstrator role
 	* @access	public
 	*/
-	function getDefaultAdminRole()
+	public function getDefaultAdminRole()
 	{
 		$local_group_Roles = $this->getLocalGroupRoles();
 

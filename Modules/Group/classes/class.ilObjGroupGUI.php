@@ -14,7 +14,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI
@@ -102,27 +102,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				break;
-
-			case 'ilrepositorysearchgui':
-
-				if(!$this->checkPermissionBool('write'))
-				{
-					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
-				}
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->setCallback($this,
-					'addUserObject',
-					$this->getLocalRoles()
-					);
-
-				// Set tabs
-				$this->tabs_gui->setTabActive('members');
-				$this->ctrl->setReturn($this,'members');
-				$ret =& $this->ctrl->forwardCommand($rep_search);
-				$this->setSubTabs('members');
-				$this->tabs_gui->setSubTabActive('members');
 				break;
 
 			case "ilinfoscreengui":
@@ -1715,61 +1694,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->ctrl->redirect($this,'members');
 	}
 
-	/**
-	* displays confirmation formular with users that shall be assigned to group
-	* @access public
-	*/
-	public function addUserObject($user_ids, $a_type)
-	{
-		if (empty($user_ids[0]))
-		{
-			$GLOBALS['lng']->loadLanguageModule('search');
-			ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'),true);
-			return false;
-		}
-
-		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
-		$assigned = FALSE;
-		foreach((array) $user_ids as $new_member)
-		{
-			if($part->isAssigned($new_member))
-			{
-				continue;
-			}
-			switch($a_type)
-			{
-				case $this->object->getDefaultAdminRole():
-					$part->add($new_member, IL_GRP_ADMIN);
-					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-					$part->sendNotification(
-						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
-						$new_member
-					);
-					$assigned = TRUE;
-					break;
-				
-				default:
-					$part->add($new_member, IL_GRP_MEMBER);
-					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-					$part->sendNotification(
-						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
-						$new_member
-					);
-					$assigned = TRUE;
-					break;
-			}
-		}
-		
-		if($assigned)
-		{
-			ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
-		}
-		else
-		{
-			ilUtil::sendSuccess($this->lng->txt('grp_users_already_assigned'),TRUE);
-		}
-		$this->ctrl->redirect($this,'members');
-	}
 
 	/**
 	* adds applicant to group as member
