@@ -35,6 +35,10 @@ trait JavaScriptBindable {
 	 * @return 	null
 	 */
 	private function checkBinder(\Closure $binder) {
-		// TODO: implement me
+		$refl = new \ReflectionFunction($binder);
+		$args = array_map(function($arg) { return $arg->name; }, $refl->getParameters());
+		if (array("id") !== $args) {
+			throw new \InvalidArgumentException('Expected closure "$binder" to have exactly one argument "$id".');
+		}
 	}	
 }
