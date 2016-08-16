@@ -38,4 +38,11 @@ interface JavaScriptBindable {
 	 * @param	self
 	 */
 	public function withOnLoadCode(\Closure $binder);
+
+	/**
+	 * Get the currently bound on load code.
+	 *
+	 * @return	\Closure
+	 */
+	public function getOnLoadCode();
 }
