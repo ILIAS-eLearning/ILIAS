@@ -9,6 +9,7 @@ require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
@@ -50,6 +51,18 @@ class ilLanguageMock extends \ilLanguage {
 	}
 }
 
+class LoggingJavaScriptBinding implements JavaScriptBinding {
+	private $count = 0;
+	public function createId() {
+		$this->count++;
+		return "id_".$this->count;
+	}
+	public $on_load_code = array();
+	public function addOnLoadCode($code) {
+		$this->on_load_code[] = $code;
+	}
+}
+
 /**
  * Provides common functionality for UI tests.
  */
@@ -80,13 +93,18 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		return new ilLanguageMock();
 	}
 
+	public function getJavaScriptBinding() {
+		return new LoggingJavaScriptBinding();
+	}
+
 	public function getDefaultRenderer() {
 		$ui_factory = $this->getUIFactory();
 		$tpl_factory = $this->getTemplateFactory();
 		$resource_registry = $this->getResourceRegistry();
 		$lng = $this->getLanguage();
+		$js_binding = $this->getJavaScriptBinding();
 		return new DefaultRendererTesting(
-				$ui_factory, $tpl_factory, $resource_registry, $lng);
+				$ui_factory, $tpl_factory, $resource_registry, $lng, $js_binding);
 	}
 
 	public function normalizeHTML($html) {

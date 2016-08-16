@@ -18,6 +18,13 @@ namespace ILIAS\UI\Implementation\Component\Glyph {
 			return "\\ILIAS\\UI\\Component\\Glyph\\Glyph";
 		}
 	}
+
+	class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer {
+		public $id = null;
+		public function render(Component $component, Renderer $default_renderer) {
+			$this->id = $this->bindJavaScript($component);
+		}
+	}
 }
 
 namespace ILIAS\UI\Implementation\Component\Counter {
@@ -43,6 +50,7 @@ namespace {
 
 	use \ILIAS\UI\Component as C;
 	use \ILIAS\UI\Implementation\Render\Template;
+	use \ILIAS\UI\Implementation\Render\JavaScriptBinding;
 	use \ILIAS\UI\Implementation\Render\TemplateFactory;
 
 	class NullTemplate implements Template {
@@ -74,10 +82,11 @@ namespace {
 			$this->tpl_factory = new TemplateFactoryMock();
 			$this->ui_factory = new NoUIFactory();
 			$this->lng = new ilLanguageMock();
+			$this->js_binding = new LoggingJavaScriptBinding();
 		}
 
 		public function test_getTemplate_successfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng);
+			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 			$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 			$expected = array
@@ -89,7 +98,7 @@ namespace {
 		}
 
 		public function test_getTemplate_unsuccessfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng);
+			$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 
 			try {
 				$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);
