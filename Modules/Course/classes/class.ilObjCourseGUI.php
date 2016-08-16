@@ -2097,7 +2097,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this,
 					'admin',
 					false,
-					false,
 					$this->timings_enabled,
 					$showEditLink,
 					$this->object->getDefaultAdminRole(),
@@ -2113,7 +2112,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
 					'admin',
-					true,
 					false,
 					$this->timings_enabled,
 					$showEditLink,
@@ -2137,7 +2135,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this,
 					'tutor',
 					false,
-					false,
 					$this->timings_enabled,
 					true,
 					$this->object->getDefaultTutorRole(),
@@ -2153,7 +2150,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
 					'tutor',
-					true,
 					false,
 					$this->timings_enabled,
 					true,

@@ -1,26 +1,6 @@
 <?php
 
-/*
-  +-----------------------------------------------------------------------------+
-  | ILIAS open source                                                           |
-  +-----------------------------------------------------------------------------+
-  | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-  |                                                                             |
-  | This program is free software; you can redistribute it and/or               |
-  | modify it under the terms of the GNU General Public License                 |
-  | as published by the Free Software Foundation; either version 2              |
-  | of the License, or (at your option) any later version.                      |
-  |                                                                             |
-  | This program is distributed in the hope that it will be useful,             |
-  | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-  | GNU General Public License for more details.                                |
-  |                                                                             |
-  | You should have received a copy of the GNU General Public License           |
-  | along with this program; if not, write to the Free Software                 |
-  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-  +-----------------------------------------------------------------------------+
- */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 /**
@@ -49,7 +29,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	public function __construct(
 		$a_parent_obj,
 		$a_type = 'admin',
-		$show_content = true,
 		$a_show_learning_progress = false,
 		$a_show_timings = false,
 		$a_show_edit_link= true,
@@ -151,22 +130,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
 
-		if($show_content)
-		{
-			$this->setDefaultOrderField('lastname');
-			$this->enable('sort');
-			$this->enable('header');
-			$this->enable('numinfo');
-			$this->enable('select_all');
-		}
-		else
-		{
-			$this->disable('content');
-			$this->disable('header');
-			$this->disable('footer');
-			$this->disable('numinfo');
-			$this->disable('select_all');
-		}
+		$this->setDefaultOrderField('lastname');
+		$this->enable('sort');
+		$this->enable('header');
+		$this->enable('numinfo');
+		$this->enable('select_all');
 
 		$this->setEnableNumInfo(true);
 		$this->setExternalSegmentation(true);

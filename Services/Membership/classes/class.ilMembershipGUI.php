@@ -247,6 +247,14 @@ class ilMembershipGUI
 	{
 		$this->showParticipantsToolbar();
 		
+		// show waiting list table
+		
+		// show subscriber table
+		
+		// show member table
+		include_once '';
+		
+		
 		
 	}
 	

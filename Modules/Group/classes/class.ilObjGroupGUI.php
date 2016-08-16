@@ -1030,7 +1030,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('grp_admin_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false,false);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1038,7 +1038,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',true,false);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));
@@ -1053,7 +1053,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('grp_member_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'member',false,$this->show_tracking,$this->object->getDEfaultMemberRole());
+				$table_gui = new ilGroupParticipantsTableGUI($this,'member',$this->show_tracking,$this->object->getDEfaultMemberRole());
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1061,7 +1061,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'member',true,$this->show_tracking,$this->object->getDefaultMemberRole());
+				$table_gui = new ilGroupParticipantsTableGUI($this,'member',$this->show_tracking,$this->object->getDefaultMemberRole());
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));
@@ -1085,7 +1085,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			if($ilUser->getPref('grp_role_hide'.$role_id))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'role',false,$this->show_tracking,$role_id);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'role',$this->show_tracking,$role_id);
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1093,7 +1093,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'role',true,$this->show_tracking,$role_id);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'role',$this->show_tracking,$role_id);
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));

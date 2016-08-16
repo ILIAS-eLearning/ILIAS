@@ -26,10 +26,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
      * @return
      */
     public function __construct(
-			$a_parent_obj,$a_type = 'admin',
-			$show_content = true,
-			$show_learning_progress = false,
-			$a_role_id = 0
+		$a_parent_obj,
+		$a_type = 'admin',
+		$show_learning_progress = false,
+		$a_role_id = 0
 	)
     {
         global $lng,$ilCtrl;
@@ -108,21 +108,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		
 		$this->setShowRowsSelector(true);
         
-        if($show_content)
-        {
-            $this->enable('sort');
-            $this->enable('header');
-            $this->enable('numinfo');
-            $this->enable('select_all');
-        }
-        else
-        {
-            $this->disable('content');
-            $this->disable('header');
-            $this->disable('footer');
-            $this->disable('numinfo');
-            $this->disable('select_all');
-        }       
+        $this->enable('sort');
+		$this->enable('header');
+		$this->enable('numinfo');
+		$this->enable('select_all');
     }
 	
 	/**
