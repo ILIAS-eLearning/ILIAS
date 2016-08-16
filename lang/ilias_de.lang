@@ -499,8 +499,7 @@ assessment#:#empty_terms_exist#:#Sie haben noch nicht alle Terme ausgefüllt. Bi
 assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#tst_conflict_fbh_oblig_quest#:#Die Kombination der Verwendung von verpflichtenden Fragen und dem Festschreiben von Antworten ist nicht erlaubt.
-assessment#:#tst_conflict_reset_non_fbh#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Antworten nicht festschreiben" angepasst. 
-assessment#:#tst_conflict_reset_fbh_force#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Automatische Rückmeldung, aber Antwort nicht festschreiben" angepasst.
+assessment#:#tst_conflict_reset_non_fbh#:#Die Einstellung "Gegebene Antworten festschreiben" wurde deaktiviert. 
 assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitungsdauer des Tests überschritten.
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
@@ -13234,14 +13233,14 @@ dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
-dcl#:#dcl_creation_date#:#Erstellungs Datum
-dcl#:#dcl_creation_date_description#:#Das Datum an dem dieser Eintrag erstellt wurde.
+dcl#:#dcl_creation_date#:#Erstellungsdatum
+dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_last_update#:#Letzte Änderung
-dcl#:#dcl_last_update_description#:#Das Datum an dem dieser Eintrag zuletzt geändert wurde.
+dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt geändert wurde.
 dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
-dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
+dcl#:#dcl_last_edited_by_description#:#Der Benutzer, der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_public_comments#:#Öffentliche Kommentare für Datensätze aktivieren
 dcl#:#dcl_default_sort_field#:#Standardmässige Sortierung
 dcl#:#dcl_default_sort_field_order#:#Standardmässige Sortierungs-Richtung
