@@ -20,9 +20,10 @@ namespace ILIAS\UI\Implementation\Component\Glyph {
 	}
 
 	class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer {
-		public $id = null;
+		public $ids = array();
 		public function render(Component $component, Renderer $default_renderer) {
-			$this->id = $this->bindJavaScript($component);
+			$this->ids[] = $this->bindJavaScript($component);
+			return "";
 		}
 	}
 }
@@ -76,6 +77,12 @@ namespace {
 		}
 	}
 
+	class NullDefaultRenderer implements \ILIAS\UI\Renderer {
+		public function render(C\Component $component) {
+			return "";
+		}
+	}
+
 	class AbstractRendererTest extends ILIAS_UI_TestBase {
 		public function setUp() {
 			parent::setUp();
@@ -111,6 +118,22 @@ namespace {
 			);
 			$this->assertEquals($expected, $this->tpl_factory->files);
 		}
-	}
 
+		public function test_bindJavaScript_successfull() {
+				$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+
+				$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+
+				$ids = array();
+				$g = $g->withOnLoadCode(function($id) use (&$ids) {
+					$ids[] = $id;
+					return "ID: $id";
+				});
+				$r->render($g, new NullDefaultRenderer());
+
+				$this->assertEquals($this->js_binding->ids, $ids);
+				$this->assertEquals(array("id_1"), $ids);
+				$this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
+		}
+	}
 }

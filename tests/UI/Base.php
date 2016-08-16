@@ -53,9 +53,12 @@ class ilLanguageMock extends \ilLanguage {
 
 class LoggingJavaScriptBinding implements JavaScriptBinding {
 	private $count = 0;
+	public $ids = array();
 	public function createId() {
 		$this->count++;
-		return "id_".$this->count;
+		$id = "id_".$this->count;
+		$this->ids[] = $id;
+		return $id;
 	}
 	public $on_load_code = array();
 	public function addOnLoadCode($code) {
