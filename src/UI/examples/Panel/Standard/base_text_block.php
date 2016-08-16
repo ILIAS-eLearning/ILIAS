@@ -7,7 +7,7 @@ function base_text_block() {
 
 	$panel = $f->panel()->standard(
 			"Panel Title",
-			$f->generic("Some Content")
+			$f->legacy("Some Content")
 	);
 
 	return $renderer->render($panel);
