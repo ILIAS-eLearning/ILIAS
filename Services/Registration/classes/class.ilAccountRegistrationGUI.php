@@ -473,7 +473,6 @@ class ilAccountRegistrationGUI
 		$map = array();
 		$up->skipGroup("preferences");
 		$up->skipGroup("settings");
-		$up->skipGroup("instant_messengers");
 		$up->skipField("password");
 		$up->skipField("birthday");
 		$up->skipField("upload");
@@ -513,18 +512,6 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		// messenger
-		$map = array("icq", "yahoo", "msn", "aim", "skype", "jabber", "voip");
-		foreach($map as $client)
-		{
-			$field = "usr_im_".$client;
-			$field_obj = $this->form->getItemByPostVar($field);
-			if($field_obj)
-			{
-				$this->userObj->setInstantMessengerId($client, $this->form->getInput($field));
-			}
-		}
-		
 		$this->userObj->setTitle($this->userObj->getFullname());
 		$this->userObj->setDescription($this->userObj->getEmail());
 
