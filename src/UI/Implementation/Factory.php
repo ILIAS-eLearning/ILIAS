@@ -54,4 +54,12 @@ class Factory implements \ILIAS\UI\Factory {
 	public function image() {
 		return new Component\Image\Factory();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function legacy($content)
+	{
+		return new Component\Legacy\Legacy($content);
+	}
 }
