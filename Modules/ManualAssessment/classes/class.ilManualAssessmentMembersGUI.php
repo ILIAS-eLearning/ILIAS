@@ -83,14 +83,16 @@ class ilManualAssessmentMembersGUI {
 				ilUtil::sendFailure("allready_member");
 			}
 		}
-		$members->updateStorageAndRBAC($mass->membersStorage());
+		$members->updateStorageAndRBAC($mass->membersStorage(),$mass->accessHandler());
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
 	public function removeUser() {
 		$usr_id = $_GET['usr_id'];
 		$mass = $this->object;
-		$mass->loadMembers()->withoutPresentUser(new ilObjUser($usr_id))->updateStorageAndRBAC($mass->membersStorage());
+		$mass->loadMembers()
+			->withoutPresentUser(new ilObjUser($usr_id))
+			->updateStorageAndRBAC($mass->membersStorage(),$mass->accessHandler());
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 }
