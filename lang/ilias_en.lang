@@ -14,6 +14,35 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
+forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
+forum#:#restore#:#Restore
+forum#:#restore_draft_from_autosave#:#Restore draft
+forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
+forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
+forum#:#publishThreadDrafts#:#Publish Thread Draft
+forum#:#deleteThreadDrafts#:#Delete Thread Draft
+forum#:#edit_thread_draft#:#Edit thread draft
+common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
+common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
+pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
+forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
+forum#:#save_draft_successfully#:#The draft was saved successfully.
+forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
+forum#:#delete_draft_successfully#:#The draft was deleted successfully.
+forum#:#forums_edit_draft#:#Edit draft
+forum#:#publish#:#Publish
+forum#:#frm_my_posting_drafts#:#My Posting Drafts
+forum#:#frm_posting_draft#:#Draft
+forum#:#frm_posting_drafts#:#Drafts
+forum#:#enable_send_attachments#:#Send attachments with forum notifications
+forum#:#enable_send_attachments_desc#:#Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space.
+forum#:#adm_save_drafts#:#Save drafts   
+forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save forum postings as draft.    
+forum#:#adm_autosave_drafts#:#Automatically save drafts
+forum#:#adm_autosave_ival#:#Interval
+forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_comp_frm#:#Forum
