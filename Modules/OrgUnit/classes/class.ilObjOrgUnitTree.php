@@ -318,11 +318,19 @@ class ilObjOrgUnitTree {
      * @return int[]
      */
     public function getOrgUnitOfUser($user_id, $ref_id = 0){
-        $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
+	    $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
 				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = ".$this->db->quote($user_id, "integer")." AND roles.obj_id = rbac.rol_id
+				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
 				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
+
+	    /*$q = "SELECT object_reference.ref_id FROM rbac_ua 
+				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
+				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+				JOIN object_data ON object_data.obj_id = object_reference.obj_id
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";*/
+
+
         $set = $this->db->query($q);
         $orgu_ref_ids = array();
         while($res = $this->db->fetchAssoc($set)){
