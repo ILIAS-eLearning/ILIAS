@@ -139,16 +139,19 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		return array_keys($this->member_records);
 	}
 	
-	public function updateStorageAndRBAC(ilManualAssessmentMembersStorage $storage) {
+	public function updateStorageAndRBAC(ilManualAssessmentMembersStorage $storage, ManualAssessmentAccessHandler $access_handler) {
 		$current = $storage->loadMembers($this->referencedObject());
+		$mass = $this->referencedObject();
 		foreach($this as $usr_id => $record) {
 			if(!$current->userAllreadyMemberByUsrId($usr_id)) {
 				$storage->insertMembersRecord($this->referencedObject(),$record);
+				$access_handler->assignUserToMemberRole(new ilObjUser($usr_id),$mass);
 			}
 		}
 		foreach($current as $usr_id => $record) {
 			if(!$this->userAllreadyMemberByUsrId($usr_id)) {
 				$storage->removeMembersRecord($this->referencedObject(),$record);
+				$access_handler->deassignUserFromMemberRole(new ilObjUser($usr_id),$mass);
 			}
 		}
 	}
