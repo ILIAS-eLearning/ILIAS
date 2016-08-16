@@ -2094,7 +2094,7 @@ if($wiki_type_id)
 		array(
 			"type" => "text",
 			"length" => 100,
-			"notnull" => false,
+			"notnull" => true,
 			'fixed' => false
 		)
 	);
@@ -2107,7 +2107,7 @@ if($wiki_type_id)
 		array(
 			"type" => "text",
 			"length" => 100,
-			"notnull" => false,
+			"notnull" => true,
 			'fixed' => false
 		)
 	);
