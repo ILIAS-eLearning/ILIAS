@@ -3870,7 +3870,7 @@ function getAnswerFeedbackPoints()
 			global $ilUser;
 
 			if (!$user_id) $user_id = $ilUser->getId();
-			if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
+			if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
 			{
 				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
 					array('integer','integer','text'),
@@ -3886,7 +3886,7 @@ function getAnswerFeedbackPoints()
 			}
 			else
 			{
-				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+				if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 				{
 					return NULL;
 				}

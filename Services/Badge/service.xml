@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="badge">
+	<baseclasses>
+		<baseclass name="ilBadgeHandlerGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="bdga" class_name="BadgeAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>	
+	<events>		
+		<event type="listen" id="Services/User" />
+		<event type="listen" id="Services/Tracking" />
+	</events>
+	<web_access_checker>
+		<secure_path path="ilBadge" checking-class="ilBadgeWAC" in-sec-folder="1" />
+	</web_access_checker>
+</service>

@@ -19,6 +19,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilContactGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -55,7 +56,7 @@ class ilPersonalDesktopGUI
 		$this->lng->loadLanguageModule("pd"); // #16813
 		
 		// catch hack attempts
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_not_available_for_anon"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -223,6 +224,15 @@ class ilPersonalDesktopGUI
 				$skgui = new ilPersonalSkillsGUI();
 				$this->getStandardTemplates();
 				$ret = $this->ctrl->forwardCommand($skgui);
+				$this->tpl->show();
+				break;
+			
+			case 'ilbadgeprofilegui':		
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once './Services/Badge/classes/class.ilBadgeProfileGUI.php';
+				$bgui = new ilBadgeProfileGUI();
+				$ret = $this->ctrl->forwardCommand($bgui);
 				$this->tpl->show();
 				break;
 			
@@ -727,6 +737,14 @@ class ilPersonalDesktopGUI
 		}
 		
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
+	}
+	
+	/**
+	 * Jump to badges
+	 */
+	function jumpToBadges()
+	{
+		$this->ctrl->redirectByClass("ilbadgeprofilegui");
 	}
 	
 	/**

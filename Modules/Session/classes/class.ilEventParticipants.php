@@ -141,7 +141,7 @@ class ilEventParticipants
 		ilEventParticipants::_updateParticipation($a_usr_id,$this->getEventId(),$a_status);
 	}
 
-	function _updateParticipation($a_usr_id,$a_event_id,$a_status)
+	public static function _updateParticipation($a_usr_id,$a_event_id,$a_status)
 	{
 		global $ilDB;
 
@@ -176,7 +176,7 @@ class ilEventParticipants
 		return true;
 	}
 
-	function _getRegistered($a_event_id)
+	public static function _getRegistered($a_event_id)
 	{
 		global $ilDB;
 
@@ -191,7 +191,7 @@ class ilEventParticipants
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getParticipated($a_event_id)
+	public static function _getParticipated($a_event_id)
 	{
 		global $ilDB;
 
@@ -236,7 +236,7 @@ class ilEventParticipants
 		return false;
 	}
 
-	function _register($a_usr_id,$a_event_id)
+	public static function _register($a_usr_id,$a_event_id)
 	{
 		global $ilDB;
 
@@ -275,7 +275,7 @@ class ilEventParticipants
 		return ilEventParticipants::_register($a_usr_id,$this->getEventId());
 	}
 			
-	function _unregister($a_usr_id,$a_event_id)
+	public static function _unregister($a_usr_id,$a_event_id)
 	{
 		global $ilDB;
 
@@ -316,7 +316,7 @@ class ilEventParticipants
 		return ilEventParticipants::_unregister($a_usr_id,$this->getEventId());
 	}
 
-	function _lookupMark($a_event_id,$a_usr_id)
+	public static function _lookupMark($a_event_id,$a_usr_id)
 	{
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";
 		$lp_mark = new ilLPMarks($a_event_id, $a_usr_id);
@@ -368,7 +368,7 @@ class ilEventParticipants
 		$this->event_id = $a_event_id;
 	}
 
-	function _deleteByEvent($a_event_id)
+	public static function _deleteByEvent($a_event_id)
 	{
 		global $ilDB;
 
@@ -381,7 +381,7 @@ class ilEventParticipants
 
 		return true;
 	}
-	function _deleteByUser($a_usr_id)
+	public static function _deleteByUser($a_usr_id)
 	{
 		global $ilDB;
 		

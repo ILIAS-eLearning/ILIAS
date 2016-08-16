@@ -18,7 +18,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagmentGUI
 * 
 *
 * @extends ilObjectGUI
@@ -268,6 +268,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
+				
+			case 'ilbadgemanagementgui':
+				$this->tabs_gui->setTabActive('obj_tool_setting_badges');
+				include_once 'Services/Badge/classes/class.ilBadgeManagementGUI.php';
+				$bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'grp');
+				$this->ctrl->forwardCommand($bgui);
+				break;	
+				
 			default:
 			
 				// check visible permission
@@ -583,7 +591,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-				ilObjectServiceSettingsGUI::TAG_CLOUD
+				ilObjectServiceSettingsGUI::TAG_CLOUD,
+				ilObjectServiceSettingsGUI::BADGES
 			)
 		);
 			
@@ -1775,7 +1784,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 		include_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 
 		foreach ($user_ids as $new_member)
 		{
@@ -1826,6 +1835,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		$membership_gui = new ilGroupMembershipGUI($this, $this->object);
 		$membership_gui->addMemberTab($this->tabs_gui, $is_participant);
 		
+		
+		// badges
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isObjectActive($this->object->getId()))
+			{
+				$this->tabs_gui->addTarget("obj_tool_setting_badges",
+					 $this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", ""), 
+					 "",
+					 "ilbadgemanagementgui");
+			}
+		}		
 		
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -2380,7 +2402,8 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-						ilObjectServiceSettingsGUI::TAG_CLOUD
+						ilObjectServiceSettingsGUI::TAG_CLOUD,						
+						ilObjectServiceSettingsGUI::BADGES
 					)
 				);
 

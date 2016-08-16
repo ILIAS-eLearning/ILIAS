@@ -2959,7 +2959,7 @@ class ilObjUserGUI extends ilObjectGUI
 	public static function _goto($a_target)
 	{
 		global $ilUser, $ilCtrl;
-		
+				
 		// #10888
 		if($a_target == md5("usrdelown"))
 		{						
@@ -2971,6 +2971,15 @@ class ilObjUserGUI extends ilObjectGUI
 				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");						
 			}
 			exit("This account is not flagged for deletion."); // #12160
+		}
+		
+		// badges
+		if(substr($a_target, -4) == "_bdg")
+		{
+			$_GET["baseClass"] = "ilPersonalDesktopGUI";
+			$_GET["cmd"] = "jumpToBadges";
+			include("ilias.php");
+			exit();
 		}
 
 		if (substr($a_target, 0, 1) == "n")

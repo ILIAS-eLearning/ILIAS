@@ -133,7 +133,7 @@ class ilTestSession
 	{
 		global $ilDB;
 
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
 			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
 				array('integer','integer'),
@@ -305,7 +305,7 @@ class ilTestSession
 		{
 			$user_id = $ilUser->getId();
 		}
-		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists())
+		if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists())
 		{
 			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
 				array('integer','integer','text'),
@@ -321,7 +321,7 @@ class ilTestSession
 		}
 		else
 		{
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				return NULL;
 			}

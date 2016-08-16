@@ -165,6 +165,7 @@ class ilTree
 		
 		if (!isset($a_tree_id) or (func_num_args() == 0) )
 		{
+			ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::DEBUG);
 			$this->ilErr->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilErr->WARNING);
 		}
 
@@ -497,9 +498,10 @@ class ilTree
 	{
 		global $ilDB;
 		
-		$query = 'SELECT * FROM tree '.
+		$query = 'SELECT * FROM '. $this->table_tree . ' ' .
 				'WHERE parent = '.$ilDB->quote($a_node,'integer').' '.
-				'AND tree > '.$ilDB->quote(0,'integer');
+				'AND tree = '.$ilDB->quote($this->tree_id,'integer' . ' ' .
+				'ORDER BY lft');
 		$res = $ilDB->query($query);
 		
 		$childs = array();
@@ -2408,10 +2410,11 @@ class ilTree
 	{
 		global $ilDB;
 		
-		$query = 'UPDATE '.$this->table_tree.' SET lft = %s WHERE child = %s';
-		$res = $ilDB->manipulateF($query,array('integer','integer'),array(
+		$query = 'UPDATE '.$this->table_tree.' SET lft = %s WHERE child = %s AND tree = %s';
+		$res = $ilDB->manipulateF($query,array('integer','integer','integer'),array(
 			$i,
-			$node_id));
+			$node_id,
+			$this->tree_id));
 
 		// to much dependencies
 		//$childs = $this->getChilds($node_id);
@@ -2430,10 +2433,11 @@ class ilTree
 		}
 		
 		
-		$query = 'UPDATE '.$this->table_tree.' SET rgt = %s WHERE child = %s';
-		$res = $ilDB->manipulateF($query,array('integer','integer'),array(
+		$query = 'UPDATE '.$this->table_tree.' SET rgt = %s WHERE child = %s AND tree = %s';
+		$res = $ilDB->manipulateF($query,array('integer','integer', 'integer'),array(
 			$i,
-			$node_id));
+			$node_id,
+			$this->tree_id));
 		return $i;
 	}
 

@@ -1281,8 +1281,7 @@ class ilPersonalSettingsGUI
 				
 		// see ilStartupGUI::showLogout()
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$ilAuth->logout();
-		session_destroy();
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		
 		ilUtil::redirect("login.php?target=usr_".md5("usrdelown"));		
 	}
@@ -1372,9 +1371,7 @@ class ilPersonalSettingsGUI
 		$ilUser->delete();
 
 		// terminate session
-		$ilAuth->logout();
-		session_destroy();		
-		
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		ilUtil::redirect("login.php?accdel=1");		 		
 	}
 }
