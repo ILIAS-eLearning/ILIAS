@@ -24,6 +24,8 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 						, "graded_by"			=> array("graded_by")
 						, "actions"				=> array(null)
 						);
+		$may_edit = $this->userMayEditGrade();
+		$may_view = $this->userMayViewGrade();
 		foreach ($columns as $lng_var => $params) {
 			$this->addColumn($this->lng->txt($lng_var), $params[0]);
 		}
@@ -64,21 +66,25 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 
 	protected function buildActionDropDown($a_set) {
 		$l = new ilAdvancedSelectionListGUI();
-		$lng_var_edit = "mass_usr_view";
-		if(!$a_set['finalized']) {
+
+		if(!$a_set['finalized']) {	
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
 			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUser');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt("mass_usr_remove"), 'removeUser', $target);
-			$lng_var_edit = "mass_usr_edit";
 		}
-		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
-		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', null);
-		$l->addItem($this->lng->txt($lng_var_edit), 'edit', $target);
-		$this->ctrl->setParameter($this->parent_obj,'usr_id',null);
-
+		if(!$a_set['finalized'] && $this->may_edit) {
+			$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
+			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
+			$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', null);
+			$l->addItem($this->lng->txt($lng_var_edit), 'edit', $target);
+		}
 		return $l->getHTML();
+	}
+
+	protected function userMayEditGrades() {
+		return $this->parent_obj->object->accessHandler()
+			->checkAccessToObj($this->parent_obj->object,'edit_grades');
 	}
 
 }
