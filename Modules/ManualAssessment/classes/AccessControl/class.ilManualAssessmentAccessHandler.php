@@ -9,10 +9,15 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 
 	const DEAFULT_ROLE = 'il_mass_member';
 
-	public function __construct(ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review) {
+	public function __construct(ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr) {
 		$this->handler = $handler;
 		$this->admin = $admin;
 		$this->review = $review;
+		$this->usr;
+	}
+
+	public function checkAccessToObj(ilObjManualAssessment $mass, $operation) {
+		return $this->checkAccessOfUserToObj($this->usr,$mass,$operation);
 	}
 
 	public function checkAccessOfUserToObj(ilObjUser $usr, ilObjManualAssessment $mass, $operation) {
