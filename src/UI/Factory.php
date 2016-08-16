@@ -264,8 +264,10 @@ interface Factory {
 	 *     The legacy component contains html or any other content as string.
 	 *
 	 * rules:
-	 *   wording:
-	 *      1: This component MUST only be used to ensure backwards compatibility with existing UI elements in ILIAS.
+	 *   usage:
+	 *      1: >
+	 *          This component MUST only be used to ensure backwards compatibility with existing UI elements in ILIAS,
+	 *          therefore it SHOULD only contain Elements which cannot be generated using other UI Components from the UI Service.
 	 * ---
 	 *
 	 * @param   string $content
