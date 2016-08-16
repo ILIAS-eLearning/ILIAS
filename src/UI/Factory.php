@@ -274,4 +274,22 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Legacy\Legacy
 	 */
 	public function legacy($content);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Panels are used to group titled content.
+	 *   composition: >
+	 *      Panels consist of a header and content section. They form one Gestalt and so build a perceivable
+	 *      cluster of information.
+	 *   effect: The effect of interaction with panels heavily depends on their content.
+	 *
+	 * rules:
+	 *   wording:
+	 *      1: Panels MUST contain a title.
+	 * ---
+	 * @return \ILIAS\UI\Component\Panel\Factory
+	 */
+	public function panel();
 }
