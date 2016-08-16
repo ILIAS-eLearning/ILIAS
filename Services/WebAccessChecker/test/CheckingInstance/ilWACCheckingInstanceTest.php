@@ -32,6 +32,7 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
 		require_once('./Services/WebAccessChecker/test/Token/mock/class.ilWACDummyCookie.php');
+		require_once('./Services/WebAccessChecker/classes/class.ilWebAccessCheckerDelivery.php');
 		require_once('./libs/composer/vendor/autoload.php');
 		//				require_once('./Services/PHPUnit/classes/class.ilUnitUtil.php');
 		//								ilUnitUtil::performInitialisation();

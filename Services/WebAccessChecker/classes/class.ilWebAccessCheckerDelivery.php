@@ -4,11 +4,11 @@ require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 
 /**
- * Class ilWebAccessCheckerDevlivery
+ * Class ilWebAccessCheckerDelivery
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilWebAccessCheckerDevlivery {
+class ilWebAccessCheckerDelivery {
 
 	/**
 	 * @var ilWebAccessChecker
@@ -26,7 +26,7 @@ class ilWebAccessCheckerDevlivery {
 
 
 	/**
-	 * ilWebAccessCheckerDevlivery constructor.
+	 * ilWebAccessCheckerDelivery constructor.
 	 *
 	 * @param string $raw_path
 	 */
