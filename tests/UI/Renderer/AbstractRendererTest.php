@@ -120,20 +120,38 @@ namespace {
 		}
 
 		public function test_bindJavaScript_successfull() {
-				$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 
-				$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+			$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
 
-				$ids = array();
-				$g = $g->withOnLoadCode(function($id) use (&$ids) {
-					$ids[] = $id;
-					return "ID: $id";
-				});
+			$ids = array();
+			$g = $g->withOnLoadCode(function($id) use (&$ids) {
+				$ids[] = $id;
+				return "ID: $id";
+			});
+			$r->render($g, new NullDefaultRenderer());
+
+			$this->assertEquals($this->js_binding->ids, $ids);
+			$this->assertEquals(array("id_1"), $ids);
+			$this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
+		}
+
+		public function test_bindJavaScript_no_string() {
+			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+
+			$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+
+			$g = $g->withOnLoadCode(function($id) {
+				return null;
+			});
+
+			try {
 				$r->render($g, new NullDefaultRenderer());
-
-				$this->assertEquals($this->js_binding->ids, $ids);
-				$this->assertEquals(array("id_1"), $ids);
-				$this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
+				$this->assertFalse("This should not happen...");
+			}
+			catch (\LogicException $e) {
+				$this->assertTrue(true);
+			}
 		}
 	}
 }
