@@ -13,7 +13,7 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 		$this->handler = $handler;
 		$this->admin = $admin;
 		$this->review = $review;
-		$this->usr;
+		$this->usr = $usr;
 	}
 
 	public function checkAccessToObj(ilObjManualAssessment $mass, $operation) {
@@ -21,6 +21,7 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 	}
 
 	public function checkAccessOfUserToObj(ilObjUser $usr, ilObjManualAssessment $mass, $operation) {
+
 		return $this->handler->checkAccessOfUser($usr->getId(), $operation, '', $mass->getRefId(), 'mass');
 	}
 
