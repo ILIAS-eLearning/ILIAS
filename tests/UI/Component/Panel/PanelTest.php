@@ -57,15 +57,6 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($p->getTitle(), "Title");
 	}
 
-	public function test_standard_with_title() {
-		$f = $this->getPanelFactory();
-		$p = $f->standard("Title",array(new ComponentDummy()));
-
-		$p = $p->withTitle("TitleNew");
-
-		$this->assertEquals($p->getTitle(), "TitleNew");
-	}
-
 	public function test_standard_get_content() {
 		$f = $this->getPanelFactory();
 		$c =  new ComponentDummy();
@@ -74,16 +65,6 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($p->getContent(), array($c));
 	}
 
-	public function test_standard_with_content() {
-		$f = $this->getPanelFactory();
-		$c1 =  new ComponentDummy(1);
-		$p = $f->standard("Title",array($c1));
-
-		$c2 =  new ComponentDummy(2);
-		$p = $p->withContent($c2);
-
-		$this->assertEquals($p->getContent(), array($c2));
-	}
 
 	public function test_sub_with_card() {
 		$fp = $this->getPanelFactory();
@@ -106,34 +87,14 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($p->getTitle(), "Title");
 	}
 
-	public function test_report_with_title() {
-		$f = $this->getPanelFactory();
-		$sub = $f->sub("Title",array(new ComponentDummy()));
-		$p = $f->report("Title",array($sub));
-
-		$p = $p->withTitle("TitleNew");
-
-		$this->assertEquals($p->getTitle(), "TitleNew");
-	}
-
 	public function test_report_get_content() {
 		$f = $this->getPanelFactory();
 		$sub = $f->sub("Title",array(new ComponentDummy()));
 		$p = $f->report("Title",$sub);
 
-		$this->assertEquals($p->getSubPanels(), array($sub));
+		$this->assertEquals($p->getContent(), array($sub));
 	}
 
-	public function test_report_with_sub_panel() {
-		$f = $this->getPanelFactory();
-		$sub1 = $f->sub("Title",array(new ComponentDummy(1)));
-		$p = $f->report("Title",array($sub1));
-
-		$sub2 = $f->sub("Title",array(new ComponentDummy()));
-		$p = $p->withSubPanels($sub2);
-
-		$this->assertEquals($p->getSubPanels(), array($sub2));
-	}
 
 	public function test_render_standard() {
 		$f = $this->getPanelFactory();
