@@ -4,9 +4,7 @@
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembers.php';
-	const LP_STATUS_IN_PROGRESS = 'trac_in_progress';
-	const LP_STATUS_COMPLETED = 'trac_completed';
-	const LP_STATUS_FAILED = 'trac_failed';
+
 class ilLPStatusManualAssessment extends ilLPStatus {
 	static function _getCountInProgress($a_obj_id) {
 		return count($this->_getInProgress($a_obj_id));
