@@ -9,13 +9,16 @@ namespace ILIAS\UI\Component\Panel;
  */
 interface Panel extends \ILIAS\UI\Component\Component {
 	/**
-	 * @param string $title Title of the Panel
-	 * @return \ILIAS\UI\Component\Panel\Panel
-	 */
-	public function withTitle($title);
-
-	/**
+	 * Gets the title of the panel
+	 *
 	 * @return string $title Title of the Panel
 	 */
 	public function getTitle();
+
+	/**
+	 * Gets the content to be displayed inside the panel
+	 *
+	 * @return \ILIAS\UI\Component\Component[]|\ILIAS\UI\Component\Component
+	 */
+	public function getContent();
 }

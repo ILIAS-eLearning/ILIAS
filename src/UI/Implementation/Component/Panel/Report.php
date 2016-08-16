@@ -15,41 +15,14 @@ class Report extends Panel implements C\Panel\Report {
 	use ComponentHelper;
 
 	/**
-	 * @var \ILIAS\UI\Component\Panel\Sub[]
-	 */
-	private  $sub_panels;
-
-	/**
 	 * @param string $title
-	 * @param \ILIAS\UI\Component\Panel\Sub[]
+	 * @param C\Panel\Sub[] | C\Panel\Sub $content
 	 */
-	public function __construct($title,$sub_panels) {
-		$this->checkStringArg("title",$title);
-		$sub_panels= $this->toArray($sub_panels);
+	public function __construct($title,$content) {
 		$types = [C\Panel\Sub::class];
-		$this->checkArgListElements("content", $sub_panels, $types);
+		$content = $this->toArray($content);
+		$this->checkArgListElements("content", $content, $types);
 
-		$this->title = $title;
-		$this->sub_panels = $sub_panels;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withSubPanels($sub_panels){
-		$sub_panels = $this->toArray($sub_panels);
-		$types = [C\Panel\Sub::class];
-		$this->checkArgListElements("content", $sub_panels, $types);
-
-		$clone = clone $this;
-		$clone->sub_panels = $sub_panels;
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getSubPanels() {
-		return $this->sub_panels;
+		parent::__construct($title,$content);
 	}
 }

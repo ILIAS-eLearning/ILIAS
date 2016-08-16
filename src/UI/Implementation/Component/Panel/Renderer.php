@@ -26,17 +26,30 @@ class Renderer extends AbstractComponentRenderer {
 			/**
 			 * @var Component\Panel\Standard $component
 			 */
-			return $this->render_standard($component, $default_renderer);
+			return $this->renderStandard($component, $default_renderer);
 		} else if($component instanceof Component\Panel\Sub) {
 			/**
 			 * @var Component\Panel\Sub $component
 			 */
-			return $this->render_sub($component, $default_renderer);
+			return $this->renderSub($component, $default_renderer);
 		}
 		/**
 		 * @var Component\Panel\Report $component
 		 */
-		return $this->render_report($component, $default_renderer);
+		return $this->renderReport($component, $default_renderer);
+	}
+
+	/**
+	 * @param Component\Component $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
+	protected function getContentAsString(Component\Component $component, RendererInterface $default_renderer){
+		$content = "";
+		foreach($component->getContent() as $item){
+			$content .= $default_renderer->render($item);
+		}
+		return $content;
 	}
 
 	/**
@@ -44,19 +57,11 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param RendererInterface $default_renderer
 	 * @return string
 	 */
-	protected function render_standard(Component\Panel\Standard $component, RendererInterface $default_renderer)
+	protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer)
 	{
-		$tpl = $this->getTemplate("tpl.panel.html", true, true);
-
-		$content = "";
-
+		$tpl = $this->getTemplate("tpl.standard.html", true, true);
 		$tpl->setVariable("TITLE",  $component->getTitle());
-
-		foreach($component->getContent() as $item){
-			$content .= $default_renderer->render($item);
-		}
-		$tpl->setVariable("BODY",  $content);
-
+		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 		return $tpl->get();
 	}
 
@@ -65,26 +70,20 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param RendererInterface $default_renderer
 	 * @return string
 	 */
-	protected function render_sub(Component\Panel\Sub $component, RendererInterface $default_renderer)
+	protected function renderSub(Component\Panel\Sub $component, RendererInterface $default_renderer)
 	{
 		$tpl = $this->getTemplate("tpl.sub.html", true, true);
 
-		$content = "";
-
 		$tpl->setVariable("TITLE",  $component->getTitle());
-
-		foreach($component->getContent() as $item){
-			$content .= $default_renderer->render($item);
-		}
 
 		if($component->getCard()){
 			$tpl->setCurrentBlock("with_card");
-			$tpl->setVariable("BODY",  $content);
+			$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 			$tpl->setVariable("CARD",  $default_renderer->render($component->getCard()));
 			$tpl->parseCurrentBlock();
 		}else{
 			$tpl->setCurrentBlock("no_card");
-			$tpl->setVariable("BODY",  $content);
+			$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -96,19 +95,11 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param RendererInterface $default_renderer
 	 * @return string
 	 */
-	protected function render_report(Component\Panel\Report $component, RendererInterface $default_renderer)
+	protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer)
 	{
-		$tpl = $this->getTemplate("tpl.panel.html", true, true);
-
-		$content = "";
-
+		$tpl = $this->getTemplate("tpl.report.html", true, true);
 		$tpl->setVariable("TITLE",  $component->getTitle());
-
-		foreach($component->getSubPanels() as $sub){
-			$content .= $default_renderer->render($sub);
-		}
-		$tpl->setVariable("BODY",  $content);
-
+		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 		return $tpl->get();
 	}
 
