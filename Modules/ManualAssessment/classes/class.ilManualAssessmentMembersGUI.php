@@ -52,7 +52,6 @@ class ilManualAssessmentMembersGUI {
 				$this->$cmd();
 				break;
 		}
-
 	}
 
 	protected function view() {
