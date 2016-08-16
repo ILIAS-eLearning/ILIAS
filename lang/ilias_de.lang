@@ -2735,8 +2735,6 @@ common#:#block#:#Block
 common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
 common#:#bm_add_to_ilias#:#ILIAS-Bookmark
-common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark
-common#:#bm_manage_social_bm#:#Social Bookmarks verwalten
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
@@ -5064,11 +5062,6 @@ common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Web-Service genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
-common#:#socialbm_disable#:#Deaktivieren
-common#:#socialbm_enable#:#Aktivieren
-common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
-common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen, um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
-common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
@@ -12320,8 +12313,6 @@ poll#:#poll_active_no_edit#:#Diese Abstimmung ist zur Zeit aktiv und kann nicht 
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
 content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
-administration#:#adm_social_bm_create#:#Social-Bookmark hinzufügen
-administration#:#adm_social_bm_edit#:#Social-Bookmark bearbeiten
 ecs#:#ecs_crs_export#:#Kursfreigaben
 ecs#:#ecs_crs_export_obj_settings#:#Einstellungen für Kursfreigaben
 ecs#:#ecs_crs_export_disabled#:#Nicht freigeben
