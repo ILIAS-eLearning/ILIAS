@@ -16,7 +16,7 @@ interface IsJSBindable {
 	 * You should not assume anything about the id besides that it uniquely identifies the
 	 * DOM-Element that represents the component you have bound to in HTML. This means: the
 	 * id may change between different requests or on different pages. The id can not be
-	 * known when the component is created and be generated at rendering time.
+	 * known when the component is created and will be generated at rendering time.
 	 *
 	 * ATTENTION: This is the method of choice to bind JS to UI-components at this point in
 	 * the development of the UI-Framework. It most probably will be replaced by a more
