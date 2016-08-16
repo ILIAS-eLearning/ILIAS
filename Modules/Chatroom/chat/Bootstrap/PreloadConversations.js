@@ -15,7 +15,6 @@ module.exports = function PreloadConversations(namespace, callback) {
 
 		var conversation = new Conversation(row.id);
 		conversation.setIsGroup(row.isGroup);
-		conversation.setOpen(false);
 
 		for(var index in participants) {
 			if(participants.hasOwnProperty(index)){

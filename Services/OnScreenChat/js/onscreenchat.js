@@ -14,7 +14,8 @@
 			closeEvent: function(){},
 			submitEvent: function(){},
 			addEvent: function(){},
-			searchEvent: function(){}
+			searchEvent: function(){},
+			resizeChatWindow: function() {},
 		},
 
 		setTriggers: function(triggers) {
@@ -33,6 +34,11 @@
 			if(triggers.hasOwnProperty('searchEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent = triggers.searchEvent;
 			}
+			if(triggers.hasOwnProperty('resizeChatWindow')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow = triggers.resizeChatWindow
+			}
+
+
 
 			return this;
 		},
@@ -46,16 +52,12 @@
 				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('keydown', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
-
+				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow);
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
 				}).on('input', '[data-onscreenchat-message]', function() {
 					console.log("resizeEvent");
 				})*/;
-
-			$(document).on('scroll', 'div.panel-body', function() {
-				console.log($(this).scrollTop)
-			})
 		}
 	};
 
@@ -66,6 +68,8 @@
 		container: $('<div></div>').addClass('row'),
 		storage: undefined,
 		user: undefined,
+		historyBlocked: false,
+		inputHeight: undefined,
 
 		setConfig: function(config) {
 			getModule().config = config;
@@ -86,21 +90,21 @@
 				if(conversation.open) {
 					getModule().open(conversation);
 				} else {
-					$('[data-onscreenchat-window=' + conversation.id + ']').hide();
+					//$('[data-onscreenchat-window=' + conversation.id + ']').hide();
 				}
 			});
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
-			$chat.receiveConversation(function(conversation) {
-				getModule().storage.save(conversation);
-			});
+			$chat.receiveConversation(getModule().onConversation);
+			$chat.onHistory(getModule().onHistory);
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
 				participantEvent: getModule().startConversation,
 				closeEvent: getModule().close,
 				submitEvent: getModule().handleSubmit,
 				addEvent: getModule().openInviteUser,
-				searchEvent: getModule().searchUser
+				searchEvent: getModule().searchUser,
+				resizeChatWindow: getModule().resizeMessageInput
 			}).init();
 
 			$('body').append(
@@ -142,10 +146,27 @@
 			if(conversationWindow.length == 0)
 			{
 				conversationWindow = $(getModule().createWindow(conversation));
+				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesFromHistory(conversation);
 			}
+			$(conversationWindow).find('.panel-body').animate({
+				scrollTop: $(conversationWindow).find('.panel-body').height()
+			}, 0);
+
 			conversationWindow.show();
+			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
+		},
+
+		resizeMessageInput: function(){
+			var inputWrapper = $(this).closest('.panel-footer');
+			var parent = $(inputWrapper).closest('[data-onscreenchat-window]');
+			var wrapperHeight = parent.outerHeight();
+			var headingHeight = parent.find('.panel-heading').outerHeight();
+			var inputHeight = $(inputWrapper).outerHeight();
+			var bodyHeight = wrapperHeight - inputHeight - headingHeight;
+
+			parent.find('.panel-body').css('height', bodyHeight + "px");
 		},
 
 		createWindow: function(conversation) {
@@ -190,24 +211,33 @@
 			}
 		},
 
-		resizeInput: function(input) {
-			$(input).height(1);
-			var totalHeight = $(input).prop('scrollHeight') - parseInt($(input).css('padding-top')) - parseInt($(input).css('padding-bottom'));
-			$(input).height(totalHeight);
-		},
-
 		addMessagesFromHistory: function(conversation) {
-			if(conversation.messages.length > 0) {
-				var messages = conversation.messages.reverse();
+			var oldConversation = getModule().storage.get(conversation.id);
+
+			//console.log("OLD", oldConversation.latestMessageTimestamp);
+
+			var messages = conversation.messages;
+			if(messages.length > 0) {
 				for(var index in messages) {
-					if(messages.hasOwnProperty(index)) {
-						getModule().receiveMessage(messages[index]);
+					//console.log("Message", messages[index].timestamp);
+					if(messages.hasOwnProperty(index) && (
+						oldConversation.latestMessageTimestamp == null ||
+						messages[index].timestamp < oldConversation.latestMessageTimestamp)
+					) {
+						if(conversation.latestMessageTimestamp == null || conversation.latestMessageTimestamp > messages[index].timestamp) {
+							conversation.latestMessageTimestamp = messages[index].timestamp;
+						}
+
+						getModule().receiveMessage(messages[index], true);
 					}
 				}
 			}
+
+			//console.log("NEW", conversation.latestMessageTimestamp);
+			getModule().storage.save(conversation);
 		},
 
-		receiveMessage: function(messageObject) {
+		receiveMessage: function(messageObject, prepend) {
 			var template = getModule().config.messageTemplate;
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
 			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -218,13 +248,43 @@
 			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 			template = $(template).find('li.' + position).html();
 
+			var chatBody = $('[data-onscreenchat-window=' + messageObject.conversationId + ']').find('[data-onscreenchat-body]');
+			var item = $('<li></li>')
+				.addClass(position)
+				.addClass('clearfix')
+				.append(template);
 
-			$('[data-onscreenchat-window=' + messageObject.conversationId + ']').find('[data-onscreenchat-body]').append(
-				$('<li></li>')
-					.addClass(position)
-					.addClass('clearfix')
-					.append(template)
-			);
+			if(prepend == true) {
+				chatBody.prepend(item);
+			} else {
+				chatBody.append(item);
+			}
+		},
+
+		onConversation: function(conversation) {
+			getModule().storage.save(conversation);
+		},
+
+		onHistory: function(conversation){
+
+			getModule().addMessagesFromHistory(conversation);
+			getModule().historyBlocked = false;
+
+			var container = $('[data-onscreenchat-window='+conversation.id+']');
+			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
+		},
+
+		onScroll: function() {
+			if($(this).scrollTop() == 0 && !getModule().historyBlocked) {
+				getModule().historyBlocked = true;
+				$(this).prepend(
+					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
+						$('<img />').addClass("ilOnScreenChatMenuLoader").attr('src', getConfig().loaderImg)
+					)
+				);
+				var container = $(this).closest('[data-onscreenchat-window]');
+				$chat.getHistory(container.attr('data-onscreenchat-window'));
+			}
 		},
 
 		onLogin: function(participant) {

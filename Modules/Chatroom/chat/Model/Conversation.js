@@ -20,12 +20,6 @@ var Conversation = function Conversation(id, participants)
 	 */
 	var _group = false;
 
-	/**
-	 * @type {boolean}
-	 * @private
-	 */
-	var _opened = true;
-
 	var _messages = [];
 
 	var _lastMessageTimestamp = null;
@@ -59,7 +53,6 @@ var Conversation = function Conversation(id, participants)
 	};
 
 	this.addHistory = function(message) {
-		console.log(this.getLastMessageTimestamp(), message.timestamp);
 		if(this.getLastMessageTimestamp() == null || this.getLastMessageTimestamp() > message.timestamp) {
 			this.setLastMessageTimestamp(message.timestamp);
 		}
@@ -89,10 +82,6 @@ var Conversation = function Conversation(id, participants)
 		}
 	};
 
-	this.setOpen = function(isOpen){
-		_opened = isOpen;
-	};
-
 	this.getParticipants = function() {
 		return _participants;
 	};
@@ -118,7 +107,7 @@ var Conversation = function Conversation(id, participants)
 			participants: participants,
 			//open: _opened,
 			messages: _messages,
-			latestMessageTimestamp: _lastMessageTimestamp
+			//latestMessageTimestamp: _lastMessageTimestamp
 		}
 	};
 

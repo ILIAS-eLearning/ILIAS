@@ -11,15 +11,12 @@ module.exports = function(id, name)
 	var participant = namespace.getSubscriber(id);
 
 	if(participant == null) {
-		console.log("new");
 		participant = new Participant(id, name);
 		namespace.addSubscriber(participant);
 	}
 	participant.setName(name);
 	participant.addSocket(this);
 	participant.setOnline(true);
-
-	console.log(participant.getConversations());
 
 	this.participant = participant;
 	this.emit('login', participant.json());

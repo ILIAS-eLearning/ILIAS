@@ -14,6 +14,10 @@
 			});
 		},
 
+		onHistory: function(callback) {
+			getModule().socket.on('history', callback)
+		},
+
 		login: function(userId, username, callback) {
 			getModule().socket.emit('login', getModule().config.userId, getModule().config.username);
 			getModule().socket.on('login', callback);
@@ -32,9 +36,8 @@
 			getModule().socket.emit('message', conversationId, getModule().config.userId, message);
 		},
 
-		getHistory: function(conversationId, callback) {
+		getHistory: function(conversationId) {
 			getModule().socket.emit('history', conversationId);
-			getModule().socket.on('history', callback)
 		},
 
 		addUser: function(conversationId, userId, name, callback) {

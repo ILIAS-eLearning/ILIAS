@@ -91,7 +91,8 @@ class ilOnScreenChatGUI
 				'modalTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-add-user.html'),
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
-				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true)
+				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
+				'loaderImg' => ilUtil::getImagePath("loader.svg")
 			);
 			$chatConfig = array(
 				'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
