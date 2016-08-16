@@ -997,70 +997,71 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$entered_values = false;
 
-		$solutionSubmit = $this->getSolutionSubmit();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
 
-		$tmp            = $solutionSubmit;
-		$solutionSubmit = array();
-		foreach($tmp as $key => $val)
-		{
-			if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
-			{
-				$solutionSubmit[$key] = $val;
-			}
-			else
-			{
-				$solutionSubmit[$key] = '';
-			}
-		}
+			$solutionSubmit = $this->getSolutionSubmit();
 
-		$entered_values = FALSE;
-		foreach($solutionSubmit as $key => $value)
-		{
-			$matches = null;
-			if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
+			$tmp            = $solutionSubmit;
+			$solutionSubmit = array();
+			foreach($tmp as $key => $val)
 			{
-				if(strlen($value)) $entered_values = TRUE;
-				$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
-					array('integer', 'integer', 'integer', 'integer'),
-					array($active_id, $pass, $this->getId(), (int)$authorized)
-				);
-				if($result->numRows())
+				if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
 				{
-					while($row = $ilDB->fetchAssoc($result))
-					{
-						$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-							array('integer', 'integer'),
-							array($row['solution_id'], (int)$authorized)
-						);
-					}
+					$solutionSubmit[$key] = $val;
 				}
-
-				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1],str_replace(",", ".", $value), $authorized);
-			}
-			else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
-			{
-				$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
-					array('integer', 'integer', 'integer', 'integer'),
-					array($active_id, $pass, $this->getId(), (int)$authorized)
-				);
-				if($result->numRows())
+				else
 				{
-					while($row = $ilDB->fetchAssoc($result))
-					{
-						$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-							array('integer', 'integer'),
-							array($row['solution_id'], (int)$authorized)
-						);
-					}
+					$solutionSubmit[$key] = '';
 				}
-
-				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1] . "_unit",$value, $authorized);
 			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+			foreach($solutionSubmit as $key => $value)
+			{
+				$matches = null;
+				if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
+				{
+					if(strlen($value)) $entered_values = TRUE;
+					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
+						array('integer', 'integer', 'integer', 'integer'),
+						array($active_id, $pass, $this->getId(), (int)$authorized)
+					);
+					if($result->numRows())
+					{
+						while($row = $ilDB->fetchAssoc($result))
+						{
+							$ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
+								array('integer', 'integer'),
+								array($row['solution_id'], (int)$authorized)
+							);
+						}
+					}
+
+					$this->saveCurrentSolution($active_id,$pass,$matches[1],str_replace(",", ".", $value), $authorized);
+				}
+				else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
+				{
+					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
+						array('integer', 'integer', 'integer', 'integer'),
+						array($active_id, $pass, $this->getId(), (int)$authorized)
+					);
+					if($result->numRows())
+					{
+						while($row = $ilDB->fetchAssoc($result))
+						{
+							$ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
+								array('integer', 'integer'),
+								array($row['solution_id'], (int)$authorized)
+							);
+						}
+					}
+
+					$this->saveCurrentSolution($active_id,$pass,$matches[1] . "_unit",$value, $authorized);
+				}
+			}
+
+		});
 
 		if($entered_values)
 		{

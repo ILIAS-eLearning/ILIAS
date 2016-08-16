@@ -51,7 +51,8 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment[]
 	 */
 	static public function getInstancesOfUser($a_user_id) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
 													->get();
@@ -194,7 +195,8 @@ class ilStudyProgrammeUserAssignment {
 				$node->getProgressForAssignment($id);
 			}
 			catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
-				global $ilLog;
+				global $DIC;
+				$ilLog = $DIC['ilLog'];
 				$ilLog->write("Adding progress for: ".$this->getId()." ".$node->getId());
 				require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
 				$progress = ilStudyProgrammeProgress::createFor($node->getRawSettings(), $this->assignment);

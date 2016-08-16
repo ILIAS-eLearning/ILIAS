@@ -48,6 +48,9 @@ class ilDatabaseImplementationSuite extends PHPUnit_Framework_TestSuite {
 		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2InnodbTest.php");
 		$suite->addTestSuite("ilDatabaseMDB2InnodbTest");
 
+		require_once("./Services/Database/test/Implementations/ilDatabasePDOGaleraTest.php");
+		$suite->addTestSuite("ilDatabasePDOGaleraTest");
+
 		require_once("./Services/Database/test/Implementations/ilDatabasePDOPostgresTest.php");
 		$suite->addTestSuite("ilDatabasePDOPostgresTest");
 

@@ -43,4 +43,5 @@
 		<context id="crs_context_member_manual" class="ilCourseMailTemplateMemberContext" />
 	</mailtemplates>
 	<logging />
+	<badges />
 </module>

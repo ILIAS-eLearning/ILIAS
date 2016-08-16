@@ -13,6 +13,14 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
  */
 class ilExerciseLP extends ilObjectLP
 {
+	public static function getDefaultModes($a_lp_active)
+	{
+		return array(
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR
+		);		
+	}
+	
 	public function getDefaultMode()
 	{		
 		return ilLPObjSettings::LP_MODE_EXERCISE_RETURNED;

@@ -11,7 +11,7 @@
 */
 class ilSCORM2004DeleteData
 {
-	public function removeCMIDataForPackage($packageId)
+	public static function removeCMIDataForPackage($packageId)
 	{
 		global $ilDB;
 
@@ -51,7 +51,7 @@ class ilSCORM2004DeleteData
 		}
 	}
 
-	public function removeCMIDataForUser($user_id)
+	public static function removeCMIDataForUser($user_id)
 	{
 		global $ilDB;
 
@@ -94,7 +94,7 @@ class ilSCORM2004DeleteData
 
 	}
 	
-	public function removeCMIDataForUserAndPackage($user_id,$packageId)
+	public static function removeCMIDataForUserAndPackage($user_id,$packageId)
 	{
 		global $ilDB;
 

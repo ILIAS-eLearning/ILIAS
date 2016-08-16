@@ -28,7 +28,7 @@ class ilObjDefReader extends ilSaxParser
 	 */
 	protected $mail_templates_by_component = array();
 
-	function ilObjDefReader($a_path, $a_name, $a_type)
+	function __construct($a_path, $a_name, $a_type)
 	{
 		// init specialized readers
 		foreach ($this->readers as $k => $reader)
@@ -285,7 +285,13 @@ class ilObjDefReader extends ilSaxParser
 				
 				case 'logging':
 					include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
-					ilLogComponentLevels::updateFromXML($this->getComponentId());
+					ilLogComponentLevels::updateFromXML($this->getComponentId());					
+					break;
+				
+				case 'badges':
+					include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+					ilBadgeHandler::updateFromXML($this->getComponentId());
+					$this->has_badges[] = $this->getComponentId();
 					break;
 			}
 		}
@@ -314,6 +320,12 @@ class ilObjDefReader extends ilSaxParser
 
 				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
 				ilMailTemplateService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
+				
+				if(!in_array($this->getComponentId(), (array)$this->has_badges))
+				{
+					include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+					ilBadgeHandler::clearFromXml($this->getComponentId());
+				}
 			}
 		}
 		

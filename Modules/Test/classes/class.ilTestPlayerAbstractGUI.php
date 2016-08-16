@@ -401,16 +401,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$testStartLock = $this->getLockParameter();
 		$isFirstTestStartRequest = false;
 
-		$this->processLocker->requestTestStartLockCheckLock();
-		
-		if( $this->testSession->lookupTestStartLock() != $testStartLock )
-		{
-			$this->testSession->persistTestStartLock($testStartLock);
-			$isFirstTestStartRequest = true;
-		}
+		$this->processLocker->executeTestStartLockOperation(function() use ($testStartLock, &$isFirstTestStartRequest) {
 
-		$this->processLocker->releaseTestStartLockCheckLock();
-		
+			if($this->testSession->lookupTestStartLock() != $testStartLock)
+			{
+				$this->testSession->persistTestStartLock($testStartLock);
+				$isFirstTestStartRequest = true;
+			}
+
+		});
+
 		if( $isFirstTestStartRequest )
 		{
 			$this->handleUserSettings();
@@ -711,8 +711,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Last try in limited tries & confirmed?
 		if(($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
 		{
-			$ilAuth->setIdle(ilSession::getIdleValue(), false);
-			$ilAuth->setExpire(0);
+			// @todo: php7 ask mister test
+			#$ilAuth->setIdle(ilSession::getIdleValue(), false);
+			#$ilAuth->setExpire(0);
 			switch($this->object->getMailNotification())
 			{
 				case 1:
@@ -881,7 +882,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			ilUtil::makeDirParents($path);
 		}
-		$filename = $path . '/exam_N' . $inst_id . '-' . $this->object->getId()
+		$filename = realpath($path) . '/exam_N' . $inst_id . '-' . $this->object->getId()
 					. '-' . $active . '-' . $pass . '.pdf';
 
 		require_once 'class.ilTestPDFGenerator.php';
@@ -938,7 +939,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$overview = $testevaluationgui->getPassListOfAnswers(
 			$passdata, $active, $pass, true, false, false, true, false, $objectivesList, $testResultHeaderLabelBuilder
 		);
-		$filename = ilUtil::getWebspaceDir() . '/assessment/scores-'.$this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
+		$filename = realpath(ilUtil::getWebspaceDir()) . '/assessment/scores-'.$this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
 		ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
 		$archiver->handInTestResult($active, $pass, $filename);
 		unlink($filename);

@@ -502,6 +502,7 @@ col or row span. -->
 <!ELEMENT AMDPageList EMPTY>
 <!ATTLIST AMDPageList
 	Id CDATA #REQUIRED
+	Mode CDATA #IMPLIED
 >
 
 <!ELEMENT InitOpenedContent (IntLink?)>

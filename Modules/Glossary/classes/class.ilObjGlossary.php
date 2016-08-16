@@ -46,7 +46,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			$this->createMetaData();
 		}
 		
-		$ilDB->manipulate("INSERT INTO glossary (id, is_online, virtual, pres_mode, snippet_length) VALUES (".
+		$ilDB->manipulate("INSERT INTO glossary (id, is_online, glossary.virtual, pres_mode, snippet_length) VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote("n", "text").",".
 			$ilDB->quote($this->getVirtualMode(), "text").",".
@@ -332,7 +332,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 		$ilDB->manipulate("UPDATE glossary SET ".
 			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
-			" virtual = ".$ilDB->quote($this->getVirtualMode(), "text").",".
+			" glossary.virtual = ".$ilDB->quote($this->getVirtualMode(), "text").",".
 			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
 			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
 			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".

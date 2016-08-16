@@ -65,6 +65,16 @@ class ilContextWAC implements ilContextTemplate {
 	public static function doAuthentication() {
 		return true;
 	}
+	
+	/**
+	 * Check if persistent session handling is supported
+	 * @return boolean
+	 */
+	public static function supportsPersistentSessions()
+	{
+		return true;
+	}
+	
 }
 
 ?>

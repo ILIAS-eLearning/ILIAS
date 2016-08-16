@@ -280,7 +280,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_GET['tableview_id']);
-		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
+		$ilCtrl->redirectByClass("ildclrecordlistgui", "show");
 	}
 
 
@@ -434,7 +434,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $_GET["tableview_id"]);
-		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
+		$ilCtrl->redirectByClass("ildclrecordlistgui", "show");
 	}
 
 
@@ -506,7 +506,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, true);
 				break;
 		}
-		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
+		$ilCtrl->redirectByClass("ildclrecordlistgui", "show");
 	}
 
 

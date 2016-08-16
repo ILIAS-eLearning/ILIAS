@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-07-23
+* @version	5.2.x 2016-08-07
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -223,7 +223,7 @@ assessment#:#add_matching_pair#:#Összeillő párok hozzáadása
 assessment#:#add_poly#:#Sokszög alakú terület hozzáadása
 assessment#:#add_questionpool#:#Kérdésgyűjtemény hozzáadása
 assessment#:#add_rect#:#Téglalap alakú terület hozzáadása
-assessment#:#add_solution#:#Javasolt megoldás hozzáadása
+assessment#:#add_solution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
 assessment#:#addSuggestedSolution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
 assessment#:#all_available_question_pools#:#Összes elérhető kérdésgyűjtemény
 assessment#:#allow_images#:#Képsegítség válaszokhoz
@@ -293,6 +293,8 @@ assessment#:#average_reached_points#:#Elért pontok átlaga
 assessment#:#backtocallingtest#:#Vissza a teszthez
 assessment#:#assLongMenu#:#Hosszú menü
 assessment#:#answers_text_box#:#Szöveg
+assessment#:#min_auto_complete#:#Autokiegészítés
+assessment#:#autocomplete_error#:#Autokiegészítése túl nagy szám. Mivel válaszai rövidebbek, sosem fognak megjelenni.
 assessment#:#answers_select#:#Legördülő
 assessment#:#info_text_upload#:#Válasszon egy UTF-8 kódolású válaszfájlt a feltöltéshez
 assessment#:#manual_editing#:#Kézi szerkesztés
@@ -310,10 +312,10 @@ assessment#:#cannot_export_test#:#Nincs megfelelő jogosultsága a teszt export�
 assessment#:#cannot_maintain_test#:#Nincs megfelelő jogosultsága a teszt karbantartásához.
 assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához.
 assessment#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok mentéséhez.
-assessment#:#change_solution#:#Javasolt megoldás változtatása.
+assessment#:#change_solution#:#Ismétléshez tartalom módosítása
 assessment#:#changelog_description#:#Az alábbi táblázat a szerzők minden teszten elvégzett változtatását tartalmazzák.
 assessment#:#changelog_heading#:#Változtatás
-assessment#:#changeSuggestedSolution#:#Javasolt megoldás típusának kiválasztása
+assessment#:#changeSuggestedSolution#:#Ismétléshez tartalomtípus kiválasztása
 assessment#:#checkbox_checked#:#Kiválasztott
 assessment#:#checkbox_unchecked#:#Nem kiválasztott
 assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjába.
@@ -360,7 +362,7 @@ assessment#:#delete_image_header#:#Kép eltávolítása
 assessment#:#delete_image_question#:#Biztos, hogy eltávolítja a képet?
 assessment#:#delete_image#:#Kép eltávolítása
 assessment#:#delete_user_data#:#Kiválasztott felhasználók tesztadatainak eltávolítása
-assessment#:#deleteSuggestedSolution#:#Ennek a javasolt megoldás eltávolítása
+assessment#:#deleteSuggestedSolution#:#Ezen tartalom eltávolítása
 assessment#:#description_maxchars#:#Ha a maximális karakterszám nincs megadva, a válasz terjedelme nem lesz korlátozva.
 assessment#:#detail_ending_time_reached#:#Lejárt a teszt szerkesztési ideje. A teszt nem elérhető % óta
 assessment#:#detail_max_processing_time_reached#:#Lejárt a teszt kitöltési ideje.
@@ -660,10 +662,10 @@ assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasznál�
 assessment#:#log_create_new_test#:#Új teszt jött létre
 assessment#:#log_manual_feedback#:#%s manuális visszajelzést adott %s tesztet kitöltőnek a(z) %s kérdéshez
 assessment#:#log_mark_added#:#Érdemjegy hozzáadva.
-assessment#:#log_mark_changed#:#Érdemjegyet sikeresen lecserélte.
+assessment#:#log_mark_changed#:#Érdemjegyet sikeresen módosította.
 assessment#:#log_mark_removed#:#Érdemjegyet sikeresen eltávolította.
-assessment#:#log_modified_test#:#A teszt megváltozott.
-assessment#:#tst_results_presentation_description#:#Ha a 'Futó tesztek kitöltési részleteinek megjelenítése' be van kapcsolva, a még be nem fejezett tesztek összes kérdésének címe és rá kapott pontszáma elérhető. Ha a 'Teszteredményekben a megoldások megjelenítése' be van kapcsolva, részletes megoldás elérhető a kitöltő számára teszteredményei bemutatásakor. Ez az összes válasz részletes pontozását jelenti, máskülönben csak a kérdés címét és az elért pontszámot tartalmazó áttekintés jelenik meg. Ha a válaszok felsorolása be van kapcsolva, egy áttekintést generálunk az összes kérdésről a résztvevő válaszával. Ez a felsorolás a tesztkitölés után közvetlenül a végső tesztbeadás előtt érhető el az 'Információ' fülön. Ha a 'Válaszfüggő visszajelzés megjelenítése a teszteredményekben' be van kapcsolva, a teszteredményekben a kérdések után megjelennek a válaszfüggő visszajelzések. Ha a 'Eredmények nyomtatási nézete (csak válaszok)' be van kapcsolva, a kérdéshez a 'Tartalom szerkesztése' fülön megadott tartalom nem jelennek meg nyomtatáskor. Amennyiben papíron helyet szeretne megtakarítani, válassza ezt az opciót. Ha az 'Aláírás-helyőrző' megjelenítése' be van kapcsolva, a nyomtatásakor egy helyőrző jelenik meg az aláírás számára. Ha a 'Javasolt megoldás megjelenítése' be van kapcsolva, a teszteredmények áttekintésében a kérdések javasolt megoldása megjelenik (amennyiben az létezik).
+assessment#:#log_modified_test#:#A teszt megváltozott
+assessment#:#tst_results_presentation_description#:#Ha a 'Futó tesztek kitöltési részleteinek megjelenítése' be van kapcsolva, a még be nem fejezett tesztek összes kérdésének címe és rá kapott pontszáma elérhető. Ha a 'Teszteredményekben a megoldások megjelenítése' be van kapcsolva, részletes megoldás elérhető a kitöltő számára teszteredményei bemutatásakor. Ez az összes válasz részletes pontozását jelenti, máskülönben csak a kérdés címét és az elért pontszámot tartalmazó áttekintés jelenik meg. Ha a válaszok felsorolása be van kapcsolva, egy áttekintést generálunk az összes kérdésről a résztvevő válaszával. Ez a felsorolás a tesztkitölés után közvetlenül a végső tesztbeadás előtt érhető el az 'Információ' fülön. Ha a 'Válaszfüggő visszajelzés megjelenítése a teszteredményekben' be van kapcsolva, a teszteredményekben a kérdések után megjelennek a válaszfüggő visszajelzések. Ha a 'Eredmények nyomtatási nézete (csak válaszok)' be van kapcsolva, a kérdéshez a 'Tartalom szerkesztése' fülön megadott tartalom nem jelennek meg nyomtatáskor. Amennyiben papíron helyet szeretne megtakarítani, válassza ezt az opciót. Ha az 'Aláírás-helyőrző' megjelenítése' be van kapcsolva, a nyomtatásakor egy helyőrző jelenik meg az aláírás számára. Ha az 'Ismétlő összefoglaló tartalmának megjelenítése' be van kapcsolva, a teszteredmények áttekintésében az ismétlő összefoglaló tartalom megjelenik (amennyiben az létezik).
 assessment#:#log_question_added#:#A kérdést sikeren hozzáadta az megadott helyen.
 assessment#:#log_question_position_changed#:#A kérdés helyét sikeresen megváltoztatta.
 assessment#:#log_question_removed#:#Kérdést sikeresen eltávolította.
@@ -911,7 +913,7 @@ assessment#:#redirectAfterSave#:#Elérkezett a maximális munkaidő vége, és a
 assessment#:#region#:#Régió
 assessment#:#remove_as_participant#:#Meghatározottként eltávolítás
 assessment#:#remove_question#:#Eltávolítás
-assessment#:#remove_solution#:#Ajánlott megoldás eltávolítása
+assessment#:#remove_solution#:#Ismétlő összefoglaló tartalmának eltávolítása
 assessment#:#report_date_not_reached#:#Nem érte el a jelentéskészítési dátumot. A teszteredményeket megtekintheti %n
 assessment#:#reset_definitions#:#Rendezés visszaállítása
 assessment#:#reset_filter#:#Szűrő alapállapotba állítása
@@ -958,7 +960,7 @@ assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Válaszok zárolá
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#A 'Válasz' gombra kattintás után a válasz már nem módosítható. A résztevőknek a visszajelzés jelenik meg az 'Azonnali visszajelzés' alatt beállítottaknak megfelelően.
 assessment#:#tst_instant_feedback_handling_force#:#Válaszok ne legyenek zárolva, de a visszajelzés legyen kikényszerítve
 assessment#:#tst_instant_feedback_handling_force_desc#:#A 'Válasz' gombra kattintás után a résztevőknek a visszajelzés jelenik meg az 'Azonnali visszajelzés' alatt beállítottaknak megfelelően. A résztvevők válaszaikat bármelyik kitöltés alatt módosíthatják.
-assessment#:#see_details_for_further_information#:#Nézze meg a javasolt megoldások részleteit!
+assessment#:#see_details_for_further_information#:#Nézze meg az ismétlő összefoglaló tartalmának részleteit!
 assessment#:#select_an_answer#:#--- Válasszon ki egy választ! ---
 assessment#:#select_gap#:#Szöveghelyre választás
 assessment#:#select_max_one_item#:#Csak egy elemet válasszon!
@@ -981,8 +983,8 @@ assessment#:#showinfo_desc#:#Az összes teszttulajdonság felsorolás jelenik me
 assessment#:#showinfo#:#Az összes teszttulajdonság megjelenítése
 assessment#:#showSuggestedSolution#:#Típus
 assessment#:#shuffle_answers#:#Kevert válaszok
-assessment#:#suggested_solution#:#Tartalom ismétlő összefoglaláshoz
-assessment#:#solution_hint#:#Hozzárendelt tartalom ismétlő összefoglaláshoz
+assessment#:#suggested_solution#:#Ismétlő összefoglaló tartalma
+assessment#:#solution_hint#:#Ismétlő összefoglaláshoz rendelt tartalom
 assessment#:#solution_may_contain_keywords#:#A megoldás az alábbi kulcsszavak közül egyet tartalmazhat.
 assessment#:#solution_order#:#Megoldási sorrend
 assessment#:#solutionText#:#Szöveg
@@ -990,7 +992,7 @@ assessment#:#start_tag#:#Kezdő címke
 assessment#:#starting_time_not_reached#:#Nem érte el a kezdő időpontot
 assessment#:#statistical_data#:#Statisztikai adatok
 assessment#:#statistics#:#Statisztika
-assessment#:#suggested_solution_added_successfully#:#Sikeresen beállított egy javasolt megoldást.
+assessment#:#suggested_solution_added_successfully#:#Sikeresen beállított tartalmat ismétlő összefoglaláshoz.
 assessment#:#suggestedSolutionType#:#Hivatkozás a következőre
 assessment#:#symbol#:#Szimbólum
 assessment#:#term_image#:#Kifejezéskép
@@ -1297,7 +1299,7 @@ assessment#:#tst_show_solution_details#:#Megoldások megjelenítése a tesztered
 assessment#:#tst_show_solution_feedback#:#Válaszspecifikus visszajelzés megjelenítése a teszteredményekben
 assessment#:#tst_show_solution_printview#:#Válaszok listájának megjelenítése
 assessment#:#tst_show_solution_signature#:#Aláírás-helyőrző megjelenítése
-assessment#:#tst_show_solution_suggested#:#Ismétlő összefoglalás tartalmának megjelenítése
+assessment#:#tst_show_solution_suggested#:#Ismétlő összefoglaló tartalom megjelenítése
 assessment#:#tst_show_summary_description#:#A résztvevő számára megjelenik a 'Kérdéslista' gomb, amivel bekapcsolhatják az összes kérdés felsorolását. Ekkor a képernyőn az összesített állapot is megjelenik.
 assessment#:#tst_show_summary#:#Kérdéslista megjelenítése
 assessment#:#tst_shuffle_questions_description#:#Kérdéssorrend keverése minden tesztkitöltéshez.
@@ -1655,7 +1657,7 @@ bibitem#:#bibitem_dissertation#:#Értekezés
 bibitem#:#bibitem_edition#:#Kiadás
 bibitem#:#bibitem_editor#:#Szerkesztő
 bibitem#:#bibitem_entry#:#Bejegyzés
-bibitem#:#bibitem_first_name#:#Vezetéknév
+bibitem#:#bibitem_first_name#:#Családi név
 bibitem#:#bibitem_grey_literature#:#Szürke irodalom
 bibitem#:#bibitem_how_published#:#Publikálás módja
 bibitem#:#bibitem_identifier#:#Azonosító
@@ -1735,8 +1737,8 @@ certificate#:#certificate_ph_country#:#Felhasználó címe - ország
 certificate#:#certificate_ph_date#:#Aktuális dátum
 certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
 certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
-certificate#:#certificate_ph_firstname#:#Felhasználó vezetékneve
-certificate#:#certificate_ph_fullname#:#Felhasználó teljes neve (előnév, vezetéknév és utónév)
+certificate#:#certificate_ph_firstname#:#Felhasználó családi neve
+certificate#:#certificate_ph_fullname#:#Felhasználó teljes neve (előnév, családi és utónév)
 certificate#:#certificate_ph_institution#:#Felhasználó intézménye
 certificate#:#certificate_ph_introduction#:#Az alábbi helyőrzők használhatók
 certificate#:#certificate_ph_lastaccess#:#Felhasználó utolsó hozzáférési dátuma és ideje
@@ -2751,7 +2753,7 @@ common#:#filter_users_with_exceeded_disk_quota#:#Csak azon felhasználók, akik 
 common#:#filter_users_without_access#:#Csak a hozzáféréssel nem rendelkező felhasználók
 common#:#filter_users_without_disk_usage#:#Csak azon felhasználók, akik nem használnak tárhelyet
 common#:#filter#:#Szűrő
-common#:#firstname#:#Vezetéknév
+common#:#firstname#:#Családi név
 common#:#flatview#:#Oldalsáv elrejtése
 common#:#fold_a#:#egy mappa
 common#:#fold_add#:#Mappa létrehozása
@@ -4103,28 +4105,28 @@ common#:#repository_admin#:#Taneszköztároló-lomtár és jogosultságok
 common#:#repository_frame#:#Taneszköztároló-tartalom
 common#:#repository#:#Taneszköztároló
 common#:#request_membership#:#Tagság kérése
-common#:#require_city#:#Város kérése
-common#:#require_country#:#Ország kérése
-common#:#require_default_role#:#Szerep kérése
-common#:#require_department#:#Osztály kérése
-common#:#require_email#:#E-mail kérése
-common#:#require_fax#:#Fax kérése
-common#:#require_firstname#:#Vezetéknév kérése
-common#:#require_gender#:#Nem kérése
-common#:#require_hobby#:#Hobbi kérése
-common#:#require_institution#:#Intézmény kérése
-common#:#require_lastname#:#Utónév kérése
-common#:#require_login#:#Felhasználónév kérése
+common#:#require_city#:#Város kötelező
+common#:#require_country#:#Ország kötelező
+common#:#require_default_role#:#Szerep kötelező
+common#:#require_department#:#Osztály kötelező
+common#:#require_email#:#E-mail kötelező
+common#:#require_fax#:#Fax kötelező
+common#:#require_firstname#:#Családi név kötelező
+common#:#require_gender#:#Nem kötelező
+common#:#require_hobby#:#Hobbi kötelező
+common#:#require_institution#:#Intézmény kötelező
+common#:#require_lastname#:#Utónév kötelező
+common#:#require_login#:#Felhasználónév kötelező
 common#:#require_mandatory#:#kötelező
-common#:#require_matriculation#:#Kötelező törzskönyvi szám
-common#:#require_passwd#:#Jelszó kérése
-common#:#require_passwd2#:#Újragépelt jelszó kérése
-common#:#require_phone_home#:#Lakástelefon kérése
-common#:#require_phone_mobile#:#Mobiltelefon kérése
-common#:#require_phone_office#:#Hivatali telefon kérése
-common#:#require_referral_comment#:#Hivatkozó megjegyzés kérése
-common#:#require_street#:#Utca kérése
-common#:#require_zipcode#:#Irányítószám kérése
+common#:#require_matriculation#:#Törzskönyvi szám kötelező
+common#:#require_passwd#:#Jelszó kötelező
+common#:#require_passwd2#:#Újragépelt jelszó kötelező
+common#:#require_phone_home#:#Lakástelefon kötelező
+common#:#require_phone_mobile#:#Mobiltelefon kötelező
+common#:#require_phone_office#:#Hivatali telefon kötelező
+common#:#require_referral_comment#:#Hivatkozó megjegyzés kötelező
+common#:#require_street#:#Utca kötelező
+common#:#require_zipcode#:#Irányítószám kötelező
 common#:#required_field#:#Kötelező
 common#:#res_links_short#:#Linkek
 common#:#res_links#:#Taneszköztároló linkek
@@ -4317,7 +4319,7 @@ common#:#shib_department#:#Osztály attribútuma
 common#:#shib_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#shib_email#:#E-mail cím attribútuma
 common#:#shib_federation_name#:#Az Ön Shibboleth-szövetségének neve
-common#:#shib_firstname#:#Vezetéknév attribútuma
+common#:#shib_firstname#:#Családi név attribútuma
 common#:#shib_gender#:#Nem attribútuma ('f' vagy 'n' kell legyen)
 common#:#shib_general_login_instructions#:#%s keresztüli bejelentkezéshez kattintson a bejelentkezési gombra és válassza ki szervezetét a következő lapon.<br/>Ha ezzel kapcsolatban kérdése van, keresse:
 common#:#shib_general_wayf_login_instructions#:#Abban az esetben, ha nem csatlakozott a megadott szervezetekhez, és hozzá szeretne férni a szerver egy kurzusához, vegye fel a kapcsolatot:
@@ -6186,7 +6188,7 @@ crs#:#timings_timings#:#Időzítés
 crs#:#timings_usr_edit#:#Időzítés beállítása
 crs#:#timings#:#Időzítés
 crs#:#tutor_email#:#E-mail cím
-crs#:#tutor_firstname#:#Vezetéknév
+crs#:#tutor_firstname#:#Családi név
 crs#:#tutor_lastname#:#Utónév
 crs#:#tutor_name#:#Név
 crs#:#tutor_phone#:#Telefon
@@ -9673,7 +9675,7 @@ trac#:#vm_days_of_period#:#Időszak napjai
 trac#:#vm_times_of_day#:#Napok órái
 user#:#user_access_limited#:#Korlátozott
 user#:#user_access_unlimited#:#Korlátlan
-user#:#user_activate_public_profile_info#:#Ha bekapcsolta, vezeték és utóneve mindig látható lesz a profiljában.
+user#:#user_activate_public_profile_info#:#Ha bekapcsolta, családi és utóneve mindig látható lesz a profiljában.
 user#:#user_activate_public_profile#:#Aktiválás
 user#:#user_activation#:#Aktiválás
 user#:#user_all#:#Összes
@@ -12575,12 +12577,12 @@ blog#:#blog_edit_keywords#:#Kulcsszavak módosítása
 blog#:#blog_keyword#:#Kulcsszó
 administration#:#adm_adm_role_protect#:#Rendszergazdai szerep védelme
 administration#:#adm_adm_role_protect_info#:#Ha be van kapcsolva, csak a rendszergazda rendelhet felhasználókat a rendszergazda szerephez, illetve csak ő vonhatja vissza azt.
-fm#:#fm_settings_tab#:#Fájlmenedzser
-fm#:#fm_settings_active#:#Fájlmenedzser engedélyezése
+fm#:#fm_settings_tab#:#Fájlkezelő
+fm#:#fm_settings_active#:#Fájlkezelő engedélyezése
 fm#:#fm_settings_active_info#:#A felhasználó kategóriákat, kurzusokat, csoportokat és mappákat nyithat meg a 'Megnyitás fájlkezelővel' művelet segítségével a Taneszköztárolóban.
-common#:#fm_start#:#Megnyitás fájlmenedzserrel
+common#:#fm_start#:#Megnyitás fájlkezelővel
 fm#:#fm_settings_local#:#Helyi fájlrendszer megjelenítése
-fm#:#fm_settings_local_info#:#Ha be van kapcsolva, a fájlmenedzser két kerettel indul el. Az egyik a helyi fájlrendszert, a másik az ILIAS taneszköztároló nézetét tartalmazza. Ha ki van kapcsolva, csak az ILIAS taneszköztároló látható.
+fm#:#fm_settings_local_info#:#Ha be van kapcsolva, a fájlkezelő két kerettel indul el. Az egyik a helyi fájlrendszert, a másik az ILIAS taneszköztároló nézetét tartalmazza. Ha ki van kapcsolva, csak az ILIAS taneszköztároló látható.
 fm#:#fm_settings_filesize#:#Maximális fájlfeltöltési méret
 fm#:#fm_settings_filesize_info#:#Adja meg MB-ban a fájlfeltöltés maximális méretét.
 blog#:#blog_authors#:#Szerzők
@@ -13008,7 +13010,7 @@ trac#:#trac_collection_manual_learner_changed_ts#:#Változás dátuma
 trac#:#trac_collection_manual_learner_lm_info#:#Valamennyi Ön által befejezett fejezet aktiválása. 
 trac#:#trac_collection_tlt_learner_info#:#Erre az objektumra a tanulási haladás a jellemző tanulási időre épül.
 trac#:#trac_collection_tlt_learner_subitem#:#Eltöltött / szükséges: %s / %s (%s%%).
-trac#:#trac_lp_list_gui#:#Személyes munkaasztal, Taneszköztároló, Keresés
+trac#:#trac_lp_list_gui#:#Munkaasztal, Taneszköztároló, Keresés
 trac#:#trac_lp_list_gui_info#:#Ha be van kapcsolva, a tanulási haladás állapota megjelenik az objektumok felsorolásánál.
 common#:#hide_all_details#:#Összes részlet elrejtése
 common#:#show_all_details#:#Összes részlet megjelenítése
@@ -13510,10 +13512,10 @@ administration#:#git_revision#:#Szám: %s
 administration#:#git_hash_short#:#Változtatás Hash (rövid): %s
 administration#:#git_last_commit#:#Utolsó változtatás: %s
 content#:#cont_verification_placeh#:#Kattints és szerkessz a tanúsítvány beszúrásához
-content#:#cont_verification_placehl#:#Tanúsítvány helyőrzők
-content#:#cont_ed_plachverification#:#Helyőrző tanúsítványok
+content#:#cont_verification_placehl#:#Tanúsítvány-helyőrző
+content#:#cont_ed_plachverification#:#Helyőrző tanúsítvány
 cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjektum nem jött létre.
-dcl#:#fieldtitle_allow_chars#:#Megengedett karakterek: %s
+dcl#:#fieldtitle_allow_chars#:#Nem engedélyezett karakterek: %s
 dcl#:#add_value#:#Új bejegyzés hozzáadása
 common#:#objs_orgu#:#Szervezeti egységek
 common#:#obj_orgu#:#Szervezeti egység
@@ -15132,7 +15134,7 @@ exc#:#exc_team_management_tutor#:#Tutorok kezelik a csapatokat
 exc#:#exc_team_management_tutor_info#:#Ha be van kapcsolva, a résztvevők nem oszthatják saját magukat csoportokba.
 exc#:#exc_no_team_yet_info_tutor#:#A beadandó feladat tutorai kezelik a csapatokat.
 exc#:#exc_max_file#:#Fájlok maximális száma
-exc#:#exc_max_file_info#:#A korlát elérése után a felhasználók már tudnak több fájlt feltölteni.
+exc#:#exc_max_file_info#:#A korlát elérése után a felhasználók már tudnak több fájlt feltölteni. Csapattagság esetén nincs csapatszintű korlát, ott is a felhasználónkénti korlát él.
 exc#:#exc_max_file_tgl#:#Feltöltési korlát
 exc#:#exc_max_file_reached#:#%s fájlnál többet nem tud feltölteni.
 exc#:#exc_deadline_extended#:#Türelmi időszak
@@ -15257,8 +15259,8 @@ obj#:#obj_target_location#:#Célhely
 obj#:#obj_copy_progress#:#Másolási folyamat
 cntr#:#cntr_copy_repo_tree#:#Taneszköztároló
 cntr#:#cntr_copy_crs_grp#:#Kurzusaim és csoportjaim
-crs#:#crs_mail_context_tutor_title#:#Kurzustutor 
-crs#:#crs_mail_context_member_title#:#Kurzustag
+crs#:#crs_mail_context_tutor_title#:#Levél kurzustagoknak 
+crs#:#crs_mail_context_member_title#:#Kurzus infolapja
 sahs#:#sahs_mail_context_lp#:#SCORM tanulási folyamat
 mail#:#mail_templates#:#Szövegminták
 mail#:#mail_new_template#:#Új szövegminta
@@ -15742,9 +15744,9 @@ crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen
 form#:#form_date_duration_start#:#Kezdő időpont
 form#:#form_date_duration_end#:#Záró időpont
 auth#:#auth_ldap_server_ds#:#LDAP szerver
-content#:#cont_permission_object#:#Permission Object
+content#:#cont_permission_object#:#Jogosultságobjektum
 assessment#:#ass_location#:#Helyszín
-assessment#:#ass_imap_hint#:#A tippek buboréksúgóként jelenljenek meg
+assessment#:#ass_imap_hint#:#Tippek buboréksúgóként jelenjenek meg
 assessment#:#ass_imap_map_file_not_readable#:#A feltöltött képtérkép nem olvasható.
 assessment#:#ass_imap_no_map_found#:#Egy űrlap sem található a feltöltött képtérképben.
 rbac#:#sty_write_content#:#Tartalomstílusok módosítása
@@ -15753,3 +15755,13 @@ rbac#:#sty_write_system#:#endszerstílusok módosítása
 rbac#:#stys_sty_write_system#:#Rendszerstílusok módosítása
 rbac#:#sty_write_page_layout#:#Lapelrendezések módosítása
 rbac#:#stys_sty_write_page_layout#:#Lapelrendezések módosítása
+skmg#:#skmg_import_skills#:#Importálás
+skmg#:#skmg_input_file#:#Importfájl
+skmg#:#skmg_skill_in_use#:#Ezt a kompetenciát másik felhasználó vagy tartalom használja, ezért nem minden művelet végezhető el rajta. Módosítása hatással lehet korábbi felhasználásaira.
+form#:#form_no_link#:#Nincs link
+copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, győződjön meg arról, hogy a blokk más interaktív elemet (pl. másik linket) nem tartalmaz, mert azok helyes működése így nem biztosított.
+pd#:#pd_sys_msg_own_block#:#Rendszerüzenetek megjelenítése saját blokkban
+pd#:#pd_sys_msg_mail_block#:#Rendszerüzenetek megjelenítése a 'Levelek' blokkban
+pd#:#pd_sys_msg_no_block#:#Egy rendszerüzenet se jelenjen meg a Munkaasztalon
+blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
+common#:#objs_prtf#:#Portfóliók

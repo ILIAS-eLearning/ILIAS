@@ -86,7 +86,7 @@ class ilDclFieldListGUI
 	 */
 	public function executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd('listFields');
 		switch($cmd) {
 			default:
 				$this->$cmd();

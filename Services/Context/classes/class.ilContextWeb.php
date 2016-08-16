@@ -81,8 +81,18 @@ class ilContextWeb implements ilContextTemplate
 	 */
 	public static function doAuthentication()
 	{
+		return false;
+	}
+	
+	/**
+	 * Check if persistent session handling is supported
+	 * @return boolean
+	 */
+	public static function supportsPersistentSessions()
+	{
 		return true;
 	}
+	
 }
 
 ?>

@@ -547,7 +547,7 @@ il.UICore = {
 				// as long as we have two lines...
 				while (tabsHeight > 50) {
 					children = tabs.children('li:not(:last-child)');
-					count = children.size();
+					count = children.length;
 
 					// ...put last child into collapsed drop down
 					$(children[count-1]).prependTo('#ilTabDropDown');
@@ -555,13 +555,13 @@ il.UICore = {
 				}
 			} else {
 				// as long as we have one line...
-				while (tabsHeight < 50 && ($('#ilTabDropDown').children('li').size()>0)) {
+				while (tabsHeight < 50 && ($('#ilTabDropDown').children('li').length>0)) {
 					collapsed = $('#ilTabDropDown').children('li');
-					count = collapsed.size();
+					count = collapsed.length;
 					$(collapsed[0]).insertBefore(tabs.children('li:last-child'));
 					tabsHeight = tabs.innerHeight();
 				}
-				if ($('#ilTabDropDown').children('li').size() == 0) {
+				if ($('#ilTabDropDown').children('li').length == 0) {
 					$('#ilLastTab a').addClass("ilNoDisplay");
 				}
 				if (tabsHeight>50 && !recheck) { // double chk height again
@@ -603,9 +603,9 @@ il.UICore = {
 			});
 		});
 		$(document).mouseup(function(e){
-			$('#bot_center_area_drag').unbind('mousemove');
+			$('#bot_center_area_drag').off('mousemove');
 			$('#drag_zmove').css("display","none");
-			$(document).unbind('mousemove');
+			$(document).off('mousemove');
 		});
 
 	},
@@ -662,13 +662,13 @@ il.UICore = {
 // fixing anchor links presentation, unfortunately there
 // is no event after browsers have scrolled to an anchor hash
 // and at least firefox seems to do this multiple times when rendering a page
-$(window).bind("load", function() {
+$(window).on("load", function() {
 	window.setTimeout(function() {
 		il.UICore.scrollToHash();
 	}, 500);
 });
 
-$(window).bind("hashchange", function () {
+$(window).on("hashchange", function () {
 	il.UICore.scrollToHash();
 });
 

@@ -20,6 +20,22 @@ abstract class ilPageContent
 	var $hier_id; 		// hierarchical editing id
 	var $node;			// node in page xml
 	var $dom;			// dom object
+	var $page_lang;
+
+	/**
+	 * @var string needed for post processing (e.g. content includes)
+	 */
+	protected $file_download_link;
+
+	/**
+	 * @var string needed for post processing (e.g. content includes)
+	 */
+	protected $fullscreen_link;
+
+	/**
+	 * @var string needed for post processing (e.g. content includes)
+	 */
+	protected $sourcecode_download_script;
 
 	/**
 	* Constructor.
@@ -189,7 +205,67 @@ abstract class ilPageContent
 		return $this->pcid;
 	}
 
-	
+	/**
+	 * Set file download link
+	 *
+	 * @param string $a_download_link download link
+	 */
+	function setFileDownloadLink($a_download_link)
+	{
+		$this->file_download_link = $a_download_link;
+	}
+
+	/**
+	 * Get file download link
+	 *
+	 * @return string
+	 */
+	function getFileDownloadLink()
+	{
+		return $this->file_download_link;
+	}
+
+	/**
+	 * Set fullscreen link
+	 *
+	 * @param string $a_download_link download link
+	 */
+	function setFullscreenLink($a_fullscreen_link)
+	{
+		$this->fullscreen_link = $a_fullscreen_link;
+	}
+
+	/**
+	 * Get fullscreen link
+	 *
+	 * @return string
+	 */
+	function getFullscreenLink()
+	{
+		return $this->fullscreen_link;
+	}
+
+	/**
+	 * Set sourcecode download script
+	 *
+	 * @param string $script_name
+	 */
+	function setSourcecodeDownloadScript ($script_name)
+	{
+		$this->sourcecode_download_script = $script_name;
+	}
+
+	/**
+	 * Get sourcecode download script
+	 *
+	 * @return string
+	 */
+	function getSourcecodeDownloadScript ()
+	{
+		return $this->sourcecode_download_script;
+	}
+
+
 	/**
 	* Read PC Id.
 	*

@@ -257,6 +257,28 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 	/**
 	 *
 	 */
+	public function testClientSaltIsGeneratedWhenNoClientSaltExistsYet()
+	{
+		$this->getTestDirectory()->chmod(0777);
+
+		$encoder = new ilBcryptPasswordEncoder();
+		$this->assertNotNull($encoder->getClientSalt());
+	}
+
+	/**
+	 * @expectedException ilPasswordException
+	 */
+	public function testExceptionIsRaisedWhenClientSaltCouldNotBeGeneratedInCaseNoClientSaltExistsYet()
+	{
+		$this->assertException(ilPasswordException::class);
+		$this->getTestDirectory()->chmod(0000);
+
+		$encoder = new ilBcryptPasswordEncoder();
+	}
+
+	/**
+	 *
+	 */
 	public function testBackwardCompatibilityCanBeRetrievedWhenBackwardCompatibilityIsSet()
 	{
 		$encoder = new ilBcryptPasswordEncoder();
