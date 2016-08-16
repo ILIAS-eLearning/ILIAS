@@ -1092,6 +1092,7 @@ assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous te
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
 assessment#:#tst_hide_side_list#:#Hide List of Questions
+assessment#:#new_test_online#:#The Test was set online.
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
