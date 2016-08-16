@@ -6,9 +6,9 @@ namespace ILIAS\UI\Component;
  * Interface to be extended by components that have the possibility to bind
  * to Javascript.
  */
-interface JSBindable {
+interface JavaScriptBindable {
 	/**
- 	 * Add some JS-code that binds to the given component on load.
+	 * Add some JS-code that binds to the given component on load.
 	 *
 	 * The closure gets the id of the component as string and is expected to return a string
 	 * containing javascript statements.
@@ -31,4 +31,4 @@ interface JSBindable {
 	 * @param	self
 	 */
 	public function withOnLoadCode(\Closure $binder);
-} 
+}
