@@ -86,20 +86,25 @@
 		},
 
 		init: function() {
-			localStorage.clear();
+			//localStorage.clear();
 			getModule().storage = new ConversationStorage();
 
 			$(window).bind('storage', function(e){
 				var conversation = e.originalEvent.newValue;
+				var oldConversation = e.originalEvent.oldValue;
 				if(!(conversation instanceof Object)) {
 					conversation = JSON.parse(conversation);
+				}
+				if(!(oldConversation instanceof Object)) {
+					oldConversation = JSON.parse(oldConversation);
 				}
 
 				$menu.add(conversation);
 
-				if(conversation.open) {
+				if(conversation.open && (oldConversation == null || !oldConversation.open)) {
+				//if(conversation.open) {
 					getModule().open(conversation);
-				} else {
+				} else if(!conversation.open) {
 					$('[data-onscreenchat-window=' + conversation.id + ']').hide();
 				}
 			});
@@ -164,10 +169,9 @@
 				$(conversationWindow).find('.panel-body').animate({
 					scrollTop: $(conversationWindow).find('[data-onscreenchat-body]').outerHeight()
 				}, 0);
-
-				$chat.getHistory(conversation.id, conversation.oldestMessageTimestamp);
 			}
 
+			$chat.getHistory(conversation.id, conversation.oldestMessageTimestamp);
 			conversationWindow.show();
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
 		},
@@ -408,6 +412,8 @@
 
 		this.save = function(conversation) {
 			var oldValue = this.get(conversation.id);
+
+			conversation.messages = [];
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
