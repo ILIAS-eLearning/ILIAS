@@ -2210,8 +2210,6 @@ common#:#bkm_sendmail#:#Send as attachment
 common#:#block_management#:#Block Management
 common#:#block#:#Block
 common#:#bm_add_to_ilias#:#ILIAS Bookmarks
-common#:#bm_add_to_social_bookmarks#:#Add to Bookmarks
-common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bold#:#Bold
@@ -4414,11 +4412,6 @@ common#:#soap_user_administration_desc#:#If enabled, ILIAS can be administrated 
 common#:#soap_user_administration#:#Administration via SOAP
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
 common#:#soap_wsdl_path#:#WSDL Path
-common#:#socialbm_disable#:#Disable
-common#:#socialbm_enable#:#Enable
-common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
-common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
-common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Sort by this column
 common#:#sorting_header#:#Content Item Sorting
 common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
@@ -12459,8 +12452,6 @@ common#:#itgr_add#:#Add Item Group
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
-administration#:#adm_social_bm_create#:#Create Social Bookmark
-administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
