@@ -16526,3 +16526,27 @@ if($ilDB->sequenceExists('bookmark_social_bm'))
 	$ilDB->dropSequence('bookmark_social_bm');
 }
 ?>
+<#4976>
+<?php
+$sbm_path = realpath(CLIENT_WEB_DIR . DIRECTORY_SEPARATOR . 'social_bm_icons');
+if(file_exists($sbm_path) && is_dir($sbm_path))
+{
+	$iter = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator($sbm_path, RecursiveDirectoryIterator::SKIP_DOTS),
+		RecursiveIteratorIterator::CHILD_FIRST
+	);
+	foreach($iter as $fileinfo)
+	{
+		if($fileinfo->isDir())
+		{
+			@rmdir($fileinfo->getRealPath());
+		}
+		else
+		{
+			@unlink($fileinfo->getRealPath());
+		}
+	}
+
+	@rmdir($sbm_path);
+}
+?>
