@@ -50,6 +50,11 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			);			
 		}
 		
+		self::$all_columns['roles'] = array(
+			'txt' => $this->lng->txt('objs_role'),
+			'default' => true
+		);
+		
 		return self::$all_columns;
 	}
 	

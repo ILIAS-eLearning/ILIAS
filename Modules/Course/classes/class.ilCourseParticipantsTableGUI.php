@@ -70,7 +70,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->addColumn('', 'f', "1");
 		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
-
+		
 		$all_cols = $this->getSelectableColumns();
 		foreach($this->getSelectedColumns() as $col)
 		{
@@ -226,6 +226,22 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 					$this->tpl->setVariable('VAL_CUST',(string) $a_set['odf_info_txt']);
 					$this->tpl->parseCurrentBlock();
 					break;
+				
+				case 'roles':
+					$roles = array();
+					foreach($this->getParentObject()->getLocalRoles() as $role_id => $role_name)
+					{
+						// @todo fix performance
+						if($GLOBALS['rbacreview']->isAssigned($a_set['usr_id'], $role_id))
+						{
+							$roles[] = $role_name;
+						}
+						
+					}
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
+					$this->tpl->parseCurrentBlock();
+					break;
 
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
@@ -283,7 +299,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->tpl->parseCurrentBlock();
 			// cognos-blu-patch: end
 
-			$this->tpl->setVariable('with_notification');
+			$this->tpl->setCurrentBlock('with_notification');
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
 			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
@@ -326,7 +342,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
 			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
 			$this->tpl->parseCurrentBlock();
-		}		
+		}	
 	}
 
 	/**
@@ -350,6 +366,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields["access_until"]);
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
+		unset($additional_fields['roles']);
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)

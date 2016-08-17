@@ -529,5 +529,14 @@ class ilMembershipGUI
 	{
 		return $this->getParentGUI()->readMemberData($usr_ids, $columns);
 	}
+	
+	/**
+	 * Get parent roles
+	 * @return type
+	 */
+	public function getLocalRoles()
+	{
+		return $this->getParentGUI()->getLocalRoles();
+	}
 }
 ?>
