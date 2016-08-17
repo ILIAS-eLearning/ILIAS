@@ -467,55 +467,56 @@ class ilObjectActivation
 			return;
 		}
 		
-		// #10077
-		$ilDB->lockTables(array(
-			array("name" => "crs_items", 
-				"type" => ilDBConstants::LOCK_WRITE,
-				"alias" => "")
-		));
-		
-		$sql = "SELECT * FROM crs_items".
-			" WHERE obj_id = ".$ilDB->quote($a_ref_id, "integer");	
-		$set = $ilDB->query($sql);
-		if(!$ilDB->numRows($set))
-		{		
-			$now = time();
-			$now_parts = getdate($now);
 
-			$a_item = array();
-			$a_item["timing_type"]		= self::TIMINGS_DEACTIVATED;
-			$a_item["timing_start"]		= $now;
-			$a_item["timing_end"]		= $now;
-			$a_item["suggestion_start"]	= $now;
-			$a_item["suggestion_end"]	= $now;
-			$a_item['visible']			= 0;
-			$a_item['changeable']		= 0;
-			$a_item['earliest_start']	= $now;
-			$a_item['latest_end']	    = mktime(23,55,00,$now_parts["mon"],$now_parts["mday"],$now_parts["year"]);
-			$a_item['visible']			= 0;
-			$a_item['changeable']		= 0;
-			
-			$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
-				"suggestion_start,suggestion_end, ".
-				"changeable,earliest_start,latest_end,visible,position) ".
-				"VALUES( ".
-				$ilDB->quote($parent_id,'integer').",".
-				$ilDB->quote($a_ref_id,'integer').",".
-				$ilDB->quote($a_item["timing_type"],'integer').",".
-				$ilDB->quote($a_item["timing_start"],'integer').",".
-				$ilDB->quote($a_item["timing_end"],'integer').",".
-				$ilDB->quote($a_item["suggestion_start"],'integer').",".
-				$ilDB->quote($a_item["suggestion_end"],'integer').",".
-				$ilDB->quote($a_item["changeable"],'integer').",".
-				$ilDB->quote($a_item['earliest_start'],'integer').", ".
-				$ilDB->quote($a_item['latest_end'],'integer').", ".
-				$ilDB->quote($a_item["visible"],'integer').", ".
-				$ilDB->quote(0,'integer').")";
-			$ilDB->manipulate($query);
-		}
+		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock("crs_items");
+
+		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($a_ref_id, $parent_id, &$a_item){
+
+			$sql = "SELECT * FROM crs_items".
+				" WHERE obj_id = ".$ilDB->quote($a_ref_id, "integer");
+			$set = $ilDB->query($sql);
+			if(!$ilDB->numRows($set))
+			{
+				$now = time();
+				$now_parts = getdate($now);
+
+				$a_item = array();
+				$a_item["timing_type"]		= self::TIMINGS_DEACTIVATED;
+				$a_item["timing_start"]		= $now;
+				$a_item["timing_end"]		= $now;
+				$a_item["suggestion_start"]	= $now;
+				$a_item["suggestion_end"]	= $now;
+				$a_item['visible']			= 0;
+				$a_item['changeable']		= 0;
+				$a_item['earliest_start']	= $now;
+				$a_item['latest_end']	    = mktime(23,55,00,$now_parts["mon"],$now_parts["mday"],$now_parts["year"]);
+				$a_item['visible']			= 0;
+				$a_item['changeable']		= 0;
+
+				$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
+					"suggestion_start,suggestion_end, ".
+					"changeable,earliest_start,latest_end,visible,position) ".
+					"VALUES( ".
+					$ilDB->quote($parent_id,'integer').",".
+					$ilDB->quote($a_ref_id,'integer').",".
+					$ilDB->quote($a_item["timing_type"],'integer').",".
+					$ilDB->quote($a_item["timing_start"],'integer').",".
+					$ilDB->quote($a_item["timing_end"],'integer').",".
+					$ilDB->quote($a_item["suggestion_start"],'integer').",".
+					$ilDB->quote($a_item["suggestion_end"],'integer').",".
+					$ilDB->quote($a_item["changeable"],'integer').",".
+					$ilDB->quote($a_item['earliest_start'],'integer').", ".
+					$ilDB->quote($a_item['latest_end'],'integer').", ".
+					$ilDB->quote($a_item["visible"],'integer').", ".
+					$ilDB->quote(0,'integer').")";
+				$ilDB->manipulate($query);
+			}
+
+		});
 		
-		$ilDB->unlockTables();
-		
+		$ilAtomQuery->run();
+
 		// #9982 - to make getItem()-cache work
 		$a_item["obj_id"] = $a_ref_id;
 		$a_item["parent_id"] = $parent_id;

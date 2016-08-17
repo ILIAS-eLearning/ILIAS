@@ -49,7 +49,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 * @param int $a_user_id
 	 * @param int $a_skill_node_id
 	 */
-	function addPersonalSkill($a_user_id, $a_skill_node_id)
+	static function addPersonalSkill($a_user_id, $a_skill_node_id)
 	{
 		global $ilDB;
 		
@@ -73,7 +73,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 * @param int $a_user_id user id
 	 * @param int $a_skill_node_id the "selectable" top skill
 	 */
-	function removeSkill($a_user_id, $a_skill_node_id)
+	static function removeSkill($a_user_id, $a_skill_node_id)
 	{
 		global $ilDB;
 		

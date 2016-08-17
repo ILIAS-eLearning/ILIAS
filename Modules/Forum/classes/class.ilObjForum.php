@@ -488,13 +488,19 @@ class ilObjForum extends ilObject
 	 * update forum data
 	 * @access    public
 	 */
-	function update()
+	function update($a_update_user_id = 0)
 	{
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
+		if(!$a_update_user_id)
+		{
+			$a_update_user_id = $GLOBALS['DIC']['ilUser']->getId();
+		}
+		
+		
 		if(parent::update())
 		{
 
@@ -510,7 +516,7 @@ class ilObjForum extends ilObject
 					$this->getTitle(),
 					$this->getDescription(),
 					date("Y-m-d H:i:s"),
-					(int)$_SESSION["AccountId"],
+					(int) $a_update_user_id,
 					(int)$this->getId()
 				));
 
@@ -716,9 +722,39 @@ class ilObjForum extends ilObject
 				DELETE FROM frm_notification WHERE frm_id = %s',
 			array('integer'), $data);
 
+		//delete drafts 
+		$this->deleteDraftsByForumId((int)$topData['top_pk']);
+		
 		return true;
 	}
 
+	/**
+	 * @param int $forum_id
+	 */
+	private function deleteDraftsByForumId($forum_id)
+	{
+		global $ilDB;
+		$res = $ilDB->queryF('SELECT draft_id FROM frm_posts_drafts WHERE forum_id = %s',
+			array('integer'), array((int)$forum_id));
+		
+		$draft_ids = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$draft_ids[] = $row['draft_id'];
+		}
+
+		if(count($draft_ids) > 0)
+		{
+			require_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
+			$historyObj = new ilForumDraftsHistory();
+			$historyObj->deleteHistoryByDraftIds($draft_ids);
+			
+			require_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+			$draftObj = new ilForumPostDraft();
+			$draftObj->deleteDraftsByDraftIds($draft_ids);
+		}
+	}
+	
 	/**
 	 * init default roles settings
 	 * @access    public

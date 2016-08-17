@@ -4,7 +4,7 @@
 include_once './Services/Mail/classes/class.ilMailNotification.php';
 
 /**
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschekd@databay.de>
  * @version $Id$
  *
  */
@@ -175,6 +175,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -237,6 +238,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -299,6 +301,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -360,6 +363,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -420,6 +424,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -473,6 +478,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());

@@ -50,7 +50,7 @@ class ilBookmark
 		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
-			$a_tree_id = $_SESSION["AccountId"];
+			$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		}
 
 		$this->tree = new ilTree($a_tree_id);
@@ -119,7 +119,7 @@ class ilBookmark
 				"INSERT INTO bookmark_data (obj_id, user_id, title,description, target, type) ".
 				"VALUES (%s,%s,%s,%s,%s,%s)",
 				$ilDB->quote($this->getId(), "integer"),
-				$ilDB->quote($_SESSION["AccountId"], "integer"),
+				$ilDB->quote($GLOBALS['DIC']['ilUser']->getId(), "integer"),
 				$ilDB->quote($this->getTitle(), "text"),
 				$ilDB->quote($this->getDescription(), "text"),
 				$ilDB->quote($this->getTarget(), "text"),

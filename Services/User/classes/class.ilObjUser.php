@@ -1410,6 +1410,10 @@ class ilObjUser extends ilObject
 		require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
 		ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
 		
+		// badges
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		ilBadgeAssignment::deleteByUserId($this->getId());
+		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 		
@@ -2541,26 +2545,25 @@ class ilObjUser extends ilObject
 	/**
 	 * Gets the username from $ilAuth, and converts it into an ILIAS login name.
 	 */
-	private static function getLoginFromAuth() {
+	private static function getLoginFromAuth()
+	{
 		global $ilAuth;
-                
+
+		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
+		$login = ilObjUser::_lookupLogin($uid);
+
 		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
+		if(ilDAVActivationChecker::_isActive())
 		{
 			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 			require_once ('Services/Database/classes/class.ilAuthContainerMDB2.php');
-			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($ilAuth->getUsername());
+			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($login);
 		}
-		else
-		{
-			$login =$ilAuth->getUsername();
-		}
-                
 		return $login;
-        }
+	}
 
-    /*
+	/*
      * check to see if current user has been made active
      * @access  public
      * @return  true if active, otherwise false

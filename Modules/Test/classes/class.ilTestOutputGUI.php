@@ -207,6 +207,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 		$_SESSION["active_time_id"] = $active_time_id;
 
+		$this->updateLearningProgressOnTestStart();
+
 		$sequenceElement = $this->testSequence->getFirstSequence();
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
@@ -218,6 +220,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+	
+	protected function updateLearningProgressOnTestStart()
+	{
+		global $ilUser;
+
+		require_once ('./Modules/Test/classes/class.ilObjTestAccess.php');
+		require_once('./Services/Tracking/classes/class.ilLPStatusWrapper.php');
+		ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 	}
 	
 	private function isValidSequenceElement($sequenceElement)
@@ -700,20 +711,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this->object, $sourcePoolDefinitionFactory);
 		$sourcePoolDefinitionList->loadDefinitions();
 
-		$this->processLocker->requestRandomPassBuildLock($sourcePoolDefinitionList->hasTaxonomyFilters());
-		
-		if( !$this->performTearsAndAngerBrokenConfessionChecks() )
-		{
-			require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-			$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
+		$this->processLocker->executeRandomPassBuildOperation(function() use ($ilDB, $ilPluginAdmin, $questionSetConfig, $sourcePoolDefinitionList) {
 
-			require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
-			$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
+			if(!$this->performTearsAndAngerBrokenConfessionChecks())
+			{
+				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
+				$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
 
-			$questionSetBuilder->performBuild($this->testSession);
-		}
-		
-		$this->processLocker->releaseRandomPassBuildLock();
+				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
+				$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
+
+				$questionSetBuilder->performBuild($this->testSession);
+			}
+
+		}, $sourcePoolDefinitionList->hasTaxonomyFilters());
 	}
 
 	/**

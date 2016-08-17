@@ -726,27 +726,27 @@ class ilSurveyExecutionGUI
 				$has_button = true;
 			}
 				
-			if($this->object->hasMailOwnResults())
+			if($this->object->hasMailConfirmation())
 			{
 				if($has_button)
 				{
 					$ilToolbar->addSeparator();
 				}
 
-				require_once "Services/Form/classes/class.ilTextInputGUI.php";								
-				$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-				$mail->setSize(25);				
-				if($ilUser->getId() != ANONYMOUS_USER_ID)
+				if($ilUser->getId() == ANONYMOUS_USER_ID ||
+					!$ilUser->getEmail())
 				{
-					$mail->setValue($ilUser->getEmail());				
+					require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+					$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+					$mail->setSize(25);									
+					$ilToolbar->addInputItem($mail, true);	
 				}
-				$ilToolbar->addInputItem($mail, true);	
 								
 				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
 								
 				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 				$button = ilSubmitButton::getInstance();
-				$button->setCaption("svy_mail_own_results");
+				$button->setCaption("svy_mail_send_confirmation");
 				$button->setCommand("mailUserResults");
 				$ilToolbar->addButtonInstance($button);		
 				
@@ -897,14 +897,18 @@ class ilSurveyExecutionGUI
 	
 	function mailUserResults()
 	{		
-		if(!$this->object->hasMailOwnResults())
+		if(!$this->object->hasMailConfirmation())
 		{
 			$this->backToRepository();
 		}
 		
 		$this->checkAuth(false, true);		
 		
-		$recipient = $_POST["mail"];	
+		$recipient = $_POST["mail"];
+		if(!$recipient)
+		{
+			$recipient = $ilUser->getEmail();
+		}
 		if(!ilUtil::is_email($recipient))
 		{
 			$this->ctrl->redirect($this, "runShowFinishedPage");

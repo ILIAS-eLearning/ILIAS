@@ -132,6 +132,12 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('forums_created_by'), '');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		
+		if(ilForumPostDraft::isSavePostDraftAllowed())
+		{
+			$this->addColumn($this->lng->txt('drafts',''));
+		}
+		
 		$this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
 		if('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled())
 		{
@@ -185,6 +191,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		if(ilForumPostDraft::isSavePostDraftAllowed())
+		{
+			$this->addColumn($this->lng->txt('drafts',''));
+		}
 		$this->addColumn($this->lng->txt('forums_last_post'), 'lp_date');
 	
 		// Disable sorting
@@ -316,6 +326,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ARTICLE_STATS', $topicStats);
 		$this->tpl->setVariable('VAL_NUM_VISIT', $thread->getVisits());
 
+		$draft_statistics =  ilForumPostDraft::getDraftsStatisticsByRefId($this->getRefId());
+		$this->tpl->setVariable('VAL_DRAFTS', (int)$draft_statistics[$thread->getId()] );
+
 		// Last posting
 		if($num_posts > 0)
 		{
@@ -400,8 +413,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$params = array(
 			'is_moderator'    => $this->getIsModerator(),
 			'excluded_ids'    => $excluded_ids,
-			'order_column'    => $field,
-			'order_direction' => $direction
+			'order_column'    => $this->getOrderField(),
+			'order_direction' => $this->getOrderDirection()
 		);
 
 		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());

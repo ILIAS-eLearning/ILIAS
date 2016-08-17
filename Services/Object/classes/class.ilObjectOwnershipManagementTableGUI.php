@@ -140,7 +140,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 			$ilCtrl->getLinkTarget($this->parent_obj, "changeOwner"),
 			"", "", "");		
 		
-		if(!in_array($a_type, array("crsr", "catr")) && $objDefinition->allowExport($a_type))
+		if(!in_array($a_type, array("crsr", "catr", "grpr")) && $objDefinition->allowExport($a_type))
 		{
 			$agui->addItem($lng->txt("export"), "", 
 				$ilCtrl->getLinkTarget($this->parent_obj, "export"),

@@ -50,6 +50,12 @@ class ilPortfolioPageConfig extends ilPageConfig
 		{
 			$this->setEnablePCType("MyCourses", true);	
 		}
+
+		$mset = new ilSetting("mobs");
+		if ($mset->get("mep_activate_pages"))
+		{
+			$this->setEnablePCType("ContentInclude", true);
+		}
 	}	
 }
 

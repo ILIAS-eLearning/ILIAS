@@ -258,7 +258,7 @@ class ilPermanentLinkGUI
 		
 		$cnt = 0;
 
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
+		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
 		{
 			$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode(urlencode($title)) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI']));
 			$current_selection_list->addItem($lng->txt("bm_add_to_ilias"), '', $linktpl, ilUtil::getImagePath('socialbookmarks/icon_bm_15x15.gif') , $lng->txt("bm_add_to_ilias"), '_top');
@@ -274,7 +274,7 @@ class ilPermanentLinkGUI
 			$cnt++;
 		}
 
-		if ($cnt == 1 && $_SESSION["AccountId"] != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
+		if ($cnt == 1 && $GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
 		{
 			$loc_tpl = new ilTemplate('tpl.single_link.html', true, true, 'Services/PermanentLink');
 			$loc_tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
