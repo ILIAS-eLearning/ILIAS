@@ -16512,3 +16512,17 @@ if( !$ilDB->tableColumnExists('tst_active', 'last_started_pass') )
 	));
 }
 ?>
+<#4974>
+<?php
+if($ilDB->tableExists('bookmark_social_bm'))
+{
+	$ilDB->dropTable('bookmark_social_bm');
+}
+?>
+<#4975>
+<?php
+if($ilDB->sequenceExists('bookmark_social_bm'))
+{
+	$ilDB->dropSequence('bookmark_social_bm');
+}
+?>
