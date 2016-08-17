@@ -97,11 +97,7 @@ class ilPersonalDesktopGUI
 				}				
 				include_once("./Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
-				if ($bookmark_gui->getMode() == 'tree') {
-					$this->getTreeModeTemplates();
-				} else {
-					$this->getStandardTemplates();
-				}
+				$this->getStandardTemplates();
 				$this->setTabs();
 				$ret = $this->ctrl->forwardCommand($bookmark_gui);
 				break;
@@ -275,19 +271,6 @@ class ilPersonalDesktopGUI
 	function getStandardTemplates()
 	{
 		$this->tpl->getStandardTemplate();
-		// add template for content
-//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-	}
-	
-	/**
-	* get tree mode templates
-	*/
-	function getTreeModeTemplates()
-	{
-		// add template for content
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 	
 	/**

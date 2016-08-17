@@ -14,6 +14,35 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
+forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
+forum#:#restore#:#Restore
+forum#:#restore_draft_from_autosave#:#Restore draft
+forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
+forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
+forum#:#publishThreadDrafts#:#Publish Thread Draft
+forum#:#deleteThreadDrafts#:#Delete Thread Draft
+forum#:#edit_thread_draft#:#Edit thread draft
+common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
+common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
+pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
+forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
+forum#:#save_draft_successfully#:#The draft was saved successfully.
+forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
+forum#:#delete_draft_successfully#:#The draft was deleted successfully.
+forum#:#forums_edit_draft#:#Edit draft
+forum#:#publish#:#Publish
+forum#:#frm_my_posting_drafts#:#My Posting Drafts
+forum#:#frm_posting_draft#:#Draft
+forum#:#frm_posting_drafts#:#Drafts
+forum#:#enable_send_attachments#:#Send attachments with forum notifications
+forum#:#enable_send_attachments_desc#:#Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space.
+forum#:#adm_save_drafts#:#Save drafts   
+forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save forum postings as draft.    
+forum#:#adm_autosave_drafts#:#Automatically save drafts
+forum#:#adm_autosave_ival#:#Interval
+forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_comp_frm#:#Forum
@@ -187,6 +216,10 @@ assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
+assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
+assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
+assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
+assessment#:#tst_pass_waiting_time#:#Waiting Time
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
@@ -1080,6 +1113,12 @@ assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finished#:#Finished
+assessment#:#unfinished_passes#:#Unfinished Passes
+assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass?
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
+assessment#:#finish_all_user_passes#:#Finish all test Passes
+assessment#:#finish_unfinished_passes#:#Finish open Passes
+assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job. 
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
 assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. Do you want to proceed?
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
@@ -1092,6 +1131,7 @@ assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous te
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
 assessment#:#tst_hide_side_list#:#Hide List of Questions
+assessment#:#new_test_online#:#The Test was set online.
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -15872,3 +15912,4 @@ badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is 
 trac#:#trac_defaults#:#Completion Status
 trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
 trac#:#trac_defaults_inactive#:#Inactive
+copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.

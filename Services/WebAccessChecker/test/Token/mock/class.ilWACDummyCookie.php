@@ -61,6 +61,21 @@ class ilWACDummyCookie implements ilWACCookieInterface {
 	}
 
 
+	/**
+	 * @return array
+	 */
+	public function getAll() {
+		$return = array();
+		foreach (self::$values as $key => $value) {
+			if ($this->exists($key)) {
+				$return[$key] = $value;
+			}
+		}
+
+		return $return;
+	}
+
+
 	public static function clear() {
 		self::$expires = array();
 		self::$values = array();

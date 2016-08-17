@@ -539,4 +539,17 @@ class ilForumProperties
 
 		return $ilSetting->get('file_upload_allowed_fora', self::FILE_UPLOAD_GLOBALLY_ALLOWED) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public static function isSendAttachmentsByMailEnabled()
+	{
+		/**
+		 * @var $ilSetting;
+		 */
+		global $ilSetting;
+		
+		return $ilSetting->get('send_attachments_by_mail') == true ? true : false;
+	}
 }

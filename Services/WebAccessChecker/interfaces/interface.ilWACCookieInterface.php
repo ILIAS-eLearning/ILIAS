@@ -32,4 +32,10 @@ interface ilWACCookieInterface {
 	 * @return bool
 	 */
 	public function exists($name);
+
+
+	/**
+	 * @return array
+	 */
+	public function getAll();
 }

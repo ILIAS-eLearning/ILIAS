@@ -19,6 +19,7 @@ class ilWACException extends ilException {
 	const ACCESS_DENIED = 9010;
 	const ACCESS_DENIED_NO_PUB = 9011;
 	const ACCESS_DENIED_NO_LOGIN = 9012;
+	const MAX_LIFETIME = 9013;
 	/**
 	 * @var array
 	 */
@@ -32,6 +33,7 @@ class ilWACException extends ilException {
 		self::ACCESS_DENIED_NO_PUB   => 'ACCESS DENIED: Public Access is not activated on this installation. Please log in.',
 		self::INITIALISATION_FAILED  => 'An error occured during your request. Please reload the page.',
 		self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
+		self::MAX_LIFETIME           => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
 	);
 
 
