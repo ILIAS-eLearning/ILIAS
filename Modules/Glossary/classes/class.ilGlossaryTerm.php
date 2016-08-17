@@ -446,18 +446,19 @@ class ilGlossaryTerm
 		//echo $q; exit;
 
 		$term_set = $ilDB->query($q);
-//var_dump($q);
+		$glo_ids = array();
 		while ($term_rec = $ilDB->fetchAssoc($term_set))
 		{
 			$terms[] = array("term" => $term_rec["term"],
 				"language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);
+			$glo_ids[] = $term_rec["glo_id"];
 		}
-		
+
 		// add advanced metadata
 		if ($a_add_amet_fields || is_array($a_amet_filter))
 		{			
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
-			$terms = ilAdvancedMDValues::queryForRecords($a_glo_id, "term", $terms, "glo_id", "id", $a_amet_filter);
+			$terms = ilAdvancedMDValues::queryForRecords($glo_ids, "term", $terms, "glo_id", "id", $a_amet_filter);
 		}
 		return $terms;
 	}
