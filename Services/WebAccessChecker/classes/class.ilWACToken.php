@@ -9,6 +9,7 @@ require_once('class.ilWACSignedPath.php');
  */
 class ilWACToken {
 
+	const DEBUG = false;
 	const TYPE_FILE = ilWACSignedPath::TYPE_FILE;
 	const TYPE_FOLDER = ilWACSignedPath::TYPE_FOLDER;
 	/**
@@ -66,16 +67,25 @@ class ilWACToken {
 			$this->setIp($_SERVER['REMOTE_ADDR']);
 		}
 		$this->setTimestamp($timestamp ? $timestamp : time());
-		$this->setTTL($ttl ? $ttl : ilWACSignedPath::getTokenMaxLifetimeInSeconds()); //  since we do not know the type at this poit we choose the shorter duration for security reasons
+		$ttl = $ttl ? $ttl : ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+		$this->setTTL($ttl); //  since we do not know the type at this poit we choose the shorter duration for security reasons
 		$this->generateToken();
-		$this->setId(md5($this->getPath()));
+		self::isDEBUG() ? $this->setId($this->getPath()) : $this->setId(md5($this->getPath()));
 	}
 
 
-	protected function generateToken() {
+	/**
+	 * @return bool
+	 */
+	protected static function isDEBUG() {
+		return (ilWebAccessChecker::isDEBUG() || self::DEBUG);
+	}
+
+
+	public function generateToken() {
 		$this->initSalt();
-		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTtl() ));
-		$token = sha1($token);
+		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTTL() ));
+		$token = self::isDEBUG() ? $token : sha1($token);
 		$this->setToken($token);
 	}
 
@@ -120,14 +130,6 @@ class ilWACToken {
 		}
 	}
 
-	//	/**
-	//	 * @param $path
-	//	 *
-	//	 * @return ilWACToken
-	//	 */
-	//	public static function getInstance($path) {
-	//		return new self($path);
-	//	}
 
 	/**
 	 * @return string
