@@ -38,7 +38,7 @@ class ilWACLog extends ilLog {
 	 */
 	public static function getInstance() {
 		$key = getmypid();
-		if (ilWebAccessChecker::isDEBUG()) {
+		if (ilWebAccessChecker::isDEBUG() && defined('ILIAS_ABSOLUTE_PATH')) {
 			$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
 			$ilIliasIniFile->read();
 			if (ilWebAccessChecker::isUseSeperateLogfile()) {
