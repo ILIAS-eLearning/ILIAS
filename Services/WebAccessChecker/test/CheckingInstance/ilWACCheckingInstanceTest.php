@@ -32,6 +32,7 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
 		require_once('./Services/WebAccessChecker/test/Token/mock/class.ilWACDummyCookie.php');
+		require_once('./Services/WebAccessChecker/test/Token/mock/class.ilWACDummyHeader.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWebAccessCheckerDelivery.php');
 		require_once('./libs/composer/vendor/autoload.php');
 		$this->root = vfs\vfsStream::setup('ilias.de');
@@ -94,7 +95,9 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 
 	public function testBasicWithFileSigning() {
 		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
-		$ilWebAccessChecker = new ilWebAccessChecker($signed_path, new ilWACDummyCookie());
+		ilWACDummyHeader::clear();
+		$ilWACHeaderInterface = new ilWACDummyHeader();
+		$ilWebAccessChecker = new ilWebAccessChecker($signed_path, new ilWACDummyCookie(), $ilWACHeaderInterface);
 		$check = false;
 		try {
 			$check = $ilWebAccessChecker->check();
@@ -105,12 +108,17 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(
 			$ilWebAccessChecker::CM_FILE_TOKEN,
 		), $ilWebAccessChecker->getAppliedCheckingMethods());
+		$this->assertEquals(array(
+			'X-ILIAS-WebAccessChecker: checked using token',
+		), $ilWACHeaderInterface->getSentHeaders());
 	}
 
 
 	public function testBasicWithFolderSigning() {
 		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), new ilWACDummyCookie());
-		$ilWebAccessChecker = new ilWebAccessChecker($this->file_one->url(), new ilWACDummyCookie());
+		ilWACDummyHeader::clear();
+		$ilWACHeaderInterface = new ilWACDummyHeader();
+		$ilWebAccessChecker = new ilWebAccessChecker($this->file_one->url(), new ilWACDummyCookie(), $ilWACHeaderInterface);
 		$check = false;
 		try {
 			$check = $ilWebAccessChecker->check();
@@ -121,11 +129,13 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(
 			$ilWebAccessChecker::CM_FOLDER_TOKEN,
 		), $ilWebAccessChecker->getAppliedCheckingMethods());
+		$this->assertEquals(array(
+			'X-ILIAS-WebAccessChecker: checked using secure folder',
+		), $ilWACHeaderInterface->getSentHeaders());
 	}
 
 
 	public function testNonCheckingInstanceNoSec() {
-
 		$file = vfs\vfsStream::newFile('data/trunk/dummy/mm_123/dummy.jpg')->at($this->root)->setContent('dummy');
 		$ilWebAccessChecker = new ilWebAccessChecker($file->url(), new ilWACDummyCookie());
 		$check = false;
