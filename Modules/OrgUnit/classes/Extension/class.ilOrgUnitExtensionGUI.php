@@ -60,6 +60,19 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 
 
 	/**
+	 * @return string
+	 */
+	protected function lookupParentTitleInCreationMode() {
+		$parent = parent::lookupParentTitleInCreationMode();
+		if ($parent == '__OrgUnitAdministration') {
+			return $this->lng->txt("objs_orgu");
+		}
+
+		return $parent;
+	}
+
+
+	/**
 	 * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
 	 */
 	protected function setLocator() {

@@ -64,7 +64,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		else
 		{
 			// show info of parent
-			$tpl->setTitle(ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"])));
+			$tpl->setTitle($this->lookupParentTitleInCreationMode());
 			$tpl->setTitleIcon(
 				ilObject::_getIcon(ilObject::_lookupObjId($_GET["ref_id"]), "big"),
 				$lng->txt("obj_".ilObject::_lookupType($_GET["ref_id"], true)));
@@ -472,5 +472,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		global $ilPluginAdmin;
 
 		return $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	protected function lookupParentTitleInCreationMode() {
+		return ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
 	}
 }
