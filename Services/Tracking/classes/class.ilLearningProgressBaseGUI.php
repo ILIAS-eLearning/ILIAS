@@ -420,6 +420,18 @@ class ilLearningProgressBaseGUI
 
 			return true;
 		}
+		if($mode == ilLPObjSettings::LP_MODE_MANUAL_ASSESSMENT) {
+			require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
+			$mass = new ilObjManualAssessment($this->obj_id,false);
+			$member_storage = $mass->membersStorage();
+			if($member_storage->loadMembers($mass)->userAllreadyMemberByUsrId($this->usr_id)) {
+				$member = $member_storage->loadMember($mass, new ilObject($this->usr_id));
+				$info->addSection($this->lng->txt('details'));
+				$info->addProperty($this->lng->txt('member'),$member->lastname().', '.$member->firstname());
+				$info->addProperty($this->lng->txt('comment'),$member->record());
+				return true;
+			}
+		}
 		return false;
 	}
 
