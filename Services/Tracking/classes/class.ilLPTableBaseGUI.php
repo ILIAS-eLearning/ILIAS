@@ -3,6 +3,7 @@
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once  './Services/Search/classes/class.ilSearchSettings.php';
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * TableGUI class for learning progress
@@ -443,7 +444,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
 			if(ilRepositoryObjectPluginSlot::isTypePluginWithLP($pl_id))
 			{
-				$options[$pl_id] = ilPlugin::lookupTxt("rep_robj", $pl_id, "objs_".$pl_id);
+				$options[$pl_id] = ilObjectPlugin::lookupTxtById($pl_id, "objs_".$pl_id);
 			}
 		}
 		

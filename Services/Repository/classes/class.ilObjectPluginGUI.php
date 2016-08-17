@@ -13,19 +13,15 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 abstract class ilObjectPluginGUI extends ilObject2GUI
 {
+
+	protected $plugin;
 	/**
 	* Constructor.
 	*/
 	function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
 		parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
-		$this->plugin =
-			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
-				ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
-		if (!is_object($this->plugin))
-		{
-			die("ilObjectPluginGUI: Could not instantiate plugin object for type ".$this->getType().".");
-		}
+		$this->plugin = $this->getPlugin();
 	}
 	
 	/**
@@ -68,7 +64,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		else
 		{
 			// show info of parent
-			$tpl->setTitle(ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"])));
+			$tpl->setTitle($this->lookupParentTitleInCreationMode());
 			$tpl->setTitleIcon(
 				ilObject::_getIcon(ilObject::_lookupObjId($_GET["ref_id"]), "big"),
 				$lng->txt("obj_".ilObject::_lookupType($_GET["ref_id"], true)));
@@ -122,11 +118,16 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			default:
-				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+				if ($this->getCreationMode() || $cmd == "save")
 				{
-					$this->viewObject();
+					$this->$cmd();
 					return;
 				}
+//				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+//				{
+//					$this->viewObject();
+//					return;
+//				}
 				if(!$cmd)
 				{
 					$cmd = $this->getStandardCmd();
@@ -139,14 +140,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				}
 				else
 				{
-					if ($this->getCreationMode())
-					{
-						$this->$cmd();
-					}
-					else
-					{
-						$this->performCommand($cmd);
-					}
+					$this->performCommand($cmd);
 				}
 				break;
 		}
@@ -172,12 +166,20 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	}
 
 	/**
-	* Get plugin object
-	*
-	* @return	object	plugin object
-	*/
-	final private function getPlugin()
+	 * Get plugin object
+	 * @return object plugin object
+	 * @throws ilPluginException
+	 */
+	protected function getPlugin()
 	{
+		if(!$this->plugin) {
+			$this->plugin =
+				ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
+			if (!is_object($this->plugin)) {
+				throw new ilPluginException("ilObjectPluginGUI: Could not instantiate plugin object for type " . $this->getType() . ".");
+			}
+		}
 		return $this->plugin;
 	}
 	
@@ -224,8 +226,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		
 		$forms = array();
 		$forms[self::CFORM_NEW] = $this->initCreateForm($a_new_type);
-		
-		if($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName()))
+
+		if($this->supportsExport())
 		{
 			$forms[self::CFORM_IMPORT] = $this->initImportForm($a_new_type);
 		}		
@@ -461,5 +463,22 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}
-	
+
+
+	/**
+	 * @return bool
+	 */
+	protected function supportsExport() {
+		global $ilPluginAdmin;
+
+		return $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	protected function lookupParentTitleInCreationMode() {
+		return ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
+	}
 }

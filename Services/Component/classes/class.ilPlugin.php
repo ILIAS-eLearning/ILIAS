@@ -47,7 +47,6 @@ abstract class ilPlugin
 	 * @return	string	Component Name
 	 */
 	abstract function getComponentName();
-
 	/**
 	 * Get Slot Name.
 	 *
@@ -503,12 +502,8 @@ abstract class ilPlugin
 		// this enables default language fallback
 		$prefix = $a_mod_prefix."_".$a_pl_id;
 		return $lng->txt($prefix."_".$a_lang_var, $prefix);
-
-		/*
-		return ilLanguage::_lookupEntry($lng->lang_key, $a_mod_prefix."_".$a_pl_id,
-			$a_mod_prefix."_".$a_pl_id."_".$a_lang_var);		 
-		*/
 	}
+
 
 	/**
 	 * Get template from plugin
@@ -624,42 +619,6 @@ abstract class ilPlugin
 				. "'."));
 
 		}
-		//
-		//		global $ilDB;
-		//
-		//		// read/set basic data
-		//		$q = "SELECT * FROM il_plugin".
-		//			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
-		//			" AND component_name = ".$ilDB->quote($a_cname, "text").
-		//			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
-		//			" AND name = ".$ilDB->quote($a_pname, "text");
-		//		$set = $ilDB->query($q);
-		//		if ($rec = $ilDB->fetchAssoc($set))
-		//		{
-		//			return $rec;
-		//		}
-		//		else		// no record? create one
-		//		{
-		//			// silently create these records is not a good idea, since
-		//			// the function can be called with "wrong parameters"
-		//			// raise exceptions instead
-		//			include_once("./Services/Component/exceptions/class.ilPluginException.php");
-		//			throw (new ilPluginException("No plugin record found for '".$a_ctype."', '".$a_cname."', '".$a_slot_id."', '".$a_pname."'."));
-		//
-		//			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
-		//				" VALUES (".$ilDB->quote($a_ctype, "text").",".
-		//				$ilDB->quote($a_cname, "text").",".
-		//				$ilDB->quote($a_slot_id, "text").",".
-		//				$ilDB->quote($a_pname, "text").")";
-		//			$ilDB->manipulate($q);
-		//			$q = "SELECT * FROM il_plugin".
-		//				" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
-		//				" AND component_name = ".$ilDB->quote($a_cname, "text").
-		//				" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
-		//				" AND name = ".$ilDB->quote($a_pname, "text");
-		//			$set = $ilDB->query($q);
-		//			return $ilDB->fetchAssoc($set);
-		//		}
 	}
 
 	/**
@@ -970,8 +929,6 @@ abstract class ilPlugin
 	 */
 	static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		global $ilDB;
-
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
 		$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
@@ -980,15 +937,6 @@ abstract class ilPlugin
 		if (! $rec) {
 			return NULL;
 		}
-
-		// this check is done due to security reasons
-		//		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
-		//			" AND name = %s", array("text", "text"),
-		//			array($a_ctype, $a_cname));
-		//		if (!$ilDB->fetchAssoc($set))
-		//		{
-		//			return null;
-		//		}
 
 		$file = "./Customizing/global/plugins/".$a_ctype."/".
 			$a_cname."/".$slot_name."/".
@@ -1027,28 +975,46 @@ abstract class ilPlugin
 	}
 
 	/**
-	 * Get all active plugins for a slot
+	 * Get all active plugin names for a slot
 	 */
 	static function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $ilPluginAdmin;
 
 		$plugins = array();
 
-		//		$q = "SELECT * FROM il_plugin WHERE component_type = ".$ilDB->quote($a_ctype, "text").
-		//			" AND component_name = ".$ilDB->quote($a_cname, "text").
-		//			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
-		//			" AND active = ".$ilDB->quote(1, "integer");
-		//
-		//		$set = $ilDB->query($q);
 		$cached_component = ilCachedComponentData::getInstance();
-		//		while($rec = $ilDB->fetchAssoc($set))
+
 		$lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
 		foreach($lookupActivePluginsBySlotId as $rec)
 		{
 			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
 			{
 				$plugins[] = $rec["name"];
+			}
+		}
+
+		return $plugins;
+	}
+
+	/**
+	 * Get All active plugin ids for a slot.
+	 * @param $a_ctype
+	 * @param $a_cname
+	 * @param $a_slot_id
+	 * @return array
+	 */
+	public static function getActivePluginIdsForSlot($a_ctype, $a_cname, $a_slot_id) {
+		global $ilPluginAdmin;
+
+		$plugins = array();
+		$cached_component = ilCachedComponentData::getInstance();
+		$lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
+		foreach($lookupActivePluginsBySlotId as $rec)
+		{
+			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
+			{
+				$plugins[] = $rec["plugin_id"];
 			}
 		}
 
@@ -1095,4 +1061,3 @@ abstract class ilPlugin
 		}
 	}
 }
-?>
