@@ -4574,7 +4574,6 @@ common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
 common#:#passwd_generation#:#Passwortgenerierung
-common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Passwörter festzulegen.
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#Passwortliste
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
@@ -14385,8 +14384,7 @@ obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block "Auswahl
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
 tagging#:#tagging_other_users#:#Tags anderer Benutzer
 common#:#autocomplete_more#:#mehr
-user#:#passwd_generation_pre#:#Vordefinierte Passwörter
-mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien. 
+mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien.
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
 grp#:#grp_cdf_tbl_last_edit#:#Letzte Änderung (Gruppenspezifische Daten)
 crs#:#crs_cdf_tbl_last_edit#:#Letzte Änderung (Kursspezifische Daten)
