@@ -18,7 +18,7 @@ module.exports = function SetupIM(callback) {
 				callback(null, namespaceIM);
 			},
 			PreloadConversations,
-			PreloadConversationHistory,
+			//PreloadConversationHistory,
 		], function(err, result) {
 			if(err) throw err;
 

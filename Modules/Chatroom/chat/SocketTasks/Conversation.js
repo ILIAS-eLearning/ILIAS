@@ -1,6 +1,7 @@
 var Container = require('../AppContainer');
 var UUID	  = require('node-uuid');
 var Conversation = require('../Model/Conversation');
+var ConversationHistory = require('./ConversationHistory');
 
 	/**
  * @param {Array} participants
@@ -27,4 +28,6 @@ module.exports = function(participants) {
 
 	namespace.getDatabase().updateConversation(conversation);
 	this.participant.emit('conversation-init', conversation.json());
+
+	//ConversationHistory.call(this, conversation.getId());
 };

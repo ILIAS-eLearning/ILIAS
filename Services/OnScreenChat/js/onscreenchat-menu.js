@@ -6,7 +6,6 @@
 		conversations: [],
 
 		setConfig: function(config) {
-			console.log(config);
 			$scope.il.OnScreenChatMenu.config = config;
 		},
 

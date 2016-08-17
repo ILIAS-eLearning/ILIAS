@@ -39,8 +39,8 @@
 			getModule().socket.emit('message', conversationId, getModule().config.userId, message);
 		},
 
-		getHistory: function(conversationId) {
-			getModule().socket.emit('history', conversationId);
+		getHistory: function(conversationId, oldestMessageTimestamp) {
+			getModule().socket.emit('history', conversationId, oldestMessageTimestamp);
 		},
 
 		addUser: function(conversationId, userId, name) {

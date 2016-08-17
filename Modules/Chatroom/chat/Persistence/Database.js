@@ -253,16 +253,16 @@ var Database = function Database(config) {
 		);
 	};
 
-	this.loadConversationHistory = function(conversation, onResult, onEnd){
+	this.loadConversationHistory = function(conversationId, oldestMessageTimestamp, onResult, onEnd){
 		var query = 'SELECT * FROM osc_messages WHERE conversationId = ?';
-		var params = [conversation.getId()];
-		if(conversation.getLastMessageTimestamp() != null)
+		var params = [conversationId];
+		if(oldestMessageTimestamp != null)
 		{
 			query += ' AND timestamp < ?';
-			params.push(conversation.getLastMessageTimestamp());
+			params.push(oldestMessageTimestamp);
 		}
 
-		query += " ORDER BY timestamp DESC LIMIT 0, 5";
+		query += " ORDER BY timestamp DESC LIMIT 0, 6";
 
 		_onQueryEvents(
 			_pool.query(query, params),

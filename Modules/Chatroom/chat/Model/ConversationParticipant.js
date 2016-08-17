@@ -79,7 +79,7 @@ function Participant(id, name) {
 
 	this.emit = function(event, data) {
 		forSockets(function(socket){
-			console.log("emit", event, data);
+			//console.log("emit", event, data);
 			socket.emit(event, data);
 		})
 	};
