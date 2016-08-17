@@ -77,24 +77,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 	
-	/**
-	 * Gateway for member administration commands
-	 *
-	 * @access public
-	 * 
-	 */
-	public function memberGatewayObject()
-	{
-		if(isset($_POST['btn_pressed']['deleteMembers']))
-		{
-			return $this->deleteMembersObject();
-		}
-		else
-		{
-			return $this->updateMembersObject();
-		}
-	}
-
 	
 	/**
 	* canceledObject is called when operation is canceled, method links back
@@ -102,8 +84,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function cancelMemberObject()
 	{
-		$this->__unsetSessionVariables();
-
 		$return_location = "members";
 
 		#ilUtil::sendSuccess($this->lng->txt("action_aborted"),true);
@@ -2881,146 +2861,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 
-	/**
-	 * Delete members
-	 * @global ilAccessHandler $ilAccess
-	 * @return
-	 */
-	function deleteMembersObject()
-	{
-		global $ilAccess, $ilUser;
-		
-		$this->checkPermission('write');
-		
-		$participants = array_merge((array) $_POST['admins'],(array) $_POST['tutors'], (array) $_POST['members'], (array) $_POST['roles']);
-		
-		if(!$participants)
-		{
-			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
-			$this->membersObject();
-			return true;
-		}
 
-		// Check last admin
-		if(!$this->object->getMemberObject()->checkLastAdmin($participants))
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_at_least_one_admin'));
-			$this->membersObject();
-
-			return false;
-		}
-		
-		// Access check for admin deletion
-		if(
-			!$ilAccess->checkAccess('edit_permission', '',$this->object->getRefId()) and
-			!ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
-		)
-		{
-			foreach ($participants as $usr_id)
-			{
-				$part = ilCourseParticipant::_getInstanceByObjId($this->object->getId(),$usr_id);
-				if($part->isAdmin())
-				{
-					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"));
-					$this->membersObject();
-					return false;
-				}
-			}
-		}
-
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('crs_member_administration');
-		
-		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-		$confirm = new ilConfirmationGUI();
-		$confirm->setFormAction($this->ctrl->getFormAction($this,'deleteMembers'));
-		$confirm->setHeaderText($this->lng->txt('crs_header_delete_members'));
-		$confirm->setConfirm($this->lng->txt('confirm'),'removeMembers');
-		$confirm->setCancel($this->lng->txt('cancel'),'members');
-		
-		foreach($participants as $usr_id)
-		{
-			$name = ilObjUser::_lookupName($usr_id);
-
-			$confirm->addItem('participants[]',
-				$name['user_id'],
-				$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
-				ilUtil::getImagePath('icon_usr.svg'));
-		}
-		
-		$this->tpl->setContent($confirm->getHTML());
-		
-	}
-
-	/**
-	 * Remove members
-	 * @global ilRbacReview $rbacreview
-	 * @global ilRbacSystem $rbacsystem
-	 * @return boolean
-	 */
-	protected function removeMembersObject()
-	{
-		global $rbacreview, $rbacsystem, $ilAccess, $ilUser;
-                
-		$this->checkPermission('write');
-		
-		if(!is_array($_POST["participants"]) or !count($_POST["participants"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("crs_no_member_selected"));
-			$this->membersObject();
-
-			return false;
-		}
-		
-		// If the user doesn't have the edit_permission and is not administrator, he may not remove
-		// members who have the course administrator role
-		if (
-			!$ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()) and 
-			!ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
-		)
-		{
-			// Determine the role id of the course administrator role.
-			$courseAdminRoleId = null;
-			foreach ($this->object->getLocalCourseRoles(false) as $title => $role_id)
-			{
-				if (substr($title, 0, 12) == 'il_crs_admin')
-				{
-					$courseAdminRoleId = $role_id;
-				}
-			}
-                
-			foreach ($_POST['participants'] as $usr_id)
-			{
-				if ($rbacreview->isAssigned($usr_id, $courseAdminRoleId))
-				{
-					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"));
-					$this->membersObject();
-					return false;
-				}
-			}
-		}
-        
-		if(!$this->object->getMembersObject()->deleteParticipants($_POST["participants"]))
-		{
-			ilUtil::sendFailure($this->object->getMessage());
-			$this->membersObject();
-
-			return false;
-		}
-		else
-		{
-			// SEND NOTIFICATION
-			foreach($_POST["participants"] as $usr_id)
-			{
-				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_DISMISS_MEMBER,$usr_id);
-			}
-		}
-		ilUtil::sendSuccess($this->lng->txt("crs_members_deleted"), true);
-		$this->ctrl->redirect($this, "members");
-
-		return true;
-	}
 
 	function refuseSubscribersObject()
 	{
@@ -3505,19 +3346,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$list->getFullscreenHTML();
 		exit();
 	
-	}
-
-
-
-	function __unsetSessionVariables()
-	{
-		unset($_SESSION["crs_delete_member_ids"]);
-		unset($_SESSION["crs_delete_subscriber_ids"]);
-		unset($_SESSION["crs_search_str"]);
-		unset($_SESSION["crs_search_for"]);
-		unset($_SESSION["crs_group"]);
-		unset($_SESSION["crs_role"]);
-		unset($_SESSION["crs_archives"]);
 	}
 
 	function executeCommand()

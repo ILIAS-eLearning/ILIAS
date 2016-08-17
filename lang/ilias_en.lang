@@ -2435,7 +2435,8 @@ common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.
 common#:#crs_archives#:#Archives
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
+crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
+grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 common#:#crs_available#:#Available Courses
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
@@ -5780,6 +5781,7 @@ crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course Archives
 crs#:#crs_header_delete_members#:#Would you like to remove the following members from this course?
+grp#:#grp_header_delete_members#:#Would you like to remove the following members from this group?
 crs#:#crs_header_delete_subscribers#:#Delete subscribers
 crs#:#crs_header_edit_members#:#Edit Members
 crs#:#crs_header_members#:#Course members

@@ -132,7 +132,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$lng->loadLanguageModule('certificate');
 		}
 		
-		
+		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
 		
 	}

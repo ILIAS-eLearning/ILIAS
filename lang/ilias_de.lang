@@ -2981,7 +2981,8 @@ common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_all_questions_answered_successfully#:#Sie haben bereits alle Fragen korrekt beantwortet.
 common#:#crs_archives#:#Archive
-common#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
+crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
+grp#:#grp_at_least_one_admin#:#Dieser Gruppe muss mindestens ein Administrator zugeordnet sein.
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
@@ -6678,6 +6679,7 @@ crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
 crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Sie möchten folgende Mitglieder aus dem Kurs austragen?
+grp#:#grp_header_delete_members#:#Sie möchten folgende Mitglieder aus der Gruppe austragen?
 crs#:#crs_header_delete_subscribers#:#Anträge löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
@@ -6729,7 +6731,8 @@ crs#:#crs_member_of#:#Mitglied des Kurses:
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members#:#Mitglieder
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
 crs#:#crs_members_groups#:#Gruppenmitgliedschaften

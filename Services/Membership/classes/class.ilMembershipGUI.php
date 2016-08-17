@@ -265,6 +265,128 @@ class ilMembershipGUI
 	}
 	
 	/**
+	 * Show confirmation screen for participants deletion
+	 */
+	protected function confirmDeleteParticipants()
+	{
+		global $ilAccess, $ilUser;
+		
+		$participants = (array) $_POST['participants'];
+		
+		if(!count($participants))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+
+		// Check last admin
+		if(!$this->getMembersObject()->checkLastAdmin($participants))
+		{
+			ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType().'_at_least_one_admin'),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		
+		// Access check for admin deletion
+		if(
+			!$ilAccess->checkAccess(
+				'edit_permission', 
+				'',
+				$this->getParentObject()->getRefId()) &&
+			!$this->getMembersObject()->isAdmin($GLOBALS['ilUser']->getId())
+		)
+		{
+			foreach ($participants as $usr_id)
+			{
+				if($this->getMembersObject()->isAdmin($GLOBALS['ilUser']->getId()))
+				{
+					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"),true);
+					$this->ctrl->redirect($this, 'participants');
+				}
+			}
+		}
+
+		
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this,'confirmDeleteParticipants'));
+		$confirm->setHeaderText($this->lng->txt($this->getParentObject()->getType().'_header_delete_members'));
+		$confirm->setConfirm($this->lng->txt('confirm'),'deleteParticipants');
+		$confirm->setCancel($this->lng->txt('cancel'),'participants');
+		
+		foreach($participants as $usr_id)
+		{
+			$name = ilObjUser::_lookupName($usr_id);
+
+			$confirm->addItem('participants[]',
+				$name['user_id'],
+				$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
+				ilUtil::getImagePath('icon_usr.svg'));
+		}
+		
+		$this->tpl->setContent($confirm->getHTML());
+	}
+	
+	protected function deleteParticipants()
+	{
+		global $rbacreview, $rbacsystem, $ilAccess, $ilUser;
+                
+		$participants = (array) $_POST['participants'];
+		
+		if(!is_array($participants) or !count($participants))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		
+		// If the user doesn't have the edit_permission and is not administrator, he may not remove
+		// members who have the course administrator role
+		if (
+			!$ilAccess->checkAccess('edit_permission', '', $this->getParentObject()->getRefId()) && 
+			!$this->getMembersObject()->isAdmin($GLOBALS['ilUser']->getId())
+		)
+		{
+			foreach($participants as $part)
+			{
+				if($this->getMembersObject()->isAdmin($part))
+				{
+					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'),true);
+					$this->ctrl->redirect($this, 'participants');
+				}
+			}
+		}
+        
+		if(!$this->getMembersObject()->deleteParticipants($participants))
+		{
+			ilUtil::sendFailure('Error deleting participants.', true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		else
+		{
+			foreach((array) $_POST["participants"] as $usr_id)
+			{
+				$mail_type = 0;
+				// @todo more generic
+				switch($this->getParentObject()->getType())
+				{
+					case 'crs':
+						$mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+						break;
+					case 'grp':
+						include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+						$mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
+						break;
+				}
+				$this->getMembersObject()->sendNotification($mail_type, $usr_id);
+			}
+		}
+		ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType()."_members_deleted"), true);
+		$this->ctrl->redirect($this, "participants");
+
+		return true;
+		
+	}
+	
+	/**
 	 * Send mail to selected users
 	 */
 	protected function sendMailToSelectedUsers()
