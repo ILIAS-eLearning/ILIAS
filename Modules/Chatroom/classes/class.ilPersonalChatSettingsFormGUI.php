@@ -156,7 +156,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 
 		$this->setValuesByArray(array(
 			'play_invitation_sound' => $this->user->getPref('chat_play_invitation_sound'),
-			'chat_osc_accept_msg'   => $this->user->getPref('chat_osc_accept_msg')
+			'chat_osc_accept_msg'   => ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
 		));
 
 		$this->mainTpl->setContent($this->getHTML());
@@ -186,7 +186,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 
 		if($this->shouldShowOnScreenChatOptions())
 		{
-			$this->user->setPref('chat_osc_accept_msg', (int)$this->getInput('chat_osc_accept_msg'));
+			$this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn((bool)$this->getInput('chat_osc_accept_msg')));
 		}
 		$this->user->writePrefs();
 
