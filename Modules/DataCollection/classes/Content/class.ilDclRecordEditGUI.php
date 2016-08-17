@@ -515,7 +515,7 @@ class ilDclRecordEditGUI {
 						$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
 					}
 
-					$_SESSION['record_form_values'] = $record_obj->getRecordFieldValues();
+					$_SESSION['record_form_values'] = $record_obj->getRecordFieldValuesForConfirmation();
 					$_SESSION['record_form_values']['ilfilehash'] = $hash;
 
 					$this->ctrl->redirect($this, 'saveConfirmation');

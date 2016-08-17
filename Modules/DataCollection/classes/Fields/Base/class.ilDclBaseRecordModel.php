@@ -360,6 +360,18 @@ class ilDclBaseRecordModel {
 		return $return;
 	}
 
+	public function getRecordFieldValuesForConfirmation() {
+		$this->loadRecordFields();
+		$return = array();
+		foreach ($this->recordfields as $id => $record_field) {
+			$value = $record_field->getConfirmationValue();
+			if($value !== null)
+				$return[$id] = $record_field->getConfirmationValue();
+		}
+
+		return $return;
+	}
+
 
 	/**
 	 * Get Field Value
