@@ -117,11 +117,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 									, $this->getLinkTarget("members")
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'view_grades') || $this->userIsMemberAndFinalized()) {
-			$this->tabs_gui->addTarget(self::TAB_LP
-									, $this->ctrl->getLinkTargetByClass('illearningprogressgui',"show")
-									, array('illplistofprogressgui')
-									, $this->lng->txt("LP"));
+		if($access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized()) {
+			$this->tabs_gui->addTab(self::TAB_LP
+									, $this->lng->txt("LP")
+									, $this->ctrl->getLinkTargetByClass('illearningprogressgui')
+									);
 		}
 		if($access_handler->checkAccessToObj($this->object,'edit_permission')) {
 			$this->tabs_gui->addTarget(self::TAB_PERMISSION
