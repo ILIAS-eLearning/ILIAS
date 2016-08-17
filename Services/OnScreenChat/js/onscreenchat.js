@@ -105,6 +105,9 @@
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.receiveConversation(getModule().onConversation);
 			$chat.onHistory(getModule().onHistory);
+			$chat.onGroupConversation(function(conversation){
+				getModule().onConversationInit(conversation);
+			});
 			$chat.onConverstionInit(getModule().onConversationInit);
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
 				participantEvent: getModule().startConversation,
@@ -355,9 +358,7 @@
 		},
 
 		addUser: function(conversationId, userId, name) {
-			$chat.addUser(conversationId, userId, name, function(){
-				$scope.il.Modal.hide();
-			});
+			$chat.addUser(conversationId, userId, name);
 		}
 	};
 
@@ -383,7 +384,7 @@
 		this.save = function(conversation) {
 			var oldValue = this.get(conversation.id);
 
-			if(conversation.open == undefined) {
+			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
 			}
 

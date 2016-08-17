@@ -27,5 +27,5 @@ module.exports = function(conversationId, userId, name) {
 
 	namespace.getDatabase().updateConversation(conversation);
 	this.participant.emit('conversation', conversation.json());
-	this.emit('addUser', true);
+	this.emit('addUser', conversation.json());
 };

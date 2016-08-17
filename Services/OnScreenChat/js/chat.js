@@ -43,8 +43,11 @@
 			getModule().socket.emit('history', conversationId);
 		},
 
-		addUser: function(conversationId, userId, name, callback) {
+		addUser: function(conversationId, userId, name) {
 			getModule().socket.emit('addUser', conversationId, userId, name);
+		},
+
+		onGroupConversation: function(callback) {
 			getModule().socket.on('addUser', callback);
 		},
 
