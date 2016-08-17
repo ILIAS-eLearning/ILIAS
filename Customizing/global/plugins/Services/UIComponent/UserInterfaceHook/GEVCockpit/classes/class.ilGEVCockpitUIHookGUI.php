@@ -19,44 +19,8 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
 
-		global $ilUser;
-		$user_utils = gevUserUtils::getInstanceByObj($ilUser);
-
-		if ($this->isCockpit()) { 
-			$this->active = $this->getActiveItem();
-			$this->items = array
-				( "bookings"
-					=> array("Buchungen", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
-				, "edubio"
-					=> array("Bildungsbiografie", $user_utils->getEduBioLink())
-				, "profile"
-					=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
-				, "tep"
-					=> array("TEP", "ilias.php?baseClass=ilTEPGUI")
-				, "trainer_ops"
-					=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
-				, "training_admin"
-					=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin")
-				);
-		}
-		else if ($this->isSearch()) {
-			$this->active = "search_all";
-			$this->items = array
-				( "search"
-					=> array("Suche", "http://www.google.de")
-				, "search_all"
-					=> array("Alle", "http://www.google.de")
-				, "search_onside"
-					=> array("Präsenz", "http://www.google.de")
-				, "search_webinar"
-					=> array("Webinar", "http://www.google.de")
-				, "search_wbt"
-					=> array("Selbstlernkurs", "http://www.google.de")
-				);
-		}
-		else {
-			throw new \LogicException("Should not get here...");
-		}
+		$this->active = $this->getActiveItem();
+		$this->items = $this->getItems();
 
 		$current_skin = ilStyleDefinition::getCurrentSkin();
 
@@ -110,6 +74,48 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			}
 		}
 		return null;
+	}
+
+	protected function getItems() {
+		if ($this->isCockpit()) {
+			return $this->getCockpitItems();
+		}
+		else if ($this->isSearch()) {
+			return array
+				( "search"
+					=> array("Suche", "http://www.google.de")
+				, "search_all"
+					=> array("Alle", "http://www.google.de")
+				, "search_onside"
+					=> array("Präsenz", "http://www.google.de")
+				, "search_webinar"
+					=> array("Webinar", "http://www.google.de")
+				, "search_wbt"
+					=> array("Selbstlernkurs", "http://www.google.de")
+				);
+		}
+		else {
+			throw new \LogicException("Should not get here...");
+		}
+	}
+
+	protected function getCockpitItems() {
+		global $ilUser;
+		$user_utils = gevUserUtils::getInstanceByObj($ilUser);
+		return array
+			( "bookings"
+				=> array("Buchungen", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+			, "edubio"
+				=> array("Bildungsbiografie", $user_utils->getEduBioLink())
+			, "profile"
+				=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
+			, "tep"
+				=> array("TEP", "ilias.php?baseClass=ilTEPGUI")
+			, "trainer_ops"
+				=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
+			, "training_admin"
+				=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin")
+			);
 	}
 
 	protected function getSubMenuHTML($current_skin) {
