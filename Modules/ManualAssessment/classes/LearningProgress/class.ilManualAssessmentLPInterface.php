@@ -35,7 +35,7 @@ class ilManualAssessmentLPInterface {
 		$members = self::$members_storage->loadMembers(new ilObjManualAssessment($mass_id,false));
 		$return = array();
 		foreach($members as $usr_id => $record) {
-			if($record[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS] === $status) {
+			if((string)$record[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS] === (string)$status) {
 				$return[] = $usr_id;
 			}
 		}
