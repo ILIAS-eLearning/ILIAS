@@ -15,6 +15,13 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	protected static $has_odf_definitions = false;
 	
 	protected $participants = null;
+	
+	/**
+	 * @var ilObject
+	 */
+	protected $rep_object;
+
+	
 
 	/**
 	 * Get selectable columns
@@ -31,8 +38,8 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 		}
 
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
-		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
-		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
+		$ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
+		self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
 		
 		if ($this->type == 'member' &&
 			$ilSetting->get('user_portfolios'))
@@ -45,6 +52,15 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 		
 		return self::$all_columns;
 	}
+	
+	/**
+	 * @return \ilObject
+	 */
+	protected function getRepositoryObject()
+	{
+		return $this->rep_object;
+	}
+	
 	
 	/**
 	 * Get participants
@@ -83,17 +99,17 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         {
             return true;
         }
-        self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->object->getRefId());
+        self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getRepositoryObject()->getRefId());
         
-		self::$confirmation_required = ($this->getParentObject()->object->getType() == 'crs')
+		self::$confirmation_required = ($this->getRepositoryObject()->getType() == 'crs')
 			? ilPrivacySettings::_getInstance()->courseConfirmationRequired()
 			: ilPrivacySettings::_getInstance()->groupConfirmationRequired();
 		
         include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
-        self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
+        self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getRepositoryObject()->getId());
 
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getParentObject()->object->getId());
+		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
 	/**
@@ -104,8 +120,8 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	protected function showActionLinks($a_set)
 	{
 		$loc_enabled = (
-				$this->getParentObject()->object->getType() == 'crs' and 
-				$this->getParentObject()->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE
+				$this->getRepositoryObject()->getType() == 'crs' and 
+				$this->getRepositoryObject()->getViewMode() == IL_CRS_VIEW_OBJECTIVE
 		);
 		
 		if(!self::$has_odf_definitions and !$loc_enabled)
@@ -132,7 +148,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 		if(self::$has_odf_definitions)
 		{
 			$this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui','member_id',$a_set['usr_id']);
-			$trans = $this->lng->txt($this->getParentObject()->object->getType().'_cdf_edit_member');
+			$trans = $this->lng->txt($this->getRepositoryObject()->getType().'_cdf_edit_member');
 			$list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui','editMember'));
 		}
 		

@@ -1857,7 +1857,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	public function readMemberData($ids,$role = 'admin',$selected_columns = null)
+	public function readMemberData($ids,$selected_columns = null)
 	{		
 		if($this->show_tracking)
 		{

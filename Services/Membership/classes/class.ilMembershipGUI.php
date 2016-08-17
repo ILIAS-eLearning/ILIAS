@@ -36,8 +36,10 @@ class ilMembershipGUI
 	protected $logger = null;
 	
 	/**
-	 * var ilParticipants
+	 * @var ilTemplate
 	 */
+	protected $tpl;
+	
 	
 	/**
 	 * Constructor
@@ -51,6 +53,8 @@ class ilMembershipGUI
 		$this->lng = $GLOBALS['DIC']['lng'];
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule($this->getParentObject()->getType());
+		
+		$this->tpl = $GLOBALS['DIC']['tpl'];
 		
 		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
 		
@@ -245,6 +249,7 @@ class ilMembershipGUI
 	 */
 	protected function participants()
 	{
+		$this->initParticipantTemplate();
 		$this->showParticipantsToolbar();
 		
 		// show waiting list table
@@ -252,6 +257,10 @@ class ilMembershipGUI
 		// show subscriber table
 		
 		// show member table
+		$table = $this->initParticipantTableGUI();
+		$table->parse();
+		
+		$this->tpl->setVariable('MEMBERS', $table->getHTML());
 	}
 	
 	/**
@@ -509,6 +518,16 @@ class ilMembershipGUI
 				'ilmemberexportgui'
 			);
 		}
+	}
+	
+	/**
+	 * Required for member table guis.
+	 * Has to be refactored and should be locate in ilObjCourse, ilObjGroup instead of GUI
+	 * @return array
+	 */
+	public function readMemberData(array $usr_ids, array $columns)
+	{
+		return $this->getParentGUI()->readMemberData($usr_ids, $columns);
 	}
 }
 ?>

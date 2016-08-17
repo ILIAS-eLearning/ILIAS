@@ -22,7 +22,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
      * @return
      */
     public function __construct(
-		$a_parent_obj, 
+		$a_parent_obj,
+		ilObject $rep_object,
 		$show_learning_progress = false
 	)
 	{
@@ -36,17 +37,19 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng->loadLanguageModule('rbac');
 
 		$this->ctrl = $ilCtrl;
+		
+		$this->rep_object = $rep_object;
 
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$this->privacy = ilPrivacySettings::_getInstance();
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->object->getId());
+		$this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
 
 		
 		$this->setPrefix('participants');
 
-		$this->setId('grp_' . $a_parent_obj->object->getId());
+		$this->setId('grp_' . $this->getRepositoryObject()->getId());
 		parent::__construct($a_parent_obj, 'members');
 
 		$this->initSettings();
@@ -101,7 +104,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         
         $this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
-        if(!$ilAccess->checkAccessOfUser($a_set['usr_id'],'read','',$this->getParentObject()->object->getRefId()) and 
+        if(!$ilAccess->checkAccessOfUser($a_set['usr_id'],'read','',$this->getRepositoryObject()->getRefId()) and 
             is_array($info = $ilAccess->getInfo()))
         {
 			$this->tpl->setCurrentBlock('access_warning');
@@ -248,7 +251,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['prtf']);
 				
 		
-		$part = ilGroupParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getParticipants();
+		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 		
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -305,7 +308,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		if($odf_ids)
 		{
 			include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
-			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
+			$data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
 			foreach($data as $usr_id => $fields)
 			{
 	            if(!$this->checkAcceptance($usr_id))
@@ -323,7 +326,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 			}
 			// add last edit date
 			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info)
 			{
 				if(!isset($a_user_data[$usr_id]))
 				{
@@ -335,7 +338,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
 					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
-					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
 						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));
@@ -368,7 +371,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		if($this->isColumnSelected('consultation_hour'))
 		{
 			include_once './Services/Booking/classes/class.ilBookingEntry.php';
-			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getParentObject()->object->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
+			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
 			{
 				if(isset($a_user_data[$buser]))
 				{

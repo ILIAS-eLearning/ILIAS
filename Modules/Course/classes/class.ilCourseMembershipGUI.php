@@ -97,9 +97,39 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	protected function initParticipantTableGUI()
 	{
-		include_once './Modules/Course/classes/class.ilCourseParticipantsTableGUI.php';
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		$show_tracking = 
+			(ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
+		;
+		if($show_tracking)
+		{			
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->getParentObject()->getId());
+			$show_tracking = $olp->isActive();
+		}
+
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');
+		$timings_enabled = 
+			(ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == IL_CRS_VIEW_TIMING))
+		;
 		
+		
+		include_once './Modules/Course/classes/class.ilCourseParticipantsTableGUI.php';
+		return new ilCourseParticipantsTableGUI(
+			$this,
+			$this->getParentObject(),
+			$show_tracking,
+			$timings_enabled,
+			$this->getParentObject()->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
+		);
 	}
 
+	/**
+	 * Init participant view template
+	 */
+	protected function initParticipantTemplate()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_edit_members.html','Modules/Course');
+	}
 }
 ?>

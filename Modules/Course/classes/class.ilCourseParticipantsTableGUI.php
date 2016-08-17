@@ -14,7 +14,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
-
+	
 	/**
 	 * Constructor
 	 *
@@ -24,6 +24,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	 */
 	public function __construct(
 		$a_parent_obj,
+		ilObject $rep_object,
 		$a_show_learning_progress = false,
 		$a_show_timings = false,
 		$a_show_lp_status_sync = false)
@@ -33,6 +34,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->show_learning_progress = $a_show_learning_progress;		
 		$this->show_timings = $a_show_timings;
 		$this->show_lp_status_sync = $a_show_lp_status_sync;
+		
+		$this->rep_object = $rep_object;
 		
 		// #13208
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -52,11 +55,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->privacy = ilPrivacySettings::_getInstance();
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->object->getId());
+		$this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
 		
 
 		// required before constructor for columns
-		$this->setId('crs_'. $a_parent_obj->object->getId());
+		$this->setId('crs_'. $this->getRepositoryObject()->getId());
 		parent::__construct($a_parent_obj, 'members');
 
 		$this->initSettings();
@@ -119,13 +122,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable_certificates = ilCertificate::isActive();		
 		if($this->enable_certificates)
 		{
-			$this->enable_certificates = ilCertificate::isObjectActive($a_parent_obj->object->getId());
+			$this->enable_certificates = ilCertificate::isObjectActive($this->getRepositoryObject->getId());
 		}
 		if($this->enable_certificates)
 		{
 			$lng->loadLanguageModule('certificate');
 		}
 	}
+	
 	
 
 	public function getItems()
@@ -148,7 +152,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
 
-		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getParentObject()->object->getRefId()) and
+		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) and
 			is_array($info = $ilAccess->getInfo()))
 		{
 			$this->tpl->setCurrentBlock('access_warning');
@@ -374,9 +378,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 		
 		// merge course data
-		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,
-			true,
-			$this->getSelectedColumns());
+		$course_user_data = $this->getParentObject()->readMemberData(
+			$usr_ids,
+			$this->getSelectedColumns()
+		);
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
@@ -440,7 +445,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($odf_ids)
 		{
 			include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
-			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
+			$data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
 			foreach($data as $usr_id => $fields)
 			{
 				// #7264: as we get data for all course members filter against user data
@@ -458,7 +463,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			
 			// add last edit date
 			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info)
 			{
 				if(!isset($a_user_data[$usr_id]))
 				{
@@ -470,7 +475,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
 					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
-					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
 						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));
@@ -491,7 +496,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($this->isColumnSelected('consultation_hour'))
 		{
 			include_once './Services/Booking/classes/class.ilBookingEntry.php';
-			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getParentObject()->object->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
+			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
 			{
 				if(isset($a_user_data[$buser]))
 				{
