@@ -16,6 +16,7 @@
 			addEvent: function(){},
 			searchEvent: function(){},
 			resizeChatWindow: function() {},
+			focusOut: function() {}
 		},
 
 		setTriggers: function(triggers) {
@@ -35,7 +36,10 @@
 				$scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent = triggers.searchEvent;
 			}
 			if(triggers.hasOwnProperty('resizeChatWindow')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow = triggers.resizeChatWindow
+				$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow = triggers.resizeChatWindow;
+			}
+			if(triggers.hasOwnProperty('focusOut')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.focusOut = triggers.focusOut;
 			}
 
 
@@ -50,9 +54,13 @@
 				.on('click', '[data-onscreenchat-submit]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
+				.on('click', '[data-onscreenchat-window]', function(){
+					$(this).find('[data-onscreenchat-message]').focus();
+				})
 				.on('keydown', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
-				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow);
+				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
+				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
 				}).on('input', '[data-onscreenchat-message]', function() {
@@ -104,7 +112,8 @@
 				submitEvent: getModule().handleSubmit,
 				addEvent: getModule().openInviteUser,
 				searchEvent: getModule().searchUser,
-				resizeChatWindow: getModule().resizeMessageInput
+				resizeChatWindow: getModule().resizeMessageInput,
+				focusOut: getModule().onFocusOut
 			}).init();
 
 			$('body').append(
@@ -261,12 +270,17 @@
 			}
 		},
 
+		onFocusOut: function() {
+			console.log("blubb");
+			var conversationId = $(this).attr('data-onscreenchat-window');
+			$chat.trackActivity(conversationId, getModule().user.id, (new Date()).getTime());
+		},
+
 		onConversation: function(conversation) {
 			getModule().storage.save(conversation);
 		},
 
 		onHistory: function(conversation){
-
 			getModule().addMessagesFromHistory(conversation);
 			getModule().historyBlocked = false;
 

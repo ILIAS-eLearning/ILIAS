@@ -200,13 +200,40 @@ var Database = function Database(config) {
 		})
 	};
 
+	this.trackActivity = function(conversationId, userId, timestamp) {
+		var emptyResult = true;
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_activity WHERE conversationId = ? AND userId = ?', [conversationId, userId]),
+			function(result){
+				emptyResult = false;
+				_pool.query('UPDATE osc_activity SET timestamp = ? WHERE conversationId = ? AND userId = ?',
+					[timestamp, conversationId, userId],
+					function(err){
+						if(err) throw err;
+					}
+				);
+			},
+			function() {
+				if(emptyResult)
+				{
+					_pool.query('INSERT INTO osc_activity SET ?', {
+						conversationId: conversationId,
+						userId: userId,
+						timestamp: timestamp
+					}, function(err){
+						if(err) throw err;
+					});
+				}
+			}
+		);
+	};
+
 	/**
 	 *
 	 * @param message
 	 */
 	this.persistConversationMessage = function(message) {
 		//message.timestamp = parseInt(message.timestamp / 1000);
-
 		_pool.query('INSERT INTO osc_messages SET ?', {
 			id: UUID.v4(),
 			conversationId: message.conversationId,
