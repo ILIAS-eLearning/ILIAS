@@ -23,6 +23,9 @@ class ilManualAssessmentSettingsGUI {
 			case "edit":
 			case "update":
 			case "cancel":
+				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'write')) {
+					$this->parent_gui->handleAccessViolation();
+				}
 				$this->$cmd();
 			break;
 		}
