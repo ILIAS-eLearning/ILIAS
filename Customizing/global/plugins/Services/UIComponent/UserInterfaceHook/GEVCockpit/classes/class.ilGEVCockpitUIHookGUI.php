@@ -23,20 +23,20 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		$user_utils = gevUserUtils::getInstanceByObj($ilUser);
 
 		if ($this->isCockpit()) { 
-			$this->active = "edubio";
+			$this->active = $this->getActiveItem();
 			$this->items = array
 				( "bookings"
 					=> array("Buchungen", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
 				, "edubio"
-					=> array("Bildungsbiografie", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+					=> array("Bildungsbiografie", $user_utils->getEduBioLink())
 				, "profile"
 					=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
 				, "tep"
-					=> array("TEP", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+					=> array("TEP", "ilias.php?baseClass=ilTEPGUI")
 				, "trainer_ops"
-					=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+					=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
 				, "training_admin"
-					=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
+					=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin")
 				);
 		}
 		else if ($this->isSearch()) {
@@ -70,7 +70,13 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	}
 
 	protected function isCockpit() {
-		return $_GET["baseClass"] == "gevDesktopGUI"
+		global $ilUser;
+		return
+			( $_GET["baseClass"] == "gevDesktopGUI" 
+				|| ($_GET["cmdClass"] == "ilobjreportedubiogui"
+					&& $_GET["target_user_id"] == $ilUser->getId())
+				|| $_GET["baseClass"] == "ilTEPGUI"
+			)
 			&& $_GET["cmdClass"] != "gevcoursesearchgui"
 			&& $_GET["cmdClass"] != "iladminsearchgui"
 			;
@@ -80,6 +86,30 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		return $_GET["baseClass"] == "gevDesktopGUI"
 			&& $_GET["cmdClass"] == "gevcoursesearchgui"
 			;
+	}
+
+	protected function getActiveItem() {
+		if ($this->isCockpit()) {
+			if ($_GET["cmdClass"] == "gevmycoursesgui") {
+				return "bookings";
+			}
+			if ($_GET["cmdClass"] == "ilobjreportedubiogui") {
+				return "edubio";
+			}
+			if ($_GET["cmdClass"] == "gevuserprofilegui") {
+				return "profile";
+			}
+			if ($_GET["baseClass"] == "ilTEPGUI") {
+				return "tep";
+			}
+			if ($_GET["cmdClass"] == "gevmytrainingsapgui") {
+				return "trainer_ops";
+			}
+			if ($_GET["cmdClass"] == "gevmytrainingsadmingui") {
+				return "training_admin";
+			}
+		}
+		return null;
 	}
 
 	protected function getSubMenuHTML($current_skin) {
