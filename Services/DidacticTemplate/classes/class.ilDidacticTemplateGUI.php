@@ -82,7 +82,7 @@ class ilDidacticTemplateGUI
 			//just add if template is effective except template is already applied to this object
 			if($tpl->isEffective($_GET['ref_id']) || $tpl->getId() == $value)
 			{
-				$options[$tpl->getId()] = $tpl->getTitle();
+				$options[$tpl->getId()] = $tpl->getPresentationTitle();
 
 				if($tpl->isExclusive())
 				{

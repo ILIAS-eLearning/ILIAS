@@ -15739,7 +15739,7 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Berechtigungsobjekt
-didactic#:#activate_local_didactic_templeate#:#Lokale Didaktische Vorlage aktivieren
+didactic#:#activate_local_didactic_template#:#Lokale Didaktische Vorlage
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
@@ -15750,3 +15750,5 @@ didactic#:#didactic_cannot_delete_auto_generated#:#Das löschen von automatisch 
 didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eines der gewählten Didaktische Vorlagen sind automatisch generiert und können daher nicht gelöscht werden.
 didactic#:#didactic_auto_generated#:#Automatisch generiert
 didactic#:#activate_exclusive_template#:#Überschreibt Standard
+didactic#:#activate_local_didactic_template_info#:#Die Nutzung der Didaktischer Vorlagen wird auf Teilbereiche des Magazins beschränkt.
+didactic#:#activate_exclusive_template_info#:#Die Standrard Vorlage wird überall dort ausgeblendet, wo diese Didaktische Vorlage aktiv ist.

@@ -70,8 +70,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 		{
 			/* @var $tpl ilDidacticTemplateSetting */
 			$data[$counter]['id'] = $tpl->getId();
-			$data[$counter]['title'] = $tpl->getTitle();
-			$data[$counter]['description'] = $tpl->getDescription();
+			$data[$counter]['title'] = $tpl->getPresentationTitle();
+			$data[$counter]['description'] = $tpl->getPresentationDescription();
 			$data[$counter]['info'] = $tpl->getInfo();
 			$data[$counter]['enabled'] = (int) $tpl->isEnabled();
 			$data[$counter]['assignments'] = $tpl->getAssignments();

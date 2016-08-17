@@ -15736,7 +15736,7 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
-didactic#:#activate_local_didactic_templeate#:#Activate Lokal Didactic Template
+didactic#:#activate_local_didactic_template#:#Local Didactic Template
 didactic#:#effective_form#:#Template Effective From
 didactic#:#more_translations#:#More Translations
 didactic#:#didactic_template_update_import#:#Update Didactic Template
@@ -15747,3 +15747,5 @@ didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete a
 didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.
 didactic#:#didactic_auto_generated#:#Automatic Generated
 didactic#:#activate_exclusive_template#:#Overwrites Default
+didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.
+didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.

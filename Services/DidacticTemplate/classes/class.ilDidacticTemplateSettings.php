@@ -30,7 +30,7 @@ class ilDidacticTemplateSettings
 
 	/**
 	 * Get singelton instance
-	 * @return ilDidacticTemplateSetting
+	 * @return ilDidacticTemplateSettings
 	 */
 	public static function getInstance()
 	{

@@ -139,7 +139,6 @@ class ilDidacticTemplateImport
 
 		include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
 		$trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
-		$trans->addLanguage($trans->getDefaultLanguage(), $setting->getTitle(), $setting->getDescription(), true);
 
 		if(isset($root->didacticTemplate->translations))
 		{
