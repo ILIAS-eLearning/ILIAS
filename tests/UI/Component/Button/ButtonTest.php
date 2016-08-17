@@ -161,7 +161,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($b));
 
-		$expected = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">".
+		$expected = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" >".
 					"	<span aria-hidden=\"true\">x</span>".
 					"	<span class=\"sr-only\">Close</span>".
 					"</button>";
@@ -191,6 +191,28 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\" id=\"$id\">".
 					"label".
 					"</a>";
+		$this->assertEquals($expected, $html);
+	}
+
+	public function test_____render_close_button_with_on_load_code() {
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$ids = array();
+		$b = $f->close()
+				->withOnLoadCode(function($id) use (&$ids) {
+					$ids[] = $id;
+					return "";
+				});
+
+		$html = $this->normalizeHTML($r->render($b));
+
+		$this->assertCount(1, $ids);
+
+		$id = $ids[0];
+		$expected = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" id=\"$id\">".
+					"	<span aria-hidden=\"true\">x</span>".
+					"	<span class=\"sr-only\">Close</span>".
+					"</button>";
 		$this->assertEquals($expected, $html);
 	}
 
