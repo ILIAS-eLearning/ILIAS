@@ -129,7 +129,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\">".
+		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\" >".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
@@ -148,7 +148,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes ilSubmitInactive\"  data-action=\"$ln\">".
+		$expected = "<a class=\"$css_classes ilSubmitInactive\"  data-action=\"$ln\" >".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
@@ -168,10 +168,37 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $html);
 	}
 
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_render_button_with_on_load_code($factory_method) {
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$ids = array();
+		$b = $f->$factory_method("label", $ln)
+				->withOnLoadCode(function($id) use (&$ids) {
+					$ids[] = $id;
+					return "";
+				});
+
+		$html = $this->normalizeHTML($r->render($b));
+
+		$this->assertCount(1, $ids);
+
+		$id = $ids[0];
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\" id=\"$id\">".
+					"label".
+					"</a>";
+		$this->assertEquals($expected, $html);
+	}
+
 	public function button_type_provider() {
 		return array
 			( array("standard")
 			, array("primary")
 			);
 	}
+
 }
