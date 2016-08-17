@@ -21,6 +21,13 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		return 'xreb';
 	}
 
+	public function performCommand() {
+		if ($this->gUser->getId() === $_GET["target_user_id"]) {
+			global $ilMainMenu;
+			$ilMainMenu->setActive("gev_me_menu");
+		}
+		parent::performCommand();
+	}
 
 	public function performCustomCommand($cmd) {
 		switch ($cmd) {

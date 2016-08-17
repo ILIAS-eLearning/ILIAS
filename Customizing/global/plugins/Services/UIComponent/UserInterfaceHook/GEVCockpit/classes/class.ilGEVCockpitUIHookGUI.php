@@ -101,21 +101,43 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 
 	protected function getCockpitItems() {
 		global $ilUser;
-		$user_utils = gevUserUtils::getInstanceByObj($ilUser);
-		return array
-			( "bookings"
-				=> array("Buchungen", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses")
-			, "edubio"
-				=> array("Bildungsbiografie", $user_utils->getEduBioLink())
-			, "profile"
-				=> array("Profil", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
-			, "tep"
-				=> array("TEP", "ilias.php?baseClass=ilTEPGUI")
-			, "trainer_ops"
-				=> array("Trainingseinsätze", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
-			, "training_admin"
-				=> array("Trainingsverwaltung", "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin")
-			);
+		global $lng;
+
+		if ($ilUser->getId() !== 0) {
+			$user_utils = gevUserUtils::getInstanceByObj($ilUser);
+		}
+		else {
+			$user_utils = null;
+		}
+
+		$items = array();
+
+		$items["bookings"]
+			= array($lng->txt("gev_bookings"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses");
+
+		if ($user_utils && ($edu_bio_link = $user_utils->getEduBioLink())) {
+			$items["edubio"]
+				= array($lng->txt("gev_edu_bio"), $user_utils->getEduBioLink());
+		}
+
+		$items["profile"]
+			= array($lng->txt("gev_user_profile"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile");
+
+
+		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
+		if ($user_utils && ($user_utils->isAdmin() || ilTEPPermissions::getInstance($ilUser->getId())->isTutor())) {
+			$lng->loadLanguageModule("tep");
+			$items["tep"]
+				= array($lng->txt("tep_personal_calendar_title"), "ilias.php?baseClass=ilTEPGUI");
+
+			$items["trainer_ops"]
+				= array($lng->txt("gev_mytrainingsap_title"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp");
+		}
+
+		$items["training_admin"]
+			= array($lng->txt("gev_my_trainings_admin"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin");
+
+		return $items;
 	}
 
 	protected function getSubMenuHTML($current_skin) {

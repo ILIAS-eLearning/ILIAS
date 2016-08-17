@@ -108,16 +108,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 
 		$employee_booking = ($this->user_utils && $this->user_utils->canViewEmployeeBookings());
-		$my_org_unit = false;
-		$tep = ($this->user_utils && ($this->user_utils->isAdmin() || ilTEPPermissions::getInstance($this->gUser->getId())->isTutor()));
-		$pot_participants = false;
-		$apprentices = false;
 		require_once("Services/GEV/Utils/classes/class.gevHAUtils.php");
 		$can_create_ha_unit = ($this->user_utils && ($this->user_utils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->user_utils->getId())));
 		$local_user_admin = ($this->user_utils && $this->user_utils->isSuperior()); //Local User Administration Permission
 
-		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
-		$is_trainer = $tep; // $tep_permissions->isTutor();
+		$has_others_menu = $employee_booking || $can_create_ha_unit;
 		$could_do_wbd_registration = $this->wbd && $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
 		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());
@@ -151,35 +146,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			//content
 			//link title
 			  "gev_search_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch",$this->gLng->txt("gev_search_menu"), $this->gLng->txt("gev_search_menu"))
-			, "gev_me_menu" => array(false, true, array(
-											  //render entry?
-  											  //url
-				                              //link title
-				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses",$this->gLng->txt("gev_my_courses"))
-				, "gev_edu_bio" => array(false, "NYI!",$this->gLng->txt("gev_edu_bio"))
-				, "gev_my_profile" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile",$this->gLng->txt("gev_my_profile"))
-				, "gev_my_settings" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings",$this->gLng->txt("gev_my_settings"))
-				, "gev_my_groups" => array(false, "NYI!",$this->gLng->txt("gev_my_groups"))
-				, "gev_my_roadmap" => array(false, "NYI!",$this->gLng->txt("gev_my_roadmap"))
-				, "gev_my_trainer_ap" => array($is_trainer, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp",$this->gLng->txt("gev_my_trainer_ap"))
-				, "gev_my_trainer_ap_admin" => array($is_training_manager, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin",$this->gLng->txt("gev_my_trainings_admin"))
-				, "gev_wbd_registration" => array($could_do_wbd_registration, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDRegistration",$this->gLng->txt("gev_wbd_registration"))
-
-				), $this->gLng->txt("gev_me_menu"))
+			, "gev_me_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses", $this->gLng->txt("gev_me_menu"))
 			, "gev_others_menu" => array(false, $has_others_menu, array(
 				  "gev_employee_booking" => array($employee_booking, "ilias.php?baseClass=gevDesktopGUI&cmd=toEmployeeBookings",$this->gLng->txt("gev_employee_booking"))
-				, "gev_my_org_unit" => array($my_org_unit, "NYI!",$this->gLng->txt("gev_my_org_unit"))
-				, "gev_tep" => array($tep, "ilias.php?baseClass=ilTEPGUI",$this->gLng->txt("gev_tep"))
-				, "gev_pot_participants" => array($pot_participants, "NYI!",$this->gLng->txt("gev_pot_participants"))
-				, "gev_my_apprentices" => array($apprentices, "NYI!",$this->gLng->txt("gev_my_apprentices"))
 				, "gev_create_org_unit" => array($can_create_ha_unit, "ilias.php?baseClass=gevDesktopGUI&cmd=createHAUnit", $this->gLng->txt("gev_create_ha_org_unit"))
-				), $this->gLng->txt("gev_others_menu"))
-			, "gev_process_menu" => array(false, false, array(
-				  "gev_apprentice_grant" => array(true, "NYI!",$this->gLng->txt("gev_apprentice_grant"))
-				, "gev_pot_applicants" => array(true, "NYI!",$this->gLng->txt("gev_pot_applicants"))
-				, "gev_spec_course_create" => array(true, "NYI!",$this->gLng->txt("gev_spec_course_create"))
-				, "gev_spec_course_approval" => array(true, "NYI!",$this->gLng->txt("gev_spec_course_approval"))
-				, "gev_spec_course_check" => array(true, "NYI!",$this->gLng->txt("gev_spec_course_check"))
 				), $this->gLng->txt("gev_others_menu"))
 			, self::GEV_REPORTING_MENU => array(false, $this->hasReportingMenu(), null)
 
@@ -337,7 +307,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_user_mgmt" => array($main_menue_permissions["manage_users"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->gLng->txt("gev_user_mgmt"))
 				, "gev_org_mgmt" => array($main_menue_permissions["manage_org_units"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->gLng->txt("gev_org_mgmt"))
 				, "gev_mail_mgmt" => array($main_menue_permissions["manage_mails"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->gLng->txt("gev_mail_mgmt")));
-				//, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->gLng->txt("gev_competence_mgmt"));
 
 		$bb_pool = gevUserUtils::getBuildingBlockPoolsTitleUserHasPermissionsTo($this->gUser->getId(), array(gevSettings::USE_BUILDING_BLOCK, "visible"));
 		foreach ($bb_pool as $key => $value) {
@@ -386,5 +355,4 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		return $has_reporting_menu;
 	}
-
 }

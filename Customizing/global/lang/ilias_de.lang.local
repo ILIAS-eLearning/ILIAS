@@ -565,7 +565,7 @@ gev#:#gev_preview_invitation_mail#:#Vorschau Einladungsmail
 gev#:#gev_mailing_additional_settings#:#erweiterte Einstellungen
 gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Training, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
 gev#:#gev_mandate#:#Auftrag
-gev#:#gev_me_menu#:#Übersicht
+gev#:#gev_me_menu#:#Cockpit
 gev#:#gev_member_list#:#Mitgliederliste
 gev#:#gev_methods#:#Methoden
 gev#:#gev_mobile#:#Mobil
@@ -580,7 +580,7 @@ gev#:#gev_my_org_unit#:#Meine Organisationseinheit
 gev#:#gev_my_profile#:#Mein Profil
 gev#:#gev_my_roadmap#:#Meine Azubiroadmap
 gev#:#gev_my_settings#:#Meine Einstellungen
-gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
+gev#:#gev_my_trainer_ap#:#Trainingseinsätze
 gev#:#gev_na_adviser#:#Hauptberuflicher Betreuer
 gev#:#gev_na_reg_no_adviser#:#Ihr Betreuer konnte nicht eindeutig bestimmt werden.
 gev#:#gev_na_adviser_input_info#:#Geben Sie den vollständigen Benutzernamen Ihres hauptberuflichen Betreuers ein.
@@ -1084,7 +1084,7 @@ gev#:#gev_mytrainingsap_legend_view_bookings#:#Buchungen
 gev#:#gev_mytrainingsap_legend_memberlist#:#Teilnehmerliste
 gev#:#gev_mytrainingsap_legend_setstatus#:#Status setzen
 gev#:#gev_mytrainingsap_legend_overnights#:#Übernachtungen bearbeiten
-gev#:#gev_mytrainingsap_title#:#Meine Trainingseinsätze
+gev#:#gev_mytrainingsap_title#:#Trainingseinsätze
 gev#:#gev_mytrainingsap_title_desc#:#Hier sehen Sie Ihre Trainingseinsätze auf einen Blick
 gev#:#gev_mytrainingsap_btn_memberlist#:#Teilnehmerliste
 gev#:#gev_mytrainingsap_btn_setstatus#:#Teilnehmerstatus setzen
@@ -1468,9 +1468,9 @@ gev#:#gev_dec_training_no_blocks_no_training#:#Bitte legen Sie Trainingsblöcke 
 gev#:#gev_dec_training_no_blocks_no_save#:#Bitte legen Sie Trainingsblöcke an.
 gev#:#gev_crs_tpl_dates_set#:#Diese Vorlage hat ein Start und Enddatum. Sollte es sich um ein dezentrales Training handeln, entfernen Sie diese bitte.
 gev#:#gev_crs_book_no_perm_at_any_org_units#:#Sie dürfen für keine Organisationseinheit Buchungen vornehmen.
-gev#:#gev_my_trainings_admin#:#Meine Trainings (Admin)
+gev#:#gev_my_trainings_admin#:#Trainingsverwaltung
 gev#:#gev_my_trainings_admin_credit_points#:#Punkte
-gev#:#gev_my_trainings_admin_title#:#Meine Trainings (Admin)
+gev#:#gev_my_trainings_admin_title#:#Trainingsverwaltung
 gev#:#gev_my_trainings_admin_title_desc#:#Hier sehen Sie eine Auflistung an Trainings, bei denen Sie entwender der Trainigsersteller oder -betreuer sind. Die Trainings verbleiben so lange in dieser Übersicht, bis ihnen der Status Finalisiert gesetzt wurde.
 gev#:#gev_my_trainings_admin_edit_settings#:#Einstellungen bearbeiten
 gev#:#gev_crs_resend_invitation_info#:#Sie haben Änderungen vorgenommen, die ein erneutes Versenden der Einladungsmail notwendig machen. Mit einem Klick auf die Schaltfläche gelangen Sie zu dem Punkt, an dem Sie diese versenden können.
