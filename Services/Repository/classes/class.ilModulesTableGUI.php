@@ -3,6 +3,7 @@
 
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 include_once("Services/Component/classes/class.ilComponent.php");
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
  * TableGUI class for module listing
@@ -235,7 +236,7 @@ class ilModulesTableGUI extends ilTable2GUI
 			if ($pl_id) {
 				$obj_types[$pl_id] = array(
 					"object" => $pl_name,
-					"caption" => ilPlugin::lookupTxtById($pl_id, "obj_" . $pl_id),
+					"caption" => ilObjectPlugin::lookupTxtById($pl_id, "obj_" . $pl_id),
 					"subdir" => $lng->txt("cmps_plugin"),
 					"grp" => "",
 					"default_pos" => 2000

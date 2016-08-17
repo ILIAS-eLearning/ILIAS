@@ -52,11 +52,25 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 
 
 	/**
+	 * @return bool
+	 */
+	protected function supportsExport() {
+		return false;
+	}
+
+
+	/**
 	 * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
 	 */
 	protected function setLocator() {
 		global $tpl;
-		$path = $this->tree->getPathFull($this->ref_id, ilObjOrgUnit::getRootOrgRefId());
+		if ($this->getCreationMode()) {
+			$endnode_id = $this->parent_id;
+		} else {
+			$endnode_id = $this->ref_id;
+		}
+
+		$path = $this->tree->getPathFull($endnode_id, ilObjOrgUnit::getRootOrgRefId());
 		// add item for each node on path
 		foreach ((array)$path as $key => $row) {
 			if ($row["title"] == "__OrgUnitAdministration") {

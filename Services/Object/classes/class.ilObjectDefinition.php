@@ -1,6 +1,7 @@
 <?php
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * parses the objects.xml
@@ -1172,7 +1173,7 @@ class ilObjectDefinition// extends ilSaxParser
 					"sideblock" => "0"
 				);
 				// The plugin_id is the same as the type_id in repository object plugins.
-				$pl = ilPlugin::getRepoPluginObjectByType($pl_id);
+				$pl = ilObjectPlugin::getRepoPluginObjectByType($pl_id);
 				$parent_types = $pl->getParentTypes();
 				foreach($parent_types as $parent_type) {
 					$this->obj_data[$parent_type]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);

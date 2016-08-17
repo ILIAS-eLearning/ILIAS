@@ -2,6 +2,7 @@
 
 require_once "Services/Repository/classes/class.ilObjectPlugin.php";
 require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
  * Class ilOrgUnitExtension
@@ -52,7 +53,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 
 		$plugin_ids = ilPlugin::getActivePluginIdsForSlot(IL_COMP_MODULE, "OrgUnit", "orguext");
 		foreach ($plugin_ids as $plugin_id) {
-			$plugin = ilPlugin::getRepoPluginObjectByType($plugin_id);
+			$plugin = ilObjectPlugin::getRepoPluginObjectByType($plugin_id);
 			if ($plugin->showInTree()) {
 				$list[] = $plugin_id;
 			}

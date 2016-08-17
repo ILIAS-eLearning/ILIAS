@@ -226,8 +226,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		
 		$forms = array();
 		$forms[self::CFORM_NEW] = $this->initCreateForm($a_new_type);
-		
-		if($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName()))
+
+		if($this->supportsExport())
 		{
 			$forms[self::CFORM_IMPORT] = $this->initImportForm($a_new_type);
 		}		
@@ -463,5 +463,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}
-	
+
+
+	/**
+	 * @return bool
+	 */
+	protected function supportsExport() {
+		global $ilPluginAdmin;
+
+		return $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
+	}
 }
