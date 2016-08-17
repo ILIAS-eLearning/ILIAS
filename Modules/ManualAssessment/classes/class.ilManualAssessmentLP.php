@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2016 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Object/classes/class.ilObjectLP.php");
 
@@ -13,9 +13,7 @@ class ilManualAssessmentLP extends ilObjectLP {
 	}
 	
 	public function getValidModes() {
-		return array
-			( ilLPObjSettings::LP_MODE_MANUAL_ASSESSMENT
-			);
+		return array(ilLPObjSettings::LP_MODE_MANUAL_ASSESSMENT);
 	}
 	
 	public function getMembers($a_search = true) {
@@ -28,5 +26,3 @@ class ilManualAssessmentLP extends ilObjectLP {
 		return $this->members_ids;
 	}
 }
-
-?>
