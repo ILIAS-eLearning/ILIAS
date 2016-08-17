@@ -30,11 +30,11 @@ class ilManualAssessmentMembersGUI {
 	}
 
 	public function executeCommand() {
-		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass();
 		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
 			$this->parent_gui->handleAccessViolation();
 		}
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass();
 		switch($next_class) {
 			case "ilrepositorysearchgui":
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
@@ -57,9 +57,6 @@ class ilManualAssessmentMembersGUI {
 	}
 
 	protected function view() {
-		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-			$a_parent_gui->handleAccessViolation();
-		}
 		require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
@@ -70,7 +67,7 @@ class ilManualAssessmentMembersGUI {
 			)
 		);
 		$this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt("grp_search_users"),
+		$this->toolbar->addButton($this->lng->txt("mass_search_users"),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
