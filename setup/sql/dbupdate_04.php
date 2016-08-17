@@ -16550,3 +16550,8 @@ if(file_exists($sbm_path) && is_dir($sbm_path))
 	@rmdir($sbm_path);
 }
 ?>
+<#4977>
+<?php
+$ilSetting = new ilSetting();
+$ilSetting->delete('passwd_auto_generate');
+?>
