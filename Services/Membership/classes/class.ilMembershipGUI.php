@@ -258,9 +258,50 @@ class ilMembershipGUI
 		
 		// show member table
 		$table = $this->initParticipantTableGUI();
+		$table->setFormAction($this->ctrl->getFormAction($this));
 		$table->parse();
 		
 		$this->tpl->setVariable('MEMBERS', $table->getHTML());
+	}
+	
+	/**
+	 * Send mail to selected users
+	 */
+	protected function sendMailToSelectedUsers()
+	{
+		$participants = (array) $_POST['participants'];
+
+		if (!count($participants))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		
+		foreach($participants as $usr_id)
+		{
+			$rcps[] = ilObjUser::_lookupLogin($usr_id);
+		}
+
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+
+		ilMailFormCall::setRecipients($rcps);
+		ilUtil::redirect(
+			ilMailFormCall::getRedirectTarget(
+				$this, 
+				'participants',
+				array(),
+				array(
+					'type'   => 'new',
+					'sig' => $this->createMailSignature()
+				),
+				array(
+					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					'ref_id' => $this->getParentObject()->getRefId(),
+					'ts'     => time()
+				)
+			)
+		);		
 	}
 	
 	/**

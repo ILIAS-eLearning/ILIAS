@@ -35,6 +35,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng->loadLanguageModule('grp');
 		$this->lng->loadLanguageModule('trac');
 		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule('mmbr');
 
 		$this->ctrl = $ilCtrl;
 		
@@ -89,6 +90,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable('header');
 		$this->enable('numinfo');
 		$this->enable('select_all');
+		
+		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
+		
 	}
 
 	/**

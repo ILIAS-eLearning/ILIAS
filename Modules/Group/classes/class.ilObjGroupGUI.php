@@ -1366,48 +1366,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
 	/**
-	 * show send mail
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function sendMailToSelectedUsersObject()
-	{
-		if(isset($_GET['member_id']))
-		{
-			$_POST['participants'] = array($_GET['member_id']);
-		}
-		else
-		{
-			$_POST['participants'] = array_unique(array_merge((array) $_POST['admins'],
-				(array) $_POST['members'],
-				(array) $_POST['roles'],
-				(array) $_POST['waiting'],
-				(array) $_POST['subscribers']));
-		}
-		if (!count($_POST['participants']))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
-			return false;
-		}
-		foreach($_POST['participants'] as $usr_id)
-		{
-			$rcps[] = ilObjUser::_lookupLogin($usr_id);
-		}
-
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilMailFormCall::setRecipients($rcps);
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-			$this, 
-			'members',
-			array(), 
-			array('type' => 'new', 'sig' => $this->createMailSignature())));
-		return true;
-	}
-	
-	/**
 	 * set preferences (show/hide tabel content)
 	 *
 	 * @access public

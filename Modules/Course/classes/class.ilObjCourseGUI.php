@@ -89,66 +89,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			return $this->deleteMembersObject();
 		}
-		elseif($_POST['btn_pressed']['sendMailToSelectedUsers'])
-		{
-			return $this->sendMailToSelectedUsersObject();
-		}		
 		else
 		{
 			return $this->updateMembersObject();
 		}
 	}
 
-	function sendMailToSelectedUsersObject()
-	{
-		if(isset($_GET['member_id']))
-		{
-			$_POST['member'] = array($_GET['member_id']);
-		}
-		else
-		{
-			$_POST['member'] = array_unique(array_merge((array) $_POST['members'],
-				(array) $_POST['tutors'],
-				(array) $_POST['admins'],
-				(array) $_POST['waiting'],
-				(array) $_POST['subscribers'],
-				(array) $_POST['roles']
-			));
-		}
-		
-		if (!count($_POST["member"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
-			$this->cancelMemberObject();
-			return false;
-		}
-		
-		foreach($_POST["member"] as $usr_id)
-		{
-			$rcps[] = ilObjUser::_lookupLogin($usr_id);
-		}
-
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-
-		ilMailFormCall::setRecipients($rcps);
-		ilUtil::redirect(
-			ilMailFormCall::getRedirectTarget(
-				$this, 
-				'members',
-				array(),
-				array(
-					'type'   => 'new',
-					'sig' => $this->createMailSignature()
-				),
-				array(
-					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-					'ref_id' => $this->object->getRefId(),
-					'ts'     => time()
-				)
-			)
-		);		
-	}
 	
 	/**
 	* canceledObject is called when operation is canceled, method links back
@@ -2467,7 +2413,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setContent($table_gui->getHTML());
 		return true;
 	}
-	
+
 	/**
 	 * update members
 	 *

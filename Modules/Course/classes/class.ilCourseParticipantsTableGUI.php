@@ -50,6 +50,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
 		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule('mmbr');
 		
 		$this->ctrl = $ilCtrl;
 
@@ -130,6 +131,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		{
 			$lng->loadLanguageModule('certificate');
 		}
+		
+		
+		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
+		
 	}
 	
 	
