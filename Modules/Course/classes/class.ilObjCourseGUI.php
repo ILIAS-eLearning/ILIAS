@@ -2084,22 +2084,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if($rbacreview->getNumberOfAssignedUsers(array($this->object->getDefaultAdminRole())))
 		{
-			// Security: display the list of course administrators read-only, 
-			// if the user doesn't have the 'edit_permission' permission. 
- 			$showEditLink = 
-				(
-					$ilAccess->checkAccess("edit_permission", '', $this->object->getRefId()) or 
-					ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
-				);
 			if($ilUser->getPref('crs_admin_hide'))
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'admin',
 					false,
 					$this->timings_enabled,
-					$showEditLink,
-					$this->object->getDefaultAdminRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'admin_hide',0);
@@ -2111,11 +2101,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'admin',
 					false,
 					$this->timings_enabled,
-					$showEditLink,
-					$this->object->getDefaultAdminRole(),					
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'admin_hide',1);
@@ -2133,11 +2120,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'tutor',
 					false,
 					$this->timings_enabled,
-					true,
-					$this->object->getDefaultTutorRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'tutor_hide',0);
@@ -2149,11 +2133,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'tutor',
 					false,
 					$this->timings_enabled,
-					true,
-					$this->object->getDefaultTutorRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'tutor_hide',1);
@@ -2171,12 +2152,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'member',
-					false,
 					$this->show_tracking,
 					$this->timings_enabled,
-					true,
-					$this->object->getDefaultMemberRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 
@@ -2189,12 +2166,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'member',
-					true,
 					$this->show_tracking,
 					$this->timings_enabled,
-					true,
-					$this->object->getDefaultMemberRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'member_hide',1);
@@ -2220,12 +2193,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'role',
-					false,
 					$this->show_tracking,
 					$this->timings_enabled,
-					true,
-					$role_id,
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,0);
@@ -2239,12 +2208,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
-					'role',
-					true,
 					$this->show_tracking,
 					$this->timings_enabled,
-					true,
-					$role_id,
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,1);

@@ -252,10 +252,6 @@ class ilMembershipGUI
 		// show subscriber table
 		
 		// show member table
-		include_once '';
-		
-		
-		
 	}
 	
 	/**

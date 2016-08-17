@@ -12,11 +12,7 @@ include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 
 class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 {
-    protected $type = 'admin';
-	protected $role = 0;
     protected $show_learning_progress = false;
-	protected $show_edit_link = TRUE;
-    
 
     /**
      * Constructor
@@ -26,106 +22,73 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
      * @return
      */
     public function __construct(
-		$a_parent_obj,
-		$a_type = 'admin',
-		$show_learning_progress = false,
-		$a_role_id = 0
+		$a_parent_obj, 
+		$show_learning_progress = false
 	)
-    {
-        global $lng,$ilCtrl;
-        
-        $this->show_learning_progress = $show_learning_progress;
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('grp');
-        $this->lng->loadLanguageModule('trac');
-		$this->lng->loadLanguageModule('rbac');
-		
-        $this->ctrl = $ilCtrl;
-        
-        $this->type = $a_type; 
-		$this->role = $a_role_id;
-        
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $this->privacy = ilPrivacySettings::_getInstance();
+	{
+		global $lng, $ilCtrl;
 
-		switch($this->type)
-		{
-			case 'admin':
-				$this->setPrefix('admin');
-				break;
-			case 'member':
-				$this->setPrefix('member');
-				break;
-			default:
-				$this->setPrefix('role');
-				break;
-		}
+		$this->show_learning_progress = $show_learning_progress;
+
+		$this->lng = $lng;
+		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('trac');
+		$this->lng->loadLanguageModule('rbac');
+
+		$this->ctrl = $ilCtrl;
+
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$this->privacy = ilPrivacySettings::_getInstance();
 		
-		$this->setId('grp_'.$a_type.'_'.$this->getRole().'_'.$a_parent_obj->object->getId());
-        parent::__construct($a_parent_obj,'members');
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		$this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->object->getId());
+
 		
+		$this->setPrefix('participants');
+
+		$this->setId('grp_' . $a_parent_obj->object->getId());
+		parent::__construct($a_parent_obj, 'members');
+
 		$this->initSettings();
 
-        $this->setFormName('participants');
+		$this->setFormName('participants');
 
-        $this->addColumn('','f',"1");
-        $this->addColumn($this->lng->txt('name'),'lastname','20%');
-        
+		$this->addColumn('', 'f', "1");
+		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
+
 		$all_cols = $this->getSelectableColumns();
-        foreach($this->getSelectedColumns() as $col)
-        {
-			$this->addColumn($all_cols[$col]['txt'],$col);
-        }
-        
-        if($this->show_learning_progress)
-        {
-            $this->addColumn($this->lng->txt('learning_progress'),'progress');
-        }
-
-        if($this->privacy->enabledGroupAccessTimes())
-        {
-            $this->addColumn($this->lng->txt('last_access'),'access_time_unix');
-        }
-        if($this->type == 'admin')
+		foreach($this->getSelectedColumns() as $col)
 		{
-            $this->setSelectAllCheckbox('admins');
-            $this->addColumn($this->lng->txt('grp_notification'),'notification');
-            $this->addCommandButton('updateStatus',$this->lng->txt('save'));
-        }
-        elseif($this->type == 'member')
-        {
-            $this->setSelectAllCheckbox('members');
-        }
-		else
-		{
-            $this->setSelectAllCheckbox('roles');
+			$this->addColumn($all_cols[$col]['txt'], $col);
 		}
-        $this->addColumn($this->lng->txt(''),'optional');
-        $this->setDefaultOrderField('lastname');
-        
-        $this->setRowTemplate("tpl.show_participants_row.html","Modules/Group");
-		
+
+		if($this->show_learning_progress)
+		{
+			$this->addColumn($this->lng->txt('learning_progress'), 'progress');
+		}
+
+		if($this->privacy->enabledGroupAccessTimes())
+		{
+			$this->addColumn($this->lng->txt('last_access'), 'access_time_unix');
+		}
+		$this->setSelectAllCheckbox('participants');
+		$this->addColumn($this->lng->txt('grp_notification'), 'notification');
+		$this->addCommandButton('updateStatus', $this->lng->txt('save'));
+
+		$this->addColumn($this->lng->txt(''), 'optional');
+		$this->setDefaultOrderField('lastname');
+
+		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Group");
+
 		$this->setShowRowsSelector(true);
-        
-        $this->enable('sort');
+
+		$this->enable('sort');
 		$this->enable('header');
 		$this->enable('numinfo');
 		$this->enable('select_all');
-    }
-	
-	/**
-	 * Get role
-	 * @return type
-	 */
-	public function getRole()
-	{
-		return $this->role;
 	}
-    
-    
-    
-    /**
+
+	/**
      * fill row 
      *
      * @access public
@@ -250,22 +213,17 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
         
-        
-        if($this->type == 'admin')
-        {
-            $this->tpl->setVariable('VAL_POSTNAME','admins');
-            $this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-            $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
-        }
-        elseif($this->type == 'member')
-        {
-            $this->tpl->setVariable('VAL_POSTNAME','members');
-        }
-		else
+		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
+		if(
+			$this->getParticipants()->isAdmin($a_set['usr_id'])
+		)
 		{
-            $this->tpl->setVariable('VAL_POSTNAME','roles');
+			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+			$this->tpl->setVariable(
+				'VAL_NOTIFICATION_CHECKED',
+				$a_set['notification'] ? 'checked="checked"' : '');
 		}
-        
+
 		$this->showActionLinks($a_set);
 		
         
@@ -289,18 +247,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
 				
-        switch($this->type)
-        {
-            case 'admin':
-                $part = ilGroupParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getAdmins();
-                break;              
-            case 'member':
-				$part = $GLOBALS['rbacreview']->assignedUsers($this->getRole());
-                break;
-			case 'role':
-				$part = $GLOBALS['rbacreview']->assignedUsers($this->getRole());
-				break;
-        }
+		
+		$part = ilGroupParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getParticipants();
 		
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)

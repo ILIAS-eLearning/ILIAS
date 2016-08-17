@@ -12,12 +12,8 @@ include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
-	protected $type = 'admin';
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
-	protected $show_edit_link = true;
-
-	protected $role_id = 0;
 
 	/**
 	 * Constructor
@@ -28,18 +24,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	 */
 	public function __construct(
 		$a_parent_obj,
-		$a_type = 'admin',
 		$a_show_learning_progress = false,
 		$a_show_timings = false,
-		$a_show_edit_link= true,
-		$a_role_id = 0,
 		$a_show_lp_status_sync = false)
 	{
 		global $lng, $ilCtrl;
 
 		$this->show_learning_progress = $a_show_learning_progress;		
 		$this->show_timings = $a_show_timings;
-		$this->show_edit_link = $a_show_edit_link;
 		$this->show_lp_status_sync = $a_show_lp_status_sync;
 		
 		// #13208
@@ -56,14 +48,15 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		
 		$this->ctrl = $ilCtrl;
 
-		$this->type = $a_type;
-		$this->setRoleId($a_role_id);
-
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$this->privacy = ilPrivacySettings::_getInstance();
+		
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		$this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->object->getId());
+		
 
 		// required before constructor for columns
-		$this->setId('crs_' . $a_type . '_' . $a_role_id.'_'. $a_parent_obj->object->getId());
+		$this->setId('crs_'. $a_parent_obj->object->getId());
 		parent::__construct($a_parent_obj, 'members');
 
 		$this->initSettings();
@@ -95,37 +88,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->addColumn($this->lng->txt('crs_member_passed_status_changed'), 'passed_info');
 		}
 		
-		if($this->type == 'admin')
-		{
-			$this->setSelectAllCheckbox('admins');
-			// cognos-blu-patch: begin
-			$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
-			// cognos-blu-patch: end
-			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
-			$this->addCommandButton('updateAdminStatus', $this->lng->txt('save'));
-		}
-		elseif($this->type == 'tutor')
-		{
-			$this->setSelectAllCheckbox('tutors');
-			// cognos-blu-patch: begin
-			$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
-			// cognos-blu-patch: end
-			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
-			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
-		}
-		elseif($this->type == 'member')
-		{
-			$this->setSelectAllCheckbox('members');
-			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-			$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
-		}
-		else
-		{
-			$this->setSelectAllCheckbox('roles');
-			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-			$this->addCommandButton('updateRoleStatus', $this->lng->txt('save'));
-
-		}
+		
+		$this->setSelectAllCheckbox('participants');
+		$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
+		$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
+		$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
+		
 		$this->addColumn($this->lng->txt(''), 'optional');
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
@@ -158,23 +126,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$lng->loadLanguageModule('certificate');
 		}
 	}
-
-	/**
-	 * Set current role id
-	 */
-	public function setRoleId($a_role_id)
-	{
-		$this->role_id = $a_role_id;
-	}
-
-	/**
-	 * Get current role id
-	 * @return int
-	 */
-	public function getRoleId()
-	{
-		return $this->role_id;
-	}
+	
 
 	public function getItems()
 	{
@@ -308,42 +260,28 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		if($this->type == 'admin')
+		
+		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
+		
+		if(
+			$this->getParticipants()->isAdmin($a_set['usr_id']) || 
+			$this->getParticipants()->isTutor($a_set['usr_id'])
+		)
 		{
-			$this->tpl->setVariable('VAL_POSTNAME', 'admins');
+			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 			// cognos-blu-patch: begin
 			$this->tpl->setVariable('VAL_CONTACT_ID',$a_set['usr_id']);
 			$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
 			// cognos-blu-patch: end
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 		}
-		elseif($this->type == 'tutor')
-		{
-			$this->tpl->setVariable('VAL_POSTNAME', 'tutors');
-			// cognos-blu-patch: begin
-			$this->tpl->setVariable('VAL_CONTACT_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
-			// cognos-blu-patch: end
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
-		}
-		elseif($this->type == 'member')
-		{
-			$this->tpl->setCurrentBlock('blocked');
-			$this->tpl->setVariable('VAL_POSTNAME','members');
-			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
+		
+		if($this->getParticipants()->isMember($a_set['usr_id']))
 		{
 			$this->tpl->setCurrentBlock('blocked');
 			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
 			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setVariable('VAL_POSTNAME','roles');
 		}
 		
 		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
@@ -425,7 +363,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			false,
 			false,
 			0,
-			$this->getRoleId(),
+			0,
 			null,
 			$usr_data_fields,
 			$part
@@ -437,7 +375,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		
 		// merge course data
 		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,
-			$this->type == 'admin',
+			true,
 			$this->getSelectedColumns());
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)

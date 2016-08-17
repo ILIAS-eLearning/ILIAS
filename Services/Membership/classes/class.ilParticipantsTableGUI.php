@@ -13,6 +13,8 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	protected static $accepted_ids = null;
 	protected static $all_columns = null;
 	protected static $has_odf_definitions = false;
+	
+	protected $participants = null;
 
 	/**
 	 * Get selectable columns
@@ -42,6 +44,15 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 		}
 		
 		return self::$all_columns;
+	}
+	
+	/**
+	 * Get participants
+	 * @return \ilParticipants
+	 */
+	protected function getParticipants()
+	{
+		return $this->participants;
 	}
 
 	/**
@@ -92,11 +103,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	 */
 	protected function showActionLinks($a_set)
 	{
-		if(!$this->show_edit_link)
-		{
-			return true;
-		}
-		
 		$loc_enabled = (
 				$this->getParentObject()->object->getType() == 'crs' and 
 				$this->getParentObject()->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE

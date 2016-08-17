@@ -91,6 +91,15 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"),true);
 		return false;
 	}
+	
+	/**
+	 * @return \ilParticpantTableGUI
+	 */
+	protected function initParticipantTableGUI()
+	{
+		include_once './Modules/Course/classes/class.ilCourseParticipantsTableGUI.php';
+		
+	}
 
 }
 ?>
