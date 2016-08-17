@@ -10,7 +10,6 @@
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjManualAssessmentGUI: ilObjTaxonomyGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentSettingsGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentMembersGUI
@@ -18,7 +17,8 @@
  */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
-require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
+
+
 
 
 class ilObjManualAssessmentGUI extends ilObjectGUI {
@@ -44,114 +44,115 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-		$access_control = $this->object->accessHandler();
 		switch($next_class) {
 			case 'ilpermissiongui':
-				if($access_control->checkAccessToObj($this->object,'edit_permission')) {
-					$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
-					$ilPermissionGUI = new ilPermissionGUI($this);
-					$this->ctrl->forwardCommand($ilPermissionGUI);
-				} else {
-					$this->handleAccessViolation();
-				}
+				$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
+				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
+				$ilPermissionGUI = new ilPermissionGUI($this);
+				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
 			case "ilmanualassessmentsettingsgui":
-				if($access_control->checkAccessToObj($this->object,'write')) {
-					$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
-					require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentSettingsGUI.php");
-					$gui = new ilManualAssessmentSettingsGUI($this, $this->ref_id);
-					$this->ctrl->forwardCommand($gui);
-				} else {
-					$this->handleAccessViolation();
-				}
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentSettingsGUI.php");
+				$gui = new ilManualAssessmentSettingsGUI($this, $this->ref_id);
+				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilmanualassessmentmembersgui":
-				if($access_control->checkAccessToObj($this->object,'edit_members')) {
-					$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-					require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php");
-					$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
-					$this->ctrl->forwardCommand($gui);
-				} else {
-					$this->handleAccessViolation();
-				}
+				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php");
+				$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
+				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilinfoscreengui":
-				if($access_control->checkAccessToObj($this->object,'view')) {
-					$this->tabs_gui->setTabActive(self::TAB_INFO);
-					$info = new ilInfoScreenGUI($this);
-					$this->fillInfoScreen($info);
-					$this->ctrl->forwardCommand($info);
-				} else {
-					$this->handleAccessViolation();
-				}
-				break;
+				$this->viewObject();
 			case "illearningprogressgui":
-				if($access_control->checkAccessToObj($this->object,'read_grades') ||
-					$access_control->checkAccessToObj($this->object,'edit_grades')||
-					$this->object->membersStorage()->userAllreadyMember($this->usr)) {
-					include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-					$this->tabs_gui->setTabActive(self::TAB_LP);
-					$new_gui = new ilLearningProgressGUI(3,
-														  $this->object->getRefId(),
-														  $this->usr->getId());
-					$this->ctrl->forwardCommand($new_gui);
-				} else {
-					$this->handleAccessViolation();	
-				}
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$this->tabs_gui->setTabActive(self::TAB_LP);
+				$learning_progress = new ilLearningProgressGUI(
+											ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+											$this->object->getRefId(),
+											$this->usr->getId());
+					$this->ctrl->forwardCommand($learning_progress);
 				break;
-			default:						
+			default:
 				if(!$cmd) {
-					$cmd = "view";
+					$cmd = 'view';
 				}
-				$cmd .= "Object";
+				$cmd .= 'Object';
 				$this->$cmd();
-				break;
-		}
+			}
 		return true;
 	}
 
 	public function viewObject() {
-
+		$this->tabs_gui->setTabActive(self::TAB_INFO);
+		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$info = new ilInfoScreenGUI($this);
+		if($this->object) {
+			$info->addSection($this->lng->txt('general'));
+			$info->addProperty($this->lng->txt('content'),$this->object->getSettings()->content());
+		}
+		$this->ctrl->forwardCommand($info);
 	}
 
 	public function getTabs() {
-		$this->tabs_gui->addTab( self::TAB_SETTINGS
-								, $this->lng->txt("settings")
-								, $this->getLinkTarget("settings")
-								);
-		$this->tabs_gui->addTab( self::TAB_MEMBERS
-								, $this->lng->txt("members")
-								, $this->getLinkTarget("members")
-								);
-		$this->tabs_gui->addTab( self::TAB_INFO
-								, $this->lng->txt("info_short")
-								, $this->getLinkTarget("info")
-								);
-		$this->tabs_gui->addTarget(self::TAB_PERMISSION
-								, $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
-								, array()
-								, 'ilpermissiongui'
-								);
-		$this->tabs_gui->addTarget(self::TAB_LP
-								, $this->ctrl->getLinkTargetByClass(array('illearningprogressgui','illplistofprogressgui'),"show")
-								, array('illplistofprogressgui')
-								, $this->lng->txt("LP"));
+		$access_handler = $this->object->accessHandler();
+		if($access_handler->checkAccessToObj($this->object,'read')) {
+			$this->tabs_gui->addTab( self::TAB_INFO
+									, $this->lng->txt("info_short")
+									, $this->getLinkTarget("info")
+									);
+		}
+		if($access_handler->checkAccessToObj($this->object,'write')) {
+			$this->tabs_gui->addTab( self::TAB_SETTINGS
+									, $this->lng->txt("settings")
+									, $this->getLinkTarget("settings")
+									);
+		}
+		if($access_handler->checkAccessToObj($this->object,'edit_members')) {
+			$this->tabs_gui->addTab( self::TAB_MEMBERS
+									, $this->lng->txt("members")
+									, $this->getLinkTarget("members")
+									);
+		}
+		if($access_handler->checkAccessToObj($this->object,'view_grades') || $this->userIsMemberAndFinalized()) {
+			$this->tabs_gui->addTarget(self::TAB_LP
+									, $this->ctrl->getLinkTargetByClass('illearningprogressgui',"show")
+									, array('illplistofprogressgui')
+									, $this->lng->txt("LP"));
+		}
+		if($access_handler->checkAccessToObj($this->object,'edit_permission')) {
+			$this->tabs_gui->addTarget(self::TAB_PERMISSION
+									, $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
+									, array()
+									, 'ilpermissiongui'
+									);
+		}
 		parent::getTabs();
 	}
 
+	protected function userIsMemberAndFinalized() {
+		$member_storage = $this->object->membersStorage();
+		if(!$member_storage->loadMembers($this->object)->userAllreadyMember($this->usr)) {
+			return false;
+		}
+		if(!$member_storage->loadMember($this->object,$this->usr)->finalized()) {
+			return false;
+		}
+		return true;
+	}
 
 	protected function getLinkTarget($a_cmd) {
-		if ($a_cmd == "settings") {
-			return $this->ctrl->getLinkTargetByClass("ilmanualassessmentsettingsgui", "edit");
+		if ($a_cmd == 'settings') {
+			return $this->ctrl->getLinkTargetByClass('ilmanualassessmentsettingsgui', 'edit');
 		}
-		if ($a_cmd == "info") {
-			return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "view");
+		if ($a_cmd == 'info') {
+			return $this->ctrl->getLinkTarget($this,'view');
 		}
-		if ($a_cmd == "members") {
-			return $this->ctrl->getLinkTargetByClass("ilmanualassessmentmembersgui", "view");
-		}
-		if ($a_cmd == "members") {
-			return $this->ctrl->getLinkTargetByClass("illearningprocessgui", "view");
+		if ($a_cmd == 'members') {
+			return $this->ctrl->getLinkTargetByClass('ilmanualassessmentmembersgui', 'view');
 		}
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
 	}
