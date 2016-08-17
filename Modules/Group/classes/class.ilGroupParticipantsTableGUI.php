@@ -50,7 +50,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->setPrefix('participants');
 
 		$this->setId('grp_' . $this->getRepositoryObject()->getId());
-		parent::__construct($a_parent_obj, 'members');
+		parent::__construct($a_parent_obj, 'participants');
 
 		$this->initSettings();
 
@@ -173,6 +173,23 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				case 'odf_last_update':
 					$this->tpl->setVariable('VAL_EDIT_INFO',(string) $a_set['odf_info_txt']);
 					break;
+				
+				case 'roles':
+					$roles = array();
+					foreach($this->getParentObject()->getLocalRoles() as $role_id => $role_name)
+					{
+						// @todo fix performance
+						if($GLOBALS['rbacreview']->isAssigned($a_set['usr_id'], $role_id))
+						{
+							$roles[] = $role_name;
+						}
+						
+					}
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
+					$this->tpl->parseCurrentBlock();
+					break;
+				
                                         
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
@@ -238,8 +255,15 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
      * @param array $a_user_data
      * @return 
      */
-    public function parse($a_user_data)
+    public function parse()
     {
+		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
+
+		$a_user_data = $this->getParentObject()->readMemberData(
+			$part,
+			$this->getSelectedColumns()
+		);
+		
         include_once './Services/User/classes/class.ilUserQuery.php';
 		
         $additional_fields = $this->getSelectedColumns();
@@ -249,9 +273,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         unset($additional_fields["access_until"]);
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
+		unset($additional_fields['roles']);
 				
 		
-		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 		
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)

@@ -70,6 +70,40 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 		}
 		$this->ctrl->redirect($this,'participants');
 	}
+	
+	/**
+	 * @return \ilParticpantTableGUI
+	 */
+	protected function initParticipantTableGUI()
+	{
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		$show_tracking = 
+			(ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
+		;
+		if($show_tracking)
+		{			
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->getParentObject()->getId());
+			$show_tracking = $olp->isActive();
+		}
+
+		include_once './Modules/Group/classes/class.ilGroupParticipantsTableGUI.php';
+		return new ilGroupParticipantsTableGUI(
+			$this,
+			$this->getParentObject(),
+			$show_tracking
+		);
+	}
+	
+	
+	/**
+	 * Init participant view template
+	 */
+	protected function initParticipantTemplate()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.grp_edit_members.html','Modules/Group');
+	}
+	
 
 }
 ?>

@@ -825,7 +825,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
 	/////////////////////////////////////////////////////////// Member section /////////////////////
-	public function readMemberData($ids,$role = 'admin',$selected_columns = null)
+	public function readMemberData($ids,$selected_columns = null)
 	{
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -1053,7 +1053,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('grp_member_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,$this->show_tracking,);
+				$table_gui = new ilGroupParticipantsTableGUI($this,$this->show_tracking);
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1061,7 +1061,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,$this->show_tracking,);
+				$table_gui = new ilGroupParticipantsTableGUI($this,$this->show_tracking);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));
@@ -1069,8 +1069,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 				
 			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.svg',$this->lng->txt('grp_members'));
-			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($this->object->getDefaultMemberRole()),
-				null, $table_gui->getSelectedColumns()));
+			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($this->object->getDefaultMemberRole()),$table_gui->getSelectedColumns()));
 			$this->tpl->setCurrentBlock('member_block');
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
 			$this->tpl->parseCurrentBlock();
