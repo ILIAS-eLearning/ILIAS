@@ -626,7 +626,29 @@ class ilGlossaryTerm
 			//$new_def->getPageObject()->update();
 			
 		}
-		
+
+		// adv metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		$old_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $old_term->getGlossaryId(), "term");
+		$new_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $a_glossary_id, "term");
+		foreach($old_recs as $old_record_obj)
+		{
+			reset($new_recs);
+			foreach ($new_recs as $new_record_obj)
+			{
+				if ($old_record_obj->getRecordId() == $new_record_obj->getRecordId())
+				{
+					foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($old_record_obj->getRecordId()) as $def)
+					{
+						// now we need to copy $def->getFieldId() values from old term to new term
+						// how?
+					}
+				}
+			}
+		}
+
+
 		return $new_term->getId();
 	}
 
