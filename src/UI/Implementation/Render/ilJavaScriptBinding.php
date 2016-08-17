@@ -8,15 +8,12 @@ namespace ILIAS\UI\Implementation\Render;
  * Wraps global ilTemplate to provide JavaScriptBinding. 
  */
 class ilJavaScriptBinding implements JavaScriptBinding {
+	const PREFIX = "il_ui_fw_";
+
 	/**
 	 * @var \ilTemplate
 	 */
 	private	$global_tpl;
-
-	/**
-	 * @var	integer
-	 */
-	private $id_count = 0;
 
 	public function __construct(\ilTemplate $global_tpl) {
 		$this->global_tpl = $global_tpl;
@@ -26,8 +23,7 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	 * @inheritdoc
 	 */
 	public function createId() {
-		$this->id_count++;
-		return "id_".$this->id_count;
+		return str_replace(".", "_", uniqid(self::PREFIX, true));
 	}
 
 	/**
