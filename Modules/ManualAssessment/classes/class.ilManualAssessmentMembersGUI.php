@@ -32,7 +32,9 @@ class ilManualAssessmentMembersGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass();
-
+		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+			$this->parent_gui->handleAccessViolation();
+		}
 		switch($next_class) {
 			case "ilrepositorysearchgui":
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
@@ -55,6 +57,9 @@ class ilManualAssessmentMembersGUI {
 	}
 
 	protected function view() {
+		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+			$a_parent_gui->handleAccessViolation();
+		}
 		require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
@@ -72,6 +77,9 @@ class ilManualAssessmentMembersGUI {
 	}
 
 	public function addUsers(array $user_ids) {
+		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+			$a_parent_gui->handleAccessViolation();
+		}
 		$mass = $this->object;
 		$members = $mass->loadMembers();
 		foreach ($user_ids as $user_id) {
@@ -88,6 +96,9 @@ class ilManualAssessmentMembersGUI {
 	}
 
 	public function removeUser() {
+		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+			$a_parent_gui->handleAccessViolation();
+		}
 		$usr_id = $_GET['usr_id'];
 		$mass = $this->object;
 		$mass->loadMembers()
