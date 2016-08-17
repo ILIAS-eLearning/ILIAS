@@ -86,7 +86,7 @@
 		},
 
 		init: function() {
-			//localStorage.clear();
+			localStorage.clear();
 			getModule().storage = new ConversationStorage();
 
 			$(window).bind('storage', function(e){
@@ -271,7 +271,10 @@
 		},
 
 		onHistory: function(conversation){
+			var container = $('[data-onscreenchat-window='+conversation.id+']');
 			var messages = conversation.messages;
+
+			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
 			for(var index in messages) {
 				if(messages.hasOwnProperty(index)){
@@ -279,10 +282,17 @@
 				}
 			}
 
+			var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+
+			console.log(messagesHeight);
+			console.log(newMessagesHeight);
+
+			container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
+
 			getModule().historyBlocked = false;
 			getModule().storage.save(conversation);
 
-			var container = $('[data-onscreenchat-window='+conversation.id+']');
+
 			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
 		},
 
