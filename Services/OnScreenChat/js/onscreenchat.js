@@ -84,7 +84,6 @@
 		},
 
 		init: function() {
-			localStorage.clear();
 			getModule().storage = new ConversationStorage();
 
 			$(window).bind('storage', function(e){
@@ -98,7 +97,7 @@
 				if(conversation.open) {
 					getModule().open(conversation);
 				} else {
-					//$('[data-onscreenchat-window=' + conversation.id + ']').hide();
+					$('[data-onscreenchat-window=' + conversation.id + ']').hide();
 				}
 			});
 
@@ -106,6 +105,7 @@
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.receiveConversation(getModule().onConversation);
 			$chat.onHistory(getModule().onHistory);
+			$chat.onConverstionInit(getModule().onConversationInit);
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
 				participantEvent: getModule().startConversation,
 				closeEvent: getModule().close,
@@ -138,10 +138,7 @@
 			}
 
 			if(conversation == null) {
-				$chat.getConversation([getModule().user, participant], function(conversation) {
-					conversation.open = true;
-					getModule().storage.save(conversation);
-				});
+				$chat.getConversation([getModule().user, participant]);
 				return;
 			}
 
@@ -152,16 +149,16 @@
 		open: function(conversation) {
 			var conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
-			if(conversationWindow.length == 0)
-			{
+			if(conversationWindow.length == 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesFromHistory(conversation);
+
+				$(conversationWindow).find('.panel-body').animate({
+					scrollTop: $(conversationWindow).find('[data-onscreenchat-body]').outerHeight()
+				}, 0);
 			}
-			$(conversationWindow).find('.panel-body').animate({
-				scrollTop: $(conversationWindow).find('.panel-body').height()
-			}, 0);
 
 			conversationWindow.show();
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
@@ -205,6 +202,7 @@
 		handleSubmit: function(e) {
 			if(e.keyCode == 13 && !e.shiftKey)
 			{
+				e.preventDefault();
 				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 				getModule().send(conversationId);
 			}
@@ -212,23 +210,21 @@
 
 		send: function(conversationId) {
 			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
-			var message = input.val();
+			var message = input.html();
+
 			if(message != "")
 			{
 				$chat.sendMessage(conversationId, message);
-				input.val('')
+				input.html('')
 			}
 		},
 
 		addMessagesFromHistory: function(conversation) {
 			var oldConversation = getModule().storage.get(conversation.id);
-
-			//console.log("OLD", oldConversation.latestMessageTimestamp);
-
 			var messages = conversation.messages;
+
 			if(messages.length > 0) {
 				for(var index in messages) {
-					//console.log("Message", messages[index].timestamp);
 					if(messages.hasOwnProperty(index) && (
 						oldConversation.latestMessageTimestamp == null ||
 						messages[index].timestamp < oldConversation.latestMessageTimestamp)
@@ -237,41 +233,27 @@
 							conversation.latestMessageTimestamp = messages[index].timestamp;
 						}
 
-						getModule().receiveMessage(messages[index], true);
+						getModule().addMessage(messages[index], true);
 					}
 				}
 			}
 
-			//console.log("NEW", conversation.latestMessageTimestamp);
 			getModule().storage.save(conversation);
 		},
 
-		receiveMessage: function(messageObject, prepend) {
-			var template = getModule().config.messageTemplate;
-			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
-			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+		receiveMessage: function(messageObject) {
+			var conversation = getModule().storage.get(messageObject.conversationId);
+			conversation.open = true;
+			getModule().addMessage(messageObject, false);
+			getModule().storage.save(conversation);
+		},
 
-			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
-			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
-			template = template.replace(/\[\[message]\]/g, message);
-			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
-			template = $(template).find('li.' + position).html();
-
-			var chatBody = $('[data-onscreenchat-window=' + messageObject.conversationId + ']').find('[data-onscreenchat-body]');
-			var item = $('<li></li>')
-				.addClass(position)
-				.addClass('clearfix')
-				.append(template);
-
-			if(prepend == true) {
-				chatBody.prepend(item);
-			} else {
-				chatBody.append(item);
-			}
+		onConversationInit: function(conversation){
+			conversation.open = true;
+			getModule().storage.save(conversation);
 		},
 
 		onFocusOut: function() {
-			console.log("blubb");
 			var conversationId = $(this).attr('data-onscreenchat-window');
 			$chat.trackActivity(conversationId, getModule().user.id, (new Date()).getTime());
 		},
@@ -311,6 +293,30 @@
 				show: true,
 				body: getModule().config.modalTemplate.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
 			});
+		},
+
+		addMessage: function(messageObject, prepend) {
+			var template = getModule().config.messageTemplate;
+			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
+			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
+			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
+			template = template.replace(/\[\[message]\]/g, message);
+			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
+			template = $(template).find('li.' + position).html();
+
+			var chatBody = $('[data-onscreenchat-window=' + messageObject.conversationId + ']').find('[data-onscreenchat-body]');
+			var item = $('<li></li>')
+				.addClass(position)
+				.addClass('clearfix')
+				.append(template);
+
+			if(prepend == true) {
+				chatBody.prepend(item);
+			} else {
+				chatBody.append(item);
+			}
 		},
 
 		searchUser: function() {
@@ -376,6 +382,11 @@
 
 		this.save = function(conversation) {
 			var oldValue = this.get(conversation.id);
+
+			if(conversation.open == undefined) {
+				conversation.open = oldValue.open;
+			}
+
 			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
 
 			var e = $.Event('storage');

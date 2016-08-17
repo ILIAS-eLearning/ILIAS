@@ -7,7 +7,7 @@ module.exports = function() {
 
 	for(var index in conversations) {
 		if(conversations.hasOwnProperty(index)){
-			this.emit('conversation', conversations[index].json());
+			this.participant.emit('conversation', conversations[index].json());
 		}
 	}
 };

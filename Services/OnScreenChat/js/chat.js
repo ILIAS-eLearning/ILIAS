@@ -25,7 +25,10 @@
 
 		getConversation: function(participants, callback) {
 			getModule().socket.emit('conversation', participants);
-			getModule().socket.on('conversation', callback)
+		},
+
+		onConverstionInit: function(callback) {
+			getModule().socket.on('conversation-init', callback);
 		},
 
 		getConversations: function() {

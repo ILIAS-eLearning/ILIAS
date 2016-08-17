@@ -26,5 +26,5 @@ module.exports = function(participants) {
 	}
 
 	namespace.getDatabase().updateConversation(conversation);
-	this.participant.emit('conversation', conversation.json());
+	this.participant.emit('conversation-init', conversation.json());
 };
