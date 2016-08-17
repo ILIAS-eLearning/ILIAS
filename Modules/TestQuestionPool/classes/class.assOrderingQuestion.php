@@ -1589,4 +1589,17 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 		$this->duplicateImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
 	}
+
+// fau: testNav - new function getTestQuestionConfig()
+	/**
+	 * Get the test question configuration
+	 * @return ilTestQuestionConfig
+	 */
+	public function getTestQuestionConfig()
+	{
+		return parent::getTestQuestionConfig()
+			->setIsUnchangedAnswerPossible(true)
+			->setUseUnchangedAnswerLabel($this->lng->txt('tst_unchanged_order_is_correct'));
+	}
+// fau.
 }

@@ -246,6 +246,13 @@ abstract class assQuestion
 	 */
 	private $obligationsToBeConsidered = false;
 	
+// fau: testNav - new variable $testQuestionConfig
+	/**
+	 * @var ilTestQuestionConfig
+	 */
+	protected $testQuestionConfig;
+// fau.
+
 	/**
 	* assQuestion constructor
 	*
@@ -1113,6 +1120,10 @@ abstract class assQuestion
 
 			if($authorized)
 			{
+// fau: testNav - remove an intermediate solution if the authorized solution is saved
+//		the intermediate solution would set the displayed question status as "editing ..."
+			$this->removeIntermediateSolution($active_id, $pass);
+// fau.
 				$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 			}
 
@@ -4758,6 +4769,46 @@ abstract class assQuestion
 		return $maxStep;
 	}
 		
+// fau: testNav - new function lookupForExistingSolutions
+	/**
+	 * Lookup if an authorized or intermediate solution exists
+	 * @param 	int 		$activeId
+	 * @param 	int 		$pass
+	 * @return 	array		['authorized' => bool, 'intermediate' => bool]
+	 */
+	public function lookupForExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$return = array(
+			'authorized' => false,
+			'intermediate' => false
+		);
+
+		$query = "
+			SELECT authorized, COUNT(*) cnt
+			FROM tst_solutions
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+			GROUP BY authorized
+		";
+		$result = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $this->getId(), $pass));
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row['authorized']) {
+				$return['authorized'] = $row['cnt'] > 0;
+			}
+			else
+			{
+				$return['intermediate'] = $row['cnt'] > 0;
+			}
+		}
+		return $return;
+	}
+// fau.
+
 	public function removeExistingSolutions($activeId, $pass)
 	{
 		global $ilDB;
@@ -4863,4 +4914,21 @@ abstract class assQuestion
 			array(time(), $this->getId())
 		);
 	}
+
+
+// fau: testNav - new function getTestQuestionConfig()
+	/**
+	 * Get the test question configuration
+	 * @return ilTestQuestionConfig
+	 */
+	public function getTestQuestionConfig()
+	{
+		if (!isset($this->testQuestionConfig))
+		{
+			include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
+			$this->testQuestionConfig = new ilTestQuestionConfig();
+		}
+		return $this->testQuestionConfig;
+	}
+// fau.
 }

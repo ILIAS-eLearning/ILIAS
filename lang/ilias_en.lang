@@ -961,7 +961,7 @@ assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
 assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
-assessment#:#discard_answer#:#Delete Answer
+assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
@@ -983,13 +983,13 @@ assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
 assessment#:#tst_instant_feedback_handling#:#Lock Answers
 assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
-assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can change their answers in all test passes they have.
-assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers, Feedback upon Request
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants can request feedback by clicking 'Check'. Please configure feedback behavior in the option 'Instant feedback'.
+assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can click 'Request Feedback' to get a feedback on their answer as configured in the option 'Instant feedback'. They may however change their answer afterwards.###fau: testNav
+assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers and give Feedback###fau: testNav
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#Participants can click 'Save Answer, Freeze and Check' to lock their answer and get feedback as configured in the option 'Instant feedback'. Afterwards they can no longer change their answer.###fau: testNav
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Save Answer, Freeze and Check' or save the answer when they navigate away from the question, they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###fau: testNav
 assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Answer', they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.
+assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Request Feedback' or save the answer when they navigate away from the question, they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###fau: testNav
 assessment#:#see_details_for_further_information#:#See details for content for recapitulation
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
@@ -1295,11 +1295,11 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
 assessment#:#tst_score_cutting#:#Negative Points
-assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions not Answered
-assessment#:#tst_score_mcmr_use_scoring_system#:#Score Points for Unanswered Questions as Defined in Question
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as defined in the question. This setting is appropriate only for few cases.
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 Points for Unchecked Answers
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Participants score 0 points for multiple choice questions in which they have not checked any answer option. This setting is appropriate for most tests.
+assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions with Empty Answer###fau: testNav
+assessment#:#tst_score_mcmr_use_scoring_system#:#Save and Score Empty Answers (Deprecated)###fau: testNav
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#An additional option "None of the above" allows saving of empty answers. The unchecked options will be scored as defined in the question. This setting is only kept for existing tests and will be abandoned in a following ILIAS version.###fau: testNav
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Don’t Save Empty Answers###fau: testNav
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Answers without any checked option are not saved. Participants get 0 points on these questions.###fau: testNav
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
 assessment#:#tst_score_reporting#:#Score Reporting
 assessment#:#tst_score_type#:#Score Reporting Type
@@ -15902,3 +15902,20 @@ trac#:#trac_defaults#:#Completion Status
 trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
+assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
+assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
+assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
+assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
+assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
+assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
+assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
+assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
+assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
+assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
+assessment#:#postpone_question#:#Move Question to the End###fau: testNav
+assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
+assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
+adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
+adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
