@@ -264,7 +264,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$css_classes = self::$canonical_css_classes[$type];
 		$aria_label = self::$aria_labels[$type];
 
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" ><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -282,7 +282,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
 		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
 
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" >".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-$type\">42</span>".
 					"</a>";
@@ -301,7 +301,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
 		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" >".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>".
@@ -318,5 +318,30 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			$this->assertFalse("This should not happen!");
 		}
 		catch (\LogicException $e) {}
+	}
+
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_render_with_on_load_code($type) {
+		$f = $this->getGlyphFactory();
+		$r = $this->getDefaultRenderer();
+		$ids = array();
+		$c = $f->$type("http://www.ilias.de")
+				->withOnLoadCode(function($id) use (&$ids) {
+					$ids[] = $id;
+					return "";
+				});
+
+		$html = $this->normalizeHTML($r->render($c));
+
+		$this->assertCount(1, $ids);
+
+		$css_classes = self::$canonical_css_classes[$type];
+		$aria_label = self::$aria_labels[$type];
+
+		$id = $ids[0];
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+		$this->assertEquals($expected, $html);
 	}
 }
