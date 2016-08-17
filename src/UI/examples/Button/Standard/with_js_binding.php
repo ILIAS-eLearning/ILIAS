@@ -5,10 +5,9 @@ function with_js_binding() {
     $renderer = $DIC->ui()->renderer();
 
     return $renderer->render(
-		$f->button()->standard("Goto ILIAS", "http://www.ilias.de")
+		$f->button()->standard("Goto ILIAS", "#")
 			->withOnLoadCode(function($id) {
 				return 
-					"$(\"#$id\").attr(\"href\", \"#\");\n".
 					"$(\"#$id\").click(function() { alert(\"Clicked: $id\"); });";
 			})
 	);
