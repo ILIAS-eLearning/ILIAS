@@ -24,7 +24,6 @@ class ilManualAssessmentMemberGUI {
 		$this->ref_id = $a_ref_id;
 		$this->tpl =  $DIC['tpl'];
 		$this->lng = $DIC['lng'];
-		$this->toolbar = $DIC['ilToolbar'];
 		$this->ctrl->saveParameter($this,'usr_id');
 		$this->examinee = new ilObjUser($_GET['usr_id']);
 		$this->examiner = $DIC['ilUser'];
@@ -39,11 +38,22 @@ class ilManualAssessmentMemberGUI {
 			case "edit":
 			case "save":
 			case "finalize":
-			case "cancel":
+				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
+					$a_parent_gui->handleAccessViolation();
+				}
+				break;
 			case "view":
-				$this->$cmd();
-			break;
+				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress') 
+					&& (string)$this->examiner->getId() !== (string)$member->examinerId()) {
+					$a_parent_gui->handleAccessViolation();
+				}
+				break;
+			case "cancel":
+				break;
+			default:
+				$a_parent_gui->handleAccessViolation();
 		}
+		$this->$cmd();
 	}
 
 	protected function setTabs(ilTabsGUI $tabs) {
@@ -64,7 +74,7 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	protected function finalize() {
-		if(!$this->member->finalized()) {
+		if($this->mayBeEdited()) {
 			$form = $this->initGradingForm();
 			$form->setValuesByArray($_POST);
 			if($form->checkInput()) {
@@ -73,15 +83,21 @@ class ilManualAssessmentMemberGUI {
 					$this->member = $member->withFinalized();
 					$this->object->membersStorage()->updateMember($this->member);
 					ilManualAssessmentLPInterface::updateLPStatusOfMember($member);
+					$this->view();
 				} else {
 					ilUtil::sendFailure('member may not be finalized');
+					$this->edit();
 				}
+			} else {
+				$this->edit();
 			}
-			$this->renderForm($this->fillForm($this->initGradingForm(),$this->member));
 		} else {
 			$this->view();
 		}
+	}
 
+	protected function mayBeEdited() {
+		return !$this->member->finalized();
 	}
 
 	protected function  edit() {
@@ -97,8 +113,13 @@ class ilManualAssessmentMemberGUI {
 		$this->tpl->setContent($a_form->getHTML());
 	}
 
+	protected function view() {
+		$form = $this->fillForm($this->initGradingForm(false),$this->member);
+		$this->renderForm($form);
+	}
+
 	protected function save() {
-		if(!$this->mayBeEdited()) {
+		if($this->mayBeEdited()) {
 			$form = $this->initGradingForm();
 			$form->setValuesByArray($_POST);
 			if($form->checkInput()) {
@@ -157,7 +178,7 @@ class ilManualAssessmentMemberGUI {
 		$notify->setDisabled(!$may_be_edited);
 		$form->addItem($notify);
 
-		if(!$non_editable) {
+		if($may_be_edited) {
 			$form->addCommandButton("save", $this->lng->txt("save"));
 			$form->addCommandButton("finalize",$this->lng->txt("finalize"));
 		}
