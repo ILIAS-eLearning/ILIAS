@@ -7,7 +7,7 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 	protected $admin;
 	protected $review;
 
-	const DEAFULT_ROLE = 'il_mass_member';
+	const DEFAULT_ROLE = 'il_mass_member';
 
 	public function __construct(ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr) {
 		$this->handler = $handler;
