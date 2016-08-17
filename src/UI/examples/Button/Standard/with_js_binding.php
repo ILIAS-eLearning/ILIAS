@@ -8,7 +8,7 @@ function with_js_binding() {
 		$f->button()->standard("Goto ILIAS", "#")
 			->withOnLoadCode(function($id) {
 				return 
-					"$(\"#$id\").click(function() { alert(\"Clicked: $id\"); });";
+					"$(\"#$id\").click(function() { alert(\"Clicked: $id\"); return false;});";
 			})
 	);
 }
