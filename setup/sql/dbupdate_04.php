@@ -16488,3 +16488,27 @@ if(!$ilDB->tableExists('frm_drafts_history'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4972>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests','pass_waiting'))
+{
+	$ilDB->addTableColumn('tst_tests', 'pass_waiting', array(
+			'type'    => 'text',
+			'length'  => 15,
+			'notnull' => false,
+			'default' => null)
+	);
+}
+?>
+<#4973>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'last_started_pass') )
+{
+	$ilDB->addTableColumn('tst_active', 'last_started_pass', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
