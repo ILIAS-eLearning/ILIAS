@@ -64,6 +64,17 @@
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
+				.on('click', '[data-onscreenchat-emoticons-flyout] a', function(e) {
+					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
+						flyoutPanelTrigger = conversationWindow.find('[data-onscreenchat-emoticons-flyout-trigger]');
+
+					e.preventDefault();
+					e.stopPropagation();
+
+					flyoutPanelTrigger.click();
+					conversationWindow.find('div[data-onscreenchat-message]').append($(this).find('img').data("emoticon"));
+				})
+			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
 				}).on('input', '[data-onscreenchat-message]', function() {
@@ -82,14 +93,15 @@
 		historyBlocked: false,
 		inputHeight: undefined,
 		historyTimestamps: {},
+		emoticons: {},
 
 		setConfig: function(config) {
 			getModule().config = config;
 		},
 
 		init: function() {
-			//localStorage.clear();
-			getModule().storage = new ConversationStorage();
+			getModule().storage   = new ConversationStorage();
+			getModule().emoticons = new Smileys(getModule().config.emoticons);
 
 			$(window).bind('storage', function(e){
 				var conversation = e.originalEvent.newValue;
@@ -107,8 +119,6 @@
 					chatWindow.hide();
 				}
 			});
-
-			smileys = new Smileys(getModule().config.emoticons);
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
@@ -164,7 +174,7 @@
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				conversationWindow
 					.find('[data-onscreenchat-emoticons]')
-					.append(smileys.getHtml())
+					.append(getModule().getEmoticons().getHtml())
 					.find('.iosChatEmoticonsPanel')
 					.parent().removeClass("ilNoDisplay");
 				getModule().container.append(conversationWindow);
@@ -329,7 +339,7 @@
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
-			template = template.replace(/\[\[message]\]/g,  smileys.replace(message));
+			template = template.replace(/\[\[message]\]/g, getModule().getEmoticons().replace(message));
 			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 			template = $(template).find('li.' + position).html();
 
@@ -383,6 +393,10 @@
 
 		addUser: function(conversationId, userId, name) {
 			$chat.addUser(conversationId, userId, name);
+		},
+
+		getEmoticons: function() {
+			return getModule().emoticons;
 		}
 	};
 
@@ -470,9 +484,9 @@
 					return $("");
 				}
 
-				var $emoticons_flyout_trigger = $('<a></a>');
-				var $emoticons_flyout = $('<div class="iosChatEmoticonsPanelFlyout"></div>');
-				var $emoticons_panel = $('<div class="iosChatEmoticonsPanel"></div>')
+				var $emoticons_flyout_trigger = $('<a data-onscreenchat-emoticons-flyout-trigger></a>');
+				var $emoticons_flyout = $('<div class="iosChatEmoticonsPanelFlyout" data-onscreenchat-emoticons-flyout></div>');
+				var $emoticons_panel = $('<div class="iosChatEmoticonsPanel" data-onscreenchat-emoticons-panel></div>')
 					.append($emoticons_flyout_trigger)
 					.append($emoticons_flyout);
 
@@ -506,22 +520,23 @@
 				$emoticons_flyout.append($emoticons_table);
 
 				$emoticons_flyout_trigger.click(function (e) {
-					$emoticons_flyout.toggle();
-				}).toggle(function () {
+					$(this)
+						.closest('[data-onscreenchat-window]')
+						.find('[data-onscreenchat-emoticons-flyout]')
+						.toggle();
+				}).toggle(function(e) {
 					$(this).addClass("active");
-				}, function () {
+				}, function(e) {
 					$(this).removeClass("active");
 				});
 
-				$emoticons_panel.bind('clickoutside', function (event) {
-					if ($emoticons_flyout_trigger.hasClass("active")) {
-						$emoticons_flyout_trigger.click();
-					}
-				});
+				$emoticons_panel.on('clickoutside', function(e) {
+					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
+						flyoutTconversationWindow = conversationWindow.find('[data-onscreenchat-emoticons-flyout-trigger]');
 
-				$('body').on('click', '.iosChatEmoticonsPanelFlyout a', function () {
-					$emoticons_flyout_trigger.click();
-					$('div[data-onscreenchat-message]').append($(this).find('img').data("emoticon"));
+					if (flyoutTconversationWindow.hasClass("active")) {
+						flyoutTconversationWindow.click();
+					}
 				});
 
 				return $emoticons_panel;
