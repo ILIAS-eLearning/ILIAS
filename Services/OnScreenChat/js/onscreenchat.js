@@ -9,7 +9,7 @@
 (function($, $scope, $chat, $menu){
 	'use strict';
 
-	var delayeUserSearch = (function(){
+	var delayedUserSearch = (function(){
 		var timer = 0;
 
 		return function(callback, ms){
@@ -356,7 +356,10 @@
 			getModule().user = participant;
 		},
 
-		openInviteUser: function() {
+		openInviteUser: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
 			$scope.il.Modal.dialogue({
 				header: il.Language.txt('chat_osc_invite_to_conversation'),
 				show: true,
@@ -403,7 +406,7 @@
 			var $input = $(this),
 				modalBody = $input.closest('[data-onscreenchat-modal-body]');
 
-			delayeUserSearch(function(e) {
+			delayedUserSearch(function(e) {
 				if ($input.val().length > 2) {
 					$.get(
 						getModule().config.userListURL + '&q=' + $input.val(),
