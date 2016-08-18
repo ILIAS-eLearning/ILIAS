@@ -261,6 +261,14 @@ var Database = function Database(config) {
 		);
 	};
 
+	this.countUnreadMessages = function(conversationId, userId, onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT COUNT(m.id) AS numMessages FROM osc_messages m LEFT JOIN osc_activity a ON a.conversation_id = m.conversation_id WHERE m.conversation_id = ? AND a.user_id = ? AND m.timestamp > a.timestamp', [conversationId, userId]),
+			onResult,
+			onEnd
+		);
+	};
+
 	this.loadConversationHistory = function(conversationId, oldestMessageTimestamp, onResult, onEnd){
 		var query = 'SELECT * FROM osc_messages WHERE conversation_id = ?';
 		var params = [conversationId];

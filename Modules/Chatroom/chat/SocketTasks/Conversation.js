@@ -33,6 +33,10 @@ module.exports = function(participants) {
 		row.conversationId = row.conversation_id;
 		conversation.setLatestMessage(row);
 	}, function(){
-		socket.participant.emit('conversation-init', conversation.json());
+		namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
+			conversation.setUnreadMessages(row.numNewMessages);
+		}, function(){
+			socket.participant.emit('conversation-init', conversation.json());
+		});
 	});
 };

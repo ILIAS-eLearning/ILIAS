@@ -94,7 +94,6 @@
 			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
 			var messagesBadge = $('[data-onscreenchat-menu-nummessages]');
 
-			console.log(numConversations);
 			conversationsBadge.html(numConversations);
 			if(numConversations == 0) {
 				conversationsBadge.hide();
@@ -113,12 +112,15 @@
 		countUnreadMessages: function() {
 			var conversations = getModule().conversations;
 
+			var num = 0;
 			for(var index in conversations) {
-				if(conversations.hasOwnProperty(index)) {
-
+				if(conversations.hasOwnProperty(index) ) {
+					num += parseInt(conversations[index].numNewMessages);
 				}
 			}
-			return 0;
+
+			console.log(num);
+			return num;
 		},
 
 		afterListUpdate: function() {

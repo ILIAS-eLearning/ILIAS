@@ -22,6 +22,8 @@ var Conversation = function Conversation(id, participants)
 
 	var _latestMessage = null;
 
+	var _numNewMessages = 0;
+
 	/**
 	 * Returns the ID of the conversation;
 	 *
@@ -40,6 +42,10 @@ var Conversation = function Conversation(id, participants)
 			}
 		}
 		return true;
+	};
+
+	this.setNumNewMessages = function(num) {
+		_numNewMessages = num;
 	};
 
 	this.send = function(message) {
@@ -89,7 +95,8 @@ var Conversation = function Conversation(id, participants)
 		return {
 			id: _id,
 			participants: participants,
-			latestMessage: _latestMessage
+			latestMessage: _latestMessage,
+			numNewMessages: _numNewMessages
 		}
 	};
 

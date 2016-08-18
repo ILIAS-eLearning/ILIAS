@@ -8,7 +8,7 @@
 		},
 
 		init: function(userId, username, callback) {
-			console.log(getModule().config.url);
+			getModule().socket = $io.connect(getModule().config.url);
 			getModule().socket.on('connect', function() {
 				getModule().login(userId, username, callback);
 			});
