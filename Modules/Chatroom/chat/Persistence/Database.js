@@ -203,10 +203,10 @@ var Database = function Database(config) {
 	this.trackActivity = function(conversationId, userId, timestamp) {
 		var emptyResult = true;
 		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_activity WHERE conversationId = ? AND userId = ?', [conversationId, userId]),
+			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
 			function(result){
 				emptyResult = false;
-				_pool.query('UPDATE osc_activity SET timestamp = ? WHERE conversationId = ? AND userId = ?',
+				_pool.query('UPDATE osc_activity SET timestamp = ? WHERE conversation_id = ? AND user_id = ?',
 					[timestamp, conversationId, userId],
 					function(err){
 						if(err) throw err;
@@ -217,8 +217,8 @@ var Database = function Database(config) {
 				if(emptyResult)
 				{
 					_pool.query('INSERT INTO osc_activity SET ?', {
-						conversationId: conversationId,
-						userId: userId,
+						conversation_id: conversationId,
+						user_id: userId,
 						timestamp: timestamp
 					}, function(err){
 						if(err) throw err;
@@ -236,8 +236,8 @@ var Database = function Database(config) {
 		//message.timestamp = parseInt(message.timestamp / 1000);
 		_pool.query('INSERT INTO osc_messages SET ?', {
 			id: UUID.v4(),
-			conversationId: message.conversationId,
-			userId: message.userId,
+			conversation_id: message.conversationId,
+			user_id: message.userId,
 			message: message.message,
 			timestamp: message.timestamp
 		}, function(err) {
@@ -255,14 +255,14 @@ var Database = function Database(config) {
 
 	this.getLatestMessage = function(conversation, onResult, onEnd) {
 		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_messages WHERE conversationId = ? ORDER BY timestamp DESC LIMIT 1', [conversation.getId()]),
+			_pool.query('SELECT * FROM osc_messages WHERE conversation_id = ? ORDER BY timestamp DESC LIMIT 1', [conversation.getId()]),
 			onResult,
 			onEnd
 		);
 	};
 
 	this.loadConversationHistory = function(conversationId, oldestMessageTimestamp, onResult, onEnd){
-		var query = 'SELECT * FROM osc_messages WHERE conversationId = ?';
+		var query = 'SELECT * FROM osc_messages WHERE conversation_id = ?';
 		var params = [conversationId];
 		if(oldestMessageTimestamp != null)
 		{
@@ -293,7 +293,7 @@ var Database = function Database(config) {
 		}
 		participantsJson = JSON.stringify(participantsJson);
 
-		_pool.query('UPDATE osc_conversation SET participants = ?, isGroup = ? WHERE id = ?',
+		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
 			[participantsJson, conversation.isGroup(), conversation.getId()],
 			function(err){
 				if(err) throw err;
@@ -308,7 +308,7 @@ var Database = function Database(config) {
 	this.persistConversation = function(conversation) {
 		_pool.query('INSERT INTO osc_conversation SET ?', {
 			id: conversation.getId(),
-			isGroup: conversation.isGroup(),
+			is_group: conversation.isGroup(),
 			participants: JSON.stringify(conversation.getParticipants())
 		}, function(err){
 			if(err) throw err;
