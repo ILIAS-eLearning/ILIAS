@@ -13,6 +13,7 @@ class ilManualAssessmentMember {
 	protected $examiner_id;
 	protected $notify;
 	protected $finalized;
+	protected $notification_ts;
 	protected $lp_status;
 
 	public function __construct(ilObjManualAssessment $mass, ilObjUser $usr, array $data) {
@@ -24,7 +25,7 @@ class ilManualAssessmentMember {
 		$this->grade = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->finalized = $data[ilManualAssessmentMembers::FIELD_FINALIZED];
 		$this->lp_status = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
-
+		$this->notification_ts = $data[ilManualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->mass = $mass;
 		$this->usr = $usr;
 	}
@@ -45,6 +46,20 @@ class ilManualAssessmentMember {
 		return $this->notify;
 	}
 
+	public function maybeSendNotification(ilManualAssessmentNotificator $notificator) {
+		if(!$this->finalized()) {
+			throw new ilManualAssessmentException('must finalize before notification');
+		}
+		if($this->notify) {
+			$notificator = (string)$this->grade === (string)ilManualAssessmentMembers::LP_COMPLETED ? 
+				$notificator->withOccasionCompleted() :
+				$notificator->withOcassionFailed();
+			$notificator->withReciever($this)->send();
+			$this->notification_ts = time();
+		}
+		return $this;
+	}
+
 	public function grade() {
 		return $this->grade;
 	}
@@ -55,6 +70,10 @@ class ilManualAssessmentMember {
 
 	public function assessmentId() {
 		return $this->mass->getId();
+	}
+
+	public function assessment() {
+		return $this->mass;
 	}
 
 	public function finalized() {
@@ -146,5 +165,9 @@ class ilManualAssessmentMember {
 			return $clone;
 		}
 		throw new ilManualAssessmentException('user cant be finalized');
+	}
+
+	public function notificationTS() {
+		return $this->notification_ts;
 	}
 }
