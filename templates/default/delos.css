@@ -11512,6 +11512,7 @@ div.ilPCMyCoursesPath {
 }
 .ilOnScreenChatMenuItem .media-body .media-heading strong {
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 .ilOnScreenChatMenuItem .media-body p {
   color: #A0A0A0;
