@@ -9,9 +9,6 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
-	// TODO: this might get a nicer name sometime?
-	const DISABLED_CLASS = "ilSubmitInactive";
-
 	/**
 	 * @inheritdocs
 	 */
@@ -19,7 +16,7 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\Button\Close) {
-			return $this->render_close();
+			return $this->render_close($component);
 		}
 		else {
 			return $this->render_button($component, $default_renderer);
@@ -48,18 +45,35 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		if ($component->isActive()) {
-			$tpl->setVariable("HREF", "href=\"$action\"");
+			$tpl->setCurrentBlock("with_href");
+			$tpl->setVariable("HREF", $action);
+			$tpl->parseCurrentBlock();
 		}
 		else {
-			$tpl->setVariable("DISABLED", self::DISABLED_CLASS);
+			$tpl->touchBlock("disabled");
 		}
+
+		$this->maybe_render_id($component, $tpl);
 
 		return $tpl->get();
 	}
 
-	protected function render_close() {
-		$tpl = $this->getTemplate("tpl.close.html", false, false);
+	protected function render_close($component) {
+		$tpl = $this->getTemplate("tpl.close.html", true, true);
+		// This is required as the rendering seems to only create any output at all
+		// if any var was set or block was touched.
+		$tpl->setVariable("FORCE_RENDERING", "");
+		$this->maybe_render_id($component, $tpl);
 		return $tpl->get();
+	}
+
+	protected function maybe_render_id($component, $tpl) {
+		$id = $this->bindJavaScript($component);
+		if ($id !== null) {
+			$tpl->setCurrentBlock("with_id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
