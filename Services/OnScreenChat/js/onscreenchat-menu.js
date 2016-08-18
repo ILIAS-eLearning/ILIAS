@@ -4,9 +4,18 @@
 		rendered: false,
 		content: $(''),
 		conversations: [],
+		emoticons: {},
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChatMenu.config = config;
+		},
+
+		setEmoticons: function(emoticons) {
+			$scope.il.OnScreenChatMenu.emoticons = emoticons;
+		},
+
+		getEmoticons: function() {
+			return getModule().emoticons;
 		},
 
 		init: function() {
@@ -65,7 +74,7 @@
 						template = template.replace('[[avatar]]', 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
 						template = template.replace('[[participants]]', participantNames.join(', '));
 						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
-						template = template.replace('[[last_message]]', latestMessage.message);
+						template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
 						template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 						getModule().content.find('#onscreenchatmenu-content').append(template);
 					}

@@ -102,6 +102,8 @@
 		init: function() {
 			getModule().storage   = new ConversationStorage();
 			getModule().emoticons = new Smileys(getModule().config.emoticons);
+			
+			$menu.setEmoticons(getModule().getEmoticons());
 
 			$(window).bind('storage', function(e){
 				var conversation = e.originalEvent.newValue;
