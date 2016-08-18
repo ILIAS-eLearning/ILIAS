@@ -34,6 +34,22 @@ class ilTestResultsImportParser extends ilSaxParser
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getQuestionIdMapping()
+	{
+		return $this->question_id_mapping;
+	}
+
+	/**
+	 * @param array $question_id_mapping
+	 */
+	public function setQuestionIdMapping($question_id_mapping)
+	{
+		$this->question_id_mapping = $question_id_mapping;
+	}
+
+	/**
 	* set event handler
 	* should be overwritten by inherited class
 	* @access	private

@@ -96,14 +96,6 @@ class ilTestImporter extends ilXmlImporter
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();
 
-		// import test results
-		if(@file_exists($_SESSION["tst_import_results_file"]))
-		{
-			include_once("./Modules/Test/classes/class.ilTestResultsImportParser.php");
-			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
-			$results->startParsing();
-		}
-
 		foreach ($qtiParser->getImportMapping() as $k => $v)
 		{
 			$oldQuestionId = substr($k, strpos($k, 'qst_')+strlen('qst_'));
@@ -126,6 +118,15 @@ class ilTestImporter extends ilXmlImporter
 		{
 			$newObj->questions = array();
 			$this->importRandomQuestionSetConfig($newObj, $xml_file, $a_mapping);
+		}
+
+		// import test results
+		if(@file_exists($_SESSION["tst_import_results_file"]))
+		{
+			include_once("./Modules/Test/classes/class.ilTestResultsImportParser.php");
+			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+			$results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'quest'));
+			$results->startParsing();
 		}
 		
 		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
