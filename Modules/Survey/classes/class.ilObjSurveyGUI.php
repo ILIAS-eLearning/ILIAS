@@ -1480,7 +1480,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilTabs, $ilUser, $ilToolbar;
+		global $ilTabs, $ilUser, $ilToolbar, $ilAccess;
 		
 		if (!$this->external_rater_360)
 		{
