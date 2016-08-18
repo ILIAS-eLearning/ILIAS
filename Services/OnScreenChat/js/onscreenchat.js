@@ -162,6 +162,11 @@
 			if(conversationWindow.length == 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
+				conversationWindow
+					.find('[data-onscreenchat-emoticons]')
+					.append(smileys.getHtml())
+					.find('.iosChatEmoticonsPanel')
+					.parent().removeClass("ilNoDisplay");
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
 			}
@@ -460,38 +465,33 @@
 			return message;
 		};
 
-		this.render = function() {
+		this.getHtml = function() {
 			if (typeof _smileys == "object") {
 				if (_smileys.length == 0) {
-					return;
+					return $("");
 				}
-				// Emoticons
+
 				var $emoticons_flyout_trigger = $('<a></a>');
-				var $emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>');
-				var $emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
+				var $emoticons_flyout = $('<div class="iosChatEmoticonsPanelFlyout"></div>');
+				var $emoticons_panel = $('<div class="iosChatEmoticonsPanel"></div>')
 					.append($emoticons_flyout_trigger)
 					.append($emoticons_flyout);
-
-				$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
-
-				if ($.browser.chrome || $.browser.safari) {
-					$emoticons_panel.css("top", "3px");
-				}
 
 				var $emoticons_table = $("<table></table>");
 				var $emoticons_row = null;
 				var cnt = 0;
-				var emoticonMap = new Object();
+				var emoticonMap = {};
 				for (var i in _smileys) {
+					var $emoticon;
 					if (emoticonMap[_smileys[i]]) {
-						var $emoticon = emoticonMap[_smileys[i]];
+						$emoticon = emoticonMap[_smileys[i]];
 					} else {
 						if (cnt % 6 == 0) {
 							$emoticons_row = $("<tr></tr>");
 							$emoticons_table.append($emoticons_row);
 						}
 
-						var $emoticon = $('<img src="' + _smileys[i] + '" alt="" title="" />');
+						$emoticon = $('<img src="' + _smileys[i] + '" alt="" title="" />');
 						$emoticon.data("emoticon", i);
 						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
 
@@ -520,11 +520,12 @@
 					}
 				});
 
-				$("#iosChatEmoticonsPanelFlyout a").click(function () {
+				$('body').on('click', '.iosChatEmoticonsPanelFlyout a', function () {
 					$emoticons_flyout_trigger.click();
-					alert("x");
-					//$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
+					$('div[data-onscreenchat-message]').append($(this).find('img').data("emoticon"));
 				});
+
+				return $emoticons_panel;
 			}
 		};
 	};
