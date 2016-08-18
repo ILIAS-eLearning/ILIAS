@@ -243,6 +243,11 @@
 			var conversation = getModule().storage.get(messageObject.conversationId);
 			conversation.open = true;
 			conversation.latestMessage = messageObject;
+			if(getModule().historyTimestamps[messageObject.conversationId] == undefined)
+			{
+				getModule().historyTimestamps[messageObject.conversationId] = messageObject.timestamp;
+			}
+			
 			getModule().storage.save(conversation);
 			getModule().addMessage(messageObject, false);
 			$menu.add(conversation);
