@@ -144,6 +144,7 @@ class ilOnScreenChatGUI
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
 				'emoticons' => self::getEmoticons($settings)
 			);
+
 			$chatConfig = array(
 				'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
 				'userId' => $DIC->user()->getId(),

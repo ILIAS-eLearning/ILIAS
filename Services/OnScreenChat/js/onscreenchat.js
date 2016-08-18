@@ -170,18 +170,22 @@
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
 			}
-			
-			$(conversationWindow).find('.panel-body').animate({
-				scrollTop: $(conversationWindow).find('[data-onscreenchat-body]').outerHeight()
-			}, 0);
+
+			getModule().scrollBottom(conversationWindow);
+
 
 			if(conversation.latestMessage != null) {
-
 				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
 			}
 
 			conversationWindow.show();
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
+		},
+
+		scrollBottom: function(chatWindow) {
+			$(chatWindow).find('.panel-body').animate({
+				scrollTop: $(chatWindow).find('[data-onscreenchat-body]').outerHeight()
+			}, 0);
 		},
 
 		resizeMessageInput: function(){
@@ -329,6 +333,7 @@
 			var template = getModule().config.messageTemplate;
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
 			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+			var chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']');
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
@@ -336,7 +341,7 @@
 			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 			template = $(template).find('li.' + position).html();
 
-			var chatBody = $('[data-onscreenchat-window=' + messageObject.conversationId + ']').find('[data-onscreenchat-body]');
+			var chatBody = chatWindow.find('[data-onscreenchat-body]');
 			var item = $('<li></li>')
 				.addClass(position)
 				.addClass('clearfix')
@@ -346,6 +351,10 @@
 				chatBody.prepend(item);
 			} else {
 				chatBody.append(item);
+			}
+
+			if(position == 'right') {
+				getModule().scrollBottom(chatWindow);
 			}
 		},
 

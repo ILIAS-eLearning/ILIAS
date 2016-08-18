@@ -254,7 +254,6 @@ var Database = function Database(config) {
 	};
 
 	this.getLatestMessage = function(conversation, onResult, onEnd) {
-		console.log("Get latest message for ", conversation.getId());
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_messages WHERE conversation_id = ? ORDER BY timestamp DESC LIMIT 1', [conversation.getId()]),
 			onResult,

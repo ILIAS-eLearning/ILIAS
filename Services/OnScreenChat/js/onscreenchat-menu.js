@@ -79,10 +79,8 @@
 		add: function(conversation) {
 			var index = getModule().hasConversation(conversation);
 			if (index === false) {
-				console.log("news");
 				getModule().conversations.push(conversation);
 			} else {
-				console.log("replace");
 				getModule().conversations[index] = conversation;
 			}
 
@@ -96,6 +94,7 @@
 			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
 			var messagesBadge = $('[data-onscreenchat-menu-nummessages]');
 
+			console.log(numConversations);
 			conversationsBadge.html(numConversations);
 			if(numConversations == 0) {
 				conversationsBadge.hide();
