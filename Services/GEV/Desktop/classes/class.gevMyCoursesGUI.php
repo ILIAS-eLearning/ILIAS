@@ -11,7 +11,6 @@
 
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevMyCoursesQuicklinksGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevMyCoursesTableGUI.php");
 
 class gevMyCoursesGUI {
@@ -53,17 +52,13 @@ class gevMyCoursesGUI {
 	}
 	
 	public function render() {
-		$qls = new gevMyCoursesQuicklinksGUI();
-		$qls_out = $qls->render();
-		
 		$spacer = new catHSpacerGUI();
 		$spacer_out = $spacer->render();
 		
 		$crss = new gevCoursesTableGUI($this->user->getId(), $this);
 		$crss_out = $crss->getHTML();
 		
-		return ($qls_out
-			   . $spacer_out
+		return ( $spacer_out
 			   . $crss_out
 			   );
 	}
