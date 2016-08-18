@@ -126,6 +126,7 @@ class ilTestImporter extends ilXmlImporter
 			include_once("./Modules/Test/classes/class.ilTestResultsImportParser.php");
 			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
 			$results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'quest'));
+			$results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'rnd_src_pool_def'));
 			$results->startParsing();
 		}
 		

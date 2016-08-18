@@ -20,11 +20,6 @@ class ilObjTestXMLParser extends ilSaxParser
 	 * @var ilImportMapping
 	 */
 	protected $importMapping;
-	
-	/**
-	 * @var array
-	 */
-	protected $randomQuestionSelectionDefinitionMapping = array();
 
 	/**
 	 * @return ilObjTest
@@ -280,15 +275,5 @@ class ilObjTestXMLParser extends ilSaxParser
 			$sourcePoolDefinition->setMappedFilterTaxId((int)$attr['tax']);
 			$sourcePoolDefinition->setMappedFilterTaxNodeId((int)$attr['taxNode']);
 		}
-	}
-	
-	protected function addRandomQuestionSelectionDefinitionMapping($oldId, $newId)
-	{
-		$this->randomQuestionSelectionDefinitionMapping[$oldId] = $newId;
-	}
-
-	protected function getRandomQuestionSelectionDefinitionMapping()
-	{
-		return $this->randomQuestionSelectionDefinitionMapping;
 	}
 }

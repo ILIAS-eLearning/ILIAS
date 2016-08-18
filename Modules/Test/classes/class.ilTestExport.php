@@ -1082,6 +1082,7 @@ abstract class ilTestExport
 			// dump results xml document to file
 			include_once "./Modules/Test/classes/class.ilTestResultsToXML.php";
 			$resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->test_obj->getAnonymity());
+			$resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
 			$ilBench->start("TestExport", "buildExportFile_results");
 			$resultwriter->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->resultsfile, false);
 			$ilBench->stop("TestExport", "buildExportFile_results");
