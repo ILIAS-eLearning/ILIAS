@@ -1,7 +1,6 @@
 var Container = require('../AppContainer');
 var UUID	  = require('node-uuid');
 var Conversation = require('../Model/Conversation');
-var ConversationHistory = require('./ConversationHistory');
 
 	/**
  * @param {Array} participants

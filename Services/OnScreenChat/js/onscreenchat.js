@@ -186,6 +186,7 @@
 			}, 0);
 
 			if(conversation.latestMessage != null) {
+
 				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
 			}
 
@@ -243,7 +244,8 @@
 
 			if(message != "") {
 				$chat.sendMessage(conversationId, message);
-				input.html('')
+				input.html('');
+				getModule().resizeMessageInput.call(input);
 			}
 		},
 
@@ -281,6 +283,7 @@
 		},
 
 		onConversation: function(conversation) {
+			console.log(conversation.id);
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
