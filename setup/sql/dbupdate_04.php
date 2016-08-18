@@ -16555,3 +16555,59 @@ if(file_exists($sbm_path) && is_dir($sbm_path))
 $ilSetting = new ilSetting();
 $ilSetting->delete('passwd_auto_generate');
 ?>
+<#4978>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_icq'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_icq');
+}
+?>
+<#4979>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_yahoo'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_yahoo');
+}
+?>
+<#4980>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_msn'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_msn');
+}
+?>
+<#4981>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_aim'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_aim');
+}
+?>
+<#4982>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_skype'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_skype');
+}
+?>
+<#4983>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_voip'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_voip');
+}
+?>
+<#4984>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_jabber'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_jabber');
+}
+?>
+<#4985>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'delicious'))
+{
+	$ilDB->dropTableColumn('usr_data', 'delicious');
+}
+?>
