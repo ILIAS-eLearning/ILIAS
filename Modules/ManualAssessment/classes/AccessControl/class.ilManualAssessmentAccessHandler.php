@@ -29,7 +29,7 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 		$role = ilObjRole::createDefaultRole(
 				$this->getRoleTitleByObj($mass),
 				"Admin of mass obj_no.".$mass->getId(),
-				self::DEAFULT_ROLE,
+				self::DEFAULT_ROLE,
 				$mass->getRefId()
 		);
 	}
@@ -43,7 +43,7 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 	}
 
 	protected function getRoleTitleByObj(ilObjManualAssessment $mass) {
-		return self::DEAFULT_ROLE.'_'.$mass->getRefId();
+		return self::DEFAULT_ROLE.'_'.$mass->getRefId();
 	}
 
 	protected function getMemberRoleIdForObj(ilObjManualAssessment $mass) {
