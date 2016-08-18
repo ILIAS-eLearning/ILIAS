@@ -472,6 +472,15 @@
 	 * @constructor
 	 */
 	var Smileys = function Smileys(_smileys) {
+
+		if (_smileys.length != 0) {
+			// Fetch them directly to prevent issues with the ILIAS WAC
+			for (var i in _smileys) {
+				var img = new Image();
+				img.src = _smileys[i];
+			}
+		}
+
 		/**
 		 * Sets smileys into text
 		 *
