@@ -22,7 +22,7 @@ class ilOnScreenChatMenuGUI
 
 		$DIC->language()->loadLanguageModule('chatroom');
 		$DIC->language()->toJS(array(
-			'chat_osc_send', 'chat_osc_conversations', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
+			'chat_osc_conversations'
 		));
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');
