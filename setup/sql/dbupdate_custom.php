@@ -101,3 +101,7 @@ if(!$ilDB->uniqueConstraintExists('osc_activity', array('conversation_id', 'user
 	$ilDB->addUniqueConstraint('osc_activity', array('conversation_id', 'user_id'), 'uc1');
 }
 ?>
+<#5>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
