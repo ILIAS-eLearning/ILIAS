@@ -34,7 +34,9 @@ class Renderer extends AbstractComponentRenderer {
 
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
-			$tpl->setVariable("ID", "id=\"$id\"");
+			$tpl->setCurrentBlock("with_id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
 		}
 
 		foreach ($component->getCounters() as $counter) {

@@ -264,7 +264,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$css_classes = self::$canonical_css_classes[$type];
 		$aria_label = self::$aria_labels[$type];
 
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" ><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -282,7 +282,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
 		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
 
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" >".
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-$type\">42</span>".
 					"</a>";
@@ -301,7 +301,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
 		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
-		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" >".
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>".
