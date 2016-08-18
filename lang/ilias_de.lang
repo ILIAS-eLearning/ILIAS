@@ -15752,3 +15752,4 @@ didactic#:#didactic_auto_generated#:#Automatisch generiert
 didactic#:#activate_exclusive_template#:#Überschreibt Standard
 didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgeblendet, wo diese didaktische Vorlage aktiv ist.
+didactic#:#dtpl_obj_type_info#:#Gibt an auf welchen Objekttyp diese didaktische Vorlage angewandt werden kann.

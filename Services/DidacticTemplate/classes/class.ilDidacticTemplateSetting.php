@@ -286,13 +286,24 @@ class ilDidacticTemplateSetting
 	{
 		$lang = $this->getTranslationObject()->getLanguages();
 
+		if(!$lang)
+		{
+			return "";
+		}
+
 		if(!$a_lng)
 		{
 			global $ilUser;
 			$a_lng = $ilUser->getCurrentLanguage();
 		}
 
-		return isset($lang[$a_lng][$a_value]) ? $lang[$a_lng][$a_value] : "";
+		if(isset($lang[$a_lng][$a_value]))
+		{
+			return $lang[$a_lng][$a_value] ;
+		}
+		else{
+			return $lang[$a_lng][$this->getTranslationObject()->getDefaultLanguage()];
+		}
 	}
 
 	/**

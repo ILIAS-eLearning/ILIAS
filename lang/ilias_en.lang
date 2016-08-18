@@ -15749,3 +15749,4 @@ didactic#:#didactic_auto_generated#:#Automatic Generated
 didactic#:#activate_exclusive_template#:#Overwrites Default
 didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
+didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.
