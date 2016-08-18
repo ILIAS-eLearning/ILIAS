@@ -945,7 +945,7 @@ class ilTrQuery
 			case "mass":
 				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
 				$mass = new ilObjManualAssessment($obj_id, false);
-				$a_users = $mass->loadMembers()->memberIds();
+				$a_users = $mass->loadMembers()->membersIds();
 				break;
 			default:
 				// no sensible data: return null
