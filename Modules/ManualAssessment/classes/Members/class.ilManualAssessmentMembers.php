@@ -21,6 +21,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	const FIELD_INTERNAL_NOTE = 'internal_note';
 	const FIELD_NOTIFY = 'notify';
 	const FIELD_FINALIZED = 'finalized';
+	const FIELD_NOTIFICATION_TS = 'notification_ts';
 
 	const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 	const LP_COMPLETED = ilLPStatus::LP_STATUS_COMPLETED_NUM;
