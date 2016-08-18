@@ -32,6 +32,10 @@ class ilTestPlayerCommands
 	const SUBMIT_INTERMEDIATE_SOLUTION = 'submitIntermediateSolution';
 	const SUBMIT_SOLUTION = 'submitSolution';
 	const SUBMIT_SOLUTION_AND_NEXT = 'submitSolutionAndNext';
+// fau: testNav - define new commands
+	const REVERT_CHANGES = 'revertChanges';
+	const DETECT_CHANGES = 'detectChanges';
+// fau.
 	const DISCARD_SOLUTION = 'discardSolution';
 	const SKIP_QUESTION = 'skipQuestion';
 	const SHOW_INSTANT_RESPONSE = 'showInstantResponse';
@@ -62,6 +66,9 @@ class ilTestPlayerCommands
 	 * @var array
 	 */
 	private static $nonExecutionCommands = array(
+// fau: testNav - declare DETECT_CHANGES as non execution command
+		self::DETECT_CHANGES,
+// fau.
 		self::AUTO_SAVE, self::REDIRECT_ON_TIME_LIMIT,
 		self::AFTER_TEST_PASS_FINISHED, self::SHOW_FINAL_STATMENT
 	);
