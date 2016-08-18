@@ -223,6 +223,9 @@
 
 			template = template.replace('[[participants]]', participantsName.join(', '));
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
+			template = template.replace('/#:#close#:#/g', il.Language.txt('close'));
+			template = template.replace('/#:#chat_osc_add_user#:#/g', il.Language.txt('chat_osc_add_user'));
+			template = template.replace('/#:#chat_osc_send#:#/g', il.Language.txt('chat_osc_send'));
 
 			return template;
 		},
@@ -340,9 +343,12 @@
 
 		openInviteUser: function() {
 			$scope.il.Modal.dialogue({
-				header: "Invite user to conversation",
+				header: il.Language.txt('chat_osc_invite_to_conversation'),
 				show: true,
-				body: getModule().config.modalTemplate.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
+				body: getModule().config.modalTemplate
+						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
+						.replace(/#:#username#:#/g, il.Language.txt('username'))
+				  
 			});
 		},
 

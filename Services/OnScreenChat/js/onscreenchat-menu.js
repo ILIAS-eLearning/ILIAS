@@ -23,7 +23,7 @@
 				html : true,
 				placement : "bottom",
 				viewport : { selector: 'body', padding: 10 },
-				title: "Conversation"
+				title: il.Language.txt('chat_osc_conversations')
 			}).on('shown.bs.popover', function () {
 				$scope.il.OnScreenChatMenu.show();
 			}).on('hidden.bs.popover', function () {
