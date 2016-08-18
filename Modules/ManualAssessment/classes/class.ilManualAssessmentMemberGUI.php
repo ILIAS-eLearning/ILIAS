@@ -3,7 +3,6 @@
 require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
 require_once 'Services/Form/classes/class.ilTextInputGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-//require_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
 require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
 require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
@@ -39,20 +38,20 @@ class ilManualAssessmentMemberGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
-			case "edit":
-			case "save":
-			case "finalize":
+			case 'edit':
+			case 'save':
+			case 'finalize':
 				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
 					$a_parent_gui->handleAccessViolation();
 				}
 				break;
-			case "view":
+			case 'view':
 				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress') 
 					&& (string)$this->examiner->getId() !== (string)$member->examinerId()) {
 					$a_parent_gui->handleAccessViolation();
 				}
 				break;
-			case "cancel":
+			case 'cancel':
 				break;
 			default:
 				$a_parent_gui->handleAccessViolation();
@@ -84,12 +83,12 @@ class ilManualAssessmentMemberGUI {
 			if($form->checkInput()) {
 				$member = $this->updateDataInMemberByArray($this->member,$_POST);
 				if($member->mayBeFinalized()) {
-					$this->object->membersStorage()->updateMember($this->member);
 					ilManualAssessmentLPInterface::updateLPStatusOfMember($member);
 					$this->member = $member->withFinalized()->maybeSendNotification($this->notificator);
+					$this->object->membersStorage()->updateMember($this->member);
 					$this->view();
 				} else {
-					ilUtil::sendFailure('member may not be finalized');
+					ilUtil::sendFailure($this->lng->txt('mass_may_not_finalize'));
 					$this->edit();
 				}
 			} else {
@@ -137,66 +136,66 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	protected function updateDataInMemberByArray(ilManualAssessmentMember $member, $data) {
-		$member = $member->withRecord($data["record"])
-					->withInternalNote($data["internal_note"])
-					->withLPStatus($data["learning_progress"])
+		$member = $member->withRecord($data['record'])
+					->withInternalNote($data['internal_note'])
+					->withLPStatus($data['learning_progress'])
 					->withExaminerId($this->examiner->getId())
-					->withNotify(($data["notify"]  == 1 ? 1 : 0));
+					->withNotify(($data['notify']  == 1 ? 1 : 0));
 		return $member;
 	}
 
 	protected function initGradingForm($may_be_edited = true) {
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+		$form->setTitle($this->lng->txt('mass_edit_record'));
 
 		$examinee_name = $this->examinee->getLastname().', '.$this->examinee->getFirstname();
 
 		$usr_name = new ilNonEditableValueGUI($this->lng->txt('name'),'name');
 		$form->addItem($usr_name);
 		// record
-		$ti = new ilTextAreaInputGUI($this->lng->txt("record"), "record");
+		$ti = new ilTextAreaInputGUI($this->lng->txt('mass_record'), 'record');
 		$ti->setCols(40);
 		$ti->setRows(5);
 		$ti->setDisabled(!$may_be_edited);
 		$form->addItem($ti);
 
 		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("internal_note"), "internal_note");
+		$ta = new ilTextAreaInputGUI($this->lng->txt('mass_internal_note'), 'internal_note');
 		$ta->setCols(40);
 		$ta->setRows(5);
 		$ta->setDisabled(!$may_be_edited);
 		$form->addItem($ta);
 
-		$learning_progress = new ilSelectInputGUI($this->lng->txt("LP"),"learning_progress");
+		$learning_progress = new ilSelectInputGUI($this->lng->txt('learning_progress'),'learning_progress');
 		$learning_progress->setOptions(
-			array(ilManualAssessmentMembers::LP_IN_PROGRESS => "--"
-				, ilManualAssessmentMembers::LP_FAILED => "failed"
-				, ilManualAssessmentMembers::LP_COMPLETED => "completed"));
+			array(ilManualAssessmentMembers::LP_IN_PROGRESS => $this->lng->txt('mass_status_pending')
+				, ilManualAssessmentMembers::LP_FAILED => $this->lng->txt('mass_status_failed')
+				, ilManualAssessmentMembers::LP_COMPLETED => $this->lng->txt('mass_status_completed')));
 		$learning_progress->setDisabled(!$may_be_edited);
 		$form->addItem($learning_progress);
 
 		// notify examinee
-		$notify = new ilCheckboxInputGUI($this->lng->txt("notify"), "notify");
+		$notify = new ilCheckboxInputGUI($this->lng->txt('mass_notify'), 'notify');
 		$notify->setDisabled(!$may_be_edited);
 		$form->addItem($notify);
 
 		if($may_be_edited) {
-			$form->addCommandButton("save", $this->lng->txt("save"));
-			$form->addCommandButton("finalize",$this->lng->txt("finalize"));
+			$form->addCommandButton('save', $this->lng->txt('save'));
+			$form->addCommandButton('finalize',$this->lng->txt('mass_finalize'));
 		}
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $form;
 	}
 
 	protected function fillForm(ilPropertyFormGUI $a_form, ilManualAssessmentMember $member) {
 		$a_form->setValuesByArray(array(
-			  "name" => $member->name()
-			, "record" => $member->record()
-			, "internal_note" => $member->internalNote()
-			, "notify" => $member->notify()
-			, "learning_progress" => (int)$member->LPStatus()
+			  'name' => $member->name()
+			, 'record' => $member->record()
+			, 'internal_note' => $member->internalNote()
+			, 'notify' => $member->notify()
+			, 'learning_progress' => (int)$member->LPStatus()
 			));
 		return $a_form;
 	}

@@ -65,27 +65,27 @@ class ilManualAssessmentSettingsGUI {
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+		$form->setTitle($this->lng->txt('mass_edit'));
 
 		// title
-		$ti = new ilTextInputGUI($this->lng->txt("title"), self::PROP_TITLE);
+		$ti = new ilTextInputGUI($this->lng->txt('title'), self::PROP_TITLE);
 		$ti->setSize(40);
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
 		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), self::PROP_DESCRIPTION);
+		$ta = new ilTextAreaInputGUI($this->lng->txt('description'), self::PROP_DESCRIPTION);
 		$ta->setCols(40);
 		$ta->setRows(2);
 		$form->addItem($ta);
 
 
-		$item = new ilTextAreaInputGUI($this->lng->txt("content"), self::PROP_CONTENT);
+		$item = new ilTextAreaInputGUI($this->lng->txt('mass_content'), self::PROP_CONTENT);
 		$form->addItem($item);
-		$item = new ilTextAreaInputGUI($this->lng->txt("record_template"), self::PROP_RECORD_TEMPLATE);
+		$item = new ilTextAreaInputGUI($this->lng->txt('mass_record_template'), self::PROP_RECORD_TEMPLATE);
 		$form->addItem($item);
-		$form->addCommandButton("update", $this->lng->txt("save"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$form->addCommandButton('update', $this->lng->txt('save'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $form;
 	}
 	protected function fillForm(ilPropertyFormGUI $a_form, ilObjManualAssessment $mass, ilManualAssessmentSettings $settings) {

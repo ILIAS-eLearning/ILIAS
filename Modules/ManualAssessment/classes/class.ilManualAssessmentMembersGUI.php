@@ -67,7 +67,7 @@ class ilManualAssessmentMembersGUI {
 			)
 		);
 		$this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt("mass_search_users"),
+		$this->toolbar->addButton($this->lng->txt('search_user'),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
@@ -83,9 +83,9 @@ class ilManualAssessmentMembersGUI {
 			$user = new ilObjUser($user_id);
 			if(!$members->userAllreadyMember($user)) {
 				$members = $members->withAdditionalUser($user);
-				ilUtil::sendSuccess("goody");
+				ilUtil::sendSuccess('mass_add_user_success');
 			} else {
-				ilUtil::sendFailure("allready_member");
+				ilUtil::sendFailure('mass_add_user_failure');
 			}
 		}
 		$members->updateStorageAndRBAC($mass->membersStorage(),$mass->accessHandler());

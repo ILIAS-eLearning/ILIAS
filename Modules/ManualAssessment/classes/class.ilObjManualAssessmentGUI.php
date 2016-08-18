@@ -36,6 +36,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		$this->usr = $DIC['ilUser'];
 		$this->ilias = $DIC['ilias'];
 		$this->lng = $DIC['lng'];
+		$this->lng->loadLanguageModule('mass');
 		$this->tpl->getStandardTemplate();
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
@@ -51,22 +52,22 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$ilPermissionGUI = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
-			case "ilmanualassessmentsettingsgui":
+			case 'ilmanualassessmentsettingsgui':
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
-				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentSettingsGUI.php");
+				require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentSettingsGUI.php';
 				$gui = new ilManualAssessmentSettingsGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case "ilmanualassessmentmembersgui":
+			case 'ilmanualassessmentmembersgui':
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php");
+				require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
 				$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case "ilinfoscreengui":
+			case 'ilinfoscreengui':
 				$this->viewObject();
-			case "illearningprogressgui":
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+			case 'illearningprogressgui':
+				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->tabs_gui->setTabActive(self::TAB_LP);
 				$learning_progress = new ilLearningProgressGUI(
 											ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
@@ -87,8 +88,8 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function viewObject() {
 		$this->tabs_gui->setTabActive(self::TAB_INFO);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
-		$this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->ctrl->setCmd('showSummary');
+		$this->ctrl->setCmdClass('ilinfoscreengui');
 		$info = new ilInfoScreenGUI($this);
 		if($this->object) {
 			$info->addSection($this->lng->txt('general'));
@@ -101,25 +102,25 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		$access_handler = $this->object->accessHandler();
 		if($access_handler->checkAccessToObj($this->object,'read')) {
 			$this->tabs_gui->addTab( self::TAB_INFO
-									, $this->lng->txt("info_short")
-									, $this->getLinkTarget("info")
+									, $this->lng->txt('info_short')
+									, $this->getLinkTarget('info')
 									);
 		}
 		if($access_handler->checkAccessToObj($this->object,'write')) {
 			$this->tabs_gui->addTab( self::TAB_SETTINGS
-									, $this->lng->txt("settings")
-									, $this->getLinkTarget("settings")
+									, $this->lng->txt('settings')
+									, $this->getLinkTarget('settings')
 									);
 		}
 		if($access_handler->checkAccessToObj($this->object,'edit_members')) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
-									, $this->lng->txt("members")
-									, $this->getLinkTarget("members")
+									, $this->lng->txt('members')
+									, $this->getLinkTarget('members')
 									);
 		}
 		if($access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized()) {
 			$this->tabs_gui->addTab(self::TAB_LP
-									, $this->lng->txt("LP")
+									, $this->lng->txt('learning_progress')
 									, $this->ctrl->getLinkTargetByClass('illearningprogressgui')
 									);
 		}

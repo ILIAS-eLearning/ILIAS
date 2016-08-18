@@ -31,8 +31,8 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$columns = array( 'name' 				=> array('name')
 						, 'login' 				=> array('login'));
 		if($this->may_view) {
-			$columns['lp_status'] = array('lp_status');
-			$columns['graded_by'] = array('graded_by');
+			$columns['learning_progress'] = array('lp_status');
+			$columns['mass_graded_by'] = array('mass_graded_by');
 		}
 		$columns['actions'] = array(null);
 		return $columns;
