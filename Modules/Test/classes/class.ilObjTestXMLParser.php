@@ -11,8 +11,53 @@ require_once 'Services/Xml/classes/class.ilSaxParser.php';
  */
 class ilObjTestXMLParser extends ilSaxParser
 {
+	/**
+	 * @var ilObjTest
+	 */
+	protected $testOBJ;
+
+	/**
+	 * @var ilImportMapping
+	 */
+	protected $importMapping;
+	
+	/**
+	 * @var array
+	 */
 	protected $randomQuestionSelectionDefinitionMapping = array();
 
+	/**
+	 * @return ilObjTest
+	 */
+	public function getTestOBJ()
+	{
+		return $this->testOBJ;
+	}
+
+	/**
+	 * @param ilObjTest $testOBJ
+	 */
+	public function setTestOBJ($testOBJ)
+	{
+		$this->testOBJ = $testOBJ;
+	}
+
+	/**
+	 * @return ilImportMapping
+	 */
+	public function getImportMapping()
+	{
+		return $this->importMapping;
+	}
+
+	/**
+	 * @param ilImportMapping $importMapping
+	 */
+	public function setImportMapping($importMapping)
+	{
+		$this->importMapping = $importMapping;
+	}
+	
 	public function setHandlers($xmlParser)
 	{
 		xml_set_object($xmlParser,$this);
@@ -28,6 +73,15 @@ class ilObjTestXMLParser extends ilSaxParser
 				$this->inRandomQuestionSetConfig = true;
 				break;
 			
+			case 'RandomQuestionSetSettings':
+				if($this->inRandomQuestionSetConfig)
+				{
+					$this->inRandomQuestionSetSettings = true;
+					$this->cdata = '';
+					$this->attr = $tagAttributes;
+				}
+				break;
+
 			case 'RandomQuestionStage':
 				if($this->inRandomQuestionSetConfig)
 				{
@@ -36,9 +90,10 @@ class ilObjTestXMLParser extends ilSaxParser
 				break;
 
 			case 'RandomQuestionStagingPool':
-				if($this->inRandomQuestionSetConfig && $this->inRandomQuestionStage)
+				if($this->inRandomQuestionStage)
 				{
 					$this->cdata = '';
+					$this->attr = $tagAttributes;
 				}
 				break;
 			
@@ -50,10 +105,18 @@ class ilObjTestXMLParser extends ilSaxParser
 				break;
 
 			case 'RandomQuestionSelectionDefinition':
-				if($this->inRandomQuestionSetConfig && $this->inRandomQuestionSelectionDefinitions)
+				if($this->inRandomQuestionSelectionDefinitions)
+				{
+					$this->sourcePoolDefinition = $this->getRandomQuestionSourcePoolDefinitionInstance();
+					$this->importRandomQuestionSourcePoolDefinition($this->sourcePoolDefinition, $tagAttributes);
+				}
+				break;
+			
+			case 'RandomQuestionSourcePoolTitle':
+			case 'RandomQuestionSourcePoolPath':
+				if($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition)
 				{
 					$this->cdata = '';
-					$this->attr = $tagAttributes;
 				}
 				break;
 		}
@@ -67,6 +130,14 @@ class ilObjTestXMLParser extends ilSaxParser
 				$this->inRandomQuestionSetConfig = false;
 				break;
 
+			case 'RandomQuestionSetSettings':
+				if($this->inRandomQuestionSetConfig)
+				{
+					$this->importRandomQuestionSetSettings($this->attr);
+					$this->attr = null;
+				}
+				break;
+
 			case 'RandomQuestionStage':
 				if($this->inRandomQuestionSetConfig)
 				{
@@ -77,7 +148,8 @@ class ilObjTestXMLParser extends ilSaxParser
 			case 'RandomQuestionStagingPool':
 				if($this->inRandomQuestionSetConfig && $this->inRandomQuestionStage)
 				{
-					// persist stage for pool
+					$this->importRandomQuestionStagingPool($this->attr, $this->cdata);
+					$this->attr = null;
 					$this->cdata = '';
 				}
 				break;
@@ -92,21 +164,23 @@ class ilObjTestXMLParser extends ilSaxParser
 			case 'RandomQuestionSelectionDefinition':
 				if($this->inRandomQuestionSetConfig && $this->inRandomQuestionSelectionDefinitions)
 				{
-					$sourcePoolDefinition = new ilTestRandomQuestionSetSourcePoolDefinition();
-					$sourcePoolDefinition->setPoolId((int)$this->attr['pool']);
-					
-					if( isset($this->attr['tax']) && isset($this->attr['taxNode']) )
-					{
-						$sourcePoolDefinition->setOriginalFilterTaxId((int)$this->attr['tax']);
-						$sourcePoolDefinition->setOriginalFilterTaxNodeId((int)$this->attr['taxNode']);
-					}
+					$this->sourcePoolDefinition->saveToDb();
+					$this->sourcePoolDefinition = null;
+				}
+				break;
 
-					$sourcePoolDefinition->saveToDb();
-					
-					$this->addRandomQuestionSelectionDefinitionMapping(
-						(int)$this->attr['id'], $sourcePoolDefinition->getId()
-					);
-					
+			case 'RandomQuestionSourcePoolTitle':
+				if($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition)
+				{
+					$this->sourcePoolDefinition->setPoolTitle($this->cdata);
+					$this->cdata = '';
+				}
+				break;
+
+			case 'RandomQuestionSourcePoolPath':
+				if($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition)
+				{
+					$this->sourcePoolDefinition->setPoolPath($this->cdata);
 					$this->cdata = '';
 				}
 				break;
@@ -123,7 +197,84 @@ class ilObjTestXMLParser extends ilSaxParser
 			$this->cdata .= $charData;
 		}
 	}
+	
+	protected function importRandomQuestionSetSettings($attr)
+	{
+		global $tree, $ilDB, $ilPluginAdmin;
 
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
+		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->testOBJ);
+
+		if( !$questionSetConfig->isValidQuestionAmountConfigurationMode($attr['amountMode']) )
+		{
+			throw new ilTestException(
+				'invalid random test question set config amount mode given: "'.$attr['amountMode'].'"'
+			);
+		}
+		
+		$questionSetConfig->setQuestionAmountConfigurationMode($attr['amountMode']);
+		$questionSetConfig->setQuestionAmountPerTest((int)$attr['questAmount']);
+		$questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired((bool)$attr['homogeneous']);
+
+		$questionSetConfig->saveToDb();
+	}
+	
+	protected function importRandomQuestionStagingPool($attr, $cdata)
+	{
+		global $ilDB;
+		
+		$oldPoolId = $attr['poolId'];
+		$newPoolId = $ilDB->nextId('object_data'); // yes !!
+		
+		$this->getImportMapping()->addMapping(
+			'Modules/Test', 'pool', $oldPoolId, $newPoolId
+		);
+		
+		$oldQuestionIds = explode(',', $cdata);
+		
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestion.php';
+		
+		foreach($oldQuestionIds as $oldQuestionId)
+		{
+			$newQuestionId = $this->getImportMapping()->getMapping(
+				'Modules/Test', 'quest', $oldQuestionId
+			);
+			
+			$stagingQuestion = new ilTestRandomQuestionSetStagingPoolQuestion($ilDB);
+			$stagingQuestion->setTestId($this->testOBJ->getTestId());
+			$stagingQuestion->setPoolId($newPoolId);
+			$stagingQuestion->setQuestionId($newQuestionId);
+
+			$stagingQuestion->saveQuestionStaging();
+		}
+	}
+	
+	protected function getRandomQuestionSourcePoolDefinitionInstance()
+	{
+		global $ilDB;
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinition.php';
+		
+		return new ilTestRandomQuestionSetSourcePoolDefinition($ilDB, $this->testOBJ);
+	}
+
+	protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $attr)
+	{
+		$sourcePoolDefinition->setPoolId($this->getImportMapping()->getMapping(
+			'Modules/Test', 'pool', (int)$attr['poolId']
+		));
+
+		$sourcePoolDefinition->setPoolQuestionCount((int)$attr['poolQuestCount']);
+		$sourcePoolDefinition->setQuestionAmount((int)$attr['questAmount']);
+		$sourcePoolDefinition->setSequencePosition((int)$attr['position']);
+
+		if( isset($attr['tax']) && isset($attr['taxNode']) )
+		{
+			$sourcePoolDefinition->setMappedFilterTaxId((int)$attr['tax']);
+			$sourcePoolDefinition->setMappedFilterTaxNodeId((int)$attr['taxNode']);
+		}
+	}
+	
 	protected function addRandomQuestionSelectionDefinitionMapping($oldId, $newId)
 	{
 		$this->randomQuestionSelectionDefinitionMapping[$oldId] = $newId;

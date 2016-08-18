@@ -54,6 +54,8 @@ class ilTestImporter extends ilXmlImporter
 			}
 		}
 
+		$newObj->loadFromDb();
+
 		list($xml_file,$qti_file) = $this->parseXmlFileNames();
 
 		if(!@file_exists($xml_file))
@@ -101,12 +103,6 @@ class ilTestImporter extends ilXmlImporter
 			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
 			$results->startParsing();
 		}
-		
-		if( $newObj->isRandomTest() )
-		{
-			$newObj->questions = array();
-			$this->importRandomQuestionSetConfig($xml_file);
-		}
 
 		foreach ($qtiParser->getImportMapping() as $k => $v)
 		{
@@ -126,6 +122,12 @@ class ilTestImporter extends ilXmlImporter
 			);
 		}
 		
+		if( $newObj->isRandomTest() )
+		{
+			$newObj->questions = array();
+			$this->importRandomQuestionSetConfig($newObj, $xml_file, $a_mapping);
+		}
+		
 		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
 
 		$newObj->saveToDb();
@@ -143,30 +145,78 @@ class ilTestImporter extends ilXmlImporter
 	 */
 	function finalProcessing($a_mapping)
 	{
-		//echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
-		// get all glossaries of the import
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$maps = $a_mapping->getMappingsOfEntity("Modules/Test", "tst");
+		
 		foreach ($maps as $old => $new)
 		{
-			if ($old != "new_id" && (int) $old > 0)
+			if ($old == "new_id" || (int)$old <= 0)
 			{
-				// get all new taxonomys of this object
-				$new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
-				if($new_tax_ids !== false)
-				{
-					$tax_ids = explode(":", $new_tax_ids);
-					foreach($tax_ids as $tid)
-					{
-						ilObjTaxonomy::saveUsage($tid, $new);
-					}
-				}
-
-				$taxMappings = $a_mapping->getMappingsOfEntity('Services/Taxonomy', 'tax');
-				foreach($taxMappings as $oldTaxId => $newTaxId)
-				{
-				}
+				continue;
 			}
+
+			if( $this->testOBJ->isRandomTest() )
+			{
+				$this->finalRandomTestTaxonomyProcessing($a_mapping, $old, $new);
+			}
+		}
+	}
+	
+	protected function finalRandomTestTaxonomyProcessing(ilImportMapping $mapping, $oldTstObjId, $newTstObjId)
+	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+
+		// get all new taxonomies of this object and store usage for test object
+		
+		$new_tax_ids = $mapping->getMapping(
+			'Services/Taxonomy', 'tax_usage_of_obj', $oldTstObjId
+		);
+		
+		if($new_tax_ids !== false)
+		{
+			$tax_ids = explode(":", $new_tax_ids);
+			
+			foreach($tax_ids as $tid)
+			{
+				ilObjTaxonomy::saveUsage($tid, $newTstObjId);
+			}
+		}
+
+		// update all source pool definition's tax/taxNode ids with new mapped id
+		
+		global $ilDB;
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+		$srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+			$ilDB, $this->testOBJ
+		);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		$srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+			$ilDB, $this->testOBJ, $srcPoolDefFactory
+		);
+
+		$srcPoolDefList->loadDefinitions();
+
+		foreach($srcPoolDefList as $definition)
+		{
+			if( !$definition->getMappedFilterTaxId() && !$definition->getMappedFilterTaxNodeId() )
+			{
+				continue;
+			}
+			
+			$newTaxId = $mapping->getMapping(
+				'Services/Taxonomy', 'tax', $definition->getMappedFilterTaxId()
+			);
+			
+			$definition->setMappedFilterTaxId($newTaxId ? $newTaxId : null);
+
+			$newTaxNodeId = $mapping->getMapping(
+				'Services/Taxonomy', 'tax_tree', $definition->getMappedFilterTaxNodeId()
+			);
+
+			$definition->setMappedFilterTaxNodeId($newTaxNodeId ? $newTaxNodeId : null);
+
+			$definition->saveToDb();
 		}
 	}
 
@@ -198,6 +248,15 @@ class ilTestImporter extends ilXmlImporter
 		$dir = $this->getImportDirectory();
 		$name = basename($dir);
 		return $name;
+	}
+
+	protected function importRandomQuestionSetConfig(ilObjTest $testOBJ, $xmlFile, $a_mapping)
+	{
+		require_once 'Modules/Test/classes/class.ilObjTestXMLParser.php';
+		$parser = new ilObjTestXMLParser($xmlFile);
+		$parser->setTestOBJ($testOBJ);
+		$parser->setImportMapping($a_mapping);
+		$parser->startParsing();
 	}
 }
 

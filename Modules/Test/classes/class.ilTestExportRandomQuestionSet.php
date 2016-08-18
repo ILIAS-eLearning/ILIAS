@@ -45,9 +45,24 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 	protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
 	{
 		$xmlWriter->xmlStartTag('RandomQuestionSetConfig');
+		$this->populateCommonSettings($xmlWriter);
 		$this->populateQuestionStages($xmlWriter);
 		$this->populateSelectionDefinitions($xmlWriter);
 		$xmlWriter->xmlEndTag('RandomQuestionSetConfig');
+	}
+	
+	protected function populateCommonSettings(ilXmlWriter $xmlWriter)
+	{
+		global $tree, $ilDB, $ilPluginAdmin;
+		
+		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->test_obj);
+		$questionSetConfig->loadFromDb();
+
+		$xmlWriter->xmlElement('RandomQuestionSetSettings', array(
+			'amountMode' => $questionSetConfig->getQuestionAmountConfigurationMode(),
+			'questAmount' => $questionSetConfig->getQuestionAmountPerTest(),
+			'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired()
+		));
 	}
 	
 	protected function populateQuestionStages(ilXmlWriter $xmlWriter)
@@ -58,7 +73,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 		{
 			$questionList = $this->getLoadedStagingPoolQuestionList($poolId);
 			
-			$xmlWriter->xmlStartTag('RandomQuestionStagingPool', array('pool' => $poolId));
+			$xmlWriter->xmlStartTag('RandomQuestionStagingPool', array('poolId' => $poolId));
 			$xmlWriter->xmlData(implode(',', $questionList->getQuestions()));
 			$xmlWriter->xmlEndTag('RandomQuestionStagingPool');
 		}
@@ -74,7 +89,10 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 		{
 			$attributes = array(
 				'id' => $definition->getId(),
-				'pool' => $definition->getPoolId()
+				'poolId' => $definition->getPoolId(),
+				'poolQuestCount' => $definition->getPoolQuestionCount(),
+				'questAmount' => $definition->getQuestionAmount(),
+				'position' => $definition->getSequencePosition()
 			);
 			
 			if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
@@ -83,7 +101,10 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 				$attributes['taxNode'] = $definition->getMappedFilterTaxNodeId();
 			}
 			
-			$xmlWriter->xmlElement('RandomQuestionSelectionDefinition', $attributes);
+			$xmlWriter->xmlStartTag('RandomQuestionSelectionDefinition', $attributes);
+			$xmlWriter->xmlElement('RandomQuestionSourcePoolTitle', null, $definition->getPoolTitle());
+			$xmlWriter->xmlElement('RandomQuestionSourcePoolPath', null, $definition->getPoolPath());
+			$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinition', $attributes);
 		}
 		
 		$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinitions');

@@ -1256,6 +1256,8 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if( is_file($_SESSION["tst_import_dir"].'/'.$_SESSION["tst_import_subdir"]."/manifest.xml") )
 		{
+			$newObj->saveToDb();
+			
 			$_SESSION['tst_import_idents'] = $_POST['ident'];
 			$_SESSION['tst_import_qst_parent'] = $questionParentObjId;
 			
