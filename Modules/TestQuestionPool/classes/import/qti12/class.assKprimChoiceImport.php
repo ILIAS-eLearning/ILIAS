@@ -17,7 +17,7 @@ class assKprimChoiceImport extends assQuestionImport
 	 */
 	public $object;
 	
-	public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+	public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
 		global $ilUser;
 
