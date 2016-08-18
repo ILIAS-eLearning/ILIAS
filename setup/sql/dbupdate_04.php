@@ -16407,6 +16407,12 @@ if(!$ilDB->tableExists('mass_members')) {
 			'notnull' => true,
 			'default' => 0
 		),
+		'notification_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => -1
+		),
 		'learning_progress' => array(
 			'type' => 'integer',
 			'length' => 1,
