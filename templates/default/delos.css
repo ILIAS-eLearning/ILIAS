@@ -11510,7 +11510,7 @@ div.ilPCMyCoursesPath {
   padding-top: 0;
   color: #606060;
 }
-.ilOnScreenChatMenuItem .media-body .media-heading strong {
+.ilOnScreenChatMenuItem .media-body .media-heading {
   text-overflow: ellipsis;
   overflow: hidden;
 }
