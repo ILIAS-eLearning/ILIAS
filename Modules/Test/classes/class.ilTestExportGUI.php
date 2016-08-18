@@ -23,7 +23,8 @@ class ilTestExportGUI extends ilExportGUI
 
 		parent::__construct($a_parent_gui, $a_main_obj);
 
-		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
+		#$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
+		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'));
 		$this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
 		$this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
 		$this->addFormat( 'arc', $a_parent_gui->lng->txt( 'ass_create_export_test_archive' ), $this, 'createTestArchiveExport');
