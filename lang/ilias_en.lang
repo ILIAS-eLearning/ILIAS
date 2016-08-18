@@ -15872,3 +15872,32 @@ trac#:#trac_defaults#:#Completion Status
 trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
+mass#:#general#:#General iformation
+mass#:#mass_content#:#Assessment content description
+mass#:#mass_record_template#:#Record template
+mass#:#mass_add_user_success#:#Successfully added users
+mass#:#mass_add_user_failure#:#Can not add one or more users
+mass#:#mass_graded_by#:#Graded by
+mass#:#mass_usr_remove#:#Remove user from object
+mass#:#mass_usr_edit#:#Edit user record and learning progress
+mass#:#mass_usr_view#:#View user record
+mass#:#mass_edit_record#:#Edit record
+mass#:#mass_record#:#Record note
+mass#:#mass_internal_note#:#Internal record note (should not be seen by user)
+mass#:#mass_status_completed#:#Completed
+mass#:#mass_status_failed#:#Failed
+mass#:#mass_status_pending#:#Status pending
+mass#:#mass_notify#:#Notify user after finalization
+mass#:#mass_finalize#:#Finalize
+mass#:#il_mass_member#:#Manual Assessment Member
+mass#:#edit_members#:#Edit members
+mass#:#mass_edit_members#:#Edit members
+mass#:#mass_visible#:#Visible
+mass#:#mass_read#:#Read
+mass#:#mass_copy#:#Copy
+mass#:#mass_write#:#Edit Settings
+mass#:#mass_delete#:#Delete
+mass#:#mass_read_learning_progress#:#View learning progress of other users
+mass#:#mass_edit_permissions#:#Change Permissions
+mass#:#mass_edit_learning_progress#:#Edit learning progress
+mass#:#trac_mode_manual_assessment#:#Manual Assessment
