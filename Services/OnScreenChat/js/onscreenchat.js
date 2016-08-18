@@ -175,7 +175,10 @@
 				scrollTop: $(conversationWindow).find('[data-onscreenchat-body]').outerHeight()
 			}, 0);
 
-			$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
+			if(conversation.latestMessage != null) {
+				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
+			}
+
 			conversationWindow.show();
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
 		},
@@ -247,14 +250,10 @@
 		receiveMessage: function(messageObject) {
 			var conversation = getModule().storage.get(messageObject.conversationId);
 			conversation.open = true;
-			conversation.latestMessage = messageObject;
-			if(getModule().historyTimestamps[messageObject.conversationId] == undefined)
-			{
-				getModule().historyTimestamps[messageObject.conversationId] = messageObject.timestamp;
-			}
-			
 			getModule().storage.save(conversation);
 			getModule().addMessage(messageObject, false);
+			conversation.latestMessage = messageObject;
+			getModule().storage.save(conversation);
 			$menu.add(conversation);
 		},
 
@@ -296,17 +295,17 @@
 		},
 
 		onScroll: function() {
-			if($(this).scrollTop() == 0 && !getModule().historyBlocked) {
+			var container = $(this).closest('[data-onscreenchat-window]');
+			var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
+
+			if($(this).scrollTop() == 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
 				getModule().historyBlocked = true;
 				$(this).prepend(
 					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
 						$('<img />').addClass("ilOnScreenChatMenuLoader").attr('src', getConfig().loaderImg)
 					)
 				);
-				var container = $(this).closest('[data-onscreenchat-window]');
-				var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
-
-				var oldestMessageTimestamp = getModule().historyTimestamps[conversation.id]
+				var oldestMessageTimestamp = getModule().historyTimestamps[conversation.id];
 				$chat.getHistory(conversation.id, oldestMessageTimestamp);
 			}
 		},
