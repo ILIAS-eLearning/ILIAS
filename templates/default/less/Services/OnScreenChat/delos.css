@@ -196,6 +196,9 @@
   padding-top: 0;
   color: #606060;
 }
+.ilOnScreenChatMenuItem .media-body .media-heading strong {
+  text-overflow: ellipsis;
+}
 .ilOnScreenChatMenuItem .media-body p {
   color: #A0A0A0;
 }
