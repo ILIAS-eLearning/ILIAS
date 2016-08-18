@@ -37,7 +37,11 @@ class ilOnScreenChatGUI
 
 		if($chatSettings->getSmiliesEnabled())
 		{
+			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 			require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
+
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
+
 			$smileys_array = ilChatroomSmilies::_getSmilies();
 			foreach($smileys_array as $smiley_array)
 			{
@@ -52,7 +56,7 @@ class ilOnScreenChatGUI
 
 					if($key == 'smiley_fullpath')
 					{
-						$new_val = $value;
+						$new_val = ilWACSignedPath::signFile($value);
 					}
 				}
 

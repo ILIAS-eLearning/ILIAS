@@ -7,6 +7,7 @@
 	/*height: 100px;*/
 	overflow: visible;
 	pointer-events: none;
+	z-index: 5000;
 
 	.row{
 		position: relative;
@@ -71,6 +72,74 @@
 			-webkit-hyphens: auto;
 			hyphens: auto;
 		}
+
+		.chat {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			li {
+				margin-bottom: 10px;
+				padding-bottom: 5px;
+				border-bottom: 1px dotted #B3A9A9;
+
+				.chat-body {
+					.header strong {
+						font-size: 0.8em;
+					}
+
+					p {
+						margin: 0;
+						color: #777777;
+						font-size: 0.9em;
+					}
+				}
+			}
+		}
+
+		.panel .slidedown .glyphicon, .chat .glyphicon {
+			margin-right: 5px;
+		}
+
+		.panel-body {
+			overflow-y: scroll;
+			height: 250px;
+		}
+
+		.iosChatEmoticonsPanel {
+			display: block;
+			height: 19px;
+			width: 19px;
+			position: relative;
+		}
+
+		.iosChatEmoticonsPanel > a {
+			display: block;
+			height: 19px;
+			width: 19px;
+			background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat 1px 2px;
+			z-index: 1000;
+			border-left: 1px solid #FFFFFF;
+		}
+
+		.iosChatEmoticonsPanelFlyout {
+			position: absolute;
+			background-color: white;
+			border: 1px solid gray;
+			padding: 5px;
+			border-bottom: 2px solid #293E6A;
+			bottom: 19px;
+			display: none;
+		}
+
+		.iosChatEmoticonsPanelFlyout a {
+			border: 1px solid white;
+			display: block;
+			padding: 1px 0 1px 2px;
+		}
+
+		.iosChatEmoticonsPanelFlyout a:hover {
+			border: 1px solid silver;
+		}
 	}
 }
 
@@ -83,38 +152,6 @@
 		padding: 0 0 0 30px;
 		margin: 3px 0;
 	}
-}
-
-.chat {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	li {
-		margin-bottom: 10px;
-		padding-bottom: 5px;
-		border-bottom: 1px dotted #B3A9A9;
-
-		.chat-body {
-			.header strong {
-				font-size: 0.8em;
-			}
-
-			p {
-				margin: 0;
-				color: #777777;
-				font-size: 0.9em;
-			}
-		}
-	}
-}
-
-.panel .slidedown .glyphicon, .chat .glyphicon {
-	margin-right: 5px;
-}
-
-.panel-body {
-	overflow-y: scroll;
-	height: 250px;
 }
 
 .ilOnScreenChatMenuDropDown {

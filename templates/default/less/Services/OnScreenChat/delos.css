@@ -7,6 +7,7 @@
   /*height: 100px;*/
   overflow: visible;
   pointer-events: none;
+  z-index: 5000;
 }
 #onscreenchat-container .row {
   position: relative;
@@ -63,6 +64,63 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+#onscreenchat-container .chat-window-wrapper .chat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#onscreenchat-container .chat-window-wrapper .chat li {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted #B3A9A9;
+}
+#onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
+  font-size: 0.8em;
+}
+#onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
+  margin: 0;
+  color: #777777;
+  font-size: 0.9em;
+}
+#onscreenchat-container .chat-window-wrapper .panel .slidedown .glyphicon,
+#onscreenchat-container .chat-window-wrapper .chat .glyphicon {
+  margin-right: 5px;
+}
+#onscreenchat-container .chat-window-wrapper .panel-body {
+  overflow-y: scroll;
+  height: 250px;
+}
+#onscreenchat-container .chat-window-wrapper .iosChatEmoticonsPanel {
+  display: block;
+  height: 19px;
+  width: 19px;
+  position: relative;
+}
+#onscreenchat-container .chat-window-wrapper .iosChatEmoticonsPanel > a {
+  display: block;
+  height: 19px;
+  width: 19px;
+  background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat 1px 2px;
+  z-index: 1000;
+  border-left: 1px solid #FFFFFF;
+}
+#onscreenchat-container .chat-window-wrapper .iosChatEmoticonsPanelFlyout {
+  position: absolute;
+  background-color: white;
+  border: 1px solid gray;
+  padding: 5px;
+  border-bottom: 2px solid #293E6A;
+  bottom: 19px;
+  display: none;
+}
+#onscreenchat-container .chat-window-wrapper .iosChatEmoticonsPanelFlyout a {
+  border: 1px solid white;
+  display: block;
+  padding: 1px 0 1px 2px;
+}
+#onscreenchat-container .chat-window-wrapper .iosChatEmoticonsPanelFlyout a:hover {
+  border: 1px solid silver;
+}
 #invite_users_available {
   border: 1px solid #BCCAE5;
   padding: 0;
@@ -71,32 +129,6 @@
   list-style: none inside none;
   padding: 0 0 0 30px;
   margin: 3px 0;
-}
-.chat {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.chat li {
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-  border-bottom: 1px dotted #B3A9A9;
-}
-.chat li .chat-body .header strong {
-  font-size: 0.8em;
-}
-.chat li .chat-body p {
-  margin: 0;
-  color: #777777;
-  font-size: 0.9em;
-}
-.panel .slidedown .glyphicon,
-.chat .glyphicon {
-  margin-right: 5px;
-}
-.panel-body {
-  overflow-y: scroll;
-  height: 250px;
 }
 .ilOnScreenChatMenuDropDown .popover {
   max-width: 300px;
@@ -113,10 +145,10 @@
   white-space: nowrap;
   background-color: #f3f3f3;
 }
-.ilOnScreenChatMenuDropDown .badge.bottom {
+.ilOnScreenChatMenuDropDown .bage.bottom {
   background-color: #A0A0A0;
   bottom: 5px;
-  position: absolute;;
+  position: absolute;
 }
 .ilOnScreenChatMenuItem {
   position: relative;
