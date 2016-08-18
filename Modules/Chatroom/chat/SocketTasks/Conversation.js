@@ -11,6 +11,7 @@ module.exports = function(participants) {
 	var namespace = Container.getNamespace(this.nsp.name);
 	var conversations = namespace.getConversations();
 	var conversation = conversations.getForParticipants(participants);
+	var socket = this;
 
 	if(conversation == null) {
 		Container.getLogger().info('No Conversation found. Creating new one');
@@ -33,6 +34,6 @@ module.exports = function(participants) {
 		row.conversationId = row.conversation_id;
 		conversation.setLatestMessage(row);
 	}, function(){
-		this.participant.emit('conversation-init', conversation.json());
+		socket.participant.emit('conversation-init', conversation.json());
 	});
 };
