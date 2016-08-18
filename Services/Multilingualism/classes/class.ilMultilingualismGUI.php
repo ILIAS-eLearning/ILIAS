@@ -15,6 +15,8 @@ class ilMultilingualismGUI
 {
 	protected $obj_trans;
 	protected $title_descr_only = true;
+	protected $start_title = "";
+	protected $start_description = "";
 
 	/**
 	 * ilTranslationGUI constructor.
@@ -320,7 +322,7 @@ class ilMultilingualismGUI
 				{
 					if ($l != "")
 					{
-						$this->obj_trans->addLanguage($l, false, "", "");
+						$this->obj_trans->addLanguage($l, $this->start_title, $this->start_description,false);
 					}
 				}
 			}
@@ -383,6 +385,16 @@ class ilMultilingualismGUI
 			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		}
 		$ilCtrl->redirect($this, "listTranslations");
+	}
+
+	/**
+	 * @param string $a_title
+	 * @param string $a_description
+	 */
+	public function setStartValues($a_title, $a_description)
+	{
+		$this->start_title = $a_title;
+		$this->start_description = $a_description;
 	}
 
 
