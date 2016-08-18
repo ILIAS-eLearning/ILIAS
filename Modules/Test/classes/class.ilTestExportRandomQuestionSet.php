@@ -55,6 +55,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 	{
 		global $tree, $ilDB, $ilPluginAdmin;
 		
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->test_obj);
 		$questionSetConfig->loadFromDb();
 

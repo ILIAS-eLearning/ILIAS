@@ -36,6 +36,7 @@ class ilTestImporter extends ilXmlImporter
 			// container content
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$_SESSION['tst_import_subdir'] = $this->getImportPackageName();
+			$newObj->saveToDb(); // this generates test id first time
 			$questionParentObjId = $newObj->getId();
 		}
 		else
