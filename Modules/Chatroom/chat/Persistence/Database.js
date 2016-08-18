@@ -253,6 +253,14 @@ var Database = function Database(config) {
 		);
 	};
 
+	this.getLatestMessage = function(conversation, onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_messages WHERE conversationId = ? ORDER BY timestamp DESC LIMIT 1', [conversation.getId()]),
+			onResult,
+			onEnd
+		);
+	};
+
 	this.loadConversationHistory = function(conversationId, oldestMessageTimestamp, onResult, onEnd){
 		var query = 'SELECT * FROM osc_messages WHERE conversationId = ?';
 		var params = [conversationId];

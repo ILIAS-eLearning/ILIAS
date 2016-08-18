@@ -27,7 +27,10 @@ module.exports = function(participants) {
 	}
 
 	namespace.getDatabase().updateConversation(conversation);
-	this.participant.emit('conversation-init', conversation.json());
 
-	//ConversationHistory.call(this, conversation.getId());
+	namespace.getDatabase().getLatestMessage(conversation, function(row){
+		conversation.setLatestMessage(row);
+	}, function(){
+		this.participant.emit('conversation-init', conversation.json());
+	});
 };

@@ -3,7 +3,10 @@
     <a data-toggle="popover" id="onscreenchat_trigger">
         <span class="glyphicon glyphicon-comment"></span>
         <span>
-			<span id="onscreenchat_badge"><!-- BEGIN status_text --><span class="badge {HIDDEN}">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></span>
+			<span id="onscreenchat_badge">
+                <span class="badge" style="display: none;" data-onscreenchat-menu-nummessages></span>
+                <span class="badge bottom" style="display: none;" data-onscreenchat-menu-numconversations></span>
+            </span>
 		</span>
     </a>
 </li>

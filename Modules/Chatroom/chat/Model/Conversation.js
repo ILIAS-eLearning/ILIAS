@@ -20,9 +20,7 @@ var Conversation = function Conversation(id, participants)
 	 */
 	var _group = false;
 
-	var _messages = [];
-
-	var _lastMessageTimestamp = null;
+	var _latestMessage = null;
 
 	/**
 	 * Returns the ID of the conversation;
@@ -31,14 +29,6 @@ var Conversation = function Conversation(id, participants)
 	 */
 	this.getId = function() {
 		return _id;
-	};
-
-	this.getLastMessageTimestamp = function() {
-		return _lastMessageTimestamp;
-	};
-
-	this.setLastMessageTimestamp = function(timestamp) {
-		_lastMessageTimestamp = timestamp;
 	};
 
 	this.matchesParticipants = function(participants) {
@@ -52,16 +42,7 @@ var Conversation = function Conversation(id, participants)
 		return true;
 	};
 
-	this.addHistory = function(message) {
-		if(this.getLastMessageTimestamp() == null || this.getLastMessageTimestamp() > message.timestamp) {
-			this.setLastMessageTimestamp(message.timestamp);
-		}
-
-		_messages.push(message);
-	};
-
 	this.send = function(message) {
-		this.addHistory(message);
 
 		forParticipants(function(participant){
 			participant.send(message);
@@ -94,6 +75,9 @@ var Conversation = function Conversation(id, participants)
 		_group = isGroup;
 	};
 
+	this.setLatestMessage = function(message) {
+		_latestMessage = message;
+	};
 
 	this.json = function() {
 		var participants = [];
@@ -105,9 +89,7 @@ var Conversation = function Conversation(id, participants)
 		return {
 			id: _id,
 			participants: participants,
-			//open: _opened,
-			messages: _messages,
-			//latestMessageTimestamp: _lastMessageTimestamp
+			latestMessage: _latestMessage
 		}
 	};
 
