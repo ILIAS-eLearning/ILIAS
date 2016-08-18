@@ -349,6 +349,7 @@
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
+			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getEmoticons().replace(message));
 			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 			template = $(template).find('li.' + position).html();

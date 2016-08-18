@@ -1,25 +1,23 @@
 <div class="col-md-2 chat-window-wrapper pull-right" data-onscreenchat-window="[[conversationId]]">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <span class="glyphicon glyphicon-comment"></span> [[participants]]
-            <div class="btn-group pull-right">
-                <a href="#" class="btn btn-secondary add-user" title="Add User" data-onscreenchat-add="[[conversationId]]"><span class="glyphicon glyphicon-plus"></span></a>
-                <a href="#" class="btn btn-secondary close" title="Close" data-onscreenchat-close="[[conversationId]]"><span class="glyphicon glyphicon-remove"></span></a>
-            </div>
-        </div>
-        <div class="panel-body">
-            <ul class="chat" data-onscreenchat-body></ul>
-        </div>
-        <div class="panel-footer">
-            <div class="ilNoDisplay" data-onscreenchat-emoticons></div>
-            <div class="input-group">
-                <div class="form-control chat-message" data-onscreenchat-message contenteditable="true"></div>
-                <!--<textarea class="form-control" placeholder="Type your message here..." data-autosize-input='{ "space": 40 }' data-onscreenchat-message></textarea>-->
-                <!--<input id="btn-input" type="text" class="form-control input-sm chat-message" placeholder="Type your message here...">-->
-                <span class="input-group-btn">
-                    <button class="btn btn-default btn-sm" data-onscreenchat-submit>Send</button>
-                </span>
-            </div>
-        </div>
-    </div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<span class="glyphicon glyphicon-comment"></span> [[participants]]
+			<div class="btn-group pull-right">
+				<a href="#" class="btn btn-secondary add-user" title="Add User" data-onscreenchat-add="[[conversationId]]"><span class="glyphicon glyphicon-plus"></span></a>
+				<a href="#" class="btn btn-secondary close" title="Close" data-onscreenchat-close="[[conversationId]]"><span class="glyphicon glyphicon-remove"></span></a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<ul class="chat" data-onscreenchat-body></ul>
+		</div>
+		<div class="panel-footer">
+			<div class="ilNoDisplay" data-onscreenchat-emoticons></div>
+			<div class="input-group">
+				<div class="form-control chat-message" data-onscreenchat-message contenteditable="true"></div>
+				<span class="input-group-btn">
+					<button class="btn btn-default btn-sm" data-onscreenchat-submit>Send</button>
+				</span>
+			</div>
+		</div>
+	</div>
 </div>

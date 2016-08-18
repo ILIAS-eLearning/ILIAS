@@ -151,7 +151,7 @@ class ilOnScreenChatGUI
 				'username' => $DIC->user()->getLogin()
 			);
 
-			$DIC->language()->loadLanguageModule('onscreenchat');
+			$DIC->language()->loadLanguageModule('chatroom');
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
@@ -162,7 +162,10 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
 			$DIC['tpl']->addOnLoadCode("il.Chat.setConfig(".ilJsonUtil::encode($chatConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".ilJsonUtil::encode($guiConfig).");");
-			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.init();");
+			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".ilJsonUtil::encode($guiConfig).");");
+			$DIC['lng']->toJS(array(
+				'chat_osc_send', 'chat_osc_conversations', 'close', 'chat_osc_invite_to_conversation', 'username'
+			));
 
 			self::$frontend_initialized = true;
 		}

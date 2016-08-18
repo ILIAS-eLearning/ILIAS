@@ -76,6 +76,7 @@
 						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
 						template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
 						template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
+						template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 						getModule().content.find('#onscreenchatmenu-content').append(template);
 					}
 				}

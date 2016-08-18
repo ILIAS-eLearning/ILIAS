@@ -15805,3 +15805,6 @@ chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
 chatroom#:#chat_osc_accepts_messages_yes#:#Empfängt Chat-Nachrichten
+chatroom#:#chat_osc_conversations#:#Konversationen
+chatroom#:#chat_osc_send#:#Senden
+chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
