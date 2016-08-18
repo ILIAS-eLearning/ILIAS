@@ -119,7 +119,6 @@
 				}
 			}
 
-			console.log(num);
 			return num;
 		},
 

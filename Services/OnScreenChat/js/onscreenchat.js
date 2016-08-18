@@ -266,6 +266,11 @@
 		receiveMessage: function(messageObject) {
 			var conversation = getModule().storage.get(messageObject.conversationId);
 			conversation.open = true;
+
+			if(getModule().historyTimestamps[conversation.id] == undefined) {
+				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
+			}
+
 			getModule().storage.save(conversation);
 			getModule().addMessage(messageObject, false);
 			conversation.latestMessage = messageObject;
