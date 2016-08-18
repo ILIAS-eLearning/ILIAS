@@ -221,74 +221,8 @@ class ilPermanentLinkGUI
 		{
 			$tpl->setVariable("TARGET", 'target="'.$this->getTarget().'"');
 		}
-		
-		
-		// bookmark links		
-		$bm_html = self::_getBookmarksSelectionList($title, $href);
-		
-		if ($bm_html)
-		{
-			$tpl->setVariable('SELECTION_LIST', $bm_html);
-		}
-		
+
 		return $tpl->get();
-	}
-
-
-	/**
-	 * returns the active bookmark links. if only one link is enabled, a single link is returned.
-	 * otherwise a the html of an advanced selection list is returned.
-	 */
-	public static function _getBookmarksSelectionList($title, $href)
-	{
-		global $ilDB, $lng, $ilSetting;
-
-		require_once 'Services/PermanentLink/classes/class.ilPermanentLink.php';
-
-		// social bookmarkings
-		
-		$rset = ilPermanentLink::getActiveBookmarks();
-		
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		
-		$current_selection_list = new ilAdvancedSelectionListGUI();
-		//$current_selection_list->setListTitle($lng->txt("bm_add_to_social_bookmarks"));
-		$current_selection_list->setId("socialbm_actions");
-		$current_selection_list->setUseImages(true);
-		
-		$cnt = 0;
-
-		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
-		{
-			$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode(urlencode($title)) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI']));
-			$current_selection_list->addItem($lng->txt("bm_add_to_ilias"), '', $linktpl, ilUtil::getImagePath('socialbookmarks/icon_bm_15x15.gif') , $lng->txt("bm_add_to_ilias"), '_top');
-			$cnt++;
-		}
-
-		foreach ($rset as $row)
-		{
-			$linktpl = $row->sbm_link;
-			$linktpl = str_replace('{LINK}', urlencode($href), $linktpl);
-			$linktpl = str_replace('{TITLE}', urlencode($title), $linktpl);
-			$current_selection_list->addItem($row->sbm_title, '', $linktpl, $row->sbm_icon, $row->title, '_blank');
-			$cnt++;
-		}
-
-		if ($cnt == 1 && $GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
-		{
-			$loc_tpl = new ilTemplate('tpl.single_link.html', true, true, 'Services/PermanentLink');
-			$loc_tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
-			$loc_tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode(urlencode($title)) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI'])));
-			$loc_tpl->setVariable("ICON", ilUtil::getImagePath('icon_bm.svg'));
-			return $loc_tpl->get();
-		}
-		else if ($cnt >= 1)
-		{
-			return $current_selection_list->getHTML();
-		}
-		else
-			return '';
-
 	}
 }
 

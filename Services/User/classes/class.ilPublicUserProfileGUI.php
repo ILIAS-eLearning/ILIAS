@@ -497,22 +497,6 @@ class ilPublicUserProfileGUI
 				$sep = "<br />";
 			}
 		}
-		if ($ilSetting->get("usr_settings_hide_instant_messengers") != 1)
-		{
-			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
-			
-			foreach ($im_arr as $im_name)
-			{
-				if ($im_id = $user->getInstantMessengerId($im_name))
-				{
-					if ($this->getPublicPref($user, "public_im_".$im_name) != "n")
-					{
-						$v.= $sep.$lng->txt('im_'.$im_name).": ".$im_id;
-						$sep = "<br />";
-					}
-				}
-			}
-		}
 		if ($v != "")
 		{
 			$tpl->parseCurrentBlock("contact");
@@ -575,19 +559,7 @@ class ilPublicUserProfileGUI
 			}
 			$tpl->parseCurrentBlock();
 		}
-		
-		// delicious row
-		//$d_set = new ilSetting("delicious");
-		if ($this->getPublicPref($user, "public_delicious") == "y")
-		{
-			$tpl->setCurrentBlock("delicious_row");
-			$tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));
-			$tpl->setVariable("TXT_DEL_ICON", $lng->txt("delicious"));
-			$tpl->setVariable("SRC_DEL_ICON", ilUtil::getImagePath("icon_delicious.png"));
-			$tpl->setVariable("DEL_ACCOUNT", $user->getDelicious());
-			$tpl->parseCurrentBlock();
-		}
-		
+
 		// map
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		if (ilMapUtil::isActivated() && 

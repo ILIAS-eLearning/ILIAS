@@ -16488,3 +16488,165 @@ if(!$ilDB->tableExists('frm_drafts_history'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4972>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests','pass_waiting'))
+{
+	$ilDB->addTableColumn('tst_tests', 'pass_waiting', array(
+			'type'    => 'text',
+			'length'  => 15,
+			'notnull' => false,
+			'default' => null)
+	);
+}
+?>
+<#4973>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'last_started_pass') )
+{
+	$ilDB->addTableColumn('tst_active', 'last_started_pass', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#4974>
+<?php
+if($ilDB->tableExists('bookmark_social_bm'))
+{
+	$ilDB->dropTable('bookmark_social_bm');
+}
+?>
+<#4975>
+<?php
+if($ilDB->sequenceExists('bookmark_social_bm'))
+{
+	$ilDB->dropSequence('bookmark_social_bm');
+}
+?>
+<#4976>
+<?php
+$sbm_path = realpath(CLIENT_WEB_DIR . DIRECTORY_SEPARATOR . 'social_bm_icons');
+if(file_exists($sbm_path) && is_dir($sbm_path))
+{
+	$iter = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator($sbm_path, RecursiveDirectoryIterator::SKIP_DOTS),
+		RecursiveIteratorIterator::CHILD_FIRST
+	);
+	foreach($iter as $fileinfo)
+	{
+		if($fileinfo->isDir())
+		{
+			@rmdir($fileinfo->getRealPath());
+		}
+		else
+		{
+			@unlink($fileinfo->getRealPath());
+		}
+	}
+
+	@rmdir($sbm_path);
+}
+?>
+<#4977>
+<?php
+$ilSetting = new ilSetting();
+$ilSetting->delete('passwd_auto_generate');
+?>
+<#4978>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_icq'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_icq');
+}
+?>
+<#4979>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_yahoo'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_yahoo');
+}
+?>
+<#4980>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_msn'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_msn');
+}
+?>
+<#4981>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_aim'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_aim');
+}
+?>
+<#4982>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_skype'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_skype');
+}
+?>
+<#4983>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_voip'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_voip');
+}
+?>
+<#4984>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'im_jabber'))
+{
+	$ilDB->dropTableColumn('usr_data', 'im_jabber');
+}
+?>
+<#4985>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'delicious'))
+{
+	$ilDB->dropTableColumn('usr_data', 'delicious');
+}
+?>
+<#4986>
+<?php
+$pd_set = new ilSetting('pd');
+$pd_set->delete('osi_host');
+?>
+<#4987>
+<?php
+$dset = new ilSetting('delicious');
+$dset->deleteAll();
+?>
+<#4988>
+<?php
+$fields = array('im_icq', 'im_yahoo', 'im_msn', 'im_aim', 'im_skype', 'im_jabber', 'im_voip', 'delicious');
+foreach($fields as $field)
+{
+	$ilDB->manipulateF(
+		'DELETE FROM usr_pref WHERE keyword = %s',
+		array('text'),
+		array('public_'. $field)
+	);
+}
+?>
+<#4989>
+<?php
+foreach(array('instant_messengers', 'delicous') as $field)
+{
+	foreach(array(
+		'usr_settings_hide', 'usr_settings_disable', 'usr_settings_visib_reg', 'usr_settings_changeable_lua',
+		'usr_settings_export', 'usr_settings_course_export', 'usr_settings_group_export', 'require'
+	) as $type)
+	{
+		$ilDB->manipulateF(
+			"DELETE FROM settings WHERE keyword = %s",
+			array("text"),
+			array($type . "_" . $field)
+		);
+	}
+}
+?>

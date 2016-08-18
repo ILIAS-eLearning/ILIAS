@@ -1282,14 +1282,6 @@ class ilUserImportParser extends ilSaxParser
 							if($this->auth_mode_set)
 								$updateUser->setAuthMode($this->userObj->getAuthMode());
 							
-							if (! is_null($this->userObj->getInstantMessengerId("aim"))) $updateUser->setInstantMessengerId("aim", $this->userObj->getInstantMessengerId("aim"));
-							if (! is_null($this->userObj->getInstantMessengerId("msn"))) $updateUser->setInstantMessengerId("msn", $this->userObj->getInstantMessengerId("msn"));
-							if (! is_null($this->userObj->getInstantMessengerId("icq"))) $updateUser->setInstantMessengerId("icq", $this->userObj->getInstantMessengerId("icq"));
-							if (! is_null($this->userObj->getInstantMessengerId("yahoo"))) $updateUser->setInstantMessengerId("yahoo", $this->userObj->getInstantMessengerId("yahoo"));
-							if (! is_null($this->userObj->getInstantMessengerId("skype"))) $updateUser->setInstantMessengerId("skype", $this->userObj->getInstantMessengerId("skype"));
-							if (! is_null($this->userObj->getInstantMessengerId("jabber"))) $updateUser->setInstantMessengerId("jabber", $this->userObj->getInstantMessengerId("jabber"));
-							if (! is_null($this->userObj->getInstantMessengerId("voip"))) $updateUser->setInstantMessengerId("voip", $this->userObj->getInstantMessengerId("voip"));
-
 							// Special handlin since it defaults to 7 (USER_FOLDER_ID)
 							if($this->time_limit_owner_set)
 							{
@@ -1668,17 +1660,9 @@ class ilUserImportParser extends ilSaxParser
 				}
 				break;
 			case 'AccountInfo':
-				if ($this->current_messenger_type =="delicious")
-				{
-					$this->userObj->setDelicious($this->cdata);
-				}
-				elseif ($this->current_messenger_type =="external")
+				if($this->current_messenger_type =="external")
 				{
 					$this->userObj->setExternalAccount($this->cdata);
-				}
-				else
-				{
-					$this->userObj->setInstantMessengerId($this->current_messenger_type, $this->cdata);
 				}
 				break;
 			case 'Pref':

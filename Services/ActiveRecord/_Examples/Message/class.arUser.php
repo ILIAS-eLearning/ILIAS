@@ -322,57 +322,9 @@ class arUser extends ActiveRecord {
 	 *
 	 * @con_has_field true
 	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_icq;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_yahoo;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_msn;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_aim;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_skype;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
 	 * @con_length    32
 	 */
 	protected $feed_hash;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $delicious;
 	/**
 	 * @var int
 	 *
@@ -416,22 +368,6 @@ class arUser extends ActiveRecord {
 	 * @con_is_notnull true
 	 */
 	protected $last_password_change;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_jabber;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $im_voip;
 	/**
 	 * @var int
 	 *
@@ -626,23 +562,6 @@ class arUser extends ActiveRecord {
 		return $this->create_date;
 	}
 
-
-	/**
-	 * @param int $delicious
-	 */
-	public function setDelicious($delicious) {
-		$this->delicious = $delicious;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getDelicious() {
-		return $this->delicious;
-	}
-
-
 	/**
 	 * @param int $department
 	 */
@@ -785,118 +704,6 @@ class arUser extends ActiveRecord {
 	public function getI2passwd() {
 		return $this->i2passwd;
 	}
-
-	/**
-	 * @param int $im_aim
-	 */
-	public function setImAim($im_aim) {
-		$this->im_aim = $im_aim;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImAim() {
-		return $this->im_aim;
-	}
-
-
-	/**
-	 * @param int $im_icq
-	 */
-	public function setImIcq($im_icq) {
-		$this->im_icq = $im_icq;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImIcq() {
-		return $this->im_icq;
-	}
-
-
-	/**
-	 * @param int $im_jabber
-	 */
-	public function setImJabber($im_jabber) {
-		$this->im_jabber = $im_jabber;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImJabber() {
-		return $this->im_jabber;
-	}
-
-
-	/**
-	 * @param int $im_msn
-	 */
-	public function setImMsn($im_msn) {
-		$this->im_msn = $im_msn;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImMsn() {
-		return $this->im_msn;
-	}
-
-
-	/**
-	 * @param int $im_skype
-	 */
-	public function setImSkype($im_skype) {
-		$this->im_skype = $im_skype;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImSkype() {
-		return $this->im_skype;
-	}
-
-
-	/**
-	 * @param int $im_voip
-	 */
-	public function setImVoip($im_voip) {
-		$this->im_voip = $im_voip;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImVoip() {
-		return $this->im_voip;
-	}
-
-
-	/**
-	 * @param int $im_yahoo
-	 */
-	public function setImYahoo($im_yahoo) {
-		$this->im_yahoo = $im_yahoo;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getImYahoo() {
-		return $this->im_yahoo;
-	}
-
 
 	/**
 	 * @param int $inactivation_date

@@ -1288,7 +1288,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		$tpl->parseCurrentBlock();
-		return $authorinfo;
+		return true;
 	}
 	
 	/**
@@ -2883,7 +2883,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$bottom_toolbar                    = clone $ilToolbar;
 		$bottom_toolbar_split_button_items = array();
-
+		
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))
 		{
@@ -3063,7 +3064,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->setParameter($this, 'mark_read', '1');
 				$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
 
-				require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 				$mark_thr_read_button = ilLinkButton::getInstance();
 				$mark_thr_read_button->setCaption('forums_mark_read');
 				$mark_thr_read_button->setUrl($this->ctrl->getLinkTarget($this, 'viewThread'));
@@ -3078,7 +3078,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ctrl->setParameterByClass('ilforumexportgui', 'print_thread', $this->objCurrentTopic->getId());
 			$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_top_fk', $this->objCurrentTopic->getForumId());
 
-			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			
 			$print_thr_button = ilLinkButton::getInstance();
 			$print_thr_button->setCaption('forums_print_thread');
 			$print_thr_button->setUrl($this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread'));
@@ -3171,7 +3171,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id'])
 			)
 			{
-				require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 				$reply_button = ilLinkButton::getInstance();
 				$reply_button->setPrimary(true);
 				$reply_button->setCaption('add_new_answer');
@@ -3533,7 +3532,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$bottom_toolbar->addSeparator();
 		}
 
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 		$to_top_button = ilLinkButton::getInstance();
 		$to_top_button->setCaption('top_of_page');
 		$to_top_button->setUrl('#frm_page_top');
@@ -6621,9 +6619,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 	
 	/**
-	 * @param bool        $is_post
-	 * @param ilForumPost $node
-	 * @param int         $Start
+	 * @param bool                  $is_post
+	 * @param ilForumPost           $node
+	 * @param int                   $Start
+	 * @param ilForumPostDraft|NULL $draft
 	 * @throws ilSplitButtonException
 	 */
 	private function renderSplitButton($is_post = true, ilForumPost $node, $Start = 0, ilForumPostDraft $draft = NULL)
@@ -6865,6 +6864,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 	}
 	
+	/**
+	 * @param $draft_id
+	 * @return bool
+	 */
 	public function checkDraftAccess($draft_id)
 	{
 		global $ilUser, $ilAccess, $ilErr, $lng;
@@ -6880,6 +6883,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 	
+	/**
+	 * @param $draft_id
+	 */
 	public function doHistoryCheck($draft_id)
 	{
 	

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once ('./Services/Table/classes/class.ilTable2GUI.php');
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Table for object role permissions
@@ -100,7 +101,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$txt_type = ilPlugin::lookupTxt("rep_robj", $row["type"], "obj_".$row["type"]);						
+			$txt_type = ilObjectPlugin::lookupTxtById($row["type"], "obj_".$row["type"]);
 		}
 		
 		$this->tpl->setVariable("TITLE", $row["title"]);

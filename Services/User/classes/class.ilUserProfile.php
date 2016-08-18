@@ -237,27 +237,11 @@ class ilUserProfile
 						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "contact_data"),	
-		"instant_messengers" => array(
-						"input" => "messenger",
-						"types" => array("icq","yahoo","msn","aim","skype","jabber","voip"), 
-						"maxlength" => 40,
-						"size" => 40,
-						"course_export_hide" => true,
-						"group_export_hide" => true,
-						"lists_hide" => true,
-						"required_hide" => true, // #17302
-						"group" => "instant_messengers"),
 		"matriculation" => array(
 						"input" => "text",
 						"maxlength" => 40,
 						"size" => 40,
 						"method" => "getMatriculation",
-						"group" => "other"),
-		"delicious" => array(
-						"input" => "text",
-						"maxlength" => 40,
-						"size" => 40,
-						"method" => "getDelicious",
 						"group" => "other"),
 		"language" => array(
 						"input" => "language",
@@ -707,29 +691,6 @@ class ilUserProfile
 							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
 						$a_form->addItem($ta);
-					}
-					break;
-					
-				case "messenger":
-					if (ilUserProfile::userSettingVisible("instant_messengers"))
-					{
-						$im_arr = $p["types"];
-						foreach ($im_arr as $im_name)
-						{
-							$im = new ilTextInputGUI($lng->txt("im_".$im_name), "usr_im_".$im_name);
-							if($a_user)
-							{
-								$im->setValue($a_user->getInstantMessengerId($im_name));
-							}
-							$im->setMaxLength($p["maxlength"]);
-							$im->setSize($p["size"]);
-							// $im->setRequired($ilSetting->get("require_"."instant_messengers"));
-							if(!$im->getRequired() || $im->getValue())
-							{
-								$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));
-							}
-							$a_form->addItem($im);
-						}
 					}
 					break;
 					

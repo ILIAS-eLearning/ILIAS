@@ -107,6 +107,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 				$gui = new ilAssQuestionHintRequestGUI($this, ilTestPlayerCommands::SHOW_QUESTION, $questionGUI, $questionHintTracking);
 
+// fau: testNav - save the 'answer changed' status for viewing hint requests
+				$this->setAnswerChangedParameter($this->getAnswerChangedParameter());
+// fau.
 				$ret = $this->ctrl->forwardCommand($gui);
 
 				break;
@@ -285,20 +288,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSequence->getOrderedSequenceQuestions()
 		);
 		
-		$presentationMode = $this->getPresentationModeParameter();
-		$instantResponse = $this->getInstantResponseParameter();
-
-		if( !$presentationMode )
-		{
-			$presentationMode = $this->getQuestionsDefaultPresentationMode($isQuestionWorkedThrough);
-		}
-
+// fau: testNav - always use edit mode, except for fixed answer
 		if( $this->isParticipantsAnswerFixed($questionId) )
 		{
 			$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
 			$instantResponse = true;
 		}
-		
+		else
+		{
+			$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
+			$instantResponse = $this->getInstantResponseParameter();
+		}
+// fau.
+
 		$questionGui = $this->getQuestionGuiInstance($questionId);
 
 		if( !($questionGui instanceof assQuestionGUI) )
@@ -345,8 +347,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
-				$navigationToolbarGUI->setDisabledStateEnabled(true);
-				
+// fau: testNav - enable navigation toolbar in edit mode
+				$navigationToolbarGUI->setDisabledStateEnabled(false);
+// fau.
 				$this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 				
 				break;
@@ -373,16 +376,27 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$navigationToolbarGUI->build();
 		$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
-		$this->populateQuestionNavigation(
-			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
-		);
+// fau: testNav - enable the question navigation in edit mode
+		$this->populateQuestionNavigation($sequenceElement, false);
+// fau.
 		
 		if ($instantResponse)
 		{
+// fau: testNav - always use authorized solution for instant feedback
 			$this->populateInstantResponseBlocks(
-				$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
+				$questionGui, true
 			);
+// fau.
 		}
+
+// fau: testNav - add feedback modal
+		if (!empty($_SESSION['forced_feedback_navigation_url']))
+		{
+			$this->populateInstantResponseModal($questionGui, $_SESSION['forced_feedback_navigation_url']);
+			unset($_SESSION['forced_feedback_navigation_url']);
+		}
+// fau.
+
 	}
 
 	protected function editSolutionCmd()
@@ -459,6 +473,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
+// fau: testNav - remember to prevent the navigation confirmation
+		$this->saveNavigationPreventConfirmation();
+// fau.
+
+// fau: testNav - handle navigation after saving
+		if ($this->getNavigationUrlParameter())
+		{
+			ilUtil::redirect($this->getNavigationUrlParameter());
+		}
+		else
+		{
+			$this->ctrl->saveParameter($this, 'sequence');
+		}
+// fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
@@ -634,15 +662,33 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->saveQuestionSolution(
-				$this->object->isInstantFeedbackAnswerFixationEnabled()
-			);
-			
+// fau: testNav - handle answer fixation and intermediate submit
+			// always save the question when feedback is requested
+			// if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
+			if (true)
+			{
+				$this->saveQuestionSolution(true);
+				$this->removeIntermediateSolution();
+				$this->setAnswerChangedParameter(false);
+			}
+			else
+			{
+				$this->handleIntermediateSubmit();
+			}
+// fau.
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();
 		}
 		
 		$this->ctrl->setParameter($this, 'instresp', 1);
+
+// fau: testNav - handle navigation after feedback
+		if ($this->getNavigationUrlParameter())
+		{
+			$this->saveNavigationPreventConfirmation();
+			$_SESSION['forced_feedback_navigation_url'] = $this->getNavigationUrlParameter();
+		}
+// fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
@@ -656,6 +702,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution(false);
+// fau: testNav - add changed status of the question
+			$this->setAnswerChangedParameter(true);
+// fau.
 		}
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);

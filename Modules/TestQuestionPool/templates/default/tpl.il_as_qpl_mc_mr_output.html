@@ -3,7 +3,9 @@
 <!-- BEGIN answer_row -->	
 		<tr>
 			<td class="middle" width="15">
-				<input type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} />
+                <!-- fau: testNav - added class for ilAssMultipleChoice.js -->
+				<input class="ilAssMultipleChoiceResult" type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} />
+                <!-- fau. -->
 			</td>
 			<td class="middle">
 				<label for="answer_{ANSWER_ID}">
@@ -35,4 +37,25 @@
 		</tr>
 <!-- END feedback -->
 <!-- END answer_row -->	
+
+<!-- fau: testNav - additional checkbox 'none of the above', added for a deprecated test setting -->
+<!-- BEGIN none_above -->
+    <tr>
+        <td></td>
+        <td><hr /></td>
+    </tr>
+    <tr>
+        <td class="middle" width="15">
+            <input class="ilAssMultipleChoiceNone" type="radio" name="mc_none_above" value="1" id="mc_none_above" {CHECKED_NONE_ABOVE} />
+        </td>
+        <td class="middle">
+            <label for="mc_none_above">
+                {LABEL_NONE_ABOVE}
+            </label>
+        </td>
+        <td class="middle">
+    </tr>
+<!-- END none_above -->
+<!-- fau. -->
+
 	</table>
