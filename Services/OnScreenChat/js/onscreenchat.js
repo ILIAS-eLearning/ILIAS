@@ -171,6 +171,7 @@
 			}, 0);
 
 			if(conversation.latestMessage != null) {
+
 				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
 			}
 
@@ -266,6 +267,7 @@
 		},
 
 		onConversation: function(conversation) {
+			console.log(conversation.id);
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
