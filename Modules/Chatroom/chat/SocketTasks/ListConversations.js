@@ -10,7 +10,6 @@ module.exports = function() {
 
 	async.eachSeries(conversations, function(conversation, nextLoop){
 		namespace.getDatabase().getLatestMessage(conversation, function(row){
-			console.log("got", row.id, row.conversation_id);
 			row.userId = row.user_id;
 			row.conversationId = row.conversation_id;
 			conversation.setLatestMessage(row);
