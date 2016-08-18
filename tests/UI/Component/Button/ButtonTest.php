@@ -129,7 +129,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\" >".
+		$expected = "<a class=\"$css_classes\" href=\"$ln\" data-action=\"$ln\">".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
@@ -148,7 +148,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes ilSubmitInactive\"  data-action=\"$ln\" >".
+		$expected = "<a class=\"$css_classes ilSubmitInactive\" data-action=\"$ln\">".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
@@ -161,7 +161,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($b));
 
-		$expected = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" >".
+		$expected = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">".
 					"	<span aria-hidden=\"true\">x</span>".
 					"	<span class=\"sr-only\">Close</span>".
 					"</button>";
@@ -188,7 +188,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$id = $ids[0];
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes \" href=\"$ln\" data-action=\"$ln\" id=\"$id\">".
+		$expected = "<a class=\"$css_classes\" href=\"$ln\" data-action=\"$ln\" id=\"$id\">".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
