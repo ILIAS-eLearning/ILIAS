@@ -1041,6 +1041,8 @@ class ilMail
 	{
 		try
 		{
+			include_once 'Services/Mail/classes/class.ilMailFormCall.php';
+
 			if(ilMailFormCall::getContextId())
 			{
 				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
