@@ -95,15 +95,6 @@ class ilObjUser extends ilObject
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
 
-	var $im_icq;
-	var $im_yahoo;
-	var $im_msn;
-	var $im_aim;
-	var $im_skype;
-	var $im_jabber;
-	var $im_voip;
-
-	var $delicious;
 	var $latitude;
 	var $longitude;
 	var $loc_zoom;
@@ -379,17 +370,7 @@ class ilObjUser extends ilObject
 		$this->setPasswordEncodingType($a_data['passwd_enc_type']);
 		$this->setPasswordSalt($a_data['passwd_salt']);
 
-		// instant messenger data
-		$this->setInstantMessengerId('icq',$a_data["im_icq"]);
-		$this->setInstantMessengerId('yahoo',$a_data["im_yahoo"]);
-		$this->setInstantMessengerId('msn',$a_data["im_msn"]);
-		$this->setInstantMessengerId('aim',$a_data["im_aim"]);
-		$this->setInstantMessengerId('skype',$a_data["im_skype"]);
-		$this->setInstantMessengerId('jabber',$a_data["im_jabber"]);
-		$this->setInstantMessengerId('voip',$a_data["im_voip"]);
-
 		// other data
-		$this->setDelicious($a_data["delicious"]);
 		$this->setLatitude($a_data["latitude"]);
 		$this->setLongitude($a_data["longitude"]);
 		$this->setLocationZoom($a_data["loc_zoom"]);
@@ -512,18 +493,10 @@ class ilObjUser extends ilObject
 			"auth_mode" => array("text", $this->getAuthMode()),
 			"ext_account" => array("text", $this->getExternalAccount()),
 			"profile_incomplete" => array("integer", $this->getProfileIncomplete()),
-			"im_icq" => array("text", $this->im_icq),
-			"im_yahoo" => array("text", $this->im_yahoo),
-			"im_msn" => array("text", $this->im_msn),
-			"im_aim" => array("text", $this->im_aim),
-			"im_skype" => array("text", $this->im_skype),
-			"delicious" => array("text", $this->delicious),
 			"latitude" => array("text", $this->latitude),
 			"longitude" => array("text", $this->longitude),
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
-			"im_jabber" => array("text", $this->im_jabber),
-			"im_voip" => array("text", $this->im_voip),
 			'inactivation_date' => array('timestamp', $this->inactivation_date),
 			'is_self_registered' => array('integer', (int)$this->is_self_registered)
 			);
@@ -610,18 +583,10 @@ class ilObjUser extends ilObject
 			"profile_incomplete" => array("integer", $this->getProfileIncomplete()),
 			"auth_mode" => array("text", $this->getAuthMode()),
 			"ext_account" => array("text", $this->getExternalAccount()),
-			"im_icq" => array("text", $this->im_icq),
-			"im_yahoo" => array("text", $this->im_yahoo),
-			"im_msn" => array("text", $this->im_msn),
-			"im_aim" => array("text", $this->im_aim),
-			"im_skype" => array("text", $this->im_skype),
-			"delicious" => array("text", $this->delicious),
 			"latitude" => array("text", $this->latitude),
 			"longitude" => array("text", $this->longitude),
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", $this->last_password_change_ts),
-			"im_jabber" => array("text", $this->im_jabber),
-			"im_voip" => array("text", $this->im_voip),
 			"last_update" => array("timestamp", ilUtil::now()),
 			'inactivation_date' => array('timestamp', $this->inactivation_date)
 			);
@@ -732,16 +697,7 @@ class ilObjUser extends ilObject
 		}
 		return $fullname;
 	}
-	
-	/**
-	* Lookup IM
-	*/
-	static function _lookupIm($a_user_id, $a_type)
-	{
-		return ilObjUser::_lookup($a_user_id, "im_".$a_type);
-	}
-	
-	
+
 	/**
 	* Lookup email
 	*/
@@ -4329,28 +4285,6 @@ class ilObjUser extends ilObject
 		}
 
 		return $body;
-	}
-
-	function setInstantMessengerId($a_im_type, $a_im_id)
-	{
-		$var = "im_".$a_im_type;
-		$this->$var = $a_im_id;
-	}
-
-	function getInstantMessengerId($a_im_type)
-	{
-		$var = "im_".$a_im_type;
-		return $this->$var;
-	}
-
-	function setDelicious($a_delicious)
-	{
-		$this->delicious = $a_delicious;
-	}
-
-	function getDelicious()
-	{
-		return $this->delicious;
 	}
 
 	/**

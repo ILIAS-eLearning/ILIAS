@@ -213,15 +213,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$ti_prop->setSize(3);
 			$cb_prop->addSubItem($ti_prop);
 			
-			// osi host
-			// see http://www.onlinestatus.org
-			$ti_prop = new ilTextInputGUI($lng->txt("pd_osi_host"),
-				"osi_host");
-			$ti_prop->setValue($pd_set->get("osi_host"));
-			$ti_prop->setInfo($lng->txt("pd_osi_host_info").
-				' <a href="http://www.onlinestatus.org" target="_blank">http://www.onlinestatus.org</a>');
-			$cb_prop->addSubItem($ti_prop);
-			
 		$form->addItem($cb_prop);
 */
 		// Enable 'My Offers' (default personal items)
@@ -298,8 +289,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 //		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 //		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
-//		$pd_set->set("osi_host", $_POST["osi_host"]);
-		
+
 		// Validate personal desktop view
 		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
 		{

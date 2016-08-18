@@ -2524,7 +2524,6 @@ common#:#deleted_user_account#:#Deleted user account
 common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
 common#:#deleted#:#Deleted
-common#:#delicious#:#Delicious Account
 common#:#deliver#:#Deliver
 common#:#department#:#Department
 common#:#desc#:#Description
@@ -3102,20 +3101,6 @@ common#:#il_grp_status_open#:#Group open
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder Username
 common#:#ilias_username#:#ILIAS Username
 common#:#ilias_version#:#ILIAS version
-common#:#im_aim_icon#:#AIM Logo
-common#:#im_aim#:#AIM
-common#:#im_icq_icon#:#ICQ Logo
-common#:#im_icq#:#ICQ
-common#:#im_jabber_icon#:#Jabber Logo
-common#:#im_jabber#:#Jabber
-common#:#im_msn_icon#:#MSN Logo
-common#:#im_msn#:#MSN
-common#:#im_skype_icon#:#Skype Logo
-common#:#im_skype#:#Skype
-common#:#im_voip_icon#:#VoIP Logo
-common#:#im_voip#:#VoIP
-common#:#im_yahoo_icon#:#Yahoo Logo
-common#:#im_yahoo#:#Yahoo
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#image#:#Image
 common#:#import_alm#:#Import AICC Package
@@ -6599,11 +6584,6 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
-delic#:#delic_add_info_links#:#Add Delicious Links on Info Screens
-delic#:#delic_add_to_delicious#:#Add to Delicious
-delic#:#delic_extt_delicious#:#Delicious
-delic#:#delic_settings#:#Delicious Settings
-delic#:#delic_user_profile#:#Enable Delicious Account Setting in User Profile
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning a user to a course the activation period will be extended by the given number months.
@@ -8204,8 +8184,6 @@ pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships#:#My Memberships
 pd#:#pd_my_offers#:#Selected Items
-pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:
-pd#:#pd_osi_host#:#OSI Host
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_settings#:#Personal Desktop

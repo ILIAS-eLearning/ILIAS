@@ -3087,7 +3087,6 @@ common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deleted_user_account#:#Gelöschtes Benutzerkonto
 common#:#deleted_users#:#Die Benutzer wurden gelöscht.
-common#:#delicious#:#Delicious-Account
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
@@ -3691,20 +3690,6 @@ common#:#il_grp_status_open#:#Offene Gruppe
 common#:#ilias_and_webfolder_username#:#ILIAS- und Webordner-Benutzername
 common#:#ilias_username#:#ILIAS-Benutzername
 common#:#ilias_version#:#ILIAS-Version
-common#:#im_aim#:#AIM
-common#:#im_aim_icon#:#AIM-Logo
-common#:#im_icq#:#ICQ
-common#:#im_icq_icon#:#ICQ-Logo
-common#:#im_jabber#:#Jabber
-common#:#im_jabber_icon#:#Jabber-Logo
-common#:#im_msn#:#MSN
-common#:#im_msn_icon#:#MSN-Logo
-common#:#im_skype#:#Skype
-common#:#im_skype_icon#:#Skype-Logo
-common#:#im_voip#:#VoIP
-common#:#im_voip_icon#:#VoIP Logo
-common#:#im_yahoo#:#Yahoo
-common#:#im_yahoo_icon#:#Yahoo-Logo
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
@@ -7595,11 +7580,6 @@ dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
 dateplaner#:#yui_cal_choose_month#:#Monat:
 dateplaner#:#yui_cal_choose_year#:#Jahr:
-delic#:#delic_add_info_links#:#Delicious-Links auf Info-Seite anzeigen
-delic#:#delic_add_to_delicious#:#Zu Delicious hinzufügen
-delic#:#delic_extt_delicious#:#Delicious
-delic#:#delic_settings#:#Delicious-Einstellungen
-delic#:#delic_user_profile#:#Einstellungen für Delicious-Account im Persönlichen Profil aktivieren
 didactic#:#didactic_activated_msg#:#Die ausgewählten didaktischen Vorlagen wurden aktiviert.
 didactic#:#didactic_adm_tab#:#Didaktische Vorlagen
 didactic#:#didactic_applicable_for#:#Anwendbar auf
@@ -9372,8 +9352,6 @@ pd#:#pd_my_memberships#:#Meine Mitgliedschaften
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_offers#:#Ausgewählte Angebote
-pd#:#pd_osi_host#:#OSI-Host
-pd#:#pd_osi_host_info#:#Server zur Anzeige des Instant-Messenger-Online-Status (optional). Siehe:
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
 pd#:#pd_settings#:#Einstellungen

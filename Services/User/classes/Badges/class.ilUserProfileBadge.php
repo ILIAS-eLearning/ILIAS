@@ -74,21 +74,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 		{			
 			$field = substr($field, 4);
 			
-			// instant messengers 
-			if(substr($field, 0, 3) == "im_")
-			{
-				$im = substr($field, 3);
-				if($user->getPref("public_im_".$im) != "y")
-				{
-					return false;					
-				}
-				if(!$user->getInstantMessengerId($im))
-				{
-					return false;
-				}
-			}
-			// udf
-			else if(substr($field, 0, 4) == "udf_")
+			if(substr($field, 0, 4) == "udf_")
 			{
 				$udf_field_id = substr($field, 4);
 				if($user->getPref("public_udf_".$udf_field_id) != "y")
