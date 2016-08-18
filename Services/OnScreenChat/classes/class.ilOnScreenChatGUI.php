@@ -142,7 +142,8 @@ class ilOnScreenChatGUI
 				'username' => $DIC->user()->getLogin(),
 				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
-				'emoticons' => self::getEmoticons($settings)
+				'emoticons' => self::getEmoticons($settings),
+				'locale' => $DIC->language()->getLangKey()
 			);
 
 			$chatConfig = array(
