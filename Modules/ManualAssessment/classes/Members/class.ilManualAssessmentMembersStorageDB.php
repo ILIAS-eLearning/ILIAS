@@ -48,6 +48,7 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 				.'	,'.ilManualAssessmentMembers::FIELD_INTERNAL_NOTE.' = '.$this->db->quote($member->internalNote(),'text')
 				.'	,'.ilManualAssessmentMembers::FIELD_NOTIFY.' = '.$this->db->quote($member->notify(),'integer')
 				.'	,'.ilManualAssessmentMembers::FIELD_FINALIZED.' = '.$this->db->quote($member->finalized(),'integer')
+				.'	,'.ilManualAssessmentMembers::FIELD_NOTIFICATION_TS.' = '.$this->db->quote($member->notificationTS(),'integer')
 				.'	WHERE obj_id = '.$this->db->quote($member->assessmentId(),'integer')
 				.'		AND usr_id = '.$this->db->quote($member->id(),'integer');
 		$this->db->manipulate($sql);
