@@ -11321,7 +11321,7 @@ div.ilPCMyCoursesPath {
   /*height: 100px;*/
   overflow: visible;
   pointer-events: none;
-  z-index: 5000;
+  z-index: 1039;
 }
 #onscreenchat-container .row {
   position: relative;
