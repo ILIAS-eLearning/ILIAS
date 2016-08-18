@@ -17,15 +17,58 @@ class ilOnScreenChatGUI
 	protected static $frontend_initialized = false;
 
 	/**
+	 * @param ilSetting $chatSettings
 	 * @return bool
 	 */
-	protected static function isOnScreenChatAccessible()
+	protected static function isOnScreenChatAccessible(ilSetting $chatSettings)
 	{
 		global $DIC;
 
-		$chatSettings = new ilSetting('chatroom');
-
 		return !$chatSettings->get('chat_enabled') || !$chatSettings->get('enable_osc') || !$DIC->user() || $DIC->user()->isAnonymous();
+	}
+
+	/**
+	 * @param ilChatroomServerSettings $chatSettings
+	 * @return array
+	 */
+	protected static function getEmoticons(ilChatroomServerSettings $chatSettings)
+	{
+		$smileys = array();
+
+		if($chatSettings->getSmiliesEnabled())
+		{
+			require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
+			$smileys_array = ilChatroomSmilies::_getSmilies();
+			foreach($smileys_array as $smiley_array)
+			{
+				$new_keys = array();
+				$new_val  = '';
+				foreach($smiley_array as $key => $value)
+				{
+					if($key == 'smiley_keywords')
+					{
+						$new_keys = explode("\n", $value);
+					}
+
+					if($key == 'smiley_fullpath')
+					{
+						$new_val = $value;
+					}
+				}
+
+				if(!$new_keys || !$new_val)
+				{
+					continue;
+				}
+
+				foreach($new_keys as $new_key)
+				{
+					$smileys[$new_key] = $new_val;
+				}
+			}
+		}
+
+		return $smileys;
 	}
 
 	public function executeCommand()
@@ -75,7 +118,9 @@ class ilOnScreenChatGUI
 
 		if(!self::$frontend_initialized)
 		{
-			if(self::isOnScreenChatAccessible())
+			$clientSettings = new ilSetting('chatroom');
+
+			if(self::isOnScreenChatAccessible($clientSettings))
 			{
 				self::$frontend_initialized = true;
 				return;
@@ -92,7 +137,8 @@ class ilOnScreenChatGUI
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
 				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
-				'loaderImg' => ilUtil::getImagePath("loader.svg")
+				'loaderImg' => ilUtil::getImagePath("loader.svg"),
+				'emoticons' => self::getEmoticons($settings)
 			);
 			$chatConfig = array(
 				'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
@@ -103,6 +149,7 @@ class ilOnScreenChatGUI
 			$DIC->language()->loadLanguageModule('onscreenchat');
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
+			$DIC['tpl']->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
 			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
