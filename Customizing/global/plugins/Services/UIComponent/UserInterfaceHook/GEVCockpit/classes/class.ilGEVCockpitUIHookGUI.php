@@ -73,6 +73,19 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 				return "training_admin";
 			}
 		}
+		if ($this->isSearch()) {
+			if ($_GET["active_tab"] == "praes") {
+				return "search_onside";
+			}
+			if ($_GET["active_tab"] == "webinar") {
+				return "search_webinar";
+			}
+			if ($_GET["active_tab"] == "self") {
+				return "search_wbt";
+			}
+			return "search_all";
+		}
+
 		return null;
 	}
 
