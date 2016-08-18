@@ -22,7 +22,6 @@ class ilManualAssessmentMember {
 		$this->internal_note = $data[ilManualAssessmentMembers::FIELD_INTERNAL_NOTE];
 		$this->examiner_id = $data[ilManualAssessmentMembers::FIELD_EXAMINER_ID];
 		$this->notify = $data[ilManualAssessmentMembers::FIELD_NOTIFY];
-		$this->grade = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->finalized = $data[ilManualAssessmentMembers::FIELD_FINALIZED];
 		$this->lp_status = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->notification_ts = $data[ilManualAssessmentMembers::FIELD_NOTIFICATION_TS];
@@ -51,7 +50,7 @@ class ilManualAssessmentMember {
 			throw new ilManualAssessmentException('must finalize before notification');
 		}
 		if($this->notify) {
-			$notificator = (string)$this->grade === (string)ilManualAssessmentMembers::LP_COMPLETED ?
+			$notificator = (string)$this->lp_status === (string)ilManualAssessmentMembers::LP_COMPLETED ?
 				$notificator->withOccasionCompleted() :
 				$notificator->withOccasionFailed();
 			$notificator->withReciever($this)->send();
@@ -60,9 +59,6 @@ class ilManualAssessmentMember {
 		return $this;
 	}
 
-	public function grade() {
-		return $this->grade;
-	}
 
 	public function id() {
 		return $this->usr->getId();
