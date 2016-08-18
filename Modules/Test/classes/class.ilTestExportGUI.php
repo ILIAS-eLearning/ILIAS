@@ -58,24 +58,6 @@ class ilTestExportGUI extends ilExportGUI
 	/**
 	 * Create test export file
 	 */
-	public function createTestExport()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
-
-		require_once 'Modules/Test/classes/class.ilTestExport.php';
-		$test_exp = new ilTestExport($this->obj, 'xml');
-		$test_exp->buildExportFile();
-		ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
-		$ilCtrl->redirectByClass('iltestexportgui');
-	}
-
-	/**
-	 * Create test export file
-	 */
 	public function createTestExportWithResults()
 	{
 		/**
@@ -103,8 +85,9 @@ class ilTestExportGUI extends ilExportGUI
 		 */
 		global $lng, $ilCtrl;
 
-		require_once 'Modules/Test/classes/class.ilTestExport.php';
-		$test_exp = new ilTestExport($this->obj, 'results');
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this->obj);
+		$test_exp = $expFactory->getExporter('results');
 		$test_exp->buildExportFile();
 		ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
 		$ilCtrl->redirectByClass('iltestexportgui');

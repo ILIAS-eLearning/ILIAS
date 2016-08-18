@@ -684,18 +684,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this->object);
+
 		switch ($_POST["export_type"])
 		{
 			case "excel":
-				require_once './Modules/Test/classes/class.ilTestExport.php';
-				$exportObj = new ilTestExport($this->object, "results");
-				$exportObj->exportToExcel($deliver = TRUE, $filterby, $filtertext, $passedonly);
+				$expFactory->getExporter('results')->exportToExcel(
+					$deliver = TRUE, $filterby, $filtertext, $passedonly
+				);
 				break;
 
 			case "csv":
-				require_once './Modules/Test/classes/class.ilTestExport.php';
-				$exportObj = new ilTestExport($this->object, "results");
-				$exportObj->exportToCSV($deliver = TRUE, $filterby, $filtertext, $passedonly);
+				$expFactory->getExporter('results')->exportToCSV(
+					$deliver = TRUE, $filterby, $filtertext, $passedonly
+				);
 				break;
 
 			case "certificate":
@@ -719,16 +722,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function exportAggregatedResults()
 	{
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this->object);
+		$exportObj = $expFactory->getExporter('aggregated');
+
 		switch ($_POST["export_type"])
 		{
 			case "excel":
-				include_once "./Modules/Test/classes/class.ilTestExport.php";
-				$exportObj = new ilTestExport($this->object, "aggregated");
 				$exportObj->exportToExcel($deliver = TRUE);
 				break;
 			case "csv":
-				include_once "./Modules/Test/classes/class.ilTestExport.php";
-				$exportObj = new ilTestExport($this->object, "aggregated");
 				$exportObj->exportToCSV($deliver = TRUE);
 				break;
 		}

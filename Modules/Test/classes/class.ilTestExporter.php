@@ -35,9 +35,10 @@ class ilTestExporter extends ilXmlExporter
 		include_once './Modules/Test/classes/class.ilObjTest.php';
 		$tst = new ilObjTest($a_id,false);
 
-		include_once("./Modules/Test/classes/class.ilTestExport.php");
-		$test_exp = new ilTestExport($tst, 'xml');
-		$zip = $test_exp->buildExportFile();
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($tst);
+		$testExport = $expFactory->getExporter('xml');
+		$zip = $testExport->buildExportFile();
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': Created zip file '.$zip);
 	}

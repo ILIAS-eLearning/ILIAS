@@ -8,12 +8,13 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author Maximilian Becker <mbecker@databay.de>
+ * @author Björn Heyser <bheyser@databay.de>
  * 
  * @version $Id$
  *
  * @ingroup ModulesTest
  */
-class ilTestExport
+abstract class ilTestExport
 {
 	/** @var  ilErrorHandling $err */
 	var $err;			// error object
@@ -1006,6 +1007,8 @@ class ilTestExport
 		}
 	}
 
+	abstract protected function initXmlExport();
+
 	/**
 	* build xml export file
 	*/
@@ -1014,6 +1017,8 @@ class ilTestExport
 		global $ilBench;
 
 		$ilBench->start("TestExport", "buildExportFile");
+
+		$this->initXmlExport();
 
 		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$this->xml = new ilXmlWriter;
@@ -1044,7 +1049,7 @@ class ilTestExport
 
 		// write qti file
 		$qti_file = fopen($this->export_dir."/".$this->subdir."/".$this->qti_filename, "w");
-		fwrite($qti_file, $this->test_obj->toXML());
+		fwrite($qti_file, $this->getQtiXml());
 		fclose($qti_file);
 
 		// get xml content
@@ -1094,6 +1099,38 @@ class ilTestExport
 		$ilBench->stop("TestExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
+	}
+	
+	protected function getQtiXml()
+	{
+		$tstQtiXml = $this->test_obj->toXML();
+		$qstQtiXml = $this->getQuestionsQtiXml();
+		
+		if (strpos($tstQtiXml, "</section>") !== false)
+		{
+			$qtiXml = str_replace("</section>", "$qstQtiXml</section>", $tstQtiXml);
+		}
+		else
+		{
+			$qtiXml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n$qstQtiXml</section>", $tstQtiXml);
+		}
+		
+		return $qtiXml;
+	}
+	
+	abstract protected function getQuestionsQtiXml();
+	
+	protected function getQuestionQtiXml($questionId)
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$questionOBJ = assQuestion::_instantiateQuestion($questionId);
+		$xml = $questionOBJ->toXML(false);
+
+		// still neccessary? there is an include header flag!?
+		$xml = preg_replace("/<questestinterop>/", "", $xml);
+		$xml = preg_replace("/<\/questestinterop>/", "", $xml);
+		
+		return $xml;
 	}
 
 	function exportXHTMLMediaObjects($a_export_dir)

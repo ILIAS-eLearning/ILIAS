@@ -6574,22 +6574,6 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlEndTag("questestinterop");
 
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
-
-		foreach ($this->questions as $question_id)
-		{
-			$question =& ilObjTest::_instanciateQuestion($question_id);
-			$qti_question = $question->toXML(false);
-			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
-			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
-			if (strpos($xml, "</section>") !== false)
-			{
-				$xml = str_replace("</section>", "$qti_question</section>", $xml);
-			}
-			else
-			{
-				$xml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n$qti_question</section>", $xml);
-			}
-		}
 		return $xml;
 	}
 
@@ -10497,8 +10481,9 @@ function getAnswerFeedbackPoints()
 	*/
 	function getXMLZip()
 	{
-		include_once("./Modules/Test/classes/class.ilTestExport.php");
-		$test_exp = new ilTestExport($this, "xml");
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this);
+		$test_exp = $expFactory->getExporter('xml');
 		return $test_exp->buildExportFile();
 	}
 	
@@ -10551,8 +10536,9 @@ function getAnswerFeedbackPoints()
 		$owner_id = $this->getOwner();
 		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 
-		include_once "./Modules/Test/classes/class.ilTestExport.php";
-		$exportObj = new ilTestExport($this, "results");
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this);
+		$exportObj = $expFactory->getExporter('results');
 		$file = $exportObj->exportToExcel($deliver = FALSE, 'active_id', $active_id, $passedonly = FALSE);
 		include_once "./Services/Mail/classes/class.ilFileDataMail.php";
 		$fd = new ilFileDataMail(ANONYMOUS_USER_ID);
