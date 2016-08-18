@@ -7,7 +7,10 @@
 
 
 (function($, $scope, $chat, $menu){
-'use strict';
+	'use strict';
+
+	var smileys = {};
+
 	$scope.il.OnScreenChatJQueryTriggers = {
 		triggers: {
 			participantEvent: function(){},
@@ -104,6 +107,8 @@
 					chatWindow.hide();
 				}
 			});
+
+			smileys = new Smileys(getModule().config.emoticons);
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
@@ -319,7 +324,7 @@
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
-			template = template.replace(/\[\[message]\]/g, message);
+			template = template.replace(/\[\[message]\]/g,  smileys.replace(message));
 			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
 			template = $(template).find('li.' + position).html();
 
@@ -424,6 +429,103 @@
 			}
 		}
 		return "";
+	};
+
+	/**
+	 * This class renders the smiley selection for ChatActions.
+	 * It also replaces all smileys in a chat messages.
+	 *
+	 * @params {array} _smileys
+	 * @constructor
+	 */
+	var Smileys = function Smileys(_smileys) {
+		/**
+		 * Sets smileys into text
+		 *
+		 * @param {string} message
+		 * @returns {string}
+		 */
+		this.replace = function (message) {
+			if (typeof _smileys == "string") {
+				return message;
+			}
+
+			for (var i in _smileys) {
+				while (message.indexOf(i) != -1) {
+					message = message.replace(i, '<img src="' + _smileys[i] + '" />');
+				}
+			}
+
+			return message;
+		};
+
+		this.render = function() {
+			if (typeof _smileys == "object") {
+				if (_smileys.length == 0) {
+					return;
+				}
+				// Emoticons
+				var $emoticons_flyout_trigger = $('<a></a>');
+				var $emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>');
+				var $emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
+					.append($emoticons_flyout_trigger)
+					.append($emoticons_flyout);
+
+				$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
+
+				if ($.browser.chrome || $.browser.safari) {
+					$emoticons_panel.css("top", "3px");
+				}
+
+				var $emoticons_table = $("<table></table>");
+				var $emoticons_row = null;
+				var cnt = 0;
+				var emoticonMap = new Object();
+				for (var i in _smileys) {
+					if (emoticonMap[_smileys[i]]) {
+						var $emoticon = emoticonMap[_smileys[i]];
+					} else {
+						if (cnt % 6 == 0) {
+							$emoticons_row = $("<tr></tr>");
+							$emoticons_table.append($emoticons_row);
+						}
+
+						var $emoticon = $('<img src="' + _smileys[i] + '" alt="" title="" />');
+						$emoticon.data("emoticon", i);
+						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
+
+						emoticonMap[_smileys[i]] = $emoticon;
+
+						++cnt;
+					}
+					$emoticon.attr({
+						alt:   [$emoticon.attr('alt').toString(), i].join(' '),
+						title: [$emoticon.attr('title').toString(), i].join(' ')
+					});
+				}
+				$emoticons_flyout.append($emoticons_table);
+
+				$emoticons_flyout_trigger.click(function (e) {
+					$emoticons_flyout.toggle();
+				}).toggle(function () {
+					$(this).addClass("active");
+				}, function () {
+					$(this).removeClass("active");
+				});
+
+				$emoticons_panel.bind('clickoutside', function (event) {
+					if ($emoticons_flyout_trigger.hasClass("active")) {
+						$emoticons_flyout_trigger.click();
+					}
+				});
+
+				$("#iosChatEmoticonsPanelFlyout a").click(function () {
+					$emoticons_flyout_trigger.click();
+					alert("x");
+					//$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
+				});
+			}
+		};
 	};
 
 })(jQuery, window, window.il.Chat, window.il.OnScreenChatMenu);
