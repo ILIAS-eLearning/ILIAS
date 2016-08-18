@@ -234,7 +234,8 @@
 
 			if(message != "") {
 				$chat.sendMessage(conversationId, message);
-				input.html('')
+				input.html('');
+				getModule().resizeMessageInput.call(input);
 			}
 		},
 
