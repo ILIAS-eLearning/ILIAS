@@ -1113,6 +1113,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$_SESSION["tst_import_xml_file"] = $xml_file;
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
+		
+		if( $qtiParser->getQuestionSetType() == ilObjTest::QUESTION_SET_TYPE_RANDOM )
+		{
+			$this->importVerifiedFileObject();
+			return;
+		}
+		
 		// display of found questions
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tst_import_verification.html", "Modules/Test");
 		$row_class = array("tblrow1", "tblrow2");
