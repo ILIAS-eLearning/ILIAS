@@ -143,8 +143,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		if( $this->getLostPools() )
 		{
 			ilUtil::sendFailure(sprintf(
-				$this->lng->txt('tst_msg_rand_quest_set_lost_pools'),
-				$this->buildGeneralConfigSubTabLink()
+				$this->lng->txt('tst_msg_rand_quest_set_lost_pools'), $this->buildLostQuestionPoolsString()
 			));
 		}
 		
@@ -204,6 +203,18 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		}
 
 		ilUtil::sendInfo(implode('<br />', $infoMessage));
+	}
+	
+	private function buildLostQuestionPoolsString()
+	{
+		$titles = array();
+		
+		foreach($this->getLostPools() as $lostPool)
+		{
+			$titles[] = $lostPool->getTitle();
+		}
+		
+		return implode(', ', $titles);
 	}
 	
 	private function getAfterRebuildQuestionStageCommand()
