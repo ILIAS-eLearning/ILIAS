@@ -213,5 +213,16 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	{
 		return $this->getParentGUI()->updateLPFromStatus($a_member_id, $a_passed);
 	}
+	
+	/**
+	 * init waiting list
+	 * @return ilCourseWaitingList
+	 */
+	protected function initWaitingList()
+	{
+		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+		$wait = new ilCourseWaitingList($this->getParentObject()->getId());
+		return $wait;
+	}
 }
 ?>

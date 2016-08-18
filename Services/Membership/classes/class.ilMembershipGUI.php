@@ -253,6 +253,11 @@ class ilMembershipGUI
 		$this->showParticipantsToolbar();
 		
 		// show waiting list table
+		$waiting = $this->parseWaitingListTable();
+		if($waiting instanceof ilWaitingListTableGUI)
+		{
+			$this->tpl->setVariable('TABLE_WAIT', $waiting->getHTML());
+		}
 		
 		// show subscriber table
 		$subscriber = $this->parseSubscriberTable();
@@ -576,6 +581,10 @@ class ilMembershipGUI
 		elseif($_POST['subscribers'])
 		{
 			$participants = (array) $_POST['subscribers'];
+		}
+		elseif($_POST['waiting'])
+		{
+			$participants = (array) $_POST['waiting'];
 		}
 
 		if (!count($participants))
@@ -1068,8 +1077,197 @@ class ilMembershipGUI
 		$this->ctrl->redirect($this, 'participants');
 	}
 	
-
+	/**
+	 * Parse table of subscription request
+	 * @return ilWaitingListTableGUI
+	 */
+	protected function parseWaitingListTable()
+	{
+		$wait = $this->initWaitingList();
+		
+		if(!$wait->getCountUsers())
+		{
+			return null;
+		}
+		
+		include_once './Services/Membership/classes/class.ilWaitingListTableGUI.php';
+		$waiting_table = new ilWaitingListTableGUI($this, $this->getParentObject(), $wait);
+		$waiting_table->setUsers($wait->getAllUsers());
+		$waiting_table->setTitle($this->lng->txt('crs_waiting_list'));
+		
+		return $waiting_table;
+	}
 	
+	/**
+	 * Assign from waiting list (confirmatoin) 
+	 * @return boolean
+	 */
+	public function confirmAssignFromWaitingList()
+	{
+		if(!is_array($_POST["waiting"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
+			$this->ctrl->redirect($this,'participants');
+		}
+
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "assignFromWaitingList"));
+		$c_gui->setHeaderText($this->lng->txt("info_assign_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "participants");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "assignFromWaitingList");
+
+		foreach($_POST["waiting"] as $waiting)
+		{
+			$name = ilObjUser::_lookupName($waiting);
+
+			$c_gui->addItem('waiting[]',
+							$name['user_id'],
+							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
+							ilUtil::getImagePath('icon_usr.svg'));
+		}
+
+		$this->tpl->setContent($c_gui->getHTML());
+		return true;
+	}
+	
+	/**
+	 * Assign from waiting list
+	 * @global type $rbacsystem
+	 * @return boolean
+	 */
+	public function assignFromWaitingList()
+	{
+		if(!count($_POST["waiting"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
+			$this->ctrl->redirect($this,'participants');
+		}
+		
+		$waiting_list = $this->initWaitingList();
+
+		$added_users = 0;
+		foreach($_POST["waiting"] as $user_id)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+			{
+				continue;
+			}
+			if($this->getMembersObject()->isAssigned($user_id))
+			{
+				continue;
+			}
+			
+			if($this instanceof ilCourseMembershipGUI)
+			{
+				$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+				$this->getParentObject()->checkLPStatusSync($user_id);
+			}
+			else
+			{
+				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+				$this->getMembersObject()->add($user_id,IL_GRP_MEMBER);
+				$this->getMembersObject()->sendNotification(
+					ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+					$user_id
+				);
+			}
+			$waiting_list->removeFromList($user_id);
+			++$added_users;
+		}
+
+		if($added_users)
+		{
+			ilUtil::sendSuccess($this->lng->txt("crs_users_added"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+	}
+	
+	/**
+	 * Refuse from waiting list (confirmation)
+	 * @return boolean
+	 */
+	public function confirmRefuseFromList()
+	{
+		if(!is_array($_POST["waiting"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+
+		$this->lng->loadLanguageModule('mmbr');
+
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "refuseFromList"));
+		$c_gui->setHeaderText($this->lng->txt("info_refuse_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "participants");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "refuseFromList");
+
+		foreach($_POST["waiting"] as $waiting)
+		{
+			$name = ilObjUser::_lookupName($waiting);
+
+			$c_gui->addItem('waiting[]',
+							$name['user_id'],
+							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
+							ilUtil::getImagePath('icon_usr.svg'));
+		}
+
+		$this->tpl->setContent($c_gui->getHTML());
+		return true;
+	}
+	
+	/**
+	 * refuse from waiting list
+	 *
+	 * @access public
+	 * @return
+	 */
+	protected function refuseFromList()
+	{
+		global $ilUser;
+		
+		if(!count($_POST['waiting']))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		
+		$waiting_list = $this->initWaitingList();
+
+		foreach($_POST["waiting"] as $user_id)
+		{
+			$waiting_list->removeFromList($user_id);
+			
+			if($this instanceof ilCourseWaitingList)
+			{
+				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id);
+			}
+			else
+			{
+				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+				$this->getMembersObject()->sendNotification(
+					ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
+					$user_id
+				);
+			}
+			
+		}
+		ilUtil::sendSuccess($this->lng->txt('crs_users_removed_from_list'),true);
+		$this->ctrl->redirect($this, 'participants');
+	}
 	
 	
 }

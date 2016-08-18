@@ -159,6 +159,16 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 		return null;
 	}
 	
+	/**
+	 * init waiting list
+	 * @return ilGroupWaitingList
+	 */
+	protected function initWaitingList()
+	{
+		include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+		$wait = new ilGroupWaitingListWaitingList($this->getParentObject()->getId());
+		return $wait;
+	}
 	
 	
 
