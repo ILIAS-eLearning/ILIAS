@@ -294,7 +294,7 @@
 		},
 
 		onConversation: function(conversation) {
-			console.log(conversation.id);
+
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
