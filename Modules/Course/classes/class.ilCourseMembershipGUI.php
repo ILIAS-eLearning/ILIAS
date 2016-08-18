@@ -60,7 +60,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 				case $this->getParentObject()->getDefaultTutorRole():
 					$this->getMembersObject()->add($user_id,IL_CRS_TUTOR);
 					break;
-				case $this->getMembersObject()->getDefaultAdminRole():
+				case $this->getParentObject()->getDefaultAdminRole():
 					$this->getMembersObject()->add($user_id,IL_CRS_ADMIN);
 					break;
 				default:
@@ -125,11 +125,42 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	}
 
 	/**
+	 * init edit participants table gui
+	 * @param array $participants
+	 * @return \ilCourseEditParticipantsTableGUI
+	 */
+	protected function initEditParticipantTableGUI(array $participants)
+	{
+		include_once './Modules/Course/classes/class.ilCourseEditParticipantsTableGUI.php';
+		$table = new ilCourseEditParticipantsTableGUI($this, $this->getParentObject());
+		$table->setTitle($this->lng->txt($this->getParentObject()->getType().'_header_edit_members'));
+		$table->setData($this->getParentGUI()->readMemberData($participants));
+		
+		return $table;
+	}
+
+		/**
 	 * Init participant view template
 	 */
 	protected function initParticipantTemplate()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_edit_members.html','Modules/Course');
+	}
+	
+	/**
+	 * @todo refactor delete
+	 */
+	protected function getLocalTypeRole($a_translation = false)
+	{
+		return $this->getParentObject()->getLocalCourseRoles($a_translation);
+	}
+	
+	/**
+	 * Update lp from status
+	 */
+	protected function updateLPFromStatus($a_member_id, $a_passed)
+	{
+		return $this->getParentGUI()->updateLPFromStatus($a_member_id, $a_passed);
 	}
 }
 ?>

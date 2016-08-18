@@ -95,6 +95,22 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 		);
 	}
 	
+	/**
+	 * init edit participants table gui
+	 * @param array $participants
+	 * @return \ilGroupEditParticipantsTableGUI
+	 */
+	protected function initEditParticipantTableGUI(array $participants)
+	{
+		include_once './Modules/Group/classes/class.ilGroupEditParticipantsTableGUI.php';
+		$table = new ilGroupEditParticipantsTableGUI($this, $this->getParentObject());
+		$table->setTitle($this->lng->txt($this->getParentObject()->getType().'_header_edit_members'));
+		$table->setData($this->getParentGUI()->readMemberData($participants));
+		
+		return $table;
+	}
+	
+	
 	
 	/**
 	 * Init participant view template
@@ -103,6 +119,24 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.grp_edit_members.html','Modules/Group');
 	}
+	
+	/**
+	 * @todo refactor delete
+	 */
+	protected function getLocalTypeRole($a_translation = false)
+	{
+		return $this->getParentObject()->getLocalGroupRoles($a_translation);
+	}
+	
+	/**
+	 * Update lp from status
+	 */
+	protected function updateLPFromStatus()
+	{
+		return null;
+	}
+	
+	
 	
 
 }

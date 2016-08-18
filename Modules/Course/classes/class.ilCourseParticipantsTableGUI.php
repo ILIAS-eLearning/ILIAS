@@ -132,9 +132,9 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$lng->loadLanguageModule('certificate');
 		}
 		
+		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
-		
 	}
 	
 	
@@ -372,6 +372,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
 		unset($additional_fields['roles']);
+		
+		$part = $this->participants->getParticipants();
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)

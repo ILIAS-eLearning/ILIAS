@@ -265,6 +265,176 @@ class ilMembershipGUI
 	}
 	
 	/**
+	 * Edit one participant
+	 */
+	protected function editMember()
+	{
+		return $this->editParticipants(array($_REQUEST['member_id']));
+	}
+	
+	/**
+	 * Edit participants
+	 * @param array $post_participants
+	 */
+	protected function editParticipants($post_participants = array())
+	{
+		if(!$post_participants)
+		{
+			$post_participants = (array) $_POST['participants'];
+		}
+
+		$real_participants = $this->getMembersObject()->getParticipants();
+		$participants = array_intersect((array) $post_participants, (array) $real_participants);
+		
+		if(!count($participants))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
+			$this->ctrl->redirect($this,'participants');
+		}
+		$table = $this->initEditParticipantTableGUI($participants);
+		$this->tpl->setContent($table->getHTML());
+		return true;
+	}
+	
+	/**
+	 * update members
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function updateParticipants()
+	{
+		global $rbacsystem, $rbacreview, $ilUser, $ilAccess;
+                
+		if(!count($_POST['participants']))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
+			$this->ctrl->redirect($this,'participants');
+		}
+		
+		$notifications = $_POST['notification'] ? $_POST['notification'] : array();
+		$passed = $_POST['passed'] ? $_POST['passed'] : array();
+		$blocked = $_POST['blocked'] ? $_POST['blocked'] : array();
+		$contact = $_POST['contact'] ? $_POST['contact'] : array();
+		
+		// Determine whether the user has the 'edit_permission' permission
+		$hasEditPermissionAccess = 
+			(
+				$ilAccess->checkAccess('edit_permission','',$this->getParentObject()->getRefId()) or
+				$this->getMembersObject()->isAdmin($ilUser->getId())
+			);
+
+		// Get all assignable local roles of the object, and
+		// determine the role id of the course administrator role.
+		$assignableLocalRoles = array();
+        $adminRoleId = $this->getParentObject()->getDefaultAdminRole();
+		foreach ($this->getLocalTypeRole(false) as $title => $role_id)
+		{
+			$assignableLocalRoles[$role_id] = $title;
+		}
+                
+		// Validate the user ids and role ids in the post data
+		foreach($_POST['participants'] as $usr_id)
+		{
+			$memberIsAdmin = $rbacreview->isAssigned($usr_id, $adminRoleId);
+                        
+			// If the current user doesn't have the 'edit_permission' 
+			// permission, make sure he doesn't remove the course
+			// administrator role of members who are course administrator.
+			if (! $hasEditPermissionAccess && $memberIsAdmin &&
+				! in_array($adminRoleId, $_POST['roles'][$usr_id])
+			)
+			{
+				$_POST['roles'][$usr_id][] = $adminRoleId;
+			}
+                        
+			// Validate the role ids in the post data
+			foreach ((array) $_POST['roles'][$usr_id] as $role_id)
+			{
+				if(!array_key_exists($role_id, $assignableLocalRoles))
+				{
+					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'),true);
+					$this->ctrl->redirect($this, 'participants');
+		        }
+		        if(!$hasEditPermissionAccess && 
+					$role_id == $adminRoleId &&
+					!$memberIsAdmin)
+				{
+					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'));
+					$this->ctrl->redirect($this, 'participants');
+				}
+			}
+		}
+		
+		$has_admin = false;
+		foreach($this->getMembersObject()->getAdmins() as $admin_id)
+		{
+			if(!isset($_POST['roles'][$admin_id]))
+			{
+				$has_admin = true;
+				break;
+			}
+			if(in_array($adminRoleId,$_POST['roles'][$admin_id]))
+			{
+				$has_admin = true;
+				break;
+			}
+		}
+		
+		if(!$has_admin)
+		{
+			ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType().'_min_one_admin'),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+
+		foreach($_POST['participants'] as $usr_id)
+		{
+			$this->getMembersObject()->updateRoleAssignments($usr_id,(array) $_POST['roles'][$usr_id]);
+			
+			// Disable notification for all of them
+			$this->getMembersObject()->updateNotification($usr_id,0);
+			if(($this->getMembersObject()->isTutor($usr_id) or $this->getMembersObject()->isAdmin($usr_id)) and in_array($usr_id,$notifications))
+			{
+				$this->getMembersObject()->updateNotification($usr_id,1);
+			}
+			
+			$this->getMembersObject()->updateBlocked($usr_id,0);
+			if((!$this->getMembersObject()->isAdmin($usr_id) and !$this->getMembersObject()->isTutor($usr_id)) and in_array($usr_id,$blocked))
+			{
+				$this->getMembersObject()->updateBlocked($usr_id,1);
+			}
+			
+			if($this instanceof ilCourseMembershipGUI)
+			{
+				$this->getMembersObject()->updatePassed($usr_id,in_array($usr_id,$passed),true);
+				$this->getMembersObject()->sendNotification(
+					$this->getMembersObject()->NOTIFY_STATUS_CHANGED,
+					$usr_id);
+			}
+			
+			if(
+				($this->getMembersObject()->isAdmin($usr_id) ||
+				$this->getMembersObject()->isTutor($usr_id)) &&
+				in_array($usr_id, $contact)
+			)
+			{	
+				$this->getMembersObject()->updateContact($usr_id,TRUE);
+			}
+			else
+			{
+				$this->getMembersObject()->updateContact($usr_id,FALSE);
+			}
+			
+			$this->updateLPFromStatus($usr_id,in_array($usr_id,$passed));	
+		}
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		$this->ctrl->redirect($this, "participants");
+	}
+	
+	
+	
+	/**
 	 * Show confirmation screen for participants deletion
 	 */
 	protected function confirmDeleteParticipants()

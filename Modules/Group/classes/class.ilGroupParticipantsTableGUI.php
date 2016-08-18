@@ -91,9 +91,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable('numinfo');
 		$this->enable('select_all');
 		
+		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
-		
 	}
 
 	/**
