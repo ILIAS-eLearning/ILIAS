@@ -151,7 +151,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 				'A_LINK',
 				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'editTemplate')
 			);
-			$this->tpl->setVariable('A_TEXT',$this->lng->txt('edit'));
+			$this->tpl->setVariable('A_TEXT',$this->lng->txt('settings'));
 			$this->tpl->parseCurrentBlock();
 
 			// Copy

@@ -15736,7 +15736,7 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
-didactic#:#activate_local_didactic_template#:#Local Didactic Template
+didactic#:#activate_local_didactic_template#:#Scope of Application
 didactic#:#effective_form#:#Template Effective From
 didactic#:#more_translations#:#More Translations
 didactic#:#didactic_template_update_import#:#Update Didactic Template
