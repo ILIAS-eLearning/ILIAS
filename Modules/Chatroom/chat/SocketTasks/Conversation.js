@@ -34,7 +34,7 @@ module.exports = function(participants) {
 		conversation.setLatestMessage(row);
 	}, function(){
 		namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
-			conversation.setUnreadMessages(row.numNewMessages);
+			conversation.setNumNewMessages(row.numNewMessages);
 		}, function(){
 			socket.participant.emit('conversation-init', conversation.json());
 		});
