@@ -16611,3 +16611,8 @@ if($ilDB->tableColumnExists('usr_data', 'delicious'))
 	$ilDB->dropTableColumn('usr_data', 'delicious');
 }
 ?>
+<#4986>
+<?php
+$pd_set = new ilSetting('pd');
+$pd_set->delete('osi_host');
+?>
