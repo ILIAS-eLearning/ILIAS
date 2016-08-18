@@ -83,9 +83,9 @@ class ilManualAssessmentMemberGUI {
 			if($form->checkInput()) {
 				$member = $this->updateDataInMemberByArray($this->member,$_POST);
 				if($member->mayBeFinalized()) {
-					ilManualAssessmentLPInterface::updateLPStatusOfMember($member);
 					$this->member = $member->withFinalized()->maybeSendNotification($this->notificator);
 					$this->object->membersStorage()->updateMember($this->member);
+					ilManualAssessmentLPInterface::updateLPStatusOfMember($this->member);
 					$this->view();
 				} else {
 					ilUtil::sendFailure($this->lng->txt('mass_may_not_finalize'));
