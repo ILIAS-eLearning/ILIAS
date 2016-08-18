@@ -42,8 +42,6 @@
 				$scope.il.OnScreenChatJQueryTriggers.triggers.focusOut = triggers.focusOut;
 			}
 
-
-
 			return this;
 		},
 
@@ -80,6 +78,7 @@
 		user: undefined,
 		historyBlocked: false,
 		inputHeight: undefined,
+		historyTimestamps: {},
 
 		setConfig: function(config) {
 			getModule().config = config;
@@ -91,22 +90,18 @@
 
 			$(window).bind('storage', function(e){
 				var conversation = e.originalEvent.newValue;
-				var oldConversation = e.originalEvent.oldValue;
 				var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
 				if(!(conversation instanceof Object)) {
 					conversation = JSON.parse(conversation);
 				}
-				if(!(oldConversation instanceof Object)) {
-					oldConversation = JSON.parse(oldConversation);
-				}
 
-				$menu.add(conversation);
+				//$menu.add(conversation);
 
 				if(conversation.open && !chatWindow.is(':visible')) {
 					getModule().open(conversation);
 				} else if(!conversation.open) {
-					$('[data-onscreenchat-window=' + conversation.id + ']').hide();
+					chatWindow.hide();
 				}
 			});
 
@@ -114,9 +109,7 @@
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.receiveConversation(getModule().onConversation);
 			$chat.onHistory(getModule().onHistory);
-			$chat.onGroupConversation(function(conversation){
-				getModule().onConversationInit(conversation);
-			});
+			$chat.onGroupConversation(getModule().onConversationInit);
 			$chat.onConverstionInit(getModule().onConversationInit);
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
 				participantEvent: getModule().startConversation,
@@ -165,14 +158,14 @@
 				conversationWindow = $(getModule().createWindow(conversation));
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				getModule().container.append(conversationWindow);
-				getModule().addMessagesFromHistory(conversation, false);
+				getModule().addMessagesOnOpen(conversation);
 			}
 			
 			$(conversationWindow).find('.panel-body').animate({
 				scrollTop: $(conversationWindow).find('[data-onscreenchat-body]').outerHeight()
 			}, 0);
 
-			$chat.getHistory(conversation.id, conversation.oldestMessageTimestamp);
+			$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
 			conversationWindow.show();
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
 		},
@@ -208,13 +201,12 @@
 			var button = $(this);
 			var conversation = getModule().storage.get($(button).attr('data-onscreenchat-close'));
 			conversation.open = false;
-			conversation.oldestMessageTimestamp = null;
 
 			getModule().storage.save(conversation);
 		},
 
 		handleSubmit: function(e) {
-			if(e.keyCode == 13 && !e.shiftKey)
+			if((e.keyCode == 13 && !e.shiftKey) || e.type == 'click')
 			{
 				e.preventDefault();
 				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
@@ -226,60 +218,52 @@
 			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
 			var message = input.html();
 
-			if(message != "")
-			{
+			if(message != "") {
 				$chat.sendMessage(conversationId, message);
 				input.html('')
 			}
 		},
 
-		addMessagesFromHistory: function(conversation, prepend) {
-			var oldConversation = getModule().storage.get(conversation.id);
+		addMessagesOnOpen: function(conversation) {
 			var messages = conversation.messages;
 
-			if(messages.length > 0) {
-				for(var index in messages) {
-					if(messages.hasOwnProperty(index) && (
-						oldConversation.latestMessageTimestamp == null ||
-						messages[index].timestamp < oldConversation.latestMessageTimestamp)
-					) {
-						if(conversation.latestMessageTimestamp == null || conversation.latestMessageTimestamp > messages[index].timestamp) {
-							conversation.latestMessageTimestamp = messages[index].timestamp;
-						}
-
-						getModule().addMessage(messages[index], prepend);
-					}
+			for(var index in messages) {
+				if(messages.hasOwnProperty(index)) {
+					getModule().addMessage(messages[index], false);
 				}
 			}
-
-			getModule().storage.save(conversation);
 		},
 
 		receiveMessage: function(messageObject) {
 			var conversation = getModule().storage.get(messageObject.conversationId);
 			conversation.open = true;
+			conversation.latestMessage = messageObject;
 			getModule().storage.save(conversation);
 			getModule().addMessage(messageObject, false);
+			$menu.add(conversation);
 		},
 
 		onConversationInit: function(conversation){
 			conversation.open = true;
+			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
 
 		onFocusOut: function() {
-			var conversationId = $(this).attr('data-onscreenchat-window');
-			$chat.trackActivity(conversationId, getModule().user.id, (new Date()).getTime());
+			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-window'));
+			conversation.lastActivity = (new Date()).getTime();
+
+			$chat.trackActivity(conversation.id, getModule().user.id, conversation.lastActivity);
 		},
 
 		onConversation: function(conversation) {
+			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
 
 		onHistory: function(conversation){
 			var container = $('[data-onscreenchat-window='+conversation.id+']');
 			var messages = conversation.messages;
-
 			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
 			for(var index in messages) {
@@ -287,17 +271,11 @@
 					getModule().addMessage(messages[index], true);
 				}
 			}
-
 			var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
-
-			console.log(messagesHeight);
-			console.log(newMessagesHeight);
-
 			container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
 
+			getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			getModule().historyBlocked = false;
-			getModule().storage.save(conversation);
-
 
 			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
 		},
@@ -313,7 +291,8 @@
 				var container = $(this).closest('[data-onscreenchat-window]');
 				var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
 
-				$chat.getHistory(conversation.id, conversation.oldestMessageTimestamp);
+				var oldestMessageTimestamp = getModule().historyTimestamps[conversation.id]
+				$chat.getHistory(conversation.id, oldestMessageTimestamp);
 			}
 		},
 
@@ -414,14 +393,10 @@
 
 		this.save = function(conversation) {
 			var oldValue = this.get(conversation.id);
-
 			conversation.messages = [];
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
-			}
-			if(conversation.oldestMessageTimestamp == undefined && oldValue != null) {
-				conversation.oldestMessageTimestamp = oldValue.oldestMessageTimestamp;
 			}
 
 			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));

@@ -48,8 +48,11 @@
 			if(!getModule().rendered)
 			{
 				for(var index in getModule().conversations){
-					if(getModule().conversations[index].messages.length > 0)
+					if(getModule().conversations[index].latestMessage != null)
 					{
+						console.log(getModule().conversations[index]);
+						var template = getModule().config.conversationTemplate;
+						var latestMessage = getModule().conversations[index].latestMessage;
 						var participants = getModule().conversations[index].participants;
 						var participantNames = [];
 
@@ -59,12 +62,11 @@
 							}
 						}
 
-						var template = getModule().config.conversationTemplate;
 						template = template.replace('[[avatar]]', 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
 						template = template.replace('[[participants]]', participantNames.join(', '));
 						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
-						template = template.replace('[[last_message]]', getModule().conversations[index].messages[0].message);
-						template = template.replace('[[last_message_time]]', momentFromNowToTime(getModule().conversations[index].messages[0].timestamp));
+						template = template.replace('[[last_message]]', latestMessage.message);
+						template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 						getModule().content.find('#onscreenchatmenu-content').append(template);
 					}
 				}
@@ -75,14 +77,47 @@
 		},
 
 		add: function(conversation) {
-			if (!getModule().hasConversation(conversation)) {
+			var index = getModule().hasConversation(conversation)
+			if (index === false) {
 				getModule().conversations.push(conversation);
-				getModule().rendered = false;
+			} else {
+				getModule().conversations[index] = conversation;
+			}
+
+			getModule().rendered = false;
+			getModule().updateBadges();
+		},
+
+		updateBadges: function() {
+			var numConversations = getModule().conversations.length;
+			var numMessages = getModule().countUnreadMessages();
+			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
+			var messagesBadge = $('[data-onscreenchat-menu-nummessages]');
+
+			conversationsBadge.html(numConversations);
+			if(numConversations == 0) {
+				conversationsBadge.hide();
+			} else {
+				conversationsBadge.show();
+			}
+
+			messagesBadge.html(numMessages);
+			if(numMessages == 0) {
+				messagesBadge.hide();
+			} else {
+				messagesBadge.show();
 			}
 		},
 
-		updateList: function() {
+		countUnreadMessages: function() {
+			var conversations = getModule().conversations;
 
+			for(var index in conversations) {
+				if(conversations.hasOwnProperty(index)) {
+
+				}
+			}
+			return 0;
 		},
 
 		afterListUpdate: function() {
@@ -92,7 +127,7 @@
 		hasConversation: function(conversation) {
 			for(var index in getModule().conversations) {
 				if (getModule().conversations.hasOwnProperty(index) && getModule().conversations[index].id == conversation.id) {
-					return true;
+					return index;
 				}
 			}
 

@@ -113,6 +113,11 @@
   white-space: nowrap;
   background-color: #f3f3f3;
 }
+.ilOnScreenChatMenuDropDown .badge.bottom {
+  background-color: #A0A0A0;
+  bottom: 5px;
+  position: absolute;;
+}
 .ilOnScreenChatMenuItem {
   position: relative;
   border-bottom: 1px solid #E9E9E9;

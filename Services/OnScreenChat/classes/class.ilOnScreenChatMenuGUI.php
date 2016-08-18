@@ -28,17 +28,8 @@ class ilOnScreenChatMenuGUI
 	}
 	public function getMainMenuHTML()
 	{
-		$numMessages = 5;
-
 		$tpl = new ilTemplate('tpl.chat-menu.html', false, false, 'Services/OnScreenChat');
-
-		$tpl->setCurrentBlock('status_text');
-		$tpl->setVariable('STATUS_TXT', $numMessages);
-		$tpl->parseCurrentBlock();
-
-
 		$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
-
 
 		return $tpl->get();
 	}
