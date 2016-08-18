@@ -97,6 +97,14 @@
 
 		setConfig: function(config) {
 			getModule().config = config;
+
+			moment.locale(config.locale);
+			window.setInterval(function() {
+				$('[data-livestamp]').each(function() {
+					var $this = $(this);
+					$this.html(momentFromNowToTime($this.data('livestamp')));
+				});
+			}, 10000);
 		},
 
 		init: function() {
