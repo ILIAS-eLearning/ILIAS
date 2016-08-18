@@ -35,6 +35,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilSubscriberTableGUI extends ilTable2GUI
 {
 	protected $subscribers = array();
+	
+	/**
+	 * @var ilObject
+	 */
+	protected $rep_object = null;
 
 	protected static $all_columns = null;
 	protected static $has_odf_definitions = FALSE;
@@ -48,7 +53,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$show_content = true, $show_subject = true)
+	public function __construct($a_parent_obj,$rep_object,$show_content = true, $show_subject = true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -56,14 +61,16 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('grp');
 		$this->lng->loadLanguageModule('crs');
 	 	$this->ctrl = $ilCtrl;
+		
+		$this->rep_object = $rep_object;
 
 		$this->setShowSubject($show_subject);
 	 	
-		$this->setId('crs_sub_'. $a_parent_obj->object->getId());
-		parent::__construct($a_parent_obj,'members');
+		$this->setId('crs_sub_'. $this->getRepositoryObject()->getId());
+		parent::__construct($a_parent_obj,'participants');
 
 		$this->setFormName('subscribers');
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'members'));
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'participants'));
 
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
@@ -81,7 +88,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
 		$this->addColumn('','mail','10%');
 
-		if($a_parent_obj->object->getType() == "sess")
+		if($this->getRepositoryObject()->getType() == "sess")
 		{
 			$this->addMultiCommand('confirmAssignSubscribers',$this->lng->txt('sess_accept_request'));
 		}
@@ -116,8 +123,16 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->setExternalSegmentation(true);
 		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getParentObject()->object->getId());
+		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
 		
+	}
+	
+	/**
+	 * @return ilObject
+	 */
+	protected function getRepositoryObject()
+	{
+		return $this->rep_object;
 	}
 	
 	/**
@@ -132,8 +147,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		}
 
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
-		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
-		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
+		$ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
+		self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
 		return self::$all_columns;
 	}
 	
@@ -151,10 +166,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		
 				
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
-		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['usr_id']) and
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(),$a_set['usr_id']) and
 			($ids = ilObjCourseGrouping::getAssignedObjects()))
 		{
-			$prefix = $this->getParentObject()->object->getType();
+			$prefix = $this->getRepositoryObject()->getType();
 			$this->tpl->setVariable('ALERT_MSG',
 				sprintf($this->lng->txt($prefix.'_lim_assigned'),
 				ilObject::_lookupTitle(current($ids))
@@ -250,7 +265,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$list->addItem($trans, '', $link,'sendMailToSelectedUsers');
 		
 		$this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui','member_id',$a_set['usr_id']);
-		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_cdf_edit_member');
+		$trans = $this->lng->txt($this->getRepositoryObject()->getType().'_cdf_edit_member');
 		$list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui','editMember'));
 		
 		$this->tpl->setVariable('ACTION_USER',$list->getHTML());
@@ -269,7 +284,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	{
 		include_once './Services/Membership/classes/class.ilParticipants.php';
 		
-		$sub_data = ilParticipants::lookupSubscribersData($this->getParentObject()->object->getId());
+		$sub_data = ilParticipants::lookupSubscribersData($this->getRepositoryObject()->getId());
 		
 		$sub_ids = array();
 		foreach($sub_data as $usr_id => $usr_data)
@@ -327,7 +342,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		}
 
 		// merge course data
-		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,$this->type == 'admin');
+		$course_user_data = $this->getParentObject()->readMemberData($usr_ids, array());
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
@@ -356,7 +371,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		if($odf_ids)
 		{
 			include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
-			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
+			$data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
 			foreach($data as $usr_id => $fields)
 			{
 				// #7264: as we get data for all course members filter against user data
@@ -373,7 +388,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 			
 			// add last edit date
 			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info)
 			{
 				if(!isset($a_user_data[$usr_id]))
 				{
@@ -385,7 +400,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
 					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
-					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
 						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));

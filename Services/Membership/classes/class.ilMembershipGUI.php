@@ -255,6 +255,11 @@ class ilMembershipGUI
 		// show waiting list table
 		
 		// show subscriber table
+		$subscriber = $this->parseSubscriberTable();
+		if($subscriber instanceof ilSubscriberTableGUI)
+		{
+			$this->tpl->setVariable('TABLE_SUB', $subscriber->getHTML());
+		}
 		
 		// show member table
 		$table = $this->initParticipantTableGUI();
@@ -560,7 +565,18 @@ class ilMembershipGUI
 	 */
 	protected function sendMailToSelectedUsers()
 	{
-		$participants = (array) $_POST['participants'];
+		if($_POST['participants'])
+		{
+			$participants = (array) $_POST['participants'];
+		}
+		elseif($_GET['member_id'])
+		{
+			$participants = array($_GET['member_id']);
+		}
+		elseif($_POST['subscribers'])
+		{
+			$participants = (array) $_POST['subscribers'];
+		}
 
 		if (!count($participants))
 		{
@@ -870,5 +886,191 @@ class ilMembershipGUI
 	{
 		return $this->getParentGUI()->getLocalRoles();
 	}
+	
+	/**
+	 * Parse table of subscription request
+	 */
+	protected function parseSubscriberTable()
+	{
+		if(!$this->getMembersObject()->getSubscribers())
+		{
+			ilLoggerFactory::getLogger('mmbr')->debug('No subscriber found');
+			return null;
+		}
+		include_once './Services/Membership/classes/class.ilSubscriberTableGUI.php';
+		$subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(),true);
+		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
+		$subscriber->readSubscriberData();
+		return $subscriber;
+	}
+	
+	/**
+	 * Show subscription confirmation
+	 * @return boolean
+	 */
+	public function confirmAssignSubscribers()
+	{
+		if(!is_array($_POST["subscribers"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "assignSubscribers"));
+		$c_gui->setHeaderText($this->lng->txt("info_assign_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "participants");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "assignSubscribers");
+
+		foreach($_POST["subscribers"] as $subscribers)
+		{
+			$name = ilObjUser::_lookupName($subscribers);
+
+			$c_gui->addItem('subscribers[]',
+							$name['user_id'],
+							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
+							ilUtil::getImagePath('icon_usr.svg'));
+		}
+
+		$this->tpl->setContent($c_gui->getHTML());
+		return true;
+	}
+	
+	/**
+	 * Refuse subscriber confirmation
+	 * @return boolean
+	 */
+	public function confirmRefuseSubscribers()
+	{
+		if(!is_array($_POST["subscribers"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+
+		$this->lng->loadLanguageModule('mmbr');
+
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "refuseSubscribers"));
+		$c_gui->setHeaderText($this->lng->txt("info_refuse_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "participants");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "refuseSubscribers");
+
+		foreach($_POST["subscribers"] as $subscribers)
+		{
+			$name = ilObjUser::_lookupName($subscribers);
+
+			$c_gui->addItem('subscribers[]',
+							$name['user_id'],
+							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
+							ilUtil::getImagePath('icon_usr.svg'));
+		}
+
+		$this->tpl->setContent($c_gui->getHTML());
+		return true;
+	}
+	
+	/**
+	 * Refuse subscribers
+	 * @global type $rbacsystem
+	 * @return boolean
+	 */
+	protected function refuseSubscribers()
+	{
+		global $rbacsystem;
+
+		if(!$_POST['subscribers'])
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+	
+		if(!$this->getMembersObject()->deleteSubscribers($_POST["subscribers"]))
+		{
+			ilUtil::sendFailure($GLOBALS['ilErr']->getMessage(),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		else
+		{
+			foreach($_POST['subscribers'] as $usr_id)
+			{
+				if($this instanceof ilCourseMembershipGUI)
+				{
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER, $usr_id);
+				}
+				else
+				{
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$this->getMembersObject()->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
+						$usr_id
+					);
+				}
+			}
+		}
+
+		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_deleted"),true);
+		$this->ctrl->redirect($this, 'participants');
+	}
+	
+	/**
+	 * Do assignment of subscription request
+	 * @global type $rbacsystem
+	 * @global type $ilErr
+	 * @return boolean
+	 */
+	public function assignSubscribers()
+	{
+		global $ilErr;
+		
+		if(!is_array($_POST["subscribers"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		
+		if(!$this->getMembersObject()->assignSubscribers($_POST["subscribers"]))
+		{
+						$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
+			$this->object->members_obj->deleteSubscriber($usr_id);
+
+			
+			
+			ilUtil::sendFailure($ilErr->getMessage(),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		else
+		{
+			foreach($_POST["subscribers"] as $usr_id)
+			{
+				if($this instanceof ilCourseMembershipGUI)
+				{
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+					$this->getParentObject()->checkLPStatusSync($usr_id);
+				}
+				else
+				{
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$this->getMembersObject()->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+						$usr_id
+					);
+				}
+			}
+		}
+		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"),true);
+		$this->ctrl->redirect($this, 'participants');
+	}
+	
+
+	
+	
+	
 }
 ?>

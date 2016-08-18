@@ -1114,75 +1114,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 	}
 	
-	/**
-	 * assign subscribers
-	 *
-	 * @access public
-	 * @return
-	 */
-	public function assignSubscribersObject()
-	{
-		global $lng, $ilIliasIniFile,$ilUser;
-
-		$this->checkPermission('write');
-		
-		if(!count($_POST['subscribers']))
-		{
-			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
-			$this->membersObject();
-			return false;
-		}
-		
-		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-		foreach($_POST['subscribers'] as $usr_id)
-		{
-			$this->object->members_obj->sendNotification(
-				ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-				$usr_id
-			);
-
-			$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
-			$this->object->members_obj->deleteSubscriber($usr_id);
-
-		}
-		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_assigned"),true);
-		$this->ctrl->redirect($this,'members');
-		return true;
-	}
 	
-	/**
-	 * refuse subscribers
-	 *
-	 * @access public
-	 * @return
-	 */
-	public function refuseSubscribersObject()
-	{
-		global $lng;
-
-		$this->checkPermission('write');
-		
-		if(!count($_POST['subscribers']))
-		{
-			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
-			$this->membersObject();
-			return false;
-		}
-		
-		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-		foreach($_POST['subscribers'] as $usr_id)
-		{
-			$this->object->members_obj->sendNotification(
-				ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
-				$usr_id
-			);
-			$this->object->members_obj->deleteSubscriber($usr_id);
-		}
-		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_removed"));
-		$this->membersObject();
-		return true;
-		
-	}
 	
 	/**
 	 * add from waiting list 
@@ -2472,81 +2404,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
 	}
 
-	public function confirmRefuseSubscribersObject()
-	{
-		if(!is_array($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
 
-			return false;
-		}
-
-		$this->lng->loadLanguageModule('mmbr');
-
-		$this->checkPermission('write');
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('grp_edit_members');
-
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-
-		// set confirm/cancel commands
-		$c_gui->setFormAction($this->ctrl->getFormAction($this, "refuseSubscribers"));
-		$c_gui->setHeaderText($this->lng->txt("info_refuse_sure"));
-		$c_gui->setCancel($this->lng->txt("cancel"), "members");
-		$c_gui->setConfirm($this->lng->txt("confirm"), "refuseSubscribers");
-
-		foreach($_POST["subscribers"] as $subscribers)
-		{
-			$name = ilObjUser::_lookupName($subscribers);
-
-			$c_gui->addItem('subscribers[]',
-							$name['user_id'],
-							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
-							ilUtil::getImagePath('icon_usr.svg'));
-		}
-
-		$this->tpl->setContent($c_gui->getHTML());
-	}
-
-	public function confirmAssignSubscribersObject()
-	{
-		if(!is_array($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
-
-			return false;
-		}
-		$this->checkPermission('write');
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('grp_edit_members');
-
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-
-		// set confirm/cancel commands
-		$c_gui->setFormAction($this->ctrl->getFormAction($this, "assignSubscribers"));
-		$c_gui->setHeaderText($this->lng->txt("info_assign_sure"));
-		$c_gui->setCancel($this->lng->txt("cancel"), "members");
-		$c_gui->setConfirm($this->lng->txt("confirm"), "assignSubscribers");
-
-		foreach($_POST["subscribers"] as $subscribers)
-		{
-			$name = ilObjUser::_lookupName($subscribers);
-
-			$c_gui->addItem('subscribers[]',
-							$name['user_id'],
-							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
-							ilUtil::getImagePath('icon_usr.svg'));
-		}
-
-		$this->tpl->setContent($c_gui->getHTML());
-		return true;
-	}
 
 	public function confirmRefuseFromListObject()
 	{

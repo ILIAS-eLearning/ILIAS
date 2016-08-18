@@ -1103,7 +1103,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
 			if($ilUser->getPref('grp_subscriber_hide'))
 			{
-				$table_gui = new ilSubscriberTableGUI($this,false, false);
+				$table_gui = new ilSubscriberTableGUI($this,$this->object, false, false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1111,7 +1111,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$table_gui = new ilSubscriberTableGUI($this,true, false);
+				$table_gui = new ilSubscriberTableGUI($this,$this->object, true, false);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));

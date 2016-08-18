@@ -2323,43 +2323,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-		
-	public function assignSubscribersObject()
-	{
-		global $rbacsystem,$ilErr;
-
-
-		$this->checkPermission('write');
-
-		if(!is_array($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
-			$this->membersObject();
-
-			return false;
-		}
-		
-		if(!$this->object->getMembersObject()->assignSubscribers($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($ilErr->getMessage());
-			$this->membersObject();
-			return false;
-		}
-		else
-		{
-			foreach($_POST["subscribers"] as $usr_id)
-			{
-				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
-
-				$this->object->checkLPStatusSync($usr_id);
-			}
-		}
-		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"));
-		$this->membersObject();
-		
-		return true;
-	}
-
 	function autoFillObject()
 	{
 		global $rbacsystem;
@@ -2488,40 +2451,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 
-
-
-	function refuseSubscribersObject()
-	{
-		global $rbacsystem;
-
-		$this->checkPermission('write');
-		
-		if(!$_POST['subscribers'])
-		{
-			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
-			$this->membersObject();
-			return false;
-		}
-	
-		if(!$this->object->getMembersObject()->deleteSubscribers($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($this->object->getMessage());
-			$this->membersObject();
-			return false;
-		}
-		else
-		{
-			foreach($_POST['subscribers'] as $usr_id)
-			{
-				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
-			}
-		}
-
-		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_deleted"));
-		$this->membersObject();
-		return true;
-	}
-	
 	/**
 	 * Get tabs for member agreement
 	 */
@@ -4157,82 +4086,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
 	}
 
-	public function confirmRefuseSubscribersObject()
-	{
-		if(!is_array($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
-			$this->membersObject();
-
-			return false;
-		}
-
-		$this->lng->loadLanguageModule('mmbr');
-
-		$this->checkPermission('write');
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('crs_member_administration');
-
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-
-		// set confirm/cancel commands
-		$c_gui->setFormAction($this->ctrl->getFormAction($this, "refuseSubscribers"));
-		$c_gui->setHeaderText($this->lng->txt("info_refuse_sure"));
-		$c_gui->setCancel($this->lng->txt("cancel"), "members");
-		$c_gui->setConfirm($this->lng->txt("confirm"), "refuseSubscribers");
-
-		foreach($_POST["subscribers"] as $subscribers)
-		{
-			$name = ilObjUser::_lookupName($subscribers);
-
-			$c_gui->addItem('subscribers[]',
-							$name['user_id'],
-							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
-							ilUtil::getImagePath('icon_usr.svg'));
-		}
-
-		$this->tpl->setContent($c_gui->getHTML());
-		return true;
-	}
-
-	public function confirmAssignSubscribersObject()
-	{
-		if(!is_array($_POST["subscribers"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
-			$this->membersObject();
-
-			return false;
-		}
-		$this->checkPermission('write');
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('crs_member_administration');
-
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-
-		// set confirm/cancel commands
-		$c_gui->setFormAction($this->ctrl->getFormAction($this, "assignSubscribers"));
-		$c_gui->setHeaderText($this->lng->txt("info_assign_sure"));
-		$c_gui->setCancel($this->lng->txt("cancel"), "members");
-		$c_gui->setConfirm($this->lng->txt("confirm"), "assignSubscribers");
-
-		foreach($_POST["subscribers"] as $subscribers)
-		{
-			$name = ilObjUser::_lookupName($subscribers);
-
-			$c_gui->addItem('subscribers[]',
-							$name['user_id'],
-							$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
-							ilUtil::getImagePath('icon_usr.svg'));
-		}
-
-		$this->tpl->setContent($c_gui->getHTML());
-		return true;
-	}
 
 	public function confirmRefuseFromListObject()
 	{
