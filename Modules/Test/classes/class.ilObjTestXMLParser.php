@@ -108,7 +108,7 @@ class ilObjTestXMLParser extends ilSaxParser
 				if($this->inRandomQuestionSelectionDefinitions)
 				{
 					$this->sourcePoolDefinition = $this->getRandomQuestionSourcePoolDefinitionInstance();
-					$this->importRandomQuestionSourcePoolDefinition($this->sourcePoolDefinition, $tagAttributes);
+					$this->attr = $tagAttributes;
 				}
 				break;
 			
@@ -164,8 +164,15 @@ class ilObjTestXMLParser extends ilSaxParser
 			case 'RandomQuestionSelectionDefinition':
 				if($this->inRandomQuestionSetConfig && $this->inRandomQuestionSelectionDefinitions)
 				{
+					$this->importRandomQuestionSourcePoolDefinition($this->sourcePoolDefinition, $this->attr);
 					$this->sourcePoolDefinition->saveToDb();
+					
+					$this->getImportMapping()->addMapping(
+						'Modules/Test', 'rnd_src_pool_def', $this->attr['id'], $this->sourcePoolDefinition->getId()
+					);
+					
 					$this->sourcePoolDefinition = null;
+					$this->attr = null;
 				}
 				break;
 
