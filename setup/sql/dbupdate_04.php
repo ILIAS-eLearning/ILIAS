@@ -16621,3 +16621,15 @@ $pd_set->delete('osi_host');
 $dset = new ilSetting('delicious');
 $dset->deleteAll();
 ?>
+<#4988>
+<?php
+$fields = array('im_icq', 'im_yahoo', 'im_msn', 'im_aim', 'im_skype', 'im_jabber', 'im_voip', 'delicious');
+foreach($fields as $field)
+{
+	$ilDB->manipulateF(
+		'DELETE FROM usr_pref WHERE keyword = %s',
+		array('text'),
+		array('public_'. $field)
+	);
+}
+?>
