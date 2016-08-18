@@ -1033,6 +1033,8 @@ abstract class ilTestExport
 		// set xml header
 		$this->xml->xmlHeader();
 
+		$this->xml->xmlStartTag("ContentObject", array('Type' => 'Test'));
+
 		// create directories
 		$this->test_obj->createExportDirectory();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -1057,6 +1059,10 @@ abstract class ilTestExport
 		$this->test_obj->exportPagesXML($this->xml, $this->inst_id,
 			$this->export_dir."/".$this->subdir, $expLog);
 		$ilBench->stop("TestExport", "buildExportFile_getXML");
+		
+		$this->populateQuestionSetConfigXml($this->xml);
+
+		$this->xml->xmlEndTag("ContentObject");
 
 		// dump xml document to screen (only for debugging reasons)
 		/*
@@ -1100,6 +1106,8 @@ abstract class ilTestExport
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
+	
+	abstract protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter);
 	
 	protected function getQtiXml()
 	{

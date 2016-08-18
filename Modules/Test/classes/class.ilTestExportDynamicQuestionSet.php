@@ -15,6 +15,10 @@ class ilTestExportDynamicQuestionSet extends ilTestExport
 	{
 	}
 
+	protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
+	{
+	}
+
 	protected function getQuestionsQtiXml()
 	{
 		return '';

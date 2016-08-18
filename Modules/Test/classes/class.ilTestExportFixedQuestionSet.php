@@ -14,6 +14,10 @@ class ilTestExportFixedQuestionSet extends ilTestExport
 	protected function initXmlExport()
 	{
 	}
+
+	protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
+	{
+	}
 	
 	protected function getQuestionsQtiXml()
 	{

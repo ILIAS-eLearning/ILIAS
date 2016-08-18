@@ -6603,10 +6603,6 @@ function getAnswerFeedbackPoints()
 		$this->mob_ids = array();
 		$this->file_ids = array();
 
-		$attrs = array();
-		$attrs["Type"] = "Test";
-		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
-
 		// MetaData
 		$this->exportXMLMetaData($a_xml_writer);
 
@@ -6630,8 +6626,6 @@ function getAnswerFeedbackPoints()
 		$this->exportFileItems($a_target_dir, $expLog);
 		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
-
-		$a_xml_writer->xmlEndTag("ContentObject");
 	}
 
 	/**
