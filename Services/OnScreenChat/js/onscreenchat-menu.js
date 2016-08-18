@@ -56,10 +56,12 @@
 
 			if(!getModule().rendered)
 			{
+				getModule().content.find('#onscreenchatmenu-content').html("");
+
 				for(var index in getModule().conversations){
+
 					if(getModule().conversations[index].latestMessage != null)
 					{
-						console.log(getModule().conversations[index]);
 						var template = getModule().config.conversationTemplate;
 						var latestMessage = getModule().conversations[index].latestMessage;
 						var participants = getModule().conversations[index].participants;
@@ -77,6 +79,7 @@
 						template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
 						template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 						template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
+
 						getModule().content.find('#onscreenchatmenu-content').append(template);
 					}
 				}
@@ -129,7 +132,6 @@
 				}
 			}
 
-			console.log(num);
 			return num;
 		},
 
