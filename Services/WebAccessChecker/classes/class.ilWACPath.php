@@ -145,6 +145,14 @@ class ilWACPath {
 
 
 	/**
+	 * @return string
+	 */
+	public function getDirName() {
+		return dirname($this->getPathWithoutQuery());
+	}
+
+
+	/**
 	 * @return bool
 	 */
 	public function isImage() {
@@ -220,6 +228,7 @@ class ilWACPath {
 	 * @param $token
 	 */
 	public function setToken($token) {
+		$this->parameters[ilWACSignedPath::WAC_TOKEN_ID] = $token;
 		$this->token = $token;
 	}
 
@@ -236,6 +245,7 @@ class ilWACPath {
 	 * @param $timestamp
 	 */
 	public function setTimestamp($timestamp) {
+		$this->parameters[ilWACSignedPath::WAC_TIMESTAMP_ID] = $timestamp;
 		$this->timestamp = $timestamp;
 	}
 
@@ -252,6 +262,7 @@ class ilWACPath {
 	 * @param int $ttl
 	 */
 	public function setTTL($ttl) {
+		$this->parameters[ilWACSignedPath::WAC_TTL_ID] = $ttl;
 		$this->ttl = $ttl;
 	}
 

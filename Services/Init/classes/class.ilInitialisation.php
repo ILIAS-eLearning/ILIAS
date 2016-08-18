@@ -70,7 +70,9 @@ class ilInitialisation
 		// really always required?
 		require_once "./Services/Utilities/classes/class.ilUtil.php";			
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
-		require_once "include/inc.ilias_version.php";	
+		require_once "include/inc.ilias_version.php";
+		
+		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
 		
 		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");				
 	}
@@ -213,7 +215,11 @@ class ilInitialisation
 				$uri = dirname($uri);
 			}
 		}
-		
+		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
+		{
+			return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators(dirname($protocol.$host.$uri)));
+			
+		}
 		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
 	}
 
@@ -237,7 +243,10 @@ class ilInitialisation
 			$_GET["client_id"] = ilUtil::stripSlashes($_GET["client_id"]);
 			if (!defined("IL_PHPUNIT_TEST"))
 			{
-				ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+				if(ilContext::supportsPersistentSessions())
+				{
+					ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+				}
 			}
 		}
 		else if (!$_COOKIE["ilClientId"])
@@ -549,23 +558,23 @@ class ilInitialisation
 		global $ilUser;
 
 		// get user id
-		if (!ilSession::get("AccountId"))
-		{
-			ilSession::set("AccountId", $ilUser->checkUserId());
-			ilSession::set('orig_request_target', '');
-			$ilUser->hasToAcceptTermsOfServiceInSession(true);
-		}
+		// @todo php7: check this!
+//		if (!ilSession::get("AccountId"))
+//		{
+//			ilSession::set("AccountId", $ilUser->checkUserId());
+//			ilSession::set('orig_request_target', '');
+//			$ilUser->hasToAcceptTermsOfServiceInSession(true);
+//		}
 		
-		$uid = ilSession::get("AccountId");		
+		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
 		if($uid)
 		{
-			$ilUser->setId($uid);	
+			$ilUser->setId($uid);
 			$ilUser->read();
 			
 			// init console log handler
 			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
-			ilLoggerFactory::getRootLogger()->debug('Using default timezone: '. IL_TIMEZONE);
 		}
 		else
 		{
@@ -619,7 +628,7 @@ class ilInitialisation
 	 * 
 	 * @param int $a_auth_stat
 	 */
-	public static function goToPublicSection($a_auth_stat = "")
+	public static function goToPublicSection()
 	{
 		global $ilAuth;
 				
@@ -627,45 +636,28 @@ class ilInitialisation
 		{
 			self::abortAndDie("Public Section enabled, but no Anonymous user found.");
 		}
-
-		// logout and end previous session
-		if($a_auth_stat == AUTH_EXPIRED ||
-			$a_auth_stat == AUTH_IDLED)
+		
+		$session_destroyed = false; 
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
+			$session_destroyed = true; 
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
 		}
-		else
+		if(!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
 		{
+			$session_destroyed = true; 
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_PUBLIC);
 		}
-		$ilAuth->logout();
-		session_unset();
-		session_destroy();
 		
-		// new session and login as anonymous
-		self::setSessionHandler();
-		session_start();
-		$_POST["username"] = "anonymous";
-		$_POST["password"] = "anonymous";
-		ilAuthUtils::_initAuth();
-		
-		// authenticate (anonymous)
-		$oldSid = session_id();		
-		$ilAuth->start();
-
-		if (!$ilAuth->getAuth())
+		if($session_destroyed)
 		{
-			self::abortAndDie("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
+			$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
 		}
 		
 		self::initUserAccount();
 		
-		$mess_id = "init_error_authentication_fail";
-		$mess = array("en" => "Authentication failed.",
-			"de" => "Authentifizierung fehlgeschlagen.");
-		
 		// if target given, try to go there
-		if ($_GET["target"] != "")
+		if(strlen($_GET["target"]))
 		{	
 			// when we are already "inside" goto.php no redirect is needed
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);	
@@ -673,16 +665,16 @@ class ilInitialisation
 			{
 				return;
 			}		
-			
 			// goto will check if target is accessible or redirect to login
-			self::redirect("goto.php?target=".$_GET["target"], $mess_id, $mess);			
+			self::redirect("goto.php?target=".$_GET["target"]);			
 		}
 		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		$_GET["cmd"] = "frameset";
-		self::redirect("ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".
-			$_GET["cmd"]."&ref_id=".$_GET["ref_id"], $mess_id, $mess);
+		self::redirect(
+			"ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".
+			$_GET["cmd"]."&ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -690,36 +682,29 @@ class ilInitialisation
 	 * 
 	 * @param int $a_auth_stat
 	 */
-	protected static function goToLogin($a_auth_stat = "")
+	protected static function goToLogin()
 	{		
-		global $ilAuth;
+		ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 		
-		// close current session
-		if($a_auth_stat == AUTH_EXPIRED ||
-			$a_auth_stat == AUTH_IDLED)
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
 		}
-		else
+		if(!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
 		{
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
 		}
-		$ilAuth->logout();
-		session_unset();
-		session_destroy();
-
-		$add = "";
-		if ($_GET["soap_pw"] != "")
-		{
-			$add = "&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"];
-		}
-
+		
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
-			"&auth_stat=".$a_auth_stat.$add;
+			"&auth_stat=".$a_auth_stat;
 					
-		self::redirect($script, "init_error_authentication_fail",
-			array("en" => "Authentication failed.",
-				"de" => "Authentifizierung fehlgeschlagen."));
+		self::redirect(
+			$script, 
+			"init_error_authentication_fail",
+			array(
+				"en" => "Authentication failed.",
+				"de" => "Authentifizierung fehlgeschlagen.")
+		);
 	}
 
 	/**
@@ -877,22 +862,21 @@ class ilInitialisation
 
 		self::$already_initialized = true;
 
-		global $tree;
-		
 		self::initCore();
 				
 		if(ilContext::initClient())
 		{
 			self::initClient();
-
+			self::initSession();
+			
 			if (ilContext::hasUser())
 			{						
 				self::initUser();
 				
-				if(ilContext::doAuthentication())
+				if(ilContext::supportsPersistentSessions())
 				{
-					self::authenticate();
-				}				
+					self::resumeUserSession();
+				}
 			}	
 
 			// init after Auth otherwise breaks CAS
@@ -900,7 +884,7 @@ class ilInitialisation
 			
 			// language may depend on user setting
 			self::initLanguage();
-			$tree->initLangCode();
+			$GLOBALS['DIC']['tree']->initLangCode();
 
 			if(ilContext::hasHTML())
 			{													
@@ -912,6 +896,18 @@ class ilInitialisation
 		}					
 	}
 	
+	/**
+	 * Init session
+	 */
+	protected static function initSession()
+	{
+		include_once './Services/Authentication/classes/class.ilAuthSession.php';
+		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
+		
+		$GLOBALS['DIC']['ilAuthSession']->init();
+	}
+
+
 	/**
 	 * Set error reporting level
 	 */
@@ -1053,47 +1049,44 @@ class ilInitialisation
 	 */
 	protected static function initUser()
 	{
-		global $ilias, $ilAuth, $ilUser;
+		global $ilias, $ilUser;
 		
-		if(ilContext::usesHTTP())
-		{								
-			// allow login by submitting user data
-			// in query string when DEVMODE is enabled
-			if( DEVMODE
-				&& isset($_GET['username']) && strlen($_GET['username'])
-				&& isset($_GET['password']) && strlen($_GET['password'])
-			){
-				$_POST['username'] = $_GET['username'];
-				$_POST['password'] = $_GET['password'];
-			}										
-		}		
-
-		// $ilAuth 
-		include_once "./Services/Authentication/classes/class.ilAuthUtils.php";
-		ilAuthUtils::_initAuth();
-		$ilias->auth = $ilAuth;
-
 		// $ilUser 
-		self::initGlobal("ilUser", "ilObjUser", 
-			"./Services/User/classes/class.ilObjUser.php");
-		$ilias->account =& $ilUser;
+		self::initGlobal(
+			"ilUser", 
+			"ilObjUser", 
+			"./Services/User/classes/class.ilObjUser.php"
+		);
+		$ilias->account = $ilUser;
 				
 		self::initAccessHandling();
-
-		
-		// force login
-		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login"))
-		{			
-			$ilAuth->logout();
-			
-			// we need to do this for the session statistics
-			// could we use session_destroy() instead?
-			// [this is done after every $ilAuth->logout() call elsewhere] 
-			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
-			$_SESSION = array();
-		}
 	}
-
+	
+	/**
+	 * Resume an existing user session
+	 */
+	public static function resumeUserSession()
+	{
+		if(
+			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
+			$GLOBALS['DIC']['ilAuthSession']->isExpired()
+		)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
+			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);		
+			if(self::blockedAuthentication($current_script))
+			{
+				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
+				// nothing todo: authentication is done in current script
+				return;
+			}
+			return self::handleAuthenticationFail();
+		}
+		// valid session
+		return self::initUserAccount();
+		
+	}
+	
 	/**
 	 * Try authentication
 	 * 
@@ -1161,30 +1154,32 @@ class ilInitialisation
 	protected static function handleAuthenticationFail()
 	{
 		/**
-		 * @var $ilAuth    Auth
+		 * @var ilAuth
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilAuth, $ilSetting;
-						
+		
+		ilLoggerFactory::getLogger('init')->debug('Handling of failed authentication.');
+		
 		// #10608
-		if(ilContext::getType() == ilContext::CONTEXT_SOAP || ilContext::getType() == ilContext::CONTEXT_WAC)
+		if(
+			ilContext::getType() == ilContext::CONTEXT_SOAP || 
+			ilContext::getType() == ilContext::CONTEXT_WAC)
 		{
 			throw new Exception("Authentication failed.");
-		}				
-
-		$status = $ilAuth->getStatus();
-
-		if($ilSetting->get('pub_section') &&
-			($status == '' || $status == AUTH_EXPIRED || $status == AUTH_IDLED) &&
-			$_GET['reloadpublic'] != '1'
-		)
-		{
-			self::goToPublicSection($status);
 		}
-		else
+		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
-			self::goToLogin($status);
+			ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
+			return self::goToLogin();
 		}
+		if($ilSetting->get('pub_section'))
+		{
+			ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
+			return self::goToPublicSection();
+		}
+		ilLoggerFactory::getLogger('init')->debug('Redirect to login page.');
+		return self::goToLogin();
 	}
 
 	/**
@@ -1325,13 +1320,23 @@ class ilInitialisation
 	 * @return boolean 
 	 */
 	protected static function blockedAuthentication($a_current_script)
-	{		
-		if($a_current_script == "register.php" || 
+	{
+		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
+			return true;
+		}
+		
+		if(
+			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
 			$a_current_script == "confirmReg.php" ||
 			$a_current_script == "il_securimage_play.php" ||
-			$a_current_script == "il_securimage_show.php") 
+			$a_current_script == "il_securimage_show.php" ||
+			$a_current_script == 'login.php'
+		)
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for script: ' . $a_current_script);
 			return true;
 		}
 		
@@ -1342,14 +1347,18 @@ class ilInitialisation
 			if($cmd_class == "ilaccountregistrationgui" ||
 				$cmd_class == "ilpasswordassistancegui")
 			{
+				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $cmd_class);
 				return true;
 			}
 			
 			$cmd = self::getCurrentCmd();
-			if($cmd == "showTermsOfService" || $cmd == "showClientList" || 
+			if(
+				$cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-				$cmd == 'processCode')
+				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication'
+			)
 			{
+				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);
 				return true;
 			}
 		}
@@ -1358,9 +1367,10 @@ class ilInitialisation
 		if(($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
 			$_GET["baseClass"] == "ilImprintGUI")
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
 			return true;
 		}
-		
+		ilLoggerFactory::getLogger('auth')->debug('Authentication required');
 		return false;
 	}
 	
@@ -1377,7 +1387,7 @@ class ilInitialisation
 		}
 		
 		if($_REQUEST["baseClass"] == "ilStartUpGUI" && 
-			self::getCurrentCmd() == "showLogin")
+			self::getCurrentCmd() == "showLoginPage")
 		{	
 			return true;					
 		}
@@ -1453,7 +1463,7 @@ class ilInitialisation
 	 * @param string $a_message_id
 	 * @param array $a_message_details
 	 */
-	protected static function redirect($a_target, $a_message_id, $a_message_static)
+	protected static function redirect($a_target, $a_message_id = '', $a_message_static = '')
 	{		
 		// #12739
 		if(defined("ILIAS_HTTP_PATH") &&
@@ -1496,5 +1506,38 @@ class ilInitialisation
 									
 			self::abortAndDie($mess);			
 		}
+	}
+	
+	/**
+	 * Requires valid authenticated user
+	 */
+	public static function redirectToStartingPage()
+	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
+		// fallback, should never happen
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			ilInitialisation::goToPublicSection();
+		}
+		else
+		{										
+			// for password change and incomplete profile 
+			// see ilPersonalDesktopGUI
+			if(!$_GET["target"])
+			{										
+				// Redirect here to switch back to http if desired
+				include_once './Services/User/classes/class.ilUserUtil.php';						
+				ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+			}
+			else
+			{
+				ilUtil::redirect("goto.php?target=".$_GET["target"]);
+			}
+		}
+		
 	}
 }

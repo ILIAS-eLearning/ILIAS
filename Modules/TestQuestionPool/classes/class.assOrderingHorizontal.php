@@ -837,4 +837,17 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		}
 		return 0;
 	}
+
+// fau: testNav - new function getTestQuestionConfig()
+	/**
+	 * Get the test question configuration
+	 * @return ilTestQuestionConfig
+	 */
+	public function getTestQuestionConfig()
+	{
+		return parent::getTestQuestionConfig()
+			->setIsUnchangedAnswerPossible(true)
+			->setUseUnchangedAnswerLabel($this->lng->txt('tst_unchanged_order_is_correct'));
+	}
+// fau.
 }

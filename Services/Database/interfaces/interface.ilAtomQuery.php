@@ -4,6 +4,9 @@ require_once('./Services/Database/exceptions/exception.ilAtomQueryException.php'
 /**
  * Interface ilAtomQuery
  *
+ * Use ilAtomQuery to fire Database-Actions which have to be done without beeing influenced by other queries or which can influence other queries as
+ * well. Depending on the current Database-engine, this can be done by using transaction or with table-locks
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilAtomQuery {
@@ -25,14 +28,16 @@ interface ilAtomQuery {
 
 	/**
 	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables.
+	 * You get an ilTableLockInterface with further possibilities, e.g.:
+	 *
+	 * $ilAtomQuery->addTableLock('my_table')->lockSequence(true)->aliasName('my_alias');
 	 *
 	 * the lock-level is determined by ilAtomQuery
 	 *
-	 * @param string $table_name
-	 * @param bool $lock_sequence_too
-	 * @throws \ilAtomQueryException
+	 * @param $table_name
+	 * @return \ilTableLockInterface
 	 */
-	public function lockTable($table_name, $lock_sequence_too = false);
+	public function addTableLock($table_name);
 
 
 	/**
@@ -97,12 +102,16 @@ interface ilAtomQuery {
 
 
 	/**
+	 * Returns the current Isolation-Level
+	 *
 	 * @return int
 	 */
 	public function getIsolationLevel();
 
 
 	/**
+	 * Provides a check if your callable is ready to be used in ilAtomQuery
+	 *
 	 * @param callable $query
 	 * @return bool
 	 */

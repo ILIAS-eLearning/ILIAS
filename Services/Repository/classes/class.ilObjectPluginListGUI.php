@@ -12,20 +12,20 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 */
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
+
+	/**
+	 * @var ilRepositoryObjectPlugin
+	 */
+	protected $plugin;
+
 	/**
 	* initialisation
 	*/
 	final function init()
 	{
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->subscribe_enabled = true;
-		$this->link_enabled = true;
-		$this->info_screen_enabled = true;
+		$this->initListActions();
 		$this->initType();
-		$this->plugin =
-			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
-				ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
+		$this->plugin = $this->getPlugin();
 		$this->gui_class_name = $this->getGuiClass();
 		$this->commands = $this->initCommands();
 	}
@@ -41,6 +41,18 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 	function setType($a_val)
 	{
 		$this->type = $a_val;
+	}
+
+	/**
+	 * @return ilObjectPlugin|null
+	 */
+	protected function getPlugin() {
+		if(!$this->plugin) {
+			$this->plugin =
+				ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
+		}
+		return $this->plugin;
 	}
 	
 	/**
@@ -123,6 +135,14 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 			"cmd=forward&amp;ref_id=".$this->ref_id."&amp;forwardCmd=".$a_cmd;
 
 		return $cmd_link;
+	}
+
+	protected function initListActions() {
+		$this->delete_enabled = true;
+		$this->cut_enabled = true;
+		$this->subscribe_enabled = true;
+		$this->link_enabled = true;
+		$this->info_screen_enabled = true;
 	}
 }
 ?>

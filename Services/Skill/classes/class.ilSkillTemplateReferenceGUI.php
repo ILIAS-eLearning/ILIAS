@@ -66,7 +66,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	/**
 	 * output tabs
 	 */
-	function setTabs($a_tab)
+	function setTabs($a_tab = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 

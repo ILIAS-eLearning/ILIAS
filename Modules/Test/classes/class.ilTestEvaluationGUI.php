@@ -1031,7 +1031,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$passOverViewTableGUI->setResultPresentationEnabled(true);
 		$passOverViewTableGUI->setPassDetailsCommand('outParticipantsPassDetails');
 		$passOverViewTableGUI->init();
-		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector->getExistingPasses(), true));
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector->getExistingPasses(), true, true));
 		$passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
 		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
@@ -2062,5 +2062,62 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		return $filteredTestResult;
+	}
+
+	public function finishTestPassForSingleUser()
+	{
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
+		$cgui->setHeaderText($this->lng->txt("finish_pass_for_user_confirmation"));
+		$cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
+		$cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForUser");
+		$this->tpl->setContent($cgui->getHTML());
+	}
+
+	public function confirmFinishTestPassForUser()
+	{
+		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
+		$active_id = (int) $_GET["active_id"];
+		$this->finishTestPass($active_id, $this->object->getId());
+		$this->redirectBackToParticipantsScreen();
+	}
+
+	public function finishAllUserPasses()
+	{
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
+		$cgui->setHeaderText($this->lng->txt("finish_pass_for_all_users"));
+		$cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
+		$cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForAllUser");
+		$this->tpl->setContent($cgui->getHTML());
+	}
+
+	public function confirmFinishTestPassForAllUser()
+	{
+		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
+		$participants = $this->object->getTestParticipants();
+		foreach($participants as $participant)
+		{
+			if(array_key_exists('unfinished_passes', $participant) && $participant['unfinished_passes'] == 1)
+			{
+				$this->finishTestPass($participant['active_id'], $this->object->getId());
+			}
+		}
+		$this->redirectBackToParticipantsScreen();
+	}
+
+	protected function finishTestPass($active_id, $obj_id)
+	{
+		$test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
+		$test_pass_finisher->performFinishTasksBeforeArchiving();
+		//Todo Archiving?
+		$test_pass_finisher->performFinishTasksAfterArchiving();
+	}
+	
+	protected function redirectBackToParticipantsScreen()
+	{
+		$this->ctrl->redirectByClass("ilobjtestgui", "participants");
 	}
 }

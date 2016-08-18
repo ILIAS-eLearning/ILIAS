@@ -2608,6 +2608,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 			$participants =& $this->object->getInvitedUsers();
 			$rows = array();
+			$unfinished_passes = false;
 			foreach ($participants as $data)
 			{
 				$maxpass = $this->object->_getMaxPass($data["active_id"]);
@@ -2642,6 +2643,13 @@ class ilObjTestGUI extends ilObjectGUI
 					$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
 				}
 				
+				$unfinished_pass_data = 0;
+				if($data["unfinished_passes"] == 1)
+				{
+					$unfinished_pass_data = 1;
+					$unfinished_passes = true;
+				}
+					
 				array_push($rows, array(
 					'usr_id' => $data["usr_id"],
 					'active_id' => $data['active_id'],
@@ -2651,10 +2659,12 @@ class ilObjTestGUI extends ilObjectGUI
 					'lastname' => $data["lastname"],
 					'name' => $fullname,
 					'started' => ($data["active_id"] > 0) ? 1 : 0,
+					'unfinished' => $unfinished_pass_data,
 					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
 					'access' => $access,
 					'maxpass' => $maxpass,
-					'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview')
+					'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview'),
+					'finish_link' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser')
 				));
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php";
@@ -2676,11 +2686,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
 				$ilToolbar->addButtonInstance($delete_all_results_btn);
 			}
+			$this->addFinishAllPassesButton($unfinished_passes, $ilToolbar);
 		}
 		else
 		{
 			$participants =& $this->object->getTestParticipants();
 			$rows = array();
+			$unfinished_passes = false;
+
 			foreach ($participants as $data)
 			{
 				$maxpass = $this->object->_getMaxPass($data["active_id"]);
@@ -2696,20 +2709,29 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
 
+				$unfinished_pass_data = 0;
+				if($data["unfinished_passes"] == 1)
+				{
+					$unfinished_pass_data = 1;
+					$unfinished_passes = true;
+				}
+				
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
 				array_push($rows, array(
-					'usr_id' => $data["active_id"],
-					'active_id' => $data['active_id'],
-					'login' => $data["login"],
-					'name' => $fullname,
-					'firstname' => $data["firstname"],
-					'lastname' => $data["lastname"],
-					'started' => ($data["active_id"] > 0) ? 1 : 0,
-					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
-					'access' => $access,
-					'maxpass' => $maxpass,
-					'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview')
+					'usr_id' 		=> $data["active_id"],
+					'active_id'		=> $data['active_id'],
+					'login'			=> $data["login"],
+					'name'			=> $fullname,
+					'firstname'		=> $data["firstname"],
+					'lastname'		=> $data["lastname"],
+					'started'		=> ($data["active_id"] > 0) ? 1 : 0,
+					'unfinished'	=> $unfinished_pass_data,
+					'finished'		=> ($data["test_finished"] == 1) ? 1 : 0,
+					'access'		=> $access,
+					'maxpass'		=> $maxpass,
+					'result'		=> $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview'),
+					'finish_link'	=> $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser')
 				));
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";
@@ -2727,11 +2749,29 @@ class ilObjTestGUI extends ilObjectGUI
 				$ilToolbar->addStickyItem($delete_all_results_btn);
 			}
 
+			$this->addFinishAllPassesButton($unfinished_passes, $ilToolbar);
+
 			$table_gui->setFilterCommand('npSetFilter');
 			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+		}
+	}
+
+	/**
+	 * @param $unfinished_passes
+	 * @param $ilToolbar
+	 */
+	protected function addFinishAllPassesButton($unfinished_passes, $ilToolbar)
+	{
+		if($unfinished_passes)
+		{
+			$ilToolbar->addSeparator();
+			$finish_all_user_passes_btn = ilLinkButton::getInstance();
+			$finish_all_user_passes_btn->setCaption('finish_all_user_passes');
+			$finish_all_user_passes_btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
+			$ilToolbar->addButtonInstance($finish_all_user_passes_btn);
 		}
 	}
 	
@@ -3512,19 +3552,6 @@ class ilObjTestGUI extends ilObjectGUI
 		 */
 		global $ilAccess, $ilUser, $ilToolbar;
 		
-		require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
-		
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-		require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
-
-		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
-		$testSession = $this->testSessionFactory->getSession();
-		$testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
-		$testSequence->loadFromDb();
-		$testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
-		$big_button = array();
-		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
-		
 		if ($_GET['createRandomSolutions'])
 		{
 			global $ilCtrl;
@@ -3541,224 +3568,28 @@ class ilObjTestGUI extends ilObjectGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setOpenFormTag(false);
 		
 		if( $this->isCommandClassAnyInfoScreenChild() )
 		{
 			return $this->ctrl->forwardCommand($info);
 		}
 		
-		$this->ctrl->setParameter($testPlayerGUI, "sequence", $testSession->getLastSequence());
-		
-		$info->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
-		
-		if (strlen($session_lock))
-		{
-			$info->addHiddenElement("lock", $session_lock);
-		}
-		else
-		{
-			$info->addHiddenElement("lock", md5($_COOKIE['PHPSESSID'] . time()));
-		}
-		$online_access = false;
-		if ($this->object->getFixedParticipants())
-		{
-			include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-			$online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
-			if ($online_access_result === true)
-			{
-				$online_access = true;
-			}
-			else
-			{
-				ilUtil::sendInfo($online_access_result);
-			}
-		}
+		require_once 'Modules/Test/classes/class.ilTestInfoScreenToolbarFactory.php';
+		$toolbarFactory = new ilTestInfoScreenToolbarFactory();
+		$toolbarFactory->setTestOBJ($this->object);
+		$toolbar = $toolbarFactory->getToolbarInstance();
 
-		$enter_anonymous_code = false;
-		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
-		{
-			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
-			{
-				$executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = TRUE
-				);
-				if ($executable["executable"])
-				{
-					if( $this->object->areObligationsEnabled() && $this->object->hasObligations($this->object->getTestId()) )
-					{
-						ilUtil::sendInfo($GLOBALS['lng']->txt('tst_test_contains_obligatory_questions'));
-					}
-					
-					if ($testSession->getActiveId() > 0)
-					{
-						// resume test
-						require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-						$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
-						$testPassesSelector->setActiveId($testSession->getActiveId());
-						$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-						
-						$closedPasses = $testPassesSelector->getClosedPasses();
-						$existingPasses = $testPassesSelector->getExistingPasses();
-						
-						if ($existingPasses > $closedPasses)
-						{
-							$btn = ilSubmitButton::getInstance();
-							$btn->setCaption('tst_resume_test');
-							$btn->setCommand('resumePlayer');
-							$btn->setPrimary(true);
-							$big_button[] = $btn;
-						}
-						else
-						{
-							$btn = ilSubmitButton::getInstance();
-							$btn->setCaption($this->object->getStartTestLabel($testSession->getActiveId()), false);
-							$btn->setCommand('startPlayer');
-							$btn->setPrimary(true);
-							$big_button[] = $btn;
-						}
-					}
-					else
-					{
-						// start new test
-						$btn = ilSubmitButton::getInstance();
-						$btn->setCaption($this->object->getStartTestLabel($testSession->getActiveId()), false);
-						$btn->setCommand('startPlayer');
-						$btn->setPrimary(true);
-						$big_button[] = $btn;
-					}
-				}
-				else
-				{
-					ilUtil::sendInfo($executable["errormessage"]);
-				}
-				if ($testSession->getActiveId() > 0)
-				{
-					// test results button
+		$toolbar->setGlobalToolbar($GLOBALS['DIC']['ilToolbar']);
+		$toolbar->setCloseFormTag(false);
 
-					require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-					$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
-					$testPassesSelector->setActiveId($testSession->getActiveId());
-					$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-					
-					if ($this->object->canShowTestResults($testSession, $ilUser->getId()) && count($testPassesSelector->getReportablePasses())) 
-					{
-						$btn = ilLinkButton::getInstance();
-						$btn->setCaption('tst_show_results');
-						$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI',  'outUserResultsOverview'));
-						$btn->setPrimary(false);
-						$big_button[] = $btn;
-
-						if ($this->object->getHighscoreEnabled())
-						{
-							// Can also compare results then
-							$btn = ilLinkButton::getInstance();
-							$btn->setCaption('tst_show_toplist');
-							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestToplistGUI', 'outResultsToplist'));
-							$btn->setPrimary(false);
-							$big_button[] = $btn;
-						}
-
-						if( $this->object->isSkillServiceToBeConsidered() )
-						{
-							require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-
-							$btn = ilLinkButton::getInstance();
-							$btn->setCaption('tst_show_comp_results');
-							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
-							$btn->setPrimary(false);
-							$big_button[] = $btn;
-						}
-					}
-					
-				}
-			}
-			if ($testSession->getActiveId() > 0)
-			{
-				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
-				{
-					$btn = ilLinkButton::getInstance();
-					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outUserListOfAnswerPasses'));
-					$btn->setPrimary(false);
-					$big_button[] = $btn;
-				}
-			}
-			
-			if( $this->isDeleteDynamicTestResultsButtonRequired($testSession, $testSequence) )
-			{
-				$this->populateDeleteDynamicTestResultsButton($testSession, $big_button);
-			}
-			
-			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-			{
-				$enter_anonymous_code = true;
-			}
-		}
-
-		if( !$this->object->isOnline() && !$testQuestionSetConfig->areDepenciesBroken() )
- 		{
-			$message = $this->lng->txt("test_is_offline");
-
-			if($ilAccess->checkAccess("write", "", $this->ref_id))
-			{
-				$message .= "<br /><a href=\"".$this->ctrl->getLinkTargetByClass('ilobjtestsettingsgeneralgui')."\">".
-					$this->lng->txt("test_edit_settings")."</a>";
-			}
-
-			ilUtil::sendInfo($message);
-		}
-
-		if( $this->object->isSkillServiceToBeConsidered() && $this->areSkillLevelThresholdsMissing() )
-		{
-			ilUtil::sendFailure($this->getSkillLevelThresholdsMissingInfo());
-		}
-
-		if($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
-			
-			if( $testQuestionSetConfig->areDepenciesBroken() )
-			{
-				ilUtil::sendFailure( $testQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
-				
-				$big_button = array();
-				$enter_anonymous_code = false;
-			}
-			elseif( $testQuestionSetConfig->areDepenciesInVulnerableState() )
-			{
-				ilUtil::sendInfo( $testQuestionSetConfig->getDepenciesInVulnerableStateMessage($this->lng) );
-			}
-		}
+		$toolbar->setSessionLockString($session_lock);
+		$toolbar->build();
+		$toolbar->sendMessages();
 		
 		if ($this->object->getShowInfo())
 		{
 			$info->enablePrivateNotes();
-		}
-
-		if($big_button || $enter_anonymous_code)
-		{
-			$ilToolbar->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
-
-			foreach($big_button as $button)
-			{
-				$ilToolbar->addButtonInstance($button);
-			}
-
-			if($enter_anonymous_code)
-			{
-				if($big_button)
-				{
-					$ilToolbar->addSeparator();
-				}
-
-				require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-				$anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
-				$anonymous_id->setSize(8);
-				$ilToolbar->addInputItem($anonymous_id, true);
-				$ilToolbar->addFormButton($this->lng->txt('submit'), 'setAnonymousId');
-			}
-
-			$ilToolbar->setCloseFormTag(false);
-			$info->setOpenFormTag(false);
 		}
 		
 		if (strlen($this->object->getIntroduction()))
@@ -3865,7 +3696,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):$this->object->getNrOfTries());
 			if ($this->object->getNrOfTries() != 1)
 			{
-				$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($testSession->getPass() == false)?$this->lng->txt("tst_no_tries"):$testSession->getPass());
+				$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($toolbar->getTestSession()->getPass() == false)?$this->lng->txt("tst_no_tries"):$toolbar->getTestSequence()->getPass());
 			}
 
 			if ($this->object->getEnableProcessingTime())
@@ -5310,60 +5141,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	 * @param $testSession
-	 * @param $testSequence
-	 * @return bool
-	 */
-	private function isDeleteDynamicTestResultsButtonRequired($testSession, $testSequence)
-	{
-		if( !$testSession->getActiveId() )
-		{
-			return false;
-		}
-		
-		if( !$this->object->isDynamicTest() )
-		{
-			return false;
-		}
-		
-		if( !$this->object->isPassDeletionAllowed() )
-		{
-			return false;
-		}
-		
-		if( !$testSequence->hasStarted($testSession) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-
-	/**
-	 * @param $testSession
-	 * @param $big_button
-	 */
-	private function populateDeleteDynamicTestResultsButton($testSession, &$big_button)
-	{
-		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
-		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-
-		$this->ctrl->setParameterByClass(
-			'iltestevaluationgui', 'context',
-			ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN
-		);
-		
-		$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $testSession->getActiveId());
-		$this->ctrl->setParameterByClass('iltestevaluationgui', 'pass', $testSession->getPass());
-
-		$btn = ilLinkButton::getInstance();
-		$btn->setCaption('tst_delete_dyn_test_results_btn');
-		$btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui',  'confirmDeletePass'));
-		$btn->setPrimary(false);
-		$big_button[] = $btn;
-	}
-
-	/**
 	 * @return bool
 	 */
 	private function isPdfDeliveryRequest()
@@ -5395,66 +5172,5 @@ class ilObjTestGUI extends ilObjectGUI
 	protected function getObjectiveOrientedContainer()
 	{
 		return $this->objectiveOrientedContainer;
-	}
-
-	private function areSkillLevelThresholdsMissing()
-	{
-		if( !$this->object->isSkillServiceEnabled() )
-		{
-			return false;
-		}
-		
-		if( $this->object->isDynamicTest() )
-		{
-			$questionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
-			$questionContainerId = $questionSetConfig->getSourceQuestionPoolId();
-		}
-		else
-		{
-			$questionContainerId = $this->object->getId();
-		}
-		
-		global $ilDB;
-		
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
-		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
-		
-		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
-		$assignmentList->setParentObjId($questionContainerId);
-		$assignmentList->loadFromDb();
-
-		foreach($assignmentList->getUniqueAssignedSkills() as $data)
-		{
-			foreach($data['skill']->getLevelData() as $level)
-			{
-				$treshold = new ilTestSkillLevelThreshold($ilDB);
-				$treshold->setTestId($this->object->getTestId());
-				$treshold->setSkillBaseId($data['skill_base_id']);
-				$treshold->setSkillTrefId($data['skill_tref_id']);
-				$treshold->setSkillLevelId($level['id']);
-				
-				if( !$treshold->dbRecordExists() )
-				{
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	
-	private function getSkillLevelThresholdsMissingInfo()
-	{
-		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
-		
-		$link = $this->ctrl->getLinkTargetByClass(
-			array('ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'),
-			ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
-		);
-		
-		$msg = $this->lng->txt('tst_skl_level_thresholds_missing');
-		$msg .= '<br /><a href="'.$link.'">'.$this->lng->txt('tst_skl_level_thresholds_link').'</a>';
-		
-		return $msg;
 	}
 }

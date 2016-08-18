@@ -45,7 +45,7 @@ class ilSecurImageUtil
 	/**
 	 *
 	 */
-	public function includeSecurImage()
+	public static function includeSecurImage()
 	{
 		require_once 'Services/Captcha/lib/securimage_' . self::$ver . '/securimage.php';
 	}

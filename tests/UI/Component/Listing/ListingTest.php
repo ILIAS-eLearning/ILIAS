@@ -103,26 +103,6 @@ class ListingTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $html);
 	}
 
-	public function test_ordered_invalid_items() {
-		$f = $this->getListingFactory();
-
-		try{
-			$f->ordered("1");
-		}catch(Exception $e){
-			$this->assertEquals($e->getCode(), E_RECOVERABLE_ERROR);
-		}
-	}
-
-	public function test_descriptive_invalid_items1() {
-		$f = $this->getListingFactory();
-
-		try{
-			$f->descriptive("1","1");
-		}catch(Exception $e){
-			$this->assertEquals($e->getCode(), E_RECOVERABLE_ERROR);
-		}
-	}
-
 	public function test_descriptive_invalid_items2() {
 		$f = $this->getListingFactory();
 

@@ -343,6 +343,42 @@ class ilAdvancedMDValues
 	{
 		global $ilLog;
 		
+		// clone local records
+		
+		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";	
+		$new_records = $fields_map = array();		
+		foreach(ilAdvancedMDRecord::_getRecords() as $record)
+		{
+			if($record->getParentObject() == $a_source_id)
+			{
+				$tmp = array();
+				$new_records[$record->getRecordId()] = $record->_clone($tmp, $a_target_id);				
+				$fields_map[$record->getRecordId()] = $tmp;
+			}
+		}
+		
+		
+		// object record selection
+		
+		$source_sel = ilAdvancedMDRecord::getObjRecSelection($a_source_id, $a_sub_type);
+		if($source_sel)
+		{
+			$target_sel = array();
+			foreach($source_sel as $record_id)
+			{
+				// (local) record has been cloned
+				if(array_key_exists($record_id, $new_records))
+				{
+					$record_id = $new_records[$record_id]->getRecordId();
+				}
+				$target_sel[] = $record_id;			
+			}		
+			ilAdvancedMDRecord::saveObjRecSelection($a_target_id, $a_sub_type, $target_sel);
+		}
+		
+		
+		// clone values 
+		
 		$source_primary = array("obj_id"=>array("integer", $a_source_id));
 		$target_primary = array("obj_id"=>array("integer", $a_target_id));
 		
@@ -369,6 +405,41 @@ class ilAdvancedMDValues
 			$source_primary,
 			$target_primary,
 			array("disabled"=>"integer"));	 	
+		
+		
+		// move values of local records to newly created fields
+		
+		foreach($fields_map as $source_record_id => $fields)
+		{
+			// just to make sure
+			if(array_key_exists($source_record_id, $new_records))
+			{
+				foreach($fields as $source_field_id => $target_field_id)
+				{
+					// delete entry for old field id (was cloned above)
+					$del_target_primary = $target_primary;
+					$del_target_primary["field_id"] = array("integer", $source_field_id);
+					ilADTActiveRecordByType::deleteByPrimary("adv_md_values", $del_target_primary);
+
+					// create entry for new id
+					$fix_source_primary = $source_primary;
+					$fix_source_primary["field_id"] =  array("integer", $source_field_id);
+					$fix_target_primary = $target_primary;
+					$fix_target_primary["field_id"] =  array("integer", $target_field_id);
+					ilADTActiveRecordByType::cloneByPrimary(
+						"adv_md_values",
+						array(
+							"obj_id" => "integer",
+							"sub_type" => "text",
+							"sub_id" => "integer",
+							"field_id" => "integer"
+						),
+						$fix_source_primary,
+						$fix_target_primary,
+						array("disabled"=>"integer"));			
+				}		
+			}
+		}
 		
 		if(!$has_cloned)
 		{

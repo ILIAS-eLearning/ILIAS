@@ -846,6 +846,35 @@ class ilAdvancedMDRecord
 		}
 		return $recs;
 	}
+	
+	/**
+	 * Clone record
+	 * 
+	 * @param array &$a_fields_map
+	 * @param type $a_parent_obj_id
+	 * @return self
+	 */
+	public function _clone(array &$a_fields_map, $a_parent_obj_id = null)
+	{		
+		$new_obj = new self();
+		$new_obj->setActive($this->isActive());
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());				
+		$new_obj->setParentObject($a_parent_obj_id
+			? $a_parent_obj_id
+			: $this->getParentObject());
+		$new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
+		$new_obj->save();
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition)
+		{
+			$new_def = $definition->_clone($new_obj->getRecordId());			
+			$a_fields_map[$definition->getFieldId()] = $new_def->getFieldId();
+		}		
 
+		return $new_obj;
+	}
 }
+
 ?>

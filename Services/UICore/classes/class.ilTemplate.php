@@ -943,20 +943,6 @@ class ilTemplate extends HTML_Template_ITX
 			{
 				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
 			}
-
-            // uses protected variable _sessionName.
-//			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
-//				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
-//			{
-//				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
-//					ini_get("session.gc_maxlifetime")." (".
-//					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
-//					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
-//					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
-//					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
-//					" (".($exp/60)."), session ends at: ".
-//					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
-//			}
 			
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{

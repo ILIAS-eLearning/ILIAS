@@ -1313,6 +1313,27 @@ class ilObjMediaObject extends ilObject
 						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
 						break;
 					
+					
+					case "frm~d":
+						$draft_id = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
+						$oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
+						
+						$frm_pk =  $oDraft->getForumId();
+						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+						break;
+					case "frm~h":
+						$history_id = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
+						$oHistoryDraft = new ilForumDraftsHistory($history_id);
+						$oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
+						
+						$frm_pk =  $oDraft->getForumId();
+						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+						break;
 					// temporary items (per user)
 					case "frm~":
 					case "exca~":

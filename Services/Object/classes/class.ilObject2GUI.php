@@ -246,7 +246,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * set Locator
 	 */
-	final protected function setLocator()
+	protected function setLocator()
 	{
 		global $ilLocator, $tpl;
 

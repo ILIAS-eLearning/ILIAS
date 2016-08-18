@@ -30,7 +30,7 @@ class ilWikiUserHTMLExport
 	 * @param
 	 * @return
 	 */
-	function __construct(ilObjWiki $a_wiki, ilDB $a_db, ilObjUser $a_user)
+	function __construct(ilObjWiki $a_wiki, ilDBInterface $a_db, ilObjUser $a_user)
 	{
 		$this->db = $a_db;
 		$this->wiki = $a_wiki;
@@ -65,53 +65,59 @@ class ilWikiUserHTMLExport
 	{
 		$last_change = ilPageObject::getLastChangeByParent("wpg", $this->wiki->getId());
 
-		$this->db->lockTables(
-			array(
-				0 => array('name' => 'wiki_user_html_export', 'type' => ilDBConstants::LOCK_WRITE)));
-		$this->read();
-		$ts = ilUtil::now();
+		$ilAtomQuery = $this->db->buildAtomQuery();
+		$ilAtomQuery->addTableLock('wiki_user_html_export');
 
-		if ($this->data["start_ts"] != "" &&
-			$this->data["start_ts"] > $last_change)
-		{
+		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($last_change, &$ret){
 
-			$this->db->unlockTables();
-			return self::PROCESS_UPTODATE;
-		}
+			$this->read();
+			$ts = ilUtil::now();
 
-		if (!isset($this->data["wiki_id"]))
-		{
-			$this->db->manipulate("INSERT INTO wiki_user_html_export  ".
-				"(wiki_id, usr_id, progress, start_ts, status) VALUES (".
-				$this->db->quote($this->wiki->getId(), "integer").",".
-				$this->db->quote($this->user->getId(), "integer").",".
-				$this->db->quote(0, "integer").",".
-				$this->db->quote($ts, "timestamp").",".
-				$this->db->quote(self::RUNNING, "integer").
-				")");
-		}
-		else
-		{
-			$this->db->manipulate("UPDATE wiki_user_html_export SET ".
-				" start_ts = ".$this->db->quote($ts, "timestamp").",".
-				" usr_id = ".$this->db->quote($this->user->getId(), "integer").",".
-				" progress = ".$this->db->quote(0, "integer").",".
-				" status = ".$this->db->quote(self::RUNNING, "integer").
-				" WHERE status = ".$this->db->quote(self::NOT_RUNNING, "integer").
-				" AND wiki_id = ".$this->db->quote($this->wiki->getId(), "integer")
+			if ($this->data["start_ts"] != "" &&
+				$this->data["start_ts"] > $last_change)
+			{
+				$ret = self::PROCESS_UPTODATE;
+				return;
+			}
+
+			if (!isset($this->data["wiki_id"]))
+			{
+				$ilDB->manipulate("INSERT INTO wiki_user_html_export  ".
+					"(wiki_id, usr_id, progress, start_ts, status) VALUES (".
+					$ilDB->quote($this->wiki->getId(), "integer").",".
+					$ilDB->quote($this->user->getId(), "integer").",".
+					$ilDB->quote(0, "integer").",".
+					$ilDB->quote($ts, "timestamp").",".
+					$ilDB->quote(self::RUNNING, "integer").
+					")");
+			}
+			else
+			{
+				$ilDB->manipulate("UPDATE wiki_user_html_export SET ".
+					" start_ts = ".$ilDB->quote($ts, "timestamp").",".
+					" usr_id = ".$ilDB->quote($this->user->getId(), "integer").",".
+					" progress = ".$ilDB->quote(0, "integer").",".
+					" status = ".$ilDB->quote(self::RUNNING, "integer").
+					" WHERE status = ".$ilDB->quote(self::NOT_RUNNING, "integer").
+					" AND wiki_id = ".$ilDB->quote($this->wiki->getId(), "integer")
 				);
-		}
-		$this->read();
-		$this->db->unlockTables();
+				$this->read();
+			}
 
-		if ($this->data["start_ts"] == $ts && $this->data["usr_id"] == $this->user->getId())
-		{
-			//  we started the process
-			return self::PROCESS_STARTED;
-		}
+			if ($this->data["start_ts"] == $ts && $this->data["usr_id"] == $this->user->getId())
+			{
+				//  we started the process
+				$ret = self::PROCESS_STARTED;
+				return;
+			}
 
-		// process was already running
-		return self::PROCESS_OTHER_USER;
+			// process was already running
+			$ret =  self::PROCESS_OTHER_USER;
+		});
+
+		$ilAtomQuery->run();
+
+		return $ret;
 	}
 
 	/**
