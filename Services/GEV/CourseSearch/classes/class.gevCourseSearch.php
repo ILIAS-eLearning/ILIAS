@@ -426,7 +426,7 @@ class gevCourseSearch {
 							,"praes"=>"gev_crs_search_present"
 							,"webinar"=>"gev_crs_search_webinar"
 							,"self"=>"gev_crs_search_self_learn"
-							,"virt"=>"gev_crs_search_virtual_training"
+						//	,"virt"=>"gev_crs_search_virtual_training"
 						   );
 	}
 
