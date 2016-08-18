@@ -51,9 +51,9 @@ class ilManualAssessmentMember {
 			throw new ilManualAssessmentException('must finalize before notification');
 		}
 		if($this->notify) {
-			$notificator = (string)$this->grade === (string)ilManualAssessmentMembers::LP_COMPLETED ? 
+			$notificator = (string)$this->grade === (string)ilManualAssessmentMembers::LP_COMPLETED ?
 				$notificator->withOccasionCompleted() :
-				$notificator->withOcassionFailed();
+				$notificator->withOccasionFailed();
 			$notificator->withReciever($this)->send();
 			$this->notification_ts = time();
 		}
