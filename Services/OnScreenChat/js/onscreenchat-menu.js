@@ -73,7 +73,7 @@
 							}
 						}
 
-						template = template.replace('[[avatar]]', 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
+						template = template.replace('[[avatar]]', '//placehold.it/50/FA6F57/fff&amp;text=ME');
 						template = template.replace('[[participants]]', participantNames.join(', '));
 						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
 						template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
