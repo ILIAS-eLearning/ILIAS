@@ -180,10 +180,7 @@ class gevCourseSearchGUI {
 							 ? "gev_crs_srch_my_table_desc"
 							 : "gev_crs_srch_theirs_table_desc"
 							 )
-				->setImage("GEV_img/ico-head-search.png")
-				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
-				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
-				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
+				->setImage("GEV_img/ico-head-search.png");
 
 		if($a_in_search) {
 			$crs_tbl->setClearSearch("gev_crs_src_clear_search",$this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI", "clearSearch"));
