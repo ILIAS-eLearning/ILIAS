@@ -365,6 +365,8 @@ class ilTestRandomQuestionSetConfigGUI
 			$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
 		);
 
+		$form->setEditModeEnabled(!$this->isFrozenConfigRequired());
+
 		$form->build();
 
 		return $form;
