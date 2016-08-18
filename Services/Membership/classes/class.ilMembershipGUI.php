@@ -433,8 +433,6 @@ class ilMembershipGUI
 		$this->ctrl->redirect($this, "participants");
 	}
 	
-	
-	
 	/**
 	 * Show confirmation screen for participants deletion
 	 */

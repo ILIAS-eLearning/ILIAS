@@ -93,6 +93,57 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	}
 	
 	/**
+	 * => save button in member table
+	 */
+	protected function updateParticipantsStatus()
+	{
+		global $ilAccess,$ilErr,$ilUser,$rbacadmin;
+		
+		$visible_members = (array) $_POST['visible_member_ids'];
+		$passed = (array) $_POST['passed'];
+		$blocked = (array) $_POST['blocked'];
+		$contact = (array) $_POST['contact'];
+		$notification = (array) $_POST['notification'];
+		
+		foreach($visible_members as $member_id)
+		{
+			$this->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed),true);
+			$this->updateLPFromStatus($member_id, in_array($member_id, $passed));
+			
+			if($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id))
+			{
+				// remove blocked
+				$this->getMembersObject()->updateBlocked($member_id, 0);
+				$this->getMembersObject()->updateNotification($member_id, in_array($member_id, $notification));
+				$this->getMembersObject()->updateContact($member_id, in_array($member_id, $contact));
+			}
+			else
+			{
+				// send notifications => unblocked
+				if($this->getMembersObject()->isBlocked($member_id) && !in_array($member_id,$blocked))
+				{
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_UNBLOCK_MEMBER,$member_id);
+				}
+				// => blocked
+				if(!$this->getMembersObject()->isBlocked($member_id) && in_array($member_id, $blocked))
+				{
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_BLOCK_MEMBER,$member_id);
+				}
+
+				// normal member => remove notification, contact
+				$this->getMembersObject()->updateNotification($member_id, false);
+				$this->getMembersObject()->updateContact($member_id, false);
+				$this->getMembersObject()->updateBlocked($member_id, in_array($member_id, $blocked));
+			}
+		}
+			
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, 'participants');
+	}
+	
+	
+	/**
 	 * @return \ilParticpantTableGUI
 	 */
 	protected function initParticipantTableGUI()

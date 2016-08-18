@@ -1279,29 +1279,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
 	
-	/**
-	 * update status 
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function updateStatusObject()
-	{
-		$this->checkPermission('write');
-		
-		$notification = $_POST['notification'] ? $_POST['notification'] : array();
-		foreach($this->object->members_obj->getAdmins() as $admin_id)
-		{
-			$this->object->members_obj->updateNotification($admin_id,(int) in_array($admin_id,$notification));
-		}
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->membersObject();
-	}
-	
-
-
-
 
 	/**
 	* canceledObject is called when operation is canceled, method links back

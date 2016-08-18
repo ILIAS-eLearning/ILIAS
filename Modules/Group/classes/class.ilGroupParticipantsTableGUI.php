@@ -75,9 +75,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		{
 			$this->addColumn($this->lng->txt('last_access'), 'access_time_unix');
 		}
-		$this->setSelectAllCheckbox('participants');
 		$this->addColumn($this->lng->txt('grp_notification'), 'notification');
-		$this->addCommandButton('updateStatus', $this->lng->txt('save'));
 
 		$this->addColumn($this->lng->txt(''), 'optional');
 		$this->setDefaultOrderField('lastname');
@@ -94,6 +92,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
+
+		$this->setSelectAllCheckbox('participants');
+		$this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
 	}
 
 	/**

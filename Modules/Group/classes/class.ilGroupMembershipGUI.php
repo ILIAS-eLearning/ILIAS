@@ -70,6 +70,29 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 		}
 		$this->ctrl->redirect($this,'participants');
 	}
+
+	/**
+	 * save in participants table
+	 */
+	protected function updateParticipantsStatus()
+	{
+		$participants = (array) $_POST['visible_member_ids'];
+		$notification = (array) $_POST['notification'];
+		foreach($participants as $mem_id)
+		{
+			if($this->getMembersObject()->isAdmin($mem_id))
+			{
+				$this->getMembersObject()->updateNotification($mem_id, in_array($mem_id, $notification));
+			}
+			else
+			{
+				$this->getMembersObject()->updateNotification($mem_id, false);
+			}
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, 'participants');
+	}
+	
 	
 	/**
 	 * @return \ilParticpantTableGUI
