@@ -236,6 +236,16 @@ abstract class assQuestionGUI
 		$this->questionHeaderBlockBuilder = $questionHeaderBlockBuilder;
 	}
 
+// fau: testNav - get the question header block bulder (for tweaking)
+	/**
+	 * @return \ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder
+	 */
+	public function getQuestionHeaderBlockBuilder()
+	{
+		return $this->questionHeaderBlockBuilder;
+	}
+// fau.
+
 	public function setQuestionActionCmd($questionActionCmd)
 	{
 		$this->questionActionCmd = $questionActionCmd;
@@ -401,34 +411,50 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+// fau: testNav - add the "use unchanged answer checkbox"
+		if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		{
+			$html .= $this->getUseUnchangedAnswerCheckboxHtml();
+		}
+// fau.
+
 		$this->lng->loadLanguageModule("content");
 
-		if( $this->getNavigationGUI() )
-		{
-			$html = $this->getNavigationGUI()->getHTML().$html;
-		}
-		
-		$postponed = "";
-		if ($a_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
-
+// fau: testNav - add question buttons below question, add actions menu
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setOutputMode("presentation");
 		$page_gui->setTemplateTargetVar($a_temp_var);
+
+		if( $this->getNavigationGUI() )
+		{
+			$html .= $this->getNavigationGUI()->getHTML();
+			$page_gui->setQuestionActionsHTML($this->getNavigationGUI()->getActionsHTML());
+		}
+// fau.
 
 		if( strlen($html) )
 		{
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
 
-		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getHTML());
+// fau: testNav - fill the header with subtitle blocks for question info an actions
+		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getPresentationTitle());
+		$page_gui->setQuestionInfoHTML($this->questionHeaderBlockBuilder->getQuestionInfoHTML());
+// fau.
 
 		return $page_gui->presentation();
 	}
 	
+// fau: testNav - get the html of the "use unchanged answer checkbox"
+	private function getUseUnchangedAnswerCheckboxHtml()
+	{
+		$tpl = new ilTemplate("tpl.tst_question_use_unchanged_answer.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->object->getTestQuestionConfig()->getUseUnchangedAnswerLabel());
+		return $tpl->get();
+	}
+// fau.
+
 	/**
 	* cancel action
 	*/

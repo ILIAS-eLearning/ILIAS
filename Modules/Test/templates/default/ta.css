@@ -405,9 +405,22 @@ ul.shortlist {
 	padding: 0;
 }
 
+/* fau: testNav - icon for answered/unanswered questions in shortlist */
 ul.shortlist li {
-	padding: 0 0 6px 0;
+	padding: 0 0 6px 15px;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: 0px 5px;
 }
+
+ul.shortlist li.answered {
+    background-image: url('../../../../templates/default/images/answered.svg');
+}
+
+ul.shortlist li.unanswered {
+    background-image: url('../../../../templates/default/images/answered_not.svg');
+}
+/* fau. */
 
 ul.shortlist li.active {
 	font-weight: bold;
@@ -581,10 +594,33 @@ table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 	background-color: #fdfabb !important;
 }
 
-.ilTstMarkQuestionButton {
-	width: 16px;
-	height: 16px;
+/* fau: testNav - added and changed styles */
+
+td.ilc_Page {
+    padding: 15px;
 }
+
+.ilTestQuestionSubtitleBlocks
+{
+    margin-top: -12px;
+}
+
+.ilTestMarkQuestionIcon {
+	width: 12px;
+	height: 12px;
+}
+
+.ilTestAnswerStatusIcon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-top: -3px;
+}
+
+.ilTestQuestionAction.disabled a {
+    color: #b0b0b0!important;
+}
+/* fau. */
 
 div.ilAssClozeTest
 {

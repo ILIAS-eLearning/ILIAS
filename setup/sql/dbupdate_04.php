@@ -16621,3 +16621,32 @@ $pd_set->delete('osi_host');
 $dset = new ilSetting('delicious');
 $dset->deleteAll();
 ?>
+<#4988>
+<?php
+$fields = array('im_icq', 'im_yahoo', 'im_msn', 'im_aim', 'im_skype', 'im_jabber', 'im_voip', 'delicious');
+foreach($fields as $field)
+{
+	$ilDB->manipulateF(
+		'DELETE FROM usr_pref WHERE keyword = %s',
+		array('text'),
+		array('public_'. $field)
+	);
+}
+?>
+<#4989>
+<?php
+foreach(array('instant_messengers', 'delicous') as $field)
+{
+	foreach(array(
+		'usr_settings_hide', 'usr_settings_disable', 'usr_settings_visib_reg', 'usr_settings_changeable_lua',
+		'usr_settings_export', 'usr_settings_course_export', 'usr_settings_group_export', 'require'
+	) as $type)
+	{
+		$ilDB->manipulateF(
+			"DELETE FROM settings WHERE keyword = %s",
+			array("text"),
+			array($type . "_" . $field)
+		);
+	}
+}
+?>

@@ -166,6 +166,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		);
 	}
 
+// fau: testNav - new function removeIntermediateSolution()
+	/**
+	 * remove an auto-saved solution of the current question
+	 * @return mixed	number of rows or db error
+	 */
+	public function removeIntermediateSolution()
+	{
+		$questionId = $this->getCurrentQuestionId();
+		return $this->getQuestionInstance($questionId)->removeIntermediateSolution(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
+		);
+	}
+// fau.
+
 	/**
 	 * saves the user input of a question
 	 */
@@ -290,7 +304,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	private function buildNextButtonInstance($disabled)
 	{
 		$button = ilTestPlayerNavButton::getInstance();
-		$button->setPrimary(false);
+// fau: testNav - set glyphicon and primary
+		if (!$this->object->isForceInstantFeedbackEnabled())
+		{
+			$button->setPrimary(true);
+		}
+		$button->setRightGlyph('glyphicon glyphicon-arrow-right');
+// fau.
 		$button->setNextCommand(ilTestPlayerCommands::NEXT_QUESTION);
 		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
@@ -306,6 +326,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	private function buildPreviousButtonInstance($disabled)
 	{
 		$button = ilTestPlayerNavButton::getInstance();
+// fau: testNav - set glyphicon and primary
+		$button->setLeftGlyph('glyphicon glyphicon-arrow-left');
+// fau.
 		$button->setNextCommand(ilTestPlayerCommands::PREVIOUS_QUESTION);
 		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION));
 		$button->setCaption('previous_question');
@@ -550,7 +573,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 			else
 			{
+// fau: testNav - delete intermediate solution if answer is unchanged
+				// answer is changed, so save the change as intermediate solution
+				if ($this->getAnswerChangedParameter())
+				{
 				$res = $this->saveQuestionSolution($authorizedSolution, true);
+				}
+				// answer is not changed, so delete an intermediate solution
+				else
+				{
+					$db_res = $this->removeIntermediateSolution();
+					$res = is_int($db_res);
+				}
+// fau.
 				if ($res)
 				{
 					$result = $this->lng->txt("autosave_success");
@@ -561,18 +596,47 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				}
 			}
 		}
-		if (!$canSaveResult)
+// fau: testNav - simplify the redirection if time is reached
+		if (!$canSaveResult && !$this->ctrl->isAsynch())
 		{
 			// this was the last action in the test, saving is no longer allowed
-			$result = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::REDIRECT_ON_TIME_LIMIT, "", true);
+			// form was directly submitted in saveOnTimeReached()
+			// instead of ajax with autoSave()
+			$this->ctrl->redirect($this, ilTestPlayerCommands::REDIRECT_ON_TIME_LIMIT);
 		}
+// fau.
 		echo $result;
 		exit;
 	}
 	
+// fau: testNav - new function detectChangesCmd()
+	/**
+	 * Detect changes sent in the background to the server
+	 * This is called by ajax from ilTestPlayerQuestionEditControl.js
+	 * It is needed by Java and Flash question and eventually plgin question vtypes
+	 */
+	protected function detectChangesCmd()
+	{
+		$questionId = $this->getCurrentQuestionId();
+		$state = $this->getQuestionInstance($questionId)->lookupForExistingSolutions(
+			$this->testSession->getActiveId(),
+			$this->testSession->getPass()
+		);
+		$result = array();
+		$result['isAnswered'] = $state['authorized'];
+		$result['isAnswerChanged'] = $state['intermediate'];
+
+		echo json_encode($result);
+		exit;
+	}
+// fau.
+
 	protected function submitIntermediateSolutionCmd()
 	{
 		$this->saveQuestionSolution(false, true);
+// fau: testNav - set the 'answer changed' parameter when an intermediate solution is submitted
+		$this->setAnswerChangedParameter(true);
+// fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
@@ -590,7 +654,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function markQuestionAndSaveIntermediateCmd()
 	{
-		$this->saveQuestionSolution(false);
+// fau: testNav - handle intermediate submit when marking the question
+		$this->handleIntermediateSubmit();
+// fau.
 		$this->markQuestionCmd();
 	}
 	
@@ -610,7 +676,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function unmarkQuestionAndSaveIntermediateCmd()
 	{
-		$this->saveQuestionSolution(false);
+// fau: testNav - handle intermediate submit when unmarking the question
+		$this->handleIntermediateSubmit();
+// fau.
 		$this->unmarkQuestionCmd();
 	}
 
@@ -1088,6 +1156,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$questionNavigationGUI->setQuestionWorkedThrough($isQuestionWorkedThrough);
 		$questionGui->setNavigationGUI($questionNavigationGUI);
 		
+// fau: testNav - set answere status in question header
+		$questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered($isQuestionWorkedThrough);
+// fau.
+
 		$answerFeedbackEnabled = (
 			$instantResponse && $this->object->getSpecificAnswerFeedback()
 		);
@@ -1130,6 +1202,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( $isQuestionWorkedThrough )
 		{
 			$questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
+// fau: testNav - set answere status in question header
+			$questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
+// fau.
 		}
 		else
 		{
@@ -1155,6 +1230,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$userPostSolution = false;
 		}
 
+// fau: testNav - add special checkbox for mc question
+		if ($questionGui instanceof assMultipleChoiceGUI)
+		{
+			$questionGui->setWithNoneAbove($this->object->getMCScoring());
+			$questionGui->setIsAnswered($isQuestionWorkedThrough);
+		}
+// fau.
+
 		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
 		// Notation of the params prior to getting rid of this crap in favor of a class
 		$questionGui->outQuestionForTest(
@@ -1173,7 +1256,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$this->populateModals();
 
-		$this->populateIntermediateSolutionSaver($questionGui);
+// fau: testNav - pouplate the new question edit control instead of the deprecated intermediate solution saver
+		$this->populateQuestionEditControl($questionGui);
+// fau.
 	}
 
 	abstract protected function showQuestionCmd();
@@ -1181,6 +1266,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	abstract protected function editSolutionCmd();
 
 	abstract protected function submitSolutionCmd();
+
+// fau: testNav - new function to revert probably auto-saved changes and show the last submitted question state
+	protected function revertChangesCmd()
+	{
+		$this->removeIntermediateSolution();
+		$this->setAnswerChangedParameter(false);
+		$this->ctrl->saveParameter($this, 'sequence');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+// fau.
 
 	abstract protected function discardSolutionCmd();
 	
@@ -1391,8 +1486,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionSideListGUI->setTargetGUI($this);
 			$questionSideListGUI->setQuestionSummaryData($questionSummaryData);
 			$questionSideListGUI->setCurrentSequenceElement($currentSequenceElement);
-			$questionSideListGUI->setCurrentPresentationMode($presentationMode);
-			$questionSideListGUI->setDisabled($presentationMode == self::PRESENTATION_MODE_EDIT);
+// fau: testNav - set side list presentation mode to "view" to allow navigation when question is in edit mode
+			$questionSideListGUI->setCurrentPresentationMode(ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
+			$questionSideListGUI->setDisabled(false);
+//			$questionSideListGUI->setCurrentPresentationMode($presentationMode);
+//			$questionSideListGUI->setDisabled($presentationMode == self::PRESENTATION_MODE_EDIT);
+// fau.
 			$this->tpl->setVariable('LIST_OF_QUESTIONS', $questionSideListGUI->getHTML());
 		}
 	}
@@ -1626,7 +1725,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function showRequestedHintListCmd()
 	{
-		$this->saveQuestionSolution(false);
+// fau: testNav - handle intermediate submit for viewing requested hints
+		$this->handleIntermediateSubmit();
+// fau.
 
 		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_EDIT);
 		
@@ -1639,7 +1740,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function confirmHintRequestCmd()
 	{
-		$this->saveQuestionSolution(false);
+// fau: testNav - handle intermediate submit for confirming hint requests
+		$this->handleIntermediateSubmit();
+// fau.
 
 		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_EDIT);
 
@@ -1885,18 +1988,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$solved = array_pop($solved_array);
 				$solved = $solved["solved"];
 			}
-
+// fau: testNav - change question mark command to link target
 			if($solved == 1)
 			{
-				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::UNMARK_QUESTION);
+				$navigationGUI->setQuestionMarkLinkTarget($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::UNMARK_QUESTION));
 				$navigationGUI->setQuestionMarked(true);
 			}
 			else
 			{
-				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::MARK_QUESTION);
+				$navigationGUI->setQuestionMarkLinkTarget($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::MARK_QUESTION));
 				$navigationGUI->setQuestionMarked(false);
 			}
 		}
+// fau.
 
 		return $navigationGUI;
 	}
@@ -1912,10 +2016,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION_AND_NEXT);
+// fau: testNav - use simple "submitSolution" button instead of "submitSolutionAndNext"
+			$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
+// fau.
 		}
 		
-		
+// fau: testNav - add a 'revert changes' link for editable question
+		$navigationGUI->setRevertChangesLinkTarget($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::REVERT_CHANGES));
+// fau.
+
+
 		// feedback
 		switch( 1 )
 		{
@@ -1971,18 +2081,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$solved = $solved["solved"];
 			}
 
+// fau: testNav - change question mark command to link target
 			if($solved == 1)
 			{
-				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::UNMARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarkLinkTarget($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::UNMARK_QUESTION_SAVE));
 				$navigationGUI->setQuestionMarked(true);
 			}
 			else
 			{
-				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::MARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarkLinkTarget($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::MARK_QUESTION_SAVE));
 				$navigationGUI->setQuestionMarked(false);
 			}
 		}
-
+// fau.
 		return $navigationGUI;
 	}
 
@@ -2011,26 +2122,86 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return 'outQuestionSummary';
 	}
 
-	/**
-	 * @param assQuestionGUI $questionGui
-	 */
-	protected function populateIntermediateSolutionSaver(assQuestionGUI $questionGui)
+// fau: testNav - populateIntermediateSolutionSaver is obsolete and can be deletd.
+//	/**
+//	 * @param assQuestionGUI $questionGui
+//	 */
+//	protected function populateIntermediateSolutionSaver(assQuestionGUI $questionGui)
+//	{
+//		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
+//
+//		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction(
+//			$this, ilTestPlayerCommands::AUTO_SAVE, "", true
+//		));
+//
+//		if( $questionGui->isAutosaveable() && $this->object->getAutosave() )
+//		{
+//			$formAction = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', false, false);
+//
+//			$this->tpl->touchBlock('autosave');
+//			$this->tpl->setVariable("AUTOSAVEFORMACTION", $formAction);
+//			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
+//		}
+//	}
+// fau.
+
+// fau: testNav - new function populateInstantResponseModal()
+	protected function populateInstantResponseModal(assQuestionGUI $questionGui, $navUrl)
 	{
-		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
+		$questionGui->setNavigationGUI(null);
+		$questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
 
-		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction(
-			$this, ilTestPlayerCommands::AUTO_SAVE, "", true
-		));
+		$answerFeedbackEnabled = $this->object->getSpecificAnswerFeedback();
 
-		if( $questionGui->isAutosaveable() && $this->object->getAutosave() )
-		{
-			$formAction = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', false, false);
-			
-			$this->tpl->touchBlock('autosave');
-			$this->tpl->setVariable("AUTOSAVEFORMACTION", $formAction);
-			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
-		}
+		$solutionoutput = $questionGui->getSolutionOutput(
+			$this->testSession->getActiveId(), 	#active_id
+			$this->testSession->getPass(),		#pass
+			false, 								#graphical_output
+			false,								#result_output
+			true, 								#show_question_only
+			$answerFeedbackEnabled,				#show_feedback
+			false, 								#show_correct_solution
+			false, 								#show_manual_scoring
+			true								#show_question_text
+		);
+
+		$pageoutput = $questionGui->outQuestionPage(
+			"",
+			$this->isShowingPostponeStatusReguired($questionGui->object->getId()),
+			$this->testSession->getActiveId(),
+			$solutionoutput
+		);
+
+		$tpl = new ilTemplate('tpl.tst_player_response_modal.html', true, true, 'Modules/Test');
+
+		// populate the instant response blocks in the
+		$saved_tpl = $this->tpl;
+		$this->tpl = $tpl;
+		$this->populateInstantResponseBlocks($questionGui, true);
+		$this->tpl = $saved_tpl;
+
+		$tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
+
+		$button = ilLinkButton::getInstance();
+		$button->setId('tst_confirm_feedback');
+		$button->setUrl($navUrl);
+		$button->setCaption('proceed');
+		$button->setPrimary(true);
+		$tpl->setVariable('BUTTON', $button->render());
+
+
+		require_once('Services/UIComponent/Modal/classes/class.ilModalGUI.php');
+		$modal = ilModalGUI::getInstance();
+		$modal->setType(ilModalGUI::TYPE_LARGE);
+		$modal->setId('tst_question_feedback_modal');
+		$modal->setHeading($this->lng->txt('tst_instant_feedback'));
+		$modal->setBody($tpl->get());
+
+		$this->tpl->addOnLoadCode("$('#tst_question_feedback_modal').modal('show');");
+		$this->tpl->setVariable('INSTANT_RESPONSE_MODAL', $modal->getHTML());
 	}
+// fau;
+
 
 	/**
 	 * @param assQuestionGUI $questionGui
@@ -2144,6 +2315,69 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		return null;
 	}
+
+// fau: testNav - get the navigation url set by a submit from ilTestPlayerNavigationControl.js
+	protected function getNavigationUrlParameter()
+	{
+		if (isset($_POST['test_player_navigation_url'])) {
+			return $_POST['test_player_navigation_url'];
+		}
+		return null;
+	}
+// fau.
+
+// fau: testNav - get set and check the 'answer_changed' url parameter
+	/**
+	 * Get the 'answer changed' status from the current request
+	 * It may be set by ilTestPlayerNavigationControl.js or by a previousRequest
+	 * @return bool
+	 */
+	protected function getAnswerChangedParameter()
+	{
+		return !empty($_GET['test_answer_changed']);
+	}
+
+	/**
+	 * Set the 'answer changed' url parameter for generated links
+	 * @param bool $changed
+	 */
+	protected function setAnswerChangedParameter($changed = true)
+	{
+		$this->ctrl->setParameter($this, 'test_answer_changed', $changed ? '1' : '0');
+	}
+
+
+	/**
+	 * Check the 'answer changed' parameter when a question form is intermediately submitted
+	 * - save or delete the intermediate solution
+	 * - save the parameter for the next request
+	 */
+	protected function handleIntermediateSubmit()
+	{
+		if ($this->getAnswerChangedParameter())
+		{
+			$this->saveQuestionSolution(false);
+		}
+		else
+		{
+			$this->removeIntermediateSolution();
+		}
+		$this->setAnswerChangedParameter($this->getAnswerChangedParameter());
+	}
+// fau.
+
+// fau: testNav - save the switch to prevent the navigation confirmation
+	/**
+	 * Save the save the switch to prevent the navigation confirmation
+	 */
+	protected function saveNavigationPreventConfirmation()
+	{
+		if (!empty($_POST['save_on_navigation_prevent_confirmation']))
+		{
+			$_SESSION['save_on_navigation_prevent_confirmation'] = true;
+		}
+	}
+// fau.
 
 	/**
 	 * @var array[assQuestion]
@@ -2267,7 +2501,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 
 		$this->populateDiscardSolutionModal();
-		$this->populateNavWhileEditModal();
+// fau: testNav - populateNavWhenChangedModal instead of populateNavWhileEditModal
+		$this->populateNavWhenChangedModal();
+// fau.
 
 		if( $this->object->getKioskMode() )
 		{
@@ -2283,14 +2519,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$button = ilSubmitButton::getInstance();
 		$button->setCommand(ilTestPlayerCommands::DISCARD_SOLUTION);
-		$button->setCaption('yes');
+		$button->setCaption('discard_answer');
 		$tpl->setCurrentBlock('buttons');
 		$tpl->setVariable('BUTTON', $button->render());
 		$tpl->parseCurrentBlock();
 
 		$button = ilLinkButton::getInstance();
 		$button->setId('tst_cancel_discard_button');
-		$button->setCaption('no');
+		$button->setCaption('cancel');
 		$button->setPrimary(true);
 		$tpl->setCurrentBlock('buttons');
 		$tpl->setVariable('BUTTON', $button->render());
@@ -2305,71 +2541,183 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable('DISCARD_SOLUTION_MODAL', $modal->getHTML());
 		$this->tpl->parseCurrentBlock();
 		
-		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerDiscardSolutionModal.js', true);
+// fau: testNav - the discard solution modal is now handled by ilTestPlayerNavigationControl.js
+//		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerDiscardSolutionModal.js', true);
+// fau.
 	}
 
-	protected function populateNavWhileEditModal()
+// fau: testNav - populateNavWhileEditModal is obsolete and can be deleted.
+//	protected function populateNavWhileEditModal()
+//	{
+//		require_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
+//		require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
+//
+//		$tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
+//
+//		$tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('tst_nav_while_edit_modal_text'));
+//
+//		$button = ilSubmitButton::getInstance();
+//		$button->setCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
+//		$button->setCaption('tst_nav_while_edit_modal_save_btn');
+//		$button->setPrimary(true);
+//		$tpl->setCurrentBlock('buttons');
+//		$tpl->setVariable('BUTTON', $button->render());
+//		$tpl->parseCurrentBlock();
+//
+//		foreach(array('nextcmd', 'nextseq') as $hiddenPostVar)
+//		{
+//			$nextCmdInp = new ilHiddenInputGUI($hiddenPostVar);
+//			$nextCmdInp->setValue('');
+//			$tpl->setCurrentBlock('hidden_inputs');
+//			$tpl->setVariable('HIDDEN_INPUT', $nextCmdInp->getToolbarHTML());
+//			$tpl->parseCurrentBlock();
+//		}
+//
+//		$button = ilLinkButton::getInstance();
+//		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_VIEW);
+//		$button->setId('nextCmdLink');
+//		$button->setUrl('#');
+//		$this->ctrl->setParameter($this, 'pmode', $this->getPresentationModeParameter());
+//		$button->setCaption('tst_nav_while_edit_modal_nosave_btn');
+//		$tpl->setCurrentBlock('buttons');
+//		$tpl->setVariable('BUTTON', $button->render());
+//		$tpl->parseCurrentBlock();
+//
+//		$button = ilLinkButton::getInstance();
+//		$button->setId('tst_cancel_nav_while_edit_button');
+//		$button->setCaption('tst_nav_while_edit_modal_cancel_btn');
+//		$tpl->setCurrentBlock('buttons');
+//		$tpl->setVariable('BUTTON', $button->render());
+//		$tpl->parseCurrentBlock();
+//
+//		$modal = ilModalGUI::getInstance();
+//		$modal->setId('tst_nav_while_edit_modal');
+//		$modal->setHeading($this->lng->txt('tst_nav_while_edit_modal_header'));
+//		$modal->setBody($tpl->get());
+//
+//		$this->tpl->setCurrentBlock('nav_while_edit_modal');
+//		$this->tpl->setVariable('NAV_WHILE_EDIT_MODAL', $modal->getHTML());
+//		$this->tpl->parseCurrentBlock();
+//
+//		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerNavWhileEditModal.js', true);
+//	}
+// fau.
+
+// fau: testNav - new function populateNavWhenChangedModal
+	protected function populateNavWhenChangedModal()
 	{
-		require_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
-		require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
+		if (!empty($_SESSION['save_on_navigation_prevent_confirmation']))
+		{
+			return;
+		}
 
 		$tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
 
-		$tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('tst_nav_while_edit_modal_text'));
+		if ($this->object->isInstantFeedbackAnswerFixationEnabled() && $this->object->isForceInstantFeedbackEnabled())
+		{
+			$text =  $this->lng->txt('save_on_navigation_locked_confirmation');
+		}
+		else
+		{
+			$text =  $this->lng->txt('save_on_navigation_confirmation');
+		}
+		if ($this->object->isForceInstantFeedbackEnabled())
+		{
+			$text .= " ". $this->lng->txt('save_on_navigation_forced_feedback_hint');
+		}
+		$tpl->setVariable('CONFIRMATION_TEXT', $text);
 
-		$button = ilSubmitButton::getInstance();
-		$button->setCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
-		$button->setCaption('tst_nav_while_edit_modal_save_btn');
+
+		$button = ilLinkButton::getInstance();
+		$button->setId('tst_save_on_navigation_button');
+		$button->setUrl('#');
+		$button->setCaption('tst_save_and_proceed');
 		$button->setPrimary(true);
 		$tpl->setCurrentBlock('buttons');
 		$tpl->setVariable('BUTTON', $button->render());
 		$tpl->parseCurrentBlock();
 
-		foreach(array('nextcmd', 'nextseq') as $hiddenPostVar)
-		{
-			$nextCmdInp = new ilHiddenInputGUI($hiddenPostVar);
-			$nextCmdInp->setValue('');
-			$tpl->setCurrentBlock('hidden_inputs');
-			$tpl->setVariable('HIDDEN_INPUT', $nextCmdInp->getToolbarHTML());
-			$tpl->parseCurrentBlock();
-		}
-		
 		$button = ilLinkButton::getInstance();
-		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_VIEW);
-		$button->setId('nextCmdLink');
+		$button->setId('tst_cancel_on_navigation_button');
 		$button->setUrl('#');
-		$this->ctrl->setParameter($this, 'pmode', $this->getPresentationModeParameter());
-		$button->setCaption('tst_nav_while_edit_modal_nosave_btn');
+		$button->setCaption('cancel');
+		$button->setPrimary(false);
 		$tpl->setCurrentBlock('buttons');
 		$tpl->setVariable('BUTTON', $button->render());
 		$tpl->parseCurrentBlock();
 
-		$button = ilLinkButton::getInstance();
-		$button->setId('tst_cancel_nav_while_edit_button');
-		$button->setCaption('tst_nav_while_edit_modal_cancel_btn');
-		$tpl->setCurrentBlock('buttons');
-		$tpl->setVariable('BUTTON', $button->render());
+		$tpl->setCurrentBlock('checkbox');
+		$tpl->setVariable('CONFIRMATION_CHECKBOX_NAME','save_on_navigation_prevent_confirmation');
+		$tpl->setVariable('CONFIRMATION_CHECKBOX_LABEL',$this->lng->txt('save_on_navigation_prevent_confirmation'));
 		$tpl->parseCurrentBlock();
 
 		$modal = ilModalGUI::getInstance();
-		$modal->setId('tst_nav_while_edit_modal');
-		$modal->setHeading($this->lng->txt('tst_nav_while_edit_modal_header'));
+		$modal->setId('tst_save_on_navigation_modal');
+		$modal->setHeading($this->lng->txt('save_on_navigation'));
 		$modal->setBody($tpl->get());
-		
+
 		$this->tpl->setCurrentBlock('nav_while_edit_modal');
 		$this->tpl->setVariable('NAV_WHILE_EDIT_MODAL', $modal->getHTML());
 		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerNavWhileEditModal.js', true);
 	}
-	
-	protected function getQuestionsDefaultPresentationMode($isQuestionWorkedThrough)
+// fau.
+
+// fau: testNav - new function populateQuestionEditControl
+	/**
+	 * Populate the navigation and saving control for editable questions
+	 *
+	 * @param assQuestionGUI 	$questionGUI
+	 */
+	protected function populateQuestionEditControl($questionGUI)
 	{
-		if( $isQuestionWorkedThrough )
+		// configuration for ilTestPlayerQuestionEditControl.js
+		$config = array();
+
+		// set the initial state of the question
+		$state = $questionGUI->object->lookupForExistingSolutions($this->testSession->getActiveId(), $this->testSession->getPass());
+		$config['isAnswered'] = $state['authorized'];
+		$config['isAnswerChanged'] = $state['intermediate'] || $this->getAnswerChangedParameter();
+
+		// set  url to which the for should be submitted when the working time is over
+		// don't use asynch url because the form is submitted directly
+		// but use simple '&' because url is copied by javascript into the form action
+		$config['saveOnTimeReachedUrl'] = str_replace('&amp;','&', $this->ctrl->getFormAction($this, ilTestPlayerCommands::AUTO_SAVE));
+
+		// enable the auto saving function
+		// the autosave url is asynch because it will be used by an ajax request
+		if( $questionGUI->isAutosaveable() && $this->object->getAutosave() )
 		{
-			return self::PRESENTATION_MODE_VIEW;
+			$config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
+			$config['autosaveInterval'] = $this->object->getAutosaveIval();
+		}
+		else
+		{
+			$config['autosaveUrl'] = '';
+			$config['autosaveInterval'] = 0;
 		}
 
+		/** @var  ilTestQuestionConfig $questionConfig */
+		$questionConfig = $questionGUI->object->getTestQuestionConfig();
+
+		// Normal questions: changes are done in form fields an can be detected there
+		$config['withFormChangeDetection'] = $questionConfig->isFormChangeDetectionEnabled();
+
+		// Flash and Java questions: changes are directly sent to ilias and have to be polled from there
+		$config['withBackgroundChangeDetection'] = $questionConfig->isBackgroundChangeDetectionEnabled();
+		$config['backgroundDetectorUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::DETECT_CHANGES, '', true);
+
+		// Forced feedback will change the navigation saving command
+		$config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
+
+		$this->tpl->addJavascript('./Modules/Test/js/ilTestPlayerQuestionEditControl.js');
+		$this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init('.json_encode($config).')');
+	}
+// fau.
+
+	protected function getQuestionsDefaultPresentationMode($isQuestionWorkedThrough)
+	{
+// fau: testNav - always set default presentation mode to "edit"
 		return self::PRESENTATION_MODE_EDIT;
+// fau.
 	}
 }
