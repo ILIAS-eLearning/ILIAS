@@ -6,8 +6,13 @@ class ilManualAssessmentPrimitiveMailNotificator extends ilMailNotification impl
 	const OCCASION_FAILED = 0;
 	const OCCASION_COMPLETED = 1;
 
-	protected $occasion = null;
-	protected $reciever = null;
+	protected $occasion;
+	protected $reciever;
+
+	public function __construct() {
+		$this->occasion = null;
+		$this->reciever = null;
+	}
 
 	public function withReciever(ilManualAssessmentMember $member) {
 		$clone = clone $this;
