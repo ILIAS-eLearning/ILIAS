@@ -105,23 +105,23 @@
 			height: 250px;
 		}
 
-		.iosChatEmoticonsPanel {
+		.iosOnScreenChatEmoticonsPanel {
 			display: block;
 			height: 19px;
 			width: 19px;
 			position: relative;
+
+			> a {
+				display: block;
+				height: 19px;
+				width: 19px;
+				background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat 1px 2px;
+				z-index: 1000;
+				border-left: 1px solid #FFFFFF;
+			}
 		}
 
-		.iosChatEmoticonsPanel > a {
-			display: block;
-			height: 19px;
-			width: 19px;
-			background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat 1px 2px;
-			z-index: 1000;
-			border-left: 1px solid #FFFFFF;
-		}
-
-		.iosChatEmoticonsPanelFlyout {
+		.iosOnScreenChatEmoticonsPanelFlyout {
 			position: absolute;
 			background-color: white;
 			border: 1px solid gray;
@@ -129,21 +129,21 @@
 			border-bottom: 2px solid #293E6A;
 			bottom: 19px;
 			display: none;
-		}
 
-		.iosChatEmoticonsPanelFlyout a {
-			border: 1px solid white;
-			display: block;
-			padding: 1px 0 1px 2px;
-		}
+			a {
+				border: 1px solid white;
+				display: block;
+				padding: 1px 0 1px 2px;
 
-		.iosChatEmoticonsPanelFlyout a:hover {
-			border: 1px solid silver;
+				&:hover {
+					border: 1px solid silver;
+				}
+			}
 		}
 	}
 }
 
-#invite_users_available {
+.iosOnScreenChatAddUserList {
 	border: 1px solid #BCCAE5;
 	padding: 0;
 

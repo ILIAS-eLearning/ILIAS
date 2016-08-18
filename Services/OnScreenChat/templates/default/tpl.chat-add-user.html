@@ -1,9 +1,8 @@
-<div id="invite_users_container">
+<div data-onscreenchat-modal-body="[[conversationId]]">
 	<div>
-		<p id="invite_user_text_wrapper"><label for="invite_user_text">#:#username#:#</label>
-			<input type="text" class="form-control" id="invite_user_text" data-onscreenchat-usersearch/></p>
-		<ul id="invite_users_available" data-onscreenchat-userlist="[[conversationId]]">
-			<li></li>
-		</ul>
+		<p><label for="invite_user_text">#:#username#:#</label>
+			<input type="text" class="form-control" id="invite_user_text" data-onscreenchat-usersearch/>
+		</p>
+		<ul class="iosOnScreenChatAddUserList ilNoDisplay" data-onscreenchat-userlist="[[conversationId]]"></ul>
 	</div>
 </div>
