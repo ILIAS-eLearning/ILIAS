@@ -258,6 +258,7 @@ class ilMembershipGUI
 		
 		// show member table
 		$table = $this->initParticipantTableGUI();
+		$table->setTitle($this->lng->txt($this->getParentObject()->getType().'_mem_tbl_header'));
 		$table->setFormAction($this->ctrl->getFormAction($this));
 		$table->parse();
 		

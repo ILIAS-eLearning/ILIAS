@@ -14513,6 +14513,8 @@ wiki#:#wiki_purpose#:#Zweck
 wiki#:#wiki_select_one_item#:#Bitte wählen Sie ein Element aus.
 trac#:#trac_mode_questions#:#Alle Fragen richtig beantwortet
 trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet haben, erhalten automatisch den Status 'Bearbeitet'. Bitte nutzen Sie diese Option nur, wenn auch tatsächlich Fragen im Lernmodul vorliegen.
+crs#:#crs_mem_tbl_header#:#Kursteilnehmer
+grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
