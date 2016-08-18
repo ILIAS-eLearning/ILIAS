@@ -13,6 +13,8 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 		if(oldestTimestamp == null || oldestTimestamp > row.timestamp) {
 			oldestTimestamp = row.timestamp;
 		}
+		row.userId = row.user_id;
+		row.conversationId = row.conversation_id;
 		history.push(row);
 	}, function(err){
 		if(err) throw err;

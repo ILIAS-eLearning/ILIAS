@@ -10,6 +10,8 @@ module.exports = function() {
 	for(var index in conversations) {
 		if(conversations.hasOwnProperty(index)){
 			namespace.getDatabase().getLatestMessage(conversations[index], function(row){
+				row.userId = row.user_id;
+				row.conversationId = row.conversation_id;
 				conversations[index].setLatestMessage(row);
 			}, function(){
 				socket.participant.emit('conversation', conversations[index].json());

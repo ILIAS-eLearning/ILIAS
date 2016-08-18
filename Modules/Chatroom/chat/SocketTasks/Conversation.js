@@ -29,6 +29,8 @@ module.exports = function(participants) {
 	namespace.getDatabase().updateConversation(conversation);
 
 	namespace.getDatabase().getLatestMessage(conversation, function(row){
+		row.userId = row.user_id;
+		row.conversationId = row.conversation_id;
 		conversation.setLatestMessage(row);
 	}, function(){
 		this.participant.emit('conversation-init', conversation.json());
