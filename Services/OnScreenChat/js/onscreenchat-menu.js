@@ -77,7 +77,8 @@
 						}
 					}
 
-					template = template.replace('[[avatar]]', getModule().participantsImages[participants[0].id].src);
+					template = template.replace('[[avatar]]', getProfileImage(participants[0].id));
+					template = template.replace('[[userId]]', participants[0].id);
 					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
 					template = template.replace(/\[\[conversationId\]\]/, conversations[index].id);
 					template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
@@ -157,7 +158,14 @@
 		}
 	};
 
+	var getProfileImage = function(userId) {
+		if(getModule().participantsImages.hasOwnProperty(userId)) {
+			return getModule().participantsImages[userId].src;
+		}
+		return "";
+	};
+
 	var getModule = function() {
 		return $scope.il.OnScreenChatMenu;
-	}
+	};
 })(jQuery, window);

@@ -304,7 +304,7 @@
 			$menu.add(conversation);
 		},
 
-		requestUserImages: function(conversation, callback) {
+		requestUserImages: function(conversation) {
 			var participantsIds = getParticipantsIds(conversation);
 			participantsIds = participantsIds.filter(function(id){
 				return !getModule().participantsImages.hasOwnProperty(id);
@@ -317,20 +317,20 @@
 						var img = new Image();
 						img.src = item.profile_image;
 						getModule().participantsImages[id] = img;
+
+						$('[data-onscreenchat-avatar='+id+']').attr('src', img.src);
 						$menu.syncProfileImages(getModule().participantsImages);
 					});
-					callback();
 				},
 				'json'
 			);
 		},
 
 		onConversationInit: function(conversation){
-			getModule().requestUserImages(conversation, function(){
-				conversation.open = true;
-				$menu.add(conversation);
-				getModule().storage.save(conversation);
-			});
+			getModule().requestUserImages(conversation);
+			conversation.open = true;
+			$menu.add(conversation);
+			getModule().storage.save(conversation);
 		},
 
 		onFocusOut: function() {
@@ -341,10 +341,9 @@
 		},
 
 		onConversation: function(conversation) {
-			getModule().requestUserImages(conversation, function(){
-				$menu.add(conversation);
-				getModule().storage.save(conversation);
-			});
+			getModule().requestUserImages(conversation);
+			$menu.add(conversation);
+			getModule().storage.save(conversation);
 		},
 
 		onHistory: function(conversation){
@@ -413,7 +412,8 @@
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getEmoticons().replace(message));
-			template = template.replace(/\[\[avatar\]\]/g, getModule().participantsImages[messageObject.userId].src);
+			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
+			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
 			template = $(template).find('li.' + position).html();
 
 			var chatBody = chatWindow.find('[data-onscreenchat-body]');
@@ -551,6 +551,13 @@
 			}
 		}
 		return ids;
+	};
+
+	var getProfileImage = function(userId) {
+		if(getModule().participantsImages.hasOwnProperty(userId)) {
+			return getModule().participantsImages[userId].src;
+		}
+		return "";
 	};
 
 	/**
