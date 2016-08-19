@@ -19,11 +19,15 @@ module.exports = function(conversationId, userId, name) {
 				conversation.addParticipant(participants[key]);
 			}
 		}
+
+		Container.getLogger().info('Conversation %s transformed to group conversation.', conversation.getId())
 	}
 
 	var participant = namespace.getSubscriberWithOfflines(userId, name);
 	conversation.addParticipant(participant);
 	participant.join(conversation.id);
+
+	Container.getLogger().info('New Participant %s for group conversation %s', participant.getName(), conversation.getId());
 
 	namespace.getDatabase().updateConversation(conversation);
 	this.participant.emit('conversation', conversation.json());
