@@ -302,6 +302,8 @@
 			$(chatWindow).find('.panel-body').animate({
 				scrollTop: $(chatWindow).find('[data-onscreenchat-body]').outerHeight()
 			}, 0);
+
+			console.log("scroll bottom");
 		},
 
 		resizeMessageInput: function(e){
@@ -346,6 +348,7 @@
 				e.preventDefault();
 				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 				getModule().send(conversationId);
+				getModule().historyBlocked = true;
 			}
 		},
 
@@ -440,14 +443,12 @@
 			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
 			for(var index in messages) {
-				console.log("Has timestamp", getModule().historyTimestamps.hasOwnProperty(conversation.id));
-				console.log("Curent Timestamp", getModule().historyTimestamps[conversation.id]);
-				console.log("Message timestamp", messages[index].timestamp);
 				if(messages.hasOwnProperty(index) && (!getModule().historyTimestamps.hasOwnProperty(conversation.id) || getModule().historyTimestamps[conversation.id] > messages[index].timestamp)){
 					getModule().addMessage(messages[index], true);
 				}
 			}
 			var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+			console.log("onHistory");
 			container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
 
 			getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
@@ -560,6 +561,7 @@
 
 			if(position == 'right') {
 				getModule().scrollBottom(chatWindow);
+				getModule().historyBlocked = false;
 			}
 		},
 
