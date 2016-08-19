@@ -9,6 +9,12 @@ require_once("./Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
  * Creates a submenu for the Cockpit of the GEV.
  */
 class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
+	public function __construct() {
+		global $ilUser, $lng;
+		$this->gLng = $lng;
+		$this->gUser = $ilUser;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -35,11 +41,10 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	}
 
 	protected function isCockpit() {
-		global $ilUser;
 		return
 			( $_GET["baseClass"] == "gevDesktopGUI" 
 				|| ($_GET["cmdClass"] == "ilobjreportedubiogui"
-					&& $_GET["target_user_id"] == $ilUser->getId())
+					&& $_GET["target_user_id"] == $this->gUser->getId())
 				|| $_GET["baseClass"] == "ilTEPGUI"
 			)
 			&& $_GET["cmdClass"] != "gevcoursesearchgui"
@@ -75,8 +80,7 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			}
 		}
 		if ($this->isSearch()) {
-			global $ilUser;
-			$crs_search = gevCourseSearch::getInstance($ilUser->getId());
+			$crs_search = gevCourseSearch::getInstance($this->gUser->getId());
 			$tab = $crs_search->getActiveTab();
 			$active = "search_$tab";
 			if (!in_array($active, array("search_onside", "search_webinar", "search_wbt"))) {
@@ -93,18 +97,7 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			return $this->getCockpitItems();
 		}
 		else if ($this->isSearch()) {
-			return array
-				( "search"
-					=> array("Suche", "http://www.google.de")
-				, "search_all"
-					=> array("Alle", "http://www.google.de")
-				, "search_onside"
-					=> array("Präsenz", "http://www.google.de")
-				, "search_webinar"
-					=> array("Webinar", "http://www.google.de")
-				, "search_wbt"
-					=> array("Selbstlernkurs", "http://www.google.de")
-				);
+			return $this->getSearchItems();
 		}
 		else {
 			throw new \LogicException("Should not get here...");
@@ -112,11 +105,8 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	}
 
 	protected function getCockpitItems() {
-		global $ilUser;
-		global $lng;
-
-		if ($ilUser->getId() !== 0) {
-			$user_utils = gevUserUtils::getInstanceByObj($ilUser);
+		if ($this->gUser->getId() !== 0) {
+			$user_utils = gevUserUtils::getInstanceByObj($this->gUser);
 		}
 		else {
 			$user_utils = null;
@@ -125,30 +115,47 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		$items = array();
 
 		$items["bookings"]
-			= array($lng->txt("gev_bookings"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses");
+			= array($this->gLng->txt("gev_bookings"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses");
 
 		if ($user_utils && ($edu_bio_link = $user_utils->getEduBioLink())) {
 			$items["edubio"]
-				= array($lng->txt("gev_edu_bio"), $user_utils->getEduBioLink());
+				= array($this->gLng->txt("gev_edu_bio"), $user_utils->getEduBioLink());
 		}
 
 		$items["profile"]
-			= array($lng->txt("gev_user_profile"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile");
+			= array($this->gLng->txt("gev_user_profile"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile");
 
 
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 		if ($user_utils && ($user_utils->isAdmin() || ilTEPPermissions::getInstance($ilUser->getId())->isTutor())) {
-			$lng->loadLanguageModule("tep");
+			$this->gLng->loadLanguageModule("tep");
 			$items["tep"]
-				= array($lng->txt("tep_personal_calendar_title"), "ilias.php?baseClass=ilTEPGUI");
+				= array($this->gLng->txt("tep_personal_calendar_title"), "ilias.php?baseClass=ilTEPGUI");
 
 			$items["trainer_ops"]
-				= array($lng->txt("gev_mytrainingsap_title"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp");
+				= array($this->gLng->txt("gev_mytrainingsap_title"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp");
 		}
 
 		$items["training_admin"]
-			= array($lng->txt("gev_my_trainings_admin"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin");
+			= array($this->gLng->txt("gev_my_trainings_admin"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin");
 
+		return $items;
+	}
+
+	protected function getSearchItems() {
+		$items = array
+			( "search"
+				=> array("Suche", "http://www.google.de")
+			);
+		$crs_search = gevCourseSearch::getInstance($this->gUser->getId());
+		$search_tabs = $crs_search->getPossibleTabs();
+		$tab_counts = $crs_search->getCourseCounting();
+		foreach ($search_tabs as $key => list($name, $link)) {
+			$items["search_$key"] = array
+				( $this->gLng->txt($name)." (".$tab_counts[$key].")"
+				, $link
+				);
+		}
 		return $items;
 	}
 

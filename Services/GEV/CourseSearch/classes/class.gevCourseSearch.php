@@ -22,15 +22,17 @@ class gevCourseSearch {
 	static protected $instances = array();
 
 	public function __construct($a_usr_id) {
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilCtrl;
 
 		$this->usr_id = $a_usr_id;
 		$this->usr_utils = gevUserUtils::getInstance($this->usr_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->gDB = $ilDB;
 		$this->gUser = $ilUser;
+		$this->gCtrl = $ilCtrl;
 
 		$this->search_tabs = null;
+		$this->tabs_count = null;
 	}
 
 	static public function getInstance($a_usr_id) {
@@ -425,20 +427,28 @@ class gevCourseSearch {
 
 	public function getPossibleTabs() {
 		if ($this->search_tabs === null) {
-			$this->search_tabs = array
-				( "all" => array
-					( "gev_crs_search_all"
-					)
-				, "onside" => array
-					( "gev_crs_search_present"
-					)
-				, "webinar" => array
-					( "gev_crs_search_webinar"
-					)
-				, "wbt" => array
-					( "gev_crs_search_self_learn"
-					)
+			$this->search_tabs = array();
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "all");
+			$this->search_tabs["all"] = array
+				( "gev_crs_search_all"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
 				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "onside");
+			$this->search_tabs["onside"] = array
+				( "gev_crs_search_present"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "webinar");
+			$this->search_tabs["webinar"] = array
+				( "gev_crs_search_webinar"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "wbt");
+			$this->search_tabs["wbt"] = array
+				( "gev_crs_search_self_learn"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab",null);
 		 }
 		return $this->search_tabs;
 	}
@@ -448,15 +458,16 @@ class gevCourseSearch {
 	}
 
 	public function getCourseCounting($a_serach_opts) {
-		$tabs = $this->getPossibleTabs();
-		$ret = array();
+		if ($this->tabs_count == null) {
+			$tabs = $this->getPossibleTabs();
+			$this->tabs_count = array();
 
-		foreach ($tabs as $key => $value) {
-			$a_serach_opts = $this->addSearchForTypeByActiveTab($a_serach_opts,$key);
-			$ret[$key] = count($this->getPotentiallyBookableCourseIds($a_serach_opts));
+			foreach (array_keys($tabs) as $key) {
+				$a_serach_opts = $this->addSearchForTypeByActiveTab($a_serach_opts,$key);
+				$this->tabs_count[$key] = count($this->getPotentiallyBookableCourseIds($a_serach_opts));
+			}
 		}
-
-		return $ret;
+		return $this->tabs_count;
 	}
 
 	public function isActiveTabSelflearning($active_tab) {
