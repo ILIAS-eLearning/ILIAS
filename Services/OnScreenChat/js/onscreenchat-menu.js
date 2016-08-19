@@ -4,19 +4,19 @@
 		rendered: false,
 		content: $(''),
 		conversations: [],
-		emoticons: {},
+		messageFormatter: {},
 		participantsImages: {},
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChatMenu.config = config;
 		},
 
-		setEmoticons: function(emoticons) {
-			$scope.il.OnScreenChatMenu.emoticons = emoticons;
+		setMessageFormatter: function(messageFormatter) {
+			$scope.il.OnScreenChatMenu.messageFormatter = messageFormatter;
 		},
 
-		getEmoticons: function() {
-			return getModule().emoticons;
+		getMessageFormatter: function() {
+			return getModule().messageFormatter;
 		},
 
 		init: function() {
@@ -82,7 +82,7 @@
 					template = template.replace('[[userId]]', participants[0].id);
 					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
 					template = template.replace(/\[\[conversationId\]\]/, conversations[index].id);
-					template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
+					template = template.replace('[[last_message]]', getModule().getMessageFormatter().format(latestMessage.message));
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 

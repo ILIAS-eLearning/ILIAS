@@ -135,6 +135,7 @@
 		inputHeight: undefined,
 		historyTimestamps: {},
 		emoticons: {},
+		messageFormatter: {},
 		participantsImages: {},
 		chatWindowWidth: 278,
 		numWindows: Infinity,
@@ -154,8 +155,9 @@
 		init: function() {
 			getModule().storage   = new ConversationStorage();
 			getModule().emoticons = new Smileys(getModule().config.emoticons);
-			
-			$menu.setEmoticons(getModule().getEmoticons());
+			getModule().messageFormatter = new MessageFormatter(getModule().getEmoticons());
+
+			$menu.setMessageFormatter(getModule().getMessageFormatter());
 
 			$(window).bind('storage', function(e){
 				var conversation = e.originalEvent.newValue;
@@ -522,7 +524,7 @@
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
-			template = template.replace(/\[\[message]\]/g, getModule().getEmoticons().replace(message));
+			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
 			template = $(template).find('li.' + position).html();
@@ -642,6 +644,10 @@
 			$chat.addUser(conversationId, userId, name);
 		},
 
+		getMessageFormatter: function() {
+			return getModule().messageFormatter;
+		},
+
 		getEmoticons: function() {
 			return getModule().emoticons;
 		}
@@ -737,6 +743,14 @@
 			return getModule().participantsImages[userId].src;
 		}
 		return "";
+	};
+
+	var MessageFormatter = function MessageFormatter(emoticons) {
+		var emoticons = emoticons;
+
+		this.format = function (message) {
+			return emoticons.replace(message);
+		};
 	};
 
 	/**
