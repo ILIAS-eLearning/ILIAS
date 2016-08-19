@@ -103,8 +103,6 @@
 				getModule().conversations[index] = conversation;
 			}
 
-			console.log(conversation);
-
 			getModule().rendered = false;
 			getModule().updateBadges();
 		},
@@ -118,7 +116,6 @@
 			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
 			var messagesBadge = $('[data-onscreenchat-menu-nummessages]').hide();
 
-			console.log(numConversations);
 			conversationsBadge.html(numConversations);
 			if(numConversations == 0) {
 				conversationsBadge.hide();
