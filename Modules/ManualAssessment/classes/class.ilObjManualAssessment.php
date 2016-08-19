@@ -43,7 +43,9 @@ class ilObjManualAssessment extends ilObject {
 	 */
 	public function read() {
 		parent::read();
-		$this->settings = $this->settings_storage->loadSettings($this);
+		global $DIC;
+		$settings_storage = new ilManualAssessmentSettingsStorageDB($DIC['ilDB']);
+		$this->settings = $settings_storage->loadSettings($this);
 	}
 
 	/**
