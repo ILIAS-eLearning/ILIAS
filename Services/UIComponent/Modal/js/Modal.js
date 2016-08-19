@@ -148,6 +148,11 @@
 				props.onShow.call(this, e, $modal);
 			}
 		});
+		$modal.on("shown.bs.modal", function (e) {
+			if ($.isFunction(props.onShow)) {
+				props.onShown.call(this, e, $modal);
+			}
+		});
 		$modal.on("hide.bs.modal", function (e) {
 			if ($.isFunction(props.onHide)) {
 				props.onHide.call(this, e, $modal);
