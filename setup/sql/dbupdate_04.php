@@ -16694,3 +16694,7 @@ if (!$ilDB->tableExists('glo_term_reference'))
 <?php
 	$ilDB->addPrimaryKey('glo_term_reference', array('glo_id', 'term_id'));
 ?>
+<#4993>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
