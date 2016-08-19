@@ -217,7 +217,8 @@ class ilOnScreenChatGUI
 			));
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-			$DIC['tpl']->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
+			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.outside.events.min.js');
+			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
 			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
