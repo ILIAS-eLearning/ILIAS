@@ -1,6 +1,10 @@
 <?php
 require_once 'Modules/ManualAssessment/interfaces/AccessControl/interface.ManualAssessmentAccessHandler.php';
 require_once 'Services/AccessControl/classes/class.ilObjRole.php';
+/**
+ * @inheritdoc
+ * Deal with ilias rbac-system
+ */
 class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 
 	protected $handler;
@@ -16,15 +20,28 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 		$this->usr = $usr;
 	}
 
+	/**
+	 * Can the current ilias user perform an operation on some manual assessment? 
+	 *
+	 * @param	ilObjManualAssessment	$mass
+	 * @param	string	$operation
+	 * @return bool
+	 */
 	public function checkAccessToObj(ilObjManualAssessment $mass, $operation) {
 		return $this->checkAccessOfUserToObj($this->usr,$mass,$operation);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function checkAccessOfUserToObj(ilObjUser $usr, ilObjManualAssessment $mass, $operation) {
 
 		return $this->handler->checkAccessOfUser($usr->getId(), $operation, '', $mass->getRefId(), 'mass');
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function initDefaultRolesForObject(ilObjManualAssessment $mass) {
 		$role = ilObjRole::createDefaultRole(
 				$this->getRoleTitleByObj($mass),
@@ -34,10 +51,16 @@ class ilManualAssessmentAccessHandler implements ManualAssessmentAccessHandler {
 		);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function assignUserToMemberRole(ilObjUser $usr, ilObjManualAssessment $mass) {
 		return $this->admin->assignUser($this->getMemberRoleIdForObj($mass),$usr->getId());
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function deassignUserFromMemberRole(ilObjUser $usr, ilObjManualAssessment $mass) {
 		return $this->admin->deassignUser($this->getMemberRoleIdForObj($mass),$usr->getId());
 	}
