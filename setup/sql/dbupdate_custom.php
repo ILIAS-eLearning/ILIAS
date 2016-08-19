@@ -116,3 +116,15 @@ if($ilDB->uniqueConstraintExists('osc_activity', array('conversation_id', 'user_
 <?php
 $ilDB->addPrimaryKey('osc_activity', array('conversation_id', 'user_id'));
 ?>
+<#8>
+<?php
+if(!$ilDB->tableColumnExists('osc_activity', 'is_closed'))
+{
+	$ilDB->addTableColumn('osc_activity', 'is_closed', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
