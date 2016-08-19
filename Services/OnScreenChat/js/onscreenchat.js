@@ -101,6 +101,7 @@
 		inputHeight: undefined,
 		historyTimestamps: {},
 		emoticons: {},
+		participantsImages: {},
 
 		setConfig: function(config) {
 			getModule().config = config;
@@ -303,10 +304,33 @@
 			$menu.add(conversation);
 		},
 
+		requestUserImages: function(conversation, callback) {
+			var participantsIds = getParticipantsIds(conversation);
+			participantsIds = participantsIds.filter(function(id){
+				return !getModule().participantsImages.hasOwnProperty(id);
+			});
+
+			$.get(
+				getModule().config.userProfileDataURL + '&usr_ids=' + participantsIds.join(','),
+				function (response){
+					$.each(response, function(id, item){
+						var img = new Image();
+						img.src = item.profile_image;
+						getModule().participantsImages[id] = img;
+						$menu.syncProfileImages(getModule().participantsImages);
+					});
+					callback();
+				},
+				'json'
+			);
+		},
+
 		onConversationInit: function(conversation){
-			conversation.open = true;
-			$menu.add(conversation);
-			getModule().storage.save(conversation);
+			getModule().requestUserImages(conversation, function(){
+				conversation.open = true;
+				$menu.add(conversation);
+				getModule().storage.save(conversation);
+			});
 		},
 
 		onFocusOut: function() {
@@ -317,9 +341,10 @@
 		},
 
 		onConversation: function(conversation) {
-
-			$menu.add(conversation);
-			getModule().storage.save(conversation);
+			getModule().requestUserImages(conversation, function(){
+				$menu.add(conversation);
+				getModule().storage.save(conversation);
+			});
 		},
 
 		onHistory: function(conversation){
@@ -378,6 +403,7 @@
 		},
 
 		addMessage: function(messageObject, prepend) {
+			console.log("addMessages");
 			var template = getModule().config.messageTemplate;
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
 			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -387,7 +413,7 @@
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getEmoticons().replace(message));
-			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? '//placehold.it/50/FA6F57/fff&amp;text=ME' : '//placehold.it/50/55C1E7/fff&amp;text=U');
+			template = template.replace(/\[\[avatar\]\]/g, getModule().participantsImages[messageObject.userId].src);
 			template = $(template).find('li.' + position).html();
 
 			var chatBody = chatWindow.find('[data-onscreenchat-body]');
@@ -514,6 +540,17 @@
 			}
 		}
 		return false;
+	};
+
+
+	var getParticipantsIds = function(conversation) {
+		var ids = [];
+		for(var index in conversation.participants) {
+			if(conversation.participants.hasOwnProperty(index)) {
+				ids.push(conversation.participants[index].id);
+			}
+		}
+		return ids;
 	};
 
 	/**

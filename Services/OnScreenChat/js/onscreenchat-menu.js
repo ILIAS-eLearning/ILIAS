@@ -5,6 +5,7 @@
 		content: $(''),
 		conversations: [],
 		emoticons: {},
+		participantsImages: {},
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChatMenu.config = config;
@@ -76,7 +77,7 @@
 						}
 					}
 
-					template = template.replace('[[avatar]]', '//placehold.it/50/FA6F57/fff&amp;text=ME');
+					template = template.replace('[[avatar]]', getModule().participantsImages[participants[0].id].src);
 					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
 					template = template.replace(/\[\[conversationId\]\]/, conversations[index].id);
 					template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
@@ -122,6 +123,10 @@
 			} else {
 				messagesBadge.show();
 			}
+		},
+
+		syncProfileImages: function(images) {
+			getModule().participantsImages = images;
 		},
 
 		countUnreadMessages: function() {
