@@ -86,7 +86,34 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		return $chars;
 	}
-	
+
+	/**
+	 * Get text characteristics
+	 *
+	 * @param int $a_style_id
+	 * @param bool $a_include_core include core styles
+	 * @return string[]
+	 */
+	static function _getTextCharacteristics($a_style_id, $a_include_core = false)
+	{
+		$chars = array();
+
+		if ($a_style_id > 0 &&
+			ilObject::_lookupType($a_style_id) == "sty")
+		{
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet($a_style_id);
+			$types = array("text_inline");
+			foreach ($types as $t)
+			{
+				$chars = array_merge($chars, $style->getCharacteristics($t, false, $a_include_core));
+			}
+		}
+
+		return $chars;
+	}
+
+
 	/**
 	* execute command
 	*/
@@ -118,7 +145,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function edit($a_insert = false)
 	{
-		global $ilUser, $ilias;
+		global $ilUser;
 		
 		// add paragraph edit template
 		$tpl = new ilTemplate("tpl.paragraph_edit.html", true, true, "Services/COPage");
@@ -135,12 +162,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$tpl->setVariable("BTN_CANCEL", "cancelCreate");
 			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("commands2");
+			/*$tpl->setCurrentBlock("commands2");
 			$tpl->setVariable("BTN_NAME", "create_par");
 			$tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 			$tpl->setVariable("BTN_CANCEL", "cancelCreate");
 			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock();*/
 			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
 		}
 		else
@@ -151,12 +178,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$tpl->setVariable("BTN_CANCEL", "cancelUpdate");
 			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("commands2");
+			/*$tpl->setCurrentBlock("commands2");
 			$tpl->setVariable("BTN_NAME", "update");
 			$tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 			$tpl->setVariable("BTN_CANCEL", "cancelUpdate");
 			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock();*/
 			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		}
 
@@ -300,19 +327,23 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	function editJS()
 	{
-		global $ilUser, $ilias;
-
 		$s_text = $this->content_obj->getText();
+		$this->log->debug("step 1: ".substr($s_text, 0, 1000));
+
 //echo "\n<br><br>".htmlentities($s_text);
 		$s_text = $this->content_obj->xml2output($s_text, true, false);
+		$this->log->debug("step 2: ".substr($s_text, 0, 1000));
+
 //echo "\n<br><br>".htmlentities($s_text);
 		$char = $this->determineCharacteristic(false);
 		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $this->content_obj->readPCId());
+		$this->log->debug("step 3: ".substr($s_text, 0, 1000));
+
 //echo "\n<br><br>".htmlentities($s_text);
 		$ids = "###".$this->content_obj->readHierId().":".$this->content_obj->readPCId()."###".
 			$char."###";
 		echo $ids.$s_text;
-		$this->log->debug("ilPCParagraphGUI, editJS(): echo paragraph and exit: ".substr($ids.$s_text, 0, 100));
+		$this->log->debug("step 4: ".substr($ids.$s_text, 0, 1000));
 		exit;
 	}
 
@@ -361,6 +392,23 @@ class ilPCParagraphGUI extends ilPageContentGUI
 					'</span>', $s_text);
 			}
 		}
+
+		// marked text spans
+		$ws= "[ \t\r\f\v\n]*";
+		while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $s_text, $found))
+		{
+			$attribs = ilUtil::attribsToArray($found[2]);
+			if (isset($attribs["class"]))
+			{
+				$s_text = str_replace("[".$found[1]."]", "<span class=\"ilc_text_inline_".$attribs["class"]."\">", $s_text);
+			}
+			else
+			{
+				$s_text = str_replace("[".$found[1]."]", "[error:marked".$found[1]."]",$s_text);
+			}
+		}
+		$s_text = preg_replace('~\[\/marked\]~i',"</span>",$s_text);
+
 
 		// code
 		$s_text = str_replace(array("[code]", "[/code]"),
@@ -550,10 +598,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	 * Get character style selector
 	 */
-	static function getCharStyleSelector($a_par_type, $a_use_callback = true)
+	static function getCharStyleSelector($a_par_type, $a_use_callback = true, $a_style_id = 0)
 	{
 		global $lng;
-		
+
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setPullRight(false);
@@ -589,6 +637,18 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"Accent" => array("code" => "acc", "txt" => $lng->txt("cont_char_style_acc")),
 			"Code" => array("code" => "code", "txt" => $lng->txt("cont_char_style_code"))
 			);
+
+		if ($a_style_id > 0 )
+		{
+			foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c)
+			{
+				if (!isset($chars[$c]))
+				{
+					$chars[$c] = array("code" => "", "txt" => $c);
+				}
+			}
+		}
+
 		foreach ($chars as $key => $char)
 		{
 			if (ilPageEditorSettings::lookupSettingByParentType(
