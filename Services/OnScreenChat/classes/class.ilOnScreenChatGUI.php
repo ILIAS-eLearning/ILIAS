@@ -225,7 +225,6 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
 			$DIC['tpl']->addOnLoadCode("il.Chat.setConfig(".ilJsonUtil::encode($chatConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".ilJsonUtil::encode($guiConfig).");");
-			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".ilJsonUtil::encode($guiConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.init();");
 
 			self::$frontend_initialized = true;
