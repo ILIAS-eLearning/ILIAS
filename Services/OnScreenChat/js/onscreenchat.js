@@ -97,12 +97,26 @@
 						post = messageField.text().substr(last_pos);
 
 					messageField.text(pre +  $(this).find('img').data('emoticon') + post);
+					messageField.popover('hide');
 
 					e.preventDefault();
 					e.stopPropagation();
 
-					messageField.popover('hide');
-					messageField.focus();
+					if (window.getSelection) {
+						var node = messageField.get(0);
+						node.focus();
+
+						var textNode = node.firstChild;
+						var range = document.createRange();
+						range.setStart(textNode, last_pos);
+						range.setEnd(textNode, last_pos);
+
+						var sel = window.getSelection();
+						sel.removeAllRanges();
+						sel.addRange(range);
+					} else {
+						messageField.focus();
+					}
 				})
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
