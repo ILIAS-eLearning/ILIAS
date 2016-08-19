@@ -60,6 +60,8 @@
 		},
 
 		init: function() {
+			$(window).on('resize', $scope.il.OnScreenChat.resizeWindow).resize();
+
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
@@ -90,7 +92,6 @@
 						.popover('hide')
 						.append($(this).find('img').data('emoticon'));
 				})
-			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
 				}).on('input', '[data-onscreenchat-message]', function() {
@@ -109,6 +110,8 @@
 		historyTimestamps: {},
 		emoticons: {},
 		participantsImages: {},
+		chatWindowWidth: 278,
+		numWindows: Infinity,
 
 		setConfig: function(config) {
 			getModule().config = config;
@@ -167,6 +170,7 @@
 					.attr('id', 'onscreenchat-container')
 					.addClass('container')
 					.append(getModule().container)
+
 			);
 		},
 
@@ -189,6 +193,7 @@
 			}
 
 			conversation.open = true;
+			conversation.lastActivity = (new Date).getTime();
 			getModule().storage.save(conversation);
 		},
 
@@ -233,15 +238,20 @@
 				});
 			}
 
-			getModule().scrollBottom(conversationWindow);
-
 
 			if(conversation.latestMessage != null) {
 				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
 			}
 
 			conversationWindow.show();
+
+			if(countOpenChatWindows() > getModule().numWindows) {
+				getModule().closeWindowWithLongestInactivity();
+			}
+
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
+			getModule().scrollBottom(conversationWindow);
+
 		},
 
 		scrollBottom: function(chatWindow) {
@@ -355,6 +365,7 @@
 
 		onConversationInit: function(conversation){
 			getModule().requestUserImages(conversation);
+			conversation.lastActivity = (new Date).getTime();
 			conversation.open = true;
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
@@ -362,9 +373,7 @@
 
 		onFocusOut: function() {
 			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-window'));
-			conversation.lastActivity = (new Date()).getTime();
-
-			$chat.trackActivity(conversation.id, getModule().user.id, conversation.lastActivity);
+			getModule().trackActivityFor(conversation);
 		},
 
 		onConversation: function(conversation) {
@@ -437,6 +446,13 @@
 			});
 		},
 
+		trackActivityFor: function(conversation){
+			conversation.lastActivity = (new Date()).getTime();
+			//console.log(conversation);
+			getModule().storage.save(conversation);
+			$chat.trackActivity(conversation.id, getModule().user.id, conversation.lastActivity);
+		},
+
 		getCaretPosition: function(elm) {
 			var caretPos = 0,
 				sel, range;
@@ -470,7 +486,6 @@
 		},
 
 		addMessage: function(messageObject, prepend) {
-			console.log("addMessages");
 			var template = getModule().config.messageTemplate;
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
 			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -499,6 +514,44 @@
 			if(position == 'right') {
 				getModule().scrollBottom(chatWindow);
 			}
+		},
+
+		resizeWindow: function() {
+			var width = $(this).outerWidth();
+			var space = parseInt(width / getModule().chatWindowWidth);
+
+			if (space != getModule().numWindows) {
+				var openWindows = countOpenChatWindows();
+				var diff = openWindows - space;
+				getModule().numWindows = space;
+
+				if(diff > 0) {
+					for(var i=0; i<diff;i++) {
+						getModule().closeWindowWithLongestInactivity();
+					}
+				}
+			}
+		},
+
+		closeWindowWithLongestInactivity: function(){
+			var conversation = getModule().findConversationWithLongestInactivity();
+			if(conversation != null)
+			{
+				conversation.open = false;
+				getModule().storage.save(conversation);
+			}
+		},
+
+		findConversationWithLongestInactivity: function() {
+			var oldest = null;
+			$('[data-onscreenchat-window]:visible').each(function(){
+				var conversation = getModule().storage.get($(this).data('onscreenchat-window'));
+				if(oldest == null || oldest.lastActivity > conversation.lastActivity || conversation.lastActivity == null) {
+					oldest = conversation;
+				}
+			});
+
+			return oldest;
 		},
 
 		searchUser: function(e) {
@@ -556,14 +609,18 @@
 	 */
 	function getModule() {
 		return $scope.il.OnScreenChat;
-	}
+	};
 
 	/**
 	 * @returns {window.il.OnScreenChat.config|{}}
 	 */
 	function getConfig() {
 		return $scope.il.OnScreenChat.config;
-	}
+	};
+
+	function countOpenChatWindows() {
+		return $('[data-onscreenchat-window]:visible').length;
+	};
 
 	var ConversationStorage = function ConversationStorage() {
 		this.get = function(id) {
@@ -571,12 +628,16 @@
 		};
 
 		this.save = function(conversation) {
+			console.log("saved");
 			var oldValue = this.get(conversation.id);
 			conversation.messages = [];
+
+			//console.log("BEFORE", conversation.open);
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
 			}
+			//console.log("AFTER", conversation.open);
 
 			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
 
