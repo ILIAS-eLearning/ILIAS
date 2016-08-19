@@ -440,7 +440,10 @@
 			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
 			for(var index in messages) {
-				if(messages.hasOwnProperty(index)){
+				console.log("Has timestamp", getModule().historyTimestamps.hasOwnProperty(conversation.id));
+				console.log("Curent Timestamp", getModule().historyTimestamps[conversation.id]);
+				console.log("Message timestamp", messages[index].timestamp);
+				if(messages.hasOwnProperty(index) && (!getModule().historyTimestamps.hasOwnProperty(conversation.id) || getModule().historyTimestamps[conversation.id] > messages[index].timestamp)){
 					getModule().addMessage(messages[index], true);
 				}
 			}
