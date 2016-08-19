@@ -507,8 +507,7 @@
 	};
 
 	var userExistsInConversation = function(userId, conversation) {
-		console.log(userId);
-		for(var index in conversation.participants) {
+		for (var index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == userId) {
 				return true;
 			}
