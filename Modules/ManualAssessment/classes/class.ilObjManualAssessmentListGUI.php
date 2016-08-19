@@ -54,7 +54,21 @@ class ilObjManualAssessmentListGUI extends ilObjectListGUI {
 		return $frame;
 	}
 
-
+	public function getCommandLink($a_cmd) {
+		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",$this->ref_id);
+		switch($a_cmd) {
+			case 'edit':
+				$return = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name,'ilmanualassessmentsettingsgui'),"edit");
+				break;
+			case 'infoScreen':
+				$return = $this->ctrl->getLinkTargetByClass($this->gui_class_name,"view");
+				break;
+			default:
+				$return = parent::getCommandLink($a_cmd);
+		}
+		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",null);
+		return $return;
+	}
 
 	/**
 	* Get item properties
