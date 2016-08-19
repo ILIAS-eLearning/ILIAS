@@ -439,7 +439,8 @@
 				show: true,
 				body: getModule().config.modalTemplate
 						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
-						.replace('#:#username#:#', il.Language.txt('username')),
+						.replace('#:#username#:#', il.Language.txt('username'))
+						.replace('#:#chat_osc_no_usr_found#:#', il.Language.txt('chat_osc_no_usr_found')),
 				onShown: function (e, modal) {
 					modal.find('input[type="text"]').first().focus();
 				}
@@ -514,15 +515,24 @@
 			var $input = $(this),
 				modalBody = $input.closest('[data-onscreenchat-modal-body]');
 
+			modalBody.find('[data-onscreenchat-no-usr-found]').addClass('ilNoDisplay');
+
 			delayedUserSearch(function (e) {
 				if ($input.val().length > 2) {
+
+					modalBody.find('label').append(
+						$('<img />').addClass("ilOnScreenChatSearchLoader").attr('src', getConfig().loaderImg)
+					);
+
 					$.get(
 						getModule().config.userListURL + '&q=' + $input.val(),
 						function (response){
-							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body'));
-							var list = modalBody.find('[data-onscreenchat-userlist]');
+							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body')),
+								list = modalBody.find('[data-onscreenchat-userlist]'), 
+								noMatches = true;
 
 							list.addClass("ilNoDisplay").children().remove();
+							$(".ilOnScreenChatSearchLoader").remove();
 
 							$(response.items).each(function() {
 								if (!userExistsInConversation(this.id, conversation)) {
@@ -540,8 +550,14 @@
 											}),
 										line = $('<li></li>').append(link);
 										list.removeClass("ilNoDisplay").append(line);
+									
+									noMatches = false;
 								}
 							});
+
+							if (noMatches) {
+								modalBody.find('[data-onscreenchat-no-usr-found]').removeClass('ilNoDisplay');
+							}
 						},
 						'json'
 					);
