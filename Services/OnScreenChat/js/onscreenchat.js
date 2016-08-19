@@ -77,18 +77,23 @@
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', function(e) {
-					var conversationWindow = $(this).closest('[data-onscreenchat-window]');
+					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
+						messageField = conversationWindow.find('[data-onscreenchat-message]'),
+						last_pos = messageField.attr("data-onscreenchat-last-caret-pos");
+
+					if (undefined == last_pos) {
+						last_pos = 0;
+					}
+
+					var pre  = messageField.text().substr(0, last_pos),
+						post = messageField.text().substr(last_pos);
+
+					messageField.text(pre +  $(this).find('img').data('emoticon') + post);
 
 					e.preventDefault();
 					e.stopPropagation();
 
-					/*console.log("Clicked " + $(this).find('img').data('emoticon'));
-					var messageField = conversationWindow.find('[data-onscreenchat-message]');
-					console.log("Last Pos " + messageField.data("onscreenchat-last-caret-pos"));*/
-
-					conversationWindow.find('[data-onscreenchat-message]')
-						.popover('hide')
-						.append($(this).find('img').data('emoticon'));
+					messageField.popover('hide');
 				})
 			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
