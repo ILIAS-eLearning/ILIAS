@@ -73,6 +73,7 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  cursor: text;
 }
 #onscreenchat-container .chat-window-wrapper [contenteditable=true]:empty:before {
   content: attr(placeholder);
@@ -159,9 +160,6 @@
   padding: 0;
   cursor: pointer;
 }
-.ilOnScreenChatMenuItem .media-object {
-  width: 50px;
-}
 .ilOnScreenChatMenuItem .media:after {
   content: ".";
   clear: both;
@@ -180,6 +178,9 @@
 .ilOnScreenChatMenuItem .media-left {
   padding-right: 10px;
   float: left;
+}
+.ilOnScreenChatMenuItem .media-object {
+  width: 50px;
 }
 .ilOnScreenChatMenuItem .media-body {
   padding: 4px 4px 0 0;
