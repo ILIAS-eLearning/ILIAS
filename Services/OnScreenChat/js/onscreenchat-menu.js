@@ -58,30 +58,32 @@
 			{
 				getModule().content.find('#onscreenchatmenu-content').html("");
 
-				for(var index in getModule().conversations){
+				var conversations = getModule().conversations.filter(function(conversation){
+					return conversation.latestMessage != null;
+				}).sort(function(a, b) {
+					return b.latestMessage.timestamp - a.latestMessage.timestamp;
+				});
 
-					if(getModule().conversations[index].latestMessage != null)
-					{
-						var template = getModule().config.conversationTemplate;
-						var latestMessage = getModule().conversations[index].latestMessage;
-						var participants = getModule().conversations[index].participants;
-						var participantNames = [];
+				for(var index in conversations){
+					var template = getModule().config.conversationTemplate;
+					var latestMessage = conversations[index].latestMessage;
+					var participants = conversations[index].participants;
+					var participantNames = [];
 
-						for(var key in participants) {
-							if(participants.hasOwnProperty(key) && participants[key].id !== getModule().config.userId) {
-								participantNames.push(participants[key].name);
-							}
+					for(var key in participants) {
+						if(participants.hasOwnProperty(key) && participants[key].id !== getModule().config.userId) {
+							participantNames.push(participants[key].name);
 						}
-
-						template = template.replace('[[avatar]]', '//placehold.it/50/FA6F57/fff&amp;text=ME');
-						template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
-						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
-						template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
-						template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
-						template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
-
-						getModule().content.find('#onscreenchatmenu-content').append(template);
 					}
+
+					template = template.replace('[[avatar]]', '//placehold.it/50/FA6F57/fff&amp;text=ME');
+					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
+					template = template.replace(/\[\[conversationId\]\]/, conversations[index].id);
+					template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
+					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
+					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
+
+					getModule().content.find('#onscreenchatmenu-content').append(template);
 				}
 				getModule().rendered = true;
 			}
