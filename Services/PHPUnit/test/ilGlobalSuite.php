@@ -17,6 +17,8 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 	 * @var	string
 	 */
 	const PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS = "needsInstalledILIAS";
+	const REGEX_TEST_FILENAME = "#[a-zA-Z]+Test\.php#";
+	const PHP_UNIT_PARENT_CLASS = "PHPUnit_Framework_TestCase";
 
 	/**
 	 * Check if there is an installed ILIAS to run tests on.
@@ -30,7 +32,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		if(!is_file($ilias_ini_path)) {
 			return false;
 		}
-
+		require_once './Services/Init/classes/class.ilIniFile.php';
 		$ilias_ini = new ilIniFile($ilias_ini_path);
 		$ilias_ini->read();
 		$client_data_path = $ilias_ini->readVariable("server", "absolute_path")."/".$ilias_ini->readVariable("clients", "path");
@@ -92,6 +94,9 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 				}
 			}
 		}
+
+		$suite = self::addTestFolderToSuite($suite);
+
 		echo "\n";
 
 		if (!$suite->hasInstalledILIAS()) {
@@ -108,6 +113,43 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		}
 
         return $suite;
+	}
+
+	/**
+	 * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
+	 *
+	 * @param	ilGlobalSuite	$suite
+	 * @return	ilGloblaSuite	$suite
+	 */
+	protected static function addTestFolderToSuite(ilGlobalSuite $suite) {
+		$test_directories = array("tests");
+		while($aux_dir = current($test_directories)) {
+			if($handle = opendir($aux_dir)) {
+				$aux_dir .= DIRECTORY_SEPARATOR;
+				while (false !== ($entry = readdir($handle))) {
+					if($entry === '.' || $entry === '..') {
+						continue;
+					}
+					if(is_dir($aux_dir.$entry)) {
+						$test_directories[] = $aux_dir.$entry;
+					} else {
+						if(1 === preg_match(self::REGEX_TEST_FILENAME, $entry)) {
+							$ref_declared_classes = get_declared_classes();
+							require_once $aux_dir."/".$entry;
+							$new_declared_classes = array_diff(get_declared_classes(),$ref_declared_classes );
+							foreach ($new_declared_classes as $entry_class) {
+								$reflection = new ReflectionClass($entry_class);
+								if(!$reflection->isAbstract() && $reflection->isSubclassOf(self::PHP_UNIT_PARENT_CLASS)) {
+									echo "Adding Test-Suite: ".$entry_class."\n";
+									$suite->addTestSuite($entry_class);
+								}
+							}
+						}
+					}
+				}
+			}
+			next($test_directories);
+		}
+		return $suite;
     }
 }
-?>
