@@ -132,7 +132,7 @@ class ilDclTableListGUI {
 	}
 
 	protected function setTabs($active) {
-		$this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'listTables'));
+		$this->tabs->setBackTarget($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this, 'listTables'));
 		$this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
 		$this->tabs->addTab('fields', $this->lng->txt('dcl_list_fields'), $this->ctrl->getLinkTargetByClass('ilDclFieldListGUI', 'listFields'));
 		$this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
