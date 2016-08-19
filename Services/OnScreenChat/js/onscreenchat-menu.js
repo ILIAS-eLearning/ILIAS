@@ -86,7 +86,8 @@
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 
-					getModule().content.find('#onscreenchatmenu-content').append(template);
+					$('#onscreenchatmenu-content').append(template);
+					il.ExtLink.autolink('#onscreenchatmenu-content');
 				}
 				getModule().rendered = true;
 			}

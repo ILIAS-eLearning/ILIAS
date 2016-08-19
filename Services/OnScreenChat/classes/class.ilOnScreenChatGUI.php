@@ -217,6 +217,9 @@ class ilOnScreenChatGUI
 				'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user'
 			));
 
+			require_once 'Services/Link/classes/class.ilLinkifyUtil.php';
+			ilLinkifyUtil::initLinkify();
+
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.outside.events.min.js');
 			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');

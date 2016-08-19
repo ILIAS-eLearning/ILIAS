@@ -558,6 +558,8 @@
 				chatBody.append(item);
 			}
 
+			il.ExtLink.autolink(chatBody);
+
 			if(position == 'right') {
 				getModule().scrollBottom(chatWindow);
 			}
