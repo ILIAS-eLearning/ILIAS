@@ -643,6 +643,29 @@ class ilGlossaryTerm
 					{
 						// now we need to copy $def->getFieldId() values from old term to new term
 						// how?
+						// clone values
+
+						$source_primary = array("obj_id"=>array("integer", $old_term->getGlossaryId()));
+						$source_primary["sub_type"] = array("text", "term");
+						$source_primary["sub_id"] = array("integer", $old_term->getId());
+						$source_primary["field_id"] = array("integer", $def->getFieldId());
+						$target_primary = array("obj_id"=>array("integer", $new_term->getGlossaryId()));
+						$target_primary["sub_type"] = array("text", "term");
+						$target_primary["sub_id"] = array("integer", $new_term->getId());
+
+						ilADTFactory::getInstance()->initActiveRecordByType();
+						$has_cloned = ilADTActiveRecordByType::cloneByPrimary(
+							"adv_md_values",
+							array(
+								"obj_id" => "integer",
+								"sub_type" => "text",
+								"sub_id" => "integer",
+								"field_id" => "integer"
+							),
+							$source_primary,
+							$target_primary,
+							array("disabled"=>"integer"));
+
 					}
 				}
 			}
