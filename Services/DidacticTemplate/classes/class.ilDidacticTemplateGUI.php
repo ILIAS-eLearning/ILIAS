@@ -80,7 +80,7 @@ class ilDidacticTemplateGUI
 		foreach($tpls as $tpl)
 		{
 			//just add if template is effective except template is already applied to this object
-			if($tpl->isEffective($_GET['ref_id']) || $tpl->getId() == $value)
+			if($tpl->isEffective($_GET['ref_id']))
 			{
 				$options[$tpl->getId()] = $tpl->getPresentationTitle();
 
@@ -95,6 +95,11 @@ class ilDidacticTemplateGUI
 		{
 			//remove default entry if an exclusive template exists but only if the actual entry isn't the default
 			unset($options[0]);
+		}
+
+		if(!in_array($value, array_keys($options)))
+		{
+			$options[$value] = $this->lng->txt('not_available');
 		}
 
 		if(count($options) < 2)

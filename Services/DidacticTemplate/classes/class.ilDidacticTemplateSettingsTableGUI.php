@@ -145,32 +145,45 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
 		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$actions = new ilAdvancedSelectionListGUI();
+			$actions->setId($set['id']);
+			$actions->setListTitle($this->lng->txt("actions"));
 			// Edit
-			$this->tpl->setCurrentBlock('action_link');
-			$this->tpl->setVariable(
-				'A_LINK',
+			$actions->addItem(
+				$this->lng->txt('settings'),
+				'',
 				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'editTemplate')
 			);
-			$this->tpl->setVariable('A_TEXT',$this->lng->txt('settings'));
-			$this->tpl->parseCurrentBlock();
 
 			// Copy
+			$actions->addItem(
+				$this->lng->txt('copy'),
+				'',
+				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'copyTemplate')
+			);
+
+			// Export
+			$actions->addItem(
+				$this->lng->txt('didactic_do_export'),
+				'',
+				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'exportTemplate')
+			);
+			$this->tpl->setVariable('ACTION_DROPDOWN', $actions->getHTML());
+		}
+		else
+		{
+			//don't use dropdown if just one item is given ...
+			// Export
 			$this->tpl->setCurrentBlock('action_link');
 			$this->tpl->setVariable(
 				'A_LINK',
-				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'copyTemplate')
+				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'exportTemplate')
 			);
-			$this->tpl->setVariable('A_TEXT', $this->lng->txt('copy'));
+			$this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
 			$this->tpl->parseCurrentBlock();
 		}
-		// Export
-		$this->tpl->setCurrentBlock('action_link');
-		$this->tpl->setVariable(
-			'A_LINK',
-			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'exportTemplate')
-		);
-		$this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
-		$this->tpl->parseCurrentBlock();
+
 	}
 }
 ?>
