@@ -26,7 +26,8 @@
 			addEvent: function(){},
 			searchEvent: function(){},
 			resizeChatWindow: function() {},
-			focusOut: function() {}
+			focusOut: function() {},
+			messageInput: function() {}
 		},
 
 		setTriggers: function(triggers) {
@@ -51,6 +52,9 @@
 			if(triggers.hasOwnProperty('focusOut')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.focusOut = triggers.focusOut;
 			}
+			if(triggers.hasOwnProperty('messageInput')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.messageInput = triggers.messageInput;
+			}
 
 			return this;
 		},
@@ -70,6 +74,7 @@
 				.on('keyup', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
+				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', function(e) {
 					var conversationWindow = $(this).closest('[data-onscreenchat-window]');
@@ -77,9 +82,14 @@
 					e.preventDefault();
 					e.stopPropagation();
 
+					/*console.log("Clicked " + $(this).find('img').data('emoticon'));
+					var messageField = conversationWindow.find('[data-onscreenchat-message]');
+					console.log("Last Pos " + messageField.data("onscreenchat-last-caret-pos"));*/
+
 					conversationWindow.find('[data-onscreenchat-message]')
 						.popover('hide')
 						.append($(this).find('img').data('emoticon'))
+
 				})
 			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
@@ -89,8 +99,6 @@
 				})*/;
 		}
 	};
-
-
 
 	$scope.il.OnScreenChat = {
 		config: {},
@@ -151,7 +159,8 @@
 				addEvent: getModule().openInviteUser,
 				searchEvent: getModule().searchUser,
 				resizeChatWindow: getModule().resizeMessageInput,
-				focusOut: getModule().onFocusOut
+				focusOut: getModule().onFocusOut,
+				messageInput: getModule().onMessageInput
 			}).init();
 
 			$('body').append(
@@ -415,6 +424,7 @@
 			e.stopPropagation();
 
 			$scope.il.Modal.dialogue({
+				id: 'modal-' + $(this).attr('data-onscreenchat-add'),
 				header: il.Language.txt('chat_osc_invite_to_conversation'),
 				show: true,
 				body: getModule().config.modalTemplate
@@ -424,6 +434,38 @@
 					modal.find('input[type="text"]').first().focus();
 				}
 			});
+		},
+
+		getCaretPosition: function(elm) {
+			var caretPos = 0,
+				sel, range;
+
+			if (window.getSelection) {
+				sel = window.getSelection();
+				if (sel.rangeCount) {
+					range = sel.getRangeAt(0);
+					if (range.commonAncestorContainer.parentNode == elm) {
+						caretPos = range.endOffset;
+					}
+				}
+			} else if (document.selection && document.selection.createRange) {
+				range = document.selection.createRange();
+				if (range.parentElement() == elm) {
+					var tempEl = document.createElement("span");
+					elm.insertBefore(tempEl, elm.firstChild);
+					var tempRange = range.duplicate();
+					tempRange.moveToElementText(tempEl);
+					tempRange.setEndPoint("EndToEnd", range);
+					caretPos = tempRange.text.length;
+				}
+			}
+			return caretPos;
+		},
+
+		onMessageInput: function(e) {
+			var $this = $(this);
+
+			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
 		},
 
 		addMessage: function(messageObject, prepend) {
@@ -462,7 +504,7 @@
 			var $input = $(this),
 				modalBody = $input.closest('[data-onscreenchat-modal-body]');
 
-			delayedUserSearch(function(e) {
+			delayedUserSearch(function (e) {
 				if ($input.val().length > 2) {
 					$.get(
 						getModule().config.userListURL + '&q=' + $input.val(),
@@ -473,7 +515,7 @@
 							list.addClass("ilNoDisplay").children().remove();
 
 							$(response.items).each(function() {
-								if(!userExistsInConversation(this.id, conversation)) {
+								if (!userExistsInConversation(this.id, conversation)) {
 									var userId = this.id,
 										name = this.value,
 										link = $('<a></a>')
@@ -483,7 +525,8 @@
 												e.preventDefault();
 												e.stopPropagation();
 
-												getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
+												getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name);
+												$scope.il.Modal.dialogue({id: 'modal-' + conversation.id}).hide();
 											}),
 										line = $('<li></li>').append(link);
 										list.removeClass("ilNoDisplay").append(line);
