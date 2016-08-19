@@ -67,7 +67,10 @@
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
 				.on('click', '[data-onscreenchat-submit]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
-				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
+				.on('click', '[data-onscreenchat-menu-item]', function(e) {
+					$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
+					$('#onscreenchat_trigger[data-toggle="popover"]').popover("hide");
+				})
 				.on('click', '[data-onscreenchat-window]', function(e){
 					e.preventDefault();
 					e.stopPropagation();
