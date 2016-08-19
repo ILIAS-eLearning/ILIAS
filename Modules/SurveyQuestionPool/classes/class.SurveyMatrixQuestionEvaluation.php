@@ -80,7 +80,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 				{
 					$perc = $var->perc
 						? sprintf("%.2f", $var->perc*100)."%"
-						: null;
+						: "0%";
 					
 					if((bool)$a_abs && (bool)$a_perc)
 					{
@@ -152,7 +152,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			$row_title = $row[0];
 			$row_results = $row[1];
 			
-			$labels[$row_idx] = $row_title;
+			$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 60, true), 30, "<br />");
 			
 			$vars = $row_results->getVariables();
 			if($vars)
@@ -164,6 +164,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 						$data[$idx] = $chart->getDataInstance(ilChartGrid::DATA_BARS);
 						$data[$idx]->setLabel($var->cat->title);
 						$data[$idx]->setBarOptions(0.5, "center", true);
+						$data[$idx]->setFill(1);
 						
 						$legend[] = array(
 							$var->cat->title,

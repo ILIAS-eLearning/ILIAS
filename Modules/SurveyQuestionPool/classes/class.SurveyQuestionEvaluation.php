@@ -216,7 +216,7 @@ abstract class SurveyQuestionEvaluation
 			{	
 				$perc = $var->perc
 					? sprintf("%.2f", $var->perc*100)."%"
-					: null;
+					: "0%";
 				
 				if((bool)$a_abs && (bool)$a_perc)
 				{
@@ -303,7 +303,8 @@ abstract class SurveyQuestionEvaluation
 		foreach($vars as $idx => $var)
 		{					
 			$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);			
-			$data->setBarOptions(0.5, "center");							
+			$data->setBarOptions(0.5, "center");
+			$data->setFill(1);
 			$chart->addData($data);
 					
 			// labels
@@ -475,7 +476,7 @@ abstract class SurveyQuestionEvaluation
 					$var->abs,
 					$var->perc
 						? sprintf("%.2f", $var->perc*100)."%"
-						: null
+						: "0%"
 				);					
 			}
 		}	

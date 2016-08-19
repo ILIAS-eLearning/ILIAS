@@ -126,6 +126,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
 		$data->setLabel($lng->txt("category_nr_selected"));
 		$data->setBarOptions(0.5, "center");
+		$data->setFill(1);
 		
 		$total = sizeof($a_results->getAnswers());
 		if($total > 0)
