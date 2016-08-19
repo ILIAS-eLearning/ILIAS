@@ -6,7 +6,7 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
 require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
-require_once 'Modules/ManualAssessment/classes/Notification/class.ilManualAssessmentPrimitiveMailNotificator.php';
+require_once 'Modules/ManualAssessment/classes/Notification/class.ilManualAssessmentPrimitiveInternalNotificator.php';
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the ManualAssessment is used.
@@ -18,7 +18,7 @@ class ilManualAssessmentMemberGUI {
 		protected $notificator;
 
 		public function __construct($members_gui ,$a_parent_gui, $a_ref_id) {
-			$this->notificator = new ilManualAssessmentPrimitiveMailNotificator();
+			$this->notificator = new ilManualAssessmentPrimitiveInternalNotificator();
 			global $DIC;
 			$this->ctrl = $DIC['ilCtrl'];
 			$this->members_gui = $members_gui;

@@ -2,7 +2,7 @@
 require_once 'Services/Mail/classes/class.ilMailNotification.php';
 require_once 'Modules/ManualAssessment/interfaces/Notification/interface.ilManualAssessmentNotificator.php';
 
-class ilManualAssessmentPrimitiveMailNotificator extends ilMailNotification implements ilManualAssessmentNotificator {
+class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification implements ilManualAssessmentNotificator {
 	const OCCASION_FAILED = 0;
 	const OCCASION_COMPLETED = 1;
 
