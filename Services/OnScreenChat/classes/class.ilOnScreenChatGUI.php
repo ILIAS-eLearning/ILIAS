@@ -149,9 +149,21 @@ class ilOnScreenChatGUI
 		
 		foreach($user_ids as $usr_id)
 		{
+			$public_image = isset($public_data[$usr_id]) && isset($public_data[$usr_id]['img']) ? $public_data[$usr_id]['img'] : '';
+
+			$public_name = '';
+			if(isset($public_names[$usr_id]))
+			{
+				$public_name = $public_names[$usr_id];
+				if('unknown' == $public_name && isset($public_data[$usr_id]) && isset($public_data[$usr_id]['login']))
+				{
+					$public_name = $public_data[$usr_id]['login'];
+				}
+			}
+
 			$response[$usr_id] = array(
-				'public_name'   => isset($public_names[$usr_id]) ? $public_names[$usr_id] : '',
-				'profile_image' => isset($public_data[$usr_id]) ? $public_data[$usr_id]['img'] : ''
+				'public_name'   => $public_name,
+				'profile_image' => $public_image
 			);
 		}
 
@@ -187,6 +199,7 @@ class ilOnScreenChatGUI
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
 				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
+				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, true),
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
 				'emoticons' => self::getEmoticons($settings),
 				'locale' => $DIC->language()->getLangKey()
