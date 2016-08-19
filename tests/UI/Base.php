@@ -10,6 +10,7 @@ require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
@@ -35,12 +36,6 @@ class LoggingRegistry implements ResourceRegistry {
 
 	public function register($name) {
 		$this->resources[] = $name;
-	}
-}
-
-class DefaultRendererTesting extends \ILIAS\UI\Implementation\DefaultRenderer {
-	public function getResourceRegistry() {
-		return $this->resource_registry;
 	}
 }
 
@@ -108,7 +103,7 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$resource_registry = $this->getResourceRegistry();
 		$lng = $this->getLanguage();
 		$js_binding = $this->getJavaScriptBinding();
-		return new DefaultRendererTesting(
+		return new DefaultRenderer(
 				$ui_factory, $tpl_factory, $resource_registry, $lng, $js_binding);
 	}
 
