@@ -639,9 +639,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		}
 		
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
-		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->testOBJ->getId());
 		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
-		$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->object->getId());
+		$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
 		
 		if( $qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered() )
 		{
