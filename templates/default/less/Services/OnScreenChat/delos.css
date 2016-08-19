@@ -159,6 +159,9 @@
   padding: 0;
   cursor: pointer;
 }
+.ilOnScreenChatMenuItem .media-object {
+  width: 50px;
+}
 .ilOnScreenChatMenuItem .media:after {
   content: ".";
   clear: both;
