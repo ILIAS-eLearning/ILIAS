@@ -60,7 +60,6 @@
 		},
 
 		trackActivity: function(conversationId, userId, timestamp) {
-			console.log(conversationId, userId,timestamp);
 			getModule().socket.emit('activity', conversationId, userId, timestamp);
 		}
 	};
