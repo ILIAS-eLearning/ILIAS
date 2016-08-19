@@ -57,6 +57,7 @@ class ilDclTableEditGUI {
 		$lng = $DIC['lng'];
 		$tpl = $DIC['tpl'];
 		$toolbar = $DIC['ilToolbar'];
+		$locator = $DIC['ilLocator'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -66,6 +67,11 @@ class ilDclTableEditGUI {
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
 		$this->table = ilDclCache::getTableCache($this->table_id);
+
+		$this->ctrl->saveParameter($this, 'table_id');
+		$locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTarget($this, 'edit'));
+		$this->tpl->setLocator();
+
 		if (!$this->checkPermission()) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');

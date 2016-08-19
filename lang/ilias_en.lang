@@ -766,8 +766,10 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for th
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -15901,3 +15903,14 @@ assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
 adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.
+glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_reference#:#Reference
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+content#:#cont_permission_object#:#Permission Object

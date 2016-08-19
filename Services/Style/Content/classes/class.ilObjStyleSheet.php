@@ -268,7 +268,7 @@ class ilObjStyleSheet extends ilObject
 
 	// these types are expandable, i.e. the user can define new style classes
 	public static $expandable_types = array (
-			"text_block", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
+			"text_block", "text_inline", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
 				"list_o", "list_u",
 				"va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
 				"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
@@ -1088,7 +1088,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	 * Get characteristics
 	 */
-	function getCharacteristics($a_type = "", $a_no_hidden = false)
+	function getCharacteristics($a_type = "", $a_no_hidden = false, $a_include_core = true)
 	{
 		$chars = array();
 		
@@ -1098,7 +1098,13 @@ class ilObjStyleSheet extends ilObject
 		}
 		if (is_array($this->chars_by_type[$a_type]))
 		{
-			$chars = $this->chars_by_type[$a_type];
+			foreach ($this->chars_by_type[$a_type] as $c)
+			{
+				if ($a_include_core || !self::isCoreStyle($a_type, $c))
+				{
+					$chars[] = $c;
+				}
+			}
 		}
 		
 		if ($a_no_hidden)
@@ -2499,6 +2505,25 @@ class ilObjStyleSheet extends ilObject
 		}
 		return $c_styles;
 	}
+	
+	/**
+	 * Is core style
+	 *
+	 * @param
+	 * @return
+	 */
+	static function isCoreStyle($a_type, $a_class)
+	{
+		foreach (self::$core_styles as $s)
+		{
+			if ($s["type"] == $a_type && $s["class"] == $a_class)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	* Get template class types

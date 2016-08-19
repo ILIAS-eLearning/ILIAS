@@ -883,8 +883,10 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für d
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronisiere Fragen aus den Pools
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.<br />Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
@@ -15903,3 +15905,14 @@ assessment#:#tst_question_not_marked#:#Die Frage ist nicht markiert###fau: testN
 assessment#:#tst_save_and_proceed#:#Speichern und weiter###fau: testNav
 adve#:#char_selector_menu_open#:#Sonderzeichen-Auswahl anzeigen###fau: testNav
 adve#:#char_selector_menu_close#:#Sonderzeichen-Auswahl verbergen###fau: testNav
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.
+glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_reference#:#Reference
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+content#:#cont_permission_object#:#Berechtigungsobjekt

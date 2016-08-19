@@ -1113,6 +1113,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$_SESSION["tst_import_xml_file"] = $xml_file;
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
+		
+		if( $qtiParser->getQuestionSetType() == ilObjTest::QUESTION_SET_TYPE_RANDOM )
+		{
+			$this->importVerifiedFileObject();
+			return;
+		}
+		
 		// display of found questions
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tst_import_verification.html", "Modules/Test");
 		$row_class = array("tblrow1", "tblrow2");
@@ -1245,49 +1252,65 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// Handle selection of "no questionpool" as qpl_id = -1 -> use test object id instead.
 		// possible hint: chek if empty strings in $_POST["qpl_id"] relates to a bug or not
-		if (!isset($_POST["qpl"]) || "-1" !== (string)$_POST["qpl"])
+		if (!isset($_POST["qpl"]) || "-1" === (string)$_POST["qpl"])
 		{
-			$qpl_id = $newObj->getId();
+			$questionParentObjId = $newObj->getId();
 		} 
-		else 
+		else
 		{
-			$qpl_id = $_POST["qpl"];
+			$questionParentObjId = $_POST["qpl"];
 		}
-
-		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $qpl_id, $_POST["ident"]);
-		if( !isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"]) )
+		
+		if( is_file($_SESSION["tst_import_dir"].'/'.$_SESSION["tst_import_subdir"]."/manifest.xml") )
 		{
-			$qtiParser->setIgnoreItemsEnabled(true);
+			$newObj->saveToDb();
+			
+			$_SESSION['tst_import_idents'] = $_POST['ident'];
+			$_SESSION['tst_import_qst_parent'] = $questionParentObjId;
+			
+			$fileName = $_SESSION['tst_import_subdir'] . '.zip';
+			$fullPath = $_SESSION['tst_import_dir'] . '/' . $fileName;
+			
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport((int)$_GET["ref_id"]);
+			$map = $imp->getMapping();
+			$map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
+			$imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
 		}
-		$qtiParser->setTestObject($newObj);
-		$result = $qtiParser->startParsing();
-		$newObj->saveToDb();
-
-		// import page data
-		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-		$contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
-		$contParser->setQuestionMapping($qtiParser->getImportMapping());
-		$contParser->startParsing();
-
-		if( isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getFoundItems() )
+		else
 		{
-			// import test results
-			if (@file_exists($_SESSION["tst_import_results_file"]))
+			$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"]);
+			if( !isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"]) )
 			{
-				include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
-				$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
-				$results->startParsing();
+				$qtiParser->setIgnoreItemsEnabled(true);
 			}
-		}
+			$qtiParser->setTestObject($newObj);
+			$result = $qtiParser->startParsing();
+			$newObj->saveToDb();
+			
+			// import page data
+			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
+			$contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
+			$contParser->setQuestionMapping($qtiParser->getImportMapping());
+			$contParser->startParsing();
+			
+			if( isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getFoundItems() )
+			{
+				// import test results
+				if(@file_exists($_SESSION["tst_import_results_file"]))
+				{
+					include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
+					$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+					$results->startParsing();
+				}
+			}
+		}		
 
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
-		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 
-		$newObj->updateMetaData();
-		
-		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
-				"&baseClass=ilObjTestGUI");
+		ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
+		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId()."&baseClass=ilObjTestGUI");
 	}
 	
 	/**
@@ -3723,6 +3746,19 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$this->ctrl->forwardCommand($info);
+	}
+	
+	protected function renoveImportFailsObject()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
+		$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->object->getId());
+		$sltImportFails->deleteRegisteredImportFails();
+		
+		$this->ctrl->redirect($this, 'infoScreen');
 	}
 
 	function addLocatorItems()

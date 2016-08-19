@@ -35,11 +35,64 @@ class ilTestExporter extends ilXmlExporter
 		include_once './Modules/Test/classes/class.ilObjTest.php';
 		$tst = new ilObjTest($a_id,false);
 
-		include_once("./Modules/Test/classes/class.ilTestExport.php");
-		$test_exp = new ilTestExport($tst, 'xml');
-		$zip = $test_exp->buildExportFile();
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($tst);
+		$testExport = $expFactory->getExporter('xml');
+		$zip = $testExport->buildExportFile();
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': Created zip file '.$zip);
+	}
+
+	/**
+	 * Get tail dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		if($a_entity == 'tst')
+		{
+			$deps = array();
+
+			$taxIds = $this->getDependingTaxonomyIds($a_ids);
+
+			if(count($taxIds))
+			{
+				$deps[] = array(
+					'component' => 'Services/Taxonomy',
+					'entity' => 'tax',
+					'ids' => $taxIds
+				);
+			}
+
+			return $deps;
+		}
+
+		return parent::getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids);
+	}
+
+	/**
+	 * @param array $testObjIds
+	 * @return array $taxIds
+	 */
+	private function getDependingTaxonomyIds($testObjIds)
+	{
+		include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+
+		$taxIds = array();
+
+		foreach($testObjIds as $testObjId)
+		{
+			foreach(ilObjTaxonomy::getUsageOfObject($testObjId) as $taxId)
+			{
+				$taxIds[$taxId] = $taxId;
+			}
+		}
+
+		return $taxIds;
 	}
 
 	/**

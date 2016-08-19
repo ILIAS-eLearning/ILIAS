@@ -3,19 +3,20 @@
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 <!-- Types of (textual) content -->
-<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | SimpleBulletList | SimpleNumberedList | Sub | Sup">
-<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup">
-<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup">
-<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup">
-<!ENTITY % acctext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Important | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup">
-<!ENTITY % imptext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup">
-<!ENTITY % kwtext "#PCDATA | br | Comment | Footnote | Strong | Emph | Accent | Important | Quotation | Code | Sub | Sup">
-<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code | Sub | Sup">
-<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Anchor | ExtLink | IntLink | Sub | Sup">
-<!ENTITY % footnotetext "#PCDATA | br | Comment | Emph | Accent | Strong | Anchor | ExtLink | IntLink | Important | Quotation | Code | Sub | Sup">
-<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Sub | Sup">
-<!ENTITY % codetext "#PCDATA | br | Emph | Strong | Accent | Important | Quotation | Footnote | Sub | Sup">
-<!ENTITY % supsubtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Strong | Quotation | Anchor | Keyw | Code | Sub | Sup">
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | SimpleBulletList | SimpleNumberedList | Sub | Sup | Marked">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Su | Markedp">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
+<!ENTITY % acctext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Important | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
+<!ENTITY % imptext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
+<!ENTITY % kwtext "#PCDATA | br | Comment | Footnote | Strong | Emph | Accent | Important | Quotation | Code | Sub | Sup | Marked">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code | Sub | Sup | Marked">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Anchor | ExtLink | IntLink | Sub | Sup | Marked">
+<!ENTITY % footnotetext "#PCDATA | br | Comment | Emph | Accent | Strong | Anchor | ExtLink | IntLink | Important | Quotation | Code | Sub | Sup | Marked">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Sub | Sup | Marked">
+<!ENTITY % codetext "#PCDATA | br | Emph | Strong | Accent | Important | Quotation | Footnote | Sub | Sup | Marked">
+<!ENTITY % supsubtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Strong | Quotation | Anchor | Keyw | Code | Sub | Sup | Marked">
+<!ENTITY % markedtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
 
 <!-- PageObject -->
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
@@ -166,6 +167,12 @@
 <!ELEMENT Strong (%strongtext;)*>
 <!ATTLIST Strong
 	Reason (Intuition | MetaLanguageUse) #IMPLIED
+>
+
+<!-- Marked -->
+<!ELEMENT Marked (%markedtext;)*>
+<!ATTLIST Marked
+	Class CDATA #REQUIRED
 >
 
 <!-- Sub -->
