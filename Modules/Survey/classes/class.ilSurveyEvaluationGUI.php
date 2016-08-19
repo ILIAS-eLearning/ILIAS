@@ -804,7 +804,7 @@ class ilSurveyEvaluationGUI
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("print");
-			$button->setOnClick("window.print(); return false;");
+			$button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
 			$button->setOmitPreventDoubleSubmission(true);
 			$ilToolbar->addButtonInstance($button);								
 			
