@@ -18,7 +18,7 @@
 				{QTEXT}
 			</div>		
 			<div class="col-md-4 col-sm-6 col-xs-6" style="padding-right:15px;">	
-				<div clasS="panel panel-default panel-body"> 
+				<div clasS="panel panel-default panel-body" style="border: 1px solid #e9e9e9;"> 
 					{QTYPE}<br />
 					<table class="fullwidth">
 						<!-- BEGIN question_props_bl -->
@@ -58,15 +58,6 @@
 		</div>
 		<!-- END grid_bl -->
 
-		<!-- BEGIN texts_bl -->	
-		<div class="panel panel-default il_Block">	
-			<div class="panel-heading ilBlockHeader"><h3 class="ilBlockHeader">{TEXT_HEADING}</h3></div>
-			<div class="panel-body"> 
-				{TEXT_ACC}
-			</div>
-		</div>
-		<!-- END texts_bl -->	
-
 		<!-- BEGIN chart_bl -->
 		<div class="ilFloatLeft">
 			{CHART}
@@ -86,6 +77,23 @@
 		</div>	
 		<br class="ilClearFloat" />
 		<!-- END chart_bl -->
+		
+		<!-- BEGIN texts_bl -->	
+		<div class="panel panel-default il_Block">	
+			<div class="panel-heading ilBlockHeader"><h3 class="ilBlockHeader">{TEXT_HEADING}</h3></div>
+			<div class="panel-body"> 
+				{TEXT_ACC}
+				<!-- BEGIN text_direct_bl -->
+				<ul>
+					<!-- BEGIN text_direct_item_bl -->
+					<li>{TEXT_DIRECT}</li>
+					<!-- END text_direct_item_bl -->
+				<ul>
+				<!-- END text_direct_bl -->
+			</div>
+		</div>
+		<!-- END texts_bl -->	
+		
 	</div>
 </div>
 <!-- END question_panel_bl -->

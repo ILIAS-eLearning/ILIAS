@@ -1019,26 +1019,24 @@ class ilSurveyEvaluationGUI
 		$texts = $a_eval->getTextAnswers($a_results);
 		if($texts)
 		{			
-			include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
-			$acc = new ilAccordionGUI();
-			$acc->setId("svyevaltxt".$question->getId());
-			
 			if(array_key_exists("", $texts))
 			{
 				$a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("given_answers"));
-				
-				$list = array("<ul class=\"small\">");
 				foreach($texts[""] as $item)
-				{													
-					$list[] = "<li>".nl2br($item)."</li>";																														
-				}				
-				$list[] = "</ul>";			
-				$acc->addItem($this->lng->txt("freetext_answers"), implode("\n", $list));
+				{								
+					$a_tpl->setCurrentBlock("text_direct_item_bl");
+					$a_tpl->setVariable("TEXT_DIRECT", nl2br($item));
+					$a_tpl->parseCurrentBlock();
+				}			
 			}
 			else
-			{						
+			{
+				include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
+				$acc = new ilAccordionGUI();
+				$acc->setId("svyevaltxt".$question->getId());
+
 				$a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("freetext_answers"));
-				
+
 				foreach($texts as $var => $items)
 				{			
 					$list = array("<ul class=\"small\">");
@@ -1048,11 +1046,10 @@ class ilSurveyEvaluationGUI
 					}
 					$list[] = "</ul>";					
 					$acc->addItem($var, implode("\n", $list));
-				}
-				
-			}						
-			
-			$a_tpl->setVariable("TEXT_ACC", $acc->getHTML());
+				}						
+
+				$a_tpl->setVariable("TEXT_ACC", $acc->getHTML());
+			}
 		}
 				
 		// chart
