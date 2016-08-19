@@ -71,15 +71,15 @@
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
-				.on('click', '[data-onscreenchat-emoticons-flyout] a', function(e) {
-					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
-						flyoutPanelTrigger = conversationWindow.find('[data-onscreenchat-emoticons-flyout-trigger]');
+				.on('click', '[data-onscreenchat-emoticon]', function(e) {
+					var conversationWindow = $(this).closest('[data-onscreenchat-window]');
 
 					e.preventDefault();
 					e.stopPropagation();
 
-					flyoutPanelTrigger.click();
-					conversationWindow.find('div[data-onscreenchat-message]').append($(this).find('img').data("emoticon"));
+					conversationWindow.find('[data-onscreenchat-message]')
+						.popover('hide')
+						.append($(this).find('img').data('emoticon'))
 				})
 			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
@@ -187,7 +187,7 @@
 		open: function(conversation) {
 			var conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
-			if(conversationWindow.length == 0) {
+			if (conversationWindow.length == 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				conversationWindow
@@ -198,6 +198,31 @@
 					.removeClass('ilNoDisplay');
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
+
+				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
+					messageField = conversationWindow.find('[data-onscreenchat-message]');
+
+				messageField.popover({
+					html : true,
+					trigger: 'manual',
+					placement : 'auto',
+					title: il.Language.txt('chat_osc_emoticons'),
+					content: function () {
+						return emoticonPanel.data('emoticons').join(' ');
+					}
+				});
+
+				emoticonPanel.find('[data-onscreenchat-emoticons-flyout-trigger]').on('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+
+					messageField.popover('show');
+				}).on('clickoutside', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+
+					messageField.popover('hide');
+				});
 			}
 
 			getModule().scrollBottom(conversationWindow);
@@ -533,8 +558,7 @@
 	};
 
 	var userExistsInConversation = function(userId, conversation) {
-		console.log(userId);
-		for(var index in conversation.participants) {
+		for (var index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == userId) {
 				return true;
 			}
@@ -603,62 +627,32 @@
 					return $("");
 				}
 
-				var $emoticons_flyout_trigger = $('<a data-onscreenchat-emoticons-flyout-trigger></a>');
-				var $emoticons_flyout = $('<div class="iosOnScreenChatEmoticonsPanelFlyout" data-onscreenchat-emoticons-flyout></div>');
-				var $emoticons_panel = $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel></div>')
-					.append($emoticons_flyout_trigger)
-					.append($emoticons_flyout);
+				var emoticonMap = {}, emoticonCollection = [];
 
-				var $emoticons_table = $("<table></table>");
-				var $emoticons_row = null;
-				var cnt = 0;
-				var emoticonMap = {};
 				for (var i in _smileys) {
-					var $emoticon;
-					if (emoticonMap[_smileys[i]]) {
-						$emoticon = emoticonMap[_smileys[i]];
-					} else {
-						if (cnt % 6 == 0) {
-							$emoticons_row = $("<tr></tr>");
-							$emoticons_table.append($emoticons_row);
-						}
+					var prop = _smileys[i];
 
-						$emoticon = $('<img src="' + _smileys[i] + '" alt="" title="" />');
-						$emoticon.data("emoticon", i);
-						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
+					if (!emoticonMap.hasOwnProperty(prop)) {
+						var $emoticon = $('<img src="' + prop + '" alt="" title="" />')
+							.attr('data-emoticon', i);
 
-						emoticonMap[_smileys[i]] = $emoticon;
-
-						++cnt;
+						emoticonMap[prop] = $emoticon;
 					}
-					$emoticon.attr({
-						alt:   [$emoticon.attr('alt').toString(), i].join(' '),
-						title: [$emoticon.attr('title').toString(), i].join(' ')
+
+					emoticonMap[prop].attr({
+						alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
+						title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
 					});
 				}
-				$emoticons_flyout.append($emoticons_table);
 
-				$emoticons_flyout_trigger.click(function (e) {
-					$(this)
-						.closest('[data-onscreenchat-window]')
-						.find('[data-onscreenchat-emoticons-flyout]')
-						.toggle();
-				}).toggle(function(e) {
-					$(this).addClass("active");
-				}, function(e) {
-					$(this).removeClass("active");
-				});
+				for (var i in emoticonMap) {
+					emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html());
+				}
 
-				$emoticons_panel.on('clickoutside', function(e) {
-					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
-						flyoutTconversationWindow = conversationWindow.find('[data-onscreenchat-emoticons-flyout-trigger]');
+				var emoticonsElm = $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
+					.data('emoticons', emoticonCollection);
 
-					if (flyoutTconversationWindow.hasClass("active")) {
-						flyoutTconversationWindow.click();
-					}
-				});
-
-				return $emoticons_panel;
+				return emoticonsElm;
 			}
 		};
 	};

@@ -9,6 +9,16 @@
   pointer-events: none;
   z-index: 1039;
 }
+#onscreenchat-container .popover {
+  max-width: 200px;
+}
+#onscreenchat-container .popover a {
+  border: 1px solid white;
+  padding: 1px 0 1px 2px;
+}
+#onscreenchat-container .popover a:hover {
+  border: 1px solid silver;
+}
 #onscreenchat-container .row {
   position: relative;
 }
@@ -97,34 +107,18 @@
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
   display: block;
-  height: 19px;
-  width: 19px;
+  height: 14px;
+  width: 14px;
   position: relative;
+  margin-top: 5px;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel > a {
   display: block;
-  height: 19px;
-  width: 19px;
-  background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat 1px 2px;
+  height: 14px;
+  width: 14px;
+  background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat;
+  background-size: cover;
   z-index: 1000;
-  border-left: 1px solid #FFFFFF;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanelFlyout {
-  position: absolute;
-  background-color: white;
-  border: 1px solid gray;
-  padding: 5px;
-  border-bottom: 2px solid #293E6A;
-  bottom: 19px;
-  display: none;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanelFlyout a {
-  border: 1px solid white;
-  display: block;
-  padding: 1px 0 1px 2px;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanelFlyout a:hover {
-  border: 1px solid silver;
 }
 .iosOnScreenChatAddUserList {
   border: 1px solid #BCCAE5;

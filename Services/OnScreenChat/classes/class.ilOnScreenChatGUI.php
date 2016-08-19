@@ -198,8 +198,8 @@ class ilOnScreenChatGUI
 				'modalTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-add-user.html'),
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
-				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
-				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, true),
+				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, false),
+				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, false),
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
 				'emoticons' => self::getEmoticons($settings),
 				'locale' => $DIC->language()->getLangKey()
@@ -213,7 +213,7 @@ class ilOnScreenChatGUI
 
 			$DIC->language()->loadLanguageModule('chatroom');
 			$DIC->language()->toJS(array(
-				'chat_osc_write_a_msg', 'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
+				'chat_osc_emoticons', 'chat_osc_write_a_msg', 'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
 			));
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
