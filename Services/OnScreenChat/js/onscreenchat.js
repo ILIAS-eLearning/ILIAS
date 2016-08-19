@@ -88,8 +88,7 @@
 
 					conversationWindow.find('[data-onscreenchat-message]')
 						.popover('hide')
-						.append($(this).find('img').data('emoticon'))
-
+						.append($(this).find('img').data('emoticon'));
 				})
 			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
