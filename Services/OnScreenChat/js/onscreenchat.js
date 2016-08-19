@@ -9,7 +9,14 @@
 (function($, $scope, $chat, $menu){
 	'use strict';
 
-	var smileys = {};
+	var delayedUserSearch = (function(){
+		var timer = 0;
+
+		return function(callback, ms){
+			clearTimeout(timer);
+			timer = setTimeout(callback, ms);
+		};
+	})();
 
 	$scope.il.OnScreenChatJQueryTriggers = {
 		triggers: {
@@ -60,7 +67,7 @@
 					e.stopPropagation();
 					$(this).find('[data-onscreenchat-message]').focus();
 				})
-				.on('keydown', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
+				.on('keyup', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
@@ -97,6 +104,14 @@
 
 		setConfig: function(config) {
 			getModule().config = config;
+
+			moment.locale(config.locale);
+			window.setInterval(function() {
+				$('[data-livestamp]').each(function() {
+					var $this = $(this);
+					$this.html(momentFromNowToTime($this.data('livestamp')));
+				});
+			}, 10000);
 		},
 
 		init: function() {
@@ -177,8 +192,9 @@
 				conversationWindow
 					.find('[data-onscreenchat-emoticons]')
 					.append(getModule().getEmoticons().getHtml())
-					.find('.iosChatEmoticonsPanel')
-					.parent().removeClass("ilNoDisplay");
+					.find('.iosOnScreenChatEmoticonsPanel')
+					.parent()
+					.removeClass('ilNoDisplay');
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
 			}
@@ -227,6 +243,9 @@
 
 			template = template.replace('[[participants]]', participantsName.join(', '));
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
+			template = template.replace('#:#close#:#', il.Language.txt('close'));
+			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
+			template = template.replace('#:#chat_osc_send#:#', il.Language.txt('chat_osc_send'));
 
 			return template;
 		},
@@ -240,8 +259,7 @@
 		},
 
 		handleSubmit: function(e) {
-			if((e.keyCode == 13 && !e.shiftKey) || e.type == 'click')
-			{
+			if ((e.keyCode == 13 && !e.shiftKey) || e.type == 'click') {
 				e.preventDefault();
 				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 				getModule().send(conversationId);
@@ -342,11 +360,19 @@
 			getModule().user = participant;
 		},
 
-		openInviteUser: function() {
+		openInviteUser: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
 			$scope.il.Modal.dialogue({
-				header: "Invite user to conversation",
+				header: il.Language.txt('chat_osc_invite_to_conversation'),
 				show: true,
-				body: getModule().config.modalTemplate.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
+				body: getModule().config.modalTemplate
+						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
+						.replace('#:#username#:#', il.Language.txt('username')),
+				onShow: function (e, modal) {
+					modal.find('input[type="text"]').first().focus();
+				}
 			});
 		},
 
@@ -358,8 +384,9 @@
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
+			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getEmoticons().replace(message));
-			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? 'http://placehold.it/50/FA6F57/fff&amp;text=ME' : 'http://placehold.it/50/55C1E7/fff&amp;text=U');
+			template = template.replace(/\[\[avatar\]\]/g, (messageObject.userId == getModule().config.userId)? '//placehold.it/50/FA6F57/fff&amp;text=ME' : '//placehold.it/50/55C1E7/fff&amp;text=U');
 			template = $(template).find('li.' + position).html();
 
 			var chatBody = chatWindow.find('[data-onscreenchat-body]');
@@ -379,39 +406,41 @@
 			}
 		},
 
-		searchUser: function() {
-			if($(this).val().length > 2) {
-				$.get(
-					getModule().config.userListURL + '&q=' + $('#invite_user_text').val(),
-					function(response){
-						var list = $('[data-onscreenchat-userlist]');
-						list.children().remove();
+		searchUser: function(e) {
+			var $input = $(this),
+				modalBody = $input.closest('[data-onscreenchat-modal-body]');
 
-						$(response.items).each(function() {
-							console.log(this);
-							var userId = this.id;
-							var name = this.value;
-							var link = $('<a></a>')
-								.prop('href', '#')
-								.text(name)
-								.click(function (e) {
-									e.preventDefault();
-									e.stopPropagation();
-									getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
-								});
-							var line =  $('<li></li>')
-								.addClass('invite_user_line_id')
-								.addClass('invite_user_line')
-								.append(link);
+			delayedUserSearch(function(e) {
+				if ($input.val().length > 2) {
+					$.get(
+						getModule().config.userListURL + '&q=' + $input.val(),
+						function (response){
+							var list = modalBody.find('[data-onscreenchat-userlist]');
 
-							list.append(line);
-						});
-					},
-					'json'
-				);
-			} else {
-				$('#invite_users_available').children().remove();
-			}
+							list.addClass("ilNoDisplay").children().remove();
+
+							$(response.items).each(function() {
+								var userId = this.id,
+									name = this.value,
+									link = $('<a></a>')
+										.prop('href', '#')
+										.text(name)
+										.click(function (e) {
+											e.preventDefault();
+											e.stopPropagation();
+
+											getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
+										}),
+									line = $('<li></li>').append(link);
+								list.removeClass("ilNoDisplay").append(line);
+							});
+						},
+						'json'
+					);
+				} else {
+					modalBody.find('[data-onscreenchat-userlist]').addClass("ilNoDisplay").children().remove();
+				}
+			}, 500);
 		},
 
 		addUser: function(conversationId, userId, name) {
@@ -517,8 +546,8 @@
 				}
 
 				var $emoticons_flyout_trigger = $('<a data-onscreenchat-emoticons-flyout-trigger></a>');
-				var $emoticons_flyout = $('<div class="iosChatEmoticonsPanelFlyout" data-onscreenchat-emoticons-flyout></div>');
-				var $emoticons_panel = $('<div class="iosChatEmoticonsPanel" data-onscreenchat-emoticons-panel></div>')
+				var $emoticons_flyout = $('<div class="iosOnScreenChatEmoticonsPanelFlyout" data-onscreenchat-emoticons-flyout></div>');
+				var $emoticons_panel = $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel></div>')
 					.append($emoticons_flyout_trigger)
 					.append($emoticons_flyout);
 

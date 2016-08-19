@@ -142,7 +142,8 @@ class ilOnScreenChatGUI
 				'username' => $DIC->user()->getLogin(),
 				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
-				'emoticons' => self::getEmoticons($settings)
+				'emoticons' => self::getEmoticons($settings),
+				'locale' => $DIC->language()->getLangKey()
 			);
 
 			$chatConfig = array(
@@ -151,7 +152,10 @@ class ilOnScreenChatGUI
 				'username' => $DIC->user()->getLogin()
 			);
 
-			$DIC->language()->loadLanguageModule('onscreenchat');
+			$DIC->language()->loadLanguageModule('chatroom');
+			$DIC->language()->toJS(array(
+				'chat_osc_write_a_msg', 'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
+			));
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
@@ -161,6 +165,7 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/chat.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
 			$DIC['tpl']->addOnLoadCode("il.Chat.setConfig(".ilJsonUtil::encode($chatConfig).");");
+			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".ilJsonUtil::encode($guiConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".ilJsonUtil::encode($guiConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.init();");
 

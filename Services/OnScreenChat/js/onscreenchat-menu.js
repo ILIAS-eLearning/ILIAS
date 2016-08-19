@@ -23,7 +23,7 @@
 				html : true,
 				placement : "bottom",
 				viewport : { selector: 'body', padding: 10 },
-				title: "Conversation"
+				title: il.Language.txt('chat_osc_conversations')
 			}).on('shown.bs.popover', function () {
 				$scope.il.OnScreenChatMenu.show();
 			}).on('hidden.bs.popover', function () {
@@ -73,11 +73,12 @@
 							}
 						}
 
-						template = template.replace('[[avatar]]', 'http://placehold.it/50/FA6F57/fff&amp;text=ME');
-						template = template.replace('[[participants]]', participantNames.join(', '));
+						template = template.replace('[[avatar]]', '//placehold.it/50/FA6F57/fff&amp;text=ME');
+						template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
 						template = template.replace(/\[\[conversationId\]\]/, getModule().conversations[index].id);
 						template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
 						template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
+						template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 
 						getModule().content.find('#onscreenchatmenu-content').append(template);
 					}

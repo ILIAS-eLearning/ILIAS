@@ -20,6 +20,11 @@ class ilOnScreenChatMenuGUI
 			'userId' => $DIC->user()->getId()
 		);
 
+		$DIC->language()->loadLanguageModule('chatroom');
+		$DIC->language()->toJS(array(
+			'chat_osc_conversations'
+		));
+
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');
 		$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.setConfig(".ilJsonUtil::encode($config).");");
