@@ -27,6 +27,8 @@
 		onShow:        function () {
 		},
 		onHide:        function () {
+		},
+		onShown:        function () {
 		}
 	};
 
@@ -146,6 +148,11 @@
 		$modal.on("show.bs.modal", function (e) {
 			if ($.isFunction(props.onShow)) {
 				props.onShow.call(this, e, $modal);
+			}
+		});
+		$modal.on("shown.bs.modal", function (e) {
+			if ($.isFunction(props.onShow)) {
+				props.onShown.call(this, e, $modal);
 			}
 		});
 		$modal.on("hide.bs.modal", function (e) {

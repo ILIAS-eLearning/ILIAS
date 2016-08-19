@@ -71,7 +71,10 @@
 				.on('click', '[data-onscreenchat-window]', function(e){
 					e.preventDefault();
 					e.stopPropagation();
-					$(this).find('[data-onscreenchat-message]').focus();
+
+					if ($(e.target).closest('[data-onscreenchat-header]').size() == 0) {
+						$(this).find('[data-onscreenchat-message]').focus();
+					}
 				})
 				.on('keyup', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
@@ -79,18 +82,24 @@
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', function(e) {
-					var conversationWindow = $(this).closest('[data-onscreenchat-window]');
+					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
+						messageField = conversationWindow.find('[data-onscreenchat-message]'),
+						last_pos = messageField.attr("data-onscreenchat-last-caret-pos");
+
+					if (undefined == last_pos) {
+						last_pos = 0;
+					}
+
+					var pre  = messageField.text().substr(0, last_pos),
+						post = messageField.text().substr(last_pos);
+
+					messageField.text(pre +  $(this).find('img').data('emoticon') + post);
 
 					e.preventDefault();
 					e.stopPropagation();
 
-					/*console.log("Clicked " + $(this).find('img').data('emoticon'));
-					var messageField = conversationWindow.find('[data-onscreenchat-message]');
-					console.log("Last Pos " + messageField.data("onscreenchat-last-caret-pos"));*/
-
-					conversationWindow.find('[data-onscreenchat-message]')
-						.popover('hide')
-						.append($(this).find('img').data('emoticon'));
+					messageField.popover('hide');
+					messageField.focus();
 				})
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
@@ -439,8 +448,9 @@
 				show: true,
 				body: getModule().config.modalTemplate
 						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
-						.replace('#:#username#:#', il.Language.txt('username')),
-				onShow: function (e, modal) {
+						.replace('#:#username#:#', il.Language.txt('username'))
+						.replace('#:#chat_osc_no_usr_found#:#', il.Language.txt('chat_osc_no_usr_found')),
+				onShown: function (e, modal) {
 					modal.find('input[type="text"]').first().focus();
 				}
 			});
@@ -558,15 +568,24 @@
 			var $input = $(this),
 				modalBody = $input.closest('[data-onscreenchat-modal-body]');
 
+			modalBody.find('[data-onscreenchat-no-usr-found]').addClass('ilNoDisplay');
+
 			delayedUserSearch(function (e) {
 				if ($input.val().length > 2) {
+
+					modalBody.find('label').append(
+						$('<img />').addClass("ilOnScreenChatSearchLoader").attr('src', getConfig().loaderImg)
+					);
+
 					$.get(
 						getModule().config.userListURL + '&q=' + $input.val(),
 						function (response){
-							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body'));
-							var list = modalBody.find('[data-onscreenchat-userlist]');
+							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body')),
+								list = modalBody.find('[data-onscreenchat-userlist]'), 
+								noMatches = true;
 
 							list.addClass("ilNoDisplay").children().remove();
+							$(".ilOnScreenChatSearchLoader").remove();
 
 							$(response.items).each(function() {
 								if (!userExistsInConversation(this.id, conversation)) {
@@ -584,8 +603,14 @@
 											}),
 										line = $('<li></li>').append(link);
 										list.removeClass("ilNoDisplay").append(line);
+									
+									noMatches = false;
 								}
 							});
+
+							if (noMatches) {
+								modalBody.find('[data-onscreenchat-no-usr-found]').removeClass('ilNoDisplay');
+							}
 						},
 						'json'
 					);

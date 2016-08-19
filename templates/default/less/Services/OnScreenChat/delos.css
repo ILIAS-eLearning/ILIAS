@@ -127,8 +127,15 @@
 }
 .iosOnScreenChatAddUserList li {
   list-style: none inside none;
-  padding: 0 0 0 30px;
+  padding: 0 0 0 5px;
   margin: 3px 0;
+}
+.ilOnScreenChatSearchLoader {
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  display: inline-block;
 }
 .ilOnScreenChatMenuDropDown .popover {
   max-width: 300px;

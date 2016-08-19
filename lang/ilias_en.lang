@@ -15810,3 +15810,4 @@ chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_add_user#:#Add User
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
 chatroom#:#chat_osc_emoticons#:#Emoticons
+chatroom#:#chat_osc_no_usr_found#:#Could not find any user mathcing your search.
