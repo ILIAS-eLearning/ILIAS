@@ -67,7 +67,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 			case 'ilinfoscreengui':
 				$this->viewObject();
 			case 'illearningprogressgui':
-				if(!($access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized())) {
+				if(!($this->object->access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized())) {
 					$this->handleAccessViolation();
 				}
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';

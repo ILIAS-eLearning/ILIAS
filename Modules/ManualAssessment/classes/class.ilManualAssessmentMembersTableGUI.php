@@ -1,4 +1,5 @@
 <?php
+/* @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de> */
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';

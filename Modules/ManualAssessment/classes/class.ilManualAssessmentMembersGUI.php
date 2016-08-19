@@ -73,6 +73,11 @@ class ilManualAssessmentMembersGUI {
 		$this->tpl->setContent($table->getHTML());
 	}
 
+	/**
+	 * Add users to corresponding mass-object. To be used by repository search.
+	 *
+	 * @param	int|string[]	$user_ids
+	 */
 	public function addUsers(array $user_ids) {
 		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
 			$a_parent_gui->handleAccessViolation();
@@ -92,6 +97,11 @@ class ilManualAssessmentMembersGUI {
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
+	/**
+	 * Remove users from corresponding mass-object. To be used by repository search.
+	 *
+	 * @param	int|string[]	$user_ids
+	 */
 	public function removeUser() {
 		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
 			$a_parent_gui->handleAccessViolation();

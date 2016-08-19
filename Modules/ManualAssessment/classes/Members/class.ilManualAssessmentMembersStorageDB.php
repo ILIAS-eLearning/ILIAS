@@ -3,6 +3,10 @@ require_once 'Modules/ManualAssessment/interfaces/Members/interface.ilManualAsse
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembers.php';
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMember.php';
 require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
+/**
+ * Store member infos to DB
+ * @inheritdoc
+ */
 class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersStorage {
 
 	protected $db;
@@ -11,6 +15,9 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		$this->db = $ilDB;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function loadMembers(ilObjManualAssessment $obj) {
 		$members = new ilManualAssessmentMembers($obj);
 		$obj_id = $obj->getId();
@@ -22,6 +29,9 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		return $members;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function loadMember(ilObjManualAssessment $obj, ilObjUser $usr) {
 		$obj_id = $obj->getId();
 		$usr_id = $usr->getId();
@@ -40,6 +50,9 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function updateMember(ilManualAssessmentMember $member) {
 		$sql = 'UPDATE mass_members SET '
 				.'	'.ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS.' = '.$this->db->quote($member->LPStatus(),'text')
@@ -54,11 +67,17 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		$this->db->manipulate($sql);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function deleteMembers(ilObjManualAssessment $obj) {
 		$sql = "DELETE FROM mass_members WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
 		$this->db->manipulate($sql);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function loadMembersQuery($obj_id) {
 		return 'SELECT ex.firstname as '.ilManualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME
 				.'	, ex.lastname as '.ilManualAssessmentMembers::FIELD_EXAMINER_LASTNAME
@@ -72,6 +91,9 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 				.'	WHERE obj_id = '.$this->db->quote($obj_id, 'integer');
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function insertMembersRecord(ilObjManualAssessment $mass, array $record) {
 		$sql = 'INSERT INTO mass_members (obj_id,usr_id,record,learning_progress,notify) '
 				.'	VALUES ('
@@ -84,6 +106,9 @@ class ilManualAssessmentMembersStorageDB implements ilManualAssessmentMembersSto
 		$this->db->manipulate($sql);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function removeMembersRecord(ilObjManualAssessment $mass,array $record) {
 		$sql = 'DELETE FROM mass_members'
 				.'	WHERE obj_id = '.$this->db->quote($mass->getId(), 'integer')

@@ -1,4 +1,8 @@
 <?php
+/** 
+ * A settings storage handler to write mass settings to db.
+ * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de> 
+ */
 require_once 'Modules/ManualAssessment/interfaces/Settings/interface.ilManualAssessmentSettingsStorage.php';
 require_once 'Modules/ManualAssessment/classes/Settings/class.ilManualAssessmentSettings.php';
 require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
@@ -9,11 +13,17 @@ class ilManualAssessmentSettingsStorageDB implements ilManualAssessmentSettingsS
 		$this->db = $db;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function createSettings(ilManualAssessmentSettings $settings) {
 		$sql = "INSERT INTO mass_settings (content,record_template,obj_id) VALUES (%s,%s,%s)";
 		$this->db->manipulateF($sql,array("text","text","integer"),array($settings->content(),$settings->recordTemplate(),$settings->getId()));
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function loadSettings(ilObjManualAssessment $obj) {
 		if(ilObjManualAssessment::_exists($obj->getId(), false, 'mass')) {
 			$obj_id = $obj->getId();
@@ -27,12 +37,18 @@ class ilManualAssessmentSettingsStorageDB implements ilManualAssessmentSettingsS
 			return new ilManualAssessmentSettings($obj, ilManualAssessmentSettings::DEF_CONTENT, ilManualAssessmentSettings::DEF_RECORD_TEMPLATE);
 		}
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
 	public function updateSettings(ilManualAssessmentSettings $settings) {
 		$sql = 'UPDATE mass_settings SET content = %s,record_template = %s WHERE obj_id = %s';
 		$this->db->manipulateF($sql,array("text","text","integer"),array($settings->content(),$settings->recordTemplate(),$settings->getId()));
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function deleteSettings(ilObjManualAssessment $obj) {
 		$sql = 'DELETE FROM mass_settings WHERE obj_id = %s';
 		$this->db->manipulateF($sql,array("integer"),array($obj->getId()));

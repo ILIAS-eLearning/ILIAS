@@ -1,7 +1,10 @@
 <?php
 require_once 'Services/Mail/classes/class.ilMailNotification.php';
 require_once 'Modules/ManualAssessment/interfaces/Notification/interface.ilManualAssessmentNotificator.php';
-
+/**
+ * Notificate user using internal mail system.
+ * @inheritdoc
+ */
 class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification implements ilManualAssessmentNotificator {
 	const OCCASION_FAILED = 0;
 	const OCCASION_COMPLETED = 1;
@@ -14,24 +17,36 @@ class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification 
 		$this->reciever = null;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withReciever(ilManualAssessmentMember $member) {
 		$clone = clone $this;
 		$clone->reciever = $member;
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withOccasionFailed() {
 		$clone = clone $this;
 		$clone->occasion = self::OCCASION_FAILED;
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withOccasionCompleted() {
 		$clone = clone $this;
 		$clone->occasion = self::OCCASION_COMPLETED;
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function send() {
 		if(! $this->reciever instanceof ilManualAssessmentMember || !in_array($this->occasion, array(self::OCCASION_COMPLETED,self::OCCASION_FAILED))) {
 			throw new ilManualAssessmentException('can\'t notify');

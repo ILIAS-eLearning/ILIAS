@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Member related storage mechanism.
+ * @author Denis Klöpfer <denis.kleofer@concepts-and-training.de>
+ */
 require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
 interface ilManualAssessmentMembersStorage {
 

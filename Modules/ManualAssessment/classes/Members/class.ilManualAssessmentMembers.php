@@ -1,4 +1,9 @@
 <?php
+/**
+ * Member administration related logic, add and remove members,
+ * get the list of all members, etc..
+ * @author	Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
+ */
 
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
@@ -31,14 +36,53 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		$this->mass = $mass;
 	}
 
+	/**
+	 * Countable Methods 
+	 */
 	public function count() {
 		return count($this->member_records);
 	}
 
+	/**
+	 * Iterator Methods
+	 */
+	public function current() {
+		return current($this->member_records);
+	}
+
+	public function key() {
+		return key($this->member_records);
+	}
+
+	public function next() {
+		$this->position++;
+		next($this->member_records);
+	}
+
+	public function rewind() {
+		$this->position = 0;
+		reset($this->member_records);
+	}
+
+	public function valid() {
+		return $this->position < count($this->member_records);
+	}
+
+	/**
+	 * Get the manual assessment object that is corresponding to this
+	 *
+	 * @return	ilObjManualAssessment
+	 */
 	public function referencedObject() {
 		return $this->mass;
 	}
 
+	/**
+	 * Check the validity of a record before adding it to this
+	 *
+	 * @param int|string|null[]	$record
+	 * @return	bool
+	 */
 	public function recordOK(array $record) {
 		if(isset($record[self::FIELD_USR_ID])) {
 			if(!$this->userExists($record[self::FIELD_USR_ID])
@@ -57,10 +101,22 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		return true;
 	}
 
+	/**
+	 * Check if a user with user_id is member of this
+	 *
+	 * @param int|string	$usr_id
+	 * @return	bool
+	 */
 	public function userAllreadyMemberByUsrId($usr_id) {
 		return isset($this->member_records[$usr_id]);
 	}
 
+	/**
+	 * Check if a user is member of this
+	 *
+	 * @param ilObjUser	$usr
+	 * @return	bool
+	 */
 	public function userAllreadyMember(ilObjUser $usr) {
 		return $this->userAllreadyMemberByUsrId($usr->getId());
 	}
@@ -69,6 +125,13 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		return ilObjUser::_exists($usr_id,false,'usr');
 	}
 
+	/**
+	 * Clone this and add an additional record
+	 *
+	 * @param	int|string|null[]	$record
+	 * @return	ilManualAssessmentMembers
+	 * @throws	ilManualAssessmentException
+	 */
 	public function withAdditionalRecord(array $record) {
 		if($this->recordOK($record)) {
 			$clone = clone $this;
@@ -78,6 +141,13 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		throw new ilManualAssessmentException('illdefined record');
 	}
 
+	/**
+	 * Clone this and add an additional record created for user
+	 *
+	 * @param	ilObjUser	$usr
+	 * @return	ilManualAssessmentMembers
+	 * @throws	ilManualAssessmentException
+	 */
 	public function withAdditionalUser(ilObjUser $usr) {
 		if(!$this->userAllreadyMember($usr)) {
 			$clone = clone $this;
@@ -104,6 +174,13 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 			);
 	}
 
+	/**
+	 * Clone this andremove record corresponding to user
+	 *
+	 * @param	ilObjUser	$usr
+	 * @return	ilManualAssessmentMembers
+	 * @throws	ilManualAssessmentException
+	 */
 	public function withoutPresentUser(ilObjUser $usr) {
 		$usr_id = $usr->getId();
 		if(isset($this->member_records[$usr_id]) && (string)$this->member_records[$usr_id][self::FIELD_FINALIZED] !== "1") {
@@ -114,32 +191,22 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		throw new ilManualAssessmentException('User not member or allready finished');
 	}
 
-	public function current() {
-		return current($this->member_records);
-	}
 
-	public function key() {
-		return key($this->member_records);
-	}
-
-	public function next() {
-		$this->position++;
-		next($this->member_records);
-	}
-
-	public function rewind() {
-		$this->position = 0;
-		reset($this->member_records);
-	}
-
-	public function valid() {
-		return $this->position < count($this->member_records);
-	}
-
+	/**
+	 * Get the ids of all the users being member in this mass
+	 *
+	 * @return	int|string[]
+	 */
 	public function membersIds() {
 		return array_keys($this->member_records);
 	}
 	
+	/**
+	 * Store the data to a persistent medium 
+	 *
+	 * @param	ilManualAssessmentMembersStorage	$storage
+	 * @param	ManualAssessmentAccessHandler	$access_handler
+	 */
 	public function updateStorageAndRBAC(ilManualAssessmentMembersStorage $storage, ManualAssessmentAccessHandler $access_handler) {
 		$current = $storage->loadMembers($this->referencedObject());
 		$mass = $this->referencedObject();
