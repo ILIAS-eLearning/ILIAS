@@ -2736,7 +2736,7 @@ common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#block#:#Block
 common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
-common#:#bm_add_to_ilias#:#ILIAS-Bookmark
+common#:#bm_add_to_ilias#:#Zu ILIAS-Bookmarks hinzufügen
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern

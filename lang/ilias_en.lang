@@ -2211,7 +2211,7 @@ common#:#bkm_import#:#Import Bookmarks
 common#:#bkm_sendmail#:#Send as attachment
 common#:#block_management#:#Block Management
 common#:#block#:#Block
-common#:#bm_add_to_ilias#:#ILIAS Bookmarks
+common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bold#:#Bold
