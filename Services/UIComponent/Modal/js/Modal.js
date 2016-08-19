@@ -27,6 +27,8 @@
 		onShow:        function () {
 		},
 		onHide:        function () {
+		},
+		onShown:        function () {
 		}
 	};
 
