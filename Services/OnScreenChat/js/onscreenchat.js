@@ -69,7 +69,10 @@
 				.on('click', '[data-onscreenchat-window]', function(e){
 					e.preventDefault();
 					e.stopPropagation();
-					$(this).find('[data-onscreenchat-message]').focus();
+
+					if ($(e.target).closest('[data-onscreenchat-header]').size() == 0) {
+						$(this).find('[data-onscreenchat-message]').focus();
+					}
 				})
 				.on('keyup', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
@@ -437,7 +440,7 @@
 				body: getModule().config.modalTemplate
 						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
 						.replace('#:#username#:#', il.Language.txt('username')),
-				onShow: function (e, modal) {
+				onShown: function (e, modal) {
 					modal.find('input[type="text"]').first().focus();
 				}
 			});
