@@ -70,6 +70,7 @@ class ilDclTableViewEditGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
+	    $locator = $DIC['ilLocator'];
         $this->table = $table;
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -77,6 +78,11 @@ class ilDclTableViewEditGUI
         $this->parent_obj = $parent_obj;
         $this->tableview = $tableview;
         $this->tabs_gui = $ilTabs;
+
+	    $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+	    $this->ctrl->saveParameter($this, 'tableview_id');
+	    $locator->addItem($this->tableview->getTitle(), $this->ctrl->getLinkTarget($this, 'show'));
+	    $this->tpl->setLocator();
     }
 
 

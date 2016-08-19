@@ -66,7 +66,7 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 /**
  * Provides common functionality for UI tests.
  */
-class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
+abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		assert_options(ASSERT_WARNING, 0);
 		assert_options(ASSERT_CALLBACK, null);
