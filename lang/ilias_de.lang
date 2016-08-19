@@ -15906,17 +15906,17 @@ mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich ab
 mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
 common#:#obj_mass#:#Manuelle Bewertung
-common#:#objs_mass#:#Manuelle Beweertungen
+common#:#objs_mass#:#Manuelle Bewertungen
 common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
 common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
 trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
-common#:#il_mass_member#:#Mitgleid einer Manuelen Bewertung
+common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
 rbac#:#mass_visible#:#Manuele Bwertung sichtbar
 rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
 rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
 rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
-rbac#:#mass_copy#:#Manuele Bewertung kopieren
+rbac#:#mass_copy#:#Manuelle Bewertung kopieren
 rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
 rbac#:#mass_delete#:#Manuelle Bewertung löschen
-rbac#:#mass_edit_members#:#Mitglieder einer Manueller Bewertung bearbeiten
-rbac#:#mass_edit_permission#:#Rechte einer Manueller Bewertung bearbeiten
+rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
