@@ -272,9 +272,38 @@ class ilMembershipGUI
 		$table->setFormAction($this->ctrl->getFormAction($this));
 		$table->parse();
 		
+		// filter commands
+		$table->setFilterCommand('participantsApplyFilter');
+		$table->setResetCommand('participantsResetFilter');
+		
 		$this->tpl->setVariable('MEMBERS', $table->getHTML());
 	}
 	
+	/**
+	 * Apply filter for participant table
+	 */
+	protected function participantsApplyFilter()
+	{
+		$table = $this->initParticipantTableGUI();
+		$table->resetOffset();
+		$table->writeFilterToSession();
+		
+		$this->participants();
+	}
+	
+	/**
+	 * reset participants filter
+	 */
+	protected function participantsResetFilter()
+	{
+		$table = $this->initParticipantTableGUI();
+		$table->resetOffset();
+		$table->resetFilter();
+		
+		$this->participants();
+	}
+
+
 	/**
 	 * Edit one participant
 	 */

@@ -201,7 +201,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	/**
 	 * @todo refactor delete
 	 */
-	protected function getLocalTypeRole($a_translation = false)
+	public function getLocalTypeRole($a_translation = false)
 	{
 		return $this->getParentObject()->getLocalCourseRoles($a_translation);
 	}

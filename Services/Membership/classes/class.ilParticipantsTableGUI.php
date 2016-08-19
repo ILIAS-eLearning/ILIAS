@@ -16,11 +16,41 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	
 	protected $participants = null;
 	
+	protected $current_filter = array();
+	
 	/**
 	 * @var ilObject
 	 */
 	protected $rep_object;
 
+	
+	public function initFilter()
+	{
+		
+		$login = $this->addFilterItemByMetaType(
+			'login',
+			ilTable2GUI::FILTER_TEXT,
+			false,
+			$this->lng->txt('name')
+		);
+		$this->current_filter['login'] = $login->getValue();
+		
+		
+		if($this->isColumnSelected('roles'))
+		{
+			$role = $this->addFilterItemByMetaType(
+				'roles',
+				ilTable2GUI::FILTER_SELECT,
+				false,
+				$this->lng->txt('objs_role')
+			);
+
+			$options = array();
+			$options[0] = $this->lng->txt('select_one');
+			$role->setOptions($options + $this->getParentObject()->getLocalRoles());
+			$this->current_filter['roles'] = $role->getValue();
+		}
+	}
 	
 
 	/**

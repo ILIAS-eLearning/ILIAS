@@ -146,7 +146,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	/**
 	 * @todo refactor delete
 	 */
-	protected function getLocalTypeRole($a_translation = false)
+	public function getLocalTypeRole($a_translation = false)
 	{
 		return $this->getParentObject()->getLocalGroupRoles($a_translation);
 	}
@@ -166,7 +166,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	protected function initWaitingList()
 	{
 		include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
-		$wait = new ilGroupWaitingListWaitingList($this->getParentObject()->getId());
+		$wait = new ilGroupWaitingList($this->getParentObject()->getId());
 		return $wait;
 	}
 	

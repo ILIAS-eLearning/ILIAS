@@ -13,6 +13,8 @@ include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected $show_learning_progress = false;
+	
+	protected $current_filter = array();
 
     /**
      * Constructor
@@ -88,6 +90,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable('header');
 		$this->enable('numinfo');
 		$this->enable('select_all');
+		
+		$this->initFilter();
 		
 		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
@@ -265,7 +269,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     {
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 
-		$a_user_data = $this->getParentObject()->readMemberData(
+		$group_user_data = $this->getParentObject()->readMemberData(
 			$part,
 			$this->getSelectedColumns()
 		);
@@ -301,11 +305,11 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		}
 
         $usr_data = ilUserQuery::getUserListData(
-            'login',
-            'ASC',
-            0,
-            9999,
-            '',
+			$this->getOrderField(),
+			$this->getOrderDirection(),
+			$this->getOffset(),
+			$this->getLimit(),
+			$this->current_filter['login'],
             '',
             null,
             false,
@@ -313,9 +317,25 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             0,
             0,
             null,
-            $usr_data_fields,
-            $part
+            $usr_data_fields
         );
+		
+		$a_user_data = array();
+		$filtered_user_ids = array();
+		foreach((array) $usr_data['set'] as $ud)
+		{
+			$user_id = $ud['usr_id'];
+			if($this->current_filter['roles'])
+			{
+				if(!$GLOBALS['rbacreview']->isAssigned($user_id, $this->current_filter['roles']))
+				{
+					continue;
+				}
+			}
+			$filtered_user_ids[] = $user_id;
+			$a_user_data[$user_id] = array_merge($ud,$group_user_data[$user_id]);
+		}
+
 		// Custom user data fields
 		if($udf_ids)
 		{
@@ -384,19 +404,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
-        foreach($usr_data['set'] as $user)
-        {
-            // Check acceptance
-            if(!$this->checkAcceptance($user['usr_id']))
-            {
-				continue;
-            }
-            // DONE: accepted
-            foreach($usr_data_fields as $field)
-            {
-                $a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
-            }
-        }
+
 		// consultation hours
 		if($this->isColumnSelected('consultation_hour'))
 		{
@@ -411,7 +419,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
-		
+
         return $this->setData($a_user_data);
     }
 }

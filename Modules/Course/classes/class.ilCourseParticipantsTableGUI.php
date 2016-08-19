@@ -400,7 +400,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->getOrderDirection(),
 			$this->getOffset(),
 			$this->getLimit(),
-			'',
+			$this->current_filter['login'],
 			'',
 			null,
 			false,
@@ -411,8 +411,17 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$usr_data_fields,
 			$part
 		);
+		// filter by array
+		$usr_ids = array();
 		foreach((array) $usr_data['set'] as $user)
 		{
+			if($this->current_filter['roles'])
+			{
+				if(!$GLOBALS['rbacreview']->isAssigned($user['usr_id'], $this->current_filter['roles']))
+				{
+					continue;
+				}
+			}
 			$usr_ids[] = $user['usr_id'];
 		}
 		
@@ -426,6 +435,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		{			
 			$user_id = $ud['usr_id'];
 			
+			if(!in_array($user_id, $usr_ids))
+			{
+				continue;
+			}
 			// #15434 
 			if(!$this->checkAcceptance($user_id))
 			{
