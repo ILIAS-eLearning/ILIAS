@@ -31,6 +31,8 @@
 				$("body").removeClass("modal-open");
 			});
 
+
+
 			$('body').on('click', function (e) {
 				$('#onscreenchat_trigger[data-toggle="popover"]').each(function () {
 					//the 'is' for buttons that trigger popups
@@ -60,7 +62,7 @@
 				getModule().content.find('#onscreenchatmenu-content').html("");
 
 				var conversations = getModule().conversations.filter(function(conversation){
-					return conversation.latestMessage != null;
+					return conversation.latestMessage != null && (conversation.open === false || conversation.open == undefined);
 				}).sort(function(a, b) {
 					return b.latestMessage.timestamp - a.latestMessage.timestamp;
 				});
@@ -101,16 +103,22 @@
 				getModule().conversations[index] = conversation;
 			}
 
+			console.log(conversation);
+
 			getModule().rendered = false;
 			getModule().updateBadges();
 		},
 
 		updateBadges: function() {
-			var numConversations = getModule().conversations.length;
+			var conversations = getModule().conversations.filter(function(conversation){
+				return conversation.latestMessage != null && (conversation.open === false || conversation.open == undefined);
+			});
+			var numConversations = conversations.length;
 			var numMessages = getModule().countUnreadMessages();
 			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
-			var messagesBadge = $('[data-onscreenchat-menu-nummessages]');
+			var messagesBadge = $('[data-onscreenchat-menu-nummessages]').hide();
 
+			console.log(numConversations);
 			conversationsBadge.html(numConversations);
 			if(numConversations == 0) {
 				conversationsBadge.hide();
@@ -118,12 +126,12 @@
 				conversationsBadge.show();
 			}
 
-			messagesBadge.html(numMessages);
+			/*messagesBadge.html(numMessages);
 			if(numMessages == 0) {
 				messagesBadge.hide();
 			} else {
 				messagesBadge.show();
-			}
+			}*/
 		},
 
 		syncProfileImages: function(images) {

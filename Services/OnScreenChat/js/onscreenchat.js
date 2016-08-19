@@ -258,6 +258,8 @@
 				getModule().closeWindowWithLongestInactivity();
 			}
 
+			$menu.add(conversation);
+
 			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
 			getModule().scrollBottom(conversationWindow);
 
@@ -302,7 +304,7 @@
 			var button = $(this);
 			var conversation = getModule().storage.get($(button).attr('data-onscreenchat-close'));
 			conversation.open = false;
-
+			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
 
@@ -458,7 +460,6 @@
 
 		trackActivityFor: function(conversation){
 			conversation.lastActivity = (new Date()).getTime();
-			//console.log(conversation);
 			getModule().storage.save(conversation);
 			$chat.trackActivity(conversation.id, getModule().user.id, conversation.lastActivity);
 		},
@@ -653,16 +654,12 @@
 		};
 
 		this.save = function(conversation) {
-			console.log("saved");
 			var oldValue = this.get(conversation.id);
 			conversation.messages = [];
-
-			//console.log("BEFORE", conversation.open);
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
 			}
-			//console.log("AFTER", conversation.open);
 
 			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
 
