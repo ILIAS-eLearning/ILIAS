@@ -3,6 +3,7 @@
 /* Copyright (c) 2016, Richard Klees <richard.klees@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/UIComponent/classes/class.ilUIHookPluginGUI.php");
+require_once("./Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 
 /**
  * Creates a submenu for the Cockpit of the GEV.
@@ -74,16 +75,14 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			}
 		}
 		if ($this->isSearch()) {
-			if ($_GET["active_tab"] == "praes") {
-				return "search_onside";
+			global $ilUser;
+			$crs_search = gevCourseSearch::getInstance($ilUser->getId());
+			$tab = $crs_search->getActiveTab();
+			$active = "search_$tab";
+			if (!in_array($active, array("search_onside", "search_webinar", "search_wbt"))) {
+				return "search_all";
 			}
-			if ($_GET["active_tab"] == "webinar") {
-				return "search_webinar";
-			}
-			if ($_GET["active_tab"] == "self") {
-				return "search_wbt";
-			}
-			return "search_all";
+			return $active;
 		}
 
 		return null;

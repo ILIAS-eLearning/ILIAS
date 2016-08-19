@@ -32,7 +32,7 @@ class gevCourseSearchGUI {
 		$this->crs_srch = gevCourseSearch::getInstance($ilUser->getId());
 		$this->search_form = null;
 
-		$this->active_tab = $_GET["active_tab"] ? $_GET["active_tab"] : gevCourseSearch::TAB_TO_SHOW_ADVICE;
+		$this->active_tab = $this->crs_srch->getActiveTab();
 
 		if ($a_target_user_id === null) {
 			if ($this->crs_srch->hasUserSelectorOnSearchGUI()) {

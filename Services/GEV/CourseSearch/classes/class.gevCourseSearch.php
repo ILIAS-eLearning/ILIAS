@@ -11,9 +11,9 @@ require_once("Modules/Course/classes/class.ilObjCourseAccess.php");
 
 class gevCourseSearch {
 	const TAB_ALL = "all";
-	const TAB_PRAESENZ = "praes";
+	const TAB_PRAESENZ = "onside";
 	const TAB_WEBINAR = "webinar";
-	const TAB_SELF = "self";
+	const TAB_SELF = "wbt";
 	const TAB_VIRTUEL_TRAINING = "virt";
 	const TAB_TO_SHOW_ADVICE = "all";
 	const CSS_SELECTED_TAB = "tabactive";
@@ -29,6 +29,8 @@ class gevCourseSearch {
 		$this->gev_set = gevSettings::getInstance();
 		$this->gDB = $ilDB;
 		$this->gUser = $ilUser;
+
+		$this->search_tabs = null;
 	}
 
 	static public function getInstance($a_usr_id) {
@@ -422,12 +424,27 @@ class gevCourseSearch {
 	}
 
 	public function getPossibleTabs() {
-		return array("all"=>"gev_crs_search_all"
-							,"praes"=>"gev_crs_search_present"
-							,"webinar"=>"gev_crs_search_webinar"
-							,"self"=>"gev_crs_search_self_learn"
-						//	,"virt"=>"gev_crs_search_virtual_training"
-						   );
+		if ($this->search_tabs === null) {
+			$this->search_tabs = array
+				( "all" => array
+					( "gev_crs_search_all"
+					)
+				, "onside" => array
+					( "gev_crs_search_present"
+					)
+				, "webinar" => array
+					( "gev_crs_search_webinar"
+					)
+				, "wbt" => array
+					( "gev_crs_search_self_learn"
+					)
+				);
+		 }
+		return $this->search_tabs;
+	}
+
+	public function getActiveTab() {
+		return $_GET["active_tab"] ? $_GET["active_tab"] : gevCourseSearch::TAB_TO_SHOW_ADVICE;
 	}
 
 	public function getCourseCounting($a_serach_opts) {

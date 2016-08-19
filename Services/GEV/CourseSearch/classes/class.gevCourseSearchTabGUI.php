@@ -32,7 +32,8 @@ class gevCourseSearchTabGUI {
 
 	public function render() {
 		
-		foreach ($this->tabs as $key => $value) {
+		foreach ($this->tabs as $key => $data) {
+			list($value) = $data;
 			$this->gCtrl->setParameter($this->parent_obj,"active_tab",$key);
 			$this->tpl->setCurrentBlock("tab");
 			$class = gevCourseSearch::CSS_NOT_SELECTED_TAB;
