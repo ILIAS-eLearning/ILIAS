@@ -244,6 +244,7 @@
 			template = template.replace('[[participants]]', participantsName.join(', '));
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
+			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
 			template = template.replace('#:#chat_osc_send#:#', il.Language.txt('chat_osc_send'));
 
