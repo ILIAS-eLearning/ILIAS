@@ -150,7 +150,8 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 		$crs_search = gevCourseSearch::getInstance($this->gUser->getId());
 		$search_tabs = $crs_search->getPossibleTabs();
 		$tab_counts = $crs_search->getCourseCounting();
-		foreach ($search_tabs as $key => list($name, $link)) {
+		foreach ($search_tabs as $key => $data) {
+			list($name, $link) = $data;
 			$items["search_$key"] = array
 				( $this->gLng->txt($name)." (".$tab_counts[$key].")"
 				, $link
