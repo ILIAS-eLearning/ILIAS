@@ -11378,6 +11378,11 @@ div.ilPCMyCoursesPath {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+#onscreenchat-container .chat-window-wrapper [contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block;
+  color: #CCCCCC;
+}
 #onscreenchat-container .chat-window-wrapper .chat {
   list-style: none;
   margin: 0;

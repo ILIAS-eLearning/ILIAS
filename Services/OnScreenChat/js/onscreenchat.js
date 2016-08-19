@@ -200,13 +200,17 @@
 			}, 0);
 		},
 
-		resizeMessageInput: function(){
+		resizeMessageInput: function(e){
 			var inputWrapper = $(this).closest('.panel-footer');
 			var parent = $(inputWrapper).closest('[data-onscreenchat-window]');
 			var wrapperHeight = parent.outerHeight();
 			var headingHeight = parent.find('.panel-heading').outerHeight();
 			var inputHeight = $(inputWrapper).outerHeight();
 			var bodyHeight = wrapperHeight - inputHeight - headingHeight;
+
+			if($(this).html() == "<br>") {
+				$(this).html("");
+			}
 
 			parent.find('.panel-body').css('height', bodyHeight + "px");
 		},
