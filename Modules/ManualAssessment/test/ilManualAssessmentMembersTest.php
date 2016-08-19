@@ -4,6 +4,7 @@ require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentM
 require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
 require_once 'Modules/ManualAssessment/classes/Settings/class.ilManualAssessmentSettings.php';
 require_once 'Modules/ManualAssessment/interfaces/AccessControl/interface.ManualAssessmentAccessHandler.php';
+require_once 'Modules/ManualAssessment/interfaces/Notification/interface.ManualAssessmentNotificator.php';
 /**
  * @backupGlobals disabled
  */
@@ -53,6 +54,10 @@ class ilManualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 
 	protected function rbacHandlerMock() {
 		return $this->getMock('ManualAssessmentAccessHandler');
+	}
+
+	protected function notificaterMock() {
+		return $this->getMock('ilManualAssessmentNotificator');
 	}
 
 	public function test_create_members() {
