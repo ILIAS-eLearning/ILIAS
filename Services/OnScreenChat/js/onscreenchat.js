@@ -259,15 +259,9 @@
 
 		createWindow: function(conversation) {
 			var template = getModule().config.chatWindowTemplate;
-			var participantsName = [];
+			var participantsNames = getParticipantsNames(conversation)
 
-			for(var key in conversation.participants) {
-				if(getModule().user.id != conversation.participants[key].id) {
-					participantsName.push(conversation.participants[key].name);
-				}
-			}
-
-			template = template.replace('[[participants]]', participantsName.join(', '));
+			template = template.replace('[[participants]]', participantsNames.join(', '));
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
@@ -366,7 +360,15 @@
 		},
 
 		onConversation: function(conversation) {
+			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
 			getModule().requestUserImages(conversation);
+
+			if(chatWindow.length != 0) {
+				chatWindow.find('[data-onscreenchat-window-participants]').html(
+					getParticipantsNames(conversation).join(', ')
+				);
+			}
+
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
 		},
@@ -566,7 +568,6 @@
 		return false;
 	};
 
-
 	var getParticipantsIds = function(conversation) {
 		var ids = [];
 		for(var index in conversation.participants) {
@@ -575,6 +576,18 @@
 			}
 		}
 		return ids;
+	};
+
+	var getParticipantsNames = function(conversation) {
+		var names = [];
+
+		for(var key in conversation.participants) {
+			if(getModule().user.id != conversation.participants[key].id) {
+				names.push(conversation.participants[key].name);
+			}
+		}
+
+		return names;
 	};
 
 	var getProfileImage = function(userId) {
