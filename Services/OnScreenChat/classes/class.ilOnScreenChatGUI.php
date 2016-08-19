@@ -213,7 +213,8 @@ class ilOnScreenChatGUI
 
 			$DIC->language()->loadLanguageModule('chatroom');
 			$DIC->language()->toJS(array(
-				'chat_osc_no_usr_found', 'chat_osc_emoticons', 'chat_osc_write_a_msg', 'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
+				'chat_osc_no_usr_found', 'chat_osc_emoticons', 'chat_osc_write_a_msg',
+				'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user'
 			));
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
