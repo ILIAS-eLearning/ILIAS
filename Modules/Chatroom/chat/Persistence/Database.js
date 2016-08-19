@@ -206,8 +206,8 @@ var Database = function Database(config) {
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
 			function(result){
 				emptyResult = false;
-				_pool.query('UPDATE osc_activity SET timestamp = ? WHERE conversation_id = ? AND user_id = ?',
-					[timestamp, conversationId, userId],
+				_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
+					[timestamp, 0, conversationId, userId],
 					function(err){
 						if(err) throw err;
 					}
@@ -225,6 +225,30 @@ var Database = function Database(config) {
 					});
 				}
 			}
+		);
+	};
+
+	this.closeConversation = function(conversationId, userId) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+			function(result){
+				_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
+					[1, conversationId, userId],
+					function(err){
+						if(err) throw err;
+					}
+				);
+			},
+			function() {
+			}
+		);
+	};
+
+	this.getConversationStateForParticipant = function(conversationId, userId, onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+			onResult,
+			onEnd
 		);
 	};
 

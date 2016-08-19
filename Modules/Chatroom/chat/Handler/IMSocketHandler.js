@@ -11,6 +11,7 @@ module.exports = function(socket) {
 	socket.on('message', _getTask('ConversationMessage'));
 	socket.on('history', _getTask('ConversationHistory'));
 	socket.on('activity', _getTask('ConversationActivity'));
+	socket.on('closeConversation', _getTask('ConversationClose'));
 };
 
 var _getTask = function(name) {

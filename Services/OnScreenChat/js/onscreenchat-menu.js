@@ -103,10 +103,18 @@
 				getModule().conversations[index] = conversation;
 			}
 
-			console.log(conversation);
-
 			getModule().rendered = false;
 			getModule().updateBadges();
+		},
+
+		remove: function(conversation) {
+			var index = getModule().hasConversation(conversation);
+			if(index !== false) {
+				getModule().conversations.splice(index, 1);
+				getModule().rendered = false;
+				getModule().show();
+				getModule().updateBadges();
+			}
 		},
 
 		updateBadges: function() {
@@ -118,7 +126,6 @@
 			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
 			var messagesBadge = $('[data-onscreenchat-menu-nummessages]').hide();
 
-			console.log(numConversations);
 			conversationsBadge.html(numConversations);
 			if(numConversations == 0) {
 				conversationsBadge.hide();

@@ -9,13 +9,22 @@ module.exports = function() {
 	var socket = this;
 
 	async.eachSeries(conversations, function(conversation, nextLoop){
+		var conversationClosed = false;
 		namespace.getDatabase().getLatestMessage(conversation, function(row){
 			row.userId = row.user_id;
 			row.conversationId = row.conversation_id;
 			conversation.setLatestMessage(row);
 		}, function(){
-			socket.participant.emit('conversation', conversation.json());
-			nextLoop();
+			namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), function(row){
+				conversationClosed = row.is_closed;
+			}, function(){
+				if(!conversationClosed) {
+					socket.participant.emit('conversation', conversation.json());
+				}
+
+				nextLoop();
+			});
+
 		}, function(err){
 			if(err) throw err;
 		});

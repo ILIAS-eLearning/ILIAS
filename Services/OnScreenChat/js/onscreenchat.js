@@ -103,6 +103,16 @@
 
 					messageField.popover('hide');
 					messageField.focus();
+				}).on('click', '[data-onscreenchat-menu-remove-conversation]', function(e){
+					e.preventDefault();
+					e.stopPropagation();
+
+					var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
+					var conversation = getModule().storage.get(conversationId);
+					$chat.closeConversation(conversationId, getModule().user.id);
+					$menu.remove(conversation);
+					console.log("clicked close");
+					//$('#onscreenchat_trigger[data-toggle="popover"]').popover("hide");
 				})
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
