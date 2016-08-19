@@ -72,4 +72,13 @@ class ilObjManualAssessment extends ilObject {
 	public function accessHandler() {
 		return $this->access_handler;
 	}
+
+	public function cloneObject($a_target_id,$a_copy_id = 0) {
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$settings = $this->getSettings();
+		$new_settings = new ilManualAssessmentSettings($new_obj, $settings->content(),$settings->recordTemplate());
+		$new_obj->settings = $new_settings;
+		$new_obj->settings_storage->updateSettings($new_settings);
+		return $new_obj;
+	}
 }
