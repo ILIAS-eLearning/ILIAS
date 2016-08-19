@@ -416,24 +416,27 @@
 					$.get(
 						getModule().config.userListURL + '&q=' + $input.val(),
 						function (response){
+							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body'));
 							var list = modalBody.find('[data-onscreenchat-userlist]');
 
 							list.addClass("ilNoDisplay").children().remove();
 
 							$(response.items).each(function() {
-								var userId = this.id,
-									name = this.value,
-									link = $('<a></a>')
-										.prop('href', '#')
-										.text(name)
-										.click(function (e) {
-											e.preventDefault();
-											e.stopPropagation();
+								if(!userExistsInConversation(this.id, conversation)) {
+									var userId = this.id,
+										name = this.value,
+										link = $('<a></a>')
+											.prop('href', '#')
+											.text(name)
+											.click(function (e) {
+												e.preventDefault();
+												e.stopPropagation();
 
-											getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
-										}),
-									line = $('<li></li>').append(link);
-								list.removeClass("ilNoDisplay").append(line);
+												getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
+											}),
+										line = $('<li></li>').append(link);
+										list.removeClass("ilNoDisplay").append(line);
+								}
 							});
 						},
 						'json'
@@ -501,6 +504,16 @@
 			}
 		}
 		return "";
+	};
+
+	var userExistsInConversation = function(userId, conversation) {
+		console.log(userId);
+		for(var index in conversation.participants) {
+			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == userId) {
+				return true;
+			}
+		}
+		return false;
 	};
 
 	/**
