@@ -198,8 +198,8 @@ class ilOnScreenChatGUI
 				'modalTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-add-user.html'),
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
-				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
-				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, true),
+				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, false),
+				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, false),
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
 				'emoticons' => self::getEmoticons($settings),
 				'locale' => $DIC->language()->getLangKey()
