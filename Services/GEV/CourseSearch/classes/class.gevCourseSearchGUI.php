@@ -9,7 +9,6 @@
 * @version	$Id$
 */
 
-require_once("Services/GEV/CourseSearch/classes/class.gevCourseHighlightsGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -91,8 +90,6 @@ class gevCourseSearchGUI {
 		else {
 			$usrsel = "";
 		}
-
-		$hls = new gevCourseHighlightsGUI($this->target_user_id);
 
 		$spacer_out = $spacer->render();
 		
@@ -187,11 +184,6 @@ class gevCourseSearchGUI {
 		}
 
 		return $usrsel
-			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
-			   ?   $hls->render()
-			 	 . $spacer->render()
-			   : ""
-			   )
 			 . $this->renderSearch()
 			 . $crs_tbl->getHTML()
 			 ;

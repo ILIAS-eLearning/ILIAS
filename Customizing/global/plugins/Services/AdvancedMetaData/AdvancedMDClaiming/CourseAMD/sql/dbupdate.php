@@ -109,8 +109,6 @@ array( "Zeitraum"
 	 	   					 , false
 	 	   					 , array("min" => 0)
 	 	   					 , $tinteger
-				 			 // if this is changed, gevUserUtils::getCourseHighlights
-				 			 // needs to be changed as well!!
 	 	   					 )
 	 	   		, "Absage Wartelist" =>
 	 	   				array( gevSettings::CRS_AMD_CANCEL_WAITING
@@ -306,8 +304,6 @@ array( "Zeitraum"
 				 			 		, "Selbstlernkurs"
 				 			 		, "Virtuelles Training"
 									)
-				 			 // if this is changed, gevUserUtils::getCourseHighlights
-				 			 // needs to be changed as well!!
 				 			 , $tselect
 				 			 )
 				 , "Vorlage" =>
@@ -924,3 +920,14 @@ $options = array(
 
 $amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TOPIC, $options);
 ?>
+
+<#28>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::removeAMDField(gevSettings::CRS_AMD_HIGHLIGHT);
+gevAMDUtils::removeAMDRecord("Highlight");
+?>
+
