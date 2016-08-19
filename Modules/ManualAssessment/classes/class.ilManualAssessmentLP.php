@@ -13,7 +13,8 @@ class ilManualAssessmentLP extends ilObjectLP {
 	}
 	
 	public function getValidModes() {
-		return array(ilLPObjSettings::LP_MODE_MANUAL_ASSESSMENT);
+		return array(ilLPObjSettings::LP_MODE_MANUAL_ASSESSMENT
+					,ilLPObjSettings::LP_MODE_DEACTIVATED);
 	}
 	
 	public function getMembers($a_search = true) {
