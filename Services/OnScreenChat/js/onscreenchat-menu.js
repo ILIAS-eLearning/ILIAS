@@ -4,19 +4,19 @@
 		rendered: false,
 		content: $(''),
 		conversations: [],
-		emoticons: {},
+		messageFormatter: {},
 		participantsImages: {},
 
 		setConfig: function(config) {
 			$scope.il.OnScreenChatMenu.config = config;
 		},
 
-		setEmoticons: function(emoticons) {
-			$scope.il.OnScreenChatMenu.emoticons = emoticons;
+		setMessageFormatter: function(messageFormatter) {
+			$scope.il.OnScreenChatMenu.messageFormatter = messageFormatter;
 		},
 
-		getEmoticons: function() {
-			return getModule().emoticons;
+		getMessageFormatter: function() {
+			return getModule().messageFormatter;
 		},
 
 		init: function() {
@@ -57,8 +57,7 @@
 		getContent: function() {
 			getModule().content = $('#onscreenchatmenu-content-container');
 
-			if(!getModule().rendered)
-			{
+			if (!getModule().rendered) {
 				getModule().content.find('#onscreenchatmenu-content').html("");
 
 				var conversations = getModule().conversations.filter(function(conversation){
@@ -67,13 +66,13 @@
 					return b.latestMessage.timestamp - a.latestMessage.timestamp;
 				});
 
-				for(var index in conversations){
+				for (var index in conversations){
 					var template = getModule().config.conversationTemplate;
 					var latestMessage = conversations[index].latestMessage;
 					var participants = conversations[index].participants;
 					var participantNames = [];
 
-					for(var key in participants) {
+					for (var key in participants) {
 						if(participants.hasOwnProperty(key) && participants[key].id !== getModule().config.userId) {
 							participantNames.push(participants[key].name);
 						}
@@ -83,7 +82,7 @@
 					template = template.replace('[[userId]]', participants[0].id);
 					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
 					template = template.replace(/\[\[conversationId\]\]/, conversations[index].id);
-					template = template.replace('[[last_message]]', getModule().getEmoticons().replace(latestMessage.message));
+					template = template.replace('[[last_message]]', getModule().getMessageFormatter().format(latestMessage.message));
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 
@@ -127,7 +126,7 @@
 			var messagesBadge = $('[data-onscreenchat-menu-nummessages]').hide();
 
 			conversationsBadge.html(numConversations);
-			if(numConversations == 0) {
+			if (numConversations == 0) {
 				conversationsBadge.hide();
 			} else {
 				conversationsBadge.show();
@@ -163,7 +162,7 @@
 		},
 
 		hasConversation: function(conversation) {
-			for(var index in getModule().conversations) {
+			for (var index in getModule().conversations) {
 				if (getModule().conversations.hasOwnProperty(index) && getModule().conversations[index].id == conversation.id) {
 					return index;
 				}
@@ -174,7 +173,7 @@
 	};
 
 	var getProfileImage = function(userId) {
-		if(getModule().participantsImages.hasOwnProperty(userId)) {
+		if (getModule().participantsImages.hasOwnProperty(userId)) {
 			return getModule().participantsImages[userId].src;
 		}
 		return "";
