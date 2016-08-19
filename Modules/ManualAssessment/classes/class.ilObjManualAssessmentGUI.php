@@ -41,7 +41,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
-	function executeCommand() {
+	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -67,6 +67,9 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 			case 'ilinfoscreengui':
 				$this->viewObject();
 			case 'illearningprogressgui':
+				if(!($access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized())) {
+					$this->handleAccessViolation();
+				}
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->tabs_gui->setTabActive(self::TAB_LP);
 				$learning_progress = new ilLearningProgressGUI(
@@ -139,7 +142,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		if(!$member_storage->loadMembers($this->object)->userAllreadyMember($this->usr)) {
 			return false;
 		}
-		if(!$member_storage->loadMember($this->object,$this->usr)->finalized()) {
+		$member = $member_storage->loadMember($this->object,$this->usr);
+		if(!$member->finalized()) {
+			return false;
+		}
+		if(!$member->notify()) {
 			return false;
 		}
 		return true;
@@ -165,5 +172,12 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function handleAccessViolation() {
 		global $DIC;
 		$DIC['ilias']->raiseError($DIC['lng']->txt("msg_no_perm_read"), $DIC['ilias']->error_obj->WARNING);
+	}
+
+	public static function _goto($a_target, $a_add = '') {
+		global $DIC;
+		if ($DIC['ilAccess']->checkAccess( 'read', '', $a_target)) {
+			ilObjectGUI::_gotoRepositoryNode($a_target, 'view');
+		}
 	}
 }
