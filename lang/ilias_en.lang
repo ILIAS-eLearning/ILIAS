@@ -15900,4 +15900,22 @@ mass#:#mass_delete#:#Delete
 mass#:#mass_read_learning_progress#:#View learning progress of other users
 mass#:#mass_edit_permissions#:#Change Permissions
 mass#:#mass_edit_learning_progress#:#Edit learning progress
-mass#:#trac_mode_manual_assessment#:#Manual Assessment
+mass#:#mass_may_not_finalize#:#Examinee may not be finalized.
+mass#:#mass_subj_notification_completed#:#%s:Manual Assessment completed.
+mass#:#mass_subj_notification_failed#:#%s:Manual Assessment failed.
+trac#:#trac_mode_manual_assessment#:#Manual Assessment
+common#:#obj_mass#:#Manual Assessment
+common#:#objs_mass#:#Manual Assessments
+common#:#obj_mass_duplicate#:#Copy Manual Assessment
+common#:#obj_mass_select#:#-- Please select one manual assessment --
+trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
+common#:#il_mass_member#:#Manual Assessment Examinee
+rbac#:#mass_visible#:#Manual Assessment is visible
+rbac#:#mass_read#:#Read content of a Manual Assessment
+rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment
+rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment
+rbac#:#mass_copy#:#Copy a Manual Assessment
+rbac#:#mass_write#:#Edit a Manual Assessment
+rbac#:#mass_delete#:#Delete a Manual Assessment
+rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
+rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
