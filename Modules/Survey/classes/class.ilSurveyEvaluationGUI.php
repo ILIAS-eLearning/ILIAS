@@ -716,7 +716,7 @@ class ilSurveyEvaluationGUI
 	
 	function evaluation($details = 0)
 	{
-		global $rbacsystem, $ilToolbar;
+		global $rbacsystem, $ilToolbar, $tree;
 
 		// auth
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -845,12 +845,53 @@ class ilSurveyEvaluationGUI
 			}				
 		}		
 		
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
-		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
-		$this->tpl->setVariable('CUMULATED', /*$table_gui->getHTML().*/($dtmpl ? $dtmpl->get() : "").$modal);	
+		$this->tpl->setVariable('MODAL', $modal);	
+		if(!$details)
+		{
+			include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
+			$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
+			$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());
+		}
+		else
+		{
+			$this->tpl->setVariable('DETAIL', $dtmpl->get());						
+		}
+		unset($dtmpl);
+		unset($table_gui);
+		unset($modal);
 		
-		// $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));					
+		
+		// print header
+		
+		$path = "";
+		$path_full = $tree->getPathFull($this->object->getRefId());
+		foreach($path_full as $data)
+		{			
+			$path .= " &raquo; ";			
+			$path .= $data['title'];			
+		}
+		
+		ilDatePresentation::setUseRelativeDates(false);
+		include_once "Services/Link/classes/class.ilLink.php";
+		
+		$props = array(
+			$this->lng->txt("link") => ilLink::_getStaticLink($this->object->getRefId()),
+			$this->lng->txt("path") => $path,			
+			$this->lng->txt("svy_results") => !$details
+				? $this->lng->txt("svy_eval_cumulated")
+				: $this->lng->txt("svy_eval_detail"),
+			$this->lng->txt("date") => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
+		);			
+		
+		$this->tpl->setCurrentBlock("print_header_bl");
+		foreach($props as $key => $value)
+		{
+			$this->tpl->setVariable("HEADER_PROP_KEY", $key);
+			$this->tpl->setVariable("HEADER_PROP_VALUE", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");				
 	}
 	
 	/**
@@ -898,6 +939,9 @@ class ilSurveyEvaluationGUI
 		$a_tpl->setVariable("TOC_ITEM", $a_qdata["title"]);							
 		$a_tpl->setVariable("TOC_ID", $anchor_id);							
 		$a_tpl->parseCurrentBlock();
+		
+		$this->lng->loadLanguageModule("content");
+		$a_tpl->setVariable("TOC_TITLE", $this->lng->txt("cont_toc"));
 
 		
 		// question "overview"
