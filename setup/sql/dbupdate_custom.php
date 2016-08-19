@@ -105,3 +105,14 @@ if(!$ilDB->uniqueConstraintExists('osc_activity', array('conversation_id', 'user
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#6>
+<?php
+if($ilDB->uniqueConstraintExists('osc_activity', array('conversation_id', 'user_id')))
+{
+	$ilDB->dropUniqueConstraintByFields('osc_activity', array('conversation_id', 'user_id'));
+}
+?>
+<#7>
+<?php
+$ilDB->addPrimaryKey('osc_activity', array('conversation_id', 'user_id'));
+?>

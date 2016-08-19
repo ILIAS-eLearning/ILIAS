@@ -216,13 +216,17 @@
 			}, 0);
 		},
 
-		resizeMessageInput: function(){
+		resizeMessageInput: function(e){
 			var inputWrapper = $(this).closest('.panel-footer');
 			var parent = $(inputWrapper).closest('[data-onscreenchat-window]');
 			var wrapperHeight = parent.outerHeight();
 			var headingHeight = parent.find('.panel-heading').outerHeight();
 			var inputHeight = $(inputWrapper).outerHeight();
 			var bodyHeight = wrapperHeight - inputHeight - headingHeight;
+
+			if($(this).html() == "<br>") {
+				$(this).html("");
+			}
 
 			parent.find('.panel-body').css('height', bodyHeight + "px");
 		},
@@ -240,6 +244,7 @@
 			template = template.replace('[[participants]]', participantsName.join(', '));
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
+			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
 			template = template.replace('#:#chat_osc_send#:#', il.Language.txt('chat_osc_send'));
 
@@ -411,24 +416,27 @@
 					$.get(
 						getModule().config.userListURL + '&q=' + $input.val(),
 						function (response){
+							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body'));
 							var list = modalBody.find('[data-onscreenchat-userlist]');
 
 							list.addClass("ilNoDisplay").children().remove();
 
 							$(response.items).each(function() {
-								var userId = this.id,
-									name = this.value,
-									link = $('<a></a>')
-										.prop('href', '#')
-										.text(name)
-										.click(function (e) {
-											e.preventDefault();
-											e.stopPropagation();
+								if(!userExistsInConversation(this.id, conversation)) {
+									var userId = this.id,
+										name = this.value,
+										link = $('<a></a>')
+											.prop('href', '#')
+											.text(name)
+											.click(function (e) {
+												e.preventDefault();
+												e.stopPropagation();
 
-											getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
-										}),
-									line = $('<li></li>').append(link);
-								list.removeClass("ilNoDisplay").append(line);
+												getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name)
+											}),
+										line = $('<li></li>').append(link);
+										list.removeClass("ilNoDisplay").append(line);
+								}
 							});
 						},
 						'json'
@@ -496,6 +504,16 @@
 			}
 		}
 		return "";
+	};
+
+	var userExistsInConversation = function(userId, conversation) {
+		console.log(userId);
+		for(var index in conversation.participants) {
+			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == userId) {
+				return true;
+			}
+		}
+		return false;
 	};
 
 	/**

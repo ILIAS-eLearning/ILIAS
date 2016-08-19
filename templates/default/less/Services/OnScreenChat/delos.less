@@ -87,6 +87,12 @@
 			hyphens: auto;
 		}
 
+		[contenteditable=true]:empty:before {
+			content: attr(placeholder);
+			display: block;
+			color: #CCCCCC;
+		}
+
 		.chat {
 			list-style: none;
 			margin: 0;

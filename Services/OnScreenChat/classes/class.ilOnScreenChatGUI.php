@@ -8,6 +8,7 @@
  */
 class ilOnScreenChatGUI
 {
+	const WAC_TTL_TIME = 60;
 
 	/**
 	 * Boolean to track whether this service has already been initialized.
@@ -40,7 +41,7 @@ class ilOnScreenChatGUI
 			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 			require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 
-			ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::WAC_TTL_TIME);
 
 			$smileys_array = ilChatroomSmilies::_getSmilies();
 			foreach($smileys_array as $smiley_array)
@@ -81,7 +82,12 @@ class ilOnScreenChatGUI
 
 		$cmd = $DIC->ctrl()->getCmd();
 
-		switch($cmd) {
+		switch($cmd)
+		{
+			case 'getUserProfileImages':
+				$this->getUserProfileImages();
+				break;
+
 			case 'getUserlist':
 			default:
 				$this->getUserList();
@@ -113,6 +119,58 @@ class ilOnScreenChatGUI
 		exit;
 	}
 
+	public function getUserProfileImages()
+	{
+		global $DIC;
+
+		$response = array();
+
+		if(!$DIC->user() || $DIC->user()->isAnonymous())
+		{
+			echo json_encode($response);
+			exit();
+		}
+
+		if(!isset($_GET['usr_ids']) || strlen($_GET['usr_ids']) == 0)
+		{
+			echo json_encode($response);
+			exit();
+		}
+
+		$DIC['lng']->loadLanguageModule('user');
+		
+		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::WAC_TTL_TIME);
+
+		$user_ids = array_filter(array_map('intval', array_map('trim', explode(',', $_GET['usr_ids']))));
+		require_once 'Services/User/classes/class.ilUserUtil.php';
+		$public_data  = ilUserUtil::getNamePresentation($user_ids, true, false, '', false, true, false, true);
+		$public_names = ilUserUtil::getNamePresentation($user_ids, false, false, '', false, true, false, false);
+		
+		foreach($user_ids as $usr_id)
+		{
+			$public_image = isset($public_data[$usr_id]) && isset($public_data[$usr_id]['img']) ? $public_data[$usr_id]['img'] : '';
+
+			$public_name = '';
+			if(isset($public_names[$usr_id]))
+			{
+				$public_name = $public_names[$usr_id];
+				if('unknown' == $public_name && isset($public_data[$usr_id]) && isset($public_data[$usr_id]['login']))
+				{
+					$public_name = $public_data[$usr_id]['login'];
+				}
+			}
+
+			$response[$usr_id] = array(
+				'public_name'   => $public_name,
+				'profile_image' => $public_image
+			);
+		}
+
+		echo json_encode($response);
+		exit();
+	}
+
 	/**
 	 * Initialize frontend and delivers required javascript files and configuration to the global template.
 	 */
@@ -141,6 +199,7 @@ class ilOnScreenChatGUI
 				'userId' => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin(),
 				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, true),
+				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, true),
 				'loaderImg' => ilUtil::getImagePath("loader.svg"),
 				'emoticons' => self::getEmoticons($settings),
 				'locale' => $DIC->language()->getLangKey()
@@ -154,7 +213,7 @@ class ilOnScreenChatGUI
 
 			$DIC->language()->loadLanguageModule('chatroom');
 			$DIC->language()->toJS(array(
-				'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
+				'chat_osc_write_a_msg', 'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'username', 'chat_osc_add_user'
 			));
 
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
