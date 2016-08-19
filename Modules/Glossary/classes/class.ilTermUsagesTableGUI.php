@@ -207,6 +207,17 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 
 				break;
 
+			case "termref":
+				$item["obj_type_txt"] = $this->lng->txt("obj_glo");
+				$item["obj_title"] = ilObject::_lookupTitle($usage["id"]);
+				$item["sub_txt"] = $this->lng->txt("glo_referenced_term");
+				$ref_id = $this->getFirstWritableRefId($usage["id"]);
+				if ($ref_id > 0)
+				{
+					$item["obj_link"] = ilLink::_getStaticLink($ref_id);
+				}
+				break;
+
 			default:
 				$item["obj_title"] = "Type ".$usage["type"].", ".$usage["id"];
 				break;

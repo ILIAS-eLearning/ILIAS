@@ -15898,3 +15898,14 @@ assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
 adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.
+glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_reference#:#Reference
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+content#:#cont_permission_object#:#Permission Object

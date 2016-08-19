@@ -20,6 +20,11 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 class ilWikiPageGUI extends ilPageObjectGUI
 {
 	/**
+	 * @var ilObjWiki
+	 */
+	protected $wiki;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0, $a_wiki_ref_id = 0)
@@ -64,6 +69,26 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		return $this->wiki_ref_id;
 	}
 
+	/**
+	 * Set wiki
+	 *
+	 * @param ilObjWiki $a_val wiki	
+	 */
+	function setWiki($a_val)
+	{
+		$this->wiki = $a_val;
+	}
+	
+	/**
+	 * Get wiki
+	 *
+	 * @return ilObjWiki wiki
+	 */
+	function getWiki()
+	{
+		return $this->wiki;
+	}	
+	
 	/**
 	* execute command
 	*/
@@ -450,6 +475,20 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->getWikiPage()->getWikiId(),
 			($this->getOutputMode() == "offline"));
 		$ilCtrl->setParameterByClass("ilobjwikigui", "from_page", $_GET["from_page"]);
+
+
+		// metadata in print view
+		if ($this->getOutputMode() == "print"  && $this->wiki instanceof ilObjWiki)
+		{
+			include_once("./Services/Object/classes/class.ilObjectMetaDataGUI.php");
+			$mdgui = new ilObjectMetaDataGUI($this->wiki, "wpg", $this->getId());
+			$md = $mdgui->getKeyValueList();
+			if ($md != "")
+			{
+				$output = str_replace("<!--COPage-PageTop-->", "<p>" . $md . "</p>", $output);
+			}
+		}
+
 
 		return $output;
 	}

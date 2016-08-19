@@ -16650,3 +16650,51 @@ foreach(array('instant_messengers', 'delicous') as $field)
 	}
 }
 ?>
+<#4990>
+<?php
+if (!$ilDB->tableExists('glo_glossaries'))
+{
+	$ilDB->createTable('glo_glossaries', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'glo_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+}
+?>
+<#4991>
+<?php
+if (!$ilDB->tableExists('glo_term_reference'))
+{
+	$ilDB->createTable('glo_term_reference', array(
+		'glo_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'term_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+}
+?>
+<#4992>
+<?php
+	$ilDB->addPrimaryKey('glo_term_reference', array('glo_id', 'term_id'));
+?>
+<#4993>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

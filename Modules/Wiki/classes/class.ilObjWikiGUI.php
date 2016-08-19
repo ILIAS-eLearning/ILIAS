@@ -1490,6 +1490,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		foreach ($page_ids as $p_id)
 		{
 			$page_gui = new ilWikiPageGUI($p_id);
+			$page_gui->setWiki($this->object);
 			$page_gui->setOutputMode("print");
 			$page_content.= $page_gui->showPage();
 			
