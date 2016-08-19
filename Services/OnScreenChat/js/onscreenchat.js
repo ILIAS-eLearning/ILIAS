@@ -94,6 +94,7 @@
 					e.stopPropagation();
 
 					messageField.popover('hide');
+					messageField.focus();
 				})
 			
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
