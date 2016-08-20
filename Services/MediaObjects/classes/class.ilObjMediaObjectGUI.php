@@ -869,7 +869,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($std_item->getLocationType() == "LocalFile")
 		{
 			$file = $mob_dir."/".$std_item->getLocation();
-			$size = getimagesize($file);
+
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
+
 			$std_item->setWidth($size[0]);
 			$std_item->setHeight($size[1]);
 			$this->object->update();
@@ -889,7 +892,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($full_item->getLocationType() == "LocalFile")
 		{
 			$file = $mob_dir."/".$full_item->getLocation();
-			$size = getimagesize($file);
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
 			$full_item->setWidth($size[0]);
 			$full_item->setHeight($size[1]);
 			$this->object->update();
