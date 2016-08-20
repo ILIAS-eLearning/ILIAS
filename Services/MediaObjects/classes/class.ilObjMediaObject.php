@@ -1493,13 +1493,14 @@ class ilObjMediaObject extends ilObject
 		
 		if (ilUtil::deducibleSize($a_format))
 		{
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
 			if ($a_type == "File")
 			{
-				$size = @getimagesize($a_file);
+				$size = ilMediaImageUtil::getImageSize($a_file);
 			}
 			else
 			{
-				$size = @getimagesize($a_reference);
+				$size = ilMediaImageUtil::getImageSize($a_reference);
 			}
 		}
 
@@ -1629,7 +1630,8 @@ class ilObjMediaObject extends ilObject
 
 		if (ilUtil::deducibleSize($format))
 		{
-			$size = getimagesize($file);
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
 			$media_item->setWidth($size[0]);
 			$media_item->setHeight($size[1]);
 		}
