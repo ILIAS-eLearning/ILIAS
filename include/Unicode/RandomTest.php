@@ -31,7 +31,7 @@ if( php_sapi_name() != 'cli' ) {
 }
 
 /** */
-require_once( 'UtfNormal.php' );
+require_once( 'include/Unicode/UtfNormal.php' );
 require_once( '../DifferenceEngine.php' );
 
 dl('php_utfnormal.so' );

@@ -32,7 +32,7 @@ if( isset( $_SERVER['argv'] ) && in_array( '--icu', $_SERVER['argv'] ) ) {
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once 'UtfNormal.php';
+require_once 'include/Unicode/UtfNormal.php';
 
 /**
  * Additional tests for UtfNormal::cleanUp() function, inclusion
