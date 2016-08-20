@@ -26,8 +26,7 @@
  */
 
 /** */
-require_once 'UtfNormalUtil.php';
-require_once 'UtfNormal.php';
+require_once 'include/Unicode/UtfNormal.php';
 mb_internal_encoding( "utf-8" );
 
 #$verbose = true;
