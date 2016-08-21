@@ -47,44 +47,40 @@ class ilDclFieldEditGUI {
      */
     protected $form;
 
+
 	/**
 	 * Constructor
 	 *
-	 * @param    object $a_parent_obj
-	 * @param    int    $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
-	 * @param    int    $field_id The field_id of a existing fiel (edit mode)
+	 * @param ilDclTableListGUI $a_parent_obj
+	 * @param    int                   $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
+	 * @param    int                   $field_id The field_id of a existing fiel (edit mode)
 	 */
-	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id) {
+	public function __construct(ilDclTableListGUI $a_parent_obj) {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
-		$this->table_id = $table_id;
-		if (!$table_id) {
-			$table_id = $_GET["table_id"];
-		}
 
-		if (!isset($field_id)) {
-			$this->field_id = $_GET['field_id'];
-		}
+		$this->table_id = $_GET["table_id"];
+		$this->field_id = $_GET['field_id'];
 
-		if (isset($field_id)) {
-			$this->field_obj = ilDclCache::getFieldCache($field_id);
+		if ($this->field_id) {
+			$this->field_obj = ilDclCache::getFieldCache($this->field_id);
 		} else {
 			$datatype = null;
 			if(isset($_POST['datatype']) && in_array($_POST['datatype'], array_keys(ilDclDatatype::getAllDatatype()))) {
 				$datatype = $_POST['datatype'];
 			}
-			$this->field_obj = ilDclFieldFactory::getFieldModelInstance($field_id, $datatype);
-			if (!$table_id) {
-				$ilCtrl->redirectByClass("ilDataCollectionGUI", "listFields");
+			$this->field_obj = ilDclFieldFactory::getFieldModelInstance($this->field_id, $datatype);
+			if (!$this->table_id) {
+				$ilCtrl->redirectByClass("ilDclTableListGUI", "listFields");
 			}
-			$this->field_obj->setTableId($table_id);
+			$this->field_obj->setTableId($this->table_id);
 			$ilCtrl->saveParameter($this, "table_id");
 		}
 
-		$this->table = ilDclCache::getTableCache($table_id);
+		$this->table = ilDclCache::getTableCache($this->table_id);
 	}
 
 
@@ -93,13 +89,12 @@ class ilDclFieldEditGUI {
 	 */
 	public function executeCommand() {
 		global $DIC;
-		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
+		$ilCtrl->saveParameter($this, 'field_id');
 
 		$cmd = $ilCtrl->getCmd();
 
-		if (!$this->table->hasPermissionToFields($this->parent_obj->ref_id)) {
+		if (!$this->table->hasPermissionToFields($this->getDataCollectionObject()->ref_id)) {
 			$this->permissionDenied();
 
 			return;
@@ -245,8 +240,8 @@ class ilDclFieldEditGUI {
 
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$text_prop->setRequired(true);
-//		$text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'), ilDclBaseFieldModel::_getTitleValidChars(false)));
-//		$text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleValidChars(true));
+		$text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'), ilDclBaseFieldModel::_getTitleInvalidChars(false)));
+		$text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
 		$this->form->addItem($text_prop);
 
         // Description
@@ -264,7 +259,7 @@ class ilDclFieldEditGUI {
 			}
 
 			$field_representation = ilDclFieldFactory::getFieldRepresentationInstance($model);
-			$field_representation->addFieldCreationForm($edit_datatype, $this->parent_obj->getDataCollectionObject(), $a_mode);
+			$field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject(), $a_mode);
 		}
 		$edit_datatype->setRequired(true);
 
@@ -323,7 +318,7 @@ class ilDclFieldEditGUI {
 		$tpl = $DIC['tpl'];
 
 		//check access
-		if (!$this->table->hasPermissionToFields($this->parent_obj->ref_id)) {
+		if (!$this->table->hasPermissionToFields($this->getDataCollectionObject()->ref_id)) {
 			$this->accessDenied();
 
 			return;
@@ -429,6 +424,14 @@ class ilDclFieldEditGUI {
 		global $DIC;
 		$tpl = $DIC['tpl'];
 		$tpl->setContent("Access Denied");
+	}
+
+
+	/**
+	 * @return ilObjDataCollection
+	 */
+	public function getDataCollectionObject() {
+		return $this->parent_obj->getDataCollectionObject();
 	}
 }
 

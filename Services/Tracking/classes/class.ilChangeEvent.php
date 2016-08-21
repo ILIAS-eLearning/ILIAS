@@ -389,92 +389,107 @@ class ilChangeEvent
 		$row = $ilDB->fetchAssoc($set);
 		if($row["counter"] >= $a_minimum)
 		{
-			// lock source and transfer table
-			$ilDB->lockTables(array(array("name"=>"obj_stat_log", "type"=>ilDBConstants::LOCK_WRITE),
-				array("name"=>"obj_stat_tmp", "type"=>ilDBConstants::LOCK_WRITE)));
+			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery->addTableLock('obj_stat_log');
+			$ilAtomQuery->addTableLock('obj_stat_tmp');
 
-			// if other process was transferring, we had to wait for the lock and
-			// the source table should now have less than minimum/needed entries
-			$set = $ilDB->query("SELECT COUNT(*) AS counter FROM obj_stat_log");
-			$row = $ilDB->fetchAssoc($set);
-			if($row["counter"] >= $a_minimum)
-			{
-				// use only "full" seconds to have a clear cut
-				$ilDB->query("INSERT INTO obj_stat_tmp".
-					" SELECT * FROM obj_stat_log".
-					" WHERE tstamp < ".$ilDB->quote($a_now, "timestamp"));
+			$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use($a_now, $a_minimum, &$ret){
 
-				// remove transferred entries from source table
-				$ilDB->query("DELETE FROM obj_stat_log".
-					" WHERE tstamp < ".$ilDB->quote($a_now, "timestamp"));
-
-				// remove lock from source table
-				$ilDB->unlockTables();
-
-				// lock transfer and target table (is this needed?)
-				$ilDB->lockTables(array(array("name"=>"obj_stat_tmp", "type"=>ilDBConstants::LOCK_WRITE),
-				array("name"=>"obj_stat", "type"=>ilDBConstants::LOCK_WRITE)));
-
-				// process log data (timestamp is not needed anymore)
-				$sql = "SELECT obj_id, obj_type, yyyy, mm, dd, hh, SUM(read_count) AS read_count,".
-					" SUM(childs_read_count) AS childs_read_count, SUM(spent_seconds) AS spent_seconds,".
-					" SUM(childs_spent_seconds) AS childs_spent_seconds".
-					" FROM obj_stat_tmp".
-					" GROUP BY obj_id, obj_type, yyyy, mm, dd, hh";
-				$set = $ilDB->query($sql);
-				while($row = $ilDB->fetchAssoc($set))
+				// if other process was transferring, we had to wait for the lock and
+				// the source table should now have less than minimum/needed entries
+				$set = $ilDB->query("SELECT COUNT(*) AS counter FROM obj_stat_log");
+				$row = $ilDB->fetchAssoc($set);
+				if($row["counter"] >= $a_minimum)
 				{
-					// "primary key"
-					$where = array("obj_id" => array("integer", $row["obj_id"]),
-						"obj_type" => array("text", $row["obj_type"]),
-						"yyyy" => array("integer", $row["yyyy"]),
-						"mm" => array("integer", $row["mm"]),
-						"dd" => array("integer", $row["dd"]),
-						"hh" => array("integer", $row["hh"]));
+					// use only "full" seconds to have a clear cut
+					$ilDB->query("INSERT INTO obj_stat_tmp".
+						" SELECT * FROM obj_stat_log".
+						" WHERE tstamp < ".$ilDB->quote($a_now, "timestamp"));
 
-					$where_sql = array();
-					foreach($where as $field => $def)
-					{
-						$where_sql[] = $field." = ".$ilDB->quote($def[1], $def[0]);
-					}
-					$where_sql = implode(" AND ", $where_sql);
+					// remove transferred entries from source table
+					$ilDB->query("DELETE FROM obj_stat_log".
+						" WHERE tstamp < ".$ilDB->quote($a_now, "timestamp"));
 
-					// existing entry?
-					$check = $ilDB->query("SELECT read_count, childs_read_count, spent_seconds,".
-						"childs_spent_seconds".
-						" FROM obj_stat".
-						" WHERE ".$where_sql);
-					if($ilDB->numRows($check))
-					{
-						$old = $ilDB->fetchAssoc($check);
-
-						// add existing values
-						$fields = array("read_count" => array("integer", $old["read_count"]+$row["read_count"]),
-							"childs_read_count" => array("integer", $old["childs_read_count"]+$row["childs_read_count"]),
-							"spent_seconds" => array("integer", $old["spent_seconds"]+$row["spent_seconds"]),
-							"childs_spent_seconds" => array("integer", $old["childs_spent_seconds"]+$row["childs_spent_seconds"]));
-
-						$ilDB->update("obj_stat", $fields, $where);
-					}
-					else
-					{
-						// new entry
-						$fields = $where;
-						$fields["read_count"] = array("integer", $row["read_count"]);
-						$fields["childs_read_count"] = array("integer", $row["childs_read_count"]);
-						$fields["spent_seconds"] = array("integer", $row["spent_seconds"]);
-						$fields["childs_spent_seconds"] = array("integer", $row["childs_spent_seconds"]);
-
-						$ilDB->insert("obj_stat", $fields);
-					}
+					$ret = true;
 				}
+				else
+				{
+					$ret = false;
+				}
+			});
 
-				// clean up transfer table
-				$ilDB->query("DELETE FROM obj_stat_tmp");
+			$ilAtomQuery->run();
+
+			//continue only if obj_stat_log counter >= $a_minimum
+			if($ret)
+			{
+				$ilAtomQuery = $ilDB->buildAtomQuery();
+				$ilAtomQuery->addTableLock('obj_stat_tmp');
+				$ilAtomQuery->addTableLock('obj_stat');
+
+				$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use($a_now, $a_minimum){
+
+					// process log data (timestamp is not needed anymore)
+					$sql = "SELECT obj_id, obj_type, yyyy, mm, dd, hh, SUM(read_count) AS read_count,".
+						" SUM(childs_read_count) AS childs_read_count, SUM(spent_seconds) AS spent_seconds,".
+						" SUM(childs_spent_seconds) AS childs_spent_seconds".
+						" FROM obj_stat_tmp".
+						" GROUP BY obj_id, obj_type, yyyy, mm, dd, hh";
+					$set = $ilDB->query($sql);
+					while($row = $ilDB->fetchAssoc($set))
+					{
+						// "primary key"
+						$where = array("obj_id" => array("integer", $row["obj_id"]),
+							"obj_type" => array("text", $row["obj_type"]),
+							"yyyy" => array("integer", $row["yyyy"]),
+							"mm" => array("integer", $row["mm"]),
+							"dd" => array("integer", $row["dd"]),
+							"hh" => array("integer", $row["hh"]));
+
+						$where_sql = array();
+						foreach($where as $field => $def)
+						{
+							$where_sql[] = $field." = ".$ilDB->quote($def[1], $def[0]);
+						}
+						$where_sql = implode(" AND ", $where_sql);
+
+						// existing entry?
+						$check = $ilDB->query("SELECT read_count, childs_read_count, spent_seconds,".
+							"childs_spent_seconds".
+							" FROM obj_stat".
+							" WHERE ".$where_sql);
+						if($ilDB->numRows($check))
+						{
+							$old = $ilDB->fetchAssoc($check);
+
+							// add existing values
+							$fields = array("read_count" => array("integer", $old["read_count"]+$row["read_count"]),
+								"childs_read_count" => array("integer", $old["childs_read_count"]+$row["childs_read_count"]),
+								"spent_seconds" => array("integer", $old["spent_seconds"]+$row["spent_seconds"]),
+								"childs_spent_seconds" => array("integer", $old["childs_spent_seconds"]+$row["childs_spent_seconds"]));
+
+							$ilDB->update("obj_stat", $fields, $where);
+						}
+						else
+						{
+							// new entry
+							$fields = $where;
+							$fields["read_count"] = array("integer", $row["read_count"]);
+							$fields["childs_read_count"] = array("integer", $row["childs_read_count"]);
+							$fields["spent_seconds"] = array("integer", $row["spent_seconds"]);
+							$fields["childs_spent_seconds"] = array("integer", $row["childs_spent_seconds"]);
+
+							$ilDB->insert("obj_stat", $fields);
+						}
+					}
+
+					// clean up transfer table
+					$ilDB->query("DELETE FROM obj_stat_tmp");
+
+				});
+
+				$ilAtomQuery->run();
 			}
-
-			// remove all locks (does not matter if transfer was actually performed)
-			$ilDB->unlockTables();
 		}
 	}
 

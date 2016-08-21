@@ -175,7 +175,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*
 	* @access	public
 	*/
-	public function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
+	public static function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
 		global $rbacsystem, $log, $ilAppEventHandler, $tree;
 		
@@ -502,7 +502,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$ref_ids_in_trash = $this->findTypeInTrash($a_type);
 			if($ref_ids_in_trash)
 			{
-				$this->removeObjectsFromSystem($ref_ids_in_tree);
+				self::removeObjectsFromSystem($ref_ids_in_tree);
 			}
 		}
 		

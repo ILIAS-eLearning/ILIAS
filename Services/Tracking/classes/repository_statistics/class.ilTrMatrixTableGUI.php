@@ -392,16 +392,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if($data["set"])
 			{
 				$this->perc_map = array();
-				foreach($data["set"] as $row)
+				foreach($data["set"] as $row_idx => $row)
 				{		
 					foreach($row as $column => $value)
 					{						
 						if(substr($column, -5) == "_perc")
-						{							
-							if((int)$value > 0)
+						{				
+							$obj_id = explode("_", $column);
+							$obj_id = (int)$obj_id[1];
+							
+							// #18673
+							if(!$this->isPercentageAvailable($obj_id) || 
+								!(int)$value)
 							{
-								$obj_id = explode("_", $column);
-								$obj_id = (int)$obj_id[1];
+								unset($data["set"][$row_idx][$column]);
+							}
+							else 
+							{								
 								$this->perc_map[$obj_id] = true;
 							}	
 						}

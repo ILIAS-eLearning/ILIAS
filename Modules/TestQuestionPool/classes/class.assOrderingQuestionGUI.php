@@ -566,7 +566,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$user_order[$solution["value1"]]['random_id'] = $current_solution[0];
 						$user_order[$solution["value1"]]['depth'] = $current_solution[1];
 						// needed for graphical output
-						$answer_text = $this->object->lookupAnswerTextByRandomId($current_solution[0]);
+						$answer_text = $this->object->lookupAnswerTextByRandomId($current_solution[0], $this->object->getId());
 						$user_order[$solution["value1"]]['answertext'] =  $answer_text;
 					}
 				}

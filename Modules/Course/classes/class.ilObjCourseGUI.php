@@ -20,7 +20,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
 *
 * @extends ilContainerGUI
@@ -1063,7 +1063,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+					ilObjectServiceSettingsGUI::BADGES
 				)
 			);
 			
@@ -1492,7 +1493,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+					ilObjectServiceSettingsGUI::BADGES
 				)
 			);
 
@@ -3393,7 +3395,19 @@ class ilObjCourseGUI extends ilContainerGUI
 				get_class($this));
 			
 		}
-
+		
+		// badges
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isObjectActive($this->object->getId()))
+			{
+				$this->tabs_gui->addTarget("obj_tool_setting_badges",
+					 $this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", ""), 
+					 "",
+					 "ilbadgemanagementgui");
+			}
+		}		
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -4149,6 +4163,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
+				
+			case 'ilbadgemanagementgui':
+				$this->tabs_gui->setTabActive('obj_tool_setting_badges');
+				include_once 'Services/Badge/classes/class.ilBadgeManagementGUI.php';
+				$bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'crs');
+				$this->ctrl->forwardCommand($bgui);
+				break;
+				
             default:
 /*                if(!$this->creation_mode)
                 {

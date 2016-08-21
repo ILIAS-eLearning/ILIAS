@@ -117,11 +117,11 @@ class ilDclBaseFieldModel {
 	 *
 	 * @return string
 	 */
-	public static function _getTitleValidChars($a_as_regex = true) {
+	public static function _getTitleInvalidChars($a_as_regex = true) {
 		if ($a_as_regex) {
-			return '/^[a-zA-Z\d \/\-.,äöüÄÖÜàéèÀÉÈç¢]*$/i';
+			return '/^[^<>\\\\"]*$/i';
 		} else {
-			return 'A-Z a-z 0-9 /-.,';
+			return '\ < > "';
 		}
 	}
 
@@ -520,8 +520,8 @@ class ilDclBaseFieldModel {
 	 */
 	protected function updateTableFieldSetting() {
 		$tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
-		$tablefield_setting->setExportable($this->getExportable());
-		$tablefield_setting->setFieldOrder($this->getOrder());
+		$tablefield_setting->setExportable($this->exportable);
+		$tablefield_setting->setFieldOrder($this->order);
 		$tablefield_setting->store();
 	}
 
@@ -555,7 +555,7 @@ class ilDclBaseFieldModel {
 	 * @return int
 	 */
 	public function getOrder() {
-		if (! isset($this->order)) {
+		if ($this->order == null) {
 			$this->loadTableFieldSetting();
 		}
 

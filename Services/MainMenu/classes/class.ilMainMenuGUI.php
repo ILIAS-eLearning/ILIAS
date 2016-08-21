@@ -256,7 +256,7 @@ class ilMainMenuGUI
 				: "";
 		
 			// login stuff
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
@@ -405,33 +405,21 @@ class ilMainMenuGUI
 	/**
 	 * Render status box
 	 */
-	function renderStatusBox($a_tpl)
+	public function renderStatusBox($a_tpl)
 	{
-		global $ilUser, $lng;
-		
-		$box = false;
-		
-		// new mails?
-		if($this->mail)
-		{
-			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
-			if($new_mails > 0)
-			{
-				$a_tpl->setCurrentBlock('status_text');
-				$a_tpl->setVariable('STATUS_TXT', $new_mails);
-				$a_tpl->parseCurrentBlock();
-			}
-			$a_tpl->setCurrentBlock('status_item');
-			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail.svg'));
-			$a_tpl->setVariable('STATUS_IMG_ALT', $lng->txt("mail"));
-			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
-			$a_tpl->parseCurrentBlock();
-			$box = true;
-		}
-		
-		if ($box)
-		{
-			$a_tpl->setCurrentBlock("status_box");
+		global $ilUser, $lng, $DIC;
+		$ui_factory = $DIC->ui()->factory();
+		$ui_renderer = $DIC->ui()->renderer();
+
+		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
+			$a_tpl->setCurrentBlock('status_box');
+
+			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI")
+				->withCounter(
+					$ui_factory->counter()->novelty($new_mails)
+				);
+
+			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->parseCurrentBlock();
 		}
 	}
@@ -448,7 +436,7 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilAccess;
 
 		// personal desktop
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
@@ -464,7 +452,7 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			if($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
@@ -690,6 +678,17 @@ class ilMainMenuGUI
 			
 			if($separator)
 			{
+				$gl->addSeparator();
+			}
+			
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+				
 				$gl->addSeparator();
 			}
 			

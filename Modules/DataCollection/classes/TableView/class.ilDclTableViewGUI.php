@@ -1,6 +1,7 @@
 <?php
 require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php');
 require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
+require_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 /**
  * Class ilDclTableViewGUI
  *
@@ -41,13 +42,14 @@ class ilDclTableViewGUI
      */
     protected $table;
 
-    /**
-     * Constructor
-     *
-     * @param	ilObjDataCollectionGUI	$a_parent_obj
-     * @param	int $table_id
-     */
-    public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
+
+	/**
+	 * Constructor
+	 *
+	 * @param ilDclTableListGUI $a_parent_obj
+	 * @param    int                                   $table_id
+	 */
+    public function  __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -55,6 +57,11 @@ class ilDclTableViewGUI
         $ilToolbar = $DIC['ilToolbar'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
+	    $locator = $DIC['ilLocator'];
+
+	    if ($table_id == 0) {
+		    $table_id = $_GET['table_id'];
+	    }
 
         $this->parent_obj = $a_parent_obj;
         $this->ctrl = $ilCtrl;
@@ -63,6 +70,11 @@ class ilDclTableViewGUI
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
         $this->table = ilDclCache::getTableCache($table_id);
+
+	    $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+	    $locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+	    $this->tpl->setLocator();
+
         if ( ! $this->checkAccess()) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
@@ -114,7 +126,7 @@ class ilDclTableViewGUI
     public function show() {
         $add_new = ilLinkButton::getInstance();
         $add_new->setPrimary(true);
-        $add_new->setCaption("dcl_create_item");
+        $add_new->setCaption("dcl_add_new_view");
         $add_new->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
         $this->toolbar->addStickyItem($add_new);
 
@@ -122,7 +134,7 @@ class ilDclTableViewGUI
 
         // Show tables
         require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
-        $tables = $this->parent_obj->object->getTables();
+        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
         foreach($tables as $table)
         {
@@ -146,11 +158,11 @@ class ilDclTableViewGUI
     }
 
     /**
-     * 
+     *
      */
     public function doTableSwitch()
     {
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
+        $this->ctrl->setParameterByClass("ilDclTableViewGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
 
@@ -210,14 +222,15 @@ class ilDclTableViewGUI
      */
     public function saveTableViewOrder()
     {
-        $orders = array_flip($_POST['order']);
-        ksort($orders);
+        $orders = $_POST['order'];
+        asort($orders);
         $tableviews = array();
-        foreach($orders as $order => $tableview_id)
+        foreach(array_keys($orders) as $tableview_id)
         {
             $tableviews[] = ilDclTableView::find($tableview_id);
         }
         $this->table->sortTableViews($tableviews);
+	    ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_order_updated'));
         $this->ctrl->redirect($this);
     }
 

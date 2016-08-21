@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject.php";
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjRole
@@ -356,7 +357,7 @@ class ilObjRole extends ilObject
 	* @param	int			$a_role_id		role id
 	* @return	boolean		true if role is allowed in user registration
 	*/
-	function _lookupAllowRegister($a_role_id)
+	static function _lookupAllowRegister($a_role_id)
 	{
 		global $ilDB;
 		
@@ -527,7 +528,7 @@ class ilObjRole extends ilObject
 	
 	
 	
-	function _updateAuthMode($a_roles)
+	static function _updateAuthMode($a_roles)
 	{
 		global $ilDB;
 
@@ -540,7 +541,7 @@ class ilObjRole extends ilObject
 		}
 	}
 
-	function _getAuthMode($a_role_id)
+	static function _getAuthMode($a_role_id)
 	{
 		global $ilDB;
 
@@ -608,12 +609,12 @@ class ilObjRole extends ilObject
 			
 			// handle plugin permission texts
 			$txt = $objDefinition->isPlugin($info['type'])
-				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				? ilObjectPlugin::lookupTxtById($info['type'], $info['type']."_".$info['operation'])
 				: $lng->txt($info['type']."_".$info['operation']);
 			if (substr($info['operation'], 0, 7) == "create_" &&
 				$objDefinition->isPlugin(substr($info['operation'], 7)))
 			{
-				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+				$txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7), $info['type']."_".$info['operation']);
 			}
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],

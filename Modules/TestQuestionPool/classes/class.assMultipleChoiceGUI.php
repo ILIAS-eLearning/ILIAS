@@ -594,6 +594,21 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			$template->parseCurrentBlock();
 		}
+
+// fau: testNav - add 'none of the above', if needed by the deprecated test setting to score empty answers
+		if ($this->withNoneAbove)
+		{
+			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+			$template->setCurrentBlock('none_above');
+			$template->setVariable('LABEL_NONE_ABOVE', $this->lng->txt('tst_mc_label_none_above'));
+			if ($this->isAnswered && empty($user_solution))
+			{
+				$template->setVariable('CHECKED_NONE_ABOVE', " checked=\"checked\"");
+			}
+			$template->parseCurrentBlock();
+		}
+// fau.
+
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
@@ -974,4 +989,25 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 		}
 	}
+
+// fau: testNav - new functions setWithNoneAbove() and setIsAnswered()
+
+	/**
+	 * Enable the 'None above' addition in a test run
+	 * @param bool
+	 */
+	public function setWithNoneAbove($a_with_none_above)
+	{
+		$this->withNoneAbove = (bool) $a_with_none_above;
+	}
+
+	/**
+	 * Show the question as answered in a test run
+	 * @param bool
+	 */
+	public function setIsAnswered($a_is_answered)
+	{
+		$this->isAnswered = (bool) $a_is_answered;
+	}
+// fau.
 }

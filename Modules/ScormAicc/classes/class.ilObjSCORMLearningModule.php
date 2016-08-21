@@ -80,7 +80,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$sc_item = new ilSCORMItem($child["obj_id"]);
 				if ($sc_item->getIdentifierRef() != "")
 				{
-					$items[count($items)] =& $sc_item;
+					$items[count($items)] = $sc_item;
 				}
 			}
 		}
@@ -273,7 +273,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			$sc_item = new ilSCORMItem($sco_rec["sco_id"]);
 			if ($sc_item->getIdentifierRef() != "")
 			{
-				$items[count($items)] =& $sc_item;
+				$items[count($items)] = $sc_item;
 			}
 		}
 

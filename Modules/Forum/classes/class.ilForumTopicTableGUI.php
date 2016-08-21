@@ -8,7 +8,7 @@ require_once 'Services/Rating/classes/class.ilRatingGUI.php';
 
 /**
  * Class ilForumTopicTableGUI
- * @author  Nadia Ahmad <nahmad@databay.de>
+ * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  * @ingroup ModulesForum
@@ -54,6 +54,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 * @var int for displaying thread_sorting position 
 	 */
 	public $position = 1;
+	
+	/**
+	 * @var bool
+	 */
+	public $is_post_draft_allowed = FALSE;
 
 	/**
 	 * @param        $a_parent_obj
@@ -94,6 +99,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		// Add global css for table styles
 		$tpl->addCss('./Modules/Forum/css/forum_table.css');
+		
+		$this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
 	}
 	
 	public function init()
@@ -132,6 +139,12 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('forums_created_by'), '');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		
+		if($this->is_post_draft_allowed)
+		{
+			$this->addColumn($this->lng->txt('drafts',''));
+		}
+		
 		$this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
 		if('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled())
 		{
@@ -185,6 +198,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		if($this->is_post_draft_allowed)
+		{
+			$this->addColumn($this->lng->txt('drafts',''));
+		}
 		$this->addColumn($this->lng->txt('forums_last_post'), 'lp_date');
 	
 		// Disable sorting
@@ -315,7 +332,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('VAL_ARTICLE_STATS', $topicStats);
 		$this->tpl->setVariable('VAL_NUM_VISIT', $thread->getVisits());
-
+		if($this->is_post_draft_allowed)
+		{
+			$draft_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->getRefId());
+			$this->tpl->setVariable('VAL_DRAFTS', (int)$draft_statistics[$thread->getId()]);
+		}
 		// Last posting
 		if($num_posts > 0)
 		{
@@ -394,14 +415,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$excluded_ids[] = $this->getSelectedThread()->getId();
 		}
 		
-		$direction = $this->getOrderDirection();
-		$field     = $this->getOrderField();
-
 		$params = array(
 			'is_moderator'    => $this->getIsModerator(),
 			'excluded_ids'    => $excluded_ids,
-			'order_column'    => $field,
-			'order_direction' => $direction
+			'order_column'    => $this->getOrderField(),
+			'order_direction' => $this->getOrderDirection()
 		);
 
 		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());

@@ -136,7 +136,7 @@ class ilLPMarks
 	}
 
 	// Static
-	function _hasCompleted($a_usr_id,$a_obj_id)
+	static function _hasCompleted($a_usr_id,$a_obj_id)
 	{
 		global $ilDB;
 

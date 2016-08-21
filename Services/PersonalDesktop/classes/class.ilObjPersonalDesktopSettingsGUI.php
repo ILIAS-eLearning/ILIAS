@@ -166,6 +166,29 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
 		$form->addItem($cb_prop);
 
+		require_once 'Services/Mail/classes/class.ilObjMail.php';
+		$pd_sys_msg = new ilRadioGroupInputGUI($lng->txt('show_system_messages'), 'pd_sys_msg_mode');
+
+		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_own_block'), ilObjMail::PD_SYS_MSG_OWN_BLOCK);
+		$pd_sys_msg->addOption($sys_msg_own_block);
+
+		$sys_msg_mail_block = new ilRadioOption($lng->txt('pd_sys_msg_mail_block'), ilObjMail::PD_SYS_MSG_MAIL_BLOCK);
+		$pd_sys_msg->addOption($sys_msg_mail_block);
+
+		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_no_block'), ilObjMail::PD_SYS_MSG_NO_BLOCK);
+		$pd_sys_msg->addOption($sys_msg_own_block);
+
+		$pd_sys_msg->setValue((int)($ilSetting->get('pd_sys_msg_mode')));
+		$form->addItem($pd_sys_msg);
+		
+		if($ilSetting->get('save_post_drafts', 0))
+		{
+			$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_pdfrmpostdraft'), 'block_activated_pdfrmpostdraft');
+			$cb_prop->setInfo($lng->txt('pd_enable_pdfrmpostdraft_info'));
+			$cb_prop->setValue(1);
+			$cb_prop->setChecked($ilSetting->get('block_activated_pdfrmpostdraft', 0));
+			$form->addItem($cb_prop);
+		}
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
@@ -188,15 +211,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$ti_prop->setInfo($lng->txt("pd_time_before_removal_info"));
 			$ti_prop->setMaxLength(3);
 			$ti_prop->setSize(3);
-			$cb_prop->addSubItem($ti_prop);
-			
-			// osi host
-			// see http://www.onlinestatus.org
-			$ti_prop = new ilTextInputGUI($lng->txt("pd_osi_host"),
-				"osi_host");
-			$ti_prop->setValue($pd_set->get("osi_host"));
-			$ti_prop->setInfo($lng->txt("pd_osi_host_info").
-				' <a href="http://www.onlinestatus.org" target="_blank">http://www.onlinestatus.org</a>');
 			$cb_prop->addSubItem($ti_prop);
 			
 		$form->addItem($cb_prop);
@@ -266,13 +280,16 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
 		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
 
-		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
-		
+		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));
+		$ilSetting->set("pd_sys_msg_mode", (int) ($_POST["pd_sys_msg_mode"]));
+		if($ilSetting->get('save_post_drafts', 0))
+		{
+			$ilSetting->set("block_activated_pdfrmpostdraft", (int)$_POST["block_activated_pdfrmpostdraft"]);
+		}
 //		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 //		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
-//		$pd_set->set("osi_host", $_POST["osi_host"]);
-		
+
 		// Validate personal desktop view
 		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
 		{

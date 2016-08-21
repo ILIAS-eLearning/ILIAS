@@ -5,6 +5,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigStateMessageHandler.php';
 
 require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 
@@ -101,6 +102,11 @@ class ilTestRandomQuestionSetConfigGUI
 	 * @var ilTestRandomQuestionSetStagingPoolBuilder
 	 */
 	protected $stagingPool = null;
+
+	/**
+	 * @var ilTestRandomQuestionSetConfigStateMessageHandler
+	 */
+	protected $configStateMessageHandler;
 	
 	public function __construct(
 		ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng,
@@ -133,6 +139,14 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
 			$this->db, $this->testOBJ
 		);
+		
+		$this->configStateMessageHandler = new ilTestRandomQuestionSetConfigStateMessageHandler(
+			$this->lng, $this->ctrl
+		);
+
+		$this->configStateMessageHandler->setTargetGUI($this);
+		$this->configStateMessageHandler->setQuestionSetConfig($this->questionSetConfig);
+		$this->configStateMessageHandler->setParticipantDataExists($this->testOBJ->participantDataExist());
 	}
 	
 	public function executeCommand()
@@ -175,7 +189,7 @@ class ilTestRandomQuestionSetConfigGUI
 
 	private function isAvoidManipulationRedirectRequired()
 	{
-		if( !$this->testOBJ->participantDataExist() )
+		if( !$this->isFrozenConfigRequired() )
 		{
 			return false;
 		}
@@ -186,6 +200,23 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 
 		return true;
+	}
+	
+	private function isFrozenConfigRequired()
+	{
+		if( $this->testOBJ->participantDataExist() )
+		{
+			return true;
+		}
+		
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		
+		if( $this->sourcePoolDefinitionList->hasLostPool() )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	private function isManipulationCommand()
@@ -286,7 +317,15 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 
-		$this->handleConfigurationStateMessages(self::CMD_SHOW_GENERAL_CONFIG_FORM);
+		$this->configStateMessageHandler->setContext(
+			ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+		);
+		
+		$this->configStateMessageHandler->setLostPools(
+			$this->sourcePoolDefinitionList->getLostPools()
+		);
+		
+		$this->configStateMessageHandler->handle();
 	}
 
 	private function saveGeneralConfigFormCmd()
@@ -326,6 +365,8 @@ class ilTestRandomQuestionSetConfigGUI
 			$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
 		);
 
+		$form->setEditModeEnabled(!$this->isFrozenConfigRequired());
+
 		$form->build();
 
 		return $form;
@@ -338,7 +379,7 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$content = '';
 
-		if( !$this->testOBJ->participantDataExist() )
+		if( !$this->isFrozenConfigRequired() )
 		{
 			$toolbar = $this->buildSourcePoolDefinitionListToolbarGUI();
 			$content .= $this->ctrl->getHTML($toolbar);
@@ -350,7 +391,15 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->tpl->setContent($content);
 
-		$this->handleConfigurationStateMessages(self::CMD_SHOW_SRC_POOL_DEF_LIST);
+		$this->configStateMessageHandler->setContext(
+			ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
+		);
+
+		$this->configStateMessageHandler->setLostPools(
+			$this->sourcePoolDefinitionList->getLostPools()
+		);
+
+		$this->configStateMessageHandler->handle();
 	}
 
 	private function saveSourcePoolDefinitionListCmd()
@@ -399,7 +448,7 @@ class ilTestRandomQuestionSetConfigGUI
 			$this->ctrl, $this->lng, $this, self::CMD_SHOW_SRC_POOL_DEF_LIST
 		);
 
-		if( !$this->testOBJ->participantDataExist() )
+		if( !$this->isFrozenConfigRequired() )
 		{
 			$table->setDefinitionEditModeEnabled(true);
 		}
@@ -690,147 +739,5 @@ class ilTestRandomQuestionSetConfigGUI
 
 		require_once 'Modules/Test/exceptions/class.ilTestQuestionPoolNotAvailableAsSourcePoolException.php';
 		throw new ilTestQuestionPoolNotAvailableAsSourcePoolException();
-	}
-
-	private function handleConfigurationStateMessages($currentRequestCmd)
-	{
-		if( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
-		{
-			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_incomplete_quest_amount_cfg');
-			
-			if( $this->isQuestionAmountConfigPerTestHintRequired($currentRequestCmd) )
-			{
-				$infoMessage .= '<br />'.sprintf(
-					$this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
-					$this->buildGeneralConfigSubTabLink()
-				);
-			}
-			elseif( $this->isQuestionAmountConfigPerPoolHintRequired($currentRequestCmd) )
-			{
-				$infoMessage .= '<br />'.sprintf(
-					$this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
-					$this->buildQuestionSelectionSubTabLink()
-				);
-			}
-		}
-		elseif( !$this->questionSetConfig->hasSourcePoolDefinitions() )
-		{
-			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_no_src_pool_defs');
-		}
-		elseif( !$this->questionSetConfig->isQuestionSetBuildable() )
-		{
-			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable');
-		}
-		else
-		{
-			$syncDate = new ilDateTime(
-				$this->questionSetConfig->getLastQuestionSyncTimestamp(), IL_CAL_UNIX
-			);
-
-			$infoMessage = sprintf(
-				$this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'), ilDatePresentation::formatDate($syncDate)
-			);
-
-			if( !$this->testOBJ->participantDataExist() )
-			{
-				$infoMessage .= "<br />{$this->buildQuestionStageRebuildLink($currentRequestCmd)}";
-			}
-		}
-		
-		if( $this->isNoAvailableQuestionPoolsHintRequired($currentRequestCmd) )
-		{
-			$infoMessage .= '<br />'.$this->lng->txt('tst_msg_rand_quest_set_no_pools_available');
-		}
-
-		ilUtil::sendInfo($infoMessage);
-	}
-
-	/**
-	 * @param $afterRebuildQuestionStageCmd
-	 * @return string
-	 */
-	private function buildQuestionStageRebuildLink($afterRebuildQuestionStageCmd)
-	{
-		$this->ctrl->setParameter(
-			$this, self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD, $afterRebuildQuestionStageCmd
-		);
-		
-		$href = $this->ctrl->getLinkTarget($this, self::CMD_BUILD_QUESTION_STAGE);
-		$label = $this->lng->txt('tst_btn_rebuild_random_question_stage');
-		
-		return "<a href=\"{$href}\">{$label}</a>";
-	}
-
-	private function buildGeneralConfigSubTabLink()
-	{
-		$href = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
-		$label = $this->lng->txt('tst_rnd_quest_cfg_tab_general');
-		
-		return "<a href=\"{$href}\">{$label}</a>";
-	}
-
-	private function buildQuestionSelectionSubTabLink()
-	{
-		$href = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
-		$label = $this->lng->txt('tst_rnd_quest_cfg_tab_pool');
-
-		return "<a href=\"{$href}\">{$label}</a>";
-	}
-
-	/**
-	 * @param $currentRequestCmd
-	 * @return bool
-	 */
-	private function isNoAvailableQuestionPoolsHintRequired($currentRequestCmd)
-	{
-		if( $currentRequestCmd != self::CMD_SHOW_SRC_POOL_DEF_LIST )
-		{
-			return false;
-		}
-		
-		if( $this->questionSetConfig->doesSelectableQuestionPoolsExist() )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * @param $currentRequestCmd
-	 * @return bool
-	 */
-	private function isQuestionAmountConfigPerPoolHintRequired($currentRequestCmd)
-	{
-		if( $currentRequestCmd != self::CMD_SHOW_GENERAL_CONFIG_FORM )
-		{
-			return false;
-		}
-
-		if( !$this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param $currentRequestCmd
-	 * @return bool
-	 */
-	private function isQuestionAmountConfigPerTestHintRequired($currentRequestCmd)
-	{
-		if( $currentRequestCmd != self::CMD_SHOW_SRC_POOL_DEF_LIST )
-		{
-			return false;
-		}
-
-		if( !$this->questionSetConfig->isQuestionAmountConfigurationModePerTest() )
-		{
-			return false;
-		}
-
-		return true;
 	}
 }

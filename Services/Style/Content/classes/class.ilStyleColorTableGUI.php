@@ -59,7 +59,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// action commands
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->addMultiCommand("deleteColorConfirmation", $lng->txt("delete"));
 		}
@@ -95,7 +95,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("COLOR_NAME", $a_set["name"]);
 		$this->tpl->setVariable("COLOR_CODE", $a_set["code"]);
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 			$ilCtrl->setParameter($this->parent_obj, "c_name", rawurlencode($a_set["name"]));

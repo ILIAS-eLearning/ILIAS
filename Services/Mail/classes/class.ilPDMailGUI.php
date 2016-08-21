@@ -21,7 +21,7 @@ class ilPDMailGUI
 		$lng->loadLanguageModule('mail');
 
 		//get the mail from user
-		$umail = new ilMail($_SESSION['AccountId']);
+		$umail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 
 		// catch hack attempts
 		if(!$rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))

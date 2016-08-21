@@ -312,7 +312,7 @@ class ilMailFolderGUI
 					$pre = '';
 					for ($i = 2; $i < $folder_d['depth'] - 1; $i++)
 					{
-						$pre .= '&nbsp';
+						$pre .= '&nbsp;';
 					}
 					
 					if ($folder_d['depth'] > 1)
@@ -982,7 +982,7 @@ class ilMailFolderGUI
 			// secure filename
 			$filename = str_replace("..", "", $filename);
 			
-			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
+			$mfile = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
 			if(!is_array($file = $mfile->getAttachmentPathByMD5Filename($filename, $_GET['mail_id'])))
 			{
 				ilUtil::sendInfo($this->lng->txt('mail_error_reading_attachment'));

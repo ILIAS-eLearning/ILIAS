@@ -6260,6 +6260,33 @@ button.close {
     display: none !important;
   }
 }
+.badge {
+  font-size: 9px;
+  margin-top: -4px;
+  position: absolute;
+}
+.il-counter-novelty {
+  padding: 2px 4px;
+  margin-top: -5px;
+  background-color: #fa8228;
+}
+.il-counter-status {
+  padding: 2px 4px;
+  margin-top: 10px;
+  background-color: #a9a9a9;
+}
+.glyph {
+  color: #557196;
+}
+.glyph.highlighted {
+  color: #fa8228;
+}
+.glyph.highlighted:hover {
+  color: #d15c05;
+}
+.glyph:hover {
+  color: #3a4c65;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
@@ -7766,6 +7793,9 @@ input:invalid {
   background-color: #FFEBEB;
   border-color: #D08080;
 }
+.il_non_editable_value {
+  padding-top: 4px;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
@@ -8410,7 +8440,7 @@ td.ilc_PageDisabled {
   border-left: 3px dotted red;
 }
 div.ilc_DefinitionHeader {
-  margin: 10px 0;
+  margin: 20px 0 10px 0;
   padding: 5px 0;
   border: 1px solid #000;
   border-width: 1px 0;
@@ -8558,6 +8588,13 @@ a.nostyle:hover {
 ul#ilAdvSelListTable_style_selection {
   overflow: auto;
   max-height: 400px;
+}
+a.ilCOPageSection {
+  color: inherit;
+  text-decoration: inherit;
+}
+#ilAdvSelListAnchorText_char_style_selection > span {
+  min-width: auto;
 }
 /* Services/Calendar */
 td.even {
@@ -11285,6 +11322,24 @@ div.ilPCMyCoursesPath {
 }
 .modal-body .jstree a {
   display: inline;
+}
+/* Services/Badge */
+img.ilBadgeImage {
+  max-width: 150px;
+  max-height: 150px;
+}
+img.ilBadgeImageThumbnail {
+  max-width: 50px;
+  max-height: 50px;
+}
+img.ilBadgeImageModal {
+  margin: auto;
+}
+div.ilBadgeBackpackPanelContent {
+  min-height: 200px;
+}
+div.ilBadgeBackpackPanelContent img {
+  margin: auto;
 }
 /*!
  * Datetimepicker for Bootstrap 3

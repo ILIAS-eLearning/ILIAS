@@ -194,7 +194,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
 				$page_gui->obj->addUpdateListener(
 					$question,
-					'saveToDb'
+					'updateTimestamp'
 				);
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
@@ -964,6 +964,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->questionsObject();
 	}
 	
+	protected function renoveImportFailsObject()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		
+		$this->ctrl->redirect($this, 'infoScreen');
+	}
+	
 	/**
 	* list questions of question pool
 	*/
@@ -1004,6 +1013,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->object->purgeQuestions();
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+		if( $qsaImportFails->failedImportsRegistered() )
+		{
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+			$button->setCaption('ass_skl_import_fails_remove_btn');
+			
+			ilUtil::sendFailure($qsaImportFails->getFailedImportsMessage($this->lng).'<br />'.$button->render());
+		}
 		
 		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());

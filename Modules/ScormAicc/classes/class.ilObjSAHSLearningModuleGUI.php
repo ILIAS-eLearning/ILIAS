@@ -731,7 +731,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			include("ilias.php");
 			exit;
 		}
-		if ($ilAccess->checkAccess("visible", "", $parts[0]))
+		if ($ilAccess->checkAccess("visible", "", $parts[0]) || $ilAccess->checkAccess("read", "", $parts[0]))
 		{
 			$_GET["cmd"] = "infoScreen";
 			$_GET["baseClass"] = "ilSAHSPresentationGUI";

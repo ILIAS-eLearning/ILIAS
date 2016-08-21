@@ -62,7 +62,17 @@ class ilObjStudyProgrammeMembersGUI {
 	protected $parent_gui;
 
 	public function __construct($a_parent_gui, $a_ref_id) {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilUser;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLocator = $DIC['ilLocator'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
 
 		$this->ref_id = $a_ref_id;
 		$this->parent_gui = $a_parent_gui;

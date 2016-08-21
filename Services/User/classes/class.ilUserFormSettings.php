@@ -195,9 +195,10 @@ class ilUserFormSettings
 	 */
 	public static function deleteAllForUser($a_user_id)
 	{
+		global $ilDB;
 		$query = "DELETE FROM usr_form_settings".
-			" WHERE user_id = ".$this->db->quote($a_user_id,'integer');
-		$this->db->manipulate($query);
+			" WHERE user_id = ".$ilDB->quote($a_user_id,'integer');
+		$ilDB->manipulate($query);
 	}
 	
 	/**

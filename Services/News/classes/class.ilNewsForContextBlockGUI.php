@@ -1048,6 +1048,7 @@ if (empty(self::$st_data))
 			
 				$dt_prop = new ilDateTimeInputGUI($lng->txt("news_hide_news_date"),
 					"hide_news_date");
+				$dt_prop->setRequired(true);
 				if ($hide_news_date != "")
 				{
 					$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
@@ -1162,9 +1163,8 @@ if (empty(self::$st_data))
 					0, $this->block_id);
 
 				// hide date
-				$hd = $this->settings_form->getInput("hide_news_date");
-				$hide_date = new ilDateTime($hd["date"]." ".
-					$hd["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
+				$hd = $this->settings_form->getItemByPostVar("hide_news_date");				
+				$hide_date = $hd->getDate();
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
 					$hide_date->get(IL_CAL_DATETIME),
 					0, $this->block_id);

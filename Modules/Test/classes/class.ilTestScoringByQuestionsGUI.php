@@ -45,12 +45,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
 		}
 
-		$cmd        = $this->ctrl->getCmd();
+		$cmd        = $this->ctrl->getCmd('showManScoringByQuestionParticipantsTable');
 		$next_class = $this->ctrl->getNextClass($this);
-		if(strlen($cmd) == 0)
-		{
-			$this->ctrl->redirect($this, 'manscoring');
-		}
 
 		$cmd = $this->getCommand($cmd);
 		$this->buildSubTabs('man_scoring_by_qst');
@@ -94,10 +90,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
 		}
 
-		$tpl->addJavascript('./Services/UIComponent/Overlay/js/ilOverlay.js');
 		$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
 		$tpl->addJavaScript("./Services/Form/js/Form.js");
+		$tpl->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 		$tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
+
+		$this->lng->toJSMap(array('answer' => $this->lng->txt('answer')));
 
 		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);

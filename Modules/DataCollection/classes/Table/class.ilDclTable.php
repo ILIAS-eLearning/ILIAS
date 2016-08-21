@@ -434,7 +434,7 @@ class ilDclTable {
 	}
 
 
-	protected function loadFields() {
+	protected function loadCustomFields() {
 		if (!$this->fields) {
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
@@ -454,6 +454,13 @@ class ilDclTable {
 
 			ilDclCache::preloadFieldProperties(array_keys($fields));
 		}
+	}
+
+	public function getCustomFields() {
+		if (!$this->fields) {
+			$this->loadCustomFields();
+		}
+		return $this->fields;
 	}
 
 
@@ -479,7 +486,7 @@ class ilDclTable {
 	 */
 	public function getNewTableviewOrder() 
 	{
-		return ilDclTableView::getCountForTableId($this->getId()) + 1;
+		return (ilDclTableView::getCountForTableId($this->getId()) + 1) * 10;
 	}
 
 	/**
@@ -511,16 +518,20 @@ class ilDclTable {
 	 */
 	public function getFields() {
 		if($this->all_fields == null) {
-			$this->loadFields();
-			$this->stdFields = $this->getStandardFields();
-			$fields = array_merge($this->fields, $this->stdFields);
-
-			$this->sortByOrder($fields);
-
-			$this->all_fields = $fields;
+			$this->reloadFields();
 		}
 
 		return $this->all_fields;
+	}
+
+	public function reloadFields() {
+		$this->loadCustomFields();
+		$this->stdFields = $this->getStandardFields();
+		$fields = array_merge($this->fields, $this->stdFields);
+
+		$this->sortByOrder($fields);
+
+		$this->all_fields = $fields;
 	}
 
 	/**
@@ -584,7 +595,7 @@ class ilDclTable {
 			ilDclDatatype::INPUTFORMAT_RATING,
 		);
 
-		$this->loadFields();
+		$this->loadCustomFields();
 		$return = $this->getStandardFields();
 		/**
 		 * @var $field ilDclBaseFieldModel
@@ -630,7 +641,7 @@ class ilDclTable {
 	 * @return ilDclBaseFieldModel[]
 	 */
 	public function getRecordFields() {
-		$this->loadFields();
+		$this->loadCustomFields();
 
 		return $this->fields;
 	}
@@ -875,7 +886,7 @@ class ilDclTable {
 	 */
 	public function buildOrderFields() {
 		$fields = $this->getFields();
-//		$this->sortByOrder($fields);
+		$this->sortByOrder($fields);
 		$count = 10;
 		$offset = 10;
 		foreach ($fields as $field) {
@@ -1173,7 +1184,7 @@ class ilDclTable {
 	 * @return boolean
 	 */
 	public function hasCustomFields() {
-		$this->loadFields();
+		$this->loadCustomFields();
 
 		return (count($this->fields) > 0) ? true : false;
 	}

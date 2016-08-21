@@ -94,6 +94,10 @@ class ilDBWrapperFactory {
 				require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLMyISAM.php');
 				$ilDB = new ilDBPdoMySQLMyISAM();
 				break;
+			case ilDBConstants::TYPE_PDO_MYSQL_GALERA:
+				require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLGalera.php');
+				$ilDB = new ilDBPdoMySQLGalera();
+				break;
 			default:
 				throw new ilDatabaseException("No viable database-type given: " . var_export($a_type, true));
 		}

@@ -78,7 +78,7 @@ class ilChatroomSmilies
 			array("icon_thumbdown.gif", ":thumbdown:"),
 		);
 
-		$stmt = $ilDB->prepare("
+		$stmt = $ilDB->prepareManip("
 			INSERT INTO chatroom_smilies (smiley_id, smiley_keywords, smiley_path)
 			VALUES (?, ?, ?)",
 			array("integer", "text", "text")
@@ -395,7 +395,7 @@ class ilChatroomSmilies
 		 */
 		global $ilDB;
 
-		$stmt = $ilDB->prepare("
+		$stmt = $ilDB->prepareManip("
 			INSERT INTO chatroom_smilies (smiley_id, smiley_keywords, smiley_path)
 			VALUES (?, ?, ?)",
 			array(

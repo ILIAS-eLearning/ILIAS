@@ -49,7 +49,11 @@ il.CharSelector = new function() {
 	 * @private
 	 */
 	var texts = {
-		page: ''
+        // fau: testNav - add texts for open/close char selector actions in the question menu
+		page: '',
+        open: '',
+        close: ''
+        // fau.
 	};
 	
 	
@@ -81,9 +85,17 @@ il.CharSelector = new function() {
 		if (config.open) {
 			self.openPanel();
 		}
-		
+// fau: handle open/close of char selector from the question menu
+        else {
+            self.closePanel();
+        }
+
 		$('.ilCharSelectorToggle').mousedown(function(){return false;});
 		$('.ilCharSelectorToggle').click(self.togglePanel); 
+
+        $('.ilCharSelectorMenuToggle').mousedown(function(){return false;});
+        $('.ilCharSelectorMenuToggle').click(self.togglePanelFromMenu);
+// fau.
 	};
 	
 	
@@ -131,6 +143,9 @@ il.CharSelector = new function() {
 		$('#ilCharSelectorPanel').show();
         $('#ilCharSelectorSpacer').show();
 		$('.ilCharSelectorToggle').addClass('active');
+// fau: testNav - add 'close' text to menu
+        $('#ilCharSelectorMenuToggleLink').text(texts.close);
+// fau.
         self.resizePanel();
 		config.open = 1;
 	};
@@ -142,6 +157,9 @@ il.CharSelector = new function() {
 		$('#ilCharSelectorPanel').hide();
         $('#ilCharSelectorSpacer').hide();
         $('.ilCharSelectorToggle').removeClass('active');
+// fau: testNav - add 'open' text to menu
+        $('#ilCharSelectorMenuToggleLink').text(texts.open);
+// fau.
 		config.open = 0;
 	};
 
@@ -159,6 +177,16 @@ il.CharSelector = new function() {
 		return false;
 	};
 
+// fau: testNav - toggle panel from a menu
+    /**
+     * Toggle the visibility of the selector panel from a menu entry
+     * @return boolean true to close the menu
+     */
+    this.togglePanelFromMenu = function() {
+        self.togglePanel();
+        return true;
+    };
+// fau.
 
 	/**
 	 * Move to page chosen from the selector

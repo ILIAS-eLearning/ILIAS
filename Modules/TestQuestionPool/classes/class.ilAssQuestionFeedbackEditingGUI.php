@@ -174,7 +174,7 @@ class ilAssQuestionFeedbackEditingGUI
 			$this->feedbackOBJ->saveSpecificFormProperties($form);
 			
 			$this->questionOBJ->cleanupMediaObjectUsage();
-			$this->questionOBJ->saveToDb();
+			$this->questionOBJ->updateTimestamp();
 
 			if( $this->isSyncAfterSaveRequired() )
 			{
