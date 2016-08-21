@@ -6910,8 +6910,8 @@ grp#:#grp_admins#:#Administrators
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Change Group Type
-grp#:#grp_closed_info#:#Group is not visible for non-members.
-grp#:#grp_closed#:#Closed Group
+didactic#:#grp_closed_info#:#Group is not visible for non-members.
+didactic#:#grp_closed#:#Closed Group
 grp#:#grp_delete_member#:#Delete
 grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_edit_members#:#Edit Participants

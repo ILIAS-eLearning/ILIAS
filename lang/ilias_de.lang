@@ -8020,8 +8020,8 @@ grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen,
 grp#:#grp_already_assigned#:#Sie haben bereits einen Aufnahmeantrag für diese Gruppe gestellt.
 grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_change_type#:#Gruppenart ändern
-grp#:#grp_closed#:#Geschlossene Gruppe
-grp#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
+didactic#:#grp_closed#:#Geschlossene Gruppe
+didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_delete_member#:#Löschen

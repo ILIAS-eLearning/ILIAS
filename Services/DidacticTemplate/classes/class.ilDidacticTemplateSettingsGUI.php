@@ -339,7 +339,7 @@ class ilDidacticTemplateSettingsGUI
 
 			$temp->update();
 			
-			ilUtil::sendSuccess($this->lng->txt('save_settings'), true);
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 			$ilCtrl->redirect($this,'overview');
 		}
 

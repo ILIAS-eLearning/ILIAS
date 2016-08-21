@@ -7801,8 +7801,8 @@ grp#:#grp_agreement_required#:#Tienes que aceptar el acuerdo de usuario si quier
 grp#:#grp_already_assigned#:#Ya tienes una petición de pertenencia para este grupo.
 grp#:#grp_cancel_subscr_request#:#Eliminar la petición de pertenencia.
 grp#:#grp_change_type#:#Cambiar tipo de grupo
-grp#:#grp_closed#:#Grupo cerrado
-grp#:#grp_closed_info#:#Este grupo no esta visible para los usuarios que no son miembros.
+didactic#:#grp_closed#:#Grupo cerrado
+didactic#:#grp_closed_info#:#Este grupo no esta visible para los usuarios que no son miembros.
 grp#:#grp_copy#:#Copiar Grupo
 grp#:#grp_custom_user_fields#:#Grupo de datos relevantes al usuario
 grp#:#grp_deactivate_notification#:#Desactivar notificación
