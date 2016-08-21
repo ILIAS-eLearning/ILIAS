@@ -15746,10 +15746,10 @@ didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlage
 didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
 grp#:#grp_show_members#:#Mitglieder-Reiter
 grp#:#grp_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
-didactic#:#didactic_cannot_delete_auto_generated#:#Das löschen von automatisch generierten Didaktische Vorlagen ist nicht erlaubt.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eines der gewählten Didaktische Vorlagen sind automatisch generiert und können daher nicht gelöscht werden.
+didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eine der gewählten Didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden.
 didactic#:#didactic_auto_generated#:#Automatisch generiert
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
-didactic#:#dtpl_obj_type_info#:#Gibt an auf welchen Objekttyp diese didaktische Vorlage angewandt werden kann.
+didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann.
