@@ -897,8 +897,10 @@ class ilObjectGUI
 			{
 				if($template->isEffective($_GET["ref_id"]))
 				{
-					$options["dtpl_".$template->getId()] = array($template->getPresentationTitle(),
-						$template->getPresentationDescription());
+					$options["dtpl_".$template->getId()] = array(
+						$template->getPresentationTitle(),
+						$template->getPresentationDescription()
+					);
 
 					if($template->isExclusive())
 					{

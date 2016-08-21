@@ -178,3 +178,62 @@ if(!$ilDB->tableColumnExists('didactic_tpl_settings', 'exclusive_tpl'))
 }
 ?>
 
+<#12>
+<?php
+$id = $ilDB->nextId('didactic_tpl_settings');
+$query = 'INSERT INTO didactic_tpl_settings (id,enabled,type,title, description,info,auto_generated,exclusive_tpl) values( '.
+	$ilDB->quote($id, 'integer').', '.
+	$ilDB->quote(1,'integer').', '.
+	$ilDB->quote(1,'integer').', '.
+	$ilDB->quote('grp_closed','text').', '.
+	$ilDB->quote('grp_closed_info','text').', '.
+	$ilDB->quote('','text').', '.
+	$ilDB->quote(1,'integer').', '.
+	$ilDB->quote(0,'integer').' '.
+	')';
+$ilDB->manipulate($query);
+
+$query = 'INSERT INTO didactic_tpl_sa (id, obj_type) values( '.
+	$ilDB->quote($id, 'integer').', '.
+	$ilDB->quote('grp','text').
+	')';
+$ilDB->manipulate($query);
+
+
+$aid = $ilDB->nextId('didactic_tpl_a');
+$query = 'INSERT INTO didactic_tpl_a (id, tpl_id, type_id) values( '.
+	$ilDB->quote($aid, 'integer').', '.
+	$ilDB->quote($id, 'integer').', '.
+	$ilDB->quote(1,'integer').
+	')';
+$ilDB->manipulate($query);
+
+$query = 'select obj_id from object_data where type = '.$ilDB->quote('rolt','text').' and title = '.$ilDB->quote('il_grp_status_closed','text');
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$closed_id = $row->obj_id;
+}
+
+$query = 'INSERT INTO didactic_tpl_alp (action_id, filter_type, template_type, template_id) values( '.
+	$ilDB->quote($aid, 'integer').', '.
+	$ilDB->quote(1, 'integer').', '.
+	$ilDB->quote(2,'integer').', '.
+	$ilDB->quote($closed_id,'integer').
+	')';
+$ilDB->manipulate($query);
+
+
+$fid = $ilDB->nextId('didactic_tpl_fp');
+$query = 'INSERT INTO didactic_tpl_fp (pattern_id, pattern_type, pattern_sub_type, pattern, parent_id, parent_type ) values( '.
+	$ilDB->quote($fid, 'integer').', '.
+	$ilDB->quote(1, 'integer').', '.
+	$ilDB->quote(1,'integer').', '.
+	$ilDB->quote('.*','text').', '.
+	$ilDB->quote($aid,'integer').', '.
+	$ilDB->quote('action','text').
+	')';
+$ilDB->manipulate($query);
+
+?>
+

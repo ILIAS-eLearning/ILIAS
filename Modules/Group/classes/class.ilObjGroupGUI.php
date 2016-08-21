@@ -2181,6 +2181,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$desc->setCols(40);
 		$form->addItem($desc);
 		
+		$form = $this->initDidacticTemplate($form);
+		
 		// Group type
 		$grp_type = new ilRadioGroupInputGUI($this->lng->txt('grp_typ'),'grp_type');
 		
