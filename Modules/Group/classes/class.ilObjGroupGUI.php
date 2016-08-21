@@ -407,63 +407,16 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	}
 	
-	protected function initCreateForm($a_new_type)
-	{
-		if(!is_object($this->object))
-		{
-			$this->object = new ilObjGroup();
-		}
-		
-		return $this->initForm('create');
-	}
-	
 	/**
-	 * save object
-	 *
-	 * @global ilTree
-	 * @access public
-	 * @return
+	 * After object creation 
+	 * @param \ilObject $new_object
 	 */
-	public function saveObject()
+	public function afterSave(\ilObject $new_object)
 	{
-		global $ilErr,$ilUser,$tree,$ilSetting;
+		global $ilUser, $ilSetting;
 		
-		$this->object = new ilObjGroup();
-
-		// we reduced the form, only 3 values left
-		// $this->load();
-		
-		$grp_type = ilUtil::stripSlashes($_POST['grp_type']);
-		switch($grp_type)
-		{
-			case GRP_TYPE_PUBLIC:
-				$this->object->setRegistrationType(GRP_REGISTRATION_DIRECT);
-				break;
-			
-			default:
-				$this->object->setRegistrationType(GRP_REGISTRATION_DEACTIVATED);
-				break;
-		}
-		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
-		$this->object->setGroupType(ilUtil::stripSlashes($_POST['grp_type']));
-		$this->object->setViewMode(ilContainer::VIEW_INHERIT);
-
-		$ilErr->setMessage('');
-		
-		if(!$this->object->validate())
-		{
-			$err = $this->lng->txt('err_check_input');
-			ilUtil::sendFailure($err);
-			$err = $ilErr->getMessage();
-			ilUtil::sendInfo($err);
-			$this->createObject();
-			return true;
-		}
-
-		$this->object->create();
-		$this->putObjectInTree($this->object, $_GET["ref_id"]);
-		$this->object->initGroupStatus($this->object->getGroupType());
+		$new_object->setRegistrationType(GRP_REGISTRATION_DIRECT);
+		$new_object->update();
 		
 		// check for parent group or course => SORT_INHERIT
 		$sort_mode = ilContainer::SORT_TITLE;
@@ -474,23 +427,20 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$sort_mode = ilContainer::SORT_INHERIT;
 		}
+		
 		// Save sorting
 		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($this->object->getId());
+		$sort = new ilContainerSortingSettings($new_object->getId());
 		$sort->setSortMode($sort_mode);
 		$sort->update();
 		
 		
 		// Add user as admin and enable notification
-		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
-		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+		include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+		$members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
-
-		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);		
-		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
-		$this->ctrl->redirect($this, "edit");
 	}
 	
 	/**
