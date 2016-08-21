@@ -1528,6 +1528,8 @@ class ilObject
 		{
 			return true;
 		}
+		
+		ilLoggerFactory::getLogger('obj')->debug('Applying didactic template with id: ' . (int) $a_tpl_id);
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 		ilDidacticTemplateObjSettings::assignTemplate($this->getRefId(), $this->getId(), (int) $a_tpl_id);

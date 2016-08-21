@@ -772,7 +772,7 @@ class ilRbacAdmin
 
 			$rowNum++;
 		}
-
+		
 		// Delete template permissions of target
 		$query = 'DELETE FROM rbac_templates WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
 			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
@@ -1030,9 +1030,18 @@ class ilRbacAdmin
 		{
 			$a_assign = "n";
 		}
-		
-		ilLoggerFactory::getLogger('ac')->debug('Assign role to folder: ' . $a_rol_id.' '. $a_parent);
 
+		// check if already assigned
+		$query = 'SELECT rol_id FROM rbac_fa '.
+			'WHERE rol_id = '.$ilDB->quote($a_rol_id,'integer'). ' '.
+			'AND parent = '. $ilDB->quote($a_parent,'integer');
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			ilLoggerFactory::getLogger('ac')->info('Role already assigned to object');
+			return false;
+		}
+		
 		$query = sprintf('INSERT INTO rbac_fa (rol_id, parent, assign, protected) '.
 			'VALUES (%s,%s,%s,%s)',
 			$ilDB->quote($a_rol_id,'integer'),
@@ -1201,6 +1210,7 @@ class ilRbacAdmin
 		}
 		if(!$a_template_id)
 		{
+			ilLoggerFactory::getLogger('ac')->info('No template id given. Aborting.');
 			return;
 		}
 		// create template permission intersection
@@ -1226,7 +1236,10 @@ class ilRbacAdmin
 			ilObject::_lookupType($a_ref_id, true),
 			$a_ref_id
 		);
-
+		
+		// revoke existing permissions 
+		$this->revokePermission($a_ref_id, $a_role_id);
+		
 		// set new permissions for object
 		$this->grantPermission(
 			$a_role_id,
