@@ -429,8 +429,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// check for parent group or course => SORT_INHERIT
 		$sort_mode = ilContainer::SORT_TITLE;
 		if(
-				$GLOBALS['tree']->checkForParentType($this->object->getRefId(),'crs') ||
-				$GLOBALS['tree']->checkForParentType($this->object->getRefId(),'grp')
+				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'crs') ||
+				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'grp')
 		)
 		{
 			$sort_mode = ilContainer::SORT_INHERIT;
@@ -449,6 +449,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
+		parent::afterSave($new_object);
 	}
 	
 	/**
