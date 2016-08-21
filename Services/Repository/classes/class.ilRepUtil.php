@@ -276,7 +276,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Remove already deleted objects within the objects in trash
 	*/
-	private function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects,
+	private static function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects,
 		&$a_affected_ids)
 	{
 		global $log, $ilDB, $tree;
