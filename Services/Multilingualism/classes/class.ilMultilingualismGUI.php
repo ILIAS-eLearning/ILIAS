@@ -322,7 +322,15 @@ class ilMultilingualismGUI
 				{
 					if ($l != "")
 					{
-						$this->obj_trans->addLanguage($l, $this->start_title, $this->start_description,false);
+						$std = false;
+
+						//if no other language is set, set this one as standard
+						if(!count($this->obj_trans->getLanguages()))
+						{
+							$std = true;
+						}
+
+						$this->obj_trans->addLanguage($l, $this->start_title, $this->start_description,$std);
 					}
 				}
 			}

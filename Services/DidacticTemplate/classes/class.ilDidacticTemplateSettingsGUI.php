@@ -78,7 +78,10 @@ class ilDidacticTemplateSettingsGUI
 				$this->setEditTabs("settings_trans");
 				include_once("./Services/Multilingualism/classes/class.ilMultilingualismGUI.php");
 				$transgui = new ilMultilingualismGUI($_REQUEST["tplid"], 'dtpl');
-				$transgui->setStartValues($this->object->getTitle(), $this->object->getDescription());
+				$defaultl = $this->object->getTranslationObject()->getDefaultLanguage();
+
+				$transgui->setStartValues($this->object->getPresentationTitle($defaultl),
+					$this->object->getPresentationDescription($defaultl));
 
 				$ilCtrl->forwardCommand($transgui);
 				break;
