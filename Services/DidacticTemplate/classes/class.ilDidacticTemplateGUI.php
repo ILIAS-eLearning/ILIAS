@@ -157,9 +157,9 @@ class ilDidacticTemplateGUI
 			$confirm->addItem(
 				'tplid',
 				$new_tpl_id,
-				$dtpl->getTitle().
+				$dtpl->getPresentationTitle().
 				'<div class="il_Description">'.
-				$dtpl->getDescription().' '.
+				$dtpl->getPresentationDescription().' '.
 				'</div>'
 			);
 		}
@@ -197,40 +197,11 @@ class ilDidacticTemplateGUI
 	protected function switchTemplate()
 	{
 		global $ilCtrl;
-
+		
 		$new_tpl_id = (int) $_REQUEST['tplid'];
 
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		$current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
-			$this->getParentObject()->object->getRefId()
-		);
-
-		// Revert current template
-		if($current_tpl_id)
-		{
-			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
-			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($current_tpl_id) as $action)
-			{
-				$action->setRefId($this->getParentObject()->object->getRefId());
-				$action->revert();
-			}
-		}
-		if($new_tpl_id)
-		{
-			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
-			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($new_tpl_id) as $action)
-			{
-				$action->setRefId($this->getParentObject()->object->getRefId());
-				$action->apply();
-			}
-		}
-
-		// Assign template id to object
-		ilDidacticTemplateObjSettings::assignTemplate(
-			$this->getParentObject()->object->getRefId(),
-			$this->getParentObject()->object->getId(),
-			$new_tpl_id
-		);
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateUtils.php';
+		ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);
 
 		ilUtil::sendSuccess($this->lng->txt('didactic_template_applied'),true);
 		$ilCtrl->returnToParent($this);

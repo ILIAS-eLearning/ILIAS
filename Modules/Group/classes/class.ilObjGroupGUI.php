@@ -484,20 +484,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateGroupTypeObject()
 	{
-		$type = $this->object->getGroupType() ? 
-			$this->object->getGroupType() :
-			$this->object->readGroupStatus();
-			
-		if($type == GRP_TYPE_PUBLIC)
-		{
-			$this->object->setGroupType(GRP_TYPE_CLOSED);
-		}
-		else
-		{
-			$this->object->setGroupType(GRP_TYPE_PUBLIC);
-		}
-		$this->object->updateGroupType();
-		$this->object->update();
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateUtils.php';
+		ilDidacticTemplateUtils::switchTemplate(
+			$this->object->getRefId(),
+			(int) $_REQUEST['grp_type']
+		);
+		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'edit');
 	}
@@ -517,6 +509,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$form = $this->initForm();
 		$form->checkInput();
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+		
+		$modified = false;
+		if((string) $_POST['didactic_type'])
+		{
+			$new_type = explode('_',$_POST['didactic_type']);
+			$new_type = $new_type[1];
+			
+			$modified = ($new_type != $old_type);
+			ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
+		}
 		
 		$old_type = $this->object->getGroupType();
 		$old_autofill = $this->object->hasWaitingListAutoFill();
@@ -526,12 +531,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!$this->object->validate())
 		{
-			/*
-			$err = $this->lng->txt('err_check_input');
-			ilUtil::sendFailure($err);
-			$err = $ilErr->getMessage();
-			ilUtil::sendInfo($err);			
-			*/
 			ilUtil::sendFailure($ilErr->getMessage()); // #16975
 			
 			// #17144
@@ -540,13 +539,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			return true;
 		}
 
-		$modified = false;		
-		if($this->object->isGroupTypeModified($old_type))
-		{
-			$modified = true;
-			$this->object->setGroupType($old_type);
-		}
-		
 		$this->object->update();
 		
 		
@@ -585,16 +577,29 @@ class ilObjGroupGUI extends ilContainerGUI
 		$ecs = new ilECSGroupSettings($this->object);			
 		$ecs->handleSettingsUpdate();
 
+		// group type modified
 		if($modified)
 		{
+			if($new_type == 0)
+			{
+				$new_type_txt = $GLOBALS['lng']->txt('il_grp_status_open');
+			}
+			else
+			{
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+				$dtpl = new ilDidacticTemplateSetting($new_type);
+				$new_type_txt = $dtpl->getPresentationTitle($GLOBALS['lng']->getLangKey());
+			}
+			
+			
 			include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 			ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'));
 			$confirm = new ilConfirmationGUI();
 			$confirm->setFormAction($this->ctrl->getFormAction($this));
 			$confirm->addItem(
 				'grp_type',
-				$this->object->getGroupType(),
-				$this->lng->txt('grp_info_new_grp_type').': '.($this->object->getGroupType() == GRP_TYPE_CLOSED ? $this->lng->txt('il_grp_status_open') : $this->lng->txt('il_grp_status_closed'))
+				$new_type,
+				$this->lng->txt('grp_info_new_grp_type').': '. $new_type_txt
 			);
 			$confirm->addButton($this->lng->txt('grp_change_type'), 'updateGroupType');
 			$confirm->setCancel($this->lng->txt('cancel'), 'edit');
@@ -2183,33 +2188,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$form = $this->initDidacticTemplate($form);
 		
-		// Group type
-		$grp_type = new ilRadioGroupInputGUI($this->lng->txt('grp_typ'),'grp_type');
-		
-		if($a_mode == 'edit')
-		{
-			$type = ($this->object->getGroupType() ? $this->object->getGroupType() : $this->object->readGroupStatus());
-		}
-		else
-		{
-			$type = ($this->object->getGroupType() ? $this->object->getGroupType() : GRP_TYPE_PUBLIC);
-		}
-		
-		$grp_type->setValue($type);
-		$grp_type->setRequired(true);
-
-		
-		// PUBLIC GROUP
-		$opt_public = new ilRadioOption($this->lng->txt('grp_public'),GRP_TYPE_PUBLIC,$this->lng->txt('grp_public_info'));
-		$grp_type->addOption($opt_public);
-
-
-		// CLOSED GROUP
-		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
-		$grp_type->addOption($opt_closed);
-
-		$form->addItem($grp_type);
-
 		if($a_mode == 'edit')
 		{
 			// Group registration ############################################################

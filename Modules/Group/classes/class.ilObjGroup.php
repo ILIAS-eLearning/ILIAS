@@ -189,6 +189,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function isGroupTypeModified($a_old_type)
 	{
+		
+		
+		
 		if($a_old_type == GRP_TYPE_UNKNOWN)
 		{
 			$group_type = $this->readGroupStatus();
@@ -597,10 +600,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$this->title = '';
 			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_TITLE));
-		}
-		if(!$this->getGroupType())
-		{
-			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_GROUP_TYPE));
 		}
 		if($this->getRegistrationType() == GRP_REGISTRATION_PASSWORD and !strlen($this->getPassword()))
 		{
