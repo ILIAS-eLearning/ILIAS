@@ -445,7 +445,8 @@
 		onScroll: function() {
 			var container = $(this).closest('[data-onscreenchat-window]');
 			var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
-			if($(this).scrollTop == 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
+
+			if($(this).scrollTop() == 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
 				getModule().historyBlocked = true;
 				$(this).prepend(
 					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
@@ -663,18 +664,18 @@
 	 */
 	function getModule() {
 		return $scope.il.OnScreenChat;
-	};
+	}
 
 	/**
 	 * @returns {window.il.OnScreenChat.config|{}}
 	 */
 	function getConfig() {
 		return $scope.il.OnScreenChat.config;
-	};
+	}
 
 	function countOpenChatWindows() {
 		return $('[data-onscreenchat-window]:visible').length;
-	};
+	}
 
 	var ConversationStorage = function ConversationStorage() {
 		this.get = function(id) {
