@@ -15,6 +15,8 @@ require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentM
 require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
 class ilObjManualAssessment extends ilObject {
 
+	protected $lp_active = null;
+
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		global $DIC;
 		$this->type = 'mass';
@@ -128,5 +130,17 @@ class ilObjManualAssessment extends ilObject {
 		$new_obj->settings = $new_settings;
 		$new_obj->settings_storage->updateSettings($new_settings);
 		return $new_obj;
+	}
+
+	/**
+	 * Check wether the LP is activated for current object.
+	 *
+	 * @return bool
+	 */
+	public function isActiveLP() {
+		if($this->lp_active === null) {
+			$this->lp_active = ilManualAssessmentLPInterface::isActiveLP($this->getId());
+		}
+		return $this->lp_active;
 	}
 }
