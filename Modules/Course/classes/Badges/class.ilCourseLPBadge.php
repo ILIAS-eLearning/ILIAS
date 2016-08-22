@@ -43,17 +43,23 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 	
 	public function evaluate($a_user_id, array $a_params, array $a_config)
 	{
+		$subitem_obj_ids = array();
+		foreach($a_config["subitems"] as $ref_id)
+		{
+			$subitem_obj_ids[$ref_id] = ilObject::_lookupObjId($ref_id);
+		}
+		
 		$trigger_subitem_id = $a_params["obj_id"];
 				
 		// relevant for current badge instance?
-		if(in_array($trigger_subitem_id, $a_config["subitems"]))
+		if(in_array($trigger_subitem_id, $subitem_obj_ids))
 		{
 			$completed = true;
 			
 			// check if all subitems are completed now
 			foreach($a_config["subitems"] as $subitem_id)
 			{
-				$subitem_obj_id = ilObject::_lookupObjId($subitem_id);
+				$subitem_obj_id = $subitem_obj_ids[$subitem_id];
 				if(ilLPStatus::_lookupStatus($subitem_obj_id, $a_user_id) != ilLPStatus::LP_STATUS_COMPLETED_NUM)
 				{
 					$completed = false;
