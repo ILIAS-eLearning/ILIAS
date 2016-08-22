@@ -15919,3 +15919,4 @@ rbac#:#mass_write#:#Edit a Manual Assessment
 rbac#:#mass_delete#:#Delete a Manual Assessment
 rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
 rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
+mass#:#lp_inactive#:#Note: the learning progress for this object is inactive.
