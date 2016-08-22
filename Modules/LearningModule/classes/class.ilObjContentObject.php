@@ -1578,10 +1578,6 @@ class ilObjContentObject extends ilObject
 			case "lm":
 				$attrs["Type"] = "LearningModule";
 				break;
-
-			case "dbk":
-				$attrs["Type"] = "LibObject";
-				break;
 		}
 		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
 

@@ -681,7 +681,7 @@ class ilObjectLP
 	
 	public static function supportsMark($a_obj_type)
 	{
-		return !in_array($a_obj_type, array("lm", "dbk"));
+		return !in_array($a_obj_type, array("lm"));
 	}
 	
 	public static function supportsMatrixView($a_obj_type)
