@@ -5118,3 +5118,34 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>
 
+
+<#218>
+<?php
+	if(!$ilDB->tableColumnExists("hist_usercoursestatus", "certificate_hash")) {
+		$ilDB->addTableColumn('hist_usercoursestatus', 'certificate_hash',
+			array(
+				'type' => 'text',
+				'length' => 64,
+				'notnull' => true,
+				'default' => '-empty-'
+		));
+	}
+	if(!$ilDB->tableColumnExists("hist_usercoursestatus", "certificate_filename")) {
+		$ilDB->addTableColumn('hist_usercoursestatus', 'certificate_filename',
+			array(
+				'type' => 'text',
+				'length' => 64,
+				'notnull' => true,
+				'default' => '-empty-'
+		));
+	}
+	if(!$ilDB->tableColumnExists("hist_usercoursestatus", "certificate_version")) {
+		$ilDB->addTableColumn('hist_usercoursestatus', 'certificate_version',
+			array(
+				'type' => 'integer',
+				'length' => 8,
+				'notnull' => true,
+				'default' => 0
+		));
+	}
+?>
