@@ -341,6 +341,7 @@
 			if(message != "") {
 				$chat.sendMessage(conversationId, message);
 				input.html('');
+				getModule().onMessageInput.call(input);
 				getModule().resizeMessageInput.call(input);
 			}
 		},
@@ -510,7 +511,7 @@
 			return caretPos;
 		},
 
-		onMessageInput: function(e) {
+		onMessageInput: function() {
 			var $this = $(this);
 
 			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
@@ -765,8 +766,6 @@
 				var node = _message.get(0);
 				node.focus();
 
-				console.log("Last Caret Position: " + lastCaretPosition);
-				
 				var textNode = node.firstChild;
 				var range = document.createRange();
 				range.setStart(textNode, lastCaretPosition);
