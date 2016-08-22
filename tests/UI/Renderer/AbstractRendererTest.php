@@ -18,6 +18,14 @@ namespace ILIAS\UI\Implementation\Component\Glyph {
 			return "\\ILIAS\\UI\\Component\\Glyph\\Glyph";
 		}
 	}
+
+	class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer {
+		public $ids = array();
+		public function render(Component $component, Renderer $default_renderer) {
+			$this->ids[] = $this->bindJavaScript($component);
+			return "";
+		}
+	}
 }
 
 namespace ILIAS\UI\Implementation\Component\Counter {
@@ -43,6 +51,7 @@ namespace {
 
 	use \ILIAS\UI\Component as C;
 	use \ILIAS\UI\Implementation\Render\Template;
+	use \ILIAS\UI\Implementation\Render\JavaScriptBinding;
 	use \ILIAS\UI\Implementation\Render\TemplateFactory;
 
 	class NullTemplate implements Template {
@@ -68,16 +77,23 @@ namespace {
 		}
 	}
 
+	class NullDefaultRenderer implements \ILIAS\UI\Renderer {
+		public function render(C\Component $component) {
+			return "";
+		}
+	}
+
 	class AbstractRendererTest extends ILIAS_UI_TestBase {
 		public function setUp() {
 			parent::setUp();
 			$this->tpl_factory = new TemplateFactoryMock();
 			$this->ui_factory = new NoUIFactory();
 			$this->lng = new ilLanguageMock();
+			$this->js_binding = new LoggingJavaScriptBinding();
 		}
 
 		public function test_getTemplate_successfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng);
+			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 			$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 			$expected = array
@@ -89,7 +105,7 @@ namespace {
 		}
 
 		public function test_getTemplate_unsuccessfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng);
+			$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 
 			try {
 				$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);
@@ -102,6 +118,40 @@ namespace {
 			);
 			$this->assertEquals($expected, $this->tpl_factory->files);
 		}
-	}
 
+		public function test_bindJavaScript_successfull() {
+			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+
+			$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+
+			$ids = array();
+			$g = $g->withOnLoadCode(function($id) use (&$ids) {
+				$ids[] = $id;
+				return "ID: $id";
+			});
+			$r->render($g, new NullDefaultRenderer());
+
+			$this->assertEquals($this->js_binding->ids, $ids);
+			$this->assertEquals(array("id_1"), $ids);
+			$this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
+		}
+
+		public function test_bindJavaScript_no_string() {
+			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+
+			$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+
+			$g = $g->withOnLoadCode(function($id) {
+				return null;
+			});
+
+			try {
+				$r->render($g, new NullDefaultRenderer());
+				$this->assertFalse("This should not happen...");
+			}
+			catch (\LogicException $e) {
+				$this->assertTrue(true);
+			}
+		}
+	}
 }

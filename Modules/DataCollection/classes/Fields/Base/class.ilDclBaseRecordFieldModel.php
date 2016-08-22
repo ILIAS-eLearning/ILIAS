@@ -295,6 +295,13 @@ class ilDclBaseRecordFieldModel {
 	}
 
 	/**
+	 * gets the value for the confirmation gui.
+	 */
+	public function getConfirmationValue() {
+		return $this->getValue();
+	}
+
+	/**
 	 * Returns sortable value for the specific field-types
 	 *
 	 * @param $value

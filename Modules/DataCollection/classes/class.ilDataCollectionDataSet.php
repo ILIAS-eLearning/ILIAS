@@ -194,6 +194,8 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$tableview->setTableId($new_table_id);
 					$tableview->setDescription($a_rec['description']);
 					$tableview->setTableviewOrder($a_rec['tableview_id']);
+					if(!is_array($a_rec['roles']))
+						$a_rec['roles'] = json_decode($a_rec['roles']);
 					$tableview->setRoles($a_rec['roles']);
 					$tableview->create(false);	//do not create default setting as they are imported too
 				}

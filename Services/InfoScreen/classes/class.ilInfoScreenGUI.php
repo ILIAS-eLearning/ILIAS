@@ -448,9 +448,6 @@ class ilInfoScreenGUI
 			
 			if($ref_id)
 			{
-				include_once('./Services/Link/classes/class.ilLink.php');
-				$href = ilLink::_getStaticLink($ref_id,$type,true);
-
 				include_once 'Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 				if(ilECSServerSettings::getInstance()->activeServerExists())
 				{
@@ -469,10 +466,6 @@ class ilInfoScreenGUI
 					);
 			
 				// bookmarks
-
-				$title = $ilObjDataCache->lookupTitle($a_obj->getId());
-
-				$bms = ilPermanentLinkGUI::_getBookmarksSelectionList($title, $href);
 
 				// links to resource
 				if ($ilAccess->checkAccess("write", "", $ref_id) ||

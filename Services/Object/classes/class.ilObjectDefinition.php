@@ -1,6 +1,7 @@
 <?php
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * parses the objects.xml
@@ -75,7 +76,7 @@ class ilObjectDefinition// extends ilSaxParser
 	}
 
 
-	protected function readDefinitionDataFromCache() {	
+	protected function readDefinitionDataFromCache() {
 		$this->obj_data = array();
 		$defIds = array();
 		$global_cache = ilCachedComponentData::getInstance();
@@ -123,7 +124,7 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		$this->obj_group = $global_cache->getIlObjectGroup();
 
-		$this->initPluginDefinitionData();
+		$this->readPluginData();
 
 		$this->sub_types = $global_cache->getIlObjectSubType();
 	}
@@ -186,8 +187,8 @@ class ilObjectDefinition// extends ilSaxParser
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$this->obj_group[$rec["id"]] = $rec;
 		}
-		
-		$this->initPluginDefinitionData();
+
+		$this->readPluginData();
 
 		$set = $ilDB->query("SELECT * FROM il_object_sub_type ");
 		$this->sub_types = array();
@@ -196,54 +197,6 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 	}
 
-	protected function initPluginDefinitionData()
-	{				
-		global $ilPluginAdmin;
-		
-		// now get objects from repository plugin
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-		foreach ($pl_names as $pl_name) {
-			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
-			if ($pl_id != "" && ! isset($this->obj_data[$pl_id])) {
-				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-				$loc = ilPlugin::_getDirectory(IL_COMP_SERVICE, "Repository", "robj", $pl_name) . "/classes";
-
-				$this->obj_data[$pl_id] = array(
-					"name" => $pl_id,
-					"class_name" => $pl_name,
-					"plugin" => "1",
-					"location" => $loc,
-					"checkbox" => "1",
-					"inherit" => "0",
-					"component" => "",
-					"translate" => "0",
-					"devmode" => "0",
-					"allow_link" => "1",
-					"allow_copy" => "0",
-					"rbac" => "1",
-					"group" => NULL,
-					"system" => "0",
-					"default_pos" => "99992000", // "unassigned" group
-					'repository' => '1',
-					'workspace' => '0',
-					'administration' => '0',
-					"sideblock" => "0",
-					"export" => $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $pl_name)
-				);
-				$this->obj_data[$pl_id]["subobjects"] = array();
-
-				// plugins have to be marked as such - see ilContainerGUI::showPossibleSubObjects()
-				$this->obj_data["crs"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["fold"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["grp"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["cat"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["root"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-			}
-		}
-		//var_dump($this->obj_data["root"]["subobjects"]);
-		//var_dump($this->obj_data2["root"]);
-	}
 		
 	/**
 	* Read object definition data
@@ -256,8 +209,33 @@ class ilObjectDefinition// extends ilSaxParser
 			$this->readDefinitionDataFromDB();
 		}
 	}
-	
-	
+
+	/**
+	 * @param $grouped_obj
+	 * @param $component
+	 * @param $slotName
+	 * @param $slotId
+	 * @param $plugin_id
+	 * @return mixed
+	 * @internal param $ilPluginAdmin
+	 */
+	protected static function getGroupedPluginObjectTypes($grouped_obj, $component, $slotName, $slotId) {
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
+		foreach ($pl_names as $pl_name) {
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId,$pl_name);
+			if (!isset($grouped_obj[$pl_id])) {
+				$grouped_obj[$pl_id] = array(
+					"pos" => "99992000", // "unassigned" group
+					"objs" => array(0 => $pl_id)
+				);
+			}
+		}
+		return $grouped_obj;
+	}
+
+
 // PUBLIC METHODS
 
 	/**
@@ -425,6 +403,20 @@ class ilObjectDefinition// extends ilSaxParser
 	function isPluginTypeName($a_str)
 	{
 		return (substr($a_str, 0, 1) == "x");
+	}
+
+	/**
+	 * Returns true iff the given type is an active type of a repositoryObject or Organisation Unit Extension plugin.
+	 * @param $type
+	 * @return bool
+	 */
+	public function isActivePluginType($type) {
+		global $ilPluginAdmin;
+		$isRepoPlugin = $ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj",
+			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type));
+		$isOrguPlugin = $ilPluginAdmin->isActive(IL_COMP_MODULE, "OrgUnit", "orguext",
+			ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type));
+		return $isRepoPlugin || $isOrguPlugin;
 	}
 
 	/**
@@ -903,13 +895,14 @@ class ilObjectDefinition// extends ilSaxParser
 		
 		return "";
 	}
-	
+
 	/**
-	* Get grouped repository object types
-	*/
+	 * @param $a_parent_obj_type
+	 * @return array
+	 */
 	static function getGroupedRepositoryObjectTypes($a_parent_obj_type)
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM il_object_group");
 		$groups = array();
@@ -920,27 +913,9 @@ class ilObjectDefinition// extends ilSaxParser
 
 		$global_cache = ilCachedComponentData::getInstance();
 
-
-//		if (!is_array($a_parent_obj_type))
-//		{
-//			$set = $ilDB->queryF("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
-//				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
-//				" parent = %s ".
-//				" AND subobj = id ", array("text"), array($a_parent_obj_type));
-//		}
-//		else
-//		{
-//			$q = "SELECT DISTINCT (id) as sid, il_object_def.* FROM il_object_def, il_object_subobj ".
-//				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
-//				$ilDB->in("parent", $a_parent_obj_type, false, "text").
-//				" AND subobj = id ";
-//			$set = $ilDB->query($q);
-//		}
-
 		$recs = $global_cache->lookupGroupedRepObj($a_parent_obj_type);
 		
 		$grouped_obj = array();
-//		while($rec = $ilDB->fetchAssoc($set))
 		foreach((array)$recs as $rec)
 		{
 			if ($rec["grp"] != "")
@@ -954,26 +929,11 @@ class ilObjectDefinition// extends ilSaxParser
 				$grouped_obj[$rec["id"]]["objs"][] = $rec["id"];
 			}
 		}
-//var_dump($grouped_obj);
 		// now get objects from repository plugin
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-		foreach ($pl_names as $pl_name)
-		{
-			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
-			if (!isset($grouped_obj[$pl_id]))
-			{
-				$grouped_obj[$pl_id] = array(
-					"pos" => "99992000", // "unassigned" group
-					"objs" => array(0 => $pl_id)
-					);
-			}
-		}
-
-//var_dump($grouped_obj);
+		$grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, IL_COMP_SERVICE, "Repository", "robj");
+		$grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, IL_COMP_MODULE, "OrgUnit", "orguext");
 
 		$ret = ilUtil::sortArray($grouped_obj, "pos", "asc", true, true);
-//var_dump($ret);
 		return $ret;
 	}
 
@@ -1162,6 +1122,64 @@ class ilObjectDefinition// extends ilSaxParser
 		$res[] = "itgr";
 		
 		return array_unique($res);		
+	}
+
+	/**
+	 * Loads the different plugins into the object definition.
+	 * @internal param $ilPluginAdmin
+	 * @internal param $rec
+	 */
+	protected function readPluginData() {
+		$this->parsePluginData(IL_COMP_SERVICE, "Repository", "robj", false);
+		$this->parsePluginData(IL_COMP_MODULE, "OrgUnit", "orguext", true);
+	}
+
+	/**
+	 * loads a single plugin definition into the object definition
+	 * @param $component The component e.g. IL_COMP_SERVICE
+	 * @param $slotName The Slot name, e.g. Repository
+	 * @param $slotId the slot id, e.g. robj
+	 * @param $isInAdministration, can the object be created in the administration?
+	 */
+	protected function parsePluginData($component, $slotName, $slotId, $isInAdministration) {
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
+		foreach ($pl_names as $pl_name) {
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
+			if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
+				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
+				$loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
+
+				$this->obj_data[$pl_id] = array(
+					"name" => $pl_id,
+					"class_name" => $pl_name,
+					"plugin" => "1",
+					"location" => $loc,
+					"checkbox" => "1",
+					"inherit" => "0",
+					"component" => "",
+					"translate" => "0",
+					"devmode" => "0",
+					"allow_link" => "1",
+					"allow_copy" => "0",
+					"rbac" => "1",
+					"group" => NULL,
+					"system" => "0",
+					"default_pos" => "99992000", // "unassigned" group
+					'repository' => '1',
+					'workspace' => '0',
+					'administration' => $isInAdministration?'1':'0',
+					"sideblock" => "0"
+				);
+				// The plugin_id is the same as the type_id in repository object plugins.
+				$pl = ilObjectPlugin::getRepoPluginObjectByType($pl_id);
+				$parent_types = $pl->getParentTypes();
+				foreach($parent_types as $parent_type) {
+					$this->obj_data[$parent_type]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);
+				}
+			}
+		}
 	}
 
 }

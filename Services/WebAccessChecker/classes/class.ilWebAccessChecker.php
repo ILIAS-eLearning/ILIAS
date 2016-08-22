@@ -6,6 +6,7 @@ require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/Init/classes/class.ilInitialisation.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACCookie.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACHeader.php');
 
 /**
  * Class ilWebAccessChecker
@@ -63,6 +64,10 @@ class ilWebAccessChecker {
 	 */
 	protected $cookie = null;
 	/**
+	 * @var ilWACHeaderInterface
+	 */
+	protected $header = null;
+	/**
 	 * @var array
 	 */
 	protected $applied_checking_methods = array();
@@ -74,9 +79,10 @@ class ilWebAccessChecker {
 	 * @param $path
 	 * @param \ilWACCookieInterface|null $ilWACCookieInterface
 	 */
-	public function __construct($path, ilWACCookieInterface $ilWACCookieInterface = null) {
+	public function __construct($path, ilWACCookieInterface $ilWACCookieInterface = null, ilWACHeaderInterface $ilWACHeaderInterface = null) {
 		$this->setPathObject(new ilWACPath($path));
 		$this->setCookie($ilWACCookieInterface ? $ilWACCookieInterface : new ilWACCookie());
+		$this->setHeader($ilWACHeaderInterface ? $ilWACHeaderInterface : new ilWACHeader());
 	}
 
 
@@ -97,6 +103,7 @@ class ilWebAccessChecker {
 			if ($ilWACSignedPath->isSignedPathValid()) {
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using token');
+				$this->sendHeader('checked using token');
 
 				return true;
 			}
@@ -111,6 +118,7 @@ class ilWebAccessChecker {
 				}
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using secure folder');
+				$this->sendHeader('checked using secure folder');
 
 				return true;
 			}
@@ -127,7 +135,8 @@ class ilWebAccessChecker {
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
 				ilWACLog::getInstance()->write('checked using fallback');
-				if ($this->isRevalidateFolderTokens()) {
+				$this->sendHeader('checked using fallback');
+				if ($ilWACSignedPath->isFolderSigned() && $this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
 
@@ -156,6 +165,14 @@ class ilWebAccessChecker {
 
 			return true;
 		}
+	}
+
+
+	/**
+	 * @param $message
+	 */
+	protected function sendHeader($message) {
+		$this->getHeader()->sendHeader('X-ILIAS-WebAccessChecker: ' . $message);
 	}
 
 
@@ -394,5 +411,21 @@ class ilWebAccessChecker {
 	 */
 	protected function addAppliedCheckingMethod($method) {
 		$this->applied_checking_methods[] = $method;
+	}
+
+
+	/**
+	 * @return \ilWACHeaderInterface
+	 */
+	public function getHeader() {
+		return $this->header;
+	}
+
+
+	/**
+	 * @param \ilWACHeaderInterface $header
+	 */
+	public function setHeader($header) {
+		$this->header = $header;
 	}
 }

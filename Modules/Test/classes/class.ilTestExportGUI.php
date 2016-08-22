@@ -23,7 +23,8 @@ class ilTestExportGUI extends ilExportGUI
 
 		parent::__construct($a_parent_gui, $a_main_obj);
 
-		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
+		#$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
+		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'));
 		$this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
 		$this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
 		$this->addFormat( 'arc', $a_parent_gui->lng->txt( 'ass_create_export_test_archive' ), $this, 'createTestArchiveExport');
@@ -57,24 +58,6 @@ class ilTestExportGUI extends ilExportGUI
 	/**
 	 * Create test export file
 	 */
-	public function createTestExport()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
-
-		require_once 'Modules/Test/classes/class.ilTestExport.php';
-		$test_exp = new ilTestExport($this->obj, 'xml');
-		$test_exp->buildExportFile();
-		ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
-		$ilCtrl->redirectByClass('iltestexportgui');
-	}
-
-	/**
-	 * Create test export file
-	 */
 	public function createTestExportWithResults()
 	{
 		/**
@@ -102,8 +85,9 @@ class ilTestExportGUI extends ilExportGUI
 		 */
 		global $lng, $ilCtrl;
 
-		require_once 'Modules/Test/classes/class.ilTestExport.php';
-		$test_exp = new ilTestExport($this->obj, 'results');
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this->obj);
+		$test_exp = $expFactory->getExporter('results');
 		$test_exp->buildExportFile();
 		ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
 		$ilCtrl->redirectByClass('iltestexportgui');

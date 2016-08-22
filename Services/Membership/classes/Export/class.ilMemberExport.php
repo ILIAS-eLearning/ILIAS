@@ -267,7 +267,7 @@ class ilMemberExport
 	 	$fields[] = 'role';
 	 	// Append agreement info
 	 	$privacy = ilPrivacySettings::_getInstance();
-	 	if($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
+	 	if($privacy->courseConfirmationRequired())
 	 	{
 	 		$fields[] = 'agreement';
 	 	}
@@ -478,8 +478,7 @@ class ilMemberExport
 											
 					default:
 						// Check aggreement
-						if((!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_getFields($this->obj_id))
-							or $this->agreement[$usr_id]['accepted'])
+						if(!$this->privacy->courseConfirmationRequired() or $this->agreement[$usr_id]['accepted'])
 						{
 							#$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
 							$this->addCol($this->user_profile_data[$usr_id][$field],$row,$col++);
@@ -603,8 +602,7 @@ class ilMemberExport
 	 	{
 	 		return false;
 	 	}
-	 	if((!$this->privacy->courseConfirmationRequired() and ilCourseDefinedFieldDefinition::_getFields($this->obj_id)) 
-	 		or $this->agreement[$a_usr_id]['accepted'])
+	 	if(!$this->privacy->courseConfirmationRequired() or $this->agreement[$a_usr_id]['accepted'])
 	 	{
 	 		$field_info = explode('_',$a_field);
 	 		$field_id = $field_info[1];

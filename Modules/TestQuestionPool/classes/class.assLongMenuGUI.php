@@ -161,7 +161,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
 		$form->addItem($long_menu_text);
 		
-		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
 		$tpl->parseCurrentBlock();
 		$button = new ilCustomInputGUI('&nbsp;','');

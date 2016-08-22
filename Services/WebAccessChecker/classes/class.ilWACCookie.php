@@ -39,4 +39,12 @@ class ilWACCookie implements ilWACCookieInterface {
 	public function exists($name) {
 		return isset($_COOKIE[$name]);
 	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getAll() {
+		return $_COOKIE;
+	}
 }

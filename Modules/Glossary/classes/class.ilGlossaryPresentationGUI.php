@@ -59,7 +59,8 @@ class ilGlossaryPresentationGUI
 			$glo_ids = array($glo_ids);
 		}
 		$term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
-		if (!in_array($term_glo_id, $glo_ids))
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		if (!in_array($term_glo_id, $glo_ids) && !ilGlossaryTermReferences::isReferenced($glo_ids, $this->term_id))
 		{
 			$this->term_id = "";
 		}
@@ -201,9 +202,7 @@ class ilGlossaryPresentationGUI
 			
 		}
 		
-//		$term_list = $this->glossary->getTermList();	
-
-		$ret =  $this->listTermByGiven($term_list);
+		$ret =  $this->listTermByGiven();
 		$ilCtrl->setParameter($this, "term_id", "");
 		
 		$ilTabs->activateTab("terms");
@@ -217,7 +216,7 @@ class ilGlossaryPresentationGUI
 	/**
 	* list glossary terms
 	*/
-	function listTermByGiven($term_list, $filter ="")
+	function listTermByGiven()
 	{
 		global $ilCtrl, $ilAccess, $ilias, $lng, $tpl;
 		
@@ -322,7 +321,7 @@ class ilGlossaryPresentationGUI
 	/**
 	* list definitions of a term
 	*/
-	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false)
+	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false, $a_page_mode = IL_PAGE_PRESENTATION)
 	{
 		global $ilUser, $ilAccess, $ilias, $lng, $ilCtrl;
 
@@ -353,7 +352,7 @@ class ilGlossaryPresentationGUI
 		{
 			$this->showDefinitionTabs("term_content");
 		}
-		
+
 		$term = new ilGlossaryTerm($term_id);
 		
 		if (!$a_get_html)
@@ -423,14 +422,30 @@ class ilGlossaryPresentationGUI
 		}
 
 		$defs = ilGlossaryDefinition::getDefinitionList($term_id);
-
 		$tpl->setVariable("TXT_TERM", $term->getTerm());
 		$this->mobs = array();
+
+		// toc
+		if (count($defs) > 1 && $a_page_mode == IL_PAGE_PRESENTATION)
+		{
+			$tpl->setCurrentBlock("toc");
+			for($j=1; $j<=count($defs); $j++)
+			{
+				$tpl->setCurrentBlock("toc_item");
+				$tpl->setVariable("TOC_DEF_NR", $j);
+				$tpl->setVariable("TOC_DEF", $lng->txt("cont_definition"));
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("toc");
+			$tpl->parseCurrentBlock();
+		}
 
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
 			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
+			$page_gui->setGlossary($this->glossary);
+			$page_gui->setOutputMode($a_page_mode);
 			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page = $page_gui->getPageObject();
 
@@ -453,7 +468,7 @@ class ilGlossaryPresentationGUI
 			$page_gui->setFileDownloadLink($this->getLink($ref_id, "downloadFile"));
 			if (!$this->offlineMode())
 			{
-				$output = $page_gui->preview();
+				$output = $page_gui->showPage();
 			}
 			else
 			{
@@ -465,6 +480,7 @@ class ilGlossaryPresentationGUI
 				$tpl->setCurrentBlock("definition_header");
 				$tpl->setVariable("TXT_DEFINITION",
 					$this->lng->txt("cont_definition")." ".($j+1));
+				$tpl->setVariable("DEF_NR", ($j+1));
 				$tpl->parseCurrentBlock();
 			}
 			
@@ -529,6 +545,9 @@ class ilGlossaryPresentationGUI
 			$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
 			$tpl->setVariable("PERMA_TARGET", "_top");
 			$tpl->parseCurrentBlock();
+
+			// show taxonomy
+			$this->showTaxonomy();
 		}
 
 		// highlighting?
@@ -554,7 +573,7 @@ class ilGlossaryPresentationGUI
 			}
 			$this->fill_on_load_code = true;
 		}
-		
+
 		if ($this->offlineMode() || $a_get_html)
 		{
 			return $tpl->get();
@@ -1267,7 +1286,7 @@ class ilGlossaryPresentationGUI
 
 		foreach ($terms as $t_id)
 		{
-			$page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true);
+			$page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true, IL_PAGE_PRINT);
 		}
 		$tpl->setVariable("CONTENT", $page_content.
 		'<script type="text/javascript" language="javascript1.2">

@@ -580,6 +580,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	private $tmpCopyWizardCopyId;
 	
+	/**
+	 * @var string mm:ddd:hh:ii:ss
+	 */
+	protected $pass_waiting = "00:000:00:00:00";
 	#endregion
 	
 	/**
@@ -780,6 +784,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		//put here your module specific stuff
 		$this->deleteTest();
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
+		$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getId());
+		$sltImportFails->deleteRegisteredImportFails();
 
 		return true;
 	}
@@ -1317,7 +1328,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
 				'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
 				'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
-				'broken'                     => array('integer', (int)$this->isTestFinalBroken())
+				'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
+				'pass_waiting'              => array('text', (string)$this->getPassWaiting())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1438,7 +1450,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
 						'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
 						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
-						'broken'                     => array('integer', (int)$this->isTestFinalBroken())
+						'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
+						'pass_waiting'              => array('text', (string)$this->getPassWaiting())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1520,23 +1533,34 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			}
 		}
 		
-		// news item creation/deletion
+		// news item creation/update/deletion
 		include_once 'Services/News/classes/class.ilNewsItem.php';
 		if( !$this->getOldOnlineStatus() && $this->isOnline() )
 		{
 			global $ilUser;
-			$news_item = new ilNewsItem();
-			$news_item->setContext($this->getId(), 'tst');
-			$news_item->setPriority(NEWS_NOTICE);
-			$news_item->setContent($this->getTitle());
-			$news_item->setTitle($this->lng->txt('new_test'));
-			$news_item->setUserId($ilUser->getId());
-			$news_item->setVisibility(NEWS_USERS);
-			$news_item->create();
+			$newsItem = new ilNewsItem();
+			$newsItem->setContext($this->getId(), 'tst');
+			$newsItem->setPriority(NEWS_NOTICE);
+			$newsItem->setTitle($this->lng->txt('new_test_online'));
+			$newsItem->setContent('');
+			$newsItem->setUserId($ilUser->getId());
+			$newsItem->setVisibility(NEWS_USERS);
+			$newsItem->create();
 		}
 		elseif( $this->getOldOnlineStatus() && !$this->isOnline() )
 		{
 			ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
+		}
+		elseif( $this->isOnline() )
+		{
+			$newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
+			if($newsId > 0)
+			{
+				$newsItem = new ilNewsItem($newsId);
+				$newsItem->setTitle($this->lng->txt('new_test_online'));
+				$newsItem->setContent('');
+				$newsItem->update();
+			}
 		}
 				
 		// moved activation to ilObjectActivation
@@ -1947,6 +1971,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setInstantFeedbackAnswerFixationEnabled((bool)$data->inst_fb_answer_fixation);
 			$this->setForceInstantFeedbackEnabled((bool)$data->force_inst_fb);
 			$this->setTestFinalBroken((bool)$data->broken);
+			$this->setPassWaiting($data->pass_waiting);
 			$this->loadQuestions();
 		}
 
@@ -3327,7 +3352,34 @@ function getAnswerFeedbackPoints()
 				break;
 		}
 	}
-
+	
+	/**
+	 * @return string
+	 */
+	public function getPassWaiting()
+	{
+		return $this->pass_waiting;
+	}
+	
+	/**
+	 * @param string $pass_waiting   mm:ddd:hh:ii:ss
+	 */
+	public function setPassWaiting($pass_waiting)
+	{
+		$this->pass_waiting = $pass_waiting;
+	}
+	/**
+	 * @return bool
+	 */
+	public function isPassWaitingEnabled()
+	{
+		if(array_sum(explode(':', $this->getPassWaiting())) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 /**
 * Removes a question from the test object
 *
@@ -5677,6 +5729,9 @@ function getAnswerFeedbackPoints()
 				case "nr_of_tries":
 					$this->setNrOfTries($metadata["entry"]);
 					break;
+				case "pass_waiting":
+					$this->setPassWaiting($metadata["entry"]);
+					break;				
 				case "kiosk":
 					$this->setKiosk($metadata["entry"]);
 					break;
@@ -6123,7 +6178,13 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
+		
+		// pass_waiting
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_waiting");
+		$a_xml_writer->xmlElement("fieldentry", NULL,  $this->getPassWaiting());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		// kiosk
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "kiosk");
@@ -6520,22 +6581,6 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlEndTag("questestinterop");
 
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
-
-		foreach ($this->questions as $question_id)
-		{
-			$question =& ilObjTest::_instanciateQuestion($question_id);
-			$qti_question = $question->toXML(false);
-			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
-			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
-			if (strpos($xml, "</section>") !== false)
-			{
-				$xml = str_replace("</section>", "$qti_question</section>", $xml);
-			}
-			else
-			{
-				$xml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n$qti_question</section>", $xml);
-			}
-		}
 		return $xml;
 	}
 
@@ -6565,10 +6610,6 @@ function getAnswerFeedbackPoints()
 		$this->mob_ids = array();
 		$this->file_ids = array();
 
-		$attrs = array();
-		$attrs["Type"] = "Test";
-		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
-
 		// MetaData
 		$this->exportXMLMetaData($a_xml_writer);
 
@@ -6592,8 +6633,6 @@ function getAnswerFeedbackPoints()
 		$this->exportFileItems($a_target_dir, $expLog);
 		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
-
-		$a_xml_writer->xmlEndTag("ContentObject");
 	}
 
 	/**
@@ -7393,7 +7432,7 @@ function getAnswerFeedbackPoints()
 			if (is_numeric($user_id))
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY $order",
@@ -7404,7 +7443,7 @@ function getAnswerFeedbackPoints()
 			else
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY $order",
@@ -7418,7 +7457,7 @@ function getAnswerFeedbackPoints()
 			if (is_numeric($user_id))
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY $order",
@@ -7429,7 +7468,7 @@ function getAnswerFeedbackPoints()
 			else
 			{
 				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
+					"tst_active.submitted test_finished, matriculation, IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY $order",
@@ -7468,7 +7507,8 @@ function getAnswerFeedbackPoints()
 						tst_active.submitted test_finished,
 						usr_data.matriculation,
 						usr_data.active,
-						tst_active.lastindex
+						tst_active.lastindex,
+						IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes 
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
@@ -7492,7 +7532,8 @@ function getAnswerFeedbackPoints()
 						tst_active.submitted test_finished,
 						usr_data.matriculation,
 						usr_data.active,
-						tst_active.lastindex
+						tst_active.lastindex,
+						IFNULL(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes 
 				FROM tst_active
 				LEFT JOIN usr_data
 				ON tst_active.user_fi = usr_data.usr_id
@@ -8270,14 +8311,13 @@ function getAnswerFeedbackPoints()
 				}
 			}
 		}
-
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
+		$testPassesSelector->setActiveId($active_id);
+		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+		
 		if ($this->hasNrOfTriesRestriction() && ($active_id > 0))
 		{
-			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-			$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
-			$testPassesSelector->setActiveId($active_id);
-			$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-
 			$closedPasses = $testPassesSelector->getClosedPasses();
 
 			if( count($closedPasses) >= $this->getNrOfTries() )
@@ -8287,7 +8327,25 @@ function getAnswerFeedbackPoints()
 				return $result;
 			}
 		}
-
+		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass() !== null)
+		{
+			$lastPass = $testPassesSelector->getLastFinishedPassTimestamp();
+			if($lastPass && strlen($this->getPassWaiting()))
+			{
+				$pass_waiting_string = $this->getPassWaiting();
+				$time_values         = explode(":", $pass_waiting_string);
+				$next_pass_allowed   = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $lastPass);
+				
+				if(time() < $next_pass_allowed)
+				{
+					$date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));
+					
+					$result["executable"]   = false;
+					$result["errormessage"] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
+					return $result;
+				}
+			}
+		}
 		return $result;
 	}
 
@@ -10424,8 +10482,9 @@ function getAnswerFeedbackPoints()
 	*/
 	function getXMLZip()
 	{
-		include_once("./Modules/Test/classes/class.ilTestExport.php");
-		$test_exp = new ilTestExport($this, "xml");
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this);
+		$test_exp = $expFactory->getExporter('xml');
 		return $test_exp->buildExportFile();
 	}
 	
@@ -10478,8 +10537,9 @@ function getAnswerFeedbackPoints()
 		$owner_id = $this->getOwner();
 		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 
-		include_once "./Modules/Test/classes/class.ilTestExport.php";
-		$exportObj = new ilTestExport($this, "results");
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this);
+		$exportObj = $expFactory->getExporter('results');
 		$file = $exportObj->exportToExcel($deliver = FALSE, 'active_id', $active_id, $passedonly = FALSE);
 		include_once "./Services/Mail/classes/class.ilFileDataMail.php";
 		$fd = new ilFileDataMail(ANONYMOUS_USER_ID);

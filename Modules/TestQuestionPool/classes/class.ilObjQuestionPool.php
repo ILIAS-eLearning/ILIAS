@@ -157,7 +157,11 @@ class ilObjQuestionPool extends ilObject
 
 		//put here your module specific stuff
 		$this->deleteQuestionpool();
-
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		
 		return true;
 	}
 
@@ -490,7 +494,7 @@ class ilObjQuestionPool extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
+	function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
 	{
 		global $ilBench;
 		
@@ -528,7 +532,32 @@ class ilObjQuestionPool extends ilObject
 		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
+		// skill assignments
+		$this->populateQuestionSkillAssignmentsXml($a_xml_writer, $questions);
+
 		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 * @param $questions
+	 */
+	protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions)
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($this->getId());
+		$assignmentList->loadFromDb();
+		$assignmentList->loadAdditionalSkillData();
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
+		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
+		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
+		$skillQuestionAssignmentExporter->setQuestionIds($questions);
+		$skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
+		$skillQuestionAssignmentExporter->export();
 	}
 
 	/**
@@ -856,7 +885,7 @@ class ilObjQuestionPool extends ilObject
 	* @return string The QTI xml representation of the questions
 	* @access public
 	*/
-	function toXML($questions)
+	function questionsToXML($questions)
 	{
 		$xml = "";
 		// export button was pressed

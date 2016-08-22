@@ -1267,6 +1267,11 @@ return;
 						", ".ilUtil::getStyleSheetLocation().
 						", ./Services/COPage/css/tiny_extra.css".
 						"')");
+					include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+					foreach (ilPCParagraphGUI::_getTextCharacteristics($this->getStyleId()) as $c)
+					{
+						$GLOBALS["tpl"]->addOnloadCode("ilCOPage.addTextFormat('".$c."');");
+					}
 
 					//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
@@ -2413,7 +2418,8 @@ return;
 		$btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
 		
 		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type));
+
+		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
 		ilTooltipGUI::addTooltip("ilAdvSelListAnchorElement_char_style_selection",
 			$lng->txt("cont_more_character_styles"), "iltinymenu_bd");
 

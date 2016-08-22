@@ -722,9 +722,39 @@ class ilObjForum extends ilObject
 				DELETE FROM frm_notification WHERE frm_id = %s',
 			array('integer'), $data);
 
+		//delete drafts 
+		$this->deleteDraftsByForumId((int)$topData['top_pk']);
+		
 		return true;
 	}
 
+	/**
+	 * @param int $forum_id
+	 */
+	private function deleteDraftsByForumId($forum_id)
+	{
+		global $ilDB;
+		$res = $ilDB->queryF('SELECT draft_id FROM frm_posts_drafts WHERE forum_id = %s',
+			array('integer'), array((int)$forum_id));
+		
+		$draft_ids = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$draft_ids[] = $row['draft_id'];
+		}
+
+		if(count($draft_ids) > 0)
+		{
+			require_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
+			$historyObj = new ilForumDraftsHistory();
+			$historyObj->deleteHistoryByDraftIds($draft_ids);
+			
+			require_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+			$draftObj = new ilForumPostDraft();
+			$draftObj->deleteDraftsByDraftIds($draft_ids);
+		}
+	}
+	
 	/**
 	 * init default roles settings
 	 * @access    public

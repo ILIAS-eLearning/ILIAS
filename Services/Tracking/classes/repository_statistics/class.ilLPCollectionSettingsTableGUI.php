@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
  * Description of class
@@ -86,7 +87,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			
 		if($objDefinition->isPluginTypeName($a_set["type"]))
 		{
-			$alt = ilPlugin::lookupTxt("rep_robj", $a_set['type'], "obj_".$a_set['type']);
+			$alt = ilObjectPlugin::lookupTxtById($a_set['type'], "obj_".$a_set['type']);
 		}
 		else
 		{

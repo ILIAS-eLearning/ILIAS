@@ -827,6 +827,13 @@ class ilForum
 		// delete tree and get id's of all posts to delete
 		$del_id = $this->deletePostTree($p_node);
 
+		// delete drafts_history
+		$obj_history = new ilForumDraftsHistory();
+		$draft_ids = $obj_history->deleteHistoryByPostIds($del_id);
+		// delete all drafts
+		$obj_draft = new ilForumPostDraft();
+		$obj_draft->deleteDraftsByDraftIds($draft_ids);
+
 		// Delete User read entries
 		foreach($del_id as $post_id)
 		{
@@ -2374,6 +2381,11 @@ class ilForum
 		{
 			$merge_thread_target->reopen();
 		}
+		// raise event for updating existing drafts
+		$GLOBALS['ilAppEventHandler']->raise('Modules/Forum', 'mergedThreads',
+			array(  'source_thread_id'  => $merge_thread_source->getId(),
+			        'target_thread_id'  => $merge_thread_target->getId())
+		);
 
 // delete source thread 
 		ilForumTopic::deleteByThreadId($merge_thread_source->getId());
