@@ -87,15 +87,11 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 		if(isset($record[self::FIELD_USR_ID])) {
 			if(!$this->userExists($record[self::FIELD_USR_ID])
 				|| $this->userAllreadyMemberByUsrId($record[self::FIELD_USR_ID])) {
-				var_dump($record);
-				die();
-				return fasle;
+				return false;
 			}
 		}
 		if(!in_array($record[self::FIELD_LEARNING_PROGRESS],
 			array(self::LP_FAILED, self::LP_COMPLETED, self::LP_IN_PROGRESS))) {
-			var_dump($record);
-			die();
 			return false;
 		}
 		return true;
