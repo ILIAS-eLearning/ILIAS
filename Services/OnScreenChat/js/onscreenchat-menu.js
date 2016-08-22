@@ -66,6 +66,8 @@
 					return b.latestMessage.timestamp - a.latestMessage.timestamp;
 				});
 
+				var templates = '';
+
 				for (var index in conversations){
 					var template = getModule().config.conversationTemplate;
 					var latestMessage = conversations[index].latestMessage;
@@ -86,9 +88,11 @@
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 
-					$('#onscreenchatmenu-content').append(template);
-					il.ExtLink.autolink($('#onscreenchatmenu-content').find('[data-onscreenchat-body-last-msg]'));
+					templates += template;
 				}
+
+				getModule().content.find('#onscreenchatmenu-content').html(templates);
+				il.ExtLink.autolink($('#onscreenchatmenu-content').find('[data-onscreenchat-body-last-msg]'));
 				getModule().rendered = true;
 			}
 
