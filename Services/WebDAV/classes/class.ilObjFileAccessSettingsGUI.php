@@ -227,6 +227,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$dl_bgtc->setInfo($lng->txt("bgtask_setting_threshold_count_info"));
 		$dl_bgtc->setRequired(true);
 		$dl_bgtc->setSize(10);
+		$dl_bgtc->setSuffix($lng->txt("files"));
 		$dl_bgtc->setValue($this->folderSettings->get("bgtask_download_tcount", null));
 		$dl_bg->addSubItem($dl_bgtc);
 		
