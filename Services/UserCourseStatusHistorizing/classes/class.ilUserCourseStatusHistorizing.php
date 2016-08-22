@@ -217,7 +217,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		if(isset($new['certificate'])) {
 			$certificate_hash = md5($new['certificate']);
 			if($certificate_hash === $current['certificate_hash']) {
-				$new['certificate'] = null;
+				unset($new['certificate']);
 				return $new;
 			}
 			$new['certificate_hash'] = $certificate_hash;
@@ -229,7 +229,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		require_once 'Services/UserCourseStatusHistorizing/classes/class.ilCertificateStorage.php';
 		$storage = new ilCertificateStorage();
 		$storage->storeCertificate($new['certificate'], $new['certificate_filename']);
-		$new['certificate'] = null;
+		unset($new['certificate']);
 		return $new;
 	}
 
