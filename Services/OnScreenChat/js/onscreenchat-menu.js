@@ -24,14 +24,12 @@
 				html : true,
 				placement : "bottom",
 				viewport : { selector: 'body', padding: 10 },
-				title: il.Language.txt('chat_osc_conversations')
+				title: ' '
 			}).on('shown.bs.popover', function () {
 				$scope.il.OnScreenChatMenu.show();
 			}).on('hidden.bs.popover', function () {
 				$("body").removeClass("modal-open");
 			});
-
-
 
 			$('body').on('click', function (e) {
 				$('#onscreenchat_trigger[data-toggle="popover"]').each(function () {
@@ -66,7 +64,7 @@
 					return b.latestMessage.timestamp - a.latestMessage.timestamp;
 				});
 
-				var templates = '';
+				var templates = '', conversation_templates = '';
 
 				for (var index in conversations){
 					var template = getModule().config.conversationTemplate;
@@ -88,7 +86,15 @@
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 
-					templates += template;
+					conversation_templates += template;
+				}
+
+				if (conversation_templates && getModule().config.showOnScreenChat) {
+					templates += '<div class="dropdown-header">' + il.Language.txt('chat_osc_conversations') + '</div>' + conversation_templates;
+				}
+
+				if (getModule().config.showPublicChat) {
+					templates += '<div class="dropdown-header"><a href="' + getModule().config.publicChatRoomUrl + '">' + getModule().config.publicChatRoomText + '</a></div>';
 				}
 
 				getModule().content.find('#onscreenchatmenu-content').html(templates);
