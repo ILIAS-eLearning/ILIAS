@@ -82,6 +82,42 @@
 				.on('keyup', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
+				.on('paste', '[data-onscreenchat-message]', function(e) {
+					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
+						messageField = $(this),
+						last_pos = messageField.attr("data-onscreenchat-last-caret-pos");
+
+					if (undefined == last_pos) {
+						last_pos = 0;
+					}
+
+					var pre  = messageField.text().substr(0, last_pos),
+						post = messageField.text().substr(last_pos);
+
+					var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+					messageField.text(pre +  text + post);
+					messageField.popover('hide');
+
+					e.stopPropagation();
+					e.preventDefault();
+
+					if (window.getSelection) {
+						var node = messageField.get(0);
+						node.focus();
+
+						var textNode = node.firstChild;
+						var range = document.createRange();
+						range.setStart(textNode, last_pos);
+						range.setEnd(textNode, last_pos);
+
+						var sel = window.getSelection();
+						sel.removeAllRanges();
+						sel.addRange(range);
+					} else {
+						messageField.focus();
+					}
+				})
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', function(e) {
@@ -101,7 +137,6 @@
 
 					e.preventDefault();
 					e.stopPropagation();
-
 
 					if (window.getSelection) {
 						var node = messageField.get(0);
@@ -838,10 +873,8 @@
 					emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html());
 				}
 
-				var emoticonsElm = $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
+				return $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
 					.data('emoticons', emoticonCollection);
-
-				return emoticonsElm;
 			}
 		};
 	};
