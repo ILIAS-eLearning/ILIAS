@@ -525,6 +525,6 @@ class ilStyleDefinition
 	 */
 	public function setSystemStylesConf($system_style_config)
 	{
-		$this->$system_style_config = $system_style_config;
+		$this->system_style_config = $system_style_config;
 	}
 }
