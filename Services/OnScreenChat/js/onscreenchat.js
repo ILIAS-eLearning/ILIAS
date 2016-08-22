@@ -748,33 +748,31 @@
 	};
 
 	var MessagePaster = function(message) {
-		var _message = message;
+		var _message = message, getLastCaretPosition = function() {
+			return _message.attr("data-onscreenchat-last-caret-pos") || 0;
+		};
 
-		return {
-			paste: function(text) {
-				var lastCaretPosition = _message.attr("data-onscreenchat-last-caret-pos") || 0,
-					pre  = _message.text().substr(0, lastCaretPosition),
-					post = _message.text().substr(lastCaretPosition);
-				
-				console.log("Last Caret Position: " + lastCaretPosition);
+		this.paste = function(text) {
+			var lastCaretPosition = getLastCaretPosition(),
+				pre  = _message.text().substr(0, lastCaretPosition),
+				post = _message.text().substr(lastCaretPosition);
+			
+			_message.text(pre + text  + post);
 
-				_message.text(pre + text  + post);
+			if (window.getSelection) {
+				var node = _message.get(0);
+				node.focus();
 
-				if (window.getSelection) {
-					var node = _message.get(0);
-					node.focus();
+				var textNode = node.firstChild;
+				var range = document.createRange();
+				range.setStart(textNode, lastCaretPosition);
+				range.setEnd(textNode, lastCaretPosition);
 
-					var textNode = node.firstChild;
-					var range = document.createRange();
-					range.setStart(textNode, lastCaretPosition);
-					range.setEnd(textNode, lastCaretPosition);
-
-					var sel = window.getSelection();
-					sel.removeAllRanges();
-					sel.addRange(range);
-				} else {
-					_message.focus();
-				}
+				var sel = window.getSelection();
+				sel.removeAllRanges();
+				sel.addRange(range);
+			} else {
+				_message.focus();
 			}
 		};
 	};
