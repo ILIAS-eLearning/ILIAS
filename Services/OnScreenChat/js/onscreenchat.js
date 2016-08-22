@@ -72,7 +72,7 @@
 					$('#onscreenchat_trigger[data-toggle="popover"]').popover('hide');
 				})
 				.on('click', '[data-onscreenchat-window]', function(e){
-					if ($(e.target).closest('[data-onscreenchat-header]').size() == 0 && $(e.target).parent('[data-onscreenchat-chatbody-msg]').size() == 0) {
+					if ($(e.target).closest('[data-onscreenchat-header]').length == 0 && $(e.target).parent('[data-onscreenchat-body-msg]').length == 0) {
 						e.preventDefault();
 						e.stopPropagation();
 
@@ -540,7 +540,7 @@
 				chatBody.append(item);
 			}
 
-			il.ExtLink.autolink(chatBody);
+			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
 
 			if(prepend == false) {
 				getModule().scrollBottom(chatWindow);

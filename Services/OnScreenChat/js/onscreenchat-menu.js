@@ -87,7 +87,7 @@
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
 
 					$('#onscreenchatmenu-content').append(template);
-					il.ExtLink.autolink('#onscreenchatmenu-content');
+					il.ExtLink.autolink($('#onscreenchatmenu-content').find('[data-onscreenchat-body-last-msg]'));
 				}
 				getModule().rendered = true;
 			}
