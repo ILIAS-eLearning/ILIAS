@@ -15909,3 +15909,123 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+style#:#add_system_style#:#Neuer System Style
+style#:#add_substyle#:#Neuer Sub Style
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin Name
+style#:#skin#:#Skin
+style#:#style_id#:#Style ID
+style#:#Style#:#Style
+style#:#style_name#:#Style Name
+style#:#image_dir#:#Bildordner
+style#:#font_dir#:#Schriftordner
+style#:#sound_dir#:#Sound-Ordner
+style#:#system_style_activation#:#System Style aktiviert
+style#:#personal#:#Persönlich
+style#:#system_styel_activation#:#aktiviere System Style
+style#:#less#:#Less
+style#:#icons#:#Symbole
+style#:#documentation#:#Dokumentation
+style#:#less_can_not_be_modified#:#Less kann nicht verändert werden.
+style#:#no_less_path_set#:#Das Less Verzeichnis ist nicht gesetzt.
+style#:#less_less_installation_detected#:#Less Installation gefunden:
+style#:#grey_colors#:#Graue Farben
+style#:#grey_color#:#Grauton
+style#:#grey_colors_description#:#Grauton Beschreibung
+style#:#red_colors#:#Rote Farben
+style#:#red_color#:#Rotton
+style#:#red_colors_description#:#Rotton Beschreibung
+style#:#green_colors#:#Grüne Farben
+style#:#green_color#:#Grünton
+style#:#green_colors_description#:#Grünton Beschreibung
+style#:#blue_colors#:#Blaue Farben
+style#:#blue_color#:#Blauton
+style#:#blue_colors_description#:#Blauton Beschreibung
+style#:#reset_icons#:#Symbole zurücksetzten
+style#:#update_colors#:#Farben aktualisieren
+style#:#style_not_deleted#:#Der Style konnte aus folgenden Gründen nicht gelöscht werden:
+style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
+style#:#cant_delete_activated_style#:#Aktive Styles können nicht gelöscht werden.
+style#:#style_deleted#:#Gelöschter Style:
+style#:#dir_preserved_linked#:#Behaltene Links:
+style#:#file_deleted#:#Folgende Datei wurde gelöscht:
+style#:#skin_deleted#:#Folgender Skin wurde gelöscht:
+style#:#msg_sys_style_update#:#System Styles wurden aktualisiert.
+common#:#set_style_does_not_exist#:#Ausgewählter System Style existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer System Style aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+common#:#set_skin_does_not_exist#:#Ausgewählter Skin existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer Skin aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
+style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
+style#:#default_style_set_to#:#Der Standard Style wurde geändert zu:
+style#:#personal_style_set_to#:#Der persönliche Style wurde geändert zu:
+style#:#refresh_entries#:#Einträge aktualisieren
+style#:#entries_reloaded#:#Alle Einträge wurden aktualisiert
+style#:#msg_sub_style_created#:#Der Sub Style wurde erstellt.
+style#:#style#:#Style
+style#:#sub_style_settings#:#Sub Style Zuweisung
+style#:#parent#:#Parent Style
+style#:#sty_substyle_of#:#Sub Style von
+style#:#assignment#:#Zuweisung
+style#:#remove_assignment#:#Zuweisung löschen
+style#:#reset_variables#:#Variablen zurücksetzen
+style#:#update_variables#:#Variablen aktualisieren
+style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#settings_of_substyle#:#Manage sub style
+style#:#settings_of_style#:#Styles verwalten
+style#:#of_parent#:#vom Parent:
+style#:#from_skin#:#vom Skin:
+style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
+style#:#to#:#nach:
+style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
+style#:#sty_create_new_system_style#:#Erstelle einen neuen System Style.
+style#:#sty_create_new_system_sub_style#:#Erstelle einen neuen System Sub Style.
+style#:#sty_import_system_style#:#Importiere bestehenden System Style aus ZIP.
+style#:#sty_copy_other_system_style#:#Klone einen bestehenden System Style.
+style#:#sub_style_id#:#Sub Style ID
+style#:#sub_style_name#:#Sub Style Name
+style#:#less_variables_file_not_included#:#Die Less Variablen Datei:
+style#:#in_main_less_file#:#ist nicht in der System Styles main Less Datei importiert:
+style#:#can_not_read_less_file#:#Less Datei kann nicht gelesen werden. Pfad:
+style#:#msg_sys_style_created#:#Die neue System Style Datei wurde erfolgreich erstellt.
+style#:#skin_id_description#:#Skins sind Behälter für Styles und Sub Styles. Die Skin ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub Styles beinhaltet. Die Skin ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#skin_name_description#:#Der Skin Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
+style#:#style_id_description#:#Die Style ID wird für Style spezifische css- und Lessdateien unterhalb des Skin Ordners verwendet. Die Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#style_name_description#:#Der Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
+style#:#sub_style#:#Sub Style
+style#:#image_dir_description#:#Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#font_dir_description#:#Ordner für das Speichern von Schriftarten vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#sound_dir_description#:#Ordner für das Speichern von Tönen vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#sub_style_parent_style_description#:#Sub Styles werden genau einem Parent Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent Style haben. Der Parent Style eines Sub Styles kann nur während der Erstellung des Sub Styles einmalig zugeordnet werden.
+style#:#sub_style_id_description#:#Die Sub Style ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#sub_style_name_description#:#Der Sub Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
+style#:#system_style_activation_description#:#Aktive System Styles können bestimmten Usern zugewiesen, oder durch diese selektiert werden wenn die betreffende Einstellung (Benutzer Verwaltung / Einstellungen / Standard Dateien / Standard Skin) aktiviert ist.
+style#:#system_style_default_description#:#Setze diesen Style als Standard System Style fest. Der Standard System Style wird verwendet, sofern der User noch keinen eigenen System Style zugewiesen hat, oder der User nicht eingeloggt ist.
+style#:#system_style_personal_description#:#Setze diesen Style als persönlichen Style. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
+style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#zip_export_failed#:#Der ZIP Export ist mit folgender Error Meldung fehlgeschlagen:
+style#:#no_style_selected#:#Es wurde kein Sub Style ausgewählt.
+style#:#adapt_less#:#Anpassung der Less Datei
+style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird bei einem update/reset der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
+style#:#adapt_icons_description#:#Alle svg Symbole, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier enthaltentn Symbolen sofort ersichtlich.
+style#:#adapt_icons#:#Anpassung der Symbolfarben
+style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig:
+style#:#provided_less_path#:#Angegebener lessc Pfad:
+style#:#used_colors#:#Benutzte Farben:
+style#:#style_imported#:#Style wurde erfolgreich importiert nach:
+style#:#style_copied#:#Style wurde erfolgreich kopiert.
+style#:#directory_created#:#Ordner erstellt:
+style#:#color_changed_from#:#Farbe geändert von:
+style#:#color_changed_to#:#nach:
+style#:#edit_by_color#:#Bearbeitung nach Farbe
+style#:#edit_by_icon#:#Bearbeitung nach Symbol
+style#:#update_icon#:#Aktualisiere Symbol
+style#:#select_icon#:#Selektieres Symbol
+style#:#change_icon#:#Ändere Symbol
+style#:#color#:#Farbe
+style#:#adapt_icon#:#Anpassung der Symbole
+style#:#adapt_icon_description#:#Passe die Symbolfarbe oder das Symbol an.
+style#:#preview#:#Vorschau
+style#:#icons_gallery#:#Symbol Gallerie
+style#:#cant_delete_style_with_substyles#:#Styles mit Sub Styles können nicht gelöscht werden.
+style#:#style_assignments_deleted#:#Style Zuweisungen des folgenden Sub Style wurden gelöscht:
+style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
+style#:#usages#:#Verwendungen:
