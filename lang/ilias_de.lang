@@ -11512,7 +11512,7 @@ trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
-trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status des Lernfortschritts
+trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Lernmodul.
 trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
@@ -15879,7 +15879,7 @@ badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
 trac#:#trac_defaults#:#Bestanden-Status
-trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen###fau: testNav
