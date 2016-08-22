@@ -139,6 +139,7 @@ class ilObjManualAssessment extends ilObject {
 	 */
 	public function isActiveLP() {
 		if($this->lp_active === null) {
+			require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
 			$this->lp_active = ilManualAssessmentLPInterface::isActiveLP($this->getId());
 		}
 		return $this->lp_active;
