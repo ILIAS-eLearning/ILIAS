@@ -912,7 +912,7 @@ class ilObjectGUI
 		}
 		
 		$this->addDidacticTemplateOptions($options);
-		
+
 		if(sizeof($options) > 1)
  		{
 			$type = new ilRadioGroupInputGUI(
@@ -943,7 +943,6 @@ class ilObjectGUI
 			}
 			$form->addItem($type);		
 
-			ilUtil::sortArray($options, 0);
 			foreach($options as $id => $data)
 			{
 				$option = new ilRadioOption($data[0], $id, $data[1]);

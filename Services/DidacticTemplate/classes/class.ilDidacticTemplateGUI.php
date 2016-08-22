@@ -62,16 +62,16 @@ class ilDidacticTemplateGUI
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
 		$tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
 
-		if(!count($tpls))
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
+
+		if(!count($tpls) && !$value)
 		{
 			return false;
 		}
 
 		// Add template switch
 		$toolbar->addText($this->lng->txt('didactic_selected_tpl_option'));
-
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		$value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
 
 		// Show template options
 		$options = array(0 => $this->lng->txt('didactic_default_type'));
