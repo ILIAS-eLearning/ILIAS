@@ -66,7 +66,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	/**
 	 * output tabs
 	 */
-	function setTabs($a_tab)
+	function setTabs($a_tab = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 
@@ -311,7 +311,12 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function listItems()
 	{
-		global $tpl;
+		global $tpl, $lng;
+
+		if ($this->isInUse())
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
 
 		$this->setTabs("content");
 		

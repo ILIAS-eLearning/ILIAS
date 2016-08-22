@@ -6,7 +6,8 @@ require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the assignment of users to a programme.
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
@@ -27,10 +28,12 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)
 				   ->update();
 		
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$this->tree = $tree;
 		
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->user = $ilUser;
 	}
 	

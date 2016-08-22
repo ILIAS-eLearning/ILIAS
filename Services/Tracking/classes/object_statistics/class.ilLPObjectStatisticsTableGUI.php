@@ -134,11 +134,30 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	{
 		$data = array();
 		
-		$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
-		if($objects)
+		if($this->filter["type"] != "prtf")
 		{
-			include_once "Services/Tracking/classes/class.ilTrQuery.php";
+			// JF, 2016-06-06
+			$objects = $this->searchObjects($this->getCurrentFilter(true), "");
 			
+			if($this->filter["type"] == "blog")
+			{				
+				foreach(ilTrQuery::getWorkspaceBlogs($this->filter["query"]) as $obj_id)
+				{
+					$objects[$obj_id] = array($obj_id);
+				}
+			}
+		}
+		else
+		{
+			// portfolios are not part of repository
+			foreach(ilTrQuery::getPortfolios($this->filter["query"]) as $obj_id)
+			{
+				$objects[$obj_id] = array($obj_id);
+			}	
+		}
+		
+		if($objects)
+		{			
 			$yearmonth = explode("-", $this->filter["yearmonth"]);
 			if(sizeof($yearmonth) == 1)
 			{

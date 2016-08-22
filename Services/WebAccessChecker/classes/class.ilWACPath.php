@@ -55,6 +55,18 @@ class ilWACPath {
 	 */
 	protected $in_sec_folder = false;
 	/**
+	 * @var string
+	 */
+	protected $token = '';
+	/**
+	 * @var int
+	 */
+	protected $timestamp = 0;
+	/**
+	 * @var int
+	 */
+	protected $ttl = 0;
+	/**
 	 * @var array
 	 */
 	protected static $image_suffixes = array(
@@ -104,12 +116,39 @@ class ilWACPath {
 		$this->setSecurePathId($results[3]);
 		$parts = parse_url($path);
 		$this->setFileName(basename($parts['path']));
-		$this->setQuery($parts['query']);
-		parse_str($parts['query'], $query);
-		$this->setParameters($query);
+		if (isset($parts['query'])) {
+			$parts_query = $parts['query'];
+			$this->setQuery($parts_query);
+			parse_str($parts_query, $query);
+			$this->setParameters($query);
+		}
 		$this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
-		preg_match("/\\/" . self::DIR_DATA . "\\/({$regex_client})\\/(" . self::DIR_SEC . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
-		$this->setSecurePath(isset($results3[0]) ? '.' . $results3[0] : NULL);
+		preg_match("/\\/" . self::DIR_DATA . "\\/({$regex_client})\\/(" . self::DIR_SEC
+		           . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
+		$this->setSecurePath(isset($results3[0]) ? '.' . $results3[0] : null);
+		$this->handleParameters();
+	}
+
+
+	protected function handleParameters() {
+		$param = $this->getParameters();
+		if (isset($param[ilWACSignedPath::WAC_TOKEN_ID])) {
+			$this->setToken($param[ilWACSignedPath::WAC_TOKEN_ID]);
+		}
+		if (isset($param[ilWACSignedPath::WAC_TIMESTAMP_ID])) {
+			$this->setTimestamp($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
+		}
+		if (isset($param[ilWACSignedPath::WAC_TTL_ID])) {
+			$this->setTTL($param[ilWACSignedPath::WAC_TTL_ID]);
+		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDirName() {
+		return dirname($this->getPathWithoutQuery());
 	}
 
 
@@ -157,9 +196,7 @@ class ilWACPath {
 	 * @return bool
 	 */
 	public function hasToken() {
-		$param = $this->getParameters();
-
-		return isset($param[ilWACSignedPath::WAC_TOKEN_ID]);
+		return ($this->token != '');
 	}
 
 
@@ -167,9 +204,15 @@ class ilWACPath {
 	 * @return bool
 	 */
 	public function hasTimestamp() {
-		$param = $this->getParameters();
+		return ($this->timestamp != 0);
+	}
 
-		return isset($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
+
+	/**
+	 * @return bool
+	 */
+	public function hasTTL() {
+		return ($this->ttl != 0);
 	}
 
 
@@ -177,9 +220,7 @@ class ilWACPath {
 	 * @return string
 	 */
 	public function getToken() {
-		$param = $this->getParameters();
-
-		return ($param[ilWACSignedPath::WAC_TOKEN_ID]);
+		return $this->token;
 	}
 
 
@@ -187,9 +228,8 @@ class ilWACPath {
 	 * @param $token
 	 */
 	public function setToken($token) {
-		$param = $this->getParameters();
-		$param[ilWACSignedPath::WAC_TOKEN_ID] = $token;
-		$this->setParameters($param);
+		$this->parameters[ilWACSignedPath::WAC_TOKEN_ID] = $token;
+		$this->token = $token;
 	}
 
 
@@ -197,9 +237,7 @@ class ilWACPath {
 	 * @return int
 	 */
 	public function getTimestamp() {
-		$param = $this->getParameters();
-
-		return ($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
+		return $this->timestamp;
 	}
 
 
@@ -207,9 +245,25 @@ class ilWACPath {
 	 * @param $timestamp
 	 */
 	public function setTimestamp($timestamp) {
-		$param = $this->getParameters();
-		$param[ilWACSignedPath::WAC_TIMESTAMP_ID] = $timestamp;
-		$this->setParameters($param);
+		$this->parameters[ilWACSignedPath::WAC_TIMESTAMP_ID] = $timestamp;
+		$this->timestamp = $timestamp;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getTTL() {
+		return $this->ttl;
+	}
+
+
+	/**
+	 * @param int $ttl
+	 */
+	public function setTTL($ttl) {
+		$this->parameters[ilWACSignedPath::WAC_TTL_ID] = $ttl;
+		$this->ttl = $ttl;
 	}
 
 
@@ -420,5 +474,3 @@ class ilWACPath {
 		$this->in_sec_folder = $in_sec_folder;
 	}
 }
-
-?>

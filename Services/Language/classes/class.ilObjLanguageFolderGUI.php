@@ -365,7 +365,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("meta_l_".$newUserLangObj->getKey())." ".$this->lng->txt("language_not_installed")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$curUser = new ilObjUser($_SESSION["AccountId"]);
+		$curUser = new ilObjUser($GLOBALS['DIC']['ilUser']->getId());
 		$curUser->setLanguage($newUserLangObj->getKey());
 		$curUser->update();
 		//$this->setUserLanguage($new_lang_key);

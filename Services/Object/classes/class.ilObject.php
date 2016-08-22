@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObject
@@ -503,7 +504,7 @@ class ilObject
 	/**
 	* lookup owner name for owner id
 	*/
-	function _lookupOwnerName($a_owner_id)
+	static function _lookupOwnerName($a_owner_id)
 	{
 		global $lng;
 
@@ -874,7 +875,7 @@ class ilObject
 	*
 	* @return	int		id
 	*/
-	function _getIdForImportId($a_import_id)
+	static function _getIdForImportId($a_import_id)
 	{
 		global $ilDB;
 		
@@ -982,7 +983,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupLastUpdate($a_id, $a_as_string = false)
+	static function _lookupLastUpdate($a_id, $a_as_string = false)
 	{
 		global $ilObjDataCache;
 		
@@ -1027,7 +1028,7 @@ class ilObject
 	/**
 	* only called in ilTree::saveSubTree
 	*/
-	function _setDeletedDate($a_ref_id)
+	static function _setDeletedDate($a_ref_id)
 	{
 		global $ilDB;
 		
@@ -1069,7 +1070,7 @@ class ilObject
 	/**
 	* only called in ilObjectGUI::insertSavedNodes
 	*/
-	function _lookupDeletedDate($a_ref_id)
+	static function _lookupDeletedDate($a_ref_id)
 	{
 		global $ilDB;
 		
@@ -1089,7 +1090,7 @@ class ilObject
 	* @param	string	$a_title		title
 	* @access	public
 	*/
-	function _writeTitle($a_obj_id, $a_title)
+	static function _writeTitle($a_obj_id, $a_title)
 	{
 		global $ilDB;
 
@@ -1109,7 +1110,7 @@ class ilObject
 	* @param	string	$a_desc			description
 	* @access	public
 	*/
-	function _writeDescription($a_obj_id, $a_desc)
+	static function _writeDescription($a_obj_id, $a_desc)
 	{
 		global $ilDB,$objDefinition;
 
@@ -1154,7 +1155,7 @@ class ilObject
 	* @param	string	$a_import_id		import id
 	* @access	public
 	*/
-	function _writeImportId($a_obj_id, $a_import_id)
+	static function _writeImportId($a_obj_id, $a_import_id)
 	{
 		global $ilDB;
 
@@ -1232,7 +1233,7 @@ class ilObject
 	* @return	array		array of object data arrays ("id", "title", "type",
 	*						"description")
 	*/
-	function _getObjectsDataForType($a_type, $a_omit_trash = false)
+	static function _getObjectsDataForType($a_type, $a_omit_trash = false)
 	{
 		global $ilDB;
 
@@ -1408,6 +1409,10 @@ class ilObject
 			// write log entry
 			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
+			
+			// keep log of core object data 
+			include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
+			ilObjectDataDeletionLog::add($this);
 			
 			// remove news
 			include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -1667,7 +1672,7 @@ class ilObject
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$options[0] = ilPlugin::lookupTxt("rep_robj", $new_type, "obj_".$new_type."_select");
+			$options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 
 		while($row = $ilDB->fetchObject($res))
@@ -2056,7 +2061,7 @@ class ilObject
 	{
 		global $ilDB;
 		
-		if(!in_array($a_type, array("catr", "crsr", "sess")))
+		if(!in_array($a_type, array("catr", "crsr", "sess", "grpr")))
 		{
 			return;
 		}
@@ -2078,6 +2083,7 @@ class ilObject
 		
 		switch($a_type)
 		{
+			case "grpr":
 			case "catr":
 			case "crsr":				
 				$set = $ilDB->query("SELECT oref.obj_id, od.type, od.title FROM object_data od".
@@ -2106,7 +2112,7 @@ class ilObject
 	 * @param
 	 * @return
 	 */
-	function _lookupCreationDate($a_id)
+	static function _lookupCreationDate($a_id)
 	{
 		global $ilDB;
 		

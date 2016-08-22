@@ -398,7 +398,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @return bool
 	 */
 	public function supportsTransactions() {
-		return $this->db->supports('transactions');
+		// we generally do not want ilDB to support transactions, only PDO-instances
+		return false;
 	}
 
 	/**
@@ -2222,7 +2223,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @param array $a_fields array of field names (strings)
 	 * @return bool false if no unique constraint with the given fields exists
 	 */
-	function uniqueConstraintExists($a_table, $a_fields)
+	public function uniqueConstraintExists($a_table, array $a_fields)
 	{
 		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
 		{
@@ -2397,12 +2398,14 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	/**
 	 * Abstraction of lock table
 	 * @param array table definitions
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	abstract public function lockTables($a_tables);
 	
 	/**
 	 * Unlock tables locked by previous lock table calls
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	abstract public function unlockTables();
@@ -2546,4 +2549,21 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		return false;
 	}
 
+	/**
+	 * @param $table_name
+	 * @return string
+	 */
+	public function getSequenceName($table_name) {
+		return $this->db->getSequenceName($table_name);
+	}
+
+
+	/**
+	 * @return \ilAtomQuery
+	 */
+	public function buildAtomQuery() {
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
+
+		return new ilAtomQueryLock($this);
+	}
 }

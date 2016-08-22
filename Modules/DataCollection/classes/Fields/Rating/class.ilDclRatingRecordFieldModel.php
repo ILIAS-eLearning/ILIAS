@@ -35,6 +35,11 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 
+	/** This value is not needed for confirmation. */
+	public function getConfirmationValue() {
+		return null;
+	}
+
 	/**
 	 * override the loadValue.
 	 */
@@ -81,7 +86,8 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
 	  */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
 			"obj_id = ".$ilDB->quote((int) $this->getRecord()->getId(), "integer")." AND ".

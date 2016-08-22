@@ -152,7 +152,7 @@ sub.ilc_text_inline_Sub {
 /* Links */
 a.ilc_link_FootnoteLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 }
 
@@ -163,7 +163,7 @@ a.ilc_link_FootnoteLink:hover
 
 a.ilc_link_IntLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -175,12 +175,12 @@ a.ilc_link_IntLink:hover
 
 a.ilc_link_IntLink:visited
 {
-	color: blue;
+	color: #5571C0;
 }
 
 a.ilc_link_ExtLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -192,12 +192,12 @@ a.ilc_link_ExtLink:hover
 
 a.ilc_link_ExtLink:visited
 {
-	color: blue;
+	color: #5571C0;
 }
 
 a.ilc_link_FileLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -209,7 +209,7 @@ a.ilc_link_FileLink:hover
 
 a.ilc_link_GlossaryLink
 {
-	color: blue;
+	color: #5571C0;
 	font-weight: normal;
 	text-decoration: underline;
 }
@@ -312,7 +312,7 @@ div.ilc_text_block_Example, body.ilc_text_block_Example
 	border-left-color: blue;
 }
 
-div.ilc_section_Example
+div.ilc_section_Example, a.ilc_section_Example
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -342,7 +342,7 @@ div.ilc_text_block_Mnemonic, body.ilc_text_block_Mnemonic
 	border-color: red;
 }
 
-div.ilc_section_Mnemonic
+div.ilc_section_Mnemonic, a.ilc_section_Mnemonic
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -364,7 +364,7 @@ div.ilc_text_block_Additional, body.ilc_text_block_Additional
 	border-color: blue;
 }
 
-div.ilc_section_Additional
+div.ilc_section_Additional, a.ilc_section_Additional
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -386,7 +386,7 @@ div.ilc_text_block_Remark, body.ilc_text_block_Remark
 	text-align: center;
 }
 
-div.ilc_section_Remark
+div.ilc_section_Remark, a.ilc_section_Remark
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -398,7 +398,7 @@ div.ilc_section_Remark
 	text-align: center;
 }
 
-div.ilc_section_Block {
+div.ilc_section_Block, a.ilc_section_Block {
 	border-width: 1px;
 	border-style: solid;
 	padding: 5px 10px;
@@ -409,7 +409,7 @@ div.ilc_section_Block {
 	background-repeat:repeat-x;
 }
 
-div.ilc_section_Special {
+div.ilc_section_Special, a.ilc_section_Special {
 	border-width: 1px;
 	border-style: solid;
 	padding: 5px 10px;
@@ -420,7 +420,7 @@ div.ilc_section_Special {
 	background-repeat:repeat-x;
 }
 
-div.ilc_section_Excursus {
+div.ilc_section_Excursus, a.ilc_section_Excursus {
 	border-width: 1px;
 	border-style: solid;
 	padding: 5px 10px;
@@ -431,7 +431,7 @@ div.ilc_section_Excursus {
 	background-repeat: repeat-x;
 }
 
-div.ilc_section_AdvancedKnowledge
+div.ilc_section_AdvancedKnowledge, a.ilc_section_AdvancedKnowledge
 {
 	margin: 20px 0px;
 	padding: 10px 60px 10px 30px;

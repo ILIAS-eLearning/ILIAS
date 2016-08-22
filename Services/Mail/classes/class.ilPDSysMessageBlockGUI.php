@@ -76,8 +76,8 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		global $ilUser;
 		
 		// BEGIN MAILS
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$mbox = new ilMailBox($_SESSION["AccountId"]);
+		$umail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
+		$mbox = new ilMailBox($GLOBALS['DIC']['ilUser']->getId());
 		$inbox = $mbox->getInboxFolder();
 		
 		//SHOW MAILS FOR EVERY USER

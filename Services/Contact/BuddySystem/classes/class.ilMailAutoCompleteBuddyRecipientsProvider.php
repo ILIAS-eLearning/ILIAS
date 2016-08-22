@@ -13,11 +13,6 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
 	 */
 	protected function getFromPart()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
 		$joins = array();
 
 		$joins[] = '
@@ -27,12 +22,12 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
 		$joins[] = '
 			LEFT JOIN usr_pref profpref
 			ON profpref.usr_id = usr_data.usr_id
-			AND profpref.keyword = ' . $ilDB->quote('public_profile', 'text');
+			AND profpref.keyword = ' . $this->db->quote('public_profile', 'text');
 
 		$joins[] = '
 			LEFT JOIN usr_pref pubemail
 			ON pubemail.usr_id = usr_data.usr_id
-			AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
+			AND pubemail.keyword = ' . $this->db->quote('public_email', 'text');
 
 		if($joins)
 		{

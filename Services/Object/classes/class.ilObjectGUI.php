@@ -238,7 +238,7 @@ class ilObjectGUI
 	/**
 	* prepare output
 	*/
-	protected function prepareOutput($a_show_subobjects = true)
+	public function prepareOutput($a_show_subobjects = true)
 	{
 		global $ilLocator, $tpl, $ilUser;
 
@@ -643,7 +643,7 @@ class ilObjectGUI
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjsystemfoldergui"), "")
 				);
-			if ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$a_do_not_add_object)
+			if ($this->object && ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$a_do_not_add_object))
 			{
 				$ilLocator->addItem($this->object->getTitle(),
 					$this->ctrl->getLinkTarget($this, "view"));

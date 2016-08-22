@@ -2,64 +2,80 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/encoders/class.ilMd5PasswordEncoder.php';
+require_once 'Services/Password/test/ilPasswordBaseTest.php';
 
 /**
  * Class ilMd5PasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilMd5PasswordEncoderTest  extends PHPUnit_Framework_TestCase
+class ilMd5PasswordEncoderTest  extends ilPasswordBaseTest
 {
 	/**
-	 * 
+	 * @return ilMd5PasswordEncoder
 	 */
 	public function testInstanceCanBeCreated()
 	{
-		$this->assertInstanceOf('ilMd5PasswordEncoder', new ilMd5PasswordEncoder());
+		$encoder = new ilMd5PasswordEncoder();
+		$this->assertInstanceOf('ilMd5PasswordEncoder', $encoder);
+		return $encoder;
 	}
 
 	/**
-	 * @throws ilPasswordException
+	 * @depends testInstanceCanBeCreated
 	 */
-	public function testPasswordShouldBeCorrectlyEncoded()
+	public function testPasswordShouldBeCorrectlyEncoded(ilMd5PasswordEncoder $encoder)
 	{
-		$encoder = new ilMd5PasswordEncoder();
 		$this->assertSame(md5('password'), $encoder->encodePassword('password', ''));
 	}
 
 	/**
-	 * 
+	 * @depends testInstanceCanBeCreated
 	 */
-	public function testPasswordCanBeVerified()
+	public function testPasswordCanBeVerified(ilMd5PasswordEncoder $encoder)
 	{
-		$encoder = new ilMd5PasswordEncoder();
 		$this->assertTrue($encoder->isPasswordValid(md5('password'), 'password', ''));
 	}
 
 	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotRelyOnSalts(ilMd5PasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresSalt());
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotSupportReencoding(ilMd5PasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresReencoding('hello'));
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
 	 * @expectedException ilPasswordException
 	 */
-	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding()
+	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilMd5PasswordEncoder $encoder)
 	{
-		$encoder = new ilMd5PasswordEncoder();
+		$this->assertException(ilPasswordException::class);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}
 
 	/**
-	 * 
+	 * @depends testInstanceCanBeCreated
 	 */
-	public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength()
+	public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(ilMd5PasswordEncoder $encoder)
 	{
-		$encoder = new ilMd5PasswordEncoder();
 		$this->assertFalse($encoder->isPasswordValid('encoded', str_repeat('a', 5000), ''));
 	}
 
 	/**
-	 *
+	 * @depends testInstanceCanBeCreated
 	 */
-	public function testNameShouldBeMd5()
+	public function testNameShouldBeMd5(ilMd5PasswordEncoder $encoder)
 	{
-		$encoder = new ilMd5PasswordEncoder();
 		$this->assertEquals('md5', $encoder->getName());
 	}
 } 

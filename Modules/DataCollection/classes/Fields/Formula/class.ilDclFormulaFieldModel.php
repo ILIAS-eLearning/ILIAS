@@ -27,4 +27,11 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel {
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
+	}
 }

@@ -191,7 +191,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('LM_IMG',ilObject::_getIcon($data['obj_id'],"tiny", $data['type']));
 			$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_'.$data['type']));
 			
-			if($data['type'] == 'catr' or $data['type'] == 'crsr')
+			if($data['type'] == 'catr' or $data['type'] == 'crsr' or $data['type'] == 'grpr')
 			{
 				include_once './Services/ContainerReference/classes/class.ilContainerReference.php';
 				$this->tpl->setVariable(

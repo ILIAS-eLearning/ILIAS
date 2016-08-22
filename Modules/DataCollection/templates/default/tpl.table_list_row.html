@@ -1,0 +1,29 @@
+<tr class="{CSS_ROW}">
+    <td class="std">
+        <!-- BEGIN ID -->
+        <input type="checkbox" name="dcl_table_ids[]" value="{ID}">
+        <!-- END ID -->
+    </td>
+    <!-- BEGIN order -->
+    <td class="name">
+        <input type="text" size="3" maxlength="4" name="{ORDER_NAME}" value="{ORDER_VALUE}">
+    </td>
+    <!-- END order -->
+    <td class="name"><a href="{TITLE_LINK}">{TITLE}</a></td>
+
+    <!-- BEGIN visible -->
+    <td class="dcl_visible">
+        <input type="checkbox" name="{CHECKBOX_NAME_VISIBLE}" {CHECKBOX_CHECKED_VISIBLE}>
+    </td>
+    <!-- END visible -->
+
+    <!-- BEGIN comments -->
+    <td class="dcl_comments">
+        <input type="checkbox" name="{CHECKBOX_NAME_COMMENTS}" {CHECKBOX_CHECKED_COMMENTS}>
+    </td>
+    <!-- END comments -->
+
+    <td class="req">
+        {ACTIONS}
+    </td>
+</tr>

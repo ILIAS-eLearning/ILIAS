@@ -396,9 +396,8 @@ class ilContainer extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
-		$sorting = new ilContainerSortingSettings($new_obj->getId());
-		$sorting->setSortMode($this->getOrderType());
-		$sorting->update();
+		#18624 - copy all sorting settings
+		ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
 		
 		// copy content page
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
@@ -459,6 +458,9 @@ class ilContainer extends ilObject
 
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
 		ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id,$a_copy_id);
+
+		// fix internal links to other objects
+		ilContainer::fixInternalLinksAfterCopy($a_target_id,$a_copy_id, $this->getRefId());
 		
 		// fix item group references in page content
 		include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
@@ -867,5 +869,26 @@ class ilContainer extends ilObject
 		return $objects;
 	}
 
+	/**
+	 * Fix internal links after copy process
+	 *
+	 * @param int $a_target_id ref if of new container
+	 * @param int $a_copy_id copy process id
+	 */
+	protected static function fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $a_source_ref_id)
+	{
+		$obj_id = ilObject::_lookupObjId($a_target_id);
+		include_once("./Services/Container/classes/class.ilContainerPage.php");
+		if (ilContainerPage::_exists("cont", $obj_id))
+		{
+			include_once("./Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
+			$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+			$mapping = $cwo->getMappings();
+			$pg = new ilContainerPage($obj_id);
+			$pg->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
+			$pg->update(true, true);
+		}
+	}
+	
 } // END class ilContainer
 ?>

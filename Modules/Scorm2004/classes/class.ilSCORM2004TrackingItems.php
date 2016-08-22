@@ -13,7 +13,7 @@ include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php
 class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 {
 
-	function scoTitlesForExportSelected() {
+	function scoTitlesForExportSelected($obj_id) {
 		global $ilDB;
 		$scoTitles = array();
 		$query = 'SELECT cp_item.cp_node_id, cp_item.title '
@@ -25,7 +25,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	 	$res = $ilDB->queryF(
 			$query,
 		 	array('integer'),
-		 	array($this->getObjId())
+		 	array($obj_id)
 		);
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -34,7 +34,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $scoTitles;
 	}
 
-	function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) {
+	static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
@@ -55,15 +55,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 
 		$dbdata = array();
@@ -83,7 +83,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$dbdata[] = $row;
 		}
 		foreach($dbdata as $data) {
-			$data["lm_id"] = $this->getObjId();
+			$data["lm_id"] = $obj_id;
 			$data["lm_title"] = $this->lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
@@ -130,7 +130,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $returnData;
 	}
 	
-	function exportSelectedInteractionsColumns() {
+	static function exportSelectedInteractionsColumns() {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
@@ -148,15 +148,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$dbdata = array();
 		$query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
@@ -185,7 +185,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$dbdata[] = $row;
 		}
 		foreach($dbdata as $data) {
-			$data["lm_id"] = $this->getObjId();
+			$data["lm_id"] = $obj_id;
 			$data["lm_title"] = $this->lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
@@ -205,7 +205,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $returnData;
 	}
 
-	function exportSelectedObjectivesColumns() {
+	static function exportSelectedObjectivesColumns() {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
@@ -223,15 +223,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$dbdata = array();
 		$query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
@@ -261,7 +261,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$dbdata[] = $row;
 		}
 		foreach($dbdata as $data) {
-			$data["lm_id"] = $this->getObjId();
+			$data["lm_id"] = $obj_id;
 			$data["lm_title"] = $this->lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
@@ -281,7 +281,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $returnData;
 	}
 
-	function exportObjGlobalToSystemColumns() {
+	static function exportObjGlobalToSystemColumns() {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
@@ -299,7 +299,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false) {
+	function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 		$returnData = array();
@@ -317,7 +317,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				WHERE scope_id = %s  
 				AND '.$ilDB->in('user_id', $a_user, false, 'integer') .'
 				ORDER BY user_id, scope_id';
-		$res = $ilDB->queryF($query,array('integer'),array($this->getObjId()));
+		$res = $ilDB->queryF($query,array('integer'),array($obj_id));
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$dbdata[] = $row;
@@ -341,7 +341,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	
-	function tracInteractionItemColumns($b_orderBySCO, $b_allowExportPrivacy) {
+	static function tracInteractionItemColumns($b_orderBySCO, $b_allowExportPrivacy) {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
@@ -361,15 +361,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+	function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$a_correct = array();
 		$a_incorrect = array();
@@ -413,7 +413,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$incorrect = 0;
 			if($a_incorrect[$skey] != null) $incorrect = $a_incorrect[$skey];
 			$other = $all-($correct+$incorrect);
-			$data["lm_id"] = $this->getObjId();
+			$data["lm_id"] = $obj_id;
 			$data["lm_title"] = $this->lmTitle;
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
@@ -431,7 +431,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $returnData;
 	}
 	
-	function tracInteractionUserColumns($b_orderBySCO, $b_allowExportPrivacy) {
+	static function tracInteractionUserColumns($b_orderBySCO, $b_allowExportPrivacy) {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
@@ -459,15 +459,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+	function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$a_correct = array();
 		$a_incorrect = array();
@@ -530,7 +530,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$other = 0;
 			if($a_other[$skey] != null) $other = $a_other[$skey];
 			$all = $correct+$incorrect+$other;
-			$data["lm_id"] = $this->getObjId();
+			$data["lm_id"] = $obj_id;
 			$data["lm_title"] = $this->lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
@@ -586,7 +586,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 
-	function tracInteractionUserAnswersColumns($a_user = array(), $a_sco = array(),$b_orderBySCO, $b_allowExportPrivacy) {
+	static function tracInteractionUserAnswersColumns($a_user = array(), $a_sco = array(),$b_orderBySCO, $b_allowExportPrivacy) {
 		global $lng, $ilDB;
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
@@ -641,15 +641,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+	function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
 		global $ilDB, $lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$a_interaction=array();
 		$a_interactionId=array();
@@ -719,7 +719,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				$ukey=$a_interaction[$i].':'.$data["user_id"];
 				if ($a_interactionUser[$ukey] != null) $data[$intdesc] = $a_interactionUser[$ukey];
 			}
-			$data["lm_id"] = $this->getObjId();
+			$data["lm_id"] = $obj_id;
 			$data["lm_title"] = $this->lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
@@ -731,7 +731,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 	
 
-	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false) {
+	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id) {
 		global $ilDB;
 
 		$scoCounter = 0;
@@ -743,7 +743,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	 	$res = $ilDB->queryF(
 			$query,
 		 	array('text', 'text', 'integer'),
-		 	array('sco', 'item', $this->getObjId())
+		 	array('sco', 'item', $obj_id)
 		);		
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -768,7 +768,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		$res = $ilDB->queryF(
 			$query,
 			array('integer'),
-			array($this->getObjId())
+			array($obj_id)
 		);
 		while ($data = $ilDB->fetchAssoc($res)) {
 			$u_startedSCO[$data['user_id']] = $data['counter'];
@@ -784,7 +784,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		$res = $ilDB->queryF(
 			$query,
 			array('integer'),
-			array($this->getObjId())
+			array($obj_id)
 		);
 		while ($data = $ilDB->fetchAssoc($res)) {
 			$u_completedSCO[$data['user_id']] = $data['counter'];
@@ -800,7 +800,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		$res = $ilDB->queryF(
 			$query,
 			array('integer'),
-			array($this->getObjId())
+			array($obj_id)
 		);
 		while ($data = $ilDB->fetchAssoc($res)) {
 			$u_passedSCO[$data['user_id']] = $data['counter'];
@@ -808,7 +808,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
 		$dbdata = array();
 
-		$query = 'SELECT * FROM sahs_user WHERE obj_id = '.$ilDB->quote($this->getObjId(), 'integer')
+		$query = 'SELECT * FROM sahs_user WHERE obj_id = '.$ilDB->quote($obj_id, 'integer')
 			.' AND '.$ilDB->in('user_id', $a_user, false, 'integer')
 			.' ORDER BY user_id';
 		$res = $ilDB->query($query);
@@ -817,117 +817,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$dbdata[] = $row;
 		}
 		
-		return self::exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO);
+		return self::exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id);
 		//CertificateDate?
 	}
-	
-		// function exportSelectedObjectives($a_user = array()) {
-		// global $ilDB;
-
-		// $csv = null;
-
-		// include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		// $privacy = ilPrivacySettings::_getInstance();
-		// $allowExportPrivacy = $privacy->enabledExportSCORM();
-
-		// $scoTitles = $this->scoTitlesForExportSelected();
-
-		// $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles);
-
-		// if ($allowExportPrivacy == true) $userString = $this->userStringForExportSelected($a_user);
-
-		// $dbdata = array();
-		// $query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
-				// cmi_objective.id, 
-				// cmi_objective.description, 
-				// cmi_objective.completion_status, 
-				// cmi_objective.progress_measure, 
-				// cmi_objective.success_status, 
-				// cmi_objective.c_max, 
-				// cmi_objective.c_min, 
-				// cmi_objective.c_raw, 
-				// cmi_objective.scaled, 
-				// cmi_objective.scope, 
-				// cmi_objective.cmi_objective_id 
-				// FROM cmi_objective, cmi_node 
-				// INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-				// WHERE '.$ilDB->in('cmi_node.user_id', $a_user, false, 'integer') .' 
-				// AND cmi_objective.cmi_interaction_id is null
-				// AND cp_node.slm_id = %s 
-				// AND cmi_node.cmi_node_id = cmi_objective.cmi_node_id
-				// ORDER BY cmi_node.user_id, cmi_node.cp_node_id, cmi_objective.id, cmi_objective.cmi_objective_id';
-		// $res = $ilDB->queryF(
-			// $query,
-			// array('integer'),
-			// array($this->getId())
-		// );
-		// while($row = $ilDB->fetchAssoc($res))
-		// {
-			// $dbdata[] = $row;
-		// }
-		
-		// foreach($dbdata as $data) {
-			// $csv = $csv. $this->getId()
-				// . ";\"" . $this->title ."\""
-				// . ";" . $data["user_id"];
-			// if ($allowExportPrivacy == true) $csv .= $userString[$data["user_id"]];
-			// $csv .= ';' . $data["cp_node_id"]
-				// . ';"' .$scoProgress[$data["cp_node_id"]] .'"'
-				// . ';"' . $scoTitles[$data["cp_node_id"]] .'"'
-				// . ';"' . $data["cp_node_id"].'-'.$data["id"] .'"'
-				// . ';"' . $data["id"] .'"'
-				// . ';"' . str_replace('"','',$data["description"]) .'"'
-				// . ';"' . $data["completion_status"] .'"'
-				// . ';' . $data["progress_measure"]
-				// . ';"' . $data["success_status"] .'"'
-				// . ';' . $data["c_max"]
-				// . ';' . $data["c_min"]
-				// . ';' . $data["c_raw"]
-				// . ';' . $data["scaled"]
-				// . ';"' . $data["scope"] .'"'
-// //				. ';' . $data["cmi_objective_id"]
-// //				. ';' . $data["cmi_node_id"]
-// //				. ';' . $data["cmi_interaction_id"]
-				// . "\n";
-		// }
-
-		// $header = "LearningModuleId;LearningModuleTitle;UserId;";
-		// if ($allowExportPrivacy == true) $header .= "Login;Name;Email;Department;";
-		// $header .= "SCOId;SCOmarkedForLearningProgress;SCOTitle;combinedID;"
-				// . "id;description;completion_status;progress_measure;success_status;"
-				// . "score.max;score.min;score.raw;score.scaled;scope\n";//cmi_objective_id;cmi_node_id;
-
-		// $this->sendExportFile($header, $csv, "SCOobjectives");
-	// }
-
-	
-	// public function userDataForExport($a_user = array()) {
-		// global $ilUser;
-		// include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		// $privacy = ilPrivacySettings::_getInstance();
-		// $allowExportPrivacy = $privacy->enabledExportSCORM();
-
-		// $userData = array();
-		// foreach($a_user as $user) {
-			// if ($allowExportPrivacy == true) {
-				// $userData[$user] = ";;;;";
-				// //write export entry
-				// if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
-					// $e_user = new ilObjUser($user);
-					// $userData[$user] = "\"". $e_user->getLogin() ."\""
-						// . ";\"" . $e_user->getFirstname() ."\""
-						// . ";\"" . $e_user->getLastname()."\""
-						// . ";\"" . $e_user->getEmail() ."\""
-						// . ";\"" . $e_user->getDepartment() ."\"";
-				// }
-			// } else {
-				// $userData[$user] = ";";
-				// if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
-					// $userData[$user] = $user;
-				// }
-			// }
-		// }
-		// return $userData;
-	// }
 
 }

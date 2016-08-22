@@ -2,8 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once('./Services/Object/classes/class.ilObject2.php');
-require_once('class.ilDclTable.php');
-require_once('class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 
 /**
  * Class ilObjDataCollection
@@ -16,25 +16,19 @@ require_once('class.ilDclCache.php');
  * @extends ilObject2
  */
 class ilObjDataCollection extends ilObject2 {
-
-	/**
-	 * @var int
-	 */
-	protected $main_table_id;
-
-
+	
 	public function initType() {
 		$this->type = "dcl";
 	}
 
 
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->query("SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 
 		$data = $ilDB->fetchObject($result);
-		$this->setMainTableId($data->main_table_id);
 		$this->setOnline($data->is_online);
 		$this->setRating($data->rating);
 		$this->setApproval($data->approval);
@@ -43,33 +37,35 @@ class ilObjDataCollection extends ilObject2 {
 	}
 
 
-	protected function doCreate() {
-		global $ilDB, $ilLog;
+	protected function doCreate($clone_mode = false) {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		$ilLog->write('doCreate');
 
-		//Create Main Table - The title of the table is per default the title of the data collection object
-		require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
-		$main_table = ilDclCache::getTableCache();
-		$main_table->setObjId($this->getId());
-		$main_table->setTitle($this->getTitle());
-		$main_table->setAddPerm(1);
-		$main_table->setEditPerm(1);
-		$main_table->setDeletePerm(1);
-		$main_table->setEditByOwner(1);
-		$main_table->setLimited(0);
-		$main_table->doCreate();
+		if (!$clone_mode) {
+			//Create Main Table - The title of the table is per default the title of the data collection object
+			$main_table = ilDclCache::getTableCache();
+			$main_table->setObjId($this->getId());
+			$main_table->setTitle($this->getTitle());
+			$main_table->setAddPerm(1);
+			$main_table->setEditPerm(1);
+			$main_table->setDeletePerm(1);
+			$main_table->setEditByOwner(1);
+			$main_table->setLimited(0);
+			$main_table->doCreate();
+		}
+
 
 		$ilDB->insert("il_dcl_data", array(
 			"id" => array( "integer", $this->getId() ),
-			"main_table_id" => array( "integer", (int)$main_table->getId() ),
 			"is_online" => array( "integer", (int)$this->getOnline() ),
 			"rating" => array( "integer", (int)$this->getRating() ),
 			"public_notes" => array( "integer", (int)$this->getPublicNotes() ),
 			"approval" => array( "integer", (int)$this->getApproval() ),
 			"notification" => array( "integer", (int)$this->getNotification() ),
 		));
-		$this->setMainTableId($main_table->getId());
 	}
 
 
@@ -82,7 +78,8 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	protected function doDelete() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		foreach ($this->getTables() as $table) {
 			$table->doDelete(true);
@@ -94,11 +91,11 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->update("il_dcl_data", array(
 			"id" => array( "integer", $this->getId() ),
-			"main_table_id" => array( "integer", (int)$this->getMainTableId() ),
 			"is_online" => array( "integer", (int)$this->getOnline() ),
 			"rating" => array( "integer", (int)$this->getRating() ),
 			"public_notes" => array( "integer", (int)$this->getPublicNotes() ),
@@ -116,7 +113,9 @@ class ilObjDataCollection extends ilObject2 {
 	 * @param null $a_record_id
 	 */
 	public static function sendNotification($a_action, $a_table_id, $a_record_id = NULL) {
-		global $ilUser, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 
 		// If coming from trash, never send notifications and don't load dcl Object
 		if ($_GET['ref_id'] == SYSTEM_FOLDER_ID) {
@@ -153,8 +152,6 @@ class ilObjDataCollection extends ilObject2 {
 		require_once('./Services/User/classes/class.ilObjUser.php');
 		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
 		require_once('./Services/User/classes/class.ilUserUtil.php');
-		require_once('./Services/User/classes/class.ilUserUtil.php');
-		require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
 		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
@@ -178,7 +175,7 @@ class ilObjDataCollection extends ilObject2 {
 					}
 					//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
 					$t = "";
-					foreach ($record->getTable()->getVisibleFields() as $field) {
+					foreach ($record->getTable()->getFields() as $field) {
 						if ($record->getRecordField($field->getId())) {
 							$t .= $field->getTitle() . ": " . $record->getRecordField($field->getId())->getPlainText() . "\n";
 						}
@@ -200,30 +197,44 @@ class ilObjDataCollection extends ilObject2 {
 			}
 		}
 	}
-
-
-	/**
-	 * @param $a_val
-	 */
-	public function setMainTableId($a_val) {
-		$this->main_table_id = $a_val;
-	}
-
-
+	
 	/**
 	 * @return mixed
 	 */
 	public function getMainTableId() {
-		return $this->main_table_id;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$result = $ilDB->query('SELECT id 
+									FROM il_dcl_table 
+									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' 
+									ORDER BY -table_order DESC LIMIT 1'); //"-table_order DESC" is ASC with NULL last
+		return $ilDB->fetchObject($result)->id;	
+	}
+
+	/**
+	 * @param $table_order
+	 */
+	public function reorderTables($table_order) {
+		if($table_order){
+			$order = 10;
+			foreach ($table_order as $title) {
+				$table_id = ilDclTable::_getTableIdByTitle($title, $this->getId());
+				$table = ilDclCache::getTableCache($table_id);
+				$table->setOrder($order);
+				$table->doUpdate();
+				$order += 10;
+			}
+		}
+
 	}
 
 
 	/**
 	 * Clone DCL
 	 *
-	 * @param ilObjDataCollection new object
-	 * @param int                 target ref_id
-	 * @param int                 copy id
+	 * @param ilObjDataCollection $new_obj
+	 * @param int                 $a_target_id ref_id
+	 * @param int                 $a_copy_id
 	 *
 	 * @return ilObjPoll
 	 */
@@ -296,21 +307,14 @@ class ilObjDataCollection extends ilObject2 {
 			$new_table = new ilDclTable();
 			$new_table->setObjId($this->getId());
 			$new_table->cloneStructure($table);
-
-			if ($table->getId() == $original->getMainTableId()) {
-				$this->setMainTableId($new_table->getId());
-			}
 		}
-
-		// update because maintable id is now set.
-		$this->doUpdate();
 
 		// Set new field-ID of referenced fields
 		foreach ($original->getTables() as $origTable) {
 			foreach ($origTable->getRecordFields() as $origField) {
 				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
 					$newRefId = NULL;
-					$origFieldRefObj = ilDclCache::getFieldCache($origField->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+					$origFieldRefObj = $origField->getFieldRef();
 					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
 					// Lookup the new ID of the referenced field in the actual DC
 					$tableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
@@ -435,9 +439,11 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return ilDclTable[] Returns an array of tables of this collection with ids of the tables as keys.
 	 */
 	public function getTables() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
+		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
+					" ORDER BY -table_order DESC";
 		$set = $ilDB->query($query);
 		$tables = array();
 
@@ -458,7 +464,7 @@ class ilObjDataCollection extends ilObject2 {
 	public function getVisibleTables() {
 		$tables = array();
 		foreach ($this->getTables() as $table) {
-			if ($table->getIsVisible()) {
+			if ($table->getIsVisible() && $table->getVisibleTableViews($this->ref_id)) {
 				$tables[$table->getId()] = $table;
 			}
 		}
@@ -476,7 +482,8 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return bool
 	 */
 	public static function _hasTableByTitle($title, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->query('SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = '
 			. $ilDB->quote($title, 'text'));
 

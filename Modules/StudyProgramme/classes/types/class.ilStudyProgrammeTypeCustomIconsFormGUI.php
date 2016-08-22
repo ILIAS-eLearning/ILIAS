@@ -37,7 +37,10 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	 * @param ilStudyProgrammeType $type
 	 */
 	public function __construct($parent_gui, ilStudyProgrammeType $type) {
-		global $tpl, $ilCtrl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->parent_gui = $parent_gui;
 		$this->type = $type;
 		$this->tpl = $tpl;
@@ -76,7 +79,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	protected function initForm() {
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 		$this->setTitle($this->lng->txt('prg_type_custom_icon'));
-		$item = new ilImageFileInputGUI($this->lng->txt('icon') . ' 32x32 px', 'icon');
+		$item = new ilImageFileInputGUI($this->lng->txt('icon'), 'icon');
 		$item->setSuffixes(array( 'svg' ));
 		$item->setInfo($this->lng->txt('prg_type_custom_icon_info'));
 		if (is_file($this->type->getIconPath(true))) {

@@ -246,7 +246,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * set Locator
 	 */
-	final protected function setLocator()
+	protected function setLocator()
 	{
 		global $ilLocator, $tpl;
 
@@ -404,14 +404,22 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		if(sizeof($_POST["id"]))
 		{			
+			// #18797 - because of parent/child relations gather all nodes first
+			$del_nodes = array();
 			foreach($_POST["id"] as $node_id)
-			{
-				$node = $this->tree->getNodeData($node_id);
-
+			{				
+				$del_nodes[$node_id] = $this->tree->getNodeData($node_id);				
+			}
+								
+			foreach($del_nodes as $node_id => $node)
+			{				
 				// tree/reference
 				$this->tree->deleteReference($node_id);
-				$this->tree->deleteTree($node);
-
+				if($this->tree->isInTree($node_id))
+				{									
+					$this->tree->deleteTree($node);
+				}
+				
 				// permission
 				$this->getAccessHandler()->removePermission($node_id);
 
@@ -420,7 +428,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				if($object)
 				{
 					$object->delete();
-				}
+				}			
 			}
 
 			ilUtil::sendSuccess($lng->txt("msg_removed"), true);
@@ -441,7 +449,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public function withReferences() { return parent::withReferences(); }
 	final public function setCreationMode($a_mode = true) { return parent::setCreationMode($a_mode); }
 	final public function getCreationMode() { return parent::getCreationMode(); }
-	final protected function prepareOutput($a_show_subobjects = true) { return parent::prepareOutput($a_show_subobjects); }
+	final public function prepareOutput($a_show_subobjects = true) { return parent::prepareOutput($a_show_subobjects); }
 	protected function setTitleAndDescription() { return parent::setTitleAndDescription(); }
 	final protected function showUpperIcon() { return parent::showUpperIcon(); }
 //	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }

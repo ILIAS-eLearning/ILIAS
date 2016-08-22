@@ -80,7 +80,8 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return void
 	 */
 	protected function doCreate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . // id
 		                  $ilDB->quote($this->getFilename(), "text") . "," . // filename
 		                  $ilDB->quote($this->getOnline(), "integer") . // is_online
@@ -89,7 +90,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	protected function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			if (!$this->getFilename()) {
@@ -104,7 +106,8 @@ class ilObjBibliographic extends ilObject2 {
 	 * Update data
 	 */
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if (!empty($_FILES['bibliographic_file']['name'])) {
 			$this->deleteFile();
 			$this->moveFile();
@@ -123,7 +126,8 @@ class ilObjBibliographic extends ilObject2 {
 	 * @param bool|false $leave_out_delete_file
 	 */
 	protected function doDelete($leave_out_il_bibl_data = false, $leave_out_delete_file = false) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if (!$leave_out_delete_file) {
 			$this->deleteFile();
 		}
@@ -197,7 +201,8 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return array with all filepath
 	 */
 	public function getFilePath($without_filename = false) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		{
@@ -252,7 +257,8 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return array
 	 */
 	public static function getAllOverviewModels() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$overviewModels = array();
 		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
 		while ($rec = $ilDB->fetchAssoc($set)) {

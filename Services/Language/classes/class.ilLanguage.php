@@ -193,7 +193,7 @@ class ilLanguage
 		}
 		$this->lang_user = $ilUser->prefs["language"];
 		
-		$langs = self::getInstalledLanguages();
+		$langs = $this->getInstalledLanguages();
 		
 		if (!in_array($this->lang_key,$langs))
 		{
@@ -335,6 +335,14 @@ class ilLanguage
 		if(is_array($this->cached_modules[$a_module])) {
 			$this->text = array_merge($this->text, $this->cached_modules[$a_module]);
 
+			if($this->usage_log_enabled)
+			{
+				foreach (array_keys($this->cached_modules[$a_module]) as $key)
+				{
+					$this->map_modules_txt[$key] = $a_module;
+				}
+			}
+
 			return;
 		}
 
@@ -372,23 +380,28 @@ class ilLanguage
 	}
 	
 	
-	static function getInstalledLanguages()
+	function getInstalledLanguages()
+	{
+		return self::_getInstalledLanguages();
+	}
+
+	static function _getInstalledLanguages()
 	{
 		include_once("./Services/Object/classes/class.ilObject.php");
 		$langlist = ilObject::_getObjectsByType("lng");
-		
+
 		foreach ($langlist as $lang)
 		{
 			if (substr($lang["desc"], 0, 9) == "installed")
 			{
 				$languages[] = $lang["title"];
 			}
-		
+
 		}
 
 		return $languages ? $languages : array();
 	}
-	
+
 	public static function _lookupEntry($a_lang_key, $a_mod, $a_id)
 	{
 		global $ilDB;
@@ -466,7 +479,7 @@ class ilLanguage
 		 * @var $ilUser    ilObjUser
 		 * @var $ilSetting ilSetting
 		 */
-		global $ilUser, $ilSetting;
+		global $ilUser, $ilSetting, $lng;
 
 		if(!ilSession::get('lang') && !$_GET['lang'])
 		{
@@ -502,7 +515,7 @@ class ilLanguage
 		ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
 
 		// check whether lang selection is valid
-		$langs = self::getInstalledLanguages();
+		$langs = self::_getInstalledLanguages();
 		if(!in_array(ilSession::get('lang'), $langs))
 		{
 			if($ilSetting instanceof ilSetting && $ilSetting->get('language') != '')
@@ -603,8 +616,8 @@ class ilLanguage
 	{
 		/** @var ilIniFile $ilClientIniFile */
 		global $ilClientIniFile, $ilDB;
-
-		if(!(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQL)) || !$ilClientIniFile instanceof ilIniFile)
+		
+		if(!(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQLMyISAM)) || !$ilClientIniFile instanceof ilIniFile)
 		{
 
 			return false;
@@ -630,7 +643,7 @@ class ilLanguage
 		global $ilDB;
 
 		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
-		if(!$this->usage_log_enabled || !(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQL)))
+		if(!$this->usage_log_enabled || !(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQLMyISAM)))
 		{
 			return;
 		}

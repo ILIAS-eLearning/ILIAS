@@ -1313,6 +1313,27 @@ class ilObjMediaObject extends ilObject
 						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
 						break;
 					
+					
+					case "frm~d":
+						$draft_id = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
+						$oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
+						
+						$frm_pk =  $oDraft->getForumId();
+						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+						break;
+					case "frm~h":
+						$history_id = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
+						$oHistoryDraft = new ilForumDraftsHistory($history_id);
+						$oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
+						
+						$frm_pk =  $oDraft->getForumId();
+						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+						break;
 					// temporary items (per user)
 					case "frm~":
 					case "exca~":
@@ -1509,13 +1530,14 @@ class ilObjMediaObject extends ilObject
 		
 		if (ilUtil::deducibleSize($a_format))
 		{
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
 			if ($a_type == "File")
 			{
-				$size = @getimagesize($a_file);
+				$size = ilMediaImageUtil::getImageSize($a_file);
 			}
 			else
 			{
-				$size = @getimagesize($a_reference);
+				$size = ilMediaImageUtil::getImageSize($a_reference);
 			}
 		}
 
@@ -1645,7 +1667,8 @@ class ilObjMediaObject extends ilObject
 
 		if (ilUtil::deducibleSize($format))
 		{
-			$size = getimagesize($file);
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
 			$media_item->setWidth($size[0]);
 			$media_item->setHeight($size[1]);
 		}

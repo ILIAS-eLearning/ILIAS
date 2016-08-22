@@ -45,6 +45,10 @@ class ilAssQuestionSkillAssignmentList
 	{
 		$this->db = $db;
 		
+		$this->parentObjId = null;
+		$this->assignments = array();
+		$this->numAssignsBySkill = array();
+		$this->maxPointsBySkill = array();
 		$this->questionIdFilter = null;
 	}
 
@@ -87,7 +91,7 @@ class ilAssQuestionSkillAssignmentList
 		$this->maxPointsBySkill = array();
 	}
 
-	private function addAssignment(ilAssQuestionSkillAssignment $assignment)
+	public function addAssignment(ilAssQuestionSkillAssignment $assignment)
 	{
 		if( !isset($this->assignments[$assignment->getQuestionId()]) )
 		{

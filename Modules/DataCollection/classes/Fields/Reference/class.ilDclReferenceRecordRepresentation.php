@@ -29,15 +29,13 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		} else {
 			$field = $this->getRecordField()->getField();
 			if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
-				global $ilDB;
+				global $DIC;
+				$ilDB = $DIC['ilDB'];
 				/** @var ilDB $ilDB */
 				$ref_record = ilDclCache::getRecordCache($value);
-				$ref_table = $ref_record->getTableId();
-				// Checks if a view exists
-				$query = "SELECT table_id FROM il_dcl_view WHERE table_id = " . $ref_table . " AND type = " . $ilDB->quote(0, "integer")
-					. " AND formtype = " . $ilDB->quote(0, "integer");
-				$set = $ilDB->query($query);
-				if ($ilDB->numRows($set)) {
+				$ref_table = $ref_record->getTable();
+
+				if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
 					$html = $this->getLinkHTML(NULL, $value);
 				} else {
 					$html = $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
@@ -58,7 +56,8 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 * @return string
 	 */
 	protected function getLinkHTML($link_name = NULL, $value) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if (!$value || $value == "-") {
 			return "";
@@ -68,8 +67,10 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		if (!$link_name) {
 			$link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 		}
-		$ilCtrl->setParameterByClass("ildclrecordviewgui", "record_id", $ref_record->getId());
-		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclRecordViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
+		$ilCtrl->clearParametersByClass("ilDclDetailedViewGUI");
+		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $ref_record->getId());
+		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "back_tableview_id", $_GET['tableview_id']);
+		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 
 		return $html;
 	}

@@ -33,20 +33,27 @@ class ilMailingList
 	private $user_id = 0;
 	private $title = '';
 	private $description = '';
-	private $createdate = '0000-00-00 00:00:00';
-	private $changedate = '0000-00-00 00:00:00';
-	
-	private $user = null;	
-	private $db = null;
+	private $createdate = null;
+	private $changedate = null;
+
+	/**
+	 * @var ilObjUser
+	 */
+	private $user;
+
+	/**
+	 * @var ilDBInterface
+	 */
+	private $db;
 	
 	const MODE_ADDRESSBOOK = 1;
 	const MODE_TEMPORARY = 2;
 	
 	public function __construct(ilObjUser $user, $id = 0)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$this->db = $ilDB;
+		$this->db   = $DIC['ilDB'];
 		$this->user = $user;
 		
 		$this->mail_id = $id;
@@ -273,7 +280,7 @@ class ilMailingList
 	{
 		return $this->description;
 	}
-	public function setCreatedate($_createdate = '0000-00-00 00:00:00')
+	public function setCreatedate($_createdate)
 	{
 		$this->createdate = $_createdate;
 	}
@@ -281,11 +288,8 @@ class ilMailingList
 	{
 		return $this->createdate;
 	}
-	public function setChangedate($a_changedate = '0000-00-00 00:00:00')
+	public function setChangedate($a_changedate)
 	{
-		if($a_changedate == '0000-00-00 00:00:00')
-		$this->changedate = NULL;
-		else
 		$this->changedate = $a_changedate;
 	}
 	public function getChangedate()
@@ -295,15 +299,15 @@ class ilMailingList
 	
 	public static function _isOwner($a_ml_id, $a_usr_id)
 	{
-		global $ilDB;
-		
-		$res = $ilDB->queryf('
-			SELECT * FROM addressbook_mlist 
-			WHERE ml_id = %s
-			AND user_id =%s',
+		/** @var $ilDB ilDBInterface */
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$res = $ilDB->queryf(
+			'SELECT * FROM addressbook_mlist WHERE ml_id = %s AND user_id =%s',
 			array('integer', 'integer'),
-			array($a_ml_id, $a_usr_id));
-			
+			array($a_ml_id, $a_usr_id)
+		);
 		$row = $ilDB->fetchObject($res);
 		
 		return is_object($row) ? true : false;
@@ -328,12 +332,10 @@ class ilMailingList
 	 */
 	public static function removeAssignmentsByUserId($usr_id)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		/** @var $ilDB ilDBInterface */
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate('DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $ilDB->quote($usr_id, 'integer'));
 	}
 }
-?>

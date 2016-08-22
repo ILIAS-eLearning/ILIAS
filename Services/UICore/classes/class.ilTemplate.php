@@ -57,6 +57,7 @@ class ilTemplate extends HTML_Template_ITX
 	protected $title_alerts = array();
 	protected $header_action;
 	protected $lightbox = array();
+	protected $standard_template_loaded = false;
 
 	protected $translation_linked = false; // fix #9992: remember if a translation link is added
 
@@ -942,20 +943,6 @@ class ilTemplate extends HTML_Template_ITX
 			{
 				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
 			}
-
-            // uses protected variable _sessionName.
-//			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
-//				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
-//			{
-//				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
-//					ini_get("session.gc_maxlifetime")." (".
-//					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
-//					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
-//					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
-//					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
-//					" (".($exp/60)."), session ends at: ".
-//					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
-//			}
 			
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{
@@ -1520,6 +1507,18 @@ class ilTemplate extends HTML_Template_ITX
 				$fname = "./".$module_path."templates/default/".basename($a_tplname);
 			}
 		}
+		else if(strpos($a_tplname,"src/UI")===0)
+		{
+			if (class_exists("ilStyleDefinition") // for testing
+			&& ilStyleDefinition::getCurrentSkin() != "default")
+			{
+				$fname = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".str_replace("src/UI/templates/default","UI",$a_tplname);
+			}
+			if($fname == "" || !file_exists($fname))
+			{
+				$fname = $a_tplname;
+			}
+		}
 		else
 		{
 			$fname = $a_tplname;
@@ -1597,6 +1596,11 @@ class ilTemplate extends HTML_Template_ITX
 
 	function getStandardTemplate()
 	{
+		if ($this->standard_template_loaded)
+		{
+			return;
+		}
+
 		// always load jQuery
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
@@ -1611,6 +1615,8 @@ class ilTemplate extends HTML_Template_ITX
 
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$this->standard_template_loaded = true;
 	}
 	
 	/**

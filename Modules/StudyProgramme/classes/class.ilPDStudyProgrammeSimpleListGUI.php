@@ -52,7 +52,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	protected $show_info_message;
 
 	public function __construct() {
-		global $lng, $ilUser, $ilAccess, $ilSetting;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilSetting = $DIC['ilSetting'];
 		$this->il_lng = $lng;
 		$this->il_user = $ilUser;
 		$this->il_access = $ilAccess;

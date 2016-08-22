@@ -162,7 +162,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
+
+	/**
+	 * Check write
+	 *
+	 * @param
+	 * @return
+	 */
+	public function checkWrite()
+	{
+		global $rbacsystem;
+
+		return ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"])
+		 || $rbacsystem->checkAccess("sty_write_content", (int) $_GET["ref_id"]));
+	}
+
+
 	/**
 	* edit style sheet
 	*/
@@ -174,7 +190,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		$this->includeCSS();
 
-		$ctpl = new ilTemplate("tpl.sty_classes.html", true, true, "Services/Style");
+		$ctpl = new ilTemplate("tpl.sty_classes.html", true, true, "Services/Style/Content");
 
 		// output characteristics
 		$chars = $this->object->getCharacteristics();
@@ -204,7 +220,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$expandable = true;
 			}
 		}
-		if ($expandable && $rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($expandable && $this->checkWrite())
 		{
 			$ilToolbar->addButton($lng->txt("sty_add_characteristic"),
 				$ilCtrl->getLinkTarget($this, "addCharacteristicForm"));
@@ -311,7 +327,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		else
 		{
-			if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+			if ($this->checkWrite())
 			{
 				$this->form->addCommandButton("update", $lng->txt("save"));
 			}
@@ -584,7 +600,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 
-		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style");
+		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style/Content");
 		
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
@@ -970,10 +986,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				$fold->addStyle($newObj->getId());
-				$fold->update();
+				include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
+				$cont_style_settings = new ilContentStyleSettings();
+				$cont_style_settings->addStyle($newObj->getId());
+				$cont_style_settings->update();
+
 				ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+				$this->ctrl->returnToParent($this);
 			}
 		}
 
@@ -999,10 +1018,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				$fold->addStyle($new_id);
-				$fold->update();
+				include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
+				$cont_style_settings = new ilContentStyleSettings();
+				$cont_style_settings->addStyle($new_id);
+				$cont_style_settings->update();
 				ilObjStyleSheet::_writeStandard($new_id, "1");
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+				$this->ctrl->returnToParent($this);
 			}
 		}
 
@@ -1055,10 +1076,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
-				$fold->addStyle($newObj->getId());
-				$fold->update();
+				include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
+				$cont_style_settings = new ilContentStyleSettings();
+				$cont_style_settings->addStyle($newObj->getId());
+				$cont_style_settings->update();
 				ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+				$this->ctrl->returnToParent($this);
 			}
 		}
 		return $newObj->getId();
@@ -1265,7 +1288,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				
 			$ilLocator->addItem(ilObject::_lookupTitle(
 				ilObject::_lookupObjId($_GET["ref_id"])),
-				$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", "view"));
+				$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", ""));
 
 			if ($_GET["obj_id"] > 0)
 			{
@@ -1287,8 +1310,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 				$tpl->setUpperIcon(
-					$this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui",
-						"editContentStyles"));
+					$this->ctrl->getLinkTargetByClass("ilcontentstylesettings",
+						"edit"));
 		}
 		else
 		{
@@ -1303,7 +1326,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng, $rbacsystem;
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->checkWrite())
 		{
 			$ilToolbar->addButton($lng->txt("sty_add_image"),
 				$ilCtrl->getLinkTarget($this, "addImage"));
@@ -1627,7 +1650,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$c = explode(":", $a_class);
 		$a_class = $c[0];
 		
-		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style");
+		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style/Content");
 
 		if ($ex_tpl->blockExists("Example_".$a_type))
 		{
@@ -1760,7 +1783,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->checkWrite())
 		{
 			$ilToolbar->addButton($this->lng->txt("sty_add_color"),
 				$ilCtrl->getLinkTarget($this, "addColor"));
@@ -1986,7 +2009,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->checkWrite())
 		{
 			$ilToolbar->addButton($this->lng->txt("sty_add_media_query"),
 				$ilCtrl->getLinkTarget($this, "addMediaQuery"));
@@ -2150,7 +2173,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $rbacsystem;
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]) && is_array($_POST["mq_id"]))
+		if ($this->checkWrite() && is_array($_POST["mq_id"]))
 		{
 			foreach ($_POST["mq_id"] as $id)
 			{
@@ -2524,7 +2547,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $tpl;
 		
 		$a_tpl = new ilTemplate("tpl.template_edit.html", true, true,
-			"Services/Style");
+			"Services/Style/Content");
 		$this->includeCSS();
 		$a_tpl->setVariable("FORM", $this->form_gui->getHTML());
 		$a_tpl->setVariable("PREVIEW", $this->getTemplatePreview($_GET["temp_type"], $_GET["t_id"]));
@@ -2913,10 +2936,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 
-		if ($_GET["baseClass"] == "ilAdministrationGUI")
+		/*if ($_GET["baseClass"] == "ilAdministrationGUI")
 		{
-			$ilCtrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
-		}
+			$ilCtrl->redirectByClass("ilcontentstylesettingsgui", "edit");
+		}*/
 		$ilCtrl->returnToParent($this);
 	}
 

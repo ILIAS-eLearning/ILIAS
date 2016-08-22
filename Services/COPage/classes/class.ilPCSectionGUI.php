@@ -12,6 +12,8 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
+*
 * @ingroup ServicesCOPage
 */
 class ilPCSectionGUI extends ilPageContentGUI
@@ -91,6 +93,12 @@ class ilPCSectionGUI extends ilPageContentGUI
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+				$form = $this->initForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+
 			default:
 				$ret = $this->$cmd();
 				break;
@@ -174,6 +182,39 @@ class ilPCSectionGUI extends ilPageContentGUI
 		$char_prop->setValue($selected); 
 		$form->addItem($char_prop);
 
+		// link input
+		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
+		$ac = new ilLinkInputGUI($this->lng->txt('cont_link'), 'link');
+		$ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
+		$ac->setRequired(false);
+		$ac->setInfo($this->lng->txt("copg_sec_link_info"));
+		$ac->setInternalLinkDefault($this->getPageConfig()->getIntLinkHelpDefaultType(),
+			$this->getPageConfig()->getIntLinkHelpDefaultId());
+		$link_types = array();
+		foreach ($this->getPageConfig()->getIntLinkFilters() as $f)
+		{
+			$link_types[] = $f;
+		}
+		$ac->setInternalLinkFilterTypes($link_types);
+		$ac->setFilterWhiteList(
+			$this->getPageConfig()->getIntLinkFilterWhiteList());
+
+		if (!$a_insert)
+		{
+			$l = $this->content_obj->getLink();
+			if ($l["LinkType"] == "IntLink")
+			{
+				$ac->setValueByIntLinkAttributes($l["Type"], $l["Target"], $l["TargetFrame"]);
+			}
+			if ($l["LinkType"] == "ExtLink")
+			{
+				$ac->setValue($l["Href"]);
+			}
+		}
+		$form->addItem($ac);
+
+		// activation
+
 		// active from
 		$dt_prop = new ilDateTimeInputGUI($lng->txt("cont_active_from"), "active_from");
 		if (!$a_insert && ($from = $this->content_obj->getActiveFrom()) != "")
@@ -192,6 +233,30 @@ class ilPCSectionGUI extends ilPageContentGUI
 		$dt_prop->setShowTime(true);
 		$form->addItem($dt_prop);
 
+		// rep selector
+		if ($this->getPageConfig()->getEnablePermissionChecks())
+		{
+			include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+			$rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id");
+			$form->addItem($rs);
+
+			// permission
+			$options = array(
+				"read" => $lng->txt("read"),
+				"write" => $lng->txt("write"),
+				"visible" => $lng->txt("visible"),
+			);
+			$si = new ilSelectInputGUI($lng->txt("permission"), "permission");
+			$si->setOptions($options);
+			$form->addItem($si);
+
+			if (!$a_insert)
+			{
+				$si->setValue($this->content_obj->getPermission());
+				$rs->setValue($this->content_obj->getPermissionRefId());
+			}
+		}
+
 		// save/cancel buttons
 		if ($a_insert)
 		{
@@ -203,7 +268,6 @@ class ilPCSectionGUI extends ilPageContentGUI
 			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
-
 		return $form;
 	}
 
@@ -281,6 +345,32 @@ class ilPCSectionGUI extends ilPageContentGUI
 			$this->content_obj->setActiveTo(0);
 		}
 
+		if ($this->getPageConfig()->getEnablePermissionChecks())
+		{
+			$this->content_obj->setPermissionRefId($_POST["permission_ref_id"]);
+			$this->content_obj->setPermission($_POST["permission"]);
+		}
+
+		if ($_POST["link_mode"] == "ext" && $_POST["link"] != "")
+		{
+			$this->content_obj->setExtLink($_POST["link"]);
+		}
+		else if ($_POST["link_mode"] == "int" && $_POST["link"] != "")
+		{
+			// $_POST["link"] is "crs|96", "chap|2", "term|1", "wpage|1"
+//			var_dump($_POST);
+			$la = $form->getItemByPostVar("link")->getIntLinkAttributes();
+//			echo "<br>";
+//			var_dump($la); exit;
+			if ($la["Type"] != "")
+			{
+				$this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
+			}
+		}
+		else
+		{
+			$this->content_obj->setNoLink();
+		}
 	}
 
 }

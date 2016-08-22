@@ -92,6 +92,11 @@ class ilDbSetup {
 	}
 
 
+	public function revokeGlobalDB() {
+		$GLOBALS["ilDB"] = null;
+		$this->client->db = null; // TODO ugly and dirty, but ilClient requires it
+	}
+
 	/**
 	 * @param $fp
 	 * @param $delim
@@ -111,11 +116,15 @@ class ilDbSetup {
 	}
 
 
+	/**
+	 * @description legacy version of readdump
+	 * @deprecated use readDumpUltraSmall
+	 * @return bool
+	 */
 	protected function readDump() {
 		$fp = fopen($this->getSqlDumpFile(), 'r');
-
+		$q = '';
 		while (!feof($fp)) {
-			//$line = trim(fgets($fp, 200000));
 			$line = trim($this->getline($fp, "\n"));
 
 			if ($line != "" && substr($line, 0, 1) != "#" && substr($line, 0, 1) != "-") {
@@ -130,36 +139,43 @@ class ilDbSetup {
 
 					unset($q);
 					unset($line);
-				} //if
-				else {
+				} else {
 					$q .= " " . $line;
-				} //else
-			} //if
-		} //for
+				}
+			}
+		}
 
 		fclose($fp);
 	}
 
 
-	public function readDumpSmall() {
+	/**
+	 * @description legacy version of readdump
+	 * @deprecated  use readDumpUltraSmall
+	 * @return bool
+	 */
+	protected function readDumpSmall() {
 		$sql = file_get_contents($this->getSqlDumpFile());
-		//					//					echo $sql;
-		//					//					exit;
-		//
 		$lines = explode(';', $sql);
 		foreach ($lines as $line) {
-			//						$trimmedLine = trim($line, "\t\n\r\0\x0B");
 			if (strlen($line) > 0) {
 				$this->ilDBInterface->manipulate($line);
 			}
 		}
+
+		return true;
 	}
 
 
-	public function readDumpUltraSmall() {
+	/**
+	 * @return bool
+	 */
+	protected function readDumpUltraSmall() {
 		$sql = file_get_contents($this->getSqlDumpFile());
 		$re = $this->ilDBInterface->prepareManip($sql);
 		$this->ilDBInterface->execute($re);
+
+		return true;
 	}
 
 
@@ -173,7 +189,6 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL_LEGACY:
 				case ilDBConstants::TYPE_INNODB_LEGACY:
-
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();

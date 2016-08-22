@@ -219,11 +219,11 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
-		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style");
+		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
 		
 		foreach ($this->dirs as $dir)
 		{
-			$tpl = new ilTemplate("tpl.prop_trbl_style_numeric.html", true, true, "Services/Style");
+			$tpl = new ilTemplate("tpl.prop_trbl_style_numeric.html", true, true, "Services/Style/Content");
 			$unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits(!$this->getAllowPercentage());
 			
 			switch($dir)

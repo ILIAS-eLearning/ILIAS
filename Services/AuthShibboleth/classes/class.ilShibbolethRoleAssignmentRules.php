@@ -42,7 +42,8 @@ class ilShibbolethRoleAssignmentRules {
 	 * @return array
 	 */
 	public static function getAllRules() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$rules = array();
 		/**
 		 * @var $ilDB ilDB
@@ -58,7 +59,8 @@ class ilShibbolethRoleAssignmentRules {
 
 
 	public static function getCountRules() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query = "SELECT COUNT(*) num FROM shib_role_assignment ";
 		$res = $ilDB->query($query);
 		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -78,7 +80,11 @@ class ilShibbolethRoleAssignmentRules {
 	public static function updateAssignments($a_usr_id, $a_data) {
 		require_once('./Services/AuthShibboleth/classes/Config/class.shibConfig.php');
 
-		global $ilDB, $rbacadmin, $rbacreview, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilLog = $DIC['ilLog'];
 		$query = "SELECT rule_id,add_on_update,remove_on_update FROM shib_role_assignment " . "WHERE add_on_update = 1 OR remove_on_update = 1";
 		$res = $ilDB->query($query);
 		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -111,7 +117,10 @@ class ilShibbolethRoleAssignmentRules {
 	 * @return bool
 	 */
 	public static function doAssignments($a_usr_id, $a_data) {
-		global $ilDB, $rbacadmin, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilLog = $DIC['ilLog'];
 		$query = "SELECT rule_id FROM shib_role_assignment ";
 		$num_matches = 0;
 		$res = $ilDB->query($query);
@@ -141,7 +150,8 @@ class ilShibbolethRoleAssignmentRules {
 	 * @return bool
 	 */
 	public static function callPlugin($a_plugin_id, $a_user_data) {
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		if (self::$active_plugins == NULL) {
 			self::$active_plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk');
 		}

@@ -11,6 +11,23 @@ require_once 'Services/Awareness/classes/class.ilAwarenessUserProvider.php';
 class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * ilAwarenessUserProviderApprovedContacts constructor.
+	 */
+	public function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+
+		$this->user = $DIC['ilUser'];
+	}
+
+	/**
 	 * Get provider id
 	 * @return string provider id
 	 */
@@ -45,12 +62,7 @@ class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
 	 */
 	public function getInitialUserSet()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		if($ilUser->isAnonymous())
+		if($this->user->isAnonymous())
 		{
 			return array();
 		}
@@ -75,5 +87,4 @@ class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
 	{
 		return true;
 	}
-
 }

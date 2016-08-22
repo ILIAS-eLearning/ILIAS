@@ -226,7 +226,7 @@ class ilMailFormGUI
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$files,
+			if ($this->umail->sendInternalMail($draftsId,$GLOBALS['DIC']['ilUser']->getId(),$files,
 					// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 					ilUtil::securePlainString($_POST["rcp_to"]),
 					ilUtil::securePlainString($_POST["rcp_cc"]),
@@ -236,7 +236,7 @@ class ilMailFormGUI
 					ilUtil::securePlainString($_POST["m_email"]),
 					ilUtil::securePlainString($_POST["m_subject"]),
 					ilUtil::securePlainString($_POST["m_message"]),
-					$_SESSION["AccountId"],
+					$GLOBALS['DIC']['ilUser']->getId(),
 					0,
 					ilMailFormCall::getContextId(),
 					ilMailFormCall::getContextParameters()
@@ -387,7 +387,7 @@ class ilMailFormGUI
 		}
 		
 		// Note: For security reasons, ILIAS only allows Plain text messages.
-		$this->umail->savePostData($_SESSION["AccountId"],
+		$this->umail->savePostData($GLOBALS['DIC']['ilUser']->getId(),
 									$files,
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
@@ -810,7 +810,7 @@ class ilMailFormGUI
 		$form_gui->addItem($inp);
 
 		// PLACEHOLDERS
-		$chb = new ilCheckboxInputGUI($this->lng->txt('activate_serial_letter_placeholders'), 'use_placeholders');
+		$chb = new ilCheckboxInputGUI($this->lng->txt('mail_serial_letter_placeholders'), 'use_placeholders');
 		$chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
 		$chb->setValue(1);
 		if(isset($mailData['use_placeholders']) && $mailData['use_placeholders'])

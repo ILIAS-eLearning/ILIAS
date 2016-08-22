@@ -685,42 +685,19 @@ class ilFileDataMail extends ilFileData
 			catch(Exception $e) { }
 		}
 
-		// Delete each mail attachment row assigned to a message of the deleted user.
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
-		{
-			$ilDB->manipulateF('
-				DELETE m1
-				FROM mail_attachment m1
-				INNER JOIN (
-					SELECT mail_attachment.mail_id
+		// Delete each mail attachment rows assigned to a message of the deleted user.
+		$ilDB->manipulateF('
+				DELETE
+				FROM mail_attachment
+				WHERE EXISTS(
+					SELECT mail.mail_id
 					FROM mail
-					INNER JOIN mail_attachment
-						ON mail_attachment.mail_id = mail.mail_id
-					WHERE user_id = %s
-				) m2
-				ON m2.mail_id = m1.mail_id
-				',
-				array('integer'),
-				array($this->user_id)
-			);
-		}
-		else
-		{
-			// Oracle and Postgres
-			$ilDB->manipulateF(' 
-				DELETE FROM mail_attachment
-				WHERE mail_attachment.mail_id IN (
-					SELECT mail_attachment.mail_id
-					FROM mail
-					INNER JOIN mail_attachment
-						ON mail_attachment.mail_id = mail.mail_id
-					WHERE user_id = %s
+					WHERE mail.user_id = %s AND mail.mail_id = mail_attachment.mail_id
 				)
 				',
-				array('integer'),
-				array($this->user_id)
-			);
-		}
+			array('integer'),
+			array($this->user_id)
+		);
 	}
 }
 ?>

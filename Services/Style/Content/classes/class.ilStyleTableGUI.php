@@ -62,10 +62,10 @@ class ilStyleTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("sty_commands"), "", "1");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.style_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.style_row.html", "Services/Style/Content");
 		$this->disable("footer");
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			// action commands
 			if ($this->hideable)
@@ -151,7 +151,7 @@ class ilStyleTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_TAG", $a_set["class"]);
 		$this->tpl->setVariable("TXT_TYPE", $lng->txt("sty_type_".$a_set["type"]));
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 			$ilCtrl->setParameter($this->parent_obj, "tag", $tag_str);

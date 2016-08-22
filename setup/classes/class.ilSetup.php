@@ -12,7 +12,7 @@ include_once("./setup/classes/class.ilDBConnections.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilSetup extends PEAR
+class ilSetup
 {
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
@@ -68,7 +68,6 @@ class ilSetup extends PEAR
 	{
 		global $lng;
 
-//		$this->PEAR();
 		$this->lng = $lng;
 
 		$this->db_connections = new ilDBConnections();
@@ -83,10 +82,6 @@ class ilSetup extends PEAR
 		{
 			$this->safe_mode_exec_dir = ilFile::deleteTrailingSlash(ini_get("safe_mode_exec_dir"));
 		}
-
-		// Error Handling
-		$this->error_obj = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 
 		// set path to ilias.ini
 		$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/ilias.ini.php";
@@ -195,18 +190,18 @@ class ilSetup extends PEAR
 	{
 		return true;
 		//var_dump("<pre>",$this->client,"</pre>");exit;
-
+		//Error Handling disabled!! caused by missing PEAR
 		if ($a_old_client_id != $this->client->getId())
 		{
 			// check for existing client dir
 			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
 			{
-				$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
 			}
 
 			if (!$this->saveNewClient())
 			{
-				$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
 			}
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
@@ -745,7 +740,7 @@ class ilSetup extends PEAR
 			return false;
 		}
 
-		if (!$this->newClient($a_auth_data["client_id"]))
+		if (!$this->newClient($a_auth_data["client_id"])) //TT: comment out to get around null db
 		{
 			$this->error = "unknown_client_id";
 			unset($this->client);
@@ -901,9 +896,6 @@ class ilSetup extends PEAR
 			$status["proxy"]["status"] = false;
 			$status["proxy"]["comment"] = $status["db"]["comment"];
 
-			$status["passwd"]["status"] = false;
-			$status["passwd"]["comment"] = $status["db"]["comment"];
-
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
@@ -913,7 +905,6 @@ class ilSetup extends PEAR
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["proxy"] = $this->checkClientProxySettings($client);
-			$status["passwd"] = $this->checkClientPasswordSettings($client);
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
 			$status["access"] = $this->checkAccess($client);
@@ -984,68 +975,68 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
 	/**
-	* check client db status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientDatabase(&$client)
-	{
-		if (!$arr["status"] = $client->db_exists)
-		{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientDatabase(ilClient $client) {
+		$arr = array();
+		$client->provideGlobalDB();
+		if (!$arr["status"] = $client->db_exists) {
 			$arr["comment"] = $this->lng->txt("no_database");
+
 			return $arr;
 		}
 
-		if (!$arr["status"] = $client->db_installed)
-		{
+		if (!$arr["status"] = $client->db_installed) {
 			$arr["comment"] = $this->lng->txt("db_not_installed");
+
 			return $arr;
 		}
-
 		// TODO: move this to client class!!
-		$client->setup_ok = (bool) $client->getSetting("setup_ok");
+		$client->setup_ok = (bool)$client->getSetting("setup_ok");
 
-		//$this->lng->setDbHandler($client->db);
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
-		$ilDB = $client->db;
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
 
-		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
-		{
+		if (!$arr["status"] = $dbupdate->getDBVersionStatus()) {
 			$arr["comment"] = $this->lng->txt("db_needs_update");
 			$arr["update"] = true;
+
 			return $arr;
-		}
-		else if ($dbupdate->hotfixAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("hotfix_available");
-			$arr["update"] = true;
-			return $arr;
-		}
-		else if ($dbupdate->customUpdatesAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("custom_updates_available");
-			$arr["update"] = true;
-			return $arr;
+		} else {
+			if ($dbupdate->hotfixAvailable()) {
+				$arr["status"] = false;
+				$arr["comment"] = $this->lng->txt("hotfix_available");
+				$arr["update"] = true;
+
+				return $arr;
+			} else {
+				if ($dbupdate->customUpdatesAvailable()) {
+					$arr["status"] = false;
+					$arr["comment"] = $this->lng->txt("custom_updates_available");
+					$arr["update"] = true;
+
+					return $arr;
+				}
+			}
 		}
 
 		// check control information
-
+		global $ilDB;
 		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
 		$crec = $ilDB->fetchAssoc($cset);
-		if ($crec["cnt"] == 0)
-		{
+		$client->revokeGlobalDB();
+		if ($crec["cnt"] == 0) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("db_control_structure_missing");
 			$arr["update"] = true;
+
 			return $arr;
 		}
 
-		//$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}
 
@@ -1090,72 +1081,65 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
 	/**
-	 * check client session config status
-	 * @param    object    client
+	 * @param \ilClient $client
+	 * @return array
 	 */
-	function checkClientProxySettings(&$client)
-	{
+	public function checkClientProxySettings(ilClient $client) {
+		$client->provideGlobalDB();
 		global $ilDB;
-		$db = $ilDB;
+		$arr = array();
+		$fields = array( 'proxy_status', 'proxy_host', 'proxy_port' );
 
-		$fields = array('proxy_status','proxy_host','proxy_port');
-
-		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
-		$res = $db->query($query);
+		$query = "SELECT keyword, value FROM settings WHERE " . $ilDB->in('keyword', $fields, false, 'text');
+		$res = $ilDB->query($query);
 
 		$proxy_settings = array();
 		$already_saved = false;
-		while($row = $db->fetchAssoc($res))
-		{
+		while ($row = $ilDB->fetchAssoc($res)) {
 			$already_saved = true;
 			$proxy_settings[$row['keyword']] = $row['value'];
 		}
 
-		if(!$already_saved)
-		{
+		if (!$already_saved) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("proxy");
 			$arr["text"] = $this->lng->txt("proxy");
+		} else {
+			if ((bool)$proxy_settings["proxy_status"] == false) {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_disabled");
+				$arr["text"] = $this->lng->txt("proxy_disabled");
+			} else {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
+				$arr["text"] = $this->lng->txt("proxy_activated_configurated");
+			}
 		}
-		else if((bool)$proxy_settings["proxy_status"] == false)
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_disabled");
-			$arr["text"] = $this->lng->txt("proxy_disabled");
-		}
-		else
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
-			$arr["text"] = $this->lng->txt("proxy_activated_configurated");
 
-		}
 		return $arr;
 	}
 
+
 	/**
-	* check client installed languages status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientLanguages(&$client)
-	{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientLanguages(ilClient $client) {
+		$client->provideGlobalDB();
 		$installed_langs = $this->lng->getInstalledLanguages();
 
 		$count = count($installed_langs);
-
-		if ($count < 1)
-		{
+		$arr = array();
+		if ($count < 1) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("lang_none_installed");
-		}
-		else
-		{
+		} else {
 			$arr["status"] = true;
 			//$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
 		}
-
+		$client->revokeGlobalDB();
 		return $arr;
 	}
 
@@ -2156,28 +2140,24 @@ class ilSetup extends PEAR
 		{
 			try
 			{
-				/**
-				 *
-				 * Verifies the proxy server connection
-				*/
+				$err_str = false;
+				$wait_timeout = 100;
 
-				require_once 'Services/PEAR/lib/Net/Socket.php';
+				$fp = @fsockopen($settings['proxy_host'], $settings['proxy_port'],$err_code,$err_str,$wait_timeout);
 
-				$socket = new Net_Socket();
-				$socket->setErrorHandling(PEAR_ERROR_RETURN);
-				$response = $socket->connect($settings['proxy_host'], $settings['proxy_port']);
-				if(!is_bool($response))
+				if($err_str)
 				{
-					global $lng;
-					throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));
+					throw new ilProxyException($err_str);
 				}
+
+				fclose($fp);
 
 				ilUtil::sendSuccess($this->lng->txt('proxy_connectable'));
 
 			}
-			catch(ilProxyException $e)
+			catch(Exception $e)
 			{
-				ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+				ilUtil::sendFailure($this->lng->txt('proxy_not_connectable') . ": " . $e->getMessage());
 			}
 		}
 
@@ -2226,48 +2206,6 @@ class ilSetup extends PEAR
 			}
 		}
 	}
-
-	/**
-	 * @param array $passwd_settings
-	 */
-	public function savePasswordSettings(array $passwd_settings)
-	{
-		$this->getClient()->ini->setVariable('auth', 'password_encoder', $passwd_settings['default_encoder']);
-		$this->getClient()->ini->write();
-	}
-
-	/**
-	 * Reads password settings from persitance layer
-	 * @return array
-	 */
-	public function getPasswordSettings()
-	{
-		return array(
-			'default_encoder' =>
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') ?
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') :
-				'md5'
-		);
-	}
-
-	/**
-	 * @param $client ilClient
-	 * @return array
-	 */
-	public function checkClientPasswordSettings(ilClient $client)
-	{
-		$arr['status'] = strlen($client->ini->readVariable('auth', 'password_encoder'));
-		if($arr['status'])
-		{
-			$arr['comment'] = $this->lng->txt('passwd_encoding_configured');
-		}
-		else
-		{
-			$arr['comment'] = $this->lng->txt('session_management_not_configured');
-		}
-		return $arr;
-	}
-
 
 	/**
 	 * @return bool

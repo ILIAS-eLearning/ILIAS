@@ -82,6 +82,11 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
 	public function handlerEndTag($xmlParser, $tagName)
 	{
+		if(!$this->inSettingsTag)
+		{
+			return;
+		}
+		
 		switch($tagName)
 		{
 			case 'MetaData':
@@ -126,6 +131,11 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
 	public function handlerCharacterData($xmlParser, $charData)
 	{
+		if(!$this->inSettingsTag)
+		{
+			return;
+		}
+
 		if( $charData != "\n" )
 		{
 			// Replace multiple tabs with one space

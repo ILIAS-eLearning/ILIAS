@@ -79,9 +79,10 @@ class ilPasswordAssistanceGUI
 		// check hack attempts
 		if(!$this->settings->get('password_assistance')) // || AUTH_DEFAULT != AUTH_LOCAL)
 		{
-			if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
+			// 
+			#if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
 			{
-				$this->ilias->error_obj->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
+				#$this->ilias->error_obj->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
 			}
 		}
 
@@ -338,7 +339,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$userObj->getLogin(),
-					'mailto:' . $contact_address,
+					'mailto:' . $contact_address[0],
 					$alternative_pwassist_url
 				)
 			)

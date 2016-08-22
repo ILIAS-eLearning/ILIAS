@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * TableGUI class for search results
@@ -170,7 +171,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$type_txt = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+			$type_txt = ilObjectPlugin::lookupTxtById($type, "obj_".$type);
 			$icon = ilObject::_getIcon($obj_id,'small',$type);
 		}
 

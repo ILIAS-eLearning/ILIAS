@@ -56,12 +56,12 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("sty_commands"), "", "1");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.style_template_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.style_template_row.html", "Services/Style/Content");
 		//$this->setSelectAllCheckbox("file");
 		$this->getItems();
 
 		// action commands
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
 			
@@ -96,7 +96,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
 		$ilCtrl->setParameter($this->parent_obj, "t_id", $a_set["id"]);
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->tpl->setVariable("LINK_EDIT_TEMPLATE",
 				$ilCtrl->getLinkTarget($this->parent_obj, "editTemplate"));

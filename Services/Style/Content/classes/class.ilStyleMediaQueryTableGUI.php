@@ -52,12 +52,12 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"), "");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.style_media_query_row.html", "Services/Style");
+		$this->setRowTemplate("tpl.style_media_query_row.html", "Services/Style/Content");
 		//$this->setSelectAllCheckbox("file");
 		$this->getItems();
 
 		// action commands
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->addCommandButton("saveMediaQueryOrder", $lng->txt("sty_save_order"));
 			$this->addMultiCommand("deleteMediaQueryConfirmation", $lng->txt("delete"));
@@ -85,7 +85,7 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("MQID", $a_set["id"]);
 		$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 			$ilCtrl->setParameter($this->parent_obj, "mq_id", $a_set["id"]);

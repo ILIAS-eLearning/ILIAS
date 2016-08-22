@@ -27,6 +27,7 @@ class ilMimeTypeUtil {
 	const APPLICATION__ECMASCRIPT = 'application/ecmascript';
 	const APPLICATION__ENVOY = 'application/envoy';
 	const APPLICATION__EXCEL = 'application/excel';
+	const APPLICATION__FONT_WOFF = 'application/font-woff';
 	const APPLICATION__FRACTALS = 'application/fractals';
 	const APPLICATION__FREELOADER = 'application/freeloader';
 	const APPLICATION__FUTURESPLASH = 'application/futuresplash';
@@ -254,6 +255,7 @@ class ilMimeTypeUtil {
 	const AUDIO__MID = 'audio/mid';
 	const AUDIO__MIDI = 'audio/midi';
 	const AUDIO__MOD = 'audio/mod';
+	const AUDIO__MP4 = 'audio/mp4';
 	const AUDIO__MPEG = 'audio/mpeg';
 	const AUDIO__MPEG3 = 'audio/mpeg3';
 	const AUDIO__NSPAUDIO = 'audio/nspaudio';
@@ -420,6 +422,7 @@ class ilMimeTypeUtil {
 	const VIDEO__VND_RN_REALVIDEO = 'video/vnd.rn-realvideo';
 	const VIDEO__VND_VIVO = 'video/vnd.vivo';
 	const VIDEO__VOSAIC = 'video/vosaic';
+	const VIDEO__WEBM = 'video/webm';
 	const VIDEO__X_AMT_DEMORUN = 'video/x-amt-demorun';
 	const VIDEO__X_AMT_SHOWRUN = 'video/x-amt-showrun';
 	const VIDEO__X_ATOMIC3D_FEATURE = 'video/x-atomic3d-feature';
@@ -831,6 +834,7 @@ class ilMimeTypeUtil {
 		'm2a' => self::AUDIO__MPEG,
 		'm2v' => self::VIDEO__MPEG,
 		'm3u' => self::AUDIO__X_MPEQURL,
+		'm4a' => self::AUDIO__MP4,
 		'm4v' => self::VIDEO__MP4,
 		'man' => self::APPLICATION__X_TROFF_MAN,
 		'map' => self::APPLICATION__X_NAVIMAP,
@@ -936,8 +940,9 @@ class ilMimeTypeUtil {
 		'o' => self::APPLICATION__OCTET_STREAM,
 		'oda' => self::APPLICATION__ODA,
 		'oga' => self::AUDIO__OGG,
-		'ogg' => self::APPLICATION__OGG,
+		'ogg' => self::AUDIO__OGG,
 		'ogv' => self::VIDEO__OGG,
+		'ogx' => self::APPLICATION__OGG,
 		'omc' => self::APPLICATION__X_OMC,
 		'omcd' => self::APPLICATION__X_OMCDATAMAKER,
 		'omcr' => self::APPLICATION__X_OMCREGERATOR,
@@ -1274,6 +1279,7 @@ class ilMimeTypeUtil {
 		'wb1' => self::APPLICATION__X_QPRO,
 		'wbmp' => self::IMAGE__VND_WAP_WBMP,
 		'web' => self::APPLICATION__VND_XARA,
+		'webm' => self::VIDEO__WEBM,
 		'wiz' => self::APPLICATION__MSWORD,
 		'wk1' => self::APPLICATION__X_123,
 		'wm' => self::VIDEO__X_MS_WM,
@@ -1287,6 +1293,7 @@ class ilMimeTypeUtil {
 		'wmv' => self::VIDEO__X_MS_WMV,
 		'wmx' => self::VIDEO__X_MS_WMX,
 		'wmz' => self::VIDEO__X_MS_WMZ,
+		'woff' => self::APPLICATION__FONT_WOFF,
 		'word' => self::APPLICATION__MSWORD,
 		'wp' => self::APPLICATION__WORDPERFECT,
 		'wp5' => array(

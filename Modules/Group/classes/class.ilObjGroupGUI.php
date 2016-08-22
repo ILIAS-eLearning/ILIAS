@@ -18,7 +18,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilMailMemberSearchGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
 * 
 *
 * @extends ilObjectGUI
@@ -280,6 +280,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
+				
+			case 'ilbadgemanagementgui':
+				$this->tabs_gui->setTabActive('obj_tool_setting_badges');
+				include_once 'Services/Badge/classes/class.ilBadgeManagementGUI.php';
+				$bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'grp');
+				$this->ctrl->forwardCommand($bgui);
+				break;	
+				
 			default:
 			
 				// check visible permission
@@ -595,7 +603,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-				ilObjectServiceSettingsGUI::TAG_CLOUD
+				ilObjectServiceSettingsGUI::TAG_CLOUD,
+				ilObjectServiceSettingsGUI::BADGES
 			)
 		);
 			
@@ -1828,7 +1837,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 		include_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 
 		foreach ($user_ids as $new_member)
 		{
@@ -1888,6 +1897,20 @@ class ilObjGroupGUI extends ilContainerGUI
 				'ilUsersGalleryGUI'
 			);
 		}
+		
+		// badges
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isObjectActive($this->object->getId()))
+			{
+				$this->tabs_gui->addTarget("obj_tool_setting_badges",
+					 $this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", ""), 
+					 "",
+					 "ilbadgemanagementgui");
+			}
+		}		
+		
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
@@ -2290,13 +2313,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur->setShowTime(true);
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());
-			$this->form->addItem($dur);
-			
+			$form->addItem($dur);
+
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
 			$cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
 			$cancel->setDate($this->object->getCancellationEnd());			
-			$this->form->addItem($cancel);
+			$form->addItem($cancel);
 
 			// max member
 			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
@@ -2441,7 +2464,8 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-						ilObjectServiceSettingsGUI::TAG_CLOUD
+						ilObjectServiceSettingsGUI::TAG_CLOUD,						
+						ilObjectServiceSettingsGUI::BADGES
 					)
 				);
 
@@ -2512,11 +2536,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
-		$reg = $this->form->getItemByPostVar("reg");	
+		$reg = $a_form->getItemByPostVar("reg");	
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
 		
-		$cancel_end = $this->form->getItemByPostVar("cancel_end");		
+		$cancel_end = $a_form->getItemByPostVar("cancel_end");		
 		$this->object->setCancellationEnd($cancel_end->getDate());		
 		
 		switch((int)$_POST['waiting_list'])

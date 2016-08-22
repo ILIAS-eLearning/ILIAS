@@ -846,6 +846,90 @@ class ilAdvancedMDRecord
 		}
 		return $recs;
 	}
+	
+	/**
+	 * Clone record
+	 * 
+	 * @param array &$a_fields_map
+	 * @param type $a_parent_obj_id
+	 * @return self
+	 */
+	public function _clone(array &$a_fields_map, $a_parent_obj_id = null)
+	{		
+		$new_obj = new self();
+		$new_obj->setActive($this->isActive());
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());				
+		$new_obj->setParentObject($a_parent_obj_id
+			? $a_parent_obj_id
+			: $this->getParentObject());
+		$new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
+		$new_obj->save();
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition)
+		{
+			$new_def = $definition->_clone($new_obj->getRecordId());			
+			$a_fields_map[$definition->getFieldId()] = $new_def->getFieldId();
+		}		
 
+		return $new_obj;
+	}
+		
+	/**
+	 * Get shared records
+	 * 
+	 * @param int $a_obj1_id
+	 * @param int $a_obj2_id
+	 * @param string $a_sub_type
+	 * @return array
+	 */
+	public static function getSharedRecords($a_obj1_id, $a_obj2_id, $a_sub_type = "-")
+	{
+		$obj_type = ilObject::_lookupType($a_obj1_id);
+		$sel = array_intersect(
+			ilAdvancedMDRecord::getObjRecSelection($a_obj1_id, $a_sub_type),
+			ilAdvancedMDRecord::getObjRecSelection($a_obj2_id, $a_sub_type)
+		);
+		
+		$res = array();
+		
+		foreach(self::_getRecords() as $record)
+		{	
+			// local records cannot be shared
+			if($record->getParentObject())
+			{
+				continue;
+			}
+			
+			// :TODO: inactive records can be ignored?
+			if(!$record->isActive())
+			{
+				continue;
+			}
+			
+			// parse assigned types
+			foreach($record->getAssignedObjectTypes() as $item)
+			{
+				if($item["obj_type"] == $obj_type &&
+					$item["sub_type"] == $a_sub_type)
+				{				
+					// mandatory
+					if(!$item["optional"])
+					{
+						$res[] = $record->getRecordId();
+					}
+					// optional
+					else if(in_array($record->getRecordId(), $sel))
+					{
+						$res[] = $record->getRecordId();
+					}
+				}
+			}					
+		}
+		
+		return $res;
+	}
 }
+
 ?>

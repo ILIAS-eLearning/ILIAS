@@ -351,14 +351,14 @@ class ilAssQuestionSkillAssignmentsGUI
 
 			$skillSelectorToolbarGUI->setOpenFormTag(true);
 			$skillSelectorToolbarGUI->setCloseFormTag(false);
-			$skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), " ");
+			$skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
 			$tpl->setVariable('SKILL_SELECTOR_TOOLBAR_TOP', $this->ctrl->getHTML($skillSelectorToolbarGUI));
 			
 			$tpl->setVariable('SKILL_SELECTOR_EXPLORER', $this->ctrl->getHTML($skillSelectorExplorerGUI));
 
 			$skillSelectorToolbarGUI->setOpenFormTag(false);
 			$skillSelectorToolbarGUI->setCloseFormTag(true);
-			$skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), " ");
+			$skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
 			$tpl->setVariable('SKILL_SELECTOR_TOOLBAR_BOTTOM', $this->ctrl->getHTML($skillSelectorToolbarGUI));
 			
 			$this->tpl->setContent($tpl->get());
@@ -421,9 +421,16 @@ class ilAssQuestionSkillAssignmentsGUI
 				$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
 				return;
 			}
-			
-			$assignment->setEvalMode($form->getItemByPostVar('eval_mode')->getValue());
-			
+
+			if($form->getItemByPostVar('eval_mode'))
+			{
+				$assignment->setEvalMode($form->getItemByPostVar('eval_mode')->getValue());
+			}
+			else
+			{
+				$assignment->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
+			}
+
 			if($assignment->hasEvalModeBySolution())
 			{
 				$solCmpExprInput = $form->getItemByPostVar('solution_compare_expressions');

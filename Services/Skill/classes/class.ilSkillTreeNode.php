@@ -137,6 +137,46 @@ class ilSkillTreeNode
 	}
 
 	/**
+	 * Set import id
+	 *
+	 * @param string $a_val import id
+	 */
+	public function setImportId($a_val)
+	{
+		$this->import_id = $a_val;
+	}
+
+	/**
+	 * Get import id
+	 *
+	 * @return string import id
+	 */
+	public function getImportId()
+	{
+		return $this->import_id;
+	}
+
+	/**
+	 * Set creation date
+	 *
+	 * @param string $a_val creation date
+	 */
+	protected function setCreationDate($a_val)
+	{
+		$this->creation_date = $a_val;
+	}
+
+	/**
+	 * Get creation date
+	 *
+	 * @return string creation date
+	 */
+	public function getCreationDate()
+	{
+		return $this->creation_date;
+	}
+
+	/**
 	 * Get all status
 	 *
 	 * @return array array of status, key is value, value is lang text
@@ -190,6 +230,8 @@ class ilSkillTreeNode
 		$this->setOrderNr($this->data_record["order_nr"]);
 		$this->setSelfEvaluation($this->data_record["self_eval"]);
 		$this->setStatus($this->data_record["status"]);
+		$this->setImportId($this->data_record["import_id"]);
+		$this->setCreationDate($this->data_record["creation_date"]);
 	}
 
 	/**
@@ -344,7 +386,7 @@ class ilSkillTreeNode
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
-		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr, status) ".
+		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr, status, creation_date, import_id) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
@@ -352,7 +394,9 @@ class ilSkillTreeNode
 			$ilDB->now().", ".
 			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").", ".
 			$ilDB->quote((int) $this->getOrderNr(), "integer").", ".
-			$ilDB->quote((int) $this->getStatus(), "integer").
+			$ilDB->quote((int) $this->getStatus(), "integer").", ".
+			$ilDB->now().", ".
+			$ilDB->quote($this->getImportId(), "text").
 			")";
 		$ilDB->manipulate($query);
 		$this->setId($id);
@@ -370,6 +414,7 @@ class ilSkillTreeNode
 			" ,self_eval = ".$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
 			" ,order_nr = ".$ilDB->quote((int) $this->getOrderNr(), "integer").
 			" ,status = ".$ilDB->quote((int) $this->getStatus(), "integer").
+			" ,import_id = ".$ilDB->quote($this->getImportId(), "text").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -818,7 +863,7 @@ class ilSkillTreeNode
 			$cnt += 10;
 		}
 	}
-	
+
 	/**
 	 * Get icon path
 	 *
@@ -938,6 +983,42 @@ class ilSkillTreeNode
 
 
 		return $res;
+	}
+
+	/**
+	 * Get all possible common skill IDs for node IDs
+	 *
+	 * @param array $a_node_ids array of node ids
+	 * @return array array of skill ids
+	 */
+	static function getAllCSkillIdsForNodeIds(array $a_node_ids)
+	{
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+		$cskill_ids = array();
+		foreach($a_node_ids as $id)
+		{
+			if (in_array(self::_lookupType($id), array("skll", "scat", "sktr")))
+			{
+				$skill_id = $id;
+				$tref_id = 0;
+				if (ilSkillTreeNode::_lookupType($id) == "sktr")
+				{
+					$skill_id = ilSkillTemplateReference::_lookupTemplateId($id);
+					$tref_id = $id;
+				}
+				$cskill_ids[] = array("skill_id" => $skill_id, "tref_id" => $tref_id);
+			}
+			if (in_array(ilSkillTreeNode::_lookupType($id), array("sktp", "sctp")))
+			{
+				foreach (ilSkillTemplateReference::_lookupTrefIdsForTemplateId($id) as $tref_id)
+				{
+					$cskill_ids[] = array("skill_id" => $id, "tref_id" => $tref_id);
+				}
+			}
+			// for cats, skills and template references, get "real" usages
+			// for skill and category templates check usage in references
+		}
+		return $cskill_ids;
 	}
 
 

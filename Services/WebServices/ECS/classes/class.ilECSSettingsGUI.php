@@ -1991,7 +1991,6 @@ class ilECSSettingsGUI
 	{
 		global $ilDB,$ilSetting;
 
-		#$ilDB->lockTables(array('name' => 'settings', 'type' => ilDBConstants::LOCK_WRITE));
 		$setting = new ilSetting('ecs');
 		$setting->set(
 			'next_execution_'.$this->settings->getServerId(),

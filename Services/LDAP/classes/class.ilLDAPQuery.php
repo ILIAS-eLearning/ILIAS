@@ -24,6 +24,7 @@
 define('IL_LDAP_BIND_DEFAULT',0);
 define('IL_LDAP_BIND_ADMIN',1);
 define('IL_LDAP_BIND_TEST',2);
+define('IL_LDAP_BIND_AUTH', 10);
 
 include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
 include_once('Services/LDAP/classes/class.ilLDAPResult.php');
@@ -257,11 +258,12 @@ class ilLDAPQuery
 				continue;
 			}
 			$this->log->info('Found '.$tmp_result->numRows().' users.');
+			$attribute = strtolower($this->settings->getUserAttribute());
 			foreach($tmp_result->getRows() as $data)
 			{
-				if(isset($data[$this->settings->getUserAttribute()]))
+				if(isset($data[$attribute]))
 				{
-					$this->readUserData($data[$this->settings->getUserAttribute()],false,false);
+					$this->readUserData($data[$attribute],false,false);
 				}
 				else
 				{
@@ -535,7 +537,7 @@ class ilLDAPQuery
 					$this->log->debug('Bind anonymous');
 				}
 				break;
-			
+				
 			case IL_LDAP_BIND_ADMIN:
 				$user = $this->settings->getRoleBindDN();
 				$pass = $this->settings->getRoleBindPassword();
@@ -549,6 +551,13 @@ class ilLDAPQuery
 				define('IL_LDAP_REBIND_USER',$user);
 				define('IL_LDAP_REBIND_PASS',$pass);
 				break;
+				
+			case IL_LDAP_BIND_AUTH:
+				$this->log->debug('Trying to bind as: ' . $a_user_dn);
+				$user = $a_user_dn;
+				$pass = $a_password;
+				break;
+				
 				
 			default:
 				throw new ilLDAPQueryException('LDAP: unknown binding type in: '.__METHOD__);

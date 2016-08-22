@@ -9,12 +9,18 @@
 		"monolog/monolog": "^1.15",
 		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
-		"ezyang/htmlpurifier": "^4.7.0",
+		"ezyang/htmlpurifier": "^4.8.0",
 		"phpmailer/phpmailer": "^5.2",
 		"phansys/getid3": "^1.9.4",
 		"geshi/geshi": "dev-master",
 		"tecnickcom/tcpdf": "^6.2.12",
-		"pimple/pimple" : "^3.0"
+		"pimple/pimple" : "^3.0",
+		"symfony/yaml": "^3.1"
+	},
+	"require-dev": {
+		"mikey179/vfsStream": "^1.6",
+		"phpunit/phpunit": "^4.8",
+		"phpunit/php-code-coverage": "^2.2"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" }
@@ -46,11 +52,11 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v1.18.1",
+			"used_version" : "v1.21.0",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2016-03-22",
-			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+			"last_update" : "2016-07-07",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phpoffice/phpexcel" : {
 			"source" : "https://github.com/PHPOffice/PHPExcel",
@@ -62,18 +68,18 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.7.0",
+			"used_version" : "v4.8.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2016-04-01",
+			"last_update" : "2016-08-04",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v5.2.15",
+			"used_version" : "v5.2.16",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2016-06-02",
+			"last_update" : "2016-07-07",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phansys/getid3" : {
@@ -103,12 +109,26 @@
 		"pimple/pimple" : {
 			"source" : "https://github.com/silexphp/Pimple.git",
 			"used_version" : "v3.0.2",
+			"wrapped_by" : "ILIAS\\DIC\\Container",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-			"used_by" : "ILIAS\\DI\\Container",
-			"wrapped_by" : "ILIAS\\DI\\Container",
 			"last_update" : "2016-02-29",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
-
+		},
+		"symfony/yaml" : {
+			"source": "https://github.com/symfony/yaml.git",
+			"used_version": "v3.1",
+			"added_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>",
+			"wrapped_by": "ILIAS\\UI\\Crawler",
+			"last_update": "2016-07-07",
+			"last_update_by": "Michael Jansen <mjansen@databay.de"
+		},
+		"mikey179/vfsStream" : {
+			"source": "https://github.com/mikey179/vfsStream",
+			"used_version": "v1.6.4",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": "",
+			"last_update": "2016-07-07",
+			"last_update_by": "Michael Jansen <mjansen@databay.de>"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

@@ -79,7 +79,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 
 		//	Task (What do I have to do?
 		
-		/* NOTHING TODO FOR PARTICIPANT */
+		/* NOTHING REQUIRED FOR PARTICIPANT */
 		
 		//	Explanation (Why do I receive the following message?)
 		

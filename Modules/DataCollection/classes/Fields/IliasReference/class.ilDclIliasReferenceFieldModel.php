@@ -16,7 +16,8 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
@@ -25,7 +26,8 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 		$join_str .= "LEFT JOIN object_data AS sort_object_data_{$this->getId()} ON (sort_object_data_{$this->getId()}.obj_id = sort_object_reference_{$this->getId()}.obj_id)";
 
 		if ($sort_by_status) {
-			global $ilUser;
+			global $DIC;
+			$ilUser = $DIC['ilUser'];
 			$join_str .= "LEFT JOIN ut_lp_marks AS ut ON (ut.obj_id = sort_object_data_{$this->getId()}.obj_id AND ut.usr_id = "
 				. $ilDB->quote($ilUser->getId(), 'integer') . ") ";
 		}
@@ -49,7 +51,8 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 	 * @return null|ilDclRecordQueryObject
 	 */
 	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$join_str = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";

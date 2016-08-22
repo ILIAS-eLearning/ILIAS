@@ -27,12 +27,9 @@ class ilBuddySystemRelationRepository
 	 */
 	public function __construct($usr_id)
 	{
-		/**
-		 * @var $ilDB
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$this->db     = $ilDB;
+		$this->db     = $DIC['ilDB'];
 		$this->usr_id = $usr_id;
 	}
 
@@ -216,30 +213,34 @@ class ilBuddySystemRelationRepository
 	 */
 	public function save(ilBuddySystemRelation $relation)
 	{
-		$this->db->beginTransaction();
+		$ilAtomQuery = $this->db->buildAtomQuery();
+		$ilAtomQuery->addTableLock('buddylist_requests');
+		$ilAtomQuery->addTableLock('buddylist');
 
-		if($relation->isLinked())
-		{
-			$this->addToApprovedBuddies($relation);
-		}
-		else if($relation->wasLinked())
-		{
-			$this->removeFromApprovedBuddies($relation);
-		}
+		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($relation) {
+			if($relation->isLinked())
+			{
+				$this->addToApprovedBuddies($relation);
+			}
+			else if($relation->wasLinked())
+			{
+				$this->removeFromApprovedBuddies($relation);
+			}
 
-		if($relation->isRequested())
-		{
-			$this->addToRequestedBuddies($relation, false);
-		}
-		else if($relation->isIgnored())
-		{
-			$this->addToRequestedBuddies($relation, true);
-		}
-		else if($relation->wasRequested() || $relation->wasIgnored())
-		{
-			$this->removeFromRequestedBuddies($relation);
-		}
+			if($relation->isRequested())
+			{
+				$this->addToRequestedBuddies($relation, false);
+			}
+			else if($relation->isIgnored())
+			{
+				$this->addToRequestedBuddies($relation, true);
+			}
+			else if($relation->wasRequested() || $relation->wasIgnored())
+			{
+				$this->removeFromRequestedBuddies($relation);
+			}
+		});
 
-		$this->db->commit();
+		$ilAtomQuery->run();
 	}
 }

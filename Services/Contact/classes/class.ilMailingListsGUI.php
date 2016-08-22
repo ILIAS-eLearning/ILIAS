@@ -14,28 +14,65 @@ require_once "Services/Mail/classes/class.ilFormatMail.php";
 */
 class ilMailingListsGUI
 {
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
-	
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl = null;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl = null;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng = null;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	private $umail = null;
 	private $mlists = null;
-	
-	private $error = array();
-	
 	private $form_gui = null;
 	
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
-		$this->umail = new ilFormatMail($ilUser->getId());
-		
-		$this->mlists = new ilMailingLists($ilUser);		
+		$this->tpl        = $DIC['tpl'];
+		$this->ctrl       = $DIC['ilCtrl'];
+		$this->lng        = $DIC['lng'];
+		$this->rbacsystem = $DIC['rbacsystem'];
+		$this->user       = $DIC['ilUser'];
+		$this->error      = $DIC['ilErr'];
+		$this->toolbar    = $DIC['ilToolbar'];
+		$this->tabs       = $DIC['ilTabs'];
+
+		$this->umail = new ilFormatMail($this->user->getId());
+		$this->mlists = new ilMailingLists($this->user);
 		$this->mlists->setCurrentMailingList($_GET['ml_id']);
 		
 		$this->ctrl->saveParameter($this, 'mobj_id');
@@ -91,43 +128,42 @@ class ilMailingListsGUI
 	
 		return true;	
 	}
-	
+
 	public function performDelete()
 	{
-		global $ilUser;
-		
-		if (is_array($_POST['ml_id']))
-		{			
+		if(is_array($_POST['ml_id']))
+		{
 			$counter = 0;
-			foreach ($_POST['ml_id'] as $id)
+			foreach($_POST['ml_id'] as $id)
 			{
-				if(ilMailingList::_isOwner($id, $ilUser->getId()))
+				if(ilMailingList::_isOwner($id, $this->user->getId()))
 				{
 					$this->mlists->get(ilUtil::stripSlashes($id))->delete();
 					++$counter;
-				}			
+				}
 			}
+
 			if($counter)
-				ilUtil::sendInfo($this->lng->txt('mail_deleted_entry'));			
+			{
+				ilUtil::sendInfo($this->lng->txt('mail_deleted_entry'));
+			}
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt('mail_delete_error'));
 		}
-		
+
 		$this->showMailingLists();
-		
+
 		return true;
 	}
 	
 	public function mailToList()
 	{
-		global $ilUser, $rbacsystem;	
-
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
-		$mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
+		$mail = new ilMail($this->user->getId());
+		$mailing_allowed = $this->rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 	
 		if (!$mailing_allowed)
 		{
@@ -146,13 +182,13 @@ class ilMailingListsGUI
 	 	$mail_data = $this->umail->getSavedData();		
 		if(!is_array($mail_data))
 		{
-			$this->umail->savePostData($ilUser->getId(), array(), '', '', '', '', '', '', '', '');
+			$this->umail->savePostData($this->user->getId(), array(), '', '', '', '', '', '', '', '');
 		}	
 	
 		$lists = array();
 		foreach($ml_ids as $id)
 		{			
-			if(ilMailingList::_isOwner($id, $ilUser->getId()) &&
+			if(ilMailingList::_isOwner($id, $this->user->getId()) &&
 			   !$this->umail->existsRecipient('#il_ml_'.$id, $mail_data['rcp_to']))
 			{
 				$lists[] = '#il_ml_'.$id;			
@@ -185,18 +221,22 @@ class ilMailingListsGUI
 	
 	public function showMailingLists()
 	{
-		global $rbacsystem;
-
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION['AccountId']);
-		$mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
+		$mail = new ilMail($this->user->getId());
+		$mailing_allowed = $this->rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 
 		require_once 'Services/Contact/classes/class.ilMailingListsTableGUI.php';
 		$tbl = new ilMailingListsTableGUI($this, 'showMailingLists');
+
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$create_btn = ilLinkButton::getInstance();
+		$create_btn->setCaption('create');
+		$create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showForm'));
+		$this->toolbar->addButtonInstance($create_btn);
 
 		$result = array();
 		$entries = $this->mlists->getAll();
@@ -279,13 +319,11 @@ class ilMailingListsGUI
 	{		
 		if($this->mlists->getCurrentMailingList()->getId())
 		{
-			global $ilUser, $ilErr;
-			
-			if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+			if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId()))
 			{
-				$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+				$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 			}
-			
+
 			$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 			$this->initForm('edit');
 		}
@@ -363,21 +401,19 @@ class ilMailingListsGUI
 			'description' => ''
 		));
 	}
-	
+
 	public function showForm()
 	{
-		global $ilUser, $ilErr;
-		
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
 		if($this->mlists->getCurrentMailingList()->getId())
 		{
-			if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+			if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId()))
 			{
-				$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+				$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 			}
-			
+
 			$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 			$this->initForm('edit');
 			$this->setValuesByObject();
@@ -409,6 +445,12 @@ class ilMailingListsGUI
 		require_once 'Services/Contact/classes/class.ilMailingListsMembersTableGUI.php';
 		$tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
 		$result = array();
+
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$create_btn = ilLinkButton::getInstance();
+		$create_btn->setCaption('add');
+		$create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
+		$this->toolbar->addButtonInstance($create_btn);
 
 		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
 		if(count($assigned_entries))
@@ -496,11 +538,9 @@ class ilMailingListsGUI
 
 	public function performDeleteMembers()
 	{
-		global $ilUser, $ilErr;
-
-		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		if(is_array($_POST['a_id']))
@@ -521,6 +561,7 @@ class ilMailingListsGUI
 		}
 
 		$this->showMembersList();
+
 		return true;
 	}
 
@@ -589,11 +630,9 @@ class ilMailingListsGUI
 	 */
 	public function saveAssignmentForm()
 	{
-		global $ilUser, $ilErr;
-
-		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$form = $this->getAssignmentForm();
@@ -623,17 +662,15 @@ class ilMailingListsGUI
 	 */
 	public function showAssignmentForm(ilPropertyFormGUI $form = null)
 	{
-		global $ilUser, $ilErr;
-
 		if(!$this->mlists->getCurrentMailingList()->getId())
 		{
 			$this->showMembersList();
 			return true;
 		}
 
-		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
