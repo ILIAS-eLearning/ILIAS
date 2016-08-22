@@ -1,11 +1,12 @@
 	{QUESTIONTEXT}
+	<!-- BEGIN selection_limit_hint -->
+	<div class="ilAssMultipleCoiceSelectionLimitHint">{SELECTION_LIMIT_HINT}</div>
+	<!-- END selection_limit_hint -->
 	<table class="nobackground ilClearFloat">
 <!-- BEGIN answer_row -->	
 		<tr>
 			<td class="middle" width="15">
-                <!-- fau: testNav - added class for ilAssMultipleChoice.js -->
-				<input class="ilAssMultipleChoiceResult" type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} />
-                <!-- fau. -->
+				<input type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} class="ilAssMultipleChoiceOption ilAssMultipleChoiceResult" data-qst-id="{QUESTION_ID}" data-ans-id="{ANSWER_ID}" />
 			</td>
 			<td class="middle">
 				<label for="answer_{ANSWER_ID}">
@@ -36,26 +37,37 @@
 			</td>
 		</tr>
 <!-- END feedback -->
-<!-- END answer_row -->	
-
-<!-- fau: testNav - additional checkbox 'none of the above', added for a deprecated test setting -->
-<!-- BEGIN none_above -->
-    <tr>
-        <td></td>
-        <td><hr /></td>
-    </tr>
-    <tr>
-        <td class="middle" width="15">
-            <input class="ilAssMultipleChoiceNone" type="radio" name="mc_none_above" value="1" id="mc_none_above" {CHECKED_NONE_ABOVE} />
-        </td>
-        <td class="middle">
-            <label for="mc_none_above">
-                {LABEL_NONE_ABOVE}
-            </label>
-        </td>
-        <td class="middle">
-    </tr>
-<!-- END none_above -->
-<!-- fau. -->
-
+<!-- END answer_row -->
+		<!-- BEGIN none_above -->
+		<tr>
+			<td></td>
+			<td><hr /></td>
+		</tr>
+		<tr>
+			<td class="middle" width="15">
+				<input class="ilAssMultipleChoiceNone" type="radio" name="mc_none_above" value="1" id="mc_none_above" {CHECKED_NONE_ABOVE} />
+			</td>
+			<td class="middle">
+				<label for="mc_none_above">
+					{LABEL_NONE_ABOVE}
+				</label>
+			</td>
+			<td class="middle">
+		</tr>
+		<!-- END none_above -->
 	</table>
+	
+<script type="text/javascript">
+	(function($) { $(document).ready(
+
+			function()
+			{
+				var question = $.fn.ilAssMultipleChoiceEngine({QUESTION_ID}, {
+					maxSelection: {SELECTION_LIMIT_VALUE}
+				});
+
+				question.init();
+			}
+
+	); }(jQuery));
+</script>

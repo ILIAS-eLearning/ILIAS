@@ -51,7 +51,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
 	/** @var integer Thumbnail size */
 	protected $thumb_size;
-
+	
+	/**
+	 * @var integer
+	 */
+	protected $selectionLimit;
+	
 	/**
 	 * @param mixed $isSingleline
 	 */
@@ -112,6 +117,24 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		$this->thumb_size = 150;
 		$this->answers = array();
 		$this->shuffle = 1;
+		$this->selectionLimit = null;
+		$this->feedback_setting = 0;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getSelectionLimit()
+	{
+		return $this->selectionLimit;
+	}
+	
+	/**
+	 * @param int $selectionLimit
+	 */
+	public function setSelectionLimit($selectionLimit)
+	{
+		$this->selectionLimit = $selectionLimit;
 	}
 
 	/**
@@ -234,6 +257,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			$this->setThumbSize($data['thumb_size']);
 			$this->isSingleline = ($data['allow_images']) ? false : true;
 			$this->lastChange = $data['tstamp'];
+			$this->setSelectionLimit((int)$data['selection_limit'] > 0 ? (int)$data['selection_limit'] : null);
 			$this->feedback_setting = $data['feedback_setting'];
 			
 			try
@@ -678,20 +702,17 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		}
 
 		// save additional data
-		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-							array( "integer" ),
-							array( $this->getId() )
-		);
-
-		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName() 
-							. " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
-							array( "integer", "text", "text", "integer" ),
-							array(
-								$this->getId(),
-								$this->getShuffle(),
-								($this->isSingleline) ? "0" : "1",
-								(strlen( $this->getThumbSize() ) == 0) ? null : $this->getThumbSize()
-							)
+		$ilDB->replace( $this->getAdditionalTableName(),
+			array(
+				'shuffle' => array('text', $this->getShuffle()),
+				'allow_images' => array('text', $this->isSingleline ? 0 : 1),
+				'thumb_size' => array('integer', strlen($this->getThumbSize()) ? $this->getThumbSize() : null),
+				'selection_limit' => array('integer', $this->getSelectionLimit()),
+				'feedback_setting' => array('integer', $this->getSpecificFeedbackSetting())
+			),
+			array(
+				'question_fi' => array('integer', $this->getId())
+			)
 		);
 	}
 
@@ -1027,6 +1048,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['selection_limit'] = (int)$this->getSelectionLimit();
 		$result['feedback'] = array(
 			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
 			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))

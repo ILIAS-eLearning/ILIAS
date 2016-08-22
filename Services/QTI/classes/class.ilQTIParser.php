@@ -866,6 +866,12 @@ class ilQTIParser extends ilSaxParser
 							case "shuffle":
 								$this->render_type->setShuffle($value);
 								break;
+							case 'minnumber':
+								$this->render_type->setMinnumber($value);
+								break;
+							case 'maxnumber':
+								$this->render_type->setMaxnumber($value);
+								break;
 						}
 					}
 				}
