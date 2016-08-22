@@ -745,6 +745,7 @@ class ilRbacAdmin
 		// exclude system role from rbac
 		if ($a_dest_id == SYSTEM_ROLE_ID)
 		{
+			ilLoggerFactory::getLogger('ac')->debug('Ignoring system role.');
 			return true;
 		}
 		
@@ -762,6 +763,9 @@ class ilRbacAdmin
                         "AND s2.parent = ".$ilDB->quote($a_source2_parent,'integer')." ".
                         "AND s1.type = s2.type ".
                         "AND s1.ops_id = s2.ops_id";
+		
+		ilLoggerFactory::getLogger('ac')->dump($query);
+		
 		$res = $ilDB->query($query);
 		$operations = array();
 		$rowNum = 0;

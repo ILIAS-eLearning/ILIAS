@@ -16,10 +16,14 @@ class ilDidacticTemplateUtils
 		$current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
 			$a_ref_id
 		);
+		
+		ilLoggerFactory::getLogger('dtpl')->debug('Current template id: '.  $current_tpl_id);
 
 		// Revert current template
 		if($current_tpl_id)
 		{
+			ilLoggerFactory::getLogger('dtpl')->debug('Reverting template with id: ' . $current_tpl_id);
+			
 			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
 			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($current_tpl_id) as $action)
 			{
@@ -27,22 +31,14 @@ class ilDidacticTemplateUtils
 				$action->revert();
 			}
 		}
-		if($a_new_tpl_id)
+		
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$factory = new ilObjectFactory();
+		$obj = $factory->getInstanceByRefId($a_ref_id, false);
+		if($obj instanceof ilObject)
 		{
-			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
-			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($a_new_tpl_id) as $action)
-			{
-				$action->setRefId($a_ref_id);
-				$action->apply();
-			}
+			$obj->applyDidacticTemplate($a_new_tpl_id);
 		}
-
-		// Assign template id to object
-		ilDidacticTemplateObjSettings::assignTemplate(
-			$a_ref_id,
-			ilObject::_lookupObjId($a_ref_id),
-			$a_new_tpl_id
-		);
 		return true;
 	}
 }

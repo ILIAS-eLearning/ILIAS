@@ -217,7 +217,7 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 
 $query = 'INSERT INTO didactic_tpl_alp (action_id, filter_type, template_type, template_id) values( '.
 	$ilDB->quote($aid, 'integer').', '.
-	$ilDB->quote(1, 'integer').', '.
+	$ilDB->quote(3, 'integer').', '.
 	$ilDB->quote(2,'integer').', '.
 	$ilDB->quote($closed_id,'integer').
 	')';

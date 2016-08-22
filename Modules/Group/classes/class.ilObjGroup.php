@@ -181,29 +181,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
-	 * check if group type is modified
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function isGroupTypeModified($a_old_type)
-	{
-		
-		
-		
-		if($a_old_type == GRP_TYPE_UNKNOWN)
-		{
-			$group_type = $this->readGroupStatus();
-		}
-		else
-		{
-			$group_type = $a_old_type;
-		}
-		return $group_type != $this->getGroupType(); 
-	}
-	
-	/**
 	 * set registration type
 	 *
 	 * @access public
@@ -1622,6 +1599,23 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		
 		return array();
 	}
+	
+	/**
+	 * Apply template
+	 * @param int $a_tpl_id
+	 */
+	public function applyDidacticTemplate($a_tpl_id)
+	{
+		parent::applyDidacticTemplate($a_tpl_id);
+		
+		if(!$a_tpl_id)
+		{
+			// init default type
+			$this->setParentRolePermissions($this->getRefId());
+		}
+		
+	}
+	
 
 	public static function _lookupIdByTitle($a_title)
 	{

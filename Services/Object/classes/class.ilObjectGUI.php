@@ -1059,6 +1059,7 @@ class ilObjectGUI
 		{
 			return (int)substr($tpl, strlen($a_type)+1);
 		}
+		return 0;
 	}
 
 	/**
