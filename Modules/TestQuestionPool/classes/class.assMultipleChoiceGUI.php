@@ -607,7 +607,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		if($this->object->getSelectionLimit())
 		{
 			$template->setVariable('SELECTION_LIMIT_HINT', sprintf(
-				$this->lng->txt('ass_mc_sel_lim_hint'), $this->object->getSelectionLimit()
+				$this->lng->txt('ass_mc_sel_lim_hint'),
+				$this->object->getSelectionLimit(),
+				$this->object->getAnswerCount()
 			));
 			
 			$template->setVariable('SELECTION_LIMIT_VALUE', $this->object->getSelectionLimit());
