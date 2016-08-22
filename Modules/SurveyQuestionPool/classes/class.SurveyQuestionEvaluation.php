@@ -44,7 +44,7 @@ abstract class SurveyQuestionEvaluation
 										
 		$this->parseResults(
 			$results, 
-			$answers[0], 
+			(array)$answers[0], 
 			method_exists($this->question, "getCategories")
 				? $this->question->getCategories()
 				: null
