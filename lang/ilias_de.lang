@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -15920,4 +15920,4 @@ rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
 rbac#:#mass_delete#:#Manuelle Bewertung löschen
 rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
 rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
-mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert.
+mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.

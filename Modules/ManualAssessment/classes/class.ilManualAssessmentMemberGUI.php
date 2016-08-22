@@ -192,7 +192,9 @@ class ilManualAssessmentMemberGUI {
 
 		if($may_be_edited) {
 			$form->addCommandButton('save', $this->lng->txt('save'));
-			$form->addCommandButton('finalize',$this->lng->txt('mass_finalize'));
+			if($this->object->isActiveLP()) {
+				$form->addCommandButton('finalize',$this->lng->txt('mass_finalize'));
+			}
 		}
 		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $form;
