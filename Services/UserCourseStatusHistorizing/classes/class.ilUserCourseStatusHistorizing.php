@@ -120,7 +120,9 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 			'booking_status'		=> 'text',
 			'participation_status'	=> 'text',
 			'okz'					=> 'text',
-			'certificate'			=> 'integer',
+			'certificate_hash'		=> 'text',
+			'certificate_version'	=> 'integer',
+			'certificate_filename'	=> 'text',
 			'begin_date'			=> 'date',
 			'end_date'				=> 'date',
 			'overnights'			=> 'integer',
@@ -200,22 +202,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 				$current = array();
 			}
 
-
-
-			//if ($current['certificate'] == -1 && strlen($a_data['certificate']))
-			if (static::maybeUpdateCertificate($current['certificate'], $a_data['certificate'] ))
-			{
-				global $ilDB;
-				$certfile_id = $ilDB->nextId('hist_certfile');
-				$ilDB->insert(
-					 'hist_certfile', 
-					 array(
-						 'row_id' => array("integer", $certfile_id), 
-						 'certfile' => array("text", base64_encode($a_data['certificate'])) 
-					 )
-				);
-				$a_data['certificate'] = $certfile_id;
-			}
+			$a_data = self::maybeStoreCertificateAndUpdateNewEntry($a_data, $current, $a_case_id);
 		}
 
 		parent::updateHistorizedData( $a_case_id,
@@ -226,11 +213,27 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		);
 	}
 
- 	static private function maybeUpdateCertificate($current, $a_data) {
- 		if ($current == -1 && strlen($a_data)) {
- 			return true;
- 		}
- 		return false;
- 	}
+	protected static function maybeStoreCertificateAndUpdateNewEntry($new, $current, $case_id) {
+		if(isset($new['certificate'])) {
+			$certificate_hash = md5($new['certificate']);
+			if($certificate_hash === $current['certificate_hash']) {
+				$new['certificate'] = null;
+				return $new;
+			}
+			$new['certificate_hash'] = $certificate_hash;
+			$new['certificate_version'] = (int)$current['certificate_version']+1;
+			$new['certificate_filename'] = self::createCertificateFilename($case_id, $new['certificate_version']);
+		} else {
+			return $new;
+		}
+		require_once 'Services/UserCourseStatusHistorizing/classes/class.ilCertificateStorage.php';
+		$storage = new ilCertificateStorage();
+		$storage->storeCertificate($new['certificate'], $new['certificate_filename']);
+		$new['certificate'] = null;
+		return $new;
+	}
 
+	protected static function createCertificateFilename($case_id, $version) {
+		return $case_id['usr_id'].'_'.$case_id['crs_id'].'_'.$version.'.pdf';
+	}
 }
