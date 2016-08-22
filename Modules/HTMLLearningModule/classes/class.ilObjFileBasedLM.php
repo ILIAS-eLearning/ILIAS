@@ -193,13 +193,6 @@ class ilObjFileBasedLM extends ilObject
 			return false;
 		}
 
-		// delete meta data of content object
-/*
-		$nested = new ilNestedSetXML();
-		$nested->init($this->getId(), $this->getType());
-		$nested->deleteAllDBData();
-*/
-
 		// Delete meta data
 		$this->deleteMetaData();
 
