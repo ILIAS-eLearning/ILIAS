@@ -437,7 +437,6 @@
 
 			getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			getModule().historyBlocked = false;
-			getModule().scrollBottom(container);
 
 			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
 		},
