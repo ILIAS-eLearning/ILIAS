@@ -361,6 +361,7 @@
 			conversation.open = true;
 
 			if(getModule().historyTimestamps[conversation.id] == undefined) {
+				console.log("Set latest history timestamp on receiveMessage: " + messageObject.timestamp);
 				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
 			}
 
@@ -419,23 +420,28 @@
 			getModule().storage.save(conversation);
 		},
 
-		onHistory: function(conversation){
-			var container = $('[data-onscreenchat-window='+conversation.id+']');
+		onHistory: function (conversation) {
+			var container = $('[data-onscreenchat-window=' + conversation.id + ']');
 			var messages = conversation.messages;
 			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
-			for(var index in messages) {
-				if(messages.hasOwnProperty(index) && 
-					(!getModule().historyTimestamps.hasOwnProperty(conversation.id) || 
-					getModule().historyTimestamps[conversation.id] > messages[index].timestamp)){
+			for (var index in messages) {
+				if (
+					messages.hasOwnProperty(index) &&
+					(!getModule().historyTimestamps.hasOwnProperty(conversation.id) ||
+					getModule().historyTimestamps[conversation.id] > messages[index].timestamp)
+				) {
 					getModule().addMessage(messages[index], true);
 				}
 			}
 
-			var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
-			container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
+			if (undefined == getModule().historyTimestamps[conversation.id] || conversation.oldestMessageTimestamp < getModule().historyTimestamps[conversation.id]) {
+				var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+				container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
+				console.log("Set latest history timestamp on onHistory: " + conversation.oldestMessageTimestamp);
+				getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
+			}
 
-			getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			getModule().historyBlocked = false;
 
 			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
