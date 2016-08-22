@@ -7,6 +7,8 @@ require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
 require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
 require_once 'Modules/ManualAssessment/classes/Notification/class.ilManualAssessmentPrimitiveInternalNotificator.php';
+require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentLP.php';
+
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the ManualAssessment is used.
@@ -36,6 +38,7 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	public function executeCommand() {
+		$this->maybeShowWarningLPInactive();
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
 			case 'edit':
@@ -57,6 +60,12 @@ class ilManualAssessmentMemberGUI {
 				$a_parent_gui->handleAccessViolation();
 		}
 		$this->$cmd();
+	}
+
+	protected function maybeShowWarningLPInactive() {
+		if(!$this->object->isActiveLP()) {
+			ilUtil::sendInfo($this->lng->txt('lp_inactive'));
+		}
 	}
 
 	protected function setTabs(ilTabsGUI $tabs) {
