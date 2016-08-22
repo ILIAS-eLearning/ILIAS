@@ -19,6 +19,7 @@
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentLP.php';
 
+
 class ilObjManualAssessmentGUI extends ilObjectGUI {
 	const TAB_SETTINGS = 'settings';
 	const TAB_INFO = 'info_short';
@@ -121,7 +122,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 									, $this->getLinkTarget('members')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'read_learning_progress') || ($this->userIsMemberAndFinalized() && $this->object->isActiveLP())) {
+		if($access_handler->checkAccessToObj($this->object,'read_learning_progress') || ($this->userIsMemberAndFinalized() && $this->object->isActiveLP())) {
 			$this->tabs_gui->addTab(self::TAB_LP
 									, $this->lng->txt('learning_progress')
 									, $this->ctrl->getLinkTargetByClass('illearningprogressgui')
