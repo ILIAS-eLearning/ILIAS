@@ -90,6 +90,8 @@
 
 					var messagePaster = new MessagePaster($(this));
 					messagePaster.paste(text);
+
+					$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow.call(this, e);
 				})
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
@@ -763,6 +765,8 @@
 				var node = _message.get(0);
 				node.focus();
 
+				console.log("Last Caret Position: " + lastCaretPosition);
+				
 				var textNode = node.firstChild;
 				var range = document.createRange();
 				range.setStart(textNode, lastCaretPosition);
