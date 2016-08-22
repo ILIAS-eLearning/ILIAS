@@ -16698,3 +16698,17 @@ if (!$ilDB->tableExists('glo_term_reference'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#4994>
+<?php
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('crs');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+if($type_id && $tgt_ops_id) {
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('grp');
+if($type_id && $tgt_ops_id) {
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+?>
