@@ -247,7 +247,7 @@ class ilManualAssessmentMember {
 	 * @return	int|string
 	 */
 	public function name() {
-		return $this->usr->getLastname().', '.$this->usr->getFirstname();
+		return $this->usr->getFullname();
 	}
 
 	/**
