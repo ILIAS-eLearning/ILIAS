@@ -41,4 +41,9 @@ class ilManualAssessmentLPInterface {
 		}
 		return $return;
 	}
+
+	public static function isActiveLP($a_object_id) {
+		require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentLP.php';
+		return ilManualAssessmentLP::getInstance($a_object_id)->isActive();
+	}
 }
