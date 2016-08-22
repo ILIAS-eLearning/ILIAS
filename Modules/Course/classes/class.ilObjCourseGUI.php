@@ -1698,7 +1698,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 			
 			case 'members':
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("crs_member_administration",
 													 $this->ctrl->getLinkTarget($this,'members'),
@@ -2024,7 +2024,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			list($_SESSION['crs_print_sort'],$_SESSION['crs_print_order'],$tmp) = explode(':',$_GET['member_table_nav']);
 		}
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
@@ -3364,7 +3364,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
 		// member list
-		if($ilAccess->checkAccess('write','',$this->ref_id))
+		if($ilAccess->checkAccess('manage_members','',$this->ref_id))
 		{
 			$this->tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "members"), 
