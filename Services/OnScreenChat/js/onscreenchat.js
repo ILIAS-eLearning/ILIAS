@@ -299,10 +299,8 @@
 
 		scrollBottom: function(chatWindow) {
 			$(chatWindow).find('.panel-body').animate({
-				scrollTop: $(chatWindow).find('[data-onscreenchat-body]').outerHeight()
+				scrollTop: $(chatWindow).find('[data-onscreenchat-body]')[0].scrollHeight
 			}, 0);
-
-			console.log("scroll bottom");
 		},
 
 		resizeMessageInput: function(e){
@@ -380,7 +378,6 @@
 				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
 			}
 
-			getModule().storage.save(conversation);
 			getModule().addMessage(messageObject, false);
 			conversation.latestMessage = messageObject;
 			getModule().storage.save(conversation);
@@ -442,16 +439,19 @@
 			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
 			for(var index in messages) {
-				if(messages.hasOwnProperty(index) && (!getModule().historyTimestamps.hasOwnProperty(conversation.id) || getModule().historyTimestamps[conversation.id] > messages[index].timestamp)){
+				if(messages.hasOwnProperty(index) && 
+					(!getModule().historyTimestamps.hasOwnProperty(conversation.id) || 
+					getModule().historyTimestamps[conversation.id] > messages[index].timestamp)){
 					getModule().addMessage(messages[index], true);
 				}
 			}
+
 			var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
-			console.log("onHistory");
 			container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
 
 			getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			getModule().historyBlocked = false;
+			getModule().scrollBottom(container);
 
 			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
 		},
@@ -459,8 +459,7 @@
 		onScroll: function() {
 			var container = $(this).closest('[data-onscreenchat-window]');
 			var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
-
-			if($(this).scrollTop() == 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
+			if($(this).scrollTop == 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
 				getModule().historyBlocked = true;
 				$(this).prepend(
 					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
@@ -535,7 +534,7 @@
 		addMessage: function(messageObject, prepend) {
 			var template = getModule().config.messageTemplate;
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
-			var  message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+			var message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 			var chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']');
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
@@ -560,7 +559,7 @@
 
 			il.ExtLink.autolink(chatBody);
 
-			if(position == 'right') {
+			if(prepend == false) {
 				getModule().scrollBottom(chatWindow);
 				getModule().historyBlocked = false;
 			}
