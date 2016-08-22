@@ -28,7 +28,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjPersonalDesktopSettingsGUI, ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCalendarSettingsGUI, ilObjSurveyAdministrationGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCategoryReferenceGUI, ilObjCourseReferenceGUI, ilObjRemoteCourseGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjCategoryReferenceGUI, ilObjCourseReferenceGUI, ilObjRemoteCourseGUI, ilObjGroupReferenceGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjForumAdministrationGUI, ilObjBlogGUI, ilObjPollGUI, ilObjDataCollectionGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteCategoryGUI, ilObjRemoteWikiGUI, ilObjRemoteLearningModuleGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI, ilObjECSSettingsGUI
@@ -37,6 +37,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI, ilObjLoggingSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBibliographicAdminGUI, ilObjBibliographicGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
@@ -121,7 +122,7 @@ class ilAdministrationGUI
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
-		if ($new_type != "" && $this->ctrl->getCmd() == "create")
+		if ($new_type != "")
 		{
 			$this->creation_mode = true;
 		}
@@ -205,14 +206,28 @@ class ilAdministrationGUI
 						}
 						else
 						{
-							if(is_subclass_of($class_name, "ilObject2GUI"))
+							if (!$this->creation_mode)
 							{
-								$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+								if(is_subclass_of($class_name, "ilObject2GUI"))
+								{
+									$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+								}
+								else
+								{
+									$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+								}
 							}
 							else
 							{
-								$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-							}						
+								if(is_subclass_of($class_name, "ilObject2GUI"))
+								{
+									$this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
+								}
+								else
+								{
+									$this->gui_obj = new $class_name("", 0, true, false);
+								}
+							}
 						}
 						$this->gui_obj->setCreationMode($this->creation_mode);
 					}
@@ -445,7 +460,7 @@ class ilAdministrationGUI
 				"user_administration" =>
 					array("usrf", 'tos', "rolf", "auth", "ps", "orgu"),
 				"learning_outcomes" =>
-					array("skmg", "cert", "trac")
+					array("skmg", "cert", "trac", "bdga")
 				),
 			2 => array(
 				"user_services" =>

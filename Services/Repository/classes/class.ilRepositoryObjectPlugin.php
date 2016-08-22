@@ -17,7 +17,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*
 	* @return        string        Component Type
 	*/
-	final function getComponentType()
+	function getComponentType()
 	{
 			return IL_COMP_SERVICE;
 	}
@@ -27,7 +27,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*
 	* @return        string        Component Name
 	*/
-	final function getComponentName()
+	function getComponentName()
 	{
 			return "Repository";
 	}
@@ -37,7 +37,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*
 	* @return        string        Slot Name
 	*/
-	final function getSlot()
+	function getSlot()
 	{
 			return "RepositoryObject";
 	}
@@ -47,7 +47,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*
 	* @return        string        Slot Id
 	*/
-	final function getSlotId()
+	function getSlotId()
 	{
 			return "robj";
 	}
@@ -55,7 +55,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	/**
 	* Object initialization done by slot.
 	*/
-	protected final function slotInit()
+	protected function slotInit()
 	{
 			// nothing to do here
 	}
@@ -65,17 +65,9 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*/
 	static function _getIcon($a_type, $a_size)
 	{
-		/*
-		switch($a_size)
-		{
-			case "small": $suff = ""; break;
-			case "tiny": $suff = "_s"; break;
-			default: $suff = "_b"; break;
-		}		 
-		*/
 		return ilPlugin::_getImagePath(IL_COMP_SERVICE, "Repository", "robj",
 			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj",$a_type),
-			"icon_".$a_type/*.$suff*/.".svg");
+			"icon_".$a_type.".svg");
 	}
 	
 	/**
@@ -172,7 +164,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 		}
 		
 		// assign creation operation to root, cat, crs, grp and fold
-		$par_types = array("root", "cat", "crs", "grp", "fold");
+		$par_types = $this->getParentTypes();
 		foreach ($par_types as $par_type)
 		{
 			$set = $ilDB->query("SELECT obj_id FROM object_data ".
@@ -225,6 +217,14 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getParentTypes() {
+		$par_types = array("root", "cat", "crs", "grp", "fold");
+		return $par_types;
 	}
 }
 ?>

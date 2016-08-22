@@ -256,7 +256,7 @@ class ilMainMenuGUI
 				: "";
 		
 			// login stuff
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
@@ -302,9 +302,6 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
-					// php7-workaround JL start
-					// the frequent polling messes up the log files
-					/* 
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -324,8 +321,6 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-					*/
-					// php7-workaround end
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
@@ -436,7 +431,7 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilAccess;
 
 		// personal desktop
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
@@ -452,7 +447,7 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			if($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
@@ -678,6 +673,17 @@ class ilMainMenuGUI
 			
 			if($separator)
 			{
+				$gl->addSeparator();
+			}
+			
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+				
 				$gl->addSeparator();
 			}
 			

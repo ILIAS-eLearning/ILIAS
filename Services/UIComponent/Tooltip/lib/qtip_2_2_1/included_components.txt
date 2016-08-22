@@ -1,6 +1,0 @@
-Included Components:
-
-2.2.0 stable
-Core Styles
-Speech bubble 'tips'
-Viewport Adjustments

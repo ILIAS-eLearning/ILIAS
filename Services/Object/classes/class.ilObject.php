@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObject
@@ -1409,6 +1410,10 @@ class ilObject
 			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
 			
+			// keep log of core object data 
+			include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
+			ilObjectDataDeletionLog::add($this);
+			
 			// remove news
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$news_item = new ilNewsItem();
@@ -1667,7 +1672,7 @@ class ilObject
 		else
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$options[0] = ilPlugin::lookupTxt("rep_robj", $new_type, "obj_".$new_type."_select");
+			$options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 
 		while($row = $ilDB->fetchObject($res))
@@ -2056,7 +2061,7 @@ class ilObject
 	{
 		global $ilDB;
 		
-		if(!in_array($a_type, array("catr", "crsr", "sess")))
+		if(!in_array($a_type, array("catr", "crsr", "sess", "grpr")))
 		{
 			return;
 		}
@@ -2078,6 +2083,7 @@ class ilObject
 		
 		switch($a_type)
 		{
+			case "grpr":
 			case "catr":
 			case "crsr":				
 				$set = $ilDB->query("SELECT oref.obj_id, od.type, od.title FROM object_data od".

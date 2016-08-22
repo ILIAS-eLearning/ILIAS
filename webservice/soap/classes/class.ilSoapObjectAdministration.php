@@ -822,6 +822,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					include_once('./Modules/CourseReference/classes/class.ilObjCourseReference.php');
 					$new_ref = new ilObjCourseReference();
 					break;
+				case 'grp':
+					include_once('./Modules/GroupReference/classes/class.ilObjGroupReference.php');
+					$new_ref = new ilObjGroupReference();
+					break;
 			}
 			$new_ref->create();
 			$new_ref_id = $new_ref->createReference();

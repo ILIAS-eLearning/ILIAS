@@ -1433,8 +1433,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'session_max_idle' => $ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE),
 				'session_max_idle_after_first_request' => $ilSetting->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST),
 
-				'passwd_auto_generate' => (bool)$ilSetting->get("passwd_auto_generate"),			
-				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0, 													
+				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0,
 				'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0, 													
 				'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
 				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
@@ -1515,8 +1514,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ilSetting->set('user_delete_own_account', (int)$this->form->getInput('user_own_account'));
 				$ilSetting->set('user_delete_own_account_email', $this->form->getInput('user_own_account_email'));
 				
-				$ilSetting->set("passwd_auto_generate", $this->form->getInput("passwd_auto_generate"));	
-				$ilSetting->set("password_assistance", $this->form->getInput("password_assistance"));	
+				$ilSetting->set("password_assistance", $this->form->getInput("password_assistance"));
 				
 				// BEGIN SESSION SETTINGS
 				$ilSetting->set('session_handling_type',
@@ -1713,12 +1711,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$pass->setTitle($this->lng->txt('ps_password_settings'));
 		$this->form->addItem($pass);
 		 
-		// password generation
-		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation_pre"), "passwd_auto_generate");
-		$cb->setChecked($ilSetting->get("passwd_auto_generate"));		
-		$cb->setInfo($this->lng->txt("passwd_generation_info"));
-		$this->form->addItem($cb);
-		
 		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_change_on_first_login_enabled'),'password_change_on_first_login_enabled');
 		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
 		$this->form->addItem($check);

@@ -705,8 +705,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Logout anonymous user to force authentication after calling mount uri
 		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
-			$GLOBALS['ilAuth']->logout();
-			session_destroy();
+			$GOBALS['DIC']['ilAuthSession']->logout();
 		}
 		
 		exit;

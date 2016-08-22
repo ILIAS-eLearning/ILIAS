@@ -1623,7 +1623,7 @@ class ilObjContentObject extends ilObject
 			$qti_file = fopen($a_target_dir."/qti.xml", "w");
 			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 			$pool = new ilObjQuestionPool();
-			fwrite($qti_file, $pool->toXML($this->q_ids));
+			fwrite($qti_file, $pool->questionsToXML($this->q_ids));
 			fclose($qti_file);
 		}
 		

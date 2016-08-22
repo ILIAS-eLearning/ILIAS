@@ -18,7 +18,7 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 */
 	public function getHTML($link = true) {
 		$value = $this->getRecordField()->getValue();
-		return ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATETIME));
+		return ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATE));
 	}
 
 

@@ -354,6 +354,65 @@ class ilObjectMetaDataGUI
 		
 		return $html;
 	}
+
+
+	//
+	// Key/value list
+	//
+
+
+	public function getKeyValueList()
+	{
+		$html = "";
+		$sep = "";
+
+		$old_dt = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
+		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
+		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type) as $record)
+		{
+			$vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id);
+
+
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+			include_once('Services/ADT/classes/class.ilADTFactory.php');
+
+			// this correctly binds group and definitions
+			$vals->read();
+
+			$defs = $vals->getDefinitions();
+			foreach ($vals->getADTGroup()->getElements() as $element_id => $element)
+			{
+				if($element instanceof ilADTLocation)
+				{
+					continue;
+				}
+
+				$html.= $sep.$defs[$element_id]->getTitle().": ";
+
+				if($element->isNull())
+				{
+					$value = "-";
+				}
+				else
+				{
+					$value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
+
+					$value = $value->getHTML();
+				}
+				$html.= $value;
+				$sep = ",&nbsp;&nbsp;&nbsp; ";
+			}
+
+		}
+
+		ilDatePresentation::setUseRelativeDates($old_dt);
+
+		return $html;
+	}
+
 }
 
 ?>

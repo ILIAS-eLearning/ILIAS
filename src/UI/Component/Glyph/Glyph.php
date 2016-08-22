@@ -9,7 +9,7 @@ use \ILIAS\UI\Component\Counter\Counter;
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph extends \ILIAS\UI\Component\Component {
+interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaScriptBindable {
 	// Types of glyphs:
 	const SETTINGS = "settings";
 	const EXPAND = "expand";

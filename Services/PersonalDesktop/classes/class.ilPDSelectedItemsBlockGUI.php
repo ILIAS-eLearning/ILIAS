@@ -4,6 +4,7 @@
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * BlockGUI class for Selected Items on Personal Desktop
@@ -1243,7 +1244,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
 			$title =
-				ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+				ilObjectPlugin::lookupTxtById($a_type, "objs_".$a_type);
 
 		}
 		$header_id = "th_".$a_type;

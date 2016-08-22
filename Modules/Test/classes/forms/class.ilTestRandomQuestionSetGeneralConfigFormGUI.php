@@ -49,7 +49,19 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 	 * @var ilTestRandomQuestionSetConfig
 	 */
 	public $questionSetConfig = null;
-	
+
+	/**
+	 * @var bool
+	 */
+	protected $editModeEnabled = true;
+
+	/**
+	 * @param ilCtrl $ctrl
+	 * @param ilLanguage $lng
+	 * @param ilObjTest $testOBJ
+	 * @param ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI
+	 * @param ilTestRandomQuestionSetConfig $questionSetConfig
+	 */
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
 	{
 		$this->ctrl = $ctrl;
@@ -59,6 +71,22 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 		$this->testOBJ = $testOBJ;
 		$this->questionSetConfigGUI = $questionSetConfigGUI;
 		$this->questionSetConfig = $questionSetConfig;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isEditModeEnabled()
+	{
+		return $this->editModeEnabled;
+	}
+
+	/**
+	 * @param boolean $editModeEnabled
+	 */
+	public function setEditModeEnabled($editModeEnabled)
+	{
+		$this->editModeEnabled = $editModeEnabled;
 	}
 	
 	public function build()
@@ -134,7 +162,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 			
 		$questionAmountConfigModePerTest->addSubItem($questionAmountPerTest);
 
-		if( $this->testOBJ->participantDataExist() )
+		if( !$this->isEditModeEnabled() )
 		{
 			$requirePoolsQuestionsHomoScored->setDisabled(true);
 			$questionAmountConfigMode->setDisabled(true);

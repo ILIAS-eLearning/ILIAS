@@ -58,15 +58,19 @@ class ilSession
 	protected static $enable_web_access_without_session = false;
 
 	/**
-	* Get session data from table
-	*
-	* @param	string		session id
-	* @return	string		session data
-	*/
+	 * Get session data from table
+	 * 
+	 * According to https://bugs.php.net/bug.php?id=70520 read data must return a string.
+	 * Otherwise session_regenerate_id might fail with php 7.
+	 * 
+	 * @param	string		session id
+	 * @return	string		session data
+	 */
 	static function _getData($a_session_id)
 	{
 		if(!$a_session_id) {
-			return NULL;
+			// fix for php #70520
+			return '';
 		}
 		global $ilDB;
 		
@@ -75,9 +79,31 @@ class ilSession
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
 	
-		return $rec["data"];
+		// fix for php #70520
+		return (string) $rec["data"];
 	}
 	
+	/**
+	 * Lookup expire time for a specific session
+	 * @global ilDB $ilDB
+	 * @param string $a_session_id
+	 * @return int expired unix timestamp
+	 */
+	public static function lookupExpireTime($a_session_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT expires FROM usr_session WHERE session_id = '.
+			$ilDB->quote($a_session_id, 'text');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return (int) $row->expires;
+		}
+		return 0;
+	}
+
+
 	/**
 	* Write session data
 	*
@@ -100,7 +126,7 @@ class ilSession
 
 		// prepare session data
 		$fields = array(
-			"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+			"user_id" => array("integer", (int) $_SESSION['_authsession_user_id']),
 			"expires" => array("integer", self::getExpireValue()),
 			"data" => array("clob", $a_data),
 			"ctime" => array("integer", $now),
@@ -418,7 +444,9 @@ class ilSession
 	{
 		return self::$closing_context;
 	}
-
+	
+	
+		
 	/**
 	 * @return boolean
 	 */

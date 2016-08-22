@@ -508,6 +508,7 @@ class ilDclRecordListGUI {
 
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
+		$list->determineOffsetAndOrder();
 
 		$limit = $list->getLimit();
 		$offset = $list->getOffset();

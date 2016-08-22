@@ -162,14 +162,12 @@ class ilLPStatusTestPassed extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB, $ilLog;
-		
+		global $ilDB;
+
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-		
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
 		$res = $ilDB->query("
-			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences, tst_active.last_finished_pass
 			FROM tst_active
 			LEFT JOIN tst_sequence
 			ON tst_sequence.active_fi = tst_active.active_id
@@ -177,28 +175,71 @@ class ilLPStatusTestPassed extends ilLPStatus
 			AND tst_active.test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
 			GROUP BY tst_active.active_id, tst_active.tries
 		");
-		
+
 		if ($rec = $ilDB->fetchAssoc($res))
 		{
 			if( $rec['sequences'] > 0 )
 			{
-				include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-				if (ilObjTestAccess::_isPassed($a_user_id, $a_obj_id))
+				require_once 'Modules/Test/classes/class.ilObjTest.php';
+				require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
+
+				$test_obj	= new ilObjTest($a_obj_id, false);
+				$is_passed	= ilObjTestAccess::_isPassed($a_user_id, $a_obj_id);
+
+				if($test_obj->getPassScoring() == SCORE_LAST_PASS)
 				{
-					$status = self::LP_STATUS_COMPLETED_NUM;
+					$is_finished	= false;
+					if($rec['last_finished_pass'] != null && $rec['sequences'] - 1 == $rec['last_finished_pass'])
+					{
+						$is_finished = true;
+					}
+					$status = $this->determineStatusForScoreLastPassTests($is_finished, $is_passed);
 				}
-				else
+				else if($test_obj->getPassScoring() == SCORE_BEST_PASS)
 				{
-					$status = self::LP_STATUS_FAILED_NUM;
+					$status = self::LP_STATUS_IN_PROGRESS_NUM;
+					if($rec['last_finished_pass'] != null)
+					{
+						$status = $this->determineLpStatus($is_passed);
+					}
 				}
-			}
-			else
-			{
-				$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 			}
 		}
-		
-		return $status;		
+
+		return $status;
+	}
+
+	/**
+	 * @param $is_finished
+	 * @param $passed
+	 * @return int
+	 */
+	protected function determineStatusForScoreLastPassTests($is_finished, $passed)
+	{
+		$status = self::LP_STATUS_IN_PROGRESS_NUM;
+
+		if($is_finished)
+		{
+			$status = $this->determineLpStatus($passed);
+		}
+
+		return $status;
+	}
+
+	/**
+	 * @param $passed
+	 * @return int
+	 */
+	protected function determineLpStatus($passed)
+	{
+		$status = self::LP_STATUS_FAILED_NUM;
+
+		if ($passed)
+		{
+			$status = self::LP_STATUS_COMPLETED_NUM;
+		}
+
+		return $status;
 	}
 
 	/**

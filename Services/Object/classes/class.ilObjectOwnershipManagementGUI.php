@@ -1,6 +1,7 @@
 <?php
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjectOwnershipManagementGUI
@@ -77,7 +78,7 @@ class ilObjectOwnershipManagementGUI
 				else
 				{					
 					include_once("./Services/Component/classes/class.ilPlugin.php");
-					$options[$type] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+					$options[$type] = ilObjectPlugin::lookupTxtById($type, "obj_".$type);
 				}
 			}		
 			asort($options);

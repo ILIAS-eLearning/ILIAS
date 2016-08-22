@@ -122,6 +122,8 @@ class ilQTIParser extends ilSaxParser
 		$this->ignoreItemsEnabled = $ignoreItemsEnabled;
 	}
 	
+	protected $questionSetType = null;
+	
 	/**
 	* Constructor
 	*
@@ -186,6 +188,22 @@ class ilQTIParser extends ilSaxParser
 		$this->in_assessment = FALSE;
 		$this->characterbuffer = "";
 		$this->metadata = array("label" => "", "entry" => "");
+	}
+
+	/**
+	 * @return null
+	 */
+	public function getQuestionSetType()
+	{
+		return $this->questionSetType;
+	}
+
+	/**
+	 * @param null $questionSetType
+	 */
+	public function setQuestionSetType($questionSetType)
+	{
+		$this->questionSetType = $questionSetType;
 	}
 	
 	function setTestObject(&$a_tst_object)
@@ -1525,12 +1543,35 @@ class ilQTIParser extends ilSaxParser
 	*/
 	function handlerVerifyBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
+		$this->qti_element = $a_name;
+		
 		switch (strtolower($a_name))
 		{
+			case "assessment":
+				include_once ("./Services/QTI/classes/class.ilQTIAssessment.php");
+				$this->assessment =& $this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
+				$this->in_assessment = TRUE;
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "title":
+								$this->assessment->setTitle($value);
+								break;
+							case "ident":
+								$this->assessment->setIdent($value);
+								break;
+						}
+					}
+				}
+				break;
 			case "questestinterop":
 				$this->verifyroot = true;
 				break;
 			case "qtimetadatafield":
+				$this->metadata = array("label" => "", "entry" => "");
 				$this->verifymetadatafield = 1;
 				break;
 			case "fieldlabel":
@@ -1660,6 +1701,17 @@ class ilQTIParser extends ilSaxParser
 	{
 		switch (strtolower($a_name))
 		{
+			case "assessment":
+				foreach($this->assessment->qtimetadata as $metaField)
+				{
+					if( $metaField['label'] == 'question_set_type' )
+					{
+						$this->setQuestionSetType($metaField['entry']);
+						break;
+					}
+				}
+				$this->in_assessment = FALSE;
+				break;
 			case "qticomment":
 				// check for "old" ILIAS qti format (not well formed)
 				$this->verifyqticomment = 0;
@@ -1670,6 +1722,11 @@ class ilQTIParser extends ilSaxParser
 				{
 					$this->founditems[count($this->founditems)-1]["type"] = $this->verifyfieldentrytext;
 				}
+				if ($this->in_assessment)
+				{
+					$this->assessment->addQtiMetadata($this->metadata);
+				}
+				$this->metadata = array("label" => "", "entry" => "");
 				break;
 			case "fieldlabel":
 				$this->verifyfieldlabel = 0;
@@ -1702,6 +1759,16 @@ class ilQTIParser extends ilSaxParser
 		else if ($this->verifyfieldentry == 1)
 		{
 			$this->verifyfieldentrytext = $a_data;
+		}
+		
+		switch($this->qti_element)
+		{
+			case "fieldlabel":
+				$this->metadata["label"] = $a_data;
+				break;
+			case "fieldentry":
+				$this->metadata["entry"] = $a_data;
+				break;
 		}
 	}
 	

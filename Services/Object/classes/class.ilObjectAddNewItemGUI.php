@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
  * Render add new item selector
@@ -246,7 +247,7 @@ class ilObjectAddNewItemGUI
 						if ($subitem["plugin"])
 						{
 							include_once("./Services/Component/classes/class.ilPlugin.php");
-							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+							$title = ilObjectPlugin::lookupTxtById($type, "obj_".$type);
 						}	
 						else
 						{
