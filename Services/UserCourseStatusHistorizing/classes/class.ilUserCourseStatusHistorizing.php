@@ -120,6 +120,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 			'booking_status'		=> 'text',
 			'participation_status'	=> 'text',
 			'okz'					=> 'text',
+			'certificate'			=> 'integer',
 			'certificate_hash'		=> 'text',
 			'certificate_version'	=> 'integer',
 			'certificate_filename'	=> 'text',
