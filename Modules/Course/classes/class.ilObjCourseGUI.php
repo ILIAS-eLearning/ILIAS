@@ -2533,7 +2533,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function editMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$post_participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['tutors'],(array) $_POST['members'], (array) $_POST['roles']));
 		$real_participants = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
@@ -2572,7 +2572,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem, $rbacreview, $ilUser, $ilAccess;
                 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['participants']))
 		{
@@ -2712,7 +2712,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem, $ilUser;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		// CHECK MEMBER_ID
 		if(!isset($_GET["member_id"]) or !$this->object->getMembersObject()->isAssigned((int) $_GET["member_id"]))
@@ -2758,7 +2758,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		if(!count($a_usr_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
@@ -2825,7 +2825,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 
 		if(!count($_POST["waiting"]))
 		{
@@ -2881,7 +2881,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilUser;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['waiting']))
 		{
@@ -2910,7 +2910,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -3008,7 +3008,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -3110,7 +3110,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilAccess, $ilUser;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$participants = array_merge((array) $_POST['admins'],(array) $_POST['tutors'], (array) $_POST['members'], (array) $_POST['roles']);
 		
@@ -3183,7 +3183,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacreview, $rbacsystem, $ilAccess, $ilUser;
                 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!is_array($_POST["participants"]) or !count($_POST["participants"]))
 		{
@@ -5130,7 +5130,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -5167,7 +5167,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -5207,7 +5207,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -5244,7 +5244,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
