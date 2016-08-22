@@ -128,21 +128,21 @@
 			var numConversations = conversations.length;
 			var numMessages = getModule().countUnreadMessages();
 			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
-			var messagesBadge = $('[data-onscreenchat-menu-nummessages]').hide();
+			var messagesBadge = $('[data-onscreenchat-menu-nummessages]');
 
-			conversationsBadge.html(numConversations);
+			conversationsBadge.find('span').html(numConversations);
 			if (numConversations == 0) {
-				conversationsBadge.hide();
+				conversationsBadge.find('.badge').addClass('iosOnScreenChatHidden');
 			} else {
-				conversationsBadge.show();
+				conversationsBadge.find('.badge').removeClass('iosOnScreenChatHidden');
 			}
 
-			/*messagesBadge.html(numMessages);
+			messagesBadge.find('span').html(numMessages);
 			if(numMessages == 0) {
-				messagesBadge.hide();
+				messagesBadge.find('.badge').addClass('iosOnScreenChatHidden');
 			} else {
-				messagesBadge.show();
-			}*/
+				messagesBadge.find('.badge').removeClass('iosOnScreenChatHidden');
+			}
 		},
 
 		syncProfileImages: function(images) {

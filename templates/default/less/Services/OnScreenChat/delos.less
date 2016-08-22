@@ -195,13 +195,37 @@
 		background-color: #f3f3f3;
 	}
 
-	.badge {
-		&.bottom {
-			background-color: #A0A0A0;
-			bottom: 5px;
-			position: absolute;
+	#onscreenchat_trigger {
+		display: block;
+
+		> span {
+			display: table-cell;
+		}
+
+		.ilBadgeSpacer {
+			display: inline-block;
+			height: 1px;
 		}
 	}
+
+	.iosOnScreenChatHidden {
+		visibility: hidden;
+	}
+
+	#onscreenchat_hbadge {
+		display:block;
+		height:16px;
+	}
+
+	#onscreenchat_badge {
+		display:block;
+		height:1px;
+
+		.badge {
+			background-color: #A0A0A0;
+		}
+	}
+
 }
 
 .ilOnScreenChatMenuItem {
