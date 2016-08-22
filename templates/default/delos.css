@@ -11533,6 +11533,9 @@ div.ilPCMyCoursesPath {
   overflow: hidden;
   color: #606060;
 }
+.ilOnScreenChatMenuItem .media-body p a {
+  color: #557196 !important;
+}
 /* Services/UIComponent/Modal */
 .modal-body .jstree li {
   overflow: hidden;

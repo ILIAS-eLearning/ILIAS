@@ -69,13 +69,13 @@
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('click', '[data-onscreenchat-menu-item]', function(e) {
 					$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
-					$('#onscreenchat_trigger[data-toggle="popover"]').popover("hide");
+					$('#onscreenchat_trigger[data-toggle="popover"]').popover('hide');
 				})
 				.on('click', '[data-onscreenchat-window]', function(e){
-					e.preventDefault();
-					e.stopPropagation();
+					if ($(e.target).closest('[data-onscreenchat-header]').size() == 0 && $(e.target).parent('[data-onscreenchat-chatbody-msg]').size() == 0) {
+						e.preventDefault();
+						e.stopPropagation();
 
-					if ($(e.target).closest('[data-onscreenchat-header]').size() == 0) {
 						$(this).find('[data-onscreenchat-message]').focus();
 					}
 				})
@@ -129,7 +129,6 @@
 					var conversation = getModule().storage.get(conversationId);
 					$chat.closeConversation(conversationId, getModule().user.id);
 					$menu.remove(conversation);
-					console.log("clicked close");
 					//$('#onscreenchat_trigger[data-toggle="popover"]').popover("hide");
 				})
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
@@ -163,7 +162,7 @@
 					var $this = $(this);
 					$this.html(momentFromNowToTime($this.data('livestamp')));
 				});
-			}, 10000);
+			}, 60000);
 		},
 
 		init: function() {
@@ -440,9 +439,6 @@
 			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
 			for(var index in messages) {
-				console.log("Has timestamp", getModule().historyTimestamps.hasOwnProperty(conversation.id));
-				console.log("Curent Timestamp", getModule().historyTimestamps[conversation.id]);
-				console.log("Message timestamp", messages[index].timestamp);
 				if(messages.hasOwnProperty(index) && (!getModule().historyTimestamps.hasOwnProperty(conversation.id) || getModule().historyTimestamps[conversation.id] > messages[index].timestamp)){
 					getModule().addMessage(messages[index], true);
 				}
