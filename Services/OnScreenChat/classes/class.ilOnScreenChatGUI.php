@@ -25,7 +25,7 @@ class ilOnScreenChatGUI
 	{
 		global $DIC;
 
-		return !$chatSettings->get('chat_enabled') || !$chatSettings->get('enable_osc') || !$DIC->user() || $DIC->user()->isAnonymous();
+		return $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc') && $DIC->user() && !$DIC->user()->isAnonymous();
 	}
 
 	/**
@@ -182,7 +182,7 @@ class ilOnScreenChatGUI
 		{
 			$clientSettings = new ilSetting('chatroom');
 
-			if(self::isOnScreenChatAccessible($clientSettings))
+			if(!self::isOnScreenChatAccessible($clientSettings))
 			{
 				self::$frontend_initialized = true;
 				return;
