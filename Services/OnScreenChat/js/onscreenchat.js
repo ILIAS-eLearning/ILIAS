@@ -283,9 +283,12 @@
 		},
 
 		scrollBottom: function(chatWindow) {
-			$(chatWindow).find('.panel-body').animate({
-				scrollTop: $(chatWindow).find('[data-onscreenchat-body]')[0].scrollHeight
-			}, 0);
+			// Prevented issue with non existing elements (when there is no conv. on document ready)
+			if ($(chatWindow).find('[data-onscreenchat-body]').length > 0) {
+				$(chatWindow).find('.panel-body').animate({
+					scrollTop: $(chatWindow).find('[data-onscreenchat-body]')[0].scrollHeight
+				}, 0);
+			}
 		},
 
 		resizeMessageInput: function(e){
