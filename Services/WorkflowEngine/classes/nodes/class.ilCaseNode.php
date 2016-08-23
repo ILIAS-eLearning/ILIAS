@@ -151,7 +151,8 @@ class ilCaseNode extends ilBaseNode
 
 		foreach((array)$this->condition_emitter_pairs as $pair)
 		{
-			$eval_function = create_function('$this', $pair['expression']);
+			$that = $this;
+			$eval_function = create_function('$that', $pair['expression']);
 			if($eval_function($this->detectors) === true)
 			{
 				$emitter = $pair['emitter'];
