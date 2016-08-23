@@ -44,6 +44,7 @@ class ilManualAssessmentMemberGUI {
 			case 'edit':
 			case 'save':
 			case 'finalize':
+			case 'finalizeConfirmation':
 				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
 					$a_parent_gui->handleAccessViolation();
 				}
@@ -85,6 +86,23 @@ class ilManualAssessmentMemberGUI {
 		$this->ctrl->redirect($this->members_gui);
 	}
 
+	protected function finalizeConfirmation() {
+		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+			$a_parent_gui->handleAccessViolation();
+		}
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->addHiddenItem('record', $_POST['record']);
+		$confirm->addHiddenItem('internal_note', $_POST['internal_note']);
+		$confirm->addHiddenItem('notify', $_POST['notify']);
+		$confirm->addHiddenItem('learning_progress',$_POST['learning_progress']);
+		$confirm->setHeaderText($this->lng->txt('mass_finalize_user_qst'));
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setConfirm($this->lng->txt('mass_finalize'), 'finalize');
+		$confirm->setCancel($this->lng->txt('cancel'), 'save');
+		$this->tpl->setContent($confirm->getHTML());
+	}
+
 	protected function finalize() {
 		if($this->mayBeEdited()) {
 			$form = $this->initGradingForm();
@@ -94,6 +112,7 @@ class ilManualAssessmentMemberGUI {
 				if($member->mayBeFinalized()) {
 					$this->member = $member->withFinalized()->maybeSendNotification($this->notificator);
 					$this->object->membersStorage()->updateMember($this->member);
+					ilUtil::sendSuccess($this->lng->txt('mass_membership_finalized'));
 					ilManualAssessmentLPInterface::updateLPStatusOfMember($this->member);
 					$this->view();
 				} else {
@@ -137,6 +156,7 @@ class ilManualAssessmentMemberGUI {
 			if($form->checkInput()) {
 				$this->member = $this->updateDataInMemberByArray($this->member,$_POST);
 				$this->object->membersStorage()->updateMember($this->member);
+				ilUtil::sendSuccess($this->lng->txt('mass_membership_saved'));
 			}
 			$this->renderForm($form);
 		} else {
@@ -193,10 +213,10 @@ class ilManualAssessmentMemberGUI {
 		if($may_be_edited) {
 			$form->addCommandButton('save', $this->lng->txt('save'));
 			if($this->object->isActiveLP()) {
-				$form->addCommandButton('finalize',$this->lng->txt('mass_finalize'));
+				$form->addCommandButton('finalizeConfirmation',$this->lng->txt('mass_finalize'));
 			}
 		}
-		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		$form->addCommandButton('cancel', $this->lng->txt('mass_return'));
 		return $form;
 	}
 
