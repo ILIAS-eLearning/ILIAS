@@ -97,6 +97,20 @@ class ilManualAssessmentMembersGUI {
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
+	protected function removeUserConfirmation() {
+		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+			$a_parent_gui->handleAccessViolation();
+		}
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->addItem('usr_id',$_GET['usr_id'], ilObjUser::_lookupFullname($_GET['usr_id']));
+		$confirm->setHeaderText($this->lng->txt('mass_remove_user_qst'));
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setConfirm($this->lng->txt('remove'), 'removeUser');
+		$confirm->setCancel($this->lng->txt('cancel'), 'view');
+		$this->tpl->setContent($confirm->getHTML());
+	}
+
 	/**
 	 * Remove users from corresponding mass-object. To be used by repository search.
 	 *
@@ -106,7 +120,7 @@ class ilManualAssessmentMembersGUI {
 		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
 			$a_parent_gui->handleAccessViolation();
 		}
-		$usr_id = $_GET['usr_id'];
+		$usr_id = $_POST['usr_id'];
 		$mass = $this->object;
 		$mass->loadMembers()
 			->withoutPresentUser(new ilObjUser($usr_id))

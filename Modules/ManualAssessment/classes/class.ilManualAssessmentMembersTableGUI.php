@@ -84,7 +84,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$l = new ilAdvancedSelectionListGUI();
 		if(!$a_set['finalized']) {	
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
-			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUser');
+			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt('mass_usr_remove'), 'removeUser', $target);
 		}
