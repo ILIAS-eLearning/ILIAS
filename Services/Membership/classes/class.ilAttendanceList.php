@@ -440,7 +440,7 @@ class ilAttendanceList
 			$settings = new ilUserFormSettings($this->id);
 			if(!$settings->hasStoredEntry())
 			{
-				$settings = new ilUserFormSettings('crss_pview', -1);
+				$settings = new ilUserFormSettings($this->parent_obj->object->getType().'s_pview', -1);
 			}
 			
 			$settings->deleteValue('desc'); // #11340

@@ -187,7 +187,7 @@ class ilMemberExportSettingsGUI
 		}
 		
 		include_once "Services/User/classes/class.ilUserFormSettings.php";
-		$settings = new ilUserFormSettings('crss_pview',-1);
+		$settings = new ilUserFormSettings($this->parent_type.'s_pview',-1);
 		$settings->exportToForm($form);
 		
 		return $form;
@@ -207,7 +207,7 @@ class ilMemberExportSettingsGUI
 			
 			ilUserFormSettings::deleteAllForId('crsmemlst');
 			
-			$settings = new ilUserFormSettings('crss_pview',-1);
+			$settings = new ilUserFormSettings($this->parent_type.'s_pview',-1);
 			$settings->importFromForm($form);
 			$settings->store();
 			
