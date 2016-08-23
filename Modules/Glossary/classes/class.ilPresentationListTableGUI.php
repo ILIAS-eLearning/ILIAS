@@ -243,15 +243,18 @@ class ilPresentationListTableGUI extends ilTable2GUI
 						$ltexe = strpos($short_str, "[/tex]", $ltexs);
 						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 					}
+// fau: mathJaxServer - use new class
+					include_once './Services/Utilities/classes/class.ilMathJax.php';
 					if (!$this->offline)
 					{
-						$short_str = ilUtil::insertLatexImages($short_str);
+						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
 					}
 					else
 					{
-						$short_str = ilUtil::buildLatexImages($short_str,
-							$this->parent_obj->getOfflineDirectory());
+						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str, '[tex]', '[/tex]',
+							$this->parent_obj->getOfflineDirectory().'/teximg','./teximg');
 					}
+// fau.
 					$short_str = ilPCParagraph::xml2output($short_str);
 
 					$this->tpl->setVariable("DEF_SHORT", $short_str);

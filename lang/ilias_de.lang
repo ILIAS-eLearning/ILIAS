@@ -12685,6 +12685,29 @@ mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, wie sie in Ihrer MathJax-Installation konfiguriert sind.
+mathjax#:#mathjax_home_link#:# » MathJax###fau: mathJaxServer
+mathjax#:#mathjax_enable_client#:#MathJax im Browser aktivieren###fau: mathJaxServer
+mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren###fau: mathJaxServer
+mathjax#:#mathjax_enable_server_info#:#Aktiviert eine serverseitige Umwandlung von TeX in Grafiken.###fau: mathJaxServer
+mathjax#:#mathjax_server_installation#:# » Installation###fau: mathJaxServer
+mathjax#:#mathjax_server_address#:#Server-Adresse###fau: mathJaxServer
+mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003###fau: mathJaxServer
+mathjax#:#mathjax_server_timeout#:#Antwortzeit###fau: mathJaxServer
+mathjax#:#mathjax_server_timeout_info#:#Maximale Wartezeit auf eine Antwort des MathJax-Servers in Sekunden###fau: mathJaxServer
+mathjax#:#mathjax_server_for_pdf#:#Für die PDF-Erzeugung verwenden###fau: mathJaxServer
+mathjax#:#mathjax_server_for_pdf_info#:#Der Server wird zur Darstellung von TeX in PDF-Dokumenten verwendet.###fau: mathJaxServer
+mathjax#:#mathjax_server_for_browser#:#Für den Browser verwenden###fau: mathJaxServer
+mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.###fau: lateex
+mathjax#:#mathjax_server_for_export#:#Für HTML-Exporte verwenden###fau: mathJaxServer
+mathjax#:#mathjax_server_for_export_info#:#TeX wird in HTML-Exporten von Lernmodulen als SVG-Grafik exportiert.###fau: mathJaxServer
+mathjax#:#mathjax_server_cached#:#Grafiken cachen###fau: mathJaxServer
+mathjax#:#mathjax_server_cached_info#:#Erzeugte Grafiken werden im Webdatenverzeichnis von ILIAS gespeichert.###fau: mathJaxServer
+mathjax#:#mathjax_server_clear_cache#:# » Cache leeren###fau: mathJaxServer
+mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.###fau: mathJaxServer
+mathjax#:#mathjax_server_cache_size#:#Cache-Größe###fau: mathJaxServer
+mathjax#:#mathjax_server_cache_size_info#:#Festplattenspeicher, der zur Speicherung der Grafiken verbraucht wird.
+mathjax#:#mathjax_test_expression#:#Test-Ausdruck###fau: mathJaxServer
+mathjax#:#mathjax_test_expression_info#:#Dieser LaTeX-Ausdruck wird mit den gespeicherten MathJax-Einstellungen dargestellt.###fau: mathJaxServer
 content#:#cont_initial_attached_content#:#Zusätzliche Einstiegsinhalte
 content#:#cont_topic#:#Thema
 content#:#cont_selected_topic#:#Ausgewähltes Thema

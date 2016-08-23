@@ -257,7 +257,10 @@ class ilTermListTableGUI extends ilTable2GUI
 				$ltexe = strpos($short_str, "[/tex]", $ltexs);
 				$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 			}
-			$short_str = ilUtil::insertLatexImages($short_str);
+// fau: mathJaxServer - use new class
+			include_once './Services/Utilities/classes/class.ilMathJax.php';
+			$short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
+// fau.
 			$short_str = ilPCParagraph::xml2output($short_str);
 			$this->tpl->setVariable("DEF_SHORT", $short_str);
 			$this->tpl->parseCurrentBlock();

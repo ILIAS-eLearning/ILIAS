@@ -4082,9 +4082,11 @@ abstract class assQuestion
 		$a_q = str_replace("</li><br />", "</li>", $a_q);
 		$a_q = str_replace("</li><br>", "</li>", $a_q);
 		
-		$a_q = ilUtil::insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
-		$a_q = ilUtil::insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
-
+// fau: mathJaxServer - use new class
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		$a_q = ilMathJax::getInstance()->insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
+		$a_q = ilMathJax::getInstance()->insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
+// fau.
 		$a_q = str_replace('{', '&#123;', $a_q);
 		$a_q = str_replace('}', '&#125;', $a_q);
 		

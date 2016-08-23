@@ -954,6 +954,11 @@ class ilTestServiceGUI
 	 */
 	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
+// fau: mathJaxServer - prepare generation before contents are processed
+		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+		ilPDFGeneration::prepareGeneration();
+// fau.
+
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 

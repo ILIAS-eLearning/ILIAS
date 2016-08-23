@@ -2186,6 +2186,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	function exportHTMLPages($a_target_directory, $a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
 	{					
+// fau: mathJaxServer - init mathjax for html export
+		require_once('Services/Utilities/classes/class.ilMathJax.php');
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+// fau.
+
 		if(!$a_link_template)
 		{
 			$a_link_template = "bl{TYPE}_{ID}.html";

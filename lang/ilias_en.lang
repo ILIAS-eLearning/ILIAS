@@ -7096,6 +7096,29 @@ mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
+mathjax#:#mathjax_home_link#:# » MathJax###fau: mathJaxServer
+mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser###fau: mathJaxServer
+mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server###fau: mathJaxServer
+mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.###fau: mathJaxServer
+mathjax#:#mathjax_server_installation#:# » Installation###fau: mathJaxServer
+mathjax#:#mathjax_server_address#:#Server Address###fau: mathJaxServer
+mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###fau: mathJaxServer
+mathjax#:#mathjax_server_timeout#:#Timeout###fau: mathJaxServer
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds###fau: mathJaxServer
+mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation###fau: mathJaxServer
+mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.###fau: mathJaxServer
+mathjax#:#mathjax_server_for_browser#:#Use for Browser###fau: mathJaxServer
+mathjax#:#mathjax_server_for_browser_info#:#TeX will be shown as SVG graphics. Enabling MathJax in the browser is unneccessary.###fau: mathJaxServer
+mathjax#:#mathjax_server_for_export#:#Use for HTML Export###fau: mathJaxServer
+mathjax#:#mathjax_server_for_export_info#:#TeX will be exported as SVG graphic for learning module exports to HTML.###fau: mathJaxServer
+mathjax#:#mathjax_server_cached#:#Cache Graphics###fau: mathJaxServer
+mathjax#:#mathjax_server_cached_info#:#Cache all rendered graphics in the ILIAS web directory.###fau: mathJaxServer
+mathjax#:#mathjax_server_clear_cache#:# » Clear Cache###fau: mathJaxServer
+mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###fau: mathJaxServer
+mathjax#:#mathjax_server_cache_size#:#Cache Size###fau: mathJaxServer
+mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
+mathjax#:#mathjax_test_expression#:#Test Expression###fau: mathJaxServer
+mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.###fau: mathJaxServer
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
