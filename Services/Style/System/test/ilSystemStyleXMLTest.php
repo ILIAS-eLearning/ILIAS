@@ -7,7 +7,7 @@ include_once("./Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleXMLTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleXMLTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var ilSkinStyleXML

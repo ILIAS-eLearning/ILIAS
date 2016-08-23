@@ -1,7 +1,7 @@
 <?php
 require_once("libs/composer/vendor/autoload.php");
 
-require_once("ilLanguageMock.php");
+require_once("ilSystemStyleLanguageMock.php");
 
 
 
@@ -10,11 +10,11 @@ require_once("ilLanguageMock.php");
 /**
  * Class ilLanguageMock
  */
-class DICMock extends ILIAS\DI\Container {
+class ilSystemStyleDICMock extends ILIAS\DI\Container {
 	/**
 	 * @return	ilLanguageMock
 	 */
 	public function language() {
-		return new ilLanguageMock();
+		return new ilSystemStyleLanguageMock();
 	}
 }

@@ -4,7 +4,7 @@ include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php")
 include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/DICMock.php");
+include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
 
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
 include_once("Services/Utilities/classes/class.ilUtil.php");
@@ -37,10 +37,13 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $system_style_config;
 
+	protected $save_dic = null;
+
 	protected function setUp(){
 		global $DIC;
 
-		$DIC = new DICMock();
+		$this->save_dic = $DIC;
+		$DIC = new ilSystemStyleDICMock();
 
 		$this->skin = new ilSkinXML("skin1", "skin 1");
 
@@ -63,6 +66,9 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function tearDown(){
+		global $DIC;
+		$DIC = $this->save_dic;
+
 		ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
 	}
 
