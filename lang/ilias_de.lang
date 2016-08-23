@@ -15917,8 +15917,8 @@ mass#:#mass_add_user_failure#:#Kann einen oder mehrere Benutzer nicht hinzufüge
 mass#:#mass_graded_by#:#Bewertet von
 mass#:#mass_usr_remove#:#Benutzer entfernen
 mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
-mass#:#mass_usr_view#:#Prüfungsdaten betrachten
-mass#:#mass_edit_record#:#Prüfungsdaten bearbeiten
+mass#:#mass_usr_view#:#Prüfungsdaten
+mass#:#mass_edit_record#:#Prüfungsdaten
 mass#:#mass_record#:#Prüfungsnotiz
 mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
 mass#:#mass_status_completed#:#bestanden
@@ -15959,3 +15959,7 @@ rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
 mass#:#mass_add#:#Manuelle Bewertung hinzufügen
+mass#:#mass_membership_finalized#:#Status finalisiert
+mass#:#mass_membership_saved#:#Status gespeichert
+mass#:#mass_return#:#Zurück zur Übersicht
+mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?

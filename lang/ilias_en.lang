@@ -15908,7 +15908,6 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
-content#:#cont_permission_object#:#Permission Object
 mass#:#general#:#General iformation
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
@@ -15917,8 +15916,8 @@ mass#:#mass_add_user_failure#:#Can not add one or more users
 mass#:#mass_graded_by#:#Graded by
 mass#:#mass_usr_remove#:#Remove user from object
 mass#:#mass_usr_edit#:#Edit user record and learning progress
-mass#:#mass_usr_view#:#View user record
-mass#:#mass_edit_record#:#Edit record
+mass#:#mass_usr_view#:#User record
+mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
 mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
 mass#:#mass_status_completed#:#Completed
@@ -15959,3 +15958,8 @@ rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
 mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
 mass#:#mass_edit#:#Settings
 mass#:#mass_add#:#Create Manual Assessment
+mass#:#mass_membership_finalized#:#Record finalized
+mass#:#mass_membership_saved#:#Record saved
+mass#:#mass_return#:#Back to overview
+mass#:#mass_remove_user_qst#:#Should the user really be removed?
+mass#:#mass_finalize_user_qst#:#Should the user status really be finalized? (No changes possibel thereafter.)
