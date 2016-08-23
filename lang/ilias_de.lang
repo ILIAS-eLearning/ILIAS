@@ -336,6 +336,8 @@ assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, 
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
+assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
+assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#tst_question_not_from_pool_info#:#Kein Pool
