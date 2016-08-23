@@ -156,8 +156,9 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	protected function getCertificate() {
 		// check weather this cert really belongs to an edu bio of the current user
 		$crs_id = $_GET["crs_id"];
+		$usr_id = $_GET["target_user_id"];
 		$cert_name = $_GET["cert_name"];
-		if (!$this->object->validateCertificate($crs_id)) {
+		if (!$this->object->validateCertificate($crs_id,$usr_id,$cert_name)) {
 			$this->gCtrl->redirect($this, "showContent");
 		}
 		if ($this->object->deliverCertificate($cert_name)) {
