@@ -616,6 +616,11 @@ class ilSystemStyleSkinContainer {
 	 * @throws ilSystemStyleException
 	 */
 	public function compileLess($style_id){
+
+		if(!PATH_TO_LESSC){
+			throw new ilSystemStyleException(ilSystemStyleException::LESSC_NOT_INSTALLED);
+		}
+
 		$output = shell_exec(PATH_TO_LESSC." ".$this->getLessFilePath($style_id));
 		if(!$output){
 			$less_error = shell_exec(PATH_TO_LESSC." ".$this->getLessFilePath($style_id)." 2>&1");
