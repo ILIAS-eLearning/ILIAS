@@ -4,7 +4,7 @@ include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php")
 include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/DICMock.php");
+include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
 
 include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIcon.php");
 
@@ -42,11 +42,16 @@ class ilSystemStyleIconTest extends PHPUnit_Framework_TestCase
 	 */
 	protected $icon_type = "svg";
 
+
+	protected $save_dic = null;
+
 	protected function setUp()
 	{
 		global $DIC;
 
-		$DIC = new DICMock();
+		$this->save_dic = $DIC;
+
+		$DIC = new ilSystemStyleDICMock();
 
 		$this->system_style_config = new ilSystemStyleConfigMock();
 
@@ -59,6 +64,8 @@ class ilSystemStyleIconTest extends PHPUnit_Framework_TestCase
 
 	protected function tearDown()
 	{
+		global $DIC;
+		$DIC = $this->save_dic;
 		ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
 	}
 

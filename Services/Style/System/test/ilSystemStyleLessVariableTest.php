@@ -7,7 +7,7 @@ include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessVariab
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessVariableTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleLessVariableTest extends PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
 		$variable = new ilSystemStyleLessVariable("name", "value", "comment","category_name", ["references_id"]);

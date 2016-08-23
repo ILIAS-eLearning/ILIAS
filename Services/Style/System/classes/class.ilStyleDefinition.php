@@ -118,7 +118,7 @@ class ilStyleDefinition
 
 		$system_style_conf = new ilSystemStyleConfig();
 
-		if (is_object($ilias)) {
+		if (is_object($ilias) && is_object($ilias->account) && property_exists($ilias->account,"skin")) {
 			$skin_id = $ilias->account->skin;
 			if(!self::skinExists($skin_id)){
 				ilUtil::sendFailure($DIC->language()->txt("set_skin_does_not_exist")." ".$skin_id);
@@ -126,6 +126,7 @@ class ilStyleDefinition
 			}
 			return $skin_id;
 		}else{
+
 			return null;
 		}
 

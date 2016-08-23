@@ -6,7 +6,7 @@
 /**
  * Class ilLanguageMock
  */
-class ilLanguageMock {
+class ilSystemStyleLanguageMock {
 	public $requested = array();
 
 	/**
