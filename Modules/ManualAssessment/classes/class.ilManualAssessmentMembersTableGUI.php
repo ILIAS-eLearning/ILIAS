@@ -47,9 +47,11 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->tpl->parseCurrentBlock();
 		if($this->may_view) {
 			$this->tpl->setCurrentBlock('lp_info');
+			$status = $a_set[ilManualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilManualAssessmentMembers::LP_IN_PROGRESS;
 			$this->tpl->setVariable("LP_STATUS",
-				$this->getImagetPathForStatus($a_set[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS]));
-			$this->tpl->setVariable("GRADED_BY", $a_set[ilManualAssessmentMembers::FIELD_EXAMINER_ID] 
+				$this->getImagetPathForStatus($status));
+			$this->tpl->setVariable("GRADED_BY", 
+				$a_set[ilManualAssessmentMembers::FIELD_EXAMINER_ID] && $a_set[ilManualAssessmentMembers::FIELD_FINALIZED]
 				?	$a_set[ilManualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", "
 						.$a_set[ilManualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME]
 				: 	'');
