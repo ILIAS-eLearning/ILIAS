@@ -70,13 +70,15 @@ class ilSystemStyleLessFile
 		$last_category_id = null;
 		$last_category_name = null;
 
-		$regex_category = '/\/\/==\s(.*)/';
-		$regex_category_comment = '/\/\/##\s(.*)/';
-		$regex_variable = '/^@(.*)/';
-		$regex_variable_comment = '/\/\/\*\*\s(.*)/';
-		$regex_variable_name = '/(?:@)(.*)(?:\:)/';
-		$regex_variable_value = '/(?::)(.*)(?:;)/';
-		$regex_variable_references = '/(?:@)([a-zA-Z0-9_-]*)/';
+		$regex_category = '/\/\/==\s(.*)/'; //Matches //== Category Name
+		$regex_category_by_line = '/^\/\/[\s]?$/'; //Matches // at the end of the line with not comment
+		$regex_category_comment = '/\/\/##\s(.*)/'; //Matches Matches //## Category Description
+		$regex_variable = '/^@(.*)/'; //Matches @VariableName value;
+		$regex_variable_comment = '/\/\/\*\*\s(.*)/'; //Matches //** Variable Comment
+		$regex_variable_name = '/(?:@)(.*)(?:\:)/'; //Matches @variableName
+		$regex_variable_value = '/(?::)(.*)(?:;)/'; //Matches value;
+		$regex_variable_references = '/(?:@)([a-zA-Z0-9_-]*)/'; //Matches references in value
+
 		try{
 			$handle = fopen($this->getLessVariablesFile(), "r");
 		}catch(Exception $e){
@@ -86,16 +88,19 @@ class ilSystemStyleLessFile
 
 		if ($handle) {
 			$line_number = 1;
+			$last_line_is_category = false;
 			//Reads file line by line
 			while (($line = fgets($handle)) !== false) {
-
-
+				//This might be part of the categories structure, if so, ignore
+				if($last_line_is_category && preg_match($regex_category_by_line, $line, $out)){
+					$line = fgets($handle);
+				}
+				$last_line_is_category = false;
 				if(preg_match($regex_category, $line, $out)){
 					//Check Category
 					$last_category_id = $this->addItem(new ilSystemStyleLessCategory($out[1]));
 					$last_category_name = $out[1];
-					//Line bellow Category name belongs to Category
-					fgets($handle);
+					$last_line_is_category = true;
 				} else if(preg_match($regex_category_comment, $line, $out)){
 					//Check Comment Category
 					$last_category = $this->getItemById($last_category_id);
