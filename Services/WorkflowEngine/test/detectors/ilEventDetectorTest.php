@@ -57,14 +57,23 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 			'Construction failed with valid context passed to constructor.'
 		);
 	}
-	
-	/**
-     * @expectedException PHPUnit_Framework_Error
-     */
+
 	public function testConstructorInvalidContext()
 	{
-		// Act
-		$detector = new ilEventDetector($this->workflow);
+		try
+		{
+			// Act
+			$detector = new ilEventDetector($this->workflow);
+			$this->fail('');
+		}
+		catch(PHPUnitFrameworkError $e)
+		{
+
+		}
+		catch(TypeError $e)
+		{
+
+		}
 
 		// Assert
 		$this->assertTrue(

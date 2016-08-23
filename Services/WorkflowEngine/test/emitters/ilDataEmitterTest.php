@@ -56,14 +56,23 @@ class ilDataEmitterTest extends PHPUnit_Framework_TestCase
 			'Construction failed with valid context passed to constructor.'
 		);
 	}
-	
-	/**
-     * @expectedException PHPUnit_Framework_Error
-     */
+
 	public function testConstructorInvalidContext()
 	{
-		// Act
-		$emitter = new ilDataEmitter($this->workflow);
+		try
+		{
+			// Act
+			$emitter = new ilDataEmitter($this->workflow);
+			$this->fail('');
+		}
+		catch(PHPUnitFrameworkError $e)
+		{
+
+		}
+		catch(TypeError $e)
+		{
+
+		}
 
 		// Assert
 		$this->assertTrue(
