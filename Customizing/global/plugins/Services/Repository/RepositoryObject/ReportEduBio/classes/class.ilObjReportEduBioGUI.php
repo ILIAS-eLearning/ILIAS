@@ -219,7 +219,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 			$params = array("bill_id" => $rec["bill_id"],  "target_user_id" => self::$target_user_id);
 			$rec["action"] .= "<a href='".self::getLinkToThis("getBill",$params)."'>". self::$get_bill_img."</a>";
 		}
-		if ($rec["certificate"] != -1 && $rec["certificate"] != 0) {
+		if ($rec["certificate_filename"] != null && $rec["certificate_filename"] != '-empty-') {
 			$params = array("crs_id" => $rec["crs_id"], 
 							"cert_name" => $rec["certificate_filename"],
 							"target_user_id" => self::$target_user_id);
