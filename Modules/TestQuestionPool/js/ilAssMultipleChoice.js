@@ -94,13 +94,13 @@
 
     var attachSelectionChangeHandler = function(questionId)
     {
-        console.log(buildAllChoiceOptionsSelector(questionId)+':enabled');
+        console.log($(buildAllChoiceOptionsSelector(questionId)+':enabled'));
         $(buildAllChoiceOptionsSelector(questionId)+':enabled').each(
             function(pos, item)
-            {//console.log(pos);
+            {console.log(pos, item);
                 $(item).on('change', handleSelectionChange);
             }
-        );
+        )
     };
 
     var detachSelectionChangeHandler = function(questionId)
