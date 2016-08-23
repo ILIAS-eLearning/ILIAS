@@ -76,8 +76,11 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}responsive-utilities.less";
 
 // UI framework
-@import "../../src/UI/templates/default/Counter/counter.less";
-@import "../../src/UI/templates/default/Glyph/glyph.less";
+@uibase: "../../src/UI/templates/default/";
+@import "@{uibase}Counter/counter.less";
+@import "@{uibase}Glyph/glyph.less";
+@import "@{uibase}Card/card.less";
+@import "@{uibase}Deck/deck.less";
 
 @import "less/variables.less";             // customized
 

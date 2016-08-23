@@ -1953,10 +1953,46 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		$this->members_data = $this->readMemberData($part->getParticipants());
+		$this->members_data = $this->addCustomData($this->members_data);
+		
 		$list->getNonMemberUserData($this->members_data);
 		
 		echo $list->getFullscreenHTML();
 		exit();	
+	}
+	
+	
+	/**
+	 * 
+	 * @param array $a_data
+	 */
+	protected function addCustomData($a_data)
+	{
+		// object defined fields
+		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+		$odfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
+		
+		$res_data = array();
+		foreach($a_data as $usr_id => $user_data)
+		{
+			$res_data[$usr_id] = $user_data;
+			
+			// udf
+			include_once './Services/User/classes/class.ilUserDefinedData.php';
+			$udf_data = new ilUserDefinedData($usr_id);
+			foreach($udf_data->getAll() as $field => $value)
+			{
+				list($f,$field_id) = explode('_', $field);
+				$res_data[$usr_id]['udf_'.$field_id] = (string) $value;
+			}
+				
+			foreach((array) $odfs[$usr_id] as $cdf_field => $cdf_value)
+			{
+				$res_data[$usr_id]['cdf_'.$cdf_field] = (string) $cdf_value;
+			}
+		}
+		
+		return $res_data;
 	}
 
 	/**

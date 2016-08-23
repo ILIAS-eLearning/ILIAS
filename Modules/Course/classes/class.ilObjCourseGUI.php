@@ -2242,11 +2242,36 @@ class ilObjCourseGUI extends ilContainerGUI
 			$failed = ilLPStatusWrapper::_lookupFailedForObject($this->object->getId());
 		}
 		
+		$profile_data = ilObjUser::_readUsersProfileData($a_members);
+
+		// course defined fields
+		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+		$cdfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
+
 		foreach($a_members as $member_id)
 		{
 			// GET USER OBJ
 			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
 			{
+				// udf
+				include_once './Services/User/classes/class.ilUserDefinedData.php';
+				$udf_data = new ilUserDefinedData($member_id);
+				foreach($udf_data->getAll() as $field => $value)
+				{
+					list($f,$field_id) = explode('_', $field);
+					$print_member[$member_id]['udf_'.$field_id] = (string) $value;
+				}
+				
+				foreach((array) $cdfs[$member_id] as $cdf_field => $cdf_value)
+				{
+					$print_member[$member_id]['cdf_'.$cdf_field] = (string) $cdf_value;
+				}
+
+				foreach((array) $profile_data[$member_id] as $field => $value)
+				{
+					$print_member[$member_id][$field] = $value;
+				}
+				
 				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
 				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
 

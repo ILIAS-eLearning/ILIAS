@@ -94,10 +94,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilUser, $ilAccess, $lng;
+		global $ilCtrl, $ilTabs, $ilUser, $ilAccess, $lng, $tpl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		$tpl->setHeaderPageTitle(ilObject::_lookupTitle(ilObject::_lookupObjId((int) $_GET["ref_id"])).": ".$this->getWikiPage()->getTitle());
 
 		switch($next_class)
 		{

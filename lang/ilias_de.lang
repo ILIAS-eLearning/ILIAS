@@ -336,6 +336,8 @@ assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, 
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
+assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
+assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#tst_question_not_from_pool_info#:#Kein Pool
@@ -2736,7 +2738,7 @@ common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#block#:#Block
 common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
-common#:#bm_add_to_ilias#:#ILIAS-Bookmark
+common#:#bm_add_to_ilias#:#Zu ILIAS-Bookmarks hinzufügen
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
@@ -4463,6 +4465,7 @@ common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
 common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblink-Sammlung aus --
 common#:#obj_wfld#:#Ordner
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
@@ -11515,7 +11518,7 @@ trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
-trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status des Lernfortschritts
+trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Lernmodul.
 trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
@@ -14758,6 +14761,34 @@ scormtrac#:#user_id#:#Benutzer-Id
 scormtrac#:#weighting#:#weighting: Gewichtung
 scormtrac#:#report#:#Report
 scormtrac#:#display_not_allowed#:#Anzeige hier nicht erlaubt
+wfe#:#dashboard#:#Dashboard
+wfe#:#definitions#:#Prozessdefinitionen
+wfe#:#instances#:#Prozessinstanzen
+wfe#:#obj_wfe_desc#:#Prozessautomatisierung
+wfe#:#upload_process#:#Prozessdefinition hochladen
+wfe#:#process_definition_file#:#Prozessdefinitionsdatei
+wfe#:#process_definition_file_info#:#BPMN2-Modelle
+wfe#:#upload_parse_success#:#Prozessdefinition hochgeladen, geparst und abgelegt.
+wfe#:#definition_table_title#:#Prozessdefinitionen
+wfe#:#start_process#:#Prozess starten
+wfe#:#process_started#:#Prozess gestartet
+wfe#:#input_variables_required#:#Eingaben erforderlich
+wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
+wfe#:#input_static_variables_desc#:#Der Prozess benötigt zu seinen Starts folgende Angaben:
+wfe#:#delete_definition#:#Definition l&ouml;schen
+wfe#:#definition_deleted#:#Workflow-Definition gel&ouml;scht.
+wfe#:#subject_type#:#Subjekt Typ
+wfe#:#subject_id#:#Subjekt ID
+wfe#:#subject_by_id#:#Subjekt nach ID
+wfe#:#subject_by_mask#:#Maskiertes Subjekt
+wfe#:#context_type#:#Kontext Typ
+wfe#:#context_id#:#Kontext ID
+wfe#:#context_by_id#:#Kontext nach ID
+wfe#:#context_by_mask#:#Maskierter Kontext
+wfe#:#start_listening#:#Listener aktivieren
+wfe#:#stop_listening#:#Listener deaktivieren
+wfe#:#static_input_form_header#:#Eingabedaten f&uuml;r alle Instanzen des Workflows
+wfe#:#start_event_form_header#:#Relevante Ereignisse f&uuml;r den Start der Workflows
 common#:#ps_export_scorm#:#SCORM-Protokolldaten
 common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -15885,7 +15916,7 @@ badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
 trac#:#trac_defaults#:#Bestanden-Status
-trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen###fau: testNav
@@ -15915,4 +15946,329 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
-content#:#cont_permission_object#:#Berechtigungsobjekt
+survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
+survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
+survey#:#svy_reminder_mail_template#:#Mail-Vorlage
+survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
+survey#:#svy_eval_view#:#Anzeige
+survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
+survey#:#svy_eval_view_tables#:#Tabelle
+survey#:#svy_eval_view_charts#:#Grafik
+survey#:#svy_eval_captions#:#Kennzahl
+survey#:#svy_eval_captions_abs_perc#:#Anzahl und Prozent
+survey#:#svy_eval_captions_abs#:#Anzahl
+survey#:#svy_eval_captions_perc#:#Prozent
+style#:#add_system_style#:#Neuer System Style
+style#:#add_substyle#:#Neuer Sub Style
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin Name
+style#:#skin#:#Skin
+style#:#style_id#:#Style ID
+style#:#Style#:#Style
+style#:#style_name#:#Style Name
+style#:#image_dir#:#Icon-Ordner
+style#:#font_dir#:#Schrift-Ordner
+style#:#sound_dir#:#Audio-Ordner
+style#:#system_style_activation#:#System Style aktiviert
+style#:#personal#:#Persönlich
+style#:#system_styel_activation#:#aktiviere System Style
+style#:#less#:#Less
+style#:#icons#:#Icons
+style#:#documentation#:#Dokumentation
+style#:#less_can_not_be_modified#:#Less kann nicht verändert werden.
+style#:#no_less_path_set#:#Das Less Verzeichnis ist nicht gesetzt.
+style#:#less_less_installation_detected#:#Less Installation gefunden:
+style#:#grey_colors#:#Graue Farben
+style#:#grey_color#:#Grauton
+style#:#grey_colors_description#:#Grauton Beschreibung
+style#:#red_colors#:#Rote Farben
+style#:#red_color#:#Rotton
+style#:#red_colors_description#:#Rotton Beschreibung
+style#:#green_colors#:#Grüne Farben
+style#:#green_color#:#Grünton
+style#:#green_colors_description#:#Grünton Beschreibung
+style#:#blue_colors#:#Blaue Farben
+style#:#blue_color#:#Blauton
+style#:#blue_colors_description#:#Blauton Beschreibung
+style#:#reset_icons#:#Farben zurücksetzen
+style#:#update_colors#:#Farben aktualisieren
+style#:#style_not_deleted#:#Der Style konnte aus folgenden Gründen nicht gelöscht werden:
+style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
+style#:#cant_delete_activated_style#:#Aktive Styles können nicht gelöscht werden.
+style#:#style_deleted#:#Gelöschter Style:
+style#:#dir_preserved_linked#:#Behaltene Links:
+style#:#file_deleted#:#Folgende Datei wurde gelöscht:
+style#:#skin_deleted#:#Folgender Skin wurde gelöscht:
+style#:#msg_sys_style_update#:#System Styles wurden aktualisiert.
+common#:#set_style_does_not_exist#:#Ausgewählter System Style existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer System Style aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+common#:#set_skin_does_not_exist#:#Ausgewählter Skin existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer Skin aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
+style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
+style#:#default_style_set_to#:#Der Standard Style wurde geändert zu:
+style#:#personal_style_set_to#:#Der persönliche Style wurde geändert zu:
+style#:#refresh_entries#:#Einträge aktualisieren
+style#:#entries_reloaded#:#Alle Einträge wurden aktualisiert
+style#:#msg_sub_style_created#:#Der Sub Style wurde erstellt.
+style#:#style#:#Style
+style#:#sub_style_settings#:#Sub Style Zuweisung
+style#:#parent#:#Parent Style
+style#:#sty_substyle_of#:#Sub Style von
+style#:#assignment#:#Zuweisung
+style#:#remove_assignment#:#Zuweisung löschen
+style#:#reset_variables#:#Variablen zurücksetzen
+style#:#update_variables#:#Variablen aktualisieren
+style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#settings_of_substyle#:#Manage sub style
+style#:#settings_of_style#:#Styles verwalten
+style#:#of_parent#:#vom Parent:
+style#:#from_skin#:#vom Skin:
+style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
+style#:#to#:#nach:
+style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
+style#:#sty_create_new_system_style#:#Erstelle einen neuen System Style.
+style#:#sty_create_new_system_sub_style#:#Erstelle einen neuen System Sub Style.
+style#:#sty_import_system_style#:#Importiere bestehenden System Style aus ZIP.
+style#:#sty_copy_other_system_style#:#Klone einen bestehenden System Style.
+style#:#sub_style_id#:#Sub Style ID
+style#:#sub_style_name#:#Sub Style Name
+style#:#less_variables_file_not_included#:#Die Less Variablen Datei:
+style#:#in_main_less_file#:#ist nicht in der System Styles main Less Datei importiert:
+style#:#can_not_read_less_file#:#Less Datei kann nicht gelesen werden. Pfad:
+style#:#msg_sys_style_created#:#Die neue System Style Datei wurde erfolgreich erstellt.
+style#:#skin_id_description#:#Skins sind Behälter für Styles und Sub Styles. Die Skin ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub Styles beinhaltet. Die Skin ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#skin_name_description#:#Der Skin Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
+style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#style_name_description#:#Der Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
+style#:#sub_style#:#Sub Style
+style#:#image_dir_description#:#Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#font_dir_description#:#Ordner für das Speichern von Schriftarten vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#sound_dir_description#:#Ordner für das Speichern von Tönen vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#sub_style_parent_style_description#:#Sub Styles werden genau einem Parent Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent Style haben. Der Parent Style eines Sub Styles kann nur während der Erstellung des Sub Styles einmalig zugeordnet werden.
+style#:#sub_style_id_description#:#Die Sub Style ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#sub_style_name_description#:#Der Sub Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
+style#:#system_style_activation_description#:#Aktive System Styles können bestimmten Benutzern zugewiesen, oder durch diese ausgewählt werden wenn die betreffende Einstellung (Benutzerverwaltung / Einstellungen / Standardfelder / Standard-Skin/ -Style) aktiviert ist.
+style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard System Style festgelegt. Der Standard System Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
+style#:#system_style_personal_description#:#Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
+style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#zip_export_failed#:#Der ZIP Export ist mit folgender Error Meldung fehlgeschlagen:
+style#:#no_style_selected#:#Es wurde kein Sub Style ausgewählt.
+style#:#adapt_less#:#Anpassung der Less Datei
+style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
+style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
+style#:#adapt_icons#:#Anpassung der Iconfarben
+style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig:
+style#:#provided_less_path#:#Angegebener lessc Pfad:
+style#:#used_colors#:#Benutzte Farben:
+style#:#style_imported#:#Style wurde erfolgreich importiert nach:
+style#:#style_copied#:#Style wurde erfolgreich kopiert.
+style#:#directory_created#:#Ordner erstellt:
+style#:#color_changed_from#:#Farbe geändert von:
+style#:#color_changed_to#:#nach:
+style#:#edit_by_color#:#Bearbeitung nach Farbe
+style#:#edit_by_icon#:#Bearbeitung nach Icon
+style#:#update_icon#:#Aktualisiere Icon
+style#:#select_icon#:#Selektieres Icon
+style#:#change_icon#:#Ändere Icon
+style#:#color#:#Farbe
+style#:#adapt_icon#:#Anpassung der Icons
+style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
+style#:#preview#:#Vorschau
+style#:#icons_gallery#:#Icon Galerie
+style#:#cant_delete_style_with_substyles#:#Styles mit Sub Styles können nicht gelöscht werden.
+style#:#style_assignments_deleted#:#Style Zuweisungen des folgenden Sub Style wurden gelöscht:
+style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
+style#:#usages#:#Verwendungen:
+exc#:#exc_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_individual_deadline_action#:#Individuelle Fristenverlängerung setzen
+exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
+exc#:#exc_tbl_submission_date#:#Jüngste Abgabe
+exc#:#exc_tbl_status#:#Bewertung
+exc#:#exc_tbl_status_time#:#Bewertet am
+exc#:#exc_tbl_mark#:#Note
+exc#:#exc_tbl_comment#:#Text-Feedback
+exc#:#exc_tbl_notice#:#Notiz für Tutoren
+exc#:#exc_tbl_feedback_time#:#Feedback am
+exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
+exc#:#exc_tbl_team#:#Team
+exc#:#exc_tbl_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
+exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
+exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
+exc#:#exc_tbl_action_text_assignment_show#:#Abgabe anzeigen
+exc#:#exc_tbl_action_feedback_text#:#Feedback per Text geben
+exc#:#exc_tbl_action_feedback_mail#:#Feedback per Mail geben 
+exc#:#exc_tbl_action_feedback_file#:#Feedback per Datei geben 
+exc#:#exc_tbl_action_team_log#:#Team-Log anzeigen
+exc#:#exc_tbl_action_peer_review_given#:#Gegebenes Peer-Feedback anzeigen
+exc#:#exc_tbl_action_peer_review_received#:#Erhaltenes Peer-Feedback anzeigen
+exc#:#exc_feedback#:#Feedback
+exc#:#exc_settings_feedback#:#Tutorenfeedback
+exc#:#exc_settings_feedback_text#:#Texteingabe
+exc#:#exc_settings_feedback_mail#:#per Mail
+exc#:#exc_settings_feedback_file#:#Datei
+mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
+mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
+mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
+ccmt#:#ccmt_perform_reporting_data_update#:#Daten des Berichtswesens aktualisieren
+ccmt#:#ccmt_custom_reporting_tool#:#Berichtswesen
+ccmt#:#ccmt_custom_reporting_tool_desc#:#Hier sehen Sie den Lernstand Ihrer Mitarbeiter.<br />Bitte beachten Sie, dass die Daten im Berichtswesen nächtlich aktualisiert werden.
+ccmt#:#ccmt_view_by_switch_label#:#Anzeige nach
+ccmt#:#ccmt_numbers_switch_label#:#Darstellung Zahlen
+ccmt#:#ccmt_filter_course_label#:#Filter Kurs
+ccmt#:#ccmt_filter_crstype_label#:#Filter Kursart
+ccmt#:#ccmt_filter_memtype_label#:#Filter Mitgliedschaft
+ccmt#:#ccmt_filter_crsparent_label#:#Filter Kurs Container
+ccmt#:#ccmt_filter_period_label#:#Filter Zeitraum
+ccmt#:#ccmt_period_filter_label_use#:#Verwende Filter
+ccmt#:#ccmt_period_filter_label_not_use#:#Verwende Filter nicht
+ccmt#:#ccmt_filter_period_start#:#Von
+ccmt#:#ccmt_filter_period_end#:#Bis
+ccmt#:#ccmt_filter_option_all#:#Alle
+ccmt#:#ccmt_viewby_option_course#:#Kurs
+ccmt#:#ccmt_viewby_option_crsparent#:#Kurs Container
+ccmt#:#ccmt_viewby_option_crstype#:#Kursart
+ccmt#:#ccmt_viewby_option_orgunit#:#Organisationseinheit
+ccmt#:#ccmt_viewby_option_user#:#Mitarbeiter
+ccmt#:#ccmt_numbers_option_absolute#:#Absolut
+ccmt#:#ccmt_numbers_option_relative#:#Relativ
+ccmt#:#ccmt_filter_crstype_option_optional#:#Freiwillig
+ccmt#:#ccmt_filter_crstype_option_mandatory#:#Pflicht
+ccmt#:#ccmt_filter_memtype_option_auto#:#Automatisch zugewiesen
+ccmt#:#ccmt_filter_memtype_option_manual#:#Manuell zugewiesen
+ccmt#:#ccmt_aggregation_entity_course_total#:#Alle Kurse
+ccmt#:#ccmt_aggregation_entity_crstype_total#:#Alle Kursarten
+ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Alle Kurs Container
+ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Alle Organisationseinheiten
+ccmt#:#ccmt_table_column_course#:#Kurs
+ccmt#:#ccmt_table_column_crsparent#:#Kurs Container
+ccmt#:#ccmt_table_column_crstype#:#Kursart
+ccmt#:#ccmt_table_column_orgunit#:#Organisationseinheit
+ccmt#:#ccmt_table_column_user#:#Mitarbeiter
+ccmt#:#ccmt_table_column_assigned#:#Kurszuweisungen
+ccmt#:#ccmt_table_column_not_attempted#:#Nicht bearbeitet
+ccmt#:#ccmt_table_column_notattempted#:#Nicht bearbeitet
+ccmt#:#ccmt_table_column_inprogress#:#In Bearbeitung
+ccmt#:#ccmt_table_column_in_progress#:#In Bearbeitung
+ccmt#:#ccmt_table_column_completed#:#Abgeschlossen
+ccmt#:#ccmt_table_column_failed#:#Nicht abgeschlossen
+ccmt#:#ccmt_table_column_lp_ratio#:#Lernquote
+ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Zertifikate
+ccmt#:#ccmt_table_column_past_due#:#Überfällig
+ccmt#:#ccmt_table_column_event_days#:#Veranstaltungstage
+ccmt#:#ccmt_not_available#:#offen
+ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lernfortschritt nach Kursen
+ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lernfortschritt nach Kursarten
+ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lernfortschritt nach Kurs Containern
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lernfortschritt nach Organisationseinheit
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_detailed_status_table_header#:#Detaillierter Lernfortschritt
+ccmt#:#ccmt_detailed_status_table_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_table_column_lp_status#:#Status
+ccmt#:#ccmt_table_column_deadline_date#:#Fälligkeit Kurs
+ccmt#:#ccmt_table_column_is_mandatory#:#Kursart (Pflicht/Freiwillig)
+ccmt#:#ccmt_table_column_last_access#:#Letzter Zugriff
+ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Erfüllt am
+ccmt#:#ccmt_lp_status_notattempted#:#Nicht bearbeitet
+ccmt#:#ccmt_lp_status_inprogress#:#In Bearbeitung
+ccmt#:#ccmt_lp_status_completed#:#Abgeschlossen
+ccmt#:#ccmt_lp_status_failed#:#Nicht abgeschlossen
+ccmt#:#ccmt_course_type_mandatory#:#Pflicht
+ccmt#:#ccmt_course_type_optional#:#Freiwillig
+ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Bericht erzeugen
+ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export erzeugen
+ccmt#:#ccmt_menu_item_reporting#:#Berichtswesen
+ccmt#:#ccmt_info_block_label_all_users#:#Anzahl Benutzer
+ccmt#:#ccmt_info_block_label_all_courses#:#Anzahl Kurse
+ccmt#:#ccmt_info_block_label_all_memberships#:#Anzahl Mitgliedschaften
+ccmt#:#ccmt_info_block_label_all_session_days#:#Anzahl Sitzungstage
+ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Die folgenden Kurse wurden aufgrund der jeweiligen Tracking Einstellungen in der Auswertung nicht berücksichtigt:<br />%s
+ccmt#:#ccmt_course_error_lp_mode#:#Der Status für den Kurs "%s" mit der ID "%s" konnte nicht ermittelt werden, da das Tracking auf einen nicht kompatiblen Modus eingestellt ist.<br />Aktueller Modus ist "%s" / Benötigter Modus ist "%s"
+ccmt#:#ccmt_course_error_lp_deactivated#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da das Tracking deaktiviert ist.
+ccmt#:#ccmt_course_error_invalid_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von einem Subobjekt ab, dessen Objekttyp vom Reporting nicht unterstützt wird.
+ccmt#:#ccmt_course_error_multi_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von mehr als nur einem Subobjekt ab.
+ccmt#:#ccmt_course_error_missing_obj#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da keine relevanten Subobjekte definiert wurden, von denen der Status abhängen soll.
+ccmt#:#ccmt_print_view#:#Druckansicht alle Kurse
+ccmt#:#ccmt_print_view_mandatory_non_completed#:#Druckansicht offene Kurse
+ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Offene Kurse im %s
+ccmt#:#ccmt_print_window_title_orgunit#:#Alle Kurse im %s
+ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Offene Kurse für %s
+ccmt#:#ccmt_print_window_title_user#:#Alle Kurse für %s
+ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Es existieren keine offenen Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_detailed_status_print_view_noitems#:#Es existieren keine Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_print_table_column_user#:#Mitarbeiter
+ccmt#:#ccmt_print_table_column_course#:#Kurs
+ccmt#:#ccmt_print_table_column_lp_status#:#Status
+ccmt#:#ccmt_print_table_column_is_mandatory#:#Kursart
+ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Erfüllt am
+ccmt#:#ccmt_print_table_column_learning_date#:#Lernen am
+ccmt#:#ccmt_print_table_column_last_access#:#Letzter Zugr.
+ccmt#:#ccmt_print_table_column_deadline_date#:#Fällig bis
+ccmt#:#ccmt_all_employees#:#Alle Mitarbeiter
+ccmt#:#ccmt_table_column_num_users#:#Anzahl Mitarbeiter
+ccmt#:#export_all_lp#:#Lernfortschritt exportieren
+ccmt#:#export_learning_progress#:#Lernfortschritt exportieren
+ccmt#:#export_lp#:#Datei auswählen
+ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
+ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
+ccmt#:#ccmt_search_no_user_found#:#Ihre Suche hat leider keine Treffer ergeben.
+ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
+ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
+bot#:#bot_view_by_switch_label#:#Anzeige nach
+bot#:#bot_filter_course_label#:#Filter Kurs
+bot#:#bot_filter_category_label#:#Filter Kurstyp
+bot#:#bot_filter_period_label#:#Filter Zeitraum
+bot#:#bot_period_filter_label_use#:#Verwende Filter
+bot#:#bot_period_filter_label_not_use#:#Verwende Filter nicht
+bot#:#bot_filter_period_start#:#Von
+bot#:#bot_filter_period_end#:#Bis
+bot#:#bot_filter_option_all#:#Alle
+bot#:#bot_viewby_option_course#:#Kurs
+bot#:#bot_viewby_option_category#:#Kurstyp
+bot#:#bot_viewby_option_orgunit#:#Organisationseinheit
+bot#:#bot_viewby_option_user#:#Mitarbeiter
+bot#:#bot_course_name#:#Kurstitel
+bot#:#bot_course_date#:#Datum
+bot#:#bot_course_max_members#:#Anzahl der Plätze
+bot#:#bot_course_num_subs#:#Anzahl der Buchungen
+bot#:#bot_course_subs_left#:#Offene Plätze
+bot#:#bot_course_capacity_utilisation#:#Auslastungsquote
+bot#:#bot_unlimited#:#unbegrenzt
+bot#:#bot_booking_ratio_undefined#:#offen
+bot#:#bot_cancelation_ratio_undefined#:#undefiniert
+bot#:#bot_menu_item_backoffice#:#Backoffice
+bot#:#bot_list_course_capacity_left#:#Liste der Kurse mit offenen Plätzen
+bot#:#bot_list_course_participants#:#Teilnehmerliste des Kurses
+bot#:#bot_lastname#:#Nachname
+bot#:#bot_firstname#:#Vorname
+bot#:#bot_group_category#:#Kurstyp
+bot#:#bot_group_orgunit#:#Organisationseinheit
+bot#:#bot_course_number_events#:#Anzahl der Kurse
+bot#:#bot_course_num_cancel#:#Anzahl der Stornierungen
+bot#:#bot_course_cancel_q#:#Stornierungsquote
+bot#:#bot_list_course_cancelations#:#Liste der Stornierungen
+bot#:#bot_crs_bookings#:#Buchungsübersicht
+bot#:#bot_back_to_crs_bookings#:#Zurück zur Buchungsübersicht
+bot#:#bot_crs_cancelations#:#Stornierungsübersicht
+bot#:#bot_viewby_option_orgunit_district#:#Bezirk
+bot#:#bot_viewby_option_orgunit_shop#:#Verkaufstelle
+bot#:#bot_course_booking#:#Buchung
+bot#:#bot_booking_txt#:#Teilnehmer hinzufügen
+bot#:#bot_crs_needs#:#Bedarfsübersicht
+bot#:#bot_filter_category2_label#:#Aufbaukurstyp
+bot#:#bot_list_course_needs#:#Analyse der Trainingsbedarfe
+bot#:#bot_area#:#Bezirk
+bot#:#bot_status#:#Status
+bot#:#bot_overdue_but_member#:#Überfällig, aber gebucht
+bot#:#bot_overdue#:#Überfällig
+bot#:#bot_vst#:#VST
+bot#:#bot_course_location#:#Ort
+bot#:#bot_filter_position_label#:#Position
+bot#:#bot_filter_months_label#:#Zeitlimit
+bot#:#bot_toolbar_export#:#Export erzeugen
+bot#:#bot_toolbar_submit_create_report_screen#:#Bericht erzeugen
+bot#:#bot_month#:#%s Monat
+bot#:#bot_months#:#%s Monate
