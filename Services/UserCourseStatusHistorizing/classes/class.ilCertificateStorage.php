@@ -34,4 +34,8 @@ class ilCertificateStorage extends ilFileSystemStorage {
 		}
 		return false;
 	}
+
+	public function deliverCertificate($a_filename) {
+		return ilUtil::deliverFile( $this->path.'/'.$a_filename,$a_filename, "application/pdf");
+	}
 }
