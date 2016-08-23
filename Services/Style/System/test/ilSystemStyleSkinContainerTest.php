@@ -45,6 +45,11 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 		$this->save_dic = $DIC;
 		$DIC = new ilSystemStyleDICMock();
 
+		if(!defined('PATH_TO_LESSC')){
+			$ini = parse_ini_file("ilias.ini.php",true);
+			define('PATH_TO_LESSC', $ini['tools']['zip']);
+		}
+
 		$this->skin = new ilSkinXML("skin1", "skin 1");
 
 		$this->style1 = new ilSkinStyleXML("style1", "Style 1");
