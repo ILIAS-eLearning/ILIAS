@@ -15923,3 +15923,124 @@ survey#:#svy_eval_captions#:#Figures
 survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
 survey#:#svy_eval_captions_abs#:#Absolute
 survey#:#svy_eval_captions_perc#:#Percentage
+content#:#cont_permission_object#:#Permission Object
+style#:#add_system_style#:#Add System Style
+style#:#add_substyle#:#Add Sub Style
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin Name
+style#:#skin#:#Skin
+style#:#style_id#:#Style ID
+style#:#Style#:#Style
+style#:#style_name#:#Style Name
+style#:#image_dir#:#Image Directory
+style#:#font_dir#:#Font Directory
+style#:#sound_dir#:#Sound Directory
+style#:#system_style_activation#:#System Style Activated
+style#:#personal#:#Personal
+style#:#system_styel_activation#:#Activate System Style
+style#:#less#:#Less
+style#:#icons#:#Icons
+style#:#documentation#:#Documentation
+style#:#less_can_not_be_modified#:#Less cannot be modified
+style#:#no_less_path_set#:#No Less Path set
+style#:#less_less_installation_detected#:#Less installation detected at:
+style#:#grey_colors#:#Gray Colors
+style#:#grey_color#:#Gray Color
+style#:#grey_colors_description#:#Gray Color Description
+style#:#red_colors#:#Red Colors
+style#:#red_color#:#Red Color
+style#:#red_colors_description#:#Red Color Description
+style#:#green_colors#:#Green Colors
+style#:#green_color#:#Green Color
+style#:#green_colors_description#:#Green Color Description
+style#:#blue_colors#:#Blue Colors
+style#:#blue_color#:#Blue Color
+style#:#blue_colors_description#:#Blue Color Description
+style#:#reset_icons#:#Reset Icons
+style#:#update_colors#:#Update Colors
+style#:#style_not_deleted#:#The style could not be deleted for the following reasons:
+style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:
+style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.
+style#:#style_deleted#:#Deleted Style:
+style#:#dir_preserved_linked#:#Preserved Link:
+style#:#file_deleted#:#Following file has been deleted:
+style#:#skin_deleted#:#Following skin has been deleted:
+style#:#msg_sys_style_update#:#System Styles have been updated
+common#:#set_style_does_not_exist#:#Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:
+common#:#set_skin_does_not_exist#:#Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:
+style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.
+style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.
+style#:#default_style_set_to#:#The default system style has been set to:
+style#:#personal_style_set_to#:#Your personal style has been set to:
+style#:#refresh_entries#:#Refresh Entries
+style#:#entries_reloaded#:#All entries have been reloaded
+style#:#msg_sub_style_created#:#The sub style has been created.
+style#:#style#:#Style
+style#:#sub_style_settings#:#Sub Style Assignment
+style#:#parent#:#Parent Style
+style#:#sty_substyle_of#:#Sub Style of
+style#:#assignment#:#Assignment
+style#:#remove_assignment#:#Remove Assignment
+style#:#reset_variables#:#Reset Variables
+style#:#update_variables#:#Update Variables
+style#:#less_file_updated#:#The less variables have been updated.
+style#:#settings_of_substyle#:#Manage sub style
+style#:#settings_of_style#:#Manage style
+style#:#of_parent#:#of parent:
+style#:#from_skin#:#of skin:
+style#:#dir_copied_from#:#The directory has been copied to from:
+style#:#to#:#to:
+style#:#dir_deleted#:#The following directory has been deleted:
+style#:#sty_create_new_system_style#:#Create a new system style.
+style#:#sty_create_new_system_sub_style#:#Create a new system sub style.
+style#:#sty_import_system_style#:#Import an existing system style as zip.
+style#:#sty_copy_other_system_style#:#Clone an existing system style.
+style#:#sub_style_id#:#Sub Style ID
+style#:#sub_style_name#:#Sub Style Name
+style#:#less_variables_file_not_included#:#The less variables file:
+style#:#in_main_less_file#:#is not imported inside the system styles main less file:
+style#:#can_not_read_less_file#:#Cannot read less file. Path:
+style#:#msg_sys_style_created#:#The new system style has successfully been created.
+style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
+style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
+style#:#sub_style#:#Sub Style
+style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#sound_dir_description#:#Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#system_style_activation_description#:#Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).
+style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
+style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
+style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
+style#:#no_style_selected#:#No sub style has been selected.
+style#:#adapt_less#:#Adapt Less
+style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
+style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
+style#:#adapt_icons#:#Adapt Icon Colors
+style#:#invalid_less_path#:#The provided lessc path is not valid.
+style#:#provided_less_path#:#Provided lessc path:
+style#:#used_colors#:#Used Colors:
+style#:#style_imported#:#Style has been successfully imported into:
+style#:#style_copied#:#Style has been successfully copied.
+style#:#directory_created#:#Directory created:
+style#:#color_changed_from#:#Color changed from:
+style#:#color_changed_to#:#to:
+style#:#edit_by_color#:#Edit by Color
+style#:#edit_by_icon#:#Edit by Icon
+style#:#update_icon#:#Update Icon
+style#:#select_icon#:#Select Icon
+style#:#change_icon#:#Change Icon
+style#:#color#:#Color
+style#:#adapt_icon#:#Adapt Icon
+style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
+style#:#preview#:#Preview
+style#:#icons_gallery#:#Icons Gallery
+style#:#cant_delete_style_with_substyles#:#Styles with sub styles cannot be deleted.
+style#:#style_assignments_deleted#:#Style assignments of the following Sub Style have been deleted:
+style#:#skin_id_exists#:#There exists already a skin with this ID.
+style#:#usages#:#Usages:

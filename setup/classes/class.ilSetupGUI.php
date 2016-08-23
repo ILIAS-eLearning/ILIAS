@@ -851,6 +851,19 @@ echo "<br>+".$client_id;
 		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
 		$this->form->addItem($ne);
 
+		// system styles
+		$ne = new ilNonEditableValueGUI($lng->txt("enable_system_styles_management"), "enable_system_styles_management");
+		$p = $this->setup->ini->readVariable("tools","enable_system_styles_management");
+		$ne->setValue($p ? $this->lng->txt("enabled") : $this->lng->txt("not_enabled"));
+		$this->form->addItem($ne);
+
+		// lessc command
+		$ne = new ilNonEditableValueGUI($lng->txt("lessc"), "lessc");
+		$p = $this->setup->ini->readVariable("tools","lessc");
+		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
+		$this->form->addItem($ne);
+
+
 		$this->form->setFormAction("setup.php?cmd=gateway");
 	}
 
@@ -1151,6 +1164,19 @@ echo "<br>+".$client_id;
 		$ti = new ilTextInputGUI($lng->txt("clean_command"), "clean_command");
 		$this->form->addItem($ti);
 
+		// enabled system styles mangesment
+		$check = new ilCheckboxInputGUI($lng->txt('enable_system_styles_management'),'enable_system_styles_management');
+		$check->setInfo($lng->txt('enable_system_styles_management_info'));
+		$check->setValue(1);
+
+		// lessc command
+		$lessc = new ilTextInputGUI($lng->txt("lessc_path"), "lessc_path");
+		$lessc->setInfo($lng->txt("lessc_path_comment"));
+		$check->addSubItem($lessc);
+
+		$this->form->addItem($check);
+
+
 		if ($a_install)
 		{
 			$sh = new ilFormSectionHeaderGUI();
@@ -1207,11 +1233,13 @@ echo "<br>+".$client_id;
 		$values["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
 		$values["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
 		$values["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
+		$values["enable_system_styles_management"] = $this->setup->ini->readVariable("tools", "enable_system_styles_management");
+		$values["lessc_path"] = $this->setup->ini->readVariable("tools", "lessc");
 		$values["log_path"] = $this->setup->ini->readVariable("log","path")."/".
 			$this->setup->ini->readVariable("log","file");
 		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
 		$values["time_zone"] = $this->setup->ini->readVariable("server", "timezone");
-		
+
 		// https settings
 		$values["auto_https_detect_enabled"] = $this->setup->ini->readVariable("https", "auto_https_detect_enabled");
 		$values["auto_https_detect_header_name"] = $this->setup->ini->readVariable("https", "auto_https_detect_header_name");
@@ -1235,7 +1263,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1289,7 +1317,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1528,7 +1556,7 @@ echo "<br>+".$client_id;
 		{
 			$tools = array("convert" => "convert",
 				"zip" => "zip", "unzip" => "unzip", "ghostscript" => "gs",
-				"java" => "java", "ffmpeg" => "ffmpeg");
+				"java" => "java", "ffmpeg" => "ffmpeg", "lessc"=>"lessc");
 			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		}
 		else

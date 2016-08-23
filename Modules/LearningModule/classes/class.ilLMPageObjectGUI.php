@@ -127,7 +127,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 				$page_gui->setActivationListener($this, "activatePage");
 				
-				$up_gui = "ilobjlearningmodulegui";
+				$up_gui = ($this->content_object->getType() == "dbk")
+					? "ilobjdlbookgui"
+					: "ilobjlearningmodulegui";
 				$ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
 
 				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
@@ -195,7 +197,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
 				"edit", "", true));
 		}
-		$up_gui = "ilobjlearningmodulegui";
+		$up_gui = ($this->content_object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
 		$this->ctrl->redirectByClass($up_gui, "pages");
 	}
 
@@ -209,7 +213,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
 				"view", "", true));
 		}
-		$up_gui = "ilobjlearningmodulegui";
+		$up_gui = ($this->content_object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
 		$this->ctrl->redirectByClass($up_gui, "pages");
 	}
 

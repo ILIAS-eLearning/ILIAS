@@ -1890,7 +1890,7 @@ class ilTrQuery
 		
 		if($a_type == "lres")
 		{
-			$a_type = array('lm','sahs','htlm');
+			$a_type = array('lm','sahs','htlm','dbk');
 		}
 		
 		$sql = "SELECT r.ref_id,r.obj_id".

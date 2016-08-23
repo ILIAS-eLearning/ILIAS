@@ -70,7 +70,7 @@ class ilHistoryTableGUI extends ilTable2GUI
 			ilDatePresentation::formatDate(new ilDateTime($a_set["date"],IL_CAL_DATETIME)));
 		$this->tpl->setVariable("TXT_ACTION", $this->createInfoText($a_set));
 
-		if ($this->getObjType() == "lm")
+		if ($this->getObjType() == "lm" || $this->getObjType() == "dbk")
 		{
 			$obj_arr = explode(":", $a_set["obj_type"]);
 			switch ($obj_arr[1])
@@ -137,6 +137,7 @@ class ilHistoryTableGUI extends ilTable2GUI
 		switch($this->getObjType())
 		{
 			case "lm":
+			case "dbk":
 				$info_text = $this->lng->txt("hist_".str_replace(":", "_", $a_set["obj_type"]).
 			"_".$a_set["action"]);
 				break;

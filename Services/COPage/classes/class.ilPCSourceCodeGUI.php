@@ -56,7 +56,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	{
 		$form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
-		if ($this->pg_obj->getParentType() == "lm")
+		if ($this->pg_obj->getParentType() == "lm" ||
+			$this->pg_obj->getParentType() == "dbk")
 		{
 			$this->tpl->setVariable("LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
@@ -101,7 +102,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
 		$form = $this->initPropertyForm($this->lng->txt("cont_insert_src"), "create_src", "cancelCreate");
 
-		if ($this->pg_obj->getParentType() == "lm")
+		if ($this->pg_obj->getParentType() == "lm" ||
+			$this->pg_obj->getParentType() == "dbk")
 		{
 			$this->tpl->setVariable("LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));

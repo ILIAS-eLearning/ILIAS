@@ -1367,7 +1367,7 @@ class ilSurveyEditorGUI
 			$template->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
 		}			
 		
-		// $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
 			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");

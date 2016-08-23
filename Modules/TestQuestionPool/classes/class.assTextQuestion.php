@@ -836,22 +836,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		$worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
 		$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 		
-		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-		$assessment_folder = new ilObjAssessmentFolder();
-
-		$string_escaping_org_value = $worksheet->getStringEscaping();
-		if($assessment_folder->getExportEssayQuestionsWithHtml() == 1)
-		{
-			$worksheet->setStringEscaping(false);
-		}
-
 		if (strlen($solutions[0]["value1"]))
 		{
 			$worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
 		}
 		$i++;
 
-		$worksheet->setStringEscaping($string_escaping_org_value);
 		return $startrow + $i + 1;
 	}
 	

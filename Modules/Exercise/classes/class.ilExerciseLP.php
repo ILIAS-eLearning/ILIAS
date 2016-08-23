@@ -17,7 +17,7 @@ class ilExerciseLP extends ilObjectLP
 	{
 		return array(
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
-			ilLPObjSettings::LP_MODE_EXERCISE_RETURNED
+			ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR
 		);		
 	}
 	

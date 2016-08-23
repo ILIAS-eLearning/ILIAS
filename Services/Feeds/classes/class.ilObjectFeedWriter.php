@@ -134,7 +134,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 				ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"]))));
 
 			// lm hack, not nice
-			if (in_array($item["context_obj_type"], array("lm")) && $item["context_sub_obj_type"] == "pg"
+			if (in_array($item["context_obj_type"], array("dbk", "lm")) && $item["context_sub_obj_type"] == "pg"
 				&& $item["context_sub_obj_id"] > 0)
 			{
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.

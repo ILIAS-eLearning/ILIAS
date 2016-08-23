@@ -130,6 +130,25 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 						}
 						break;
 
+					case "dbk":
+						require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+						require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+						require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
+						if (ilObject::_lookupType($page_obj->getParentId()) == "dbk")
+						{
+							$lm_obj = new ilObjDlBook($page_obj->getParentId(), false);
+							$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
+							$item["obj_title"] = $lm_obj->getTitle();
+							$item["sub_txt"] = $this->lng->txt("pg");
+							$item["sub_title"] = ilLMObject::_lookupTitle($page_obj->getId());
+							$ref_id = $this->getFirstWritableRefId($lm_obj->getId());
+							if ($ref_id > 0)
+							{
+								$item["obj_link"] = ilLink::_getStaticLink($page_obj->getId()."_".$ref_id, "pg");
+							}
+						}
+						break;
+
 					case "wpg":
 						require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 						$item["obj_type_txt"] = $this->lng->txt("obj_wiki");

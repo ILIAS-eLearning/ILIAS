@@ -309,7 +309,78 @@ class ilSurveyEvaluationGUI
 	}
 	
 	function exportCumulatedResults($details = 0)
-	{				
+	{		
+		switch ($_POST["export_format"])
+		{
+			case self::TYPE_XLS:
+				include_once "Services/Excel/classes/class.ilExcel.php";
+				$excel = new ilExcel();
+				$excel->addSheet($this->lng->txt("svy_eval_cumulated"));
+				
+				$title_row = array();
+				
+				switch ($_POST['export_label'])
+				{
+					case 'label_only':
+						$title_row[] = $this->lng->txt("label");						
+						break;
+					
+					case 'title_only':
+						$title_row[] = $this->lng->txt("title");
+						break;
+					
+					default:
+						$title_row[] = $this->lng->txt("title");
+						$title_row[] = $this->lng->txt("label");
+						break;
+				}
+				
+				$title_row[] = $this->lng->txt("question");
+				$title_row[] = $this->lng->txt("question_type");
+				$title_row[] = $this->lng->txt("users_answered");
+				$title_row[] = $this->lng->txt("users_skipped");
+				$title_row[] = $this->lng->txt("mode");
+				$title_row[] = $this->lng->txt("mode_text");
+				$title_row[] = $this->lng->txt("mode_nr_of_selections");
+				$title_row[] = $this->lng->txt("median");
+				$title_row[] = $this->lng->txt("arithmetic_mean");
+				
+				$excel->setCellArray(array($title_row), "A1");
+				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
+				break;
+			
+			case self::TYPE_SPSS:
+				$csvfile = array();
+				$csvrow = array();
+				switch ($_POST['export_label'])
+				{
+					case 'label_only':
+						array_push($csvrow, $this->lng->txt("label"));
+						break;
+					case 'title_only':
+						array_push($csvrow, $this->lng->txt("title"));
+						break;
+					default:
+						array_push($csvrow, $this->lng->txt("title"));
+						array_push($csvrow, $this->lng->txt("label"));
+						break;
+				}
+				array_push($csvrow, $this->lng->txt("question"));
+				array_push($csvrow, $this->lng->txt("question_type"));
+				array_push($csvrow, $this->lng->txt("users_answered"));
+				array_push($csvrow, $this->lng->txt("users_skipped"));
+				array_push($csvrow, $this->lng->txt("mode"));
+
+				//array_push($csvrow, $this->lng->txt("mode_text"));
+
+
+				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
+				array_push($csvrow, $this->lng->txt("median"));
+				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
+				array_push($csvfile, $csvrow);
+				break;
+		}
+		
 		$finished_ids = null;
 		if($this->object->get360Mode())
 		{
@@ -324,107 +395,54 @@ class ilSurveyEvaluationGUI
 				$finished_ids = array(-1);
 			}
 		}
-		
-		// titles
-		$title_row = array();				
-		$do_title = $do_label = true;
-		switch ($_POST['export_label'])
-		{
-			case 'label_only':
-				$title_row[] = $this->lng->txt("label");	
-				$do_title = false;
-				break;
-
-			case 'title_only':
-				$title_row[] = $this->lng->txt("title");
-				$do_label = false;
-				break;
-
-			default:
-				$title_row[] = $this->lng->txt("title");
-				$title_row[] = $this->lng->txt("label");
-				break;
-		}		
-		$title_row[] = $this->lng->txt("question");
-		$title_row[] = $this->lng->txt("question_type");
-		$title_row[] = $this->lng->txt("users_answered");
-		$title_row[] = $this->lng->txt("users_skipped");
-		$title_row[] = $this->lng->txt("mode");
-		$title_row[] = $this->lng->txt("mode_text");
-		$title_row[] = $this->lng->txt("mode_nr_of_selections");
-		$title_row[] = $this->lng->txt("median");
-		$title_row[] = $this->lng->txt("arithmetic_mean");
-		
-		// creating container
-		switch ($_POST["export_format"])
-		{
-			case self::TYPE_XLS:
-				include_once "Services/Excel/classes/class.ilExcel.php";
-				$excel = new ilExcel();
-				$excel->addSheet($this->lng->txt("svy_eval_cumulated"));				
-				$excel->setCellArray(array($title_row), "A1");
-				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
-				break;
-			
-			case self::TYPE_SPSS:
-				$csvfile = array($title_row);				
-				break;
-		}		
 				
-		
-		// parse answer data in evaluation results
 		$ov_row = 2;
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
-		foreach($this->object->getSurveyQuestions() as $qdata)
-		{						
-			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
-			$q_res =  $q_eval->getResults();			
-			$ov_rows = $q_eval->exportResults($q_res, $do_title, $do_label);
-			
+		foreach ($this->object->getSurveyQuestions() as $data)
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);		
+			$eval = $this->object->getCumulatedResults($question, $finished_ids);
 			switch ($_POST["export_format"])
 			{
 				case self::TYPE_XLS:
-					$excel->setActiveSheet(0);		
-					foreach($ov_rows as $row)
-					{
-						foreach($row as $col => $value)
-						{
-							$excel->setCell($ov_row, $col, $value);
-						}
-						$ov_row++;
-					}					
+					$excel->setActiveSheet(0);
+					$ov_row = $question->setExportCumulatedXLS($excel, $eval, $ov_row, $_POST['export_label']);
 					break;
 				
-				case self::TYPE_SPSS:					
-					foreach($ov_rows as $row)
+				case self::TYPE_SPSS:
+					$csvrows = $question->setExportCumulatedCVS($eval, $_POST['export_label']);
+					foreach ($csvrows as $csvrow)
 					{
-						$csvfile[] = $row;
+						array_push($csvfile, $csvrow);
 					}
 					break;
 			}
-			
 			if ($details)
 			{
 				switch ($_POST["export_format"])
 				{
-					case self::TYPE_XLS:					
-						$this->exportResultsDetailsExcel($excel, $q_eval, $q_res, $do_title, $do_label);											
+					case self::TYPE_XLS:
+						$excel->addSheet($question->getTitle());
+						$row = $question->setExportDetailsXLS($excel, $eval, $_POST['export_label']);
+						$excel->setBold("A1:A".$row);						
 						break;
 				}				
 			}
-			
-		}			
+		}
 		
-		// #11179		
-		$type = !$details
-			? $this->lng->txt("svy_eval_cumulated")
-			: $this->lng->txt("svy_eval_detail");
-			
+		// #11179
+		if(!$details)
+		{
+			$type = $this->lng->txt("svy_eval_cumulated");
+		}
+		else
+		{
+			$type = $this->lng->txt("svy_eval_detail");
+		}		
 		$surveyname = $this->object->getTitle()." ".$type." ".date("Y-m-d");
 		$surveyname = preg_replace("/\s/", "_", trim($surveyname));
 		$surveyname = ilUtil::getASCIIFilename($surveyname);
 		
-		// send to client
 		switch ($_POST["export_format"])
 		{
 			case self::TYPE_XLS:
@@ -436,207 +454,12 @@ class ilSurveyEvaluationGUI
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
 				{
-					$csvrow = $this->processCSVRow($csvrow, TRUE, $separator);
+					$csvrow = $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
 				ilUtil::deliverData($csv, $surveyname.".csv");
 				exit();
 				break;
-		}
-	}
-	
-	/**
-	 * Export details (excel only)
-	 * 
-	 * @param ilExcel $a_excel
-	 * @param SurveyQuestionEvaluation $a_eval
-	 * @param ilSurveyEvaluationResults|array $a_results
-	 * @param bool $a_do_title
-	 * @param bool|array $a_do_label
-	 */
-	protected function exportResultsDetailsExcel(ilExcel $a_excel, SurveyQuestionEvaluation $a_eval, $a_results, $a_do_title, $a_do_label)
-	{								
-		$question_res = $a_results;
-		$matrix = false;
-		if(is_array($question_res))
-		{
-			$question_res = $question_res[0][1];
-			$matrix = true;
-		}
-		$question = $question_res->getQuestion();
-		
-		$a_excel->addSheet($question->getTitle());
-		
-		
-		// question "overview"
-		
-		$kv = array();
-		
-		if($a_do_title)
-		{
-			$kv[$this->lng->txt("title")] = $question->getTitle();
-		}
-		if($a_do_label)
-		{
-			$kv[$this->lng->txt("label")] = $question->label;
-		}
-		
-		$kv[$this->lng->txt("question")] = $question->getQuestiontext();
-		$kv[$this->lng->txt("question_type")] = SurveyQuestion::_getQuestionTypeName($question->getQuestionType());
-		
-		// :TODO: present subtypes (hrz/vrt, mc/sc mtx, metric scale)?	
-		
-		$kv[$this->lng->txt("users_answered")] = (int)$question_res->getUsersAnswered();
-		$kv[$this->lng->txt("users_skipped")] = (int)$question_res->getUsersAnswered();
-				
-		$excel_row = 1;
-		
-		foreach($kv as $key => $value)
-		{
-			$a_excel->setCell($excel_row, 0, $key);
-			$a_excel->setCell($excel_row++, 1, $value);			
-		}
-		
-		if(!$matrix)
-		{
-			$this->parseResultsToExcel(
-				$a_excel, 
-				$question_res, 
-				$excel_row, 
-				$a_eval->getExportGrid($a_results),  
-				$a_eval->getTextAnswers($a_results)
-			);			
-		}
-		else
-		{
-			// question
-			$this->parseResultsToExcel(
-				$a_excel, 
-				$question_res, 
-				$excel_row, 
-				null,
-				null,
-				false
-			);	
-						
-			$texts = $a_eval->getTextAnswers($a_results);
-			
-			// "rows"
-			foreach($a_results as $row_results)
-			{
-				$row_title = $row_results[0];
-				
-				$a_excel->setCell($excel_row, 0,  $this->lng->txt("row"));
-				$a_excel->setCell($excel_row++, 1, $row_title);	
-				
-				$this->parseResultsToExcel(
-					$a_excel, 
-					$row_results[1], 
-					$excel_row,
-					$a_eval->getExportGrid($row_results[1]),
-					is_array($texts[$row_title]) 
-						? array(""=>$texts[$row_title])
-						: null
-				);			
-			}			
-		}
-	
-		// 1st column is bold
-		$a_excel->setBold("A1:A".$excel_row);									
-	}
-	
-	protected function parseResultsToExcel(ilExcel $a_excel, ilSurveyEvaluationResults $a_results, &$a_excel_row, array $a_grid = null, array $a_text_answers = null, $a_include_mode = true)
-	{
-		$kv = array();
-		
-		if($a_include_mode)
-		{
-			if($a_results->getModeValue() !== null)
-			{
-				// :TODO:
-				$kv[$this->lng->txt("mode")] = is_array($a_results->getModeValue())
-					? implode(", ", $a_results->getModeValue())
-					: $a_results->getModeValue();
-				
-				$kv[$this->lng->txt("mode_text")] = $a_results->getModeValueAsText();		
-				$kv[$this->lng->txt("mode_nr_of_selections")] = (int)$a_results->getModeNrOfSelections();
-			}
-
-			if($a_results->getMedian() !== null)
-			{
-				$kv[$this->lng->txt("median")] = $a_results->getMedianAsText();
-			}
-
-			if($a_results->getMean() !== null)
-			{
-				$kv[$this->lng->txt("arithmetic_mean")] = $a_results->getMean();
-			}	
-		}
-		
-		foreach($kv as $key => $value)
-		{
-			$a_excel->setCell($a_excel_row, 0, $key);
-			$a_excel->setCell($a_excel_row++, 1, $value);			
-		}
-				
-		// grid
-		if($a_grid)
-		{		
-			// header
-			$a_excel->setColors("B".$a_excel_row.":E".$a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
-			$a_excel->setCell($a_excel_row, 0, $this->lng->txt("categories"));	
-			foreach($a_grid["cols"] as $col_idx => $col)
-			{
-				$a_excel->setCell($a_excel_row, $col_idx+1, $col);				
-			}
-			$a_excel_row++;
-			
-			// rows
-			foreach($a_grid["rows"] as $cols)
-			{				
-				foreach($cols as $col_idx => $col)
-				{					
-					$a_excel->setCell($a_excel_row, $col_idx+1, $col);
-				}				
-				$a_excel_row++;		
-			}
-		}
-				
-		// text answers			
-		if($a_text_answers)
-		{						
-			// "given_answers" ?
-			$a_excel->setCell($a_excel_row, 0, $this->lng->txt("freetext_answers"));
-			
-			// mc/sc
-			if(!is_array($a_text_answers[""]))
-			{
-				$a_excel->setColors("B".$a_excel_row.":C".$a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);		
-				$a_excel->setCell($a_excel_row, 1, $this->lng->txt("title"));
-				$a_excel->setCell($a_excel_row++, 2, $this->lng->txt("answer"));			
-			}
-			// mtx (row), txt
-			else
-			{
-				$a_excel->setColors("B".$a_excel_row.":B".$a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);		
-				$a_excel->setCell($a_excel_row++, 1, $this->lng->txt("answer"));		
-			}
-			
-			foreach($a_text_answers as $var => $items)
-			{			
-				foreach($items as $item)
-				{					
-					if(!is_array($a_text_answers[""]))
-					{
-						$a_excel->setCell($a_excel_row, 1, $var);
-						$a_excel->setCell($a_excel_row++, 2, $item);					
-					}
-					else
-					{
-						$a_excel->setCell($a_excel_row++, 1, $item);	
-					}
-				}				
-			}
 		}
 	}
 	
@@ -672,51 +495,9 @@ class ilSurveyEvaluationGUI
 		$this->ctrl->redirect($this, 'evaluation');
 	}
 	
-	protected function buildExportModal($a_id, $a_cmd)
-	{					
-		global $tpl;
-		
-		$form_id = "svymdfrm";
-		
-		// hide modal on form submit
-		$tpl->addOnLoadCode('$("#form_'.$form_id.'").submit(function() { $("#'.$a_id.'").modal("hide"); });');
-		
-		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
-		$modal = ilModalGUI::getInstance();
-		$modal->setId($a_id);
-		$modal->setHeading(($this->lng->txt("svy_export_format")));
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setId($form_id);
-		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
-		
-		$format = new ilSelectInputGUI($this->lng->txt("filetype"), "export_format");
-		$format->setOptions(array(
-			self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
-			self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
-			));
-		$form->addItem($format, true);
-
-		$label = new ilSelectInputGUI($this->lng->txt("title"), "export_label");
-		$label->setOptions(array(
-			'label_only' => $this->lng->txt('export_label_only'), 
-			'title_only' => $this->lng->txt('export_title_only'), 
-			'title_label'=> $this->lng->txt('export_title_label')
-			));
-		$form->addItem($label);
-
-		$form->addCommandButton($a_cmd, $this->lng->txt("export"));
-		$form->setPreventDoubleSubmission(false);
-		
-		$modal->setBody($form->getHTML());
-		
-		return $modal->getHTML();			
-	}
-	
 	function evaluation($details = 0)
 	{
-		global $rbacsystem, $ilToolbar, $tree;
+		global $rbacsystem, $ilToolbar;
 
 		// auth
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -748,65 +529,54 @@ class ilSurveyEvaluationGUI
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
-				
+		
+		$data = null;
+
 		if($this->object->get360Mode())
 		{				
 			$appr_id = $this->getAppraiseeId();
 			$this->addApprSelectionToToolbar();
 		}
 
-		$results = array();
 		if(!$this->object->get360Mode() || $appr_id)
-		{							
-			if($details)
+		{
+			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
+			$format->setOptions(array(
+				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
+				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
+				));
+			$ilToolbar->addInputItem($format, true);
+
+			$label = new ilSelectInputGUI("", "export_label");
+			$label->setOptions(array(
+				'label_only' => $this->lng->txt('export_label_only'), 
+				'title_only' => $this->lng->txt('export_title_only'), 
+				'title_label'=> $this->lng->txt('export_title_label')
+				));
+			$ilToolbar->addInputItem($label);
+
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("export");			
+			if ($details)
 			{
-				$captions = new ilSelectInputGUI($this->lng->txt("svy_eval_captions"), "cp");
-				$captions->setOptions(array(
-					"ap" => $this->lng->txt("svy_eval_captions_abs_perc"),
-					"a" => $this->lng->txt("svy_eval_captions_abs"),
-					"p" => $this->lng->txt("svy_eval_captions_perc")					
-					));
-				$captions->setValue($_POST["cp"]);
-				$ilToolbar->addInputItem($captions, true);
+				$button->setCommand('exportDetailData');					
+			}
+			else
+			{
+				$button->setCommand('exportData');				
+			}
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);	
 				
-				$view = new ilSelectInputGUI($this->lng->txt("svy_eval_view"), "vw");
-				$view->setOptions(array(
-					"tc" => $this->lng->txt("svy_eval_view_tables_charts"),
-					"t" => $this->lng->txt("svy_eval_view_tables"),
-					"c" => $this->lng->txt("svy_eval_view_charts")					
-					));
-				$view->setValue($_POST["vw"]);
-				$ilToolbar->addInputItem($view, true);
-
-				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
-				$button = ilSubmitButton::getInstance();
-				$button->setCaption("ok");							
-				$button->setCommand("evaluationdetails");									
-				$button->setOmitPreventDoubleSubmission(true);
-				$ilToolbar->addButtonInstance($button);	
-
-				$ilToolbar->addSeparator();				
-			}			
-			
-			$modal_id = "svy_ev_exp";
-			$modal = $this->buildExportModal($modal_id, $details
-				? 'exportDetailData'
-				: 'exportData');
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("export");
-			$button->setOnClick('$(\'#'.$modal_id.'\').modal(\'show\')');
-			$ilToolbar->addButtonInstance($button);		
-			
 			$ilToolbar->addSeparator();
 
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("print");
-			$button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
+			$button->setOnClick("window.print(); return false;");
 			$button->setOmitPreventDoubleSubmission(true);
-			$ilToolbar->addButtonInstance($button);								
+			$ilToolbar->addButtonInstance($button);		
 			
 			$finished_ids = null;
 			if($appr_id)
@@ -818,278 +588,59 @@ class ilSurveyEvaluationGUI
 				}
 			}
 			
-			if($details)
-			{
-				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
-			}			
-			
-			$details_figure = $_POST["cp"]
-				? $_POST["cp"]
-				: "ap";
-			$details_view = $_POST["vw"]
-				? $_POST["vw"]
-				: "tc";
-			
-			// parse answer data in evaluation results
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
-			foreach($this->object->getSurveyQuestions() as $qdata)
-			{						
-				$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
-				$q_res =  $q_eval->getResults();
-				$results[] = $q_res;	
-						
-				if($details)
-				{			
-					$this->renderDetails($details_view, $details_figure, $dtmpl, $qdata, $q_eval, $q_res);										
-				}
-			}				
-		}		
-		
-		$this->tpl->setVariable('MODAL', $modal);	
-		if(!$details)
-		{
-			include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
-			$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
-			$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());
-		}
-		else
-		{
-			$this->tpl->setVariable('DETAIL', $dtmpl->get());						
-		}
-		unset($dtmpl);
-		unset($table_gui);
-		unset($modal);
-		
-		
-		// print header
-		
-		$path = "";
-		$path_full = $tree->getPathFull($this->object->getRefId());
-		foreach($path_full as $data)
-		{			
-			$path .= " &raquo; ";			
-			$path .= $data['title'];			
-		}
-		
-		ilDatePresentation::setUseRelativeDates(false);
-		include_once "Services/Link/classes/class.ilLink.php";
-		
-		$props = array(
-			$this->lng->txt("link") => ilLink::_getStaticLink($this->object->getRefId()),
-			$this->lng->txt("path") => $path,			
-			$this->lng->txt("svy_results") => !$details
-				? $this->lng->txt("svy_eval_cumulated")
-				: $this->lng->txt("svy_eval_detail"),
-			$this->lng->txt("date") => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
-		);			
-		
-		$this->tpl->setCurrentBlock("print_header_bl");
-		foreach($props as $key => $value)
-		{
-			$this->tpl->setVariable("HEADER_PROP_KEY", $key);
-			$this->tpl->setVariable("HEADER_PROP_VALUE", $value);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");				
-	}
-	
-	/**
-	 * Render details
-	 * 
-	 * @param string $a_details_parts
-	 * @param string $a_details_figure
-	 * @param ilTemplate $a_tpl
-	 * @param array $a_qdata
-	 * @param SurveyQuestionEvaluation $a_eval
-	 * @param ilSurveyEvaluationResults|array $a_results
-	 */
-	protected function renderDetails($a_details_parts, $a_details_figure, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
-	{		
-		$question_res = $a_results;
-		$matrix = false;
-		if(is_array($question_res))
-		{
-			$question_res = $question_res[0][1];
-			$matrix = true;
-		}
-		$question = $question_res->getQuestion();
-		
-		// toc (incl. question blocks)
-					
-		// questionblock title handling
-		if($a_qdata["questionblock_id"] && 
-			$a_qdata["questionblock_id"] != $this->last_questionblock_id)
-		{
-			$qblock = ilObjSurvey::_getQuestionblock($a_qdata["questionblock_id"]);
-
-			if($qblock["show_blocktitle"])
-			{
-				$a_tpl->setCurrentBlock("toc_bl");
-				$a_tpl->setVariable("TOC_ITEM", $a_qdata["questionblock_title"]);							
-				$a_tpl->parseCurrentBlock();
-			}
-
-			$this->last_questionblock_id = $a_qdata["questionblock_id"];
-		}	
-		
-		$anchor_id = "svyrdq".$a_qdata["question_id"];
-		
-		$a_tpl->setCurrentBlock("toc_bl");
-		$a_tpl->setVariable("TOC_ITEM", $a_qdata["title"]);							
-		$a_tpl->setVariable("TOC_ID", $anchor_id);							
-		$a_tpl->parseCurrentBlock();
-		
-		$this->lng->loadLanguageModule("content");
-		$a_tpl->setVariable("TOC_TITLE", $this->lng->txt("cont_toc"));
-
-		
-		// question "overview"
-				
-		// :TODO: present subtypes (hrz/vrt, mc/sc mtx)?	
-		
-		$a_tpl->setVariable("QTYPE", SurveyQuestion::_getQuestionTypeName($question->getQuestionType()));			
-		
-		$kv = array();
-		$kv["users_answered"] = $question_res->getUsersAnswered();
-		$kv["users_skipped"] = $question_res->getUsersSkipped();
-		
-		if(!$matrix)
-		{			
-			if($question_res->getModeValue() !== null)
-			{
-				$kv["mode"] = wordwrap($question_res->getModeValueAsText(), 50, "<br />");
-				$kv["mode_nr_of_selections"] = $question_res->getModeNrOfSelections();							
-			}
-			if($question_res->getMedian() !== null)
-			{
-				$kv["median"] = $question_res->getMedianAsText();																							
-			}
-			if($question_res->getMean() !== null)
-			{
-				$kv["arithmetic_mean"] = $question_res->getMean();																										
-			}
-		}
-		
-		foreach($kv as $key => $value)
-		{
-			$a_tpl->setCurrentBlock("question_props_bl");
-			$a_tpl->setVariable("QUESTION_PROP_KEY", $this->lng->txt($key));
-			$a_tpl->setVariable("QUESTION_PROP_VALUE", $value);
-			$a_tpl->parseCurrentBlock();
-		}
-				
-		// grid		
-		if($a_details_parts == "t" || 
-			$a_details_parts == "tc")
-		{
-			$grid = $a_eval->getGrid(
-				$a_results, 
-				($a_details_figure == "ap" || $a_details_figure == "a"),
-				($a_details_figure == "ap" || $a_details_figure == "p")
-			);
-			if($grid)
+			$questions =& $this->object->getSurveyQuestions();
+			$data = array();
+			$counter = 1;
+			$last_questionblock_id = null;
+			foreach ($questions as $qdata)
 			{			
-				foreach($grid["cols"] as $col)
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+				$question_gui = SurveyQuestion::_instanciateQuestionGUI($qdata["question_id"]);
+				$question = $question_gui->object;
+				$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter, $finished_ids);
+				if (is_array($c[0]))
 				{
-					$a_tpl->setCurrentBlock("grid_col_header_bl");
-					$a_tpl->setVariable("COL_HEADER", $col);														
-					$a_tpl->parseCurrentBlock();
+					// keep only "main" entry - sub-items will be handled in tablegui
+					// this will enable proper sorting
+					$main = array_shift($c);
+					$main["subitems"] = $c;
+					array_push($data, $main);					
 				}
-				foreach($grid["rows"] as $cols)
-				{				
-					foreach($cols as $idx => $col)
-					{						
-						if($idx > 0)
+				else
+				{
+					array_push($data, $c);
+				}
+				$counter++;
+				if ($details)
+				{								
+					// questionblock title handling
+					if($qdata["questionblock_id"] && $qdata["questionblock_id"] != $last_questionblock_id)
+					{
+						$qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
+						if($qblock["show_blocktitle"])
 						{
-							$a_tpl->touchBlock("grid_col_nowrap_bl");
+							$this->tpl->setCurrentBlock("detail_qblock");
+							$this->tpl->setVariable("BLOCKTITLE", $qdata["questionblock_title"]);		
+							$this->tpl->parseCurrentBlock();						
 						}
-						
-						$a_tpl->setCurrentBlock("grid_col_bl");
-						$a_tpl->setVariable("COL_CAPTION", trim($col));														
-						$a_tpl->parseCurrentBlock();
+
+						$last_questionblock_id = $qdata["questionblock_id"];
 					}
 
-					$a_tpl->touchBlock("grid_row_bl");			
+					$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter-1, $finished_ids);
+					$this->tpl->setCurrentBlock("detail");
+					$this->tpl->setVariable("DETAIL", $detail);				
+					$this->tpl->parseCurrentBlock();
 				}
 			}
 		}
 		
-		// text answers		
-		$texts = $a_eval->getTextAnswers($a_results);
-		if($texts)
-		{			
-			if(array_key_exists("", $texts))
-			{
-				$a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("given_answers"));
-				foreach($texts[""] as $item)
-				{								
-					$a_tpl->setCurrentBlock("text_direct_item_bl");
-					$a_tpl->setVariable("TEXT_DIRECT", nl2br($item));
-					$a_tpl->parseCurrentBlock();
-				}			
-			}
-			else
-			{
-				include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
-				$acc = new ilAccordionGUI();
-				$acc->setId("svyevaltxt".$question->getId());
-
-				$a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("freetext_answers"));
-
-				foreach($texts as $var => $items)
-				{			
-					$list = array("<ul class=\"small\">");
-					foreach($items as $item)
-					{
-						$list[] = "<li>".nl2br($item)."</li>";																				
-					}
-					$list[] = "</ul>";					
-					$acc->addItem($var, implode("\n", $list));
-				}						
-
-				$a_tpl->setVariable("TEXT_ACC", $acc->getHTML());
-			}
-		}
-				
-		// chart
-		if($a_details_parts == "c" || 
-			$a_details_parts == "tc")
-		{
-			$chart = $a_eval->getChart($a_results);
-			if($chart)
-			{
-				if(is_array($chart))
-				{
-					// legend
-					if(is_array($chart[1]))
-					{
-						foreach($chart[1] as $legend_item)
-						{						
-							$r = hexdec(substr($legend_item[1], 1, 2));
-							$g = hexdec(substr($legend_item[1], 3, 2));
-							$b = hexdec(substr($legend_item[1], 5, 2));
-							
-							$a_tpl->setCurrentBlock("legend_bl");							
-							$a_tpl->setVariable("LEGEND_CAPTION", $legend_item[0]);								
-							$a_tpl->setVariable("LEGEND_COLOR", $legend_item[1]);		
-							$a_tpl->setVariable("LEGEND_COLOR_SVG", $r.",".$g.",".$b);			
-							$a_tpl->parseCurrentBlock();	
-						}
-					}
-
-					$chart = $chart[0];
-				}
-				$a_tpl->setVariable("CHART", $chart);	
-			}
-		}
-				
-		// question "panel"		
-		$a_tpl->setCurrentBlock("question_panel_bl");
-		$a_tpl->setVariable("ANCHOR_ID", $anchor_id);		
-		$a_tpl->setVariable("QTITLE", $question->getTitle());		
-		$a_tpl->setVariable("QTEXT", nl2br($question->getQuestiontext()));	
-		$a_tpl->parseCurrentBlock();			
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
+		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $detail);
+		$table_gui->setData($data);
+		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));		
 	}
 	
 	/**
@@ -1149,127 +700,208 @@ class ilSurveyEvaluationGUI
 				ilUtil::sendFailure($this->lng->txt("survey_360_no_closed_appraisees"));				
 			}
 		}
+
 	}
+	
 	
 	/**
-	* Processes an array as a CSV row and converts the array values to correct CSV
-	* values. The "converted" array is returned
+	* Export the user specific results for the survey
 	*
-	* @param array $row The array containing the values for a CSV row
-	* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
-	* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
-	* @return array The converted array ready for CSV use
-	* @access public
+	* Export the user specific results for the survey
+	*
+	* @access private
 	*/
-	function processCSVRow($row, $quoteAll = FALSE, $separator = ";")
+	function exportUserSpecificResults($export_format, $export_label, $finished_ids)
 	{
-		$resultarray = array();
-		foreach ($row as $rowindex => $entry)
-		{
-			if(is_array($entry))
-			{
-				$entry = implode("/", $entry);
-			}			
-			$surround = FALSE;
-			if ($quoteAll)
-			{
-				$surround = TRUE;
-			}
-			if (strpos($entry, "\"") !== FALSE)
-			{
-				$entry = str_replace("\"", "\"\"", $entry);
-				$surround = TRUE;
-			}
-			if (strpos($entry, $separator) !== FALSE)
-			{
-				$surround = TRUE;
-			}
-			// replace all CR LF with LF (for Excel for Windows compatibility
-			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
-			if ($surround)
-			{
-				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
-			}
-			else
-			{
-				$resultarray[$rowindex] = utf8_decode($entry);
-			}
-		}
-		return $resultarray;
-	}
-
-	
-	function exportEvaluationUser()
-	{	
-		// build title row(s)
+		global $ilLog;
 		
-		$title_row = $title_row2 = array();
-		$title_row[] = $this->lng->txt("lastname"); // #12756
-		$title_row[] = $this->lng->txt("firstname");
-		$title_row[] = $this->lng->txt("login");
-		$title_row[] = $this->lng->txt('workingtime'); // #13622
-		$title_row[] = $this->lng->txt('survey_results_finished');
-		$title_row2[] =  "";
-		$title_row2[] =  "";
-		$title_row2[] =  "";
-		$title_row2[] =  "";
-		$title_row2[] =  "";		
-		if($this->object->canExportSurveyCode())
-		{
-			$title_row[] = $this->lng->txt("codes");
-			$title_row2[] =  "";	
-		}
+		// #13620
+		ilDatePresentation::setUseRelativeDates(false);
 		
+		$csvfile = array();
+		$csvrow = array();
+		$csvrow2 = array();
 		$questions = array();
-				
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		foreach($this->object->getSurveyQuestions() as $qdata)
+		$questions =& $this->object->getSurveyQuestions(true);		
+		array_push($csvrow, $this->lng->txt("lastname")); // #12756
+		array_push($csvrow, $this->lng->txt("firstname"));
+		array_push($csvrow, $this->lng->txt("login"));
+		array_push($csvrow, $this->lng->txt('workingtime')); // #13622
+		array_push($csvrow, $this->lng->txt('survey_results_finished'));
+		array_push($csvrow2, "");
+		array_push($csvrow2, "");
+		array_push($csvrow2, "");
+		array_push($csvrow2, "");
+		array_push($csvrow2, "");
+		if ($this->object->canExportSurveyCode())
 		{
-			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
-			$q_res =  $q_eval->getResults();
-			
-			$questions[$qdata["question_id"]] = array($q_eval, $q_res);
-						
-			$question = is_array($q_res)
-				? $q_res[0][1]->getQuestion()
-				: $q_res->getQuestion();
-
-			$do_title = $do_label = true;
-			switch($_POST['export_label'])
+			array_push($csvrow, $this->lng->txt("codes"));
+			array_push($csvrow2, "");
+		}
+		/* #8211
+		if ($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_OFF)
+		{
+			array_push($csvrow, $this->lng->txt("gender"));
+		}		 
+	    */
+		$cellcounter = 1;
+		
+		foreach ($questions as $question_id => $question_data)
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$question = SurveyQuestion::_instanciateQuestion($question_data["question_id"]);
+			switch ($export_label)
 			{
 				case "label_only":
-					$title_row[] = $question->label;	
-					$title_row2[] = "";
-					$do_title = false;
+					$question->addUserSpecificResultsExportTitles($csvrow, true);					
 					break;
 					
 				case "title_only":
-					$title_row[] = $question->getTitle();	
-					$title_row2[] = "";
-					$do_label = false;
+					$question->addUserSpecificResultsExportTitles($csvrow, false);	
 					break;
 					
 				default:
-					$title_row[] = $question->getTitle();	
-					$title_row2[] = $question->label;	
+					$question->addUserSpecificResultsExportTitles($csvrow, false);		
+					$question->addUserSpecificResultsExportTitles($csvrow2, true, false);		
 					break;
 			}
-		
-			$q_eval->getUserSpecificVariableTitles($title_row, $title_row2, $do_title, $do_label);
+			
+			$questions[$question_data["question_id"]] = $question;
+		}
+		array_push($csvfile, $csvrow);
+		if(sizeof($csvrow2) && implode("", $csvrow2))
+		{
+			array_push($csvfile, $csvrow2);
+		}				
+		if(!$finished_ids)
+		{
+			$participants =& $this->object->getSurveyFinishedIds();
+		}
+		else
+		{
+			$participants = $finished_ids;
+		}
+		$finished_data = array();
+		foreach($this->object->getSurveyParticipants($participants) as $item)
+		{
+			$finished_data[$item["active_id"]] = $item;
+		}
+		foreach ($participants as $user_id)
+		{		
+			if($user_id < 1)
+			{
+				continue;
+			}
+			
+			$resultset =& $this->object->getEvaluationByUser($questions, $user_id);			
+			$csvrow = array();
+			
+			// #12756			
+			array_push($csvrow, (trim($resultset["lastname"])) 
+				? $resultset["lastname"] 
+				: $resultset["name"]); // anonymous
+			array_push($csvrow, $resultset["firstname"]);
+			
+			array_push($csvrow, $resultset["login"]); // #10579
+			if ($this->object->canExportSurveyCode())
+			{
+				array_push($csvrow, $user_id);
+			}
+			/* #8211
+			if ($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_OFF)
+			{
+				array_push($csvrow, $resultset["gender"]);
+			}			
+		    */
+			$wt = $this->object->getWorkingtimeForParticipant($user_id);
+			array_push($csvrow, $wt);
+			
+			$finished = $finished_data[$user_id];
+			if((bool)$finished["finished"])
+			{
+				$dt = new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX);
+				if($export_format == self::TYPE_XLS)
+				{									
+					array_push($csvrow, $dt);								
+				}			
+				else
+				{
+					array_push($csvrow, ilDatePresentation::formatDate($dt));
+				}
+			}
+			else
+			{
+				array_push($csvrow, "-");
+			}			
+			
+			foreach ($questions as $question_id => $question)
+			{
+				$question->addUserSpecificResultsData($csvrow, $resultset);
+			}			
+			
+			array_push($csvfile, $csvrow);
 		}
 		
-		$rows = array();
+		// #11179
+		$surveyname = $this->object->getTitle()." ".$this->lng->txt("svy_eval_user")." ".date("Y-m-d");
+		$surveyname = preg_replace("/\s/", "_", trim($surveyname));
+		$surveyname = ilUtil::getASCIIFilename($surveyname);
 		
-		// add title row(s) 
-		$rows[] = $title_row;
-		if(implode("", $title_row2))
+		switch ($export_format)
 		{
-			$rows[] = $title_row2;
-		}		
+			case self::TYPE_XLS:
+				include_once "Services/Excel/classes/class.ilExcel.php";
+				$excel = new ilExcel();
+				$excel->addSheet($this->lng->txt("svy_eval_user"));
+							
+				// title row(s)
+				$row = 1;
+				$title_row = array_shift($csvfile);
+				foreach($title_row as $col_idx => $title_col)
+				{
+					if(is_array($title_col))
+					{						
+						foreach ($title_col as $sub_title_idx => $title)
+						{
+							$excel->setCell($row+$sub_title_idx, $col_idx, $title);
+							$row = max($row, $row+$sub_title_idx);
+						}						
+					}
+					else
+					{
+						$excel->setCell($row, $col_idx, $title_col);
+					}
+				}
+				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
+		
+				foreach($csvfile as $csvrow)
+				{	
+					$row++;
+					foreach ($csvrow as $col_idx => $text)
+					{												
+						$excel->setCell($row, $col_idx, $text);							
+					}					
+				}
 				
-		// #13620
-		ilDatePresentation::setUseRelativeDates(false);		
-						
+				$excel->sendToClient($surveyname);				
+				break;
+				
+			case self::TYPE_SPSS:
+				$csv = "";
+				$separator = ";";				
+				foreach ($csvfile as $idx => $csvrow)
+				{					
+					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));					
+					$csv .= join($csvrow, $separator) . "\n";
+				}
+				ilUtil::deliverData($csv, "$surveyname.csv");
+				exit();
+				break;
+		}
+	}
+	
+	function exportEvaluationUser()
+	{
 		$finished_ids = null;
 		if($this->object->get360Mode())
 		{
@@ -1284,87 +916,8 @@ class ilSurveyEvaluationGUI
 				$finished_ids = array(-1);
 			}
 		}
-				
-		$participants = $this->object->getSurveyParticipants($finished_ids);
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";	
-		foreach($participants as $user)
-		{	
-			$user_id = $user["active_id"];
-		
-			$row = array();			
-			$row[] = trim($user["lastname"]) 
-				? $user["lastname"] 
-				: $user["name"]; // anonymous
-			$row[] = $user["firstname"];
-			$row[] = $user["login"]; // #10579
-			
-			if ($this->object->canExportSurveyCode())
-			{
-				$row[] = $user_id; 
-			}
-			
-			$row[] = $this->object->getWorkingtimeForParticipant($user_id);
-			
-			if((bool)$user["finished"])
-			{
-				$dt = new ilDateTime($user["finished_tstamp"], IL_CAL_UNIX);
-				$row[] = ($_POST["export_format"] == self::TYPE_XLS)
-					? $dt
-					: ilDatePresentation::formatDate($dt);
-			}
-			else
-			{						
-				$row[] = "-"; // :TODO:
-			}
-			
-			foreach($questions as $item)
-			{	
-				$q_eval = $item[0];		
-				$q_res = $item[1];
-				
-				$q_eval->addUserSpecificResults($row, $user_id, $q_res);
-			}
-			
-			$rows[] = $row;
-		}		
-		
-		// #11179
-		$surveyname = $this->object->getTitle()." ".$this->lng->txt("svy_eval_user")." ".date("Y-m-d");
-		$surveyname = preg_replace("/\s/", "_", trim($surveyname));
-		$surveyname = ilUtil::getASCIIFilename($surveyname);
-		
-		switch ($_POST["export_format"])
-		{
-			case self::TYPE_XLS:
-				include_once "Services/Excel/classes/class.ilExcel.php";
-				$excel = new ilExcel();
-				$excel->addSheet($this->lng->txt("svy_eval_user"));
-							
-				foreach($rows as $row_idx => $row)
-				{
-					foreach($row as $col_idx => $col)
-					{
-						$excel->setCell($row_idx+1, $col_idx, $col);
-					}
-					if(!$row_idx)
-					{
-						$excel->setBold("A1:".$excel->getColumnCoord(sizeof($row)-1)."1");
-					}
-				}										
-				$excel->sendToClient($surveyname);				
-				
-			case self::TYPE_SPSS:
-				$csv = "";
-				$separator = ";";				
-				foreach ($rows as $csvrow)
-				{					
-					$csvrow = str_replace("\n", " ", $this->processCSVRow($csvrow, TRUE, $separator));					
-					$csv .= join($csvrow, $separator) . "\n";
-				}
-				ilUtil::deliverData($csv, "$surveyname.csv");
-				exit();
-		}				
+		return $this->exportUserSpecificResults($_POST["export_format"], $_POST["export_label"], $finished_ids);						
 	}
 	
 	/**
@@ -1396,15 +949,28 @@ class ilSurveyEvaluationGUI
 		$tabledata = null;
 		if(!$this->object->get360Mode() || $appr_id)
 		{
-			$modal_id = "svy_ev_exp";
-			$modal = $this->buildExportModal($modal_id, "exportevaluationuser");
+			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
+			$format->setOptions(array(
+				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
+				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
+				));
+			$ilToolbar->addInputItem($format, true);
+
+			$label = new ilSelectInputGUI("", "export_label");
+			$label->setOptions(array(
+				'label_only' => $this->lng->txt('export_label_only'), 
+				'title_only' => $this->lng->txt('export_title_only'), 
+				'title_label'=> $this->lng->txt('export_title_label')
+				));
+			$ilToolbar->addInputItem($label);
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
 			$button->setCaption("export");
-			$button->setOnClick('$(\'#'.$modal_id.'\').modal(\'show\')');
+			$button->setCommand('exportevaluationuser');
+			$button->setOmitPreventDoubleSubmission(true);
 			$ilToolbar->addButtonInstance($button);		
-						
+
 			$ilToolbar->addSeparator();
 
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
@@ -1423,131 +989,77 @@ class ilSurveyEvaluationGUI
 					$finished_ids = array(-1);
 				}
 			}
-			
-			$data = $this->parseUserSpecificResults($finished_ids);
+
+			$userResults =& $this->object->getUserSpecificResults($finished_ids);	
+			$questions =& $this->object->getSurveyQuestions(true);
+			$participants =& $this->object->getSurveyParticipants($finished_ids);
+			$tabledata = array();	
+			$counter = -1;
+			foreach ($participants as $data)
+			{				
+				$questioncounter = 1;
+				$question = "";
+				$results = "";
+				$first = true;
+				foreach ($questions as $question_id => $question_data)
+				{
+					$found = $userResults[$question_id][$data["active_id"]];
+					$text = "";
+					if (is_array($found))
+					{
+						$text = implode("<br />", $found);
+					}
+					else
+					{
+						$text = $found;
+					}
+					if (strlen($text) == 0) $text = ilObjSurvey::getSurveySkippedValue();
+					$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
+					if ($first)
+					{
+						if($data["finished"])
+						{
+							$finished =  $data["finished_tstamp"];
+						}	
+						else
+						{
+							$finished = false;
+						}
+						$tabledata[++$counter] = array(
+								'username' => $data["sortname"],
+								// 'gender' => $data["gender"],
+								'question' => $questioncounter++ . ". " . $question_data["title"],
+								'results' => $text,
+								'workingtime' => $wt,
+								'finished' => $finished
+							);
+						$first = false;						
+					}
+					else
+					{
+						$tabledata[$counter]["subitems"][] = array(
+								'username' => " ",
+								// 'gender' => " ",
+								'question' => $questioncounter++ . ". " . $question_data["title"],
+								'results' => $text,
+								'workingtime' => null,
+								'finished' => null
+							);
+					}
+				}
+			}
 		}
 		
-		/*
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();				
-		*/
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
 		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->hasAnonymizedResults());
-		$table_gui->setData($data);
-		$this->tpl->setContent($table_gui->getHTML().$modal);			
-	}
-	
-	protected function parseUserSpecificResults(array $a_finished_ids = null)
-	{				
-		$data = array();		
-		
-		$participants = $this->object->getSurveyParticipants($a_finished_ids);
-		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
-		foreach($this->object->getSurveyQuestions() as $qdata)
-		{	
-			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);		
-			$q_res =  $q_eval->getResults();
-						
-			$question = is_array($q_res)
-				? $q_res[0][1]->getQuestion()
-				: $q_res->getQuestion();
-				
-			foreach($participants as $user)
-			{	
-				$user_id = $user["active_id"];
-				
-				$parsed_results = array();
-				if(is_array($q_res))
-				{
-					foreach($q_res as $row_results)
-					{
-						$row_title = $row_results[0];
-						$user_results = $row_results[1]->getUserResults($user_id);
-						if($user_results)
-						{
-							foreach($user_results as $item)
-							{
-								// :TODO: layout
-								$tmp = $row_title.": ";
-								if($item[0] !== "")
-								{
-									$tmp .= $item[0];
-								}
-								if($item[1] && $item[0])
-								{
-									$tmp .= ", \"".nl2br($item[1])."\"";
-								}
-								else if($item[1])
-								{
-									$tmp .= "\"".nl2br($item[1])."\"";
-								}
-								$parsed_results[] = $tmp;
-							}
-						}
-					}
-					
-				}
-				else
-				{
-					$user_results = $q_res->getUserResults($user_id);
-					if($user_results)
-					{
-						foreach($user_results as $item)
-						{
-							// :TODO: layout
-							if($item[0] !== "")
-							{
-								$tmp = $item[0];
-							}
-							if($item[1] && $item[0])
-							{
-								$tmp .= ", \"".nl2br($item[1])."\"";
-							}
-							else if($item[1])
-							{
-								$tmp = "\"".nl2br($item[1])."\"";
-							}
-							$parsed_results[] = $tmp;
-						}
-					}
-				}
-				
-				if(!array_key_exists($user_id, $data))
-				{
-					$wt = $this->object->getWorkingtimeForParticipant($user_id);
-					
-					$finished = $user["finished"]
-						? $user["finished_tstamp"]
-						: false;
-					
-					$data[$user_id] = array(
-							"username" => $user["sortname"],
-							"question" => $question->getTitle(),
-							"results" => $parsed_results,
-							"workingtime" => $wt,
-							"finished" => $finished,
-							"subitems" => array()
-						);					
-				}
-				else
-				{
-					$data[$user_id]["subitems"][] = array(
-							"username" => " ",
-							"question" => $question->getTitle(),
-							"results" => $parsed_results,
-							"workingtime" => null,
-							"finished" => null
-						);
-				}
-			}
-		}	
-		
-		return $data;
+		$table_gui->setData($tabledata);
+		$this->tpl->setContent($table_gui->getHTML());			
 	}
 	
 	/**

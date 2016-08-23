@@ -1279,7 +1279,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		$par_id = ilObject::_lookupObjId($a_ref_id);
 		$type = ilObject::_lookupType($par_id);
-		if (!in_array($type, array("lm", "sahs", "htlm")))
+		if (!in_array($type, array("lm", "dbk", "sahs", "htlm")))
 		{
 			$icon = ilUtil::getImagePath("icon_".$type.".svg");
 		}
@@ -1366,7 +1366,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		if ($a_image_type != "")
 		{
-			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "htlm", "sahs")))
+			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "dbk", "htlm", "sahs")))
 			{
 				$icon = ilUtil::getImagePath("icon_".$a_image_type.".svg");
 				$title = $this->lng->txt("obj_".$a_image_type);

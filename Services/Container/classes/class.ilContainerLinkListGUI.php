@@ -78,7 +78,7 @@ class ilContainerLinkListGUI
 		$childs = $tree->getChilds($_GET["ref_id"]);
 		foreach($childs as $child)
 		{
-			if (in_array($child["type"], array("lm", "sahs", "htlm")))
+			if (in_array($child["type"], array("lm", "dbk", "sahs", "htlm")))
 			{
 				$cnt["lres"]++;
 			}

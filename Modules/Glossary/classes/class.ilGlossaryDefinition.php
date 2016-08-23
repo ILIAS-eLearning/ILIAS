@@ -272,6 +272,11 @@ class ilGlossaryDefinition
 
 		// delete meta data
 		$this->deleteMetaData();
+/*
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
+*/
 	}
 
 

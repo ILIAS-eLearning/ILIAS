@@ -180,22 +180,17 @@ class ilObjectLP
 			if(false /* !ilObjUserTracking::_enabledLearningProgress() */) // not ready for trunk
 			{
 				$mode = self::getTypeDefaultFromDB(ilObject::_lookupType($this->obj_id));
-				if($mode === null)
-				{
-					// fallback: inactive as type default may not be suitable
-					$mode = ilLPObjSettings::LP_MODE_DEACTIVATED;
-				}
 			}
 			// use object LP setting
 			else
 			{
 				$mode = ilLPObjSettings::_lookupDBMode($this->obj_id);		
-				if($mode === null)
-				{						
-					// fallback: object type default
-					$mode = $this->getDefaultMode();				
-				}	
-			}									
+			}						
+			// fallback: object type default
+			if($mode === null)
+			{								
+				$mode = $this->getDefaultMode();				
+			}		
 			$this->mode = (int)$mode;
 		}
 		
@@ -681,7 +676,7 @@ class ilObjectLP
 	
 	public static function supportsMark($a_obj_type)
 	{
-		return !in_array($a_obj_type, array("lm"));
+		return !in_array($a_obj_type, array("lm", "dbk"));
 	}
 	
 	public static function supportsMatrixView($a_obj_type)

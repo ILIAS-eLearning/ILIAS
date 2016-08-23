@@ -16698,18 +16698,3 @@ if (!$ilDB->tableExists('glo_term_reference'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-<#4994>
-<?php
-	if (!$ilDB->tableColumnExists('svy_svy', 'reminder_tmpl'))
-	{
-		$ilDB->addTableColumn('svy_svy', 'reminder_tmpl', array(
-			"type" => "integer",
-			"notnull" => false,
-			"length" => 4
-		));
-	}
-?>
-<#4995>
-<?php
-	$ilCtrlStructureReader->getStructure();
-?>

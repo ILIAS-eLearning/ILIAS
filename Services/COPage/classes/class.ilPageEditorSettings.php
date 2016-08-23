@@ -13,7 +13,7 @@ class ilPageEditorSettings
 	// settings groups. each group contains one or multiple
 	// page parent types
 	protected static $option_groups = array(
-		"lm" => array("lm"),
+		"lm" => array("lm", "dbk"),
 		"wiki" => array("wpg"),
 		"scorm" => array("sahs"),
 		"glo" => array("gdf"),
