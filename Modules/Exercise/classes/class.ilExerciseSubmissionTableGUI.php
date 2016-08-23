@@ -207,7 +207,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$has_no_team_yet = ($a_ass->hasTeam() &&
 			!ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
 		
-	
+		
 		// static columns
 
 		if($this->mode == self::MODE_BY_ASSIGNMENT)
@@ -282,8 +282,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_FAILED", $this->lng->txt("exc_failed"));	
 		}		
 		else
-		{
-			$this->tpl->touchBlock("no_team_yet_bl");
+		{						
+			$nt_colspan = in_array("mark", $this->getSelectedColumns())
+				? 2
+				: 1;
+						
+			$this->tpl->setVariable("NO_TEAM_COLSPAN", $nt_colspan);
 		}
 				
 		
@@ -366,8 +370,15 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 							: "&nbsp;");
 					break;
 				
-				case "notice":					
-				case "mark":					
+								
+				case "mark":	
+					if($has_no_team_yet)
+					{
+						continue;
+					}
+					// fallthrough
+					
+				case "notice":	
 					$this->tpl->setVariable("VAL_".strtoupper($col), $a_row[$col]
 						? ilUtil::prepareFormOutput(trim($a_row[$col]))
 						: "");
