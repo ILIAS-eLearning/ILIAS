@@ -16698,3 +16698,66 @@ if (!$ilDB->tableExists('glo_term_reference'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4994>
+<?php
+	if (!$ilDB->tableColumnExists('svy_svy', 'reminder_tmpl'))
+	{
+		$ilDB->addTableColumn('svy_svy', 'reminder_tmpl', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4995>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4996>
+<?php
+
+if(!$ilDB->tableExists('exc_idl'))
+{
+	$ilDB->createTable('exc_idl', array(
+		'ass_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),	
+		'member_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'is_team' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),	
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('exc_idl', array('ass_id', 'member_id', 'is_team'));
+}
+
+?>
+<#4997>
+<?php
+	if (!$ilDB->tableColumnExists('exc_data', 'tfeedback'))
+	{
+		$ilDB->addTableColumn('exc_data', 'tfeedback', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 7
+		));
+	}
+?>

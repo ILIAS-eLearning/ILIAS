@@ -15923,6 +15923,7 @@ survey#:#svy_eval_captions#:#Figures
 survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
 survey#:#svy_eval_captions_abs#:#Absolute
 survey#:#svy_eval_captions_perc#:#Percentage
+<<<<<<< Updated upstream
 content#:#cont_permission_object#:#Permission Object
 style#:#add_system_style#:#Add System Style
 style#:#add_substyle#:#Add Sub Style
@@ -16044,3 +16045,31 @@ style#:#cant_delete_style_with_substyles#:#Styles with sub styles cannot be dele
 style#:#style_assignments_deleted#:#Style assignments of the following Sub Style have been deleted:
 style#:#skin_id_exists#:#There exists already a skin with this ID.
 style#:#usages#:#Usages:
+exc#:#exc_individual_deadline#:#Individual Deadline
+exc#:#exc_individual_deadline_action#:#Set Individual Deadline
+exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.
+exc#:#exc_tbl_submission_date#:#Latest Submission
+exc#:#exc_tbl_status#:#Grade
+exc#:#exc_tbl_status_time#:#Graded on
+exc#:#exc_tbl_mark#:#Mark
+exc#:#exc_tbl_comment#:#Text Feedback
+exc#:#exc_tbl_notice#:#Note for Tutors
+exc#:#exc_tbl_feedback_time#:#Feedback on
+exc#:#exc_tbl_sent_time#:#Assignment sent on
+exc#:#exc_tbl_team#:#Team
+exc#:#exc_tbl_individual_deadline#:#Individual Deadline
+exc#:#exc_tbl_action_download_files#:#Download Submissions
+exc#:#exc_tbl_action_download_all_files#:#Download All Submissions
+exc#:#exc_tbl_action_download_new_files#:#Download New Submissions
+exc#:#exc_tbl_action_text_assignment_show#:#Show Submission
+exc#:#exc_tbl_action_feedback_text#:#Give Feedback As Text
+exc#:#exc_tbl_action_feedback_mail#:#Give Feedback As Mail
+exc#:#exc_tbl_action_feedback_file#:#Give Feedback As File
+exc#:#exc_tbl_action_team_log#:#Show Team Log
+exc#:#exc_tbl_action_peer_review_given#:#Show Given Peer Feedback
+exc#:#exc_tbl_action_peer_review_received#:#Show Received Peer Feedback
+exc#:#exc_feedback#:#Feedback
+exc#:#exc_settings_feedback#:#Tutor Feedback
+exc#:#exc_settings_feedback_text#:#Textinput
+exc#:#exc_settings_feedback_mail#:#By Mail
+exc#:#exc_settings_feedback_file#:#By File

@@ -63,16 +63,25 @@ class ilExSubmission
 	}
 	
 	
+	/**
+	 * @return \ilExAssignment
+	 */
 	public function getAssignment()
 	{
 		return $this->assignment;
 	}
 	
+	/**	 
+	 * @return \ilExAssignmentTeam
+	 */
 	public function getTeam()
 	{
 		return $this->team;
 	}
 	
+	/**	 
+	 * @return \ilExPeerReview
+	 */
 	public function getPeerReview()
 	{
 		return $this->peer_review;
@@ -237,8 +246,8 @@ class ilExSubmission
 	
 	protected function isLate()
 	{
-		return ($this->assignment->getDeadline() &&
-			$this->assignment->getDeadline() < time());		
+		$dl = $this->assignment->getPersonalDeadline($this->getUserId());		
+		return ($dl && $dl < time());		
 	}
 	
 	protected function initStorage()

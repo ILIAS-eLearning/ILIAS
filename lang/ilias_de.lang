@@ -15924,6 +15924,7 @@ survey#:#svy_eval_captions#:#Kennzahl
 survey#:#svy_eval_captions_abs_perc#:#Anzahl und Prozent
 survey#:#svy_eval_captions_abs#:#Anzahl
 survey#:#svy_eval_captions_perc#:#Prozent
+<<<<<<< Updated upstream
 style#:#add_system_style#:#Neuer System Style
 style#:#add_substyle#:#Neuer Sub Style
 style#:#skin_id#:#Skin ID
@@ -16044,3 +16045,31 @@ style#:#cant_delete_style_with_substyles#:#Styles mit Sub Styles können nicht g
 style#:#style_assignments_deleted#:#Style Zuweisungen des folgenden Sub Style wurden gelöscht:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
+exc#:#exc_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_individual_deadline_action#:#Individuelle Fristenverlängerung setzen
+exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
+exc#:#exc_tbl_submission_date#:#Jüngste Abgabe
+exc#:#exc_tbl_status#:#Bewertung
+exc#:#exc_tbl_status_time#:#Bewertet am
+exc#:#exc_tbl_mark#:#Note
+exc#:#exc_tbl_comment#:#Text-Feedback
+exc#:#exc_tbl_notice#:#Notiz für Tutoren
+exc#:#exc_tbl_feedback_time#:#Feedback am
+exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
+exc#:#exc_tbl_team#:#Team
+exc#:#exc_tbl_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
+exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
+exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
+exc#:#exc_tbl_action_text_assignment_show#:#Abgabe anzeigen
+exc#:#exc_tbl_action_feedback_text#:#Feedback per Text geben
+exc#:#exc_tbl_action_feedback_mail#:#Feedback per Mail geben 
+exc#:#exc_tbl_action_feedback_file#:#Feedback per Datei geben 
+exc#:#exc_tbl_action_team_log#:#Team-Log anzeigen
+exc#:#exc_tbl_action_peer_review_given#:#Gegebenes Peer-Feedback anzeigen
+exc#:#exc_tbl_action_peer_review_received#:#Erhaltenes Peer-Feedback anzeigen
+exc#:#exc_feedback#:#Feedback
+exc#:#exc_settings_feedback#:#Tutorenfeedback
+exc#:#exc_settings_feedback_text#:#Texteingabe
+exc#:#exc_settings_feedback_mail#:#per Mail
+exc#:#exc_settings_feedback_file#:#Datei

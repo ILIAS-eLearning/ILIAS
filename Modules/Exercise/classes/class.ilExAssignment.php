@@ -178,6 +178,53 @@ class ilExAssignment
 	}
 	
 	/**
+	 * Get individual deadline
+	 * @param int $a_user_id
+	 * @return int
+	 */
+	function getPersonalDeadline($a_user_id)
+	{
+		global $ilDB;
+		
+		$is_team = false;
+		if($this->getType() == self::TYPE_UPLOAD_TEAM)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
+			$team_id = ilExAssignmentTeam::getTeamId($this->getId(), $a_user_id);
+			if(!$team_id)
+			{
+				return;
+			}
+			$a_user_id = $team_id;
+			$is_team = true;
+		}
+		
+		$set = $ilDB->query("SELECT tstamp FROM exc_idl".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND member_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND is_team = ".$ilDB->quote($is_team, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		
+		// use assignment deadline if no direct personal
+		return max($row["tstamp"], $this->getDeadline());
+	}
+	
+	/**
+	 * Get last/final personal deadline (of assignment)
+	 * 
+	 * @return int
+	 */
+	protected function getLastPersonalDeadline()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT MAX(tstamp) FROM exc_idl".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return $row["tstamp"];
+	}
+	
+	/**
 	 * Set extended deadline (timestamp)
 	 *
 	 * @param int	
@@ -1630,15 +1677,34 @@ class ilExAssignment
 	
 	public function afterDeadline()
 	{
+		global $ilUser;
+				
+		// :TODO: always current user?
+		$idl = $this->getPersonalDeadline($ilUser->getId());
+		
 		// no deadline === true
-		$deadline = max($this->deadline, $this->deadline2);
+		$deadline = max($this->deadline, $this->deadline2, $idl);
 		return ($deadline - time() <= 0);
 	}
 	
-	public function afterDeadlineStrict()
+	public function afterDeadlineStrict($a_include_personal = true)
 	{
+		// :TODO: this means that peer feedback, global feedback is available 
+		// after LAST personal deadline
+		// team management is currently ignoring personal deadlines
+		$idl = (bool)$a_include_personal
+			? $this->getLastPersonalDeadline()
+			: null;
+		
 		// no deadline === false
-		$deadline = max($this->deadline, $this->deadline2);		
+		$deadline = max($this->deadline, $this->deadline2, $idl);		
+		
+		// #18271 - afterDeadline() does not handle last personal deadline
+		if($idl && $deadline == $idl)
+		{
+			return ($deadline - time() <= 0);
+		}
+		
 		return ($deadline > 0 && 
 			$this->afterDeadline());	
 	}
@@ -1714,17 +1780,18 @@ class ilExAssignment
 		global $ilDB;
 		
 		// see JF, 2015-05-11 
-		
-		$deadline = $this->getDeadline();
+				
 		$ext_deadline = $this->getExtendedDeadline();
-		$last_deadline = max($this->getDeadline(), $this->getExtendedDeadline());
-	
+		
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		foreach(ilExSubmission::getAllAssignmentFiles($this->exc_id, $this->getId()) as $file)
 		{
 			$id = $file["returned_id"];
 			$uploaded = new ilDateTime($file["ts"], IL_CAL_DATETIME);
 			$uploaded = $uploaded->get(IL_CAL_UNIX);
+			
+			$deadline = $this->getPersonalDeadline($file["user_id"]);
+			$last_deadline = max($deadline, $this->getExtendedDeadline());
 			
 			$late = null;			
 			
@@ -1756,6 +1823,77 @@ class ilExAssignment
 					" WHERE returned_id = ".$ilDB->quote($id, "integer"));
 			}
 		}	
+	}
+	
+	
+	//
+	// individual deadlines
+	//
+	
+	public function setIndividualDeadline($id, ilDateTime $date)
+	{
+		global $ilDB;
+		
+		$is_team = false;
+		if(!is_numeric($id))
+		{
+			$id = substr($id, 1);
+			$is_team = true;
+		}
+		
+		$ilDB->replace("exc_idl",
+			array(
+				"ass_id" => array("integer", $this->getId()),
+				"member_id" => array("integer", $id),
+				"is_team" => array("integer", $is_team)
+			),
+			array(
+				"tstamp" => array("integer", $date->get(IL_CAL_UNIX))
+			)
+		);
+	}
+	
+	public function getIndividualDeadlines()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT * FROM exc_idl".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if($row["is_team"])
+			{
+				$row["member_id"] = "t".$row["member_id"];
+			}
+			
+			$res[$row["member_id"]] = $row["tstamp"];
+		}
+		
+		return $res;
+	}
+	
+	public function hasActiveIDl()
+	{		
+		return (bool)$this->getDeadline();
+	}
+	
+	public function hasReadOnlyIDl()
+	{
+		if($this->getType() != ilExAssignment::TYPE_UPLOAD_TEAM &&
+			$this->getPeerReview())
+		{		
+			// all deadlines are read-only if we have peer feedback
+			include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
+			$peer_review = new ilExPeerReview($this);	
+			if($peer_review->hasPeerReviewGroups())
+			{
+				return true;
+			}
+		}
+		
+		return false;		
 	}
 }
 
