@@ -15,6 +15,7 @@ class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification 
 	public function __construct() {
 		$this->occasion = null;
 		$this->reciever = null;
+		$this->setLangModules(array('mass'));
 	}
 
 	/**
@@ -55,7 +56,7 @@ class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification 
 		$this->initMail();
 		$subject = $this->occasion === self::OCCASION_COMPLETED ? $this->getLanguageText('mass_subj_notification_completed') : $this->getLanguageText('mass_subj_notification_failed');
 		$this->setSubject(
-			sprintf($subject,$this->reciever->assessment()->getTitle())
+			sprintf($subject, $this->reciever->assessment()->getTitle())
 		);
 		$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
 		$this->appendBody("\n\n");
