@@ -115,7 +115,7 @@ class ilOnScreenChatGUI
 		$auto->setSearchFields(array('firstname', 'lastname'));
 		$auto->setResultField('login');
 		$auto->enableFieldSearchableCheck(true);
-		echo $auto->getList($_REQUEST['q']);
+		echo $auto->getList($_REQUEST['term']);
 		exit;
 	}
 
@@ -217,12 +217,16 @@ class ilOnScreenChatGUI
 				'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user'
 			));
 
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+
 			require_once 'Services/Link/classes/class.ilLinkifyUtil.php';
 			ilLinkifyUtil::initLinkify();
 
-			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.outside.events.min.js');
 			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
 			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
