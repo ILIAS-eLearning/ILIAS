@@ -4464,6 +4464,7 @@ common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
 common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblink-Sammlung aus --
 common#:#obj_wfld#:#Ordner
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
@@ -14755,6 +14756,34 @@ scormtrac#:#user_id#:#Benutzer-Id
 scormtrac#:#weighting#:#weighting: Gewichtung
 scormtrac#:#report#:#Report
 scormtrac#:#display_not_allowed#:#Anzeige hier nicht erlaubt
+wfe#:#dashboard#:#Dashboard
+wfe#:#definitions#:#Prozessdefinitionen
+wfe#:#instances#:#Prozessinstanzen
+wfe#:#obj_wfe_desc#:#Prozessautomatisierung
+wfe#:#upload_process#:#Prozessdefinition hochladen
+wfe#:#process_definition_file#:#Prozessdefinitionsdatei
+wfe#:#process_definition_file_info#:#BPMN2-Modelle
+wfe#:#upload_parse_success#:#Prozessdefinition hochgeladen, geparst und abgelegt.
+wfe#:#definition_table_title#:#Prozessdefinitionen
+wfe#:#start_process#:#Prozess starten
+wfe#:#process_started#:#Prozess gestartet
+wfe#:#input_variables_required#:#Eingaben erforderlich
+wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
+wfe#:#input_static_variables_desc#:#Der Prozess benötigt zu seinen Starts folgende Angaben:
+wfe#:#delete_definition#:#Definition l&ouml;schen
+wfe#:#definition_deleted#:#Workflow-Definition gel&ouml;scht.
+wfe#:#subject_type#:#Subjekt Typ
+wfe#:#subject_id#:#Subjekt ID
+wfe#:#subject_by_id#:#Subjekt nach ID
+wfe#:#subject_by_mask#:#Maskiertes Subjekt
+wfe#:#context_type#:#Kontext Typ
+wfe#:#context_id#:#Kontext ID
+wfe#:#context_by_id#:#Kontext nach ID
+wfe#:#context_by_mask#:#Maskierter Kontext
+wfe#:#start_listening#:#Listener aktivieren
+wfe#:#stop_listening#:#Listener deaktivieren
+wfe#:#static_input_form_header#:#Eingabedaten f&uuml;r alle Instanzen des Workflows
+wfe#:#start_event_form_header#:#Relevante Ereignisse f&uuml;r den Start der Workflows
 common#:#ps_export_scorm#:#SCORM-Protokolldaten
 common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
