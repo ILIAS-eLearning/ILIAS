@@ -115,7 +115,11 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->setData($this->parseData());		
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";	
+		
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";	
+		ilCalendarUtil::initDateTimePicker();
+		
 	}
 					
 	function initFilter()
