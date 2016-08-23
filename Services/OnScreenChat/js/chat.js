@@ -47,6 +47,15 @@
 			getModule().socket.emit('addUser', conversationId, userId, name);
 		},
 
+		removeUser: function(conversationId, userId, name) {
+			console.log("removeUser" + conversationId + "," + userId + "," + name);
+			getModule().socket.emit('removeUser', conversationId, userId, name);
+		},
+
+		onGroupConversationLeft: function(callback) {
+			getModule().socket.on('removeUser', callback);
+		},
+
 		onGroupConversation: function(callback) {
 			getModule().socket.on('addUser', callback);
 		},

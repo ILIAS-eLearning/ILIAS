@@ -92,6 +92,14 @@ function Participant(id, name) {
 		}
 	};
 
+	this.leave = function(name) {
+		if(this.isOnline()) {
+			forSockets(function(socket){
+				socket.leave(name);
+			});
+		}
+	};
+
 	this.send = function(message) {
 		if(this.isOnline()) {
 			forSockets(function(socket){
@@ -111,8 +119,28 @@ function Participant(id, name) {
 		_conversations.push(conversation);
 	};
 
+	this.removeConversation = function(conversation) {
+		var conversationIndex = getConversationIndex(conversation, _conversations);
+		if (conversationIndex !== false) {
+			_conversations.splice(conversationIndex, 1);
+		}
+	};
+
 	this.getConversations = function() {
 		return _conversations;
+	};
+
+	var getConversationIndex = function(conversation, conversations) {
+		for (var key in conversations) {
+			if (conversations.hasOwnProperty(key)) {
+				var id = conversations[key].getId();
+
+				if (id == conversation.getId()) {
+					return key;
+				}
+			}
+		}
+		return false;
 	};
 
 	/**
@@ -125,7 +153,7 @@ function Participant(id, name) {
 				callback(_sockets[key]);
 			}
 		}
-	}
+	};
 }
 
 module.exports = exports = Participant;
