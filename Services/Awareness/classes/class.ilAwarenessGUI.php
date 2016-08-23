@@ -11,17 +11,26 @@
  */
 class ilAwarenessGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 
 	/**
 	 * Constructor
 	 */
 	function __construct()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$this->ui = $DIC->ui();
 
 		$this->ref_id = (int) $_GET["ref_id"];
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 	}
 
 	/**
@@ -97,6 +106,7 @@ class ilAwarenessGUI
 
 		if ($hcnt > 0 || $cnt > 0)
 		{
+			/*
 			$tpl->setCurrentBlock("status_text");
 			$tpl->setVariable("STATUS_TXT", $cnt);
 			if ($cnt == 0)
@@ -111,7 +121,24 @@ class ilAwarenessGUI
 				$tpl->setVariable("H_HIDDEN", "ilAwrnBadgeHidden");
 			}
 			$tpl->parseCurrentBlock();
-			$tpl->setVariable("HSP", "&nbsp;");
+			$tpl->setVariable("HSP", "&nbsp;");*/
+
+			$f = $this->ui->factory();
+			$renderer = $this->ui->renderer();
+
+			$glyph = $f->glyph()->user("#");
+			if ($cnt > 0)
+			{
+				$glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
+			}
+			if ($hcnt > 0)
+			{
+				$glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
+			}
+			$glyph_html = $renderer->render($glyph);
+			$tpl->setVariable("GLYPH", $glyph_html);
+
+
 
 			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 
