@@ -201,6 +201,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$numRequiredAnswers->setValue($this->object->getSkillTriggeringNumAnswersBarrier());
 		$form->addItem($numRequiredAnswers);
 
+		$ceeqwh = new ilCheckboxInputGUI($this->lng->txt('export_essay_qst_with_html'), 'export_essay_qst_with_html');
+		$ceeqwh->setChecked($this->object->getExportEssayQuestionsWithHtml());
+		$ceeqwh->setInfo($this->lng->txt('export_essay_qst_with_html_desc'));
+		$form->addItem($ceeqwh);
+		
 		// question settings
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("assf_questiontypes"));
@@ -275,7 +280,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		
 		$this->object->setSkillTriggeringNumAnswersBarrier((int)$_POST['num_req_answers']);
-
+		$this->object->setExportEssayQuestionsWithHtml($_POST["export_essay_qst_with_html"] == 1);
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
