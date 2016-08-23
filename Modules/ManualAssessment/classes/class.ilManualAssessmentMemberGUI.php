@@ -87,20 +87,36 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	protected function finalizeConfirmation() {
-		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-			$a_parent_gui->handleAccessViolation();
+		if($this->mayBeEdited()) {
+			$form = $this->initGradingForm();
+			$form->setValuesByArray($_POST);
+			if($form->checkInput()) {
+				$member = $this->updateDataInMemberByArray($this->member,$_POST);
+				if($member->mayBeFinalized()) {
+					if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+						$a_parent_gui->handleAccessViolation();
+					}
+					include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+					$confirm = new ilConfirmationGUI();
+					$confirm->addHiddenItem('record', $_POST['record']);
+					$confirm->addHiddenItem('internal_note', $_POST['internal_note']);
+					$confirm->addHiddenItem('notify', $_POST['notify']);
+					$confirm->addHiddenItem('learning_progress',$_POST['learning_progress']);
+					$confirm->setHeaderText($this->lng->txt('mass_finalize_user_qst'));
+					$confirm->setFormAction($this->ctrl->getFormAction($this));
+					$confirm->setConfirm($this->lng->txt('mass_finalize'), 'finalize');
+					$confirm->setCancel($this->lng->txt('cancel'), 'save');
+					$this->tpl->setContent($confirm->getHTML());
+				} else {
+					ilUtil::sendFailure($this->lng->txt('mass_may_not_finalize'));
+					$this->edit();
+				}
+			} else {
+				$this->edit();
+			}
+		} else {
+			$this->view();
 		}
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-		$confirm = new ilConfirmationGUI();
-		$confirm->addHiddenItem('record', $_POST['record']);
-		$confirm->addHiddenItem('internal_note', $_POST['internal_note']);
-		$confirm->addHiddenItem('notify', $_POST['notify']);
-		$confirm->addHiddenItem('learning_progress',$_POST['learning_progress']);
-		$confirm->setHeaderText($this->lng->txt('mass_finalize_user_qst'));
-		$confirm->setFormAction($this->ctrl->getFormAction($this));
-		$confirm->setConfirm($this->lng->txt('mass_finalize'), 'finalize');
-		$confirm->setCancel($this->lng->txt('cancel'), 'save');
-		$this->tpl->setContent($confirm->getHTML());
 	}
 
 	protected function finalize() {
