@@ -251,21 +251,26 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 			}
 		}
 
-		$container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(),null,$this->system_style_config);
-		$skin =  $container->getSkin();
+		//Only perform this test, if an unzip path has been found.
+		if(PATH_TO_UNZIP != ""){
+			$container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(),null,$this->system_style_config);
+			$skin =  $container->getSkin();
 
-		$this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
+			$this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
 
-		$container_import = $container->import($container->createTempZip(),$this->skin->getId().".zip",null,$this->system_style_config,false);
-		$skin_copy =  $container_import->getSkin();
+			$container_import = $container->import($container->createTempZip(),$this->skin->getId().".zip",null,$this->system_style_config,false);
+			$skin_copy =  $container_import->getSkin();
 
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1image"));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1sound"));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1font"));
-		$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.css"));
-		$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.less"));
-		$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css-variables.less"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1image"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1sound"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1font"));
+			$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.css"));
+			$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.less"));
+			$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css-variables.less"));
+		}else{
+			$this->markTestIncomplete('No unzip has been detected on the system');
+		}
 	}
 }
