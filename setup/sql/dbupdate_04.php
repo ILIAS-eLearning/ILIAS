@@ -16712,3 +16712,12 @@ if($type_id && $tgt_ops_id) {
 	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
 }
 ?>
+
+<#4995>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	ilDBUpdateNewObjectType::cloneOperation('crs', $src_ops_id, $tgt_ops_id);
+	ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
+?>
