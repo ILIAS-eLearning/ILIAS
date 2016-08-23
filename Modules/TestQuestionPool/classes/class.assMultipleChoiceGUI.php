@@ -466,6 +466,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			
 			$template->setCurrentBlock("answer_row");
+			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			foreach ($user_solution as $mc_solution)
@@ -477,6 +478,21 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			$template->parseCurrentBlock();
 		}
+		if($this->object->getSelectionLimit())
+		{
+			$template->setVariable('SELECTION_LIMIT_HINT', sprintf(
+				$this->lng->txt('ass_mc_sel_lim_hint'),
+				$this->object->getSelectionLimit(),
+				$this->object->getAnswerCount()
+			));
+			
+			$template->setVariable('SELECTION_LIMIT_VALUE', $this->object->getSelectionLimit());
+		}
+		else
+		{
+			$template->setVariable('SELECTION_LIMIT_VALUE', 'null');
+		}
+		$template->setVariable("QUESTION_ID", $this->object->getId());
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
@@ -574,7 +590,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 
 			$template->setCurrentBlock("answer_row");
-			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			foreach ($user_solution as $mc_solution)
