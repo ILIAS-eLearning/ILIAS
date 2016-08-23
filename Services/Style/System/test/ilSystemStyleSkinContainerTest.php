@@ -234,12 +234,21 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 
 	public function testImportSkin(){
 		if(!defined('PATH_TO_ZIP')){
-			$ini = parse_ini_file("ilias.ini.php",true);
-			define('PATH_TO_ZIP', $ini['tools']['zip']);
+			if(file_exists("ilias.ini.php")){
+				$ini = parse_ini_file("ilias.ini.php",true);
+				define('PATH_TO_ZIP', $ini['tools']['zip']);
+			}else{
+				define('PATH_TO_ZIP', "");
+			}
 		}
+
 		if(!defined('PATH_TO_UNZIP')){
-			$ini = parse_ini_file("ilias.ini.php",true);
-			define('PATH_TO_UNZIP', $ini['tools']['unzip']);
+			if(file_exists("ilias.ini.php")) {
+				$ini = parse_ini_file("ilias.ini.php",true);
+				define('PATH_TO_UNZIP', $ini['tools']['unzip']);
+			}else{
+				define('PATH_TO_UNZIP', "");
+			}
 		}
 
 		$container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(),null,$this->system_style_config);
