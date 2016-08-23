@@ -15882,6 +15882,56 @@ trac#:#trac_defaults#:#Bestanden-Status
 trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für Objekt-Typen. Wird von Badges verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
+<<<<<<< HEAD
+mass#:#general#:#Allgemein
+mass#:#mass_content#:#Inhalt
+mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
+mass#:#mass_add_user_success#:#Benutzer erfolgreich hinzugefügt
+mass#:#mass_add_user_failure#:#Kann einen oder mehrere Benutzer nicht hinzufügen
+mass#:#mass_graded_by#:#Bewerted von
+mass#:#mass_usr_remove#:#Benutzer entfernen
+mass#:#mass_usr_edit#:#Benutzer un Lernfortschritt bearbeiten
+mass#:#mass_usr_view#:#Prüfungsdaten betrachten
+mass#:#mass_edit_record#:#Prüfungsdaten bearbeiten
+mass#:#mass_record#:#Prüfungsnotiz
+mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
+mass#:#mass_status_completed#:#Abgeschlossen
+mass#:#mass_status_failed#:#Durgefallen
+mass#:#mass_status_pending#:#nicht gesetzt
+mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
+mass#:#mass_finalize#:#Finalisieren
+mass#:#il_mass_member#:#Mitgleid
+mass#:#edit_members#:#Mitglieder bearbeiten
+mass#:#mass_edit_members#:#Mitglieder bearbeiten
+mass#:#mass_visible#:#Anzeigen
+mass#:#mass_read#:#Lesezugriff
+mass#:#mass_copy#:#Kopieren
+mass#:#mass_write#:#Berabeiten
+mass#:#mass_delete#:#Löschen
+mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitgleider Einsehen
+mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
+mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
+mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
+mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
+mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
+trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
+common#:#obj_mass#:#Manuelle Bewertung
+common#:#objs_mass#:#Manuelle Bewertungen
+common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
+common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
+trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
+common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
+rbac#:#mass_visible#:#Manuele Bwertung sichtbar
+rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
+rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
+rbac#:#mass_copy#:#Manuelle Bewertung kopieren
+rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
+rbac#:#mass_delete#:#Manuelle Bewertung löschen
+rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
+mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+=======
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen###fau: testNav
 assessment#:#save_on_navigation#:#Navigation mit Speichern###fau: testNav
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.###fau: testNav
@@ -15909,53 +15959,4 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
-mass#:#general#:#Allgemein
-mass#:#mass_content#:#Inhalt
-mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
-mass#:#mass_add_user_success#:#Benutzer erfolgreich hinzugefügt
-mass#:#mass_add_user_failure#:#Kann einen oder mehrere Benutzer nicht hinzufügen
-mass#:#mass_graded_by#:#Bewertet von
-mass#:#mass_usr_remove#:#Benutzer entfernen
-mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
-mass#:#mass_usr_view#:#Prüfungsdaten betrachten
-mass#:#mass_edit_record#:#Prüfungsdaten bearbeiten
-mass#:#mass_record#:#Prüfungsnotiz
-mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
-mass#:#mass_status_completed#:#bestanden
-mass#:#mass_status_failed#:#nicht bestanden
-mass#:#mass_status_pending#:#nicht gesetzt
-mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
-mass#:#mass_finalize#:#Finalisieren
-mass#:#il_mass_member#:#Mitglied
-mass#:#edit_members#:#Mitglieder bearbeiten
-mass#:#mass_edit_members#:#Mitglieder bearbeiten
-mass#:#mass_visible#:#Anzeigen
-mass#:#mass_read#:#Lesezugriff
-mass#:#mass_copy#:#Kopieren
-mass#:#mass_write#:#Berabeiten
-mass#:#mass_delete#:#Löschen
-mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
-mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
-mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
-mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
-mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
-mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
-trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
-common#:#obj_mass#:#Manuelle Bewertung
-common#:#objs_mass#:#Manuelle Bewertungen
-common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
-common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
-trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
-common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
-rbac#:#mass_visible#:#Manuele Bwertung sichtbar
-rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
-rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
-rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
-rbac#:#mass_copy#:#Manuelle Bewertung kopieren
-rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
-rbac#:#mass_delete#:#Manuelle Bewertung löschen
-rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
-rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
-mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
-mass#:#mass_edit#:#Einstellungen
-mass#:#mass_add#:#Manuelle Bewertung hinzufügen
+>>>>>>> a990539898da6e47e75c39aa6e660d9db9ce35f8

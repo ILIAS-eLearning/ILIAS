@@ -14,35 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
-forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
-forum#:#restore#:#Restore
-forum#:#restore_draft_from_autosave#:#Restore draft
-forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
-forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
-forum#:#publishThreadDrafts#:#Publish Thread Draft
-forum#:#deleteThreadDrafts#:#Delete Thread Draft
-forum#:#edit_thread_draft#:#Edit thread draft
-common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
-common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
-pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
-forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
-forum#:#save_draft_successfully#:#The draft was saved successfully.
-forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
-forum#:#delete_draft_successfully#:#The draft was deleted successfully.
-forum#:#forums_edit_draft#:#Edit draft
-forum#:#publish#:#Publish
-forum#:#frm_my_posting_drafts#:#My Posting Drafts
-forum#:#frm_posting_draft#:#Draft
-forum#:#frm_posting_drafts#:#Drafts
-forum#:#enable_send_attachments#:#Send attachments with forum notifications
-forum#:#enable_send_attachments_desc#:#Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space.
-forum#:#adm_save_drafts#:#Save drafts   
-forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save forum postings as draft.    
-forum#:#adm_autosave_drafts#:#Automatically save drafts
-forum#:#adm_autosave_ival#:#Interval
-forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_comp_frm#:#Forum
@@ -216,10 +187,6 @@ assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
-assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
-assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
-assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
-assessment#:#tst_pass_waiting_time#:#Waiting Time
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
@@ -766,10 +733,8 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for th
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
-assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
-assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -967,7 +932,7 @@ assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
 assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
-assessment#:#discard_answer#:#Delete Answer###fau: testNav
+assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
@@ -989,13 +954,13 @@ assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
 assessment#:#tst_instant_feedback_handling#:#Lock Answers
 assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
-assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can click 'Request Feedback' to get a feedback on their answer as configured in the option 'Instant feedback'. They may however change their answer afterwards.###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers and give Feedback###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#Participants can click 'Save Answer, Freeze and Check' to lock their answer and get feedback as configured in the option 'Instant feedback'. Afterwards they can no longer change their answer.###fau: testNav
+assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can change their answers in all test passes they have.
+assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers, Feedback upon Request
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants can request feedback by clicking 'Check'. Please configure feedback behavior in the option 'Instant feedback'.
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Save Answer, Freeze and Check' or save the answer when they navigate away from the question, they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###fau: testNav
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.
 assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Request Feedback' or save the answer when they navigate away from the question, they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###fau: testNav
+assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Answer', they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.
 assessment#:#see_details_for_further_information#:#See details for content for recapitulation
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
@@ -1115,12 +1080,6 @@ assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finished#:#Finished
-assessment#:#unfinished_passes#:#Unfinished Passes
-assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass?
-assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
-assessment#:#finish_all_user_passes#:#Finish all test Passes
-assessment#:#finish_unfinished_passes#:#Finish open Passes
-assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job. 
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
 assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. Do you want to proceed?
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
@@ -1133,7 +1092,6 @@ assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous te
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
 assessment#:#tst_hide_side_list#:#Hide List of Questions
-assessment#:#new_test_online#:#The Test was set online.
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -1307,11 +1265,11 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
 assessment#:#tst_score_cutting#:#Negative Points
-assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions with Empty Answer###fau: testNav
-assessment#:#tst_score_mcmr_use_scoring_system#:#Save and Score Empty Answers (Deprecated)###fau: testNav
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#An additional option "None of the above" allows saving of empty answers. The unchecked options will be scored as defined in the question. This setting is only kept for existing tests and will be abandoned in a following ILIAS version.###fau: testNav
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Don’t Save Empty Answers###fau: testNav
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Answers without any checked option are not saved. Participants get 0 points on these questions.###fau: testNav
+assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions not Answered
+assessment#:#tst_score_mcmr_use_scoring_system#:#Score Points for Unanswered Questions as Defined in Question
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as defined in the question. This setting is appropriate only for few cases.
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 Points for Unchecked Answers
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Participants score 0 points for multiple choice questions in which they have not checked any answer option. This setting is appropriate for most tests.
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
 assessment#:#tst_score_reporting#:#Score Reporting
 assessment#:#tst_score_type#:#Score Reporting Type
@@ -2211,7 +2169,9 @@ common#:#bkm_import#:#Import Bookmarks
 common#:#bkm_sendmail#:#Send as attachment
 common#:#block_management#:#Block Management
 common#:#block#:#Block
-common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
+common#:#bm_add_to_ilias#:#ILIAS Bookmarks
+common#:#bm_add_to_social_bookmarks#:#Add to Bookmarks
+common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bold#:#Bold
@@ -2526,6 +2486,7 @@ common#:#deleted_user_account#:#Deleted user account
 common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
 common#:#deleted#:#Deleted
+common#:#delicious#:#Delicious Account
 common#:#deliver#:#Deliver
 common#:#department#:#Department
 common#:#desc#:#Description
@@ -3103,6 +3064,20 @@ common#:#il_grp_status_open#:#Group open
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder Username
 common#:#ilias_username#:#ILIAS Username
 common#:#ilias_version#:#ILIAS version
+common#:#im_aim_icon#:#AIM Logo
+common#:#im_aim#:#AIM
+common#:#im_icq_icon#:#ICQ Logo
+common#:#im_icq#:#ICQ
+common#:#im_jabber_icon#:#Jabber Logo
+common#:#im_jabber#:#Jabber
+common#:#im_msn_icon#:#MSN Logo
+common#:#im_msn#:#MSN
+common#:#im_skype_icon#:#Skype Logo
+common#:#im_skype#:#Skype
+common#:#im_voip_icon#:#VoIP Logo
+common#:#im_voip#:#VoIP
+common#:#im_yahoo_icon#:#Yahoo Logo
+common#:#im_yahoo#:#Yahoo
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#image#:#Image
 common#:#import_alm#:#Import AICC Package
@@ -3941,6 +3916,7 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passed#:#Passed
+common#:#passwd_generation_info#:#If enabled, a user can select a password only from a list of automatically generated passwords.
 common#:#passwd_generation#:#Password Generation
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#List of Passwords
@@ -4398,6 +4374,11 @@ common#:#soap_user_administration_desc#:#If enabled, ILIAS can be administrated 
 common#:#soap_user_administration#:#Administration via SOAP
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
 common#:#soap_wsdl_path#:#WSDL Path
+common#:#socialbm_disable#:#Disable
+common#:#socialbm_enable#:#Enable
+common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
+common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
+common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Sort by this column
 common#:#sorting_header#:#Content Item Sorting
 common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
@@ -6586,6 +6567,11 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
+delic#:#delic_add_info_links#:#Add Delicious Links on Info Screens
+delic#:#delic_add_to_delicious#:#Add to Delicious
+delic#:#delic_extt_delicious#:#Delicious
+delic#:#delic_settings#:#Delicious Settings
+delic#:#delic_user_profile#:#Enable Delicious Account Setting in User Profile
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning a user to a course the activation period will be extended by the given number months.
@@ -8186,6 +8172,8 @@ pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships#:#My Memberships
 pd#:#pd_my_offers#:#Selected Items
+pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:
+pd#:#pd_osi_host#:#OSI Host
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_settings#:#Personal Desktop
@@ -12431,6 +12419,8 @@ common#:#itgr_add#:#Add Item Group
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
+administration#:#adm_social_bm_create#:#Create Social Bookmark
+administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
@@ -14423,7 +14413,8 @@ obj#:#obj_tool_setting_tag_cloud_info#:#The ‘Tag Cloud’ block will be displa
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 tagging#:#tagging_other_users#:#Tags of Other Users
 common#:#autocomplete_more#:#more
-mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
+user#:#passwd_generation_pre#:#Pre-defined Passwords
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). 
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
@@ -15881,34 +15872,6 @@ trac#:#trac_defaults#:#Completion Status
 trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
-assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
-assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
-assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
-assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
-assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
-assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
-assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
-assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
-assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
-assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
-assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
-assessment#:#postpone_question#:#Move Question to the End###fau: testNav
-assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
-assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
-adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
-adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
-glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
-glo#:#glo_add_from_other#:#Collect Terms
-glo#:#glo_select_terms#:#Select Terms
-glo#:#glo_copy_terms#:#Copy Terms
-glo#:#glo_reference_terms#:#Reference Terms
-glo#:#glo_select_source_glo#:#Please select a source glossary.
-glo#:#glo_referenced_term#:#Referenced Term
-glo#:#glo_term_reference#:#Term Reference
-glo#:#glo_reference#:#Reference
-glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
-content#:#cont_permission_object#:#Permission Object
 mass#:#general#:#General iformation
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
@@ -15957,5 +15920,3 @@ rbac#:#mass_delete#:#Delete a Manual Assessment
 rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
 rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
 mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
-mass#:#mass_edit#:#Settings
-mass#:#mass_add#:#Create Manual Assessment

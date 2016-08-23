@@ -15881,34 +15881,7 @@ trac#:#trac_defaults#:#Completion Status
 trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
-assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
-assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
-assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
-assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
-assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
-assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
-assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
-assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
-assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
-assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
-assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
-assessment#:#postpone_question#:#Move Question to the End###fau: testNav
-assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
-assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
-adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
-adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
-glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
-glo#:#glo_add_from_other#:#Collect Terms
-glo#:#glo_select_terms#:#Select Terms
-glo#:#glo_copy_terms#:#Copy Terms
-glo#:#glo_reference_terms#:#Reference Terms
-glo#:#glo_select_source_glo#:#Please select a source glossary.
-glo#:#glo_referenced_term#:#Referenced Term
-glo#:#glo_term_reference#:#Term Reference
-glo#:#glo_reference#:#Reference
-glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
-content#:#cont_permission_object#:#Permission Object
+<<<<<<< HEAD
 mass#:#general#:#General iformation
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
@@ -15957,5 +15930,33 @@ rbac#:#mass_delete#:#Delete a Manual Assessment
 rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
 rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
 mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
-mass#:#mass_edit#:#Settings
-mass#:#mass_add#:#Create Manual Assessment
+=======
+assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
+assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
+assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
+assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
+assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
+assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
+assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
+assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
+assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
+assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
+assessment#:#postpone_question#:#Move Question to the End###fau: testNav
+assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
+assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
+adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
+adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.
+glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_reference#:#Reference
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+content#:#cont_permission_object#:#Permission Object
+>>>>>>> a990539898da6e47e75c39aa6e660d9db9ce35f8
