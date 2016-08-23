@@ -47,30 +47,6 @@ class ilBasicNodeTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function testConstructorInvalidContext()
-	{
-		try
-		{
-			// Act
-			$node = new ilBasicNode(new ilBasicNode($this->workflow));
-			$this->fail('');
-		}
-		catch(PHPUnitFrameworkError $e)
-		{
-
-		}
-		catch(TypeError $e)
-		{
-
-		}
-
-		// Assert
-		$this->assertTrue(
-			true, 
-			'No exception thrown from constructor on invalid context object.'
-		);
-	}
-
 	public function testGetContext()
 	{
 		// Arrange
