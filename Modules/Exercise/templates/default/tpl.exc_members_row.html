@@ -1,33 +1,52 @@
 <tr class="{CSS_ROW}">
+	
   <td class="std">
-  <!-- BEGIN multi_bl -->
-  {VAL_CHKBOX}
-  <input type="hidden" name="id[{VAL_ID}]" value = "1" />
-  <!-- END multi_bl -->
+	<!-- BEGIN multi_bl -->
+	<input type="checkbox" name="{NAME_ID}[{VAL_ID}]" value="1" />
+	<input type="hidden" name="id[{VAL_ID}]" value = "1" />
+	<input type="hidden" name="idlid[{VAL_ID}]" value="{VAL_IDL_ID}" />
+	<!-- END multi_bl -->
   </td>
+  
+  
   <!-- BEGIN member_specific -->
+  
   <!-- BEGIN img_bl -->
   <td class="std">
-  <img src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" />
+	<img src="{VAL_IMAGE}" title="{TXT_IMAGE}" alt="{TXT_IMAGE}" />
   </td>
   <!-- END img_bl -->
+  
   <td class="std">
-  {TXT_NAME}
-		<!-- BEGIN access_warning -->
-		<div class="smallred">
-			{PARENT_ACCESS}
-		</div>
-		<!-- END access_warning -->
+	 {VAL_NAME}
+	<!-- BEGIN access_warning -->
+	<div class="smallred">
+		{PARENT_ACCESS}
+	</div>
+	<!-- END access_warning -->
   </td>
+  
+   <!-- BEGIN team_bl -->
+  <td class="std small">
+	 <!-- BEGIN team_member_bl --> 
+	 {VAL_TEAM_MEMBER}<br />
+	 <!-- END team_member_bl -->
+  </td>
+  <!-- END team_bl -->
+  
   <!-- BEGIN login_bl -->
   <td class="std">
-  {TXT_LOGIN}
+	 {VAL_LOGIN}
   </td>
   <!-- END login_bl -->
+  
   <!-- END member_specific -->
+  
+  
   <!-- BEGIN team_specific -->
+  
   <td class="std">	  
-	   <!-- BEGIN team_member -->
+	  <!-- BEGIN team_member -->
 	  {TXT_MEMBER_NAME} 		
 	  <!-- BEGIN team_access_warning -->
 	  <span class="smallred">
@@ -40,7 +59,9 @@
 	  <br />
 	  <!-- END team_member -->
 	  <!-- BEGIN team_log -->
-	  <div><a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a></div>
+	  <div>
+		  <a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a>
+	  </div>
 	  <!-- END team_log -->
 	  <!-- BEGIN team_info -->	  
 	  <div class="small">{TXT_TEAM_INFO}
@@ -49,70 +70,80 @@
 	  </div>
 	  <!-- END team_info -->
   </td>
+  
   <!-- END team_specific -->
-  <!-- BEGIN member_has_no_team_bl -->
-  <td colspan="3">
-	  &nbsp;
-  </td>
-  <!-- END member_has_no_team_bl -->
+  
   <!-- BEGIN member_has_team_bl -->
-  <!-- BEGIN mail_sent -->
-  <td class="std">
-  <span class="small">{TXT_MAIL_SENT}</span>
+  
+  <!-- BEGIN submission -->
+  <td class="std small">
+	{VAL_SUBMISSION}
+	<!-- BEGIN late_bl -->
+	<div class="warning">{TXT_LATE}</div>
+	<!-- END late_bl -->
   </td>
-  <!-- END mail_sent -->
-  <td class="std">	
-  <span class="small">{TXT_LAST_SUBMISSION}: {VAL_LAST_SUBMISSION}<br />
-  {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;</span>
-  <!-- BEGIN download_link -->
-  <a class="il_ContainerItemCommand" href="{LINK_DOWNLOAD}">{TXT_DOWNLOAD}</a>
-  <!-- END download_link -->
-  <!-- BEGIN download_new_link -->
-  <a class="il_ContainerItemCommand" href="{LINK_NEW_DOWNLOAD}">{TXT_NEW_DOWNLOAD}</a>
-  <!-- END download_new_link -->
-  <div style="margin: 2px 0px 0px 0px">
-  <span class="small">
-  {TXT_NOTE}:<br /><input class="form-control" type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" />
-  </span>
-  </div>
+  <!-- END submission -->
+  
+  <!-- BEGIN idl -->
+  <td class="std small">
+	{VAL_IDL}
   </td>
-  <td class="std"><span class="small ilWhiteSpaceNowrap">
-  	<img src="{IMG_STATUS}" alt="{ALT_STATUS}" />
-  	<select class="form-control" name="status[{VAL_ID}]" >
+  <!-- END idl -->
+  
+  <!-- BEGIN status -->
+  <td class="std small">
+	<select class="form-control" name="status[{VAL_ID}]" >
 		<option value="notgraded" {SEL_NOTGRADED}>{TXT_NOTGRADED}</option>
 		<option value="passed" {SEL_PASSED}>{TXT_PASSED}</option>
 		<option value="failed" {SEL_FAILED}>{TXT_FAILED}</option>
-	</select><br /><br />
-  {TXT_MARK}: <input class="form-control" type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="5" maxlength="32" />
-  <!-- BEGIN status_date -->
-  <br /><br />{TXT_LAST_CHANGE}:<br />{VAL_STATUS_DATE}
-  <!-- END status_date -->
-  </span>
+	</select>
   </td>
-  <td class="std">	 
-  <div id="{LCOMMENT_ID}" class="small">{LCOMMENT_SNIPPET}</div>
-  <div id="{COMMENT_OVERLAY_TRIGGER_ID}">	  
-	  <a href="#" class="il_ContainerItemCommand">{COMMENT_OVERLAY_TRIGGER_TEXT}</a>
-  </div>	  
-  <div style="margin-top: 12px">
-	  <a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a>
-  </div>
-  <!-- BEGIN feedback_date -->
-  <div class="small" style="margin-top: 4px">
-  {TXT_FEEDBACK_MAIL_SENT}<br />
-  {VAL_FEEDBACK_DATE}</div>
-  <!-- END feedback_date -->
-  <div style="margin-top: 12px"><a class="il_ContainerItemCommand" href="{LINK_FILE_FEEDBACK}">{TXT_FILE_FEEDBACK}</a></div>
-  <!-- BEGIN feedback_file_date -->
-  <!-- END feedback_file_date -->  
-  <!-- BEGIN peer_review_bl -->
-  <div style="margin-top: 12px">
-	<!-- {VAL_RATING}<br />	 -->
-	<a class="il_ContainerItemCommand" href="{LINK_PEER_REVIEW_RECEIVED}">{TXT_PEER_REVIEW_RECEIVED}</a><br />
-	<a class="il_ContainerItemCommand" href="{LINK_PEER_REVIEW_GIVEN}">{TXT_PEER_REVIEW_GIVEN}</a>
-  </div>
-  <!-- END peer_review_bl -->  
+  <!-- END status -->
+  
+  <!-- BEGIN mark -->
+  <td class="std small">
+	<input class="form-control" type="text" name="mark[{VAL_ID}]" value="{VAL_MARK}" size="5" maxlength="32" />
   </td>
-  <!--<input type="text" name="{ROW_INPUT_NAME}" value="{ROW_INPUT_VALUE}" size="40" maxlength="200" />-->
-  <!-- END member_has_team_bl -->  
+  <!-- END mark -->
+  
+  <!-- BEGIN no_team_yet_bl -->
+  <td class="std small" colspan="2">
+	&nbsp;
+  </td>
+  <!-- END no_team_yet_bl -->
+  
+  <!-- BEGIN status_time -->
+  <td class="std small">
+	{VAL_STATUS_TIME}
+  </td>
+  <!-- END status_time -->
+  	
+  <!-- BEGIN sent_time -->
+  <td class="std small">
+	{VAL_SENT_TIME}
+  </td>
+  <!-- END sent_time -->
+  
+  <!-- BEGIN feedback_time -->
+  <td class="std small">
+	{VAL_FEEDBACK_TIME}
+  </td>
+  <!-- END feedback_time -->
+  
+  <!-- BEGIN comment -->
+  <td class="std small">
+	  <div id="{LCOMMENT_ID}">{VAL_COMMENT}</div>
+  </td>
+  <!-- END comment -->
+  
+  <!-- BEGIN notice -->
+  <td class="std small">
+	  <input class="form-control" type="text" name="notice[{VAL_ID}]" value="{VAL_NOTICE}" size="45" maxlength="200" />
+  </td>
+  <!-- END notice -->
+  
+  <td class="std small">
+	  {ACTIONS}
+  </td>
+  
 </tr>

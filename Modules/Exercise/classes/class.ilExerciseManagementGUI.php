@@ -88,6 +88,13 @@ class ilExerciseManagementGUI
 				$pcommand = $fs_gui->getLastPerformedCommand();					
 				if (is_array($pcommand) && $pcommand["cmd"] == "create_file")
 				{
+					foreach($noti_rec_ids as $user_id)
+					{
+						$member_status = $this->assignment->getMemberStatus($user_id);
+						$member_status->setFeedback(true);
+						$member_status->update();
+					}	
+					
 					$this->exercise->sendFeedbackFileNotification($pcommand["name"], 
 						$noti_rec_ids, $this->assignment->getId());
 				}					 
@@ -179,15 +186,24 @@ class ilExerciseManagementGUI
 	{
 		global $ilTabs, $lng, $ilCtrl;
 		
+		$ass_id = $_GET["ass_id"];
+		$part_id = $_GET["part_id"];
+				
 		$ilCtrl->setParameter($this, "vw", "");
 		$ilCtrl->setParameter($this, "member_id", "");
-		$ilTabs->addSubTab("assignment", $lng->txt("exc_assignment_view"),
+		$ilCtrl->setParameter($this, "ass_id", "");
+		$ilCtrl->setParameter($this, "part_id", "");
+		
+		$ilTabs->addSubTab("assignment", $lng->txt("exc_assignment_view"),				
 			$ilCtrl->getLinkTarget($this, "members"));	
 		$ilTabs->addSubTab("participant", $lng->txt("exc_participant_view"),
 			$ilCtrl->getLinkTarget($this, "showParticipant"));		
 		$ilTabs->addSubTab("grades", $lng->txt("exc_grades_overview"),
 			$ilCtrl->getLinkTarget($this, "showGradesOverview"));
 		$ilTabs->activateSubTab($a_activate);
+		
+		$ilCtrl->setParameter($this, "ass_id", $ass_id);
+		$ilCtrl->setParameter($this, "part_id", $part_id);		
 	}
 	
 	/**
@@ -266,21 +282,23 @@ class ilExerciseManagementGUI
 				include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
 				if(ilExAssignmentTeam::getAdoptableGroups($this->exercise->getRefId()))
 				{
-					// multi-feedback
 					$ilToolbar->addButton($this->lng->txt("exc_adopt_group_teams"),
 						$this->ctrl->getLinkTarget($this, "adoptTeamsFromGroup"));
+					
+					$ilToolbar->addSeparator();			
 				}
 			}		
-			else
+			else if($this->exercise->hasTutorFeedbackFile())
 			{	
 				// multi-feedback
 				$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
 					$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+				
+				$ilToolbar->addSeparator();			
 			}
 								
 			if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
-			{
-				$ilToolbar->addSeparator();			
+			{				
 				if($this->assignment->getType() == ilExAssignment::TYPE_TEXT)
 				{
 					$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
@@ -293,7 +311,7 @@ class ilExerciseManagementGUI
 			$this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
 			
 			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
-			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment);
+			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
 			$tpl->setContent(
 				$exc_tab->getHTML().
 				$this->initIndividualDeadlineModal()
@@ -309,8 +327,25 @@ class ilExerciseManagementGUI
 		return;		
 	}
 	
+	function membersApplyObject()
+	{
+		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
+		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());		
+		$exc_tab->resetOffset();
+		$exc_tab->writeFilterToSession();
+		
+		$this->membersObject();
+	}
 	
-
+	function membersResetObject()
+	{
+		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
+		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());		
+		$exc_tab->resetOffset();
+		$exc_tab->resetFilter();
+		
+		$this->membersObject();
+	}
 	
 	/**
 	 * Save grades
@@ -464,6 +499,7 @@ class ilExerciseManagementGUI
 		global $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->addSubTabs("participant");
+		$this->ctrl->setParameter($this, "ass_id", "");
 		
 		// participant selection
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
@@ -528,7 +564,8 @@ class ilExerciseManagementGUI
 			include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
 			$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
 				$this->exercise, $current_participant);
-			$tpl->setContent($part_tab->getHTML());
+			$tpl->setContent($part_tab->getHTML().
+				$this->initIndividualDeadlineModal());
 		}
 		else
 		{
@@ -536,13 +573,31 @@ class ilExerciseManagementGUI
 		}
 	}
 	
+	function showParticipantApplyObject()
+	{
+		include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
+		$exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);		
+		$exc_tab->resetOffset();
+		$exc_tab->writeFilterToSession();
+		
+		$this->showParticipantObject();
+	}
+	
+	function showParticipantResetObject()
+	{
+		include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
+		$exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);		
+		$exc_tab->resetOffset();
+		$exc_tab->resetFilter();
+		
+		$this->showParticipantObject();
+	}
+	
 	/**
 	 * Select participant
 	 */
 	function selectParticipantObject()
-	{
-		global $ilTabs;
-
+	{		
 		$_GET["part_id"] = ilUtil::stripSlashes($_POST["part_id"]);
 		$this->showParticipantObject();
 	}
@@ -624,9 +679,6 @@ class ilExerciseManagementGUI
 				)
 			));
 		}
-
-		ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
-		$this->ctrl->redirect($this, "members");
 	}
 	
 	/**
@@ -661,14 +713,15 @@ class ilExerciseManagementGUI
 	
 	protected function getMultiActionUserIds($a_keep_teams = false)
 	{				
-		if (!is_array($_POST["member"]) || 
-			count($_POST["member"]) == 0)
+		// multi-user
+		if($this->assignment)
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);			
-		}
-		else
-		{						
-			$members = array();
+			if(!$_POST["member"])
+			{			
+				ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);	
+				$this->ctrl->redirect($this, "members");
+			}
+					
 			foreach(array_keys($_POST["member"]) as $user_id)
 			{					
 				$submission = new ilExSubmission($this->assignment, $user_id);				
@@ -693,8 +746,46 @@ class ilExerciseManagementGUI
 					}
 				}
 			}		
-			return $members;
 		}
+		// multi-ass
+		else 
+		{
+			if(!$_POST["ass"])
+			{
+				ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);	
+				$this->ctrl->redirect($this, "showParticipant");
+			}
+			
+			$user_id = $_GET["part_id"];
+			
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+			foreach(array_keys($_POST["ass"]) as $ass_id)
+			{
+				$submission = new ilExSubmission(new ilExAssignment($ass_id), $user_id);				
+				$tmembers = $submission->getUserIds();
+				if(!(bool)$a_keep_teams)
+				{
+					foreach($tmembers as $tuser_id)
+					{
+						$members[$ass_id][] = $tuser_id;
+					}
+				}
+				else
+				{
+					if($tmembers)
+					{
+						$members[$ass_id][] = $tmembers;
+					}
+					else
+					{
+						// no team yet
+						$members[$ass_id][] = $user_id;
+					}
+				}
+			}			
+		}
+		
+		return $members;		
 	}
 			
 	/**
@@ -702,15 +793,23 @@ class ilExerciseManagementGUI
 	*/
 	function sendMembersObject()
 	{
-		global $ilCtrl;
-		
 		$members = $this->getMultiActionUserIds();
-		if(is_array($members))
-		{
-			$this->exercise->sendAssignment($this->assignment, $members);			
-			ilUtil::sendSuccess($this->lng->txt("exc_sent"),true);
+		
+		ilUtil::sendSuccess($this->lng->txt("exc_sent"),true);	
+		if($this->assignment)
+		{			
+			$this->exercise->sendAssignment($this->assignment, array_keys($members));			
+			$this->ctrl->redirect($this, "members");
 		}
-		$ilCtrl->redirect($this, "members");
+		else
+		{			
+			foreach($members as $ass_id => $users)
+			{
+				$this->exercise->sendAssignment(new ilExAssignment($ass_id), $users);	
+			}
+			$this->ctrl->setParameter($this, "part_id", $_GET["part_id"]); // #17629
+			$this->ctrl->redirect($this, "showParticipant");
+		}			
 	}
 
 	/**
@@ -720,25 +819,23 @@ class ilExerciseManagementGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 			
-		$members = $this->getMultiActionUserIds();
-		if(is_array($members))
-		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-			$cgui = new ilConfirmationGUI();
-			$cgui->setFormAction($ilCtrl->getFormAction($this));
-			$cgui->setHeaderText($lng->txt("exc_msg_sure_to_deassign_participant"));
-			$cgui->setCancel($lng->txt("cancel"), "members");
-			$cgui->setConfirm($lng->txt("remove"), "deassignMembers");
-			
-			include_once("./Services/User/classes/class.ilUserUtil.php");
-			foreach ($members as $k => $m)
-			{								
-				$cgui->addItem("member[$k]", $m,
-					ilUserUtil::getNamePresentation((int) $k, false, false, "", true));
-			}
-			
-			$tpl->setContent($cgui->getHTML());
+		$members = $this->getMultiActionUserIds();		
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("exc_msg_sure_to_deassign_participant"));
+		$cgui->setCancel($lng->txt("cancel"), "members");
+		$cgui->setConfirm($lng->txt("remove"), "deassignMembers");
+
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		foreach ($members as $k => $m)
+		{								
+			$cgui->addItem("member[$k]", $m,
+				ilUserUtil::getNamePresentation((int) $k, false, false, "", true));
 		}
+
+		$tpl->setContent($cgui->getHTML());		
 	}
 	
 	/**
@@ -749,14 +846,12 @@ class ilExerciseManagementGUI
 		global $ilCtrl, $lng;
 		
 		$members = $this->getMultiActionUserIds();
-		if($members)
-		{		
-			foreach(array_keys($members) as $usr_id)
-			{
-				$this->exercise->members_obj->deassignMember((int) $usr_id);
-			}
-			ilUtil::sendSuccess($lng->txt("exc_msg_participants_removed"), true);
+		
+		foreach(array_keys($members) as $usr_id)
+		{
+			$this->exercise->members_obj->deassignMember((int) $usr_id);
 		}
+		ilUtil::sendSuccess($lng->txt("exc_msg_participants_removed"), true);		
 		$ilCtrl->redirect($this, "members");		
 	}
 
@@ -773,62 +868,81 @@ class ilExerciseManagementGUI
 		$this->membersObject();
 	}
 
-
-	/**
+/**
 	 * Save assignment status (participant view)
 	 */
-	function saveStatusParticipantObject()
+	function saveStatusParticipantObject(array $a_selected = null)
 	{
 		global $ilCtrl;
 		
-		$member_id = (int)$_GET["member_id"];
+		$member_id = (int)$_GET["part_id"];
 		$data = array();
 		foreach(array_keys($_POST["id"]) as $ass_id)
 		{
+			if(is_array($a_selected) &&
+				!in_array($ass_id, $a_selected))
+			{
+				continue;
+			}				
+			
 			$data[$ass_id][$member_id] = array(
-				"status" => ilUtil::stripSlashes($_POST["status"][$ass_id])
-				,"notice" => ilUtil::stripSlashes($_POST["notice"][$ass_id])			
-				,"mark" => ilUtil::stripSlashes($_POST["mark"][$ass_id])
+				"status" => ilUtil::stripSlashes($_POST["status"][$ass_id])		
 			);
+			
+			if(array_key_exists("mark", $_POST))
+			{
+				$data[$ass_id][$member_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$ass_id]);
+			}
+			if(array_key_exists("notice", $_POST))
+			{
+				$data[$ass_id][$member_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$ass_id]);
+			}
 		}
 		
 		$ilCtrl->setParameter($this, "part_id", $member_id); // #17629
 		$this->saveStatus($data);
 	}
 	
-	function saveStatusAllObject()
+	function saveStatusAllObject(array $a_selected = null)
 	{		
 		$data = array();
 		foreach(array_keys($_POST["id"]) as $user_id)
 		{
+			if(is_array($a_selected) &&
+				!in_array($user_id, $a_selected))
+			{
+				continue;
+			}	
+			
 			$data[-1][$user_id] = array(
-				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
-				,"notice" => ilUtil::stripSlashes($_POST["notice"][$user_id])			
-				,"mark" => ilUtil::stripSlashes($_POST["mark"][$user_id])
+				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])						
 			);
-		}		
+			
+			if(array_key_exists("mark", $_POST))
+			{
+				$data[-1][$user_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$user_id]);
+			}			
+			if(array_key_exists("notice", $_POST))
+			{
+				$data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
+			}
+		}				
+		
 		$this->saveStatus($data);
 	}
 	
 	function saveStatusSelectedObject()
 	{		
 		$members = $this->getMultiActionUserIds();
-		if(!$members)
-		{
-			$this->ctrl->redirect($this, "members");
-		}				
 		
-		// #18408 - saveStatus() will rollout teams, we need raw (form) data here 
-		$data = array();				
-		foreach(array_keys($_POST["member"]) as $user_id)
+		if($this->assignment)
 		{
-			$data[-1][$user_id] = array(
-				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
-				,"notice" => ilUtil::stripSlashes($_POST["notice"][$user_id])			
-				,"mark" => ilUtil::stripSlashes($_POST["mark"][$user_id])
-			);
-		}		
-		$this->saveStatus($data);
+			$this->saveStatusAllObject(array_keys($members));
+		}
+		else
+		{
+			$this->saveStatusParticipantObject(array_keys($members));
+		}
 	}
 	
 	/**
@@ -857,9 +971,15 @@ class ilExerciseManagementGUI
 					$saved_for[$sub_user_id] = $uname["lastname"].", ".$uname["firstname"];					
 
 					$member_status = $ass->getMemberStatus($sub_user_id);
-					$member_status->setStatus($values["status"]);
-					$member_status->setNotice($values["notice"]);			
-					$member_status->setMark($values["mark"]);
+					$member_status->setStatus($values["status"]);	
+					if(array_key_exists("mark", $values))
+					{
+						$member_status->setMark($values["mark"]);					
+					}
+					if(array_key_exists("notice", $values))
+					{
+						$member_status->setNotice($values["notice"]);			
+					}
 					$member_status->update();	
 				}
 			}
@@ -918,7 +1038,7 @@ class ilExerciseManagementGUI
 						$ass_id, true);
 				}
 				
-				$res = array("result"=>true, "snippet"=>ilUtil::shortenText($comment, 25, true));
+				$res = array("result"=>true, "snippet"=>nl2br($comment));
 			}						
 		}				
 		
@@ -945,57 +1065,55 @@ class ilExerciseManagementGUI
 		global $ilCtrl;
 		
 		$members = $this->getMultiActionUserIds(true);
-		if($members)
-		{			
-			$new_members = array();
-			
-			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-			foreach($members as $group)
+				
+		$new_members = array();
+
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+		foreach($members as $group)
+		{
+			if(is_array($group))
 			{
-				if(is_array($group))
+				$new_members = array_merge($new_members, $group);
+
+				$first_user = $group;
+				$first_user = array_shift($first_user);
+				$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user);	
+				foreach($group as $user_id)
 				{
-					$new_members = array_merge($new_members, $group);
-					
-					$first_user = $group;
-					$first_user = array_shift($first_user);
-					$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user);	
-					foreach($group as $user_id)
-					{
-						$team->removeTeamMember($user_id);
-					}
-				}
-				else
-				{
-					$new_members[] = $group;
+					$team->removeTeamMember($user_id);
 				}
 			}
-			
+			else
+			{
+				$new_members[] = $group;
+			}
+		}
+
+		if(sizeof($new_members))
+		{
+			// see ilExSubmissionTeamGUI::addTeamMemberActionObject()
+
+			$first_user = array_shift($new_members);
+			$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user, true);
 			if(sizeof($new_members))
 			{
-				// see ilExSubmissionTeamGUI::addTeamMemberActionObject()
-				
-				$first_user = array_shift($new_members);
-				$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user, true);
-				if(sizeof($new_members))
+				foreach($new_members as $user_id)
 				{
-					foreach($new_members as $user_id)
-					{
-						$team->addTeamMember($user_id);
-					}
+					$team->addTeamMember($user_id);
 				}
-				
-				// re-evaluate complete team, as some members might have had submitted				
-				$submission = new ilExSubmission($this->assignment, $first_user);				
-				$this->exercise->processExerciseStatus(
-					$this->assignment,
-					$team->getMembers(),
-					$submission->hasSubmitted(),
-					$submission->validatePeerReviews()
-				);	
 			}
-			
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+
+			// re-evaluate complete team, as some members might have had submitted				
+			$submission = new ilExSubmission($this->assignment, $first_user);				
+			$this->exercise->processExerciseStatus(
+				$this->assignment,
+				$team->getMembers(),
+				$submission->hasSubmitted(),
+				$submission->validatePeerReviews()
+			);	
 		}
+
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);		
 		$ilCtrl->redirect($this, "members");					
 	}
 	
@@ -1004,35 +1122,33 @@ class ilExerciseManagementGUI
 		global $ilCtrl;
 		
 		$members = $this->getMultiActionUserIds(true);
-		if($members)
-		{					
-			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-			foreach($members as $group)
-			{
-				// if single member - nothing to do
-				if(is_array($group))
-				{					
-					// see ilExSubmissionTeamGUI::removeTeamMemberObject()
-					
-					$first_user = $group;
-					$first_user = array_shift($first_user);
-					$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user);	
-					foreach($group as $user_id)
-					{
-						$team->removeTeamMember($user_id);
-					}
-					
-					// reset ex team members, as any submission is not valid without team									
-					$this->exercise->processExerciseStatus(
-						$this->assignment,
-						$group,
-						false
-					);	
-				}					
-			}
-			
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+						
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+		foreach($members as $group)
+		{
+			// if single member - nothing to do
+			if(is_array($group))
+			{					
+				// see ilExSubmissionTeamGUI::removeTeamMemberObject()
+
+				$first_user = $group;
+				$first_user = array_shift($first_user);
+				$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user);	
+				foreach($group as $user_id)
+				{
+					$team->removeTeamMember($user_id);
+				}
+
+				// reset ex team members, as any submission is not valid without team									
+				$this->exercise->processExerciseStatus(
+					$this->assignment,
+					$group,
+					false
+				);	
+			}					
 		}
+
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);		
 		$ilCtrl->redirect($this, "members");		
 	}
 	
