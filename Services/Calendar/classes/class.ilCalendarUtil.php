@@ -575,21 +575,9 @@ class ilCalendarUtil
 		return $format;
 	}
 	
-	/**
-	 * Add date time picker to element
-	 * 
-	 * @param string $a_id
-	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
-	 * @param array $a_custom_config
-	 * @param string $a_id2
-	 * @param array $a_custom_config2
-	 * @param string $a_toggle_id
-	 * @param string $a_subform_id
-	 * @return string
-	 */
-	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
+	public static function initDateTimePicker()
 	{
-		global $tpl, $ilUser;
+		global $tpl;
 		
 		if(!self::$init_datetimepicker)
 		{			
@@ -606,6 +594,25 @@ class ilCalendarUtil
 		
 			self::$init_datetimepicker = true;	
 		}
+	}
+	
+	/**
+	 * Add date time picker to element
+	 * 
+	 * @param string $a_id
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @param array $a_custom_config
+	 * @param string $a_id2
+	 * @param array $a_custom_config2
+	 * @param string $a_toggle_id
+	 * @param string $a_subform_id
+	 * @return string
+	 */
+	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
+	{
+		global $tpl, $ilUser;
+		
+		self::initDateTimePicker();
 		
 		// weekStart is currently governed by locale and cannot be changed
 	 			

@@ -1239,6 +1239,8 @@ class ilExAssignment
 				$mem[$rec["usr_id"]]["feedback_time"] = $rec["feedback_time"];
 				$mem[$rec["usr_id"]]["notice"] = $rec["notice"];
 				$mem[$rec["usr_id"]]["status"] = $rec["status"];
+				$mem[$rec["usr_id"]]["mark"] = $rec["mark"];
+				$mem[$rec["usr_id"]]["comment"] = $rec["u_comment"];
 			}
 		}
 		return $mem;
@@ -1523,7 +1525,14 @@ class ilExAssignment
 					rename($file_path, $target);
 										
 					if ($noti_rec_ids)
-					{
+					{						
+						foreach($noti_rec_ids as $user_id)
+						{
+							$member_status = $this->getMemberStatus($user_id);
+							$member_status->setFeedback(true);
+							$member_status->update();
+						}	
+						
 						$a_exc->sendFeedbackFileNotification($file_name, $noti_rec_ids,
 							(int) $this->getId());
 					}
@@ -1759,6 +1768,9 @@ class ilExAssignment
 		}
 	}
 		
+	/**
+	 * @return \ilExAssignmentMemberStatus
+	 */
 	public function getMemberStatus($a_user_id = null)
 	{
 		global $ilUser;

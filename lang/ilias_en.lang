@@ -3730,6 +3730,7 @@ common#:#obj_catr#:#Category Reference
 common#:#obj_cen#:#Centra Event
 common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chac#:#Chat Server
 common#:#obj_chap#:#Chapter
@@ -15900,6 +15901,34 @@ assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
 adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+wfe#:#dashboard#:#Dashboard
+wfe#:#definitions#:#Process Definitions
+wfe#:#instances#:#Process Instances
+wfe#:#obj_wfe_desc#:#Process Automation
+wfe#:#upload_process#:#Upload Process Definition
+wfe#:#process_definition_file#:#Process Definition File
+wfe#:#process_definition_file_info#:#BPMN2-Models
+wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
+wfe#:#definition_table_title#:#Process Definitions
+wfe#:#start_process#:#Start Process
+wfe#:#process_started#:#Process started
+wfe#:#input_variables_required#:#Input required
+wfe#:#input_variables_desc#:#The process requires the following data to start:
+wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
+wfe#:#delete_definition#:#Delete Definition
+wfe#:#definition_deleted#:#Workflow-Definition deleted.
+wfe#:#subject_type#:#Subject Type
+wfe#:#subject_id#:#Subject ID
+wfe#:#subject_by_id#:#Subject By ID
+wfe#:#subject_by_mask#:#Masked Subject
+wfe#:#context_type#:#Context Type
+wfe#:#context_id#:#Context ID
+wfe#:#context_by_id#:#Context By ID
+wfe#:#context_by_mask#:#Masked Context
+wfe#:#start_listening#:#Activate Listener
+wfe#:#stop_listening#:#Deactivate Listener
+wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
+wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_select_terms#:#Select Terms
