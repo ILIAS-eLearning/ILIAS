@@ -16700,81 +16700,204 @@ if (!$ilDB->tableExists('glo_term_reference'))
 ?>
 <#4994>
 <?php
-if (!$ilDB->tableExists('wfe_workflows'))
-{
-	$fields = array (
-		'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'workflow_type'		=> array('type' => 'text',	  'length' => 255),
-		'workflow_content'	=> array('type' => 'text',	  'length' => 255),
-		'workflow_class'	=> array('type' => 'text',	  'length' => 255),
-		'workflow_location' => array('type' => 'text',	  'length' => 255),
-		'subject_type'		=> array('type' => 'text',	  'length' => 30),
-		'subject_id'		=> array('type' => 'integer', 'length' => 4),
-		'context_type'		=> array('type' => 'text',    'length' => 30),
-		'context_id'		=> array('type' => 'integer', 'length' => 4),
-		'workflow_instance'	=> array('type' => 'clob',	  'notnull' => false, 'default' => null),
-		'active'			=> array('type' => 'integer', 'length' => 4)
-	);
-
-	$ilDB->createTable('wfe_workflows', $fields);
-	$ilDB->addPrimaryKey('wfe_workflows', array('workflow_id'));
-	$ilDB->createSequence('wfe_workflows');
-}
-
-if (!$ilDB->tableExists('wfe_det_listening'))
-{
-	$fields = array (
-		'detector_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'type'				=> array('type' => 'text',	  'length' => 255),
-		'content'			=> array('type' => 'text',	  'length' => 255),
-		'subject_type'		=> array('type' => 'text',	  'length' => 30),
-		'subject_id'		=> array('type' => 'integer', 'length' => 4),
-		'context_type'		=> array('type' => 'text',    'length' => 30),
-		'context_id'		=> array('type' => 'integer', 'length' => 4),
-		'listening_start'	=> array('type' => 'integer', 'length' => 4),
-		'listening_end'		=> array('type' => 'integer', 'length' => 4)
-	);
-
-	$ilDB->createTable('wfe_det_listening', $fields);
-	$ilDB->addPrimaryKey('wfe_det_listening', array('detector_id'));
-	$ilDB->createSequence('wfe_det_listening');
-}
-
-if(!$ilDB->tableExists('wfe_startup_events'))
-{
-	$fields = array (
-		'event_id'		=> array('type' => 'integer',	'length' => 4, 	'notnull' => true),
-		'workflow_id'	=> array('type' => 'text',		'length' => 60, 'notnull' => true),
-		'type'			=> array('type' => 'text',		'length' => 255),
-		'content'		=> array('type' => 'text',		'length' => 255),
-		'subject_type'	=> array('type' => 'text',		'length' => 30),
-		'subject_id'	=> array('type' => 'integer',	'length' => 4),
-		'context_type'	=> array('type' => 'text',		'length' => 30),
-		'context_id'	=> array('type' => 'integer',	'length' => 4)
-	);
-
-	$ilDB->createTable('wfe_startup_events', $fields);
-	$ilDB->addPrimaryKey('wfe_startup_events', array('event_id'));
-	$ilDB->createSequence('wfe_startup_events');
-}
-
-if(!$ilDB->tableExists('wfe_static_inputs'))
-{
-	$fields = array (
-		'input_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'event_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'name'			=> array('type' => 'text',	  'length' => 255),
-		'value'			=> array('type' => 'clob')
-	);
-
-	$ilDB->createTable('wfe_static_inputs', $fields);
-	$ilDB->addPrimaryKey('wfe_static_inputs', array('input_id'));
-	$ilDB->createSequence('wfe_static_inputs');
-}
-
-require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
-ilDBUpdateNewObjectType::addAdminNode('wfe', 'WorkflowEngine');
-
-$ilCtrlStructureReader->getStructure();
+	if (!$ilDB->tableColumnExists('svy_svy', 'reminder_tmpl'))
+	{
+		$ilDB->addTableColumn('svy_svy', 'reminder_tmpl', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
 ?>
+<#4995>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4996>
+<?php
+
+if(!$ilDB->tableExists('exc_idl'))
+{
+	$ilDB->createTable('exc_idl', array(
+		'ass_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'member_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'is_team' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('exc_idl', array('ass_id', 'member_id', 'is_team'));
+}
+
+?>
+<#4997>
+<?php
+	if (!$ilDB->tableColumnExists('exc_data', 'tfeedback'))
+	{
+		$ilDB->addTableColumn('exc_data', 'tfeedback', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 7
+		));
+	}
+?>
+<#4998>
+<?php
+$ilDB->modifyTableColumn(
+	"usr_pref",
+	"value",
+	array(
+		"type"    => "text",
+		"length"  => 4000,
+		"fixed"   => false,
+		"notnull" => false,
+		"default" => null
+	)
+);
+?>
+<#4999>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5000>
+<?php
+if( !$ilDB->tableExists('crs_cancelations') )
+{
+	$ilDB->createTable('crs_cancelations', array(
+		'crs_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'counter' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('crs_cancelations', array('crs_id', 'usr_id', 'type'));
+
+	$ilDB->addIndex('crs_cancelations', array('crs_id', 'usr_id'), 'i1');
+	$ilDB->addIndex('crs_cancelations', array('crs_id', 'type'), 'i2');
+	$ilDB->addIndex('crs_cancelations', array('usr_id', 'type'), 'i3');
+}
+?>
+<#5001>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+	<#4994>
+		<?php
+		if (!$ilDB->tableExists('wfe_workflows'))
+		{
+			$fields = array (
+				'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'workflow_type'		=> array('type' => 'text',	  'length' => 255),
+				'workflow_content'	=> array('type' => 'text',	  'length' => 255),
+				'workflow_class'	=> array('type' => 'text',	  'length' => 255),
+				'workflow_location' => array('type' => 'text',	  'length' => 255),
+				'subject_type'		=> array('type' => 'text',	  'length' => 30),
+				'subject_id'		=> array('type' => 'integer', 'length' => 4),
+				'context_type'		=> array('type' => 'text',    'length' => 30),
+				'context_id'		=> array('type' => 'integer', 'length' => 4),
+				'workflow_instance'	=> array('type' => 'clob',	  'notnull' => false, 'default' => null),
+				'active'			=> array('type' => 'integer', 'length' => 4)
+			);
+
+			$ilDB->createTable('wfe_workflows', $fields);
+			$ilDB->addPrimaryKey('wfe_workflows', array('workflow_id'));
+			$ilDB->createSequence('wfe_workflows');
+		}
+
+		if (!$ilDB->tableExists('wfe_det_listening'))
+		{
+			$fields = array (
+				'detector_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'type'				=> array('type' => 'text',	  'length' => 255),
+				'content'			=> array('type' => 'text',	  'length' => 255),
+				'subject_type'		=> array('type' => 'text',	  'length' => 30),
+				'subject_id'		=> array('type' => 'integer', 'length' => 4),
+				'context_type'		=> array('type' => 'text',    'length' => 30),
+				'context_id'		=> array('type' => 'integer', 'length' => 4),
+				'listening_start'	=> array('type' => 'integer', 'length' => 4),
+				'listening_end'		=> array('type' => 'integer', 'length' => 4)
+			);
+
+			$ilDB->createTable('wfe_det_listening', $fields);
+			$ilDB->addPrimaryKey('wfe_det_listening', array('detector_id'));
+			$ilDB->createSequence('wfe_det_listening');
+		}
+
+		if(!$ilDB->tableExists('wfe_startup_events'))
+		{
+			$fields = array (
+				'event_id'		=> array('type' => 'integer',	'length' => 4, 	'notnull' => true),
+				'workflow_id'	=> array('type' => 'text',		'length' => 60, 'notnull' => true),
+				'type'			=> array('type' => 'text',		'length' => 255),
+				'content'		=> array('type' => 'text',		'length' => 255),
+				'subject_type'	=> array('type' => 'text',		'length' => 30),
+				'subject_id'	=> array('type' => 'integer',	'length' => 4),
+				'context_type'	=> array('type' => 'text',		'length' => 30),
+				'context_id'	=> array('type' => 'integer',	'length' => 4)
+			);
+
+			$ilDB->createTable('wfe_startup_events', $fields);
+			$ilDB->addPrimaryKey('wfe_startup_events', array('event_id'));
+			$ilDB->createSequence('wfe_startup_events');
+		}
+
+		if(!$ilDB->tableExists('wfe_static_inputs'))
+		{
+			$fields = array (
+				'input_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'event_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'name'			=> array('type' => 'text',	  'length' => 255),
+				'value'			=> array('type' => 'clob')
+			);
+
+			$ilDB->createTable('wfe_static_inputs', $fields);
+			$ilDB->addPrimaryKey('wfe_static_inputs', array('input_id'));
+			$ilDB->createSequence('wfe_static_inputs');
+		}
+
+		require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+		ilDBUpdateNewObjectType::addAdminNode('wfe', 'WorkflowEngine');
+
+		$ilCtrlStructureReader->getStructure();
+		?>

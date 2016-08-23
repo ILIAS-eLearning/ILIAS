@@ -163,7 +163,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg.svg"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
-		$up_gui = "ilobjlearningmodulegui";
+		$up_gui = ($this->content_object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
 		$ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
 		$ilCtrl->setParameterByClass($up_gui, "active_node", "");
 

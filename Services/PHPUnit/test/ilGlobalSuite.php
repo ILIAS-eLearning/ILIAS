@@ -65,8 +65,6 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 		$suite = new ilGlobalSuite();
 
 		require_once('include/inc.get_pear.php');
-
-		echo "ILIAS PHPUnit-Tests need installed dev-requirements, please install using 'composer install' in ./libs/composer \n";
 		echo "\n";
 		
 		// scan Modules and Services directories

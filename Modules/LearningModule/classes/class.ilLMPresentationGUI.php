@@ -233,6 +233,12 @@ class ilLMPresentationGUI
     */
 	function export()
 	{
+		switch($this->lm->getType())
+		{
+			case "dbk":
+				$this->lm_gui->export();
+				break;
+		}
 	}
 
 	/**
@@ -865,7 +871,8 @@ class ilLMPresentationGUI
 	{
 		global $rbacsystem;
 		
-		if ($this->abstract)
+		// no sub menu for abstract of digilib book
+		if ($this->lm->getType() == "dbk" && $this->abstract)
 		{
 			return;
 		}
@@ -990,6 +997,12 @@ class ilLMPresentationGUI
 		global $ilAccess, $ilSetting;
 		
 		
+		// no notes for abstract of digilib book
+		if ($this->lm->getType() == "dbk" && $this->abstract)
+		{
+			return;
+		}
+
 		// no notes in offline (export) mode
 		if ($this->offlineMode())
 		{

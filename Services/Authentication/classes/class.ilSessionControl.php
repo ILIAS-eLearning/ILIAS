@@ -161,7 +161,7 @@ class ilSessionControl
 	 * type regarding to the sessions user context.
 	 * when session is not allowed to be created it will be destroyed.
 	 */
-	public static function handleLoginEvent($a_login, ilAuthSession $auth_session)
+	public static function handleLoginEvent($a_login, $a_auth)
 	{
 		global $ilSetting;
 		
@@ -194,11 +194,11 @@ class ilSessionControl
 				
 		// do not handle login event in fixed duration mode
 		if( $ilSetting->get('session_handling_type', 0) != 1 )
-			return true;
+			return;
 				
 		if(in_array($type, self::$session_types_controlled))
 		{
-			return self::checkCurrentSessionIsAllowed($auth_session, $user_id);
+			self::checkCurrentSessionIsAllowed($a_auth, $user_id);
 		}
 	}
 
@@ -229,9 +229,9 @@ class ilSessionControl
 	 *
 	 * @global ilSetting $ilSetting
 	 * @global ilAppEventHandler $ilAppEventHandler
-	 * @param ilAuthSession $a_auth
+	 * @param Auth $a_auth
 	 */
-	private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, $a_user_id)
+	private static function checkCurrentSessionIsAllowed(Auth $a_auth, $a_user_id)
 	{
 		global $ilSetting;
 		
@@ -272,9 +272,9 @@ class ilSessionControl
 						// is no proper session yet and we have to do this ourselves
 						ilSessionStatistics::createRawEntry(session_id(), $_SESSION['SessionType'], 
 							time(), $a_user_id);
-
-						$auth->logout();
-
+						
+						$a_auth->logout();
+						
 						// Trigger reachedSessionPoolLimit Event
 						global $ilAppEventHandler;
 						$ilAppEventHandler->raise(
@@ -282,8 +282,7 @@ class ilSessionControl
 						);
 
 						// auth won't do this, we need to close session properly
-						// already done in new implementation
-						// session_destroy();
+						session_destroy();
 
 						ilUtil::redirect('login.php?reached_session_limit=true');
 					}

@@ -3,6 +3,7 @@
 
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
+require_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
 /** @defgroup ModulesIliasLearningModule Modules/IliasLearningModule
  */
@@ -622,6 +623,11 @@ class ilObjContentObject extends ilObject
 
 		// delete meta data of content object
 		$this->deleteMetaData();
+
+		// delete bibitem data
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), "bib");
+		$nested->deleteAllDBData();
 
 
 		// delete learning module tree
@@ -1571,6 +1577,10 @@ class ilObjContentObject extends ilObject
 		{
 			case "lm":
 				$attrs["Type"] = "LearningModule";
+				break;
+
+			case "dbk":
+				$attrs["Type"] = "LibObject";
 				break;
 		}
 		$a_xml_writer->xmlStartTag("ContentObject", $attrs);

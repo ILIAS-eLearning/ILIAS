@@ -266,65 +266,8 @@ class ilAuthFrontend
 			return false;
 		}
 		
-		// check if profile is complete						
-		include_once "Services/User/classes/class.ilUserProfile.php";
-		if(ilUserProfile::isProfileIncomplete($user) && ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS)
-		{
-			$user->setProfileIncomplete(true);
-			$user->update();
-		}
-
-		// redirects in case of error (session pool limit reached)
-		ilSessionControl::handleLoginEvent($user->getLogin(), $this->getAuthSession());
-		
-
-		// @todo move to event handling
-		include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
-		ilOnlineTracking::addUser($user->getId());
-
-		// @todo move to event handling
-		include_once 'Modules/Forum/classes/class.ilObjForum.php';
-		ilObjForum::_updateOldAccess($user->getId());
-
-		require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
-		$security_settings = ilSecuritySettings::_getInstance();
-
-		// determine first login of user for setting an indicator
-		// which still is available in PersonalDesktop, Repository, ...
-		// (last login date is set to current date in next step)		
-		if(
-			$security_settings->isPasswordChangeOnFirstLoginEnabled() &&
-			$user->getLastLogin() == null
-		)
-		{
-			$user->resetLastPasswordChange();
-		}
-		$user->refreshLogin();
-			
-		// reset counter for failed logins
-		ilObjUser::_resetLoginAttempts($user->getId());				
-
-
 		$this->getLogger()->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
 		$this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
-		
-		// --- anonymous/registered user
-		ilLoggerFactory::getLogger('auth')->info(
-			'logged in as '. $user->getLogin() . 
-			', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
-			', server:' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']
-		);
-
-
-		// finally raise event 
-		global $ilAppEventHandler;
-		$ilAppEventHandler->raise(
-			'Services/Authentication', 
-			'afterLogin',
-			array(
-				'username' => $user->getLogin())
-			);
-		
 		return true;
 		
 	}

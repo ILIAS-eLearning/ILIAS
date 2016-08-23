@@ -18,9 +18,7 @@
 		"symfony/yaml": "^3.1"
 	},
 	"require-dev": {
-		"mikey179/vfsStream": "^1.6",
-		"phpunit/phpunit": "^4.8",
-		"phpunit/php-code-coverage": "^2.2"
+		"mikey179/vfsStream": "^1.6"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" }

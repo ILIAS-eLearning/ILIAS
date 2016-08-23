@@ -71,13 +71,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 		return $parent;
 	}
 
-	/**
-	 * @return bool returns true iff this object supports cloning.
-	 */
-	 protected function supportsCloning() {
-		 return false;
-	 }
-
 
 	/**
 	 * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
@@ -113,7 +106,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	public function showTree() {
 		$this->ctrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $_GET["ref_id"]);
 		$this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
-		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", array("ilAdministrationGUI", "ilObjOrgUnitGUI"), "showTree", new ilTree(1));
+		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "showTree", new ilTree(1));
 		$tree->setTypeWhiteList($this->getTreeWhiteList());
 		if (!$tree->handleCommand()) {
 			$this->tpl->setLeftNavContent($tree->getHTML());
@@ -125,7 +118,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 * @return array
 	 */
 	protected function getTreeWhiteList() {
-		$whiteList = array("orgu");
+		$whiteList = array( "orgu" );
 		$pls = ilOrgUnitExtension::getActivePluginIdsForTree();
 
 		return array_merge($whiteList, $pls);

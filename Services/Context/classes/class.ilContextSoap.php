@@ -90,7 +90,7 @@ class ilContextSoap implements ilContextTemplate
 	 */
 	public static function supportsPersistentSessions()
 	{
-		return true;
+		return false;
 	}
 	
 }

@@ -1499,8 +1499,16 @@ return;
 			if ($_GET["reloadTree"] == "y")
 			{
 				$tpl->setCurrentBlock("reload_tree");
-				$tpl->setVariable("LINK_TREE",
-					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false));
+				if ($this->obj->getParentType() == "dbk")
+				{
+					$tpl->setVariable("LINK_TREE",
+						$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer", "", false, false));
+				}
+				else
+				{
+					$tpl->setVariable("LINK_TREE",
+						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false));
+				}
 				$tpl->parseCurrentBlock();
 			}
 //		}
@@ -1654,13 +1662,15 @@ return;
 
 		// page splitting only for learning modules and
 		// digital books
-		$enable_split_new = ($this->obj->getParentType() == "lm")
+		$enable_split_new = ($this->obj->getParentType() == "lm" ||
+			$this->obj->getParentType() == "dbk")
 			? "y"
 			: "n";
 
 		// page splitting to next page only for learning modules and
 		// digital books if next page exists in tree
-		if (($this->obj->getParentType() == "lm") &&
+		if (($this->obj->getParentType() == "lm" ||
+			$this->obj->getParentType() == "dbk") &&
 			ilObjContentObject::hasSuccessorPage($this->obj->getParentId(),
 				$this->obj->getId()))
 		{

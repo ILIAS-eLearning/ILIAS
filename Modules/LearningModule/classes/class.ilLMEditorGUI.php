@@ -15,7 +15,7 @@ include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMEditorGUI: ilObjLearningModuleGUI
+* @ilCtrl_Calls ilLMEditorGUI: ilObjDlBookGUI, ilObjLearningModuleGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -104,7 +104,19 @@ class ilLMEditorGUI
 		if ($next_class == "" && ($cmd != "explorer")
 			&& ($cmd != "showImageMap"))
 		{
-			$next_class = "ilobjlearningmodulegui";
+			switch($this->lm_obj->getType())
+			{
+				case "lm":
+					//$this->ctrl->setCmdClass("ilObjLearningModuleGUI");
+					$next_class = "ilobjlearningmodulegui";
+					break;
+
+				case "dbk":
+					//$this->ctrl->setCmdClass("ilObjDlBookGUI");
+					$next_class = "ilobjdlbookgui";
+					break;
+			}
+			//$next_class = $this->ctrl->getNextClass($this);
 		}
 
 		// show footer
@@ -115,6 +127,33 @@ class ilLMEditorGUI
 // if ($this->lm_obj->getType()
 		switch($next_class)
 		{
+			case "ilobjdlbookgui":
+				include_once ("./Modules/LearningModule/classes/class.ilObjDlBook.php");
+				include_once ("./Modules/LearningModule/classes/class.ilObjDlBookGUI.php");
+
+				$this->main_header($this->lm_obj->getType());
+				$book_gui = new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
+				//$ret =& $book_gui->executeCommand();
+				$ret = $this->ctrl->forwardCommand($book_gui);
+				if (strcmp($cmd, "explorer") != 0)
+				{
+					// don't call the locator in the explorer frame
+					// this prevents a lot of log errors
+					// Helmut Schottmüller, 2006-07-21
+					$this->displayLocator();
+				}
+
+				// (horrible) workaround for preventing template engine
+				// from hiding paragraph text that is enclosed
+				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+//				$this->tpl->fillTabs();
+				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
+				$output = str_replace("&#123;", "{", $output);
+				$output = str_replace("&#125;", "}", $output);
+				header('Content-type: text/html; charset=UTF-8');
+				echo $output;
+				break;
+
 			case "ilobjlearningmodulegui":
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");

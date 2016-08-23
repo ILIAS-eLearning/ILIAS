@@ -194,7 +194,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		if($filter["type"] == "lres")
 		{
-			$filter["type"] = array('lm','sahs','htlm');
+			$filter["type"] = array('lm','sahs','htlm','dbk');
 		}
 		else
 		{
@@ -300,7 +300,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$options = array();
 			if($type == 'lres')
 			{
-				$type = array('lm','sahs','htlm');
+				$type = array('lm','sahs','htlm','dbk');
 			}
 			else
 			{
@@ -407,6 +407,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$options['lm'] = $lng->txt('objs_lm');
 			$options['sahs'] = $lng->txt('objs_sahs');
 			$options['htlm'] = $lng->txt('objs_htlm');
+			
+			if($a_include_digilib)
+			{
+				$options['dbk'] = $lng->txt('objs_dbk');
+			}
 		}
 		else
 		{
