@@ -2868,7 +2868,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if(!count($users))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
-			$this->ctrl->redirect($this, 'participants');
+			$this->ctrl->redirect($this, 'view');
 		}
 		include_once './Services/User/classes/class.ilUserClipboard.php';
 		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
