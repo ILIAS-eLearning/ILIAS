@@ -374,13 +374,19 @@ class ilNewsTimelineGUI
 		$modal->setId("ilNewsDeleteModal");
 		$modal->setType(ilModalGUI::TYPE_LARGE);
 
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		//$cgui->setHeaderText($this->lng->txt("cont_really_delete_news"));
-		$cgui->setCancel($this->lng->txt("cancel"), "", "news_btn_cancel_delete");
-		$cgui->setConfirm($this->lng->txt("delete"), "", "news_btn_delete");
+		require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+		$confirm = ilSubmitButton::getInstance();
+		$confirm->setCaption("delete");
+		$confirm->setId("news_btn_delete");
+		$modal->addButton($confirm);
 
-		$modal->setBody($cgui->getHTML());
+		$cancel = ilSubmitButton::getInstance();
+		$cancel->setCaption("cancel");
+		$cancel->setId("news_btn_cancel_delete");
+		$modal->addButton($cancel);
+		
+		$modal->setBody("<p id='news_delete_news_title'></p>".
+			$this->tpl->getMessageHTML($this->lng->txt("news_really_delete_news"), "question"));
 
 		return $modal->getHTML();
 

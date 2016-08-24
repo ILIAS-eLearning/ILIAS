@@ -224,7 +224,7 @@ il.News = {
 		t.current_id = id;
 
 		//$('#news_btn_delete').attr("value", il.Language.txt("update"));
-		$("#delete_news_title").val(t.items[id].title);
+		$("#news_delete_news_title").html(t.items[id].title);
 
 		$('#ilNewsDeleteModal').modal('show');
 
