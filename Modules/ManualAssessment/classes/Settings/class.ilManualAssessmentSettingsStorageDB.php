@@ -19,6 +19,8 @@ class ilManualAssessmentSettingsStorageDB implements ilManualAssessmentSettingsS
 	public function createSettings(ilManualAssessmentSettings $settings) {
 		$sql = "INSERT INTO mass_settings (content,record_template,obj_id) VALUES (%s,%s,%s)";
 		$this->db->manipulateF($sql,array("text","text","integer"),array($settings->content(),$settings->recordTemplate(),$settings->getId()));
+		$sql = "INSERT INTO mass_info_settings (obj_id) VALUES (%s)";
+		$this->db->manipulateF($sql,array("integer"),array($settings->getId()));
 	}
 
 	/**
@@ -46,11 +48,50 @@ class ilManualAssessmentSettingsStorageDB implements ilManualAssessmentSettingsS
 		$this->db->manipulateF($sql,array("text","text","integer"),array($settings->content(),$settings->recordTemplate(),$settings->getId()));
 	}
 
+
+	/**
+	 * Load info-screen settings corresponding to obj
+	 *
+	 * @param	ilObjManualAssessment	$obj
+	 * @return	ilManualAssessmentSettings	$settings
+	 */
+	public function loadInfoSettings(ilObjManualAssessment $obj) {
+		if(ilObjManualAssessment::_exists($obj->getId(), false, 'mass')) {
+			$obj_id = $obj->getId();
+			assert('is_numeric($obj_id)');
+			$sql = 	'SELECT contact, responsibility, phone, mails, consultation_hours'
+					.'	FROM mass_info_settings WHERE obj_id = '.$this->db->quote($obj_id,'integer');
+			if($res = $this->db->fetchAssoc($this->db->query($sql))) {
+				return new ilManualAssessmentSettings($obj,
+					$res["contact"]
+					,$res["responsibility"]
+					,$res['phone']
+					,$res['mails']
+					,$res['consultation_hours']);
+			}
+			throw new ilManualAssessmentException("$obj_id not in database");
+		} else {
+			return new ilManualAssessmentSettings($obj);
+		}
+	}
+
+	/**
+	 * Update info-screen settings entry.
+	 *
+	 * @param	ilManualAssessmentSettings	$settings
+	 */
+	public function updateInfoSettings(ilManualAssessmentSettings $settings) {
+		$sql = 'UPDATE mass_settings SET content = %s,record_template = %s WHERE obj_id = %s';
+		$this->db->manipulateF($sql,array("text","text","integer"),array($settings->content(),$settings->recordTemplate(),$settings->getId()));
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function deleteSettings(ilObjManualAssessment $obj) {
 		$sql = 'DELETE FROM mass_settings WHERE obj_id = %s';
+		$this->db->manipulateF($sql,array("integer"),array($obj->getId()));
+		$sql = 'DELETE FROM mass_info_settings WHERE obj_id = %s';
 		$this->db->manipulateF($sql,array("integer"),array($obj->getId()));
 	}
 }
