@@ -15945,6 +15945,8 @@ common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
 common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
 trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
 common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
+common#:#mass_new#:#Neue Manuelle Bewertung
+common#:#mass_import#:#Manuelle Bewertung importieren
 rbac#:#mass_visible#:#Manuele Bwertung sichtbar
 rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
 rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen

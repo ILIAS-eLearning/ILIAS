@@ -15944,6 +15944,8 @@ common#:#obj_mass_duplicate#:#Copy Manual Assessment
 common#:#obj_mass_select#:#-- Please select one manual assessment --
 trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
 common#:#il_mass_member#:#Manual Assessment Examinee
+common#:#mass_new#:#Create Manual Assessment
+common#:#mass_import#:#Import Manual Assessment
 rbac#:#mass_visible#:#Manual Assessment is visible
 rbac#:#mass_read#:#Read content of a Manual Assessment
 rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment
@@ -15969,4 +15971,4 @@ mass#:#grading_info#:#Grading info
 mass#:#grading_record#:#Grading record
 mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
 mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
-mass#:#mass_notify_explanation#:#The user will be notified after finalization and will get access to her or his record in the Info-Screen.
+mass#:#mass_notify_explanation#:#The user will be notified via email after finalization and will get access to her or his record in the Info-Screen.
