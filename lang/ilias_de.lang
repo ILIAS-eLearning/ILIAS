@@ -15965,3 +15965,6 @@ mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisie
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
+mass#:#grading#:#Bewertung
+mass#:#grading_info#:#Bewertungsinformationen
+mass#:#grading_record#:#Bewertungszusammenfassung

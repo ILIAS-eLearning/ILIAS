@@ -15964,3 +15964,6 @@ mass#:#mass_finalize_user_qst#:#Should the user status really be finalized? (No 
 mass#:#mass_settings_saved#:#Settings saved.
 mass#:#mass_add_user_failure#:#One or more user could not be added.
 mass#:#mass_add_user_success#:#User added.
+mass#:#grading#:#Grading
+mass#:#grading_info#:#Grading info
+mass#:#grading_record#:#Grading record
