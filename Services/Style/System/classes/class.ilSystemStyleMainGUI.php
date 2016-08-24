@@ -162,9 +162,14 @@ class ilSystemStyleMainGUI
 
 		$has_perm = true;
 
+		$config = new ilSystemStyleConfig();
 		if($a_perm == "sty_management"){
 			$has_perm = $ilIliasIniFile->readVariable("tools","enable_system_styles_management")== "1" ? true:false;
 			$a_perm = "sty_write_system";
+			if($has_perm && ! is_writable($config->getCustomizingSkinPath())){
+				ilUtil::sendFailure($this->lng->txt("enable_system_styles_management_no_write_perm"));
+				$has_perm = false;
+			}
 		}
 
 		if($has_perm){
