@@ -499,8 +499,7 @@ exit;
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])
 		{
 			// not nice, should be solved differently in the future
-			if ($this->page->getParentType() == "lm" ||
-				$this->page->getParentType() == "dbk")
+			if ($this->page->getParentType() == "lm")
 			{
 				$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
 			}
@@ -508,8 +507,7 @@ exit;
 		$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		
 		// again not so nice...
-		if ($this->page->getParentType() == "lm" ||
-			$this->page->getParentType() == "dbk")
+		if ($this->page->getParentType() == "lm")
 		{
 			$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 		}
