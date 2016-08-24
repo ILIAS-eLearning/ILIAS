@@ -1,21 +1,24 @@
 <div>
-	<div style="float: left; overflow: hidden; width: 100px;">
+	<div class="ilNewsTimelineUserImage">
 		<img class="media-object" src="{USER_IMAGE}" alt="{USER_TITLE}">
 	</div>
-	<div style="padding-left:100px;">
+	<div class="ilNewsTimelineContentSection">
 		<div class="pull-right">
 			{ACTIONS}
 		</div>
-		<span class="small light">{TXT_USR} - {TIME}</span>
-		<h4 class="media-heading" style="margin-top: 8px;">{TITLE}</h4>
+		<div class="light small ilNewsTimelineEditInfo ilNewsTimelineTruncatedText">
+			{TXT_USR} - {TIME}
+			<!-- BEGIN edited --><br />{TXT_EDITED}: {TXT_USR_EDITED} {TIME_EDITED}<!-- END edited -->
+		</div>
+		<h4 class="ilNewsTimelineTruncatedText">{TITLE}</h4>
 		<!-- BEGIN object -->
-		<p>
-			<a href="{OBJ_HREF}"><img style="width: 22px; height: 22px;" src="{OBJ_IMG}" /> {OBJ_TITLE}</a>
+		<p class="ilNewsTimelineObjHead ilNewsTimelineTruncatedText">
+			<a href="{OBJ_HREF}"><img src="{OBJ_IMG}" /> {OBJ_TITLE}</a>
 		</p>
 		<!-- END object -->
 		{CONTENT}
 		<!-- BEGIN player -->
-		<div style="position: relative; z-index:500;">{PLAYER}</div>
+		<div class="ilNewsTimelinePlayer">{PLAYER}</div>
 		<!-- END player -->
 	</div>
 </div>

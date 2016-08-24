@@ -11171,6 +11171,41 @@ span.ilNewsRssIcon:hover {
   left: -14px;
   right: auto;
 }
+.ilNewsTimelineTruncatedText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ilNewsTimelineObjHead img {
+  width: 22px;
+  height: 22px;
+}
+.ilNewsTimelinePlayer {
+  position: relative;
+  z-index: 500;
+}
+.ilTimeline .media-heading {
+  clear: right;
+  margin-top: 8px;
+}
+.ilNewsTimelineUserImage {
+  float: left;
+  overflow: hidden;
+  width: 100px;
+}
+.ilNewsTimelineContentSection {
+  padding-left: 100px;
+}
+.ilNewsTimelineEditInfo {
+  width: 90%;
+}
+.ilNewsTimelineMoreLoader {
+  text-align: center;
+}
+.ilNewsTimelineMoreLoader img {
+  width: 30px;
+  height: 30px;
+}
 /* https://github.com/JoanClaret/jquery-dynamic-max-height */
 .dynamic-height-wrap {
   overflow: hidden;

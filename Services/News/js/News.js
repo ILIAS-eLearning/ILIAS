@@ -20,6 +20,16 @@ il.News = {
 			t.save();
 			$('#ilNewsCreateModal').modal('hide');
 		});
+		$("#news_btn_cancel_delete").on("click", function (e) {
+			e.preventDefault();
+			$('#ilNewsDeleteModal').modal('hide');
+		});
+		$("#news_btn_delete").on("click", function (e) {
+			var t = il.News;
+			e.preventDefault();
+			t.remove();
+			$('#ilNewsDeleteModal').modal('hide');
+		});
 		t.moreOnScroll();
 	},
 
@@ -86,9 +96,9 @@ il.News = {
 
 	showLoader : function(s) {
 		if(s) {
-			$('.moreLoader').removeClass('ilHidden');
+			$('.ilNewsTimelineMoreLoader').removeClass('ilHidden');
 		} else {
-			$('.moreLoader').addClass('ilHidden');
+			$('.ilNewsTimelineMoreLoader').addClass('ilHidden');
 		}
 	},
 
@@ -147,6 +157,8 @@ il.News = {
 		$('#ilNewsEditModal .modal-title').html(il.Language.txt("edit"));
 		$('#news_btn_update').attr("value", il.Language.txt("update"));
 		$("#news_title").val(t.items[id].title);
+		$("#news_visibility input[value='"+t.items[id].visibility+"']").prop('checked',true);
+		console.log(t.items[id].visibility);
 
 		/*
 		if (typeof tinyMCE != "undefined" && tinyMCE.get('news_content_long')) {
@@ -177,6 +189,7 @@ il.News = {
 		// data
 		d = {
 			news_title: $("#news_title").val(),
+			news_visibility: $("#news_visibility input[type='radio']:checked").val(),
 			news_content: content,
 			news_content_long: ""
 		}
@@ -188,12 +201,14 @@ il.News = {
 			cmd = "save";
 		}
 
+		//console.log(d); return;
+
 		$.ajax({
 			url : t.ajax_url + "&cmd=" + cmd,
 			type: "POST",
 			data : d,
 			success: function(data, s, j) {
-//				console.log(data);
+//				console.log(data); return false;
 				window.location.href = t.ajax_url + "&cmd=show";
 			},
 			error: function (j, s, e)
@@ -202,7 +217,45 @@ il.News = {
 			}
 		});
 
-	}
+	},
+
+	delete: function(id) {
+		var t = il.News;
+		t.current_id = id;
+
+		//$('#news_btn_delete').attr("value", il.Language.txt("update"));
+		$("#delete_news_title").val(t.items[id].title);
+
+		$('#ilNewsDeleteModal').modal('show');
+
+		return false;
+	},
+
+	remove: function () {
+		var t = il.News, cmd, d, content;
+
+		cmd = "remove";
+
+		d = {
+			id: t.current_id
+		};
+
+		$.ajax({
+			url : t.ajax_url + "&cmd=" + cmd,
+			type: "POST",
+			data : d,
+			success: function(data, s, j) {
+				window.location.href = t.ajax_url + "&cmd=show";
+			},
+			error: function (j, s, e)
+			{
+				window.location.href = t.ajax_url + "&cmd=show";
+			}
+		});
+
+	},
+
+
 
 };
 

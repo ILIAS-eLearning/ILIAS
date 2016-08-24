@@ -52,6 +52,11 @@ class ilNewsTimelineGUI
 	protected static $items_per_load = 10;
 
 	/**
+	 * @var bool
+	 */
+	protected $user_edit_all = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @param int $a_ref_id reference id
@@ -68,6 +73,28 @@ class ilNewsTimelineGUI
 		$this->user = $DIC->user();
 		$this->include_auto_entries = $a_include_auto_entries;
 		$this->access = $DIC->access();
+
+		$this->lng->loadLanguageModule("news");
+	}
+
+	/**
+	 * Set user can edit other users postings
+	 *
+	 * @param bool $a_val user can edit all postings
+	 */
+	function setUserEditAll($a_val)
+	{
+		$this->user_edit_all = $a_val;
+	}
+
+	/**
+	 * Get user can edit other users postings
+	 *
+	 * @return bool user can edit all postings
+	 */
+	function getUserEditAll()
+	{
+		return $this->user_edit_all;
 	}
 
 	/**
@@ -92,7 +119,7 @@ class ilNewsTimelineGUI
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("show", "save", "update", "loadMore")))
+				if (in_array($cmd, array("show", "save", "update", "loadMore", "remove")))
 				{
 					$this->$cmd();
 				}
@@ -134,6 +161,7 @@ class ilNewsTimelineGUI
 		{
 			$news_item = new ilNewsItem($d["id"]);
 			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"]);
+			$item->setUserEditAll($this->getUserEditAll());
 			$timeline->addItem($item);
 			$js_items[$d["id"]] = array(
 				"id" => $d["id"],
@@ -142,6 +170,7 @@ class ilNewsTimelineGUI
 				"content" => $d["content"].$d["content_long"],
 				"content_long" => "",
 				"priority" => $d["priority"],
+				"visibility" => $d["visibility"],
 				"content_type" => $d["content_type"]
 			);
 		}
@@ -150,17 +179,24 @@ class ilNewsTimelineGUI
 		$this->tpl->addOnloadCode("il.News.setItems(".ilJsonUtil::encode($js_items).");");
 		$this->tpl->addOnloadCode("il.News.setAjaxUrl('".$this->ctrl->getLinkTarget($this, "", "", true)."');");
 
-		$ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
-		$ttpl->setVariable("NEWS", $timeline->render());
-		$ttpl->setVariable("EDIT_MODAL", $this->getEditModal());
-		$ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+		if (count($news_data) > 0)
+		{
+			$ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
+			$ttpl->setVariable("NEWS", $timeline->render());
+			$ttpl->setVariable("EDIT_MODAL", $this->getEditModal());
+			$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
+			$ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+			$this->tpl->setContent($ttpl->get());
 
-		$this->tpl->setContent($ttpl->get());
-
-		$this->lng->toJS("create");
-		$this->lng->toJS("edit");
-		$this->lng->toJS("update");
-		$this->lng->toJS("save");
+			$this->lng->toJS("create");
+			$this->lng->toJS("edit");
+			$this->lng->toJS("update");
+			$this->lng->toJS("save");
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("news_timline_add_entries_info"));
+		}
 
 		$this->tpl->addJavaScript("./Services/News/js/News.js");
 		include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
@@ -194,6 +230,7 @@ class ilNewsTimelineGUI
 		{
 			$news_item = new ilNewsItem($d["id"]);
 			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"]);
+			$item->setUserEditAll($this->getUserEditAll());
 			$timeline->addItem($item);
 			$js_items[$d["id"]] = array(
 				"id" => $d["id"],
@@ -202,6 +239,7 @@ class ilNewsTimelineGUI
 				"content" => $d["content"].$d["content_long"],
 				"content_long" => "",
 				"priority" => $d["priority"],
+				"visibility" => $d["visibility"],
 				"content_type" => $d["content_type"]
 			);
 		}
@@ -277,13 +315,26 @@ class ilNewsTimelineGUI
 
 			$obj_id = ilObject::_lookupObjectId($this->ref_id);
 
-			if ($news_item->getContextObjId() == $obj_id &&
-				($news_item->getUserId() == $this->user->getId()
-				))
+			if ($news_item->getContextObjId() == $obj_id)
 			{
+				$news_item->setUpdateUserId($this->user->getId());
 				$news_item->update();
 			}
 
+		}
+		exit;
+	}
+
+	/**
+	 * Remove (ajax)
+	 */
+	function remove()
+	{
+		include_once("./Services/News/classes/class.ilNewsItemGUI.php");
+		$news_item = new ilNewsItem((int) $_POST["id"]);
+		if ($this->user->getId() == $news_item->getUserId() || $this->getUserEditAll())
+		{
+			$news_item->delete();
 		}
 		exit;
 	}
@@ -310,5 +361,29 @@ class ilNewsTimelineGUI
 
 	}
 
+	/**
+	 * Get delete modal
+	 *
+	 * @return string modal html
+	 */
+	protected function getDeleteModal()
+	{
+		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		$modal = ilModalGUI::getInstance();
+		$modal->setHeading($this->lng->txt("delete"));
+		$modal->setId("ilNewsDeleteModal");
+		$modal->setType(ilModalGUI::TYPE_LARGE);
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		//$cgui->setHeaderText($this->lng->txt("cont_really_delete_news"));
+		$cgui->setCancel($this->lng->txt("cancel"), "", "news_btn_cancel_delete");
+		$cgui->setConfirm($this->lng->txt("delete"), "", "news_btn_delete");
+
+		$modal->setBody($cgui->getHTML());
+
+		return $modal->getHTML();
+
+	}
 }
 ?>

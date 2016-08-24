@@ -16285,3 +16285,12 @@ cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
 cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
 rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
+news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Hinzufügen" um Neuigkeiten anzulegen.
+obj#:#obj_tool_setting_use_news#:#News
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
+cont#:#cont_news_settings#:#News Settings
+cont#:#cont_news_timeline_landing_page#:#Landing Page
+cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
+cont#:#cont_news_timeline_tab#:#Timeline
+cont#:#cont_news_edited#:#Edited

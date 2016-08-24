@@ -50,6 +50,11 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 	protected $ref_id;
 
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 *
 	 * $param ilNewsItem $a_news_item
@@ -59,6 +64,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		global $DIC;
 
 		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		$this->setNewsItem($a_news_item);
 		$this->user = $DIC->user();
 		$this->obj_def = $DIC["objDefinition"];
@@ -144,6 +150,24 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
 		$obj_id = $i->getContextObjId();
 
+		// edited?
+		if ($i->getCreationDate() != $i->getUpdateDate())
+		{
+			$tpl->setCurrentBlock("edited");
+			$update_date = new ilDateTime($i->getUpdateDate(), IL_CAL_DATETIME);
+			$tpl->setVariable("TXT_EDITED", $this->lng->txt("cont_news_edited"));
+			if ($i->getUpdateUserId() > 0 && ($i->getUpdateUserId() != $i->getUserId()))
+			{
+				include_once("./Services/User/classes/class.ilUserUtil.php");
+				$tpl->setVariable("TXT_USR_EDITED", ilUserUtil::getNamePresentation($i->getUpdateUserId(), false, true,
+						$this->ctrl->getLinkTargetByClass("ilnewstimelinegui")) . " - ");
+			}
+			include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
+			$tpl->setVariable("TIME_EDITED", ilDatePresentation::formatDate($update_date));
+			$tpl->parseCurrentBlock();
+		}
+
+
 		// context object link
 		include_once("./Services/Link/classes/class.ilLink.php");
 		if ($this->news_item_ref_id > 0 && $this->ref_id != $this->news_item_ref_id)
@@ -192,7 +216,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		$tpl->setVariable("CONTENT", $news_renderer->getTimelineContent());
 
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$tpl->setVariable("TXT_USR", ilUserUtil::getNamePresentation($i->getUserId(), false, false));
+		$tpl->setVariable("TXT_USR", ilUserUtil::getNamePresentation($i->getUserId(), false, true,
+			$this->ctrl->getLinkTargetByClass("ilnewstimelinegui")));
 
 		include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
 		$tpl->setVariable("TIME", ilDatePresentation::formatDate($this->getDateTime()));
@@ -208,10 +233,12 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		$list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$list->setUseImages(false);
 
-		if ($i->getPriority() == 1 && $i->getUserId() == $this->user->getId() || $this->getUserEditAll())
+		if ($i->getPriority() == 1 && ($i->getUserId() == $this->user->getId() || $this->getUserEditAll()))
 		{
 			$list->addItem($this->lng->txt("edit"), "", "", "", "", "",
 				"", false, "il.News.edit(" . $i->getId() . ");");
+			$list->addItem($this->lng->txt("delete"), "", "", "", "", "",
+				"", false, "il.News.delete(" . $i->getId() . ");");
 		}
 
 		$news_renderer->addTimelineActions($list);

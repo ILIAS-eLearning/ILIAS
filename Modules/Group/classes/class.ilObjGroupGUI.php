@@ -18,7 +18,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI, ilNewsTimelineGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
 *
 *
 * @extends ilObjectGUI
@@ -48,7 +48,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-		
 		// show repository tree
 		$this->showRepTree();
 
@@ -59,6 +58,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once("./Services/Link/classes/class.ilLink.php");
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				ilLink::_getLink($_GET["ref_id"], "grp"), "grp");
+		}
+
+		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage())
+		{
+			$this->ctrl->redirectbyclass("ilnewstimelinegui");
 		}
 
 		switch($next_class)
@@ -162,7 +166,10 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('group_members');
 				$this->tabs_gui->setSubTabActive('grp_members_gallery');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
+				if ($_GET["back_url"] == "")
+				{
+					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI", 'view'));
+				}
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
 				break;
@@ -296,10 +303,19 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($bgui);
 				break;	
 				
+			case "ilcontainernewssettingsgui":
+				$this->setSubTabs("settings");
+				$this->tabs_gui->setTabActive('settings');
+				include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
+				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$this->ctrl->forwardCommand($news_set_gui);
+				break;
+
 			case "ilnewstimelinegui":
 				$this->tabs_gui->setTabActive('news_timeline');
 				include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
+				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
 				$this->ctrl->forwardCommand($t);
 				break;
 
@@ -559,6 +575,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$form,
 			array(
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+				ilObjectServiceSettingsGUI::USE_NEWS,
 				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
@@ -1822,6 +1839,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->ctrl->redirect($this,'members');
 	}
 
+	/**
+	 * Add content tab
+	 *
+	 * @param
+	 * @return
+	 */
+	function addContentTab()
+	{
+		$this->tabs_gui->addTab("view_content", $this->lng->txt("content"),
+			$this->ctrl->getLinkTarget($this, "view"));
+	}
+	
+	
 	// get tabs
 	function getTabs()
 	{
@@ -1833,12 +1863,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if ($this->object->getNewsTimeline())
 			{
-				$this->tabs_gui->addTab("news_timeline", $lng->txt("news"),
+				if (!$this->object->getNewsTimelineLandingPage())
+				{
+					$this->addContentTab();
+				}
+				$this->tabs_gui->addTab("news_timeline", $lng->txt("cont_news_timeline_tab"),
 					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
+				if ($this->object->getNewsTimelineLandingPage())
+				{
+					$this->addContentTab();
+				}
 			}
-
-			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
-				$this->ctrl->getLinkTarget($this, ""));
+			else
+			{
+				$this->addContentTab();
+			}
 		}
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
@@ -2431,6 +2470,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					$form,
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+						ilObjectServiceSettingsGUI::USE_NEWS,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
@@ -2642,7 +2682,13 @@ class ilObjGroupGUI extends ilContainerGUI
 													'ilobjectcustomuserfieldsgui');
 				}
 
-
+				// news settings
+				if ($this->object->getUseNews())
+				{
+					$this->tabs_gui->addSubTab('obj_news_settings',
+						$this->lng->txt("cont_news_settings"),
+						$this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
+				}
 
 				break;
 				

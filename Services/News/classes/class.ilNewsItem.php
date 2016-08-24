@@ -42,6 +42,10 @@ class ilNewsItem
 	protected $creation_date;
 	protected $update_date;
 	protected $user_id;
+	/**
+	 * @var int
+	 */
+	protected $update_user_id;
 	protected $visibility = "users";
 	protected $content_long;
 	protected $priority = 1;
@@ -288,6 +292,26 @@ class ilNewsItem
 	}
 
 	/**
+	 * Set update user id
+	 *
+	 * @param int $a_val update user id
+	 */
+	function setUpdateUserId($a_val)
+	{
+		$this->update_user_id = $a_val;
+	}
+
+	/**
+	 * Get update user id
+	 *
+	 * @return int update user id
+	 */
+	function getUpdateUserId()
+	{
+		return $this->update_user_id;
+	}
+
+	/**
 	 * Set Visibility.
 	 *
 	 * @param	string	$a_visibility	Access level of news.
@@ -530,6 +554,7 @@ class ilNewsItem
 		$this->setCreationDate($rec["creation_date"]);
 		$this->setUpdateDate($rec["update_date"]);
 		$this->setUserId($rec["user_id"]);
+		$this->setUpdateUserId($rec["update_user_id"]);
 		$this->setVisibility($rec["visibility"]);
 		$this->setContentLong($rec["content_long"]);
 		$this->setPriority($rec["priority"]);
@@ -565,6 +590,7 @@ class ilNewsItem
 			"creation_date" => array("timestamp", ilUtil::now()),
 			"update_date" => array("timestamp", ilUtil::now()),
 			"user_id" => array("integer", $this->getUserId()),
+			"update_user_id" => array("integer", (int) $this->getUpdateUserId()),
 			"visibility" => array("text", $this->getVisibility()),
 			"content_long" => array("clob", $this->getContentLong()),
 			"priority" => array("integer", $this->getPriority()),
@@ -639,6 +665,7 @@ class ilNewsItem
 			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
 			"content_type" => array("text", $this->getContentType()),
 			"user_id" => array("integer", $this->getUserId()),
+			"update_user_id" => array("integer", (int) $this->getUpdateUserId()),
 			"visibility" => array("text", $this->getVisibility()),
 			"content_long" => array("clob", $this->getContentLong()),
 			"priority" => array("integer", $this->getPriority()),

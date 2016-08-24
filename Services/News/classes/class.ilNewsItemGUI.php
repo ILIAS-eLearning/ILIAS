@@ -430,15 +430,17 @@ class ilNewsItemGUI
 	*/
 	function updateNewsItem()
 	{
+		global $ilUser;
+		
 		if (!$this->getEnableEdit())
 		{
-			return;
+			return "";
 		}
 
 		$form = $this->initFormNewsItem(IL_FORM_EDIT);
 		if ($form->checkInput())
 		{
-
+			$this->news_item->setUpdateUserId($ilUser->getId());
 			$this->news_item->setTitle($form->getInput("news_title"));
 			$this->news_item->setContent($form->getInput("news_content"));
 			$this->news_item->setVisibility($form->getInput("news_visibility"));

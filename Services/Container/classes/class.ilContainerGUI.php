@@ -1157,7 +1157,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			if (!$this->isActiveAdministrationPanel())
 			{
-				$ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTarget($this, ""));
+				$ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTarget($this, "view"));
 			}
 			else
 			{
