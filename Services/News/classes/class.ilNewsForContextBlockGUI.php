@@ -428,7 +428,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$context_ref = $news["ref_id"];
 			}
 			
-			$lang_type = in_array($type, array("sahs", "lm", "dbk", "htlm"))
+			$lang_type = in_array($type, array("sahs", "lm", "htlm"))
 				? "lres"
 				: "obj_".$type;
 
@@ -744,7 +744,7 @@ if (empty(self::$st_data))
 					$obj_type."_".$item["ref_id"].$add;
 
 				// lm page hack, not nice
-				if (in_array($obj_type, array("dbk", "lm")) && $item["context_sub_obj_type"] == "pg"
+				if (in_array($obj_type, array("lm")) && $item["context_sub_obj_type"] == "pg"
 					&& $item["context_sub_obj_id"] > 0)
 				{
 					$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".

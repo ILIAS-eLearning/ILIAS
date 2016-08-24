@@ -319,7 +319,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 
 				if ($cmd == "create" &&
-					!in_array($new_type, array("dbk", "lm")))
+					!in_array($new_type, array("lm")))
 				{
 					//$this->addLocations();
 					switch ($new_type)
@@ -341,7 +341,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				{
 					// creation of new dbk/lm in repository
 					if ($this->getCreationMode() == true &&
-						in_array($new_type, array("dbk", "lm")))
+						in_array($new_type, array("lm")))
 					{
 						$this->prepareOutput();
 						if ($cmd == "")			// this may be due to too big upload files
@@ -944,16 +944,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $ilUser, $ilias, $ilCtrl;
 
-		switch ($this->object->getType())
-		{
-			case "lm":
-				$gui_class = "ilobjlearningmodulegui";
-				break;
-
-			case "dlb":
-				$gui_class = "ilobjdlbookgui";
-				break;
-		}
+		$gui_class = "ilobjlearningmodulegui";
 
 		$ilCtrl->setParameterByClass($gui_class, "active_node", $_GET["active_node"]);
 		
@@ -1125,159 +1116,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		return $form;
 	}
-
-	/**
-	* add bib item (admin call)
-	*/
-	function addBibItemObject($a_target = "")
-	{
-		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui = new ilBibItemGUI();
-		$bib_gui->setObject($this->object);
-		$bibItemName = $_POST["bibItemName"] ? $_POST["bibItemName"] : $_GET["bibItemName"];
-		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
-		if ($bibItemIndex == "")
-			$bibItemIndex = 0;
-		$bibItemPath = $_POST["bibItemPath"] ? $_POST["bibItemPath"] : $_GET["bibItemPath"];
-		if ($bibItemName != "")
-		{
-			$bib_gui->bib_obj->add($bibItemName, $bibItemPath, $bibItemIndex);
-			$data = $bib_gui->bib_obj->getElement("BibItem");
-			$bibItemIndex = (count($data) - 1);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("bibitem_choose_element"), true);
-		}
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
-		}
-
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
-	}
-
-	/**
-	* add bib item (module call)
-	*/
-	function addBibItem()
-	{
-		$this->setTabs();
-		
-		// questionable workaround to make this old stuff work
-		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
-
-		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
-	}
-
-	/**
-	* delete bib item (admin call)
-	*/
-	function deleteBibItemObject($a_target = "")
-	{
-		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui = new ilBibItemGUI();
-		$bib_gui->setObject($this->object);
-		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
-		$bib_gui->bib_obj->delete($_GET["bibItemName"], $_GET["bibItemPath"], $bibItemIndex);
-		if (strpos($bibItemIndex, ",") > 0)
-		{
-			$bibItemIndex = substr($bibItemIndex, 0, strpos($bibItemIndex, ","));
-		}
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
-		}
-
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target,  max(0, $bibItemIndex - 1));
-	}
-
-	/**
-	* delete bib item (module call)
-	*/
-	function deleteBibItem()
-	{
-		$this->setTabs();
-		
-		// questionable workaround to make this old stuff work
-		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
-
-		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
-	}
-
-
-	/**
-	* edit bib items (admin call)
-	*/
-	function editBibItemObject($a_target = "")
-	{
-		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui = new ilBibItemGUI();
-		$bib_gui->setObject($this->object);
-		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
-		$bibItemIndex *= 1;
-		if ($bibItemIndex < 0)
-		{
-			$bibItemIndex = 0;
-		}
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
-		}
-
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
-	}
-
-	/**
-	* edit bib items (module call)
-	*/
-	function editBibItem()
-	{
-		$this->setTabs();
-		
-		// questionable workaround to make this old stuff work
-		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
-		
-		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
-	}
-
-	/**
-	* save bib item (admin call)
-	*/
-	function saveBibItemObject($a_target = "")
-	{
-		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui = new ilBibItemGUI();
-		$bib_gui->setObject($this->object);
-		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
-		$bibItemIndex *= 1;
-		if ($bibItemIndex < 0)
-		{
-			$bibItemIndex = 0;
-		}
-		$bibItemIndex = $bib_gui->save($bibItemIndex);
-
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
-		}
-
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
-	}
-
-	/**
-	* save bib item (module call)
-	*/
-	function saveBibItem()
-	{
-		$this->setTabs();
-
-		// questionable workaround to make this old stuff work
-		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
-
-		$this->saveBibItemObject($this->ctrl->getLinkTarget($this));
-	}
-
+	
 	/**
 	* export object
 	*
@@ -1411,9 +1250,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st.svg"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
-		$up_gui = ($this->object->getType() == "dbk")
-			? "ilobjdlbookgui"
-			: "ilobjlearningmodulegui";
+		$up_gui = "ilobjlearningmodulegui";
 
 		$ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
 		$ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
@@ -2757,7 +2594,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm' or $this->object->getType() == 'dbk'))
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm'))
 		{
 			$ilTabs->addTab('learning_progress',
 				$lng->txt("learning_progress"),
@@ -2842,13 +2679,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			if ($ilSetting->get("pub_section"))
 			{
-				if ($this->object->getType() != "dbk")
-				{
-					// public section
-					$ilTabs->addSubTabTarget("public_section",
-						$this->ctrl->getLinkTarget($this, 'editPublicSection'),
-						"", "");
-				}
+				// public section
+				$ilTabs->addSubTabTarget("public_section",
+					$this->ctrl->getLinkTarget($this, 'editPublicSection'),
+					"", "");
 			}
 
 			// multilinguality
@@ -3313,7 +3147,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->cur_ref_id);
 
-		$sel_types = array('mcst', 'mep', 'cat', 'lm','dbk','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs',
+		$sel_types = array('mcst', 'mep', 'cat', 'lm','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs',
 			"crs", "grp", "book", "tst", "file");
 		$exp->setSelectableTypes($sel_types);
 

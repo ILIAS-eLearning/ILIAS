@@ -7791,8 +7791,8 @@ grp#:#grp_agreement_required#:#Devi accettare le condizioni d'uso, per accedere 
 grp#:#grp_already_assigned#:#Hai gia'richiesto una iscrizione a questo gruppo.
 grp#:#grp_cancel_subscr_request#:#Cancella l'iscrizione al gruppo
 grp#:#grp_change_type#:#Modifica la tipologia del gruppo
-grp#:#grp_closed#:#Gruppo Chiuso
-grp#:#grp_closed_info#:#Il gruppo non è visibile ai non iscritti.
+didactic#:#grp_closed#:#Gruppo Chiuso
+didactic#:#grp_closed_info#:#Il gruppo non è visibile ai non iscritti.
 grp#:#grp_copy#:#Copy Group
 grp#:#grp_custom_user_fields#:#Dati utente rilevanti per il gruppo
 grp#:#grp_deactivate_notification#:#Disattiva la notifica

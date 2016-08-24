@@ -677,6 +677,8 @@ assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current ques
 assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
+assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
 assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
@@ -3728,6 +3730,7 @@ common#:#obj_catr#:#Category Reference
 common#:#obj_cen#:#Centra Event
 common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chac#:#Chat Server
 common#:#obj_chap#:#Chapter
@@ -6927,8 +6930,8 @@ grp#:#grp_admins#:#Administrators
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Change Group Type
-grp#:#grp_closed_info#:#Group is not visible for non-members.
-grp#:#grp_closed#:#Closed Group
+didactic#:#grp_closed_info#:#Group is not visible for non-members.
+didactic#:#grp_closed#:#Closed Group
 grp#:#grp_delete_member#:#Delete
 grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_edit_members#:#Edit Participants
@@ -15898,6 +15901,34 @@ assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
 adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+wfe#:#dashboard#:#Dashboard
+wfe#:#definitions#:#Process Definitions
+wfe#:#instances#:#Process Instances
+wfe#:#obj_wfe_desc#:#Process Automation
+wfe#:#upload_process#:#Upload Process Definition
+wfe#:#process_definition_file#:#Process Definition File
+wfe#:#process_definition_file_info#:#BPMN2-Models
+wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
+wfe#:#definition_table_title#:#Process Definitions
+wfe#:#start_process#:#Start Process
+wfe#:#process_started#:#Process started
+wfe#:#input_variables_required#:#Input required
+wfe#:#input_variables_desc#:#The process requires the following data to start:
+wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
+wfe#:#delete_definition#:#Delete Definition
+wfe#:#definition_deleted#:#Workflow-Definition deleted.
+wfe#:#subject_type#:#Subject Type
+wfe#:#subject_id#:#Subject ID
+wfe#:#subject_by_id#:#Subject By ID
+wfe#:#subject_by_mask#:#Masked Subject
+wfe#:#context_type#:#Context Type
+wfe#:#context_id#:#Context ID
+wfe#:#context_by_id#:#Context By ID
+wfe#:#context_by_mask#:#Masked Context
+wfe#:#start_listening#:#Activate Listener
+wfe#:#stop_listening#:#Deactivate Listener
+wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
+wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_select_terms#:#Select Terms
@@ -15908,3 +15939,289 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+survey#:#svy_mail_context_reminder_title#:#Survey Reminder
+survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
+survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
+survey#:#svy_reminder_mail_template#:#Mail Template
+survey#:#svy_reminder_mail_template_none#:#Do not use mail template
+survey#:#svy_eval_view#:#View
+survey#:#svy_eval_view_tables_charts#:#Table and chart
+survey#:#svy_eval_view_tables#:#Table
+survey#:#svy_eval_view_charts#:#Chart
+survey#:#svy_eval_captions#:#Figures
+survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
+survey#:#svy_eval_captions_abs#:#Absolute
+survey#:#svy_eval_captions_perc#:#Percentage
+style#:#add_system_style#:#Add System Style
+style#:#add_substyle#:#Add Sub Style
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin Name
+style#:#skin#:#Skin
+style#:#style_id#:#Style ID
+style#:#Style#:#Style
+style#:#style_name#:#Style Name
+style#:#image_dir#:#Image Directory
+style#:#font_dir#:#Font Directory
+style#:#sound_dir#:#Sound Directory
+style#:#system_style_activation#:#System Style Activated
+style#:#personal#:#Personal
+style#:#system_styel_activation#:#Activate System Style
+style#:#less#:#Less
+style#:#icons#:#Icons
+style#:#documentation#:#Documentation
+style#:#less_can_not_be_modified#:#Less cannot be modified
+style#:#no_less_path_set#:#No Less Path set
+style#:#less_less_installation_detected#:#Less installation detected at:
+style#:#grey_colors#:#Gray Colors
+style#:#grey_color#:#Gray Color
+style#:#grey_colors_description#:#Gray Color Description
+style#:#red_colors#:#Red Colors
+style#:#red_color#:#Red Color
+style#:#red_colors_description#:#Red Color Description
+style#:#green_colors#:#Green Colors
+style#:#green_color#:#Green Color
+style#:#green_colors_description#:#Green Color Description
+style#:#blue_colors#:#Blue Colors
+style#:#blue_color#:#Blue Color
+style#:#blue_colors_description#:#Blue Color Description
+style#:#reset_icons#:#Reset Icons
+style#:#update_colors#:#Update Colors
+style#:#style_not_deleted#:#The style could not be deleted for the following reasons:
+style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:
+style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.
+style#:#style_deleted#:#Deleted Style:
+style#:#dir_preserved_linked#:#Preserved Link:
+style#:#file_deleted#:#Following file has been deleted:
+style#:#skin_deleted#:#Following skin has been deleted:
+style#:#msg_sys_style_update#:#System Styles have been updated
+common#:#set_style_does_not_exist#:#Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:
+common#:#set_skin_does_not_exist#:#Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:
+style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.
+style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.
+style#:#default_style_set_to#:#The default system style has been set to:
+style#:#personal_style_set_to#:#Your personal style has been set to:
+style#:#refresh_entries#:#Refresh Entries
+style#:#entries_reloaded#:#All entries have been reloaded
+style#:#msg_sub_style_created#:#The sub style has been created.
+style#:#style#:#Style
+style#:#sub_style_settings#:#Sub Style Assignment
+style#:#parent#:#Parent Style
+style#:#sty_substyle_of#:#Sub Style of
+style#:#assignment#:#Assignment
+style#:#remove_assignment#:#Remove Assignment
+style#:#reset_variables#:#Reset Variables
+style#:#update_variables#:#Update Variables
+style#:#less_file_updated#:#The less variables have been updated.
+style#:#settings_of_substyle#:#Manage sub style
+style#:#settings_of_style#:#Manage style
+style#:#of_parent#:#of parent:
+style#:#from_skin#:#of skin:
+style#:#dir_copied_from#:#The directory has been copied to from:
+style#:#to#:#to:
+style#:#dir_deleted#:#The following directory has been deleted:
+style#:#sty_create_new_system_style#:#Create a new system style.
+style#:#sty_create_new_system_sub_style#:#Create a new system sub style.
+style#:#sty_import_system_style#:#Import an existing system style as zip.
+style#:#sty_copy_other_system_style#:#Clone an existing system style.
+style#:#sub_style_id#:#Sub Style ID
+style#:#sub_style_name#:#Sub Style Name
+style#:#less_variables_file_not_included#:#The less variables file:
+style#:#in_main_less_file#:#is not imported inside the system styles main less file:
+style#:#can_not_read_less_file#:#Cannot read less file. Path:
+style#:#msg_sys_style_created#:#The new system style has successfully been created.
+style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
+style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
+style#:#sub_style#:#Sub Style
+style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#sound_dir_description#:#Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#system_style_activation_description#:#Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).
+style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
+style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
+style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
+style#:#no_style_selected#:#No sub style has been selected.
+style#:#adapt_less#:#Adapt Less
+style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
+style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
+style#:#adapt_icons#:#Adapt Icon Colors
+style#:#invalid_less_path#:#The provided lessc path is not valid.
+style#:#provided_less_path#:#Provided lessc path:
+style#:#used_colors#:#Used Colors:
+style#:#style_imported#:#Style has been successfully imported into:
+style#:#style_copied#:#Style has been successfully copied.
+style#:#directory_created#:#Directory created:
+style#:#color_changed_from#:#Color changed from:
+style#:#color_changed_to#:#to:
+style#:#edit_by_color#:#Edit by Color
+style#:#edit_by_icon#:#Edit by Icon
+style#:#update_icon#:#Update Icon
+style#:#select_icon#:#Select Icon
+style#:#change_icon#:#Change Icon
+style#:#color#:#Color
+style#:#adapt_icon#:#Adapt Icon
+style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
+style#:#preview#:#Preview
+style#:#icons_gallery#:#Icons Gallery
+style#:#cant_delete_style_with_substyles#:#Styles with sub styles cannot be deleted.
+style#:#style_assignments_deleted#:#Style assignments of the following Sub Style have been deleted:
+style#:#skin_id_exists#:#There exists already a skin with this ID.
+style#:#usages#:#Usages:
+exc#:#exc_individual_deadline#:#Individual Deadline
+exc#:#exc_individual_deadline_action#:#Set Individual Deadline
+exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.
+exc#:#exc_tbl_submission_date#:#Latest Submission
+exc#:#exc_tbl_status#:#Grade
+exc#:#exc_tbl_status_time#:#Graded on
+exc#:#exc_tbl_mark#:#Mark
+exc#:#exc_tbl_comment#:#Text Feedback
+exc#:#exc_tbl_notice#:#Note for Tutors
+exc#:#exc_tbl_feedback_time#:#Feedback on
+exc#:#exc_tbl_sent_time#:#Assignment sent on
+exc#:#exc_tbl_team#:#Team
+exc#:#exc_tbl_individual_deadline#:#Individual Deadline
+exc#:#exc_tbl_action_download_files#:#Download Submissions
+exc#:#exc_tbl_action_download_all_files#:#Download All Submissions
+exc#:#exc_tbl_action_download_new_files#:#Download New Submissions
+exc#:#exc_tbl_action_text_assignment_show#:#Show Submission
+exc#:#exc_tbl_action_feedback_text#:#Give Feedback As Text
+exc#:#exc_tbl_action_feedback_mail#:#Give Feedback As Mail
+exc#:#exc_tbl_action_feedback_file#:#Give Feedback As File
+exc#:#exc_tbl_action_team_log#:#Show Team Log
+exc#:#exc_tbl_action_peer_review_given#:#Show Given Peer Feedback
+exc#:#exc_tbl_action_peer_review_received#:#Show Received Peer Feedback
+exc#:#exc_feedback#:#Feedback
+exc#:#exc_settings_feedback#:#Tutor Feedback
+exc#:#exc_settings_feedback_text#:#Textinput
+exc#:#exc_settings_feedback_mail#:#By Mail
+exc#:#exc_settings_feedback_file#:#By File
+mem#:#mem_print_view_form#:#Default Settings for Print View
+mem#:#mem_settings_tab_print_view#:#Print View Settings
+mem#:#mem_settings_tab_settings#:#General Settings
+ccmt#:#ccmt_perform_reporting_data_update#:#Update Reporting Data
+ccmt#:#ccmt_custom_reporting_tool#:#Reporting
+ccmt#:#ccmt_custom_reporting_tool_desc#:#Here you can see the learning progress of your employees.<br />Please notice that the reporting data is updated nightly.
+ccmt#:#ccmt_view_by_switch_label#:#View By
+ccmt#:#ccmt_numbers_switch_label#:#Numbers Presentation
+ccmt#:#ccmt_filter_course_label#:#Filter Course
+ccmt#:#ccmt_filter_crstype_label#:#Filter Course Mode
+ccmt#:#ccmt_filter_memtype_label#:#Filter Membership Mode
+ccmt#:#ccmt_filter_crsparent_label#:#Filter Course Parent
+ccmt#:#ccmt_filter_period_label#:#Filter Period
+ccmt#:#ccmt_period_filter_label_use#:#Use Filter
+ccmt#:#ccmt_period_filter_label_not_use#:#Not Use Filter
+ccmt#:#ccmt_filter_period_start#:#From
+ccmt#:#ccmt_filter_period_end#:#To
+ccmt#:#ccmt_filter_option_all#:#All
+ccmt#:#ccmt_viewby_option_course#:#Course
+ccmt#:#ccmt_viewby_option_crsparent#:#Course Parent
+ccmt#:#ccmt_viewby_option_crstype#:#Course Mode
+ccmt#:#ccmt_viewby_option_orgunit#:#Organisation Unit
+ccmt#:#ccmt_viewby_option_user#:#Employee
+ccmt#:#ccmt_numbers_option_absolute#:#Absolute
+ccmt#:#ccmt_numbers_option_relative#:#Relative
+ccmt#:#ccmt_filter_crstype_option_optional#:#Optional
+ccmt#:#ccmt_filter_crstype_option_mandatory#:#Mandatory
+ccmt#:#ccmt_filter_memtype_option_auto#:#Automatically Assigned
+ccmt#:#ccmt_filter_memtype_option_manual#:#Manually Assigned
+ccmt#:#ccmt_aggregation_entity_course_total#:#All Courses
+ccmt#:#ccmt_aggregation_entity_crsparent_total#:#All Course Parents
+ccmt#:#ccmt_aggregation_entity_crstype_total#:#All Course Modes
+ccmt#:#ccmt_aggregation_entity_orgunit_total#:#All Organisation Units
+ccmt#:#ccmt_table_column_course#:#Course
+ccmt#:#ccmt_table_column_crsparent#:#Course Parent
+ccmt#:#ccmt_table_column_crstype#:#Course Mode
+ccmt#:#ccmt_table_column_orgunit#:#Organisation Unit
+ccmt#:#ccmt_table_column_user#:#Employee
+ccmt#:#ccmt_table_column_assigned#:#Course Assignments
+ccmt#:#ccmt_table_column_notattempted#:#Not Attempted
+ccmt#:#ccmt_table_column_not_attempted#:#Not Attempted
+ccmt#:#ccmt_table_column_inprogress#:#In Progress
+ccmt#:#ccmt_table_column_in_progress#:#In Progress
+ccmt#:#ccmt_table_column_completed#:#Completed
+ccmt#:#ccmt_table_column_failed#:#Failed
+ccmt#:#ccmt_table_column_lp_ratio#:#Learning Ratio
+ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Certificates
+ccmt#:#ccmt_table_column_past_due#:#Past Due
+ccmt#:#ccmt_table_column_event_days#:#Event Days
+ccmt#:#ccmt_not_available#:#open
+ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lerning Progress by Courses
+ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#No existing course assignments matching the current selection.
+ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lerning Progress by Course Modes
+ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#No existing course assignments matching the current selection.
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lerning Progress by Course Parent
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#No existing course assignments matching the current selection.
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lerning Progress by Organisation Units
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#No existing course assignments matching the current selection.
+ccmt#:#ccmt_detailed_status_table_header#:#Detailed Learning Progress
+ccmt#:#ccmt_detailed_status_table_noitems#:#No existing course assignments matching the current selection.
+ccmt#:#ccmt_table_column_lp_status#:#Status
+ccmt#:#ccmt_table_column_deadline_date#:#Course Deadline
+ccmt#:#ccmt_table_column_is_mandatory#:#Is Mandatory
+ccmt#:#ccmt_table_column_last_access#:#Last Access
+ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Completion Date
+ccmt#:#ccmt_lp_status_notattempted#:#not attempted
+ccmt#:#ccmt_lp_status_inprogress#:#in progress
+ccmt#:#ccmt_lp_status_completed#:#completed
+ccmt#:#ccmt_lp_status_failed#:#failed
+ccmt#:#ccmt_course_type_mandatory#:#Mandatory
+ccmt#:#ccmt_course_type_optional#:#Optional
+ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Create Report
+ccmt#:#ccmt_toolbar_submit_create_report_export#:#Create Export
+ccmt#:#ccmt_menu_item_reporting#:#Reporting
+ccmt#:#ccmt_info_block_label_all_users#:#Total Users
+ccmt#:#ccmt_info_block_label_all_courses#:#Total Courses
+ccmt#:#ccmt_info_block_label_all_memberships#:#Total Memberships
+ccmt#:#ccmt_info_block_label_all_session_days#:#Total Session Days
+ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#The following courses are excluded from the report due to invalid tracking settings:%s
+ccmt#:#ccmt_course_error_lp_mode#:#The status for the course "%s" with id "%s" cannot be determined, because the tracking is configured to an incompatible mode.<br />Current mode is "%s" / Required mode is "%s"
+ccmt#:#ccmt_course_error_lp_deactivated#:#The status for the course "%s" with id "%s" cannot be determined, because the tracking is deactivated.
+ccmt#:#ccmt_course_error_invalid_obj#:#The status for the course "%s" with id "%s" depends on a subobject, whose object type is not supported by the reporting.
+ccmt#:#ccmt_course_error_multi_obj#:#The status for the course "%s" with id "%s" depends on more than one subobjects. This is not supported by the reporting.
+ccmt#:#ccmt_course_error_missing_obj#:#The status for the course "%s" with id "%s" cannot be determined, because no relevant subobjects has been defined on which the status depends.
+ccmt#:#ccmt_print_view#:#Print View All Courses
+ccmt#:#ccmt_print_view_mandatory_non_completed#:#Print View Non Completed
+ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Non Completed Courses in %s
+ccmt#:#ccmt_print_window_title_orgunit#:#All Courses in %s
+ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Non Completed Courses for %s
+ccmt#:#ccmt_print_window_title_user#:#All Courses for %s
+ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#No existing non completed course assignments<br />matching the current selection.
+ccmt#:#ccmt_detailed_status_print_view_noitems#:#No existing course assignments<br />matching the current selection.
+ccmt#:#ccmt_print_table_column_user#:#Employee
+ccmt#:#ccmt_print_table_column_course#:#Course
+ccmt#:#ccmt_print_table_column_lp_status#:#Status
+ccmt#:#ccmt_print_table_column_is_mandatory#:#Crs Mode
+ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Compl. Date
+ccmt#:#ccmt_print_table_column_learning_date#:#Learning Date
+ccmt#:#ccmt_print_table_column_last_access#:#Last Access
+ccmt#:#ccmt_print_table_column_deadline_date#:#Deadline
+ccmt#:#ccmt_all_employees#:#All Employees
+ccmt#:#ccmt_table_column_num_users#:#Number of Users
+ccmt#:#export_all_lp#:#Export Learning Progress
+ccmt#:#export_learning_progress#:#Export Learning Progress
+ccmt#:#export_lp#:#Choose File
+ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Certificate valid until
+ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Certificate valid until
+ccmt#:#ccmt_search_no_user_found#:#Unfortunately no hits found for your search.
+ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
+ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
+didactic#:#activate_local_didactic_template#:#Scope of Application
+didactic#:#effective_form#:#Template Effective From
+didactic#:#more_translations#:#More Translations
+didactic#:#didactic_template_update_import#:#Update Didactic Template
+didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.
+grp#:#grp_show_members_info#:#If activated, group members can access the members gallery.
+grp#:#grp_show_members#:#Show Members
+didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.
+didactic#:#didactic_auto_generated#:#Automatic Generated
+didactic#:#activate_exclusive_template#:#Grey Out Default
+didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.
+didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
+didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.
+

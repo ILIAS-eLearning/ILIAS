@@ -177,7 +177,7 @@ class ilObjectLP
 		{				
 			// using global type default if LP is inactive
 			include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
-			if(false /* !ilObjUserTracking::_enabledLearningProgress() */) // not ready for trunk
+			if(!ilObjUserTracking::_enabledLearningProgress())
 			{
 				$mode = self::getTypeDefaultFromDB(ilObject::_lookupType($this->obj_id));
 				if($mode === null)
@@ -195,7 +195,7 @@ class ilObjectLP
 					// fallback: object type default
 					$mode = $this->getDefaultMode();				
 				}	
-			}									
+			}						
 			$this->mode = (int)$mode;
 		}
 		

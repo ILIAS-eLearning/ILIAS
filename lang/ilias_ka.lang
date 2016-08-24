@@ -7791,8 +7791,8 @@ grp#:#grp_agreement_required#:#თქვენ უნდა მიიღოთ �
 grp#:#grp_already_assigned#:#თქვენ უკვე მოითხოვეთ წევრობა ამ ჯგუფში
 grp#:#grp_cancel_subscr_request#:#წევრობის მოთხვნის წაშლა
 grp#:#grp_change_type#:#ჯგუფის სახეობის წაშლა
-grp#:#grp_closed#:#დაკეტილი ჯგუფი
-grp#:#grp_closed_info#:#ჯგუფი ხილვადია მხოლოდ წევრებისთვის
+didactic#:#grp_closed#:#დაკეტილი ჯგუფი
+didactic#:#grp_closed_info#:#ჯგუფი ხილვადია მხოლოდ წევრებისთვის
 grp#:#grp_copy#:#Copy Group
 grp#:#grp_custom_user_fields#:#ჯგუფის შესაბამისი მომხმარებლის მონაცემები
 grp#:#grp_deactivate_notification#:#შეტყობინების გაუქმება

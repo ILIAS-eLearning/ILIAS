@@ -69,7 +69,11 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilusersgallerygui':
 				$is_participant = (bool)ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
-				if(!$ilAccess->checkAccess('write', '', $this->ref_id) && !$is_participant)
+				if(!$ilAccess->checkAccess('manage_members', '', $this->ref_id) &&
+					(
+						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
+						!$is_participant
+					))
 				{
 					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
 				}
@@ -96,7 +100,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilrepositorysearchgui':
 
-				if(!$this->checkPermissionBool('write'))
+				if(!$this->checkPermissionBool('manage_members'))
 				{
 					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
 				}
@@ -264,7 +268,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 
-				if(!($ilAccess->checkAccess('write','',$this->object->getRefId()) ||
+				if(!($ilAccess->checkAccess('manage_members','',$this->object->getRefId()) ||
 					$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL) &&
 					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
@@ -411,90 +415,41 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	}
 	
-	protected function initCreateForm($a_new_type)
-	{
-		if(!is_object($this->object))
-		{
-			$this->object = new ilObjGroup();
-		}
-		
-		return $this->initForm('create');
-	}
-	
 	/**
-	 * save object
-	 *
-	 * @global ilTree
-	 * @access public
-	 * @return
+	 * After object creation 
+	 * @param \ilObject $new_object
 	 */
-	public function saveObject()
+	public function afterSave(\ilObject $new_object)
 	{
-		global $ilErr,$ilUser,$tree,$ilSetting;
+		global $ilUser, $ilSetting;
 		
-		$this->object = new ilObjGroup();
-
-		// we reduced the form, only 3 values left
-		// $this->load();
-		
-		$grp_type = ilUtil::stripSlashes($_POST['grp_type']);
-		switch($grp_type)
-		{
-			case GRP_TYPE_PUBLIC:
-				$this->object->setRegistrationType(GRP_REGISTRATION_DIRECT);
-				break;
-			
-			default:
-				$this->object->setRegistrationType(GRP_REGISTRATION_DEACTIVATED);
-				break;
-		}
-		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
-		$this->object->setGroupType(ilUtil::stripSlashes($_POST['grp_type']));
-		$this->object->setViewMode(ilContainer::VIEW_INHERIT);
-
-		$ilErr->setMessage('');
-		
-		if(!$this->object->validate())
-		{
-			$err = $this->lng->txt('err_check_input');
-			ilUtil::sendFailure($err);
-			$err = $ilErr->getMessage();
-			ilUtil::sendInfo($err);
-			$this->createObject();
-			return true;
-		}
-
-		$this->object->create();
-		$this->putObjectInTree($this->object, $_GET["ref_id"]);
-		$this->object->initGroupStatus($this->object->getGroupType());
+		$new_object->setRegistrationType(GRP_REGISTRATION_DIRECT);
+		$new_object->update();
 		
 		// check for parent group or course => SORT_INHERIT
 		$sort_mode = ilContainer::SORT_TITLE;
 		if(
-				$GLOBALS['tree']->checkForParentType($this->object->getRefId(),'crs') ||
-				$GLOBALS['tree']->checkForParentType($this->object->getRefId(),'grp')
+				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'crs') ||
+				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'grp')
 		)
 		{
 			$sort_mode = ilContainer::SORT_INHERIT;
 		}
+		
 		// Save sorting
 		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($this->object->getId());
+		$sort = new ilContainerSortingSettings($new_object->getId());
 		$sort->setSortMode($sort_mode);
 		$sort->update();
 		
 		
 		// Add user as admin and enable notification
-		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
-		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+		include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+		$members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
-
-		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);		
-		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
-		$this->ctrl->redirect($this, "edit");
+		parent::afterSave($new_object);
 	}
 	
 	/**
@@ -529,20 +484,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateGroupTypeObject()
 	{
-		$type = $this->object->getGroupType() ? 
-			$this->object->getGroupType() :
-			$this->object->readGroupStatus();
-			
-		if($type == GRP_TYPE_PUBLIC)
-		{
-			$this->object->setGroupType(GRP_TYPE_CLOSED);
-		}
-		else
-		{
-			$this->object->setGroupType(GRP_TYPE_PUBLIC);
-		}
-		$this->object->updateGroupType();
-		$this->object->update();
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateUtils.php';
+		ilDidacticTemplateUtils::switchTemplate(
+			$this->object->getRefId(),
+			(int) $_REQUEST['grp_type']
+		);
+		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'edit');
 	}
@@ -562,6 +509,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$form = $this->initForm();
 		$form->checkInput();
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+		
+		$modified = false;
+		if((string) $_POST['didactic_type'])
+		{
+			$new_type = explode('_',$_POST['didactic_type']);
+			$new_type = $new_type[1];
+			
+			$modified = ($new_type != $old_type);
+			ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
+		}
 		
 		$old_type = $this->object->getGroupType();
 		$old_autofill = $this->object->hasWaitingListAutoFill();
@@ -571,12 +531,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!$this->object->validate())
 		{
-			/*
-			$err = $this->lng->txt('err_check_input');
-			ilUtil::sendFailure($err);
-			$err = $ilErr->getMessage();
-			ilUtil::sendInfo($err);			
-			*/
 			ilUtil::sendFailure($ilErr->getMessage()); // #16975
 			
 			// #17144
@@ -585,13 +539,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			return true;
 		}
 
-		$modified = false;		
-		if($this->object->isGroupTypeModified($old_type))
-		{
-			$modified = true;
-			$this->object->setGroupType($old_type);
-		}
-		
 		$this->object->update();
 		
 		
@@ -630,16 +577,29 @@ class ilObjGroupGUI extends ilContainerGUI
 		$ecs = new ilECSGroupSettings($this->object);			
 		$ecs->handleSettingsUpdate();
 
+		// group type modified
 		if($modified)
 		{
+			if($new_type == 0)
+			{
+				$new_type_txt = $GLOBALS['lng']->txt('il_grp_status_open');
+			}
+			else
+			{
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+				$dtpl = new ilDidacticTemplateSetting($new_type);
+				$new_type_txt = $dtpl->getPresentationTitle($GLOBALS['lng']->getLangKey());
+			}
+			
+			
 			include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 			ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'));
 			$confirm = new ilConfirmationGUI();
 			$confirm->setFormAction($this->ctrl->getFormAction($this));
 			$confirm->addItem(
 				'grp_type',
-				$this->object->getGroupType(),
-				$this->lng->txt('grp_info_new_grp_type').': '.($this->object->getGroupType() == GRP_TYPE_CLOSED ? $this->lng->txt('il_grp_status_open') : $this->lng->txt('il_grp_status_closed'))
+				$new_type,
+				$this->lng->txt('grp_info_new_grp_type').': '. $new_type_txt
 			);
 			$confirm->addButton($this->lng->txt('grp_change_type'), 'updateGroupType');
 			$confirm->setCancel($this->lng->txt('cancel'), 'edit');
@@ -996,7 +956,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		include_once('./Modules/Group/classes/class.ilGroupParticipantsTableGUI.php');
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
@@ -1199,7 +1159,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $lng, $ilIliasIniFile,$ilUser;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['subscribers']))
 		{
@@ -1235,7 +1195,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $lng;
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['subscribers']))
 		{
@@ -1268,7 +1228,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function assignFromWaitingListObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST["waiting"]))
 		{
@@ -1326,7 +1286,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function refuseFromListObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['waiting']))
 		{
@@ -1360,7 +1320,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function confirmDeleteMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		
@@ -1413,7 +1373,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function deleteMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['participants']))
 		{
@@ -1529,7 +1489,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function editMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$post_participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		$real_participants = ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
@@ -1564,7 +1524,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateMembersObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		if(!count($_POST['participants']))
 		{
@@ -1648,7 +1608,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateStatusObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$notification = $_POST['notification'] ? $_POST['notification'] : array();
 		foreach($this->object->members_obj->getAdmins() as $admin_id)
@@ -1884,11 +1844,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 			
 		// Members
-		if($ilAccess->checkAccess('write', '', $this->ref_id))
+		if($ilAccess->checkAccess('manage_members', '', $this->ref_id))
 		{
 			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
-		else if($is_participant)
+		else if($is_participant and $this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED)
 		{
 			$this->tabs_gui->addTarget(
 				'members',
@@ -2154,7 +2114,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			);
 		}
 
-		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
+		if ($a_add == "mem" && $ilAccess->checkAccess("manage_members", "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "members");
 		}
@@ -2226,33 +2186,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$desc->setCols(40);
 		$form->addItem($desc);
 		
-		// Group type
-		$grp_type = new ilRadioGroupInputGUI($this->lng->txt('grp_typ'),'grp_type');
+		$form = $this->initDidacticTemplate($form);
 		
-		if($a_mode == 'edit')
-		{
-			$type = ($this->object->getGroupType() ? $this->object->getGroupType() : $this->object->readGroupStatus());
-		}
-		else
-		{
-			$type = ($this->object->getGroupType() ? $this->object->getGroupType() : GRP_TYPE_PUBLIC);
-		}
-		
-		$grp_type->setValue($type);
-		$grp_type->setRequired(true);
-
-		
-		// PUBLIC GROUP
-		$opt_public = new ilRadioOption($this->lng->txt('grp_public'),GRP_TYPE_PUBLIC,$this->lng->txt('grp_public_info'));
-		$grp_type->addOption($opt_public);
-
-
-		// CLOSED GROUP
-		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
-		$grp_type->addOption($opt_closed);
-
-		$form->addItem($grp_type);
-
 		if($a_mode == 'edit')
 		{
 			// Group registration ############################################################
@@ -2314,7 +2249,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());
 			$form->addItem($dur);
-
+			
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
 			$cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
@@ -2473,7 +2408,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			/*$notification = new ilFormSectionHeaderGUI();
 			$notification->setTitle($this->lng->txt('grp_notification'));
 			$form->addItem($notification);*/
-		
+
+			$mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'),'show_members');
+			$mem->setChecked($this->object->getShowMembers());
+			$mem->setInfo($this->lng->txt('grp_show_members_info'));
+			$form->addItem($mem);
+
 			// Show members type
 			$mail_type = new ilRadioGroupInputGUI($this->lng->txt('grp_mail_type'), 'mail_type');
 			$mail_type->setValue($this->object->getMailToMembersType());
@@ -2535,12 +2475,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
-		
-		$reg = $a_form->getItemByPostVar("reg");	
+		$this->object->setShowMembers((int) $_POST['show_members']);
+
+		$reg = $a_form->getItemByPostVar("reg");
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
 		
-		$cancel_end = $a_form->getItemByPostVar("cancel_end");		
+		$cancel_end = $a_form->getItemByPostVar("cancel_end");
 		$this->object->setCancellationEnd($cancel_end->getDate());		
 		
 		switch((int)$_POST['waiting_list'])
@@ -2579,20 +2520,23 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			case 'members':
 				// for admins
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("grp_edit_members",
 						$this->ctrl->getLinkTarget($this,'members'),
 						"members",
 						get_class($this));
 				}
-				// for all
-				$this->tabs_gui->addSubTabTarget(
-					'grp_members_gallery',
-					$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
-					'',
-					'ilUsersGalleryGUI'
-				);
+
+				if($this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED)
+				{
+					$this->tabs_gui->addSubTabTarget(
+						'grp_members_gallery',
+						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
+						'',
+						'ilUsersGalleryGUI'
+					);
+				}
 				
 				// members map
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
@@ -2604,7 +2548,7 @@ class ilObjGroupGUI extends ilContainerGUI
 						"membersMap", get_class($this));
 				}
 				
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if($ilAccess->checkAccess('manage_members','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("events",
 													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
@@ -2802,7 +2746,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{		
 		global $ilTabs;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('back'),
@@ -2875,10 +2819,46 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		$this->members_data = $this->readMemberData($part->getParticipants());
+		$this->members_data = $this->addCustomData($this->members_data);
+		
 		$list->getNonMemberUserData($this->members_data);
 		
 		echo $list->getFullscreenHTML();
 		exit();	
+	}
+	
+	
+	/**
+	 * 
+	 * @param array $a_data
+	 */
+	protected function addCustomData($a_data)
+	{
+		// object defined fields
+		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+		$odfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
+		
+		$res_data = array();
+		foreach($a_data as $usr_id => $user_data)
+		{
+			$res_data[$usr_id] = $user_data;
+			
+			// udf
+			include_once './Services/User/classes/class.ilUserDefinedData.php';
+			$udf_data = new ilUserDefinedData($usr_id);
+			foreach($udf_data->getAll() as $field => $value)
+			{
+				list($f,$field_id) = explode('_', $field);
+				$res_data[$usr_id]['udf_'.$field_id] = (string) $value;
+			}
+				
+			foreach((array) $odfs[$usr_id] as $cdf_field => $cdf_value)
+			{
+				$res_data[$usr_id]['cdf_'.$cdf_field] = (string) $cdf_value;
+			}
+		}
+		
+		return $res_data;
 	}
 
 	/**
@@ -2920,7 +2900,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$mail = new ilMail($ilUser->getId());
 
 		if(
-		($ilAccess->checkAccess('write','',$this->object->getRefId()) or
+		($ilAccess->checkAccess('manage_members','',$this->object->getRefId()) or
 			$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL) and
 			$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 		{
@@ -2961,7 +2941,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
@@ -2997,7 +2977,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
@@ -3037,7 +3017,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('mmbr');
 
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
@@ -3074,7 +3054,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');

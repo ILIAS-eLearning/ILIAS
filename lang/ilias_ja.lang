@@ -9352,8 +9352,8 @@ grp#:#grp_cancel_subscr_request#:#メンバーシップリクエストを削除
 grp#:#grp_cdf_edit_member#:#ユーザ関連のグループを編集
 grp#:#grp_cdf_tbl_last_edit#:#最終更新 (データ特定グループ)
 grp#:#grp_change_type#:#グループタイプを変更
-grp#:#grp_closed#:#限定グループ
-grp#:#grp_closed_info#:#グループは非メンバーには表示されません。
+didactic#:#grp_closed#:#限定グループ
+didactic#:#grp_closed_info#:#グループは非メンバーには表示されません。
 grp#:#grp_copy#:#グループをコピー
 grp#:#grp_custom_user_fields#:#関連ユーザデータのグループ
 grp#:#grp_deactivate_notification#:#通知をオフ

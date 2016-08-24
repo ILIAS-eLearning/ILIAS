@@ -7438,8 +7438,8 @@ content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsman
 content#:#cont_new_module_added#:#New version of module uploaded successfully###02 06 2008 new variable
 common#:#attempts#:#Attempts###02 06 2008 new variable
 common#:#decrease_attempts#:#Attempts - 1 ###02 06 2008 new variable
-grp#:#grp_closed#:#Closed Group###02 06 2008 new variable
-grp#:#grp_closed_info#:#Group is not visible for non-members.###02 06 2008 new variable
+didactic#:#grp_closed#:#Closed Group###02 06 2008 new variable
+didactic#:#grp_closed_info#:#Group is not visible for non-members.###02 06 2008 new variable
 grp#:#grp_reg_disabled#:#No Registration Possible###02 06 2008 new variable
 grp#:#grp_reg_disabled_info#:#Only group administrators can add users to the group.###02 06 2008 new variable
 grp#:#grp_reg_request#:#Request Membership###02 06 2008 new variable

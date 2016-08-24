@@ -623,3 +623,7 @@ cache_flush#:#Flush all caches###30 08 2015 new variable
 cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
 cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
 cache_activate_all#:#Alle
+enable_system_styles_management#:#System Styles administrieren
+enable_system_styles_management_info#:#Verwalten (hinzufügen, editieren, löschen) von System Styles im Layout and Styles Bereich der Administration.
+lessc_path#:#Pfad zu lessc
+lessc_path_comment#:#Lessc wird benötigt, um Less-Dateien zu CSS zu kompilieren. Dies ist eine Voraussetzung um neue System Styles in der Administration via GUI zu erstellen.
