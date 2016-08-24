@@ -4243,7 +4243,7 @@ common#:#new_lowercase#:#neu
 common#:#new_mail#:#Neue Mail!
 common#:#new_pass_equals_old_pass#:#Das neue Passwort ist identisch mit dem alten Passwort.
 common#:#newline#:#Zeilenumbruch
-common#:#news#:#Nachrichten
+common#:#news#:#Neuigkeiten
 common#:#next#:#weiter
 common#:#nickname#:#Benutzername
 common#:#no#:#Nein
@@ -4598,7 +4598,7 @@ common#:#pathes#:#Pfade
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_enable_contacts#:#Kontakte aktivieren
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Berechtigung für Mail-System
-common#:#pd_items_news#:#Einschließlich Nachrichten der ausgewählten Objekte
+common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pd_items_news_info#:#Wenn aktiviert, werden alle Nachrichten der ausgewählten Objekte im Nachrichtenblock auf dem Persönlichen Schreibtisch angezeigt.
 common#:#pdf_export#:#PDF-Export
 common#:#per_object#:#Zugriff per Objekt
@@ -9224,61 +9224,61 @@ news#:#finish_publishing_date#:#Veröffentlichung endet:
 news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
 news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
 news#:#news_1_postings#:#Es wurde ein Beitrag hinzugefügt.
-news#:#news_add_news#:#Nachricht hinzufügen
-news#:#news_all_items#:#Nachrichten zu allen Objekten auf dem Persönlichen Schreibtisch
+news#:#news_add_news#:#Beitrag hinzufügen
+news#:#news_all_items#:#Neuigkeiten zu allen Objekten auf dem Persönlichen Schreibtisch
 news#:#news_allow_longer_periods#:#Längere Zeiträume zulassen
-news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
+news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume für Neuigkeiten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
-news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
+news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Neuigkeiten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_attached_to#:#Zugeordnet zu
-news#:#news_block_information#:#Der Nachrichtenblock zeigt chronologisch alle <b>Nachrichten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Ausgewählte Angebote</b> befinden.
-news#:#news_block_news_for_context#:#Nachrichten
-news#:#news_cache#:#Nachrichten-Cache (Minuten)
-news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
+news#:#news_block_information#:#Der Block "Neuigkeiten" zeigt chronologisch alle <b>Neuigkeiten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Ausgewählte Angebote</b> befinden.
+news#:#news_block_news_for_context#:#Neuigkeiten
+news#:#news_cache#:#Neuigkeiten-Cache (Minuten)
+news#:#news_cache_info#:#Aktualisierung des Blocks "Neuigkeiten" alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
-news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
-news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Nachrichten
-news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Nachrichten über RSS. Auf diese Nachrichten kann von außen ohne Authentifizierung zugegriffen werden.
+news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
+news#:#news_enable_internal_news_info#:#Aktiviert Blöcke "Neuigkeiten" für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Neuigkeiten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
+news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Neuigkeiten
+news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Neuigkeiten über RSS. Auf diese Beiträge kann von außen ohne Authentifizierung zugegriffen werden.
 news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
-news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Nachrichten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
+news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
 news#:#news_feed_url_for#:#Feed-URL für '%s'
 news#:#news_first_letter_of_word_notification#:#B
-news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
+news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Neuigkeiten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
 news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
-news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Nachrichten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
+news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Neuigkeiten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
-news#:#news_hidden_news_block#:#Nachrichtenblock wird zur Zeit in der Lernersicht nicht angezeigt.
-news#:#news_hide_news_block#:#Nachrichtenblock verbergen
-news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
+news#:#news_hidden_news_block#:#Block "Neuigkeiten" wird zur Zeit in der Lernersicht nicht angezeigt.
+news#:#news_hide_news_block#:#Block "Neuigkeiten" verbergen
+news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Block "Neuigkeiten" wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
 news#:#news_hide_news_date#:#Startdatum
-news#:#news_hide_news_per_date#:#Nachrichten ab Datum anzeigen
-news#:#news_hide_news_per_date_info#:#Es werden nur Nachrichten ab einem bestimmten Datum angezeigt.
-news#:#news_hide_news_until_date#:#Nachrichten bis Datum anzeigen
-news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem bestimmten Datum angezeigt.
+news#:#news_hide_news_per_date#:#Neuigkeiten ab Datum anzeigen
+news#:#news_hide_news_per_date_info#:#Es werden nur Neuigkeiten ab einem bestimmten Datum angezeigt.
+news#:#news_hide_news_until_date#:#Neuigkeiten bis Datum anzeigen
+news#:#news_hide_news_until_date_info#:#Es werden nur Neuigkeiten bis zu einem bestimmten Datum angezeigt.
 news#:#news_indefinite#:#Unendlich
-news#:#news_internal_news#:#Nachrichten
-news#:#news_loading_news#:#News werden geladen ...
+news#:#news_internal_news#:#Neuigkeiten
+news#:#news_loading_news#:#Neuigkeiten werden geladen ...
 news#:#news_news_item_content#:#Text
 news#:#news_news_item_content_long#:#Langfassung
 news#:#news_news_item_content_long_info#:#Dieser Text wird nicht über RSS veröffentlicht.
-news#:#news_news_item_head#:#Nachricht
+news#:#news_news_item_head#:#Beitrag
 news#:#news_news_item_title#:#Schlagzeile
 news#:#news_news_item_visibility#:#Zugriff
-news#:#news_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
-news#:#news_news_items#:#Nachricht(en)
-news#:#news_no_js_click_here#:#Werden die News nicht angezeigt, klicken Sie bitte hier.
-news#:#news_no_news_items#:#Keine Nachrichten vorhanden.
+news#:#news_news_item_visibility_info#:#Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
+news#:#news_news_items#:#Neuigkeit(en)
+news#:#news_no_js_click_here#:#Werden die Neuigkeiten nicht angezeigt, klicken Sie bitte hier.
+news#:#news_no_news_items#:#Keine Neuigkeiten vorhanden.
 news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
-news#:#news_nr_of_items#:#Anzahl der maximalen Nachrichten pro Objekt
-news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
-news#:#news_pd_period#:#Zeitraum für Nachrichtenanzeige auf Persönlichem Schreibtisch
-news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
+news#:#news_nr_of_items#:#Anzahl der maximalen Neuigkeiten pro Objekt
+news#:#news_nr_of_items_info#:#Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
+news#:#news_pd_period#:#Zeitraum für Neuigkeitenanzeige auf Persönlichem Schreibtisch
+news#:#news_pd_period_info#:#Zeitraum, der für Neuigkeiten auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_period_1_month#:#Letzter Monat
 news#:#news_period_1_week#:#Letzte Woche
 news#:#news_period_1_year#:#Letztes Jahr
@@ -9292,7 +9292,7 @@ news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
-news#:#news_settings#:#Einstellungen für interne Nachrichten
+news#:#news_settings#:#Einstellungen für interne Neuigkeiten
 news#:#news_subscribe#:#Abonniere
 news#:#news_time_period#:#Zeitspanne
 news#:#news_unsubscribe#:#Beende Abonnement
@@ -12251,7 +12251,7 @@ registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als 
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
 pd#:#block_show_pdtag#:#Tags anzeigen
-pd#:#block_show_pdnews#:#Nachrichten anzeigen
+pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdusers#:#Benutzer anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
@@ -12742,8 +12742,8 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
-common#:#obj_tool_setting_news#:#Nachrichten
-common#:#obj_tool_setting_news_info#:#Der Block "Nachrichten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_news#:#Neuigkeiten
+common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
 rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
@@ -14014,8 +14014,8 @@ rbac#:#il_orgu_employee#:#Organisationseinheit Mitarbeiter
 rbac#:#il_orgu_superior#:#Organisationseinheit Vorgesetzter
 obj#:#obj_presentation#:#Darstellung
 mcst#:#mcst_webfeed#:#RSS-Webfeed
-news#:#news_news_item_def_visibility_users_info#:#Neue Nachrichten sind nur authentifizierten Benutzern zugänglich.
-news#:#news_news_item_def_visibility_public_info#:#Neue Nachrichten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
+news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur authentifizierten Benutzern zugänglich.
+news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
 chatroom#:#room_in_container#:#%s (in: %s)
 common#:#obj_crsv#:#Kurszertifikat
 wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
@@ -16279,20 +16279,20 @@ didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann.
-cont#:#cont_news_timeline#:#News Timeline
-cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
-cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
-cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
-rbac#:#news_add_news#:#Add News
-rbac#:#grp_news_add_news#:#Add and edit own news entries in group
-news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Hinzufügen" um Neuigkeiten anzulegen.
-obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
-obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
-cont#:#cont_news_settings#:#News Settings
-cont#:#cont_news_timeline_landing_page#:#Landing Page
-cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
+cont#:#cont_news_timeline#:#Timeline
+cont#:#cont_news_timeline_info#:#Aktiviert den Reiter "Timeline" für Neuigkeiten
+cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten
+cont#:#cont_news_timeline_auto_entries_info#:#Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc.
+rbac#:#news_add_news#:#Neuigkeiten erstellen
+rbac#:#grp_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
+news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag erstellen" um Neuigkeiten anzulegen.
+obj#:#obj_tool_setting_use_news#:#Neuigkeiten
+obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
+obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
+cont#:#cont_news_settings#:#Neuigkeiten
+cont#:#cont_news_timeline_landing_page#:#Startseite
+cont#:#cont_news_timeline_landing_page_info#:#Timeline wird Startseite
 cont#:#cont_news_timeline_tab#:#Timeline
-cont#:#cont_news_edited#:#Edited
+cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
-rbac#:#crs_news_add_news#:#Add and edit own news entries in course
+rbac#:#crs_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
