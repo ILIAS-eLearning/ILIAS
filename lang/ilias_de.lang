@@ -16279,4 +16279,22 @@ didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann.
-
+bgtask#:#bgtask_failure#:#Fehler
+bgtask#:#bgtask_empty_folder#:#Die Auswahl enthält keine Objekte, die heruntergeladen werden können.
+bgtask#:#bgtask_download_too_large#:#Der Download überschreitet das Limit von %s.
+bgtask#:#bgtask_blocked#:#Laufender Download
+bgtask#:#bgtask_blocked_info#:#Es wird bereits ein Download für Sie erzeugt.
+bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen
+bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
+bgtask#:#bgtask_processing#:#Download erzeugen
+bgtask#:#bgtask_download_long#:#Die Erstellung des Downloads wird mit %1$s Dateien (%2$s) einige Zeit dauern.
+bgtask#:#bgtask_setting#:#«Herunterladen im Hintergrund» aktivieren
+bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
+bgtask#:#bgtask_setting_limit#:#Globales Limit
+bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die maximale Summe der Dateigrössen den Wert nicht überschreitet.
+bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
+bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
+bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
+bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
+bgtask#:#bgtask_cron_gc_title#:#Hintergrundaufgaben-Bereinigung
+bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien.
