@@ -70,6 +70,7 @@ class ilTimelineGUI
 	function render()
 	{
 		$this->tpl->addJavaScript("./Services/News/Timeline/js/Timeline.js");
+		$this->tpl->addJavaScript("./Services/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
 
 		$t = new ilTemplate("tpl.timeline.html", true, true, "Services/News/Timeline");
 		$last_date = "";
