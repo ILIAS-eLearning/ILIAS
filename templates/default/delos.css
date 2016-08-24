@@ -11044,6 +11044,7 @@ div.ilRatingOverlay {
   line-height: 15px;
   min-width: 30px;
 }
+/* Services/News */
 span.ilNewsRssIcon {
   background-color: #ea6705;
   color: #ffffff;
@@ -12217,6 +12218,31 @@ table.mceToolbar td {
   input.btn,
   button.btn:not(.btn-link) > span:first-child:not(:empty) {
     min-width: 0;
+  }
+  /* Services/News */
+  .ilTimeline:before {
+    left: 90%;
+  }
+  .ilTimeline > li > .ilTimelinePanel {
+    width: 80%;
+  }
+  .ilTimeline > li > .ilTimelineBadge {
+    left: 90%;
+  }
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
+    float: left;
+  }
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
+    border-left-width: 15px;
+    border-right-width: 0;
+    right: auto;
+    right: -15px;
+  }
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
+    border-left-width: 14px;
+    border-right-width: 0;
+    left: auto;
+    right: -14px;
   }
   div.ilGoogleMap {
     max-width: 100%;

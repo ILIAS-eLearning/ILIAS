@@ -1,6 +1,18 @@
 il.Timeline = {
 	compressEntries: function () {
-		var minspace, prev, el_top, prev_badge_top, el, mt, mt2, mt3, prev_top;
+		var minspace, prev, el_top, prev_badge_top, el, mt, mt2, mt3, prev_top, d;
+
+		$("ul.ilTimeline > li")
+			.css("margin-top", "0px");
+
+		// if we do not have a float right element (narrow sreen view) > do not compress
+		d = $(".ilTimelinePanel:eq(1)");
+		if (!d.length) {
+			return;
+		}
+		if (window.getComputedStyle(d.get(0),null).getPropertyValue("float") != "right") {
+			return;
+		}
 
 		// minimum space is the heigth of the badge
 		minspace = $("ul.ilTimeline div.ilTimelineBadge").outerHeight();
@@ -8,7 +20,6 @@ il.Timeline = {
 		console.log(minspace);
 
 		$("ul.ilTimeline > li")
-			.css("margin-top", "0px")
 			.each(function () {
 				el = this;
 				prev = $(el).prev("li");
