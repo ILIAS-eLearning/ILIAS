@@ -32,7 +32,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$columns = array( 'name' 				=> array('name')
 						, 'login' 				=> array('login'));
 		if($this->may_view) {
-			$columns['learning_progress'] = array('lp_status');
+			$columns['grading'] = array('lp_status');
 			$columns['mass_graded_by'] = array('mass_graded_by');
 		}
 		$columns['actions'] = array(null);
@@ -48,8 +48,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		if($this->may_view) {
 			$this->tpl->setCurrentBlock('lp_info');
 			$status = $a_set[ilManualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilManualAssessmentMembers::LP_IN_PROGRESS;
-			$this->tpl->setVariable("LP_STATUS",
-				$this->getImagetPathForStatus($status));
+			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
 			$this->tpl->setVariable("GRADED_BY", 
 				$a_set[ilManualAssessmentMembers::FIELD_EXAMINER_ID] && $a_set[ilManualAssessmentMembers::FIELD_FINALIZED]
 				?	$a_set[ilManualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", "
@@ -61,6 +60,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
 		$this->tpl->parseCurrentBlock();
 	}
+
 
 	protected function getImagetPathForStatus($a_status) {
 		switch($a_status) {
@@ -78,6 +78,20 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 				break;
 		}
 		return ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+	}
+
+	protected function getEntryForStatus($a_status) {
+		switch($a_status) {
+			case ilManualAssessmentMembers::LP_IN_PROGRESS :
+				return $this->lng->txt('mass_status_pending');
+				break;
+			case ilManualAssessmentMembers::LP_COMPLETED :
+				return $this->lng->txt('mass_status_completed');
+				break;
+			case ilManualAssessmentMembers::LP_FAILED :
+				return $this->lng->txt('mass_status_failed');
+				break;
+		}
 	}
 
 	protected function buildActionDropDown($a_set) {
