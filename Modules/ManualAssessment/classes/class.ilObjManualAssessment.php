@@ -48,6 +48,7 @@ class ilObjManualAssessment extends ilObject {
 		global $DIC;
 		$settings_storage = new ilManualAssessmentSettingsStorageDB($DIC['ilDB']);
 		$this->settings = $settings_storage->loadSettings($this);
+		$this->info_settings = $settings_storage->loadInfoSettings($this);
 	}
 
 	/**
@@ -56,6 +57,13 @@ class ilObjManualAssessment extends ilObject {
 	public function getSettings() {
 		if(!$this->settings) {
 			$this->settings = $this->settings_storage->loadSettings($this);
+		}
+		return $this->settings;
+	}
+
+	public function getInfoSettings() {
+		if(!$this->settings) {
+			$this->info_settings = $this->settings_storage->loadInfoSettings($this);
 		}
 		return $this->settings;
 	}
@@ -95,6 +103,10 @@ class ilObjManualAssessment extends ilObject {
 		$this->settings_storage->updateSettings($this->settings);
 	}
 
+	public function updateInfo() {
+		$this->settings_storage->updateInfoSettings($this->info_settings);
+	}
+
 	/**
 	 * Get the member storage object used by this.
 	 *
@@ -126,9 +138,19 @@ class ilObjManualAssessment extends ilObject {
 	public function cloneObject($a_target_id,$a_copy_id = 0) {
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$settings = $this->getSettings();
+		$info_settings = $this->getInfoSettings();
 		$new_settings = new ilManualAssessmentSettings($new_obj, $settings->content(),$settings->recordTemplate());
 		$new_obj->settings = $new_settings;
+		$new_info_settings = new ilManualAssessmentInfoSettings($new_obj,
+			$info_settings->contact()
+			,$info_settings->responsibility()
+			,$info_settings->phone()
+			,$info_settings->mails()
+			,$info_settings->consultationHours());
+		$new_obj->settings = $new_settings;
+		$new_obj->info_settings = $new_info_settings;
 		$new_obj->settings_storage->updateSettings($new_settings);
+		$new_obj->settings_storage->updateInfoSettings($new_info_settings);
 		return $new_obj;
 	}
 
