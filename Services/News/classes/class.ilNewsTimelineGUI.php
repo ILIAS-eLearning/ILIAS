@@ -138,7 +138,7 @@ class ilNewsTimelineGUI
 		if ($this->access->checkAccess("news_add_news", "", $this->ref_id))
 		{
 			$b = ilLinkButton::getInstance();
-			$b->setCaption('add');
+			$b->setCaption('news_add_news');
 			$b->setOnClick("return il.News.create();");
 			$b->setPrimary(true);
 			$this->toolbar->addButtonInstance($b);

@@ -4397,8 +4397,8 @@ common#:#obj_mobs_desc#:#Einstellungen für Medienobjekte und -pools
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
-common#:#obj_nwss#:#Nachrichten und Webfeeds
-common#:#obj_nwss_desc#:#Einstellungen für interne Nachrichten und externe Webfeeds
+common#:#obj_nwss#:#Neuigkeiten und Webfeeds
+common#:#obj_nwss_desc#:#Einstellungen für interne Neuigkeiten und externe Webfeeds
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
@@ -9276,7 +9276,7 @@ news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
 news#:#news_nr_of_items#:#Anzahl der maximalen Neuigkeiten pro Objekt
-news#:#news_nr_of_items_info#:#Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
+news#:#news_nr_of_items_info#:#Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Neuigkeiten enthalten können, da sie auch die Neuigkeiten ihrer Unterobjekte anzeigen.
 news#:#news_pd_period#:#Zeitraum für Neuigkeitenanzeige auf Persönlichem Schreibtisch
 news#:#news_pd_period_info#:#Zeitraum, der für Neuigkeiten auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_period_1_month#:#Letzter Monat
@@ -16285,7 +16285,7 @@ cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten
 cont#:#cont_news_timeline_auto_entries_info#:#Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc.
 rbac#:#news_add_news#:#Neuigkeiten erstellen
 rbac#:#grp_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
-news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag erstellen" um Neuigkeiten anzulegen.
+news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
@@ -16296,3 +16296,4 @@ cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
 rbac#:#crs_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
+cont#:#cont_news_add_news#:#Beitrag hinzufügen
