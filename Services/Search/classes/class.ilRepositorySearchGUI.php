@@ -180,6 +180,26 @@ class ilRepositorySearchGUI
 			}
 		}
 		
+		include_once './Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
+		$action_button = ilSplitButtonGUI::getInstance();
+		
+		include_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$add_button = ilSubmitButton::getInstance();
+		$add_button->setCaption($a_options['submit_name'], false);
+		$add_button->setCommand('addUserFromAutoComplete');
+		
+		$action_button->setDefaultButton($add_button);
+		
+		include_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$clip_button = ilSubmitButton::getInstance();
+		$clip_button->setCaption('Add from clipboard', false);
+		$clip_button->setCommand('addFromClipboard');
+		
+		$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($clip_button));
+		
+		$toolbar->addButtonInstance($action_button);
+		
+		
 		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption($a_options['submit_name'], false);
