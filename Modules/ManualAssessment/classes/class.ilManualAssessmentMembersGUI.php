@@ -56,6 +56,15 @@ class ilManualAssessmentMembersGUI {
 		}
 	}
 
+	protected function addedUsers() {
+		if(!$_GET['failure']) {
+			ilUtil::sendSuccess('mass_add_user_success');
+		} else {
+			ilUtil::sendFailure('mass_add_user_failure');
+		}
+		$this->view();
+	}
+
 	protected function view() {
 		require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -68,7 +77,7 @@ class ilManualAssessmentMembersGUI {
 		);
 		$this->toolbar->addSeparator();
 		$this->toolbar->addButton($this->lng->txt('search_user'),
-			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
 	}
@@ -86,15 +95,16 @@ class ilManualAssessmentMembersGUI {
 		$members = $mass->loadMembers();
 		foreach ($user_ids as $user_id) {
 			$user = new ilObjUser($user_id);
+			$failure = null;
 			if(!$members->userAllreadyMember($user)) {
 				$members = $members->withAdditionalUser($user);
-				ilUtil::sendSuccess('mass_add_user_success');
 			} else {
-				ilUtil::sendFailure('mass_add_user_failure');
+				$failure = 1;
 			}
 		}
 		$members->updateStorageAndRBAC($mass->membersStorage(),$mass->accessHandler());
-		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
+		$this->ctrl->setParameter($this, 'failure', $failure);
+		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'addedUsers');
 	}
 
 	protected function removeUserConfirmation() {
