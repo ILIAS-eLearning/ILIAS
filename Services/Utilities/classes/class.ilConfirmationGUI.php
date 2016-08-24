@@ -76,7 +76,7 @@ class ilConfirmationGUI
 	* @param	string		cancel text
 	* @param	string		cancel command
 	*/
-	final public function setCancel($a_txt, $a_cmd, $a_id)
+	final public function setCancel($a_txt, $a_cmd, $a_id = "")
 	{
 		$this->cancel_txt = $a_txt;
 		$this->cancel_cmd = $a_cmd;
@@ -89,7 +89,7 @@ class ilConfirmationGUI
 	* @param	string		confirmation button text
 	* @param	string		confirmation button command
 	*/
-	final public function setConfirm($a_txt, $a_cmd, $a_id)
+	final public function setConfirm($a_txt, $a_cmd, $a_id = "")
 	{
 		$this->confirm_txt = $a_txt;
 		$this->confirm_cmd = $a_cmd;
