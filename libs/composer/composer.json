@@ -10,7 +10,8 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"CaT\\" : "../../CaT/src"
+			"CaT\\" : "../../CaT/src",
+			"CaT\\Plugins\\CareerGoal\\" : "../../Customizing/global/plugins/Services/Repository/RepositoryObject/CareerGoal/classes"
 		}
 	},
 	"extra": {

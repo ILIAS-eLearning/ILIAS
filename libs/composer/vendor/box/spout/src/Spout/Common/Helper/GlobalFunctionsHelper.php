@@ -253,6 +253,19 @@ class GlobalFunctionsHelper
     }
 
     /**
+     * Wrapper around global function ob_end_clean()
+     * @see ob_end_clean()
+     *
+     * @return void
+     */
+    public function ob_end_clean()
+    {
+        if (ob_get_length() > 0) {
+            ob_end_clean();
+        }
+    }
+
+    /**
      * Wrapper around global function iconv()
      * @see iconv()
      *
@@ -281,32 +294,14 @@ class GlobalFunctionsHelper
     }
 
     /**
-     * Wrapper around global function stream_get_line()
-     * @see stream_get_line()
+     * Wrapper around global function stream_get_wrappers()
+     * @see stream_get_wrappers()
      *
-     * @param resource $handle
-     * @param int $length
-     * @param string|void $ending
-     * @return string|bool
-     */
-    public function stream_get_line($handle, $length, $ending = null)
-    {
-        return stream_get_line($handle, $length, $ending);
-    }
-
-    /**
-     * Wrapper around global function str_getcsv()
-     * @see str_getcsv()
-     *
-     * @param string $input
-     * @param string|void $delimiter
-     * @param string|void $enclosure
-     * @param string|void $escape
      * @return array
      */
-    public function str_getcsv($input, $delimiter = null, $enclosure = null, $escape = null)
+    public function stream_get_wrappers()
     {
-        return str_getcsv($input, $delimiter, $enclosure, $escape);
+        return stream_get_wrappers();
     }
 
     /**

@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/box/spout/license)](https://packagist.org/packages/box/spout)
 
 Spout is a PHP library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way.
-Contrary to other file readers or writers, it is capable of processing very large files while keeping the memory usage really low (less than 10MB).
+Contrary to other file readers or writers, it is capable of processing very large files while keeping the memory usage really low (less than 3MB).
 
 Join the community and come discuss about Spout: [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/box/spout?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -118,14 +118,22 @@ Additionally, if you need to read non UTF-8 files, you can specify the encoding 
 $reader->setEncoding('UTF-16LE');
 ```
 
-The writer always generate CSV files encoded in UTF-8, with a BOM.
+By default, the writer generates CSV files encoded in UTF-8, with a BOM.
+It is however possible to not include the BOM:
+```php
+use Box\Spout\Writer\WriterFactory;
+use Box\Spout\Common\Type;
+
+$writer = WriterFactory::create(Type::CSV);
+$writer->setShouldAddBOM(false);
+```
 
 
-### Configuring the XLSX and ODS writers
+### Configuring the XLSX and ODS readers and writers
 
 #### Row styling
 
-It is possible to apply some formatting options to a row. Spout supports fonts as well as alignment styles.
+It is possible to apply some formatting options to a row. Spout supports fonts, borders as well as alignment styles.
 
 ```php
 use Box\Spout\Common\Type;
@@ -150,6 +158,32 @@ $writer->addRowsWithStyle($multipleRows, $style); // style will be applied to al
 $writer->close();
 ```
 
+Adding borders to a row requires a ```Border``` object.
+
+```php
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\Style\Border;
+use Box\Spout\Writer\Style\BorderBuilder;
+use Box\Spout\Writer\Style\Color;
+use Box\Spout\Writer\Style\StyleBuilder;
+use Box\Spout\Writer\WriterFactory;
+
+$border = (new BorderBuilder())
+    ->setBorderBottom(Color::GREEN, Border::WIDTH_THIN, Border::STYLE_DASHED)
+    ->build();
+
+$style = (new StyleBuilder())
+    ->setBorder($border)
+    ->build();
+
+$writer = WriterFactory::create(Type::XLSX);
+$writer->openToFile($filePath);
+
+$writer->addRowWithStyle(['Border Bottom Green Thin Dashed'], $style)
+
+$writer->close();
+```
+
 Unfortunately, Spout does not support all the possible formatting options yet. But you can find the most important ones:
 
 Category  | Property      | API
@@ -162,7 +196,6 @@ Font      | Bold          | `StyleBuilder::setFontBold()`
           | Font size     | `StyleBuilder::setFontSize(14)`
           | Font color    | `StyleBuilder::setFontColor(Color::BLUE)`<br>`StyleBuilder::setFontColor(Color::rgb(0, 128, 255))`
 Alignment | Wrap text     | `StyleBuilder::setShouldWrapText()`
-
 
 #### New sheet creation
 
@@ -207,6 +240,20 @@ $writer->setShouldUseInlineStrings(false); // will use shared strings
 >
 > Apple's products (Numbers and the iOS previewer) don't support inline strings and display empty cells instead. Therefore, if these platforms need to be supported, make sure to use shared strings!
 
+
+#### Date/Time formatting
+
+When reading a spreadsheet containing dates or times, Spout returns the values by default as DateTime objects.
+It is possible to change this behavior and have a formatted date returned instead (e.g. "2016-11-29 1:22 AM"). The format of the date corresponds to what is specified in the spreadsheet.
+ 
+```php
+use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Common\Type;
+
+$reader = ReaderFactory::create(Type::XLSX);
+$reader->setShouldFormatDates(false); // default value
+$reader->setShouldFormatDates(true); // will return formatted dates
+```
 
 ### Playing with sheets
 
@@ -288,7 +335,7 @@ For information, the performance tests take about 30 minutes to run (processing 
 
 ## Frequently Asked Questions
 
-#### How can Spout handle such large data sets and still use less than 10MB of memory?
+#### How can Spout handle such large data sets and still use less than 3MB of memory?
 
 When writing data, Spout is streaming the data to files, one or few lines at a time. That means that it only keeps in memory the few rows that it needs to write. Once written, the memory is freed.
 
