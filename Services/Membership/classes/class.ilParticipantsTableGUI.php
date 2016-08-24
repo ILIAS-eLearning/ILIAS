@@ -46,7 +46,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			);
 
 			$options = array();
-			$options[0] = $this->lng->txt('select_one');
+			$options[0] = $this->lng->txt('all_roles');
 			$role->setOptions($options + $this->getParentObject()->getLocalRoles());
 			$this->current_filter['roles'] = $role->getValue();
 		}
