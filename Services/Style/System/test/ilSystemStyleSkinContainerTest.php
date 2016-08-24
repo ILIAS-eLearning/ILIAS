@@ -45,6 +45,15 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 		$this->save_dic = $DIC;
 		$DIC = new ilSystemStyleDICMock();
 
+		if(!defined('PATH_TO_LESSC')){
+			if(file_exists("ilias.ini.php")){
+				$ini = parse_ini_file("ilias.ini.php",true);
+				define('PATH_TO_LESSC', $ini['tools']['lessc']);
+			}else{
+				define('PATH_TO_LESSC', "");
+			}
+		}
+
 		$this->skin = new ilSkinXML("skin1", "skin 1");
 
 		$this->style1 = new ilSkinStyleXML("style1", "Style 1");
@@ -225,29 +234,43 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 
 	public function testImportSkin(){
 		if(!defined('PATH_TO_ZIP')){
-			$ini = parse_ini_file("ilias.ini.php",true);
-			define('PATH_TO_ZIP', $ini['tools']['zip']);
+			if(file_exists("ilias.ini.php")){
+				$ini = parse_ini_file("ilias.ini.php",true);
+				define('PATH_TO_ZIP', $ini['tools']['zip']);
+			}else{
+				define('PATH_TO_ZIP', "");
+			}
 		}
+
 		if(!defined('PATH_TO_UNZIP')){
-			$ini = parse_ini_file("ilias.ini.php",true);
-			define('PATH_TO_UNZIP', $ini['tools']['unzip']);
+			if(file_exists("ilias.ini.php")) {
+				$ini = parse_ini_file("ilias.ini.php",true);
+				define('PATH_TO_UNZIP', $ini['tools']['unzip']);
+			}else{
+				define('PATH_TO_UNZIP', "");
+			}
 		}
 
-		$container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(),null,$this->system_style_config);
-		$skin =  $container->getSkin();
+		//Only perform this test, if an unzip path has been found.
+		if(PATH_TO_UNZIP != ""){
+			$container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(),null,$this->system_style_config);
+			$skin =  $container->getSkin();
 
-		$this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
+			$this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
 
-		$container_import = $container->import($container->createTempZip(),$this->skin->getId().".zip",null,$this->system_style_config,false);
-		$skin_copy =  $container_import->getSkin();
+			$container_import = $container->import($container->createTempZip(),$this->skin->getId().".zip",null,$this->system_style_config,false);
+			$skin_copy =  $container_import->getSkin();
 
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1image"));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1sound"));
-		$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1font"));
-		$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.css"));
-		$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.less"));
-		$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css-variables.less"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin->getId()."Copy"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1image"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1sound"));
+			$this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1font"));
+			$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.css"));
+			$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css.less"));
+			$this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath().$skin_copy->getId()."/style1css-variables.less"));
+		}else{
+			$this->markTestIncomplete('No unzip has been detected on the system');
+		}
 	}
 }
