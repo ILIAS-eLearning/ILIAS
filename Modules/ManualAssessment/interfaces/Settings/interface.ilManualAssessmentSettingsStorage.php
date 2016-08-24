@@ -20,13 +20,28 @@ interface ilManualAssessmentSettingsStorage {
 	 * @return	ilManualAssessmentSettings	$settings
 	 */
 	public function loadSettings(ilObjManualAssessment $obj);
-	
+
 	/**
 	 * Update settings entry.
 	 *
 	 * @param	ilManualAssessmentSettings	$settings
 	 */
 	public function updateSettings(ilManualAssessmentSettings $settings);
+
+	/**
+	 * Load info-screen settings corresponding to obj
+	 *
+	 * @param	ilObjManualAssessment	$obj
+	 * @return	ilManualAssessmentSettings	$settings
+	 */
+	public function loadInfoSettings(ilObjManualAssessment $obj);
+	
+	/**
+	 * Update info-screen settings entry.
+	 *
+	 * @param	ilManualAssessmentSettings	$settings
+	 */
+	public function updateInfoSettings(ilManualAssessmentSettings $settings);
 
 	/**
 	 * Delete settings entry corresponding to obj
