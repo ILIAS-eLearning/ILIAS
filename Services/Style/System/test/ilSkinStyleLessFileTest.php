@@ -33,7 +33,7 @@ class ilSkinStyleLessFileTest extends PHPUnit_Framework_TestCase {
 	{
 		global $DIC;
 
-		$DIC = new DICMock();
+		$DIC = new ilSystemStyleDICMock();
 
 		$this->system_style_config = new ilSystemStyleConfigMock();
 
