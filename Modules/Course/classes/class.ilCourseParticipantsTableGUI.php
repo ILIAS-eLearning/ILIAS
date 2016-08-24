@@ -135,6 +135,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
+		$this->lng->loadLanguageModule('user');
+		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
 		
 		$this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
 		

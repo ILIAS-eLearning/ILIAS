@@ -82,7 +82,7 @@ class ilUserClipboard
 	 */
 	public function add($a_usr_ids)
 	{
-		$this->clipboard = array_unique(array_merge($this->clipboard), (array) $a_usr_ids);
+		$this->clipboard = array_unique(array_merge($this->clipboard, (array) $a_usr_ids));
 	}
 	
 	/**
@@ -113,7 +113,6 @@ class ilUserClipboard
 	protected function read()
 	{
 		$this->clipboard = (array) ilSession::get(self::SESSION_KEYWORD);
-		$this->clipboard = array(6);
 	}
 }
 ?>

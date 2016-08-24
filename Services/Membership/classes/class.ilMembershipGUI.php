@@ -1298,6 +1298,27 @@ class ilMembershipGUI
 		$this->ctrl->redirect($this, 'participants');
 	}
 	
+	/**
+	 * Add selected users to user clipboard
+	 */
+	protected function addToClipboard()
+	{
+		$users = (array) $_POST['participants'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('clipboard_users_added'),true);
+		$this->ctrl->redirect($this, 'participants');
+		
+	}
+	
 	
 }
 ?>
