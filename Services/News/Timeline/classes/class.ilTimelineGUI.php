@@ -5,7 +5,7 @@
 include_once("./Services/News/Timeline/interfaces/interface.ilTimelineItemInt.php");
 
 /**
- *  
+ *  Timline (temporary implementation)
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -21,6 +21,11 @@ class ilTimelineGUI
 	protected $lng;
 
 	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * Construct
 	 *
 	 * @param
@@ -31,6 +36,7 @@ class ilTimelineGUI
 		global $DIC;
 
 		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 	}
 
 	/**
@@ -63,6 +69,8 @@ class ilTimelineGUI
 	 */
 	function render()
 	{
+		$this->tpl->addJavaScript("./Services/News/Timeline/js/Timeline.js");
+
 		$t = new ilTemplate("tpl.timeline.html", true, true, "Services/News/Timeline");
 		$last_date = "";
 		foreach ($this->items as $i)

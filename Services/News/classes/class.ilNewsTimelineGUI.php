@@ -46,7 +46,7 @@ class ilNewsTimelineGUI
 	 *
 	 * @param int $a_ref_id reference id
 	 */
-	protected function __construct($a_ref_id)
+	protected function __construct($a_ref_id, $a_include_auto_entries)
 	{
 		global $DIC;
 
@@ -56,6 +56,7 @@ class ilNewsTimelineGUI
 		$this->lng = $DIC->language();
 		$this->toolbar = $DIC->toolbar();
 		$this->user = $DIC->user();
+		$this->include_auto_entries = $a_include_auto_entries;
 	}
 
 	/**
@@ -64,9 +65,9 @@ class ilNewsTimelineGUI
 	 * @param int $a_ref_id reference id
 	 * @return ilNewsTimelineGUI
 	 */
-	static function getInstance($a_ref_id)
+	static function getInstance($a_ref_id, $a_include_auto_entries)
 	{
-		return new self($a_ref_id);
+		return new self($a_ref_id, $a_include_auto_entries);
 	}
 
 	/**
@@ -107,7 +108,8 @@ class ilNewsTimelineGUI
 		$news_item->setContextObjId($this->ctrl->getContextObjId());
 		$news_item->setContextObjType($this->ctrl->getContextObjType());
 
-		$news_data = $news_item->getNewsForRefId($this->ref_id);
+		$news_data = $news_item->getNewsForRefId($this->ref_id, false, false,
+			0, true, false,	!$this->include_auto_entries);
 
 		include_once("./Services/News/Timeline/classes/class.ilTimelineGUI.php");
 		include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
@@ -117,7 +119,7 @@ class ilNewsTimelineGUI
 		foreach ($news_data as $d)
 		{
 			$news_item = new ilNewsItem($d["id"]);
-			$item = ilNewsTimelineItemGUI::getInstance($news_item);
+			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"]);
 			$timeline->addItem($item);
 			$js_items[$d["id"]] = array(
 				"id" => $d["id"],

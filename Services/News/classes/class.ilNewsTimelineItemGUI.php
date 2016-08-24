@@ -21,6 +21,10 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 	 */
 	protected $news_item;
 
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_def;
 
 	/**
 	 * @var ilObjUser
@@ -33,17 +37,34 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 	protected $user_edit_all;
 
 	/**
+	 * Ref ID of news item
+	 *
+	 * @var int
+	 */
+	protected $news_item_ref_id;
+
+	/**
+	 * Ref id of timeline container
+	 * @var int
+	 */
+	protected $ref_id;
+
+	/**
 	 * Constructor
 	 *
 	 * $param ilNewsItem $a_news_item
 	 */
-	protected function __construct(ilNewsItem $a_news_item)
+	protected function __construct(ilNewsItem $a_news_item, $a_news_ref_id)
 	{
 		global $DIC;
 
 		$this->lng = $DIC->language();
 		$this->setNewsItem($a_news_item);
 		$this->user = $DIC->user();
+		$this->obj_def = $DIC["objDefinition"];
+		$this->news_item_ref_id = $a_news_ref_id;
+
+		$this->ref_id = (int) $_GET["ref_id"];
 	}
 
 	/**
@@ -52,9 +73,9 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 	 * @param ilNewsItem $a_news_item news item
 	 * @return ilNewsTimelineItemGUI
 	 */
-	static function getInstance(ilNewsItem $a_news_item)
+	static function getInstance(ilNewsItem $a_news_item, $a_news_ref_id)
 	{
-		return new self($a_news_item);
+		return new self($a_news_item, $a_news_ref_id);
 	}
 
 
@@ -116,9 +137,64 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		$i = $this->getNewsItem();
 		$tpl = new ilTemplate("tpl.timeline_item.html", true, true, "Services/News");
 
+		include_once("./Services/News/classes/class.ilNewsRendererFactory.php");
+		$news_renderer = ilNewsRendererFactory::getRenderer($i->getContextObjType());
+		$news_renderer->setLanguage($this->lng->getLangKey());
+		$news_renderer->setNewsItem($i, $this->news_item_ref_id);
+
+		$obj_id = $i->getContextObjId();
+
+		// context object link
+		include_once("./Services/Link/classes/class.ilLink.php");
+		if ($this->news_item_ref_id > 0 && $this->ref_id != $this->news_item_ref_id)
+		{
+			$tpl->setCurrentBlock("object");
+			$tpl->setVariable("OBJ_TITLE", ilObject::_lookupTitle($obj_id));
+			$tpl->setVariable("OBJ_IMG", ilObject::_getIcon($obj_id));
+			$tpl->setVariable("OBJ_HREF", ilLink::_getLink($this->news_item_ref_id));
+			$tpl->parseCurrentBlock();
+		}
+
+		// media
+		if ($i->getContentType() == NEWS_AUDIO &&
+			$i->getMobId() > 0 && ilObject::_exists($i->getMobId()))
+		{
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+			$mob = new ilObjMediaObject($i->getMobId());
+			$med = $mob->getMediaItem("Standard");
+			$mpl = new ilMediaPlayerGUI("news_pl_".$i->getMobId());
+			if (strcasecmp("Reference", $med->getLocationType()) == 0)
+				$mpl->setFile($med->getLocation());
+			else
+				$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+			$mpl->setDisplayHeight($med->getHeight());
+			//$mpl->setDisplayWidth("100%");
+			//$mpl->setDisplayHeight("320");
+			$tpl->setCurrentBlock("player");
+			$tpl->setVariable("PLAYER",
+				$mpl->getMp3PlayerHtml());
+			$tpl->parseCurrentBlock();
+		}
+
+
 		$tpl->setVariable("USER_IMAGE", ilObjUser::_getPersonalPicturePath($i->getUserId(), "xsmall"));
-		$tpl->setVariable("TITLE", $i->getTitle());
-		$tpl->setVariable("CONTENT", $i->getContent());
+		if (!$i->getContentIsLangVar())
+		{
+			$tpl->setVariable("TITLE", $i->getTitle());
+		}
+		else
+		{
+			$tpl->setVariable("TITLE", $this->lng->txt($i->getTitle()));
+		}
+
+		// content
+		$tpl->setVariable("CONTENT", $news_renderer->getTimelineContent());
+
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$tpl->setVariable("TXT_USR", ilUserUtil::getNamePresentation($i->getUserId(), false, false));
+
+		$tpl->setVariable("TIME", $this->getDateTime()->get(IL_CAL_FKT_DATE, "d.m, H:i"));
 
 		// actions
 		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
@@ -136,6 +212,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 			$list->addItem($this->lng->txt("edit"), "", "", "", "", "",
 				"", false, "il.News.edit(" . $i->getId() . ");");
 		}
+
+		$news_renderer->addTimelineActions($list);
 
 		$tpl->setVariable("ACTIONS", $list->getHTML());
 

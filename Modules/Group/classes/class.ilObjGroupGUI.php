@@ -37,6 +37,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('cont');
 		$this->setting = $ilSetting;
 	}
 
@@ -296,8 +297,9 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;	
 				
 			case "ilnewstimelinegui":
+				$this->tabs_gui->setTabActive('news_timeline');
 				include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
-				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId());
+				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
 				$this->ctrl->forwardCommand($t);
 				break;
 
@@ -1829,11 +1831,14 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
+			if ($this->object->getNewsTimeline())
+			{
+				$this->tabs_gui->addTab("news_timeline", $lng->txt("news"),
+					$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
+			}
+
 			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
-
-			$this->tabs_gui->addTab("news_timeline", $lng->txt("news_timeline"),
-				$this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show"));
 		}
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
@@ -2405,8 +2410,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 				$this->setting->get('block_activated_news',true)))
 			{
-				$cb = new ilCheckboxInputGUI($this->lng->txt("news_timeline"), "timeline");
+				$cb = new ilCheckboxInputGUI($this->lng->txt("cont_news_timeline"), "news_timeline");
+				$cb->setInfo($this->lng->txt("cont_news_timeline_info"));
+				$cb->setChecked($this->object->getNewsTimeline());
 				$form->addItem($cb);
+					$cb2 = new ilCheckboxInputGUI($this->lng->txt("cont_news_timeline_auto_entries"), "news_timeline_auto_entries");
+					$cb2->setInfo($this->lng->txt("cont_news_timeline_auto_entries_info"));
+					$cb2->setChecked($this->object->getNewsTimelineAutoEntries());
+					$cb->addSubItem($cb2);
 			}
 
 			// additional features
@@ -2499,7 +2510,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
-
 		$reg = $a_form->getItemByPostVar("reg");
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
@@ -2524,6 +2534,9 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
+
+		$this->object->setNewsTimeline(ilUtil::stripSlashes($_POST['news_timeline']));
+		$this->object->setNewsTimelineAutoEntries(ilUtil::stripSlashes($_POST['news_timeline_auto_entries']));
 		
 		return true;
 	}

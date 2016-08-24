@@ -1,12 +1,21 @@
-<div class="media">
-	<div class="pull-left">
+<div>
+	<!-- BEGIN object -->
+	<div style="background-color: #F8F8F8; margin: -20px -20px 20px -20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px;">
+		<a href="{OBJ_HREF}"><img style="width: 22px; height: 22px;" src="{OBJ_IMG}" /> {OBJ_TITLE}</a>
+	</div>
+	<!-- END object -->
+	<div style="float: left; overflow: hidden; width: 100px;">
 		<img class="media-object" src="{USER_IMAGE}" alt="{USER_TITLE}">
 	</div>
-	<div class="pull-right">
-		{ACTIONS}
-	</div>
-	<div class="media-body">
-		<h4 class="media-heading">{TITLE}</h4>
+	<div style="padding-left:100px;">
+		<div class="pull-right">
+			{ACTIONS}
+		</div>
+		<span class="small light">{TXT_USR} - {TIME}</span>
+		<h4 class="media-heading" style="margin-top: 8px;">{TITLE}</h4>
 		{CONTENT}
+		<!-- BEGIN player -->
+		<div style="position: relative; z-index:500;">{PLAYER}</div>
+		<!-- END player -->
 	</div>
 </div>

@@ -40,7 +40,9 @@ class ilContainer extends ilObject
 {
 	protected $order_type = 0;
 	protected $hiddenfilesfound = false;
-	
+	protected $news_timeline = false;
+	protected $news_timeline_auto_entries = false;
+
 	// container view constants
 	const VIEW_SESSIONS = 0;
 	const VIEW_OBJECTIVE = 1;
@@ -189,6 +191,46 @@ class ilContainer extends ilObject
 	function setStyleSheetId($a_style_id)
 	{
 		$this->style_id = $a_style_id;
+	}
+
+	/**
+	 * Set news timeline
+	 *
+	 * @param bool $a_val activate news timeline
+	 */
+	function setNewsTimeline($a_val)
+	{
+		$this->news_timeline = $a_val;
+	}
+
+	/**
+	 * Get news timeline
+	 *
+	 * @return bool activate news timeline
+	 */
+	function getNewsTimeline()
+	{
+		return $this->news_timeline;
+	}
+	
+	/**
+	 * Set news timeline auto entries
+	 *
+	 * @param bool $a_val include automatically created entries	
+	 */
+	function setNewsTimelineAutoEntries($a_val)
+	{
+		$this->news_timeline_auto_entries = $a_val;
+	}
+	
+	/**
+	 * Get news timeline auto entries
+	 *
+	 * @return bool include automatically created entries
+	 */
+	function getNewsTimelineAutoEntries()
+	{
+		return $this->news_timeline_auto_entries;
 	}
 
 	/**
@@ -781,6 +823,9 @@ class ilContainer extends ilObject
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
+		self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
+		self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
+
 		return $ret;
 	}
 	
@@ -793,6 +838,9 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+
+		self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
+		self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
 
 		return $ret;
 	}
@@ -814,6 +862,9 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
+
+		$this->setNewsTimeline(self::_lookupContainerSetting($this->getId(), "news_timeline"));
+		$this->setNewsTimelineAutoEntries(self::_lookupContainerSetting($this->getId(), "news_timeline_incl_auto"));
 	}
 
 	/**
