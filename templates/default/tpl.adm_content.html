@@ -11,7 +11,7 @@
 <div id="mainspacekeeper" class="container-fluid ilContainerWidth {MAINMENU_SPACER}">
 	<div class="row" style="position: relative;">
 	<!-- BEGIN left_nav -->
-	<div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div>
+	<div id="left_nav" class="ilLeftNav hidden-print">{LEFT_NAV_CONTENT}</div>
 	<!-- END left_nav -->
 	<div id="fixed_content" class="<!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space --> ilContentFixed" >
 		<div id="mainscrolldiv" {FRAME_BG_COLOR}>
@@ -28,7 +28,7 @@
 	
 	<div class="media il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
 		<!-- BEGIN head_action -->
-		<div class="ilHeadAction" id="il_head_action">
+		<div class="ilHeadAction hidden-print" id="il_head_action">
 			<!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner -->
 		</div>
 		<!-- END head_action -->
@@ -123,6 +123,6 @@
 </div>
 </div>
 <div id="minheight"></div>
-<footer id="ilFooter" class="ilFooter"><div class="container-fluid ilContainerWidth">
+<footer id="ilFooter" class="ilFooter hidden-print"><div class="container-fluid ilContainerWidth">
 		<div class="row"><div class="ilFooterContainer">{PRMLINK} {FOOTER}</div></div></div></footer>
 {LIGHTBOX}
