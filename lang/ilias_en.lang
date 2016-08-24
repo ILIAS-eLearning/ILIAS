@@ -16235,6 +16235,8 @@ obj#:#obj_tool_setting_use_news#:#News
 obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
+cont#:#cont_news_timeline_landing_page#:#Landing Page
+cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
