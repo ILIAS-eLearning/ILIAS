@@ -18,6 +18,7 @@
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentLP.php';
+require_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
 
 class ilObjManualAssessmentGUI extends ilObjectGUI {
@@ -70,7 +71,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand($info);
 				break;
 			case 'illearningprogressgui':
-				if(!($this->object->access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized())) {
+				if(!$this->object->access_handler->checkAccessToObj($this->object,'read')) {
 					$this->handleAccessViolation();
 				}
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
@@ -106,6 +107,19 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		if($this->object) {
 			$info->addSection($this->lng->txt('general'));
 			$info->addProperty($this->lng->txt('content'),$this->object->getSettings()->content());
+			if($this->object->loadMembers()->userAllreadyMember($this->usr)) {
+				$info = $this->addMemberDataToInfo($info);
+			}
+		}
+		return $info;
+	}
+
+	protected function addMemberDataToInfo(ilInfoScreenGUI $info) {
+		$member = $this->object->membersStorage()->loadMember($this->object,$this->usr);
+		$info->addSection($this->lng->txt('grading_info'));
+		$info->addProperty($this->lng->txt('grading'),$this->getEntryForStatus($member->LPStatus()));
+		if($member->notify() && $member->finalized()) {
+			$info->addProperty($this->lng->txt('grading_record'),$member->record());
 		}
 		return $info;
 	}
@@ -130,7 +144,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 									, $this->getLinkTarget('members')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'read_learning_progress') || ($this->userIsMemberAndFinalized() && $this->object->isActiveLP())) {
+		if(($access_handler->checkAccessToObj($this->object,'read_learning_progress')
+			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
+			|| ($this->object->loadMembers()->userAllreadyMember($this->usr)
+			&& $this->object->isActiveLP()))
+			&& ilObjUserTracking::_enabledLearningProgress()) {
 			$this->tabs_gui->addTab(self::TAB_LP
 									, $this->lng->txt('learning_progress')
 									, $this->ctrl->getLinkTargetByClass('illearningprogressgui')
@@ -144,21 +162,6 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 									);
 		}
 		parent::getTabs();
-	}
-
-	protected function userIsMemberAndFinalized() {
-		$member_storage = $this->object->membersStorage();
-		if(!$member_storage->loadMembers($this->object)->userAllreadyMember($this->usr)) {
-			return false;
-		}
-		$member = $member_storage->loadMember($this->object,$this->usr);
-		if(!$member->finalized()) {
-			return false;
-		}
-		if(!$member->notify()) {
-			return false;
-		}
-		return true;
 	}
 
 	protected function getLinkTarget($a_cmd) {
@@ -187,6 +190,20 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		global $DIC;
 		if ($DIC['ilAccess']->checkAccess( 'read', '', $a_target)) {
 			ilObjectGUI::_gotoRepositoryNode($a_target, 'view');
+		}
+	}
+
+	protected function getEntryForStatus($a_status ) {
+		switch($a_status) {
+			case ilManualAssessmentMembers::LP_IN_PROGRESS :
+				return $this->lng->txt('mass_status_pending');
+				break;
+			case ilManualAssessmentMembers::LP_COMPLETED :
+				return $this->lng->txt('mass_status_completed');
+				break;
+			case ilManualAssessmentMembers::LP_FAILED :
+				return $this->lng->txt('mass_status_failed');
+				break;
 		}
 	}
 }
