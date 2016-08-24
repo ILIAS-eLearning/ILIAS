@@ -21,9 +21,10 @@ class ilUserClipboard
 	/**
 	 * singleton constructor
 	 */
-	protected static function __construct($a_user_id)
+	protected function __construct($a_user_id)
 	{
 		$this->user_id = $a_user_id;
+		$this->read();
 	}
 	
 	/**
@@ -46,7 +47,7 @@ class ilUserClipboard
 	 */
 	public function hasContent()
 	{
-		return count($this->clipboard);
+		return (bool) count($this->clipboard);
 	}
 	
 	/**
@@ -56,6 +57,24 @@ class ilUserClipboard
 	public function get()
 	{
 		return (array) $this->clipboard;
+	}
+	
+	/**
+	 * Get validated content of clipboard
+	 * @return type
+	 */
+	public function getValidatedContent()
+	{
+		$valid = array();
+		foreach($this->clipboard as $usr_id)
+		{
+			include_once './Services/User/classes/class.ilObjUser.php';
+			if(strlen(ilObjUser::_lookupLogin($usr_id)))
+			{
+				$valid[] = $usr_id;
+			}
+		}
+		return $valid;
 	}
 	
 	/**
