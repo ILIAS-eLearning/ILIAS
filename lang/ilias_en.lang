@@ -15967,3 +15967,6 @@ mass#:#mass_add_user_success#:#User added.
 mass#:#grading#:#Grading
 mass#:#grading_info#:#Grading info
 mass#:#grading_record#:#Grading record
+mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
+mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
+mass#:#mass_notify_explanation#:#The user will be notified after finalization and will get access to her or his record in the Info-Screen.

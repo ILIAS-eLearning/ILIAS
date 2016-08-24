@@ -15968,3 +15968,6 @@ mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
 mass#:#grading#:#Bewertung
 mass#:#grading_info#:#Bewertungsinformationen
 mass#:#grading_record#:#Bewertungszusammenfassung
+mass#:#mass_content_explanation#:#Inhalte der Prüfung.
+mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
+mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
