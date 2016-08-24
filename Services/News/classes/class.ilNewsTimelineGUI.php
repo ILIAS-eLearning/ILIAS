@@ -139,8 +139,8 @@ class ilNewsTimelineGUI
 				"id" => $d["id"],
 				"user_id" => $d["user_id"],
 				"title" => $d["title"],
-				"content" => $d["content"],
-				"content_long" => $d["content_long"],
+				"content" => $d["content"].$d["content_long"],
+				"content_long" => "",
 				"priority" => $d["priority"],
 				"content_type" => $d["content_type"]
 			);
@@ -199,8 +199,8 @@ class ilNewsTimelineGUI
 				"id" => $d["id"],
 				"user_id" => $d["user_id"],
 				"title" => $d["title"],
-				"content" => $d["content"],
-				"content_long" => $d["content_long"],
+				"content" => $d["content"].$d["content_long"],
+				"content_long" => "",
 				"priority" => $d["priority"],
 				"content_type" => $d["content_type"]
 			);
@@ -229,7 +229,13 @@ class ilNewsTimelineGUI
 			$news_item->setTitle($form->getInput("news_title"));
 			$news_item->setContent($form->getInput("news_content"));
 			$news_item->setVisibility($form->getInput("news_visibility"));
-			$news_item->setContentLong($form->getInput("news_content_long"));
+			include_once("./Services/News/classes/class.ilNewsItemGUI.php");
+			if (ilNewsItemGUI::isRteActivated())
+			{
+				$news_item->setContentHtml(true);
+			}
+			//$news_item->setContentLong($form->getInput("news_content_long"));
+			$news_item->setContentLong("");
 
 			$obj_id = ilObject::_lookupObjectId($this->ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
@@ -261,7 +267,13 @@ class ilNewsTimelineGUI
 			$news_item->setTitle($form->getInput("news_title"));
 			$news_item->setContent($form->getInput("news_content"));
 			$news_item->setVisibility($form->getInput("news_visibility"));
-			$news_item->setContentLong($form->getInput("news_content_long"));
+			//$news_item->setContentLong($form->getInput("news_content_long"));
+			include_once("./Services/News/classes/class.ilNewsItemGUI.php");
+			if (ilNewsItemGUI::isRteActivated())
+			{
+				$news_item->setContentHtml(true);
+			}
+			$news_item->setContentLong("");
 
 			$obj_id = ilObject::_lookupObjectId($this->ref_id);
 

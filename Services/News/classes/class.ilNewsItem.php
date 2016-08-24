@@ -30,6 +30,10 @@ class ilNewsItem
 	protected $id;
 	protected $title;
 	protected $content;
+	/**
+	 * @var bool
+	 */
+	protected $content_html;
 	protected $context_obj_id;
 	protected $context_obj_type;
 	protected $context_sub_obj_id;
@@ -483,6 +487,26 @@ class ilNewsItem
 	{
 		return $this->mob_cnt_download;
 	}
+
+	/**
+	 * Is content HTML (tiny used?)
+	 *
+	 * @param bool $a_val
+	 */
+	function setContentHtml($a_val)
+	{
+		$this->content_html = $a_val;
+	}
+
+	/**
+	 * Get content as html
+	 *
+	 * @return bool
+	 */
+	function getContentHtml()
+	{
+		return $this->content_html;
+	}
 	
 	/**
 	 * Read item from database.
@@ -515,6 +539,7 @@ class ilNewsItem
 		$this->setPlaytime($rec["playtime"]);
 		$this->setMobPlayCounter($rec["mob_cnt_play"]);
 		$this->setMobDownloadCounter($rec["mob_cnt_download"]);
+		$this->setContentHtml($rec["content_html"]);
 
 	}
 
@@ -531,6 +556,7 @@ class ilNewsItem
 			"id" => array("integer", $this->getId()),
 			"title" => array("text", $this->getTitle()),
 			"content" => array("clob", $this->getContent()),
+			"content_html" => array("integer", $this->getContentHtml()),
 			"context_obj_id" => array("integer", (int) $this->getContextObjId()),
 			"context_obj_type" => array("text", $this->getContextObjType()),
 			"context_sub_obj_id" => array("integer", (int) $this->getContextSubObjId()),
@@ -606,6 +632,7 @@ class ilNewsItem
 		$fields = array(
 			"title" => array("text", $this->getTitle()),
 			"content" => array("clob", $this->getContent()),
+			"content_html" => array("clob", $this->getContentHtml()),
 			"context_obj_id" => array("integer", $this->getContextObjId()),
 			"context_obj_type" => array("text", $this->getContextObjType()),
 			"context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
@@ -1866,7 +1893,7 @@ class ilNewsItem
 		}
 		return $rss_period;
 	}
-	function setPrivateFeedId ($a_userId) 
+	static function setPrivateFeedId ($a_userId)
 	{
 		ilNewsItem::$privFeedId = $a_userId;
 	}

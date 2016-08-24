@@ -4,7 +4,7 @@
 
 include_once("./Services/News/interfaces/interface.ilNewsRendererGUI.php");
 /**
- *  Default renderer
+ * Default renderer
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -71,8 +71,48 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 	 */
 	public function getTimelineContent()
 	{
-		return "<p>".nl2br($this->news_item->getContent())."</p>".$this->news_item->getContentLong();
+		return $this->getDetailContent();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getDetailContent()
+	{
+		if ($this->news_item->getContentIsLangVar())
+		{
+			$this->lng->loadLanguageModule($this->news_item->getContextObjType());
+			return $this->lng->txt($this->news_item->getContent());
+		}
+
+		$content = $this->makeClickable($this->news_item->getContent());
+		if (!$this->news_item->getContentHtml())
+		{
+			$content = "<p>".nl2br($content)."</p>";
+		}
+		$content.= $this->news_item->getContentLong();
+
+		return $content;
+	}
+
+	/**
+	 * Make clickable
+	 *
+	 * @param
+	 * @return
+	 */
+	function makeClickable($a_str)
+	{
+		// this fixes bug 8744.
+		// If the string already contains a tags our makeClickable does not work
+		if (is_int(strpos($a_str, "</a>")) && is_int(strpos($a_str, "<a")))
+		{
+			return $a_str;
+		}
+
+		return ilUtil::makeClickable($a_str);
+	}
+
 
 	/**
 	 * @param ilAdvancedSelectionListGUI $list

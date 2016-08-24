@@ -147,12 +147,18 @@ il.News = {
 		$('#ilNewsEditModal .modal-title').html(il.Language.txt("edit"));
 		$('#news_btn_update').attr("value", il.Language.txt("update"));
 		$("#news_title").val(t.items[id].title);
-		$("#news_content").val(t.items[id].content);
 
+		/*
 		if (typeof tinyMCE != "undefined" && tinyMCE.get('news_content_long')) {
 			tinyMCE.get('news_content_long').setContent(t.items[id].content_long);
 		} else {
 			$("#news_content_long").val(t.items[id].content_long);
+		}*/
+
+		if (typeof tinyMCE != "undefined" && tinyMCE.get('news_content')) {
+			tinyMCE.get('news_content').setContent(t.items[id].content);
+		} else {
+			$("#news_content").val(t.items[id].content);
 		}
 
 		$('#ilNewsEditModal').modal('show');
@@ -161,19 +167,18 @@ il.News = {
 	},
 
 	save: function () {
-		var t = il.News, cmd, d, long;
+		var t = il.News, cmd, d, content;
 
-		if (typeof tinyMCE != "undefined" && tinyMCE.get('news_content_long')) {
-			long = tinyMCE.get('news_content_long').getContent();
+		if (typeof tinyMCE != "undefined" && tinyMCE.get('news_content')) {
+			content = tinyMCE.get('news_content').getContent();
 		} else {
-			long = $("#news_content_long").val();
+			content = $("#news_content").val();
 		}
-
 		// data
 		d = {
 			news_title: $("#news_title").val(),
-			news_content: $("#news_content").val(),
-			news_content_long: long
+			news_content: content,
+			news_content_long: ""
 		}
 
 		if (t.current_id > 0) {

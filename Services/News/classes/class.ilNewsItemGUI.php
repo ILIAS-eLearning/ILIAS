@@ -283,6 +283,7 @@ class ilNewsItemGUI
 		$text_area->setInfo("");
 		$text_area->setRequired(false);
 		$text_area->setRows("4");
+		$text_area->setUseRte(true);
 		$form->addItem($text_area);
 
 		// Property Visibility
@@ -297,13 +298,14 @@ class ilNewsItemGUI
 		$form->addItem($radio_group);
 
 		// Property ContentLong
+		/*
 		$text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content_long"), "news_content_long");
 		$text_area->setInfo($lng->txt("news_news_item_content_long_info"));
 		$text_area->setRequired(false);
 		$text_area->setCols("40");
 		$text_area->setRows("8");
 		$text_area->setUseRte(true);
-		$form->addItem($text_area);
+		$form->addItem($text_area);*/
 
 
 		// save and cancel commands
@@ -346,9 +348,10 @@ class ilNewsItemGUI
 		$values = array();
 
 		$values["news_title"] = $this->news_item->getTitle();
-		$values["news_content"] = $this->news_item->getContent();
+		$values["news_content"] = $this->news_item->getContent().$this->news_item->getContentLong();
 		$values["news_visibility"] = $this->news_item->getVisibility();
-		$values["news_content_long"] = $this->news_item->getContentLong();
+		//$values["news_content_long"] = $this->news_item->getContentLong();
+		$values["news_content_long"] = "";
 
 		$a_form->setValuesByArray($values);
 
@@ -368,13 +371,18 @@ class ilNewsItemGUI
 		}
 
 		$form = $this->initFormNewsItem(IL_FORM_CREATE);
-		if ($this->form_gui->checkInput())
+		if ($form->checkInput())
 		{
 			$this->news_item = new ilNewsItem();
 			$this->news_item->setTitle($form->getInput("news_title"));
 			$this->news_item->setContent($form->getInput("news_content"));
 			$this->news_item->setVisibility($form->getInput("news_visibility"));
-			$this->news_item->setContentLong($form->getInput("news_content_long"));
+			$this->news_item->setContentLong("");
+			if (self::isRteActivated())
+			{
+				$this->news_item->setContentHtml(true);
+			}
+			//$this->news_item->setContentLong($form->getInput("news_content_long"));
 
 // changed
 			//$this->news_item->setContextObjId($this->ctrl->getContextObjId());
@@ -434,7 +442,12 @@ class ilNewsItemGUI
 			$this->news_item->setTitle($form->getInput("news_title"));
 			$this->news_item->setContent($form->getInput("news_content"));
 			$this->news_item->setVisibility($form->getInput("news_visibility"));
-			$this->news_item->setContentLong($form->getInput("news_content_long"));
+			//$this->news_item->setContentLong($form->getInput("news_content_long"));
+			$this->news_item->setContentLong("");
+			if (self::isRteActivated())
+			{
+				$this->news_item->setContentHtml(true);
+			}
 			$this->news_item->update();
 			$this->exitUpdateNewsItem();
 		}
@@ -670,4 +683,20 @@ class ilNewsItemGUI
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getParentReturnByClass("ilnewsitemgui"));
 	}
+
+	/**
+	 * Is Rte activated
+	 *
+	 * @return bool
+	 */
+	static function isRteActivated()
+	{
+		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
+		if (ilObjAdvancedEditing::_getRichTextEditor() == "")
+		{
+			return false;
+		}
+		return true;
+	}
+
 }

@@ -40,6 +40,14 @@ interface ilNewsRendererGUI
 	public function getTimelineContent();
 
 	/**
+	 * Render content for detail view
+	 *
+	 * @param $i ilNewsItem news item
+	 * @return string html
+	 */
+	public function getDetailContent();
+
+	/**
 	 * @param ilAdvancedSelectionListGUI $list
 	 */
 	public function addTimelineActions(ilAdvancedSelectionListGUI $list);

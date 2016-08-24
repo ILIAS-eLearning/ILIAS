@@ -47,11 +47,13 @@ il.Timeline = {
 					}
 
 					// if a previous badge exists, do not go futher than the badge
-					prev_badge_top = $(el).prevAll("li").find(".ilTimelineBadge").first().position().top;
-					if (prev_badge_top > 0) {
-						mt3 = prev_badge_top + minspace - el_top;
-						if (mt3 > mt || mt == 0) {
-							mt = mt3;
+					if ($(el).prevAll("li").find(".ilTimelineBadge").length > 0) {
+						prev_badge_top = $(el).prevAll("li").find(".ilTimelineBadge").first().position().top;
+						if (prev_badge_top > 0) {
+							mt3 = prev_badge_top + minspace - el_top;
+							if (mt3 > mt || mt == 0) {
+								mt = mt3;
+							}
 						}
 					}
 
