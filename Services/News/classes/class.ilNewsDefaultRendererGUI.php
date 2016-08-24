@@ -58,6 +58,27 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 	}
 
 	/**
+	 * Get news item
+	 *
+	 * @return ilNewsItem
+	 */
+	function getNewsItem()
+	{
+		return $this->news_item;
+	}
+
+	/**
+	 * Get news ref id
+	 *
+	 * @return int ref id
+	 */
+	function getNewsRefId()
+	{
+		return $this->news_ref_id;
+	}
+
+
+	/**
 	 * @inheritdoc
 	 */
 	function setLanguage($a_lang_key)
@@ -79,7 +100,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 	 */
 	function getDetailContent()
 	{
-		if ($this->news_item->getContentIsLangVar())
+		if ($this->news_item->getContentTextIsLangVar())
 		{
 			$this->lng->loadLanguageModule($this->news_item->getContextObjType());
 			return $this->lng->txt($this->news_item->getContent());
@@ -122,6 +143,17 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 
 	}
 
+	/**
+	 * Get object link
+	 *
+	 * @return string link href url
+	 */
+	function getObjectLink()
+	{
+		include_once("./Services/Link/classes/class.ilLink.php");
+		return ilLink::_getLink($this->getNewsRefId());
+	}
+	
 }
 
 ?>

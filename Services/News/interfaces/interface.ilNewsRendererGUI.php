@@ -34,7 +34,6 @@ interface ilNewsRendererGUI
 	/**
 	 * Render content for timeline
 	 *
-	 * @param $i ilNewsItem news item
 	 * @return string html
 	 */
 	public function getTimelineContent();
@@ -42,7 +41,6 @@ interface ilNewsRendererGUI
 	/**
 	 * Render content for detail view
 	 *
-	 * @param $i ilNewsItem news item
 	 * @return string html
 	 */
 	public function getDetailContent();
@@ -51,6 +49,13 @@ interface ilNewsRendererGUI
 	 * @param ilAdvancedSelectionListGUI $list
 	 */
 	public function addTimelineActions(ilAdvancedSelectionListGUI $list);
+
+	/**
+	 * Get link href for object link
+	 *
+	 * @return string link href url
+	 */
+	public function getObjectLink();
 
 }
 

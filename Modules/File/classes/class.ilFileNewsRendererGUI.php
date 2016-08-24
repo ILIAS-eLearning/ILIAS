@@ -13,14 +13,6 @@ include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
 class ilFileNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
 	/**
-	 * @inheritdoc
-	 */
-	public function getTimelineContent()
-	{
-		return "<p>".nl2br($this->news_item->getContent())."</p>".$this->news_item->getContentLong();
-	}
-
-	/**
 	 * @param ilAdvancedSelectionListGUI $list
 	 */
 	public function addTimelineActions(ilAdvancedSelectionListGUI $list)

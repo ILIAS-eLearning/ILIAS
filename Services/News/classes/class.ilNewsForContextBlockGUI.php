@@ -663,10 +663,6 @@ if (empty(self::$st_data))
 				$renderer->setNewsItem($it, $item["ref_id"]);
 				$tpl->setCurrentBlock("content");
 				$tpl->setVariable("VAL_CONTENT", $renderer->getDetailContent());
-//					nl2br($this->makeClickable(
-//					ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
-//					)));
-//$tpl->setVariable("VAL_CONTENT", nl2br($item["content"]));
 				$tpl->parseCurrentBlock();
 			}
 			if (trim($item["content_long"]) != "")	// long content

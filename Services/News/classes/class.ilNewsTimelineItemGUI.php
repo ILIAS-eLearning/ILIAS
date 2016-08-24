@@ -175,7 +175,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 			$tpl->setCurrentBlock("object");
 			$tpl->setVariable("OBJ_TITLE", ilObject::_lookupTitle($obj_id));
 			$tpl->setVariable("OBJ_IMG", ilObject::_getIcon($obj_id));
-			$tpl->setVariable("OBJ_HREF", ilLink::_getLink($this->news_item_ref_id));
+			$tpl->setVariable("OBJ_HREF", $news_renderer->getObjectLink());
 			$tpl->parseCurrentBlock();
 		}
 
