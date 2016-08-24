@@ -92,6 +92,10 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		return true;
 	}
 
+	public function tabsGUI() {
+		return $this->tabs_gui;
+	}
+
 	public function viewObject() {
 		$this->tabs_gui->setTabActive(self::TAB_INFO);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
