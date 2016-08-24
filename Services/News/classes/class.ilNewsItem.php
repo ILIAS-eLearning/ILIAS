@@ -737,13 +737,24 @@ class ilNewsItem
 	}
 	
 	/**
-	* Get News For Ref Id.
-	*
-	* $a_user_id does only work for groups and courses so far
-	*/
+	 * Get News For Ref Id.
+	 *
+	 * @param int $a_ref_id
+	 * @param bool $a_only_public
+	 * @param bool $a_stopnesting
+	 * @param int $a_time_period
+	 * @param bool $a_prevent_aggregation
+	 * @param bool $a_forum_group_sequences
+	 * @param bool $a_no_auto_generated
+	 * @param bool $a_ignore_date_filter
+	 * @param null $a_user_id
+	 * @param int $a_limit currently only supported for groups and courses
+	 * @param int[] $a_excluded currently only supported for groups and courses (news ids)
+	 * @return array|mixed
+	 */
 	function getNewsForRefId($a_ref_id, $a_only_public = false, $a_stopnesting = false,
 		$a_time_period = 0, $a_prevent_aggregation = true, $a_forum_group_sequences = false,
-		$a_no_auto_generated = false, $a_ignore_date_filter = false, $a_user_id = null)
+		$a_no_auto_generated = false, $a_ignore_date_filter = false, $a_user_id = null, $a_limit = 0, $a_excluded = array())
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -771,7 +782,7 @@ class ilNewsItem
 			!$a_stopnesting)
 		{
 			$news = $this->getAggregatedNewsData($a_ref_id, $a_only_public, $a_time_period,
-                $a_prevent_aggregation, $starting_date, $a_no_auto_generated, $a_user_id);
+                $a_prevent_aggregation, $starting_date, $a_no_auto_generated, $a_user_id, $a_limit, $a_excluded);
 		}
 		else
 		{
@@ -818,7 +829,7 @@ class ilNewsItem
 	*/
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0,
         $a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false,
-		$a_user_id = null)
+		$a_user_id = null, $a_limit = 0, $a_exclude = array())
 	{
 		global $tree, $ilAccess, $ilObjDataCache;
 		
@@ -893,7 +904,7 @@ class ilNewsItem
 		
 		// sort and return
 		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period,
-            $a_starting_date, $a_no_auto_generated, $a_user_id);
+            $a_starting_date, $a_no_auto_generated, $a_user_id, $a_limit, $a_exclude);
 				
 		$to_del = array();
 		foreach ($news as $k => $v)
@@ -1258,13 +1269,21 @@ class ilNewsItem
 	}
 	
 	/**
-	* Query News for multiple Contexts
-	*
-	* @param	array	$a_contexts		array of array("obj_id", "obj_type")
-	*/
+	 * Query News for multiple Contexts
+	 *
+	 * @param array $a_contexts
+	 * @param bool $a_for_rss_use
+	 * @param int $a_time_period
+	 * @param string $a_starting_date
+	 * @param bool $a_no_auto_generated
+	 * @param null $a_user_id
+	 * @param int $a_limit
+	 * @param int[] $a_exclude
+	 * @return array
+	 */
 	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false,
         $a_time_period = 0, $a_starting_date = "", $a_no_auto_generated = false,
-		$a_user_id = null)
+		$a_user_id = null, $a_limit = 0, $a_exclude = array())
 	{
 		global $ilDB, $ilUser, $lng, $ilCtrl;
 
@@ -1284,9 +1303,20 @@ class ilNewsItem
 		{
 			$and.= " AND priority = 1 AND content_type = ".$ilDB->quote("text", "text")." ";
 		}
-		
+
+		if ($a_limit > 0)
+		{
+			$ilDB->setLimit($a_limit, 0);
+		}
+
+		if (is_array($a_exclude) && count($a_exclude) > 0)
+		{
+			$and.= " AND ".$ilDB->in("id", $a_exclude, true, "integer")." ";
+		}
+
 		$ids = array();
 		$type = array();
+
 		foreach($a_contexts as $cont)
 		{
 			$ids[] = $cont["obj_id"];

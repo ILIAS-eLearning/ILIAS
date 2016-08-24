@@ -67,25 +67,34 @@ class ilTimelineGUI
 	 * @param
 	 * @return
 	 */
-	function render()
+	function render($a_items_only = false)
 	{
 		$this->tpl->addJavaScript("./Services/News/Timeline/js/Timeline.js");
 		$this->tpl->addJavaScript("./Services/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
 
 		$t = new ilTemplate("tpl.timeline.html", true, true, "Services/News/Timeline");
-		$last_date = "";
-		foreach ($this->items as $i)
+		if (!$a_items_only)
 		{
+			$t->touchBlock("list_start");
+			$t->touchBlock("list_end");
+		}
+		$keys = array_keys($this->items);
+		foreach ($this->items as $k => $i)
+		{
+			$next = null;
+			if (isset($this->items[$keys[$k+1]]))
+			{
+				$next = $this->items[$keys[$k+1]];
+			}
 
 			$dt = $i->getDateTime();
-			if ($dt->get(IL_CAL_FKT_DATE, "Y-m-d") != $last_date)
+			if (is_null($next) || $dt->get(IL_CAL_FKT_DATE, "Y-m-d") != $next->getDateTime()->get(IL_CAL_FKT_DATE, "Y-m-d"))
 			{
 				$t->setCurrentBlock("badge");
 				$t->setVariable("DAY", $dt->get(IL_CAL_FKT_DATE, "d"));
 				$t->setVariable("MONTH", $this->lng->txt("month_" . $dt->get(IL_CAL_FKT_DATE, "m") . "_short"));
 				$t->parseCurrentBlock();
 			}
-			$last_date = $dt->get(IL_CAL_FKT_DATE, "Y-m-d");
 
 			$t->setCurrentBlock("item");
 			$t->setVariable("CONTENT", $i->render());

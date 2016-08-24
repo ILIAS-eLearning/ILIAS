@@ -1,6 +1,8 @@
 il.Timeline = {
 	compressEntries: function () {
 		var minspace, prev, el_top, prev_badge_top, el, mt, mt2, mt3, prev_top, d;
+		var t = il.Timeline;
+		t.removeRedundantBadges();
 
 		$("ul.ilTimeline > li")
 			.css("margin-top", "0px");
@@ -17,7 +19,7 @@ il.Timeline = {
 		// minimum space is the heigth of the badge
 		minspace = $("ul.ilTimeline div.ilTimelineBadge").outerHeight();
 
-		console.log(minspace);
+		//console.log(minspace);
 
 		$("ul.ilTimeline > li")
 			.each(function () {
@@ -59,6 +61,17 @@ il.Timeline = {
 			}
 		});
 
+	},
+
+	removeRedundantBadges: function() {
+		var last_el;
+		$(".ilTimelineBadge").each(function () {
+
+			if (typeof last_el != "undefined" && $(this).html() == $(last_el).html()) {
+				$(last_el).remove();
+			}
+			last_el = this;
+		});
 	}
 };
 

@@ -47,6 +47,11 @@ class ilNewsTimelineGUI
 	protected $access;
 
 	/**
+	 * @var int
+	 */
+	protected static $items_per_load = 10;
+
+	/**
 	 * Constructor
 	 *
 	 * @param int $a_ref_id reference id
@@ -87,7 +92,7 @@ class ilNewsTimelineGUI
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("show", "save", "update")))
+				if (in_array($cmd, array("show", "save", "update", "loadMore")))
 				{
 					$this->$cmd();
 				}
@@ -118,7 +123,7 @@ class ilNewsTimelineGUI
 		$news_item->setContextObjType($this->ctrl->getContextObjType());
 
 		$news_data = $news_item->getNewsForRefId($this->ref_id, false, false,
-			0, true, false,	!$this->include_auto_entries);
+			0, true, false,	!$this->include_auto_entries, false, null, self::$items_per_load);
 
 		include_once("./Services/News/Timeline/classes/class.ilTimelineGUI.php");
 		include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
@@ -145,7 +150,12 @@ class ilNewsTimelineGUI
 		$this->tpl->addOnloadCode("il.News.setItems(".ilJsonUtil::encode($js_items).");");
 		$this->tpl->addOnloadCode("il.News.setAjaxUrl('".$this->ctrl->getLinkTarget($this, "", "", true)."');");
 
-		$this->tpl->setContent($timeline->render().$this->getEditModal());
+		$ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
+		$ttpl->setVariable("NEWS", $timeline->render());
+		$ttpl->setVariable("EDIT_MODAL", $this->getEditModal());
+		$ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+
+		$this->tpl->setContent($ttpl->get());
 
 		$this->lng->toJS("create");
 		$this->lng->toJS("edit");
@@ -153,7 +163,58 @@ class ilNewsTimelineGUI
 		$this->lng->toJS("save");
 
 		$this->tpl->addJavaScript("./Services/News/js/News.js");
+		include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+		ilMediaPlayerGUI::initJavascript($this->tpl);
 	}
+
+	/**
+	 * Load more
+	 *
+	 * @param
+	 * @return
+	 */
+	function loadMore()
+	{
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = new ilNewsItem();
+		$news_item->setContextObjId($this->ctrl->getContextObjId());
+		$news_item->setContextObjType($this->ctrl->getContextObjType());
+
+		$excluded = $_POST["rendered_news"];
+
+		$news_data = $news_item->getNewsForRefId($this->ref_id, false, false,
+			0, true, false,	!$this->include_auto_entries, false, null, self::$items_per_load, $excluded);
+
+		include_once("./Services/News/Timeline/classes/class.ilTimelineGUI.php");
+		include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
+		$timeline = ilTimelineGUI::getInstance();
+
+		$js_items = array();
+		foreach ($news_data as $d)
+		{
+			$news_item = new ilNewsItem($d["id"]);
+			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"]);
+			$timeline->addItem($item);
+			$js_items[$d["id"]] = array(
+				"id" => $d["id"],
+				"user_id" => $d["user_id"],
+				"title" => $d["title"],
+				"content" => $d["content"],
+				"content_long" => $d["content_long"],
+				"priority" => $d["priority"],
+				"content_type" => $d["content_type"]
+			);
+		}
+
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+		$obj = new stdClass();
+		$obj->data = $js_items;
+		$obj->html = $timeline->render(true);
+
+		echo ilJsonUtil::encode($obj);
+		exit;
+	}
+
 
 	/**
 	 * Save (ajax)
