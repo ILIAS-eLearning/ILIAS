@@ -56,6 +56,7 @@ class ilManualAssessmentSettingsGUI {
 			$this->object->getSettings()->setContent($_POST[self::PROP_CONTENT])
 								->setRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE]);
 			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt('mass_settings_saved'));
 		}
 		$this->renderForm($form);
 	}
