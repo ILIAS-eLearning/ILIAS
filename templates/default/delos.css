@@ -6287,6 +6287,29 @@ button.close {
 .glyph:hover {
   color: #3a4c65;
 }
+.il-card {
+  padding: 0px;
+}
+.il-card img {
+  width: 100%;
+}
+.il-card .caption {
+  border-top: 1px solid #ddd;
+}
+.il-card .caption .card-title {
+  overflow-wrap: break-word;
+}
+.il-card .caption:first-child {
+  border-top: none;
+}
+.il-deck {
+  margin-left: 0;
+  margin-right: 0;
+}
+.il-deck > div {
+  padding-left: 5px;
+  padding-right: 5px;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
