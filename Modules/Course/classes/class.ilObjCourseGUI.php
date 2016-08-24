@@ -4231,9 +4231,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'crs');
 				$this->ctrl->forwardCommand($bgui);
 				break;
-				
-            default:
-
+			
 			case "ilcontainernewssettingsgui":
 				$this->setSubTabs("properties");
 				$this->tabs_gui->setTabActive('settings');
