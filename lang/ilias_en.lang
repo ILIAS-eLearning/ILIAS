@@ -16261,3 +16261,4 @@ bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
 bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection
 bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.
+style#:#enable_system_styles_management_no_write_perm#:#System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.
