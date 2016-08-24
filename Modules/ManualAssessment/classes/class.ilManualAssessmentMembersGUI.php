@@ -58,9 +58,9 @@ class ilManualAssessmentMembersGUI {
 
 	protected function addedUsers() {
 		if(!$_GET['failure']) {
-			ilUtil::sendSuccess('mass_add_user_success');
+			ilUtil::sendSuccess($this->lng->txt('mass_add_user_success'));
 		} else {
-			ilUtil::sendFailure('mass_add_user_failure');
+			ilUtil::sendFailure($this->lng->txt('mass_add_user_failure'));
 		}
 		$this->view();
 	}
