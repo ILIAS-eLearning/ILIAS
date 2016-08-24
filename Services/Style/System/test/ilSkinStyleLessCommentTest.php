@@ -7,7 +7,7 @@ include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessCommen
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleLessCommentTest extends PHPUnit_Framework_TestCase {
+class ilSkinStyleLessCommentTest extends PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
 		$comment = new ilSystemStyleLessComment("comment");

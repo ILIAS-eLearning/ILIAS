@@ -40,6 +40,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		parent::__construct($a_title, $a_postvar, $this->explorer_gui, $this->multi_nodes);
 		$this->setType("rep_select");
 	}
+	
 
 	/**
 	 * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
@@ -70,6 +71,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	{
 		return $this->explorer_gui;
 	}
+
 
 
 }

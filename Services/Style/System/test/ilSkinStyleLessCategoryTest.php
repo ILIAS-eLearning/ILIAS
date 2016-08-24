@@ -7,7 +7,7 @@ include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessCatego
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleLessCategoryTest extends PHPUnit_Framework_TestCase {
+class ilSkinStyleLessCategoryTest extends PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
 		$category = new ilSystemStyleLessCategory("name", "comment");

@@ -547,7 +547,9 @@ if (empty(self::$st_data))
 		}
 		else								// no aggregation, simple news item
 		{
-			$news_list[] = array("ref_id" => $_GET["news_context"],
+			$news_list[] = array(
+				"id" => $news->getId(),
+				"ref_id" => $_GET["news_context"],
 				"user_id" => $news->getUserId(),
 				"content_type" => $news->getContentType(),
 				"mob_id" => $news->getMobId(),
@@ -653,14 +655,14 @@ if (empty(self::$st_data))
 			}
 
 			// content
+			include_once("./Services/News/classes/class.ilNewsRendererFactory.php");
+			$renderer = ilNewsRendererFactory::getRenderer($item["context_obj_type"]);
 			if (trim($item["content"]) != "")		// content
 			{
+				$it = new ilNewsItem($item["id"]);
+				$renderer->setNewsItem($it, $item["ref_id"]);
 				$tpl->setCurrentBlock("content");
-				$tpl->setVariable("VAL_CONTENT",
-					nl2br($this->makeClickable(
-					ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
-					)));
-//$tpl->setVariable("VAL_CONTENT", nl2br($item["content"]));
+				$tpl->setVariable("VAL_CONTENT", $renderer->getDetailContent());
 				$tpl->parseCurrentBlock();
 			}
 			if (trim($item["content_long"]) != "")	// long content

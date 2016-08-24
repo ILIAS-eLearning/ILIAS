@@ -48,7 +48,12 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 		{
 			if(ilObjectLP::isSupportedObjectType($node["type"]))
 			{
-				$res[] = $node["type"];
+				$class = ilObjectLP::getTypeClass($node["type"]);			
+				$modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
+				if(sizeof($modes) > 1)
+				{
+					$res[] = $node["type"];
+				}
 			}
 		}
 		

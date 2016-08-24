@@ -23,7 +23,7 @@ class ilCourseParticipantsGroupsGUI
 	{
 		global $ilCtrl, $ilErr, $ilAccess, $lng;
 		
-		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		if(!$ilAccess->checkAccess('manage_members','',$this->ref_id))
 		{
 			$ilErr->raiseError($lng->txt('permission_denied'),$ilErr->WARNING);
 		}

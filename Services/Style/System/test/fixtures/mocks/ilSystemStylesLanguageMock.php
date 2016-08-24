@@ -4,13 +4,13 @@
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilLanguageMock
+ * Class ilSystemStylesLanguageMock
  */
-class ilLanguageMock {
+class ilSystemStylesLanguageMock {
 	public $requested = array();
 
 	/**
-	 * ilLanguageMock constructor.
+	 * ilSystemStylesLanguageMock constructor.
 	 */
 	public function __construct() {}
 
