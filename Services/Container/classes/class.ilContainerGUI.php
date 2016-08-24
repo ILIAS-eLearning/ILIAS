@@ -33,6 +33,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->rbacsystem = $rbacsystem;
 		
 		$lng->loadLanguageModule("cntr");
+		$lng->loadLanguageModule('cont');
 
 		//parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		

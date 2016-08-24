@@ -188,15 +188,17 @@ class ilNewsTimelineGUI
 			$ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 			$this->tpl->setContent($ttpl->get());
 
-			$this->lng->toJS("create");
-			$this->lng->toJS("edit");
-			$this->lng->toJS("update");
-			$this->lng->toJS("save");
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("news_timline_add_entries_info"));
+			$this->tpl->setContent($this->getEditModal());
 		}
+
+		$this->lng->toJS("create");
+		$this->lng->toJS("edit");
+		$this->lng->toJS("update");
+		$this->lng->toJS("save");
 
 		$this->tpl->addJavaScript("./Services/News/js/News.js");
 		include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");

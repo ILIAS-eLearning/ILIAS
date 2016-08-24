@@ -37,7 +37,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
-		$this->lng->loadLanguageModule('cont');
+
 		$this->setting = $ilSetting;
 	}
 
@@ -60,6 +60,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				ilLink::_getLink($_GET["ref_id"], "grp"), "grp");
 		}
 
+		// if news timeline is landing page, redirect if necessary
 		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage())
 		{
 			$this->ctrl->redirectbyclass("ilnewstimelinegui");
@@ -576,7 +577,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			array(
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 				ilObjectServiceSettingsGUI::USE_NEWS,
-				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::BADGES
@@ -2442,23 +2442,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$sorting_settings[] = ilContainer::SORT_MANUAL;
 			$this->initSortingForm($form, $sorting_settings);
 
-			// timeline
-			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-			if (ilContainer::_lookupContainerSetting(
-				$this->object->getId(),
-				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-				$this->setting->get('block_activated_news',true)))
-			{
-				$cb = new ilCheckboxInputGUI($this->lng->txt("cont_news_timeline"), "news_timeline");
-				$cb->setInfo($this->lng->txt("cont_news_timeline_info"));
-				$cb->setChecked($this->object->getNewsTimeline());
-				$form->addItem($cb);
-					$cb2 = new ilCheckboxInputGUI($this->lng->txt("cont_news_timeline_auto_entries"), "news_timeline_auto_entries");
-					$cb2->setInfo($this->lng->txt("cont_news_timeline_auto_entries_info"));
-					$cb2->setChecked($this->object->getNewsTimelineAutoEntries());
-					$cb->addSubItem($cb2);
-			}
-
 			// additional features
 			$feat = new ilFormSectionHeaderGUI();
 			$feat->setTitle($this->lng->txt('obj_features'));
@@ -2471,7 +2454,6 @@ class ilObjGroupGUI extends ilContainerGUI
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::USE_NEWS,
-						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
 						ilObjectServiceSettingsGUI::BADGES
@@ -2575,9 +2557,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 		}
 
-		$this->object->setNewsTimeline(ilUtil::stripSlashes($_POST['news_timeline']));
-		$this->object->setNewsTimelineAutoEntries(ilUtil::stripSlashes($_POST['news_timeline_auto_entries']));
-		
 		return true;
 	}
 	
