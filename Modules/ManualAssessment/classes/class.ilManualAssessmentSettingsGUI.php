@@ -82,8 +82,10 @@ class ilManualAssessmentSettingsGUI {
 
 
 		$item = new ilTextAreaInputGUI($this->lng->txt('mass_content'), self::PROP_CONTENT);
+		$item->setInfo($this->lng->txt('mass_content_explanation'));
 		$form->addItem($item);
 		$item = new ilTextAreaInputGUI($this->lng->txt('mass_record_template'), self::PROP_RECORD_TEMPLATE);
+		$item->setInfo($this->lng->txt('mass_record_template_explanation'));
 		$form->addItem($item);
 		$form->addCommandButton('update', $this->lng->txt('save'));
 		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
