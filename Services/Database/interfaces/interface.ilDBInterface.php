@@ -741,4 +741,12 @@ interface ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function prepare($query, $types = null, $result_types = null);
+
+
+	/**
+	 * @param $table
+	 * @param array $fields
+	 * @return bool
+	 */
+	public function uniqueConstraintExists($table, array $fields);
 }

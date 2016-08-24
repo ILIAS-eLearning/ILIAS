@@ -1,0 +1,101 @@
+<div class="panel panel-default">
+	<div class="panel-heading ilBlockHeader"><h3 class="ilBlockHeader">{TOC_TITLE}</h3></div>
+	<div class="panel-body">
+		<!-- BEGIN toc_bl -->
+		<a href="#{TOC_ID}">{TOC_ITEM}</a><br />
+		<!-- END toc_bl -->
+	</div>
+</div>
+
+<!-- BEGIN question_panel_bl -->
+<a name="{ANCHOR_ID}"></a>
+<div class="panel panel-primary" style="page-break-after: always; page-break-inside: avoid;">	
+	<div class="panel-body">
+		
+		<div class="row">
+			<div class="col-md-8 col-sm-6 col-xs-6">
+				<div class="ilHeader"><h3 class="ilHeader">{QTITLE}</h3></div>
+				{QTEXT}
+			</div>		
+			<div class="col-md-4 col-sm-6 col-xs-6" style="padding-right:15px;">	
+				<div clasS="panel panel-default panel-body" style="border: 1px solid #e9e9e9;"> 
+					{QTYPE}<br />
+					<table class="fullwidth">
+						<!-- BEGIN question_props_bl -->
+						<tr>
+							<th class="small" style="vertical-align:top"><div class="ilBlockPropertyCaption">{QUESTION_PROP_KEY}</div></th>
+							<td class="small" style="text-align:right">{QUESTION_PROP_VALUE}</td>
+						</tr>
+						<!-- END question_props_bl -->
+					</table>				
+				</div>
+			</div>
+		</div>
+
+		<!-- BEGIN grid_bl -->	
+		<div class="panel panel-default">	
+			<div class="panel-body"> 
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<!-- BEGIN grid_col_header_bl -->
+						<th>{COL_HEADER}</th>
+						<!-- END grid_col_header_bl -->
+					</tr>
+					</thead>
+					<tbody>
+					<!-- BEGIN grid_row_bl -->
+					<tr>
+						<!-- BEGIN grid_col_bl -->
+						<td<!-- BEGIN grid_col_nowrap_bl --> style="white-space: nowrap;"<!-- END grid_col_nowrap_bl -->>{COL_CAPTION}</td>
+						<!-- END grid_col_bl -->
+					</tr>
+					<!-- END grid_row_bl -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- END grid_bl -->
+
+		<!-- BEGIN chart_bl -->
+		<div class="ilFloatLeft">
+			{CHART}
+		</div>
+		<!-- BEGIN legend_col_bl -->	
+		<div class="ilFloatLeft" style="padding:10px">
+			<!-- BEGIN legend_bl -->	
+			<p class="hidden-print">
+				<span style="background-color: {LEGEND_COLOR}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {LEGEND_CAPTION}
+			</p>
+			<p class="visible-print">
+				<svg width="20" height="20">
+					<rect width="20" height="20" style="fill:rgb({LEGEND_COLOR_SVG});" />
+				</svg>				
+				{LEGEND_CAPTION}
+			</p>
+			<!-- END legend_bl -->
+		</div>	
+		<!-- END legend_col_bl -->	
+		<br class="ilClearFloat" />
+		<!-- END chart_bl -->
+		
+		<!-- BEGIN texts_bl -->	
+		<div class="panel panel-default il_Block">	
+			<div class="panel-heading ilBlockHeader"><h3 class="ilBlockHeader">{TEXT_HEADING}</h3></div>
+			<div class="panel-body"> 
+				{TEXT_ACC}
+				<!-- BEGIN text_direct_bl -->
+				<ul>
+					<!-- BEGIN text_direct_item_bl -->
+					<li>{TEXT_DIRECT}</li>
+					<!-- END text_direct_item_bl -->
+				<ul>
+				<!-- END text_direct_bl -->
+			</div>
+		</div>
+		<!-- END texts_bl -->	
+		
+	</div>
+</div>
+<!-- END question_panel_bl -->
