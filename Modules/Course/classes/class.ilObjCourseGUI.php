@@ -4232,8 +4232,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($bgui);
 				break;
 				
-            default:
-
 			case "ilcontainernewssettingsgui":
 				$this->setSubTabs("properties");
 				$this->tabs_gui->setTabActive('settings');
