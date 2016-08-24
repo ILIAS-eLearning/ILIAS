@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<template xmlns="http://www.w3.org" version="1" name="skin 1">
-  <style id="style1" name="Style 1" image_directory="style1image" css_file="style1css" sound_directory="style1sound" font_directory="style1font"/>
-  <style id="style2" name="Style 2" image_directory="style2image" css_file="style2css" sound_directory="style2sound" font_directory="style2font"/>
-</template>

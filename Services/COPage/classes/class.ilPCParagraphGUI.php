@@ -682,8 +682,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		if ($this->pg_obj->getParentType() == "gdf" ||
-			$this->pg_obj->getParentType() == "lm" ||
-			$this->pg_obj->getParentType() == "dbk")
+			$this->pg_obj->getParentType() == "lm")
 		{
 			if ($this->pg_obj->getParentType() != "gdf")
 			{

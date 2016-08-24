@@ -91,7 +91,9 @@ class ilUtil
 		
 		if (is_object($styleDefinition))
 		{
-			$image_dir = $styleDefinition->getImageDirectory($current_style);
+			$image_dir = $styleDefinition->getImageDirectory(
+				ilStyleDefinition::getCurrentMasterStyle(),
+				$current_style);
 		}
 		if ($current_skin == "default")
 		{

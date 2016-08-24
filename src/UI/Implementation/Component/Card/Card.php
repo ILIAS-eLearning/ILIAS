@@ -81,9 +81,7 @@ class Card implements C\Card {
 	 * @inheritdoc
 	 */
 	public function withSections(array $sections){
-		$classes = [\ILIAS\UI\Component\Component::class];
-		$this->checkArgListElements("sections",$sections,$classes);
-
+		$this->checkArgListElements("sections",$sections,array(\ILIAS\UI\Component\Component::class));
 		$clone = clone $this;
 		$clone->content_sections = $sections;
 		return $clone;

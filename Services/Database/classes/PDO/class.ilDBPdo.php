@@ -1801,4 +1801,36 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		return new ilAtomQueryLock($this);
 	}
 
+
+	/**
+	 * @param $table
+	 * @param array $fields
+	 * @return bool
+	 */
+	public function uniqueConstraintExists($table, array $fields)
+	{
+		require_once('../Services/Database/classes/class.ilDBAnalyzer.php');
+		$analyzer = new ilDBAnalyzer();
+		$cons = $analyzer->getConstraintsInformation($table);
+		foreach ($cons as $c)
+		{
+			if ($c["type"] == "unique" && count($fields) == count($c["fields"]))
+			{
+				$all_in = true;
+				foreach ($fields as $f)
+				{
+					if (!isset($c["fields"][$f]))
+					{
+						$all_in = false;
+					}
+				}
+				if ($all_in)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }

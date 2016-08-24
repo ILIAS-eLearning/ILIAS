@@ -11,7 +11,7 @@
 class ilSystemStyleHTMLExport
 {
 	private $exp_dir = "";
-	private $images = [];
+	private $images = array();
 
 	/**
 	 * Initialisation
@@ -53,17 +53,20 @@ class ilSystemStyleHTMLExport
 	/**
 	 * Add (icon) image to the list of images to be exported
 	 *
-	 * @param $a_file
-	 * @param string $a_exp_file_name
+	 * @param
+	 * @return
 	 */
 	function addImage($a_file, $a_exp_file_name = "")
 	{
-		$this->images[] = ["file" => $a_file,
-			"exp_file_name" => $a_exp_file_name];
+		$this->images[] = array("file" => $a_file,
+			"exp_file_name" => $a_file);
 	}
-
+	
 	/**
 	 * Export
+	 *
+	 * @param
+	 * @return
 	 */
 	function export()
 	{
@@ -102,3 +105,5 @@ class ilSystemStyleHTMLExport
 	}
 
 }
+
+?>

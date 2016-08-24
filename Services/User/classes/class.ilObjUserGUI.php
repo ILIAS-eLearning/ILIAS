@@ -1666,36 +1666,33 @@ class ilObjUserGUI extends ilObjectGUI
 		if($this->isSettingChangeable('skin_style'))
 		{
 			$sk = new ilSelectInputGUI($lng->txt("skin_style"),
-					'skin_style');
-			/**
-			 * @var ilStyleDefinition $styleDefinition
-			 */
-			$skins = $styleDefinition->getAllSkins();
+				'skin_style');
+			$templates = $styleDefinition->getAllTemplates();
 
 			$options = array();
-			if (is_array($skins))
+			if (count($templates) > 0 && is_array ($templates))
 			{
-				$sk = new ilSelectInputGUI($this->lng->txt("skin_style"), "skin_style");
-
-				$options = array();
-				foreach($skins as $skin)
+				foreach ($templates as $template)
 				{
-					foreach($skin->getStyles() as $style)
+					$styleDef = new ilStyleDefinition($template["id"]);
+					$styleDef->startParsing();
+					$styles = $styleDef->getStyles();
+					foreach ($styles as $style)
 					{
 						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-						if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()))
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
 						{
 							continue;
 						}
-
-						$options[$skin->getId().":".$style->getId()] = $skin->getName()." / ".$style->getName();
+						$options[$template["id"].":".$style["id"]] =
+							$styleDef->getTemplateName()." / ".$style["name"];
 					}
 				}
 			}
 			$sk->setOptions($options);
 			$sk->setValue($ilClientIniFile->readVariable("layout","skin").
-					":".$ilClientIniFile->readVariable("layout","style"));
-
+				":".$ilClientIniFile->readVariable("layout","style"));
+	
 			$this->form_gui->addItem($sk);
 		}
 

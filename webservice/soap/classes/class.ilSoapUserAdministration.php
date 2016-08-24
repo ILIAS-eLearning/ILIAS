@@ -537,18 +537,18 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					elseif($user_data['user_skin'] and $user_data['user_style'])
 					{
 						$ok = false;
-						/**
-						 * @var ilStyleDefinition $styleDefinition
-						 */
-						$skins = $styleDefinition->getAllSkins();
-						if (count($skins) > 0 && is_array($skins))
+						$templates = $styleDefinition->getAllTemplates();
+						if (count($templates) > 0 && is_array($templates))
 						{
-							foreach($skins as $skin)
+							foreach($templates as $template)
 							{
-								foreach ($skin->getStyles() as $style)
+								$styleDef = new ilStyleDefinition($template["id"]);
+								$styleDef->startParsing();
+								$styles = $styleDef->getStyles();
+								foreach ($styles as $style)
 								{
-									if ($user_data['user_skin'] == $skin->getId() &&
-											$user_data['user_style'] == $style->getId())
+									if ($user_data['user_skin'] == $template["id"] &&
+										$user_data['user_style'] == $style["id"])
 									{
 										$ok = true;
 									}
