@@ -7,6 +7,9 @@ class ilManualAssessmentSettingsGUI {
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
 
+	const TAB_EDIT = 'settings';
+	const TAB_EDIT_INFO = 'infoSettings';
+
 	public function __construct($a_parent_gui, $a_ref_id) {
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
@@ -15,14 +18,27 @@ class ilManualAssessmentSettingsGUI {
 		$this->ref_id = $a_ref_id;
 		$this->tpl = $DIC['tpl'];
 		$this->lng = $DIC['lng'];
+		$this->tabs_gui = $a_parent_gui->tabsGUI();
+		$this->getSubTabs($this->tabs_gui);
 	}
 	
+	protected function getSubTabs(ilTabsGUI $tabs) {
+		$tabs->addSubTab(self::TAB_EDIT,
+									$this->lng->txt("edit"),
+									 $this->ctrl->getLinkTarget($this,'edit'));
+		$tabs->addSubTab(self::TAB_EDIT_INFO,
+									$this->lng->txt("editInfo"),
+									 $this->ctrl->getLinkTarget($this,'editInfo'));
+	}
+
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
-			case "edit":
-			case "update":
-			case "cancel":
+			case 'edit':
+			case 'update':
+			case 'cancel':
+			case 'editInfo':
+			case 'updateInfo':
 				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'write')) {
 					$this->parent_gui->handleAccessViolation();
 				}
@@ -37,6 +53,7 @@ class ilManualAssessmentSettingsGUI {
 	}
 
 	protected function edit() {
+		$this->tabs_gui->setSubTabActive(self::TAB_EDIT);
 		$form = $this->fillForm($this->initSettingsForm()
 					,$this->object
 					,$this->object->getSettings());
@@ -48,6 +65,7 @@ class ilManualAssessmentSettingsGUI {
 	}
 
 	protected function update() {
+		$this->tabs_gui->setSubTabActive(self::TAB_EDIT);
 		$form = $this->initSettingsForm();
 		$form->setValuesByArray($_POST);
 		if($form->checkInput()) {
