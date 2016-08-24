@@ -223,6 +223,7 @@ class ilManualAssessmentMemberGUI {
 
 		// notify examinee
 		$notify = new ilCheckboxInputGUI($this->lng->txt('mass_notify'), 'notify');
+		$notify->setInfo($this->lng->txt('mass_notify_explanation'));
 		$notify->setDisabled(!$may_be_edited);
 		$form->addItem($notify);
 
