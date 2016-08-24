@@ -27,14 +27,14 @@ il.Awareness = {
 	},
 
 	init: function() {
-		$('#awareness_trigger').popover({
+		$('#awareness_trigger a').popover({
 			html : true,
 			placement : "bottom",
 			viewport : { selector: 'body', padding: 10 },
 			title: " "
 		});
 
-		$('#awareness_trigger').on('show.bs.popover', function () {
+		$('#awareness_trigger a').on('show.bs.popover', function () {
 			//$("#awareness-content").html();
 //		console.log(this);
 
@@ -47,7 +47,7 @@ il.Awareness = {
 
 		// close popover when clicked outside. todo: move to a central place?
 		$('body').on('click', function (e) {
-			$('#awareness_trigger[data-toggle="popover"]').each(function () {
+			$('#awareness_trigger a').each(function () {
 				//the 'is' for buttons that trigger popups
 				//the 'has' for icons within a button that triggers a popup
 				if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
@@ -58,7 +58,7 @@ il.Awareness = {
 			});
 		});
 
-		$("#awareness_trigger").on("awrn:shown", function( event ) {
+		$("#awareness_trigger a").on("awrn:shown", function( event ) {
 //			console.log("awrn:shown thrown");
 		});
 	},
@@ -66,7 +66,7 @@ il.Awareness = {
 	show: function () {
 		var t = il.Awareness;
 
-		$('#awareness_trigger').siblings(".popover").children(".popover-content").html(t.getContent());
+		$('#awareness_trigger a').siblings(".popover").children(".popover-content").html(t.getContent());
 		$("body").addClass("modal-open");
 		t.afterListUpdate();
 	},
@@ -125,7 +125,7 @@ il.Awareness = {
 			t.setCounter(cnt[1], true);
 
 			// throw custom event
-			$("#awareness_trigger").trigger("awrn:shown");
+			$("#awareness_trigger a").trigger("awrn:shown");
 		}
 	},
 
