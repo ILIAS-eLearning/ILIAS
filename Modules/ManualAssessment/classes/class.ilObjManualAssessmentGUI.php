@@ -64,7 +64,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'ilinfoscreengui':
-				$this->viewObject();
+				$this->tabs_gui->setTabActive(self::TAB_INFO);
+				require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
+				$info = $this->buildInfoScreen();
+				$this->ctrl->forwardCommand($info);
+				break;
 			case 'illearningprogressgui':
 				if(!($this->object->access_handler->checkAccessToObj($this->object,'read_learning_progress') || $this->userIsMemberAndFinalized())) {
 					$this->handleAccessViolation();
@@ -75,7 +79,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 											ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 											$this->object->getRefId(),
 											$this->usr->getId());
-					$this->ctrl->forwardCommand($learning_progress);
+				$this->ctrl->forwardCommand($learning_progress);
 				break;
 			default:
 				if(!$cmd) {
@@ -87,19 +91,23 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		return true;
 	}
 
-
-
 	public function viewObject() {
 		$this->tabs_gui->setTabActive(self::TAB_INFO);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
+		$cmd = $this->ctrl->getCmd();
 		$this->ctrl->setCmd('showSummary');
 		$this->ctrl->setCmdClass('ilinfoscreengui');
+		$info = $this->buildInfoScreen();
+		$this->ctrl->forwardCommand($info);
+	}
+
+	protected function buildInfoScreen() {
 		$info = new ilInfoScreenGUI($this);
 		if($this->object) {
 			$info->addSection($this->lng->txt('general'));
 			$info->addProperty($this->lng->txt('content'),$this->object->getSettings()->content());
 		}
-		$this->ctrl->forwardCommand($info);
+		return $info;
 	}
 
 	public function getTabs() {
