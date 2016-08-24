@@ -8,6 +8,8 @@ include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconFolder.
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
+ *
+ * @ilCtrl_Calls ilSystemStyleIconsGUI:
  */
 class  ilSystemStyleIconsGUI
 {
