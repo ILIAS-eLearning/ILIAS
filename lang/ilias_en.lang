@@ -16242,3 +16242,22 @@ cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
 rbac#:#crs_news_add_news#:#Add and edit own news entries in course
 cont#:#cont_news_add_news#:#Add News
+bgtask#:#bgtask_failure#:#Error
+bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.
+bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.
+bgtask#:#bgtask_blocked#:#Concurrent download
+bgtask#:#bgtask_blocked_info#:#There is already a download processed for you.
+bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download 
+bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
+bgtask#:#bgtask_processing#:#Creating download
+bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.
+bgtask#:#bgtask_setting#:#«Background download» enabled
+bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.
+bgtask#:#bgtask_setting_limit#:#Global Limit
+bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.
+bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
+bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
+bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
+bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
+bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection
+bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.

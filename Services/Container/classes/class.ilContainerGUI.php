@@ -574,10 +574,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					if ($folder_set->get("enable_multi_download") == true)
 					{
 						$toolbar->addSeparator();
-						$toolbar->addFormButton(
-							$this->lng->txt('download_selected_items'), 
-							'download'
-						);
+						
+						if(!$folder_set->get("bgtask_download", 0))
+						{
+							$toolbar->addFormButton(
+								$this->lng->txt('download_selected_items'), 
+								'download'
+							);
+						}
+						else
+						{
+							$GLOBALS['tpl']->addJavaScript("Services/BackgroundTask/js/BgTask.js");		
+							$GLOBALS['tpl']->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
+							
+							include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+							$button = ilSubmitButton::getInstance();
+							$button->setCaption("download_selected_items");
+							$button->addCSSClass("ilbgtasksubmit");
+							$button->setCommand("download");
+							$toolbar->addButtonInstance($button);
+						}
 					}
 				}
 				if($this->object->getType() == 'crs' or $this->object->getType() == 'grp')
