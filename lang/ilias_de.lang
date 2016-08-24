@@ -16317,3 +16317,5 @@ bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Down
 bgtask#:#bgtask_cron_gc_title#:#Hintergrundaufgaben-Bereinigung
 bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien.
 style#:#enable_system_styles_management_no_write_perm#:#'System Styles Management' ist aktiviert ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden.
+awrn#:#awrn_use_osd#:#Popup Online-Benutzer
+awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.

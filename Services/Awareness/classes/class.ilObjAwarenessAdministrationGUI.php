@@ -124,6 +124,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 			$awrn_set->set("caching_period", $p);
 
 			$awrn_set->set("max_nr_entries", (int) $form->getInput("max_nr_entries"));
+			$awrn_set->set("use_osd", (int) $form->getInput("use_osd"));
 
 			$pd_set = new ilSetting("pd");
 			$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
@@ -207,6 +208,12 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		$ti_prop->setMaxLength(3);
 		$ti_prop->setSize(3);
 		$en->addSubItem($ti_prop);
+
+		// activate osd
+		$osd = new ilCheckboxInputGUI($this->lng->txt("awrn_use_osd"), "use_osd");
+		$osd->setInfo($this->lng->txt("awrn_use_osd_info"));
+		$osd->setChecked($awrn_set->get("use_osd", true));
+		$en->addSubItem($osd);
 
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
