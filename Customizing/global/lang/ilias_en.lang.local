@@ -10,10 +10,10 @@ bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
 bgtask#:#bgtask_processing#:#Creating download
 bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.
 bgtask#:#bgtask_setting#:#«Background download» enabled
-bgtask#:#bgtask_setting_info#:#The creation of the zip archive is done asynchronously and can be cancelled anytime.
+bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.
 bgtask#:#bgtask_setting_limit#:#Global Limit
 bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.
-bgtask#:#bgtask_setting_threshold_count#:#Mininum Number
+bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
 bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.

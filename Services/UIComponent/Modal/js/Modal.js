@@ -52,7 +52,7 @@
 			var $elm;
 			if (options.id != undefined) {
 				$elm = $("#" + options.id);
-				if ($elm.size() != 1) {
+				if ($elm.length != 1) {
 
 					// alex change start
 					$elm = $(templates.modal);
@@ -72,7 +72,7 @@
 		}()), buttons = props.buttons;
 
 		if (props.header != null) {
-			if (0 == $modal.find("." + $(templates.header).attr("class")).size()) {
+			if (0 == $modal.find("." + $(templates.header).attr("class")).length) {
 				$modal.find(".modal-content").prepend($(templates.header));
 			}
 
@@ -88,7 +88,7 @@
 		}).length;
 
 		if (number_of_buttons > 0) {
-			if (0 == $modal.find("." + $(templates.footer).attr("class")).size()) {
+			if (0 == $modal.find("." + $(templates.footer).attr("class")).length) {
 				$modal.find(".modal-content").append($(templates.footer));
 			}
 
@@ -108,7 +108,7 @@
 
 				if (button.id) {
 					$button = $('#' + button.id);
-					if ($button.size() != 1) {
+					if ($button.length != 1) {
 						throw new Error(
 							"Please define a valid button id."
 						);

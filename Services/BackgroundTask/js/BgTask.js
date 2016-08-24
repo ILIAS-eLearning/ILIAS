@@ -67,7 +67,7 @@ il.BgTask = {
 		// console.log(o);
 		if(o.responseText !== undefined && o.responseText !== "")
 		{
-			var json = $.parseJSON(o.responseText);
+			var json = JSON.parse(o.responseText);
 			if(json.status == "fail")
 			{
 				var $modal = il.Modal.dialogue({
