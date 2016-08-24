@@ -1,8 +1,8 @@
 <?php
 
-require_once('./Services/Object/classes/class.ilObjectAccess.php');
-include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
-include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+require_once 'Services/Object/classes/class.ilObjectAccess.php';
+require_once 'Services/AccessControl/classes/class.ilConditionHandler.php';
+require_once 'Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 class ilObjManualAssessmentAccess extends ilObjectAccess implements ilConditionHandling{
 	/**
 	 * @inheritdoc
