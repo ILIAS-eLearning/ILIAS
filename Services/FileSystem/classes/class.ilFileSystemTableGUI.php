@@ -208,7 +208,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
 			!($a_set["type"] == "dir" && $a_set["entry"] == ".."))
 		{
 			$advsel = new ilAdvancedSelectionListGUI();
-			$advsel->setListTitle($this->lng->txt("actions"));
+			//$advsel->setListTitle($this->lng->txt("actions"));
 			foreach($this->row_commands as $rcom)
 			{								
 				if($rcom["allow_dir"] || $a_set["type"] != "dir")

@@ -57,15 +57,24 @@ class ilBadgeManagementGUI
 		switch($next_class)
 		{					
 			case "ilpropertyformgui":
-				// ajax
+				// ajax - update
 				if((int)$_REQUEST["bid"])
 				{
 					include_once "./Services/Badge/classes/class.ilBadge.php";
 					$badge = new ilBadge((int)$_REQUEST["bid"]);
-					$type = $badge->getTypeInstance();
-					$form = $this->initBadgeForm("edit", $type, $badge->getTypeId());			
-					$ilCtrl->forwardCommand($form);						
+					$type = $badge->getTypeInstance();			
+					$form = $this->initBadgeForm("edit", $type, $badge->getTypeId());
 				}
+				// ajax- create
+				else
+				{
+					$type_id = $_REQUEST["type"];			
+					$ilCtrl->setParameter($this, "type", $type_id);		
+					$handler = ilBadgeHandler::getInstance();
+					$type = $handler->getTypeInstanceByUniqueId($type_id);	
+					$form = $this->initBadgeForm("create", $type, $type_id);
+				}							
+				$ilCtrl->forwardCommand($form);	
 				break;
 				
 			/*

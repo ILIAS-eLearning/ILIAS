@@ -112,6 +112,10 @@ class ilCalendarSchedule
 				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
 				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));		
 			}
+			
+			// exercise 
+			include_once './Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php';
+			$this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
 		}
 		
 	}
@@ -364,22 +368,35 @@ class ilCalendarSchedule
 		
 		return $a_cats;
 	}
-
-	protected function isValidEventByFilters(ilCalendarEntry $a_event)
+	
+	protected function modifyEventByFilters(ilCalendarEntry $event)
 	{
-		$valid = true;
-		
 		foreach($this->filters as $filter)
-		{							
-			if(!$filter->isValidEvent($a_event))
+		{
+			$res = $filter->modifyEvent($event);
+			if(!$res)
 			{
-				$valid = false;
-				break;
-			}			
+				ilLoggerFactory::getLogger('crs')->debug('filtering failed for ' . get_class($filter));
+				return FALSE;
+			}
+			$event = $res;
 		}
-		
-		return $valid;
-	}						
+		return $event;
+	}
+	
+	protected function addCustomEvents(ilDate $start, ilDate $end, array $categories)
+	{
+		$new_events = array();
+		foreach($this->filters as $filter)
+		{
+			$events_by_filter = $filter->addCustomEvents($start, $end, $categories);
+			if($events_by_filter)
+			{
+				$new_events = array_merge($new_events, $events_by_filter);
+			}
+		}
+		return $new_events;
+	}
 
 	/**
 	 * get new/changed events
@@ -415,11 +432,18 @@ class ilCalendarSchedule
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{						
 			$event = new ilCalendarEntry($row->cal_id);			
-			if($this->isValidEventByFilters($event))
+			$valid_event = $this->modifyEventByFilters($event);
+			if($valid_event)
 			{
-				$events[] = $event;
+				$events[] = $valid_event;
 			}
 		}
+		
+		foreach($this->addCustomEvents($this->start, $this->end, $cats) as $event)
+		{
+			$events[] = $event;
+		}
+		
 		return $events ? $events : array();
 	}
 	
@@ -470,11 +494,18 @@ class ilCalendarSchedule
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$event = new ilCalendarEntry($row->cal_id);			
-			if($this->isValidEventByFilters($event))
+			$valid_event = $this->modifyEventByFilters($event);
+			if($valid_event)
 			{
-				$events[] = $event;
-			}		
+				$events[] = $valid_event;
+			}	
 		}		
+		
+		foreach($this->addCustomEvents($this->start, $this->end, $cats) as $event)
+		{
+			$events[] = $event;
+		}
+			
 		return $events;
 	}
 	
