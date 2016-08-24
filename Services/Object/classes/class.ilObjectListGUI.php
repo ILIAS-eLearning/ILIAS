@@ -123,6 +123,11 @@ class ilObjectListGUI
 	
 	static protected $tpl_file_name = "tpl.container_list_item.html";
 	static protected $tpl_component = "Services/Container";
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	/**
 	* constructor
@@ -130,12 +135,13 @@ class ilObjectListGUI
 	*/
 	function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
-		global $rbacsystem, $ilCtrl, $lng, $ilias;
+		global $ilias, $DIC;
 
-		$this->rbacsystem = $rbacsystem;
+		$this->ui = $DIC->ui();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->ilias = $ilias;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
 		$this->context = $a_context;
@@ -152,8 +158,8 @@ class ilObjectListGUI
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
-		
-		$lng->loadLanguageModule("obj");
+
+		$this->lng->loadLanguageModule("obj");
 	}
 
 
@@ -2933,7 +2939,17 @@ class ilObjectListGUI
 	{
 		$this->header_icons[$a_id] = $a_html;
 	}
-	
+
+	/**
+	 *
+	 * @param string $a_id
+	 * @param string $a_html
+	 */
+	function addHeaderGlyph($a_id, $a_glyph, $a_onclick = null)
+	{
+		$this->header_icons[$a_id] = array("glyph" => $a_glyph, "onclick" => $a_onclick);
+	}
+
 	function setAjaxHash($a_hash)
 	{
 		$this->ajax_hash = $a_hash;
@@ -2962,11 +2978,17 @@ class ilObjectListGUI
 			{
 				include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 				$lng->loadLanguageModule("tagging");
-				$this->addHeaderIcon("tags", 					
+				/*$this->addHeaderIcon("tags",
 					ilUtil::getImagePath("icon_tag.svg"),
 					$lng->txt("tagging_tags").": ".count($tags),
 					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js),
-					count($tags));				
+					count($tags));*/
+
+				$f = $this->ui->factory();
+				$this->addHeaderGlyph("tags", $f->glyph()->tag("#")
+					->withCounter($f->counter()->status((int) count($tags))),
+					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js));
+
 			}
 		}
 				
@@ -2980,23 +3002,35 @@ class ilObjectListGUI
 
 			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
-				$this->addHeaderIcon("notes",
+				/*$this->addHeaderIcon("notes",
 					ilUtil::getImagePath("note_unlabeled.svg"),
 					$lng->txt("private_notes").": ".$cnt[$this->obj_id][IL_NOTE_PRIVATE],
 					ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js),
 					$cnt[$this->obj_id][IL_NOTE_PRIVATE]
-					);
+					);*/
+
+				$f = $this->ui->factory();
+				$this->addHeaderGlyph("notes", $f->glyph()->note("#")
+					->withCounter($f->counter()->status((int) $cnt[$this->obj_id][IL_NOTE_PRIVATE])),
+					ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js));
+
 			}
 
 			if($comments_enabled && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$lng->loadLanguageModule("notes");
 				
-				$this->addHeaderIcon("comments",
+				/*$this->addHeaderIcon("comments",
 					ilUtil::getImagePath("comment_unlabeled.svg"),
 					$lng->txt("notes_public_comments").": ".$cnt[$this->obj_id][IL_NOTE_PUBLIC],
 					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js),
-					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);
+					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);*/
+
+				$f = $this->ui->factory();
+				$this->addHeaderGlyph("comments", $f->glyph()->comment("#")
+					->withCounter($f->counter()->status((int) $cnt[$this->obj_id][IL_NOTE_PUBLIC])),
+					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js));
+
 			}			
 		}
 		
@@ -3043,35 +3077,52 @@ class ilObjectListGUI
 				$id = "headp_".$id;
 				
 				if(is_array($attr))
-				{				
-					if($attr["onclick"])
-					{				
-						$htpl->setCurrentBlock("onclick");
-						$htpl->setVariable("PROP_ONCLICK", $attr["onclick"]);
+				{
+					if($attr["glyph"])
+					{
+						if ($attr["onclick"])
+						{
+							$htpl->setCurrentBlock("prop_glyph_oc");
+							$htpl->setVariable("GLYPH_ONCLICK", $attr["onclick"]);
+							$htpl->parseCurrentBlock();
+						}
+						$renderer = $this->ui->renderer();
+						$html = $renderer->render($attr["glyph"]);
+						$htpl->setCurrentBlock("prop_glyph");
+						$htpl->setVariable("GLYPH", $html);
 						$htpl->parseCurrentBlock();
 					}
-
-					if($attr["status_text"])
+					else
 					{
-						$htpl->setCurrentBlock("status");
-						$htpl->setVariable("PROP_TXT", $attr["status_text"]);
+						if ($attr["onclick"])
+						{
+							$htpl->setCurrentBlock("onclick");
+							$htpl->setVariable("PROP_ONCLICK", $attr["onclick"]);
+							$htpl->parseCurrentBlock();
+						}
+
+						if ($attr["status_text"])
+						{
+							$htpl->setCurrentBlock("status");
+							$htpl->setVariable("PROP_TXT", $attr["status_text"]);
+							$htpl->parseCurrentBlock();
+						}
+
+						if (!$attr["href"])
+						{
+							$attr["href"] = "#";
+						}
+
+						$htpl->setCurrentBlock("prop");
+						$htpl->setVariable("PROP_ID", $id);
+						$htpl->setVariable("IMG", ilUtil::img($attr["img"]));
+						$htpl->setVariable("PROP_HREF", $attr["href"]);
 						$htpl->parseCurrentBlock();
-					}
-					
-					if(!$attr["href"])
-					{
-						$attr["href"] = "#";
-					}
 
-					$htpl->setCurrentBlock("prop");
-					$htpl->setVariable("PROP_ID", $id);
-					$htpl->setVariable("IMG", ilUtil::img($attr["img"]));										
-					$htpl->setVariable("PROP_HREF", $attr["href"]);													
-					$htpl->parseCurrentBlock();
-					
-					if($attr["tooltip"])
-					{					
-						ilTooltipGUI::addTooltip($id, $attr["tooltip"]);
+						if ($attr["tooltip"])
+						{
+							ilTooltipGUI::addTooltip($id, $attr["tooltip"]);
+						}
 					}
 				}
 				else
