@@ -15912,8 +15912,6 @@ glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied 
 mass#:#general#:#Allgemein
 mass#:#mass_content#:#Inhalt
 mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
-mass#:#mass_add_user_success#:#Benutzer erfolgreich hinzugefügt
-mass#:#mass_add_user_failure#:#Kann einen oder mehrere Benutzer nicht hinzufügen
 mass#:#mass_graded_by#:#Bewertet von
 mass#:#mass_usr_remove#:#Benutzer entfernen
 mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
@@ -15960,6 +15958,10 @@ mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Ob
 mass#:#mass_edit#:#Einstellungen
 mass#:#mass_add#:#Manuelle Bewertung hinzufügen
 mass#:#mass_membership_finalized#:#Status finalisiert
-mass#:#mass_membership_saved#:#Status gespeichert
+mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
 mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
+mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_settings_saved#:#Einstellungen gespeichert.
+mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
+mass#:#mass_add_user_success#:#Benutzer hinzugefügt.

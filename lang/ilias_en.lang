@@ -15911,8 +15911,6 @@ glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied 
 mass#:#general#:#General iformation
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
-mass#:#mass_add_user_success#:#Successfully added users
-mass#:#mass_add_user_failure#:#Can not add one or more users
 mass#:#mass_graded_by#:#Graded by
 mass#:#mass_usr_remove#:#Remove user from object
 mass#:#mass_usr_edit#:#Edit user record and learning progress
@@ -15959,7 +15957,10 @@ mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Th
 mass#:#mass_edit#:#Settings
 mass#:#mass_add#:#Create Manual Assessment
 mass#:#mass_membership_finalized#:#Record finalized
-mass#:#mass_membership_saved#:#Record saved
+mass#:#mass_membership_saved#:#Record saved, not yet finalized
 mass#:#mass_return#:#Back to overview
 mass#:#mass_remove_user_qst#:#Should the user really be removed?
 mass#:#mass_finalize_user_qst#:#Should the user status really be finalized? (No changes possibel thereafter.)
+mass#:#mass_settings_saved#:#Settings saved.
+mass#:#mass_add_user_failure#:#One or more user could not be added.
+mass#:#mass_add_user_success#:#User added.
