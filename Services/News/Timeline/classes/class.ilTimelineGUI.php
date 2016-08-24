@@ -16,6 +16,11 @@ class ilTimelineGUI
 	protected $items = array();
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * Construct
 	 *
 	 * @param
@@ -23,7 +28,9 @@ class ilTimelineGUI
 	 */
 	protected function __construct()
 	{
+		global $DIC;
 
+		$this->lng = $DIC->language();
 	}
 
 	/**
@@ -57,8 +64,20 @@ class ilTimelineGUI
 	function render()
 	{
 		$t = new ilTemplate("tpl.timeline.html", true, true, "Services/News/Timeline");
+		$last_date = "";
 		foreach ($this->items as $i)
 		{
+
+			$dt = $i->getDateTime();
+			if ($dt->get(IL_CAL_FKT_DATE, "Y-m-d") != $last_date)
+			{
+				$t->setCurrentBlock("badge");
+				$t->setVariable("DAY", $dt->get(IL_CAL_FKT_DATE, "d"));
+				$t->setVariable("MONTH", $this->lng->txt("month_" . $dt->get(IL_CAL_FKT_DATE, "m") . "_short"));
+				$t->parseCurrentBlock();
+			}
+			$last_date = $dt->get(IL_CAL_FKT_DATE, "Y-m-d");
+
 			$t->setCurrentBlock("item");
 			$t->setVariable("CONTENT", $i->render());
 			$t->parseCurrentBlock();

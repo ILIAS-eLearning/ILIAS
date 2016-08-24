@@ -18,6 +18,13 @@ interface ilTimelineItemInt
 	 */
 	public function render();
 
+	/**
+	 * Get datetime
+	 *
+	 * @return ilDateTime timestamp
+	 */
+	public function getDateTime();
+
 }
 
 ?>

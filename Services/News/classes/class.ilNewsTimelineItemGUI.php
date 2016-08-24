@@ -21,6 +21,17 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 	 */
 	protected $news_item;
 
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var bool
+	 */
+	protected $user_edit_all;
+
 	/**
 	 * Constructor
 	 *
@@ -32,6 +43,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
 		$this->lng = $DIC->language();
 		$this->setNewsItem($a_news_item);
+		$this->user = $DIC->user();
 	}
 
 	/**
@@ -65,6 +77,36 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 	{
 		return $this->news_item;
 	}
+	
+	/**
+	 * Set user can edit other users postings
+	 *
+	 * @param bool $a_val user can edit all postings	
+	 */
+	function setUserEditAll($a_val)
+	{
+		$this->user_edit_all = $a_val;
+	}
+	
+	/**
+	 * Get user can edit other users postings
+	 *
+	 * @return bool user can edit all postings
+	 */
+	function getUserEditAll()
+	{
+		return $this->user_edit_all;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getDateTime()
+	{
+		$i = $this->getNewsItem();
+		return new ilDateTime($i->getCreationDate(), IL_CAL_DATETIME);
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -89,8 +131,12 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		$list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$list->setUseImages(false);
 
-		$list->addItem($this->lng->txt("edit"), "", "", "", "text?", "",
-			"", false, "il.News.edit(".$i->getId().");");
+		if ($i->getPriority() == 1 && $i->getUserId() == $this->user->getId() || $this->getUserEditAll())
+		{
+			$list->addItem($this->lng->txt("edit"), "", "", "", "", "",
+				"", false, "il.News.edit(" . $i->getId() . ");");
+		}
+
 		$tpl->setVariable("ACTIONS", $list->getHTML());
 
 
