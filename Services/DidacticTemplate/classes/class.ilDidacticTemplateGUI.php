@@ -97,7 +97,7 @@ class ilDidacticTemplateGUI
 			unset($options[0]);
 		}
 
-		if(!in_array($value, array_keys($options)))
+		if(!in_array($value, array_keys($options)) || ($excl_tpl && $value == 0))
 		{
 			$options[$value] = $this->lng->txt('not_available');
 		}

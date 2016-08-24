@@ -236,4 +236,33 @@ $query = 'INSERT INTO didactic_tpl_fp (pattern_id, pattern_type, pattern_sub_typ
 $ilDB->manipulate($query);
 
 ?>
+<#13>
+<?php
+$query =
+	"SELECT id FROM didactic_tpl_settings ".
+	"WHERE title = " . $ilDB->quote('grp_closed', 'text').
+	" AND description = " . $ilDB->quote('grp_closed_info', 'text').
+	" AND auto_generated = 1";
 
+$closed_grp = $ilDB->query($query)->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->id;
+
+$query =
+	"SELECT objr.obj_id obj_id, objr.ref_id ref_id ".
+	"FROM (grp_settings grps JOIN object_reference objr ON (grps.obj_id = objr.obj_id)) ".
+	"LEFT JOIN didactic_tpl_objs dtplo ON (dtplo.obj_id = objr.obj_id) ".
+	"WHERE grps.grp_type = 1 ".
+	"AND (dtplo.tpl_id IS NULL OR dtplo.tpl_id = 0)";
+$res = $ilDB->query($query);
+
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$query = 'INSERT INTO didactic_tpl_objs (obj_id,tpl_id,ref_id) '.
+		'VALUES( '.
+		$ilDB->quote($row->obj_id,'integer').', '.
+		$ilDB->quote($closed_grp,'integer').', '.
+		$ilDB->quote($row->ref_id,'integer').
+		')';
+	$ilDB->manipulate($query);
+}
+
+?>

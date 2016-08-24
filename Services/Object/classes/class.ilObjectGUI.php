@@ -923,9 +923,15 @@ class ilObjectGUI
 			if(!$this->getCreationMode())
 			{
 				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-				$type->setValue(
-					'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId())
-				);
+				$value = 'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+
+				$type->setValue($value);
+
+				if(!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0"))
+				{
+					//add or rename actual value to not avaiable
+					$options[$value] = array($this->lng->txt('not_available'));
+				}
 			}
 			else
 			{
@@ -947,9 +953,9 @@ class ilObjectGUI
 			{
 				$option = new ilRadioOption($data[0], $id, $data[1]);
 
-				if($existing_exclusive && $id == "dtpl_0")
+				if($existing_exclusive && $id == "dtpl_0" && $this->getCreationMode())
 				{
-					//set default disabled if an exclusive template exists
+					//set default disabled if an exclusive template exists but just in creation screen
 					$option->setDisabled(true);
 				}
 
