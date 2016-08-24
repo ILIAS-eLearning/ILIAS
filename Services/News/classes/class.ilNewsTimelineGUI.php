@@ -42,6 +42,11 @@ class ilNewsTimelineGUI
 	protected $user;
 
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 *
 	 * @param int $a_ref_id reference id
@@ -57,6 +62,7 @@ class ilNewsTimelineGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->user = $DIC->user();
 		$this->include_auto_entries = $a_include_auto_entries;
+		$this->access = $DIC->access();
 	}
 
 	/**
@@ -97,11 +103,14 @@ class ilNewsTimelineGUI
 	function show()
 	{
 		// toolbar
-		$b = ilLinkButton::getInstance();
-		$b->setCaption('add');
-		$b->setOnClick("return il.News.create();");
-		$b->setPrimary(true);
-		$this->toolbar->addButtonInstance($b);
+		if ($this->access->checkAccess("news_add_news", "", $this->ref_id))
+		{
+			$b = ilLinkButton::getInstance();
+			$b->setCaption('add');
+			$b->setOnClick("return il.News.create();");
+			$b->setPrimary(true);
+			$this->toolbar->addButtonInstance($b);
+		}
 
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = new ilNewsItem();

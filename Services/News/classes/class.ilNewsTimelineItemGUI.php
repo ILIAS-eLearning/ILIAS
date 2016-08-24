@@ -194,7 +194,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setVariable("TXT_USR", ilUserUtil::getNamePresentation($i->getUserId(), false, false));
 
-		$tpl->setVariable("TIME", $this->getDateTime()->get(IL_CAL_FKT_DATE, "d.m, H:i"));
+		include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
+		$tpl->setVariable("TIME", ilDatePresentation::formatDate($this->getDateTime()));
 
 		// actions
 		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");

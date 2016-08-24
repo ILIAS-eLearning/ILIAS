@@ -16228,3 +16228,5 @@ cont#:#cont_news_timeline#:#News Timeline
 cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
 cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
 cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
+rbac#:#news_add_news#:#Add News
+rbac#:#grp_news_add_news#:#Add and edit own news entries in group
