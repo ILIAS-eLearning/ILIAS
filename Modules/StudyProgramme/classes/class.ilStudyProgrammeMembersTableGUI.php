@@ -20,7 +20,7 @@ require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected $prg_obj_id;
 	protected $prg_ref_id;
-	
+
 	public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		$this->setId("sp_member_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -35,7 +35,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->db = $ilDB;
-		
+
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
@@ -44,7 +44,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		$this->setShowRowsSelector(false);
-		
+
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 
@@ -110,7 +110,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			}
 		}
 	}
-	
+
 	protected function buildActionDropDown($a_actions, $a_prgrs_id, $a_ass_id) {
 		$l = new ilAdvancedSelectionListGUI();
 		foreach($a_actions as $action) {
@@ -119,7 +119,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		}
 		return $l->getHTML();
 	}
-	
+
 	protected function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
 		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id);
 	}
@@ -167,7 +167,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			$query .= " OFFSET ".$this->db->quote($offset, "integer");
 		}
 		$res = $this->db->query($query);
-	
+
 		$members_list = array();
 		while($rec = $this->db->fetchAssoc($res)) {
 			$rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
@@ -224,8 +224,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	/**
 	 * Get selectable columns
 	 *
-	 * @param
-	 * @return
+	 * @return array[] 	$cols
 	 */
 	function getSelectableColumns() {
 		// default fields
