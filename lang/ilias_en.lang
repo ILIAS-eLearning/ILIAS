@@ -15822,13 +15822,13 @@ badge#:#badge_settings#:#Badge Settings
 badge#:#badge_service_activate#:#Activate Service
 badge#:#badge_service_activate_info#:#Activate the service to make badges available
 badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
-badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications. 
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
 badge#:#badge_obi_contact#:#Contact Email
-badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge. 
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards. 
 badge#:#badge_types#:#Types
 badge#:#badge_image_templates#:#Image Templates
 badge#:#badge_activity_badges#:#Activity Badges
