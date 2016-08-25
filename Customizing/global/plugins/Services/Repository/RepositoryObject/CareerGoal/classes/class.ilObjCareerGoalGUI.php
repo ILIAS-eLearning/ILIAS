@@ -77,8 +77,8 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 			case ilCareerGoalObservationsGUI::CMD_DELETE:
 			case ilCareerGoalObservationsGUI::CMD_SORT:
 			case ilCareerGoalObservationsGUI::CMD_CONFIRMED_DELETE:
-			case ilCareerGoalObservationsGUI::CMD_DELETE_SELECTED_REQUIREMENTS:
-			case ilCareerGoalObservationsGUI::CMD_CONFIRMED_DELETE_SELECTED_REQUIREMENTS:
+			case ilCareerGoalObservationsGUI::CMD_DELETE_SELECTED_OBSERVATIONS:
+			case ilCareerGoalObservationsGUI::CMD_CONFIRMED_DELETE_SELECTED_OBSERVATIONS:
 			case ilCareerGoalObservationsGUI::CMD_SAVE_ORDER:
 				$this->forwardObservations();
 				break;
