@@ -4088,7 +4088,6 @@ common#:#refuse#:#Refuse
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
@@ -16213,3 +16212,4 @@ assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 blog#:#blog_show_latest#:#Show latest postings/drafts
 assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
