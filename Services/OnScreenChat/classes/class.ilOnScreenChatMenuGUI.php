@@ -79,23 +79,27 @@ class ilOnScreenChatMenuGUI
 		$DIC->language()->loadLanguageModule('chatroom');
 
 		$config = array(
-			'conversationTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-menu-item.html'),
-			'userId' => $DIC->user()->getId(),
-			'showPublicChat' => false
+			'conversationTemplate' => (new ilTemplate('tpl.chat-menu-item.html', false, false, 'Services/OnScreenChat'))->get(),
+			'roomTemplate'         => (new ilTemplate('tpl.chat-menu-item-room.html', false, false, 'Services/OnScreenChat'))->get(),
+			'userId'               => $DIC->user()->getId()
 		);
+
+		$config['rooms'] = array();
 
 		if($this->publicChatRoomAccess)
 		{
-			$config['showPublicChat']     = true;
-			$config['publicChatRoomUrl']  = './ilias.php?baseClass=ilRepositoryGUI&amp;cmd=view&amp;ref_id=' . $this->pub_ref_id;
-			$config['publicChatRoomText'] = $DIC->language()->txt('chat_invite_public_room');
+			$config['rooms'][] = array(
+				'name' => $DIC['ilObjDataCache']->lookupTitle($DIC['ilObjDataCache']->lookupObjId($this->pub_ref_id)),
+				'url'  => './ilias.php?baseClass=ilRepositoryGUI&amp;cmd=view&amp;ref_id=' . $this->pub_ref_id,
+				'icon' => ilObject::_getIcon($DIC['ilObjDataCache']->lookupObjId($this->pub_ref_id), 'small', 'chtr')
+			);
 		}
 
 		$config['showOnScreenChat'] = $this->oscAccess;
 
 		$DIC->language()->loadLanguageModule('chatroom');
 		$DIC->language()->toJS(array(
-			'chat_osc_conversations'
+			'chat_osc_conversations', 'chat_osc_section_head_other_rooms'
 		));
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');

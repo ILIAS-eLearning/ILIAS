@@ -193,16 +193,16 @@ class ilOnScreenChatGUI
 			$settings = self::loadServerSettings();
 
 			$guiConfig = array(
-				'chatWindowTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-window.html'),
-				'messageTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-message.html'),
-				'modalTemplate' => file_get_contents('./Services/OnScreenChat/templates/default/tpl.chat-add-user.html'),
-				'userId' => $DIC->user()->getId(),
-				'username' => $DIC->user()->getLogin(),
-				'userListURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserList', '', true, false),
-				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass("ilonscreenchatgui", 'getUserProfileImages', '', true, false),
-				'loaderImg' => ilUtil::getImagePath("loader.svg"),
-				'emoticons' => self::getEmoticons($settings),
-				'locale' => $DIC->language()->getLangKey()
+				'chatWindowTemplate' => (new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat'))->get(),
+				'messageTemplate'    => (new ilTemplate('tpl.chat-message.html', false, false, 'Services/OnScreenChat'))->get(),
+				'modalTemplate'      => (new ilTemplate('tpl.chat-add-user.html', false, false, 'Services/OnScreenChat'))->get(),
+				'userId'             => $DIC->user()->getId(),
+				'username'           => $DIC->user()->getLogin(),
+				'userListURL'        => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserList', '', true, false),
+				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserProfileImages', '', true, false),
+				'loaderImg'          => ilUtil::getImagePath('loader.svg'),
+				'emoticons'          => self::getEmoticons($settings),
+				'locale'             => $DIC->language()->getLangKey()
 			);
 
 			$chatConfig = array(
