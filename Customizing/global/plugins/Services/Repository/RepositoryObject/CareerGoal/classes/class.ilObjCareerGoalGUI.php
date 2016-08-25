@@ -4,13 +4,14 @@ use CaT\Plugins\CareerGoal;
 include_once("./Services/Repository/classes/class.ilObjectPluginGUI.php");
 require_once(__DIR__."/class.ilCareerGoalSettingsGUI.php");
 require_once(__DIR__."/class.ilCareerGoalRequirementsGUI.php");
+require_once(__DIR__."/class.ilCareerGoalObservationsGUI.php");
 
 /**
  * User Interface class for career goal repository object.
  *
  * @ilCtrl_isCalledBy ilObjCareerGoalGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
  * @ilCtrl_Calls ilObjCareerGoalGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCareerGoalGUI: ilCareerGoalSettingsGUI, ilCareerGoalRequirementsGUI
+ * @ilCtrl_Calls ilObjCareerGoalGUI: ilCareerGoalSettingsGUI, ilCareerGoalRequirementsGUI, ilCareerGoalObservationsGUI
  *
  * @author 		Stefan Hecken <stefan.hecken@concepts-and-training.de> 
  */
@@ -67,6 +68,19 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 			case ilCareerGoalRequirementsGUI::CMD_CONFIRMED_DELETE_SELECTED_REQUIREMENTS:
 			case ilCareerGoalRequirementsGUI::CMD_SAVE_ORDER:
 				$this->forwardRequirements();
+				break;
+			case ilCareerGoalObservationsGUI::CMD_SHOW:
+			case ilCareerGoalObservationsGUI::CMD_ADD:
+			case ilCareerGoalObservationsGUI::CMD_EDIT:
+			case ilCareerGoalObservationsGUI::CMD_SAVE:
+			case ilCareerGoalObservationsGUI::CMD_UPDATE:
+			case ilCareerGoalObservationsGUI::CMD_DELETE:
+			case ilCareerGoalObservationsGUI::CMD_SORT:
+			case ilCareerGoalObservationsGUI::CMD_CONFIRMED_DELETE:
+			case ilCareerGoalObservationsGUI::CMD_DELETE_SELECTED_REQUIREMENTS:
+			case ilCareerGoalObservationsGUI::CMD_CONFIRMED_DELETE_SELECTED_REQUIREMENTS:
+			case ilCareerGoalObservationsGUI::CMD_SAVE_ORDER:
+				$this->forwardObservations();
 				break;
 			case self::CMD_PROPERTIES:
 			case self::CMD_SHOWCONTENT:
@@ -151,6 +165,18 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 			$this->gTabs->setTabActive(self::TAB_REQUIREMENT);
 			$actions = $this->object->getActions();
 			$gui = new ilCareerGoalRequirementsGUI($actions, $this->plugin->txtClosure(), $this->object->getId());
+			$this->gCtrl->forwardCommand($gui);
+		}
+	}
+
+	protected function forwardObservations() {
+		if(!$this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+			\ilUtil::sendFailure($this->plugin->txt('obj_permission_denied'), true);
+			$this->gCtrl->redirectByClass("ilPersonalDesktopGUI", "jumpToSelectedItems");
+		} else {
+			$this->gTabs->setTabActive(self::TAB_REQUIREMENT);
+			$actions = $this->object->getActions();
+			$gui = new ilCareerGoalObservationsGUI($actions, $this->plugin->txtClosure(), $this->object->getId());
 			$this->gCtrl->forwardCommand($gui);
 		}
 	}
