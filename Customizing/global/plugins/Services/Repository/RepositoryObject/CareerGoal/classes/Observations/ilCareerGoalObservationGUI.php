@@ -89,12 +89,11 @@ class ilCareerGoalObservationGUI {
 	protected function newObservation(\ilPropertyFormGUI $form = null) {
 		if($form === null) {
 			$form = $this->initForm();
+			$form->setValuesByArray($this->parent_obj->getActions()->readNewObservation());
 		}
 
 		$form->addCommandButton($this->possible_cmd["CMD_SAVE"], $this->txt("save"));
 		$form->addCommandButton($this->possible_cmd["CMD_SHOW"], $this->txt("cancel"));
-
-		$form->setValuesByArray($this->parent_obj->getActions()->readNewObservation());
 
 		$this->gTpl->setContent($form->getHtml());
 	}
