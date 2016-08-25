@@ -184,7 +184,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
 		foreach($this->getSelectedColumns() as $field)
 		{
 			switch($field)
@@ -255,6 +254,13 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 					}
 					$this->tpl->setCurrentBlock('custom_fields');
 					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
+					$this->tpl->parseCurrentBlock();
+					break;
+					
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
 					$this->tpl->parseCurrentBlock();
 					break;
 
@@ -383,6 +389,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
 		unset($additional_fields['roles']);
+		unset($additional_fields['org_units']);
 		
 		$part = $this->participants->getParticipants();
 

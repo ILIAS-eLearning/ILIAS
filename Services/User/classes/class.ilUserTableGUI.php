@@ -230,6 +230,7 @@ class ilUserTableGUI extends ilTable2GUI
 		unset($additional_fields["email"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
+		unset($additional_fields['org_units']);
 
 		$query = new ilUserQuery();
 		$query->setOrderField($this->getOrderField());

@@ -199,8 +199,14 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
 					$this->tpl->parseCurrentBlock();
 					break;
-				
-                                        
+					
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+					$this->tpl->parseCurrentBlock();
+					break;
+					
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST',isset($a_set[$field]) ? (string) $a_set[$field] : '');
@@ -284,6 +290,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
 		unset($additional_fields['roles']);
+		unset($additional_fields['org_units']);
 				
 		
 		
