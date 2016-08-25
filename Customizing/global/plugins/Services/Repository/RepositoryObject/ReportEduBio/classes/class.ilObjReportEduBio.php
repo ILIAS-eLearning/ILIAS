@@ -38,6 +38,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 		$self_id = $this->user_utils->getId();
 		if ($this->target_user_id != $self_id) {
 			if ( !in_array($this->target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
+				ilUtil::sendFailure($this->plugin->txt('u_access_violation_show_self'));
 				$this->target_user_id = $self_id;
 			}
 		}
