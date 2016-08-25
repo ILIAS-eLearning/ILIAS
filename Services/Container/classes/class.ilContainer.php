@@ -83,8 +83,9 @@ class ilContainer extends ilObject
 	{
 		global $DIC;
 
-		parent::__construct($a_id, $a_reference);
 		$this->setting = $DIC["ilSetting"];
+		parent::__construct($a_id, $a_reference);
+
 	}
 
 	/**
