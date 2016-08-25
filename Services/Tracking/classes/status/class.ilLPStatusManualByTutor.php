@@ -172,13 +172,9 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				return $member_obj->getMembers();
-				
 			case 'grp':
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-				return ilObjGroup::_getMembers($a_obj_id);			
+				include_once './Services/Membership/classes/class.ilParticipants.php';
+				return ilParticipants::getInstanceByObjId($a_obj_id)->getMembers();
 		}
 		
 		return array();
