@@ -2,16 +2,16 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php");
+include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 
 /**
- * Adds link to mail feature
+ * Adds link to mail
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesAwareness
+ * @ingroup ServicesUser
  */
-class ilAwarenessMailFeatureProvider extends ilAwarenessFeatureProvider
+class ilMailUserActionProvider extends ilUserActionProvider
 {
 	static $user_access = array();
 
@@ -35,15 +35,15 @@ class ilAwarenessMailFeatureProvider extends ilAwarenessFeatureProvider
 	}
 
 	/**
-	 * Collect all features
+	 * Collect user actions
 	 *
 	 * @param int $a_target_user target user
-	 * @return ilAwarenessUserCollection collection
+	 * @return ilUserActionCollection collection
 	 */
-	function collectFeaturesForTargetUser($a_target_user)
+	function collectActionsForTargetUser($a_target_user)
 	{
-		$coll = ilAwarenessFeatureCollection::getInstance();
-		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
+		$coll = ilUserActionCollection::getInstance();
+		include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 		include_once("./Services/Mail/classes/class.ilMailFormCall.php");
 
 		// check mail permission of user
@@ -55,11 +55,11 @@ class ilAwarenessMailFeatureProvider extends ilAwarenessFeatureProvider
 		// check mail permission of target user
 		if ($this->checkUserMailAccess($a_target_user))
 		{
-			$f = new ilAwarenessFeature();
+			$f = new ilUserAction();
 			$f->setText($this->lng->txt("mail"));
 			$tn = ilObjUser::_lookupName($a_target_user);
 			$f->setHref(ilMailFormCall::getLinkTarget("", '', array(), array('type' => 'new', 'rcp_to' => urlencode($tn["login"]))));
-			$coll->addFeature($f);
+			$coll->addAction($f);
 		}
 
 		return $coll;

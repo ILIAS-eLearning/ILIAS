@@ -2,21 +2,21 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php");
+include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 
 /**
- * Adds link to chat feature
+ * Adds link to chat
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesAwareness
+ * @ingroup ServicesUser
  */
-class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
+class ilChatUserActionProvider extends ilUserActionProvider
 {
 	protected static $user_access = array();
 	protected $pub_ref_id = 0;
 
-		/**
+	/**
 	 * Constructor
 	 */
 	function __construct()
@@ -51,15 +51,15 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 
 
 	/**
-	 * Collect all features
+	 * Collect all actions
 	 *
 	 * @param int $a_target_user target user
-	 * @return ilAwarenessUserCollection collection
+	 * @return ilUserActionCollection collection
 	 */
-	function collectFeaturesForTargetUser($a_target_user)
+	function collectActionsForTargetUser($a_target_user)
 	{
-		$coll = ilAwarenessFeatureCollection::getInstance();
-		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
+		$coll = ilUserActionCollection::getInstance();
+		include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 
 		if (!$this->chat_enabled)
 		{
@@ -68,18 +68,17 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 
 		if ($this->checkUserChatAccess($this->getUserId()))
 		{
-			// this check is not really needed anymore, since the current
-			// user will never be listed in the awareness tool
+			// no chat with user him/herself
 			if ($a_target_user != $this->getUserId())
 			{
 				if ($this->checkUserChatAccess($a_target_user))
 				{
-					$f = new ilAwarenessFeature();
+					$f = new ilUserAction();
 					$f->setText($this->lng->txt('chat_invite_public_room'));
 					$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&ref_id='.$this->pub_ref_id.
 						'&usr_id='.$a_target_user.'&cmd=view-invitePD');
 					//$this->tpl->setVariable('TXT_CHAT_INVITE_TOOLTIP', $lng->txt('chat_invite_public_room_tooltip'));
-					$coll->addFeature($f);
+					$coll->addAction($f);
 				}
 			}
 		}
