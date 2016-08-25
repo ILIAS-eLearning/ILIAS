@@ -273,11 +273,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$a_form->addItem($fdb);
 		
 		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_mail"), ilObjExercise::TUTOR_FEEDBACK_MAIL);
-		$fdb->addOption($option);
-		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_text"), ilObjExercise::TUTOR_FEEDBACK_TEXT);
+		$option->setInfo($this->lng->txt("exc_settings_feedback_mail_info"));
 		$fdb->addOption($option);
 		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_file"), ilObjExercise::TUTOR_FEEDBACK_FILE);
+		$option->setInfo($this->lng->txt("exc_settings_feedback_file_info"));
 		$fdb->addOption($option);
+		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_text"), ilObjExercise::TUTOR_FEEDBACK_TEXT);
+		$option->setInfo($this->lng->txt("exc_settings_feedback_text_info"));
+		$fdb->addOption($option);		
 	}
 	
 	/**

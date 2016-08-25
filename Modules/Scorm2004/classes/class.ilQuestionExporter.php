@@ -39,6 +39,8 @@ class ilQuestionExporter
 
 		$this->db = $ilDB;
 		$this->lng = $lng;
+		
+		$this->lng->loadLanguageModule('assessment');
 
 		$this->inst_id = IL_INST_ID;
 		
@@ -158,9 +160,28 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
+		
+		global $tpl;
+		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
+		$tpl->addCss('Modules/Test/templates/default/ta.css');
+		
 		$this->tpl->setCurrentBlock("multiplechoice");
 		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		if($this->json_decoded->selection_limit)
+		{
+			$this->tpl->setVariable('SELECTION_LIMIT_HINT', sprintf(
+				$this->lng->txt('ass_mc_sel_lim_hint'),
+				$this->json_decoded->selection_limit,
+				count($this->json_decoded->answers)
+			));
+			
+			$this->tpl->setVariable('SELECTION_LIMIT_VALUE', $this->json_decoded->selection_limit);
+		}
+		else
+		{
+			$this->tpl->setVariable('SELECTION_LIMIT_VALUE', 'null');
+		}
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}

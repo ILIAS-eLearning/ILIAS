@@ -41,7 +41,7 @@ class ilServicesUserExtractor extends ilBaseExtractor
 	 */
 	protected function extractUser($parameters)
 	{
-		$this->ilExtractedParams->setSubjectId($parameters['usr_obj']->getId());
+		$this->ilExtractedParams->setSubjectId($parameters['user_obj']->getId());
 		$this->ilExtractedParams->setContextType('null');
 		$this->ilExtractedParams->setContextId(0);
 	}

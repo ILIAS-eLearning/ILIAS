@@ -58,7 +58,7 @@ class ilGroupParticipants extends ilParticipants
 	 * @static
 	 *
 	 * @param int obj_id
-	 * @return object ilGroupParticipants
+	 * @return ilGroupParticipants
 	 */
 	public static function _getInstanceByObjId($a_obj_id)
 	{

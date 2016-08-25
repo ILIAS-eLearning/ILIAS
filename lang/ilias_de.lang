@@ -321,6 +321,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
+assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
@@ -15857,13 +15859,13 @@ badge#:#badge_settings#:#Badge Einstellungen
 badge#:#badge_service_activate#:#Service aktivieren
 badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
-badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_activate_info#:#Benutzer Badges können aus ILIAS exportieren und im Internet als Nachweis ihrer Qualifikation nutzen. 
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_organisation_info#:#Diese Angabe wird als Herausgeber des Badges angezeigt. 
 badge#:#badge_obi_contact#:#Kontakt-Email
-badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_contact_info#:#Diese E-Mail wird zwar nicht angezeigt, aber in das Badge eingebacken.
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#
+badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr. 
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
 badge#:#badge_activity_badges#:#Activity Badges
@@ -16080,10 +16082,10 @@ style#:#cant_delete_style_with_substyles#:#Styles mit Sub Styles können nicht g
 style#:#style_assignments_deleted#:#Style Zuweisungen des folgenden Sub Style wurden gelöscht:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
-exc#:#exc_individual_deadline#:#Individuelle Fristenverlängerung
-exc#:#exc_individual_deadline_action#:#Individuelle Fristenverlängerung setzen
+exc#:#exc_individual_deadline#:#Individuelle Frist
+exc#:#exc_individual_deadline_action#:#Individuelle Frist setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
-exc#:#exc_tbl_submission_date#:#Jüngste Abgabe
+exc#:#exc_tbl_submission_date#:#Abgegeben am
 exc#:#exc_tbl_status#:#Bewertung
 exc#:#exc_tbl_status_time#:#Bewertet am
 exc#:#exc_tbl_mark#:#Note
@@ -16092,7 +16094,7 @@ exc#:#exc_tbl_notice#:#Notiz für Tutoren
 exc#:#exc_tbl_feedback_time#:#Feedback am
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_team#:#Team
-exc#:#exc_tbl_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_tbl_individual_deadline#:#Individuelle Frist
 exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
 exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
 exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
@@ -16327,3 +16329,6 @@ bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundpr
 style#:#enable_system_styles_management_no_write_perm#:#'System Styles Management' ist aktiviert ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden.
 awrn#:#awrn_use_osd#:#Popup Online-Benutzer
 awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
+exc#:#exc_tbl_filter_submission#:#Abgabe
+exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
+exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben

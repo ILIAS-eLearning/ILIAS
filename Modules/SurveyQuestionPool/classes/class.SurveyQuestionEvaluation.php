@@ -490,9 +490,9 @@ abstract class SurveyQuestionEvaluation
 	 * @param array $a_title_row
 	 * @param array $a_title_row2
 	 * @param bool $a_do_title
-	 * @param bool $a_do_title
+	 * @param bool $a_do_label
 	 */
-	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_title)
+	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
 	{
 		// type-specific				
 	}

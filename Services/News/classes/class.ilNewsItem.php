@@ -658,7 +658,7 @@ class ilNewsItem
 		$fields = array(
 			"title" => array("text", $this->getTitle()),
 			"content" => array("clob", $this->getContent()),
-			"content_html" => array("clob", (int) $this->getContentHtml()),
+			"content_html" => array("integer", (int) $this->getContentHtml()),
 			"context_obj_id" => array("integer", $this->getContextObjId()),
 			"context_obj_type" => array("text", $this->getContextObjType()),
 			"context_sub_obj_id" => array("integer", $this->getContextSubObjId()),

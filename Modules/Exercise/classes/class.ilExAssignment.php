@@ -1767,8 +1767,9 @@ class ilExAssignment
 			return $path."/".$file;
 		}
 	}
-		
+
 	/**
+	 * @param int|null $a_user_id
 	 * @return \ilExAssignmentMemberStatus
 	 */
 	public function getMemberStatus($a_user_id = null)
