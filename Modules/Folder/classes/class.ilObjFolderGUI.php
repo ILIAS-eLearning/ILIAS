@@ -13,6 +13,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub
 *
 * @extends ilObjectGUI
 */
@@ -165,6 +166,12 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
 				$this->viewObject();
+				break;
+			
+			case 'ilbackgroundtaskhub':
+				include_once './Services/BackgroundTask/classes/class.ilBackgroundTaskHub.php';
+				$bggui = new ilBackgroundTaskHub();
+				$this->ctrl->forwardCommand($bggui);
 				break;
 
 			default:

@@ -535,9 +535,9 @@ class ilPropertyFormGUI extends ilFormGUI
 	* @param	string	Command
 	* @param	string	Text
 	*/
-	function addCommandButton($a_cmd, $a_text)
+	function addCommandButton($a_cmd, $a_text, $a_id = "")
 	{
-		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
+		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, "id" => $a_id);
 	}
 
 
@@ -609,6 +609,10 @@ class ilPropertyFormGUI extends ilFormGUI
 					$this->tpl->setCurrentBlock("cmd2");
 					$this->tpl->setVariable("CMD", $button["cmd"]);
 					$this->tpl->setVariable("CMD_TXT", $button["text"]);
+					if ($button["id"] != "")
+					{
+						$this->tpl->setVariable("CMD2_ID", " id='".$button["id"]."_top'");
+					}
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("commands2");
@@ -664,6 +668,12 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setCurrentBlock("cmd");
 			$this->tpl->setVariable("CMD", $button["cmd"]);
 			$this->tpl->setVariable("CMD_TXT", $button["text"]);
+
+			if ($button["id"] != "")
+			{
+				$this->tpl->setVariable("CMD_ID", " id='".$button["id"]."'");
+			}
+
 			$this->tpl->parseCurrentBlock();
 		}
 		

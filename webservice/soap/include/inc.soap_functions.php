@@ -1071,6 +1071,20 @@ class ilSoapFunctions {
 		$dcl = new ilSoapDataCollectionAdministration();
 		return $dcl->exportDataCollectionContent($sid, $data_collection_id, $table_id, $format, $filepath);
 	}
+	
+	/**
+	 * Process background task
+	 *
+	 * @param string $sid
+	 * @param int $task_id	 
+	 *
+	 * @return string
+	 */
+	public static function processBackgroundTask($sid, $task_id) {
+		include_once './webservice/soap/classes/class.ilSoapBackgroundTaskAdministration.php';
+		$bg = new ilSoapBackgroundTaskAdministration();
+		return $bg->processBackgroundTask($sid, $task_id);
+	}
 
 }
 
