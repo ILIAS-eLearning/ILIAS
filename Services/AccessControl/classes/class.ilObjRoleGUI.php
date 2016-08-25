@@ -1778,7 +1778,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	/**
 	 * Add selected users to user clipboard
 	 */
-	protected function addToClipboard()
+	protected function addToClipboardObject()
 	{
 		global $lng, $ilCtrl;
 		
@@ -1792,7 +1792,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
 		$clip->add($users);
 		$clip->save();
-		
+
+		$lng->loadLanguageModule('user');
 		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
 		$ilCtrl->redirect($this, 'userassignment');
 	}
