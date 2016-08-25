@@ -276,9 +276,6 @@ class ilObjUser extends ilObject
 			{
 				$this->prefs["hits_per_page"] = 10;
 			}
-
-			//fill org units
-			$this->org_units = $data["org_units"];
 		}
 		else
 		{
@@ -509,10 +506,9 @@ class ilObjUser extends ilObject
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
 			'inactivation_date' => array('timestamp', $this->inactivation_date),
 			'is_self_registered' => array('integer', (int)$this->is_self_registered),
-			'org_units' => array('text', $this->org_units),
 			);
 		$ilDB->insert("usr_data", $insert_array);
-		
+
 		$this->updateMultiTextFields(true);
 
 		// add new entry in usr_defined_data
@@ -3561,102 +3557,9 @@ class ilObjUser extends ilObject
 	 * @return String
 	 */
 	public function getOrgUnitsRepresentation() {
-		return self::_formatOrgUnitsRepresentation($this->org_units);
-	}
+		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 
-
-	/**
-	 * Format comma seperated ref_ids into comma seperated string representation (also filters out deleted orgunits).
-	 * Return "-" if $string is empty
-	 *
-	 * @param $string string    comma seperated ref ids
-	 *
-	 * @return string   comma seperated string representations of format: [OrgUnit Title] - [OrgUnits corresponding Level 1 Title]
-	 */
-	public static function _formatOrgUnitsRepresentation($string) {
-		if (!$string) {
-			return '-';
-		}
-
-		$return = '';
-		foreach (explode(',', $string) as $current_ref) {
-			$current = new ilObjOrgUnit($current_ref);
-			// don't take orgunits with a deleted_date into account: the recovering of orgunits
-			// doesn't work properly, therefore we ignore orgunits that have been deleted once
-			if ($current->_lookupDeletedDate($current_ref)) {
-				continue;
-			}
-			$current_title = $current->getTitle() . ', ';
-			$level_one_ref = ilObjOrgUnitTree::_getInstance()->getLevelXOfTreenode($current_ref, 1);
-			if ($level_one_ref == $current_ref) {
-				$return .= $current_title;
-				continue;
-			}
-			$level_one_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($level_one_ref));
-			$return .= $level_one_title . ' - ' . $current_title;
-		}
-
-		return $return ? rtrim(trim($return), ',') : '-';
-	}
-
-
-	/**
-	 * add org unit to userfield org_units, do nothing if already existing
-	 *
-	 * @param $user_id integer
-	 * @param $orgu_id integer ref_id
-	 *
-	 */
-	public static function _addOrgUnit($user_id, $orgu_id) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-
-		// fetch org units
-		$res = $ilDB->query("SELECT org_units FROM usr_data WHERE usr_id = " . $ilDB->quote($user_id, 'integer'));
-		if ($r = $ilDB->fetchAssoc($res)) {
-			if ($r['org_units']) {
-				$org_units = explode(',', $r['org_units']);
-				// do nothing if already existing
-				if (in_array($orgu_id, $org_units)) {
-					return;
-				}
-				$org_units[] = $orgu_id;
-				$org_units = implode(',', $org_units);
-			} else {
-				$org_units = $orgu_id;
-			}
-			// update
-			$ilDB->query("UPDATE usr_data SET org_units = " . $ilDB->quote($org_units, 'text') .
-				"WHERE usr_id = " . $ilDB->quote($user_id, 'integer'));
-		}
-	}
-
-
-	/**
-	 * remove org unit from userfield org_units, do nothing if not existing
-	 *
-	 * @param $user_id
-	 * @param $orgu_id integer ref_id
-	 *
-	 */
-	public static function _removeOrgUnit($user_id, $orgu_id) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-
-		// fetch org units
-		$res = $ilDB->query("SELECT org_units FROM usr_data WHERE usr_id = " . $ilDB->quote($user_id, 'integer'));
-		if ($r = $ilDB->fetchAssoc($res)) {
-			if ($r['org_units']) {
-				$org_units = explode(',', $r['org_units']);
-				// if existing, remove and update
-				if(($key = array_search($orgu_id, $org_units)) !== false) {
-					unset($org_units[$key]);
-					$org_units = implode(',', $org_units);
-					$ilDB->query("UPDATE usr_data SET org_units = " . $ilDB->quote($org_units, 'text') .
-						"WHERE usr_id = " . $ilDB->quote($user_id, 'integer'));
-				}
-			}
-		}
+		return ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($this->getId());
 	}
 
 

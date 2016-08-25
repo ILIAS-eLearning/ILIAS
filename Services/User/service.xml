@@ -23,7 +23,6 @@
 		<cron id="user_inactive" class="ilCronDeleteInactiveUserAccounts" />
 		<cron id="user_inactivated" class="ilCronDeleteInactivatedUserAccounts" />
 		<cron id="user_check_accounts" class="ilUserCronCheckAccounts" />
-		<cron id="user_orgunits" class="ilCronUpdateOrgUnits" />
 	</crons>
 	<pluginslots>
 		<pluginslot id="udfc" name="UDFClaiming" />

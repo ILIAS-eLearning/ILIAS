@@ -162,10 +162,6 @@ class ilUserTableGUI extends ilTable2GUI
 				"txt" => $lng->txt("email"),
 				"default" => true);
 		}
-
-		$cols["org_units"] = array(
-			"txt" => $lng->txt("objs_orgu"),
-			"default" => false);
 		
 		// other user profile fields
 		foreach ($ufs as $f => $fd)
@@ -549,9 +545,6 @@ class ilUserTableGUI extends ilTable2GUI
 						case "approve_date":
 							// $val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
 							$val = ilDatePresentation::formatDate(new ilDate($val,IL_CAL_DATE));
-							break;
-						case "org_units":
-							$val = ilObjUser::_formatOrgUnitsRepresentation($val);
 							break;
 					}
 				}

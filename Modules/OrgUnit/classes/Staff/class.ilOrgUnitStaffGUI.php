@@ -246,9 +246,6 @@ class ilOrgUnitStaffGUI {
 			throw new Exception("The post request didn't specify wether the user_ids should be assigned to the employee or the superior role.");
 		}
 
-		foreach ($user_ids as $user) {
-			ilObjUser::_addOrgUnit($user, $this->parent_object->getRefId());
-		}
 		ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
 		$this->ctrl->redirect($this,"showStaff");
 	}
