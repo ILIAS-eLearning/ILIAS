@@ -412,7 +412,6 @@
 			conversation.open = true;
 
 			if(getModule().historyTimestamps[conversation.id] == undefined) {
-				console.log("Set latest history timestamp on receiveMessage: " + messageObject.timestamp);
 				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
 			}
 
@@ -468,7 +467,6 @@
 			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
 			getModule().requestUserImages(conversation);
 
-			console.log(conversation);
 			if(chatWindow.length != 0) {
 				chatWindow.find('[data-onscreenchat-window-participants]').html(
 					getParticipantsNames(conversation).join(', ')
@@ -497,7 +495,6 @@
 			if (undefined == getModule().historyTimestamps[conversation.id] || conversation.oldestMessageTimestamp < getModule().historyTimestamps[conversation.id]) {
 				var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 				container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
-				console.log("Set latest history timestamp on onHistory: " + conversation.oldestMessageTimestamp);
 				getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			}
 
