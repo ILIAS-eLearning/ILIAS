@@ -731,9 +731,9 @@ class ilMembershipGUI
 		$ilToolbar->addSeparator();
 			
 		// print button
-		$ilToolbar->addButton(
-			$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
-			$this->ctrl->getLinkTarget($this, 'printMembers'));
+		#$ilToolbar->addButton(
+		#	$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
+		#	$this->ctrl->getLinkTarget($this, 'printMembers'));
 		
 		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', true);
 	}
