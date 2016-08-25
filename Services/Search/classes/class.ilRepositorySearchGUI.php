@@ -440,7 +440,6 @@ class ilRepositorySearchGUI
 		$clip->parse();
 		
 		$GLOBALS['tpl']->setContent($clip->getHTML());
-		
 	}
 	
 	/**
@@ -448,7 +447,6 @@ class ilRepositorySearchGUI
 	 */
 	protected function addFromClipboard()
 	{
-		ilLoggerFactory::getLogger('crs')->dump($_REQUEST);
 		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
 		$users = (array) $_POST['uids'];
 		if(!count($users))
@@ -464,6 +462,42 @@ class ilRepositorySearchGUI
 		{
 			$GLOBALS['ilCtrl']->returnToParent($this);
 		}
+	}
+
+	/**
+	 * Remove from clipboard
+	 */
+	protected function removeFromClipboard()
+	{
+		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$users = (array) $_POST['uids'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'), true);
+			$GLOBALS['ilCtrl']->redirect($this, 'showClipboard');
+		}
+
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->delete($users);
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, 'showClipboard');
+	}
+
+	/**
+	 * Remove from clipboard
+	 */
+	protected function emptyClipboard()
+	{
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->clear();
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, 'showClipboard');
 	}
 
 	/**

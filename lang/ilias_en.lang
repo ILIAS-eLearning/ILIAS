@@ -9696,6 +9696,8 @@ trac#:#vm_times_of_day#:#Times of Days
 user#:#clipboard_add_btn#:#Add to Clipboard
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
+user#:#clipboard_remove_btn#:#Remove from Clipboard
+user#:#clipboard_empty_btn#:#Empty Clipboard
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
 user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.

@@ -86,6 +86,23 @@ class ilUserClipboard
 	}
 	
 	/**
+	 * User ids to delete
+	 * @param array $a_usr_ids
+	 */
+	public function delete(array $a_usr_ids)
+	{
+		$remaining = array();
+		foreach($this->get() as $usr_id)
+		{
+			if(!in_array($usr_id, $a_usr_ids))
+			{
+				$remaining[] = $usr_id;
+			}
+		}
+		$this->replace($remaining);
+	}
+	
+	/**
 	 * Replace clipboard content
 	 * @param array $a_usr_ids
 	 */

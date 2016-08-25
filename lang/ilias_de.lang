@@ -11655,6 +11655,8 @@ user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#clipboard_table_title#:#Zwischenablage (Benutzerkonten)
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
+user#:#clipboard_remove_btn#:#Aus Zwischenablage entfernen
+user#:#clipboard_empty_btn#:#Zwischenablage leeren
 user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien und Organisationseinheiten angelegt und verwaltet werden.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
