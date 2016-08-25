@@ -7,6 +7,8 @@ define ("IL_PASSWD_CRYPTED", "crypted");
 
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once './Services/User/exceptions/class.ilUserException.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
 
 /**
 * @defgroup ServicesUser Services/User
@@ -153,6 +155,12 @@ class ilObjUser extends ilObject
 	 * @var bool
 	 */
 	private $is_self_registered = false;
+
+	/**
+	 * ids of assigned org-units, comma seperated
+	 * @var string
+	 */
+	protected $org_units;
 	
 	protected $interests_general; // [array]
 	protected $interests_help_offered; // [array]
@@ -268,7 +276,6 @@ class ilObjUser extends ilObject
 			{
 				$this->prefs["hits_per_page"] = 10;
 			}
-
 		}
 		else
 		{
@@ -498,10 +505,10 @@ class ilObjUser extends ilObject
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
 			'inactivation_date' => array('timestamp', $this->inactivation_date),
-			'is_self_registered' => array('integer', (int)$this->is_self_registered)
+			'is_self_registered' => array('integer', (int)$this->is_self_registered),
 			);
 		$ilDB->insert("usr_data", $insert_array);
-		
+
 		$this->updateMultiTextFields(true);
 
 		// add new entry in usr_defined_data
@@ -3544,6 +3551,17 @@ class ilObjUser extends ilObject
 		}
 		return $id ? $id : 0;
 	}
+
+
+	/**
+	 * @return String
+	 */
+	public function getOrgUnitsRepresentation() {
+		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
+
+		return ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($this->getId());
+	}
+
 
 	/**
     * set auth mode
