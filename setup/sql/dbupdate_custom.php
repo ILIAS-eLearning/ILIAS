@@ -128,3 +128,7 @@ if(!$ilDB->tableColumnExists('osc_activity', 'is_closed'))
 	));
 }
 ?>
+<#9>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
