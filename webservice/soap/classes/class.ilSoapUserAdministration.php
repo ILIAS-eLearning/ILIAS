@@ -35,18 +35,23 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 class ilSoapUserAdministration extends ilSoapAdministration
 {
 
-	// Service methods
-	function login($client,$username,$password)
+	/**
+	 * Soap login 
+	 * @global type $ilUser
+	 * @param type $client
+	 * @param type $username
+	 * @param type $password
+	 * @return type
+	 */
+	public function login($client,$username,$password)
 	{
 		/**
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilUser;
 
-		$_COOKIE['ilClientId'] = $client;
-		$_POST['username'] = $username;
-		$_POST['password'] = $password;
 		unset($_COOKIE['PHPSESSID']);
+		ilUtil::setCookie('ilClientId',$client);
 		
 		try
 		{
@@ -57,14 +62,46 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($e->getMessage(), 'Server');
 		}
 		
-		ilUtil::setCookie('ilClientId',$client);
-
-		if($ilUser->hasToAcceptTermsOfService())
+		// now try authentication
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
+		$credentials = new ilAuthFrontendCredentials();
+		$credentials->setUsername($username);
+		$credentials->setPassword($password);
+		
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$providers = $provider_factory->getProviders($credentials);
+			
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+			
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_CLI);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			$providers
+		);
+			
+		$frontend->authenticate();
+			
+		switch($status->getStatus())
 		{
-			return $this->__raiseError('User agreement not accepted', 'Server');
-		}
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful.');
+				return $GLOBALS['DIC']['ilAuthSession']->getId().'::'.$client;
+				
 
-		return (session_id().'::'.$client);
+			default:
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				return $this->raiseError(
+						$GLOBALS['DIC']['lng']->txt($status->getReason()),
+						'Server'
+				);
+		}				
+		return true;
 	}
 
 	// Service methods
@@ -89,12 +126,25 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	}
 
 		// Service methods
-	function loginLDAP($client, $username, $password)
+	/**
+	 * Not required anymode. This method is a simple alias for login()
+	 * @param type $client
+	 * @param type $username
+	 * @param type $password
+	 * @return type
+	 * @deprecated since version 5.2
+	 */
+	public function loginLDAP($client, $username, $password)
 	{
 		return $this->login($client, $username, $password);
 	}
 
-	function logout($sid)
+	/**
+	 * Logout user destroy session
+	 * @param string $sid
+	 * @return type
+	 */
+	public function logout($sid)
 	{
 		$this->initAuth($sid);
 		$this->initIlias();
@@ -104,19 +154,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		
-		global $ilAuth;
-		$ilAuth->logout();
-		session_destroy();
+		include_once './Services/Authentication/classes/class.ilSession.php';
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		return true;
-
-		/*
-		if(!$this->sauth->logout())
-		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}
-		
-		return true;
-		*/
 	}
 
 	function lookupUser($sid,$user_name)
@@ -496,18 +537,18 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					elseif($user_data['user_skin'] and $user_data['user_style'])
 					{
 						$ok = false;
-						$templates = $styleDefinition->getAllTemplates();
-						if (count($templates) > 0 && is_array($templates))
+						/**
+						 * @var ilStyleDefinition $styleDefinition
+						 */
+						$skins = $styleDefinition->getAllSkins();
+						if (count($skins) > 0 && is_array($skins))
 						{
-							foreach($templates as $template)
+							foreach($skins as $skin)
 							{
-								$styleDef = new ilStyleDefinition($template["id"]);
-								$styleDef->startParsing();
-								$styles = $styleDef->getStyles();
-								foreach ($styles as $style)
+								foreach ($skin->getStyles() as $style)
 								{
-									if ($user_data['user_skin'] == $template["id"] &&
-										$user_data['user_style'] == $style["id"])
+									if ($user_data['user_skin'] == $skin->getId() &&
+											$user_data['user_style'] == $style->getId())
 									{
 										$ok = true;
 									}
@@ -554,15 +595,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 
 		// not supported fields by update/addUser
-		$user_data['im_icq'] = $user_obj->getInstantMessengerId('icq');
-		$user_data['im_yahoo'] = $user_obj->getInstantMessengerId('yahoo');
-		$user_data['im_msn'] = $user_obj->getInstantMessengerId('msn');
-		$user_data['im_aim'] = $user_obj->getInstantMessengerId('aim');
-		$user_data['im_skype'] = $user_obj->getInstantMessengerId('skype');
-		$user_data['im_jabber'] = $user_obj->getInstantMessengerId('jabber');
-		$user_data['im_voip'] = $user_obj->getInstantMessengerId('voip');
-		
-		$user_data['delicious'] = $user_obj->getDelicious();
 		$user_data['latitude'] = $user_obj->getLatitude();
 		$user_data['longitude'] = $user_obj->getLongitude();
 		$user_data['loc_zoom'] = $user_obj->getLocationZoom();

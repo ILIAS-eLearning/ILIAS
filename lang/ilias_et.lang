@@ -9305,8 +9305,8 @@ grp#:#grp_cancel_subscr_request#:#Kustuta liikmelisuse taotlus
 grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
 grp#:#grp_change_type#:#Muuda grupi tüüp
-grp#:#grp_closed#:#Suletud grupp
-grp#:#grp_closed_info#:#Grupp on nähtav ainult liikmetele.
+didactic#:#grp_closed#:#Suletud grupp
+didactic#:#grp_closed_info#:#Grupp on nähtav ainult liikmetele.
 grp#:#grp_copy#:#Copy Group
 grp#:#grp_custom_user_fields#:#Grupi jaks olulised kasutaja andmed
 grp#:#grp_deactivate_notification#:#Deaktiveeri teavitus

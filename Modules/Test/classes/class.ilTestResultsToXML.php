@@ -15,12 +15,30 @@ class ilTestResultsToXML extends ilXmlWriter
 	private $test_id = 0;
 	private $anonymized = false;
 	private $active_ids;
+	
+	protected $includeRandomTestQuestionsEnabled = false;
 
 	function __construct($test_id, $anonymized = false)
 	{
 		parent::__construct();
 		$this->test_id = $test_id;
 		$this->anonymized = $anonymized;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isIncludeRandomTestQuestionsEnabled()
+	{
+		return $this->includeRandomTestQuestionsEnabled;
+	}
+
+	/**
+	 * @param boolean $includeRandomTestQuestionsEnabled
+	 */
+	public function setIncludeRandomTestQuestionsEnabled($includeRandomTestQuestionsEnabled)
+	{
+		$this->includeRandomTestQuestionsEnabled = $includeRandomTestQuestionsEnabled;
 	}
 	
 	protected function exportActiveIDs()
@@ -167,27 +185,29 @@ class ilTestResultsToXML extends ilXmlWriter
 		$this->xmlEndTag("tst_solutions");
 	}
 
-	protected function exportTestQuestions()
+	protected function exportRandomTestQuestions()
 	{
 		global $ilDB;
-		
-		$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi = %s",
-			array('integer'),
-			array($this->test_id)
-		);
-		$this->xmlStartTag("tst_test_question", NULL);
+
+		$result = $ilDB->query("
+			  SELECT * FROM tst_test_rnd_qst
+			  WHERE {$ilDB->in('active_fi', $this->active_ids, false, 'integer')}
+			  ORDER BY test_random_question_id
+		");
+
+		$this->xmlStartTag('tst_test_rnd_qst', NULL);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$attrs = array(
-				'test_question_id' => $row['test_question_id'],
-				'test_fi' => $row['test_fi'],
-				'question_fi' => $row['question_fi'],
-				'sequence' => $row['sequence'],
-				'tstamp' => $row['tstamp']
-			);
-			$this->xmlElement("row", $attrs);
+			$attrs = array();
+
+			foreach($row as $field => $value)
+			{
+				$attrs[$field] = $value;
+			}
+
+			$this->xmlElement('row', $attrs);
 		}
-		$this->xmlEndTag("tst_test_question");
+		$this->xmlEndTag('tst_test_rnd_qst');
 	}
 	
 
@@ -243,7 +263,12 @@ class ilTestResultsToXML extends ilXmlWriter
 		$attrs = array("version" => "4.1.0");
 		$this->xmlStartTag("results", $attrs);
 		$this->exportActiveIDs();
-		$this->exportTestQuestions();
+
+		if( $this->isIncludeRandomTestQuestionsEnabled() )
+		{
+			$this->exportRandomTestQuestions();
+		}
+		
 		$this->exportPassResult();
 		$this->exportResultCache();
 		$this->exportTestSequence();

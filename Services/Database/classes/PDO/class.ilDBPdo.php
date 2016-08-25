@@ -1278,6 +1278,20 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	}
 
 
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param null $result_types
+	 * @return \PDOStatement
+	 */
+	public function prepare($query, $types = null, $result_types = null) {
+		return $this->pdo->prepare($query, $types, $result_types);
+	}
+
+
+	/**
+	 * @param $a_status
+	 */
 	public function enableResultBuffering($a_status) {
 		$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $a_status);
 	}
@@ -1302,7 +1316,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @throws \ilDatabaseException
 	 */
 	public function optimizeTable($a_table) {
-		return $this->query('OPTIMIZE TABLE ' . $a_table);
+		return $this->query($this->manager->getQueryUtils()->optimize($a_table));
 	}
 
 
@@ -1785,5 +1799,38 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
 
 		return new ilAtomQueryLock($this);
+	}
+
+
+	/**
+	 * @param $table
+	 * @param array $fields
+	 * @return bool
+	 */
+	public function uniqueConstraintExists($table, array $fields)
+	{
+		require_once('../Services/Database/classes/class.ilDBAnalyzer.php');
+		$analyzer = new ilDBAnalyzer();
+		$cons = $analyzer->getConstraintsInformation($table);
+		foreach ($cons as $c)
+		{
+			if ($c["type"] == "unique" && count($fields) == count($c["fields"]))
+			{
+				$all_in = true;
+				foreach ($fields as $f)
+				{
+					if (!isset($c["fields"][$f]))
+					{
+						$all_in = false;
+					}
+				}
+				if ($all_in)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

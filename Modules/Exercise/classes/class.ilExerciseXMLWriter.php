@@ -164,11 +164,13 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 	 * @param int $assignment_id
 	 */
 	private function attachMarking($user_id, $assignment_id) {
-		
-		$amark = ilExAssignment::lookupMarkOfUser($assignment_id, $user_id);
-		$astatus = ilExAssignment::lookupStatusOfUser($assignment_id, $user_id);
-		$acomment = ilExAssignment::lookupCommentForUser($assignment_id, $user_id);
-		$anotice = ilExAssignment::lookupNoticeOfUser($assignment_id, $user_id);
+
+		$ass = new ilExAssignment($assignment_id);
+
+		$amark = $ass->getMemberStatus($user_id)->getMark();
+		$astatus = $ass->getMemberStatus($user_id)->getStatus();
+		$acomment = $ass->getMemberStatus($user_id)->getComment();
+		$anotice = $ass->getMemberStatus($user_id)->getNotice();
 		
 		
 		if ($astatus == "notgraded") {

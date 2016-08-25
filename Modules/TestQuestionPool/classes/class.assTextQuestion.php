@@ -625,20 +625,21 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
-		
-		$text = $this->getSolutionSubmit();
-		
 		$entered_values = 0;
-		if (strlen($text))
-		{
-			$this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
-			$entered_values++;
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			$text = $this->getSolutionSubmit();
+
+			if(strlen($text))
+			{
+				$this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
+				$entered_values++;
+			}
+
+		});
 
 		if ($entered_values)
 		{
@@ -835,12 +836,22 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		$worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
 		$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 		
+		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+		$assessment_folder = new ilObjAssessmentFolder();
+
+		$string_escaping_org_value = $worksheet->getStringEscaping();
+		if($assessment_folder->getExportEssayQuestionsWithHtml() == 1)
+		{
+			$worksheet->setStringEscaping(false);
+		}
+
 		if (strlen($solutions[0]["value1"]))
 		{
 			$worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
 		}
 		$i++;
 
+		$worksheet->setStringEscaping($string_escaping_org_value);
 		return $startrow + $i + 1;
 	}
 	

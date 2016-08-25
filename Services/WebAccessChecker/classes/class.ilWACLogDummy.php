@@ -8,9 +8,15 @@
 class ilWACLogDummy {
 
 	/**
+	 * @var array
+	 */
+	protected $storage = array();
+
+
+	/**
 	 * @param $dummy
 	 */
 	public function write($dummy) {
-		unset($dummy);
+		$this->storage[] = $dummy;
 	}
 }

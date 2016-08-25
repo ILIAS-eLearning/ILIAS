@@ -298,30 +298,25 @@ class ilUserImportParser extends ilSaxParser
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
 		include_once './Services/Style/System/classes/class.ilStyleDefinition.php';
-		$templates = ilStyleDefinition::_getAllTemplates();
-		
-		if (is_array($templates))
+		$skins = ilStyleDefinition::getAllSkins();
+
+		if (is_array($skins))
 		{
-		
-			foreach($templates as $template)
+
+			foreach($skins as $skin)
 			{
-				// get styles information of template
-				$styleDef = new ilStyleDefinition($template["id"]);
-				$styleDef->startParsing();
-				$styles = $styleDef->getStyles();
-				
-				foreach($styles as $style)
+				foreach($skin->getStyles() as $style)
 				{
 					include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-					if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()))
 					{
 						continue;
 					}
-					$this->userStyles [] = $template["id"].":".$style["id"];
+					$this->userStyles [] = $skin->getId().":".$style->getId();
 				}
-			}			
+			}
 		}
-		
+
 		$settings = $ilias->getAllSettings();
 		if ($settings["usr_settings_hide_skin_style"] == 1)
 		{
@@ -504,7 +499,7 @@ class ilUserImportParser extends ilSaxParser
 				$this->style = "";
 				$this->personalPicture = null;
 				$this->userCount++;
-				$this->userObj = new ilObjUser(ilObjUser::_lookupId($a_attribs["Id"]));
+				$this->userObj = new ilObjUser();
 
 				// user defined fields
 				$this->udf_data = array();
@@ -636,7 +631,7 @@ class ilUserImportParser extends ilSaxParser
 
 			case "User":
 				$this->userCount++;
-				$this->userObj = new ilObjUser(ilObjUser::_lookupId($a_attribs["Id"]));
+				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->currentPrefKey = null;
@@ -1282,14 +1277,6 @@ class ilUserImportParser extends ilSaxParser
 							if($this->auth_mode_set)
 								$updateUser->setAuthMode($this->userObj->getAuthMode());
 							
-							if (! is_null($this->userObj->getInstantMessengerId("aim"))) $updateUser->setInstantMessengerId("aim", $this->userObj->getInstantMessengerId("aim"));
-							if (! is_null($this->userObj->getInstantMessengerId("msn"))) $updateUser->setInstantMessengerId("msn", $this->userObj->getInstantMessengerId("msn"));
-							if (! is_null($this->userObj->getInstantMessengerId("icq"))) $updateUser->setInstantMessengerId("icq", $this->userObj->getInstantMessengerId("icq"));
-							if (! is_null($this->userObj->getInstantMessengerId("yahoo"))) $updateUser->setInstantMessengerId("yahoo", $this->userObj->getInstantMessengerId("yahoo"));
-							if (! is_null($this->userObj->getInstantMessengerId("skype"))) $updateUser->setInstantMessengerId("skype", $this->userObj->getInstantMessengerId("skype"));
-							if (! is_null($this->userObj->getInstantMessengerId("jabber"))) $updateUser->setInstantMessengerId("jabber", $this->userObj->getInstantMessengerId("jabber"));
-							if (! is_null($this->userObj->getInstantMessengerId("voip"))) $updateUser->setInstantMessengerId("voip", $this->userObj->getInstantMessengerId("voip"));
-
 							// Special handlin since it defaults to 7 (USER_FOLDER_ID)
 							if($this->time_limit_owner_set)
 							{
@@ -1668,17 +1655,9 @@ class ilUserImportParser extends ilSaxParser
 				}
 				break;
 			case 'AccountInfo':
-				if ($this->current_messenger_type =="delicious")
-				{
-					$this->userObj->setDelicious($this->cdata);
-				}
-				elseif ($this->current_messenger_type =="external")
+				if($this->current_messenger_type =="external")
 				{
 					$this->userObj->setExternalAccount($this->cdata);
-				}
-				else
-				{
-					$this->userObj->setInstantMessengerId($this->current_messenger_type, $this->cdata);
 				}
 				break;
 			case 'Pref':

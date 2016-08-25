@@ -84,6 +84,10 @@ class ilDclTableListTableGUI extends ilTable2GUI{
 		$this->tpl->setVariable("ORDER_NAME", "order[{$a_set->getId()}]");
 		$this->tpl->setVariable("ORDER_VALUE", $a_set->getOrder());
 		$this->tpl->setVariable("TITLE", $a_set->getTitle());
+
+		$this->ctrl->setParameterByClass('ildclfieldlistgui', 'table_id', $a_set->getId());
+		$this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ildclfieldlistgui'));
+
 		$this->tpl->setVariable("CHECKBOX_NAME_VISIBLE", 'visible[' . $a_set->getId() . ']');
 		if ($a_set->getIsVisible()) {
 			$this->tpl->setVariable("CHECKBOX_CHECKED_VISIBLE", 'checked');

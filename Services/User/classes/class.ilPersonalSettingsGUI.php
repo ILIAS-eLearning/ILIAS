@@ -545,19 +545,8 @@ class ilPersonalSettingsGUI
 			$ipass->setRequired(true);
 			$ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
 
-			if ($ilSetting->get("passwd_auto_generate") == 1)	// auto generation list
-			{
-				$ipass->setPreSelection(true);
-				
-				$this->form->addItem($ipass);
-				$this->form->addCommandButton("savePassword", $lng->txt("save"));
-				$this->form->addCommandButton("showPassword", $lng->txt("new_list_password"));
-			}
-			else  								// user enters password
-			{
-				$this->form->addItem($ipass);
-				$this->form->addCommandButton("savePassword", $lng->txt("save"));
-			}
+			$this->form->addItem($ipass);
+			$this->form->addCommandButton("savePassword", $lng->txt("save"));
 			
 			switch ($ilUser->getAuthMode(true))
 			{
@@ -650,17 +639,7 @@ class ilPersonalSettingsGUI
 				}
 			}
 
-			// select password from auto generated passwords
-			if ($this->ilias->getSetting("passwd_auto_generate") == 1 &&
-				(!ilUtil::isPassword($_POST["new_password"])))
-			{
-				$error = true;
-				$np->setAlert($this->lng->txt("passwd_not_selected"));
-			}
-				
-	
-			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				!ilUtil::isPassword($_POST["new_password"],$custom_error))
+			if(!ilUtil::isPassword($_POST["new_password"],$custom_error))
 			{
 				$error = true;
 				if ($custom_error != '')
@@ -673,18 +652,15 @@ class ilPersonalSettingsGUI
 				}
 			}
 			$error_lng_var = '';
-			if(
-				$this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var)
-			)
+			if(!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var))
 			{
 				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 				$np->setAlert($this->lng->txt($error_lng_var));
 				$error = true;
 			}
-			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				($ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded()) &&
-				($_POST["current_password"] == $_POST["new_password"]))
+			if(
+				$ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded() &&
+				$_POST["current_password"] == $_POST["new_password"])
 			{
 				$error = true;
 				$np->setAlert($this->lng->txt("new_pass_equals_old_pass"));
@@ -826,29 +802,23 @@ class ilPersonalSettingsGUI
 		// skin/style
 		if ($this->userSettingVisible("skin_style"))
 		{
-			$templates = $styleDefinition->getAllTemplates();
-			if (is_array($templates))
-			{ 
+			$skins = $styleDefinition->getAllSkins();
+			if (is_array($skins))
+			{
 				$si = new ilSelectInputGUI($this->lng->txt("skin_style"), "skin_style");
-				
-				$options = array();
-				foreach($templates as $template)
-				{
-					// get styles information of template
-					$styleDef = new ilStyleDefinition($template["id"]);
-					$styleDef->startParsing();
-					$styles = $styleDef->getStyles();
 
-					foreach($styles as $style)
+				$options = array();
+				foreach($skins as $skin)
+				{
+					foreach($skin->getStyles() as $style)
 					{
 						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()) || $style->isSubstyle())
 						{
 							continue;
 						}
 
-						$options[$template["id"].":".$style["id"]] =
-							$styleDef->getTemplateName()." / ".$style["name"];
+						$options[$skin->getId().":".$style->getId()] = $skin->getName()." / ".$style->getName();
 					}
 				}
 				$si->setOptions($options);
@@ -1281,8 +1251,7 @@ class ilPersonalSettingsGUI
 				
 		// see ilStartupGUI::showLogout()
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$ilAuth->logout();
-		session_destroy();
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		
 		ilUtil::redirect("login.php?target=usr_".md5("usrdelown"));		
 	}
@@ -1372,9 +1341,7 @@ class ilPersonalSettingsGUI
 		$ilUser->delete();
 
 		// terminate session
-		$ilAuth->logout();
-		session_destroy();		
-		
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		ilUtil::redirect("login.php?accdel=1");		 		
 	}
 }

@@ -35,6 +35,11 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 
+	/** This value is not needed for confirmation. */
+	public function getConfirmationValue() {
+		return null;
+	}
+
 	/**
 	 * override the loadValue.
 	 */

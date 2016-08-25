@@ -403,19 +403,19 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 		$entered_values = 0;
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
 
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
 
-		$solutionSubmit = $this->getSolutionSubmit();
+			$solutionSubmit = $this->getSolutionSubmit();
 
-		foreach($solutionSubmit as $answerIndex => $answerValue)
-		{
-			$this->saveCurrentSolution($active_id, $pass, (int)$answerIndex, (int)$answerValue, $authorized);
-			$entered_values++;
-		}
+			foreach($solutionSubmit as $answerIndex => $answerValue)
+			{
+				$this->saveCurrentSolution($active_id, $pass, (int)$answerIndex, (int)$answerValue, $authorized);
+				$entered_values++;
+			}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		if ($entered_values)
 		{

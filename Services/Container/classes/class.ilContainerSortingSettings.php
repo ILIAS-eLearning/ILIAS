@@ -171,7 +171,8 @@ class ilContainerSortingSettings
 	{
 		global $ilDB;
 		
-		$query = "SELECT sort_mode FROM container_sorting_set ".
+		$query = "SELECT sort_mode,sort_direction,new_items_position,new_items_order ".
+			"FROM container_sorting_set ".
 			"WHERE obj_id = ".$ilDB->quote($a_old_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
@@ -184,10 +185,10 @@ class ilContainerSortingSettings
 				"(obj_id,sort_mode, sort_direction, new_items_position, new_items_order) ".
 				"VALUES( ".
 				$ilDB->quote($a_new_id ,'integer').", ".
-				$ilDB->quote($row[0] ,'integer').", ".
-				$ilDB->quote($row[1],'integer').', '.
-				$ilDB->quote($row[2],'integer').', '.
-				$ilDB->quote($row[3],'integer').' '.
+				$ilDB->quote($row["sort_mode"],'integer').", ".
+				$ilDB->quote($row["sort_direction"],'integer').', '.
+				$ilDB->quote($row["new_items_position"],'integer').', '.
+				$ilDB->quote($row["new_items_order"],'integer').' '.
 				")";
 			$ilDB->manipulate($query);
 		}

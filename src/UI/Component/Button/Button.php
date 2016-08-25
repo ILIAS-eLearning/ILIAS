@@ -4,10 +4,12 @@
 
 namespace ILIAS\UI\Component\Button;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+
 /**
  * This describes commonalities between standard and primary buttons. 
  */
-interface Button extends \ILIAS\UI\Component\Component {
+interface Button extends \ILIAS\UI\Component\Component, JavaScriptBindable {
 	/**
 	 * Get the label on the button.
 	 *

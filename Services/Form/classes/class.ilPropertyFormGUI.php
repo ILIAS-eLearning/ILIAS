@@ -535,9 +535,9 @@ class ilPropertyFormGUI extends ilFormGUI
 	* @param	string	Command
 	* @param	string	Text
 	*/
-	function addCommandButton($a_cmd, $a_text)
+	function addCommandButton($a_cmd, $a_text, $a_id = "")
 	{
-		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
+		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, "id" => $a_id);
 	}
 
 
@@ -609,6 +609,10 @@ class ilPropertyFormGUI extends ilFormGUI
 					$this->tpl->setCurrentBlock("cmd2");
 					$this->tpl->setVariable("CMD", $button["cmd"]);
 					$this->tpl->setVariable("CMD_TXT", $button["text"]);
+					if ($button["id"] != "")
+					{
+						$this->tpl->setVariable("CMD2_ID", " id='".$button["id"]."_top'");
+					}
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("commands2");
@@ -664,20 +668,30 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setCurrentBlock("cmd");
 			$this->tpl->setVariable("CMD", $button["cmd"]);
 			$this->tpl->setVariable("CMD_TXT", $button["text"]);
+
+			if ($button["id"] != "")
+			{
+				$this->tpl->setVariable("CMD_ID", " id='".$button["id"]."'");
+			}
+
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// try to keep uploads even if checking input fails
-		if($this->getMultipart())
+		// #18808
+		if ($this->getMode() != "subform")
 		{
-			$hash = $_POST["ilfilehash"];
-			if(!$hash)
+			// try to keep uploads even if checking input fails
+			if($this->getMultipart())
 			{
-				$hash = md5(uniqid(mt_rand(), true));
-			}		
-			$fhash = new ilHiddenInputGUI("ilfilehash");
-			$fhash->setValue($hash);
-			$this->addItem($fhash);
+				$hash = $_POST["ilfilehash"];
+				if(!$hash)
+				{
+					$hash = md5(uniqid(mt_rand(), true));
+				}		
+				$fhash = new ilHiddenInputGUI("ilfilehash");
+				$fhash->setValue($hash);
+				$this->addItem($fhash);
+			}
 		}
 		
 		// hidden properties

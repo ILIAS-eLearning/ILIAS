@@ -1,6 +1,7 @@
 <?php
 require_once('./Services/Logging/classes/class.ilLog.php');
 require_once('./Services/Init/classes/class.ilIniFile.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACLogDummy.php');
 
 /**
  * Class ilWACLog
@@ -37,18 +38,16 @@ class ilWACLog extends ilLog {
 	 */
 	public static function getInstance() {
 		$key = getmypid();
-		if (ilWebAccessChecker::isDEBUG()) {
-			if (!isset(self::$instances[$key])) {
-				$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
-				$ilIliasIniFile->read();
-				if (ilWebAccessChecker::isUseSeperateLogfile()) {
-					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG, 'WAC');
-				} else {
-					$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
-				}
-				$instance->setPid($key);
-				self::$instances[$key] = $instance;
+		if (ilWebAccessChecker::isDEBUG() && defined('ILIAS_ABSOLUTE_PATH')) {
+			$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
+			$ilIliasIniFile->read();
+			if (ilWebAccessChecker::isUseSeperateLogfile()) {
+				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG, 'WAC');
+			} else {
+				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
 			}
+			$instance->setPid($key);
+			self::$instances[$key] = $instance;
 		} else {
 			self::$instances[$key] = new ilWACLogDummy();
 		}
@@ -62,13 +61,16 @@ class ilWACLog extends ilLog {
 			global $ilUser;
 			parent::write('WebAccessChecker Request ' . str_repeat('#', 50));
 			parent::write('PID: ' . $this->getPid());
-			parent::write('User-Agent: ' . $_SERVER['HTTP_USER_AGENT']);
-			parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
+			if (isset($_SERVER['HTTP_USER_AGENT'])) {
+				parent::write('User-Agent: ' . $_SERVER['HTTP_USER_AGENT']);
+			}
+			if (isset($_SERVER['HTTP_COOKIE'])) {
+				parent::write('Cookies: ' . $_SERVER['HTTP_COOKIE']);
+			}
 			if ($ilUser instanceof ilObjUser) {
 				parent::write('User_ID: ' . $ilUser->getId());
-
 			}
-//			parent::write('SERVER: ' . print_r($_SERVER, true));
+			//			parent::write('SERVER: ' . print_r($_SERVER, true));
 			foreach ($this->getStack() as $msg) {
 				parent::write($msg);
 			}
@@ -114,21 +116,6 @@ class ilWACLog extends ilLog {
 	 */
 	public function setStack($stack) {
 		$this->stack = $stack;
-	}
-}
-
-/**
- * Class ilWACLogDummy
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-class ilWACLogDummy {
-
-	/**
-	 * @param $dummy
-	 */
-	public function write($dummy) {
-		unset($dummy);
 	}
 }
 

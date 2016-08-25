@@ -2223,7 +2223,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @param array $a_fields array of field names (strings)
 	 * @return bool false if no unique constraint with the given fields exists
 	 */
-	function uniqueConstraintExists($a_table, $a_fields)
+	public function uniqueConstraintExists($a_table, array $a_fields)
 	{
 		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
 		{
@@ -2562,6 +2562,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery() {
+		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
+
 		return new ilAtomQueryLock($this);
 	}
 }

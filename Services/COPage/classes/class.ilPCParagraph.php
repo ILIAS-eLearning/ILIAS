@@ -659,6 +659,23 @@ echo htmlentities($a_text);*/
 			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
 		}
 		$a_text = preg_replace('~\[\/anc\]~i', "</Anchor>",$a_text);
+
+		// marked text
+		while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found))
+		{
+			$attribs = ilUtil::attribsToArray($found[2]);
+			if (isset($attribs["class"]))
+			{
+				$a_text = str_replace("[".$found[1]."]", "<Marked Class=\"".$attribs["class"]."\">", $a_text);
+			}
+			else
+			{
+				$a_text = str_replace("[".$found[1]."]", "[error:marked".$found[1]."]",$a_text);
+			}
+		}
+		$a_text = preg_replace('~\[\/marked\]~i',"</Marked>",$a_text);
+
+
 //echo htmlentities($a_text); exit;
 		return $a_text;
 	}
@@ -1212,6 +1229,14 @@ echo htmlentities($a_text);*/
 		}
 		$a_text = str_replace("</Anchor>","[/anc]",$a_text);
 
+		// marked text
+		while (preg_match('~<Marked('.$any.')>~i', $a_text, $found))
+		{
+			$found[0];
+			$attribs = ilUtil::attribsToArray($found[1]);
+			$a_text = str_replace("<Marked".$found[1].">","[marked class=\"".$attribs["Class"]."\"]",$a_text);
+		}
+		$a_text = str_replace("</Marked>","[/marked]",$a_text);
 
 		// br to linefeed
 		if (!$a_wysiwyg)
@@ -1445,8 +1470,10 @@ if (!$a_wysiwyg)
 	{
 		global $ilUser;
 
+		$this->log->debug("step 1: ".substr($a_content, 0, 1000));
 		$t = self::handleAjaxContent($a_content);
-		if ($text === false)
+		$this->log->debug("step 2: ".substr($t["text"], 0, 1000));
+		if ($t === false)
 		{
 			return false;
 		}
@@ -1481,7 +1508,11 @@ if (!$a_wysiwyg)
 		$par->setCharacteristic($t["class"]);
 
 		$t2 = $par->input2xml($t["text"], true, false);
+		$this->log->debug("step 3: ".substr($t2, 0, 1000));
+
 		$t2 = ilPCParagraph::handleAjaxContentPost($t2);
+		$this->log->debug("step 4: ".substr($t2, 0, 1000));
+
 		$updated = $par->setText($t2, true);
 
 		if ($updated !== true)
@@ -1548,6 +1579,8 @@ if (!$a_wysiwyg)
 		// convert tags
 		$xpath = new DOMXpath($doc);
 
+		$tags = self::getXMLTagMap();
+
 		$elements = $xpath->query("//span");
 		include_once("./Services/Utilities/classes/class.ilDOM2Util.php");
 		while (!is_null($elements) && !is_null($element = $elements->item(0)))
@@ -1557,10 +1590,28 @@ if (!$a_wysiwyg)
 			if (substr($class, 0, 16) == "ilc_text_inline_")
 			{
 				$class_arr = explode(" ", $class);
-				$cnode = ilDOM2Util::changeName($element, "il".substr($class_arr[0], 16), false);
+				$tag = substr($class_arr[0], 16);
+				if (isset($tags[$tag]))		// known tag like strong
+				{
+					$cnode = ilDOM2Util::changeName($element, "il" . substr($class_arr[0], 16), false);
+				}
+				else		// unknown tag -> marked text
+				{
+					$cnode = ilDOM2Util::changeName($element, "ilMarked", false);
+					$cnode->setAttribute("Class", substr($class_arr[0], 16));
+				}
 				for ($i = 1; $i < count($class_arr); $i++)
 				{
-					$cnode = ilDOM2Util::addParent($cnode, "il".substr($class_arr[$i], 16));
+					$tag = substr($class_arr[$i], 16);
+					if (isset($tags[$tag]))		// known tag like strong
+					{
+						$cnode = ilDOM2Util::addParent($cnode, "il" . substr($class_arr[$i], 16));
+					}
+					else	// unknown tag -> marked element
+					{
+						$cnode = ilDOM2Util::addParent($cnode, "ilMarked");
+						$cnode->setAttribute("Class", substr($class_arr[$i], 16));
+					}
 				}
 			}
 			else
@@ -1621,6 +1672,18 @@ if (!$a_wysiwyg)
 				$text = str_replace("<code/>", "", $text);
 				$text = str_replace('<ul class="ilc_list_u_BulletedList"/>', "", $text);
 				$text = str_replace('<ul class="ilc_list_o_NumberedList"/>', "", $text);
+
+				// replace marked text
+				// external links
+				$any = "[^>]*";
+				while (preg_match('~<ilMarked('.$any.')>~i', $text, $found))
+				{
+					$found[0];
+					$attribs = ilUtil::attribsToArray($found[1]);
+					$text = str_replace("<ilMarked".$found[1].">","[marked class=\"".$attribs["Class"]."\"]",$text);
+				}
+				$text = str_replace("</ilMarked>","[/marked]", $text);
+
 
 				$ret[] = array("text" => $text, "id" => $id, "class" => $class);
 			}
@@ -1760,8 +1823,7 @@ if (!$a_wysiwyg)
 		{
 			$parnodes = $xpath->query('//Paragraph', $a_par_node);
 		}
-
-
+		
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 
 		foreach ($parnodes as $parnode)

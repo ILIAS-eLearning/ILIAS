@@ -14,6 +14,35 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
+forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
+forum#:#restore#:#Wiederherstellen
+forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
+forum#:#autosave_draft_info#:#<span class="asterisk">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>
+forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>
+forum#:#publishThreadDrafts#:#Themenentwurf veröffentlichen
+forum#:#deleteThreadDrafts#:#Themenentwurf löschen
+forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
+common#:#pd_enable_pdfrmpostdraft#:#'Meine Beitragsentwürfe' aktivieren
+common#:#pd_enable_pdfrmpostdraft_info#:#Sofern aktiviert, wird auf dem Persönlichen Schreibtisch ein Block 'Meine Beitragsentwürfe' angezeigt, in welchem die Beitragsentwürfe des Benutzers in Foren aufgelistet werden.
+pd#:#block_show_pdfrmpostdraft#:#'Meine Beitragsentwürfe' anzeigen
+forum#:#forums_thread_drafts_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht.
+forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht.
+forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert. 
+forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
+forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
+forum#:#forums_edit_draft#:#Entwurf bearbeiten
+forum#:#publish#:#Veröffentlichen
+forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
+forum#:#frm_posting_draft#:#Entwurf
+forum#:#frm_posting_drafts#:#Entwürfe
+forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
+forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
+forum#:#adm_save_drafts#:#Entwürfe speichern   
+forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beiträge in Foren als Entwurf speichern 
+forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern   
+forum#:#adm_autosave_ival#:#Speicherintervall
+forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -283,6 +312,10 @@ assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#for#:#für
+assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
+assessment#:#tst_pass_waiting_enabled#:#Wartezeit zwischen Durchläufen erzwingen
+assessment#:#tst_pass_waiting_info#:#Mit dieser Option können erneute Durchläufe erst gestartet werden, wenn die definierte Zeitspanne seid dem vorherigen Durchlauf abgelaufen ist.
+assessment#:#tst_pass_waiting_time#:#Wartezeit
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
@@ -303,6 +336,8 @@ assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, 
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
+assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
+assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#tst_question_not_from_pool_info#:#Kein Pool
@@ -397,6 +432,8 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#assLongMenu#:#‘Long Menu’-Frage
 assessment#:#answers_text_box#:#Textfeld
+assessment#:#min_auto_complete#:#Autovervollständigung
+assessment#:#autocomplete_error#:#Ihre Wert für die Autovervollständigung ist zu groß, Sie haben Antworten in Ihren Antwortoptionen, welche weniger Zeichen besitzen und somit niemals ausgewählt werden können.
 assessment#:#answers_select#:#Auswahl
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#manual_editing#:#Manuelle Editierung
@@ -752,7 +789,7 @@ assessment#:#ass_lac_expression_not_supported_by_question#:#Für die Frage "Q%s"
 assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Für die aktuelle Frage ist der Ausdruck "%s" nicht unterstützt.
 assessment#:#ass_lac_operator_not_supported_by_expression#:#Die Operation "%s" wird für den Vergleich mit dem Ausdruck "%s" nicht unterstützt.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung des Kompetenz-Levels beitragen.
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -769,6 +806,7 @@ assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilneh
 assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
+assessment#:#new_test_created#:#Neuer Test
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
 assessment#:#log_mark_added#:#Note hinzugefügt
 assessment#:#log_mark_changed#:#Note geändert
@@ -847,8 +885,10 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für d
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronisiere Fragen aus den Pools
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.<br />Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
@@ -1045,7 +1085,7 @@ assessment#:#next_question#:#Weiter
 assessment#:#previous_question#:#Zurück
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
-assessment#:#discard_answer#:#Antwort löschen
+assessment#:#discard_answer#:#Antwort löschen###fau: testNav
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
 assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Frage geschehen, die Sie ggfs. bereits gegeben haben?
@@ -1074,13 +1114,13 @@ assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
 assessment#:#tst_instant_feedback_handling#:#Antworten nach Rückmeldung festschreiben
 assessment#:#tst_instant_feedback_handling_none#:#Antworten nicht festschreiben
-assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
+assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können über einen Button "Rückmeldung anfordern" nach Bedarf eine Rückmeldung anzeigen lassen. Rückmeldungen werden in der Option "Direkte Rückmeldung" konfiguriert. Danach können sie ihre Antwort im Rahmen der erlaubten Testdurchläufe ändern.###fau: testNav
 assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, wenn Rückmeldung angefordert wird
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. Teilnehmer können über einen Button nach Bedarf eine Rückmeldung anfordern. Rückmeldungen werden in der Option 'Direkte Rückmeldung' konfiguriert . <br />
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#Teilnehmer können über einen Button Antwort festschreiben und prüfen" ihre Antwort festschreiben und eine Rückmeldung anzeigen lassen. Danach kann die Antwort nicht mehr geändert werden.###fau: testNav
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Automatische Rückmeldung und Antwort festschreiben
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung.
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf "Antwort festschreiben und prüfen" oder speichern sie ihre Antwort bei der Navigation zu einer anderen Frage, so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung.###fau: testNav
 assessment#:#tst_instant_feedback_handling_force#:#Automatische Rückmeldung, aber Antwort nicht festschreiben
-assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
+assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf "Rückmeldung anfordern", oder speichern sie ihre Antwort bei der Navigation zu einer anderen Frage, so präsentiert ILIAS sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.###fau: testNav
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -1230,6 +1270,12 @@ assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
+assessment#:#unfinished_passes#:#Unbeendeter Testdurchlauf
+assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie wirklich den Test Durchlauf beenden?
+assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
+assessment#:#finish_all_user_passes#:#Alle Test Durchläufe beenden
+assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
+assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet. 
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmer zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmer in diesem Test. Wenn Sie diese Teilnehmer entfernen, werden die Testergebnisse der Teilnehmer nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
@@ -1242,6 +1288,7 @@ assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse v
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_side_list#:#Fragenliste aus
+assessment#:#new_test_online#:#Der Test wurde online geschaltet.
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -1351,7 +1398,7 @@ assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
 assessment#:#tst_qst_setsolved#:#markiere als gelöst
 assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_question#:#Frage
-assessment#:#tst_question_mark#:#Diese Frage markieren
+assessment#:#tst_question_mark#:#Frage markieren###fau: testNav
 assessment#:#tst_question_marked#:#Sie haben die Frage markiert
 assessment#:#tst_question_marker#:#Markiert
 assessment#:#tst_question_no#:#Reihenfolge
@@ -1440,11 +1487,11 @@ assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für
 assessment#:#tst_score_cut_test#:#Negatives Gesamttestergebnis in "0 Punkte" ändern
 assessment#:#tst_score_cut_test_desc#:#Es können pro Frage Minuspunkte erzielt werden. Die Punktestände aller Fragen werden aufsummiert und erst wenn diese Summe noch negativ ist, wird das Gesamtergebnis des Tests auf 0 Punkte gesetzt. Mit dieser Einstellung fallen negative Punkte sehr stark ins Gewicht.
 assessment#:#tst_score_cutting#:#Negative Punkte
-assessment#:#tst_score_mcmr_questions#:#Nicht bearbeitete Multiple-Choice-Fragen
-assessment#:#tst_score_mcmr_use_scoring_system#:#Punktevergabe, auch wenn keine Antwort ausgewählt wurde
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Teilnehmer erhalten auch für nicht bearbeitete Multiple-Choice-Fragen Punkte. In der Frage müssen dafür Punkte für das Nicht-Auswählen einer Antwortoption vergeben werden.
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#0 Punkte, wenn keine Antwort ausgewählt wurde
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Teilnehmer erhalten 0 Punkte für Multiple-Choice-Fragen, bei denen sie keine Antwortoption ausgewählt haben.
+assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen mit leerer Antwort###fau: testNav
+assessment#:#tst_score_mcmr_use_scoring_system#:#Leere Antworten speichern und bewerten (veraltet)###fau: testNav
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Eine zusätzliche Option "Keine der obigen" erlaubt es, leere Antworten zu speichern. Die nicht ausgewählten Optionen werden so bewertet, wie in der Frage definiert ist. Diese Einstellung ist nur noch für bestehende Tests verfügbar und wird in einer folgenden ILIAS-Version nicht mehr unterstützt.###fau: testNav
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Leere Antworten nicht speichern###fau: testNav
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Antworten ohne ausgewählte Option werden nicht gespeichert. Die Teilnehmer erhalten 0 Punkte auf diese Fragen.###fau: testNav
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
@@ -1687,7 +1734,7 @@ assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
-assessment#:#tst_level#:#Kompetenz Level
+assessment#:#tst_level#:#Kompetenz-Ausprägung
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
@@ -2691,9 +2738,7 @@ common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#block#:#Block
 common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
-common#:#bm_add_to_ilias#:#ILIAS-Bookmark
-common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark
-common#:#bm_manage_social_bm#:#Social Bookmarks verwalten
+common#:#bm_add_to_ilias#:#Zu ILIAS-Bookmarks hinzufügen
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
@@ -3046,7 +3091,6 @@ common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deleted_user_account#:#Gelöschtes Benutzerkonto
 common#:#deleted_users#:#Die Benutzer wurden gelöscht.
-common#:#delicious#:#Delicious-Account
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
@@ -3650,20 +3694,6 @@ common#:#il_grp_status_open#:#Offene Gruppe
 common#:#ilias_and_webfolder_username#:#ILIAS- und Webordner-Benutzername
 common#:#ilias_username#:#ILIAS-Benutzername
 common#:#ilias_version#:#ILIAS-Version
-common#:#im_aim#:#AIM
-common#:#im_aim_icon#:#AIM-Logo
-common#:#im_icq#:#ICQ
-common#:#im_icq_icon#:#ICQ-Logo
-common#:#im_jabber#:#Jabber
-common#:#im_jabber_icon#:#Jabber-Logo
-common#:#im_msn#:#MSN
-common#:#im_msn_icon#:#MSN-Logo
-common#:#im_skype#:#Skype
-common#:#im_skype_icon#:#Skype-Logo
-common#:#im_voip#:#VoIP
-common#:#im_voip_icon#:#VoIP Logo
-common#:#im_yahoo#:#Yahoo
-common#:#im_yahoo_icon#:#Yahoo-Logo
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
@@ -4213,7 +4243,7 @@ common#:#new_lowercase#:#neu
 common#:#new_mail#:#Neue Mail!
 common#:#new_pass_equals_old_pass#:#Das neue Passwort ist identisch mit dem alten Passwort.
 common#:#newline#:#Zeilenumbruch
-common#:#news#:#Nachrichten
+common#:#news#:#Neuigkeiten
 common#:#next#:#weiter
 common#:#nickname#:#Benutzername
 common#:#no#:#Nein
@@ -4367,8 +4397,8 @@ common#:#obj_mobs_desc#:#Einstellungen für Medienobjekte und -pools
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
-common#:#obj_nwss#:#Nachrichten und Webfeeds
-common#:#obj_nwss_desc#:#Einstellungen für interne Nachrichten und externe Webfeeds
+common#:#obj_nwss#:#Neuigkeiten und Webfeeds
+common#:#obj_nwss_desc#:#Einstellungen für interne Neuigkeiten und externe Webfeeds
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
@@ -4434,6 +4464,7 @@ common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
 common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblink-Sammlung aus --
 common#:#obj_wfld#:#Ordner
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
@@ -4533,7 +4564,6 @@ common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
 common#:#passwd_generation#:#Passwortgenerierung
-common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Passwörter festzulegen.
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#Passwortliste
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
@@ -4568,7 +4598,7 @@ common#:#pathes#:#Pfade
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_enable_contacts#:#Kontakte aktivieren
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Berechtigung für Mail-System
-common#:#pd_items_news#:#Einschließlich Nachrichten der ausgewählten Objekte
+common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pd_items_news_info#:#Wenn aktiviert, werden alle Nachrichten der ausgewählten Objekte im Nachrichtenblock auf dem Persönlichen Schreibtisch angezeigt.
 common#:#pdf_export#:#PDF-Export
 common#:#per_object#:#Zugriff per Objekt
@@ -5021,11 +5051,6 @@ common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Web-Service genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
-common#:#socialbm_disable#:#Deaktivieren
-common#:#socialbm_enable#:#Aktivieren
-common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
-common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen, um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
-common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
@@ -7560,11 +7585,6 @@ dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
 dateplaner#:#yui_cal_choose_month#:#Monat:
 dateplaner#:#yui_cal_choose_year#:#Jahr:
-delic#:#delic_add_info_links#:#Delicious-Links auf Info-Seite anzeigen
-delic#:#delic_add_to_delicious#:#Zu Delicious hinzufügen
-delic#:#delic_extt_delicious#:#Delicious
-delic#:#delic_settings#:#Delicious-Einstellungen
-delic#:#delic_user_profile#:#Einstellungen für Delicious-Account im Persönlichen Profil aktivieren
 didactic#:#didactic_activated_msg#:#Die ausgewählten didaktischen Vorlagen wurden aktiviert.
 didactic#:#didactic_adm_tab#:#Didaktische Vorlagen
 didactic#:#didactic_applicable_for#:#Anwendbar auf
@@ -8020,8 +8040,8 @@ grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen,
 grp#:#grp_already_assigned#:#Sie haben bereits einen Aufnahmeantrag für diese Gruppe gestellt.
 grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_change_type#:#Gruppenart ändern
-grp#:#grp_closed#:#Geschlossene Gruppe
-grp#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
+didactic#:#grp_closed#:#Geschlossene Gruppe
+didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_delete_member#:#Löschen
@@ -9204,61 +9224,61 @@ news#:#finish_publishing_date#:#Veröffentlichung endet:
 news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
 news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
 news#:#news_1_postings#:#Es wurde ein Beitrag hinzugefügt.
-news#:#news_add_news#:#Nachricht hinzufügen
-news#:#news_all_items#:#Nachrichten zu allen Objekten auf dem Persönlichen Schreibtisch
+news#:#news_add_news#:#Beitrag hinzufügen
+news#:#news_all_items#:#Neuigkeiten zu allen Objekten auf dem Persönlichen Schreibtisch
 news#:#news_allow_longer_periods#:#Längere Zeiträume zulassen
-news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
+news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume für Neuigkeiten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
-news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
+news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Neuigkeiten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_attached_to#:#Zugeordnet zu
-news#:#news_block_information#:#Der Nachrichtenblock zeigt chronologisch alle <b>Nachrichten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Ausgewählte Angebote</b> befinden.
-news#:#news_block_news_for_context#:#Nachrichten
-news#:#news_cache#:#Nachrichten-Cache (Minuten)
-news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
+news#:#news_block_information#:#Der Block "Neuigkeiten" zeigt chronologisch alle <b>Neuigkeiten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Ausgewählte Angebote</b> befinden.
+news#:#news_block_news_for_context#:#Neuigkeiten
+news#:#news_cache#:#Neuigkeiten-Cache (Minuten)
+news#:#news_cache_info#:#Aktualisierung des Blocks "Neuigkeiten" alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
-news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
-news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Nachrichten
-news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Nachrichten über RSS. Auf diese Nachrichten kann von außen ohne Authentifizierung zugegriffen werden.
+news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
+news#:#news_enable_internal_news_info#:#Aktiviert Blöcke "Neuigkeiten" für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Neuigkeiten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
+news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Neuigkeiten
+news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Neuigkeiten über RSS. Auf diese Beiträge kann von außen ohne Authentifizierung zugegriffen werden.
 news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
-news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Nachrichten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
+news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
 news#:#news_feed_url_for#:#Feed-URL für '%s'
 news#:#news_first_letter_of_word_notification#:#B
-news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
+news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Neuigkeiten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
 news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
-news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Nachrichten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
+news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Neuigkeiten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
-news#:#news_hidden_news_block#:#Nachrichtenblock wird zur Zeit in der Lernersicht nicht angezeigt.
-news#:#news_hide_news_block#:#Nachrichtenblock verbergen
-news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
+news#:#news_hidden_news_block#:#Block "Neuigkeiten" wird zur Zeit in der Lernersicht nicht angezeigt.
+news#:#news_hide_news_block#:#Block "Neuigkeiten" verbergen
+news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Block "Neuigkeiten" wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
 news#:#news_hide_news_date#:#Startdatum
-news#:#news_hide_news_per_date#:#Nachrichten ab Datum anzeigen
-news#:#news_hide_news_per_date_info#:#Es werden nur Nachrichten ab einem bestimmten Datum angezeigt.
-news#:#news_hide_news_until_date#:#Nachrichten bis Datum anzeigen
-news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem bestimmten Datum angezeigt.
+news#:#news_hide_news_per_date#:#Neuigkeiten ab Datum anzeigen
+news#:#news_hide_news_per_date_info#:#Es werden nur Neuigkeiten ab einem bestimmten Datum angezeigt.
+news#:#news_hide_news_until_date#:#Neuigkeiten bis Datum anzeigen
+news#:#news_hide_news_until_date_info#:#Es werden nur Neuigkeiten bis zu einem bestimmten Datum angezeigt.
 news#:#news_indefinite#:#Unendlich
-news#:#news_internal_news#:#Nachrichten
-news#:#news_loading_news#:#News werden geladen ...
+news#:#news_internal_news#:#Neuigkeiten
+news#:#news_loading_news#:#Neuigkeiten werden geladen ...
 news#:#news_news_item_content#:#Text
 news#:#news_news_item_content_long#:#Langfassung
 news#:#news_news_item_content_long_info#:#Dieser Text wird nicht über RSS veröffentlicht.
-news#:#news_news_item_head#:#Nachricht
+news#:#news_news_item_head#:#Beitrag
 news#:#news_news_item_title#:#Schlagzeile
 news#:#news_news_item_visibility#:#Zugriff
-news#:#news_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
-news#:#news_news_items#:#Nachricht(en)
-news#:#news_no_js_click_here#:#Werden die News nicht angezeigt, klicken Sie bitte hier.
-news#:#news_no_news_items#:#Keine Nachrichten vorhanden.
+news#:#news_news_item_visibility_info#:#Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
+news#:#news_news_items#:#Neuigkeit(en)
+news#:#news_no_js_click_here#:#Werden die Neuigkeiten nicht angezeigt, klicken Sie bitte hier.
+news#:#news_no_news_items#:#Keine Neuigkeiten vorhanden.
 news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
-news#:#news_nr_of_items#:#Anzahl der maximalen Nachrichten pro Objekt
-news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
-news#:#news_pd_period#:#Zeitraum für Nachrichtenanzeige auf Persönlichem Schreibtisch
-news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
+news#:#news_nr_of_items#:#Anzahl der maximalen Neuigkeiten pro Objekt
+news#:#news_nr_of_items_info#:#Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Neuigkeiten enthalten können, da sie auch die Neuigkeiten ihrer Unterobjekte anzeigen.
+news#:#news_pd_period#:#Zeitraum für Neuigkeitenanzeige auf Persönlichem Schreibtisch
+news#:#news_pd_period_info#:#Zeitraum, der für Neuigkeiten auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_period_1_month#:#Letzter Monat
 news#:#news_period_1_week#:#Letzte Woche
 news#:#news_period_1_year#:#Letztes Jahr
@@ -9272,7 +9292,7 @@ news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
-news#:#news_settings#:#Einstellungen für interne Nachrichten
+news#:#news_settings#:#Einstellungen für interne Neuigkeiten
 news#:#news_subscribe#:#Abonniere
 news#:#news_time_period#:#Zeitspanne
 news#:#news_unsubscribe#:#Beende Abonnement
@@ -9337,8 +9357,6 @@ pd#:#pd_my_memberships#:#Meine Mitgliedschaften
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_offers#:#Ausgewählte Angebote
-pd#:#pd_osi_host#:#OSI-Host
-pd#:#pd_osi_host_info#:#Server zur Anzeige des Instant-Messenger-Online-Status (optional). Siehe:
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
 pd#:#pd_settings#:#Einstellungen
@@ -11497,7 +11515,7 @@ trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
-trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status des Lernfortschritts
+trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Lernmodul.
 trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
@@ -12233,7 +12251,7 @@ registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als 
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
 pd#:#block_show_pdtag#:#Tags anzeigen
-pd#:#block_show_pdnews#:#Nachrichten anzeigen
+pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdusers#:#Benutzer anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
@@ -12277,8 +12295,6 @@ poll#:#poll_active_no_edit#:#Diese Abstimmung ist zur Zeit aktiv und kann nicht 
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
 content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
-administration#:#adm_social_bm_create#:#Social-Bookmark hinzufügen
-administration#:#adm_social_bm_edit#:#Social-Bookmark bearbeiten
 ecs#:#ecs_crs_export#:#Kursfreigaben
 ecs#:#ecs_crs_export_obj_settings#:#Einstellungen für Kursfreigaben
 ecs#:#ecs_crs_export_disabled#:#Nicht freigeben
@@ -12726,8 +12742,8 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
-common#:#obj_tool_setting_news#:#Nachrichten
-common#:#obj_tool_setting_news_info#:#Der Block "Nachrichten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_news#:#Neuigkeiten
+common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
 rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
@@ -13998,8 +14014,8 @@ rbac#:#il_orgu_employee#:#Organisationseinheit Mitarbeiter
 rbac#:#il_orgu_superior#:#Organisationseinheit Vorgesetzter
 obj#:#obj_presentation#:#Darstellung
 mcst#:#mcst_webfeed#:#RSS-Webfeed
-news#:#news_news_item_def_visibility_users_info#:#Neue Nachrichten sind nur authentifizierten Benutzern zugänglich.
-news#:#news_news_item_def_visibility_public_info#:#Neue Nachrichten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
+news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur authentifizierten Benutzern zugänglich.
+news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
 chatroom#:#room_in_container#:#%s (in: %s)
 common#:#obj_crsv#:#Kurszertifikat
 wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
@@ -14274,9 +14290,7 @@ blog#:#blog_nav_sortorder#:#Sortierung
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
-survey#:#svy_mail_own_results_body#:#nachfolgend ist Ihre Teilnahme gelistet.
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
-survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail mit den eigenen Antworten senden
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
 wiki#:#wiki_add_page_properties#:#Erweiterte Metadaten von Wikiseiten
@@ -14353,8 +14367,7 @@ obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block "Auswahl
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
 tagging#:#tagging_other_users#:#Tags anderer Benutzer
 common#:#autocomplete_more#:#mehr
-user#:#passwd_generation_pre#:#Vordefinierte Passwörter
-mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien. 
+mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien.
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
 grp#:#grp_cdf_tbl_last_edit#:#Letzte Änderung (Gruppenspezifische Daten)
 crs#:#crs_cdf_tbl_last_edit#:#Letzte Änderung (Kursspezifische Daten)
@@ -14743,6 +14756,34 @@ scormtrac#:#user_id#:#Benutzer-Id
 scormtrac#:#weighting#:#weighting: Gewichtung
 scormtrac#:#report#:#Report
 scormtrac#:#display_not_allowed#:#Anzeige hier nicht erlaubt
+wfe#:#dashboard#:#Dashboard
+wfe#:#definitions#:#Prozessdefinitionen
+wfe#:#instances#:#Prozessinstanzen
+wfe#:#obj_wfe_desc#:#Prozessautomatisierung
+wfe#:#upload_process#:#Prozessdefinition hochladen
+wfe#:#process_definition_file#:#Prozessdefinitionsdatei
+wfe#:#process_definition_file_info#:#BPMN2-Modelle
+wfe#:#upload_parse_success#:#Prozessdefinition hochgeladen, geparst und abgelegt.
+wfe#:#definition_table_title#:#Prozessdefinitionen
+wfe#:#start_process#:#Prozess starten
+wfe#:#process_started#:#Prozess gestartet
+wfe#:#input_variables_required#:#Eingaben erforderlich
+wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
+wfe#:#input_static_variables_desc#:#Der Prozess benötigt zu seinen Starts folgende Angaben:
+wfe#:#delete_definition#:#Definition l&ouml;schen
+wfe#:#definition_deleted#:#Workflow-Definition gel&ouml;scht.
+wfe#:#subject_type#:#Subjekt Typ
+wfe#:#subject_id#:#Subjekt ID
+wfe#:#subject_by_id#:#Subjekt nach ID
+wfe#:#subject_by_mask#:#Maskiertes Subjekt
+wfe#:#context_type#:#Kontext Typ
+wfe#:#context_id#:#Kontext ID
+wfe#:#context_by_id#:#Kontext nach ID
+wfe#:#context_by_mask#:#Maskierter Kontext
+wfe#:#start_listening#:#Listener aktivieren
+wfe#:#stop_listening#:#Listener deaktivieren
+wfe#:#static_input_form_header#:#Eingabedaten f&uuml;r alle Instanzen des Workflows
+wfe#:#start_event_form_header#:#Relevante Ereignisse f&uuml;r den Start der Workflows
 common#:#ps_export_scorm#:#SCORM-Protokolldaten
 common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -14755,7 +14796,6 @@ content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B.
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
 survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht 'Einstellungen bearbeiten') haben Zugriff auf die Ergebnisse der Umfrage.
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teigenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
-survey#:#svy_results_mail_own_info#:#Teilnehmer können sich die eigenen Antworten per Mail zusenden lassen.
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
@@ -15247,8 +15287,8 @@ obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
-crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
-crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
+crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
+crs#:#crs_mail_context_member_title#:#Infoseite Kurs
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
@@ -15744,6 +15784,9 @@ form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Berechtigungsobjekt
+auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
+auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden sie sich erneut an.
+auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
 assessment#:#ass_location#:#Ort
 assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
@@ -15759,6 +15802,9 @@ skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
 copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
+pd#:#pd_enable_mail_pdsysmess#:#Block Systemnachrichten aktivieren
+pd#:#pd_pdmail_include_sysnmess#:#Systemnachrichten im Block Mail
+pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systmenachrichten im Block "Mail" dargestellt.
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
@@ -15772,3 +15818,514 @@ logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
+blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
+common#:#objs_prtf#:#Portfolios
+survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
+survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
+survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
+survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
+survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung senden
+survey#:#svy_mail_confirmation_subject#:#Umfrage "%s" - Ihre Teilnahmebestätigung
+survey#:#svy_anonymous_participants#:#Teilnehmerliste
+survey#:#svy_anonymous_participants_info#:#Wenn aktiviert kann eine Teilnehmerliste bei anonymen Umfragen erzeugt werden.
+survey#:#svy_anonymous_participants_min#:#Mindestteilnehmeranzahl
+survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Teilnehmer.
+survey#:#svy_anonymous_participants_svy#:#Teilnehmerliste
+survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehmerliste nach dem Enddatum verfügbar.
+survey#:#survey_results_started#:#Umfrage begonnen
+survey#:#survey_results_not_started#:#Umfrage nicht begonnen
+survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
+common#:#grpr#:#Gruppen-Referenz
+common#:#grpr_edit#:#Gruppen-Referenz bearbeiten
+common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
+common#:#grpr_new#:#Neue Gruppen-Referenz anlegen
+common#:#obj_grpr#:#Gruppen-Referenz
+common#:#objs_grpr#:#Gruppen-Referenzen
+rbac#:#grpr_copy#:#Gruppen-Referenzen kopieren
+rbac#:#grpr_delete#:#Gruppen-Referenzen verschieben oder löschen
+rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
+rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
+rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
+rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+common#:#obj_bdga#:#Badges
+common#:#obj_bdga_desc#:#Verwaltung der Typen, Bildvorlagen und Activity Badges
+rbac#:#bdga_visible#:#Badge-Verwaltung ist sichtbar
+rbac#:#bdga_read#:#Badge-Verwaltung lesen
+rbac#:#bdga_write#:#Badge-Verwaltung bearbeiten
+rbac#:#bdga_edit_permission#:#Rechteeinstellungen ändern
+badge#:#badge_settings#:#Badge Einstellungen
+badge#:#badge_service_activate#:#Service aktivieren
+badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
+badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
+badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_organisation#:#Organisation
+badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_contact#:#Kontakt-Email
+badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_salt#:#Salt
+badge#:#badge_obi_salt_info#:#
+badge#:#badge_types#:#Typen
+badge#:#badge_image_templates#:#Bildvorlagen
+badge#:#badge_activity_badges#:#Activity Badges
+badge#:#badge_crs_merit#:#Verdienst
+badge#:#badge_manual#:#Manuelle Vergabe
+badge#:#badge_user_profile#:#Benutzerprofil
+badge#:#badge_badge#:#Badge
+obj#:#obj_tool_setting_badges#:#Badges
+obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
+badge#:#badge_add_template#:#Template hinzufügen
+badge#:#badge_image_template_form#:#Bildvorlage
+badge#:#badge_image_from_upload#:#Bild hochlanden
+badge#:#badge_image_from_template#:#Vorlage nutzen
+badge#:#badge_award_badge#:#Badge verleihen
+badge#:#badge_remove_badge#:#Badge entziehen
+badge#:#badge_template_deletion_confirmation#:#Wollen Sie wirklich die folgenden Bildvorlagen löschen?
+badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
+badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
+badge#:#badge_template_types#:#Gültige Typen
+badge#:#badge_template_types_all#:#Alle
+badge#:#badge_template_types_specific#:#Bestimmte
+badge#:#badge_valid#:#Gültig bis
+badge#:#badge_object_badges#:#Objekt-Badges
+badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
+badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
+badge#:#badge_backpack_list#:#Mein Backpack
+badge#:#badge_personal_badges#:#Meine Badges
+badge#:#badge_issued_on#:#Erhalten am
+badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
+badge#:#badge_add_to_backpack_multi#:#Versuche %s zum Backpack hinzuzufügen
+badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
+badge#:#badge_notification_subject#:#Badge erhalten
+badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
+badge#:#badge_notification_osd#:#Sie haben gerade neue Badges erhalten: [BADGE_LIST]
+badge#:#badge_notification_badges#:#Neue Badges
+badge#:#badge_notification_badges_goto#:#Zu den Badges
+badge#:#badge_notification_parent_goto#:#Zum Repository
+badge#:#badge_notification_reason#:#Sie erhalten diese Nachricht, um die neuen Badges in Ihr Profil einbinden zu können.
+badge#:#badge_in_profile#:#Im Profil
+badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
+badge#:#badge_remove_from_profile#:#Aus Profil entfernen
+badge#:#badge_criteria#:#Kriterien
+badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
+badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Keine neuen Badges können erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
+badge#:#badge_course_lp#:#Course LP
+badge#:#badge_profile_more#:#Alle zeigen
+badge#:#badge_profile_less#:#Weniger zeigen
+badge#:#badge_backpack_gallery_info#:#Dies sind deine veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_profile_view#:#Anzeigen
+badge#:#badge_profile_manage#:#Verwalten
+badge#:#badge_subtype_manual#:#manuell
+badge#:#badge_subtype_auto#:#automatisch
+badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
+trac#:#trac_defaults#:#Bestanden-Status
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_inactive#:#Inaktiv
+copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
+assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen###fau: testNav
+assessment#:#save_on_navigation#:#Navigation mit Speichern###fau: testNav
+assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.###fau: testNav
+assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert und festgeschrieben.###fau: testNav
+assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Diese Nachfrage nicht mehr anzeigen###fau: testNav
+assessment#:#tst_answer_status_editing#:#(in Bearbeitung ... )###fau: testNav
+assessment#:#tst_answer_status_answered#:#Beantwortet###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet###fau: testNav
+assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt###fau: testNav
+assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt###fau: testNav
+assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten###fau: testNav
+assessment#:#postpone_question#:#Frage ans Ende verschieben###fau: testNav
+assessment#:#tst_question_not_marked#:#Die Frage ist nicht markiert###fau: testNav
+assessment#:#tst_save_and_proceed#:#Speichern und weiter###fau: testNav
+adve#:#char_selector_menu_open#:#Sonderzeichen-Auswahl anzeigen###fau: testNav
+adve#:#char_selector_menu_close#:#Sonderzeichen-Auswahl verbergen###fau: testNav
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.
+glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_reference#:#Reference
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
+survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
+survey#:#svy_reminder_mail_template#:#Mail-Vorlage
+survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
+survey#:#svy_eval_view#:#Anzeige
+survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
+survey#:#svy_eval_view_tables#:#Tabelle
+survey#:#svy_eval_view_charts#:#Grafik
+survey#:#svy_eval_captions#:#Kennzahl
+survey#:#svy_eval_captions_abs_perc#:#Anzahl und Prozent
+survey#:#svy_eval_captions_abs#:#Anzahl
+survey#:#svy_eval_captions_perc#:#Prozent
+style#:#add_system_style#:#Neuer System Style
+style#:#add_substyle#:#Neuer Sub Style
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin Name
+style#:#skin#:#Skin
+style#:#style_id#:#Style ID
+style#:#Style#:#Style
+style#:#style_name#:#Style Name
+style#:#image_dir#:#Icon-Ordner
+style#:#font_dir#:#Schrift-Ordner
+style#:#sound_dir#:#Audio-Ordner
+style#:#system_style_activation#:#System Style aktiviert
+style#:#personal#:#Persönlich
+style#:#system_styel_activation#:#aktiviere System Style
+style#:#less#:#Less
+style#:#icons#:#Icons
+style#:#documentation#:#Dokumentation
+style#:#less_can_not_be_modified#:#Less kann nicht verändert werden.
+style#:#no_less_path_set#:#Das Less Verzeichnis ist nicht gesetzt.
+style#:#less_less_installation_detected#:#Less Installation gefunden:
+style#:#grey_colors#:#Graue Farben
+style#:#grey_color#:#Grauton
+style#:#grey_colors_description#:#Grauton Beschreibung
+style#:#red_colors#:#Rote Farben
+style#:#red_color#:#Rotton
+style#:#red_colors_description#:#Rotton Beschreibung
+style#:#green_colors#:#Grüne Farben
+style#:#green_color#:#Grünton
+style#:#green_colors_description#:#Grünton Beschreibung
+style#:#blue_colors#:#Blaue Farben
+style#:#blue_color#:#Blauton
+style#:#blue_colors_description#:#Blauton Beschreibung
+style#:#reset_icons#:#Farben zurücksetzen
+style#:#update_colors#:#Farben aktualisieren
+style#:#style_not_deleted#:#Der Style konnte aus folgenden Gründen nicht gelöscht werden:
+style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
+style#:#cant_delete_activated_style#:#Aktive Styles können nicht gelöscht werden.
+style#:#style_deleted#:#Gelöschter Style:
+style#:#dir_preserved_linked#:#Behaltene Links:
+style#:#file_deleted#:#Folgende Datei wurde gelöscht:
+style#:#skin_deleted#:#Folgender Skin wurde gelöscht:
+style#:#msg_sys_style_update#:#System Styles wurden aktualisiert.
+common#:#set_style_does_not_exist#:#Ausgewählter System Style existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer System Style aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+common#:#set_skin_does_not_exist#:#Ausgewählter Skin existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer Skin aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
+style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
+style#:#default_style_set_to#:#Der Standard Style wurde geändert zu:
+style#:#personal_style_set_to#:#Der persönliche Style wurde geändert zu:
+style#:#refresh_entries#:#Einträge aktualisieren
+style#:#entries_reloaded#:#Alle Einträge wurden aktualisiert
+style#:#msg_sub_style_created#:#Der Sub Style wurde erstellt.
+style#:#style#:#Style
+style#:#sub_style_settings#:#Sub Style Zuweisung
+style#:#parent#:#Parent Style
+style#:#sty_substyle_of#:#Sub Style von
+style#:#assignment#:#Zuweisung
+style#:#remove_assignment#:#Zuweisung löschen
+style#:#reset_variables#:#Variablen zurücksetzen
+style#:#update_variables#:#Variablen aktualisieren
+style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#settings_of_substyle#:#Manage sub style
+style#:#settings_of_style#:#Styles verwalten
+style#:#of_parent#:#vom Parent:
+style#:#from_skin#:#vom Skin:
+style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
+style#:#to#:#nach:
+style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
+style#:#sty_create_new_system_style#:#Erstelle einen neuen System Style.
+style#:#sty_create_new_system_sub_style#:#Erstelle einen neuen System Sub Style.
+style#:#sty_import_system_style#:#Importiere bestehenden System Style aus ZIP.
+style#:#sty_copy_other_system_style#:#Klone einen bestehenden System Style.
+style#:#sub_style_id#:#Sub Style ID
+style#:#sub_style_name#:#Sub Style Name
+style#:#less_variables_file_not_included#:#Die Less Variablen Datei:
+style#:#in_main_less_file#:#ist nicht in der System Styles main Less Datei importiert:
+style#:#can_not_read_less_file#:#Less Datei kann nicht gelesen werden. Pfad:
+style#:#msg_sys_style_created#:#Die neue System Style Datei wurde erfolgreich erstellt.
+style#:#skin_id_description#:#Skins sind Behälter für Styles und Sub Styles. Die Skin ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub Styles beinhaltet. Die Skin ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#skin_name_description#:#Der Skin Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
+style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#style_name_description#:#Der Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
+style#:#sub_style#:#Sub Style
+style#:#image_dir_description#:#Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#font_dir_description#:#Ordner für das Speichern von Schriftarten vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#sound_dir_description#:#Ordner für das Speichern von Tönen vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub Styles geteilt werden.
+style#:#sub_style_parent_style_description#:#Sub Styles werden genau einem Parent Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent Style haben. Der Parent Style eines Sub Styles kann nur während der Erstellung des Sub Styles einmalig zugeordnet werden.
+style#:#sub_style_id_description#:#Die Sub Style ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#sub_style_name_description#:#Der Sub Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
+style#:#system_style_activation_description#:#Aktive System Styles können bestimmten Benutzern zugewiesen, oder durch diese ausgewählt werden wenn die betreffende Einstellung (Benutzerverwaltung / Einstellungen / Standardfelder / Standard-Skin/ -Style) aktiviert ist.
+style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard System Style festgelegt. Der Standard System Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
+style#:#system_style_personal_description#:#Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
+style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#zip_export_failed#:#Der ZIP Export ist mit folgender Error Meldung fehlgeschlagen:
+style#:#no_style_selected#:#Es wurde kein Sub Style ausgewählt.
+style#:#adapt_less#:#Anpassung der Less Datei
+style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
+style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
+style#:#adapt_icons#:#Anpassung der Iconfarben
+style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig:
+style#:#provided_less_path#:#Angegebener lessc Pfad:
+style#:#used_colors#:#Benutzte Farben:
+style#:#style_imported#:#Style wurde erfolgreich importiert nach:
+style#:#style_copied#:#Style wurde erfolgreich kopiert.
+style#:#directory_created#:#Ordner erstellt:
+style#:#color_changed_from#:#Farbe geändert von:
+style#:#color_changed_to#:#nach:
+style#:#edit_by_color#:#Bearbeitung nach Farbe
+style#:#edit_by_icon#:#Bearbeitung nach Icon
+style#:#update_icon#:#Aktualisiere Icon
+style#:#select_icon#:#Selektieres Icon
+style#:#change_icon#:#Ändere Icon
+style#:#color#:#Farbe
+style#:#adapt_icon#:#Anpassung der Icons
+style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
+style#:#preview#:#Vorschau
+style#:#icons_gallery#:#Icon Galerie
+style#:#cant_delete_style_with_substyles#:#Styles mit Sub Styles können nicht gelöscht werden.
+style#:#style_assignments_deleted#:#Style Zuweisungen des folgenden Sub Style wurden gelöscht:
+style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
+style#:#usages#:#Verwendungen:
+exc#:#exc_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_individual_deadline_action#:#Individuelle Fristenverlängerung setzen
+exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
+exc#:#exc_tbl_submission_date#:#Jüngste Abgabe
+exc#:#exc_tbl_status#:#Bewertung
+exc#:#exc_tbl_status_time#:#Bewertet am
+exc#:#exc_tbl_mark#:#Note
+exc#:#exc_tbl_comment#:#Text-Feedback
+exc#:#exc_tbl_notice#:#Notiz für Tutoren
+exc#:#exc_tbl_feedback_time#:#Feedback am
+exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
+exc#:#exc_tbl_team#:#Team
+exc#:#exc_tbl_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
+exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
+exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
+exc#:#exc_tbl_action_text_assignment_show#:#Abgabe anzeigen
+exc#:#exc_tbl_action_feedback_text#:#Feedback per Text geben
+exc#:#exc_tbl_action_feedback_mail#:#Feedback per Mail geben 
+exc#:#exc_tbl_action_feedback_file#:#Feedback per Datei geben 
+exc#:#exc_tbl_action_team_log#:#Team-Log anzeigen
+exc#:#exc_tbl_action_peer_review_given#:#Gegebenes Peer-Feedback anzeigen
+exc#:#exc_tbl_action_peer_review_received#:#Erhaltenes Peer-Feedback anzeigen
+exc#:#exc_feedback#:#Feedback
+exc#:#exc_settings_feedback#:#Tutorenfeedback
+exc#:#exc_settings_feedback_text#:#Texteingabe
+exc#:#exc_settings_feedback_mail#:#per Mail
+exc#:#exc_settings_feedback_file#:#Datei
+mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
+mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
+mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
+ccmt#:#ccmt_perform_reporting_data_update#:#Daten des Berichtswesens aktualisieren
+ccmt#:#ccmt_custom_reporting_tool#:#Berichtswesen
+ccmt#:#ccmt_custom_reporting_tool_desc#:#Hier sehen Sie den Lernstand Ihrer Mitarbeiter.<br />Bitte beachten Sie, dass die Daten im Berichtswesen nächtlich aktualisiert werden.
+ccmt#:#ccmt_view_by_switch_label#:#Anzeige nach
+ccmt#:#ccmt_numbers_switch_label#:#Darstellung Zahlen
+ccmt#:#ccmt_filter_course_label#:#Filter Kurs
+ccmt#:#ccmt_filter_crstype_label#:#Filter Kursart
+ccmt#:#ccmt_filter_memtype_label#:#Filter Mitgliedschaft
+ccmt#:#ccmt_filter_crsparent_label#:#Filter Kurs Container
+ccmt#:#ccmt_filter_period_label#:#Filter Zeitraum
+ccmt#:#ccmt_period_filter_label_use#:#Verwende Filter
+ccmt#:#ccmt_period_filter_label_not_use#:#Verwende Filter nicht
+ccmt#:#ccmt_filter_period_start#:#Von
+ccmt#:#ccmt_filter_period_end#:#Bis
+ccmt#:#ccmt_filter_option_all#:#Alle
+ccmt#:#ccmt_viewby_option_course#:#Kurs
+ccmt#:#ccmt_viewby_option_crsparent#:#Kurs Container
+ccmt#:#ccmt_viewby_option_crstype#:#Kursart
+ccmt#:#ccmt_viewby_option_orgunit#:#Organisationseinheit
+ccmt#:#ccmt_viewby_option_user#:#Mitarbeiter
+ccmt#:#ccmt_numbers_option_absolute#:#Absolut
+ccmt#:#ccmt_numbers_option_relative#:#Relativ
+ccmt#:#ccmt_filter_crstype_option_optional#:#Freiwillig
+ccmt#:#ccmt_filter_crstype_option_mandatory#:#Pflicht
+ccmt#:#ccmt_filter_memtype_option_auto#:#Automatisch zugewiesen
+ccmt#:#ccmt_filter_memtype_option_manual#:#Manuell zugewiesen
+ccmt#:#ccmt_aggregation_entity_course_total#:#Alle Kurse
+ccmt#:#ccmt_aggregation_entity_crstype_total#:#Alle Kursarten
+ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Alle Kurs Container
+ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Alle Organisationseinheiten
+ccmt#:#ccmt_table_column_course#:#Kurs
+ccmt#:#ccmt_table_column_crsparent#:#Kurs Container
+ccmt#:#ccmt_table_column_crstype#:#Kursart
+ccmt#:#ccmt_table_column_orgunit#:#Organisationseinheit
+ccmt#:#ccmt_table_column_user#:#Mitarbeiter
+ccmt#:#ccmt_table_column_assigned#:#Kurszuweisungen
+ccmt#:#ccmt_table_column_not_attempted#:#Nicht bearbeitet
+ccmt#:#ccmt_table_column_notattempted#:#Nicht bearbeitet
+ccmt#:#ccmt_table_column_inprogress#:#In Bearbeitung
+ccmt#:#ccmt_table_column_in_progress#:#In Bearbeitung
+ccmt#:#ccmt_table_column_completed#:#Abgeschlossen
+ccmt#:#ccmt_table_column_failed#:#Nicht abgeschlossen
+ccmt#:#ccmt_table_column_lp_ratio#:#Lernquote
+ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Zertifikate
+ccmt#:#ccmt_table_column_past_due#:#Überfällig
+ccmt#:#ccmt_table_column_event_days#:#Veranstaltungstage
+ccmt#:#ccmt_not_available#:#offen
+ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lernfortschritt nach Kursen
+ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lernfortschritt nach Kursarten
+ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lernfortschritt nach Kurs Containern
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lernfortschritt nach Organisationseinheit
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_detailed_status_table_header#:#Detaillierter Lernfortschritt
+ccmt#:#ccmt_detailed_status_table_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_table_column_lp_status#:#Status
+ccmt#:#ccmt_table_column_deadline_date#:#Fälligkeit Kurs
+ccmt#:#ccmt_table_column_is_mandatory#:#Kursart (Pflicht/Freiwillig)
+ccmt#:#ccmt_table_column_last_access#:#Letzter Zugriff
+ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Erfüllt am
+ccmt#:#ccmt_lp_status_notattempted#:#Nicht bearbeitet
+ccmt#:#ccmt_lp_status_inprogress#:#In Bearbeitung
+ccmt#:#ccmt_lp_status_completed#:#Abgeschlossen
+ccmt#:#ccmt_lp_status_failed#:#Nicht abgeschlossen
+ccmt#:#ccmt_course_type_mandatory#:#Pflicht
+ccmt#:#ccmt_course_type_optional#:#Freiwillig
+ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Bericht erzeugen
+ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export erzeugen
+ccmt#:#ccmt_menu_item_reporting#:#Berichtswesen
+ccmt#:#ccmt_info_block_label_all_users#:#Anzahl Benutzer
+ccmt#:#ccmt_info_block_label_all_courses#:#Anzahl Kurse
+ccmt#:#ccmt_info_block_label_all_memberships#:#Anzahl Mitgliedschaften
+ccmt#:#ccmt_info_block_label_all_session_days#:#Anzahl Sitzungstage
+ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Die folgenden Kurse wurden aufgrund der jeweiligen Tracking Einstellungen in der Auswertung nicht berücksichtigt:<br />%s
+ccmt#:#ccmt_course_error_lp_mode#:#Der Status für den Kurs "%s" mit der ID "%s" konnte nicht ermittelt werden, da das Tracking auf einen nicht kompatiblen Modus eingestellt ist.<br />Aktueller Modus ist "%s" / Benötigter Modus ist "%s"
+ccmt#:#ccmt_course_error_lp_deactivated#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da das Tracking deaktiviert ist.
+ccmt#:#ccmt_course_error_invalid_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von einem Subobjekt ab, dessen Objekttyp vom Reporting nicht unterstützt wird.
+ccmt#:#ccmt_course_error_multi_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von mehr als nur einem Subobjekt ab.
+ccmt#:#ccmt_course_error_missing_obj#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da keine relevanten Subobjekte definiert wurden, von denen der Status abhängen soll.
+ccmt#:#ccmt_print_view#:#Druckansicht alle Kurse
+ccmt#:#ccmt_print_view_mandatory_non_completed#:#Druckansicht offene Kurse
+ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Offene Kurse im %s
+ccmt#:#ccmt_print_window_title_orgunit#:#Alle Kurse im %s
+ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Offene Kurse für %s
+ccmt#:#ccmt_print_window_title_user#:#Alle Kurse für %s
+ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Es existieren keine offenen Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_detailed_status_print_view_noitems#:#Es existieren keine Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
+ccmt#:#ccmt_print_table_column_user#:#Mitarbeiter
+ccmt#:#ccmt_print_table_column_course#:#Kurs
+ccmt#:#ccmt_print_table_column_lp_status#:#Status
+ccmt#:#ccmt_print_table_column_is_mandatory#:#Kursart
+ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Erfüllt am
+ccmt#:#ccmt_print_table_column_learning_date#:#Lernen am
+ccmt#:#ccmt_print_table_column_last_access#:#Letzter Zugr.
+ccmt#:#ccmt_print_table_column_deadline_date#:#Fällig bis
+ccmt#:#ccmt_all_employees#:#Alle Mitarbeiter
+ccmt#:#ccmt_table_column_num_users#:#Anzahl Mitarbeiter
+ccmt#:#export_all_lp#:#Lernfortschritt exportieren
+ccmt#:#export_learning_progress#:#Lernfortschritt exportieren
+ccmt#:#export_lp#:#Datei auswählen
+ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
+ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
+ccmt#:#ccmt_search_no_user_found#:#Ihre Suche hat leider keine Treffer ergeben.
+ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
+ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
+bot#:#bot_view_by_switch_label#:#Anzeige nach
+bot#:#bot_filter_course_label#:#Filter Kurs
+bot#:#bot_filter_category_label#:#Filter Kurstyp
+bot#:#bot_filter_period_label#:#Filter Zeitraum
+bot#:#bot_period_filter_label_use#:#Verwende Filter
+bot#:#bot_period_filter_label_not_use#:#Verwende Filter nicht
+bot#:#bot_filter_period_start#:#Von
+bot#:#bot_filter_period_end#:#Bis
+bot#:#bot_filter_option_all#:#Alle
+bot#:#bot_viewby_option_course#:#Kurs
+bot#:#bot_viewby_option_category#:#Kurstyp
+bot#:#bot_viewby_option_orgunit#:#Organisationseinheit
+bot#:#bot_viewby_option_user#:#Mitarbeiter
+bot#:#bot_course_name#:#Kurstitel
+bot#:#bot_course_date#:#Datum
+bot#:#bot_course_max_members#:#Anzahl der Plätze
+bot#:#bot_course_num_subs#:#Anzahl der Buchungen
+bot#:#bot_course_subs_left#:#Offene Plätze
+bot#:#bot_course_capacity_utilisation#:#Auslastungsquote
+bot#:#bot_unlimited#:#unbegrenzt
+bot#:#bot_booking_ratio_undefined#:#offen
+bot#:#bot_cancelation_ratio_undefined#:#undefiniert
+bot#:#bot_menu_item_backoffice#:#Backoffice
+bot#:#bot_list_course_capacity_left#:#Liste der Kurse mit offenen Plätzen
+bot#:#bot_list_course_participants#:#Teilnehmerliste des Kurses
+bot#:#bot_lastname#:#Nachname
+bot#:#bot_firstname#:#Vorname
+bot#:#bot_group_category#:#Kurstyp
+bot#:#bot_group_orgunit#:#Organisationseinheit
+bot#:#bot_course_number_events#:#Anzahl der Kurse
+bot#:#bot_course_num_cancel#:#Anzahl der Stornierungen
+bot#:#bot_course_cancel_q#:#Stornierungsquote
+bot#:#bot_list_course_cancelations#:#Liste der Stornierungen
+bot#:#bot_crs_bookings#:#Buchungsübersicht
+bot#:#bot_back_to_crs_bookings#:#Zurück zur Buchungsübersicht
+bot#:#bot_crs_cancelations#:#Stornierungsübersicht
+bot#:#bot_viewby_option_orgunit_district#:#Bezirk
+bot#:#bot_viewby_option_orgunit_shop#:#Verkaufstelle
+bot#:#bot_course_booking#:#Buchung
+bot#:#bot_booking_txt#:#Teilnehmer hinzufügen
+bot#:#bot_crs_needs#:#Bedarfsübersicht
+bot#:#bot_filter_category2_label#:#Aufbaukurstyp
+bot#:#bot_list_course_needs#:#Analyse der Trainingsbedarfe
+bot#:#bot_area#:#Bezirk
+bot#:#bot_status#:#Status
+bot#:#bot_overdue_but_member#:#Überfällig, aber gebucht
+bot#:#bot_overdue#:#Überfällig
+bot#:#bot_vst#:#VST
+bot#:#bot_course_location#:#Ort
+bot#:#bot_filter_position_label#:#Position
+bot#:#bot_filter_months_label#:#Zeitlimit
+bot#:#bot_toolbar_export#:#Export erzeugen
+bot#:#bot_toolbar_submit_create_report_screen#:#Bericht erzeugen
+bot#:#bot_month#:#%s Monat
+bot#:#bot_months#:#%s Monate
+didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
+didactic#:#effective_form#:#Vorlage wirksam ab
+didactic#:#more_translations#:#Weitere Übersetzungen
+didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
+didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
+grp#:#grp_show_members#:#Mitglieder-Reiter
+grp#:#grp_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
+didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eine der gewählten Didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden.
+didactic#:#didactic_auto_generated#:#Automatisch generiert
+didactic#:#activate_exclusive_template#:#Standard ausgrauen
+didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
+didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
+didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann.
+cont#:#cont_news_timeline#:#Timeline
+cont#:#cont_news_timeline_info#:#Aktiviert den Reiter "Timeline" für Neuigkeiten
+cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten
+cont#:#cont_news_timeline_auto_entries_info#:#Alle automatisch erstellten Neuigkeiten werden mit angezeigt, z.B. Forenbeiträge, neue Dateien etc.
+rbac#:#news_add_news#:#Neuigkeiten erstellen
+rbac#:#grp_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
+news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
+obj#:#obj_tool_setting_use_news#:#Neuigkeiten
+obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
+obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
+cont#:#cont_news_settings#:#Neuigkeiten
+cont#:#cont_news_timeline_landing_page#:#Startseite
+cont#:#cont_news_timeline_landing_page_info#:#Timeline wird Startseite
+cont#:#cont_news_timeline_tab#:#Timeline
+cont#:#cont_news_edited#:#Bearbeitet
+news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
+rbac#:#crs_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
+cont#:#cont_news_add_news#:#Beitrag hinzufügen
+bgtask#:#bgtask_failure#:#Fehler
+bgtask#:#bgtask_empty_folder#:#Die Auswahl enthält keine Objekte, die heruntergeladen werden können.
+bgtask#:#bgtask_download_too_large#:#Der Download überschreitet das Limit von %s.
+bgtask#:#bgtask_blocked#:#Laufender Download
+bgtask#:#bgtask_blocked_info#:#Es wird bereits ein Download für Sie erzeugt.
+bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen
+bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
+bgtask#:#bgtask_processing#:#Download erzeugen
+bgtask#:#bgtask_download_long#:#Die Erstellung des Downloads wird mit %1$s Dateien (%2$s) einige Zeit dauern.
+bgtask#:#bgtask_setting#:#«Herunterladen im Hintergrund» aktivieren
+bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
+bgtask#:#bgtask_setting_limit#:#Globales Limit
+bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die maximale Summe der Dateigrössen den Wert nicht überschreitet.
+bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
+bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
+bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
+bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
+bgtask#:#bgtask_cron_gc_title#:#Hintergrundaufgaben-Bereinigung
+bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien.
+style#:#enable_system_styles_management_no_write_perm#:#'System Styles Management' ist aktiviert ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden.
+awrn#:#awrn_use_osd#:#Popup Online-Benutzer
+awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.

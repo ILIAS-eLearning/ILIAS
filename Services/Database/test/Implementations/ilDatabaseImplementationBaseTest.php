@@ -74,7 +74,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		if ($this->set_up) {
 			return;
 		}
-		echo phpversion() . "\n";
+		//		echo phpversion() . "\n";
 		$this->error_reporting_backup = error_reporting();
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING & ~E_STRICT); // Due to PEAR Lib MDB2
 
@@ -93,6 +93,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 
 		switch ($this->type) {
 			case ilDBConstants::TYPE_MYSQL_LEGACY:
+			case ilDBConstants::TYPE_PDO_MYSQL_GALERA:
 			case ilDBConstants::TYPE_INNODB_LEGACY:
 			case ilDBConstants::TYPE_MYSQLI_LEGACY:
 			case ilDBConstants::TYPE_PDO_MYSQL_INNODB:

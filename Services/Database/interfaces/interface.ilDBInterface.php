@@ -732,4 +732,21 @@ interface ilDBPdoInterface {
 	 * @return int
 	 */
 	public function getLastInsertId();
+
+
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param null $result_types
+	 * @return bool
+	 */
+	public function prepare($query, $types = null, $result_types = null);
+
+
+	/**
+	 * @param $table
+	 * @param array $fields
+	 * @return bool
+	 */
+	public function uniqueConstraintExists($table, array $fields);
 }
