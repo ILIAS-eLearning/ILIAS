@@ -79,7 +79,6 @@
 						$(this).find('[data-onscreenchat-message]').focus();
 					}
 				})
-				.on('keyup', '[data-onscreenchat-usersearch]', $scope.il.OnScreenChatJQueryTriggers.triggers.searchEvent)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
 				.on('paste', '[data-onscreenchat-message]', function(e) {
@@ -483,7 +482,56 @@
 						.replace('#:#chat_osc_user#:#', il.Language.txt('chat_osc_user'))
 						.replace('#:#chat_osc_no_usr_found#:#', il.Language.txt('chat_osc_no_usr_found')),
 				onShown: function (e, modal) {
-					modal.find('input[type="text"]').first().focus();
+					var modalBody = modal.find('[data-onscreenchat-modal-body]'),
+						conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body'));
+
+					var $elm = modal.find('input[type="text"]').first();
+					$elm.focus().autocomplete({
+						appendTo: $elm.parent(),
+						requestUrl: getModule().config.userListURL,
+						source: function(request, response) {
+							var that = this;
+							$.getJSON(that.options.requestUrl, {
+								term: request.term
+							}, function(data) {
+								if (typeof data.items == "undefined") {
+									if (data.length == 0) {
+										modalBody.find('[data-onscreenchat-no-usr-found]').removeClass('ilNoDisplay');
+									}
+									response(data);
+								} else {
+									if (data.items.length == 0) {
+										modalBody.find('[data-onscreenchat-no-usr-found]').removeClass('ilNoDisplay');
+									}
+									response(data.items);
+								}
+							});
+						},
+						search: function() {
+							var term = this.value;
+
+							if (term.length < 3) {
+								return false;
+							}
+
+							modalBody.find('label').append(
+								$('<img />').addClass("ilOnScreenChatSearchLoader").attr('src', getConfig().loaderImg)
+							);
+							modalBody.find('[data-onscreenchat-no-usr-found]').addClass('ilNoDisplay');
+						},
+						response: function() {
+							$(".ilOnScreenChatSearchLoader").remove();
+						},
+						select: function(event, ui) {
+							var userId = ui.item.id,
+								name   = ui.item.value;
+
+							if (userId > 0) {
+								getModule().addUser(conversation.id, userId, name);
+								$scope.il.Modal.dialogue({id: 'modal-' + conversation.id}).hide();
+							}
+						}
+					});
 				}
 			});
 		},
@@ -596,62 +644,6 @@
 			});
 
 			return oldest;
-		},
-
-		searchUser: function(e) {
-			var $input = $(this),
-				modalBody = $input.closest('[data-onscreenchat-modal-body]');
-
-			modalBody.find('[data-onscreenchat-no-usr-found]').addClass('ilNoDisplay');
-
-			delayedUserSearch(function (e) {
-				if ($input.val().length > 2) {
-
-					modalBody.find('label').append(
-						$('<img />').addClass("ilOnScreenChatSearchLoader").attr('src', getConfig().loaderImg)
-					);
-
-					$.get(
-						getModule().config.userListURL + '&q=' + $input.val(),
-						function (response){
-							var conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body')),
-								list = modalBody.find('[data-onscreenchat-userlist]'), 
-								noMatches = true;
-
-							list.addClass("ilNoDisplay").children().remove();
-							$(".ilOnScreenChatSearchLoader").remove();
-
-							$(response.items).each(function() {
-								if (!userExistsInConversation(this.id, conversation)) {
-									var userId = this.id,
-										name = this.value,
-										link = $('<a></a>')
-											.prop('href', '#')
-											.text(name)
-											.click(function (e) {
-												e.preventDefault();
-												e.stopPropagation();
-
-												getModule().addUser($(this).closest("ul").attr('data-onscreenchat-userlist'), userId, name);
-												$scope.il.Modal.dialogue({id: 'modal-' + conversation.id}).hide();
-											}),
-										line = $('<li></li>').append(link);
-										list.removeClass("ilNoDisplay").append(line);
-									
-									noMatches = false;
-								}
-							});
-
-							if (noMatches) {
-								modalBody.find('[data-onscreenchat-no-usr-found]').removeClass('ilNoDisplay');
-							}
-						},
-						'json'
-					);
-				} else {
-					modalBody.find('[data-onscreenchat-userlist]').addClass("ilNoDisplay").children().remove();
-				}
-			}, 500);
 		},
 
 		addUser: function(conversationId, userId, name) {
