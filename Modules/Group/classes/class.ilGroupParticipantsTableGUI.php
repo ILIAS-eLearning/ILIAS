@@ -269,7 +269,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     {
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 
-		$group_user_data = $this->getParentObject()->readMemberData(
+		$group_user_data = (array) $this->getParentObject()->readMemberData(
 			$part,
 			$this->getSelectedColumns()
 		);
@@ -333,7 +333,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 			$filtered_user_ids[] = $user_id;
-			$a_user_data[$user_id] = array_merge($ud,$group_user_data[$user_id]);
+			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
 		}
 
 		// Custom user data fields
