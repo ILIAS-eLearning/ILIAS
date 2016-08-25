@@ -3,13 +3,14 @@ use CaT\Plugins\CareerGoal;
 
 include_once("./Services/Repository/classes/class.ilObjectPluginGUI.php");
 require_once(__DIR__."/class.ilCareerGoalSettingsGUI.php");
+require_once(__DIR__."/class.ilCareerGoalRequirementsGUI.php");
 
 /**
  * User Interface class for career goal repository object.
  *
  * @ilCtrl_isCalledBy ilObjCareerGoalGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
  * @ilCtrl_Calls ilObjCareerGoalGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCareerGoalGUI: ilCareerGoalSettingsGUI
+ * @ilCtrl_Calls ilObjCareerGoalGUI: ilCareerGoalSettingsGUI, ilCareerGoalRequirementsGUI
  *
  * @author 		Stefan Hecken <stefan.hecken@concepts-and-training.de> 
  */
@@ -53,6 +54,19 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 			case ilCareerGoalSettingsGUI::CMD_SHOW:
 			case ilCareerGoalSettingsGUI::CMD_SAVE:
 				$this->forwardSettings();
+				break;
+			case ilCareerGoalRequirementsGUI::CMD_SHOW:
+			case ilCareerGoalRequirementsGUI::CMD_ADD:
+			case ilCareerGoalRequirementsGUI::CMD_EDIT:
+			case ilCareerGoalRequirementsGUI::CMD_SAVE:
+			case ilCareerGoalRequirementsGUI::CMD_UPDATE:
+			case ilCareerGoalRequirementsGUI::CMD_DELETE:
+			case ilCareerGoalRequirementsGUI::CMD_SORT:
+			case ilCareerGoalRequirementsGUI::CMD_CONFIRMED_DELETE:
+			case ilCareerGoalRequirementsGUI::CMD_DELETE_SELECTED_REQUIREMENTS:
+			case ilCareerGoalRequirementsGUI::CMD_CONFIRMED_DELETE_SELECTED_REQUIREMENTS:
+			case ilCareerGoalRequirementsGUI::CMD_SAVE_ORDER:
+				$this->forwardRequirements();
 				break;
 			case self::CMD_PROPERTIES:
 			case self::CMD_SHOWCONTENT:
@@ -100,20 +114,18 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 	/**
 	 * Set tabs
 	 */
-	function setTabs() {
-		global $ilTabs, $ilCtrl, $ilAccess;
-
+	protected function setTabs() {
 		$this->addInfoTab();
 
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-			$ilTabs->addTab(self::TAB_SETTINGS, $this->txt("properties"),
-			$ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES));
+		if ($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+			$this->gTabs->addTab(self::TAB_SETTINGS, $this->txt("properties")
+				,$this->gCtrl->getLinkTarget($this, self::CMD_PROPERTIES));
 
-			$ilTabs->addTab(self::TAB_REQUIREMENT, $this->txt("requirements"),
-			$ilCtrl->getLinkTarget($this, self::CMD_REQUIREMENT));
+			$this->gTabs->addTab(self::TAB_REQUIREMENT, $this->txt("requirements")
+				,$this->gCtrl->getLinkTarget($this, ilCareerGoalRequirementsGUI::CMD_SHOW));
 
-			$ilTabs->addTab(self::TAB_OBSERVATIONS, $this->txt("observations"),
-			$ilCtrl->getLinkTarget($this, self::CMD_OBSERVATIONS));
+			$this->gTabs->addTab(self::TAB_OBSERVATIONS, $this->txt("observations")
+				,$this->gCtrl->getLinkTarget($this, self::CMD_OBSERVATIONS));
 		}
 
 		$this->addPermissionTab();
@@ -127,6 +139,18 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 			$this->gTabs->setTabActive(self::TAB_SETTINGS);
 			$actions = $this->object->getActions();
 			$gui = new ilCareerGoalSettingsGUI($actions, $this->plugin->txtClosure());
+			$this->gCtrl->forwardCommand($gui);
+		}
+	}
+
+	protected function forwardRequirements() {
+		if(!$this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+			\ilUtil::sendFailure($this->plugin->txt('obj_permission_denied'), true);
+			$this->gCtrl->redirectByClass("ilPersonalDesktopGUI", "jumpToSelectedItems");
+		} else {
+			$this->gTabs->setTabActive(self::TAB_REQUIREMENT);
+			$actions = $this->object->getActions();
+			$gui = new ilCareerGoalRequirementsGUI($actions, $this->plugin->txtClosure(), $this->object->getId());
 			$this->gCtrl->forwardCommand($gui);
 		}
 	}

@@ -10,9 +10,19 @@ class ilActions {
 	const F_DEFAULT_TEXT_PARTIAL = "default_text_partial";
 	const F_DEFAULT_TEXT_SUCCESS = "default_text_success";
 
-	public function __construct(\CaT\Plugins\CareerGoal\ObjCareerGoal $object, \CaT\Plugins\CareerGoal\Settings\DB $db) {
+	const F_REQUIREMENT_OBJ_ID = "req_obj_id";
+	const F_REQUIREMENT_TITLE = "req_title";
+	const F_REQUIREMENT_DESCRIPTION = "req_description";
+	const F_REQUIREMENT_CAREER_GOAL_ID = "req_career_goal_id";
+
+	const F_REQUIREMENT_POSITION = "req_position";
+
+	public function __construct(\CaT\Plugins\CareerGoal\ObjCareerGoal $object
+								, \CaT\Plugins\CareerGoal\Settings\DB $settings_db
+								, \CaT\Plugins\CareerGoal\Requirements\DB $requirements_db) {
 		$this->object = $object;
-		$this->db = $db;
+		$this->settings_db = $settings_db;
+		$this->requirements_db = $requirements_db;
 	}
 
 	/**
@@ -89,5 +99,64 @@ class ilActions {
 			preg_replace("/[^0-9]/", "", substr($num, 0, $sep)) . '.' .
 			preg_replace("/[^0-9]/", "", substr($num, $sep+1, strlen($num)))
 		);
+	}
+
+	public function getRequirementListData($career_goal_id) {
+		return $this->requirements_db->getListData($career_goal_id);
+	}
+
+	public function getRequirement($obj_id) {
+		return $this->requirements_db->select($obj_id);
+	}
+
+	public function deleteRequirement($obj_id) {
+		$this->requirements_db->delete($obj_id);
+	}
+
+	public function readRequirement($obj_id) {
+		$requirement = $this->requirements_db->select($obj_id);
+
+		$values = array();
+
+		$values[self::F_REQUIREMENT_OBJ_ID] = $requirement->getObjId();
+		$values[self::F_REQUIREMENT_TITLE] = $requirement->getTitle();
+		$values[self::F_REQUIREMENT_DESCRIPTION] = $requirement->getDescription();
+		$values[self::F_REQUIREMENT_CAREER_GOAL_ID] = $requirement->getCareerGoalId();
+
+		return $values;
+	}
+
+	public function updateRequirement($post) {
+		$requirement = $this->requirements_db->select((int)$post[self::F_REQUIREMENT_OBJ_ID]);
+
+		$requirement = $requirement->withTitle($post[self::F_REQUIREMENT_TITLE])
+								   ->withDescription($post[self::F_REQUIREMENT_DESCRIPTION]);
+
+		$this->requirements_db->update($requirement);
+
+	}
+
+	public function updateRequirementPosition($post) {
+		foreach ($post[self::F_REQUIREMENT_OBJ_ID] as $value) {
+			$requirement = $this->requirements_db->select((int)$value);
+
+			$new_pos = (int)$post[self::F_REQUIREMENT_POSITION."_".$value];
+
+			$requirement = $requirement->withPosition($new_pos);
+
+			$this->requirements_db->update($requirement);
+		}
+	}
+
+	public function createRequirement($post) {
+		$this->requirements_db->create((int)$post[self::F_REQUIREMENT_CAREER_GOAL_ID], $post[self::F_REQUIREMENT_TITLE], $post[self::F_REQUIREMENT_DESCRIPTION]);
+	}
+
+	public function readNewRequirement() {
+		$values = array();
+
+		$values[self::F_REQUIREMENT_CAREER_GOAL_ID] = $this->object->getId();
+
+		return $values;
 	}
 }

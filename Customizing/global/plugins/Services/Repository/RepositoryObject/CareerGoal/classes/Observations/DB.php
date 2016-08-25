@@ -1,12 +1,7 @@
 <?php
 
-namespace CaT\Plugins\CareerGoal\Requirements;
+namespace CaT\Plugins\CareerGoal\Observations;
 
-/**
- * interace for requiremnts database actions
- *
- * @author 		Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
 interface DB {
 	/**
 	 * install tables and/or base values
@@ -25,21 +20,21 @@ interface DB {
 	public function create($career_goal_id, $title, $description);
 
 	/**
-	 * update a requirement
+	 * update a observation
 	 *
-	 * @param 	Requirement 	$requirement
+	 * @param 	Requirement 	$observations
 	 */
-	public function update(Requirement $requirement);
+	public function update(Observation $observation);
 
 	/**
-	 * select values of requirement for $obj_id
+	 * select values of observation for $obj_id
 	 *
 	 * @param 	int 			$obj_id
 	 */
 	public function select($obj_id);
 
 	/**
-	 * delete requirement for $obj_id
+	 * delete observation for $obj_id
 	 *
 	 * @param 	int 			$obj_id
 	 */
@@ -53,16 +48,16 @@ interface DB {
 	public function getObjId();
 
 	/**
-	 * get alls requirements for career goal id
+	 * get alls observations for career goal id
 	 *
 	 * @param 	int 			$career_goal_id
 	 *
 	 * @return 	Requirement[]
 	 */
-	public function selectRequirementsFor($career_goal_id);
+	public function selectObservationsFor($career_goal_id);
 
 	/**
-	 * get data for requirements list
+	 * get data for observations list
 	 *
 	 * @param 	int 			$career_goal_id
 	 *

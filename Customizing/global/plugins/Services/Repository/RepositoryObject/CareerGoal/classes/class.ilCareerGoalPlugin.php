@@ -1,6 +1,6 @@
 <?php
 
-use CaT\Plugins\CareerGoal\Settings;
+use CaT\Plugins\CareerGoal;
 
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 
@@ -34,8 +34,21 @@ class ilCareerGoalPlugin extends ilRepositoryObjectPlugin
 	public function getSettingsDB() {
 		global $ilDB, $ilUser;
 		if($this->settings_db === null) {
-			$this->settings_db = new Settings\ilDB($ilDB, $ilUser);
+			$this->settings_db = new CareerGoal\Settings\ilDB($ilDB, $ilUser);
 		}
 		return $this->settings_db;
+	}
+
+		/**
+	 * create (if not available) and returns RequirementsDB
+	 *
+	 * @return \CaT\Plugins\WBDRepo\Requirements\DB
+	 */
+	public function getRequirementsDB() {
+		global $ilDB, $ilUser;
+		if($this->requirements_db === null) {
+			$this->requirements_db = new CareerGoal\Requirements\ilDB($ilDB, $ilUser);
+		}
+		return $this->requirements_db;
 	}
 }

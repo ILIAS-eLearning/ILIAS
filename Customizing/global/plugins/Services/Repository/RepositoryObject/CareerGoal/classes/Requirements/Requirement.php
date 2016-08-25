@@ -1,6 +1,6 @@
 <?php
 
-namespace CaT\Plugin\CareerGoal\Requirements;
+namespace CaT\Plugins\CareerGoal\Requirements;
 
 class Requirement {
 	/**
@@ -23,7 +23,12 @@ class Requirement {
 	 */
 	protected $description;
 
-	public function __construct($obj_id, $career_goal_id, $title, $description) {
+	/**
+	 * @var int
+	 */
+	protected $position;
+
+	public function __construct($obj_id, $career_goal_id, $title, $description, $position) {
 		assert('is_int($obj_id)');
 		$this->obj_id = $obj_id;
 		assert('is_int($career_goal_id)');
@@ -32,6 +37,8 @@ class Requirement {
 		$this->title = $title;
 		assert('is_string($description)');
 		$this->description = $description;
+		assert('is_int($position)');
+		$this->position = $position;
 	}
 
 	public function withTitle($title) {
@@ -50,6 +57,14 @@ class Requirement {
 		return $clone;
 	}
 
+	public function withPosition($position) {
+		assert('is_int($position)');
+		$clone = clone $this;
+		$clone->position = $position;
+
+		return $clone;
+	}
+
 	public function getObjId() {
 		return $this->obj_id;
 	}
@@ -64,5 +79,9 @@ class Requirement {
 
 	public function getDescription() {
 		return $this->description;
+	}
+
+	public function getPosition() {
+		return $this->position;
 	}
 }

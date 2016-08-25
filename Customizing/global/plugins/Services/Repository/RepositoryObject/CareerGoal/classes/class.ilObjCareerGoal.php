@@ -40,7 +40,7 @@ class ilObjCareerGoal extends ilObjectPlugin implements CareerGoal\ObjCareerGoal
 	 */
 	public function getActions() {
 		if ($this->actions === null) {
-			$this->actions = new CareerGoal\ilActions($this, $this->getSettingsDB());
+			$this->actions = new CareerGoal\ilActions($this, $this->getSettingsDB(), $this->getRequirementsDB());
 		}
 		return $this->actions;
 	}
@@ -124,5 +124,12 @@ class ilObjCareerGoal extends ilObjectPlugin implements CareerGoal\ObjCareerGoal
 	 */
 	public function getSettingsDB() {
 		return $this->plugin->getSettingsDB();
+	}
+
+	/**
+	 * @return	$DB
+	 */
+	public function getRequirementsDB() {
+		return $this->plugin->getRequirementsDB();
 	}
 }
