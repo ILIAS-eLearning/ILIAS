@@ -16845,3 +16845,48 @@ if($mass_type_id) {
 	$ilDB->manipulate($query);
 }
 ?>
+
+<#4995>
+<?php
+if(!$ilDB->tableExists("mass_info_settings")) {
+	$fields =  array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'contact' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => false,
+			'default' => null
+		),
+		'responsibility' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => false,
+			'default' => null
+		),
+		'phone' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => false,
+			'default' => null
+		),
+		'mails' => array(
+			'type' => 'text',
+			'length' => 300,
+			'notnull' => false,
+			'default' => null
+		),
+		'consultation_hours' => array(
+			'type' => 'text',
+			'length' => 500,
+			'notnull' => false,
+			'default' => null
+		),
+	);
+	$ilDB->createTable('mass_info_settings',$fields);
+}
+?>
