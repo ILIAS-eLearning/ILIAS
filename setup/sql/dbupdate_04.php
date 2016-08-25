@@ -16890,3 +16890,15 @@ if(!$ilDB->tableExists("mass_info_settings")) {
 	$ilDB->createTable('mass_info_settings',$fields);
 }
 ?>
+<#4996>
+<?php
+if(!$ilDB->indexExistsByFields('mass_settings', array('obj_id'))) {
+	$ilDB->addPrimaryKey('mass_settings', array('obj_id'));
+}
+if(!$ilDB->indexExistsByFields('mass_info_settings', array('obj_id'))) {
+	$ilDB->addPrimaryKey('mass_info_settings', array('obj_id'));
+}
+if(!$ilDB->indexExistsByFields('mass_members', array('obj_id','usr_id'))) {
+	$ilDB->addPrimaryKey('mass_members', array('obj_id','usr_id'));
+}
+?>
