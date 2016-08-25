@@ -11312,6 +11312,9 @@ div.ilPCMyCoursesPath {
   right: auto;
   width: 0px;
 }
+[data-onscreenchat-inact-userid] {
+  opacity: 0.3 !important;
+}
 #onscreenchat-container {
   position: fixed;
   bottom: 0;
@@ -11492,6 +11495,9 @@ div.ilPCMyCoursesPath {
   height: 10px;
   margin-left: 5px;
   display: inline-block;
+}
+.ilOnScreenChatMenuDropDown .iosOnScreenChatDropDownTriggerInactive {
+  opacity: 0.3;
 }
 .ilOnScreenChatMenuDropDown .popover {
   max-width: 300px;

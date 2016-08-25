@@ -118,15 +118,25 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 			}
 		}
 
-		if($this->osc_enabled && $this->acceptsMessages($a_target_user))
+		if($this->osc_enabled)
 		{
 			$f = new ilAwarenessFeature();
-			$f->setText($this->lng->txt('chat_osc_start_conversation'));
 			$f->setHref('#');
-			$f->setData(array(
-				'onscreenchat-userid'   => $a_target_user,
-				'onscreenchat-username' => ilObjUser::_lookupLogin($a_target_user)
-			));
+			if($this->acceptsMessages($a_target_user))
+			{
+				$f->setText($this->lng->txt('chat_osc_start_conversation'));
+				$f->setData(array(
+					'onscreenchat-userid'   => $a_target_user,
+					'onscreenchat-username' => ilObjUser::_lookupLogin($a_target_user)
+				));
+			}
+			else
+			{
+				$f->setText($this->lng->txt('chat_osc_doesnt_accept_msg'));
+				$f->setData(array(
+					'onscreenchat-inact-userid'   => $a_target_user
+				));
+			}
 			$coll->addFeature($f);
 		}
 

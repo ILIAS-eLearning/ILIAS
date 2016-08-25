@@ -109,7 +109,16 @@ class ilOnScreenChatMenuGUI
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.setConfig(".ilJsonUtil::encode($config).");");
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.init();");
 
-		$tpl = new ilTemplate('tpl.chat-menu.html', false, false, 'Services/OnScreenChat');
+		$tpl = new ilTemplate('tpl.chat-menu.html', true, true, 'Services/OnScreenChat');
+
+		if(!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')))
+		{
+			require_once 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php';
+			ilToolTipGUI::addTooltip('iosOnScreenChatMenuDropDownContainer', $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
+
+			$tpl->touchBlock('dont_accpt_msg');
+		}
+
 		$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 		return $tpl->get();
 	}
