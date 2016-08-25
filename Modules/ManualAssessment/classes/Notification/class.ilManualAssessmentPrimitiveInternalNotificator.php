@@ -23,6 +23,7 @@ class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification 
 	public function withReciever(ilManualAssessmentMember $member) {
 		$clone = clone $this;
 		$clone->reciever = $member;
+		$clone->ref_id = $member->assessment()->getRefId();
 		return $clone;
 	}
 
