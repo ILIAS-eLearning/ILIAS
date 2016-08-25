@@ -198,7 +198,7 @@ class ilRepositorySearchGUI
 			$clip_button = ilSubmitButton::getInstance();
 			$clip_button->addCSSClass('btn btndefault');
 			$clip_button->setCaption('Add from clipboard', false);
-			$clip_button->setCommand('addFromClipboard');
+			$clip_button->setCommand('showClipboard');
 
 			$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($clip_button));
 
@@ -413,7 +413,7 @@ class ilRepositorySearchGUI
 			}
 		}
 
-		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+		$user_type = isset($_REQUEST['user_type']) ? $_REQUEST['user_type'] : 0;
 
 		if(!$class->$method($user_ids,$user_type))
 		{
@@ -421,19 +421,44 @@ class ilRepositorySearchGUI
 		}
 	}
 	
+	protected function showClipboard()
+	{
+		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		
+		ilLoggerFactory::getLogger('crs')->dump($_REQUEST);
+		
+		$GLOBALS['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->setBackTarget(
+			$GLOBALS['lng']->txt('back'),
+			$GLOBALS['ilCtrl']->getParentReturn($this)
+		);
+		
+		include_once './Services/User/classes/class.ilUserClipboardTableGUI.php';
+		$clip = new ilUserClipboardTableGUI($this, 'showClipboard', $GLOBALS['ilUser']->getId());
+		$clip->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$clip->init();
+		$clip->parse();
+		
+		$GLOBALS['tpl']->setContent($clip->getHTML());
+		
+	}
+	
 	/**
 	 * add users from clipboard
 	 */
 	protected function addFromClipboard()
 	{
-		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
-		
-		$users = $clip->getValidatedContent();
-		
+		ilLoggerFactory::getLogger('crs')->dump($_REQUEST);
+		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$users = (array) $_POST['uids'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'), true);
+			$GLOBALS['ilCtrl']->redirect($this, 'showClipboard');
+		}
 		$class = $this->callback['class'];
 		$method = $this->callback['method'];
-		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+		$user_type = isset($_REQUEST['user_type']) ? $_REQUEST['user_type'] : 0;
 
 		if(!$class->$method($users,$user_type))
 		{
