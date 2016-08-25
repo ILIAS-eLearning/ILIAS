@@ -1,6 +1,7 @@
 <?php
 
 namespace CaT\Plugins\CareerGoal\Observations;
+use CaT\Plugins\CareerGoal\Requirements;
 
 interface DB {
 	/**
@@ -14,10 +15,11 @@ interface DB {
 	 * @param 	int 			$career_goal_id
 	 * @param 	int 			$title
 	 * @param 	int 			$description
+	 * @param 	int[]	$requirements
 	 *
 	 * return Requirement
 	 */
-	public function create($career_goal_id, $title, $description);
+	public function create($career_goal_id, $title, $description, array $requirements);
 
 	/**
 	 * update a observation

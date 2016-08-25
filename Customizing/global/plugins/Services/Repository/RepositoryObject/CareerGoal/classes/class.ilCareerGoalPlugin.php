@@ -29,7 +29,7 @@ class ilCareerGoalPlugin extends ilRepositoryObjectPlugin
 	/**
 	 * create (if not available) and returns SettingsDB
 	 *
-	 * @return \CaT\Plugins\WBDRepo\Settings\DB
+	 * @return \CaT\Plugins\CareerGoal\Settings\DB
 	 */
 	public function getSettingsDB() {
 		global $ilDB, $ilUser;
@@ -39,10 +39,10 @@ class ilCareerGoalPlugin extends ilRepositoryObjectPlugin
 		return $this->settings_db;
 	}
 
-		/**
+	/**
 	 * create (if not available) and returns RequirementsDB
 	 *
-	 * @return \CaT\Plugins\WBDRepo\Requirements\DB
+	 * @return \CaT\Plugins\CareerGoal\Requirements\DB
 	 */
 	public function getRequirementsDB() {
 		global $ilDB, $ilUser;
@@ -50,5 +50,18 @@ class ilCareerGoalPlugin extends ilRepositoryObjectPlugin
 			$this->requirements_db = new CareerGoal\Requirements\ilDB($ilDB, $ilUser);
 		}
 		return $this->requirements_db;
+	}
+
+	/**
+	 * create (if not available) and returns ObservationsDB
+	 *
+	 * @return \CaT\Plugins\CareerGoal\Observations\DB
+	 */
+	public function getObservationsDB() {
+		global $ilDB, $ilUser;
+		if($this->observation_db === null) {
+			$this->observation_db = new CareerGoal\Observations\ilDB($ilDB, $ilUser);
+		}
+		return $this->observation_db;
 	}
 }

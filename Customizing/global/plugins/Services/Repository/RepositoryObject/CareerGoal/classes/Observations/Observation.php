@@ -1,6 +1,7 @@
 <?php
 
 namespace CaT\Plugins\CareerGoal\Observations;
+use CaT\Plugins\CareerGoal\Requirements;
 
 class Observation {
 	/**
@@ -29,7 +30,7 @@ class Observation {
 	protected $position;
 
 	/**
-	 * @var array
+	 * @var int[]
 	 */
 	protected $requirements;
 

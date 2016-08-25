@@ -174,7 +174,7 @@ class ilObjCareerGoalGUI extends ilObjectPluginGUI {
 			\ilUtil::sendFailure($this->plugin->txt('obj_permission_denied'), true);
 			$this->gCtrl->redirectByClass("ilPersonalDesktopGUI", "jumpToSelectedItems");
 		} else {
-			$this->gTabs->setTabActive(self::TAB_REQUIREMENT);
+			$this->gTabs->setTabActive(self::TAB_OBSERVATIONS);
 			$actions = $this->object->getActions();
 			$gui = new ilCareerGoalObservationsGUI($actions, $this->plugin->txtClosure(), $this->object->getId());
 			$this->gCtrl->forwardCommand($gui);
