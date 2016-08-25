@@ -68,6 +68,7 @@ class ilCareerGoalRequirementGUI {
 		if(!$form->checkInput()) {
 			$form->setValuesByPost();
 			$this->render($form);
+			return;
 		}
 
 		return true;
@@ -99,12 +100,11 @@ class ilCareerGoalRequirementGUI {
 	protected function editRequirement(\ilPropertyFormGUI $form = null) {
 		if($form === null) {
 			$form = $this->initForm();
+			$form->setValuesByArray($this->parent_obj->getActions()->readRequirement($this->obj_id));
 		}
 
 		$form->addCommandButton($this->possible_cmd["CMD_UPDATE"], $this->txt("update"));
 		$form->addCommandButton($this->possible_cmd["CMD_SHOW"], $this->txt("cancel"));
-
-		$form->setValuesByArray($this->parent_obj->getActions()->readRequirement($this->obj_id));
 
 		$this->gTpl->setContent($form->getHtml());
 	}
