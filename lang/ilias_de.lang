@@ -15921,7 +15921,7 @@ mass#:#mass_record#:#Prüfungsnotiz
 mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
 mass#:#mass_status_completed#:#bestanden
 mass#:#mass_status_failed#:#nicht bestanden
-mass#:#mass_status_pending#:#nicht gesetzt
+mass#:#mass_status_pending#:#noch nicht gesetzt
 mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
 mass#:#mass_finalize#:#Finalisieren
 mass#:#il_mass_member#:#Mitglied
@@ -15981,4 +15981,5 @@ mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma get
 mass#:#mass_consultation_hours#:#Sprechstunden
 mass#:#mass_edit_info#:#Informationseinstellungen
 mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
-mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
+mass#:#mass_contact_info#:#Kontaktinformationen

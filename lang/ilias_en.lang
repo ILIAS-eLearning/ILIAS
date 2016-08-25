@@ -15918,9 +15918,9 @@ mass#:#mass_usr_view#:#User record
 mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
 mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
-mass#:#mass_status_completed#:#Completed
-mass#:#mass_status_failed#:#Failed
-mass#:#mass_status_pending#:#Status pending
+mass#:#mass_status_completed#:#completed
+mass#:#mass_status_failed#:#failed
+mass#:#mass_status_pending#:#status pending
 mass#:#mass_notify#:#Notify user after finalization
 mass#:#mass_finalize#:#Finalize
 mass#:#il_mass_member#:#Manual Assessment Member
@@ -15935,8 +15935,8 @@ mass#:#mass_read_learning_progress#:#View learning progress of other users
 mass#:#mass_edit_permissions#:#Change Permissions
 mass#:#mass_edit_learning_progress#:#Edit learning progress
 mass#:#mass_may_not_finalize#:#Examinee may not be finalized.
-mass#:#mass_subj_notification_completed#:#%s:Manual Assessment completed.
-mass#:#mass_subj_notification_failed#:#%s:Manual Assessment failed.
+mass#:#mass_subj_notification_completed#:#%s: Manual Assessment completed.
+mass#:#mass_subj_notification_failed#:#%s: Manual Assessment failed.
 trac#:#trac_mode_manual_assessment#:#Manual Assessment
 common#:#obj_mass#:#Manual Assessment
 common#:#objs_mass#:#Manual Assessments
@@ -15981,3 +15981,4 @@ mass#:#mass_consultation_hours#:#Consultation Hours
 mass#:#mass_edit_info#:#Info Settings
 mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+mass#:#mass_contact_info#:#Contactinformation
