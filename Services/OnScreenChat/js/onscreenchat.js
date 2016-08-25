@@ -180,6 +180,10 @@
 				} else if(!conversation.open) {
 					chatWindow.hide();
 				}
+
+				if ($.isFunction(conversation.callback)) {
+					conversation.callback();
+				}
 			});
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
@@ -375,9 +379,10 @@
 				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
 			}
 
-			getModule().addMessage(messageObject, false);
 			conversation.latestMessage = messageObject;
-			getModule().storage.save(conversation);
+			getModule().storage.save(conversation, function() {
+				getModule().addMessage(messageObject, false);
+			});
 			$menu.add(conversation);
 		},
 
@@ -691,13 +696,15 @@
 			return JSON.parse(window.localStorage.getItem(id));
 		};
 
-		this.save = function(conversation) {
+		this.save = function(conversation, callback) {
 			var oldValue = this.get(conversation.id);
 			conversation.messages = [];
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
 			}
+
+			conversation.callback = callback;
 
 			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
 
