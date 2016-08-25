@@ -90,10 +90,28 @@ class ilDB implements DB {
 	 * @inheritdoc
 	 */
 	public function delete($obj_id) {
-		$delete = "DELETE FROM ".self::TABLE_NAME."\n"
+		assert('is_int($obj_id)');
+		if($this->cheCheckForObservations($obj_id)) {
+			$delete = "DELETE FROM ".self::TABLE_NAME."\n"
 				." WHERE obj_id = ".$this->getDB()->quote($obj_id, "integer");
 
-		$this->getDB()->manipulate($delete);
+			$this->getDB()->manipulate($delete);
+		}
+	}
+
+	protected function cheCheckForObservations($obj_id) {
+		$select = "SELECT count(obs_id) as obs\n"
+				." FROM ".Observations\ilDB::TABLE_OBS_REQ."\n"
+				." WHERE req_id = ".$this->getDB()->quote($obj_id, "integer");
+
+		$res = $this->getDB()->query($select);
+		$row = $this->getDB()->fetchAssoc($res);
+
+		if($row["obs"] > 0) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
