@@ -1489,10 +1489,6 @@ class ilExerciseManagementGUI
 		$tpl->addJavaScript("./Modules/Exercise/js/ilExcIDl.js", true, 3);							
 		$tpl->addOnloadCode('il.ExcIDl.init("'.$ajax_url.'");');
 
-		// :TODO: 5.2
-		include_once "./Services/Calendar/classes/class.ilCalendarUtil.php";
-		ilCalendarUtil::initJSCalendar();
-
 		return $modal;		
 	}
 	
