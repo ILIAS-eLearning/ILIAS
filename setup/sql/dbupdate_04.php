@@ -16698,6 +16698,7 @@ if (!$ilDB->tableExists('glo_term_reference'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
 <#4994>
 <?php
 	if (!$ilDB->tableColumnExists('svy_svy', 'reminder_tmpl'))
@@ -17294,4 +17295,25 @@ if( !$ilDB->tableExists('background_task') )
 	$ilCtrlStructureReader->getStructure();
 ?>
 
+<#5023>
+<?php
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('crs');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+if($type_id && $tgt_ops_id) {
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
 
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('grp');
+if($type_id && $tgt_ops_id) {
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+?>
+
+<#5024>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	ilDBUpdateNewObjectType::cloneOperation('crs', $src_ops_id, $tgt_ops_id);
+	ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
+?>
