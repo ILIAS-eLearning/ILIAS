@@ -71,7 +71,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 					}
 					else
 					{
-						$this->log->notice('Can\'t find role with id .' . $a_type. ' to assign users.');
+						ilLoggerFactory::getLogger('crs')->notice('Can\'t find role with id .' . $a_type. ' to assign users.');
 						ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"),true);
 						return false;
 					}
