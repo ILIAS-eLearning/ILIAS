@@ -41,7 +41,7 @@ interface ilManualAssessmentSettingsStorage {
 	 *
 	 * @param	ilManualAssessmentSettings	$settings
 	 */
-	public function updateInfoSettings(ilManualAssessmentSettings $settings);
+	public function updateInfoSettings(ilManualAssessmentInfoSettings $settings);
 
 	/**
 	 * Delete settings entry corresponding to obj
