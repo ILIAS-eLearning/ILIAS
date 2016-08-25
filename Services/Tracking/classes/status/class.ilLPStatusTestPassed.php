@@ -165,7 +165,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		global $ilDB;
 
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-
+		require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 		$res = $ilDB->query("
 			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences, tst_active.last_finished_pass
 			FROM tst_active
@@ -181,7 +181,6 @@ class ilLPStatusTestPassed extends ilLPStatus
 			if( $rec['sequences'] > 0 )
 			{
 				require_once 'Modules/Test/classes/class.ilObjTest.php';
-				require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 
 				$test_obj	= new ilObjTest($a_obj_id, false);
 				$is_passed	= ilObjTestAccess::_isPassed($a_user_id, $a_obj_id);

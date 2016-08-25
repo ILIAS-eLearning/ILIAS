@@ -888,17 +888,14 @@ class ilTemplate extends HTML_Template_ITX
 			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
 		}
 
-        // output translation link (extended language maintenance)
-        if ($ilSetting->get("lang_ext_maintenance") == "1")
-        {
-            include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
-            if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
-            {
-				// fix #9992: remember linked translation instead of saving language usages here
-				$this->translation_linked = true;
-                $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
-            }
-        }
+        // output translation link
+		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+		if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
+		{
+			// fix #9992: remember linked translation instead of saving language usages here
+			$this->translation_linked = true;
+			$link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
+		}
 
         $cnt = 0;
 		foreach($link_items as $url => $caption)
