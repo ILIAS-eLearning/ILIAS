@@ -1488,6 +1488,9 @@ class ilExerciseManagementGUI
 
 		$tpl->addJavaScript("./Modules/Exercise/js/ilExcIDl.js", true, 3);							
 		$tpl->addOnloadCode('il.ExcIDl.init("'.$ajax_url.'");');
+				
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";	
+		ilCalendarUtil::initDateTimePicker();		
 
 		return $modal;		
 	}
