@@ -76,6 +76,17 @@ class ilLPTableBaseGUI extends ilTable2GUI
 						$this->sendMail($_POST["uid"], $this->parent_obj, $this->parent_cmd);												
 					}
 					break;
+					
+				case 'addToClipboard':
+					if(!sizeof($_POST['uid']))
+					{
+						ilUtil::sendFailure($lng->txt('no_checkbox'), true);
+					}
+					else
+					{
+						$this->addToClipboard();
+					}
+					break;
 				
 				// page selector
 				default:
@@ -1058,6 +1069,22 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		return array($cols, $privacy_fields);		
+	}
+	
+	/**
+	 * Add selected users to clipboard
+	 */
+	protected function addToClipboard()
+	{
+		$users = (array) $_POST['uid'];
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+		
+		$GLOBALS['lng']->loadLanguageModule('user');
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
+		
 	}
 }
 

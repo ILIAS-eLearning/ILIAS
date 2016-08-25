@@ -1775,6 +1775,29 @@ class ilObjRoleGUI extends ilObjectGUI
 		return true;
 	}
 	
+	/**
+	 * Add selected users to user clipboard
+	 */
+	protected function addToClipboard()
+	{
+		global $lng, $ilCtrl;
+		
+		$users = (array) $_POST['user_id'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$ilCtrl->redirect($this, 'userassignment');
+		}
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
+		$ilCtrl->redirect($this, 'userassignment');
+	}
+	
+	
 	
 } // END class.ilObjRoleGUI
 ?>

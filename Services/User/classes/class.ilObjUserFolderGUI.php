@@ -2875,7 +2875,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$clip->add($users);
 		$clip->save();
 		
-		ilUtil::sendSuccess($this->lng->txt('clipboard_users_added'),true);
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
 		$this->ctrl->redirect($this, 'view');
 		
 	}
