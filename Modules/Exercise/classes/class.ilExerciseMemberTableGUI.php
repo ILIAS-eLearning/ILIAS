@@ -103,7 +103,26 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 						unset($tmp[$idx]);
 					}
 				}
-			}
+			}			
+			if($this->filter["subm"])
+			{							
+				foreach($tmp as $idx => $item)
+				{
+					$submission = $item["submission_obj"];
+					if($this->filter["subm"] == "y" &&
+						!$submission->getLastSubmission())
+					{
+						unset($tmp[$idx]);
+					}
+					else if($this->filter["subm"] == "n" &&
+						$submission->getLastSubmission())
+					{
+						unset($tmp[$idx]);
+					}					
+				}
+				
+				
+			}	
 			
 			$data = $tmp;
 			unset($tmp);
@@ -128,6 +147,24 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 				}
 				
 				$data[$idx]["submission_obj"] = new ilExSubmission($this->ass, $item["usr_id"]);
+				
+				// filter
+				if($this->filter["subm"])
+				{
+					$submission = $data[$idx]["submission_obj"];
+					if($this->filter["subm"] == "y" &&
+						!$submission->getLastSubmission())
+					{
+						unset($data[$idx]);
+						continue;
+					}
+					else if($this->filter["subm"] == "n" &&
+						$submission->getLastSubmission())
+					{
+						unset($data[$idx]);
+						continue;
+					}		
+				}
 				
 				if(array_key_exists($item["usr_id"], $idl))
 				{

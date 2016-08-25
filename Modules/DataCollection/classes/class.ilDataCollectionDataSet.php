@@ -338,11 +338,14 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$value = $a_rec['value'];
 					$refs = array( ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE );
 					$fix_refs = false;
+
 					if (in_array($prop->getName(), $refs)) {
 						$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['value']);
 						if ($new_field_id === false) {
 							$value = NULL;
 							$fix_refs = true;
+						} else {
+							$value = $new_field_id;
 						}
 					}
 					$prop->setValue($value);

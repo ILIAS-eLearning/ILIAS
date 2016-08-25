@@ -17293,5 +17293,220 @@ if( !$ilDB->tableExists('background_task') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5023>
+<?php
+if( !$ilDB->tableColumnExists('qpl_qst_mc', 'selection_limit') )
+{
+	$ilDB->addTableColumn('qpl_qst_mc', 'selection_limit', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
 
 
+<#5024>
+
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$obj_type_id = ilDBUpdateNewObjectType::addNewType("mass", "Manual Assessment");
+$existing_ops = array('visible', 'read', 'write', 'copy', 'delete'
+						, 'edit_permission', 'read_learning_progress', 'edit_learning_progress');
+foreach ($existing_ops as $op) {
+	$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
+	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);
+}
+$parent_types = array('root', 'cat', 'crs');
+ilDBUpdateNewObjectType::addRBACCreate('create_mass', 'Create Manuall Assessment', $parent_types);
+
+if(!$ilDB->tableExists("mass_settings")) {
+	$fields =  array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'content' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => null
+		),
+		'record_template' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+	$ilDB->createTable('mass_settings',$fields);
+}
+
+if(!$ilDB->tableExists('mass_members')) {
+	$fields =  array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'examiner_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		),
+		'record' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' =>  ''
+		),
+		'internal_note' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => ''
+		),
+		'notify' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'notification_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => -1
+		),
+		'learning_progress' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'finalized' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('mass_members',$fields);
+}
+
+$mass_type_id = ilDBUpdateNewObjectType::getObjectTypeId('mass');
+if($mass_type_id) {
+	$custom_ops = array('edit_members' => 'Manage members');
+	$counter = 1;
+	foreach ($custom_ops as $ops_id => $ops_description) {
+		$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation($ops_id, $ops_description, 
+							'object', 8000 + $counter*100);
+		$counter++;
+		if($new_ops_id) {
+			ilDBUpdateNewObjectType::addRBACOperation($mass_type_id, $new_ops_id);
+		}
+	}
+	require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
+	$rolt_title = ilManualAssessmentAccessHandler::DEFAULT_ROLE;
+	$rec = $ilDB->fetchAssoc(
+		$ilDB->query("SELECT obj_id FROM object_data "
+						."	WHERE type = 'rolt' AND title = ".$ilDB->quote($rolt_title,'text')));
+	if($rec) {
+		$mass_member_tpl_id  = $rec['obj_id'];
+	} else {
+		$mass_member_tpl_id = $ilDB->nextId('object_data');
+		$ilDB->manipulateF("
+			INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+			"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+			array($mass_member_tpl_id, "rolt", $rolt_title, "Member of a manual assessment object", -1, ilUtil::now(), ilUtil::now()));
+	}
+	$ops = array();
+	$rec = $ilDB->fetchAssoc(
+		$ilDB->query("SELECT ops_id FROM rbac_operations WHERE operation = 'visible'"));
+	$ops[] = $rec['ops_id'];
+	$rec = $ilDB->fetchAssoc(
+		$ilDB->query("SELECT ops_id FROM rbac_operations WHERE operation = 'read'"));
+	$ops[] = $rec['ops_id'];
+	foreach ($ops as $op_id) {
+		if(!$ilDB->fetchAssoc(
+			$ilDB->query("SELECT * FROM rbac_templates "
+							."	WHERE ops_id = ".$ilDB->quote($op_id,'integer')
+							." 		AND rol_id = ".$ilDB->quote($mass_member_tpl_id,'integer')))) {
+			$query = "INSERT INTO rbac_templates
+				VALUES (".$ilDB->quote($mass_member_tpl_id).", 'mass', ".$ilDB->quote($op_id).", 8)";
+			$ilDB->manipulate($query);
+		}
+	}
+	$query = "INSERT INTO rbac_fa VALUES (".$ilDB->quote($mass_member_tpl_id).", 8, 'n', 'n', 0)";
+	$ilDB->manipulate($query);
+}
+?>
+
+<#5025>
+<?php
+if(!$ilDB->tableExists("mass_info_settings")) {
+	$fields =  array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'contact' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => false,
+			'default' => null
+		),
+		'responsibility' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => false,
+			'default' => null
+		),
+		'phone' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => false,
+			'default' => null
+		),
+		'mails' => array(
+			'type' => 'text',
+			'length' => 300,
+			'notnull' => false,
+			'default' => null
+		),
+		'consultation_hours' => array(
+			'type' => 'text',
+			'length' => 500,
+			'notnull' => false,
+			'default' => null
+		),
+	);
+	$ilDB->createTable('mass_info_settings',$fields);
+}
+?>
+<#5026>
+<?php
+if(!$ilDB->indexExistsByFields('mass_settings', array('obj_id'))) {
+	$ilDB->addPrimaryKey('mass_settings', array('obj_id'));
+}
+if(!$ilDB->indexExistsByFields('mass_info_settings', array('obj_id'))) {
+	$ilDB->addPrimaryKey('mass_info_settings', array('obj_id'));
+}
+if(!$ilDB->indexExistsByFields('mass_members', array('obj_id','usr_id'))) {
+	$ilDB->addPrimaryKey('mass_members', array('obj_id','usr_id'));
+}
+?>

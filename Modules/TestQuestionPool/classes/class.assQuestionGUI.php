@@ -366,6 +366,11 @@ abstract class assQuestionGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
+	
+	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	{
+		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+	}
 
 	/**
 	* get question template

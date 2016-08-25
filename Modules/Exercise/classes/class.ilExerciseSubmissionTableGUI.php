@@ -28,8 +28,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	protected $cols_mandatory = array("name", "status");
 	protected $cols_default = array("image", "login", "submission_date", "idl");
  	protected $cols_order = array("image", "name", "login", "team_members", 
-			"submission", "idl", "status", "mark", "status_time", 
-			"sent_time", "feedback_time", "comment", "notice");
+			"sent_time", "submission", "idl", "status", "mark", "status_time", 
+			"feedback_time", "comment", "notice");
 	
 	/**
 	 * Constructor
@@ -115,11 +115,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->setData($this->parseData());		
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";	
-		
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";	
-		ilCalendarUtil::initDateTimePicker();
-		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";			
 	}
 					
 	function initFilter()
@@ -136,11 +132,19 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 			"notgraded" => $this->lng->txt("exc_notgraded"),
 			"passed" => $this->lng->txt("exc_passed"),
 			"failed" => $this->lng->txt("exc_failed")		
-		);
-		
+		);		
 		$item = $this->addFilterItemByMetaType("flt_status", self::FILTER_SELECT, false, $this->lng->txt("exc_tbl_status"));
 		$item->setOptions($options);
-		$this->filter["status"] = $item->getValue();			
+		$this->filter["status"] = $item->getValue();		
+		
+		$options = array(
+			"" => $this->lng->txt("search_any"),
+			"y" => $this->lng->txt("exc_tbl_filter_has_submission"),
+			"n" => $this->lng->txt("exc_tbl_filter_has_no_submission")	
+		);
+		$item = $this->addFilterItemByMetaType("flt_subm", self::FILTER_SELECT, false, $this->lng->txt("exc_tbl_filter_submission"));
+		$item->setOptions($options);
+		$this->filter["subm"] = $item->getValue();		
 	}	
 	
 	abstract protected function initMode($a_item_id);

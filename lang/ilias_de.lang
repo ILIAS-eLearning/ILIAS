@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -171,37 +171,37 @@ administration#:#language_default_entries#:# (Standardeinträge)
 administration#:#language_delete_local_additions#:#Lokale Ergänzungen in der Datenbank löschen
 administration#:#language_delete_local_changes#:#Lokale Änderungen in der Datenbank löschen
 administration#:#language_error_clear_local#:#Die lokalen Änderungen konnten in der Datenbank nicht gelöscht werden!
-administration#:#language_error_delete_local#:#Die lokale Sprachdatei konnte nicht gelöscht werden!
-administration#:#language_error_local_missed#:#Die lokale Sprachdatei existiert nicht!
-administration#:#language_error_read_local#:#Die lokale Sprachdatei existiert nicht oder kann nicht gelesen werden!
-administration#:#language_error_write_global#:#Die globale Sprachdatei kann nicht geschrieben werden!
-administration#:#language_error_write_local#:#Die lokale Sprachdatei kann nicht geschrieben werden!
+administration#:#language_error_delete_local#:#Die Custom-Sprachdatei konnte nicht gelöscht werden!
+administration#:#language_error_local_missed#:#Die Custom-Sprachdatei existiert nicht!
+administration#:#language_error_read_local#:#Die Custom-Sprachdatei existiert nicht oder kann nicht gelesen werden!
+administration#:#language_error_write_global#:#Die Standard-Sprachdatei kann nicht geschrieben werden!
+administration#:#language_error_write_local#:#Die Custom-Sprachdatei kann nicht geschrieben werden!
 administration#:#language_export_file#:#Sprachdatei exportieren
 administration#:#language_file_imported#:#Die Sprachdatei %s wurde importiert.
 administration#:#language_file_scope#:#Umfang der Sprachdatei
-administration#:#language_former_file_description#:#Um Ihre lokalen Änderungen mit den Änderungen des letzten Updates zu vergleichen, kopieren Sie bitte die Original-Sprachdatei der vorher installierten ILIAS-Version in das Verzeichnis für die lokalen Sprachdateien. Die aktuelle Original-Sprachdatei wird automatisch kopiert, wenn Sie Ihre lokale Sprachdatei im Untermenü "Wartung" speichern.
+administration#:#language_former_file_description#:#Um Ihre lokalen Änderungen mit den Änderungen des letzten Updates zu vergleichen, kopieren Sie bitte die Original-Sprachdatei der vorher installierten ILIAS-Version in das oben angegebene Verzeichnis. Vor dem nächsten Update können Sie das mit der Option "Backup der Standard-Sprachdatei erzeugen" auf dem Reiter "Wartung" machen.
 administration#:#language_former_file_equal#:#Die Datei <b>%s</b> stimmt mit der aktuellen Original-Sprachdatei überein.
 administration#:#language_former_file_missing#:#Die Datei <b>%s</b> existiert nicht.
 administration#:#language_import_file#:#Sprachdatei importieren
-administration#:#language_load_local_changes#:#Lokale Sprachdatei in die Datenbank laden
-administration#:#language_loaded_local#:#Die lokale Sprachdatei wurde in die Datenbank geladen.
-administration#:#language_local_file_deleted#:#Die lokale Sprachdatei wurde gelöscht.
+administration#:#language_load_local_changes#:#Custom-Sprachdatei in die Datenbank laden
+administration#:#language_loaded_local#:#Die Custom-Sprachdatei wurde in die Datenbank geladen.
+administration#:#language_local_file_deleted#:#Die Custom-Sprachdatei wurde gelöscht.
 administration#:#language_maintain#:#Wartung
 administration#:#language_maintain_local_changes#:#Lokale Änderungen warten
 administration#:#language_maintenance#:#Sprachverwaltung
-administration#:#language_merge_local_changes#:#Lokale Änderungen in die globale Sprachdatei einfügen
-administration#:#language_merged_global#:#Die lokalen Änderungen wurden in die globale Sprachdatei eingefügt.
+administration#:#language_merge_local_changes#:#Lokale Änderungen in die Standard-Sprachdatei einfügen
+administration#:#language_merged_global#:#Die lokalen Änderungen wurden in die Standard-Sprachdatei eingefügt.
 administration#:#language_mode_existing#:#Vorhandene Einträge
 administration#:#language_mode_existing_delete#:#Vorhandene Einträge löschen
 administration#:#language_mode_existing_keepall#:#Vorhandene Einträge beibehalten
 administration#:#language_mode_existing_keepnew#:#Lokale Änderungen beibehalten
 administration#:#language_mode_existing_replace#:#Vorhandene Einträge ersetzen
-administration#:#language_note_save_local#:#Bitte speichern Sie Ihre Änderungen regelmäßig als lokale Sprachdatei. Wenn Sie keine Schreibberechtigung im Verzeichnis der lokalen Sprachdateien haben, können Sie Ihre lokalen Änderungen auch exportieren und bei Bedarf wieder importieren.
+administration#:#language_note_save_local#:#Bitte speichern Sie Ihre Änderungen regelmäßig als Custom-Sprachdatei. Wenn Sie keine Schreibberechtigung im Verzeichnis der Custom-Sprachdateien haben, können Sie Ihre lokalen Änderungen auch exportieren und bei Bedarf wieder importieren.
 administration#:#language_note_translation#:#Die Seitenübersetzung wird für jede Sprache separat aktiviert. Zusätzlich muss ein Benutzer die Rechte "Lesen" und "Schreiben" im Sprachordner haben.
 administration#:#language_process_maintenance#:#Wartung durchführen
-administration#:#language_remove_local_file#:#Lokale Sprachdatei löschen
-administration#:#language_save_local_changes#:#Alle Änderungen in der lokalen Sprachdatei speichern
-administration#:#language_saved_local#:#Alle Änderungen wurden in der lokalen Sprachdatei gespeichert.
+administration#:#language_remove_local_file#:#Custom-Sprachdatei löschen
+administration#:#language_save_local_changes#:#Alle Änderungen in der Custom-Sprachdatei speichern
+administration#:#language_saved_local#:#Alle Änderungen wurden in der Custom-Sprachdatei gespeichert.
 administration#:#language_scope_added#:#Nur lokale Ergänzungen
 administration#:#language_scope_commented#:#Zeigt nur Einträge mit Kommentaren in der Language-Datei
 administration#:#language_scope_conflicts#:#Lokale und Update-Änderungen
@@ -210,7 +210,7 @@ administration#:#language_scope_different#:#Verschieden zur Vergleichssprache
 administration#:#language_scope_equal#:#Identisch mit der Vergleichssprache
 administration#:#language_scope_global#:#Alle Einträge
 administration#:#language_scope_local#:#Nur lokale Änderungen
-administration#:#language_scope_merged#:#Globale Sprachdatei mit lokalen Änderungen
+administration#:#language_scope_merged#:#Standard-Sprachdatei mit lokalen Änderungen
 administration#:#language_scope_translate#:#Alle Einträge, leer zur Übersetzung
 administration#:#language_scope_unchanged#:#Unveränderte Einträge
 administration#:#language_settings#:#Spracheinstellungen
@@ -321,6 +321,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
+assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
@@ -3767,9 +3769,9 @@ common#:#inst_id#:#NIC-ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
-common#:#install_local#:#Mit lokaler Version installieren
+common#:#install_local#:#Mit Custom-Sprachdatei installieren
 common#:#installed#:#Installiert
-common#:#installed_local#:#Mit lokaler Version installiert
+common#:#installed_local#:#Mit Custom-Sprachdatei installiert
 common#:#instant_messengers#:#Instant Messenger
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur automatisch erstellte)
@@ -3797,8 +3799,11 @@ common#:#keywords#:#Schlagwörter
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den ILIAS-Sprachdateien und aus den lokalen Sprachdateien des Customizing-Verzeichnisses in die Datenbank. Ihre manuelle Änderungen werden durch das Laden der globalen Sprachdateien nicht überschrieben. Die lokalen Sprachdateien überschreiben Ihre manuellen Änderungen nur, wenn diese älter sind als das letzte Speicherdatum der lokalen Sprachdatei.
+common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprachen lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreiben nur Änderungen, die älter sind als Datum der Sprachdatei.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
+common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
+common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
+common#:#lang_uninstall_changes_confirm#:#Möchten Sie wirklich alle lokalen Änderungen an den ausgewählten Sprachen löschen und diese auf den Standard der aktuellen ILIAS-Version zurücksetzen?
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_size_bytes#:#Bytes
@@ -3921,9 +3926,9 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#local#:#Lokal
-common#:#local_language_file#:#Lokale Sprachdatei
-common#:#local_language_files#:#Lokale Sprachdateien
-common#:#local_languages_already_installed#:#Ausgewählte lokale Sprachdateien sind bereits installiert
+common#:#local_language_file#:#Custom-Sprachdatei
+common#:#local_language_files#:#Custom-Sprachdateien
+common#:#local_languages_already_installed#:#Ausgewählte Custom-Sprachdateien sind bereits installiert
 common#:#location#:#Eigener Standort
 common#:#locator#:#Position:
 common#:#lock_file#:#Datei sperren
@@ -4730,7 +4735,6 @@ common#:#refuse#:#Antrag ablehnen
 common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
-common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
 common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
@@ -14822,7 +14826,7 @@ administration#:#language_mode_existing_keepall_info#:#Importiert nur neue Eintr
 administration#:#language_mode_existing_keepnew_info#:#Importiert neue Einträge und überschreibt alle, die noch Standardwerte besitzen. Einträge, die bereits in der Datenbank geändert wurden, bleiben erhalten.
 administration#:#language_mode_existing_replace_info#:#Importiert neue Einträge und überschreibt vorhandene Einträge mit den neuen Werten aus der Datei.
 administration#:#language_scope_global_info#:#Exportiert alle Datenbank-Einträge. Dies kann für Backups genutzt werden.
-administration#:#language_scope_local_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt oder geändert wurden. Dies ist ähnlich zum Speichern der lokalen Sprachdatei auf dem Reiter "Wartung".
+administration#:#language_scope_local_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt oder geändert wurden.
 administration#:#language_scope_added_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt wurden. Dies kann genutzt werden, um zusätzliche Entwicklungs-Einträge zu sichern, bevor die lokalen Änderungen auf dem Reiter "Wartung" zurückgesetzt werden.
 administration#:#language_scope_unchanged_info#:#Exportiert alle Datenbank-Einträge, die gegenüber den Standardwerten nicht verändert wurden. Dies ist das Gegenteil zu "Nur lokale Änderungen". Beide Dateien zusammen ergeben ein Gesamt-Backup der Sprache in der Datenbank.
 administration#:#language_scope_merged_info#:#Exportiert die Standard-Sprachdatei von ILIAS, in der alle lokalen Änderungen und Ergänzungen alphabetisch nach Modul und Sprachvariable eingemischt sind. Dies kann verwendet werden, um die Sprachdatei auf dem SVN-Server zu aktualisieren.
@@ -14832,7 +14836,11 @@ administration#:#language_clear_local_changes_info#:#Setzt die Einträge dieser 
 administration#:#language_delete_local_additions_info#:#Löscht alle Einträge in der Datenbank, die lokal hinzugefügt wurden.
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
-crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele. 
+administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
+administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Koflikte von eingenen Änderungen mit aktualisierten Sprachvariablen zu finden.
+administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
+administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
+crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft. 
 crs#:#crs_loc_type_practise_info#:#Kursmitgliedern werden Lerninhalte zu sämtlichen Lernzielen des Kurses präsentiert. Sie können frei navigieren und zu jedem Zeitpunkt einen Qualifizierenden Test durchführen. Dieser prüft die Erreichung aller Lernziele.  
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für die Auswahl von Fragen
@@ -15849,13 +15857,13 @@ badge#:#badge_settings#:#Badge Einstellungen
 badge#:#badge_service_activate#:#Service aktivieren
 badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
-badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_activate_info#:#Benutzer Badges können aus ILIAS exportieren und im Internet als Nachweis ihrer Qualifikation nutzen. 
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_organisation_info#:#Diese Angabe wird als Herausgeber des Badges angezeigt. 
 badge#:#badge_obi_contact#:#Kontakt-Email
-badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_contact_info#:#Diese E-Mail wird zwar nicht angezeigt, aber in das Badge eingebacken.
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#
+badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr. 
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
 badge#:#badge_activity_badges#:#Activity Badges
@@ -16074,10 +16082,10 @@ style#:#cant_delete_style_with_substyles#:#Styles mit Sub Styles können nicht g
 style#:#style_assignments_deleted#:#Style Zuweisungen des folgenden Sub Style wurden gelöscht:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
-exc#:#exc_individual_deadline#:#Individuelle Fristenverlängerung
-exc#:#exc_individual_deadline_action#:#Individuelle Fristenverlängerung setzen
+exc#:#exc_individual_deadline#:#Individuelle Frist
+exc#:#exc_individual_deadline_action#:#Individuelle Frist setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
-exc#:#exc_tbl_submission_date#:#Jüngste Abgabe
+exc#:#exc_tbl_submission_date#:#Abgegeben am
 exc#:#exc_tbl_status#:#Bewertung
 exc#:#exc_tbl_status_time#:#Bewertet am
 exc#:#exc_tbl_mark#:#Note
@@ -16086,7 +16094,7 @@ exc#:#exc_tbl_notice#:#Notiz für Tutoren
 exc#:#exc_tbl_feedback_time#:#Feedback am
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_team#:#Team
-exc#:#exc_tbl_individual_deadline#:#Individuelle Fristenverlängerung
+exc#:#exc_tbl_individual_deadline#:#Individuelle Frist
 exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
 exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
 exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
@@ -16321,3 +16329,81 @@ bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundpr
 style#:#enable_system_styles_management_no_write_perm#:#'System Styles Management' ist aktiviert ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden.
 awrn#:#awrn_use_osd#:#Popup Online-Benutzer
 awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
+exc#:#exc_tbl_filter_submission#:#Abgabe
+exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
+exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
+mass#:#general#:#Allgemein
+mass#:#mass_content#:#Inhalt
+mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
+mass#:#mass_graded_by#:#Bewertet von
+mass#:#mass_usr_remove#:#Benutzer entfernen
+mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
+mass#:#mass_usr_view#:#Prüfungsdaten
+mass#:#mass_edit_record#:#Prüfungsdaten
+mass#:#mass_record#:#Prüfungsnotiz
+mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
+mass#:#mass_status_completed#:#bestanden
+mass#:#mass_status_failed#:#nicht bestanden
+mass#:#mass_status_pending#:#noch nicht gesetzt
+mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
+mass#:#mass_finalize#:#Finalisieren
+mass#:#il_mass_member#:#Mitglied
+mass#:#edit_members#:#Mitglieder bearbeiten
+mass#:#mass_edit_members#:#Mitglieder bearbeiten
+mass#:#mass_visible#:#Anzeigen
+mass#:#mass_read#:#Lesezugriff
+mass#:#mass_copy#:#Manuelle Bewertung Kopieren
+mass#:#mass_write#:#Berabeiten
+mass#:#mass_delete#:#Löschen
+mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
+mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
+mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
+mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
+mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
+mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
+trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
+common#:#obj_mass#:#Manuelle Bewertung
+common#:#objs_mass#:#Manuelle Bewertungen
+common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
+common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
+trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
+common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
+common#:#mass_new#:#Neue Manuelle Bewertung anlegen
+common#:#mass_import#:#Manuelle Bewertung importieren
+rbac#:#mass_visible#:#Manuele Bwertung sichtbar
+rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
+rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
+rbac#:#mass_copy#:#Manuelle Bewertung kopieren
+rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
+rbac#:#mass_delete#:#Manuelle Bewertung löschen
+rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
+mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+mass#:#mass_edit#:#Einstellungen
+mass#:#mass_add#:#Manuelle Bewertung anlegen
+mass#:#mass_membership_finalized#:#Status finalisiert
+mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
+mass#:#mass_return#:#Zurück zur Übersicht
+mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
+mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_settings_saved#:#Einstellungen gespeichert.
+mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
+mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
+mass#:#grading#:#Bewertung
+mass#:#grading_info#:#Bewertungsinformationen
+mass#:#grading_record#:#Bewertungszusammenfassung
+mass#:#mass_content_explanation#:#Inhalte der Prüfung.
+mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
+mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+mass#:#mass_contact#:#Name
+mass#:#mass_responsibility#:#Zuständigkeit
+mass#:#mass_phone#:#Telefon
+mass#:#mass_mails#:#E-Mail
+mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
+mass#:#mass_consultation_hours#:#Sprechstunden
+mass#:#mass_edit_info#:#Informationseinstellungen
+mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
+mass#:#mass_contact_info#:#Kontaktinformationen
+registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:

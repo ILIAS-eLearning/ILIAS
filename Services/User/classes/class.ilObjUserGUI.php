@@ -2647,7 +2647,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// Add link to objector local Rores
 	        if ($role["role_type"] == "local") {
         	        // Get Object to the role
-                	$obj_id = ilRbacReview::getObjectOfRole($role["rol_id"]);
+                	$obj_id = $rbacreview->getObjectOfRole($role["rol_id"]);
 
 	                $obj_type = ilObject::_lookupType($obj_id);
 

@@ -45,6 +45,7 @@ class ilLPObjSettings
 	const LP_MODE_DOWNLOADED = 20;
 	const LP_MODE_COLLECTION_MOBS = 21;
 	const LP_MODE_STUDY_PROGRAMME = 22;
+	const LP_MODE_MANUAL_ASSESSMENT = 23;
 
 	const LP_DEFAULT_VISITS = 30; // ???
 	
@@ -117,6 +118,9 @@ class ilLPObjSettings
 		
 		,self::LP_MODE_STUDY_PROGRAMME => array('ilLPStatusStudyProgramme',
 			'trac_mode_study_programme', '')
+
+		,self::LP_MODE_MANUAL_ASSESSMENT => array('ilLPStatusManualAssessment',
+			'trac_mode_manual_assessment', '')
 	);
 
 	function __construct($a_obj_id)

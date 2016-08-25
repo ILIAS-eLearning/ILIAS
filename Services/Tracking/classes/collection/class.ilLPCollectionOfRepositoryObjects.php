@@ -72,6 +72,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 						case 'htlm':
 						case 'svy':
 						case "prg":
+						case 'mass':
 							if(!$a_full_data)
 							{
 								$all_possible[] = $item_ref_id;

@@ -1111,6 +1111,11 @@ abstract class assQuestion
 			require_once 'Modules/Test/classes/class.ilObjTest.php';
 			$pass = ilObjTest::_getPass($active_id);
 		}
+		
+		if( !$this->validateSolutionSubmit() )
+		{
+			return false;
+		}
 
 		$saveStatus = false;
 
@@ -1140,6 +1145,11 @@ abstract class assQuestion
 	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
 	{
 		$this->savePreviewData($previewSession);
+	}
+	
+	public function validateSolutionSubmit()
+	{
+		return true;
 	}
 	
 	/**
