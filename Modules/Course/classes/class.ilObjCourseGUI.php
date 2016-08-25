@@ -1778,6 +1778,18 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	public function readMemberData($ids,$selected_columns = null)
 	{		
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		$this->show_tracking = 
+			(ilObjUserTracking::_enabledLearningProgress() and 
+			ilObjUserTracking::_enabledUserRelatedData()
+		);
+		if($this->show_tracking)
+		{
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			$this->show_tracking = $olp->isActive();
+		}
+	
 		if($this->show_tracking)
 		{
 			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';

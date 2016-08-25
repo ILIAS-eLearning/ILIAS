@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
+include_once './Services/Tracking/classes/class.ilLPStatus.php';
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -9,7 +11,6 @@ include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 *
 * @ingroup ModulesGroup
 */
-
 class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected $show_learning_progress = false;
