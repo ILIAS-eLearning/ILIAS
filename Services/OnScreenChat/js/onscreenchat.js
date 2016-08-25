@@ -114,15 +114,48 @@
 					messagePaster.paste($(this).find('img').data('emoticon'));
 
 					messageField.popover('hide');
-				}).on('click', '[data-onscreenchat-menu-remove-conversation]', function(e){
+				}).on('click', '[data-onscreenchat-menu-remove-conversation]', function(e) {
 					e.preventDefault();
 					e.stopPropagation();
 
 					var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
 					var conversation = getModule().storage.get(conversationId);
-					$chat.closeConversation(conversationId, getModule().user.id);
-					$menu.remove(conversation);
-					//$('#onscreenchat_trigger[data-toggle="popover"]').popover("hide");
+
+					if (conversation.participants.length > 2) {
+						$scope.il.Modal.dialogue({
+							id: 'modal-leave-' + conversation.id,
+							header: il.Language.txt('chat_osc_leave_grp_conv'),
+							body: il.Language.txt('chat_osc_sure_to_leave_grp_conv'),
+							buttons:  {
+								confirm: {
+									type:      "button",
+									label:     il.Language.txt("confirm"),
+									
+									className: "btn btn-primary",
+									callback:  function (e, modal) {
+										e.stopPropagation();
+										modal.modal("hide");
+
+										$chat.closeConversation(conversationId, getModule().user.id);
+										$chat.removeUser(conversationId, getModule().user.id, getModule().user.username);
+									}
+								},
+								cancel:  {
+									label:     il.Language.txt("cancel"),
+									type:      "button",
+									className: "btn btn-default",
+									callback:  function (e, modal) {
+										e.stopPropagation();
+										modal.modal("hide");
+									}
+								}
+							},
+							show: true
+						});
+					} else {
+						$chat.closeConversation(conversationId, getModule().user.id);
+						$menu.remove(conversation);
+					}
 				})
 				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
 					console.log("shift + enter event");
@@ -191,6 +224,7 @@
 			$chat.receiveConversation(getModule().onConversation);
 			$chat.onHistory(getModule().onHistory);
 			$chat.onGroupConversation(getModule().onConversationInit);
+			$chat.onGroupConversationLeft(getModule().onConversationLeft);
 			$chat.onConverstionInit(getModule().onConversationInit);
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
 				participantEvent: getModule().startConversation,
@@ -414,6 +448,12 @@
 			conversation.open = true;
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
+		},
+
+		onConversationLeft: function(conversation){
+			conversation.open = false;
+			getModule().storage.save(conversation);
+			$menu.remove(conversation);
 		},
 
 		onFocusOut: function() {

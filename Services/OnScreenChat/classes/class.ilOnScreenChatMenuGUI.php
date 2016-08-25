@@ -99,7 +99,9 @@ class ilOnScreenChatMenuGUI
 
 		$DIC->language()->loadLanguageModule('chatroom');
 		$DIC->language()->toJS(array(
-			'chat_osc_conversations', 'chat_osc_section_head_other_rooms'
+			'chat_osc_conversations', 'chat_osc_section_head_other_rooms',
+			'chat_osc_sure_to_leave_grp_conv', 'chat_osc_user_left_grp_conv',
+			'confirm', 'cancel', 'chat_osc_leave_grp_conv'
 		));
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');

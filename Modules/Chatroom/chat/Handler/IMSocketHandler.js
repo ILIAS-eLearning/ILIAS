@@ -8,6 +8,7 @@ module.exports = function(socket) {
 	socket.on('conversations', _getTask('ListConversations'));
 	socket.on('conversation', _getTask('Conversation'));
 	socket.on('addUser', _getTask('ConversationAddUser'));
+	socket.on('removeUser', _getTask('ConversationRemoveUser'));
 	socket.on('message', _getTask('ConversationMessage'));
 	socket.on('history', _getTask('ConversationHistory'));
 	socket.on('activity', _getTask('ConversationActivity'));
