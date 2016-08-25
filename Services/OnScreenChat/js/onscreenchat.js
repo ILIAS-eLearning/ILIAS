@@ -137,7 +137,7 @@
 										modal.modal("hide");
 
 										$chat.closeConversation(conversationId, getModule().user.id);
-										$chat.removeUser(conversationId, getModule().user.id, getModule().user.username);
+										$chat.removeUser(conversationId, getModule().user.id, getModule().user.name);
 									}
 								},
 								cancel:  {
@@ -200,22 +200,25 @@
 
 			$(window).bind('storage', function(e){
 				var conversation = e.originalEvent.newValue;
-				var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
-				if(!(conversation instanceof Object)) {
-					conversation = JSON.parse(conversation);
-				}
+				if (conversation && conversation.hasOwnProperty("id")) {
+					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
-				//$menu.add(conversation);
+					if (!(conversation instanceof Object)) {
+						conversation = JSON.parse(conversation);
+					}
 
-				if(conversation.open && !chatWindow.is(':visible')) {
-					getModule().open(conversation);
-				} else if(!conversation.open) {
-					chatWindow.hide();
-				}
+					//$menu.add(conversation);
 
-				if ($.isFunction(conversation.callback)) {
-					conversation.callback();
+					if (conversation.open && !chatWindow.is(':visible')) {
+						getModule().open(conversation);
+					} else if (!conversation.open) {
+						chatWindow.hide();
+					}
+
+					if ($.isFunction(conversation.callback)) {
+						conversation.callback();
+					}
 				}
 			});
 
@@ -450,7 +453,7 @@
 			getModule().storage.save(conversation);
 		},
 
-		onConversationLeft: function(conversation){
+		onConversationLeft: function(conversation) {
 			conversation.open = false;
 			getModule().storage.save(conversation);
 			$menu.remove(conversation);
@@ -465,6 +468,7 @@
 			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
 			getModule().requestUserImages(conversation);
 
+			console.log(conversation);
 			if(chatWindow.length != 0) {
 				chatWindow.find('[data-onscreenchat-window-participants]').html(
 					getParticipantsNames(conversation).join(', ')
