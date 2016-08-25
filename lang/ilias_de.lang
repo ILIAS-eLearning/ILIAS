@@ -15929,7 +15929,7 @@ mass#:#edit_members#:#Mitglieder bearbeiten
 mass#:#mass_edit_members#:#Mitglieder bearbeiten
 mass#:#mass_visible#:#Anzeigen
 mass#:#mass_read#:#Lesezugriff
-mass#:#mass_copy#:#Kopieren
+mass#:#mass_copy#:#Manuelle Bewertung Kopieren
 mass#:#mass_write#:#Berabeiten
 mass#:#mass_delete#:#Löschen
 mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
@@ -15945,7 +15945,7 @@ common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
 common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
 trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
 common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
-common#:#mass_new#:#Neue Manuelle Bewertung
+common#:#mass_new#:#Neue Manuelle Bewertung anlegen
 common#:#mass_import#:#Manuelle Bewertung importieren
 rbac#:#mass_visible#:#Manuele Bwertung sichtbar
 rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
@@ -15958,7 +15958,7 @@ rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
 rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
-mass#:#mass_add#:#Manuelle Bewertung hinzufügen
+mass#:#mass_add#:#Manuelle Bewertung anlegen
 mass#:#mass_membership_finalized#:#Status finalisiert
 mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
