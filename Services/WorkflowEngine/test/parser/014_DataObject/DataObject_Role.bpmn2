@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ilias="http://www.ilias.de/Services/WorkflowEngine/2015/bpmn2extensions" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_Yex4sJTgEeSJk7nCt-yWGA" exporter="camunda modeler" exporterVersion="2.6.0" targetNamespace="http://activiti.org/bpmn">
+    <bpmn2:process id="DataObject_Role" isExecutable="false">
+        <bpmn2:startEvent id="StartEvent_1">
+            <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+        </bpmn2:startEvent>
+        <bpmn2:task id="Task_1">
+            <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+            <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+            <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+                <bpmn2:targetRef>DataObjectReference_1</bpmn2:targetRef>
+            </bpmn2:dataOutputAssociation>
+        </bpmn2:task>
+        <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="StartEvent_1" targetRef="Task_1"/>
+        <bpmn2:endEvent id="EndEvent_1">
+            <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+        </bpmn2:endEvent>
+        <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="Task_1" targetRef="EndEvent_1"/>
+        <bpmn2:dataObject id="DataObject_1" name="Data Object 1">
+            <bpmn2:extensionElements>
+                <ilias:properties>
+                    <ilias:dataobject role="crsRefId" type="integer" />
+                </ilias:properties>
+            </bpmn2:extensionElements>
+        </bpmn2:dataObject>
+        <bpmn2:dataObjectReference id="DataObjectReference_1" name="Data Object 1 Reference" dataObjectRef="DataObject_1"/>
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+            <bpmndi:BPMNShape id="_BPMNShape_StartEvent_50" bpmnElement="StartEvent_1">
+                <dc:Bounds height="36.0" width="36.0" x="242.0" y="166.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_Task_10" bpmnElement="Task_1">
+                <dc:Bounds height="80.0" width="100.0" x="328.0" y="144.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="_BPMNShape_StartEvent_50" targetElement="_BPMNShape_Task_10">
+                <di:waypoint xsi:type="dc:Point" x="278.0" y="184.0"/>
+                <di:waypoint xsi:type="dc:Point" x="328.0" y="184.0"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_EndEvent_48" bpmnElement="EndEvent_1">
+                <dc:Bounds height="36.0" width="36.0" x="478.0" y="166.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="_BPMNShape_Task_10" targetElement="_BPMNShape_EndEvent_48">
+                <di:waypoint xsi:type="dc:Point" x="428.0" y="184.0"/>
+                <di:waypoint xsi:type="dc:Point" x="478.0" y="184.0"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_10" bpmnElement="DataObjectReference_1">
+                <dc:Bounds height="50.0" width="36.0" x="415.0" y="276.0"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds height="17.0" width="110.0" x="378.0" y="331.0"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="BPMNEdge_DataOutputAssociation_1" bpmnElement="DataOutputAssociation_1" sourceElement="_BPMNShape_Task_10" targetElement="_BPMNShape_DataObjectReference_10">
+                <di:waypoint xsi:type="dc:Point" x="378.0" y="224.0"/>
+                <di:waypoint xsi:type="dc:Point" x="377.0" y="300.0"/>
+                <di:waypoint xsi:type="dc:Point" x="415.0" y="301.0"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

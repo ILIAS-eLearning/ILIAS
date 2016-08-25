@@ -888,7 +888,7 @@ class ilChangeEvent
 	 */
 	public static function _isActive() {
 		global $ilSetting;
-		$ilSetting->get('enable_change_event_tracking', '0') == '1';		
+		return $ilSetting->get('enable_change_event_tracking', '0') == '1';		
 	}
 	
 	/**

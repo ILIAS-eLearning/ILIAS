@@ -5444,8 +5444,8 @@ grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 grp#:#grp_admins#:#Administrators
 grp#:#grp_change_type#:#Change Group Type
-grp#:#grp_closed#:#Closed Group
-grp#:#grp_closed_info#:#Group is not visible for non-members.
+didactic#:#grp_closed#:#Closed Group
+didactic#:#grp_closed_info#:#Group is not visible for non-members.
 grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_delete_member#:#Delete
 grp#:#grp_edit_members#:#Edit Participants

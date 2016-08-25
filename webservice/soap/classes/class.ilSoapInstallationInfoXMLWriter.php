@@ -89,29 +89,25 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$skin_styles = array();
 		include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$styleDefinition = new ilStyleDefinition();
-		$templates = $styleDefinition->getAllTemplates();
-		
-		if (is_array($templates))
+		$skins = $styleDefinition->getAllSkins();
+
+		if (is_array($skins))
 		{
-		
-			foreach($templates as $template)
+
+			foreach($skins as $skin)
 			{
-				// get styles information of template
-				$styleDef = new ilStyleDefinition($template["id"]);
-				$styleDef->startParsing();
-				$styles = $styleDef->getStyles();
-				
-				foreach($styles as $style)
+				foreach($skin->getStyles() as $style)
 				{
 					include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-					if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()))
 					{
 						continue;
 					}
-					$skin_styles [] = $template["id"].":".$style["id"];
+					$skin_styles [] = $skin->getId().":".$style->getId();
 				}
-			}			
+			}
 		}
+
 		// timezones
 		include_once('Services/Calendar/classes/class.ilTimeZone.php');
 		

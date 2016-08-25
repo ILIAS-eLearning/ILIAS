@@ -151,14 +151,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->lng->txt('settings'),
 			$this->ctrl->getLinkTarget($this, 'settings'));
 
-		/* not ready for trunk
 		if(!ilObjUserTracking::_enabledLearningProgress())
 		{
 			$this->tabs_gui->addSubTab('lpdef',
 				$this->lng->txt('trac_defaults'),
 				$this->ctrl->getLinkTarget($this, 'editLPDefaults'));
 		}
-		*/
 		
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('lp_settings');
@@ -410,14 +408,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$types = ilUtil::sortArray($types, "caption", "asc");
 		foreach($types as $item)
 		{			
-			$def_type = new ilSelectInputGUI($item["caption"], "def_".$item["type"]);			
-			$form->addItem($def_type);
-			
-			$class = ilObjectLP::getTypeClass($item["type"]);
-			
+			$class = ilObjectLP::getTypeClass($item["type"]);			
 			$modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
-			if($modes)
-			{				
+			if(sizeof($modes) > 1)
+			{		
+				$def_type = new ilSelectInputGUI($item["caption"], "def_".$item["type"]);			
+				$form->addItem($def_type);			
+				
 				$def_type->setRequired(true);								
 				$def_type->setValue(ilObjectLP::getTypeDefault($item["type"]));				
 				
@@ -429,17 +426,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 						: ilLPObjSettings::_mode2Text($mode);					
 					$options[$mode] = $caption;		
 				}				
-				$def_type->setOptions($options);
-				
-				if(sizeof($options) == 1)
-				{
-					$def_type->setDisabled(true);
-				}
-			}
-			else
-			{
-				$def_type->setDisabled(true);
-			}
+				$def_type->setOptions($options);				
+			}		
 		}
 		
 		if($this->checkPermissionBool("write"))
@@ -474,7 +462,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			{
 				if(ilObjectLP::isSupportedObjectType($type))
 				{					
-					$res[$type] = $form->getInput("def_".$type);
+					$mode =  $form->getInput("def_".$type);
+					$res[$type] = $mode
+						? $mode
+						: ilLPObjSettings::LP_MODE_DEACTIVATED;
 				}			
 			}
 			

@@ -259,9 +259,6 @@ class ilPageContentGUI
 		$btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
 
 		// not nice, should be set by context per method
-		//if ($this->pg_obj->getParentType() == "gdf" ||
-		//	$this->pg_obj->getParentType() == "lm" ||
-		//	$this->pg_obj->getParentType() == "dbk")
 		if ($this->getPageConfig()->getEnableInternalLinks())
 		{
 			$btpl->setCurrentBlock("bb_ilink_button");
@@ -477,8 +474,7 @@ class ilPageContentGUI
 	{
 		global $ilErr;
 		
-		if ($this->pg_obj->getParentType() != "lm" &&
-			$this->pg_obj->getParentType() != "dbk")
+		if ($this->pg_obj->getParentType() != "lm")
 		{
 			$ilErr->raiseError("Split method called for wrong parent type (".
 			$this->pg_obj->getParentType().")", $ilErr->FATAL);
@@ -503,8 +499,7 @@ class ilPageContentGUI
 	{
 		global $ilErr;
 		
-		if ($this->pg_obj->getParentType() != "lm" &&
-			$this->pg_obj->getParentType() != "dbk")
+		if ($this->pg_obj->getParentType() != "lm")
 		{
 			$ilErr->raiseError("Split method called for wrong parent type (".
 			$this->pg_obj->getParentType().")", $ilErr->FATAL);

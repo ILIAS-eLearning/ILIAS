@@ -6662,8 +6662,8 @@ grp#:#grp_agreement_required#:#Musíte akceptovat uživatelské ujednání, poku
 grp#:#grp_already_assigned#:#Požadované členství ve skupině Vám bylo přiděleno.
 grp#:#grp_cancel_subscr_request#:#Smazat požadavek členství
 grp#:#grp_change_type#:#Změnit typ skupiny
-grp#:#grp_closed#:#Skupina uzavřena
-grp#:#grp_closed_info#:#Skupina není pro nečleny viditelná.
+didactic#:#grp_closed#:#Skupina uzavřena
+didactic#:#grp_closed_info#:#Skupina není pro nečleny viditelná.
 grp#:#grp_custom_user_fields#:#Uživatelská data odpovídající skupině
 grp#:#grp_delete_member#:#Smazat
 grp#:#grp_deleted_export_files#:#Smazané exportní soubory
