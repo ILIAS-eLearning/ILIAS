@@ -28,8 +28,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	protected $cols_mandatory = array("name", "status");
 	protected $cols_default = array("image", "login", "submission_date", "idl");
  	protected $cols_order = array("image", "name", "login", "team_members", 
-			"submission", "idl", "status", "mark", "status_time", 
-			"sent_time", "feedback_time", "comment", "notice");
+			"sent_time", "submission", "idl", "status", "mark", "status_time", 
+			"feedback_time", "comment", "notice");
 	
 	/**
 	 * Constructor
