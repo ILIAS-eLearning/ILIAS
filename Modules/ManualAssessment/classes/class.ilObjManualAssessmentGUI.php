@@ -109,11 +109,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	protected function buildInfoScreen() {
 		$info = new ilInfoScreenGUI($this);
 		if($this->object) {
-			$info->addSection($this->lng->txt('general'));
-			$info->addProperty($this->lng->txt('content'),$this->object->getSettings()->content());
+			$info = $this->addGeneralDataToInfo($info);
 			if($this->object->loadMembers()->userAllreadyMember($this->usr)) {
 				$info = $this->addMemberDataToInfo($info);
 			}
+			$info = $this->addContactDataToInfo($info);
 		}
 		return $info;
 	}
@@ -128,7 +128,53 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		return $info;
 	}
 
-	public function getTabs() {
+	protected function addGeneralDataToInfo(ilInfoScreenGUI $info) {
+		$content = $this->object->getSettings()->content();
+		if($content !== null && $content !== '') {
+			$info->addSection($this->lng->txt('general'));
+			$info->addProperty($this->lng->txt('content'),$content);
+		}
+		return $info;
+	}
+
+	protected function addContactDataToInfo(ilInfoScreenGUI $info) {
+		$info_settings = $this->object->getInfoSettings();
+		if($this->shouldShowContactInfo($info_settings)) {
+			$info->addSection($this->lng->txt('mass_contact_info'));
+			$info->addProperty($this->lng->txt('mass_contact'),$info_settings->contact());
+			$info->addProperty($this->lng->txt('mass_responsibility'),$info_settings->responsibility());
+			$info->addProperty($this->lng->txt('mass_phone'),$info_settings->phone());
+			$info->addProperty($this->lng->txt('mass_mails'),$info_settings->mails());
+			$info->addProperty($this->lng->txt('mass_consultation_hours'),$info_settings->consultationHours());
+		}
+		return $info;
+	}
+
+protected function shouldShowContactInfo(ilManualAssessmentInfoSettings $info_settings) {
+	$val = $info_settings->contact();
+	if($val !== null && $val !== '') {
+		return true;
+	}
+	$val = $info_settings->responsibility();
+	if($val !== null && $val !== '') {
+		return true;
+	}
+	$val = $info_settings->phone();
+	if($val !== null && $val !== '') {
+		return true;
+	}
+	$val = $info_settings->mails();
+	if($val !== null && $val !== '') {
+		return true;
+	}
+	$val = $info_settings->consultationHours();
+	if($val !== null && $val !== '') {
+		return true;
+	}
+	return false;
+}
+
+public function getTabs() {
 		$access_handler = $this->object->accessHandler();
 		if($access_handler->checkAccessToObj($this->object,'read')) {
 			$this->tabs_gui->addTab( self::TAB_INFO
