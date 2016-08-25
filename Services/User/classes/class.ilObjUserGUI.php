@@ -1474,6 +1474,15 @@ class ilObjUserGUI extends ilObjectGUI
 				$sec_cd = new ilFormSectionHeaderGUI();
 				$sec_cd->setTitle($this->lng->txt("contact_data"));
 				$this->form_gui->addItem($sec_cd);
+
+				// org units
+				if ($a_mode == "edit")
+				{
+					$orgus = new ilNonEditableValueGUI($lng->txt('objs_orgu'), 'org_units');
+					$orgus->setValue($this->object->getOrgUnitsRepresentation());
+					$this->form_gui->addItem($orgus);
+				}
+
 			}
 			if($this->isSettingChangeable($field[0]))
 			{

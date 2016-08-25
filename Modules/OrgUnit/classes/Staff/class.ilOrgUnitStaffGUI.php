@@ -245,10 +245,10 @@ class ilOrgUnitStaffGUI {
 		} else {
 			throw new Exception("The post request didn't specify wether the user_ids should be assigned to the employee or the superior role.");
 		}
+
 		ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
 		$this->ctrl->redirect($this,"showStaff");
 	}
-
 
 	public function addOtherRoles() {
 		if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -377,11 +377,16 @@ class ilOrgUnitStaffGUI {
 	}
 
 	public function removeFromSuperiors() {
+
 		if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this->parent_gui, "");
 		}
 		$this->parent_object->deassignUserFromSuperiorRole($_POST["obj_id"]);
+		//if user is neither employee nor superior, remove orgunit from user->org_units
+		if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getEmployeeRole())) {
+			ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
+		}
 		ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
 		$this->ctrl->redirect($this, "showStaff");
 	}
@@ -393,6 +398,10 @@ class ilOrgUnitStaffGUI {
 			$this->ctrl->redirect($this->parent_gui, "");
 		}
 		$this->parent_object->deassignUserFromEmployeeRole($_POST["obj_id"]);
+		//if user is neither employee nor superior, remove orgunit from user->org_units
+		if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getSuperiorRole())) {
+			ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
+		}
 		ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
 		$this->ctrl->redirect($this, "showStaff");
 	}

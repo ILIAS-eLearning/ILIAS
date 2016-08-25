@@ -545,7 +545,7 @@ class ilUserTableGUI extends ilTable2GUI
 						case "approve_date":
 							// $val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
 							$val = ilDatePresentation::formatDate(new ilDate($val,IL_CAL_DATE));
-							break;	
+							break;
 					}
 				}
 				$this->tpl->setVariable("VAL_UF", $val);
