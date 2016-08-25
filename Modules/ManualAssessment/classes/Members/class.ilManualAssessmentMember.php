@@ -24,8 +24,8 @@ class ilManualAssessmentMember {
 		$this->record = $data[ilManualAssessmentMembers::FIELD_RECORD];
 		$this->internal_note = $data[ilManualAssessmentMembers::FIELD_INTERNAL_NOTE];
 		$this->examiner_id = $data[ilManualAssessmentMembers::FIELD_EXAMINER_ID];
-		$this->notify = $data[ilManualAssessmentMembers::FIELD_NOTIFY];
-		$this->finalized = $data[ilManualAssessmentMembers::FIELD_FINALIZED];
+		$this->notify = $data[ilManualAssessmentMembers::FIELD_NOTIFY] ? true : false;
+		$this->finalized = $data[ilManualAssessmentMembers::FIELD_FINALIZED] ? true : false;
 		$this->lp_status = $data[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->notification_ts = $data[ilManualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->mass = $mass;
