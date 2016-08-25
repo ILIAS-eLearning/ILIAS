@@ -16075,7 +16075,7 @@ style#:#usages#:#Usages:
 exc#:#exc_individual_deadline#:#Individual Deadline
 exc#:#exc_individual_deadline_action#:#Set Individual Deadline
 exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.
-exc#:#exc_tbl_submission_date#:#Latest Submission
+exc#:#exc_tbl_submission_date#:#Submitted on
 exc#:#exc_tbl_status#:#Grade
 exc#:#exc_tbl_status_time#:#Graded on
 exc#:#exc_tbl_mark#:#Mark
@@ -16264,3 +16264,6 @@ bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by back
 style#:#enable_system_styles_management_no_write_perm#:#System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
+exc#:#exc_tbl_filter_submission#:#Submission
+exc#:#exc_tbl_filter_has_submission#:#Has submitted
+exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet

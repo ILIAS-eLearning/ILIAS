@@ -75,6 +75,20 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 			
 			$submission = new ilExSubmission($ass, $this->user->getId());			
 			$idl = $ass->getIndividualDeadlines();		
+			
+			if($this->filter["subm"])
+			{			
+				if($this->filter["subm"] == "y" &&
+					!$submission->getLastSubmission())
+				{
+					continue;
+				}
+				else if($this->filter["subm"] == "n" &&
+					$submission->getLastSubmission())
+				{
+					continue;
+				}
+			}	
 		
 			$row = array(
 				"ass" => $ass,			
