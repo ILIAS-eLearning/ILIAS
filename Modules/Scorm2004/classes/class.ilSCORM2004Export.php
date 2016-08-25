@@ -161,6 +161,11 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
+// fau: mathJaxServer - init the mathjax rendering for HTML export
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+// fau.
+
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
@@ -201,6 +206,11 @@ class ilScorm2004Export
 	{
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
+// fau: mathJaxServer - init the mathjax rendering for HTML export
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+// fau.
+
 		// create directories
 		$this->createExportDirectory();
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
@@ -233,6 +243,11 @@ class ilScorm2004Export
 	{
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
+// fau: mathJaxServer - init the mathjax rendering for HTML export
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+// fau.
+
 		// create directories
 		$this->createExportDirectory();
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
@@ -263,6 +278,11 @@ class ilScorm2004Export
 		global $ilBench;
 		$result = "";
 		$ilBench->start("ContentObjectExport", "buildExportFile");
+
+// fau: mathJaxServer - init the mathjax rendering for HTML export
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+// fau.
 
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
@@ -313,6 +333,11 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
+// fau: mathJaxServer - don't render mathjax before fo string is generated
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_DEFERRED_PDF);
+// fau.
+
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
@@ -330,6 +355,13 @@ class ilScorm2004Export
 		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$fo_string = $this->cont_obj->exportPDF($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
 		
+// fau: mathJaxServer - post production for pdf generation
+		$fo_string = ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_PDF)
+			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+			->insertLatexImages($fo_string);
+// fau.
+
 		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		$ilBench->start("ContentObjectExport", "buildExportFile_pdfFile");

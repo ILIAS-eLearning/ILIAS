@@ -849,6 +849,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			);
 		}
 
+// fau: mathJaxServer - prepare generation before contents are processed
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+// fau.
+
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
@@ -1002,6 +1010,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
 		);
 
+// fau: mathJaxServer - prepare generation before contents are processed
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+// fau.
+
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$toolbar = $this->buildUserTestResultsToolbarGUI();
@@ -1146,6 +1162,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = $_GET["pass"];
+
+// fau: mathJaxServer - prepare generation before contents are processed
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+// fau.
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -1314,6 +1338,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
+
+// fau: mathJaxServer - prepare generation before contents are processed
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+// fau.
 
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");

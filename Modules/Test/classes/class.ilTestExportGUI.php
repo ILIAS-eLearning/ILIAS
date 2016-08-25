@@ -99,6 +99,10 @@ class ilTestExportGUI extends ilExportGUI
 
 		if ($ilAccess->checkAccess("write", "", $this->obj->ref_id))
 		{
+// fau: mathJaxServer - prepare generation before contents are processed
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+// fau.
 			require_once 'Modules/Test/classes/class.ilTestEvaluation.php';
 			$evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
 			$allActivesPasses = $evaluation->getAllActivesPasses();

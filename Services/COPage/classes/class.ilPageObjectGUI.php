@@ -1826,7 +1826,10 @@ return;
 		}
 		$output = str_replace("&amp;", "&", $output);
 		
-		$output = ilUtil::insertLatexImages($output);
+// fau: mathJaxServer - use new mathjax class
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		$output = ilMathJax::getInstance()->insertLatexImages($output);
+// fau.
 
 		// insert page snippets
 		//$output = $this->insertContentIncludes($output);

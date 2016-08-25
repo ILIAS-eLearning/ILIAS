@@ -4342,181 +4342,37 @@ class ilUtil
 		return $ref_ids ? $ref_ids : array();
 	}
 
-
+// fau: mathJaxServer - make old ilUtil functions to deprecated calls of the new class
 	/**
 	 * Include Mathjax
-	 *
-	 * @param
-	 * @return
+	 * @deprecated
 	 */
-	public static function includeMathjax($a_tpl = null)
+	function includeMathjax($a_tpl = null)
 	{
-		global $tpl;
-
-		if ($a_tpl == null)
-		{
-			$a_tpl = $tpl;
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->includeMathJax($a_tpl);
 		}
-
-		// - take care of html exports (-> see buildLatexImages)
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$mathJaxSetting = new ilSetting("MathJax");
-		$use_mathjax = $mathJaxSetting->get("enable");
-		if ($use_mathjax)
-		{
-			$a_tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
-		}
-	}
-
 
 	/**
-	* replace [text]...[/tex] tags with formula image code
-	*
-	* added additional parameters to make this method usable
-	* for other start and end tags as well
-	* 
-	* @static
-	* 
+	 * replace [tex]...[/tex] tags with formula image code
+	 * @deprecated
 	*/
-	public static function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]")
+	public static function insertLatexImages($a_text, $a_start = '[tex]', $a_end = '[/tex]')
 	{
-		global $tpl, $lng, $ilUser;
-
-		$cgi = URL_TO_LATEX;
-
-		// - take care of html exports (-> see buildLatexImages)
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$mathJaxSetting = new ilSetting("MathJax");
-		$use_mathjax = $mathJaxSetting->get("enable");
-		if ($use_mathjax)
-		{
-			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
-			$tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
-		}
-		
-		// this is a fix for bug5362
-		$cpos = 0;
-		$o_start = $a_start;
-		$o_end = $a_end;
-		$a_start = str_replace("\\", "", $a_start);
-		$a_end = str_replace("\\", "", $a_end);
-
-		while (is_int($spos = stripos($a_text, $a_start, $cpos)))	// find next start
-		{
-			if (is_int ($epos = stripos($a_text, $a_end, $spos + 1)))
-			{
-				$tex = substr($a_text, $spos + strlen($a_start), $epos - $spos - strlen($a_start));
-
-				// replace, if tags do not go across div borders
-				if (!is_int(strpos($tex, "</div>")))
-				{
-					if (!$use_mathjax)
-					{
-						$a_text = substr($a_text, 0, $spos).
-							"<img alt=\"".htmlentities($tex)."\" src=\"".$cgi."?".
-							rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', $tex))))."\" ".
-							" />".
-							substr($a_text, $epos + strlen($a_end));
-					}
-					else
-					{
-						$tex = $a_start.$tex.$a_end;
-						
-						switch ((int) $mathJaxSetting->get("limiter"))
-						{
-							case 1:
-								$mj_start = "[tex]";
-								$mj_end = "[/tex]";
-								break;
-
-							case 2:
-								$mj_start = '<span class="math">';
-								$mj_end = '</span>';
-								break;
-								
-							default:
-								$mj_start = "\(";
-								$mj_end = "\)";
-								break;
-						}
-						
-						$replacement = 
-							preg_replace('/' . $o_start . '(.*?)' . $o_end . '/ie',
-							"'".$mj_start."' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '".$mj_end."'", $tex);
-						// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
-						$a_text = substr($a_text, 0, $spos).
-							$replacement.
-							substr($a_text, $epos + strlen($a_end));
-					}
-				}
-			}
-			$cpos = $spos + 1;
-		}
-		
-		$result_text = $a_text;
-
-		return $result_text;
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		return ilMathJax::getInstance()->insertLatexImages($a_text, $a_start, $a_end);
 	}
 
 	/**
-	* replace [text]...[/tex] tags with formula image code
-	* ////////
-	* added additional parameters to make this method usable
-	* for other start and end tags as well
-	* 
-	* @static
-	* 
+	 * replace [tex]...[/tex] tags with formula image code for offline use
+	 * @deprecated
 	*/
 	public static function buildLatexImages($a_text, $a_dir)
 	{
-		$result_text = $a_text;
-		
-		$start = "\[tex\]";
-		$end = "\[\/tex\]";
-
-		$cgi = URL_TO_LATEX;
-		
-		if ($cgi != "")
-		{
-			while (preg_match('/' . $start . '(.*?)' . $end . '/ie', $result_text, $found))
-			{
-				$cnt = (int) $GLOBALS["teximgcnt"]++;
-				// get image from cgi and write it to file
-				$fpr = @fopen($cgi."?".rawurlencode($found[1]), "r");
-				$lcnt = 0;
-				if ($fpr)
-				{
-					while(!feof($fpr))
-					{
-						$buf = fread($fpr, 1024);
-						if ($lcnt == 0)
-						{
-							if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
-							{
-								$suffix = "gif";
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		return ilMathJax::getInstance()->insertLatexImages($a_text, '[tex]','[/tex]', $a_dir.'/teximg', './teximg');
 							}
-							else
-							{
-								$suffix = "png";
-							}
-							$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
-						}
-						$lcnt++;
-						fwrite($fpw, $buf);
-					}
-					fclose($fpw);
-					fclose($fpr);
-				}
-
-				// replace tex-tag
-				$img_str = "./teximg/img".$cnt.".".$suffix;
-				$result_text = str_replace($found[0],
-					'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
-			}
-		}
-
-		return $result_text;
-	}
+// fau.
 
 	/**
 	* Prepares a string for a text area output where latex code may be in it
@@ -4533,8 +4389,11 @@ class ilUtil
 
 		if ($prepare_for_latex_output)
 		{
-			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+// fau: mathJaxServer - use new class
+			include_once './Services/Utilities/classes/class.ilMathJax.php';
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+// fau.
 		}
 
 		// removed: did not work with magic_quotes_gpc = On

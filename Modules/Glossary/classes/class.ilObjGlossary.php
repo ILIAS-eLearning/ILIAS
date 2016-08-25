@@ -671,6 +671,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		ilUtil::delDir($a_target_dir);
 		ilUtil::makeDir($a_target_dir);
 		
+// fau: mathJaxServer - init mathjax rendering for export
+		include_once './Services/Utilities/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+// fau.
+
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
 		$this->co_page_html_export->createDirectories();
