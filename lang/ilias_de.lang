@@ -322,6 +322,7 @@ assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpo
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.

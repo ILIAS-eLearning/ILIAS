@@ -618,6 +618,26 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		return $points;
 	}
 	
+	public function validateSolutionSubmit()
+	{
+		$submit = $this->getSolutionSubmit();
+		
+		if( $this->getSelectionLimit() )
+		{
+			if( count($submit) > $this->getSelectionLimit() )
+			{
+				$failureMsg = sprintf($this->lng->txt('ass_mc_sel_lim_exhausted_hint'),
+					$this->getSelectionLimit(), $this->getAnswerCount()
+				);
+				
+				ilUtil::sendFailure($failureMsg, true);
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
