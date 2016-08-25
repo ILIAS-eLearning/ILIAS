@@ -130,7 +130,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable_certificates = ilCertificate::isActive();		
 		if($this->enable_certificates)
 		{
-			$this->enable_certificates = ilCertificate::isObjectActive($this->getRepositoryObject->getId());
+			$this->enable_certificates = ilCertificate::isObjectActive($this->getParentObject()->getId());
 		}
 		if($this->enable_certificates)
 		{
