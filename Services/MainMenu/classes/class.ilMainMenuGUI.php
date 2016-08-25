@@ -1075,8 +1075,6 @@ class ilMainMenuGUI
 		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php';
 
 		$menu = new ilOnScreenChatMenuGUI();
-		$menu->initialize();
-
 		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
 	}
 

@@ -11470,13 +11470,17 @@ div.ilPCMyCoursesPath {
 .ilOnScreenChatMenuDropDown .popover-content {
   padding: 0;
 }
-.ilOnScreenChatMenuDropDown .popover-title {
+.ilOnScreenChatMenuDropDown .popover-title,
+.ilOnScreenChatMenuDropDown .dropdown-header a {
   padding: 3px 10px;
   font-size: 12px;
   line-height: 1.5;
-  color: #777777;
+  color: #777777 !important;
   white-space: nowrap;
   background-color: #f3f3f3;
+}
+.ilOnScreenChatMenuDropDown h3.popover-title {
+  display: none;
 }
 .ilOnScreenChatMenuDropDown #onscreenchat_trigger {
   display: block;
