@@ -101,17 +101,17 @@ administration#:#language_compare#:#Compare
 administration#:#language_default_entries#:# (default entries)
 administration#:#language_delete_local_changes#:#Delete all local changes in the database
 administration#:#language_error_clear_local#:#The local changed could not be cleared in the database!
-administration#:#language_error_read_local#:#The local language file does not exist or cannot be read!
-administration#:#language_error_write_local#:#The local language file cannot be written!
+administration#:#language_error_read_local#:#The custom language file does not exist or cannot be read!
+administration#:#language_error_write_local#:#The custom language file cannot be written!
 administration#:#language_export_file#:#Export Language File
 administration#:#language_file_imported#:#The language file %s was imported.
 administration#:#language_file_scope#:#Language file scope
-administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the ‘Maintain’ tab.
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the path mentioned above. Before the next update you can do this with the option 'Backup the standard language file' on the maintenance tab.
 administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file.
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.
 administration#:#language_import_file#:#Import Language File
-administration#:#language_load_local_changes#:#Load local language file into the database
-administration#:#language_loaded_local#:#The local language file was loaded into the database.
+administration#:#language_load_local_changes#:#Load custom language file into the database
+administration#:#language_loaded_local#:#The custom language file was loaded into the database.
 administration#:#language_maintain_local_changes#:#Maintain local changes
 administration#:#language_maintain#:#Maintain
 administration#:#language_maintenance#:#Language Maintenance
@@ -120,11 +120,11 @@ administration#:#language_mode_existing_keepall#:#Keep all existing entries
 administration#:#language_mode_existing_keepnew#:#Keep all local changes
 administration#:#language_mode_existing_replace#:#Replace existing entries
 administration#:#language_mode_existing#:#Existing Entries
-administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you do not have write permissions to the customized language files, you may export the local changes and re-import them if needed.
+administration#:#language_note_save_local#:#Please save your changes to the custom language file regularly. If you do not have write permissions to the customized language files, you may export the local changes and re-import them if needed.
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs read and write permission on the language folder.
 administration#:#language_process_maintenance#:#Process Maintenance
-administration#:#language_save_local_changes#:#Save all changes to the local language file
-administration#:#language_saved_local#:#All changes were saved to the local language file.
+administration#:#language_save_local_changes#:#Save all changes to the custom language file
+administration#:#language_saved_local#:#All changes were saved to the custom language file.
 administration#:#language_scope_commented#:#Shows only entries with comments in language file
 administration#:#language_scope_conflicts#:#Local and update changes
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database
@@ -3139,7 +3139,7 @@ common#:#in_use#:#User Language
 common#:#in#:#in
 common#:#inactive#:#Inactive
 common#:#inbox#:#Inbox
-common#:#include_local#:#include local language file when updating language
+common#:#include_local#:#include custom language file when updating language
 common#:#info_access_and_status_info#:#Access- and status information
 common#:#info_access_permissions#:#Access Permissions
 common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?
@@ -3179,9 +3179,9 @@ common#:#insert#:#Insert
 common#:#inst_id#:#Installation ID
 common#:#inst_info#:#Installation Info
 common#:#inst_name#:#Installation Name
-common#:#install_local#:#Install With Local
+common#:#install_local#:#Install With Custom File
 common#:#install#:#Install
-common#:#installed_local#:#Installed With Local
+common#:#installed_local#:#Installed With Custom file
 common#:#installed#:#Installed
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
@@ -3205,9 +3205,12 @@ common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Language Path
-common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local language file will overwrite all manual changes that are older than the saving date of the local language file.
+common#:#lang_refresh_confirm_info#:#ILIAS found changed language variables. Refreshing a language will read the standard language file and probably a custom language file to the database. A standard file will not affect your changes. A custom file will overwrite your changes that are older than the file date.
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
+common#:#lang_uninstall_changes#:#Uninstall Local Changes
+common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_size_bytes#:#bytes
@@ -3329,9 +3332,9 @@ common#:#lo_no_content#:#No Learning Resources Available
 common#:#lo_other_langs#:#LOs in Other Languages
 common#:#lo_overview#:#LO Overview
 common#:#lo#:#Learning Object
-common#:#local_language_file#:#local language file
-common#:#local_language_files#:#local language files
-common#:#local_languages_already_installed#:#Selected local language file(s) are already installed
+common#:#local_language_file#:#custom language file
+common#:#local_language_files#:#custom language files
+common#:#local_languages_already_installed#:#Selected custom language file(s) are already installed
 common#:#local#:#Local
 common#:#location#:#Location
 common#:#locator#:#Location:
@@ -10378,21 +10381,21 @@ mail#:#mail_select_recipients#:#Please select mail recipients:
 grp#:#grp_import#:#Import Group
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
-administration#:#language_scope_merged#:#Local changes merged into the global language file
+administration#:#language_scope_merged#:#Local changes merged into the standard language file
 administration#:#language_scope_added#:#Local additions only
-administration#:#language_merge_local_changes#:#Merge local changes into the global language file
+administration#:#language_merge_local_changes#:#Merge local changes into the standard language file
 administration#:#language_delete_local_additions#:#Delete local additions in the database
-administration#:#language_error_write_global#:#The global language file can't be written!
-administration#:#language_error_local_missed#:#The local language file does not exist!
-administration#:#language_error_delete_local#:#The local language file can't be deleted!
-administration#:#language_local_file_deleted#:#The local language file was deleted.
-administration#:#language_remove_local_file#:#Delete the local language file
+administration#:#language_error_write_global#:#The standard language file can't be written!
+administration#:#language_error_local_missed#:#The custom language file does not exist!
+administration#:#language_error_delete_local#:#The custom language file can't be deleted!
+administration#:#language_local_file_deleted#:#The custom language file was deleted.
+administration#:#language_remove_local_file#:#Delete the custom language file
 rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
-administration#:#language_merged_global#:#The local changes were merged into the global language file.
+administration#:#language_merged_global#:#The local changes were merged into the standard language file.
 content#:#cont_submit_answers#:#Submit
 content#:#cont_wrong_answers#:#Incorrect Items
 content#:#cont_tries_remaining#:#Tries Remaining
@@ -14796,16 +14799,20 @@ administration#:#language_mode_existing_keepall_info#:#Import only new entries t
 administration#:#language_mode_existing_keepnew_info#:#Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database.
 administration#:#language_mode_existing_replace_info#:#Import new entries and replace all existing entries with the new values defined in the import file.
 administration#:#language_scope_global_info#:#Export all database entries of this language. This can be used for backup purposes.
-administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab ‘Maintain’.
+administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database.
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab ‘Maintain’.
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to ‘Local changes only’. Both together are a complete backup of the current language in the database.
-administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.
+administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the standard language file on the ILIAS git repository.
 administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
 administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
+administration#:#language_save_dist#:#Backup the standard language file
+administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.
+administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.
+administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the initial test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
 crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
 crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.

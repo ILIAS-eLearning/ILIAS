@@ -63,6 +63,20 @@ class ilObjLanguageExt extends ilObjLanguage
 	{
 		return $this->lng->txt($this->desc);
 	}
+
+
+	/**
+	 * Get the path for language data written by ILIAS
+	 * @return string
+	 */
+	public function getDataPath()
+	{
+		if (!is_dir(CLIENT_DATA_DIR.'/lang_data'))
+		{
+			ilUtil::makeDir(CLIENT_DATA_DIR.'/lang_data');
+		}
+		return CLIENT_DATA_DIR.'/lang_data';
+	}
 	
 	/**
 	* Get the language files path
@@ -99,11 +113,12 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @param    array       list of modules
 	* @param    string      search pattern
+	* @param    array       list of topics
 	* @return   array       module.separator.topic => value
 	*/
-	public function getAllValues($a_modules = array(), $a_pattern = '')
+	public function getAllValues($a_modules = array(), $a_pattern = '', $a_topics = array())
 	{
-		return self::_getValues($this->key, $a_modules, NULL, $a_pattern);
+		return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
 	}
 	
 	
@@ -113,11 +128,12 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @param    array       list of modules
 	* @param    string      search pattern
+	* @param    array       list of topics
 	* @return   array       module.separator.topic => value
 	*/
-	public function getChangedValues($a_modules = array(), $a_pattern = '')
+	public function getChangedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
 	{
-		return self::_getValues($this->key, $a_modules, NULL, $a_pattern, 'changed');
+		return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, 'changed');
 	}
 
 
@@ -127,11 +143,12 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @param    array       list of modules
 	* @param    array       search pattern
+	* @param    array       list of topics
 	* @return   array       module.separator.topic => value
 	*/
-	public function getUnchangedValues($a_modules = array(), $a_pattern = '')
+	public function getUnchangedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
 	{
-		return self::_getValues($this->key, $a_modules, NULL, $a_pattern, 'unchanged');
+		return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, 'unchanged');
 	}
 
 	/**
@@ -139,13 +156,14 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @param    array       list of modules
 	* @param    array       search pattern
+	* @param    array       list of topics
 	* @return   array       module.separator.topic => value
 	*/
-	public function getAddedValues($a_modules = array(), $a_pattern = '')
+	public function getAddedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
 	{
 		$global_file_obj = $this->getGlobalLanguageFile();
 		$global_values = $global_file_obj->getAllValues();
-		$local_values = self::_getValues($this->key, $a_modules, NULL, $a_pattern);
+		$local_values = self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
 
 		return array_diff_key($local_values, $global_values);
 	}
@@ -159,13 +177,14 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @param    array       list of modules
 	* @param    array       search pattern
+	* @param    array       list of topics
 	* @return   array       module.separator.topic => value
 	*/
-	public function getCommentedValues($a_modules = array(), $a_pattern = '')
+	public function getCommentedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
 	{
 		$global_file_obj = $this->getGlobalLanguageFile();
 		$global_comments = $global_file_obj->getAllComments();
-		$local_values = self::_getValues($this->key, $a_modules, NULL, $a_pattern);
+		$local_values = self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
 
 		return array_intersect_key($local_values, $global_comments);
 	}
