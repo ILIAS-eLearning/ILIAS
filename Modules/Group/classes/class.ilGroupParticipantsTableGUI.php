@@ -267,6 +267,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
      */
     public function parse()
     {
+		$this->determineOffsetAndOrder(true);
+		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 
 		$group_user_data = (array) $this->getParentObject()->readMemberData(
@@ -307,8 +309,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $usr_data = ilUserQuery::getUserListData(
 			$this->getOrderField(),
 			$this->getOrderDirection(),
-			$this->getOffset(),
-			$this->getLimit(),
+			0,
+			9999,
 			$this->current_filter['login'],
             '',
             null,
