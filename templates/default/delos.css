@@ -11413,6 +11413,22 @@ div.ilPCMyCoursesPath {
   text-overflow: ellipsis;
   display: inline-block;
 }
+#onscreenchat-container .chat-window-wrapper .osc_truncate_username_left {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  margin-bottom: -5px;
+  text-align: right;
+}
+#onscreenchat-container .chat-window-wrapper .osc_truncate_username_right {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
 #onscreenchat-container .chat-window-wrapper .chat {
   list-style: none;
   margin: 0;
@@ -11425,11 +11441,6 @@ div.ilPCMyCoursesPath {
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: 0.8em;
-  width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
