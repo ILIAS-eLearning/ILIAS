@@ -17510,3 +17510,9 @@ if(!$ilDB->indexExistsByFields('mass_members', array('obj_id','usr_id'))) {
 	$ilDB->addPrimaryKey('mass_members', array('obj_id','usr_id'));
 }
 ?>
+<#5027>
+	<?php
+	if(!$ilDB->indexExistsByFields('lng_data', array('local_change'))) {
+		$ilDB->addIndex('lng_data',array('local_change'),'i3');
+	}
+?>
