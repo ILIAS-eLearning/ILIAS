@@ -7,6 +7,12 @@ class ilManualAssessmentSettingsGUI {
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
 
+	const PROP_INFO_CONTACT = "contact";
+	const PROP_INFO_RESPONSIBILITY = "responsibility";
+	const PROP_INFO_PHONE = "phone";
+	const PROP_INFO_MAILS = "mails";
+	const PROP_INFO_CONSULTATION = "consultatilon";	
+
 	const TAB_EDIT = 'settings';
 	const TAB_EDIT_INFO = 'infoSettings';
 
@@ -27,7 +33,7 @@ class ilManualAssessmentSettingsGUI {
 									$this->lng->txt("edit"),
 									 $this->ctrl->getLinkTarget($this,'edit'));
 		$tabs->addSubTab(self::TAB_EDIT_INFO,
-									$this->lng->txt("editInfo"),
+									$this->lng->txt("mass_edit_info"),
 									 $this->ctrl->getLinkTarget($this,'editInfo'));
 	}
 
@@ -57,6 +63,30 @@ class ilManualAssessmentSettingsGUI {
 		$form = $this->fillForm($this->initSettingsForm()
 					,$this->object
 					,$this->object->getSettings());
+		$this->renderForm($form);
+	}
+
+	protected function editInfo() {
+		$this->tabs_gui->setSubTabActive(self::TAB_EDIT_INFO);
+		$form = $this->fillInfoForm($this->initInfoSettingsForm()
+					,$this->object->getInfoSettings());
+		$this->renderForm($form);
+	}
+
+	protected function updateInfo() {
+		$this->tabs_gui->setSubTabActive(self::TAB_EDIT_INFO);
+		$form = $this->initInfoSettingsForm();
+		$form->setValuesByArray($_POST);
+		if($form->checkInput()) {
+			$this->object->getInfoSettings()
+				->setContact($_POST[self::PROP_INFO_CONTACT])
+				->setResponsibility($_POST[self::PROP_INFO_RESPONSIBILITY])
+				->setPhone($_POST[self::PROP_INFO_PHONE])
+				->setMails($_POST[self::PROP_INFO_MAILS])
+				->setConsultationHours($_POST[self::PROP_INFO_CONSULTATION]);
+			$this->object->updateInfo();
+			ilUtil::sendSuccess($this->lng->txt('mass_settings_saved'));
+		}
 		$this->renderForm($form);
 	}
 
@@ -102,13 +132,58 @@ class ilManualAssessmentSettingsGUI {
 		$item = new ilTextAreaInputGUI($this->lng->txt('mass_content'), self::PROP_CONTENT);
 		$item->setInfo($this->lng->txt('mass_content_explanation'));
 		$form->addItem($item);
+
 		$item = new ilTextAreaInputGUI($this->lng->txt('mass_record_template'), self::PROP_RECORD_TEMPLATE);
 		$item->setInfo($this->lng->txt('mass_record_template_explanation'));
 		$form->addItem($item);
+
 		$form->addCommandButton('update', $this->lng->txt('save'));
 		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $form;
 	}
+
+	protected function initInfoSettingsForm() {
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('mass_edit_info'));
+
+		$ti = new ilTextInputGUI($this->lng->txt('mass_contact'), self::PROP_INFO_CONTACT);
+		$ti->setSize(40);
+		$form->addItem($ti);
+
+		$ti = new ilTextInputGUI($this->lng->txt('mass_responsibility'), self::PROP_INFO_RESPONSIBILITY);
+		$ti->setSize(40);
+		$form->addItem($ti);
+
+		$ti = new ilTextInputGUI($this->lng->txt('mass_phone'), self::PROP_INFO_PHONE);
+		$ti->setSize(40);
+		$form->addItem($ti);
+
+		$ti = new ilTextInputGUI($this->lng->txt('mass_mails'), self::PROP_INFO_MAILS);
+		$ti->setInfo($this->lng->txt('mass_info_emails_expl'));
+		$ti->setSize(300);
+		$form->addItem($ti);
+
+		$item = new ilTextAreaInputGUI($this->lng->txt('mass_consultation_hours'), self::PROP_INFO_CONSULTATION);
+		$form->addItem($item);
+
+		$form->addCommandButton('updateInfo', $this->lng->txt('save'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		return $form;
+	}
+
+	protected function fillInfoForm(ilPropertyFormGUI $a_form, ilManualAssessmentInfoSettings $settings) {
+		$a_form->setValuesByArray(array(
+			  self::PROP_INFO_CONTACT => $settings->contact()
+			, self::PROP_INFO_RESPONSIBILITY => $settings->responsibility()
+			, self::PROP_INFO_PHONE => $settings->phone()
+			, self::PROP_INFO_MAILS => $settings->mails()
+			, self::PROP_INFO_CONSULTATION => $settings->consultationHours()
+			));
+		return $a_form;
+	}
+
 	protected function fillForm(ilPropertyFormGUI $a_form, ilObjManualAssessment $mass, ilManualAssessmentSettings $settings) {
 		$a_form->setValuesByArray(array(
 			  self::PROP_TITLE => $mass->getTitle()
