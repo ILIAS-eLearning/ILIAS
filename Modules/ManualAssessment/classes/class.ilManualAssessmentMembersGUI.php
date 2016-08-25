@@ -1,5 +1,6 @@
 <?php
-require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentMembersTableGUI.php");
+require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersTableGUI.php';
+require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the ManualAssessment is used.
@@ -88,14 +89,18 @@ class ilManualAssessmentMembersGUI {
 	 * @param	int|string[]	$user_ids
 	 */
 	public function addUsers(array $user_ids) {
+
 		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
 			$a_parent_gui->handleAccessViolation();
 		}
 		$mass = $this->object;
 		$members = $mass->loadMembers();
+		$failure = null;
+		if(count($user_ids) === 0) {
+			$failure = 1;
+		}
 		foreach ($user_ids as $user_id) {
 			$user = new ilObjUser($user_id);
-			$failure = null;
 			if(!$members->userAllreadyMember($user)) {
 				$members = $members->withAdditionalUser($user);
 			} else {
@@ -103,6 +108,7 @@ class ilManualAssessmentMembersGUI {
 			}
 		}
 		$members->updateStorageAndRBAC($mass->membersStorage(),$mass->accessHandler());
+		ilManualAssessmentLPInterface::updateLPStatusByIds($mass->getId(),$user_ids);
 		$this->ctrl->setParameter($this, 'failure', $failure);
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'addedUsers');
 	}
@@ -135,6 +141,7 @@ class ilManualAssessmentMembersGUI {
 		$mass->loadMembers()
 			->withoutPresentUser(new ilObjUser($usr_id))
 			->updateStorageAndRBAC($mass->membersStorage(),$mass->accessHandler());
+		ilManualAssessmentLPInterface::updateLPStatusByIds($mass->getId(),array($usr_id));
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 }
