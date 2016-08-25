@@ -60,6 +60,12 @@
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</fo:block>
 			</xsl:when>
+			<xsl:when test="@class='questionLabel'">		
+				<fo:inline>
+					<xsl:attribute name="font-style">italic</xsl:attribute>
+					<xsl:apply-templates/>
+				</fo:inline>			
+			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 	
