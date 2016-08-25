@@ -83,6 +83,9 @@ class ilForumExportGUI
 			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
 		}
 		
+        // fau: call prepare to init mathjax rendering
+		$this->prepare();
+
 		ilDatePresentation::setUseRelativeDates(false);
 
 		$tpl                 = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
@@ -136,6 +139,9 @@ class ilForumExportGUI
 			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
 		}
 
+        // call prepare to init mathjax rendering
+		$this->prepare();
+
 		ilDatePresentation::setUseRelativeDates(false);
 
 		$tpl                 = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
@@ -175,6 +181,9 @@ class ilForumExportGUI
 		{
 			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
 		}
+
+        // call prepare to init mathjax rendering
+		$this->prepare();
 
 		ilDatePresentation::setUseRelativeDates(false);
 
@@ -435,5 +444,16 @@ class ilForumExportGUI
 		}
 
 		$tpl->parseCurrentBlock('posts_row');
+	}
+
+	/**
+	 * Prepare the export (init MathJax rendering)
+	 */
+	protected function prepare()
+	{
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_EXPORT)
+			->setZoomFactor(10);
 	}
 }

@@ -54,6 +54,10 @@ class ilWikiHTMLExport
 	 */
 	function buildExportFile()
 	{
+        //init the mathjax rendering for HTML export
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+
 		if ($this->getMode() == self::MODE_USER)
 		{
 			global $ilDB, $ilUser;

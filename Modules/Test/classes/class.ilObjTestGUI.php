@@ -773,6 +773,13 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilTabs, $ilDB;
 
+        // prepare generation before contents are processed (needed for mathjax)
+		if( $this->isPdfDeliveryRequest() )
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+
 		$ilTabs->setBackTarget(
 			$this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'participants')
 		);
@@ -3174,6 +3181,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
 			$template->parseCurrentBlock();
 		}
+        // prepare generation before contents are processed (for mathjax)
+		else
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		
@@ -3271,6 +3284,10 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 			ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+
+            // prepare generation before contents are processed (for mathjax)
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
 		}
 		
 		foreach ($this->object->questions as $question)
