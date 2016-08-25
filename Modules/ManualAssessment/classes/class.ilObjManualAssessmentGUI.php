@@ -121,7 +121,9 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	protected function addMemberDataToInfo(ilInfoScreenGUI $info) {
 		$member = $this->object->membersStorage()->loadMember($this->object,$this->usr);
 		$info->addSection($this->lng->txt('grading_info'));
-		$info->addProperty($this->lng->txt('grading'),$this->getEntryForStatus($member->LPStatus()));
+		if( $member->finalized()) {
+			$info->addProperty($this->lng->txt('grading'),$this->getEntryForStatus($member->LPStatus()));
+		}
 		if($member->notify() && $member->finalized()) {
 			$info->addProperty($this->lng->txt('grading_record'),$member->record());
 		}
