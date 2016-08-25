@@ -19,12 +19,16 @@ class ilManualAssessmentInfoSettings {
 			, $phone = null
 			, $mails = null
 			, $consultation_hours = null) {
-
+		$this->id = $mass->getId();
 		$this->contact = $contanct;
 		$this->responsibility = $responsibility;
 		$this->phone = $phone;
 		$this->mails = $mails;
-		$this->consultation = $consultation_hours;
+		$this->consultation_hours = $consultation_hours;
+	}
+
+	public function id() {
+		return $this->id;
 	}
 
 	public function contact() {
@@ -46,6 +50,7 @@ class ilManualAssessmentInfoSettings {
 	public function consultationHours() {
 		return $this->consultation_hours;
 	}
+
 
 	public function setContact($contact) {
 		assert('is_string($contact) || $contact === null');
