@@ -114,14 +114,14 @@ class ilCareerGoalRequirementsTableGUI extends \ilTable2GUI {
 		$current_selection_list->setUseImages(false);
 		$current_selection_list->setAdditionalToggleElement("obj_id".$obj_id, "ilContainerListItemOuterHighlight");
 
-		foreach ($this->getRequirementsActionMenuItems($obj_id) as $key => $value) {
+		foreach ($this->getActionMenuItems($obj_id) as $key => $value) {
 			$current_selection_list->addItem($value["title"],"",$value["link"],$value["image"],"",$value["frame"]);
 		}
 
 		return $current_selection_list->getHTML();
 	}
 
-	protected function getRequirementsActionMenuItems($obj_id) {
+	protected function getActionMenuItems($obj_id) {
 		$this->gCtrl->setParameter($this->parent_obj, "obj_id", $obj_id);
 		$link_edit = $this->memberlist_link = $this->gCtrl->getLinkTarget($this->parent_obj, $this->possible_cmd["CMD_EDIT"]);
 		$link_delete = $this->memberlist_link = $this->gCtrl->getLinkTarget($this->parent_obj, $this->possible_cmd["CMD_DELETE"]);

@@ -14,7 +14,6 @@ class ilCareerGoalRequirementsGUI {
 
 	const CMD_DELETE_SELECTED_REQUIREMENTS = "deleteSelected";
 	const CMD_CONFIRMED_DELETE_SELECTED_REQUIREMENTS = "confirmedDeleteSelected";
-	const CAPTION_DELETE_SELECTED_REQUIREMENTS = "delete_selected";
 
 	const CMD_SAVE_ORDER = "saveOrder";
 
@@ -167,7 +166,7 @@ class ilCareerGoalRequirementsGUI {
 	protected function saveOrder() {
 		$this->getActions()->updateRequirementPosition($_POST);
 
-		\ilUtil::sendSuccess("juhu", false);
+		\ilUtil::sendSuccess($this->txt("order_saved"), false);
 		$this->sortRequirements();
 	}
 
