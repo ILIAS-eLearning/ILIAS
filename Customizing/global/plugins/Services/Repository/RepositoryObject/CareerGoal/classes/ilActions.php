@@ -101,18 +101,47 @@ class ilActions {
 		);
 	}
 
+	/**********************
+	 * REQUIREMENTS
+	 *********************/
+
+	/**
+	 * get data for list view
+	 *
+	 * @param int 	$career_goal_id
+	 *
+	 * @return array
+	 */
 	public function getRequirementListData($career_goal_id) {
 		return $this->requirements_db->getListData($career_goal_id);
 	}
 
+	/**
+	 * get a requirement obj
+	 *
+	 * @param int 	$obj_id
+	 *
+	 * @return Requirements\Requirement
+	 */
 	public function getRequirement($obj_id) {
 		return $this->requirements_db->select($obj_id);
 	}
 
+	/**
+	 *
+	 * @param int 	$obj_id
+	 */
 	public function deleteRequirement($obj_id) {
 		$this->requirements_db->delete($obj_id);
 	}
 
+	/**
+	 * get infos for requierement edit gui
+	 *
+	 * @param int 	$obj_id
+	 *
+	 * @return array
+	 */
 	public function readRequirement($obj_id) {
 		$requirement = $this->requirements_db->select($obj_id);
 
@@ -126,6 +155,10 @@ class ilActions {
 		return $values;
 	}
 
+	/**
+	 *
+	 * @param array 	$post
+	 */
 	public function updateRequirement($post) {
 		$requirement = $this->requirements_db->select((int)$post[self::F_REQUIREMENT_OBJ_ID]);
 
@@ -136,6 +169,10 @@ class ilActions {
 
 	}
 
+	/**
+	 *
+	 * @param array 	$post
+	 */
 	public function updateRequirementPosition($post) {
 		foreach ($post[self::F_REQUIREMENT_OBJ_ID] as $value) {
 			$requirement = $this->requirements_db->select((int)$value);
@@ -148,10 +185,19 @@ class ilActions {
 		}
 	}
 
+	/**
+	 *
+	 * @param array 	$post
+	 */
 	public function createRequirement($post) {
 		$this->requirements_db->create((int)$post[self::F_REQUIREMENT_CAREER_GOAL_ID], $post[self::F_REQUIREMENT_TITLE], $post[self::F_REQUIREMENT_DESCRIPTION]);
 	}
 
+	/**
+	 * get values for new requirement form
+	 *
+	 * @return array
+	 */
 	public function readNewRequirement() {
 		$values = array();
 
@@ -159,4 +205,8 @@ class ilActions {
 
 		return $values;
 	}
+
+	/**********************
+	 * OBSERVATIONS
+	 *********************/
 }
