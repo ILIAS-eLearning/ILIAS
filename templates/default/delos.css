@@ -6294,7 +6294,7 @@ button.close {
   width: 100%;
 }
 .il-card .caption {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
 }
 .il-card .caption .card-title {
   overflow-wrap: break-word;
@@ -8905,13 +8905,6 @@ input.ilOpenIDBox {
   padding: 0;
   margin-right: 14px;
   list-style: none outside none;
-}
-#ilTopBarNav .badge {
-  font-size: 9px;
-  padding: 2px 4px;
-  margin-top: -5px;
-  margin-left: -4px;
-  position: absolute;
 }
 #ilTopBarNav .ilBadgeSpacer {
   font-size: 8px;
