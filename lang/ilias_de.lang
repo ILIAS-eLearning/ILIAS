@@ -15980,3 +15980,5 @@ mass#:#mass_mails#:#E-Mail
 mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
 mass#:#mass_edit_info#:#Informationseinstellungen
+mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 

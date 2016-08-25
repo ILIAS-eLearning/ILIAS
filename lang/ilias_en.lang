@@ -15979,3 +15979,5 @@ mass#:#mass_mails#:#Mails
 mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.
 mass#:#mass_consultation_hours#:#Consultation Hours
 mass#:#mass_edit_info#:#Info Settings
+mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
+mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
