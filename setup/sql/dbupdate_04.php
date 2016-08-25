@@ -17293,5 +17293,16 @@ if( !$ilDB->tableExists('background_task') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#5023>
+<?php
+if( !$ilDB->tableColumnExists('qpl_qst_mc', 'selection_limit') )
+{
+	$ilDB->addTableColumn('qpl_qst_mc', 'selection_limit', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
 
