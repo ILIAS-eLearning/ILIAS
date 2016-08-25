@@ -29,6 +29,7 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
     header("Location: ./setup/setup.php");
 	exit();
 }
+include('./countdown.inc.php');
 
 // BEGIN WebDAV: Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
 // We MUST block WebDAV requests on the root page of the Web-Server

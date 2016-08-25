@@ -16,6 +16,5 @@
 AddType video/ogg .ogv
 AddType video/mp4 .mp4
 AddType video/webm .webm
-DirectoryIndex countdown.php
 Redirect /makler/ /makler.php
 Redirect /makler /makler.php
