@@ -133,11 +133,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return GRP_TYPE_UNKNOWN;
 	}
 	
-	public function getShowMembers()
-	{
-		return true;
-	}
-	
 	// Setter/Getter
 	/**
 	 * set information

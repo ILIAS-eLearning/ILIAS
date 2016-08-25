@@ -1907,7 +1907,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 
-	
+	function autoFillObject()
 	{
 		global $rbacsystem;
 
