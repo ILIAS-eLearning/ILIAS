@@ -13,8 +13,7 @@ class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification 
 	protected $reciever;
 
 	public function __construct() {
-		$this->occasion = null;
-		$this->reciever = null;
+		parent::__construct();
 		$this->setLangModules(array('mass'));
 	}
 
@@ -54,11 +53,19 @@ class ilManualAssessmentPrimitiveInternalNotificator extends ilMailNotification 
 		}
 		$this->initLanguage($this->reciever->id());
 		$this->initMail();
-		$subject = $this->occasion === self::OCCASION_COMPLETED ? $this->getLanguageText('mass_subj_notification_completed') : $this->getLanguageText('mass_subj_notification_failed');
+		$subject = $this->occasion === self::OCCASION_COMPLETED 
+			? $this->getLanguageText('mass_subj_notification_completed')
+			: $this->getLanguageText('mass_subj_notification_failed');
+		$message = $this->occasion === self::OCCASION_COMPLETED 
+			? $this->getLanguageText('mass_mess_notification_completed')
+			: $this->getLanguageText('mass_mess_notification_failed');
+		$assessment_title = $this->reciever->assessment()->getTitle();
 		$this->setSubject(
-			sprintf($subject, $this->reciever->assessment()->getTitle())
+			sprintf($subject, $assessment_title)
 		);
 		$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
+		$this->appendBody("\n\n");
+		$this->appendBody(sprintf($message, $assessment_title));
 		$this->appendBody("\n\n");
 		$this->appendBody($this->reciever->record());
 		$this->appendBody("\n\n");
