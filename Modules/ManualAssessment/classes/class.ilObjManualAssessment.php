@@ -62,10 +62,10 @@ class ilObjManualAssessment extends ilObject {
 	}
 
 	public function getInfoSettings() {
-		if(!$this->settings) {
+		if(!$this->info_settings) {
 			$this->info_settings = $this->settings_storage->loadInfoSettings($this);
 		}
-		return $this->settings;
+		return $this->info_settings;
 	}
 
 	/**
@@ -139,8 +139,11 @@ class ilObjManualAssessment extends ilObject {
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$settings = $this->getSettings();
 		$info_settings = $this->getInfoSettings();
-		$new_settings = new ilManualAssessmentSettings($new_obj, $settings->content(),$settings->recordTemplate());
+		$new_settings = new ilManualAssessmentSettings($new_obj, 
+			$settings->content()
+			,$settings->recordTemplate());
 		$new_obj->settings = $new_settings;
+
 		$new_info_settings = new ilManualAssessmentInfoSettings($new_obj,
 			$info_settings->contact()
 			,$info_settings->responsibility()
