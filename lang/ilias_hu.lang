@@ -6912,8 +6912,8 @@ grp#:#grp_admins#:#Vezetők
 grp#:#grp_already_assigned#:#Ön már rendelkezik a kívánt tagsággal ebben a csoportban.
 grp#:#grp_cancel_subscr_request#:#Tagsági kérelem törlése
 grp#:#grp_change_type#:#Csoporttípus változtatása
-grp#:#grp_closed_info#:#Akik nem tagok, nem láthatják a csoportot.
-grp#:#grp_closed#:#Zárt csoport
+didactic#:#grp_closed_info#:#Akik nem tagok, nem láthatják a csoportot.
+didactic#:#grp_closed#:#Zárt csoport
 grp#:#grp_delete_member#:#Törlés
 grp#:#grp_deleted_export_files#:#Törölt exportfájlok
 grp#:#grp_edit_members#:#Résztvevők módosítása

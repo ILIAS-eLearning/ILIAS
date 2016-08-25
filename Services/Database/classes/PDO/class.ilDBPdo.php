@@ -923,7 +923,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		/**
 		 * @var $ilDB ilDBPdo
 		 */
-		return $ilDB->getFieldDefinition()->getReserved();
+		return $ilDB->getFieldDefinition()->getReservedMysql();
 	}
 
 
@@ -1547,9 +1547,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public static function isReservedWord($a_word) {
-		global $ilDB;
+		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
+		global $DIC;
+		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC['ilDB']);
 
-		return ilDBPdoFieldDefinition::getInstance($ilDB)->isReserved($a_word);
+		return $ilDBPdoMySQLFieldDefinition->isReserved($a_word);
 	}
 
 

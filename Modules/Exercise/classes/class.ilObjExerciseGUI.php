@@ -260,6 +260,27 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$cbox = new ilCheckboxInputGUI($this->lng->txt("exc_submission_notification"), "notification");
 		$cbox->setInfo($this->lng->txt("exc_submission_notification_info"));
 		$a_form->addItem($cbox);		
+		
+		
+		// feedback settings
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('exc_feedback'));
+		$a_form->addItem($section);
+		
+		$fdb = new ilCheckboxGroupInputGUI($this->lng->txt("exc_settings_feedback"), "tfeedback");
+		$fdb->setInfo($this->lng->txt("exc_settings_feedback_info"));
+		$a_form->addItem($fdb);
+		
+		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_mail"), ilObjExercise::TUTOR_FEEDBACK_MAIL);
+		$option->setInfo($this->lng->txt("exc_settings_feedback_mail_info"));
+		$fdb->addOption($option);
+		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_file"), ilObjExercise::TUTOR_FEEDBACK_FILE);
+		$option->setInfo($this->lng->txt("exc_settings_feedback_file_info"));
+		$fdb->addOption($option);
+		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_text"), ilObjExercise::TUTOR_FEEDBACK_TEXT);
+		$option->setInfo($this->lng->txt("exc_settings_feedback_text_info"));
+		$fdb->addOption($option);		
 	}
 	
 	/**
@@ -283,6 +304,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->object->getId());
 				
 		$a_values['completion_by_submission'] = (int) $this->object->isCompletionBySubmissionEnabled();
+		
+		$tfeedback = array();
+		if($this->object->hasTutorFeedbackMail())
+		{
+			$tfeedback[] = ilObjExercise::TUTOR_FEEDBACK_MAIL;
+		}
+		if($this->object->hasTutorFeedbackText())
+		{
+			$tfeedback[] = ilObjExercise::TUTOR_FEEDBACK_TEXT;
+		}
+		if($this->object->hasTutorFeedbackFile())
+		{
+			$tfeedback[] = ilObjExercise::TUTOR_FEEDBACK_FILE;
+		}		
+		$a_values['tfeedback'] = $tfeedback;			
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -296,6 +332,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		$this->object->setCompletionBySubmission($a_form->getInput('completion_by_submission') == 1 ? true : false);
+		
+		$feedback = $a_form->getInput("tfeedback");
+		$this->object->setTutorFeedback(is_array($feedback)
+			? array_sum($feedback)
+			: null);
 		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
