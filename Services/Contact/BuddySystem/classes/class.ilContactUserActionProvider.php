@@ -28,6 +28,25 @@ class ilContactUserActionProvider extends ilUserActionProvider
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	function getComponentId()
+	{
+		return "contact";
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getActionTypes()
+	{
+		$this->lng->loadLanguageModule('buddysystem');
+		return array(
+			"handle_req" => $this->lng->txt("buddy_handle_contact_request")
+		);
+	}
+
+	/**
 	 * @var array
 	 */
 	private static $state_to_perm_link_map = array(
@@ -73,6 +92,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
 					$this->lng->txt('buddy_bs_act_btn_txt_requested_to_' .
 					ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName()))
 				);
+				$f->setType("handle_req");
 				$f->setHref(ilLink::_getStaticLink($a_target_user, 'usr', true, self::$state_to_perm_link_map[get_class($target_state)]));
 				$f->setData(array(
 					'current-state' => get_class($relation->getState()),

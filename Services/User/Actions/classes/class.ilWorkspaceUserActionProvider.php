@@ -30,6 +30,23 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
 		parent::__construct();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	function getComponentId()
+	{
+		return "pwsp";
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getActionTypes()
+	{
+		return array(
+			"shared_res" => $this->lng->txt("wsp_shared_resources")
+		);
+	}
 
 	/**
 	 * Collect all actions
@@ -50,6 +67,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
 		}
 
 		$f = new ilUserAction();
+		$f->setType("shared_res");
 		$f->setText($lng->txt("wsp_shared_resources"));
 		$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", ilObjUser::_lookupLogin($a_target_user));
 		$f->setHref($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"),

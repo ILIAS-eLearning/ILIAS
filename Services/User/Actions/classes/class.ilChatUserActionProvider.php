@@ -31,6 +31,25 @@ class ilChatUserActionProvider extends ilUserActionProvider
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	function getComponentId()
+	{
+		return "chtr";
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getActionTypes()
+	{
+		return array(
+			"invite" => $this->lng->txt('chat_invite_public_room')
+		);
+	}
+
+
+	/**
 	 * Check user chat access
 	 *
 	 * @param
@@ -74,6 +93,7 @@ class ilChatUserActionProvider extends ilUserActionProvider
 				if ($this->checkUserChatAccess($a_target_user))
 				{
 					$f = new ilUserAction();
+					$f->setType("invite");
 					$f->setText($this->lng->txt('chat_invite_public_room'));
 					$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&ref_id='.$this->pub_ref_id.
 						'&usr_id='.$a_target_user.'&cmd=view-invitePD');
