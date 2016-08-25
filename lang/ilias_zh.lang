@@ -6133,8 +6133,8 @@ grp#:#grp_admins#:#管理员
 grp#:#grp_already_assigned#:#您已申请了成为这个组的成员。
 grp#:#grp_cancel_subscr_request#:#删除成员请求
 grp#:#grp_change_type#:#更改组类型
-grp#:#grp_closed#:#组已关闭
-grp#:#grp_closed_info#:#对非成员，组不可见。
+didactic#:#grp_closed#:#组已关闭
+didactic#:#grp_closed_info#:#对非成员，组不可见。
 grp#:#grp_delete_member#:#的
 grp#:#grp_deleted_export_files#:#导出文件已删除
 grp#:#grp_edit_members#:#编辑参与者

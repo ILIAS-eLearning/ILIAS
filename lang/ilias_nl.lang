@@ -9174,8 +9174,8 @@ grp#:#grp_cancel_subscr_request#:#Verwijderen deelnameverzoek
 grp#:#grp_cdf_edit_member#:#Wijzigen groepsgerelateerde gebruikersgegevens
 grp#:#grp_cdf_tbl_last_edit#:#Laatste Update (groep-specifieke gegevens)
 grp#:#grp_change_type#:#Wijzigen groepstype
-grp#:#grp_closed#:#Besloten groep
-grp#:#grp_closed_info#:#Groep is niet zichtbaar voor niet-deelnemers
+didactic#:#grp_closed#:#Besloten groep
+didactic#:#grp_closed_info#:#Groep is niet zichtbaar voor niet-deelnemers
 grp#:#grp_copy#:#Kopieer groep
 grp#:#grp_custom_user_fields#:#Groepeer bijeenhorende gebruikersgegevens
 grp#:#grp_deactivate_notification#:#Deactivate Notification

@@ -62,7 +62,10 @@ class ilDidacticTemplateGUI
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
 		$tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
 
-		if(!count($tpls))
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
+
+		if(!count($tpls) && !$value)
 		{
 			return false;
 		}
@@ -72,21 +75,45 @@ class ilDidacticTemplateGUI
 
 		// Show template options
 		$options = array(0 => $this->lng->txt('didactic_default_type'));
+		$excl_tpl = false;
+
 		foreach($tpls as $tpl)
 		{
-			$options[$tpl->getId()] = $tpl->getTitle();
+			//just add if template is effective except template is already applied to this object
+			if($tpl->isEffective($_GET['ref_id']))
+			{
+				$options[$tpl->getId()] = $tpl->getPresentationTitle();
+
+				if($tpl->isExclusive())
+				{
+					$excl_tpl = true;
+				}
+			}
+		}
+
+		if($excl_tpl && $value != 0)
+		{
+			//remove default entry if an exclusive template exists but only if the actual entry isn't the default
+			unset($options[0]);
+		}
+
+		if(!in_array($value, array_keys($options)) || ($excl_tpl && $value == 0))
+		{
+			$options[$value] = $this->lng->txt('not_available');
+		}
+
+		if(count($options) < 2)
+		{
+			return false;
 		}
 
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 		$tpl_selection = new ilSelectInputGUI(
 			'',
 			'tplid'
 		);
 		$tpl_selection->setOptions($options);
-		$tpl_selection->setValue(ilDidacticTemplateObjSettings::lookupTemplateId(
-			$this->getParentObject()->object->getRefId()
-		));
+		$tpl_selection->setValue($value);
 		$toolbar->addInputItem($tpl_selection);
 
 		// Apply templates switch
@@ -130,9 +157,9 @@ class ilDidacticTemplateGUI
 			$confirm->addItem(
 				'tplid',
 				$new_tpl_id,
-				$dtpl->getTitle().
+				$dtpl->getPresentationTitle().
 				'<div class="il_Description">'.
-				$dtpl->getDescription().' '.
+				$dtpl->getPresentationDescription().' '.
 				'</div>'
 			);
 		}
@@ -170,40 +197,11 @@ class ilDidacticTemplateGUI
 	protected function switchTemplate()
 	{
 		global $ilCtrl;
-
+		
 		$new_tpl_id = (int) $_REQUEST['tplid'];
 
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		$current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
-			$this->getParentObject()->object->getRefId()
-		);
-
-		// Revert current template
-		if($current_tpl_id)
-		{
-			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
-			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($current_tpl_id) as $action)
-			{
-				$action->setRefId($this->getParentObject()->object->getRefId());
-				$action->revert();
-			}
-		}
-		if($new_tpl_id)
-		{
-			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
-			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($new_tpl_id) as $action)
-			{
-				$action->setRefId($this->getParentObject()->object->getRefId());
-				$action->apply();
-			}
-		}
-
-		// Assign template id to object
-		ilDidacticTemplateObjSettings::assignTemplate(
-			$this->getParentObject()->object->getRefId(),
-			$this->getParentObject()->object->getId(),
-			$new_tpl_id
-		);
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateUtils.php';
+		ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);
 
 		ilUtil::sendSuccess($this->lng->txt('didactic_template_applied'),true);
 		$ilCtrl->returnToParent($this);

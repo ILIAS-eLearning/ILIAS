@@ -231,9 +231,6 @@ installed#:#Installed
 institution#:#Institution
 intro_install#:#This is the main page of ILIAS Setup. From here you can step through the installation.
 ip_address#:#IP Address
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.
-java_path_comment#:#Optional for validating SCORM Learning Modules, e.g. '/your_path/java'.
-java_path#:#Path to Java
 lang_ar#:#Arabic
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
@@ -613,3 +610,8 @@ cache_flush#:#Flush all caches
 cache_activate_tpl_blocks#:#Template (Blocks)
 cache_activate_tpl_variables#:#Template (Variables)
 cache_activate_all#:#All
+enable_system_styles_management#:#Manage System Styles
+enable_system_styles_management_info#:#Manage (add, edit, delete) System Styles (Skins) in the Layout and Styles section of the Administration.
+lessc_path#:#Path to lessc
+lessc_path_comment#:#Lessc is needed to compile less files to CSS. This is a requirement for generating new css files for systems styles through manipulating less variables in the Administration.
+lessc#:#Path to lessc

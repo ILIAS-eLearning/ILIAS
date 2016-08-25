@@ -151,14 +151,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->lng->txt('settings'),
 			$this->ctrl->getLinkTarget($this, 'settings'));
 
-		/* not ready for trunk
 		if(!ilObjUserTracking::_enabledLearningProgress())
 		{
 			$this->tabs_gui->addSubTab('lpdef',
 				$this->lng->txt('trac_defaults'),
 				$this->ctrl->getLinkTarget($this, 'editLPDefaults'));
 		}
-		*/
 		
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('lp_settings');

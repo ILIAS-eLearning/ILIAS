@@ -942,6 +942,11 @@ class ilTrQuery
 				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
 				break;
 			
+			case "mass":
+				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
+				$mass = new ilObjManualAssessment($obj_id, false);
+				$a_users = $mass->loadMembers()->membersIds();
+				break;
 			default:
 				// no sensible data: return null
 				break;
@@ -1890,7 +1895,7 @@ class ilTrQuery
 		
 		if($a_type == "lres")
 		{
-			$a_type = array('lm','sahs','htlm','dbk');
+			$a_type = array('lm','sahs','htlm');
 		}
 		
 		$sql = "SELECT r.ref_id,r.obj_id".

@@ -18,6 +18,9 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 */
 	public function getHTML($link = true) {
 		$value = $this->getRecordField()->getValue();
+		if ($value == '0000-00-00 00:00:00') {
+			return $this->lng->txt('no_date');
+		}
 		return ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATE));
 	}
 

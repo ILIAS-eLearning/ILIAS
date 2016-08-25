@@ -56,7 +56,7 @@ class ilDidacticTemplateImport
 	/**
 	 * Do import
 	 */
-	public function import()
+	public function import($a_dtpl_id = 0)
 	{
 		libxml_use_internal_errors(true);
 
@@ -77,6 +77,7 @@ class ilDidacticTemplateImport
 		$settings = $this->parseSettings($root);
 		$this->parseActions($settings,$root->didacticTemplate->actions);
 
+		return $settings;
 	}
 
 	/**
@@ -86,7 +87,7 @@ class ilDidacticTemplateImport
 	 */
 	protected function parseSettings(SimpleXMLElement $root)
 	{
-
+		global $ilSetting;
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
 		$setting = new ilDidacticTemplateSetting();
 
@@ -113,12 +114,38 @@ class ilDidacticTemplateImport
 			}
 			$setting->setInfo($info);
 
+			if(isset($tpl->effectiveFrom) && (string)$tpl->effectiveFrom["nic_id"] == $ilSetting->get('inst_id') )
+			{
+				$node = array();
+				foreach($tpl->effectiveFrom->node as $element)
+				{
+					$node[] = (int) $element;
+				}
+				
+				$setting->setEffectiveFrom($node);
+			}
+
+			if(isset($tpl->exclusive))
+			{
+				$setting->setExclusive(true);
+			}
+
 			foreach($tpl->assignments->assignment as $element)
 			{
 				$setting->addAssignment(trim((string) $element));
 			}
 		}
 		$setting->save();
+
+		include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
+		$trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
+
+		if(isset($root->didacticTemplate->translations))
+		{
+			$trans->fromXML($root->didacticTemplate->translations);
+		}
+		$trans->save();
+		
 		return $setting;
 	}
 

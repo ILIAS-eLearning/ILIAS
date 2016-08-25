@@ -27,12 +27,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 		$value = parent::getValueFromExcel($excel, $row, $col);
 
-		$value = array(
-			'date' => date('Y-m-d', strtotime($value)),
-			'time' => '00:00:00',
-		);
-
-		return $value;
+		return date('Y-m-d', strtotime($value));
 	}
 
 

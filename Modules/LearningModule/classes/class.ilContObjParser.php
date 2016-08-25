@@ -11,7 +11,6 @@ require_once("./Services/COPage/classes/class.ilPCTable.php");
 require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 require_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
 require_once("./Services/MediaObjects/classes/class.ilMapArea.php");
-require_once("./Modules/LearningModule/classes/class.ilBibItem.php");
 require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
@@ -64,9 +63,7 @@ class ilContObjParser extends ilMDSaxParser
 	var $subdir;
 	var $media_item;		// current media item
 	var $loc_type;			// current location type
-	var $bib_item;			// current bib item object
 	var $map_area;			// current map area
-	var $in_bib_item;		// are we currently within BibItem? true/false
 	var $link_targets;		// stores all objects by import id
 	var $qst_mapping;
 	var $metadata_parsing_disabled;
@@ -268,7 +265,7 @@ class ilContObjParser extends ilMDSaxParser
 			$page_obj->buildDom();
 			$page_obj->resolveIntLinks();
 			$page_obj->resolveIIMMediaAliases($this->mob_mapping);
-			if (in_array($this->coType, array("lm", "dbk")))
+			if (in_array($this->coType, array("lm")))
 			{
 				$page_obj->resolveQuestionReferences($this->qst_mapping);
 			}
@@ -689,8 +686,7 @@ case "InteractiveImage":
 				break;
 				
 			case "Property":
-				if ($this->content_object->getType() == "lm"
-					|| $this->content_object->getType() == "dbk")
+				if ($this->content_object->getType() == "lm")
 				{
 					switch($a_attribs["Name"])
 					{
@@ -974,12 +970,6 @@ case "InteractiveImage":
 				$this->loc_type = $a_attribs["Type"];
 				break;
 
-			case "Bibliography":
-				$this->in_bib_item = true;
-//echo "<br>---NEW BIBLIOGRAPHY---<br>";
-				$this->bib_item = new ilBibItem();
-				break;
-
 		}
 		$this->beginElement($a_name);
 
@@ -1009,12 +999,7 @@ case "InteractiveImage":
 //echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
 		}
 
-		// append content to bibitem xml content
-		if ($this->in_bib_item)   // && !$this->in_page_object && !$this->in_media_object
-		{
-			$this->bib_item->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
-		}
-		
+
 		// call meta data handler
 		if ($this->in_meta_data && $this->processMeta())
 		{
@@ -1101,20 +1086,6 @@ case "InteractiveImage":
 				? "PageObject"
 				: $a_name;
 			$this->page_object->appendXMLContent($this->buildTag("end", $app_name));
-		}
-
-		// append content to bibitemxml content
-		if ($this->in_bib_item)	// && !$this->in_page_object && !$this->in_media_object
-		{
-			if($a_name == "BibItem")
-			{
-				$this->bib_item->appendXMLContent("\n".$this->buildTag("end", $a_name));
-			}
-			else
-			{
-				$this->bib_item->appendXMLContent($this->buildTag("end", $a_name));
-			}
-
 		}
 
 		switch($a_name)
@@ -1319,8 +1290,7 @@ case "InteractiveImage":
 
 			case "Properties":
 				$this->in_properties = false;
-				if ($this->content_object->getType() == "lm"
-					|| $this->content_object->getType() == "dbk")
+				if ($this->content_object->getType() == "lm")
 				{
 					$this->content_object->update();
 				}
@@ -1389,7 +1359,7 @@ case "InteractiveImage":
 					ilLMObject::_writeImportId($this->current_object->getId(),
 							$this->current_object->getImportId());
 				}
-				else if(strtolower(get_class($this->current_object)) == "ilobjdlbook" || strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
+				else if(strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
 					strtolower(get_class($this->current_object)) == "ilobjcontentobject" ||
 					(strtolower(get_class($this->current_object)) == "ilobjglossary" && $this->in_glossary))
 				{
@@ -1410,7 +1380,6 @@ case "InteractiveImage":
 
 
 				if(strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
-					strtolower(get_class($this->current_object)) == "ilobjdlbook" ||
 					strtolower(get_class($this->current_object)) == "ilobjglossary")
 				{
 					if (strtolower(get_class($this->current_object)) == "ilobjglossary" &&
@@ -1456,13 +1425,6 @@ case "InteractiveImage":
 				}
 				break;
 
-			case "Bibliography":
-
-				$this->in_bib_item = false;
-
-				$nested = new ilNestedSetXML();
-				$nested->import($this->bib_item->getXMLContent(),$this->content_object->getId(),"bib");
-				break;
 
 			case "Table":
 				unset ($this->container[count($this->container) - 1]);
@@ -1538,10 +1500,6 @@ case "InteractiveImage":
 					$this->meta_data->setLanguage(trim($this->chr_data));
 				}*/
 				
-				if (is_object($this->bib_item))
-				{
-					$this->bib_item->setLanguage(trim($this->chr_data));
-				}
 				break;
 
 			case "Description":
@@ -1673,11 +1631,6 @@ case "InteractiveImage":
 			{
 				//$this->meta_data->appendXMLContent($a_data);
 //echo "<br>".$a_data;
-			}
-
-			if ($this->in_bib_item  )
-			{
-				$this->bib_item->appendXMLContent($a_data);
 			}
 
 			switch($this->getCurrentElement())

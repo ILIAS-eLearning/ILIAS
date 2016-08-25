@@ -1666,33 +1666,36 @@ class ilObjUserGUI extends ilObjectGUI
 		if($this->isSettingChangeable('skin_style'))
 		{
 			$sk = new ilSelectInputGUI($lng->txt("skin_style"),
-				'skin_style');
-			$templates = $styleDefinition->getAllTemplates();
+					'skin_style');
+			/**
+			 * @var ilStyleDefinition $styleDefinition
+			 */
+			$skins = $styleDefinition->getAllSkins();
 
 			$options = array();
-			if (count($templates) > 0 && is_array ($templates))
+			if (is_array($skins))
 			{
-				foreach ($templates as $template)
+				$sk = new ilSelectInputGUI($this->lng->txt("skin_style"), "skin_style");
+
+				$options = array();
+				foreach($skins as $skin)
 				{
-					$styleDef = new ilStyleDefinition($template["id"]);
-					$styleDef->startParsing();
-					$styles = $styleDef->getStyles();
-					foreach ($styles as $style)
+					foreach($skin->getStyles() as $style)
 					{
 						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()))
 						{
 							continue;
 						}
-						$options[$template["id"].":".$style["id"]] =
-							$styleDef->getTemplateName()." / ".$style["name"];
+
+						$options[$skin->getId().":".$style->getId()] = $skin->getName()." / ".$style->getName();
 					}
 				}
 			}
 			$sk->setOptions($options);
 			$sk->setValue($ilClientIniFile->readVariable("layout","skin").
-				":".$ilClientIniFile->readVariable("layout","style"));
-	
+					":".$ilClientIniFile->readVariable("layout","style"));
+
 			$this->form_gui->addItem($sk);
 		}
 
@@ -2644,7 +2647,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// Add link to objector local Rores
 	        if ($role["role_type"] == "local") {
         	        // Get Object to the role
-                	$obj_id = ilRbacReview::getObjectOfRole($role["rol_id"]);
+                	$obj_id = $rbacreview->getObjectOfRole($role["rol_id"]);
 
 	                $obj_type = ilObject::_lookupType($obj_id);
 
