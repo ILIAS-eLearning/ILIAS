@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -16324,3 +16324,77 @@ awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer 
 exc#:#exc_tbl_filter_submission#:#Abgabe
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
+mass#:#general#:#Allgemein
+mass#:#mass_content#:#Inhalt
+mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
+mass#:#mass_graded_by#:#Bewertet von
+mass#:#mass_usr_remove#:#Benutzer entfernen
+mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
+mass#:#mass_usr_view#:#Prüfungsdaten
+mass#:#mass_edit_record#:#Prüfungsdaten
+mass#:#mass_record#:#Prüfungsnotiz
+mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
+mass#:#mass_status_completed#:#bestanden
+mass#:#mass_status_failed#:#nicht bestanden
+mass#:#mass_status_pending#:#noch nicht gesetzt
+mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
+mass#:#mass_finalize#:#Finalisieren
+mass#:#il_mass_member#:#Mitglied
+mass#:#edit_members#:#Mitglieder bearbeiten
+mass#:#mass_edit_members#:#Mitglieder bearbeiten
+mass#:#mass_visible#:#Anzeigen
+mass#:#mass_read#:#Lesezugriff
+mass#:#mass_copy#:#Manuelle Bewertung Kopieren
+mass#:#mass_write#:#Berabeiten
+mass#:#mass_delete#:#Löschen
+mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
+mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
+mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
+mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
+mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
+mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
+trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
+common#:#obj_mass#:#Manuelle Bewertung
+common#:#objs_mass#:#Manuelle Bewertungen
+common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
+common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
+trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
+common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
+common#:#mass_new#:#Neue Manuelle Bewertung anlegen
+common#:#mass_import#:#Manuelle Bewertung importieren
+rbac#:#mass_visible#:#Manuele Bwertung sichtbar
+rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
+rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
+rbac#:#mass_copy#:#Manuelle Bewertung kopieren
+rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
+rbac#:#mass_delete#:#Manuelle Bewertung löschen
+rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
+mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+mass#:#mass_edit#:#Einstellungen
+mass#:#mass_add#:#Manuelle Bewertung anlegen
+mass#:#mass_membership_finalized#:#Status finalisiert
+mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
+mass#:#mass_return#:#Zurück zur Übersicht
+mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
+mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_settings_saved#:#Einstellungen gespeichert.
+mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
+mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
+mass#:#grading#:#Bewertung
+mass#:#grading_info#:#Bewertungsinformationen
+mass#:#grading_record#:#Bewertungszusammenfassung
+mass#:#mass_content_explanation#:#Inhalte der Prüfung.
+mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
+mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+mass#:#mass_contact#:#Name
+mass#:#mass_responsibility#:#Zuständigkeit
+mass#:#mass_phone#:#Telefon
+mass#:#mass_mails#:#E-Mail
+mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
+mass#:#mass_consultation_hours#:#Sprechstunden
+mass#:#mass_edit_info#:#Informationseinstellungen
+mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
+mass#:#mass_contact_info#:#Kontaktinformationen

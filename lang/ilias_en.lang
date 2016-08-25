@@ -16269,3 +16269,77 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+mass#:#general#:#General iformation
+mass#:#mass_content#:#Assessment content description
+mass#:#mass_record_template#:#Record template
+mass#:#mass_graded_by#:#Graded by
+mass#:#mass_usr_remove#:#Remove user from object
+mass#:#mass_usr_edit#:#Edit user record and learning progress
+mass#:#mass_usr_view#:#User record
+mass#:#mass_edit_record#:#User record
+mass#:#mass_record#:#Record note
+mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
+mass#:#mass_status_completed#:#completed
+mass#:#mass_status_failed#:#failed
+mass#:#mass_status_pending#:#status pending
+mass#:#mass_notify#:#Notify user after finalization
+mass#:#mass_finalize#:#Finalize
+mass#:#il_mass_member#:#Manual Assessment Member
+mass#:#edit_members#:#Edit members
+mass#:#mass_edit_members#:#Edit members
+mass#:#mass_visible#:#Visible
+mass#:#mass_read#:#Read
+mass#:#mass_copy#:#Copy
+mass#:#mass_write#:#Edit Settings
+mass#:#mass_delete#:#Delete
+mass#:#mass_read_learning_progress#:#View learning progress of other users
+mass#:#mass_edit_permissions#:#Change Permissions
+mass#:#mass_edit_learning_progress#:#Edit learning progress
+mass#:#mass_may_not_finalize#:#Examinee may not be finalized.
+mass#:#mass_subj_notification_completed#:#%s: Manual Assessment completed.
+mass#:#mass_subj_notification_failed#:#%s: Manual Assessment failed.
+trac#:#trac_mode_manual_assessment#:#Manual Assessment
+common#:#obj_mass#:#Manual Assessment
+common#:#objs_mass#:#Manual Assessments
+common#:#obj_mass_duplicate#:#Copy Manual Assessment
+common#:#obj_mass_select#:#-- Please select one manual assessment --
+trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
+common#:#il_mass_member#:#Manual Assessment Examinee
+common#:#mass_new#:#Create Manual Assessment
+common#:#mass_import#:#Import Manual Assessment
+rbac#:#mass_visible#:#Manual Assessment is visible
+rbac#:#mass_read#:#Read content of a Manual Assessment
+rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment
+rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment
+rbac#:#mass_copy#:#Copy a Manual Assessment
+rbac#:#mass_write#:#Edit a Manual Assessment
+rbac#:#mass_delete#:#Delete a Manual Assessment
+rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
+rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
+mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
+mass#:#mass_edit#:#Settings
+mass#:#mass_add#:#Create Manual Assessment
+mass#:#mass_membership_finalized#:#Record finalized
+mass#:#mass_membership_saved#:#Record saved, not yet finalized
+mass#:#mass_return#:#Back to overview
+mass#:#mass_remove_user_qst#:#Should the user really be removed?
+mass#:#mass_finalize_user_qst#:#Should the user status really be finalized? (No changes possibel thereafter.)
+mass#:#mass_settings_saved#:#Settings saved.
+mass#:#mass_add_user_failure#:#One or more user could not be added.
+mass#:#mass_add_user_success#:#User added.
+mass#:#grading#:#Grading
+mass#:#grading_info#:#Grading info
+mass#:#grading_record#:#Grading record
+mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
+mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
+mass#:#mass_notify_explanation#:#The user will be notified via email after finalization and will get access to her or his record in the Info-Screen.
+mass#:#mass_contact#:#Name
+mass#:#mass_responsibility#:#Responsibility
+mass#:#mass_phone#:#Phone
+mass#:#mass_mails#:#Mails
+mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.
+mass#:#mass_consultation_hours#:#Consultation Hours
+mass#:#mass_edit_info#:#Info Settings
+mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
+mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+mass#:#mass_contact_info#:#Contactinformation
