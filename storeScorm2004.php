@@ -30,7 +30,6 @@ while($lm_rec = $ilDB->fetchAssoc($lm_set))
 }
 
 if ((string) $_GET['do'] == "unload") {
-	include_once 'Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
 	ilSCORM2004StoreData::scormPlayerUnload(null, $packageId, $time_from_lms);
 } else {
 	global $ilUser;
@@ -38,7 +37,6 @@ if ((string) $_GET['do'] == "unload") {
 	$ilUser->setId($data->p);
 
 	//until now only 2004
-	include_once 'Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
 	ilSCORM2004StoreData::persistCMIData(null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data);
 }
 

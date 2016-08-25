@@ -722,8 +722,6 @@ class ilLMObject
 	{
 		global $ilDB;
 		
-		include_once './Services/Xml/classes/class.ilNestedSetXML.php';
-
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId(), "integer");
 		$obj_set = $ilDB->query($query);

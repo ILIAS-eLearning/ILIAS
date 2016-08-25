@@ -25,7 +25,8 @@ class Deck implements D\Deck {
 	 * @param $size
 	 */
 	public function __construct($cards, $size){
-		$this->checkArgListElements("sections",$cards,array(\ILIAS\UI\Component\Card\Card::class));
+		$classes = [\ILIAS\UI\Component\Card\Card::class];
+		$this->checkArgListElements("cards",$cards,$classes);
 		$this->checkArgIsElement("size", $size, self::$sizes, "size type");
 
 		$this->cards = $cards;

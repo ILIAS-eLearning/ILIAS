@@ -15,6 +15,7 @@ abstract class ilDidacticTemplateAction
 
 	const FILTER_SOURCE_TITLE = 1;
 	const FILTER_SOURCE_OBJ_ID = 2;
+	const FILTER_PARENT_ROLES = 3;
 
 	const PATTERN_PARENT_TYPE = 'action';
 
@@ -223,14 +224,43 @@ abstract class ilDidacticTemplateAction
 		$filtered = array();
 		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role)
 		{
-			foreach($patterns as $pattern)
+			switch($this->getFilterType())
 			{
-				if($pattern->valid(ilObject::_lookupTitle($role_id)))
-				{
-					ilLoggerFactory::getLogger('otpl')->debug('Role is valid: '. ilObject::_lookupTitle($role_id));
-					$filtered[$role_id] = $role;
-				}
+				case self::FILTER_PARENT_ROLES:
+					
+					ilLoggerFactory::getLogger('dtpl')->dump($role);
+					if(
+						($role['parent'] == $source->getRefId()) &&
+						($role['assign'] == 'y')
+					)
+					{
+						ilLoggerFactory::getLogger('dtpl')->debug('Excluding local role: ' . $role['title']);
+						break;
+					}
+					foreach($patterns as $pattern)
+					{
+						if($pattern->valid(ilObject::_lookupTitle($role_id)))
+						{
+							ilLoggerFactory::getLogger('otpl')->debug('Role is valid: '. ilObject::_lookupTitle($role_id));
+							$filtered[$role_id] = $role;
+						}
+					}
+					break;
+				
+				default:
+				case self::FILTER_SOURCE_TITLE:
+					foreach($patterns as $pattern)
+					{
+						if($pattern->valid(ilObject::_lookupTitle($role_id)))
+						{
+							ilLoggerFactory::getLogger('otpl')->debug('Role is valid: '. ilObject::_lookupTitle($role_id));
+							$filtered[$role_id] = $role;
+						}
+					}
+					break;
 			}
+			
+			
 		}
 		return $filtered;
 	}

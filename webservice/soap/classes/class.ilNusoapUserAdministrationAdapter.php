@@ -1351,6 +1351,20 @@ class ilNusoapUserAdministrationAdapter
 			SERVICE_USE,
 			'Generate DataCollectionContent Export'
 		);
+		
+		$this->server->register(
+			'processBackgroundTask',
+			array(
+				'sid' => 'xsd:string',
+				'task_id' => 'xsd:int'
+			),
+			array('status' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#processBackgroundTask',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'Process task in background'
+		);
 
 
 		return true;

@@ -7762,8 +7762,8 @@ grp#:#grp_agreement_required#:#Eğer grup içeriğe erişmek istiyorsanız Sen, 
 grp#:#grp_already_assigned#:#Zaten bu grup için üyelik talep ettiler.
 grp#:#grp_cancel_subscr_request#:#Sil Üyelik İsteği
 grp#:#grp_change_type#:#Değişim Grubu Türü
-grp#:#grp_closed#:#Kapalı Grup
-grp#:#grp_closed_info#:#Grup üye olmayanlar için görünür değil.
+didactic#:#grp_closed#:#Kapalı Grup
+didactic#:#grp_closed_info#:#Grup üye olmayanlar için görünür değil.
 grp#:#grp_copy#:#Kopya Grubu
 grp#:#grp_custom_user_fields#:#Grup Ilgili Kullanıcı Verileri
 grp#:#grp_deactivate_notification#:#Bildirim Deactivate

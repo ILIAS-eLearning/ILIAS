@@ -153,22 +153,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				array(),'ilpermissiongui');
 		}
 	}
-
-	/**
-	* Edit settings.
-	*/
-	public function editDownloadingSettings()
+	
+	protected function initDownloadingSettingsForm()
 	{
-		global $rbacsystem, $ilErr, $ilTabs;
-
-		$this->tabs_gui->setTabActive('downloading_settings');
-
-		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
-		}
-
-		global $tpl, $ilCtrl, $lng, $tree, $settings;
+		global $ilCtrl, $lng;
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -206,6 +194,43 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$dl_prop->setInfo($lng->txt('enable_multi_download_info'));
 		$form->addItem($dl_prop);
 		
+		
+		// background task
+		
+		$lng->loadLanguageModule("bgtask");
+		$dl_bg = new ilCheckboxInputGUI($lng->txt("bgtask_setting"), "enable_bg");
+		$dl_bg->setInfo($lng->txt("bgtask_setting_info"));
+		$dl_bg->setChecked($this->folderSettings->get("bgtask_download", 0));		
+		$form->addItem($dl_bg);
+		
+		$dl_bgtc = new ilNumberInputGUI($lng->txt("bgtask_setting_threshold_count"), "bg_tcount");
+		$dl_bgtc->setInfo($lng->txt("bgtask_setting_threshold_count_info"));
+		$dl_bgtc->setRequired(true);
+		$dl_bgtc->setSize(10);
+		$dl_bgtc->setMinValue(1);
+		$dl_bgtc->setSuffix($lng->txt("files"));
+		$dl_bgtc->setValue($this->folderSettings->get("bgtask_download_tcount", null));
+		$dl_bg->addSubItem($dl_bgtc);
+		
+		$dl_bgts = new ilNumberInputGUI($lng->txt("bgtask_setting_threshold_size"), "bg_tsize");
+		$dl_bgts->setInfo($lng->txt("bgtask_setting_threshold_size_info"));
+		$dl_bgts->setRequired(true);
+		$dl_bgts->setSize(10);
+		$dl_bgts->setMinValue(1);
+		$dl_bgts->setSuffix($lng->txt("lang_size_mb"));
+		$dl_bgts->setValue($this->folderSettings->get("bgtask_download_tsize", null));
+		$dl_bg->addSubItem($dl_bgts);
+				
+		$dl_bgl = new ilNumberInputGUI($lng->txt("bgtask_setting_limit"), "bg_limit");		
+		$dl_bgl->setInfo($lng->txt("bgtask_setting_limit_info"));
+		$dl_bgl->setRequired(true);
+		$dl_bgl->setSize(10);
+		$dl_bgl->setMinValue(1);
+		$dl_bgl->setSuffix($lng->txt("lang_size_mb"));
+		$dl_bgl->setValue($this->folderSettings->get("bgtask_download_limit", null));
+		$dl_bg->addSubItem($dl_bgl);
+		
+		
 		// Inline file extensions
 		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');
 		$tai_prop->setValue($this->object->getInlineFileExtensions());
@@ -214,12 +239,33 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$tai_prop->setRows(5);
 		$form->addItem($tai_prop);
 
-
 		// command buttons
 		$form->addCommandButton('saveDownloadingSettings', $lng->txt('save'));
 		$form->addCommandButton('view', $lng->txt('cancel'));
 
-		$tpl->setContent($form->getHTML());
+		return $form;
+	}
+
+	/**
+	* Edit settings.
+	*/
+	public function editDownloadingSettings(ilPropertyFormGUI $a_form = null)
+	{
+		global $rbacsystem, $ilErr, $tpl, $lng;
+
+		$this->tabs_gui->setTabActive('downloading_settings');
+
+		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initDownloadingSettingsForm();
+		}
+
+		$tpl->setContent($a_form->getHTML());
 	}
 
 	/**
@@ -233,16 +279,31 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		{
 			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
+		
+		$form = $this->initDownloadingSettingsForm();
+		if($form->checkInput())
+		{
+			$this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($_POST['download_with_uploaded_filename']));
+			$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
+			$this->object->update();
 
-		$this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($_POST['download_with_uploaded_filename']));
-		$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
-		$this->object->update();
+			$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
+			$this->folderSettings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
 
-		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
-		$this->folderSettings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
+			$this->folderSettings->set("bgtask_download", (bool)$_POST["enable_bg"]);
+			if((bool)$_POST["enable_bg"])
+			{
+				$this->folderSettings->set("bgtask_download_limit", (int)$_POST["bg_limit"]);
+				$this->folderSettings->set("bgtask_download_tcount", (int)$_POST["bg_tcount"]);
+				$this->folderSettings->set("bgtask_download_tsize", (int)$_POST["bg_tsize"]);
+			}
 
-		ilUtil::sendInfo($lng->txt('settings_saved'),true);
-		$ilCtrl->redirect($this, "editDownloadingSettings");
+			ilUtil::sendInfo($lng->txt('settings_saved'),true);
+			$ilCtrl->redirect($this, "editDownloadingSettings");
+		}
+		
+		$form->setValuesByPost();
+		$this->editDownloadingSettings($form);
 	}
 
 	/**

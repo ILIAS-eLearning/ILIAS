@@ -1395,7 +1395,6 @@ class ilObjMediaObject extends ilObject
 						break;
 						
 					case "lm":
-					case "dbk":
 						// learning modules
 						include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 						$obj_id = ilLMObject::_lookupContObjID($id);

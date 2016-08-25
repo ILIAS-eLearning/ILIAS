@@ -8746,8 +8746,8 @@ grp#:#grp_agreement_required#:#You have to accept the user agreement, if you wan
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Change Group Type
-grp#:#grp_closed#:#Закрытая группа
-grp#:#grp_closed_info#:#Группа не видима для тех кто в ней не участвует.
+didactic#:#grp_closed#:#Закрытая группа
+didactic#:#grp_closed_info#:#Группа не видима для тех кто в ней не участвует.
 grp#:#grp_copy#:#Скопировать группу
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_deactivate_notification#:#Deactivate Notification

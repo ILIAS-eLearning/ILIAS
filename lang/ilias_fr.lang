@@ -8677,8 +8677,8 @@ grp#:#grp_agreement_required#:#Vous devez accepter la charte d'utilisation pour 
 grp#:#grp_already_assigned#:#Vous avez déjà fait une demande d'inscription à ce groupe.
 grp#:#grp_cancel_subscr_request#:#Supprimer Demande d'Inscription
 grp#:#grp_change_type#:#Changer Type de Groupe
-grp#:#grp_closed#:#Groupe Privé
-grp#:#grp_closed_info#:#Le groupe n'est pas visible par les non-membres.
+didactic#:#grp_closed#:#Groupe Privé
+didactic#:#grp_closed_info#:#Le groupe n'est pas visible par les non-membres.
 grp#:#grp_copy#:#Copier Groupe
 grp#:#grp_custom_user_fields#:#Données Personnelles pour le Groupe
 grp#:#grp_deactivate_notification#:#Désactiver Notification

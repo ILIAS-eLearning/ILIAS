@@ -802,29 +802,23 @@ class ilPersonalSettingsGUI
 		// skin/style
 		if ($this->userSettingVisible("skin_style"))
 		{
-			$templates = $styleDefinition->getAllTemplates();
-			if (is_array($templates))
-			{ 
+			$skins = $styleDefinition->getAllSkins();
+			if (is_array($skins))
+			{
 				$si = new ilSelectInputGUI($this->lng->txt("skin_style"), "skin_style");
-				
-				$options = array();
-				foreach($templates as $template)
-				{
-					// get styles information of template
-					$styleDef = new ilStyleDefinition($template["id"]);
-					$styleDef->startParsing();
-					$styles = $styleDef->getStyles();
 
-					foreach($styles as $style)
+				$options = array();
+				foreach($skins as $skin)
+				{
+					foreach($skin->getStyles() as $style)
 					{
 						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()) || $style->isSubstyle())
 						{
 							continue;
 						}
 
-						$options[$template["id"].":".$style["id"]] =
-							$styleDef->getTemplateName()." / ".$style["name"];
+						$options[$skin->getId().":".$style->getId()] = $skin->getName()." / ".$style->getName();
 					}
 				}
 				$si->setOptions($options);

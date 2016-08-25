@@ -1,0 +1,63 @@
+#ilPopupOverlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+#ilPopupBackground {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    -ms-filter: "alpha(opacity=50)";
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+#ilPopupWindow {
+    position: absolute;
+    width: 350px;
+    height: 180px;
+    top: 50%;
+    padding: 10px 0;
+    margin-top: -100px;
+    left: 50%;
+    margin-left: -175px;
+    color: #333;
+    background: white;
+    text-align: center;
+    border: 1px solid #CDD9EF;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.5) 0 0 20px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 20px;
+}
+
+#ilPopupContent {
+    text-align: center;
+}
+
+#ilPopupStatus {
+    font-size: 100%;
+    padding: 10px 15px 0;
+}
+
+#ilPopupProgress {
+    position: absolute;
+    width: 100%;
+    bottom: 60px;
+}
+
+#ilPopupCancel {
+    font-size: 110%;
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+}
+#ilPopupCancel a.submit,
+#ilPopupCancel a.submit:hover {
+    padding: 4px 8px;
+}
