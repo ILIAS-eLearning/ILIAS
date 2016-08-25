@@ -6,118 +6,19 @@ require_once('class.ilDBPdoFieldDefinition.php');
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
-
-	/**
-	 * @var array
-	 */
-	protected $reserved = array(
-		"ALL",
-		"ANALYSE",
-		"ANALYZE",
-		"AND",
-		"ANY",
-		"ARRAY",
-		"AS",
-		"ASC",
-		"ASYMMETRIC",
-		"AUTHORIZATION",
-		"BETWEEN",
-		"BINARY",
-		"BOTH",
-		"CASE",
-		"CAST",
-		"CHECK",
-		"COLLATE",
-		"COLUMN",
-		"CONSTRAINT",
-		"CREATE",
-		"CROSS",
-		"CURRENT_DATE",
-		"CURRENT_ROLE",
-		"CURRENT_TIME",
-		"CURRENT_TIMESTAMP",
-		"CURRENT_USER",
-		"DEFAULT",
-		"DEFERRABLE",
-		"DESC",
-		"DISTINCT",
-		"DO",
-		"ELSE",
-		"END",
-		"EXCEPT",
-		"FALSE",
-		"FOR",
-		"FOREIGN",
-		"FREEZE",
-		"FROM",
-		"FULL",
-		"GRANT",
-		"GROUP",
-		"HAVING",
-		"ILIKE",
-		"IN",
-		"INITIALLY",
-		"INNER",
-		"INTERSECT",
-		"INTO",
-		"IS",
-		"ISNULL",
-		"JOIN",
-		"LEADING",
-		"LEFT",
-		"LIKE",
-		"LIMIT",
-		"LOCALTIME",
-		"LOCALTIMESTAMP",
-		"NATURAL",
-		"NEW",
-		"NOT",
-		"NOTNULL",
-		"NULL",
-		"OFF",
-		"OFFSET",
-		"OLD",
-		"ON",
-		"ONLY",
-		"OR",
-		"ORDER",
-		"OUTER",
-		"OVERLAPS",
-		"PLACING",
-		"PRIMARY",
-		"REFERENCES",
-		"RETURNING",
-		"RIGHT",
-		"SELECT",
-		"SESSION_USER",
-		"SIMILAR",
-		"SOME",
-		"SYMMETRIC",
-		"TABLE",
-		"THEN",
-		"TO",
-		"TRAILING",
-		"TRUE",
-		"UNION",
-		"UNIQUE",
-		"USER",
-		"USING",
-		"VERBOSE",
-		"WHEN",
-		"WHERE",
-		"WITH",
-	);
-
+class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
+{
 
 	/**
 	 * @param $field
 	 * @return string
 	 */
-	public function getTypeDeclaration($field) {
+	public function getTypeDeclaration($field)
+	{
 		$db = $this->getDBInstance();
 
-		switch ($field['type']) {
+		switch ($field['type'])
+		{
 			case 'text':
 				$length = !empty($field['length']) ? $field['length'] : $db->options['default_text_field_length'];
 				$fixed = !empty($field['fixed']) ? $field['fixed'] : false;
@@ -129,23 +30,30 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 			case 'blob':
 				return 'BYTEA';
 			case 'integer':
-				if (!empty($field['autoincrement'])) {
-					if (!empty($field['length'])) {
+				if (!empty($field['autoincrement']))
+				{
+					if (!empty($field['length']))
+					{
 						$length = $field['length'];
-						if ($length > 4) {
+						if ($length > 4)
+						{
 							return 'BIGSERIAL PRIMARY KEY';
 						}
 					}
 
 					return 'SERIAL PRIMARY KEY';
 				}
-				if (!empty($field['length'])) {
+				if (!empty($field['length']))
+				{
 					$length = $field['length'];
-					if ($length <= 2) {
+					if ($length <= 2)
+					{
 						return 'SMALLINT';
-					} elseif ($length == 3 || $length == 4) {
+					} elseif ($length == 3 || $length == 4)
+					{
 						return 'INT';
-					} elseif ($length > 4) {
+					} elseif ($length > 4)
+					{
 						return 'BIGINT';
 					}
 				}
@@ -176,24 +84,30 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 	 * @return string
 	 * @throws \ilDatabaseException
 	 */
-	protected function getIntegerDeclaration($name, $field) {
+	protected function getIntegerDeclaration($name, $field)
+	{
 		$db = $this->getDBInstance();
 
-		if (!empty($field['unsigned'])) {
+		if (!empty($field['unsigned']))
+		{
 			$db->warnings[] = "unsigned integer field \"$name\" is being declared as signed integer";
 		}
-		if (!empty($field['autoincrement'])) {
+		if (!empty($field['autoincrement']))
+		{
 			$name = $db->quoteIdentifier($name, true);
 
 			return $name . ' ' . $this->getTypeDeclaration($field);
 		}
 		$default = '';
-		if (array_key_exists('default', $field)) {
-			if ($field['default'] === '') {
+		if (array_key_exists('default', $field))
+		{
+			if ($field['default'] === '')
+			{
 				$field['default'] = empty($field['notnull']) ? null : 0;
 			}
 			$default = ' DEFAULT ' . $this->quote($field['default'], 'integer');
-		} elseif (empty($field['notnull'])) {
+		} elseif (empty($field['notnull']))
+		{
 			$default = ' DEFAULT NULL';
 		}
 
@@ -209,20 +123,24 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 	 * @return array
 	 * @throws \ilDatabaseException
 	 */
-	protected function mapNativeDatatypeInternal($field) {
+	protected function mapNativeDatatypeInternal($field)
+	{
 		$db_type = strtolower($field['type']);
 		$length = $field['length'];
 		$type = array();
 		$unsigned = $fixed = null;
-		switch ($db_type) {
+		switch ($db_type)
+		{
 			case 'smallint':
 			case 'int2':
 				$type[] = 'integer';
 				$unsigned = false;
 				$length = 2;
-				if ($length == '2') {
+				if ($length == '2')
+				{
 					$type[] = 'boolean';
-					if (preg_match('/^(is|has)/', $field['name'])) {
+					if (preg_match('/^(is|has)/', $field['name']))
+					{
 						$type = array_reverse($type);
 					}
 				}
@@ -256,15 +174,19 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 			case 'char':
 			case 'bpchar':
 				$type[] = 'text';
-				if ($length == '1') {
+				if ($length == '1')
+				{
 					$type[] = 'boolean';
-					if (preg_match('/^(is|has)/', $field['name'])) {
+					if (preg_match('/^(is|has)/', $field['name']))
+					{
 						$type = array_reverse($type);
 					}
-				} elseif (strstr($db_type, 'text')) {
+				} elseif (strstr($db_type, 'text'))
+				{
 					$type[] = 'clob';
 				}
-				if ($fixed !== false) {
+				if ($fixed !== false)
+				{
 					$fixed = true;
 				}
 				break;
@@ -291,7 +213,8 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 			case 'money':
 			case 'numeric':
 				$type[] = 'decimal';
-				if ($field['scale']) {
+				if ($field['scale'])
+				{
 					$length = $length . ',' . $field['scale'];
 				}
 				break;
@@ -317,7 +240,8 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 				throw new ilDatabaseException('unknown database attribute type: ' . $db_type);
 		}
 
-		if ((int)$length <= 0) {
+		if ((int)$length <= 0)
+		{
 			$length = null;
 		}
 
