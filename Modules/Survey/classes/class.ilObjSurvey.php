@@ -1433,7 +1433,7 @@ class ilObjSurvey extends ilObject
 		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartDate(), $matches))
 		{			
 			$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);		
-			$now = mktime();
+			$now = time();
 			if ($now < $epoch_time) 
 			{		
 				array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
@@ -1446,7 +1446,7 @@ class ilObjSurvey extends ilObject
 		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndDate(), $matches))
 		{
 			$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			$now = mktime();
+			$now = time();
 			if ($now > $epoch_time) 
 			{
 				array_push($messages,$this->lng->txt('end_date_reached').' ('.
