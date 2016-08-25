@@ -6,6 +6,8 @@ require_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilCareerGoalRequirementsTableGUI extends \ilTable2GUI {
 	use ilFormHelper;
 
+	const CAPTION_DELETE_SELECTED_OBSERVATIONS = "delete_selected";
+
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "", $sort = false) {
 		global $ilCtrl;
 
@@ -95,7 +97,7 @@ class ilCareerGoalRequirementsTableGUI extends \ilTable2GUI {
 	 * @return array string => string
 	 */
 	protected function getMultiCommands() {
-		return array($this->possible_cmd["CMD_DELETE_SELECTED_REQUIREMENTS"] => $this->possible_cmd["CMD_DELETE_SELECTED_REQUIREMENTS"]);
+		return array($this->possible_cmd["CMD_DELETE_SELECTED_REQUIREMENTS"] => self::CAPTION_DELETE_SELECTED_OBSERVATIONS);
 	}
 
 	protected function getActionMenu($obj_id) {
