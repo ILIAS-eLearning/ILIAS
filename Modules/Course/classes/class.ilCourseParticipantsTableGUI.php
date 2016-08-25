@@ -33,7 +33,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	{
 		global $lng, $ilCtrl;
 
-		$this->show_learning_progress = $a_show_learning_progress;		
+		$this->show_learning_progress = $a_show_learning_progress;	
+		if($this->show_learning_progress)
+		{
+			include_once './Services/Tracking/classes/class.ilLPStatus.php';
+		}
+		
 		$this->show_timings = $a_show_timings;
 		$this->show_lp_status_sync = $a_show_lp_status_sync;
 		
@@ -267,6 +272,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 		if($this->show_learning_progress)
 		{
+			
 			$this->tpl->setCurrentBlock('lp');
 			switch($a_set['progress'])
 			{

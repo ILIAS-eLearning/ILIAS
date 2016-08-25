@@ -2031,11 +2031,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			$this->tabs_gui->addTab(
-				'view_content', 
-				$lng->txt("content"),
-				$this->ctrl->getLinkTarget($this,'')
-			);
 			// default activation
 			$this->tabs_gui->activateTab('view_content');
 			if ($this->object->getNewsTimeline())
