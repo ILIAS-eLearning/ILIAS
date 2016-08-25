@@ -15972,3 +15972,10 @@ mass#:#grading_record#:#Grading record
 mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
 mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
 mass#:#mass_notify_explanation#:#The user will be notified via email after finalization and will get access to her or his record in the Info-Screen.
+mass#:#mass_contact#:#Name
+mass#:#mass_responsibility#:#Responsibility
+mass#:#mass_phone#:#Phone
+mass#:#mass_mails#:#Mails
+mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.
+mass#:#mass_consultation_hours#:#Consultation Hours
+mass#:#mass_edit_info#:#Info Settings

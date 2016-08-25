@@ -15973,3 +15973,10 @@ mass#:#grading_record#:#Bewertungszusammenfassung
 mass#:#mass_content_explanation#:#Inhalte der Prüfung.
 mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
 mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+mass#:#mass_contact#:#Name
+mass#:#mass_responsibility#:#Zuständigkeit
+mass#:#mass_phone#:#Telefon
+mass#:#mass_mails#:#E-Mail
+mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
+mass#:#mass_consultation_hours#:#Sprechstunden
+mass#:#mass_edit_info#:#Informationseinstellungen
