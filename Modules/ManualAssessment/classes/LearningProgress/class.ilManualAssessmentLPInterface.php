@@ -9,6 +9,11 @@ class ilManualAssessmentLPInterface {
 		ilLPStatusWrapper::_refreshStatus($member->assessmentId(), array($member->id()));
 	}
 
+
+	public static function updateLPStatusByIds($mass_id, array $usr_ids) {
+		ilLPStatusWrapper::_refreshStatus($mass_id, $usr_ids);
+	}
+
 	public static function determineStatusOfMember($mass_id, $usr_id) {
 		if(self::$members_storage  === null) {
 			self::$members_storage = self::getMembersStorage();
