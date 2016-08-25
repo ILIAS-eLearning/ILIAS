@@ -172,7 +172,6 @@ class ilAwarenessData
 		{
 			$user_collection = $uc["collection"];
 			$user_ids = $user_collection->getUsers();
-
 			foreach ($user_ids as $u)
 			{
 				if (!in_array($u, $all_online_user_ids))
@@ -186,6 +185,7 @@ class ilAwarenessData
 				}
 			}
 		}
+
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$names = ilUserUtil::getNamePresentation($all_online_user_ids, true,
 			false, "", false, false, true, true);

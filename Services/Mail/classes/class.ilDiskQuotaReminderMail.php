@@ -150,7 +150,7 @@ class ilDiskQuotaReminderMail
 		$mmail->Send();
 		
 		include_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 		$mail->sendMail($this->data['login'],"","",$mail_subject,$mail_body,array(),array("normal"));
 
 

@@ -35,6 +35,13 @@ class ilForumAppEventListener
 			case 'Modules/Forum':
 				switch($a_event)
 				{
+					case 'mergedThreads':
+						include_once './Modules/Forum/classes/class.ilForumPostDraft.php';
+						ilForumPostDraft::moveDraftsByMergedThreads($a_parameter['source_thread_id'], $a_parameter['target_thread_id']);
+						break;
+					case 'movedThreads':
+						ilForumPostDraft::moveDraftsByMovedThread($a_parameter['thread_ids'], $a_parameter['source_ref_id'], $a_parameter['target_ref_id']);
+						break;
 					case 'createdPost':
 						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
 						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
@@ -143,6 +150,38 @@ class ilForumAppEventListener
 							}
 						}
 						break;
+					case 'savedAsDraft':
+					case 'updatedDraft':
+					case 'deletedDraft':
+						require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						
+						/**
+						 * var $draftObj ilForumPostDraft
+						 */
+						$draftObj   = $a_parameter['draftObj'];
+						$obj_id     = $a_parameter['obj_id'];
+						$is_fileupload_allowed = (bool)$a_parameter['is_file_upload_allowed'];
+						
+						$historyObj = new ilForumDraftsHistory();
+						$historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
+						
+						break;
+					case 'publishedDraft':
+						require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						require_once './Modules/Forum/classes/class.ilForumPostDraft.php';
+						/**
+						 * var $draftObj ilForumPostDraft
+						 */
+						$draftObj   = $a_parameter['draftObj'];
+						$obj_id     = $a_parameter['obj_id'];
+						$is_fileupload_allowed = (bool)$a_parameter['is_file_upload_allowed'];
+						
+						$historyObj = new ilForumDraftsHistory();
+						$historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
+						
+						ilForumPostDraft::deleteMobsOfDraft($draftObj->getDraftId());
+						
+						break;
 				}
 				break;
 			case "Services/News":
@@ -218,6 +257,15 @@ class ilForumAppEventListener
 							ilForumNotification::checkForumsExistsDelete($ref_id, $a_parameter['usr_id']);
 							break;
 						}
+						break;
+				}
+				break;
+			case 'Services/User':
+				switch($a_event)
+				{
+					case 'deleteUser':  
+						include_once './Modules/Forum/classes/class.ilForumPostDraft.php';
+						ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
 						break;
 				}
 				break;

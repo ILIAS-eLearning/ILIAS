@@ -13,7 +13,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilTermListTableGUI extends ilTable2GUI
 {
-	
+	/**
+	 * @var ilObjGlossary
+	 */
+	protected $glossary;
+
+	/**
+	 * @var ilGlossaryTermPermission
+	 */
+	protected $term_perm;
+
 	/**
 	 * Constructor
 	 */
@@ -26,6 +35,9 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->tax_node = $a_tax_node;
 
 		$this->selectable_cols = array();
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermPermission.php");
+		$this->term_perm = ilGlossaryTermPermission::getInstance();
 
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
@@ -85,8 +97,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("term");
 		$this->addColumn($this->lng->txt("cont_definitions"));
 		
-		if (in_array($this->glossary->getVirtualMode(),
-			array("level", "subtree")))
+		if ($this->showGlossaryColumn())
 		{
 			$this->addColumn($this->lng->txt("obj_glo"));
 		}
@@ -98,6 +109,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.term_tbl_row.html", "Modules/Glossary");
 		$this->setEnableTitle(true);
 
+		$this->addMultiCommand("copyTerms", $lng->txt("copy"));
+		$this->addMultiCommand("referenceTerms", $lng->txt("glo_reference"));
 		$this->addMultiCommand("confirmTermDeletion", $lng->txt("delete"));
 		//$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
 		
@@ -105,9 +118,23 @@ class ilTermListTableGUI extends ilTable2GUI
 
 		$this->initFilter();
 		$this->setData($this->glossary->getTermList($this->filter["term"], "",
-			$this->filter["definition"], $this->tax_node, true, true));
+			$this->filter["definition"], $this->tax_node, true, true, null, false, true));
 	}
-	
+
+	/**
+	 * Show glossary column
+	 *
+	 * @param
+	 * @return
+	 */
+	function showGlossaryColumn()
+	{
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		return (in_array($this->glossary->getVirtualMode(),
+			array("level", "subtree")) || ilGlossaryTermReferences::hasReferences($this->glossary->getId()));
+	}
+
+
 	/**
 	 * Get selectable columns
 	 *
@@ -183,7 +210,9 @@ class ilTermListTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
 
 		// actions drop down
-		if ($this->glossary->getId() == $term["glo_id"])
+		//if ($this->glossary->getId() == $term["glo_id"])
+
+		if ($this->term_perm->checkPermission("write", $term["id"]))
 		{
 			$list = new ilAdvancedSelectionListGUI();
 			$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
@@ -210,53 +239,6 @@ class ilTermListTableGUI extends ilTable2GUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-
-			/*if ($this->glossary->getId() == $term["glo_id"])
-			{
-				// up
-				if ($j > 0)
-				{
-					$this->tpl->setCurrentBlock("move_up");
-					$this->tpl->setVariable("TXT_UP", $lng->txt("up"));
-					$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-					$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
-					$this->tpl->setVariable("LINK_UP",
-						$ilCtrl->getLinkTarget($this->parent_obj, "moveDefinitionUp"));
-					$this->tpl->parseCurrentBlock();
-				}
-	
-				// down
-				if ($j+1 < count($defs))
-				{
-					$this->tpl->setCurrentBlock("move_down");
-					$this->tpl->setVariable("TXT_DOWN", $lng->txt("down"));
-					$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-					$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
-					$this->tpl->setVariable("LINK_DOWN",
-						$ilCtrl->getLinkTarget($this->parent_obj, "moveDefinitionDown"));
-					$this->tpl->parseCurrentBlock();
-				}
-	
-				// delete
-				$this->tpl->setCurrentBlock("delete");
-				$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-				$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
-				$this->tpl->setVariable("LINK_DELETE",
-					$ilCtrl->getLinkTarget($this->parent_obj, "confirmDefinitionDeletion"));
-				$this->tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
-				$this->tpl->parseCurrentBlock();
-	
-				// edit
-				$this->tpl->setCurrentBlock("edit");
-				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
-				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $def["id"]);
-				$this->tpl->setVariable("LINK_EDIT",
-					$ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
-					"iltermdefinitioneditorgui",
-					"ilglossarydefpagegui"), "edit"));
-				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-				$this->tpl->parseCurrentBlock();
-			}*/
 
 			// text
 			$this->tpl->setCurrentBlock("definition");
@@ -316,8 +298,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		}
 		
 		// glossary title
-		if (in_array($this->glossary->getVirtualMode(),
-			array("level", "subtree")))
+		if ($this->showGlossaryColumn())
 		{
 			$this->tpl->setCurrentBlock("glossary");
 			$this->tpl->setVariable("GLO_TITLE", ilObject::_lookupTitle($term["glo_id"]));

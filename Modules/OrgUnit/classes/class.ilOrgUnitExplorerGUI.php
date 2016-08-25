@@ -92,8 +92,9 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 			$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "target_node", $node["child"]);
 		}
 		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
+		$ilCtrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $node["child"]);
 
-		return $this->getLinkTarget();
+		return ($node['type']=="orgu")?$this->getLinkTarget():$this->getPluginLinkTarget();
 	}
 
 
@@ -105,10 +106,16 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		$ilCtrl = $DIC['ilCtrl'];
 
 		if ($ilCtrl->getCmdClass() == "ilobjorgunitgui" AND in_array($ilCtrl->getCmd(), $this->stay_with_command)) {
-			return $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), $ilCtrl->getCmd());
+			return $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", $ilCtrl->getCmdClass()), $ilCtrl->getCmd());
 		} else {
-			return $ilCtrl->getLinkTargetByClass("ilobjorgunitgui", "view");
+			return $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilobjorgunitgui"), "view");
 		}
+	}
+
+	protected function getPluginLinkTarget() {
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		return $ilCtrl->getLinkTargetByClass("ilObjPluginDispatchGUI", "forward");
 	}
 
 

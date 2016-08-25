@@ -390,24 +390,25 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		$entered_values = false;
-		if (strlen($_POST["qst_" . $this->getId()]))
-		{
-			$selected = explode(",", $_POST["qst_" . $this->getId()]);
-			foreach ($selected as $position)
+
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			if(strlen($_POST["qst_" . $this->getId()]))
 			{
-				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
+				$selected = explode(",", $_POST["qst_" . $this->getId()]);
+				foreach ($selected as $position)
+				{
+					$this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
+				}
+				$entered_values = true;
 			}
-			$entered_values = true;
-		}
-		
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-		
+
+		});
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

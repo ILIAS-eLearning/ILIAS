@@ -30,7 +30,7 @@ class ilDidacticTemplateSettings
 
 	/**
 	 * Get singelton instance
-	 * @return ilDidacticTemplateSetting
+	 * @return ilDidacticTemplateSettings
 	 */
 	public static function getInstance()
 	{
@@ -57,7 +57,7 @@ class ilDidacticTemplateSettings
 
 	/**
 	 * Get templates
-	 * @return array ilDidacticTemplateSetting
+	 * @return ilDidacticTemplateSetting[]
 	 */
 	public function getTemplates()
 	{

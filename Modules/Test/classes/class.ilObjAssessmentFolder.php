@@ -543,6 +543,16 @@ class ilObjAssessmentFolder extends ilObject
 		$this->setting->set('ass_skl_trig_num_answ_barrier', $skillTriggeringNumAnswersBarrier);
 	}
 
+	public function setExportEssayQuestionsWithHtml($value)
+	{
+		$this->setting->set('export_essay_qst_with_html', $value);
+	}
+
+	public function getExportEssayQuestionsWithHtml()
+	{
+		return $this->setting->get('export_essay_qst_with_html');
+	}
+	
 	public function fetchScoringAdjustableTypes($allQuestionTypes)
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';

@@ -9,6 +9,7 @@ require_once('class.ilWACSignedPath.php');
  */
 class ilWACToken {
 
+	const DEBUG = false;
 	const TYPE_FILE = ilWACSignedPath::TYPE_FILE;
 	const TYPE_FOLDER = ilWACSignedPath::TYPE_FOLDER;
 	/**
@@ -43,6 +44,10 @@ class ilWACToken {
 	 * @var string
 	 */
 	protected $client = '';
+	/**
+	 * @var int
+	 */
+	protected $ttl = 0;
 
 
 	/**
@@ -52,7 +57,7 @@ class ilWACToken {
 	 * @param $client
 	 * @param null $timestamp
 	 */
-	public function __construct($path, $client, $timestamp = null) {
+	public function __construct($path, $client, $timestamp = null, $ttl = null) {
 		$this->setClient($client);
 		$parts = parse_url($path);
 		$this->setPath($parts['path']);
@@ -62,15 +67,25 @@ class ilWACToken {
 			$this->setIp($_SERVER['REMOTE_ADDR']);
 		}
 		$this->setTimestamp($timestamp ? $timestamp : time());
+		$ttl = $ttl ? $ttl : ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+		$this->setTTL($ttl); //  since we do not know the type at this poit we choose the shorter duration for security reasons
 		$this->generateToken();
-		$this->setId(md5($this->getPath()));
+		self::isDEBUG() ? $this->setId($this->getPath()) : $this->setId(md5($this->getPath()));
 	}
 
 
-	protected function generateToken() {
+	/**
+	 * @return bool
+	 */
+	protected static function isDEBUG() {
+		return (ilWebAccessChecker::isDEBUG() || self::DEBUG);
+	}
+
+
+	public function generateToken() {
 		$this->initSalt();
-		$token = implode('-', array( self::getSALT(), $this->getSessionId(), $this->getIp(), $this->getClient(), $this->getTimestamp() ));
-		$token = sha1($token);
+		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTTL() ));
+		$token = self::isDEBUG() ? $token : sha1($token);
 		$this->setToken($token);
 	}
 
@@ -115,14 +130,6 @@ class ilWACToken {
 		}
 	}
 
-	//	/**
-	//	 * @param $path
-	//	 *
-	//	 * @return ilWACToken
-	//	 */
-	//	public static function getInstance($path) {
-	//		return new self($path);
-	//	}
 
 	/**
 	 * @return string
@@ -250,6 +257,20 @@ class ilWACToken {
 	public function setClient($client) {
 		$this->client = $client;
 	}
-}
 
-?>
+
+	/**
+	 * @return int
+	 */
+	public function getTTL() {
+		return $this->ttl;
+	}
+
+
+	/**
+	 * @param int $ttl
+	 */
+	public function setTTL($ttl) {
+		$this->ttl = $ttl;
+	}
+}

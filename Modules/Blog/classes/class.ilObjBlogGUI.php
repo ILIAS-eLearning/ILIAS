@@ -3106,7 +3106,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$_GET["cmd"] = "preview";
 			if(sizeof($id) == 2)
 			{
-				$_GET["gtp"] = $id[1];
+				if(is_numeric($id[1]))
+				{
+					$_GET["gtp"] = $id[1];
+				}
+				else
+				{
+					$_REQUEST["kwd"] = $id[1];
+				}				
 			}	
 		}
 		

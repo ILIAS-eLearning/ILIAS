@@ -299,7 +299,7 @@ class ilInternalLinkGUI
 		if(($this->link_type == "PageObject" || $this->link_type == "StructureObject") &&
 			(empty($_SESSION["il_link_cont_obj"]) ||
 			!in_array(ilObject::_lookupType($_SESSION["il_link_cont_obj"], true),
-				array("lm", "dbk"))))
+				array("lm"))))
 		{
 			$this->changeTargetObject("cont_obj");
 		}
@@ -457,7 +457,7 @@ class ilInternalLinkGUI
 			
 				// check whether current object matchs to type
 				if (!in_array(ilObject::_lookupType($_SESSION["il_link_cont_obj"], true),
-					array("lm", "dbk")))
+					array("lm")))
 				{
 					$this->changeTargetObject("lm");
 				}
@@ -466,11 +466,6 @@ class ilInternalLinkGUI
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 					$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
-				}
-				else if ($type == "dbk")
-				{
-					require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-					$cont_obj = new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
 				}
 
 				// get all chapters

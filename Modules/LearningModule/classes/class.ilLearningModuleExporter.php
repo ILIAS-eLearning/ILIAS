@@ -97,6 +97,19 @@ class ilLearningModuleExporter extends ilXmlExporter
 				"ids" => $md_ids);
 		}
 
+		// help export
+		foreach ($a_ids as $id)
+		{
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			if (ilObjContentObject::isOnlineHelpModule($id, true))
+			{
+				$deps[] = array(
+					"component" => "Services/Help",
+					"entity" => "help",
+					"ids" => array($id));
+			}
+		}
+
 		return $deps;
 	}
 

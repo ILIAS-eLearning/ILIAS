@@ -7169,8 +7169,8 @@ grp#:#grp_agreement_required#:#You have to accept the user agreement, if you wan
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 grp#:#grp_cancel_subscr_request#:#پاک کردن درخواست عضویت
 grp#:#grp_change_type#:#تغییر نوع گروه
-grp#:#grp_closed#:#گروه بسته
-grp#:#grp_closed_info#:#گروه فقط برای اعضا قابل مشاهده است.
+didactic#:#grp_closed#:#گروه بسته
+didactic#:#grp_closed_info#:#گروه فقط برای اعضا قابل مشاهده است.
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_deactivate_notification#:#غیرفعال کردن آگاه سازی
 grp#:#grp_delete_member#:#پاک کردن

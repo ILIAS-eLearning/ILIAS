@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * TableGUI class for 
@@ -56,7 +57,7 @@ class ilTrashTableGUI extends ilTable2GUI
 		if (is_file($img))
 		{
 			$alt = ($objDefinition->isPlugin($a_set["type"]))
-				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $a_set["type"], "obj_".$a_set["type"])
+				? $lng->txt("icon")." ".ilObjectPlugin::lookupTxtById($a_set["type"], "obj_".$a_set["type"])
 				: $lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"]);
 
 			$this->tpl->setVariable("IMG_TYPE", ilUtil::img($img, $alt));

@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetLostPool.php';
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -32,6 +33,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	 * @var ilTestRandomQuestionSetSourcePoolDefinitionFactory
 	 */
 	private $sourcePoolDefinitionFactory = null;
+
+	/**
+	 * @var array
+	 */
+	protected $lostPools = array();
 	
 	/**
 	 * Constructor
@@ -51,9 +57,37 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		$this->sourcePoolDefinitions[ $sourcePoolDefinition->getId() ] = $sourcePoolDefinition;
 	}
 	
+	protected function addLostPool(ilTestRandomQuestionSetLostPool $lostPool)
+	{
+		$this->lostPools[$lostPool->getId()] = $lostPool;
+	}
+	
+	public function isLostPool($poolId)
+	{
+		return isset($this->lostPools[$poolId]);
+	}
+
+	public function hasLostPool()
+	{
+		return (bool)count($this->lostPools);
+	}
+	
+	public function getLostPools()
+	{
+		return $this->lostPools;
+	}
+	
 	public function loadDefinitions()
 	{
-		$query = "SELECT * FROM tst_rnd_quest_set_qpls WHERE test_fi = %s ORDER BY sequence_pos ASC";
+		$query = "
+			SELECT tst_rnd_quest_set_qpls.*, object_data.obj_id pool_id
+			FROM tst_rnd_quest_set_qpls
+			LEFT JOIN object_data
+			ON obj_id = pool_fi
+			WHERE test_fi = %s
+			ORDER BY sequence_pos ASC
+		";
+		
 		$res = $this->db->queryF($query, array('integer'), array($this->testOBJ->getTestId()));
 
 		while( $row = $this->db->fetchAssoc($res) )
@@ -63,6 +97,15 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 			$sourcePoolDefinition->initFromArray($row);
 
 			$this->addDefinition($sourcePoolDefinition);
+			
+			if( !$row['pool_id'] && !$this->isLostPool($row['pool_fi']) )
+			{
+				$lostPool = new ilTestRandomQuestionSetLostPool();
+				
+				$lostPool->assignDbRow($row);
+				
+				$this->addLostPool($lostPool);
+			}
 		}
 	}
 	

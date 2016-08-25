@@ -11,6 +11,16 @@ require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
 class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 
 	/**
+	 * @var array
+	 */
+	protected $locked_table_full_names = array();
+	/**
+	 * @var array
+	 */
+	protected $locked_table_names = array();
+
+
+	/**
 	 * Fire your Queries
 	 *
 	 * @throws \ilAtomQueryException
@@ -38,16 +48,26 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery {
 
 	/**
 	 * @return array
+	 * @throws \ilAtomQueryException
 	 */
 	protected function getLocksForDBInstance() {
 		$locks = array();
 		foreach ($this->tables as $table) {
-			$table_name = $table[0];
-			$lock_level = $table[1];
-			$lock_sequence_too = $table[2];
-			$locks[] = array( 'name' => $table_name, 'type' => $lock_level );
-			if ($lock_sequence_too && $this->ilDBInstance->sequenceExists($table_name)) {
-				$locks[] = array( 'name' => $this->ilDBInstance->getSequenceName($table_name), 'type' => $lock_level );
+			$full_name = $table->getTableName() . $table->getAlias();
+			if (in_array($full_name, $this->locked_table_full_names)) {
+				throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_IDENTICAL_TABLES);
+			}
+			$this->locked_table_full_names[] = $full_name;
+
+			if (!in_array($table->getTableName(), $this->locked_table_names)) {
+				$locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel() );
+				$this->locked_table_names[] = $table->getTableName();
+				if ($table->isLockSequence() && $this->ilDBInstance->sequenceExists($table->getTableName())) {
+					$locks[] = array( 'name' => $this->ilDBInstance->getSequenceName($table->getTableName()), 'type' => $table->getLockLevel() );
+				}
+			}
+			if ($table->getAlias()) {
+				$locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel(), 'alias' => $table->getAlias() );
 			}
 		}
 

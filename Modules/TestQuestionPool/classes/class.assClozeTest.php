@@ -1316,31 +1316,31 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		$entered_values = 0;
-		
-		foreach($this->getSolutionSubmit() as $val1 => $val2)
-		{
-			$value = trim(ilUtil::stripSlashes($val2, FALSE));
-			if (strlen($value))
+
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			foreach($this->getSolutionSubmit() as $val1 => $val2)
 			{
-				$gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
-				if (is_object($gap))
+				$value = trim(ilUtil::stripSlashes($val2, FALSE));
+				if (strlen($value))
 				{
-					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
+					$gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
+					if (is_object($gap))
 					{
-						$affectedRows = $this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
-						$entered_values++;
+						if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
+						{
+							$this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
+							$entered_values++;
+						}
 					}
 				}
 			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		if ($entered_values)
 		{

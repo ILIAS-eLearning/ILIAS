@@ -25,7 +25,8 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 	protected $lockFileHandles;
 
 	/**
-	 * @param ilAssQuestionProcessLockFileStorage $lockFileStorage
+	 * ilTestProcessLockerFile constructor.
+	 * @param ilTestProcessLockFileStorage $lockFileStorage
 	 */
 	public function __construct(ilTestProcessLockFileStorage $lockFileStorage)
 	{
@@ -33,29 +34,42 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 		$this->lockFileHandles = array();
 	}
 
-	public function requestTestStartLockCheckLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingTestStartOperation()
 	{
+		parent::onBeforeExecutingTestStartOperation();
 		$this->requestLock(self::PROCESS_NAME_TEST_START_LOCK_CHECK);
-	}
-
-	public function releaseTestStartLockCheckLock()
-	{
-		$this->releaseLock(self::PROCESS_NAME_TEST_START_LOCK_CHECK);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function requestRandomPassBuildLock($withTaxonomyTables = false)
+	protected function onAfterExecutingTestStartOperation()
 	{
+		$this->releaseLock(self::PROCESS_NAME_TEST_START_LOCK_CHECK);
+		parent::onAfterExecutingTestStartOperation();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables = false)
+	{
+		parent::onBeforeExecutingRandomPassBuildOperation($withTaxonomyTables);
 		$this->requestLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
 	}
 
-	public function releaseRandomPassBuildLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onAfterExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
 		$this->releaseLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
+		parent::onAfterExecutingRandomPassBuildOperation($withTaxonomyTables);
 	}
-	
+
 	private function requestLock($processName)
 	{
 		$lockFilePath = $this->getLockFilePath($processName);
@@ -74,4 +88,4 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 		flock($this->lockFileHandles[$processName], LOCK_UN);
 		fclose($this->lockFileHandles[$processName]);
 	}
-} 
+}
