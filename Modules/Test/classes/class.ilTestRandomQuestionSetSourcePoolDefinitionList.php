@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetLostPool.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetNonAvailablePool.php';
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -40,6 +40,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	protected $lostPools = array();
 	
 	/**
+	 * @var array
+	 */
+	protected $trashedPools = array();
+	
+	/**
 	 * Constructor
 	 * 
 	 * @param ilDBInterface $db
@@ -57,7 +62,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		$this->sourcePoolDefinitions[ $sourcePoolDefinition->getId() ] = $sourcePoolDefinition;
 	}
 	
-	protected function addLostPool(ilTestRandomQuestionSetLostPool $lostPool)
+	protected function addLostPool(ilTestRandomQuestionSetNonAvailablePool $lostPool)
 	{
 		$this->lostPools[$lostPool->getId()] = $lostPool;
 	}
@@ -77,36 +82,87 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		return $this->lostPools;
 	}
 	
+	public function isTrashedPool($poolId)
+	{
+		return isset($this->trashedPools[$poolId]);
+	}
+	
+	public function hasTrashedPool()
+	{
+		return (bool)count($this->trashedPools);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getTrashedPools()
+	{
+		return $this->trashedPools;
+	}
+	
+	/**
+	 * @param array $trashedPools
+	 */
+	public function setTrashedPools($trashedPools)
+	{
+		$this->trashedPools = $trashedPools;
+	}
+	
 	public function loadDefinitions()
 	{
 		$query = "
-			SELECT tst_rnd_quest_set_qpls.*, object_data.obj_id pool_id
+			SELECT tst_rnd_quest_set_qpls.*, odat.obj_id pool_id
 			FROM tst_rnd_quest_set_qpls
-			LEFT JOIN object_data
-			ON obj_id = pool_fi
+			LEFT JOIN object_data odat
+			ON odat.obj_id = pool_fi
+			LEFT JOIN object_reference oref
+			ON oref.obj_id = pool_fi
+			LEFT JOIN tree
+			ON tree = %s
+			AND child = oref.ref_id
 			WHERE test_fi = %s
 			ORDER BY sequence_pos ASC
 		";
 		
-		$res = $this->db->queryF($query, array('integer'), array($this->testOBJ->getTestId()));
+		$res = $this->db->queryF($query, array('integer', 'integer'), array(1, $this->testOBJ->getTestId()));
 
+		$handledDefinitions = array();
+		$trashedPools = array();
+		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
 			$sourcePoolDefinition = $this->sourcePoolDefinitionFactory->getEmptySourcePoolDefinition();
-
 			$sourcePoolDefinition->initFromArray($row);
-
-			$this->addDefinition($sourcePoolDefinition);
 			
-			if( !$row['pool_id'] && !$this->isLostPool($row['pool_fi']) )
+			if( !isset($handledDefinitions[$sourcePoolDefinition->getId()]) )
 			{
-				$lostPool = new ilTestRandomQuestionSetLostPool();
+				$this->addDefinition($sourcePoolDefinition);
+				$handledDefinitions[$sourcePoolDefinition->getId()] = $sourcePoolDefinition->getId();
 				
-				$lostPool->assignDbRow($row);
-				
-				$this->addLostPool($lostPool);
+				$trashedPools[$sourcePoolDefinition->getPoolId()] = $row;
+			}
+			
+			if( !$this->isLostPool($row['pool_fi']) )
+			{
+				if( !$row['pool_id'] )
+				{
+					$lostPool = new ilTestRandomQuestionSetNonAvailablePool();
+					$lostPool->assignDbRow($row);
+					
+					$lostPool->setUnavailabilityStatus(
+						ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST
+					);
+					
+					$this->addLostPool($lostPool);
+				}
+			}
+			elseif( $row['child'] )
+			{
+				unset($trashedPools[$sourcePoolDefinition->getPoolId()]);
 			}
 		}
+		
+		$this->setTrashedPools($trashedPools);
 	}
 	
 	public function saveDefinitions()
@@ -223,6 +279,21 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		}
 		
 		return false;
+	}
+
+	public function areAllUsedPoolsAvailable()
+	{
+		if( $this->hasLostPool() )
+		{
+			return false;
+		}
+		
+		if( $this->hasTrashedPool() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**

@@ -20,6 +20,7 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetGeneralConfigFormGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetNonAvailablePoolsTableGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetPoolDefinitionFormGUI
  */
 class ilTestRandomQuestionSetConfigGUI
@@ -388,7 +389,14 @@ class ilTestRandomQuestionSetConfigGUI
 		$table = $this->buildSourcePoolDefinitionListTableGUI();
 		$table->init( $this->sourcePoolDefinitionList);
 		$content .= $this->ctrl->getHTML($table);
-
+		
+		if( !$this->sourcePoolDefinitionList->areAllUsedPoolsAvailable() )
+		{
+			$table = $this->buildLostPoolsTableGUI();
+			$table->init($this->sourcePoolDefinitionList);
+			$content .= $this->ctrl->getHTML($table);
+		}
+		
 		$this->tpl->setContent($content);
 
 		$this->configStateMessageHandler->setContext(
@@ -464,6 +472,19 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$table->build();
 
+		return $table;
+	}
+	
+	private function buildLostPoolsTableGUI()
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php';
+		
+		$table = new ilTestRandomQuestionSetNonAvailablePoolsTableGUI(
+			$this->ctrl, $this->lng, $this, self::CMD_SHOW_SRC_POOL_DEF_LIST
+		);
+		
+		$table->build();
+		
 		return $table;
 	}
 
