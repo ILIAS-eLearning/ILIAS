@@ -707,7 +707,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					break;
 				// end-patch fm
 				case 'lm':
-				case 'dbk':
 					$newObj->createLMTree();
 					break;
 				case 'cat':

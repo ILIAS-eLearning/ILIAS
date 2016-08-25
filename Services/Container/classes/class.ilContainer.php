@@ -40,7 +40,9 @@ class ilContainer extends ilObject
 {
 	protected $order_type = 0;
 	protected $hiddenfilesfound = false;
-	
+	protected $news_timeline = false;
+	protected $news_timeline_auto_entries = false;
+
 	// container view constants
 	const VIEW_SESSIONS = 0;
 	const VIEW_OBJECTIVE = 1;
@@ -71,13 +73,29 @@ class ilContainer extends ilObject
 
 
 	static $data_preloaded = false;
-	
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $setting;
+
+	function __construct($a_id = 0, $a_reference = true)
+	{
+		global $DIC;
+
+		$this->setting = $DIC["ilSetting"];
+		parent::__construct($a_id, $a_reference);
+
+	}
+
 	/**
 	* Create directory for the container.
 	* It is <webspace_dir>/container_data.
 	*/
 	function createContainerDirectory()
 	{
+		global $DIC;
+
 		$webspace_dir = ilUtil::getWebspaceDir();
 		$cont_dir = $webspace_dir."/container_data";
 		if (!is_dir($cont_dir))
@@ -191,6 +209,106 @@ class ilContainer extends ilObject
 		$this->style_id = $a_style_id;
 	}
 
+	/**
+	 * Set news timeline
+	 *
+	 * @param bool $a_val activate news timeline
+	 */
+	function setNewsTimeline($a_val)
+	{
+		$this->news_timeline = $a_val;
+	}
+
+	/**
+	 * Get news timeline
+	 *
+	 * @return bool activate news timeline
+	 */
+	function getNewsTimeline()
+	{
+		return $this->news_timeline;
+	}
+	
+	/**
+	 * Set news timeline auto entries
+	 *
+	 * @param bool $a_val include automatically created entries	
+	 */
+	function setNewsTimelineAutoEntries($a_val)
+	{
+		$this->news_timeline_auto_entries = $a_val;
+	}
+	
+	/**
+	 * Get news timeline auto entries
+	 *
+	 * @return bool include automatically created entries
+	 */
+	function getNewsTimelineAutoEntries()
+	{
+		return $this->news_timeline_auto_entries;
+	}
+
+	/**
+	 * Set news timline is landing page
+	 *
+	 * @param bool $a_val is news timline landing page?
+	 */
+	function setNewsTimelineLandingPage($a_val)
+	{
+		$this->news_timeline_landing_page = $a_val;
+	}
+
+	/**
+	 * Get news timline is landing page
+	 *
+	 * @return bool is news timline landing page?
+	 */
+	function getNewsTimelineLandingPage()
+	{
+		return $this->news_timeline_landing_page;
+	}
+
+	/**
+	 * Set news block activated
+	 *
+	 * @param bool $a_val news block activated	
+	 */
+	function setNewsBlockActivated($a_val)
+	{
+		$this->news_block_activated = $a_val;
+	}
+	
+	/**
+	 * Get news block activated
+	 *
+	 * @return bool news block activated
+	 */
+	function getNewsBlockActivated()
+	{
+		return $this->news_block_activated;
+	}
+	
+	/**
+	 * Set use news
+	 *
+	 * @param bool $a_val use news system?	
+	 */
+	function setUseNews($a_val)
+	{
+		$this->use_news = $a_val;
+	}
+	
+	/**
+	 * Get use news
+	 *
+	 * @return bool use news system?
+	 */
+	function getUseNews()
+	{
+		return $this->use_news;
+	}
+	
 	/**
 	* Lookup a container setting.
 	*
@@ -781,6 +899,13 @@ class ilContainer extends ilObject
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
+		self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
+		self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
+		self::_writeContainerSetting($this->getId(), "news_timeline_landing_page", (int) $this->getNewsTimelineLandingPage());
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		self::_writeContainerSetting($this->getId() ,ilObjectServiceSettingsGUI::NEWS_VISIBILITY,(int) $this->getNewsBlockActivated());
+		self::_writeContainerSetting($this->getId() ,ilObjectServiceSettingsGUI::USE_NEWS,(int) $this->getUseNews());
+
 		return $ret;
 	}
 	
@@ -793,6 +918,13 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+
+		self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
+		self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
+		self::_writeContainerSetting($this->getId(), "news_timeline_landing_page", (int) $this->getNewsTimelineLandingPage());
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		self::_writeContainerSetting($this->getId() ,ilObjectServiceSettingsGUI::NEWS_VISIBILITY,(int) $this->getNewsBlockActivated());
+		self::_writeContainerSetting($this->getId() ,ilObjectServiceSettingsGUI::USE_NEWS,(int) $this->getUseNews());
 
 		return $ret;
 	}
@@ -814,6 +946,15 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
+
+		$this->setNewsTimeline(self::_lookupContainerSetting($this->getId(), "news_timeline"));
+		$this->setNewsTimelineAutoEntries(self::_lookupContainerSetting($this->getId(), "news_timeline_incl_auto"));
+		$this->setNewsTimelineLandingPage(self::_lookupContainerSetting($this->getId(), "news_timeline_landing_page"));
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		$this->setNewsBlockActivated(self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+			$this->setting->get('block_activated_news',true)));
+		$this->setUseNews(self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, true));
+
 	}
 
 	/**

@@ -1130,11 +1130,6 @@ echo "<br>+".$client_id;
 		$ti->setInfo($lng->txt("ghostscript_path_comment".$lvext));
 		$this->form->addItem($ti);
 
-		// java path
-		$ti = new ilTextInputGUI($lng->txt("java_path"), "java_path");
-		$ti->setInfo($lng->txt("java_path_comment".$lvext));
-		$this->form->addItem($ti);
-
 		// ffmpeg path
 		$ti = new ilTextInputGUI($lng->txt("ffmpeg_path"), "ffmpeg_path");
 		$ti->setInfo($lng->txt("ffmpeg_path_comment"));
@@ -1225,7 +1220,6 @@ echo "<br>+".$client_id;
 		$values["zip_path"] = $this->setup->ini->readVariable("tools","zip");
 		$values["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
 		$values["ghostscript_path"] = $this->setup->ini->readVariable("tools","ghostscript");
-		$values["java_path"] = $this->setup->ini->readVariable("tools","java");
 		//$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
 		$values["ffmpeg_path"] = $this->setup->ini->readVariable("tools","ffmpeg");
 		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
@@ -1263,7 +1257,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path","lessc_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1317,7 +1311,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path","lessc_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);

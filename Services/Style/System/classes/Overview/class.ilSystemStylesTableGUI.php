@@ -74,12 +74,12 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->setWithActions(true);
 		$this->setManagementEnabled($management_enabled);
 
-		$this->addColumn($this->lng->txt("actions"));
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 		$this->addCommandButton("saveStyleSettings", $this->lng->txt("save"));
 		$this->setRowTemplate("tpl.sys_styles_row_with_actions.html", "Services/Style/System");
 
 		if($management_enabled){
+			$this->addColumn($this->lng->txt("actions"));
 			$this->addMultiCommand("deleteStyles",$this->lng->txt("delete"));
 		}
 	}
@@ -200,7 +200,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if($this->isWithActions()){
+		if($this->isWithActions() && $this->isManagementEnabled()){
 			if($a_set["skin_id"]!="default" && $a_set["skin_id"]!="other"){
 				$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','skin_id',$a_set["skin_id"]);
 				$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','style_id',$a_set["style_id"]);
@@ -212,19 +212,27 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 				$selection_list->setId("id_action_list_" . $a_set["id"]);
 				$selection_list->setListTitle($this->lng->txt("actions"));
 
-				if($this->isManagementEnabled()){
-					$this->tpl->setCurrentBlock("multi_actions");
-					$this->tpl->setVariable("MULTI_ACTIONS_ID", $a_set["id"]);
-					$this->tpl->parseCurrentBlock();
 
-					$selection_list->addItem($this->lng->txt('edit'),'edit',$this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI'));
-					$selection_list->addItem($this->lng->txt('delete'),'delete',$this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI','deleteStyle'));
-				}
+				$this->tpl->setCurrentBlock("multi_actions");
+				$this->tpl->setVariable("MULTI_ACTIONS_ID", $a_set["id"]);
+				$this->tpl->parseCurrentBlock();
+
+				$selection_list->addItem($this->lng->txt('edit'),'edit',$this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI'));
+				$selection_list->addItem($this->lng->txt('delete'),'delete',$this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI','deleteStyle'));
+
 				if(!$is_substyle){
 					$selection_list->addItem($this->lng->txt('export'),'export',$this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI','export'));
 				}
-				$this->tpl->setVariable("ACTIONS", $selection_list->getHTML());
 
+				$this->tpl->setCurrentBlock("actions");
+				$this->tpl->setVariable("ACTIONS", $selection_list->getHTML());
+				$this->tpl->parseCurrentBlock();
+
+
+			}else{
+				$this->tpl->setCurrentBlock("actions");
+				$this->tpl->setVariable("ACTIONS", "");
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 	}

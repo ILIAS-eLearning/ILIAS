@@ -4,7 +4,7 @@
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilLanguageMock
+ * Class ilSystemStylesLanguageMock
  */
 class ilSystemStyleLanguageMock {
 	public $requested = array();

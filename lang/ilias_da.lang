@@ -7513,8 +7513,8 @@ content#:#cont_invalid_new_module#:#Modulet er inkompatibelt! Kontroller at imsm
 content#:#cont_new_module_added#:#Ny version af modulet blev uploaded
 common#:#attempts#:#Forsøg
 common#:#decrease_attempts#:#Førsøg-1
-grp#:#grp_closed#:#Lukket gruppe
-grp#:#grp_closed_info#:#Gruppen er ikke synlig for ikke-medlemmer
+didactic#:#grp_closed#:#Lukket gruppe
+didactic#:#grp_closed_info#:#Gruppen er ikke synlig for ikke-medlemmer
 grp#:#grp_reg_disabled#:#Tilmelding ikke mulig
 grp#:#grp_reg_disabled_info#:#Kun gruppens administratorer kan tilføje brugere til gruppen.
 grp#:#grp_reg_request#:#Anmod om medlemsskab

@@ -894,7 +894,7 @@ class ilObjectGUI
 		global $lng;
 		
 		$lng->loadLanguageModule('didactic');
-					
+		$existing_exclusive = false;
 		$options = array();
 		$options['dtpl_0'] = array($this->lng->txt('didactic_default_type'),
 			sprintf(
@@ -908,13 +908,24 @@ class ilObjectGUI
 		{
 			foreach($templates as $template)
 			{
-				$options["dtpl_".$template->getId()] = array($template->getTitle(),
-					$template->getDescription());			
+				if($template->isEffective($_GET["ref_id"]))
+				{
+					$options["dtpl_".$template->getId()] = array(
+						$template->getPresentationTitle(),
+						$template->getPresentationDescription()
+					);
+
+					if($template->isExclusive())
+					{
+						$existing_exclusive = true;
+					}
+				}
+
 			}
 		}
 		
 		$this->addDidacticTemplateOptions($options);
-		
+
 		if(sizeof($options) > 1)
  		{
 			$type = new ilRadioGroupInputGUI(
@@ -925,20 +936,42 @@ class ilObjectGUI
 			if(!$this->getCreationMode())
 			{
 				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-				$type->setValue(
-					'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId())
-				);
+				$value = 'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+
+				$type->setValue($value);
+
+				if(!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0"))
+				{
+					//add or rename actual value to not avaiable
+					$options[$value] = array($this->lng->txt('not_available'));
+				}
 			}
 			else
 			{
-				$type->setValue('dtpl_0');
+				if($existing_exclusive)
+				{
+					//if an exclusive template exists use the second template as default value
+					$keys = array_keys($options);
+					$type->setValue($keys[1]);
+				}
+				else
+				{
+					$type->setValue('dtpl_0');
+				}
+
 			}
 			$form->addItem($type);		
 
-			ilUtil::sortArray($options, 0);
 			foreach($options as $id => $data)
 			{
 				$option = new ilRadioOption($data[0], $id, $data[1]);
+
+				if($existing_exclusive && $id == "dtpl_0" && $this->getCreationMode())
+				{
+					//set default disabled if an exclusive template exists but just in creation screen
+					$option->setDisabled(true);
+				}
+
 				$type->addOption($option);
 			}
 		}
@@ -1044,6 +1077,7 @@ class ilObjectGUI
 		{
 			return (int)substr($tpl, strlen($a_type)+1);
 		}
+		return 0;
 	}
 
 	/**

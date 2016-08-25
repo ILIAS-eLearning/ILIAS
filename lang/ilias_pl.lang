@@ -7839,8 +7839,8 @@ grp#:#grp_agreement_required#:#You have to accept the user agreement, if you wan
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Zmień Typ Grupy
-grp#:#grp_closed#:#Zamknieta Grupa
-grp#:#grp_closed_info#:#Grupa jest widoczna tylko dla jej uczestników.
+didactic#:#grp_closed#:#Zamknieta Grupa
+didactic#:#grp_closed_info#:#Grupa jest widoczna tylko dla jej uczestników.
 grp#:#grp_copy#:#Copy Group
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_deactivate_notification#:#De-aktywowanie Powiadamiania

@@ -15,6 +15,7 @@ class ilObjectServiceSettingsGUI
 {
 	const CALENDAR_VISIBILITY = 'cont_show_calendar';
 	const NEWS_VISIBILITY = 'cont_show_news';
+	const USE_NEWS = 'cont_use_news';
 	const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
 	const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
 	const TAXONOMIES = 'cont_taxonomies';
@@ -65,7 +66,7 @@ class ilObjectServiceSettingsGUI
 	 */
 	public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{
-		global $ilSetting;
+		global $ilSetting, $ilCtrl;
 		
 		// info tab
 		if(in_array(self::INFO_TAB_VISIBILITY, $services))
@@ -100,6 +101,26 @@ class ilObjectServiceSettingsGUI
 		}
 		
 		// news
+		if(in_array(self::USE_NEWS, $services))
+		{
+			$news = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_use_news'), self::USE_NEWS);
+			$news->setValue(1);
+			$checked = ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				self::USE_NEWS,
+				true
+			);
+			$news->setChecked($checked);
+			$info = $GLOBALS['lng']->txt('obj_tool_setting_use_news_info');
+			if ($checked)
+			{
+				$info.=" <a href='".$ilCtrl->getLinkTargetByClass("ilcontainernewssettingsgui", "").
+					"'>» ".$GLOBALS['lng']->txt('obj_tool_setting_use_news_open_settings')."</a>";
+			}
+			$news->setInfo($info);
+			$form->addItem($news);
+
+		}
 		if(in_array(self::NEWS_VISIBILITY, $services))
 		{
 			if($ilSetting->get('block_activated_news'))
@@ -237,6 +258,11 @@ class ilObjectServiceSettingsGUI
 		}
 		
 		// news
+		if(in_array(self::USE_NEWS, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::USE_NEWS,(int) $form->getInput(self::USE_NEWS));
+		}
 		if(in_array(self::NEWS_VISIBILITY, $services))
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';

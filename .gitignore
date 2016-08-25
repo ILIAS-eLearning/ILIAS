@@ -23,7 +23,7 @@ db_template_writer.php
 
 # Directories
 /data
-/Customizing/global
+#/Customizing/global
 /setup/sql/ilDBTemplate
 virtual-data
 
