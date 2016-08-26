@@ -327,7 +327,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             0,
             0,
             null,
-            $usr_data_fields
+            $usr_data_fields,
+			$part
         );
 		
 		$a_user_data = array();
@@ -342,7 +343,6 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					continue;
 				}
 			}
-			
 			if($this->current_filter['org_units'])
 			{
 				$org_unit = $this->current_filter['org_units'];
