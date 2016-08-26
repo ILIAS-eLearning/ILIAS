@@ -14,6 +14,24 @@ include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 class ilUserUserActionProvider extends ilUserActionProvider
 {
 	/**
+	 * @inheritdoc
+	 */
+	function getComponentId()
+	{
+		return "user";
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getActionTypes()
+	{
+		return array(
+			"profile" => $this->lng->txt("profile")
+		);
+	}
+
+	/**
 	 * Collect all actions
 	 *
 	 * @param int $a_target_user target user
@@ -31,6 +49,7 @@ class ilUserUserActionProvider extends ilUserActionProvider
 		}
 
 		$f = new ilUserAction();
+		$f->setType("profile");
 		$f->setText($this->lng->txt('profile'));
 		$f->setHref("./goto.php?target=usr_".$a_target_user);
 		$coll->addAction($f);

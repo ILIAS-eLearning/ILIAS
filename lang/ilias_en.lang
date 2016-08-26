@@ -16320,6 +16320,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+<<<<<<< HEAD
 mass#:#general#:#General Information
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
@@ -16422,3 +16423,7 @@ chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your 'Personal Settings'.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
+usr#:#user_actions#:#User Actions
+usr#:#user_action#:#User Action
+buddysystem#:#buddy_handle_contact_request#:#Contact Request
+usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).

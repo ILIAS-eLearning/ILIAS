@@ -35,6 +35,24 @@ class ilMailUserActionProvider extends ilUserActionProvider
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	function getComponentId()
+	{
+		return "mail";
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getActionTypes()
+	{
+		return array(
+			"compose" => $this->lng->txt("mail")
+		);
+	}
+
+	/**
 	 * Collect user actions
 	 *
 	 * @param int $a_target_user target user
@@ -56,6 +74,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
 		if ($this->checkUserMailAccess($a_target_user))
 		{
 			$f = new ilUserAction();
+			$f->setType("compose");
 			$f->setText($this->lng->txt("mail"));
 			$tn = ilObjUser::_lookupName($a_target_user);
 			$f->setHref(ilMailFormCall::getLinkTarget("", '', array(), array('type' => 'new', 'rcp_to' => urlencode($tn["login"]))));

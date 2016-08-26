@@ -14,6 +14,7 @@ class ilUserAction
 	protected $text;
 	protected $href;
 	protected $data;
+	protected $type;
 
 	/**
 	 * Set text
@@ -53,6 +54,26 @@ class ilUserAction
 	function getHref()
 	{
 		return $this->href;
+	}
+
+	/**
+	 * Set type
+	 *
+	 * @param string $a_val type
+	 */
+	function setType($a_val)
+	{
+		$this->type = $a_val;
+	}
+
+	/**
+	 * Get type
+	 *
+	 * @return string
+	 */
+	function getType()
+	{
+		return $this->type;
 	}
 
 	/**

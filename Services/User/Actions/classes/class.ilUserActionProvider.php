@@ -65,6 +65,16 @@ abstract class ilUserActionProvider
 	 */
 	abstract function collectActionsForTargetUser($a_target_user);
 
+	/**
+	 * @return string component id as defined in services.xml/module.xml
+	 */
+	abstract function getComponentId();
+
+	/**
+	 * @return array[string] keys must be unique action ids (strings), values should be the names of the actions (from ilLanguage)
+	 */
+	abstract function getActionTypes();
+
 }
 
 ?>

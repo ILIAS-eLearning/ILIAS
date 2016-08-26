@@ -8,7 +8,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 * @author Alex Killing <killing@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI, ilUserActionAdminGUI
 * @ilCtrl_IsCalledBy ilObjAwarenessAdministrationGUI: ilAdministrationGUI
 *
 * @ingroup ServicesAwareness
@@ -44,6 +44,14 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'iluseractionadmingui':
+				include_once("./Services/User/Actions/classes/class.ilUserActionAdminGUI.php");
+				$gui = new ilUserActionAdminGUI();
+				$this->tabs_gui->setTabActive('settings');
+				$this->setSubTabs("actions");
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -85,6 +93,25 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	 * Set sub tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setSubTabs($a_id)
+	{
+		$this->tabs_gui->addSubTab("settings",
+			$this->lng->txt("settings"),
+			$this->ctrl->getLinkTarget($this, "editSettings"));
+
+		$this->tabs_gui->addSubTab("actions",
+			$this->lng->txt("user_actions"),
+			$this->ctrl->getLinkTargetByClass("iluseractionadmingui"));
+
+		$this->tabs_gui->activateSubTab($a_id);
+	}
+
 	
 	/**
 	 * Edit settings.
@@ -92,6 +119,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 	public function editSettings($a_form = null)
 	{
 		$this->tabs_gui->setTabActive('settings');
+		$this->setSubTabs("settings");
 		
 		if(!$a_form)
 		{
