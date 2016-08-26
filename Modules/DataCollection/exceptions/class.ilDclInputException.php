@@ -24,6 +24,7 @@ class ilDclInputException extends ilException {
 	const NOT_IMAGE = 5;
 	const WRONG_FILE_TYPE = 6;
 	const CUSTOM_MESSAGE = 7;
+	const REGEX_CONFIG_EXCEPTION = 8;
 
 
 	/**
@@ -71,6 +72,9 @@ class ilDclInputException extends ilException {
 				break;
 			case self::REGEX_EXCEPTION:
 				$message = $lng->txt('dcl_wrong_regex');
+				break;
+			case self::REGEX_CONFIG_EXCEPTION:
+				$message = $lng->txt('dcl_invalid_regex_config');
 				break;
 			case self::UNIQUE_EXCEPTION:
 				$message = $lng->txt('dcl_unique_exception');

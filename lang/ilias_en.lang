@@ -12107,6 +12107,7 @@ dcl#:#dcl_edit#:#Edit Data Collection
 dcl#:#dcl_import#:#Import Data Collection
 dcl#:#dcl_in_export#:#In Export
 dcl#:#dcl_tables#:#Tables
+dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings to solve the problem.
 rbac#:#dcl_visible#:#Data Collection is visible
 rbac#:#dcl_read#:#Read access to Data Collection
 rbac#:#dcl_copy#:#User can copy data collection
@@ -16425,3 +16426,9 @@ chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your 'Personal Settings'.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
+usr#:#user_actions#:#User Actions
+usr#:#user_action#:#User Action
+buddysystem#:#buddy_handle_contact_request#:#Contact Request
+usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat

@@ -12033,6 +12033,7 @@ dcl#:#dcl_edit#:#Datensammlung bearbeiten
 dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Exportierbar
 dcl#:#dcl_tables#:#Tabellen
+dcl#:#dcl_invalid_regex_config#:#Der reguläre Ausdruck, der für dieses Feld konfiguriert ist, ist ungültig. Überprüfen Sie die Einstellungen dieses Feldes, um das Problem zu beheben.
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
 rbac#:#dcl_copy#:#Datensammlung kopieren
@@ -16481,3 +16482,9 @@ chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
 chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren 'Persönlichen Einstellungen' ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
+usr#:#user_actions#:#Benuzteraktionen
+usr#:#user_action#:#Benuzteraktione
+buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
+usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
+chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
+chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten

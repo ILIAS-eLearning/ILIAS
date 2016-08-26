@@ -1,19 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Awareness tool feature (presented in user drop downs) (data object)
+ * Action that can be performed on a user
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesAwareness
+ * @ingroup ServicesUser
  */
-class ilAwarenessFeature
+class ilUserAction
 {
 	protected $text;
 	protected $href;
 	protected $data;
+	protected $type;
 
 	/**
 	 * Set text
@@ -53,6 +54,26 @@ class ilAwarenessFeature
 	function getHref()
 	{
 		return $this->href;
+	}
+
+	/**
+	 * Set type
+	 *
+	 * @param string $a_val type
+	 */
+	function setType($a_val)
+	{
+		$this->type = $a_val;
+	}
+
+	/**
+	 * Get type
+	 *
+	 * @return string
+	 */
+	function getType()
+	{
+		return $this->type;
 	}
 
 	/**

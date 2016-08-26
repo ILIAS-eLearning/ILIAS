@@ -72,7 +72,7 @@ il.Awareness = {
 	},
 
 	close: function() {
-		$('#awareness_trigger').popover("hide");
+		$('#awareness_trigger a').popover("hide");
 	},
 
 	reload: function () {

@@ -1295,7 +1295,7 @@ class ilDclTable {
 	 * @param $field ilDclBaseFieldModel add an already created field for eg. ordering.
 	 */
 	public function addField($field) {
-		$this->fields[$field->getId()] = $field;
+		$this->all_fields[$field->getId()] = $field;
 	}
 
 

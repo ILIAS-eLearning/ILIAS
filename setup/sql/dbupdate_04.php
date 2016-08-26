@@ -17631,6 +17631,46 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5033>
 <?php
+if (!$ilDB->tableExists('user_action_activation'))
+{
+	$ilDB->createTable('user_action_activation', array(
+		'context_comp' => array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => true
+		),
+		'context_id' => array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => true
+		),
+		'action_comp' => array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => true
+		),
+		'action_type' => array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => true
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('user_action_activation', array('context_comp', 'context_id', 'action_comp', 'action_type'));
+}
+?>
+<#5034>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5035>
+<?php
 $fields = array(
 	'ref_id' => array(
 		'type' => 'integer',
@@ -17653,3 +17693,4 @@ if (! $ilDB->tableExists('orgu_path_storage')) {
 	$ilDB->addPrimaryKey('orgu_path_storage', array( 'ref_id' ));
 }
 ?>
+
