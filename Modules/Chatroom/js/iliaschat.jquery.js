@@ -187,9 +187,7 @@ var Smileys = function Smileys(_smileys) {
 
 			$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
 
-			if ($.browser.chrome || $.browser.safari) {
-				$emoticons_panel.css("top", "3px");
-			}
+			$emoticons_panel.css("top", "3px");
 
 			var $emoticons_table = $("<table></table>");
 			var $emoticons_row = null;
