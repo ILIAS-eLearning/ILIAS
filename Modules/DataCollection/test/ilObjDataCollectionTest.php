@@ -1,5 +1,6 @@
 <?php
 include_once("./Services/Exceptions/classes/class.ilException.php");
+include_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
 
 /**
  * Class ilObjDataCollectionTest
