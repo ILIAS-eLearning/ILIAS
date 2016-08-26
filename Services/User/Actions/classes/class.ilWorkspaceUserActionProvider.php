@@ -2,16 +2,16 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php");
+include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 
 /**
- * Adds link to shared resources feature
+ * Adds link to shared resources
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesAwareness
+ * @ingroup ServicesUser
  */
-class ilAwarenessWorkspaceFeatureProvider extends ilAwarenessFeatureProvider
+class ilWorkspaceUserActionProvider extends ilUserActionProvider
 {
 	protected $wsp_activated;
 
@@ -30,26 +30,44 @@ class ilAwarenessWorkspaceFeatureProvider extends ilAwarenessFeatureProvider
 		parent::__construct();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	function getComponentId()
+	{
+		return "pwsp";
+	}
 
 	/**
-	 * Collect all features
+	 * @inheritdoc
+	 */
+	function getActionTypes()
+	{
+		return array(
+			"shared_res" => $this->lng->txt("wsp_shared_resources")
+		);
+	}
+
+	/**
+	 * Collect all actions
 	 *
 	 * @param int $a_target_user target user
-	 * @return ilAwarenessUserCollection collection
+	 * @return ilUserActionCollection collection
 	 */
-	function collectFeaturesForTargetUser($a_target_user)
+	function collectActionsForTargetUser($a_target_user)
 	{
 		global $ilCtrl, $lng;
 
-		$coll = ilAwarenessFeatureCollection::getInstance();
-		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
+		$coll = ilUserActionCollection::getInstance();
+		include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 
 		if (!$this->wsp_activated)
 		{
 			return $coll;
 		}
 
-		$f = new ilAwarenessFeature();
+		$f = new ilUserAction();
+		$f->setType("shared_res");
 		$f->setText($lng->txt("wsp_shared_resources"));
 		$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", ilObjUser::_lookupLogin($a_target_user));
 		$f->setHref($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"),
@@ -57,7 +75,7 @@ class ilAwarenessWorkspaceFeatureProvider extends ilAwarenessFeatureProvider
 
 		//$f->setData(array("test" => "you", "user" => $a_target_user));
 
-		$coll->addFeature($f);
+		$coll->addAction($f);
 
 		return $coll;
 	}

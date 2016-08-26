@@ -3,42 +3,42 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Factory for awareness feature providers
+ * Factory for user action providers
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesAwareness
+ * @ingroup ServicesUser
  */
-class ilAwarenessFeatureProviderFactory
+class ilUserActionProviderFactory
 {
 	protected static $providers = array(
 		array (
 			"component" => "Services/Contact/BuddySystem",
-			"class" => "ilAwarenessContactsFeatureProvider"
+			"class" => "ilContactUserActionProvider"
 		),
 		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessMailFeatureProvider"
+			"component" => "Services/User/Actions",
+			"class" => "ilMailUserActionProvider"
 		),
 		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserFeatureProvider"
+			"component" => "Services/User/Actions",
+			"class" => "ilUserUserActionProvider"
 		),
 		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessWorkspaceFeatureProvider"
+			"component" => "Services/User/Actions",
+			"class" => "ilWorkspaceUserActionProvider"
 		),
 		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessChatFeatureProvider"
+			"component" => "Services/User/Actions",
+			"class" => "ilChatUserActionProvider"
 		)
 
 	);
 
 	/**
-	 * Get all awareness providers
+	 * Get all action providers
 	 *
-	 * @return array of ilAwarenessProvider all providers
+	 * @return array[ilUserActionProvider] all providers
 	 */
 	static function getAllProviders()
 	{

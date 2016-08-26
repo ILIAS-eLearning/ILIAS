@@ -198,7 +198,7 @@ class ilAwarenessGUI
 			$ucnt++;
 
 			$fcnt = 0;
-			foreach ($u->features as $f)
+			foreach ($u->actions as $act)
 			{
 				$fcnt++;
 				if ($fcnt == 1)
@@ -207,9 +207,9 @@ class ilAwarenessGUI
 					//$tpl->setCurrentBlock("arrow");
 					//$tpl->parseCurrentBlock();
 				}
-				if (is_array($f->data) && count($f->data) > 0)
+				if (is_array($act->data) && count($act->data) > 0)
 				{
-					foreach ($f->data as $k => $v)
+					foreach ($act->data as $k => $v)
 					{
 						$tpl->setCurrentBlock("f_data");
 						$tpl->setVariable("DATA_KEY", $k);
@@ -218,8 +218,8 @@ class ilAwarenessGUI
 					}
 				}
 				$tpl->setCurrentBlock("feature");
-				$tpl->setVariable("FEATURE_HREF", $f->href);
-				$tpl->setVariable("FEATURE_TEXT", $f->text);
+				$tpl->setVariable("FEATURE_HREF", $act->href);
+				$tpl->setVariable("FEATURE_TEXT", $act->text);
 				$tpl->parseCurrentBlock();
 			}
 
