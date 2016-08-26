@@ -148,6 +148,10 @@ class ilRepositorySearchGUI
 		{
 			$a_options['submit_name'] = $lng->txt('btn_add');
 		}
+		if(!isset($a_options['user_type_default']))
+		{
+			$a_options['user_type_default'] = null;
+		}
 		
 		$ajax_url = $ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 
 			'doUserAutoComplete', '', true,false);
@@ -170,6 +174,7 @@ class ilRepositorySearchGUI
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$si = new ilSelectInputGUI("", "user_type");
 			$si->setOptions($a_options['user_type']);
+			$si->setValue($a_options['user_type_default']);
 			if(!$a_sticky)
 			{
 				$toolbar->addInputItem($si);
