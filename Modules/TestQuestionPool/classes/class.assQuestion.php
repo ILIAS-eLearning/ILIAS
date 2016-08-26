@@ -2418,15 +2418,32 @@ abstract class assQuestion
 		
 		$this->notifyQuestionEdited($this);
 	}
-
+	
+	/**
+	 * @deprecated
+	 */
         public function setNewOriginalId($newId) {
-            global $ilDB;
-            $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, original_id = %s WHERE question_id = %s",
-                    array('integer','integer', 'text'),
-                    array(time(), $newId, $this->getId())
-            );
+            self::saveOriginalId($this->getId(), $newId);
         }
-
+	
+	public static function saveOriginalId($questionId, $originalId)
+	{
+		$query = "UPDATE qpl_questions SET tstamp = %s, original_id = %s WHERE question_id = %s";
+		
+		$GLOBALS['DIC']['ilDB']->manipulateF(
+			$query, array('integer','integer', 'text'), array(time(), $originalId, $questionId)
+		);
+	}
+	
+	public static function resetOriginalId($questionId)
+	{
+		$query = "UPDATE qpl_questions SET tstamp = %s, original_id = NULL WHERE question_id = %s";
+		
+		$GLOBALS['DIC']['ilDB']->manipulateF(
+			$query, array('integer', 'text'), array(time(), $questionId)
+		);
+	}
+	
 	/**
 	* Will be called when a question is duplicated (inside a question pool or for insertion in a test)
 	*/
@@ -4924,7 +4941,6 @@ abstract class assQuestion
 			array(time(), $this->getId())
 		);
 	}
-
 
 // fau: testNav - new function getTestQuestionConfig()
 	/**

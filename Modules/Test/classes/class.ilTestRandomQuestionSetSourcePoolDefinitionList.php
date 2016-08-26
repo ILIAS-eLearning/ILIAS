@@ -364,4 +364,16 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		echo get_class($this->getTrashedPools()[0]);
 		return array_merge($this->getTrashedPools(), $this->getLostPools());
 	}
+	
+	public function updateSourceQuestionPoolId($oldPoolId, $newPoolId)
+	{
+		foreach($this as $definition)
+		{
+			if($definition->getPoolId() == $oldPoolId)
+			{
+				$definition->setPoolId($newPoolId);
+				$definition->saveToDb();
+			}
+		}
+	}
 }

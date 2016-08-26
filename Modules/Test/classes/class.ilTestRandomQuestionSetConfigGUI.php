@@ -785,7 +785,7 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 		elseif( isset($_GET['derive_pool_ids']) && preg_match('/^\d+(\:\d+)*$/', $_GET['derive_pool_ids']))
 		{
-			$poolIds[] = explode(':', $_GET['derive_pool_ids']);
+			$poolIds = explode(':', $_GET['derive_pool_ids']);
 		}
 		elseif( isset($_GET['derive_pool_id']) && (int)$_GET['derive_pool_id'])
 		{
@@ -837,10 +837,17 @@ class ilTestRandomQuestionSetConfigGUI
 				$lostPool = $this->sourcePoolDefinitionList->getLostPool($poolId);
 				
 				$deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->pluginAdmin, $this->testOBJ);
-				$deriver->setNonAvailablePool($lostPool);
 				$deriver->setTargetContainerRef($targetRef);
+				$deriver->setOwnerId($GLOBALS['DIC']['ilUser']->getId());
+				$newPoolId = $deriver->letTheDifferentlyThinkedShitRunning($lostPool);
 				
-				$deriver->letTheDifferentlyThinkedShitRunning();
+				$this->sourcePoolDefinitionList->updateSourceQuestionPoolId(
+					$lostPool->getId(), $newPoolId
+				);
+				
+				ilTestRandomQuestionSetStagingPoolQuestionList::updateSourceQuestionPoolId(
+					$this->testOBJ->getTestId(), $lostPool->getId(), $newPoolId
+				);
 			}
 			
 			ilUtil::sendSuccess($this->lng->txt('tst_non_available_pool_newly_derived'), true);
