@@ -80,6 +80,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 		$earliest_possible_cert_period_begin = "2013-09-01"; 
 		$cert_year_sql = " YEAR( CURDATE( ) ) - YEAR( begin_of_certification ) "
 						."- ( DATE_FORMAT( CURDATE( ) , '%m%d' ) < DATE_FORMAT( begin_of_certification, '%m%d' ) )";
+		$no_wbd_imported = $this->filter->get('no_wbd_imported');
 		$query	->select("usr.user_id")
 				->select("usr.lastname")
 				->select("usr.firstname")
@@ -156,6 +157,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						." AND usrcrs.credit_points > 0"
 						." AND usrcrs.participation_status = 'teilgenommen'"
 						." AND usrcrs.booking_status = 'gebucht'"
+						.($no_wbd_imported ? ' AND usrcrs.crs_id > 0' : '')
 						)
 				->group_by("user_id")
 				->compile();
@@ -214,7 +216,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 							)
 				->checkbox('no_wbd_imported'
 							, $this->plugin->txt("filter_no_wbd_imported")
-							,"(usrcrs.crs_id > 0 OR usrcrs.crs_id IS NULL)"
+							," TRUE "
 							," TRUE "
 							)
 				->static_condition($this->gIldb->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
