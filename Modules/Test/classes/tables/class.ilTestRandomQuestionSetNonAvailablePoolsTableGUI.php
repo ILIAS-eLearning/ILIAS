@@ -42,15 +42,15 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 	{
 		$this->setTableIdentifiers();
 		
-		$this->setTitle($this->lng->txt('tst_lost_src_quest_pools_table'));
+		$this->setTitle($this->lng->txt('tst_non_avail_pools_table'));
 		
-		$this->setRowTemplate('tpl.il_tst_lost_src_quest_pools_row.html', 'Modules/Test');
+		$this->setRowTemplate('tpl.il_tst_non_avail_pools_row.html', 'Modules/Test');
 		
 		$this->enable('header');
 		$this->disable('sort');
 		
 		$this->enable('select_all');
-		$this->setSelectAllCheckbox('lost_pool_ids[]');
+		$this->setSelectAllCheckbox('pool_ids[]');
 		
 		$this->setExternalSegmentation(true);
 		$this->setLimit(PHP_INT_MAX);
@@ -63,31 +63,37 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 	
 	protected function addCommands()
 	{
-		
+		$this->addMultiCommand(
+			ilTestRandomQuestionSetConfigGUI::CMD_SELECT_DERIVATION_TARGET,
+			$this->lng->txt('tst_derive_new_pools')
+		);
 	}
 	
 	protected function addColumns()
 	{
-		$this->addColumn('', '', '1');
-		$this->addColumn($this->lng->txt('question_pool'), '', '1');
+		$this->addColumn('', '', '');
+		$this->addColumn($this->lng->txt('title'), '', '30%');
+		$this->addColumn($this->lng->txt('path'), '', '30%');
+		$this->addColumn($this->lng->txt('status'), '', '40%');
+		$this->addColumn($this->lng->txt('actions'), '', '');
 	}
 	
 	public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
 		$rows = array();
 		
-		foreach($sourcePoolDefinitionList as $sourcePoolDefinition)
+		$pools = $sourcePoolDefinitionList->getNonAvailablePools();
+		
+		foreach($pools as $nonAvailablePool)
 		{
-			/** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
+			/** @var ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool */
 			
 			$set = array();
 			
-			$set['def_id'] = $sourcePoolDefinition->getId();
-			$set['sequence_position'] = $sourcePoolDefinition->getSequencePosition();
-			$set['source_pool_label'] = $sourcePoolDefinition->getPoolTitle();
-			$set['filter_taxonomy'] = $sourcePoolDefinition->getMappedFilterTaxId();
-			$set['filter_tax_node'] = $sourcePoolDefinition->getMappedFilterTaxNodeId();
-			$set['question_amount'] = $sourcePoolDefinition->getQuestionAmount();
+			$set['id'] = $nonAvailablePool->getId();
+			$set['title'] = $nonAvailablePool->getTitle();
+			$set['path'] = $nonAvailablePool->getPath();
+			$set['status'] = $nonAvailablePool->getUnavailabilityStatus();
 			
 			$rows[] = $set;
 		}
@@ -95,9 +101,41 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 		$this->setData($rows);
 	}
 	
-	public function fillRow($set)
+	protected function getDerivePoolLink($poolId)
 	{
+		$this->ctrl->setParameter($this->parent_obj, 'derive_pool_id', $poolId);
 		
+		$link = $this->ctrl->getLinkTarget(
+			$this->parent_obj, ilTestRandomQuestionSetConfigGUI::CMD_SELECT_DERIVATION_TARGET
+		);
+		
+		return $link;
 	}
 	
+	public function fillRow($set)
+	{
+		if( $set['status'] == ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST )
+		{
+			require_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
+			require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
+			$chb = new ilCheckboxInputGUI('', 'pool_ids[]');
+			$chb->setValue($set['id']);
+			$this->tpl->setVariable('CHB', $chb->render());
+			
+			$link = $this->getDerivePoolLink($set['id']);
+			$this->tpl->setCurrentBlock('single_action');
+			$this->tpl->setVariable('ACTION_HREF', $link);
+			$this->tpl->setVariable('ACTION_TEXT', $this->lng->txt('tst_derive_new_pool'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable('TITLE', $set['title']);
+		$this->tpl->setVariable('PATH', $set['path']);
+		$this->tpl->setVariable('STATUS', $this->getStatusText($set['status']));
+	}
+	
+	protected function getStatusText($status)
+	{
+		return $this->lng->txt('tst_non_avail_pool_msg_status_'.$status);
+	}
 }

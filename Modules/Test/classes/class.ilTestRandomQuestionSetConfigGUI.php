@@ -21,6 +21,7 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetNonAvailablePoolsTableGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilRepositorySelectorExplorerGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetPoolDefinitionFormGUI
  */
 class ilTestRandomQuestionSetConfigGUI
@@ -37,6 +38,8 @@ class ilTestRandomQuestionSetConfigGUI
 	const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM           = 'showEditSourcePoolDefinitionForm';
 	const CMD_SAVE_EDIT_SRC_POOL_DEF_FORM           = 'saveEditSourcePoolDefinitionForm';
 	const CMD_BUILD_QUESTION_STAGE					= 'buildQuestionStage';
+	const CMD_SELECT_DERIVATION_TARGET				= 'selectPoolDerivationTarget';
+	const CMD_DERIVE_NEW_POOLS						= 'deriveNewPools';
 	
 	const HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD = 'afterRebuildQuestionStageCmd';
 	/**
@@ -78,6 +81,11 @@ class ilTestRandomQuestionSetConfigGUI
 	 * @var ilPluginAdmin
 	 */
 	public $pluginAdmin = null;
+	
+	/**
+	 * @var ilObjectDefinition
+	 */
+	public $objDefinition = null;
 
 	/**
 	 * @var ilObjTest
@@ -122,7 +130,7 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->db = $db;
 		$this->tree = $tree;
 		$this->pluginAdmin = $pluginAdmin;
-
+		$this->objDefinition = $GLOBALS['DIC']['objDefinition'];
 		$this->testOBJ = $testOBJ;
 
 		$this->questionSetConfig = new ilTestRandomQuestionSetConfig(
@@ -274,6 +282,8 @@ class ilTestRandomQuestionSetConfigGUI
 
 				$this->tabs->activateSubTab('tstRandQuestSetPoolConfig');
 				break;
+			
+			default: $this->tabs->activateSubTab('nonTab');
 		}
 	}
 	
@@ -392,7 +402,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		if( !$this->sourcePoolDefinitionList->areAllUsedPoolsAvailable() )
 		{
-			$table = $this->buildLostPoolsTableGUI();
+			$table = $this->buildNonAvailablePoolsTableGUI();
 			$table->init($this->sourcePoolDefinitionList);
 			$content .= $this->ctrl->getHTML($table);
 		}
@@ -475,7 +485,7 @@ class ilTestRandomQuestionSetConfigGUI
 		return $table;
 	}
 	
-	private function buildLostPoolsTableGUI()
+	private function buildNonAvailablePoolsTableGUI()
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php';
 		
@@ -760,5 +770,82 @@ class ilTestRandomQuestionSetConfigGUI
 
 		require_once 'Modules/Test/exceptions/class.ilTestQuestionPoolNotAvailableAsSourcePoolException.php';
 		throw new ilTestQuestionPoolNotAvailableAsSourcePoolException();
+	}
+	
+	protected function fetchPoolIdsParameter()
+	{
+		$poolIds = array();
+		
+		if( isset($_POST['derive_pool_ids']) && is_array($_POST['derive_pool_ids']) )
+		{
+			foreach($_POST['derive_pool_ids'] as $poolId)
+			{
+				$poolIds[] = (int)$poolId;
+			}
+		}
+		elseif( isset($_GET['derive_pool_ids']) && preg_match('/^\d+(\:\d+)*$/', $_GET['derive_pool_ids']))
+		{
+			$poolIds[] = explode(':', $_GET['derive_pool_ids']);
+		}
+		elseif( isset($_GET['derive_pool_id']) && (int)$_GET['derive_pool_id'])
+		{
+			$poolIds[] = (int)$_GET['derive_pool_id'];
+		}
+		
+		return $poolIds;
+	}
+	
+	protected function fetchTargetRefParameter()
+	{
+		if( isset($_GET['target_ref']) && (int)$_GET['target_ref'] )
+		{
+			return (int)$_GET['target_ref'];
+		}
+		
+		return null;
+	}
+	
+	private function selectPoolDerivationTargetCmd()
+	{
+		$this->ctrl->setParameter($this, 'derive_pool_ids', implode(':', $this->fetchPoolIdsParameter()));
+
+		require_once 'Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php';
+		$explorer = new ilRepositorySelectorExplorerGUI(
+			$this, self::CMD_SHOW_SRC_POOL_DEF_LIST, $this, self::CMD_DERIVE_NEW_POOLS, 'target_ref'
+		);
+		$explorer->setClickableTypes($this->objDefinition->getExplorerContainerTypes());
+		$explorer->setSelectableTypes(array());
+		
+		ilUtil::sendInfo($this->lng->txt('tst_please_select_target_for_pool_derives'));
+		
+		$this->tpl->setContent($this->ctrl->getHTML($explorer));
+	}
+	
+	private function deriveNewPoolsCmd()
+	{
+		$poolIds = $this->fetchPoolIdsParameter();
+		$targetRef = $this->fetchTargetRefParameter();
+		
+		if( count($poolIds) )
+		{
+			$this->sourcePoolDefinitionList->loadDefinitions();
+			
+			require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetPoolDeriver.php';
+			
+			foreach($poolIds as $poolId)
+			{
+				$lostPool = $this->sourcePoolDefinitionList->getLostPool($poolId);
+				
+				$deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->pluginAdmin, $this->testOBJ);
+				$deriver->setNonAvailablePool($lostPool);
+				$deriver->setTargetContainerRef($targetRef);
+				
+				$deriver->letTheDifferentlyThinkedShitRunning();
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt('tst_non_available_pool_newly_derived'), true);
+		}
+		
+		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
 	}
 }

@@ -82,6 +82,16 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		return $this->lostPools;
 	}
 	
+	public function getLostPool($poolId)
+	{
+		if( $this->isLostPool($poolId) )
+		{
+			return $this->lostPools[$poolId];
+		}
+		
+		return null;
+	}
+	
 	public function isTrashedPool($poolId)
 	{
 		return isset($this->trashedPools[$poolId]);
@@ -111,7 +121,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	public function loadDefinitions()
 	{
 		$query = "
-			SELECT tst_rnd_quest_set_qpls.*, odat.obj_id pool_id
+			SELECT tst_rnd_quest_set_qpls.*, odat.obj_id pool_id, tree.child
 			FROM tst_rnd_quest_set_qpls
 			LEFT JOIN object_data odat
 			ON odat.obj_id = pool_fi
@@ -139,10 +149,17 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 				$this->addDefinition($sourcePoolDefinition);
 				$handledDefinitions[$sourcePoolDefinition->getId()] = $sourcePoolDefinition->getId();
 				
-				$trashedPools[$sourcePoolDefinition->getPoolId()] = $row;
+				$trashedPool = new ilTestRandomQuestionSetNonAvailablePool();
+				$trashedPool->assignDbRow($row);
+				
+				$trashedPool->setUnavailabilityStatus(
+					ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_TRASHED
+				);
+				
+				$trashedPools[$trashedPool->getId()] = $trashedPool;
 			}
 			
-			if( !$this->isLostPool($row['pool_fi']) )
+			if( !$this->isLostPool($row['pool_id']) )
 			{
 				if( !$row['pool_id'] )
 				{
@@ -154,11 +171,17 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 					);
 					
 					$this->addLostPool($lostPool);
+					
+					if( isset($trashedPools[$lostPool->getId()]) )
+					{
+						unset($trashedPools[$lostPool->getId()]);
+					}
 				}
 			}
-			elseif( $row['child'] )
+			
+			if( $row['child'] )
 			{
-				unset($trashedPools[$sourcePoolDefinition->getPoolId()]);
+				unset($trashedPools[$row['pool_id']]);
 			}
 		}
 		
@@ -334,5 +357,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	public function valid()
 	{
 		return key($this->sourcePoolDefinitions) !== null;
+	}
+	
+	public function getNonAvailablePools()
+	{
+		echo get_class($this->getTrashedPools()[0]);
+		return array_merge($this->getTrashedPools(), $this->getLostPools());
 	}
 }

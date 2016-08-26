@@ -881,6 +881,13 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
+assessment#:#tst_non_avail_pools_table#:#Nicht verfügbare Fragenpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Der Fragenpool liegt im Papierkorb.</b><br />Sollte er permanent vom System entfernt werden kann der Test die Fragen aus diesem Pool nicht erneut synchronisieren.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
+assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
+assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
+assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
+assessment#:#tst_non_available_pool_newly_derived#:#Der/die neue(n) Fragenpool(s) wurde(n) erfolgreich abgeleitet.
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
