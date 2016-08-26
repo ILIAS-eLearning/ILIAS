@@ -21,7 +21,9 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->may_edit = $this->userMayEditGrades();
 		$this->may_view = $this->userMayViewGrades();
+		$this->may_book = $this->userMayEditMembers();
 		$this->columns = $this->visibleColumns();
+		$this->viewer_id = $DIC['ilUser']->getId();
 		foreach ($this->columns as $lng_var => $params) {
 			$this->addColumn($this->lng->txt($lng_var), $params[0]);
 		}
@@ -45,7 +47,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->parseCurrentBlock();
-		if($this->may_view) {
+		if($this->may_view || $this->may_edit) {
 			$this->tpl->setCurrentBlock('lp_info');
 			$status = $a_set[ilManualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilManualAssessmentMembers::LP_IN_PROGRESS;
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
@@ -96,23 +98,28 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 
 	protected function buildActionDropDown($a_set) {
 		$l = new ilAdvancedSelectionListGUI();
-		if(!$a_set['finalized']) {	
+		if(!$a_set['finalized'] && $this->may_book) {
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
 			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt('mass_usr_remove'), 'removeUser', $target);
 		}
 		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		if(!$a_set['finalized'] && $this->may_edit) {
+		$edited_by_viewer = $this->setWasEditedByViewingUser($set);
+		if(!$a_set['finalized'] && $this->may_edit && $edited_by_viewer) {
 			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
 			$l->addItem($this->lng->txt('mass_usr_edit'), 'edit', $target);
-		} 
-		if(($a_set['finalized'] && $this->may_edit) || $this->may_view) {
+		}
+		if (($a_set['finalized'] && $this->may_edit && $edited_by_viewer) || $this->may_view) {
 			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','view');
 			$l->addItem($this->lng->txt('mass_usr_view'), 'view', $target);
 		}
 		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', null);
 		return $l->getHTML();
+	}
+
+	protected function setWasEditedByViewingUser($set) {
+		return (int)$set[ilManualAssessmentMembers::FIELD_EXAMINER_ID] === (int)$this->viewer_id;
 	}
 
 	protected function userMayEditGrades() {
@@ -123,5 +130,10 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 	protected function userMayViewGrades() {
 		return $this->parent_obj->object->accessHandler()
 			->checkAccessToObj($this->parent_obj->object,'read_learning_progress');
+	}
+
+	protected function userMayEditMembers() {
+		return $this->parent_obj->object->accessHandler()
+			->checkAccessToObj($this->parent_obj->object,'edit_members');
 	}
 }

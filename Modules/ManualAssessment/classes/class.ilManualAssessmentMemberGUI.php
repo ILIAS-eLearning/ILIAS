@@ -34,10 +34,13 @@ class ilManualAssessmentMemberGUI {
 			$this->examiner = $DIC['ilUser'];
 			$this->setTabs($DIC['ilTabs']);
 			$this->member = $this->object->membersStorage()
-								->loadMember($this->object,$this->examinee);
+								->loadMember($this->object, $this->examinee);
 	}
 
 	public function executeCommand() {
+		if($this->targetWasEditedByOtherUser($this->member)) {
+			$a_parent_gui->handleAccessViolation();
+		}
 		$this->maybeShowWarningLPInactive();
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
@@ -246,5 +249,10 @@ class ilManualAssessmentMemberGUI {
 			, 'learning_progress' => (int)$member->LPStatus()
 			));
 		return $a_form;
+	}
+
+	protected function targetWasEditedByOtherUser(ilManualAssessmentMember $member) {
+		return (int)$member->examinerId() !== (int)$this->examiner->getId()
+				&& 0 !== (int)$member->examinerId();
 	}
 }
