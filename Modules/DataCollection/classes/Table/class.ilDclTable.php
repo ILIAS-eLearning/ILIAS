@@ -548,7 +548,7 @@ class ilDclTable {
 	 * @return ilDclTableView[]
 	 */
 	public function getVisibleTableViews($ref_id, $with_active_detailedview = false) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id))
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) && !$with_active_detailedview)
 		{
 			return $this->getTableViews();
 		}
