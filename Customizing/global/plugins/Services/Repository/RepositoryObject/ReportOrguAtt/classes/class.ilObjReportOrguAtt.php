@@ -95,6 +95,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		}
 		$this->orgu_filter->addToQuery($query);
 		$this->crs_topics_filter->addToQuery($query);
+		$no_wbd_imported = $this->filter->get('no_wbd_imported');
 		$query	->from("hist_userorgu orgu")
 				->join('hist_user usr')
 					->on('usr.user_id = orgu.usr_id')
@@ -103,7 +104,8 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 						."	AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
 						."	AND (usrcrs.begin_date <= ".$this->gIldb->quote($this->date_end,'date')
 						."		AND (usrcrs.end_date >= ".$this->gIldb->quote($this->date_start,'date')
-						."			OR `usrcrs`.`end_date` = '0000-00-00' OR `usrcrs`.`end_date` = '-empty-'))")
+						."			OR `usrcrs`.`end_date` = '0000-00-00' OR `usrcrs`.`end_date` = '-empty-'))"
+						."	".($no_wbd_imported ? ' AND usrcrs.crs_id > 0' : ''))
 				->left_join("hist_course crs")
 					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0"
 						."	AND ".$this->tpl_filter)
@@ -117,6 +119,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		foreach ($this->sum_parts as $title => $query_term) {
 			$sum_terms[] = $query_term["sum"];
 		}
+		$no_wbd_imported = $this->filter->get('no_wbd_imported');
 		$sum_sql = 
 		"SELECT  "
 		."	".implode(', ',$sum_terms)
@@ -132,6 +135,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."					AND (usrcrs.begin_date <= ".$this->gIldb->quote($this->date_end,'date')
 		."						AND (usrcrs.end_date >= ".$this->gIldb->quote($this->date_start,'date')
 		."							OR `usrcrs`.`end_date` = '0000-00-00' OR `usrcrs`.`end_date` = '-empty-'))"
+		."					".($no_wbd_imported ? ' AND usrcrs.crs_id > 0' : '')
 		."			LEFT JOIN `hist_course` crs "
 		."				ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
 		."					AND ".$this->tpl_filter;
@@ -145,7 +149,6 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		$sum_sql .=
 		"			".$this->queryWhere()
 		.") as temp";
-//die($sum_sql);
 		return $sum_sql;
 	}
 
@@ -268,7 +271,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 )
 				->checkbox('no_wbd_imported'
 							, $this->plugin->txt("filter_no_wbd_imported")
-							," (usrcrs.crs_id > 0 OR usrcrs.crs_id IS NULL) "
+							," TRUE "
 							," TRUE "
 							);
 			if("1" !== (string)$this->options['all_orgus_filter']) {
