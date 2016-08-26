@@ -37,3 +37,4 @@ booking_status#:#Buchungsstatus
 participation_status#:#Teilnahmestatus
 period#:#Zeitraum:
 until#:#bis
+filter_no_wbd_imported#:#Keine Trainings aus der WBD
