@@ -260,7 +260,13 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 
 		foreach ($usr_data["set"] as $k => $user)
-		{			
+		{
+			if(in_array('org_units', $this->getSelectedColumns()))
+			{
+				$usr_data['set'][$k]['org_units'] = ilObjUser::lookupOrgUnitsRepresentation($user['usr_id']);
+			}
+
+			
 			$current_time = time();
 			if ($user['active'])
 			{
@@ -528,7 +534,6 @@ class ilUserTableGUI extends ilTable2GUI
 				$val = (trim($user[$c]) == "")
 					? " "
 					: $user[$c];
-					
 				if ($user[$c] != "")
 				{
 					switch ($c)

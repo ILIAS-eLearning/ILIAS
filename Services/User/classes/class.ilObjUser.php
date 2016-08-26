@@ -3551,15 +3551,24 @@ class ilObjUser extends ilObject
 		}
 		return $id ? $id : 0;
 	}
+	
+	/**
+	 * lokup org unit representation
+	 * @param int $a_usr_id
+	 * @return string
+	 */
+	public static function lookupOrgUnitsRepresentation($a_usr_id)
+	{
+		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
+		return ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_usr_id);
+	}
 
 
 	/**
 	 * @return String
 	 */
 	public function getOrgUnitsRepresentation() {
-		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
-
-		return ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($this->getId());
+		return self::lookupOrgUnitsRepresentation($this->getId());
 	}
 
 
