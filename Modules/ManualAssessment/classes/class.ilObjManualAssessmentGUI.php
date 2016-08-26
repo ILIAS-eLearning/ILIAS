@@ -190,7 +190,9 @@ public function getTabs() {
 									, $this->getLinkTarget('settings')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'edit_members')) {
+		if($access_handler->checkAccessToObj($this->object,'edit_members')
+			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
+			|| $access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 									, $this->lng->txt('members')
 									, $this->getLinkTarget('members')
