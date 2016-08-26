@@ -1061,6 +1061,12 @@ echo "<br>+".$client_id;
 		$cb = new ilCheckboxInputGUI($lng->txt("disable_logging"), "chk_log_status");
 		$this->form->addItem($cb);
 
+		// path to error log dir
+		$ti = new ilTextInputGUI($lng->txt("error_log_path"), "error_log_path");
+		$ti->setInfo($lng->txt("error_log_path_comment".$lvext));
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+
 		// server settings
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("server_settings"));
@@ -1233,6 +1239,7 @@ echo "<br>+".$client_id;
 		$values["log_path"] = $this->setup->ini->readVariable("log","path")."/".
 			$this->setup->ini->readVariable("log","file");
 		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
+		$values["error_log_path"] = $this->setup->ini->readVariable("log","error_path");
 		$values["time_zone"] = $this->setup->ini->readVariable("server", "timezone");
 
 		// https settings
@@ -1264,7 +1271,6 @@ echo "<br>+".$client_id;
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
 				}
 			}
-
 			$_POST["setup_pass"] = $_POST["password"];
 			$_POST["setup_pass2"] = $_POST["password_retype"];
 			if (!$this->setup->checkDataDirSetup($_POST))
@@ -1276,6 +1282,11 @@ echo "<br>+".$client_id;
 			else if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if(!$this->setup->checkErrorLogSetup($_POST["error_log_path"])) {
+				$i = $this->form->getItemByPostVar("error_log_path");
 				$i->setAlert($this->lng->txt($this->setup->getError()));
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
 			}
@@ -1322,6 +1333,11 @@ echo "<br>+".$client_id;
 			if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if (!$this->setup->checkErrorLogSetup($_POST["error_log_path"])) {
+				$i = $this->form->getItemByPostVar("error_log_path");
 				$i->setAlert($this->lng->txt($this->setup->getError()));
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
 			}

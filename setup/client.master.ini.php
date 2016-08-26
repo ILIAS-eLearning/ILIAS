@@ -43,3 +43,6 @@ DEBUG = 0
 [cache]
 activate_global_cache = 0
 global_cache_service_type = 0
+
+[log]
+error_recipient = 
