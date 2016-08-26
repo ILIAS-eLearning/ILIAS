@@ -6847,7 +6847,7 @@ class TCPDF {
 					curl_setopt($cs, CURLOPT_BINARYTRANSFER, true);
 					curl_setopt($cs, CURLOPT_FAILONERROR, true);
 					curl_setopt($cs, CURLOPT_RETURNTRANSFER, true);
-					if ((ini_get('open_basedir') == '') AND (!ini_get('safe_mode'))) {
+					if ((!ini_get('safe_mode'))) {
 						curl_setopt($cs, CURLOPT_FOLLOWLOCATION, true);
 					}
 					curl_setopt($cs, CURLOPT_CONNECTTIMEOUT, 5);
