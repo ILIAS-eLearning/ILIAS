@@ -33,7 +33,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 	protected function visibleColumns() {
 		$columns = array( 'name' 				=> array('name')
 						, 'login' 				=> array('login'));
-		if($this->may_view) {
+		if($this->may_view || $this->may_edit) {
 			$columns['grading'] = array('lp_status');
 			$columns['mass_graded_by'] = array('mass_graded_by');
 		}
@@ -105,7 +105,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 			$l->addItem($this->lng->txt('mass_usr_remove'), 'removeUser', $target);
 		}
 		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		!$edited_by_other = $this->setWasEditedByOtherUser($set);
+		$edited_by_other = $this->setWasEditedByOtherUser($a_set);
 		if(!$a_set['finalized'] && $this->may_edit && !$edited_by_other) {
 			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
 			$l->addItem($this->lng->txt('mass_usr_edit'), 'edit', $target);
