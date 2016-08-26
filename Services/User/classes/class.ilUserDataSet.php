@@ -238,8 +238,8 @@ class ilUserDataSet extends ilDataSet
 						"public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email",
 						"public_fax", "public_gender", "public_hobby", "public_im_aim", "public_im_icq", "public_im_jabber",
 						"public_im_msn", "public_im_skype", "public_im_voip", "public_im_yahoo", "public_institution", "public_location",
-						"public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office", "public_profile",
-						"public_sel_country", "public_street", "public_title", "public_upload", "public_zipcode",
+						"public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office",
+						"public_profile", "public_sel_country", "public_street", "public_title", "public_upload", "public_zipcode",
 						"screen_reader_optimization", "show_users_online",
 						"store_last_visited", "time_format", "user_tz", "weekstart");
 

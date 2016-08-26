@@ -335,6 +335,10 @@ class ilMemberExport
 					$this->addCol($this->lng->txt('cal_ch_field_ch'), $row, $col++);
 					break;
 				
+				case 'org_units':
+					$this->addCol($this->lng->txt('org_units'), $row, $col++);
+					break;
+				
 				default:
 					if(substr($field,0,4) == 'udf_')
 					{
@@ -497,6 +501,11 @@ class ilMemberExport
 						}
 						$this->addCol(implode(", ", $groups), $row, $col++);
 						break;
+						
+					case 'org_units':
+						$this->addCol(ilObjUser::lookupOrgUnitsRepresentation($usr_id), $row, $col++);
+						break;
+						
 					default:
 						// Check aggreement
 						if(!$this->privacy->courseConfirmationRequired() or $this->agreement[$usr_id]['accepted'])

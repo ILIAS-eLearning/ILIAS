@@ -12,25 +12,44 @@ require_once("./Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
  */
 class ilObjOrgUnitTree {
 
-	/** @var  ilObjOrgUnitTree */
+	/**
+	 * @var null
+	 */
+	protected static $temporary_table_name = null;
+	/**
+	 * @var  ilObjOrgUnitTree
+	 */
 	private static $instance;
-	/** @var  int[][] "employee" | "superior" => orgu ref id => role id */
+	/**
+	 * @var  int[][] "employee" | "superior" => orgu ref id => role id
+	 */
 	private $roles;
-	/** @var  int[][] "employee" | "superior" => role id => orgu ref id */
+	/**
+	 * @var  int[][] "employee" | "superior" => role id => orgu ref id
+	 */
 	private $role_to_orgu;
-	/** @var  int[][][] "employee" | "superior" => orgu ref id =>  array(obj_id of users) */
+	/**
+	 * @var  int[][][] "employee" | "superior" => orgu ref id =>  array(obj_id of users)
+	 */
 	private $staff;
-	/** @var  int[][] org_unit ref id => childrens org_unit ref ids. */
+	/**
+	 * @var  int[][] org_unit ref id => childrens org_unit ref ids.
+	 */
 	private $tree_childs;
-	/** @var  ilCtrl */
+	/**
+	 * @var  ilCtrl
+	 */
 	private $ctrl;
-	/** @var  int[] orgu_ref => parent_ref */
+	/**
+	 * @var  int[] orgu_ref => parent_ref
+	 */
 	private $parent;
-	/** @var ilDB */
+	/**
+	 * @var ilDB
+	 */
 	private $db;
 
 
-	/** making the construct private */
 	private function __construct() {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
@@ -44,7 +63,9 @@ class ilObjOrgUnitTree {
 	}
 
 
-	/** singleton access. */
+	/**
+	 * @return \ilObjOrgUnitTree
+	 */
 	public static function _getInstance() {
 		if (self::$instance == null) {
 			self::$instance = new ilObjOrgUnitTree();
@@ -64,6 +85,11 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $ref_id         int the reference id of the organisational unit.
+	 * @param  $recursive     bool if true you get the ids of the subsequent orgunits superiors too
+	 * @return int[]  array of user ids.
+	 */
 	public function getSuperiors($ref_id, $recursive = false) {
 		return array_unique(($recursive ? $this->loadStaffRecursive("superior", $ref_id) : $this->loadStaff("superior", $ref_id)));
 	}
@@ -122,6 +148,10 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $ref_id
+	 * @return array
+	 */
 	public function getAllChildren($ref_id) {
 		$open = array( $ref_id );
 		$closed = array();
@@ -225,6 +255,9 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $ref_id
+	 */
 	private function loadChildren($ref_id) {
 		if (!$this->tree_childs[$ref_id]) {
 			$children = array();
@@ -238,6 +271,10 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $level
+	 * @return array
+	 */
 	public function getAllOrgunitsOnLevelX($level) {
 		$levels = array( 0 => array( ilObjOrgUnit::getRootOrgRefId() ) );
 		$current_level = 0;
@@ -316,11 +353,12 @@ class ilObjOrgUnitTree {
 	 * @return int[]
 	 */
 	public function getLevelXOfUser($user_id, $level) {
-		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
+		$q = "SELECT object_reference.ref_id FROM rbac_ua
+				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
+				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+				JOIN object_data ON object_data.obj_id = object_reference.obj_id
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
+
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
 		while ($res = $this->db->fetchAssoc($set)) {
@@ -347,17 +385,11 @@ class ilObjOrgUnitTree {
 	 * @return int[]
 	 */
 	public function getOrgUnitOfUser($user_id, $ref_id = 0) {
-		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
-
-		/*$q = "SELECT object_reference.ref_id FROM rbac_ua
+		$q = "SELECT object_reference.ref_id FROM rbac_ua
 				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
 				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";*/
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
 
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
@@ -378,6 +410,66 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * Creates a temporary table with all orgu/user assignements. there will be three columns in the table orgu_usr_assignements (or specified
+	 * table-name): ref_id: Reference-IDs of OrgUnits user_id: Assigned User-IDs path: Path-representation of the OrgUnit
+	 *
+	 * Usage:
+	 * 1. Run ilObjOrgUnitTree::getInstance()->buildTempTableWithUsrAssignements(); in your code
+	 * 2. use the table orgu_usr_assignements for your JOINS ans SELECTS
+	 * 3. Run ilObjOrgUnitTree::getInstance()->dropTempTable(); to throw away the table
+	 *
+	 * @throws ilException
+	 *
+	 * @param string $temporary_table_name
+	 *
+	 * @return bool
+	 */
+	public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements') {
+		if ($temporary_table_name == self::$temporary_table_name) {
+			return true;
+		}
+		if (self::$temporary_table_name === null) {
+			self::$temporary_table_name = $temporary_table_name;
+		} elseif ($temporary_table_name != self::$temporary_table_name) {
+			throw new ilException('there is already a temporary table for org-unit assignement: ' . self::$temporary_table_name);
+		}
+		$this->dropTempTable($temporary_table_name);
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+				SELECT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id, orgu_path_storage.path AS path
+					FROM rbac_ua
+					JOIN  rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
+					JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+					JOIN object_data ON object_data.obj_id = object_reference.obj_id
+					JOIN orgu_path_storage ON orgu_path_storage.ref_id = object_reference.ref_id
+				WHERE object_data.type = 'orgu' AND object_reference.deleted IS NULL
+			);";
+		$this->db->manipulate($q);
+		return true;
+	}
+
+
+	/**
+	 * @param $temporary_table_name
+	 * @return bool
+	 */
+	public function dropTempTable($temporary_table_name) {
+		if (self::$temporary_table_name === null || $temporary_table_name != self::$temporary_table_name) {
+			return false;
+		}
+		$q = "DROP TABLE IF EXISTS " . $temporary_table_name;
+		$this->db->manipulate($q);
+
+		self::$temporary_table_name = null;
+
+		return true;
+	}
+
+
+	/**
+	 * @param $org_refs
+	 * @return array
+	 */
 	public function getTitles($org_refs) {
 		$names = array();
 		foreach ($org_refs as $org_unit) {
@@ -398,6 +490,9 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @return \int[]
+	 */
 	public function getSuperiorRoles() {
 		$this->loadRoles("superior");
 
@@ -405,6 +500,9 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $role
+	 */
 	private function loadRoles($role) {
 		if ($this->roles[$role] == null) {
 			$this->loadRolesQuery($role);
@@ -417,6 +515,9 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $role
+	 */
 	private function loadRolesQuery($role) {
 		$this->roles[$role] = array();
 		$q = "SELECT obj_id, title FROM object_data WHERE type = 'role' AND title LIKE 'il_orgu_" . $role . "%'";
@@ -429,6 +530,10 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $role_title
+	 * @return int
+	 */
 	private function getRefIdFromRoleTitle($role_title) {
 		$array = explode("_", $role_title);
 
@@ -478,6 +583,10 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * @param $orgu_ref int
+	 * @return int
+	 */
 	public function getParent($orgu_ref) {
 		if (!$this->parent[$orgu_ref]) {
 			$this->parent[$orgu_ref] = $this->tree->getParentId($orgu_ref);

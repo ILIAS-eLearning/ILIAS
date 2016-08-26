@@ -151,6 +151,20 @@ class ilUserProfile
 						"group_export_hide" => true,
 						"lists_hide" => true,								
 						"group" => "interests"),
+		"org_units" => array(
+						"input" => "noneditable",
+						"lang_var" => "objs_orgu",
+						"required_hide" => true,
+						"visib_reg_hide" => true,
+						"course_export_hide" => false,
+						"group_export_hide" => false,
+						"export_hide" => true,
+						"changeable_hide" => true,
+						"changeable_fix_value" => 0,
+						"changeable_lua_hide" => true,
+						"changeable_lua_fix_value" => 0,
+						"method" => "getOrgUnitsRepresentation",
+						"group" => "contact_data"),
 		"institution" => array(
 						"input" => "text",
 						"maxlength" => 80,
@@ -774,6 +788,13 @@ class ilUserProfile
 							$ti->setDataSource($this->ajax_href."&f=".$f);
 						}
 						$a_form->addItem($ti);
+					}
+					break;
+				case "noneditable":
+					if (self::$mode == self::MODE_DESKTOP && ilUserProfile::userSettingVisible($f)) {
+						$ne = new ilNonEditableValueGUI($lng->txt($lv));
+						$ne->setValue($a_user->$m());
+						$a_form->addItem($ne);
 					}
 					break;
 			}

@@ -50,6 +50,35 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			$role->setOptions($options + $this->getParentObject()->getLocalRoles());
 			$this->current_filter['roles'] = $role->getValue();
 		}
+		
+		if($this->isColumnSelected('org_units'))
+		{
+			include_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
+			$root = ilObjOrgUnit::getRootOrgRefId();
+			include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
+			$tree = ilObjOrgUnitTree::_getInstance();
+			$nodes = $tree->getAllChildren($root);
+			
+			include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+			ilLoggerFactory::getLogger('crs')->dump($paths);
+			
+			
+			$options[0] = $this->lng->txt('select_one');
+			foreach($paths as $org_ref_id => $path)
+			{
+				$options[$org_ref_id] = $path;
+			}
+			
+			$org = $this->addFilterItemByMetaType(
+				'org_units',
+				ilTable2GUI::FILTER_SELECT,
+				false,
+				$this->lng->txt('org_units')
+			);
+			$org->setOptions($options);
+			$this->current_filter['org_units'] = $org->getValue();
+		}
 	}
 	
 

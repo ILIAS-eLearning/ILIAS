@@ -200,8 +200,14 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
 					$this->tpl->parseCurrentBlock();
 					break;
-				
-                                        
+					
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+					$this->tpl->parseCurrentBlock();
+					break;
+					
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST',isset($a_set[$field]) ? (string) $a_set[$field] : '');
@@ -287,6 +293,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
 		unset($additional_fields['roles']);
+		unset($additional_fields['org_units']);
 				
 		
 		
@@ -320,7 +327,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             0,
             0,
             null,
-            $usr_data_fields
+            $usr_data_fields,
+			$part
         );
 		
 		$a_user_data = array();
@@ -335,6 +343,17 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					continue;
 				}
 			}
+			if($this->current_filter['org_units'])
+			{
+				$org_unit = $this->current_filter['org_units'];
+				include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
+				$assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
+				if(!in_array($org_unit, $assigned))
+				{
+					continue;
+				}
+			}
+			
 			$filtered_user_ids[] = $user_id;
 			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
 		}

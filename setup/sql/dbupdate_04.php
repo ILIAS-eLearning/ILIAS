@@ -17511,7 +17511,7 @@ if(!$ilDB->indexExistsByFields('mass_members', array('obj_id','usr_id'))) {
 }
 ?>
 <#5027>
-	<?php
+<?php
 	if(!$ilDB->indexExistsByFields('lng_data', array('local_change'))) {
 		$ilDB->addIndex('lng_data',array('local_change'),'i3');
 	}
@@ -17669,3 +17669,28 @@ if (!$ilDB->tableExists('user_action_activation'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5035>
+<?php
+$fields = array(
+	'ref_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'obj_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'path' => array(
+		'type' => 'clob',
+
+	),
+
+);
+if (! $ilDB->tableExists('orgu_path_storage')) {
+	$ilDB->createTable('orgu_path_storage', $fields);
+	$ilDB->addPrimaryKey('orgu_path_storage', array( 'ref_id' ));
+}
+?>
+
