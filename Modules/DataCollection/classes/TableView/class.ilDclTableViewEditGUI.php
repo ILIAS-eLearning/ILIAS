@@ -222,6 +222,7 @@ class ilDclTableViewEditGUI
 
             $setting->update();
         }
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this->parent_obj, 'tableview_id');
         $this->ctrl->redirect($this, 'editFieldSettings');
     }
