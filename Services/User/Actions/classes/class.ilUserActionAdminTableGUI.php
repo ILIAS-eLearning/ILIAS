@@ -33,7 +33,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_context_comp, $a_context_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_data)
 	{
 		global $DIC;
 
@@ -41,26 +41,9 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 		$this->lng = $DIC->language();
 		$this->tpl = $DIC["tpl"];
 
-		$this->context_comp = $a_context_comp;
-		$this->context_id = $a_context_id;
-		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		include_once("./Services/User/Actions/classes/class.ilUserActionProviderFactory.php");
-		$data = array();
-		foreach(ilUserActionProviderFactory::getAllProviders() as $p)
-		{
-			foreach ($p->getActionTypes() as $id => $name)
-			{
-				$data[] = array(
-					"action_comp_id" => $p->getComponentId(),
-					"action_type_id" => $id,
-					"action_type_name" => $name
-				);
-			}
-		}
-
-		$this->setData($data);
+		$this->setData($a_data);
 		$this->setTitle($this->lng->txt(""));
 
 		$this->addColumn($this->lng->txt("user_action"));
@@ -78,7 +61,12 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		if ($a_set["active"])
+		{
+			$this->tpl->touchBlock("checked");
+		}
 		$this->tpl->setVariable("VAL", $a_set["action_type_name"]);
+		$this->tpl->setVariable("ACTION_ID", $a_set["action_comp_id"].":".$a_set["action_type_id"]);
 	}
 
 }

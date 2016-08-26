@@ -51,11 +51,13 @@ class ilUserActionCollector
 	 *
 	 * @return ilUserActionCollection action
 	 */
-	public function getActionsForTargetUser($a_target_user)
+	public function getActionsForTargetUser($a_target_user, $a_context_component_id, $a_context_id)
 	{
 		// overall collection of users
 		include_once("./Services/User/Actions/classes/class.ilUserActionCollection.php");
 		$this->collection = ilUserActionCollection::getInstance();
+
+		include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
 
 		include_once("./Services/User/Actions/classes/class.ilUserActionProviderFactory.php");
 		foreach (ilUserActionProviderFactory::getAllProviders() as $prov)
@@ -64,7 +66,10 @@ class ilUserActionCollector
 			$coll = $prov->collectActionsForTargetUser($a_target_user);
 			foreach ($coll->getActions() as $action)
 			{
-				$this->collection->addAction($action);
+				if (ilUserActionAdmin::lookupActive($a_context_component_id, $a_context_id, $prov->getComponentId(), $action->getType()))
+				{
+					$this->collection->addAction($action);
+				}
 			}
 		}
 

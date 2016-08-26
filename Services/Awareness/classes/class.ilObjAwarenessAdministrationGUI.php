@@ -27,6 +27,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
 		$this->lng->loadLanguageModule("awrn");
 		$this->lng->loadLanguageModule("pd");
+		$this->lng->loadLanguageModule("usr");
 	}
 
 	/**
