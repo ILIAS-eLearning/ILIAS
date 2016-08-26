@@ -8,8 +8,16 @@
  *
  * @package     Modules/Test
  */
-class ilTestRandomQuestionSetLostPool
+class ilTestRandomQuestionSetNonAvailablePool
 {
+	const UNAVAILABILITY_STATUS_LOST = 'lost';
+	const UNAVAILABILITY_STATUS_TRASHED = 'trashed';
+	
+	/**
+	 * @var string
+	 */
+	protected $unavailabilityStatus;
+	
 	/**
 	 * @var integer
 	 */
@@ -71,6 +79,22 @@ class ilTestRandomQuestionSetLostPool
 	public function setPath($path)
 	{
 		$this->path = $path;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getUnavailabilityStatus()
+	{
+		return $this->unavailabilityStatus;
+	}
+	
+	/**
+	 * @param string $unavailabilityStatus
+	 */
+	public function setUnavailabilityStatus($unavailabilityStatus)
+	{
+		$this->unavailabilityStatus = $unavailabilityStatus;
 	}
 
 	/**
