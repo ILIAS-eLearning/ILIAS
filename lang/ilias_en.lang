@@ -12319,6 +12319,8 @@ dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
 dcl#:#dcl_msg_tables_delete_all#:#Could not delete: At least one Table must exist
+dcl#:#dcl_msg_tables_deleted#:#Tables deleted
+dcl#:#dcl_tables_confirm_delete#:#Do you really want to delete the following Tables?
 dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
 dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?

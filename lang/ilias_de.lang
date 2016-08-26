@@ -12454,6 +12454,8 @@ dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
 dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
 dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
+dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht
+dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?

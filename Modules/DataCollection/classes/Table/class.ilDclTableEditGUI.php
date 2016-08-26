@@ -435,7 +435,7 @@ class ilDclTableEditGUI {
 	 * cancelDelete
 	 */
 	public function cancelDelete() {
-		$this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
 	}
 
 	/*
