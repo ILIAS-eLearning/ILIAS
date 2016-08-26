@@ -7,8 +7,7 @@ require_once "Services/Cron/classes/class.ilCronJob.php";
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilCronUpdateOrgUnitPaths extends ilCronJob
-{
+class ilCronUpdateOrgUnitPaths extends ilCronJob {
 
 	const ID = "orgunit_paths";
 	/**
@@ -28,8 +27,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return string
 	 */
-	public function getId()
-	{
+	public function getId() {
 		return self::ID;
 	}
 
@@ -37,8 +35,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return string
 	 */
-	public function getTitle()
-	{
+	public function getTitle() {
 		global $DIC;
 		$lng = $DIC['lng'];
 
@@ -49,8 +46,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return string
 	 */
-	public function getDescription()
-	{
+	public function getDescription() {
 		global $DIC;
 		$lng = $DIC['lng'];
 
@@ -61,8 +57,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return bool
 	 */
-	public function hasAutoActivation()
-	{
+	public function hasAutoActivation() {
 		return true;
 	}
 
@@ -70,8 +65,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return bool
 	 */
-	public function hasFlexibleSchedule()
-	{
+	public function hasFlexibleSchedule() {
 		return true;
 	}
 
@@ -79,8 +73,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return int
 	 */
-	public function getDefaultScheduleType()
-	{
+	public function getDefaultScheduleType() {
 		return self::SCHEDULE_TYPE_DAILY;
 	}
 
@@ -88,8 +81,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 *
 	 */
-	public function getDefaultScheduleValue()
-	{
+	public function getDefaultScheduleValue() {
 		return;
 	}
 
@@ -97,13 +89,12 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 	/**
 	 * @return ilCronJobResult
 	 */
-	public function run()
-	{
+	public function run() {
 		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
-		foreach (ilOrgUnitPathStorage::getAllOrguRefIds() as $ref_id)
-		{
+		foreach (ilOrgUnitPathStorage::getAllOrguRefIds() as $ref_id) {
 			ilOrgUnitPathStorage::writePathByRefId($ref_id);
 		}
+		ilOrgUnitPathStorage::clearDeleted();
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_OK);
 

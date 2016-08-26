@@ -422,8 +422,13 @@ class ilObjOrgUnitTree {
 	 * @throws ilException
 	 *
 	 * @param string $temporary_table_name
+	 *
+	 * @return bool
 	 */
 	public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements') {
+		if ($temporary_table_name == self::$temporary_table_name) {
+			return true;
+		}
 		if (self::$temporary_table_name === null) {
 			self::$temporary_table_name = $temporary_table_name;
 		} elseif ($temporary_table_name != self::$temporary_table_name) {
@@ -440,6 +445,7 @@ class ilObjOrgUnitTree {
 				WHERE object_data.type = 'orgu' AND object_reference.deleted IS NULL
 			);";
 		$this->db->manipulate($q);
+		return true;
 	}
 
 
@@ -453,6 +459,8 @@ class ilObjOrgUnitTree {
 		}
 		$q = "DROP TABLE IF EXISTS " . $temporary_table_name;
 		$this->db->manipulate($q);
+
+		self::$temporary_table_name = null;
 
 		return true;
 	}

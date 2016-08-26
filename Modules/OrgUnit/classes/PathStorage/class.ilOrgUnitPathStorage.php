@@ -10,6 +10,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 
 	const GLUE = ' > ';
 	const GLUE_SIMPLE = ' - ';
+	const TABLE_NAME = 'orgu_path_storage';
 	/**
 	 * @var int
 	 *
@@ -65,32 +66,49 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * Return "-" if $string is empty
 	 *
 	 * @param int $user_id
+	 * @param bool $using_tmp_table second implementation
 	 *
 	 * @return string   comma seperated string representations of format: [OrgUnit Title] - [OrgUnits corresponding Level 1 Title]
 	 */
-	public static function getTextRepresentationOfUsersOrgUnits($user_id) {
-		$array_of_org_ids = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
+	public static function getTextRepresentationOfUsersOrgUnits($user_id, $using_tmp_table = true) {
+		if ($using_tmp_table) {
+			global $DIC;
+			/**
+			 * @var ilDBInterface $ilDB
+			 */
+			$ilDB = $DIC['ilDB'];
+			ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
+			$res = $ilDB->queryF("SELECT GROUP_CONCAT(path SEPARATOR ', ') AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array( 'integer' ), array( $user_id ));
+			$dat = $ilDB->fetchObject($res);
 
-		if (!$array_of_org_ids) {
-			return '-';
+			return $dat->orgus ? $dat->orgus : '-';
+		} else {
+			$array_of_org_ids = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
+
+			if (!$array_of_org_ids) {
+				return '-';
+			}
+			require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
+			$paths = ilOrgUnitPathStorage::where(array( 'ref_id' => $array_of_org_ids ))->getArray(null, 'path');
+
+			return implode(", ", $paths);
 		}
-		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
-		$paths = ilOrgUnitPathStorage::where(array( 'ref_id' => $array_of_org_ids ))->getArray(null, 'path');
-
-		return implode(", ", $paths);
 	}
-	
+
+
 	/**
 	 * Get ref id path array
+	 *
 	 * @return array
 	 */
 	public static function getTextRepresentationOfOrgUnits() {
-		
 		$paths = ilOrgUnitPathStorage::getArray('ref_id', 'path');
+
 		return $paths;
 	}
 
-		/**
+
+	/**
 	 * @param $ref_id
 	 * @return bool
 	 */
@@ -123,6 +141,19 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 
 		return true;
 	}
+
+
+	public static function clearDeleted() {
+		global $DIC;
+		/**
+		 * @var ilDBInterface $ilDB
+		 */
+		$ilDB = $DIC['ilDB'];
+		$ref_ids = self::getAllOrguRefIds();
+		$q = "DELETE FROM " . self::TABLE_NAME . " WHERE  " . $ilDB->in('ref_id', $ref_ids, true, 'integer');
+		$ilDB->manipulate($q);
+	}
+
 
 	/**
 	 * @param $ref_id
@@ -162,7 +193,6 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	}
 
 
-
 	/**
 	 * @param null $lng_key
 	 * @return array
@@ -175,7 +205,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			 */
 			$ilDB = $DIC['ilDB'];
 			$res = $ilDB->queryF('SELECT * FROM object_reference
-			JOIN object_data ON object_reference.obj_id = object_data.obj_id
+			JOIN object_data ON object_reference.obj_id = object_data.obj_id AND deleted IS NULL
 			WHERE object_data.type = %s', array( 'text' ), array( 'orgu' ));
 			while ($data = $ilDB->fetchObject($res)) {
 				self::$orgu_names[$data->ref_id] = $data->title;
@@ -190,7 +220,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * @return string
 	 */
 	public function getConnectorContainerName() {
-		return 'orgu_path_storage';
+		return self::TABLE_NAME;
 	}
 
 

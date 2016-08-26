@@ -45,7 +45,7 @@ class ilLoggingErrorSettings {
 	}
 
 	public function setMail($mail) {
-		assert('is_string($mail)');
+//		assert('is_string($mail)');
 		$this->mail = $mail;
 	}
 
