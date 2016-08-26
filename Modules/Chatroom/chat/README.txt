@@ -13,13 +13,15 @@
   If you want to copy the Chatserver to another location, make sure to copy
   the whole chat folder.
 
-== Usage ==
+== Usage Examples ==
 
 Single ILIAS client:
-  node chat path/to/server.cfg path/to/client.cfg
+  cd [ILIAS_ROOT_DIRECTORY]
+  node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/client.cfg
 
 Multiple ILIAS clients:
-  node chat path/to/server.cfg path/to/first/client.cfg path/to/second/client.cfg ....
+  cd [ILIAS_ROOT_DIRECTORY]
+  node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID]/chatroom/server.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_1]/chatroom/client.cfg [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_2]/chatroom/client.cfg ...
 
 == Introduction ==
 
