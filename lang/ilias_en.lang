@@ -764,6 +764,13 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Q
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
+assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
+assessment#:#tst_derive_new_pool#:#Derive New Question Pool
+assessment#:#tst_derive_new_pools#:#Derive New Question Pools
+assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
+assessment#:#tst_non_available_pool_newly_derived#:#The new question pool(s) has been derived successfully.
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
