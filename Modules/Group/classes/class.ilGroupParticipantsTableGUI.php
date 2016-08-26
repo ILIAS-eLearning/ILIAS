@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
+include_once './Services/Tracking/classes/class.ilLPStatus.php';
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -9,7 +11,6 @@ include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 *
 * @ingroup ModulesGroup
 */
-
 class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected $show_learning_progress = false;
@@ -273,9 +274,11 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
      */
     public function parse()
     {
+		$this->determineOffsetAndOrder(true);
+		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 
-		$group_user_data = $this->getParentObject()->readMemberData(
+		$group_user_data = (array) $this->getParentObject()->readMemberData(
 			$part,
 			$this->getSelectedColumns()
 		);
@@ -314,8 +317,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $usr_data = ilUserQuery::getUserListData(
 			$this->getOrderField(),
 			$this->getOrderDirection(),
-			$this->getOffset(),
-			$this->getLimit(),
+			0,
+			9999,
 			$this->current_filter['login'],
             '',
             null,
@@ -340,7 +343,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 			$filtered_user_ids[] = $user_id;
-			$a_user_data[$user_id] = array_merge($ud,$group_user_data[$user_id]);
+			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
 		}
 
 		// Custom user data fields

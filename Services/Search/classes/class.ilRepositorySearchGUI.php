@@ -497,7 +497,7 @@ class ilRepositorySearchGUI
 		$clip->save();
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		$this->ctrl->redirect($this, 'showClipboard');
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**

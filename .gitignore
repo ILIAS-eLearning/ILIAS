@@ -24,7 +24,7 @@ libs/.gitignore
 
 # Directories
 /data
-#/Customizing/global
+/Customizing/global
 /setup/sql/ilDBTemplate
 virtual-data
 

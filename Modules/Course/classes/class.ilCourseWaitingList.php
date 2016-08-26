@@ -33,7 +33,7 @@ class ilCourseWaitingList extends ilWaitingList
 				"Modules/Course", 
 				'addToWaitingList', 
 				array(
-					'obj_id' => $this->obj_id,
+					'obj_id' => $this->getObjId(),
 					'usr_id' => $a_usr_id
 				)
 			);

@@ -63,6 +63,13 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 			$this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
 		);
 
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+
 		$toolbar = $this->buildUserTestResultsToolbarGUI();
 		$this->ctrl->setParameter($this, 'pdf', '1');
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'showVirtualPass') );

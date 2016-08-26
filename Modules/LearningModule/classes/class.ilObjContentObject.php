@@ -2072,6 +2072,10 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($content_style_img_dir);
 		$GLOBALS["teximgcnt"] = 0;
 
+        // init the mathjax rendering for HTML export
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
 		$style_name = $ilUser->prefs["style"].".css";

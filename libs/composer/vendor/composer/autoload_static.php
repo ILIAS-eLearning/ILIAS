@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
 {
     public static $files = array (
+        'ce89ac35a6c330c55f4710717db9ff78' => __DIR__ . '/..' . '/kriswallsmith/assetic/src/functions.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     );
 
@@ -27,6 +28,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'S' => 
         array (
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\Process\\' => 26,
         ),
         'M' => 
         array (
@@ -64,6 +66,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
         ),
         'Monolog\\' => 
         array (
@@ -125,6 +131,20 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
             'GetId3_' => 
             array (
                 0 => __DIR__ . '/..' . '/phansys/getid3',
+            ),
+        ),
+        'C' => 
+        array (
+            'ComponentInstaller' => 
+            array (
+                0 => __DIR__ . '/..' . '/robloach/component-installer/src',
+            ),
+        ),
+        'A' => 
+        array (
+            'Assetic' => 
+            array (
+                0 => __DIR__ . '/..' . '/kriswallsmith/assetic/src',
             ),
         ),
     );

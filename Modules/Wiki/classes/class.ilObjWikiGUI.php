@@ -1528,7 +1528,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	
 	public function pdfExportObject()
 	{
-		$html = $this->printViewObject(true);	
+
+        // prepare generation before contents are processed (for mathjax)
+		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+		ilPDFGeneration::prepareGeneration();
+
+		$html = $this->printViewObject(true);
 		
 		// :TODO: fixing css dummy parameters
 		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);

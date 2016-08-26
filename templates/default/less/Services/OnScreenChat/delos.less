@@ -1,0 +1,355 @@
+[data-onscreenchat-inact-userid] {
+	opacity: 0.3 !important;
+}
+
+#onscreenchat-container {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	/*height: 100px;*/
+	overflow: visible;
+	pointer-events: none;
+	z-index: 1039;
+
+	.popover {
+		max-width: 200px;
+
+		a {
+			border: 1px solid white;
+			padding: 1px 0 1px 2px;
+
+			&:hover {
+				border: 1px solid silver;
+			}
+		}
+	}
+
+	.row{
+		position: relative;
+	}
+
+	.panel {
+		pointer-events: auto;
+		margin: 0;
+		border: 1px solid #dcdcdc;
+	}
+
+	.panel-heading {
+		font-size: 80%;
+		padding: 5px 5px 5px 15px;
+		pointer-events: auto;
+		margin: 0;
+		border: 1px solid #dcdcdc;
+		vertical-align: middle;
+
+		.btn {
+			padding: 0 4px;
+		}
+	}
+
+	.chat-window-wrapper{
+		bottom: 0;
+		padding-left: 5px;
+		padding-right: 5px;
+		width: 278px;
+		height: 377px;
+
+		.panel-body {
+			height: auto;
+		}
+
+		.chat-img img {
+			height: 30px;
+			width: 30px;
+		}
+
+		li.left .chat-img {
+			margin-right: 5px;
+		}
+
+		li.right .chat-img {
+			margin-left: 5px;
+		}
+
+		.chat-message {
+			overflow-y: scroll;
+			overflow-x: hidden;
+			height: auto;
+			min-height: 25px;
+			max-height: 75px;
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			-ms-word-break: break-all;
+			word-break: break-all;
+			word-break: break-word;
+			-ms-hyphens: auto;
+			-moz-hyphens: auto;
+			-webkit-hyphens: auto;
+			hyphens: auto;
+			cursor: text;
+		}
+
+		.iosOnScreenChatBodyMsg {
+			overflow-x: hidden;
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			-ms-word-break: break-all;
+			word-break: break-all;
+			word-break: break-word;
+			-ms-hyphens: auto;
+			-moz-hyphens: auto;
+			-webkit-hyphens: auto;
+			hyphens: auto;
+		}
+
+		[contenteditable=true]:empty:before {
+			content: attr(placeholder);
+			display: block;
+			color: #CCCCCC;
+		}
+
+		.osc_truncate_username{
+			width: 150px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display:inline-block;
+		}
+		.text-muted-left{
+			width:160px;
+			margin-top: -4px;
+			text-align:right;
+		}
+		.text-muted-right{
+			width:160px;
+			margin-top: -4px;
+			text-align:left;
+		}
+		.osc_truncate_username_left{
+			width: 160px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display:inline-block;
+			margin-bottom:-5px;
+			text-align:right;
+		}
+
+		.osc_truncate_username_right{
+			width: 160px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display:inline-block;
+		}
+
+		.chat {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			li {
+				margin-bottom: 10px;
+				padding-bottom: 5px;
+				border-bottom: 1px dotted #B3A9A9;
+
+				.chat-body {
+					.header strong {
+						font-size: 0.8em;
+					}
+
+					p {
+						margin: 0;
+						color: #777777;
+						font-size: 0.9em;
+					}
+				}
+			}
+		}
+
+		.panel .slidedown .glyphicon, .chat .glyphicon {
+			margin-right: 5px;
+		}
+
+		.panel-body {
+			overflow-y: scroll;
+			height: 250px;
+		}
+
+		.iosOnScreenChatEmoticonsPanel {
+			display: block;
+			height: 14px;
+			width: 14px;
+			position: relative;
+			margin-top: 5px;
+
+			> a {
+				display: block;
+				height: 14px;
+				width: 14px;
+				background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat;
+				background-size: cover;
+				z-index: 1000;
+			}
+		}
+	}
+}
+
+.iosOnScreenChatModalBody {
+	.ui-menu-item {
+		padding: 5px;
+	}
+	.ui-menu-item-wrapper {
+		cursor: pointer !important;
+	}
+}
+
+.ilOnScreenChatSearchLoader {
+	vertical-align: middle;
+	width: 10px;
+	height: 10px;
+	margin-left: 5px;
+	display: inline-block;
+}
+
+.ilOnScreenChatMenuDropDown {
+	.iosOnScreenChatDropDownTriggerInactive {
+		opacity: 0.3;
+	}
+
+	.popover {
+		max-width: 300px;
+		min-width: 300px;
+	}
+
+	.popover-content {
+		padding: 0;
+	}
+
+	.popover-title, .dropdown-header a {
+		padding: 3px 10px;
+		font-size: 12px;
+		line-height: 1.5;
+		color: #777777 !important;
+		white-space: nowrap;
+		background-color: #f3f3f3;
+	}
+
+	h3.popover-title {
+		display: none;
+	}
+
+	#onscreenchat_trigger {
+		display: block;
+
+		> span {
+			display: table-cell;
+		}
+
+		.ilBadgeSpacer {
+			display: inline-block;
+			height: 1px;
+		}
+	}
+
+	.iosOnScreenChatHidden {
+		visibility: hidden;
+	}
+
+	#onscreenchat_hbadge {
+		display:block;
+		height:16px;
+	}
+
+	#onscreenchat_badge {
+		display:block;
+		height:1px;
+
+		.badge {
+			background-color: #A0A0A0;
+		}
+	}
+
+}
+.ilOnScreenChatMenuItem {
+	position: relative;
+	border-bottom: 1px solid #E9E9E9;
+	color: #000;
+
+	.media {
+		overflow: visible;
+		padding: 0;
+		cursor: pointer;
+
+		&:after {
+			content: ".";
+			clear: both;
+			display: block;
+			visibility: hidden;
+			height: 0;
+		}
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
+	.media-left,
+	.media-body,
+	.media-right {
+		vertical-align: top;
+	}
+
+	.media-left {
+		padding-right: 10px;
+		float: left;
+	}
+
+	.media-object {
+		width: 50px;
+	}
+
+	.media-body {
+		padding: 4px 4px 0 0;
+		white-space: nowrap;
+		max-width: 100%;
+		overflow: visible;
+
+		p, h4 {
+			font-size: 12px;
+			padding: 0 3px 0 0;
+			line-height: 1em;
+			margin: 0;
+		}
+
+		h4 {
+			padding-top: 0;
+			color: #606060;
+		}
+
+		.media-heading  {
+			text-overflow: ellipsis;
+			overflow: hidden;
+
+			a {
+				color: @link-color !important;
+			}
+		}
+
+		p {
+			color: #A0A0A0;
+
+			&.lastMessage {
+				padding: 3px 3px 3px 0;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				color: #606060;
+			}
+			
+			a {
+				color: @link-color !important;
+			}
+		}
+	}
+}

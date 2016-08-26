@@ -1898,8 +1898,9 @@ class ilForum
 		{
 			if($edit == 0)
 			{
-				$text = ilUtil::insertLatexImages($text, "\<span class\=\"latex\">", "\<\/span>");
-				$text = ilUtil::insertLatexImages($text, "\[tex\]", "\[\/tex\]");
+				include_once './Services/MathJax/classes/class.ilMathJax.php';
+				$text = ilMathJax::getInstance()->insertLatexImages($text, "\<span class\=\"latex\">", "\<\/span>");
+				$text = ilMathJax::getInstance()->insertLatexImages($text, "\[tex\]", "\[\/tex\]");
 			}
 			
 			// workaround for preventing template engine

@@ -370,7 +370,8 @@ class ilGlossaryTermGUI
 				$tpl->parseCurrentBlock();
 			}
 
-			ilUtil::includeMathjax($tpl);
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			ilMathJax::getInstance()->includeMathJax($tpl);
 
 			$tpl->setCurrentBlock("definition");
 			$tpl->setVariable("PAGE_CONTENT", $output);

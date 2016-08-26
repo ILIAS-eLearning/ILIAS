@@ -158,7 +158,7 @@ class ilSystemStyleLessGUI
 				new ilSystemStyleMessage($this->lng->txt("invalid_less_path"),ilSystemStyleMessage::TYPE_ERROR)
 			);
 			$this->getMessageStack()->addMessage(
-				new ilSystemStyleMessage($this->lng->txt("provided_less_path").PATH_TO_LESSC,ilSystemStyleMessage::TYPE_ERROR)
+				new ilSystemStyleMessage($this->lng->txt("provided_less_path")." ".PATH_TO_LESSC,ilSystemStyleMessage::TYPE_ERROR)
 			);
 			$pass = false;
 		}

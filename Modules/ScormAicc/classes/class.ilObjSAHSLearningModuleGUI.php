@@ -1,6 +1,5 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 
@@ -11,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -38,6 +37,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilTabs, $ilErr;
 		
+		$GLOBALS["ilLog"]->write ("bc:".$_GET["baseClass"]."; nc:".$this->ctrl->getNextClass($this)."; cmd:".$this->ctrl->getCmd());
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			strtolower($_GET["baseClass"]) == "ilsahspresentationgui" ||
 			$this->getCreationMode() == true)
@@ -292,7 +292,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// type selection
 		$options = array(
 			"scorm2004" => $lng->txt("lm_type_scorm2004"),
-			"scorm" => $lng->txt("lm_type_scorm")
+			"scorm" => $lng->txt("lm_type_scorm"),
+			"exportFile" => $lng->txt("sahs_export_file")
+
 			// "aicc" => $lng->txt("lm_type_aicc"),
 			// "hacp" => $lng->txt("lm_type_hacp")
 			);
@@ -428,29 +430,71 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// create and insert object in objecttree
 		switch ($_POST["sub_type"])
 		{
-			
-			case "scorm2004":
-				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
-				$newObj = new ilObjSCORM2004LearningModule();
-				$newObj->setEditable($_POST["editable"]=='y');
-				$newObj->setImportSequencing($_POST["import_sequencing"]);
-				$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-				break;
 
-			case "scorm":
-				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
-				$newObj = new ilObjSCORMLearningModule();
-				break;
+		case "scorm2004":
+			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+			$newObj = new ilObjSCORM2004LearningModule();
+			$newObj->setEditable($_POST["editable"]=='y');
+			$newObj->setImportSequencing($_POST["import_sequencing"]);
+			$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+			break;
 
-			case "aicc":
-				include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");
-				$newObj = new ilObjAICCLearningModule();
-				break;
+		case "scorm":
+			include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
+			$newObj = new ilObjSCORMLearningModule();
+			break;
 
-			case "hacp":
-				include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModule.php");
-				$newObj = new ilObjHACPLearningModule();
-				break;
+		case "aicc":
+			include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");
+			$newObj = new ilObjAICCLearningModule();
+			break;
+
+		case "hacp":
+			include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModule.php");
+			$newObj = new ilObjHACPLearningModule();
+			break;
+
+			case "exportFile":
+			$sType = "exportFile";
+			$sFile = $_FILES["scormfile"];
+			$fType = $sFile["type"];
+			if ($fType == "application/zip")
+			{
+				//$zipLocation = $this->getZipFileLocation ($a_xml_filename);//future use
+				$tempFile = $sFile["tmp_name"];
+				$lmDir = ilUtil::getWebspaceDir ("filesystem")."/lm_data/";
+				$zar = new ZipArchive();
+				$zar->open ($tempFile);
+				$zar->extractTo ($lmDir);
+				$zar->close();
+				$tmpFileName = $lmDir . "/" . $tempFile;
+				$zFileName = $sFile["name"];
+				$baseName = substr ($zFileName, 0, strrpos ($zFileName, "."));
+				$xmlName = $baseName . ".xml";
+				$xmlPath = $lmDir . $baseName . ".xml";
+				$importFromXml = false;
+				require_once "./Modules/ScormAicc/classes/class.ilScormAiccImporter.php";
+				$importer = new ilScormAiccImporter ();
+				if ($importer->importXmlRepresentation("sahs", Null, $xmlPath, "") == true)
+					$importFromXml = true;
+				$mprops = [];
+				$mprops = $importer->moduleProperties;
+				$fed = $mprops["Fourth_edition"][0];
+				if ($fed == "n")
+				{
+					include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
+					$newObj = new ilObjSCORMLearningModule();
+				}
+				else
+				{
+					include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+					$newObj = new ilObjSCORM2004LearningModule();
+					$newObj->setEditable($_POST["editable"]=='y');
+					$newObj->setImportSequencing($_POST["import_sequencing"]);
+					$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+				}
+			}
+			break;
 		}
 
 		$newObj->setTitle($name);
@@ -466,11 +510,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		if ($_FILES["scormfile"]["name"])
 		{
-			// copy uploaded file to data directory
-			$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
-		
-			ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
+			if ($importFromXml)
+			{
+				$file_name = $_FILES["scormfile"]["name"];
+				$base_name = substr ($file_name, 0, strrpos ($file_name, "."));
+				$file_path = $newObj->getDataDirectory() . "/" . $base_name . ".zip";
+				$scorm_file = fopen ($file_path, "w");
+				$zip_data = base64_decode ($importer->moduleProperties["zipfile"][0]);
+				fwrite ($scorm_file, $zip_data);
+				fclose ($scorm_file);
+			}
+			else
+			{
+				// copy uploaded file to data directory
+				$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
+
+				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
 					$_FILES["scormfile"]["name"], $file_path);
+			}
 		}
 		else
 		{
@@ -500,11 +557,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			case "scorm2004":
 			case "scorm":
+			case "exportFile":
 			$newObj->setLearningProgressSettingsAtUpload();
 			break;
 		}
 		
-		
+		if ($importFromXml)
+		{
+			$importer->writeData("sahs", "4.5.0", $newObj->getId());
+		}
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
 	}
@@ -705,6 +766,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				"", "ilmdeditorgui");
 		}
 
+		// export
+		if ($rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId()))
+		{
+			$this->tabs_gui->addTarget("export",
+				$this->ctrl->getLinkTarget($this, "export"), array("", "export"),
+				get_class($this));
+		}
+
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
@@ -816,5 +885,32 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$ilTabs->setTabActive('settings');
 	}
 
+	public function export()
+	{
+				global $lng, $ilTabs, $ilCtrl, $tpl;
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$ilCtrl->setCmd("");
+				$exp_gui->addFormat("xml");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
+				return $ret;
+	}
+
+	public function exportModule()
+	{
+		global $ilDB;
+
+		$moduleId = ilObject::_lookupObjectId($_GET["ref_id"]);
+		require_once "./Modules/ScormAicc/classes/class.ilSAHSExporter.php";
+		$exporter = new ilSAHSExporter();
+		$xml = $exporter->getXmlRepresentation("sahs", "4.5.0", $moduleId);
+		$file = ilUtil::deliverFile ($xml, "proddingsco.xml");
+	}
+
+	function getType()
+	{
+		return "sahs";
+	}
 } // END class.ilObjSAHSLearningModule
 ?>

@@ -116,7 +116,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable('select_all');
 
 		$this->setEnableNumInfo(true);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSegmentation(false);
 		
 		$this->getItems();
 		$this->setTopCommands(true);
@@ -130,7 +130,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable_certificates = ilCertificate::isActive();		
 		if($this->enable_certificates)
 		{
-			$this->enable_certificates = ilCertificate::isObjectActive($this->getRepositoryObject->getId());
+			$this->enable_certificates = ilCertificate::isObjectActive($this->getRepositoryObject()->getId());
 		}
 		if($this->enable_certificates)
 		{
@@ -377,7 +377,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	{
 		global $rbacreview;
 
-		$this->determineOffsetAndOrder();
+		$this->determineOffsetAndOrder(true);
 
 		include_once './Services/User/classes/class.ilUserQuery.php';
 
@@ -413,8 +413,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$usr_data = ilUserQuery::getUserListData(
 			$this->getOrderField(),
 			$this->getOrderDirection(),
-			$this->getOffset(),
-			$this->getLimit(),
+			0,
+			9999,
 			$this->current_filter['login'],
 			'',
 			null,
@@ -573,7 +573,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
-		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
+		#$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
 		return $this->setData($a_user_data);
 	}
 	
