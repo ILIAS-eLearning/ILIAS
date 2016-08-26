@@ -190,7 +190,7 @@
 
 			$menu.setMessageFormatter(getModule().getMessageFormatter());
 
-			$(window).bind('storage', function(e){
+			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
 
 				if (conversation && conversation.hasOwnProperty("id")) {
