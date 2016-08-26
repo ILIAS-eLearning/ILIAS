@@ -63,7 +63,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
 		}
 
-		if (! ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) == NULL || preg_match($regex, $value) === false)) {
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != NULL && preg_match($regex, $value) === false) {
 			throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
 		}
 
