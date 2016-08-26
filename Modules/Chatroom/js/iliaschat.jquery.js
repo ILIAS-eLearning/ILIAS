@@ -217,12 +217,14 @@ var Smileys = function Smileys(_smileys) {
 			}
 			$emoticons_flyout.append($emoticons_table);
 
-			$emoticons_flyout_trigger.click(function (e) {
+			$emoticons_flyout_trigger.on('click', function (e) {
 				$emoticons_flyout.toggle();
-			}).toggle(function () {
-				$(this).addClass("active");
-			}, function () {
-				$(this).removeClass("active");
+				
+				if ($(this).hasClass("active")) {
+					$(this).removeClass("active");
+				} else {
+					$(this).addClass("active");
+				}
 			});
 
 			$emoticons_panel.on('clickoutside', function (event) {
