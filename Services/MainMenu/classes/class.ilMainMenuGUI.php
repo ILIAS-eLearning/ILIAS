@@ -227,7 +227,9 @@ class ilMainMenuGUI
 			// online help
 			$this->renderHelpButtons();
 
+			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
+			$this->populateWithOnScreenChat();
 			$this->renderAwareness();
 		}
 
@@ -1064,6 +1066,22 @@ class ilMainMenuGUI
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
 			ilBuddySystemGUI::initializeFrontend();
 		}
+	}
+
+	protected function populateWithOnScreenChat()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChat.php';
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php';
+
+		ilOnScreenChatGUI::initializeFrontend();
+	}
+
+	protected function renderOnScreenChatMenu()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php';
+
+		$menu = new ilOnScreenChatMenuGUI();
+		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
 	}
 
 	/**

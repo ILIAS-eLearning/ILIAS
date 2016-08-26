@@ -781,7 +781,6 @@ var ChatActions = function ChatActions(selector, _translation, _connector, _priv
 
 								$('#invite_user_text').keyup(function(){
 									if($(this).val().length > 2) {
-										// @TODO Move this to ILIASConnector.
 										$.get(
 												posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
 												function(response){
