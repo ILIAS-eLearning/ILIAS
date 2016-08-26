@@ -776,7 +776,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass(array('ilparticipationstatusadmingui','ilparticipationstatusgui'), "viewAttendanceList")
 							."' title='".$lng->txt("gev_attendance_list")."'>".$signatures_img."</a>&nbsp;";
-				$ilCtrl->setParameterByClass("ilparticipationstatusadmingui", "ref_id", null);
+				$ilCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", null);
 			}
 
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
