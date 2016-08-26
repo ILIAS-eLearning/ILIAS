@@ -29,11 +29,19 @@ class ilOnScreenChatMenuGUI
 	protected $oscAccess = false;
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * ilOnScreenChatMenuGUI constructor.
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
 		$this->init();
+		$this->ui = $DIC->ui();
 	}
 
 	/**
@@ -114,12 +122,21 @@ class ilOnScreenChatMenuGUI
 		if(!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')))
 		{
 			require_once 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php';
-			ilToolTipGUI::addTooltip('iosOnScreenChatMenuDropDownContainer', $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
-
-			$tpl->touchBlock('dont_accpt_msg');
+			ilToolTipGUI::addTooltip('onscreenchat_trigger', $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
 		}
 
-		$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+		$f        = $this->ui->factory();
+		$renderer = $this->ui->renderer();
+
+		$glyph = $f->glyph()->comment();
+		$glyph = $glyph->withCounter($f->counter()->status(0))->withCounter($f->counter()->novelty(0))->withOnLoadCode(function($id) use (&$glyph_id) {
+			$glyph_id = $id;
+			return '';
+		});
+		$glyph_html = $renderer->render($glyph);
+
+		$tpl->setVariable('GLYPH', $glyph_html);
+		$tpl->setVariable('LOADER', ilUtil::getImagePath('loader.svg'));
 		return $tpl->get();
 	}
 }

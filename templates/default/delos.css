@@ -11676,6 +11676,15 @@ div.ilPCMyCoursesPath {
 .ilOnScreenChatMenuDropDown .iosOnScreenChatDropDownTriggerInactive {
   opacity: 0.3;
 }
+.ilOnScreenChatMenuDropDown .iosOnScreenChatHidden {
+  visibility: hidden !important;
+}
+.ilOnScreenChatMenuDropDown .iosOnScreenChatShown {
+  visibility: visible !important;
+}
+.ilOnScreenChatMenuDropDown .badge {
+  visibility: hidden;
+}
 .ilOnScreenChatMenuDropDown .popover {
   max-width: 300px;
   min-width: 300px;
@@ -11694,30 +11703,6 @@ div.ilPCMyCoursesPath {
 }
 .ilOnScreenChatMenuDropDown h3.popover-title {
   display: none;
-}
-.ilOnScreenChatMenuDropDown #onscreenchat_trigger {
-  display: block;
-}
-.ilOnScreenChatMenuDropDown #onscreenchat_trigger > span {
-  display: table-cell;
-}
-.ilOnScreenChatMenuDropDown #onscreenchat_trigger .ilBadgeSpacer {
-  display: inline-block;
-  height: 1px;
-}
-.ilOnScreenChatMenuDropDown .iosOnScreenChatHidden {
-  visibility: hidden;
-}
-.ilOnScreenChatMenuDropDown #onscreenchat_hbadge {
-  display: block;
-  height: 16px;
-}
-.ilOnScreenChatMenuDropDown #onscreenchat_badge {
-  display: block;
-  height: 1px;
-}
-.ilOnScreenChatMenuDropDown #onscreenchat_badge .badge {
-  background-color: #A0A0A0;
 }
 .ilOnScreenChatMenuItem {
   position: relative;

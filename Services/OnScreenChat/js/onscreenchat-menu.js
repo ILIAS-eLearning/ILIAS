@@ -20,7 +20,7 @@
 		},
 
 		init: function() {
-			$('#onscreenchat_trigger').popover({
+			$('#onscreenchat_trigger > a').popover({
 				html : true,
 				placement : "bottom",
 				viewport : { selector: 'body', padding: 10 },
@@ -32,7 +32,7 @@
 			});
 
 			$('body').on('click', function (e) {
-				$('#onscreenchat_trigger[data-toggle="popover"]').each(function () {
+				$('#onscreenchat_trigger > a').each(function () {
 					//the 'is' for buttons that trigger popups
 					//the 'has' for icons within a button that triggers a popup
 					if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
@@ -47,9 +47,13 @@
 		show: function() {
 			var module = $scope.il.OnScreenChatMenu;
 
-			$('#onscreenchat_trigger').siblings('.popover').children('.popover-content').html(module.getContent());
+			$('#onscreenchat_trigger > a').siblings('.popover').children('.popover-content').html(module.getContent());
 			$('body').addClass('modal-open');
 			module.afterListUpdate();
+		},
+		
+		close: function() {
+			$('#onscreenchat_trigger > a').popover('hide');
 		},
 
 		getContent: function() {
@@ -146,21 +150,22 @@
 			});
 			var numConversations = conversations.length;
 			var numMessages = getModule().countUnreadMessages();
-			var conversationsBadge = $('[data-onscreenchat-menu-numconversations]');
-			var messagesBadge = $('[data-onscreenchat-menu-nummessages]');
 
-			conversationsBadge.find('span').html(numConversations);
+			var messagesBadge = $('.ilOnScreenChatMenuDropDown .il-counter-novelty');
+			var conversationsBadge = $('.ilOnScreenChatMenuDropDown .il-counter-status');
+
+			conversationsBadge.html(numConversations);
 			if (numConversations == 0) {
-				conversationsBadge.find('.badge').addClass('iosOnScreenChatHidden');
+				conversationsBadge.addClass('iosOnScreenChatHidden').removeClass('iosOnScreenChatShown');
 			} else {
-				conversationsBadge.find('.badge').removeClass('iosOnScreenChatHidden');
+				conversationsBadge.removeClass('iosOnScreenChatHidden').addClass('iosOnScreenChatShown');
 			}
 
-			messagesBadge.find('span').html(numMessages);
+			messagesBadge.html(numMessages);
 			if(numMessages == 0) {
-				messagesBadge.find('.badge').addClass('iosOnScreenChatHidden');
+				messagesBadge.addClass('iosOnScreenChatHidden').removeClass('iosOnScreenChatShown');
 			} else {
-				messagesBadge.find('.badge').removeClass('iosOnScreenChatHidden');
+				messagesBadge.removeClass('iosOnScreenChatHidden').addClass('iosOnScreenChatShown');
 			}
 		},
 

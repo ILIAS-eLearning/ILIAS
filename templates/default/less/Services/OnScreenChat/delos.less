@@ -218,6 +218,18 @@
 		opacity: 0.3;
 	}
 
+	.iosOnScreenChatHidden {
+		visibility: hidden !important;
+	}
+
+	.iosOnScreenChatShown {
+		visibility: visible !important;
+	}
+
+	.badge {
+		visibility: hidden;
+	}
+
 	.popover {
 		max-width: 300px;
 		min-width: 300px;
@@ -239,39 +251,8 @@
 	h3.popover-title {
 		display: none;
 	}
-
-	#onscreenchat_trigger {
-		display: block;
-
-		> span {
-			display: table-cell;
-		}
-
-		.ilBadgeSpacer {
-			display: inline-block;
-			height: 1px;
-		}
-	}
-
-	.iosOnScreenChatHidden {
-		visibility: hidden;
-	}
-
-	#onscreenchat_hbadge {
-		display:block;
-		height:16px;
-	}
-
-	#onscreenchat_badge {
-		display:block;
-		height:1px;
-
-		.badge {
-			background-color: #A0A0A0;
-		}
-	}
-
 }
+
 .ilOnScreenChatMenuItem {
 	position: relative;
 	border-bottom: 1px solid #E9E9E9;

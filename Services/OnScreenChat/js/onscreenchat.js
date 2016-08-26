@@ -1,11 +1,3 @@
-
-/*$.each(getModule().storage.all(), function(key, conversation){
-	if(conversation.open) {
-		getModule().open(conversation.id);
-	}
-});*/
-
-
 (function($, $scope, $chat, $menu){
 	'use strict';
 
@@ -78,7 +70,7 @@
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('click', '[data-onscreenchat-menu-item]', function(e) {
 					$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
-					$('#onscreenchat_trigger[data-toggle="popover"]').popover('hide');
+					$menu.close();
 				})
 				.on('click', '[data-onscreenchat-window]', function(e){
 					if ($(e.target).closest('[data-onscreenchat-header]').length == 0 && $(e.target).parent('[data-onscreenchat-body-msg]').length == 0) {
