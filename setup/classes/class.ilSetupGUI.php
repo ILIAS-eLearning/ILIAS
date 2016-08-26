@@ -464,6 +464,7 @@ echo "<br>+".$client_id;
 			case "createMemcacheServer":
 			case "updateMemcacheServer":
 			case "flushCache":
+			case "switchLegacyDB":
 				$this->$cmd();
 				break;
 
@@ -2095,6 +2096,12 @@ echo "<br>+".$client_id;
 	//// DISPLAY DATABASE
 	////
 
+	protected function switchLegacyDB() {
+		$this->setup->getClient()->setDbType(ilDBConstants::mapLegacy($this->setup->getClient()->getDbType()));
+		$this->setup->getClient()->writeIni();
+		ilUtil::redirect('setup.php?cmd=db');
+	}
+
 	/**
 	 * display database form and process form input
 	 */
@@ -2104,14 +2111,23 @@ echo "<br>+".$client_id;
 
 		$this->checkDisplayMode("setup_database");
 
-		//$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
+		if (ilDBConstants::isLegacy($ilDB->getDBType())) {
+			require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
+			$b = ilLinkButton::getInstance();
+			$b->setCaption($this->lng->txt('db_switch_legacy_button'), false);
+			$b->addCSSClass('pull-right');
+			$b->setUrl('setup.php?cmd=switchLegacyDB');
+			ilUtil::sendInfo($this->lng->txt('db_switch_legacy') . ' ' . ilDBConstants::describe(ilDBConstants::mapLegacy($ilDB->getDBType())) . ' '
+			                 . $b->render());
+		}
+
 
 		// database is intalled
 		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled())
 		{
 			$this->setDbSubTabs("db");
 
-			$ilDB = $this->setup->getClient()->db;
+			$ilDB = $this->setup->getClient()->getDB();
 			$this->lng->setDbHandler($ilDB);
 			include_once "./Services/Database/classes/class.ilDBUpdate.php";
 			$dbupdate = new ilDBUpdate($ilDB);
@@ -2684,15 +2700,12 @@ echo "<br>+".$client_id;
 	*/
 	public function getClientDbFormValues($dbupdate = null)
 	{
-		global $lng;
-
 		$values = array();
-
 		$values["db_host"] = $this->setup->getClient()->getDbHost();
 		$values["db_name"] = $this->setup->getClient()->getDbName();
 		$values["db_user"] = $this->setup->getClient()->getDbUser();
 		$values["db_port"] = $this->setup->getClient()->getDbPort();
-		$values["db_type"] = $lng->txt("db_".$this->setup->getClient()->getDbType());
+		$values["db_type"] = ilDBConstants::describe($this->setup->getClient()->getDbType());
 		if (is_object($dbupdate))
 		{
 			$values["update_break"] = $dbupdate->fileVersion;

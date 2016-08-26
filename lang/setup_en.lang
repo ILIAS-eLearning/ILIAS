@@ -615,3 +615,5 @@ enable_system_styles_management_info#:#Manage (add, edit, delete) System Styles 
 lessc_path#:#Path to lessc
 lessc_path_comment#:#Lessc is needed to compile less files to CSS. This is a requirement for generating new css files for systems styles through manipulating less variables in the Administration.
 lessc#:#Path to lessc
+db_switch_legacy#:#You are using a Database-Type which has been replaced with a newer implementation. The newer implementation also supports PHP7. Do you want to switch to:
+db_switch_legacy_button#:#Switch
