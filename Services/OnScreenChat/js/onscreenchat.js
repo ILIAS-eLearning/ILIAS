@@ -259,6 +259,7 @@
 			}
 
 			conversation.open = true;
+			conversation.numNewMessages = 0;
 			conversation.lastActivity = (new Date).getTime();
 			getModule().storage.save(conversation);
 		},

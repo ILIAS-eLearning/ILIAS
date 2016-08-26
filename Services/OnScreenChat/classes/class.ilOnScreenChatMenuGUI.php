@@ -134,6 +134,8 @@ class ilOnScreenChatMenuGUI
 		}
 
 		$config['triggerId'] = $glyph_id;
+		$config['conversationNoveltyCounter'] = $renderer->render($f->counter()->novelty(0));
+
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.setConfig(".ilJsonUtil::encode($config).");");
 		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.init();");
 

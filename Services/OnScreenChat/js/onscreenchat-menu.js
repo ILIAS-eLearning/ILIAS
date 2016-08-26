@@ -85,7 +85,16 @@
 					template = template.replace('[[avatar]]', getProfileImage(participants[0].id));
 					template = template.replace('[[userId]]', participants[0].id);
 					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
-					template = template.replace(/\[\[conversationId\]\]/, conversations[index].id);
+					template = template.replace(/\[\[conversationId\]\]/g, conversations[index].id);
+
+					var numNewMessages     = conversations[index].numNewMessages;
+					var numMessagesCounter = $(getModule().config.conversationNoveltyCounter).html(numNewMessages);
+					if (numNewMessages > 0) {
+						numMessagesCounter.addClass('iosOnScreenChatShown');
+					} else {
+						numMessagesCounter.addClass('iosOnScreenChatHidden');
+					}
+					template = template.replace("[[badge]]", numMessagesCounter.wrap("<div></div>").parent().html());
 					template = template.replace('[[last_message]]', getModule().getMessageFormatter().format(latestMessage.message));
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
