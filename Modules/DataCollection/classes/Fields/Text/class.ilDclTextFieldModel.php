@@ -63,8 +63,17 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
 		}
 
-		if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != NULL && preg_match($regex, $value) === false) {
-			throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
+
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != NULL) {
+			try {
+				$preg_match = preg_match($regex, $value);
+			} catch (ErrorException $e) {
+				throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
+			}
+
+			if ($preg_match == false) {
+				throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
+			}
 		}
 
 		//email or url

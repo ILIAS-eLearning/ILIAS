@@ -12031,6 +12031,7 @@ dcl#:#dcl_edit#:#Datensammlung bearbeiten
 dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Exportierbar
 dcl#:#dcl_tables#:#Tabellen
+dcl#:#dcl_invalid_regex_config#:#Der reguläre Ausdruck, der für dieses Feld konfiguriert ist, ist ungültig. Überprüfen Sie die Einstellungen dieses Feldes, um das Problem zu beheben.
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
 rbac#:#dcl_copy#:#Datensammlung kopieren
