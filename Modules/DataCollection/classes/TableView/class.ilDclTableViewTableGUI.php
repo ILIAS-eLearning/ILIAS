@@ -101,6 +101,8 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->tpl->setVariable("ORDER_VALUE", $a_set->getOrder());
         }
         $this->tpl->setVariable("TITLE", $a_set->getTitle());
+	    $this->ctrl->setParameterByClass('ilDclTableViewEditGUI', 'tableview_id', $a_set->getId());
+        $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
 
