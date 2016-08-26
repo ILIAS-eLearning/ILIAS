@@ -119,12 +119,6 @@ class ilOnScreenChatMenuGUI
 
 		$tpl = new ilTemplate('tpl.chat-menu.html', true, true, 'Services/OnScreenChat');
 
-		if(!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')))
-		{
-			require_once 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php';
-			ilToolTipGUI::addTooltip('onscreenchat_trigger', $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
-		}
-
 		$f        = $this->ui->factory();
 		$renderer = $this->ui->renderer();
 
@@ -134,6 +128,12 @@ class ilOnScreenChatMenuGUI
 			return '';
 		});
 		$glyph_html = $renderer->render($glyph);
+
+		if(!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')))
+		{
+			require_once 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php';
+			ilToolTipGUI::addTooltip($glyph_id, $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
+		}
 
 		$tpl->setVariable('GLYPH', $glyph_html);
 		$tpl->setVariable('LOADER', ilUtil::getImagePath('loader.svg'));
