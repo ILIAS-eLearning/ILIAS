@@ -1,14 +1,14 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Awareness/classes/class.ilAwarenessFeatureProvider.php';
+require_once 'Services/User/Actions/classes/class.ilUserActionProvider.php';
 
 /**
- * Adds link to mail feature
+ * Adds link to contact
  * @author Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
+class ilContactUserActionProvider extends ilUserActionProvider
 {
 	/**
 	 * @var ilObjUser
@@ -38,10 +38,10 @@ class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 	/**
 	 * {@inheritdoc}
 	 */
-	public function collectFeaturesForTargetUser($a_target_user)
+	public function collectActionsForTargetUser($a_target_user)
 	{
-		require_once 'Services/Awareness/classes/class.ilAwarenessFeature.php';
-		$coll = ilAwarenessFeatureCollection::getInstance();
+		require_once 'Services/User/Actions/classes/class.ilUserAction.php';
+		$coll = ilUserActionCollection::getInstance();
 
 		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 		if(!ilBuddySystem::getInstance()->isEnabled())
@@ -68,7 +68,7 @@ class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 			$relation = $buddylist->getRelationByUserId($a_target_user);
 			foreach($relation->getCurrentPossibleTargetStates() as $target_state)
 			{
-				$f = new ilAwarenessFeature();
+				$f = new ilUserAction();
 				$f->setText(
 					$this->lng->txt('buddy_bs_act_btn_txt_requested_to_' .
 					ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName()))
@@ -80,7 +80,7 @@ class ilAwarenessContactsFeatureProvider extends ilAwarenessFeatureProvider
 					'buddy-id'      => $a_target_user,
 					'action'        => $target_state->getAction())
 				);
-				$coll->addFeature($f);
+				$coll->addAction($f);
 			}
 		}
 

@@ -2,16 +2,16 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php");
+include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 
 /**
- * Adds link to chat feature
+ * Adds link to chat
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesAwareness
+ * @ingroup ServicesUser
  */
-class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
+class ilChatUserActionProvider extends ilUserActionProvider
 {
 	/**
 	 * @var array
@@ -85,14 +85,15 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 	}
 
 	/**
-	 * Collect all features
+	 * Collect all actions
 	 *
 	 * @param int $a_target_user target user
-	 * @return ilAwarenessUserCollection collection
+	 * @return ilUserActionCollection collection
 	 */
-	public function collectFeaturesForTargetUser($a_target_user)
+	function collectActionsForTargetUser($a_target_user)
 	{
-		$coll = ilAwarenessFeatureCollection::getInstance();
+		$coll = ilUserActionCollection::getInstance();
+		include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 
 		require_once 'Services/Awareness/classes/class.ilAwarenessFeature.php';
 		require_once 'Services/User/classes/class.ilObjUser.php';
@@ -104,16 +105,15 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 
 		if($this->checkUserChatAccess($this->getUserId()))
 		{
-			// this check is not really needed anymore, since the current
-			// user will never be listed in the awareness tool
-			if($a_target_user != $this->getUserId())
+			// no chat with user him/herself
+			if ($a_target_user != $this->getUserId())
 			{
 				if($this->checkUserChatAccess($a_target_user))
 				{
-					$f = new ilAwarenessFeature();
+					$f = new ilUserAction();
 					$f->setText($this->lng->txt('chat_invite_public_room'));
 					$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $this->pub_ref_id . '&amp;usr_id=' . $a_target_user . '&amp;cmd=view-invitePD');
-					$coll->addFeature($f);
+					$coll->addAction($f);
 				}
 			}
 		}
