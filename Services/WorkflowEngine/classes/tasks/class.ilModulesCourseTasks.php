@@ -170,28 +170,10 @@ class ilModulesCourseTasks
 		return;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 */
 	public static function assignTutorsToCourse($context, $params)
 	{
 		/*
@@ -217,6 +199,10 @@ class ilModulesCourseTasks
 		return;
 	}
 
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 */
 	public static function assignAdminsToCourse($context, $params)
 	{
 		/*
