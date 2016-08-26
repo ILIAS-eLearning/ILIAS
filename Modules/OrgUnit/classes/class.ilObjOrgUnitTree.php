@@ -378,6 +378,42 @@ class ilObjOrgUnitTree {
 	}
 
 
+	/**
+	 * Creates a temporary table with all orgu/user assignements. there will be three columns in the table orgu_usr_assignements (or specified table-name):
+	 * ref_id: Reference-IDs of OrgUnits
+	 * user_id: Assigned User-IDs
+	 * path: Path-representation of the OrgUnit
+	 *
+	 * Usage:
+	 * 1. Run ilObjOrgUnitTree::getInstance()->buildTempTableWithUsrAssignements(); in your code
+	 * 2. use the table orgu_usr_assignements for your JOINS ans SELECTS
+	 * 3. Run ilObjOrgUnitTree::getInstance()->dropTempTable(); to throw away the table
+	 *
+	 * @param string $temporary_table_name
+	 */
+	public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements') {
+		$this->dropTempTable($temporary_table_name);
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS ".$temporary_table_name." AS (
+				SELECT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id
+					FROM rbac_ua
+				JOIN  rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
+				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+				JOIN object_data ON object_data.obj_id = object_reference.obj_id
+				WHERE object_data.type = 'orgu'
+			);";
+		$this->db->manipulate($q);
+	}
+
+
+	/**
+	 * @param $temporary_table_name
+	 */
+	public function dropTempTable($temporary_table_name) {
+		$q = "DROP TABLE IF EXISTS " . $temporary_table_name;
+		$this->db->manipulate($q);
+	}
+
+
 	public function getTitles($org_refs) {
 		$names = array();
 		foreach ($org_refs as $org_unit) {
