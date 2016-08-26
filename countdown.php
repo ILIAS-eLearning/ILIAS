@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?php
 
-include("./_launchDate.php");
-
-if( $delta <= 0 
-	&& $_SERVER['SERVER_NAME'] != 'generali.test.cat06.de'
-	&& $_SERVER['SERVER_NAME'] != 'localhost'){
-    header('Location: ./index.php');
-    die();
-}
-
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -108,9 +97,9 @@ if( $delta <= 0
 		function __init__(){
 			//time to countdown in seconds
 			<?php
-				include('./_launchDate.php');
+				include('./launchDate.php');
 			?>
-			javascript_countdown.init(<?php echo($delta);?>);
+			javascript_countdown.init(<?php echo $delta;?>);
 		}
 
 	</script>

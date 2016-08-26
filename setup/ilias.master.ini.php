@@ -1,4 +1,6 @@
 ; <?php exit; ?>
+[launch_data]
+launch_datetime = "1977-01-01 00:00:00"
 
 [server]
 http_path =

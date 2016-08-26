@@ -46,3 +46,4 @@ until#:#bis
 wbd_role_no_service_warning#:#Wie es scheint sollten Ihre Punkte gemeldet werden, jedoch sind Sie, nach unserem Wissensstand, nicht bei der WBD angemeldet.
 aca_transferred_points_filter#:#An die WBD gemeldete Weiterbildungspunkte im ausgewählten Zeitraum
 aca_to_transdfer_points_filter#:#Noch an die WBD zu meldende Weiterbildungspunkte im ausgewählten Zeitraum<br><small>Die Weiterbildungspunkte werden jeweils nächtens an die WBD übertragen.</small>
+u_access_violation_show_self#:#Sie haben nicht die Berechtigung um die Bildungsbiografie des angefragten Benutzers zu sehen. Sie sehen nun Ihre eigene.
