@@ -67,6 +67,11 @@ class ilObjReportASTD extends ilObjReportBase {
 								, date("Y")."-01-01"
 								, date("Y")."-12-31"
 								)
+				->checkbox('no_wbd_imported'
+							, $this->plugin->txt("filter_no_wbd_imported")
+							," ucs.crs_id > 0"
+							," TRUE "
+							)
 				->static_condition(" c.hist_historic = 0 ")
 				->static_condition(" ucs.hist_historic = 0 ")
 				->static_condition(" ucs.participation_status = ".$this->gIldb->quote('teilgenommen','text'))

@@ -209,9 +209,14 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						  , "TRUE"
 						  );
 		$filter	->textinput( "lastname"
-								   , $this->plugin->txt("lastname_filter")
-								   , "usr.lastname"
-								   )
+							, $this->plugin->txt("lastname_filter")
+							, "usr.lastname"
+							)
+				->checkbox('no_wbd_imported'
+							, $this->plugin->txt("filter_no_wbd_imported")
+							,"(usrcrs.crs_id > 0 OR usrcrs.crs_id IS NULL)"
+							," TRUE "
+							)
 				->static_condition($this->gIldb->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 				->static_condition(" usr.hist_historic = 0")		
 				->action($this->filter_action)

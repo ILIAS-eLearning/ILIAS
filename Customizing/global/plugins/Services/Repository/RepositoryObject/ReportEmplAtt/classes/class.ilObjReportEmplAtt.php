@@ -54,9 +54,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			->select("usrcrs.end_date")
 			->select("crs.edu_program")
 			->from("hist_user usr")
-			->left_join("hist_usercoursestatus usrcrs")
+			->join("hist_usercoursestatus usrcrs")
 				->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
-			->left_join("hist_course crs")
+			->join("hist_course crs")
 				->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
 			->left_join("hist_userorgu orgu_all")
 				->on("orgu_all.usr_id = usr.user_id")
@@ -161,6 +161,11 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									 , "asc"
 									 , true
 									 )
+				->checkbox('no_wbd_imported'
+									, $this->plugin->txt("filter_no_wbd_imported")
+									," usrcrs.crs_id > 0"
+									," TRUE "
+									)
 				->static_condition($this->gIldb->in("usr.user_id", $this->user_utils->getEmployeesWhereUserCanViewEduBios(), false, "integer"))
 				->static_condition(" usr.hist_historic = 0")
 				->static_condition("( usrcrs.booking_status != '-empty-'"

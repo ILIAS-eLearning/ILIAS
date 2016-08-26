@@ -40,3 +40,4 @@ astd_hours_language_course#:#Anzahl der Sprachkurs-Lernstunden
 astd_participators#:#Anzahl der Empfänger von PE-Maßnahmen
 astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
 astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
+filter_no_wbd_imported#:#Keine Trainings aus der WBD

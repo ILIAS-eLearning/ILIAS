@@ -265,7 +265,12 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , ""
 							 , 300
 							 , 160	
-							 );
+							 )
+				->checkbox('no_wbd_imported'
+							, $this->plugin->txt("filter_no_wbd_imported")
+							," (usrcrs.crs_id > 0 OR usrcrs.crs_id IS NULL) "
+							," TRUE "
+							);
 			if("1" !== (string)$this->options['all_orgus_filter']) {
 				$filter
 				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployeesWhereUserCanViewEduBios(), false, "integer"));
