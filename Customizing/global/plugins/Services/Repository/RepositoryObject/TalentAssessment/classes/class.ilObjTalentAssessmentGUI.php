@@ -9,23 +9,18 @@ require_once(__DIR__."/class.ilTalentAssessmentSettingsGUI.php");
  *
  * @ilCtrl_isCalledBy ilObjTalentAssessmentGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
  * @ilCtrl_Calls ilObjTalentAssessmentGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjTalentAssessmentGUI: ilCareerGoalSettingsGUI
+ * @ilCtrl_Calls ilObjTalentAssessmentGUI: ilTalentAssessmentSettingsGUI
  *
  * @author 		Stefan Hecken <stefan.hecken@concepts-and-training.de> 
  */
 class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 	use TalentAssessment\Settings\ilFormHelper;
 
-	const CMD_REQUIREMENT = "showRequirements";
-	const CMD_OBSERVATIONS = "showObservations";
 	const CMD_PROPERTIES = "editProperties";
 	const CMD_SHOWCONTENT = "showContent";
 	const CMD_SUMMARY = "showSummary";
 
-
 	const TAB_SETTINGS = "tab_settings";
-	const TAB_REQUIREMENT = "tab_requirements";
-	const TAB_OBSERVATIONS = "tab_observations";
 
 	/**
 	 * Initialisation
@@ -42,7 +37,7 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 	 * Get type.
 	 */
 	final function getType() {
-		return "xcgo";
+		return "xtas";
 	}
 
 	/**
@@ -81,7 +76,12 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 
 	public function initCreateForm($a_new_type) {
 		$form = parent::initCreateForm($a_new_type);
-		$this->addSettingsFormItems($form);
+
+		$db = $this->plugin->getSettingsDB();
+		$career_goal_options = $db->getCareerGoalsOptions();
+		$venue_options = $db->getVenueOptions();
+		$org_unit_options = $db->getOrgUnitOptions();
+		$this->addSettingsFormItems($form, $career_goal_options, $venue_options, $org_unit_options);
 
 		return $form;
 	}
@@ -89,7 +89,9 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 	public function afterSave(\ilObject $newObj) {
 		$post = $_POST;
 		$db = $this->plugin->getSettingsDB();
-		$settings = $db->create((int)$newObj->getId(), 0, 0, "text", "text", "text");
+		$settings = $db->create((int)$newObj->getId(), \CaT\Plugins\TalentAssessment\Settings\TalentAssessment::IN_PROGRESS, 0
+								, "text", "text", "text", "text", new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME)
+								, new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME), 0, 0);
 		$newObj->setSettings($settings);
 		$actions = $newObj->getActions();
 		$actions->update($post);
@@ -121,5 +123,10 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 			$gui = new ilTalentAssessmentSettingsGUI($actions, $this->plugin->txtClosure());
 			$this->gCtrl->forwardCommand($gui);
 		}
+	}
+
+	protected function showContent() {
+		$_GET["cmd"] = ilTalentAssessmentSettingsGUI::CMD_SHOW;
+		$this->forwardSettings();
 	}
 }

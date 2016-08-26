@@ -10,14 +10,14 @@ include_once "./Services/Repository/classes/class.ilObjectPluginListGUI.php";
  */
 class ilObjTalentAssessmentListGUI extends ilObjectPluginListGUI {
 	function initType() {
-		$this->setType("xcgo");
+		$this->setType("xtas");
 	}
 
 	/**
 	 * Get name of gui class handling the commands
 	 */
 	function getGuiClass() {
-		return "ilObjCareerGoalGUI";
+		return "ilObjTalentAssessmentGUI";
 	}
 
 	/**

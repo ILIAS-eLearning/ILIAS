@@ -47,4 +47,19 @@ interface DB {
 	 * @param 	int 			$obj_id
 	 */
 	public function select($obj_id);
+
+	/**
+	 * @return array[] int => string
+	 */
+	public function getCareerGoalsOptions();
+	
+	/**
+	 * @return array[] int => string
+	 */
+	public function getVenueOptions();
+	
+	/**
+	 * @return array[] int => string
+	 */
+	public function getOrgUnitOptions();
 }

@@ -12,7 +12,7 @@ class ilDB implements DB {
 	}
 
 	/**
-	 * Install tables
+	 * @inheritdoc
 	 */
 	public function install() {
 		$this->createTable();
@@ -75,16 +75,14 @@ class ilDB implements DB {
 	}
 
 	/**
-	 * create new talent assessment entries
-	 *
-	 * @param 	int 			$obj_id
+	 * @inheritdoc
 	 */
 	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit) {
 		$talent_assessment = new TalentAssessment($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit);
 
 		$values = array
 				( "obj_id" => array("integer", $talent_assessment->getObjId())
-				, "state" => array("integer", $talent_assessment->getStatus())
+				, "state" => array("integer", $talent_assessment->getState())
 				, "career_goal_id" => array("integer", $talent_assessment->getCareerGoalId())
 				, "username" => array("text", $talent_assessment->getUsername())
 				, "start_date" => array("text", $talent_assessment->getStartDate())
@@ -106,7 +104,7 @@ class ilDB implements DB {
 	 */
 	public function update(TalentAssessment $talent_assessment) {
 		$values = array
-				( "state" => array("integer", $talent_assessment->getStatus())
+				( "state" => array("integer", $talent_assessment->getState())
 				, "career_goal_id" => array("integer", $talent_assessment->getCareerGoalId())
 				, "username" => array("text", $talent_assessment->getUsername())
 				, "start_date" => array("text", $talent_assessment->getStartDate())
@@ -125,9 +123,7 @@ class ilDB implements DB {
 	}
 
 	/**
-	 * delete talent assessment entry
-	 *
-	 * @param 	int 			$obj_id
+	 * @inheritdoc
 	 */
 	public function delete($obj_id) {
 		$delete = "DELETE FROM ".self::PLUGIN_TABLE."\n"
@@ -137,9 +133,7 @@ class ilDB implements DB {
 	}
 
 	/**
-	 * select settings values
-	 *
-	 * @param 	int 			$obj_id
+	 * @inheritdoc
 	 */
 	public function select($obj_id) {
 		$select = "SELECT A.state, A.career_goal_id, A.username, A.start_date, A.end_date, A.venue, A.org_unit, B.firstname, B.lastname, B.email\n"
@@ -155,6 +149,9 @@ class ilDB implements DB {
 			throw new \InvalidArgumentException("Invalid id '$obj_id' for TalentAssessment-object");
 		}
 
+		$start_date = new \iLDateTime($row["start_date"], IL_CAL_DATETIME);
+		$end_date = new \iLDateTime($row["end_date"], IL_CAL_DATETIME);
+
 		$talent_assessment = new TalentAssessment((int)$obj_id
 								 , (int)$row["state"]
 								 , (int)$row["career_goal_id"]
@@ -162,13 +159,34 @@ class ilDB implements DB {
 								 , $row["firstname"]
 								 , $row["lastname"]
 								 , $row["email"]
-								 , $row["start_date"]
-								 , $row["end_date"]
+								 , $start_date
+								 , $end_date
 								 , (int)$row["venue"]
 								 , (int)$row["org_unit"]
 							);
 
 		return $talent_assessment;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getCareerGoalsOptions() {
+		return array(1=>"huhu");
+	}
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function getVenueOptions() {
+		return array(1=>"haha");
+	}
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function getOrgUnitOptions() {
+		return array(1=>"hehe");
 	}
 
 	protected function getDB() {

@@ -80,7 +80,7 @@ class TalentAssessment {
 		assert('is_int($org_unit)');
 		$this->org_unit = $org_unit;
 
-		$this->$state = $state;
+		$this->state = $state;
 	}
 
 	public function withState($state) {
@@ -108,6 +108,14 @@ class TalentAssessment {
 		$clone->firstname = $firstname;
 		$clone->lastname = $lastname;
 		$clone->email = $email;
+
+		return $clone;
+	}
+
+	public function withUsername($username) {
+		assert('is_string($username)');
+		$clone = clone $this;
+		$clone->username = $username;
 
 		return $clone;
 	}

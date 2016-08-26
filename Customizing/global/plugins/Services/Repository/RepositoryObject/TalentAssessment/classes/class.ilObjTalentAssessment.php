@@ -9,7 +9,7 @@ include_once("./Services/Repository/classes/class.ilObjectPlugin.php");
  * @author 		Stefan Hecken <stefan.hecken@concepts-and-training.de> 
  */
 class ilObjTalentAssessment extends ilObjectPlugin implements TalentAssessment\ObjTalentAssessment{
-	const PLUGIN_TYPE = "xcgo";
+	const PLUGIN_TYPE = "xtas";
 
 	/**
 	 * @var TalentAssessment|null
