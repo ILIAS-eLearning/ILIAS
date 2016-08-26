@@ -814,10 +814,10 @@
 		};
 
 		this.paste = function(text) {
-			var lastCaretPosition = getLastCaretPosition(),
+			var lastCaretPosition = parseInt(getLastCaretPosition(), 10),
 				pre  = _message.text().substr(0, lastCaretPosition),
 				post = _message.text().substr(lastCaretPosition);
-			
+
 			_message.text(pre + text  + post);
 
 			if (window.getSelection) {
@@ -826,8 +826,8 @@
 
 				var textNode = node.firstChild;
 				var range = document.createRange();
-				range.setStart(textNode, lastCaretPosition);
-				range.setEnd(textNode, lastCaretPosition);
+				range.setStart(textNode, lastCaretPosition + text.length);
+				range.setEnd(textNode, lastCaretPosition + text.length);
 
 				var sel = window.getSelection();
 				sel.removeAllRanges();
