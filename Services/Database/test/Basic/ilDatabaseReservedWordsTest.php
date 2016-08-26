@@ -8,6 +8,8 @@
 class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
+		PHPUnit_Framework_Error_Notice::$enabled = false;
+		PHPUnit_Framework_Error_Deprecated::$enabled = false;
 		parent::setUp();
 		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		global $ilDB, $DIC;
