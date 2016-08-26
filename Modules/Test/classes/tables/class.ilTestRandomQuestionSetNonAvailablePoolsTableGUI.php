@@ -50,7 +50,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 		$this->disable('sort');
 		
 		$this->enable('select_all');
-		$this->setSelectAllCheckbox('pool_ids[]');
+		$this->setSelectAllCheckbox('derive_pool_ids[]');
 		
 		$this->setExternalSegmentation(true);
 		$this->setLimit(PHP_INT_MAX);
@@ -118,7 +118,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 		{
 			require_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
 			require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-			$chb = new ilCheckboxInputGUI('', 'pool_ids[]');
+			$chb = new ilCheckboxInputGUI('', 'derive_pool_ids[]');
 			$chb->setValue($set['id']);
 			$this->tpl->setVariable('CHB', $chb->render());
 			

@@ -774,10 +774,10 @@ class ilTestRandomQuestionSetConfigGUI
 	
 	protected function fetchPoolIdsParameter()
 	{
-		$poolIds = array();
-		
 		if( isset($_POST['derive_pool_ids']) && is_array($_POST['derive_pool_ids']) )
 		{
+			$poolIds = array();
+			
 			foreach($_POST['derive_pool_ids'] as $poolId)
 			{
 				$poolIds[] = (int)$poolId;
@@ -789,7 +789,7 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 		elseif( isset($_GET['derive_pool_id']) && (int)$_GET['derive_pool_id'])
 		{
-			$poolIds[] = (int)$_GET['derive_pool_id'];
+			$poolIds = array( (int)$_GET['derive_pool_id'] );
 		}
 		
 		return $poolIds;
