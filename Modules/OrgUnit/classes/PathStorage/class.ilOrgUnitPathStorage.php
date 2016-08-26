@@ -10,6 +10,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 
 	const GLUE = ' > ';
 	const GLUE_SIMPLE = ' - ';
+	const ORG_SEPARATOR = ' | ';
 	const TABLE_NAME = 'orgu_path_storage';
 	/**
 	 * @var int
@@ -66,11 +67,12 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * Return "-" if $string is empty
 	 *
 	 * @param int $user_id
+	 * @param string $separator
 	 * @param bool $using_tmp_table second implementation
 	 *
 	 * @return string   comma seperated string representations of format: [OrgUnit Title] - [OrgUnits corresponding Level 1 Title]
 	 */
-	public static function getTextRepresentationOfUsersOrgUnits($user_id, $using_tmp_table = true) {
+	public static function getTextRepresentationOfUsersOrgUnits($user_id, $separator = self::ORG_SEPARATOR, $using_tmp_table = true) {
 		if ($using_tmp_table) {
 			global $DIC;
 			/**
@@ -78,7 +80,8 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			 */
 			$ilDB = $DIC['ilDB'];
 			ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
-			$res = $ilDB->queryF("SELECT GROUP_CONCAT(path SEPARATOR ', ') AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array( 'integer' ), array( $user_id ));
+
+			$res = $ilDB->queryF("SELECT GROUP_CONCAT(path SEPARATOR '{$separator}') AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array( 'integer' ), array( $user_id ));
 			$dat = $ilDB->fetchObject($res);
 
 			return $dat->orgus ? $dat->orgus : '-';
@@ -91,7 +94,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 			$paths = ilOrgUnitPathStorage::where(array( 'ref_id' => $array_of_org_ids ))->getArray(null, 'path');
 
-			return implode(", ", $paths);
+			return implode($separator, $paths);
 		}
 	}
 
