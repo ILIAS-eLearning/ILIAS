@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "Services/TEP/classes/class.ilTEPView.php";
+require_once "./Services/ParticipationStatus/classes/class.ilParticipationStatus.php";
 
 /**
  * TEP grid-based views base class
@@ -768,6 +769,14 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilObjCourseGUI", "confirmTrainingCancellation")
 							."' title='".$lng->txt("gev_cancel_training")."'>".$cancel_training_img."</a>&nbsp;";
 				$ilCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", null);
+			}
+
+			if ($crs_utils->userHasPermissionTo($cur_user_id, gevSettings::LOAD_SIGNATURE_LIST) && ilParticipationStatus::getInstance($crs_utils->getCourse())->getAttendanceList()) {
+				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon_attendance.png").'" />';
+				$ilCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", $ref_id);
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass(array('ilparticipationstatusadmingui','ilparticipationstatusgui'), "viewAttendanceList")
+							."' title='".$lng->txt("gev_attendance_list")."'>".$signatures_img."</a>&nbsp;";
+				$ilCtrl->setParameterByClass("ilparticipationstatusadmingui", "ref_id", null);
 			}
 
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
