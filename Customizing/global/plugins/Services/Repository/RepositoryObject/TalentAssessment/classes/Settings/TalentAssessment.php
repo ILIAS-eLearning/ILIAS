@@ -13,7 +13,7 @@ class TalentAssessment {
 	/**
 	 * @var string
 	 */
-	protected $status;
+	protected $state;
 
 	/**
 	 * @var int
@@ -43,7 +43,12 @@ class TalentAssessment {
 	/**
 	 * @var ilDateTime
 	 */
-	protected $assessment_date;
+	protected $start_date;
+
+	/**
+	 * @var ilDateTime
+	 */
+	protected $end_date;
 
 	/**
 	 * @var int
@@ -55,7 +60,7 @@ class TalentAssessment {
 	 */
 	protected $org_unit;
 
-	public function __construct($obj_id, $career_goal_id, $username, $firstname, $lastname, $email) {
+	public function __construct($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit) {
 		assert('is_int($obj_id)');
 		$this->obj_id = $obj_id;
 		assert('is_int($career_goal_id)');
@@ -63,18 +68,24 @@ class TalentAssessment {
 		assert('is_string($username)');
 		$this->username = $username;
 		assert('is_string($firstname)');
-		$clone->firstname = $firstname;
+		$this->firstname = $firstname;
 		assert('is_string($lastname)');
-		$clone->lastname = $lastname;
+		$this->lastname = $lastname;
 		assert('is_string($email)');
-		$clone->email = $email;
+		$this->email = $email;
+		$this->start_date = $start_date;
+		$this->end_date = $end_date;
+		assert('is_int($venue)');
+		$this->venue = $venue;
+		assert('is_int($org_unit)');
+		$this->org_unit = $org_unit;
 
-		$this->state = self::IN_PROGRESS;
+		$this->$state = $state;
 	}
 
-	public function withStatus($status) {
+	public function withState($state) {
 		$clone = clone $this;
-		$clone->status = $status;
+		$clone->state = $state;
 
 		return $clone;
 	}
@@ -101,9 +112,16 @@ class TalentAssessment {
 		return $clone;
 	}
 
-	public function withAssessmentDate(\ilDateTime $assessment_date) {
+	public function withStartDate(\ilDateTime $start_date) {
 		$clone = clone $this;
-		$clone->assessment_date = $assessment_date;
+		$clone->start_date = $start_date;
+
+		return $clone;
+	}
+
+	public function withEndDate(\ilDateTime $end_date) {
+		$clone = clone $this;
+		$clone->end_date = $end_date;
 
 		return $clone;
 	}
@@ -152,15 +170,19 @@ class TalentAssessment {
 		return $this->email;
 	}
 
-	public function getAssessmentDate() {
-		return $this->assessment_date;
+	public function getStartDate() {
+		return $this->start_date;
+	}
+
+	public function getEndDate() {
+		return $this->end_date;
 	}
 
 	public function getVenue() {
 		return $this->venue;
 	}
 
-	public function getORgUnit() {
+	public function getOrgUnit() {
 		return $this->org_unit;
 	}
 }
