@@ -5,16 +5,13 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase
-{
+class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 
-	protected function setUp()
-	{
+	protected function setUp() {
 		parent::setUp();
-		require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		global $ilDB, $DIC;
+		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		$ilDB = new ilDBPdoMySQLInnoDB();
 		$DIC['ilDB'] = $ilDB;
 	}
@@ -25,8 +22,8 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase
 	 * @param $word
 	 * @param $is_reserved
 	 */
-	public function testReservedMDB2($word, $is_reserved)
-	{
+	public function testReservedMDB2($word, $is_reserved) {
+		require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
 		$this->assertEquals($is_reserved, ilDBMySQL::isReservedWord($word));
 	}
 
@@ -36,8 +33,8 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase
 	 * @param $word
 	 * @param $is_reserved
 	 */
-	public function testReservedPDO($word, $is_reserved)
-	{
+	public function testReservedPDO($word, $is_reserved) {
+		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		$this->assertEquals($is_reserved, ilDBPdoMySQLInnoDB::isReservedWord($word));
 	}
 
@@ -45,8 +42,7 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @return array
 	 */
-	public function reservedData()
-	{
+	public function reservedData() {
 		return [
 			[ 'order', true ],
 			[ 'myfield', false ],

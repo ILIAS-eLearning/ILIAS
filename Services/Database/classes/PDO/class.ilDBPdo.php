@@ -5,6 +5,7 @@ require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
 require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
 require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
 require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
+require_once('./Services/Database/interfaces/interface.ilDBInterface.php');
 
 /**
  * Class pdoDB
