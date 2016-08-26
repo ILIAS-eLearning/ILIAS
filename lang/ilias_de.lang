@@ -15849,6 +15849,16 @@ pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systmenachric
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
+logging#:#log_error_message#:#Fehler %s ist aufgetreten.
+logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
+logging#:#log_error_folder#:#Dateipfad
+logging#:#log_error_mail#:#Email Empfänger
+logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
+logging#:#error_settings_saved#:#Einstellungen gespeichert
+logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog Dateien
+logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
+logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 common#:#objs_prtf#:#Portfolios
 grp#:#grp_member_administration#:#Teilnehmerverwaltung
