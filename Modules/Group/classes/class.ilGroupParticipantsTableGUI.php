@@ -342,6 +342,18 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					continue;
 				}
 			}
+			
+			if($this->current_filter['org_units'])
+			{
+				$org_unit = $this->current_filter['org_units'];
+				include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
+				$assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
+				if(!in_array($org_unit, $assigned))
+				{
+					continue;
+				}
+			}
+			
 			$filtered_user_ids[] = $user_id;
 			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
 		}

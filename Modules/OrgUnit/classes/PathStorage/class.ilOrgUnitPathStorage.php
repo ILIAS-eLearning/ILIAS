@@ -79,9 +79,18 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 
 		return implode(", ", $paths);
 	}
-
-
+	
 	/**
+	 * Get ref id path array
+	 * @return array
+	 */
+	public static function getTextRepresentationOfOrgUnits() {
+		
+		$paths = ilOrgUnitPathStorage::getArray('ref_id', 'path');
+		return $paths;
+	}
+
+		/**
 	 * @param $ref_id
 	 * @return bool
 	 */
