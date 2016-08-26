@@ -38,7 +38,7 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	public function executeCommand() {
-		if($this->targetWasEditedByOtherUser($this->member)) {
+		if($this->targetWasEditedByOtherUser($this->member) && !$this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress')) {
 			$a_parent_gui->handleAccessViolation();
 		}
 		$this->maybeShowWarningLPInactive();
@@ -147,7 +147,7 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	protected function mayBeEdited() {
-		return !$this->member->finalized();
+		return !$this->member->finalized() && !$this->targetWasEditedByOtherUser($this->member);
 	}
 
 	protected function  edit() {
