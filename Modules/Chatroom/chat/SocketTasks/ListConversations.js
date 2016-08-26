@@ -10,23 +10,27 @@ module.exports = function() {
 
 	async.eachSeries(conversations, function(conversation, nextLoop){
 		var conversationClosed = false;
-		namespace.getDatabase().getLatestMessage(conversation, function(row){
-			row.userId = row.user_id;
-			row.conversationId = row.conversation_id;
-			conversation.setLatestMessage(row);
-		}, function(){
-			namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), function(row){
-				conversationClosed = row.is_closed;
-			}, function(){
-				if(!conversationClosed) {
-					socket.participant.emit('conversation', conversation.json());
-				}
-
+		namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), function(row){
+			conversationClosed = row.is_closed;
+		}, function() {
+			if (!conversationClosed) {
+				namespace.getDatabase().getLatestMessage(conversation, function (row) {
+					row.userId = row.user_id;
+					row.conversationId = row.conversation_id;
+					conversation.setLatestMessage(row);
+				}, function () {
+					namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
+						conversation.setNumNewMessages(row.numMessages);
+					}, function(){
+						socket.participant.emit('conversation', conversation.json());
+						nextLoop();
+					});
+				});
+			} else {
 				nextLoop();
-			});
-
-		}, function(err){
-			if(err) throw err;
+			}
 		});
+	}, function(err){
+		if(err) throw err;
 	});
 };
