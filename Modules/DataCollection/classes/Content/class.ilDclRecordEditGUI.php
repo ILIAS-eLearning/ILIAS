@@ -451,7 +451,14 @@ class ilDclRecordEditGUI {
 		//Check if we can create this record.
 		foreach ($all_fields as $field) {
 			try {
-				$value = $this->form->getInput("field_" . $field->getId());
+				if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+					$value = array(
+						'link' => $this->form->getInput("field_" . $field->getId()),
+						'title' => $this->form->getInput("field_" . $field->getId() . "_title")
+					);
+				} else {
+					$value = $this->form->getInput("field_" . $field->getId());
+				}
 				$field->checkValidity($value, $this->record_id);
 			} catch (ilDclInputException $e) {
 				$valid = false;
