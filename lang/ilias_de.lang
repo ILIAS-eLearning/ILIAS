@@ -15809,7 +15809,7 @@ book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
 chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
-chatroom#:#chatroom_auth_btn_txt#:#Schüssel generieren
+chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
