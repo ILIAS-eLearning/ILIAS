@@ -617,7 +617,14 @@
 		},
 
 		onMessageInput: function() {
-			var $this = $(this);
+			var $this = $(this),
+				placeholder = $this.parent().find('[data-onscreenchat-message-placeholder]');
+
+			if ($.trim($this.html()).length > 0 ) {
+				placeholder.addClass('ilNoDisplay');
+			} else {
+				placeholder.removeClass('ilNoDisplay');
+			}
 
 			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
 		},
