@@ -273,7 +273,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
 
 		if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
-			if ($record_obj->getOwner() == $ilUser->getId() || $ilAccess->checkAccess('write', '', $_GET['ref_id'])) {
+			if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
 				$this->tpl->setCurrentBlock('mode_manage');
 				$this->tpl->setVariable('RECORD_ID', $record_obj->getId());
 				$this->tpl->parseCurrentBlock();
