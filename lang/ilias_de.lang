@@ -12111,6 +12111,7 @@ dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeins
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
 dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
+dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
 dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
