@@ -194,10 +194,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 				
 			case 'ilobjectcustomuserfieldsgui':
-				if(isset($_REQUEST['member_id']))
-				{
-					$this->ctrl->setReturn($this,'members');
-				}
 				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
 				$this->setSubTabs('settings');

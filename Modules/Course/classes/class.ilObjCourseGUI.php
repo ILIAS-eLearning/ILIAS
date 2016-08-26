@@ -1999,8 +1999,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function getAgreementTabs()
 	{
-		
-		if ($ilAccess->checkAccess('visible','',$this->ref_id))
+		if ($GLOBALS['ilAccess']->checkAccess('visible','',$this->ref_id))
 		{
 			$GLOBALS['ilTabs']->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
@@ -2008,7 +2007,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "infoScreen"
 			);
 		}
-		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and $this->object->getMemberObject()->isMember())
+		if($GLOBALS['ilAccess']->checkAccess('leave','',$this->object->getRefId()) and $this->object->getMemberObject()->isMember())
 		{
 			$GLOBALS['ilTabs']->addTarget("crs_unsubscribe",
 					$this->ctrl->getLinkTarget($this, "unsubscribe"), 
@@ -2553,12 +2552,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case 'ilobjectcustomuserfieldsgui':
 				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
-				
-				if(isset($_REQUEST['member_id']))
-				{
-					$this->ctrl->setReturn($this,'members');
-				}
-				
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
 				$this->setSubTabs('properties');
 				$this->tabs_gui->setTabActive('settings');

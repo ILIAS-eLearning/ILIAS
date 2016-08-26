@@ -152,7 +152,7 @@ class ilMembershipGUI
 				
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
-
+				include_once 'Modules/Course/classes/class.ilCourseConstants.php';
 				if(
 					!(
 						$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
@@ -236,9 +236,26 @@ class ilMembershipGUI
 				$export = new ilMemberExportGUI($this->getParentObject()->getRefId());
 				$this->ctrl->forwardCommand($export);
 				break;
+
+			case 'ilobjectcustomuserfieldsgui':
+				$this->setSubTabs($GLOBALS['ilTabs']);
+				$this->activateSubTab($this->getParentObject()->getType()."_member_administration");
+				$this->ctrl->setReturn($this,'participants');
+
+				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
+				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->getParentGUI()->object->getId());
+				$this->ctrl->forwardCommand($cdf_gui);
+				break;
 				
 			default:
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+
+				//exclude mailMembersBtn cmd from this check
+				if($cmd != "mailMembersBtn")
+				{
+					$this->checkPermission('manage_members');
+				}
+
 				$this->$cmd();
 				break;
 		}
@@ -251,6 +268,7 @@ class ilMembershipGUI
 	{
 		$this->initParticipantTemplate();
 		$this->showParticipantsToolbar();
+		$this->activateSubTab($this->getParentObject()->getType()."_member_administration");
 		
 		// show waiting list table
 		$waiting = $this->parseWaitingListTable();
@@ -309,6 +327,7 @@ class ilMembershipGUI
 	 */
 	protected function editMember()
 	{
+		$this->activateSubTab($this->getParentObject()->getType()."_member_administration");
 		return $this->editParticipants(array($_REQUEST['member_id']));
 	}
 	
@@ -505,7 +524,7 @@ class ilMembershipGUI
 		{
 			foreach ($participants as $usr_id)
 			{
-				if($this->getMembersObject()->isAdmin($GLOBALS['ilUser']->getId()))
+				if($this->getMembersObject()->isAdmin($usr_id))
 				{
 					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"),true);
 					$this->ctrl->redirect($this, 'participants');
@@ -655,7 +674,7 @@ class ilMembershipGUI
 	protected function membersMap()
 	{
 		global $tpl;
-
+		$this->activateSubTab($this->getParentObject()->getType()."_members_map");
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		if (!ilMapUtil::isActivated() || !$this->getParentObject()->getEnableMap())
 		{
@@ -712,6 +731,7 @@ class ilMembershipGUI
 			array(
 				'auto_complete_name'	=> $this->lng->txt('user'),
 				'user_type'				=> $this->getParentGUI()->getLocalRoles(),
+				'user_type_default'		=> $this->getDefaultRole(),
 				'submit_name'			=> $this->lng->txt('add')
 			)
 		);
@@ -735,7 +755,7 @@ class ilMembershipGUI
 		#	$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
 		#	$this->ctrl->getLinkTarget($this, 'printMembers'));
 		
-		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', true);
+		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', false);
 	}
 
 	
@@ -1318,7 +1338,46 @@ class ilMembershipGUI
 		$this->ctrl->redirect($this, 'participants');
 		
 	}
-	
-	
+
+	/**
+	 * @return null
+	 */
+	protected function getDefaultRole()
+	{
+		return null;
+	}
+
+	/**
+	 * @param string $a_sub_tab
+	 */
+	protected function activateSubTab($a_sub_tab)
+	{
+		/**
+		 * @var ilTabsGUI $tabs
+		 */
+		$tabs = $GLOBALS['DIC']['ilTabs'];
+		$tabs->activateSubTab($a_sub_tab);
+	}
+
+	/**
+	 * Checks Perrmission
+	 * If not granted redirect to parent gui
+	 *
+	 * @param string $a_permission
+	 * @param string $a_cmd
+	 */
+	protected function checkPermission($a_permission, $a_cmd = "")
+	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		$ilAccess = $GLOBALS['DIC']['ilAccess'];
+
+		if(!$ilAccess->checkAccess($a_permission, $a_cmd, $this->getParentGUI()->ref_id))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this->getParentGUI());
+		}
+	}
 }
 ?>

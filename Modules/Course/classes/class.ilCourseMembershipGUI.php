@@ -11,7 +11,7 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  * 
  * 
  * @ilCtrl_Calls ilCourseMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilCourseMembershipGUI: ilCourseParticipantsGroupsGUI
+ * @ilCtrl_Calls ilCourseMembershipGUI: ilCourseParticipantsGroupsGUI, ilObjectCustomuserFieldsGUI
  * @ilCtrl_Calls ilCourseMembershipGUI: ilSessionOverviewGUI
  * @ilCtrl_Calls ilCourseMembershipGUI: ilMemberExportGUI
  */
@@ -223,6 +223,14 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 		$wait = new ilCourseWaitingList($this->getParentObject()->getId());
 		return $wait;
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getDefaultRole()
+	{
+		return $this->getParentGUI()->object->getDefaultMemberRole();
 	}
 }
 ?>

@@ -10,7 +10,7 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
  *
  * @ilCtrl_Calls ilGroupMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilGroupMembershipGUI: ilCourseParticipantsGroupsGUI
+ * @ilCtrl_Calls ilGroupMembershipGUI: ilCourseParticipantsGroupsGUI, ilObjectCustomuserFieldsGUI
  * @ilCtrl_Calls ilGroupMembershipGUI: ilSessionOverviewGUI
  * @ilCtrl_Calls ilGroupMembershipGUI: ilMemberExportGUI
  *
@@ -169,8 +169,15 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 		$wait = new ilGroupWaitingList($this->getParentObject()->getId());
 		return $wait;
 	}
-	
-	
+
+	/**
+	 * @return int
+	 */
+	protected function getDefaultRole()
+	{
+		return $this->getParentGUI()->object->getDefaultMemberRole();
+	}
+
 
 }
 ?>
