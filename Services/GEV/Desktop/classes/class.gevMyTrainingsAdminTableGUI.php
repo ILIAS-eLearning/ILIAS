@@ -295,7 +295,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 
 		$this->gCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", $ref_id);
 		$this->get_attendance_list_link = $this->gCtrl->getLinkTargetByClass(array('ilparticipationstatusadmingui','ilparticipationstatusgui'), "viewAttendanceList");
-		$this->gCtrl->setParameterByClass("ilparticipationstatusadmingui", "ref_id", null);
+		$this->gCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", null);
 	}
 
 	protected function getCourseLink($crs_obj_id, $crs_ref_id) {
