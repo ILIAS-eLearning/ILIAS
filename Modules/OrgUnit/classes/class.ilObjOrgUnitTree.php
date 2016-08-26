@@ -12,6 +12,10 @@ require_once("./Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
  */
 class ilObjOrgUnitTree {
 
+	/**
+	 * @var null
+	 */
+	protected static $temporary_table_name = null;
 	/** @var  ilObjOrgUnitTree */
 	private static $instance;
 	/** @var  int[][] "employee" | "superior" => orgu ref id => role id */
@@ -316,11 +320,12 @@ class ilObjOrgUnitTree {
 	 * @return int[]
 	 */
 	public function getLevelXOfUser($user_id, $level) {
-		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
+		$q = "SELECT object_reference.ref_id FROM rbac_ua
+				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
+				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+				JOIN object_data ON object_data.obj_id = object_reference.obj_id
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
+
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
 		while ($res = $this->db->fetchAssoc($set)) {
@@ -347,17 +352,11 @@ class ilObjOrgUnitTree {
 	 * @return int[]
 	 */
 	public function getOrgUnitOfUser($user_id, $ref_id = 0) {
-		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
-
-		/*$q = "SELECT object_reference.ref_id FROM rbac_ua
+		$q = "SELECT object_reference.ref_id FROM rbac_ua
 				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
 				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";*/
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
 
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
@@ -378,6 +377,8 @@ class ilObjOrgUnitTree {
 	}
 
 
+
+
 	/**
 	 * Creates a temporary table with all orgu/user assignements. there will be three columns in the table orgu_usr_assignements (or specified table-name):
 	 * ref_id: Reference-IDs of OrgUnits
@@ -389,17 +390,25 @@ class ilObjOrgUnitTree {
 	 * 2. use the table orgu_usr_assignements for your JOINS ans SELECTS
 	 * 3. Run ilObjOrgUnitTree::getInstance()->dropTempTable(); to throw away the table
 	 *
+	 * @throws ilException
+	 *
 	 * @param string $temporary_table_name
 	 */
 	public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements') {
+		if (self::$temporary_table_name === null) {
+			self::$temporary_table_name = $temporary_table_name;
+		} elseif ($temporary_table_name != self::$temporary_table_name) {
+			throw new ilException('there is already a temporary table for org-unit assignement: ' . self::$temporary_table_name);
+		}
 		$this->dropTempTable($temporary_table_name);
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS ".$temporary_table_name." AS (
-				SELECT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+				SELECT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id, orgu_path_storage.path AS path
 					FROM rbac_ua
-				JOIN  rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
-				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
-				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-				WHERE object_data.type = 'orgu'
+					JOIN  rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
+					JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+					JOIN object_data ON object_data.obj_id = object_reference.obj_id
+					JOIN orgu_path_storage ON orgu_path_storage.ref_id = object_reference.ref_id
+				WHERE object_data.type = 'orgu' AND object_reference.deleted IS NULL
 			);";
 		$this->db->manipulate($q);
 	}
@@ -407,10 +416,16 @@ class ilObjOrgUnitTree {
 
 	/**
 	 * @param $temporary_table_name
+	 * @return bool
 	 */
 	public function dropTempTable($temporary_table_name) {
+		if (self::$temporary_table_name === null || $temporary_table_name != self::$temporary_table_name) {
+			return false;
+		}
 		$q = "DROP TABLE IF EXISTS " . $temporary_table_name;
 		$this->db->manipulate($q);
+
+		return true;
 	}
 
 
