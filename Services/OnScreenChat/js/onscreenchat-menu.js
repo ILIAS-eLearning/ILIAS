@@ -1,4 +1,5 @@
-(function($, $scope){
+(function($, $scope) {
+	'use strict';
 	$scope.il.OnScreenChatMenu = {
 		config: {},
 		rendered: false,

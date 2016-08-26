@@ -48,7 +48,6 @@
 		},
 
 		removeUser: function(conversationId, userId, name) {
-			console.log("removeUser" + conversationId + "," + userId + "," + name);
 			getModule().socket.emit('removeUser', conversationId, userId, name);
 		},
 
