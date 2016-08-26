@@ -1,6 +1,7 @@
 var Container = require('../AppContainer');
 var async = require('async');
 var Date = require('../Helper/Date');
+var UUID = require('node-uuid');
 
 var Database = function Database(config) {
 
@@ -197,6 +198,153 @@ var Database = function Database(config) {
 				if(err) throw err;
 			});
 		})
+	};
+
+	this.trackActivity = function(conversationId, userId, timestamp) {
+		var emptyResult = true;
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+			function(result){
+				emptyResult = false;
+				_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
+					[timestamp, 0, conversationId, userId],
+					function(err){
+						if(err) throw err;
+					}
+				);
+			},
+			function() {
+				if(emptyResult)
+				{
+					_pool.query('INSERT INTO osc_activity SET ?', {
+						conversation_id: conversationId,
+						user_id: userId,
+						timestamp: timestamp
+					}, function(err){
+						if(err) throw err;
+					});
+				}
+			}
+		);
+	};
+
+	this.closeConversation = function(conversationId, userId) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+			function(result){
+				_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
+					[1, conversationId, userId],
+					function(err){
+						if(err) throw err;
+					}
+				);
+			},
+			function() {
+			}
+		);
+	};
+
+	this.getConversationStateForParticipant = function(conversationId, userId, onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+			onResult,
+			onEnd
+		);
+	};
+
+	/**
+	 *
+	 * @param message
+	 */
+	this.persistConversationMessage = function(message) {
+		//message.timestamp = parseInt(message.timestamp / 1000);
+		_pool.query('INSERT INTO osc_messages SET ?', {
+			id: UUID.v4(),
+			conversation_id: message.conversationId,
+			user_id: message.userId,
+			message: message.message,
+			timestamp: message.timestamp
+		}, function(err) {
+			if(err) throw err;
+		});
+	};
+
+	this.loadConversations = function(onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_conversation'),
+			onResult,
+			onEnd
+		);
+	};
+
+	this.getLatestMessage = function(conversation, onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT * FROM osc_messages WHERE conversation_id = ? ORDER BY timestamp DESC LIMIT 1', [conversation.getId()]),
+			onResult,
+			onEnd
+		);
+	};
+
+	this.countUnreadMessages = function(conversationId, userId, onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT COUNT(m.id) AS numMessages FROM osc_messages m LEFT JOIN osc_activity a ON a.conversation_id = m.conversation_id WHERE m.conversation_id = ? AND a.user_id = ? AND m.timestamp > a.timestamp', [conversationId, userId]),
+			onResult,
+			onEnd
+		);
+	};
+
+	this.loadConversationHistory = function(conversationId, oldestMessageTimestamp, onResult, onEnd){
+		var query = 'SELECT * FROM osc_messages WHERE conversation_id = ?';
+		var params = [conversationId];
+		if(oldestMessageTimestamp != null)
+		{
+			query += ' AND timestamp < ?';
+			params.push(oldestMessageTimestamp);
+		}
+
+		query += " ORDER BY timestamp DESC LIMIT 0, 6";
+
+		_onQueryEvents(
+			_pool.query(query, params),
+			onResult,
+			onEnd
+		);
+	};
+
+	/**
+	 * @param {Conversation} conversation
+	 */
+	this.updateConversation = function(conversation) {
+		var participantsJson = [];
+		var participants = conversation.getParticipants();
+
+		for(var index in participants) {
+			if(participants.hasOwnProperty(index)){
+				participantsJson.push(participants[index].json())
+			}
+		}
+		participantsJson = JSON.stringify(participantsJson);
+
+		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
+			[participantsJson, conversation.isGroup(), conversation.getId()],
+			function(err){
+				if(err) throw err;
+			}
+		);
+	};
+
+
+	/**
+	 * @param {Conversation} conversation
+	 */
+	this.persistConversation = function(conversation) {
+		_pool.query('INSERT INTO osc_conversation SET ?', {
+			id: conversation.getId(),
+			is_group: conversation.isGroup(),
+			participants: JSON.stringify(conversation.getParticipants())
+		}, function(err){
+			if(err) throw err;
+		});
 	};
 
 

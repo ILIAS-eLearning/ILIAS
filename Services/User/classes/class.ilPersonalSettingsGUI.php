@@ -50,7 +50,15 @@ class ilPersonalSettingsGUI
 
 		switch($next_class)
 		{
-			
+			case 'ilpersonalchatsettingsformgui':
+				$this->__initSubTabs($this->ctrl->getCmd());
+				$this->setHeader();
+
+				require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
+				$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
+				$this->ctrl->forwardCommand($chatSettingsGui);
+				break;
+
 			default:
 				$cmd = $this->ctrl->getCmd("showGeneralSettings");
 				$this->$cmd();
@@ -239,54 +247,6 @@ class ilPersonalSettingsGUI
 		$this->tpl->show();
 	}
 
-/*	function showjsMath()
-	{
-		global $lng, $ilCtrl, $tpl, $ilUser;
-
-		$this->__initSubTabs("showjsMath");
-		$this->setHeader();
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($lng->txt("jsmath_settings"));
-
-		// Enable jsMath
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$jsMathSetting = new ilSetting("jsMath");
-		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_enable_user"), "enable");
-		$checked = ($ilUser->getPref("js_math") === FALSE) ? $jsMathSetting->get("makedefault") : $ilUser->getPref("js_math");
-		$enable->setChecked($checked);
-		$enable->setInfo($lng->txt("jsmath_enable_user_desc"));
-		$form->addItem($enable);
-
-		$form->addCommandButton("savejsMath", $lng->txt("save"));
-		$form->addCommandButton("showjsMath", $lng->txt("cancel"));
-
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		$this->tpl->show();
-	}
-
-	function savejsMath()
-	{
-		global $ilCtrl, $ilUser;
-
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$jsMathSetting = new ilSetting("jsMath");
-		if ($jsMathSetting->get("enable"))
-		{
-			if ($_POST["enable"])
-			{
-				$ilUser->writePref("js_math", "1");
-			}
-			else
-			{
-				$ilUser->writePref("js_math", "0");
-			}
-		}
-		$ilCtrl->redirect($this, "showjsMath");
-	}
-*/
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
@@ -300,8 +260,6 @@ class ilPersonalSettingsGUI
 		$showPassword = ($a_cmd == 'showPassword') ? true : false;
 		$showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
-//		$showjsMath = ($a_cmd == 'showjsMath') ? true : false;
-		$showChatOptions = ($a_cmd == 'showChatOptions') ? true : false;
 
 		// old profile
 
@@ -322,24 +280,17 @@ class ilPersonalSettingsGUI
 			$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"), "", "", "", $showMailOptions);
 		}
 
-		$chatSettings = new ilSetting('chatroom');
-		$notificationSettings = new ilSetting('notifications');
-		if(
-			$chatSettings->get('chat_enabled', false) &&
-			$notificationSettings->get('enable_osd', false) &&
-			$chatSettings->get('play_invitation_sound', false)
-		)
-		{		
-			$ilTabs->addTarget('chat_settings', $this->ctrl->getLinkTarget($this, 'showChatOptions'), '', '', '', $showChatOptions);
+		require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
+		$chatSettingsGui = new ilPersonalChatSettingsFormGUI(false);
+		if($chatSettingsGui->isAccessible())
+		{
+			/** @var $ilTabs ilTabsGUI */
+			$ilTabs->addTarget(
+				'chat_settings', $this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'), '', 'ilPersonalChatSettingsFormGUI', '', method_exists($chatSettingsGui, $a_cmd)
+			);
 		}
 
 		include_once "./Services/Administration/classes/class.ilSetting.php";
-/*		$jsMathSetting = new ilSetting("jsMath");
-		if ($jsMathSetting->get("enable"))
-		{
-			$ilTabs->addTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
-									 "", "", "", $showjsMath);
-		}*/
 		
 		if((bool)$ilSetting->get('user_delete_own_account') &&
 			$ilUser->getId() != SYSTEM_USER_ID)
@@ -350,120 +301,12 @@ class ilPersonalSettingsGUI
 	}
 
 	/**
-	 * @return ilPropertyFormGUI
-	 */
-	private function getChatSettingsForm()
-	{
-		/**
-		 * @var $ilSetting ilSetting
-		 * @var $lng       ilLanguage
-		 */
-		global $lng;
-
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveChatOptions'));
-		$form->setTitle($lng->txt("chat_settings"));
-
-		$chb = new ilCheckboxInputGUI('', 'play_invitation_sound');
-		$chb->setOptionTitle($this->lng->txt('play_invitation_sound'));
-		$form->addItem($chb);
-
-		$form->addCommandButton("saveChatOptions", $lng->txt("save"));
-
-		return $form;
-	}
-
-	/**
-	 *
-	 */
-	public function saveChatOptions()
-	{
-		/**
-		 * @var $ilUser    ilObjUser
-		 * @var $ilSetting ilSetting
-		 * @var $lng       ilLanguage
-		 * @var $ilCtrl    ilCtrl
-		 */
-		global $ilUser, $lng, $ilCtrl;
-
-		$chatSettings         = new ilSetting('chatroom');
-		$notificationSettings = new ilSetting('notifications');
-		if(!(
-			$chatSettings->get('chat_enabled', false) &&
-			$notificationSettings->get('enable_osd', false) &&
-			$chatSettings->get('play_invitation_sound', false)
-		)
-		)
-		{
-			$ilCtrl->redirect($this);
-		}
-
-		$form = $this->getChatSettingsForm();
-		if(!$form->checkInput())
-		{
-			$this->showChatOptions($form);
-			return;
-		}
-
-		$ilUser->setPref('chat_play_invitation_sound', (int)$form->getInput('play_invitation_sound'));
-		$ilUser->writePrefs();
-
-		ilUtil::sendSuccess($lng->txt('saved_successfully'));
-		$this->showChatOptions($form);
-	}
-
-	/**
 	 * Set header
 	 */
 	public function setHeader()
 	{
 		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_settings'));
 	}
-
-	/**
-	 * @param ilPropertyFormGUI $form
-	 */
-	public function showChatOptions(ilPropertyFormGUI $form = null)
-	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilUser, $ilCtrl;
-
-		$chatSettings = new ilSetting('chatroom');
-		$notificationSettings = new ilSetting('notifications');
-		if(!(
-			$chatSettings->get('chat_enabled', false) &&
-			$notificationSettings->get('enable_osd', false) &&
-			$chatSettings->get('play_invitation_sound', false)
-		))
-		{
-			$ilCtrl->redirect($this);
-		}
-
-		$this->__initSubTabs('showChatOptions');
-		$this->setHeader();
-
-		if($form)
-		{
-			$form->setValuesByPost();
-		}
-		else
-		{
-			$form = $this->getChatSettingsForm();
-			$form->setValuesByArray(array(
-				'play_invitation_sound' => $ilUser->getPref('chat_play_invitation_sound')
-			));
-		}
-
-		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
-	}
-	
-	
 	//
 	//
 	//	PASSWORD FORM

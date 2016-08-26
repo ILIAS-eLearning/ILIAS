@@ -15772,7 +15772,7 @@ chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
 chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
-chatroom#:#connection_url_info#:#Please insert an URL without using the Protocol-Definition
+chatroom#:#connection_url_info#:#Please insert an URL <b>without</b> specifying the protocol definition.
 chatroom#:#log#:#Chatserver Log
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
@@ -16385,3 +16385,30 @@ mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please c
 mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
 mass#:#mass_contact_info#:#Contactinformation
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
+chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
+chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
+chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory. 
+chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
+chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
+chatroom#:#chat_osc_start_conversation#:#Start Conversation
+chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
+chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
+chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
+chatroom#:#chat_osc_conversations#:#Conversations
+chatroom#:#chat_osc_send#:#Send
+chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
+chatroom#:#chat_osc_add_user#:#Add Further Users
+chatroom#:#chat_osc_user#:#User
+chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
+chatroom#:#chat_osc_emoticons#:#Emoticons
+chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
+chatroom#:#chat_osc_section_head_other_rooms#:#Public Chatroom
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
+chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
+chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
+chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your 'Personal Settings'.
+chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
