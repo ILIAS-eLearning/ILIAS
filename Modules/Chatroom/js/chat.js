@@ -127,7 +127,7 @@
 		var content = $('<a class="" href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="xsmall">'+label+'</span></a>');
 		line.append(content);
 		if (callback) {
-			line.bind('click', function(ev) {
+			line.on('click', function(ev) {
 				$(this).parents('.menu').hide();
 				callback.call($(this).parents('.menu'));
 				ev.preventDefault();

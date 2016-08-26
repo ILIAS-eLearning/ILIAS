@@ -20,7 +20,7 @@
 		},
 
 		init: function() {
-			$('#onscreenchat_trigger > a').popover({
+			$('#' + getModule().config.triggerId).popover({
 				html : true,
 				placement : "bottom",
 				viewport : { selector: 'body', padding: 10 },
@@ -32,7 +32,7 @@
 			});
 
 			$('body').on('click', function (e) {
-				$('#onscreenchat_trigger > a').each(function () {
+				$('#' + getModule().config.triggerId).each(function () {
 					//the 'is' for buttons that trigger popups
 					//the 'has' for icons within a button that triggers a popup
 					if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
@@ -47,13 +47,13 @@
 		show: function() {
 			var module = $scope.il.OnScreenChatMenu;
 
-			$('#onscreenchat_trigger > a').siblings('.popover').children('.popover-content').html(module.getContent());
+			$('#' + getModule().config.triggerId).siblings('.popover').children('.popover-content').html(module.getContent());
 			$('body').addClass('modal-open');
 			module.afterListUpdate();
 		},
 		
 		close: function() {
-			$('#onscreenchat_trigger > a').popover('hide');
+			$('#' + getModule().config.triggerId).popover('hide');
 		},
 
 		getContent: function() {
@@ -151,8 +151,8 @@
 			var numConversations = conversations.length;
 			var numMessages = getModule().countUnreadMessages();
 
-			var messagesBadge = $('.ilOnScreenChatMenuDropDown .il-counter-novelty');
-			var conversationsBadge = $('.ilOnScreenChatMenuDropDown .il-counter-status');
+			var messagesBadge = $('[data-onscreenchat-header-menu] .il-counter-novelty');
+			var conversationsBadge = $('[data-onscreenchat-header-menu] .il-counter-status');
 
 			conversationsBadge.html(numConversations);
 			if (numConversations == 0) {

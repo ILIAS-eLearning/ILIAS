@@ -114,8 +114,6 @@ class ilOnScreenChatMenuGUI
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');
 		$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.setConfig(".ilJsonUtil::encode($config).");");
-		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.init();");
 
 		$tpl = new ilTemplate('tpl.chat-menu.html', true, true, 'Services/OnScreenChat');
 
@@ -134,6 +132,10 @@ class ilOnScreenChatMenuGUI
 			require_once 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php';
 			ilToolTipGUI::addTooltip($glyph_id, $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
 		}
+
+		$config['triggerId'] = $glyph_id;
+		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.setConfig(".ilJsonUtil::encode($config).");");
+		$DIC['tpl']->addOnLoadCode("il.OnScreenChatMenu.init();");
 
 		$tpl->setVariable('GLYPH', $glyph_html);
 		$tpl->setVariable('LOADER', ilUtil::getImagePath('loader.svg'));

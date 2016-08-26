@@ -399,6 +399,7 @@ class ilDclBaseFieldModel {
 		$this->setUnique($rec["is_unique"]);
 		$this->setLocked($rec["is_locked"]);
 		$this->loadProperties();
+		$this->loadTableFieldSetting();
 	}
 
 
