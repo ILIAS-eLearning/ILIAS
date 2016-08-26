@@ -9,7 +9,6 @@
 * @version	$Id$
 */
 
-require_once("Services/GEV/CourseSearch/classes/class.gevCourseHighlightsGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -32,7 +31,7 @@ class gevCourseSearchGUI {
 		$this->crs_srch = gevCourseSearch::getInstance($ilUser->getId());
 		$this->search_form = null;
 
-		$this->active_tab = $_GET["active_tab"] ? $_GET["active_tab"] : gevCourseSearch::TAB_TO_SHOW_ADVICE;
+		$this->active_tab = $this->crs_srch->getActiveTab();
 
 		if ($a_target_user_id === null) {
 			if ($this->crs_srch->hasUserSelectorOnSearchGUI()) {
@@ -91,8 +90,6 @@ class gevCourseSearchGUI {
 		else {
 			$usrsel = "";
 		}
-
-		$hls = new gevCourseHighlightsGUI($this->target_user_id);
 
 		$spacer_out = $spacer->render();
 		
@@ -180,21 +177,13 @@ class gevCourseSearchGUI {
 							 ? "gev_crs_srch_my_table_desc"
 							 : "gev_crs_srch_theirs_table_desc"
 							 )
-				->setImage("GEV_img/ico-head-search.png")
-				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
-				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
-				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
+				->setImage("GEV_img/ico-head-search.png");
 
 		if($a_in_search) {
 			$crs_tbl->setClearSearch("gev_crs_src_clear_search",$this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI", "clearSearch"));
 		}
 
 		return $usrsel
-			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
-			   ?   $hls->render()
-			 	 . $spacer->render()
-			   : ""
-			   )
 			 . $this->renderSearch()
 			 . $crs_tbl->getHTML()
 			 ;

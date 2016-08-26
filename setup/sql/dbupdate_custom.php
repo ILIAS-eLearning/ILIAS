@@ -5110,3 +5110,61 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 		));
 	}
 ?>
+
+<#217>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+
+<#218>
+<?php
+	if(!$ilDB->tableColumnExists("hist_usercoursestatus", "certificate_hash")) {
+		$ilDB->addTableColumn('hist_usercoursestatus', 'certificate_hash',
+			array(
+				'type' => 'text',
+				'length' => 64,
+				'notnull' => true,
+				'default' => '-empty-'
+		));
+	}
+	if(!$ilDB->tableColumnExists("hist_usercoursestatus", "certificate_filename")) {
+		$ilDB->addTableColumn('hist_usercoursestatus', 'certificate_filename',
+			array(
+				'type' => 'text',
+				'length' => 64,
+				'notnull' => true,
+				'default' => '-empty-'
+		));
+	}
+	if(!$ilDB->tableColumnExists("hist_usercoursestatus", "certificate_version")) {
+		$ilDB->addTableColumn('hist_usercoursestatus', 'certificate_version',
+			array(
+				'type' => 'integer',
+				'length' => 8,
+				'notnull' => true,
+				'default' => 0
+		));
+	}
+?>
+
+<#219>
+<?php
+$ilDB->addIndex('hist_course',array('template_obj_id'),'cti');
+$ilDB->addIndex('hist_course',array('is_template'),'ct');
+$ilDB->addIndex('hist_course',array('type'),'ctp');
+$ilDB->addIndex('hist_usercoursestatus',array('booking_status'),'ubs');
+$ilDB->addIndex('hist_usercoursestatus',array('participation_status'),'ups');
+$ilDB->addIndex('hist_tep',array('user_id'),'tui');
+$ilDB->addIndex('hist_tep',array('orgu_id'),'tor');
+$ilDB->addIndex('hist_tep',array('context_id'),'tc');
+$ilDB->addIndex('hist_tep',array('individual_days'),'tid');
+$ilDB->addIndex('hist_tep',array('deleted'),'del');
+$ilDB->addIndex('hist_tep',array('category'),'tca');
+$ilDB->addIndex('hist_topics',array('topic_id'),'ti');
+$ilDB->addIndex('hist_topicset2topic',array('topic_set_id'),'t2s');
+$ilDB->addIndex('hist_topicset2topic',array('topic_id'),'t2t');
+$ilDB->addIndex('hist_userorgu',array('hist_historic','action'),'oha');
+?>

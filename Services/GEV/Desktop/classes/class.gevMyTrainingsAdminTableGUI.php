@@ -19,6 +19,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+require_once "./Services/ParticipationStatus/classes/class.ilParticipationStatus.php";
 require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 require_once "./Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php";
 
@@ -221,12 +222,12 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		if($a_set['may_finalize']) {
 			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_setstatus"), "link" => $this->setstatus_link, "image" => $this->setstatus_img, "frame"=>"");
 		}
-		
+
 		// is true after training start
 		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
 			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_overnights"), "link" => $this->overnights_link, "image" => $this->overnight_img, "frame"=>"");
 		}
-		
+
 		if ($crs_utils->canViewBookings($this->user_id)) {
 			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_view_bookings"), "link" => $this->bookings_link, "image" => $this->bookings_img, "frame"=>"");
 		}
@@ -259,6 +260,9 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 			$items[] = array("title" => $this->gLng->txt("gev_cancel_training"), "link" => $this->cancel_training_link, "image" => $this->cancel_training_img, "frame"=>"");
 		}
 
+		if ($crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_SIGNATURE_LIST) && ilParticipationStatus::getInstance($crs_utils->getCourse())->getAttendanceList()) {
+			$items[] = array("title" => $this->gLng->txt("gev_attendance_list"), "link" => $this->get_attendance_list_link, "image" => $this->cancel_training_img, "frame"=>"");
+		}
 		return $items;
 	}
 
@@ -269,7 +273,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		$this->schedule_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_crs_schedule");
 		$this->csn_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn");
 		$this->gCtrl->clearParametersByClass("gevMemberListDeliveryGUI");
-		
+
 		$this->gCtrl->setParameter($this->parent_obj, "crsrefid", $crs_ref_id);
 		$this->gCtrl->setParameter($this->parent_obj, "crs_id", $crs_obj_id);
 		$this->setstatus_link = $this->gCtrl->getLinkTarget($this->parent_obj, "listStatus");
@@ -288,6 +292,10 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $crs_ref_id);
 		$this->edit_settings_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI", "edit");
 		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
+
+		$this->gCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", $ref_id);
+		$this->get_attendance_list_link = $this->gCtrl->getLinkTargetByClass(array('ilparticipationstatusadmingui','ilparticipationstatusgui'), "viewAttendanceList");
+		$this->gCtrl->setParameterByClass("ilparticipationstatusgui", "ref_id", null);
 	}
 
 	protected function getCourseLink($crs_obj_id, $crs_ref_id) {

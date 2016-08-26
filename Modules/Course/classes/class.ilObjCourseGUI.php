@@ -900,19 +900,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->record_gui->setPropertyForm($form);
 		$this->record_gui->parse();
 
-		//gev patch start
-		include_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		include_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		$user_util = gevUserUtils::getInstance($ilUser->getId());
-		$gev_set = gevSettings::getInstance();
-		$highlight_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_HIGHLIGHT);
-
-		if(!$user_util->isAdmin()) {
-			$ele = $form->getItemByPostvar($highlight_field_id);
-			$ele->setDisabled (true);
-		}
-		//gev patch end
-
 		return $form;
 	}
 	

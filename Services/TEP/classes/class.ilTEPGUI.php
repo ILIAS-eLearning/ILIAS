@@ -111,7 +111,7 @@ class ilTEPGUI
 	public function executeCommand()
 	{
 		global $ilCtrl, $ilMainMenu, $lng, $tpl;
-		$ilMainMenu->setActive("gev_others_menu");
+		$ilMainMenu->setActive("gev_me_menu");
 		
 		if(!$this->getPermissions()->mayView())
 		{

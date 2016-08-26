@@ -384,6 +384,21 @@ class gevAMDUtils {
 		}
 		return $record_ids;
 	}
+
+	public static function removeAMDRecord($a_record_title) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+
+		global $ilDB;
+		$gev_set = gevSettings::getInstance();
+		$result = $ilDB->query("SELECT record_id FROM adv_md_record WHERE title = ".$ilDB->quote($a_record_title, "text"));
+		if ($record = $ilDB->fetchAssoc($result)) {
+			ilAdvancedMDClaimingPlugin::deleteDBRecord($record["record_id"]);
+		}
+		else {
+			throw new Exception("gevAMDUtils::removeAMDRecord: No record_id found for title '".$a_record_title."'.");
+		}
+
+	}
 	
 	public static function addAMDField($a_record_title, $a_title, $a_gev_setting, $a_desc, $a_searchable, $a_def, $a_type) {
 		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
@@ -462,9 +477,5 @@ class gevAMDUtils {
 			$ilDB->manipulate($query);
 			$ilLog->write($query);
 		}
-
 	}
-
 }
-
-?>

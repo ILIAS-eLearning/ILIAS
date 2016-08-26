@@ -18,7 +18,7 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
     header("Location: ./setup/setup.php");
 	exit();
 }
-
+include('./countdown.inc.php');
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))

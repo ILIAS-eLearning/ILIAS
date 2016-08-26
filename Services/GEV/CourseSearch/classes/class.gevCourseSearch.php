@@ -11,9 +11,9 @@ require_once("Modules/Course/classes/class.ilObjCourseAccess.php");
 
 class gevCourseSearch {
 	const TAB_ALL = "all";
-	const TAB_PRAESENZ = "praes";
+	const TAB_PRAESENZ = "onside";
 	const TAB_WEBINAR = "webinar";
-	const TAB_SELF = "self";
+	const TAB_SELF = "wbt";
 	const TAB_VIRTUEL_TRAINING = "virt";
 	const TAB_TO_SHOW_ADVICE = "all";
 	const CSS_SELECTED_TAB = "tabactive";
@@ -22,13 +22,17 @@ class gevCourseSearch {
 	static protected $instances = array();
 
 	public function __construct($a_usr_id) {
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilCtrl;
 
 		$this->usr_id = $a_usr_id;
 		$this->usr_utils = gevUserUtils::getInstance($this->usr_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->gDB = $ilDB;
 		$this->gUser = $ilUser;
+		$this->gCtrl = $ilCtrl;
+
+		$this->search_tabs = null;
+		$this->tabs_count = null;
 	}
 
 	static public function getInstance($a_usr_id) {
@@ -422,98 +426,51 @@ class gevCourseSearch {
 	}
 
 	public function getPossibleTabs() {
-		return array("all"=>"gev_crs_search_all"
-							,"praes"=>"gev_crs_search_present"
-							,"webinar"=>"gev_crs_search_webinar"
-							,"self"=>"gev_crs_search_self_learn"
-							,"virt"=>"gev_crs_search_virtual_training"
-						   );
+		if ($this->search_tabs === null) {
+			$this->search_tabs = array();
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "all");
+			$this->search_tabs["all"] = array
+				( "gev_crs_search_all"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "onside");
+			$this->search_tabs["onside"] = array
+				( "gev_crs_search_present"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "webinar");
+			$this->search_tabs["webinar"] = array
+				( "gev_crs_search_webinar"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "wbt");
+			$this->search_tabs["wbt"] = array
+				( "gev_crs_search_self_learn"
+				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
+				);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab",null);
+		 }
+		return $this->search_tabs;
+	}
+
+	public function getActiveTab() {
+		return $_GET["active_tab"] ? $_GET["active_tab"] : gevCourseSearch::TAB_TO_SHOW_ADVICE;
 	}
 
 	public function getCourseCounting($a_serach_opts) {
-		$tabs = $this->getPossibleTabs();
-		$ret = array();
+		if ($this->tabs_count == null) {
+			$tabs = $this->getPossibleTabs();
+			$this->tabs_count = array();
 
-		foreach ($tabs as $key => $value) {
-			$a_serach_opts = $this->addSearchForTypeByActiveTab($a_serach_opts,$key);
-			$ret[$key] = count($this->getPotentiallyBookableCourseIds($a_serach_opts));
+			foreach (array_keys($tabs) as $key) {
+				$a_serach_opts = $this->addSearchForTypeByActiveTab($a_serach_opts,$key);
+				$this->tabs_count[$key] = count($this->getPotentiallyBookableCourseIds($a_serach_opts));
+			}
 		}
-
-		return $ret;
+		return $this->tabs_count;
 	}
 
 	public function isActiveTabSelflearning($active_tab) {
 		return self::TAB_SELF == $active_tab;
-	}
-
-	public function getCourseHighlights() {
-		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
-		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
-		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
-		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
-		$highlight_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_HIGHLIGHT);
-		
-		$query = "SELECT DISTINCT cs.obj_id\n"
-		." FROM crs_settings cs\n"
-		." LEFT JOIN object_reference oref\n"
-			." ON cs.obj_id = oref.obj_id\n"
-		// this is knowledge from the course amd plugin!
-		." LEFT JOIN adv_md_values_text tmplt\n" 
-			." ON cs.obj_id = tmplt.obj_id\n"
-				." AND tmplt.field_id = ".$this->gDB->quote($is_tmplt_field_id, "integer")."\n"
-		// this is knowledge from the course amd plugin
-		." LEFT JOIN adv_md_values_date start_date\n"
-			." ON cs.obj_id = start_date.obj_id\n"
-				." AND start_date.field_id = ".$this->gDB->quote($start_date_field_id, "integer")."\n"
-		// this is knowledge from the course amd plugin
-		." LEFT JOIN adv_md_values_text ltype\n"
-			." ON cs.obj_id = ltype.obj_id\n"
-				." AND ltype.field_id = ".$this->gDB->quote($type_field_id, "integer")."\n"
-		." LEFT JOIN adv_md_values_int bk_deadl\n"
-			." ON cs.obj_id = bk_deadl.obj_id\n"
-				." AND bk_deadl.field_id = ".$this->gDB->quote($bk_deadl_field_id, "integer")."\n"
-		." LEFT JOIN adv_md_values_text highlight\n"
-			." ON cs.obj_id = highlight.obj_id\n"
-				." AND highlight.field_id = ".$this->gDB->quote($highlight_field_id, "integer")."\n"
-		." WHERE cs.activation_type = 1\n"
-			." AND cs.activation_start < ".time()."\n"
-			." AND cs.activation_end > ".time()."\n"
-			." AND oref.deleted IS NULL\n"
-			." AND tmplt.value = ".$this->gDB->quote("Nein", "text")."\n"
-			." AND start_date.value > ".$this->gDB->quote(date("Y-m-d"), "date")."\n"
-			." AND NOT start_date.value IS NULL\n"
-		 // generali konzept "Trainingsbewerbung"
-			." AND (\n"
-					." (ltype.value LIKE 'Pr_senztraining'\n"
-						." AND ADDDATE(start_date.value, -1 * bk_deadl.value) > ".$this->gDB->quote(date("Y-m-d"), "date").")\n"
-					." OR (".$this->gDB->in("ltype.value", array("Webinar","Virtuelles Training"), false, "text")."\n"
-						."AND ADDDATE(start_date.value, -1 * bk_deadl.value) > ".$this->gDB->quote(date("Y-m-d"), "date").")\n"
-					." OR ( ltype.value = ".$this->gDB->quote("Selbstlernkurs", "text")."))\n"
-			." AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->gDB->quote(date("Y-m-d"), "text")."\n";
-			//." AND highlight.value = ".$this->gDB->quote("Ja", "text")."\n";
-
-		$res = $this->gDB->query($query);
-
-		$ret = array();
-		while($val = $this->gDB->fetchAssoc($res)) {
-			if(!ilObjCourseAccess::_isActivated($val["obj_id"])) {
-				continue;
-			}
-			$crs = new ilObjCourse($val["obj_id"], false);
-			$crs_utils = gevCourseUtils::getInstanceByObj($crs);
-			$crs_booking = ilCourseBookings::getInstance($crs);
-			
-			if ( $this->gUser->getId() && !$crs_utils->canBookCourseForOther($this->gUser->getId(), $this->usr_id)) {
-				continue;
-			}
-			
-			$free_places = $crs_booking->getFreePlaces();
-			if (gevObjectUtils::checkAccessOfUser($this->usr_id, "visible",  "", $val["obj_id"], "crs")
-			&&  ($free_places === null || $free_places > 4)) {
-				$ret[] = $val["obj_id"];
-			}
-		}
-
-		return $ret;
 	}
 }

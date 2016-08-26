@@ -43,3 +43,4 @@ provider#:#Bildungsdienstleister
 orgu_title#:#Titel
 report_is_local#:#Lokale Auswertung
 report_all_orgus#:#Alle Organisationseinheiten als Filteroption
+filter_no_wbd_imported#:#Keine Trainings aus der WBD

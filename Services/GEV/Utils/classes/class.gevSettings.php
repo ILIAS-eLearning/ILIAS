@@ -144,7 +144,7 @@ class gevSettings {
 	const CRS_USR_STATE_NOT_EXCUSED_VAL	= "4";
 
 	//Highlight
-	const CRS_AMD_HIGHLIGHT			="crs_amd_highlight";
+	const CRS_AMD_HIGHLIGHT			="crs_amd_highlight";   // this is not used anymore
 
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";

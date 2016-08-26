@@ -70,16 +70,17 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 
 		$no_tp_service_condition =
 			"(roles.num_tp_service_roles = 0"
-			."	AND ".$this->gIldb->in("usr.wbd_type",$services,true,"text")
+			."	AND usr.wbd_type != ".$this->gIldb->quote(gevWBD::WBD_TP_SERVICE,"text")
 			.")";
 		$tp_service_condition =
 			"(roles.num_tp_service_roles > 0"
-			."	OR ".$this->gIldb->in("usr.wbd_type",$services,false,"text")
+			."	OR usr.wbd_type = ".$this->gIldb->quote(gevWBD::WBD_TP_SERVICE,"text")
 			.")";
 
 		$earliest_possible_cert_period_begin = "2013-09-01"; 
 		$cert_year_sql = " YEAR( CURDATE( ) ) - YEAR( begin_of_certification ) "
 						."- ( DATE_FORMAT( CURDATE( ) , '%m%d' ) < DATE_FORMAT( begin_of_certification, '%m%d' ) )";
+		$no_wbd_imported = $this->filter->get('no_wbd_imported');
 		$query	->select("usr.user_id")
 				->select("usr.lastname")
 				->select("usr.firstname")
@@ -124,8 +125,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 							)
 				->select_raw($points_in_current_period." as points_sum")
 				->select_raw("CASE "
-							."		WHEN ".$no_tp_service_condition
-							."			 AND usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
+							."		WHEN ".$no_tp_service_condition." THEN ''"
 							."		WHEN ".$tp_service_condition
 							."			 AND usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN 'X'"
 							."		WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
@@ -157,6 +157,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						." AND usrcrs.credit_points > 0"
 						." AND usrcrs.participation_status = 'teilgenommen'"
 						." AND usrcrs.booking_status = 'gebucht'"
+						.($no_wbd_imported ? ' AND usrcrs.crs_id > 0' : '')
 						)
 				->group_by("user_id")
 				->compile();
@@ -210,9 +211,14 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						  , "TRUE"
 						  );
 		$filter	->textinput( "lastname"
-								   , $this->plugin->txt("lastname_filter")
-								   , "usr.lastname"
-								   )
+							, $this->plugin->txt("lastname_filter")
+							, "usr.lastname"
+							)
+				->checkbox('no_wbd_imported'
+							, $this->plugin->txt("filter_no_wbd_imported")
+							," TRUE "
+							," TRUE "
+							)
 				->static_condition($this->gIldb->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 				->static_condition(" usr.hist_historic = 0")		
 				->action($this->filter_action)

@@ -16,6 +16,7 @@
 /ilias.log
 *~
 db_template_writer.php
+*.swp
 
 # /Customizing/
 /Customizing/global/*

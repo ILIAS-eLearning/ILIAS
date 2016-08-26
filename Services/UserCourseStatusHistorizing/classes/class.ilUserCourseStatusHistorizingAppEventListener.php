@@ -198,6 +198,14 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		$user_id = $parameter["usr_id"];
 		$course_id = $parameter["crs_id"];
+
+		// For setWBDRelevant only the OKZ needs to change. Other course data
+		// should have changed when the according events where raised.
+		if ($event == "setWBDRelevant") {
+			return array
+				( "okz" => self::$ilUserHistorizingHelper->getOKZOf($user_id)
+				);
+		}
 		
 		$data_payload = array(
 			'credit_points'			=> self::$ilUserCourseStatusHistorizingHelper->getCreditPointsOf($user_id, $course_id),
