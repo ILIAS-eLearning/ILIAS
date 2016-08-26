@@ -16104,7 +16104,7 @@ style#:#adapt_less#:#Anpassung der Less Datei
 style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
 style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
 style#:#adapt_icons#:#Anpassung der Iconfarben
-style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig:
+style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
 style#:#provided_less_path#:#Angegebener lessc Pfad:
 style#:#used_colors#:#Benutzte Farben:
 style#:#style_imported#:#Style wurde erfolgreich importiert nach:

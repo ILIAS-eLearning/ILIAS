@@ -16103,7 +16103,7 @@ style#:#adapt_less#:#Adapt Less
 style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
 style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
 style#:#adapt_icons#:#Adapt Icon Colors
-style#:#invalid_less_path#:#The provided lessc path is not valid.
+style#:#invalid_less_path#:#The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.
 style#:#provided_less_path#:#Provided lessc path:
 style#:#used_colors#:#Used Colors:
 style#:#style_imported#:#Style has been successfully imported into:
