@@ -22,7 +22,7 @@ class ilDclTextInputGUI extends ilTextInputGUI
 
 	function checkInput() {
 		// validate regex
-		if ($this->getPostVar() == 'prop_' . ilDclBaseFieldModel::PROP_REGEX) {
+		if ($this->getPostVar() == 'prop_' . ilDclBaseFieldModel::PROP_REGEX && $_POST[$this->getPostVar()]) {
 			$regex = $_POST[$this->getPostVar()];
 			if (substr($regex, 0, 1) != "/") {
 				$regex = "/" . $regex;
