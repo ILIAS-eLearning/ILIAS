@@ -207,6 +207,7 @@ class ilObjDataCollection extends ilObject2 {
 	 */
 	public function getFirstVisibleTableId() {
 		global $DIC;
+		/** @var ilDB $ilDB */
 		$ilDB = $DIC['ilDB'];
 		$only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
 		$result = $ilDB->query('SELECT id 
@@ -214,6 +215,15 @@ class ilObjDataCollection extends ilObject2 {
 									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
 									$only_visible . '
 									ORDER BY -table_order DESC LIMIT 1'); //"-table_order DESC" is ASC with NULL last
+
+		// if there's no visible table, fetch first one not visible
+		// this is to avoid confusion, since the default of a table after creation is not visible
+		if (!$result->numRows() && $only_visible) {
+			$result = $ilDB->query('SELECT id 
+									FROM il_dcl_table 
+									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . '
+									ORDER BY -table_order DESC LIMIT 1');
+		}
 		return $ilDB->fetchObject($result)->id;	
 	}
 

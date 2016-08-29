@@ -267,10 +267,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 			$tableview = ilDclTableView::find($tableview);
 		}
 
-		if (!ilDclCache::getTableCache($tableview->getTableId())->getIsVisible()) {
-			return false;
-		}
-
 		$assigned_roles = $rbacreview->assignedRoles($ilUser->getId());
 		$allowed_roles = $tableview->getRoles();
 
