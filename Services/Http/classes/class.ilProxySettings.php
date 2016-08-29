@@ -12,6 +12,8 @@ require_once './Services/Http/exceptions/class.ilProxyException.php';
  */
 class ilProxySettings
 {
+	const CONNECTION_CHECK_TIMEOUT = 10;
+
 	/**
 	 * 
 	 * Unique instance
@@ -235,13 +237,17 @@ class ilProxySettings
 
 		try
 		{
-			if(!fsockopen('udp://' . $this->getHost(), $this->getPort(), $errno, $errstr))
+			$host = $this->getHost();
+			if(strspn($host, '.0123456789') != strlen($host) && strstr($host, '/') === false)
 			{
-				if(!fsockopen('tcp://' . $this->getHost(), $this->getPort(), $errno, $errstr))
-				{
-					restore_error_handler();
-					throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
-				}
+				$host = gethostbyname($host);
+			}
+			$port =   $this->getPort() % 65536;
+
+			if(!fsockopen($host, $port, $errno, $errstr, self::CONNECTION_CHECK_TIMEOUT))
+			{
+				restore_error_handler();
+				throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
 			}
 			restore_error_handler();
 		}
