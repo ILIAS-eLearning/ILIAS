@@ -537,6 +537,7 @@ class ilForum
 			$news_item->setPriority(NEWS_NOTICE);
 			$news_item->setTitle($objNewPost->getSubject());
 			$news_item->setContent(ilRTE::_replaceMediaObjectImageSrc($this->prepareText($objNewPost->getMessage(), 0), 1));
+			$news_item->setContentHtml(true);
 			$news_item->setUserId($display_user_id);
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
@@ -768,6 +769,7 @@ class ilForum
 				$news_item = new ilNewsItem($news_id);
 				//$news_item->setTitle($subject);
 				$news_item->setContent(nl2br($this->prepareText($message, 0)));
+				$news_item->setContentHtml(true);
 				$news_item->update();
 			}
 			else				// revoke censorship
@@ -783,6 +785,7 @@ class ilForum
 				$news_item = new ilNewsItem($news_id);
 				//$news_item->setTitle($subject);
 				$news_item->setContent(nl2br($this->prepareText($rec["pos_message"], 0)));
+				$news_item->setContentHtml(true);
 				$news_item->update();
 			}
 		}

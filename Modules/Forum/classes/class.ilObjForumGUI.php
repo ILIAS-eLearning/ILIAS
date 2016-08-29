@@ -2744,6 +2744,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$news_item->setContent(ilRTE::_replaceMediaObjectImageSrc($frm->prepareText(
 							$this->objCurrentPost->getMessage(), 0), 1)
 						);
+						$news_item->setContentHtml(true);
 						$news_item->update();
 					}
 
