@@ -55,12 +55,7 @@ class ilInitialisation
 	 * get common include code files
 	 */
 	protected static function requireCommonIncludes()
-	{			
-		// pear
-		require_once("include/inc.get_pear.php");
-		require_once("include/inc.check_pear.php");
-		require_once "PEAR.php";
-		
+	{
 		// ilTemplate
 		if(ilContext::usesTemplate())
 		{
