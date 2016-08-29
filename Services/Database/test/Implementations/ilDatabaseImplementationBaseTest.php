@@ -87,6 +87,9 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		}
 		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 		$this->db = $this->getDBInstance();
+		global $DIC, $ilDB;
+		$DIC['ilDB'] = $this->db;
+		$ilDB = $this->db;
 		$this->connect($this->db);
 
 		switch ($this->type) {
