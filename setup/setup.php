@@ -22,32 +22,20 @@
 */
 
 /**
-* setup file for ilias
-* 
-* this file helps setting up ilias
-* main purpose is writing the ilias.ini to the filesystem
-* it can set up the database to if the settings are correct and the dbuser has the rights
-*
-* @author Sascha Hofmann <shofmann@databay.de> 
-* @version $Id$
-*
-* @package ilias-setup
-*/
+ * setup file for ilias
+ *
+ * this file helps setting up ilias
+ * main purpose is writing the ilias.ini to the filesystem
+ * it can set up the database to if the settings are correct and the dbuser has the rights
+ *
+ * @author  Sascha Hofmann <shofmann@databay.de>
+ * @version $Id$
+ *
+ * @package ilias-setup
+ */
 
 chdir("..");
 define('IL_INITIAL_WD', getcwd());
-
-// get pear
-// look for embedded pear
-if (is_dir("./pear"))
-{
-	ini_set("include_path", "./pear:".ini_get("include_path"));
-}
-
 require_once "./setup/include/inc.setup_header.php";
 
-// display info messages
-//ilUtil::sendInfo();
-
 $setup = new ilSetupGUI();
-?>
