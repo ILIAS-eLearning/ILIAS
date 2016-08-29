@@ -173,8 +173,8 @@ abstract class SurveyQuestionEvaluation
 		
 		if(is_array($a_qres))
 		{
-			foreach($a_qres as $row_results)
-			{
+			foreach($a_qres as $row_idx => $row_results)				
+			{				
 				$row_title = $row_results[0];
 				$user_results = $row_results[1]->getUserResults($a_user_id);
 				if($user_results)
@@ -195,7 +195,7 @@ abstract class SurveyQuestionEvaluation
 						{
 							$tmp .= "\"".nl2br($item[1])."\"";
 						}
-						$parsed_results[$item[2]] = $tmp;
+						$parsed_results[$row_idx."-".$item[2]] = $tmp;
 					}
 				}
 			}

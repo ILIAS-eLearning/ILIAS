@@ -298,7 +298,8 @@ class ilSurveySkill
 					{
 						foreach($users as $user_answers)
 						{							
-							$user_answers = array_keys($user_answers); // scale values					
+							// sc-questions supported only, is answer-array anyway
+							$user_answers = array_keys($user_answers); // scale values				
 							$sum += array_sum($user_answers);													
 							$cnt += sizeof($user_answers); // nr of answers
 						}						
