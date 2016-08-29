@@ -40,7 +40,7 @@ class ilObjTalentAssessment extends ilObjectPlugin implements TalentAssessment\O
 	 */
 	public function getActions() {
 		if ($this->actions === null) {
-			$this->actions = new TalentAssessment\ilActions($this, $this->getSettingsDB());
+			$this->actions = new TalentAssessment\ilActions($this, $this->getSettingsDB(), $this->getObservatorDB());
 		}
 		return $this->actions;
 	}
@@ -124,5 +124,12 @@ class ilObjTalentAssessment extends ilObjectPlugin implements TalentAssessment\O
 	 */
 	public function getSettingsDB() {
 		return $this->plugin->getSettingsDB();
+	}
+
+	/**
+	 * @return	$DB
+	 */
+	public function getObservatorDB() {
+		return $this->plugin->getObservatorDB();
 	}
 }

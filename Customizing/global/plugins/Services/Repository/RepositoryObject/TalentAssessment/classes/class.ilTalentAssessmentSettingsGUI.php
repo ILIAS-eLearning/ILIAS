@@ -84,6 +84,9 @@ class ilTalentAssessmentSettingsGUI {
 
 	protected function fillSettingsForm(\ilPropertyFormGUI $form) {
 		$values = $this->actions->read();
+		if($values[TalentAssessment\ilActions::F_FIRSTNAME] === null) {
+			\ilUtil::sendFailure($this->txt("no_valid_username"));
+		}
 		$form->setValuesByArray($values);
 	}
 

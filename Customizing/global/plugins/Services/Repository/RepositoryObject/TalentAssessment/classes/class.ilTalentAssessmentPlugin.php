@@ -38,4 +38,17 @@ class ilTalentAssessmentPlugin extends ilRepositoryObjectPlugin
 		}
 		return $this->settings_db;
 	}
+
+	/**
+	 * create (if not available) and returns ObservatorDB
+	 *
+	 * @return \CaT\Plugins\TalentAssessment\Observator\DB
+	 */
+	public function getObservatorDB() {
+		global $ilDB, $ilUser;
+		if($this->observator_db === null) {
+			$this->observator_db = new TalentAssessment\Observator\ilDB($ilDB, $ilUser);
+		}
+		return $this->observator_db;
+	}
 }

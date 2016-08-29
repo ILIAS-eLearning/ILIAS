@@ -18,10 +18,21 @@ class ilActions {
 	const START_DATE = "start_date";
 	const END_DATE = "end_date";
 
+	const OBSERVATOR_ROLE_NAME = "il_xtas_observator";
+	const OBSERVATOR_ROLE_DESCRIPTION = "Local role for observator at obj_id: ";
+
 	public function __construct(\CaT\Plugins\TalentAssessment\ObjTalentAssessment $object
-								, \CaT\Plugins\TalentAssessment\Settings\DB $settings_db) {
+								, \CaT\Plugins\TalentAssessment\Settings\DB $settings_db
+								, \CaT\Plugins\TalentAssessment\Observator\DB $observator_db) 
+	{
+		global $rbacadmin, $rbacreview;
+
 		$this->object = $object;
 		$this->settings_db = $settings_db;
+		$this->observator_db = $observator_db;
+
+		$this->gRbacadmin = $rbacadmin;
+		$this->gRbacreview = $rbacreview;
 	}
 
 	/**
@@ -116,5 +127,67 @@ class ilActions {
 	 */
 	public function getOrgUnitOptions() {
 		return $this->settings_db->getOrgUnitOptions();
+	}
+
+	/**
+	 * create local observator role for $obj_id
+	 *
+	 * @param 	\ilObject 	$newObj
+	 */
+	public function createLocalRole(\ilObject $newObj) {
+		$rolf_obj = $newObj->createRoleFolder();
+
+		// CREATE ADMIN ROLE
+		$role_obj = $rolf_obj->createRole($this->getLocalRoleNameFor($newObj->getId()), self::OBSERVATOR_ROLE_DESCRIPTION.$newObj->getId());
+		$admin_id = $role_obj->getId();
+
+		$rolt_obj_id = $this->observator_db->getRoltId();
+		$this->gRbacadmin->copyRoleTemplatePermissions($rolt_obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+
+		// SET OBJECT PERMISSIONS OF COURSE OBJECT
+		$ops = $this->gRbacreview->getOperationsOfRole($role_obj->getId(),"xtas",$rolf_obj->getRefId());
+		$this->gRbacadmin->grantPermission($role_obj->getId(),$ops,$newObj->getRefId());
+	}
+
+	/**
+	 * assign user to local observator role
+	 *
+	 * @param int 	$user_id
+	 */
+	public function assignObservator($user_id, $obj_id) {
+		$role_id = $this->getLocalRoleId($obj_id);
+
+		$this->gRbacadmin->assignUser($role_id, $user_id);
+	}
+
+	/**
+	 * deassign user to local observator role
+	 *
+	 * @param int 	$user_id
+	 */
+	public function deassignObservator($user_id, $obj_id) {
+		$role_id = $this->getLocalRoleId($obj_id);
+
+		$this->gRbacadmin->deassignUser($role_id, $user_id);
+	}
+
+	public function getAssignedUser($obj_id) {
+		$role_id = $this->getLocalRoleId($obj_id);
+
+		return $this->gRbacreview->assignedUsers($role_id, array("usr_id", "firstname", "lastname", "login", "email"));
+	}
+
+	protected function getLocalRoleId($obj_id) {
+		$role_name = $this->getLocalRoleNameFor($obj_id);
+
+		if(!$role_id = $this->gRbacreview->roleExists($role_name)) {
+			throw new \Exception("Role does not exist ".$role_name);
+		}
+
+		return $role_id;
+	}
+
+	protected function getLocalRoleNameFor($obj_id) {
+		return self::OBSERVATOR_ROLE_NAME."_".$obj_id;
 	}
 }

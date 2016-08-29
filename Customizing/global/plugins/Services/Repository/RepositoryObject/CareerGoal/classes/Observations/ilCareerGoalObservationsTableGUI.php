@@ -47,7 +47,6 @@ class ilCareerGoalObservationsTableGUI extends \ilTable2GUI {
 			$this->addColumn($this->txt("actions"), null);
 		}
 
-		$this->setShowRowsSelector(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 		$this->setRowTemplate("tpl.career_goal_observations_list_row.html", "Customizing/global/plugins/Services/Repository/RepositoryObject/CareerGoal");

@@ -138,7 +138,7 @@ class ilDB implements DB {
 	public function select($obj_id) {
 		$select = "SELECT A.state, A.career_goal_id, A.username, A.start_date, A.end_date, A.venue, A.org_unit, B.firstname, B.lastname, B.email\n"
 				." FROM ".self::PLUGIN_TABLE." A\n"
-				." JOIN ".self::USR_TABLE." B\n"
+				." LEFT JOIN ".self::USR_TABLE." B\n"
 				."     ON A.username = B.login"
 				." WHERE A.obj_id = ".$this->getDB()->quote($obj_id, "integer");
 
