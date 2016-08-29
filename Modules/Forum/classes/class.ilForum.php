@@ -777,6 +777,10 @@ class ilForum
 				{
 					$news_item->setContentHtml(true);
 				}
+				else
+				{
+					$news_item->setContentHtml(false);
+				}
 				
 				$news_item->update();
 			}
@@ -796,6 +800,10 @@ class ilForum
 				if($rec["pos_message"] != strip_tags($rec["pos_message"]))
 				{
 					$news_item->setContentHtml(true);	
+				}
+				else
+				{
+					$news_item->setContentHtml(false);
 				}
 				
 				$news_item->update();
