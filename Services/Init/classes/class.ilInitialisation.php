@@ -1329,6 +1329,11 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
 			return true;
 		}
+		if(ilContext::getType() == ilContext::CONTEXT_WEBDAV)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for webdav request');
+			return true;
+		}
 		
 		if(
 			$a_current_script == "register.php" || 
