@@ -4,6 +4,7 @@
 require_once('./Services/Object/classes/class.ilObject2.php');
 require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
 
 /**
  * Class ilObjDataCollection
@@ -82,7 +83,7 @@ class ilObjDataCollection extends ilObject2 {
 		$ilDB = $DIC['ilDB'];
 
 		foreach ($this->getTables() as $table) {
-			$table->doDelete(true);
+			$table->doDelete();
 		}
 
 		$query = "DELETE FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer");
@@ -199,14 +200,19 @@ class ilObjDataCollection extends ilObject2 {
 	}
 	
 	/**
+	 * for users with write access, return id of table with the lowest sorting
+	 * for users with no write access, return id of table with the lowest sorting, which is visible
+	 *
 	 * @return mixed
 	 */
-	public function getMainTableId() {
+	public function getFirstVisibleTableId() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
+		$only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
 		$result = $ilDB->query('SELECT id 
 									FROM il_dcl_table 
-									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' 
+									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
+									$only_visible . '
 									ORDER BY -table_order DESC LIMIT 1'); //"-table_order DESC" is ASC with NULL last
 		return $ilDB->fetchObject($result)->id;	
 	}
@@ -299,7 +305,7 @@ class ilObjDataCollection extends ilObject2 {
 
 		// delete old tables.
 		foreach ($this->getTables() as $table) {
-			$table->doDelete(true);
+			$table->doDelete();
 		}
 
 		// add new tables.

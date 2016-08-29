@@ -190,7 +190,7 @@ class ilDclTableListGUI {
 	{
 		$tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
 		foreach ($tables as $table_id) {
-			ilDclCache::getTableCache($table_id)->doDelete(true);
+			ilDclCache::getTableCache($table_id)->doDelete();
 		}
 		ilUtil::sendSuccess($this->lng->txt('dcl_msg_tables_deleted'), true);
 		$this->ctrl->redirect($this, 'listTables');
