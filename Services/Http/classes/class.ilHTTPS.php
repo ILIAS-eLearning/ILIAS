@@ -17,12 +17,14 @@ class ilHTTPS
 	
 	private static $instance = null;
 
-	var $enabled = false;
-	var $protected_scripts = array();
+	protected $enabled = false;
 
-	var $automaticHTTPSDetectionEnabled = false;
-	var $headerName = false;
-	var $headerValue = false;
+	protected $protected_classes = array();
+	protected $protected_scripts = array();
+
+	protected $automaticHTTPSDetectionEnabled = false;
+	protected $headerName = false;
+	protected $headerValue = false;
 
 	/**
 	 * @deprected use <code>ilHTTPS::getInstance()</code>
