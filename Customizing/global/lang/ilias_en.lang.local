@@ -46,5 +46,5 @@ trac#:#rubric_locked_grade_info#:#This Rubric has been locked for grading by:
 trac#:#rubric_graded_by#:#Graded By
 trac#:#rubric_card_not_completed#:#Rubric Card is Incomplete.
 trac#:#rubric_card_please_complete#:#Please Click Here to Continue Editing Rubric Card
-common#:#authenticate_ilias#:#General Access (Non-CREA Members)
+common#:#authenticate_ilias#:#Non-REALTOR&#174;
 common#:#login_to_ilias#:#Login
