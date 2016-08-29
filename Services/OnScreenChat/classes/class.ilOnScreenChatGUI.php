@@ -197,6 +197,7 @@ class ilOnScreenChatGUI
 			$button = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit');
 			$chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat');
 			$chatWindowTemplate->setVariable('BUTTON', $DIC->ui()->renderer()->render($button));
+			$chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
 
 			$guiConfig = array(
 				'chatWindowTemplate' => $chatWindowTemplate->get(),
