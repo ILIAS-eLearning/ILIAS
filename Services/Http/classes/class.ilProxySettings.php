@@ -239,6 +239,7 @@ class ilProxySettings
 			{
 				if(!fsockopen('tcp://' . $this->getHost(), $this->getPort(), $errno, $errstr))
 				{
+					restore_error_handler();
 					throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
 				}
 			}
