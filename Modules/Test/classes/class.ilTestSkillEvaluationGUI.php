@@ -210,14 +210,10 @@ class ilTestSkillEvaluationGUI
 		$this->init($selectedSkillProfile);
 		
 		$evaluationToolbarGUI = $this->buildEvaluationToolbarGUI($selectedSkillProfile);
-<<<<<<< HEAD
-		$personalSkillsGUI = $this->buildPersonalSkillsGUI($testSession->getUserId(), $selectedSkillProfile);
-=======
 		
 		$personalSkillsGUI = $this->buildPersonalSkillsGUI( $this->getTestSession()->getUserId(),
 			$evaluationToolbarGUI->getSelectedEvaluationMode(), $this->getAvailableSkills()
 		);
->>>>>>> c5d9d68... evaluated all existing passes, collected skills matching barrier, switch for forcing all profile skills involved in test, removed info msg
 
 		$this->tpl->setContent(
 			$this->ctrl->getHTML($evaluationToolbarGUI) . $this->ctrl->getHTML($personalSkillsGUI)
@@ -226,18 +222,10 @@ class ilTestSkillEvaluationGUI
 
 	private function buildEvaluationToolbarGUI($selectedSkillProfileId)
 	{
-<<<<<<< HEAD
-		$availableSkillProfiles = $this->skillEvaluation->getAssignedSkillMatchingSkillProfiles();
-
-		$noSkillProfileOptionEnabled = $this->skillEvaluation->noProfileMatchingAssignedSkillExists(
-			$availableSkillProfiles
-		);
-=======
 		if(!$this->isNoSkillProfileOptionEnabled() && !$selectedSkillProfileId)
 		{
 			$selectedSkillProfileId = key($this->getAvailableSkillProfiles());
 		}
->>>>>>> c5d9d68... evaluated all existing passes, collected skills matching barrier, switch for forcing all profile skills involved in test, removed info msg
 
 		$gui = new ilTestSkillEvaluationToolbarGUI($this->ctrl, $this->lng, $this, self::CMD_SHOW);
 
@@ -254,13 +242,7 @@ class ilTestSkillEvaluationGUI
 
 	private function isTestResultButtonRequired()
 	{
-<<<<<<< HEAD
-		$testOBJ = ilObjectFactory::getInstanceByObjId($this->objectId);
-
-		if( !$testOBJ->canShowTestResults($this->testSession) )
-=======
 		if( !$this->testOBJ->canShowTestResults($this->testSession) )
->>>>>>> c5d9d68... evaluated all existing passes, collected skills matching barrier, switch for forcing all profile skills involved in test, removed info msg
 		{
 			return false;
 		}
