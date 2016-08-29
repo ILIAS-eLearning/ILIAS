@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilSAHSPresentationGUI
@@ -128,7 +128,7 @@ class ilSAHSEditGUI
 			{
 				require_once("Modules/ScormAicc/classes/class.ilScormAiccExporter.php");
 				$exporter = new ilScormAiccExporter();
-				$xml = $exporter->getXmlRepresentation("sahs", "4.5.0", $_GET["ref_id"]);
+				$xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $_GET["ref_id"]);
 			}
 			else if ($cmd == "download")
 			{
@@ -142,7 +142,8 @@ class ilSAHSEditGUI
 			else if ($cmd == "confirmDeletion")
 			{
 			}
-			ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$_GET["ref_id"]);
+			$this->ctrl->setCmd ("export");
+			ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=".$_GET["ref_id"]);
 			break;
 
 

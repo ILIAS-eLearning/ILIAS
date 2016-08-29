@@ -9,6 +9,7 @@ class ilScormAiccImporter extends ilXmlImporter
 		$this->dataset = new ilScormAiccDataSet ();
 		//todo: at the moment restricted to one module in xml file, extend?
 		$this->moduleProperties = [];
+		$this->manifest = [];
 	}
 
 	public function init()
@@ -21,70 +22,58 @@ class ilScormAiccImporter extends ilXmlImporter
 	 * @param
 	 * @return
 	 */
-	function importXmlRepresentation($a_entity, $a_id, $a_xml_filename, $a_mapping)
+	function importXmlRepresentation($a_entity, $a_id, $a_import_dirname, $a_mapping)
 	{
+		global $ilLog;
 		$result = false;
-		if (file_exists($a_xml_filename))
+		if (file_exists($a_import_dirname))
 		{
-			$xml = file_get_contents ($a_xml_filename);
-			if(isset ($xml))
+			$manifestFile = $a_import_dirname . "/manifest.xml";
+			if (file_exists($manifestFile))
 			{
-				$xmlRoot = simplexml_load_string($xml);
-				if (isset ($xmlRoot->Modules))
+				$manifest = file_get_contents ($manifestFile);
+				$manifestRoot = simplexml_load_string($manifest);
+				$this->manifest["scormFile"] = $manifestRoot->scormFile;
+				$this->manifest["properties"] = $manifestRoot->properties;
+				if(isset ($manifest))
 				{
-					if (isset ($xmlRoot->Modules["type"]))
+					$propertiesFile = $a_import_dirname . "/" . $this->manifest["properties"][0];
+					$xml = file_get_contents ($propertiesFile);
+					if(isset ($xml))
 					{
-						if ($xmlRoot->Modules["type"] == "sahs")
+						$xmlRoot = simplexml_load_string($xml);
+						//todo: extend for import of multiple modules in one file ??
+						foreach ($this->dataset->properties as $key => $value)
 						{
-							//todo: extend for import of multiple modules in one file ??
-							foreach ($this->dataset->properties as $key => $value)
-							{
-								$this->moduleProperties[$key] = $xmlRoot->Modules->Module->$key;
-							}
-							$this->moduleProperties["zipfile"] = $xmlRoot->Modules->Module->zipfile;
-							$this->moduleProperties["Title"] = $xmlRoot->Modules->Module->Title;
-							$this->moduleProperties["Description"] = $xmlRoot->Modules->Module->Description;
-							$result = true;
+							$this->moduleProperties[$key] = $xmlRoot->$key;
 						}
+						$this->moduleProperties["Title"] = $xmlRoot->Title;
+						$this->moduleProperties["Description"] = $xmlRoot->Description;
+						$result = true;
 					}
+					else
+					{
+						$ilLog->write("error parsing xml file for scorm import");
+						//error xml parsing
+					}
+				}
+				else
+				{
+					$ilLog->write("error reading manifest file");
 				}
 			}
 			else
 			{
-				 $GLOBALS['ilLog']->write("error parsing xml file for scorm import");
-				//error xml parsing
+				$ilLog->write("error no manifest file found");
 			}
 		}
 		else
 		{
-			$GLOBALS['ilLog']->write("error file lost while importing");
+			$ilLog->write("error file lost while importing");
 			//error non existing file
 		}
 		return $result;
 	}
-
-/*for future use
- *public function getZipFileLocation ($a_xml_filename)
-	{
-		$positions = ["startPosition" => -1, "endPosition" => 1, "startTagLength" => 0];
-		$zipTag = "zipBase64enc";
-		$positions [] = strlen 
-		$bufferSize = 4000000;
-
-		$xmlFile = fopen ($a_xml_filename);
-		$offset = 0
-		$buffer0 = fread ($zip, $bufferSize);
-		while (!feof ($zip)) {                       
-			$buffer1 = fread ($zip, $bufferSize);
-			$combinedBuffer = $buffer0 + $buffer1;
-			$position = 
-	//		$encBuffer = base64_encode ($buffer);
-	//		fwrite ($xml, $encBuffer);
-			$offset += $bufferSize;
-		}
-//		fwrite ($xml, "<zipfile encoding=\"base64\">\n");
-	}
- */
 
 	public function writeData($a_entity, $version, $a_id)
 	{

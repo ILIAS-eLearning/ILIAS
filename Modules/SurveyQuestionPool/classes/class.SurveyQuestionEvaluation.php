@@ -166,6 +166,68 @@ abstract class SurveyQuestionEvaluation
 			}		
 		}
 	}
+			
+	public function parseUserSpecificResults($a_qres, $a_user_id)
+	{
+		$parsed_results = array();
+		
+		if(is_array($a_qres))
+		{
+			foreach($a_qres as $row_idx => $row_results)				
+			{				
+				$row_title = $row_results[0];
+				$user_results = $row_results[1]->getUserResults($a_user_id);
+				if($user_results)
+				{
+					foreach($user_results as $item)
+					{
+						// :TODO: layout
+						$tmp = $row_title.": ";
+						if($item[0] !== "")
+						{
+							$tmp .= $item[0];
+						}
+						if($item[1] && $item[0])
+						{
+							$tmp .= ", \"".nl2br($item[1])."\"";
+						}
+						else if($item[1])
+						{
+							$tmp .= "\"".nl2br($item[1])."\"";
+						}
+						$parsed_results[$row_idx."-".$item[2]] = $tmp;
+					}
+				}
+			}
+
+		}
+		else
+		{
+			$user_results = $a_qres->getUserResults($a_user_id);
+			if($user_results)
+			{
+				foreach($user_results as $item)
+				{
+					// :TODO: layout
+					if($item[0] !== "")
+					{
+						$tmp = $item[0];
+					}
+					if($item[1] && $item[0])
+					{
+						$tmp .= ", \"".nl2br($item[1])."\"";
+					}
+					else if($item[1])
+					{
+						$tmp = "\"".nl2br($item[1])."\"";
+					}
+					$parsed_results[$item[2]] = $tmp;
+				}
+			}
+		}
+		
+		return $parsed_results;
+	}	
 	
 	
 	//

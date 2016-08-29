@@ -55,7 +55,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		} elseif (isset($_GET['tableview_id'])) {
 			$this->table_id = ilDclTableView::find($_GET['tableview_id'])->getTableId();
 		} elseif ($a_id > 0) {
-			$this->table_id = $this->object->getMainTableId();
+			$this->table_id = $this->object->getFirstVisibleTableId();
 		}
 		/**
 		 * @var ilCtrl $ilCtrl
@@ -481,7 +481,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	private function emptyInfo() {
 		global $DIC;
 		$lng = $DIC['lng'];
-		$this->table = ilDclCache::getTableCache($this->object->getMainTableId());
+		$this->table = ilDclCache::getTableCache($this->object->getFirstVisibleTableId());
 		$tables = $this->object->getTables();
 		if (count($tables) == 1 AND count($this->table->getRecordFields()) == 0 AND count($this->table->getRecords()) == 0
 			AND $this->object->getOnline()

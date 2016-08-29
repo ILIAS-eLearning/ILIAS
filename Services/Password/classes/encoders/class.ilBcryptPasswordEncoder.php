@@ -287,7 +287,8 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 		$result = @file_put_contents($this->getClientSaltLocation(), $this->getClientSalt());
 		if(!$result)
 		{
-			throw new ilPasswordException("Could not store the client salt. Please contact an administrator.");
+			require_once 'Services/Password/exceptions/class.ilPasswordException.php';
+			throw new ilPasswordException(sprintf("Could not store the client salt in: %s. Please contact an administrator.", $this->getClientSaltLocation()));
 		}
 	}
 }

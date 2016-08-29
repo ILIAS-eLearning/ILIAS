@@ -3130,28 +3130,37 @@ class ilObjSurvey extends ilObject
 		return $users;
 	}
 	
-/**
-* Calculates the evaluation data for the user specific results
-*
-* @return array An array containing the user specific results
-* @access public
-*/
-	function &getUserSpecificResults($finished_ids)
-	{
-		global $ilDB;
-		
+	/**
+	* Calculates the evaluation data for the user specific results
+	*
+	* @return array An array containing the user specific results
+	* @access public
+	*/
+	function getUserSpecificResults($finished_ids)
+	{		
 		$evaluation = array();
-		$questions =& $this->getSurveyQuestions();
-		foreach ($questions as $question_id => $question_data)
+		
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		foreach (array_keys($this->getSurveyQuestions()) as $question_id)
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			// get question instance			
 			$question_type = SurveyQuestion::_getQuestionType($question_id);
 			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
-			$data =& $question->getUserAnswers($this->getSurveyId(), $finished_ids);
-			$evaluation[$question_id] = $data;
+			
+			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($question_id, $finished_ids);		
+			$q_res =  $q_eval->getResults();
+			
+			$data = array();
+			foreach($finished_ids as $user_id)
+			{
+				$data[$user_id] = $q_eval->parseUserSpecificResults($q_res, $user_id);					
+			}
+			
+			$evaluation[$question_id] = $data;			
 		}
+		
 		return $evaluation;
 	}
 	

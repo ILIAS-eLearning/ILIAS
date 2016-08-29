@@ -507,7 +507,7 @@ class ilDclBaseFieldModel {
 	/**
 	 * Update properties of this field in Database
 	 */
-	protected function updateProperties() {
+	public function updateProperties() {
 		foreach ($this->property as $prop) {
 			$prop->store();
 		}
@@ -515,9 +515,8 @@ class ilDclBaseFieldModel {
 
 
 	/**
-	 * updateViewDefinition
+	 * update exportable and fieldorder
 	 *
-	 * @param $view int use constant VIEW_VIEW or EDIT_VIEW
 	 */
 	protected function updateTableFieldSetting() {
 		$tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
@@ -751,7 +750,7 @@ class ilDclBaseFieldModel {
 			}
 
 			$fieldprop_obj->setValue($value);
-			$fieldprop_obj->doCreate();
+			$fieldprop_obj->create();
 		}
 	}
 

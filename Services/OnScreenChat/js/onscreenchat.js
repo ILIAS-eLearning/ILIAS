@@ -31,30 +31,54 @@
 			addEvent: function(){},
 			resizeChatWindow: function() {},
 			focusOut: function() {},
-			messageInput: function() {}
+			messageInput: function() {},
+			menuItemRemovalRequest: function() {},
+			emoticonClicked: function() {},
+			messageContentPasted: function() {},
+			windowClicked: function() {},
+			menuItemClicked: function() {},
+			updatePlaceholder: function() {}
 		},
 
 		setTriggers: function(triggers) {
-			if(triggers.hasOwnProperty('participantEvent')) {
+			if (triggers.hasOwnProperty('participantEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent = triggers.participantEvent;
 			}
-			if(triggers.hasOwnProperty('closeEvent')) {
+			if (triggers.hasOwnProperty('closeEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent = triggers.closeEvent;
 			}
-			if(triggers.hasOwnProperty('submitEvent')) {
+			if (triggers.hasOwnProperty('submitEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent = triggers.submitEvent;
 			}
-			if(triggers.hasOwnProperty('addEvent')) {
+			if (triggers.hasOwnProperty('addEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.addEvent = triggers.addEvent;
 			}
-			if(triggers.hasOwnProperty('resizeChatWindow')) {
+			if (triggers.hasOwnProperty('resizeChatWindow')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow = triggers.resizeChatWindow;
 			}
-			if(triggers.hasOwnProperty('focusOut')) {
+			if (triggers.hasOwnProperty('focusOut')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.focusOut = triggers.focusOut;
 			}
-			if(triggers.hasOwnProperty('messageInput')) {
+			if (triggers.hasOwnProperty('messageInput')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.messageInput = triggers.messageInput;
+			}
+			if (triggers.hasOwnProperty('menuItemRemovalRequest')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest = triggers.menuItemRemovalRequest;
+			}
+			if (triggers.hasOwnProperty('emoticonClicked')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked = triggers.emoticonClicked;
+			}
+			if (triggers.hasOwnProperty('messageContentPasted')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.messageContentPasted = triggers.messageContentPasted;
+			}
+			if (triggers.hasOwnProperty('windowClicked')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked = triggers.windowClicked;
+			}
+			if (triggers.hasOwnProperty('menuItemClicked')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked = triggers.menuItemClicked;
+			}
+			if (triggers.hasOwnProperty('updatePlaceholder')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder = triggers.updatePlaceholder;
 			}
 
 			return this;
@@ -66,94 +90,20 @@
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
-				.on('click', '[data-onscreenchat-submit]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
+				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
-				.on('click', '[data-onscreenchat-menu-item]', function(e) {
-					$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
-					$menu.close();
-				})
-				.on('click', '[data-onscreenchat-window]', function(e){
-					if ($(e.target).closest('[data-onscreenchat-header]').length == 0 && $(e.target).parent('[data-onscreenchat-body-msg]').length == 0) {
-						e.preventDefault();
-						e.stopPropagation();
-
-						$(this).find('[data-onscreenchat-message]').focus();
-					}
-				})
+				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
+				.on('click', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
-				.on('input', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow)
-				.on('paste', '[data-onscreenchat-message]', function(e) {
-					var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-
-					e.stopPropagation();
-					e.preventDefault();
-
-					var messagePaster = new MessagePaster($(this));
-					messagePaster.paste(text);
-
+				.on('input', '[data-onscreenchat-message]', function(e) {
 					$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow.call(this, e);
+					$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(this, e);
 				})
+				.on('paste', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageContentPasted)
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
-				.on('click', '[data-onscreenchat-emoticon]', function(e) {
-					var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
-						messageField = conversationWindow.find('[data-onscreenchat-message]');
-
-					e.preventDefault();
-					e.stopPropagation();
-
-					var messagePaster = new MessagePaster(messageField);
-					messagePaster.paste($(this).find('img').data('emoticon'));
-
-					messageField.popover('hide');
-				}).on('click', '[data-onscreenchat-menu-remove-conversation]', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-
-					var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
-					var conversation = getModule().storage.get(conversationId);
-
-					if (conversation.participants.length > 2) {
-						$scope.il.Modal.dialogue({
-							id: 'modal-leave-' + conversation.id,
-							header: il.Language.txt('chat_osc_leave_grp_conv'),
-							body: il.Language.txt('chat_osc_sure_to_leave_grp_conv'),
-							buttons:  {
-								confirm: {
-									type:      "button",
-									label:     il.Language.txt("confirm"),
-									
-									className: "btn btn-primary",
-									callback:  function (e, modal) {
-										e.stopPropagation();
-										modal.modal("hide");
-
-										$chat.closeConversation(conversationId, getModule().user.id);
-										$chat.removeUser(conversationId, getModule().user.id, getModule().user.name);
-									}
-								},
-								cancel:  {
-									label:     il.Language.txt("cancel"),
-									type:      "button",
-									className: "btn btn-default",
-									callback:  function (e, modal) {
-										e.stopPropagation();
-										modal.modal("hide");
-									}
-								}
-							},
-							show: true
-						});
-					} else {
-						$chat.closeConversation(conversationId, getModule().user.id);
-						$menu.remove(conversation);
-					}
-				})
-				/*.on('keydown', '[data-onscreenchat-message]', function(e) {
-					console.log("shift + enter event");
-				}).on('input', '[data-onscreenchat-message]', function() {
-					console.log("resizeEvent");
-				})*/;
+				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked)
+				.on('click', '[data-onscreenchat-menu-remove-conversation]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
 		}
 	};
 
@@ -200,8 +150,6 @@
 						conversation = JSON.parse(conversation);
 					}
 
-					//$menu.add(conversation);
-
 					if (conversation.open && !chatWindow.is(':visible')) {
 						getModule().open(conversation);
 					} else if (!conversation.open) {
@@ -222,13 +170,19 @@
 			$chat.onGroupConversationLeft(getModule().onConversationLeft);
 			$chat.onConverstionInit(getModule().onConversationInit);
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
-				participantEvent: getModule().startConversation,
-				closeEvent: getModule().close,
-				submitEvent: getModule().handleSubmit,
-				addEvent: getModule().openInviteUser,
-				resizeChatWindow: getModule().resizeMessageInput,
-				focusOut: getModule().onFocusOut,
-				messageInput: getModule().onMessageInput
+				participantEvent:       getModule().startConversation,
+				closeEvent:             getModule().close,
+				submitEvent:            getModule().handleSubmit,
+				addEvent:               getModule().openInviteUser,
+				resizeChatWindow:       getModule().resizeMessageInput,
+				focusOut:               getModule().onFocusOut,
+				messageInput:           getModule().onMessageInput,
+				menuItemRemovalRequest: getModule().onMenuItemRemovalRequest,
+				emoticonClicked:        getModule().onEmoticonClicked,
+				messageContentPasted:   getModule().onMessageContentPasted,
+				windowClicked:          getModule().onWindowClicked,
+				menuItemClicked:        getModule().onMenuItemClicked,
+				updatePlaceholder:      getModule().updatePlaceholder
 			}).init();
 
 			$('body').append(
@@ -305,7 +259,6 @@
 				});
 			}
 
-
 			if(conversation.latestMessage != null) {
 				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
 			}
@@ -356,7 +309,6 @@
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
-			template = template.replace('#:#chat_osc_send#:#', il.Language.txt('chat_osc_send'));
 
 			return template;
 		},
@@ -387,6 +339,9 @@
 				input.html('');
 				getModule().onMessageInput.call(input);
 				getModule().resizeMessageInput.call(input);
+
+				var e = $.Event('click');
+				$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(input, e);
 			}
 		},
 
@@ -443,6 +398,102 @@
 			conversation.open = true;
 			$menu.add(conversation);
 			getModule().storage.save(conversation);
+		},
+
+		onMenuItemRemovalRequest: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
+			var conversation = getModule().storage.get(conversationId);
+
+			if (conversation.participants.length > 2) {
+				$scope.il.Modal.dialogue({
+					id: 'modal-leave-' + conversation.id,
+					header: il.Language.txt('chat_osc_leave_grp_conv'),
+					body: il.Language.txt('chat_osc_sure_to_leave_grp_conv'),
+					buttons:  {
+						confirm: {
+							type:      "button",
+							label:     il.Language.txt("confirm"),
+
+							className: "btn btn-primary",
+							callback:  function (e, modal) {
+								e.stopPropagation();
+								modal.modal("hide");
+
+								$chat.closeConversation(conversationId, getModule().user.id);
+								$chat.removeUser(conversationId, getModule().user.id, getModule().user.name);
+							}
+						},
+						cancel:  {
+							label:     il.Language.txt("cancel"),
+							type:      "button",
+							className: "btn btn-default",
+							callback:  function (e, modal) {
+								e.stopPropagation();
+								modal.modal("hide");
+							}
+						}
+					},
+					show: true
+				});
+			} else {
+				$chat.closeConversation(conversationId, getModule().user.id);
+				$menu.remove(conversation);
+			}
+		},
+
+		onEmoticonClicked: function(e) {
+			var conversationWindow = $(this).closest('[data-onscreenchat-window]'),
+				messageField = conversationWindow.find('[data-onscreenchat-message]');
+
+			e.preventDefault();
+			e.stopPropagation();
+	
+			var messagePaster = new MessagePaster(messageField);
+			messagePaster.paste($(this).find('img').data('emoticon'));
+			messageField.popover('hide');
+
+			$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(messageField.get(0), e);
+		},
+
+		onMessageContentPasted: function(e) {
+			var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+			e.stopPropagation();
+			e.preventDefault();
+
+			var messagePaster = new MessagePaster($(this));
+			messagePaster.paste(text);
+
+			$scope.il.OnScreenChatJQueryTriggers.triggers.resizeChatWindow.call(this, e);
+			$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(this, e);
+		},
+
+		onWindowClicked: function(e) {
+			if ($(e.target).closest('[data-onscreenchat-header]').length == 0 && $(e.target).parent('[data-onscreenchat-body-msg]').length == 0) {
+				e.preventDefault();
+				e.stopPropagation();
+
+				$(this).find('[data-onscreenchat-message]').focus();
+			}
+		},
+
+		onMenuItemClicked: function(e) {
+			$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
+			$menu.close();
+		},
+
+		updatePlaceholder: function(e) {
+			var $this = $(this),
+				placeholder = $this.parent().find('[data-onscreenchat-message-placeholder]');
+
+			if ($.trim($this.html()).length > 0 ) {
+				placeholder.addClass('ilNoDisplay');
+			} else {
+				placeholder.removeClass('ilNoDisplay');
+			}
 		},
 
 		onConversationLeft: function(conversation) {
@@ -617,14 +668,7 @@
 		},
 
 		onMessageInput: function() {
-			var $this = $(this),
-				placeholder = $this.parent().find('[data-onscreenchat-message-placeholder]');
-
-			if ($.trim($this.html()).length > 0 ) {
-				placeholder.addClass('ilNoDisplay');
-			} else {
-				placeholder.removeClass('ilNoDisplay');
-			}
+			var $this = $(this);
 
 			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
 		},

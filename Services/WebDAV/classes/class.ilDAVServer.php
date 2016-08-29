@@ -193,10 +193,74 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
 
 	/**
+	 * Try authentication
+	 */
+	public function tryAuthentication()
+	{
+		if($GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
+		{
+			ilLoggerFactory::getLogger('init')->debug('User session is valid');
+			return true;
+		}
+		
+		ilLoggerFactory::getLogger('init')->debug('Trying http (webdav) authentication.');
+		
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsHTTP.php';
+		$credentials = new ilAuthFrontendCredentialsHTTP();
+		$credentials->initFromRequest();
+		
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$providers = $provider_factory->getProviders($credentials);
+			
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+			
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_HTTP);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			$providers
+		);
+			
+		$frontend->authenticate();
+			
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful. Serving request');
+				ilLoggerFactory::getLogger('auth')->info('Authenticated user id: ' . $GLOBALS['DIC']['ilAuthSession']->getUserId());
+				ilLoggerFactory::getLogger('auth')->debug('Auth info authenticated: ' .$GLOBALS['DIC']['ilAuthSession']->isAuthenticated());
+				ilLoggerFactory::getLogger('auth')->debug('Auth info expired: ' .$GLOBALS['DIC']['ilAuthSession']->isExpired());
+				ilInitialisation::initUserAccount();
+				return true;
+					
+			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication failed; Account migration required.');
+				return false;
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication failed; Wrong login, password.');
+				return false;
+		}
+		
+		return false;
+	}
+	
+
+	/**
 	 * Serves a WebDAV request.
 	 */
 	public function serveRequest()
 	{
+		if(!$this->tryAuthentication())
+		{
+			return false;
+		}
+		
 		// die quickly if plugin is deactivated
 		if (!self::_isActive())
 		{

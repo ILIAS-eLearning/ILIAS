@@ -32,7 +32,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
-		$this->setCharacteristics(array("Media" => $this->lng->txt("cont_Media")));
+		$this->setCharacteristics(array(
+			"MediaContainer" => $this->lng->txt("cont_Media"),
+			"MediaContainerMax50" => "MediaContainerMax50",
+			"MediaContainerFull100" => "MediaContainerFull100"
+		));
 
 	}
 
@@ -1190,8 +1194,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			
 		foreach ($chars as $k => $char)
 		{
-			$html = '<table class="ilc_media_cont_'.$k.'"><tr><td>'.
-				$char.'</td></tr></table>';
+			$html = '<div class="ilCOPgEditStyleSelectionItem">'.
+				$char.'</div>';
 			$char_prop->addOption($k, $char, $html);
 		}
 

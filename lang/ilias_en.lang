@@ -227,7 +227,8 @@ assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irrep
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
-assessment#:#essay_scoring_mode#:#Scoring Mode
+assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
+assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
@@ -764,6 +765,13 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Q
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
+assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
+assessment#:#tst_derive_new_pool#:#Derive New Question Pool
+assessment#:#tst_derive_new_pools#:#Derive New Question Pools
+assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
+assessment#:#tst_non_available_pool_newly_derived#:#The new question pool(s) has been derived successfully.
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
@@ -4051,7 +4059,7 @@ common#:#proxy_connectable#:#Connection established.
 common#:#proxy_host_info#:#Please enter a host.
 common#:#proxy_host#:#Host
 common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
+common#:#proxy_socket_error#:#Socket Error: %s
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_port#:#Port
@@ -16163,113 +16171,6 @@ exc#:#exc_settings_feedback_file#:#By File
 mem#:#mem_print_view_form#:#Default Settings for Print View
 mem#:#mem_settings_tab_print_view#:#Print View Settings
 mem#:#mem_settings_tab_settings#:#General Settings
-ccmt#:#ccmt_perform_reporting_data_update#:#Update Reporting Data
-ccmt#:#ccmt_custom_reporting_tool#:#Reporting
-ccmt#:#ccmt_custom_reporting_tool_desc#:#Here you can see the learning progress of your employees.<br />Please notice that the reporting data is updated nightly.
-ccmt#:#ccmt_view_by_switch_label#:#View By
-ccmt#:#ccmt_numbers_switch_label#:#Numbers Presentation
-ccmt#:#ccmt_filter_course_label#:#Filter Course
-ccmt#:#ccmt_filter_crstype_label#:#Filter Course Mode
-ccmt#:#ccmt_filter_memtype_label#:#Filter Membership Mode
-ccmt#:#ccmt_filter_crsparent_label#:#Filter Course Parent
-ccmt#:#ccmt_filter_period_label#:#Filter Period
-ccmt#:#ccmt_period_filter_label_use#:#Use Filter
-ccmt#:#ccmt_period_filter_label_not_use#:#Not Use Filter
-ccmt#:#ccmt_filter_period_start#:#From
-ccmt#:#ccmt_filter_period_end#:#To
-ccmt#:#ccmt_filter_option_all#:#All
-ccmt#:#ccmt_viewby_option_course#:#Course
-ccmt#:#ccmt_viewby_option_crsparent#:#Course Parent
-ccmt#:#ccmt_viewby_option_crstype#:#Course Mode
-ccmt#:#ccmt_viewby_option_orgunit#:#Organisation Unit
-ccmt#:#ccmt_viewby_option_user#:#Employee
-ccmt#:#ccmt_numbers_option_absolute#:#Absolute
-ccmt#:#ccmt_numbers_option_relative#:#Relative
-ccmt#:#ccmt_filter_crstype_option_optional#:#Optional
-ccmt#:#ccmt_filter_crstype_option_mandatory#:#Mandatory
-ccmt#:#ccmt_filter_memtype_option_auto#:#Automatically Assigned
-ccmt#:#ccmt_filter_memtype_option_manual#:#Manually Assigned
-ccmt#:#ccmt_aggregation_entity_course_total#:#All Courses
-ccmt#:#ccmt_aggregation_entity_crsparent_total#:#All Course Parents
-ccmt#:#ccmt_aggregation_entity_crstype_total#:#All Course Modes
-ccmt#:#ccmt_aggregation_entity_orgunit_total#:#All Organisation Units
-ccmt#:#ccmt_table_column_course#:#Course
-ccmt#:#ccmt_table_column_crsparent#:#Course Parent
-ccmt#:#ccmt_table_column_crstype#:#Course Mode
-ccmt#:#ccmt_table_column_orgunit#:#Organisation Unit
-ccmt#:#ccmt_table_column_user#:#Employee
-ccmt#:#ccmt_table_column_assigned#:#Course Assignments
-ccmt#:#ccmt_table_column_notattempted#:#Not Attempted
-ccmt#:#ccmt_table_column_not_attempted#:#Not Attempted
-ccmt#:#ccmt_table_column_inprogress#:#In Progress
-ccmt#:#ccmt_table_column_in_progress#:#In Progress
-ccmt#:#ccmt_table_column_completed#:#Completed
-ccmt#:#ccmt_table_column_failed#:#Failed
-ccmt#:#ccmt_table_column_lp_ratio#:#Learning Ratio
-ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Certificates
-ccmt#:#ccmt_table_column_past_due#:#Past Due
-ccmt#:#ccmt_table_column_event_days#:#Event Days
-ccmt#:#ccmt_not_available#:#open
-ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lerning Progress by Courses
-ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lerning Progress by Course Modes
-ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lerning Progress by Course Parent
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lerning Progress by Organisation Units
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_detailed_status_table_header#:#Detailed Learning Progress
-ccmt#:#ccmt_detailed_status_table_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_table_column_lp_status#:#Status
-ccmt#:#ccmt_table_column_deadline_date#:#Course Deadline
-ccmt#:#ccmt_table_column_is_mandatory#:#Is Mandatory
-ccmt#:#ccmt_table_column_last_access#:#Last Access
-ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Completion Date
-ccmt#:#ccmt_lp_status_notattempted#:#not attempted
-ccmt#:#ccmt_lp_status_inprogress#:#in progress
-ccmt#:#ccmt_lp_status_completed#:#completed
-ccmt#:#ccmt_lp_status_failed#:#failed
-ccmt#:#ccmt_course_type_mandatory#:#Mandatory
-ccmt#:#ccmt_course_type_optional#:#Optional
-ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Create Report
-ccmt#:#ccmt_toolbar_submit_create_report_export#:#Create Export
-ccmt#:#ccmt_menu_item_reporting#:#Reporting
-ccmt#:#ccmt_info_block_label_all_users#:#Total Users
-ccmt#:#ccmt_info_block_label_all_courses#:#Total Courses
-ccmt#:#ccmt_info_block_label_all_memberships#:#Total Memberships
-ccmt#:#ccmt_info_block_label_all_session_days#:#Total Session Days
-ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#The following courses are excluded from the report due to invalid tracking settings:%s
-ccmt#:#ccmt_course_error_lp_mode#:#The status for the course "%s" with id "%s" cannot be determined, because the tracking is configured to an incompatible mode.<br />Current mode is "%s" / Required mode is "%s"
-ccmt#:#ccmt_course_error_lp_deactivated#:#The status for the course "%s" with id "%s" cannot be determined, because the tracking is deactivated.
-ccmt#:#ccmt_course_error_invalid_obj#:#The status for the course "%s" with id "%s" depends on a subobject, whose object type is not supported by the reporting.
-ccmt#:#ccmt_course_error_multi_obj#:#The status for the course "%s" with id "%s" depends on more than one subobjects. This is not supported by the reporting.
-ccmt#:#ccmt_course_error_missing_obj#:#The status for the course "%s" with id "%s" cannot be determined, because no relevant subobjects has been defined on which the status depends.
-ccmt#:#ccmt_print_view#:#Print View All Courses
-ccmt#:#ccmt_print_view_mandatory_non_completed#:#Print View Non Completed
-ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Non Completed Courses in %s
-ccmt#:#ccmt_print_window_title_orgunit#:#All Courses in %s
-ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Non Completed Courses for %s
-ccmt#:#ccmt_print_window_title_user#:#All Courses for %s
-ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#No existing non completed course assignments<br />matching the current selection.
-ccmt#:#ccmt_detailed_status_print_view_noitems#:#No existing course assignments<br />matching the current selection.
-ccmt#:#ccmt_print_table_column_user#:#Employee
-ccmt#:#ccmt_print_table_column_course#:#Course
-ccmt#:#ccmt_print_table_column_lp_status#:#Status
-ccmt#:#ccmt_print_table_column_is_mandatory#:#Crs Mode
-ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Compl. Date
-ccmt#:#ccmt_print_table_column_learning_date#:#Learning Date
-ccmt#:#ccmt_print_table_column_last_access#:#Last Access
-ccmt#:#ccmt_print_table_column_deadline_date#:#Deadline
-ccmt#:#ccmt_all_employees#:#All Employees
-ccmt#:#ccmt_table_column_num_users#:#Number of Users
-ccmt#:#export_all_lp#:#Export Learning Progress
-ccmt#:#export_learning_progress#:#Export Learning Progress
-ccmt#:#export_lp#:#Choose File
-ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Certificate valid until
-ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Certificate valid until
-ccmt#:#ccmt_search_no_user_found#:#Unfortunately no hits found for your search.
-ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
-ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
 didactic#:#activate_local_didactic_template#:#Scope of Application
 didactic#:#effective_form#:#Template Effective From
 didactic#:#more_translations#:#More Translations
