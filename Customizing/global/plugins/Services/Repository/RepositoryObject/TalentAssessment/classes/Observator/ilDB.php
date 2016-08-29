@@ -10,13 +10,6 @@ class ilDB implements DB {
 	/**
 	 * @inheritdoc
 	 */
-	public function selectAssignedFor($role_id) {
-		
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function createLocalRoleTemplate($tpl_title, $tpl_description) {
 		include_once("./Services/AccessControl/classes/class.ilObjRoleTemplate.php");
 		$roltObj = new \ilObjRoleTemplate();
