@@ -479,4 +479,31 @@ interface Factory {
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function comment($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Close Glyph is used to indicate the possibility to close a certain user interface element. 
+	 *   composition: >
+	 *       The Close Glyph uses the glyphicon-remove.
+	 *   effect: >
+	 *       Clicking on the Close Glyph closes the user interface element it is bound to.
+	 *
+	 * context: >
+	 *   Closing a modal dialogue.
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          The Close Glyph stands for an Action and SHOULD be placed in the
+	 *          action column of a form.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be ‘Close'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function close($action = null);
 }

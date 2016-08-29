@@ -37,6 +37,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::TAG				=> "glyphicon glyphicon-tag"
 		, C\Glyph\Glyph::NOTE				=> "glyphicon glyphicon-pushpin"
 		, C\Glyph\Glyph::COMMENT			=> "glyphicon glyphicon-comment"
+		, C\Glyph\Glyph::CLOSE			    => "glyphicon glyphicon-remove"
 		);
 
 	static $aria_labels = array(
@@ -57,6 +58,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::TAG				=> "tags"
 		, C\Glyph\Glyph::NOTE				=> "notes"
 		, C\Glyph\Glyph::COMMENT			=> "comments"
+		, C\Glyph\Glyph::CLOSE			    => "close"
 	);
 
 	/**
@@ -241,6 +243,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(C\Glyph\Glyph::TAG)
 			, array(C\Glyph\Glyph::NOTE)
 			, array(C\Glyph\Glyph::COMMENT)
+			, array(C\Glyph\Glyph::CLOSE)
 			);
 	}
 

@@ -133,4 +133,11 @@ class Factory implements G\Factory {
 	public function comment($action = null) {
 		return new Glyph(G\Glyph::COMMENT, "comments", $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function close($action = null) {
+		return new Glyph(G\Glyph::CLOSE, "close", $action);
+	}
 }

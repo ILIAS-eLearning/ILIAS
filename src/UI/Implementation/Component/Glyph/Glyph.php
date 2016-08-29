@@ -56,12 +56,14 @@ class Glyph implements C\Glyph\Glyph {
 		, self::NOTIFICATION
 		, self::TAG
 		, self::NOTE
-		, self::COMMENT
+		, self::COMMENT 
+		, self::CLOSE
 		);
 
 
 	/**
 	 * @param string		$type
+	 * @param string		$aria_label
 	 * @param string|null	$action
 	 */
 	public function __construct($type, $aria_label, $action = null) {
