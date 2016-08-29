@@ -147,7 +147,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 				return $this->dispatchToDashboard($cmd_parts[1]);
 
 			default:
-				return $this->dispatchToDashboard($cmd_parts[0]);
+				return $this->dispatchToDefinitions($cmd_parts[0]);
 		}
 	}
 
@@ -170,11 +170,11 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	 */
 	public function initTabs($section)
 	{
-		$this->ilTabs->addTab(
-				'dashboard',
-				$this->lng->txt('dashboard'),
-				$this->ilCtrl->getLinkTarget($this, 'dashboard.view')
-		);
+	//	$this->ilTabs->addTab(
+	//			'dashboard',
+	//			$this->lng->txt('dashboard'),
+	//			$this->ilCtrl->getLinkTarget($this, 'dashboard.view')
+	//	);
 
 		$this->ilTabs->addTab(
 				'definitions',
