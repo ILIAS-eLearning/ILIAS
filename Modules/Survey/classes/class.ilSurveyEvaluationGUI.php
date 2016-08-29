@@ -1461,61 +1461,7 @@ class ilSurveyEvaluationGUI
 			{	
 				$user_id = $user["active_id"];
 				
-				$parsed_results = array();
-				if(is_array($q_res))
-				{
-					foreach($q_res as $row_results)
-					{
-						$row_title = $row_results[0];
-						$user_results = $row_results[1]->getUserResults($user_id);
-						if($user_results)
-						{
-							foreach($user_results as $item)
-							{
-								// :TODO: layout
-								$tmp = $row_title.": ";
-								if($item[0] !== "")
-								{
-									$tmp .= $item[0];
-								}
-								if($item[1] && $item[0])
-								{
-									$tmp .= ", \"".nl2br($item[1])."\"";
-								}
-								else if($item[1])
-								{
-									$tmp .= "\"".nl2br($item[1])."\"";
-								}
-								$parsed_results[] = $tmp;
-							}
-						}
-					}
-					
-				}
-				else
-				{
-					$user_results = $q_res->getUserResults($user_id);
-					if($user_results)
-					{
-						foreach($user_results as $item)
-						{
-							// :TODO: layout
-							if($item[0] !== "")
-							{
-								$tmp = $item[0];
-							}
-							if($item[1] && $item[0])
-							{
-								$tmp .= ", \"".nl2br($item[1])."\"";
-							}
-							else if($item[1])
-							{
-								$tmp = "\"".nl2br($item[1])."\"";
-							}
-							$parsed_results[] = $tmp;
-						}
-					}
-				}
+				$parsed_results = $q_eval->parseUserSpecificResults($q_res, $user_id);				
 				
 				if(!array_key_exists($user_id, $data))
 				{
