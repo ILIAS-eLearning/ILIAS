@@ -43,6 +43,9 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$value = $this->getValue();
 		if ($value) {
 			if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+				if (!is_array($value)) {
+					$value = array($value);
+				}
 				foreach ($value as $val) {
 					if ($val) {
 						$ref_rec = ilDclCache::getRecordCache($val);
@@ -75,14 +78,54 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$lng = $DIC['lng'];
 		$value = parent::getValueFromExcel($excel, $row, $col);
 		$old = $value;
-		$value = $this->getReferenceFromValue($value);
-		if (!$value && $old) {
+		if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+			$value = $this->getReferencesFromString($value);
+			$has_value = count($value);
+		} else {
+			$value = $this->getReferenceFromValue($value);
+			$has_value = $value;
+		}
+
+		if (!$has_value && $old) {
 			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col+1) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $old;
 			return array('warning' => $warning);
 		}
-
+		
 		return $value;
+	}
+
+	/**
+	 * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
+	 * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
+	 * Will mess with it.
+	 * @param $stringValues string
+	 * @return int[]
+	 */
+	protected function getReferencesFromString($stringValues) {
+		$slicedStrings = explode(", ", $stringValues);
+		$slicedReferences = array();
+		$resolved = 0;
+		for($i = 0; $i < count($slicedStrings); $i++) {
+			//try to find a reference since the last resolved value separated by a comma.
+			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
+			$searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
+			if($ref = $this->getReferenceFromValue($searchString)){
+				$slicedReferences[] = $ref;
+				$resolved = $i;
+				continue;
+			}
+
+			//try to find a reference with the current index.
+			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
+			$searchString = $slicedStrings[$i];
+			if($ref = $this->getReferenceFromValue($searchString)){
+				$slicedReferences[] = $ref;
+				$resolved = $i;
+				continue;
+			}
+		}
+		return $slicedReferences;
 	}
 
 	/**
