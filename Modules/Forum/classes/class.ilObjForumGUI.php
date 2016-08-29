@@ -2749,6 +2749,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						{
 							$news_item->setContentHtml(true);
 						}
+						else
+						{
+							$news_item->setContentHtml(false);
+						}
 						$news_item->update();
 					}
 
