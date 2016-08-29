@@ -17659,4 +17659,7 @@ if (! $ilDB->tableExists('orgu_path_storage')) {
 	$ilDB->addPrimaryKey('orgu_path_storage', array( 'ref_id' ));
 }
 ?>
-
+<#5036>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
