@@ -339,6 +339,9 @@
 				input.html('');
 				getModule().onMessageInput.call(input);
 				getModule().resizeMessageInput.call(input);
+
+				var e = $.Event('click');
+				$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(input, e);
 			}
 		},
 
