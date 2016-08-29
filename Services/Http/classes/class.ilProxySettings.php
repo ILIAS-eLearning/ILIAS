@@ -223,17 +223,33 @@ class ilProxySettings
 	 */
 	public function checkConnection()
 	{
-		require_once 'Services/PEAR/lib/Net/Socket.php';
-		
-		$socket = new Net_Socket();
-		$socket->setErrorHandling(PEAR_ERROR_RETURN);
-		$response = $socket->connect($this->getHost(), $this->getPort());
-		if(!is_bool($response))
+		global $DIC;
+
+		$errno  = null;
+		$errstr = null;
+
+		set_error_handler(function ($severity, $message, $file, $line)
 		{
-			global $lng;			
-			throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));	
-		}	
-		
+			throw new ErrorException($message, $severity, $severity, $file, $line);
+		});
+
+		try
+		{
+			if(!fsockopen('udp://' . $this->getHost(), $this->getPort(), $errno, $errstr))
+			{
+				if(!fsockopen('tcp://' . $this->getHost(), $this->getPort(), $errno, $errstr))
+				{
+					throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
+				}
+			}
+			restore_error_handler();
+		}
+		catch(Exception $e)
+		{
+			restore_error_handler();
+			throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
+		}
+
 		return $this;
 	}
 }

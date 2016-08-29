@@ -4059,7 +4059,7 @@ common#:#proxy_connectable#:#Connection established.
 common#:#proxy_host_info#:#Please enter a host.
 common#:#proxy_host#:#Host
 common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
+common#:#proxy_socket_error#:#Socket Error: %s
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_port#:#Port
