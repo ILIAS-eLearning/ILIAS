@@ -20,9 +20,9 @@ class catSelectableReportTableGUI extends catTableGUI {
 		$this->fields[$column_id] = $fields;
 		$this->order[] = $column_id;
 		if($selectable) {
-			$this->selectable[$column_id] = array('txt' => $title ,'sort' => $sort);
+			$this->selectable[$column_id] = array('txt' => $title, 'sort' => $sort);
 		} else {
-			$this->persistent[$column_id] = array('txt' => $title ,'sort' => $sort);
+			$this->persistent[$column_id] = array('txt' => $title, 'sort' => $sort);
 		}
 		return $this;
 	}
@@ -31,15 +31,20 @@ class catSelectableReportTableGUI extends catTableGUI {
 		return $this->selectable;
 	}
 
-	protected function relevantColumns() {
+	public function relevantColumns() {
 		$relevant_column_info = array();
+		$relevant_column_info_pre = array();
 		foreach ($this->persistent as $column_id => $vals) {
-			$relevant_column_info[$column_id] = $vals;
+			$relevant_column_info_pre[$column_id] = $vals;
 		}
 		foreach ($this->getSelectedColumns() as $column_id => $vals) {
-			$relevant_column_info[$column_id] = $this->selectable[$column_id];
+			$relevant_column_info_pre[$column_id] = $this->selectable[$column_id];
 		}
-
+		foreach ($this->order as $column_id) {
+			if(isset($relevant_column_info_pre[$column_id])) {
+				$relevant_column_info[$column_id] = $relevant_column_info_pre[$column_id];
+			}
+		}
 		return $relevant_column_info;
 	}
 
