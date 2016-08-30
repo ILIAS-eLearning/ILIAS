@@ -27,15 +27,22 @@ class SqlQueryInterpreter {
 	protected function requested(Tables\AbstractQuery $query) {
 		$sql_requested = array();
 		foreach ($query->requested() as $id => $field) {
+			$sql_requested[] = $this->interpreteField($field)." AS ".$id;
+		}
+		return implode(", ", $sql_requested);
+	}
+
+
+	protected function interpreteField(Filter\Predicates\Field $field) {
 			if($field instanceof Tables\TableField) {
-				$sql_requested[] = $field->name()." AS ".$id;
+				return $field->name();
 			} elseif($field instanceof Tables\DerivedField)  {
-				$sql_requested[] = call_user_func_array($field->postprocess(), $field->derivedFrom()). " AS ".$field->name;
+				$sub_fields = array_map(array($this, __FUNCTION__), $field->derivedFrom());
+				return call_user_func_array($field->postprocess(), $sub_fields);
 			} else {
 				throw new TableRelationsException("Unknown field");
 			}
-		}
-		return implode(", ", $sql_requested);
+
 	}
 
 	/**
