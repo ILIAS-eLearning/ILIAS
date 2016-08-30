@@ -2816,7 +2816,7 @@ common#:#cat_wizard_page#:#Kategorie kopieren (Schritt 2/2)
 rbac#:#cat_write#:#Einstellungen der Kategorie bearbeiten und Inhalte verwalten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
-common#:#catr#:#Kategorie-Referenz
+common#:#catr#:#Kategorielink
 common#:#catr_edit#:#Kategorielink bearbeiten
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
 common#:#catr_new#:#Neue Kategorielink anlegen
@@ -3025,7 +3025,7 @@ common#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
 rbac#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
-common#:#crsr#:#Kurs-Referenz
+common#:#crsr#:#Kurslink
 common#:#crsr_edit#:#Kurslink bearbeiten
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
 common#:#crsr_new#:#Neue Kurslink anlegen
@@ -4350,7 +4350,7 @@ common#:#obj_cals_desc#:#Enthält globale Einstellungen für den Kalender.
 common#:#obj_cat#:#Kategorie
 common#:#obj_cat_duplicate#:#Kategorie kopieren
 common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
-common#:#obj_catr#:#Kategorie-Referenz
+common#:#obj_catr#:#Kategorielink
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_cert#:#Zertifikate
 common#:#obj_cert_desc#:#Einstellungen für Zertifikate
@@ -4366,7 +4366,7 @@ common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
-common#:#obj_crsr#:#Kurs-Referenz
+common#:#obj_crsr#:#Kurslink
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
 common#:#obj_exc_duplicate#:#Übung kopieren
