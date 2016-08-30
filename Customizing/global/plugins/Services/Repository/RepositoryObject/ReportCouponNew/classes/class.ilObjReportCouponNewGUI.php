@@ -319,7 +319,7 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 	 * provide xlsx version of report for download.
 	 */
 	protected function exportExcel() {
-		$this->object->prepareReport();
+		$this->prepareReport();
 
 		$workbook = $this->getExcelWriter();
 
@@ -329,7 +329,7 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 			->setRowFormatBold();
 
 		$header = array();
-		foreach ($this->object->deliverTable()->all_columns as $col) {
+		foreach ($this->table->getRelevantColumns() as $col) {
 			if ($col[4]) {
 				continue;
 			}
