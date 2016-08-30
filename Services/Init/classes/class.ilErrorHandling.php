@@ -71,9 +71,9 @@ class ilErrorHandling extends PEAR
 	* Constructor
 	* @access	public
 	*/
-	function __construct()
+	public function __construct()
 	{
-		$this->PEAR();
+		parent::__construct();
 
 		// init vars
 		$this->DEBUG_ENV = true;
