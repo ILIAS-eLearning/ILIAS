@@ -59,6 +59,33 @@ class ilDbSetup {
 
 
 	/**
+	 * @param $client_name
+	 * @param $dbname
+	 * @param string $host
+	 * @param string $username
+	 * @param string $password
+	 * @param string $type
+	 * @return \ilDbSetup
+	 */
+	public static function getInstanceForNewClient($client_name, $dbname, $host = 'localhost', $username = 'root', $password = '', $type = ilDBConstants::TYPE_PDO_MYSQL_INNODB) {
+		require_once('./setup/classes/class.ilClient.php');
+		require_once('./Services/Init/classes/class.ilIniFile.php');
+		require_once('./setup/classes/class.ilDBConnections.php');
+
+		$ilClient = new ilClient($client_name,  new ilDBConnections());
+		$ilClient->init();
+		$ilClient->setDbHost($host);
+		$ilClient->setDbName($dbname);
+		$ilClient->setDbUser($username);
+		$ilClient->setDbPass($password);
+		$ilClient->setDbType($type);
+		$ilClient->writeIni();
+
+		return self::getInstanceForClient($ilClient);
+	}
+
+
+	/**
 	 * @param $a_collation
 	 * @return bool|mixed
 	 */
@@ -345,5 +372,21 @@ class ilDbSetup {
 		foreach ($this->ilDBInterface->listTables() as $table) {
 			$this->ilDBInterface->manipulate('DROP TABLE ' . $table);
 		}
+	}
+
+
+	/**
+	 * @return \ilDBInterface
+	 */
+	public function getIlDBInterface(): \ilDBInterface {
+		return $this->ilDBInterface;
+	}
+
+
+	/**
+	 * @param \ilDBInterface $ilDBInterface
+	 */
+	public function setIlDBInterface(\ilDBInterface $ilDBInterface) {
+		$this->ilDBInterface = $ilDBInterface;
 	}
 }
