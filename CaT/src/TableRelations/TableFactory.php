@@ -33,7 +33,7 @@ class TableFactory {
 		return $table;
 	}
 
-	public function DerivedField($name, \Closure $postprocess,$fields) {
+	public function DerivedField($name, \Closure $postprocess, array $fields) {
 		return new Tables\DerivedField($this->predicate_factory,$name,$postprocess,$fields);
 	}
 
@@ -47,5 +47,56 @@ class TableFactory {
 
 	public function query() {
 		return new Tables\Query;
+	}
+
+	public function histUser($id) {
+		return $this->table('hist_user',$id)
+			->addField($this->field('user_id'))
+			->addField($this->field('hist_historic'))
+			->addField($this->field('firstname'))
+			->addField($this->field('lastname'))
+		;
+	}
+
+	public function histUserOrgu($id) {
+		return $this->table('hist_userorgu',$id)
+			->addField($this->field('usr_id'))
+			->addField($this->field('orgu_id'))
+			->addField($this->field('orgu_title'))
+			->addField($this->field('hist_historic'))
+			->addField($this->field('action'))
+			->addField($this->field('org_unit_above1'))
+			->addField($this->field('org_unit_above2'))
+		;
+	}
+
+	public function groupConcatFieldSql($name, Filters\Predicates\Field $field, $separator = ', ') {
+		return $this->DerivedField(
+			$name
+			,function($field) use ($separator){
+				return 'GROUP_CONCAT(DISTINCT '
+					.$field
+					.' ORDER BY '.$field
+					.' DESC SEPARATOR \''.$separator.'\')';
+			}
+			,array($field));
+	}
+
+	public function diffFieldsSql($name, Filters\Predicates\Field $minuend, Filters\Predicates\Field $subtrahend) {
+		return $this->DerivedField(
+			$name
+			,function($minuend,$subtrahend) {
+				return $minuend.' - '.$subtrahend;
+			}
+			,array($minuend,$subtrahend));
+	}
+
+	public function fromUnixtimeSql($name, Filters\Predicates\Field $timestamp) {
+		return $this->DerivedField(
+			$name
+			,function($timestamp) {
+				return 'FROM_UNIXTIME('.$timestamp.',\'%d.%m.%Y\')';
+			}
+			,array($timestamp));
 	}
 }
