@@ -77,6 +77,11 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		parent::renderReport();
 	}
 
+	public function exportExcel() {
+		self::$target_user_id = $this->object->target_user_id;
+		parent::exportExcel();
+	}
+
 	protected function render() {
 		$this->gTpl->setTitle(null);
 		if(!$this->object->getWBD()->userTPStatusOK() &&
