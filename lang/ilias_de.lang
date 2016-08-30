@@ -323,6 +323,8 @@ assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet si
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
+assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
@@ -881,6 +883,13 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
+assessment#:#tst_non_avail_pools_table#:#Nicht verfügbare Fragenpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Der Fragenpool liegt im Papierkorb.</b><br />Sollte er permanent vom System entfernt werden kann der Test die Fragen aus diesem Pool nicht erneut synchronisieren.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
+assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
+assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
+assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
+assessment#:#tst_non_available_pool_newly_derived#:#Der/die neue(n) Fragenpool(s) wurde(n) erfolgreich abgeleitet.
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
@@ -4682,7 +4691,7 @@ common#:#proxy_connectable#:#Verbindung hergestellt.
 common#:#proxy_host#:#Host
 common#:#proxy_host_info#:#Tragen Sie hier einen Host ein.
 common#:#proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
-common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
+common#:#proxy_socket_error#:#Socket-Fehler: %s
 common#:#proxy_port#:#Port
 common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
 common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
@@ -12454,6 +12463,8 @@ dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
 dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
 dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
+dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht
+dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
@@ -12670,8 +12681,8 @@ common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf Beiträge hinzufügen
 blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
-dcl#:#dcl_visible#:#Im Menu zeigen
-dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
+dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
+dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
 dcl#:#dcl_empty_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
@@ -15800,7 +15811,7 @@ book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
 chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
-chatroom#:#chatroom_auth_btn_txt#:#Schüssel generieren
+chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
@@ -16162,168 +16173,6 @@ exc#:#exc_settings_feedback_file#:#Datei
 mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
 mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
-ccmt#:#ccmt_perform_reporting_data_update#:#Daten des Berichtswesens aktualisieren
-ccmt#:#ccmt_custom_reporting_tool#:#Berichtswesen
-ccmt#:#ccmt_custom_reporting_tool_desc#:#Hier sehen Sie den Lernstand Ihrer Mitarbeiter.<br />Bitte beachten Sie, dass die Daten im Berichtswesen nächtlich aktualisiert werden.
-ccmt#:#ccmt_view_by_switch_label#:#Anzeige nach
-ccmt#:#ccmt_numbers_switch_label#:#Darstellung Zahlen
-ccmt#:#ccmt_filter_course_label#:#Filter Kurs
-ccmt#:#ccmt_filter_crstype_label#:#Filter Kursart
-ccmt#:#ccmt_filter_memtype_label#:#Filter Mitgliedschaft
-ccmt#:#ccmt_filter_crsparent_label#:#Filter Kurs Container
-ccmt#:#ccmt_filter_period_label#:#Filter Zeitraum
-ccmt#:#ccmt_period_filter_label_use#:#Verwende Filter
-ccmt#:#ccmt_period_filter_label_not_use#:#Verwende Filter nicht
-ccmt#:#ccmt_filter_period_start#:#Von
-ccmt#:#ccmt_filter_period_end#:#Bis
-ccmt#:#ccmt_filter_option_all#:#Alle
-ccmt#:#ccmt_viewby_option_course#:#Kurs
-ccmt#:#ccmt_viewby_option_crsparent#:#Kurs Container
-ccmt#:#ccmt_viewby_option_crstype#:#Kursart
-ccmt#:#ccmt_viewby_option_orgunit#:#Organisationseinheit
-ccmt#:#ccmt_viewby_option_user#:#Mitarbeiter
-ccmt#:#ccmt_numbers_option_absolute#:#Absolut
-ccmt#:#ccmt_numbers_option_relative#:#Relativ
-ccmt#:#ccmt_filter_crstype_option_optional#:#Freiwillig
-ccmt#:#ccmt_filter_crstype_option_mandatory#:#Pflicht
-ccmt#:#ccmt_filter_memtype_option_auto#:#Automatisch zugewiesen
-ccmt#:#ccmt_filter_memtype_option_manual#:#Manuell zugewiesen
-ccmt#:#ccmt_aggregation_entity_course_total#:#Alle Kurse
-ccmt#:#ccmt_aggregation_entity_crstype_total#:#Alle Kursarten
-ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Alle Kurs Container
-ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Alle Organisationseinheiten
-ccmt#:#ccmt_table_column_course#:#Kurs
-ccmt#:#ccmt_table_column_crsparent#:#Kurs Container
-ccmt#:#ccmt_table_column_crstype#:#Kursart
-ccmt#:#ccmt_table_column_orgunit#:#Organisationseinheit
-ccmt#:#ccmt_table_column_user#:#Mitarbeiter
-ccmt#:#ccmt_table_column_assigned#:#Kurszuweisungen
-ccmt#:#ccmt_table_column_not_attempted#:#Nicht bearbeitet
-ccmt#:#ccmt_table_column_notattempted#:#Nicht bearbeitet
-ccmt#:#ccmt_table_column_inprogress#:#In Bearbeitung
-ccmt#:#ccmt_table_column_in_progress#:#In Bearbeitung
-ccmt#:#ccmt_table_column_completed#:#Abgeschlossen
-ccmt#:#ccmt_table_column_failed#:#Nicht abgeschlossen
-ccmt#:#ccmt_table_column_lp_ratio#:#Lernquote
-ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Zertifikate
-ccmt#:#ccmt_table_column_past_due#:#Überfällig
-ccmt#:#ccmt_table_column_event_days#:#Veranstaltungstage
-ccmt#:#ccmt_not_available#:#offen
-ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lernfortschritt nach Kursen
-ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lernfortschritt nach Kursarten
-ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lernfortschritt nach Kurs Containern
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lernfortschritt nach Organisationseinheit
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_detailed_status_table_header#:#Detaillierter Lernfortschritt
-ccmt#:#ccmt_detailed_status_table_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_table_column_lp_status#:#Status
-ccmt#:#ccmt_table_column_deadline_date#:#Fälligkeit Kurs
-ccmt#:#ccmt_table_column_is_mandatory#:#Kursart (Pflicht/Freiwillig)
-ccmt#:#ccmt_table_column_last_access#:#Letzter Zugriff
-ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Erfüllt am
-ccmt#:#ccmt_lp_status_notattempted#:#Nicht bearbeitet
-ccmt#:#ccmt_lp_status_inprogress#:#In Bearbeitung
-ccmt#:#ccmt_lp_status_completed#:#Abgeschlossen
-ccmt#:#ccmt_lp_status_failed#:#Nicht abgeschlossen
-ccmt#:#ccmt_course_type_mandatory#:#Pflicht
-ccmt#:#ccmt_course_type_optional#:#Freiwillig
-ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Bericht erzeugen
-ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export erzeugen
-ccmt#:#ccmt_menu_item_reporting#:#Berichtswesen
-ccmt#:#ccmt_info_block_label_all_users#:#Anzahl Benutzer
-ccmt#:#ccmt_info_block_label_all_courses#:#Anzahl Kurse
-ccmt#:#ccmt_info_block_label_all_memberships#:#Anzahl Mitgliedschaften
-ccmt#:#ccmt_info_block_label_all_session_days#:#Anzahl Sitzungstage
-ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Die folgenden Kurse wurden aufgrund der jeweiligen Tracking Einstellungen in der Auswertung nicht berücksichtigt:<br />%s
-ccmt#:#ccmt_course_error_lp_mode#:#Der Status für den Kurs "%s" mit der ID "%s" konnte nicht ermittelt werden, da das Tracking auf einen nicht kompatiblen Modus eingestellt ist.<br />Aktueller Modus ist "%s" / Benötigter Modus ist "%s"
-ccmt#:#ccmt_course_error_lp_deactivated#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da das Tracking deaktiviert ist.
-ccmt#:#ccmt_course_error_invalid_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von einem Subobjekt ab, dessen Objekttyp vom Reporting nicht unterstützt wird.
-ccmt#:#ccmt_course_error_multi_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von mehr als nur einem Subobjekt ab.
-ccmt#:#ccmt_course_error_missing_obj#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da keine relevanten Subobjekte definiert wurden, von denen der Status abhängen soll.
-ccmt#:#ccmt_print_view#:#Druckansicht alle Kurse
-ccmt#:#ccmt_print_view_mandatory_non_completed#:#Druckansicht offene Kurse
-ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Offene Kurse im %s
-ccmt#:#ccmt_print_window_title_orgunit#:#Alle Kurse im %s
-ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Offene Kurse für %s
-ccmt#:#ccmt_print_window_title_user#:#Alle Kurse für %s
-ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Es existieren keine offenen Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_detailed_status_print_view_noitems#:#Es existieren keine Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_print_table_column_user#:#Mitarbeiter
-ccmt#:#ccmt_print_table_column_course#:#Kurs
-ccmt#:#ccmt_print_table_column_lp_status#:#Status
-ccmt#:#ccmt_print_table_column_is_mandatory#:#Kursart
-ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Erfüllt am
-ccmt#:#ccmt_print_table_column_learning_date#:#Lernen am
-ccmt#:#ccmt_print_table_column_last_access#:#Letzter Zugr.
-ccmt#:#ccmt_print_table_column_deadline_date#:#Fällig bis
-ccmt#:#ccmt_all_employees#:#Alle Mitarbeiter
-ccmt#:#ccmt_table_column_num_users#:#Anzahl Mitarbeiter
-ccmt#:#export_all_lp#:#Lernfortschritt exportieren
-ccmt#:#export_learning_progress#:#Lernfortschritt exportieren
-ccmt#:#export_lp#:#Datei auswählen
-ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
-ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
-ccmt#:#ccmt_search_no_user_found#:#Ihre Suche hat leider keine Treffer ergeben.
-ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
-ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
-bot#:#bot_view_by_switch_label#:#Anzeige nach
-bot#:#bot_filter_course_label#:#Filter Kurs
-bot#:#bot_filter_category_label#:#Filter Kurstyp
-bot#:#bot_filter_period_label#:#Filter Zeitraum
-bot#:#bot_period_filter_label_use#:#Verwende Filter
-bot#:#bot_period_filter_label_not_use#:#Verwende Filter nicht
-bot#:#bot_filter_period_start#:#Von
-bot#:#bot_filter_period_end#:#Bis
-bot#:#bot_filter_option_all#:#Alle
-bot#:#bot_viewby_option_course#:#Kurs
-bot#:#bot_viewby_option_category#:#Kurstyp
-bot#:#bot_viewby_option_orgunit#:#Organisationseinheit
-bot#:#bot_viewby_option_user#:#Mitarbeiter
-bot#:#bot_course_name#:#Kurstitel
-bot#:#bot_course_date#:#Datum
-bot#:#bot_course_max_members#:#Anzahl der Plätze
-bot#:#bot_course_num_subs#:#Anzahl der Buchungen
-bot#:#bot_course_subs_left#:#Offene Plätze
-bot#:#bot_course_capacity_utilisation#:#Auslastungsquote
-bot#:#bot_unlimited#:#unbegrenzt
-bot#:#bot_booking_ratio_undefined#:#offen
-bot#:#bot_cancelation_ratio_undefined#:#undefiniert
-bot#:#bot_menu_item_backoffice#:#Backoffice
-bot#:#bot_list_course_capacity_left#:#Liste der Kurse mit offenen Plätzen
-bot#:#bot_list_course_participants#:#Teilnehmerliste des Kurses
-bot#:#bot_lastname#:#Nachname
-bot#:#bot_firstname#:#Vorname
-bot#:#bot_group_category#:#Kurstyp
-bot#:#bot_group_orgunit#:#Organisationseinheit
-bot#:#bot_course_number_events#:#Anzahl der Kurse
-bot#:#bot_course_num_cancel#:#Anzahl der Stornierungen
-bot#:#bot_course_cancel_q#:#Stornierungsquote
-bot#:#bot_list_course_cancelations#:#Liste der Stornierungen
-bot#:#bot_crs_bookings#:#Buchungsübersicht
-bot#:#bot_back_to_crs_bookings#:#Zurück zur Buchungsübersicht
-bot#:#bot_crs_cancelations#:#Stornierungsübersicht
-bot#:#bot_viewby_option_orgunit_district#:#Bezirk
-bot#:#bot_viewby_option_orgunit_shop#:#Verkaufstelle
-bot#:#bot_course_booking#:#Buchung
-bot#:#bot_booking_txt#:#Teilnehmer hinzufügen
-bot#:#bot_crs_needs#:#Bedarfsübersicht
-bot#:#bot_filter_category2_label#:#Aufbaukurstyp
-bot#:#bot_list_course_needs#:#Analyse der Trainingsbedarfe
-bot#:#bot_area#:#Bezirk
-bot#:#bot_status#:#Status
-bot#:#bot_overdue_but_member#:#Überfällig, aber gebucht
-bot#:#bot_overdue#:#Überfällig
-bot#:#bot_vst#:#VST
-bot#:#bot_course_location#:#Ort
-bot#:#bot_filter_position_label#:#Position
-bot#:#bot_filter_months_label#:#Zeitlimit
-bot#:#bot_toolbar_export#:#Export erzeugen
-bot#:#bot_toolbar_submit_create_report_screen#:#Bericht erzeugen
-bot#:#bot_month#:#%s Monat
-bot#:#bot_months#:#%s Monate
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
@@ -16489,3 +16338,4 @@ buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
+form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen sie ihre Eingabe.

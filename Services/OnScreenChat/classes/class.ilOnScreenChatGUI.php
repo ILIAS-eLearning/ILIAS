@@ -192,8 +192,15 @@ class ilOnScreenChatGUI
 
 			$settings = self::loadServerSettings();
 
+			$DIC->language()->loadLanguageModule('chatroom');
+
+			$button = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit');
+			$chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat');
+			$chatWindowTemplate->setVariable('BUTTON', $DIC->ui()->renderer()->render($button));
+			$chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
+
 			$guiConfig = array(
-				'chatWindowTemplate' => (new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat'))->get(),
+				'chatWindowTemplate' => $chatWindowTemplate->get(),
 				'messageTemplate'    => (new ilTemplate('tpl.chat-message.html', false, false, 'Services/OnScreenChat'))->get(),
 				'modalTemplate'      => (new ilTemplate('tpl.chat-add-user.html', false, false, 'Services/OnScreenChat'))->get(),
 				'userId'             => $DIC->user()->getId(),
@@ -206,15 +213,14 @@ class ilOnScreenChatGUI
 			);
 
 			$chatConfig = array(
-				'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
-				'userId' => $DIC->user()->getId(),
+				'url'      => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
+				'userId'   => $DIC->user()->getId(),
 				'username' => $DIC->user()->getLogin()
 			);
 
-			$DIC->language()->loadLanguageModule('chatroom');
 			$DIC->language()->toJS(array(
 				'chat_osc_no_usr_found', 'chat_osc_emoticons', 'chat_osc_write_a_msg', 'autocomplete_more', 
-				'chat_osc_send', 'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user'
+				'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user'
 			));
 
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';

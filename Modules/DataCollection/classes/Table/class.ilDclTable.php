@@ -190,7 +190,7 @@ class ilDclTable {
 	 *
 	 * @param boolean $delete_main_table true to delete table anyway
 	 */
-	public function doDelete($delete_main_table = false) {
+	public function doDelete($delete_only_content = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -203,17 +203,17 @@ class ilDclTable {
 			$field->doDelete();
 		}
 
-		// SW: Fix #12794 und #11405
-		// Problem is that when the DC object gets deleted, $this::getCollectionObject() tries to load the DC but it's not in the DB anymore
-		// If $delete_main_table is true, avoid getting the collection object
-		$exec_delete = false;
-		if ($delete_main_table) {
-			$exec_delete = true;
-		}
-		if (!$exec_delete && $this->getCollectionObject()->getMainTableId() != $this->getId()) {
-			$exec_delete = true;
-		}
-		if ($exec_delete) {
+//		// SW: Fix #12794 und #11405
+//		// Problem is that when the DC object gets deleted, $this::getCollectionObject() tries to load the DC but it's not in the DB anymore
+//		// If $delete_main_table is true, avoid getting the collection object
+//		$exec_delete = false;
+//		if ($delete_main_table) {
+//			$exec_delete = true;
+//		}
+//		if (!$exec_delete && $this->getCollectionObject()->getFirstVisibleTableId() != $this->getId()) {
+//			$exec_delete = true;
+//		}
+		if (!$delete_only_content) {
 			$query = "DELETE FROM il_dcl_table WHERE id = " . $ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($query);
 		}

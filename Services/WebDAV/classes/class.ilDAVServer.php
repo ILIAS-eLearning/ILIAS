@@ -117,18 +117,15 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* Constructor
 	*
 	* @param void
-	* @deprecated should be used only as private constructor
-	* 	to avoid one instance for every item on the personal dektop or in the repository
-	* 	Use <code>ilDAVServer::getInstance()</code>
+	* 	Use <code>ilDAVServer::getInstance() to get an instance from outside</code>
 	* 
 	*/
-	public function ilDAVServer()
+	private function __construct()
 	{
 		$this->writelog("<constructor>");
 
 		// Initialize the WebDAV server and create
 		// locking and property support objects
-		$this->HTTP_WebDAV_Server();
 		$this->locks = new ilDAVLocks();
 		$this->properties = new ilDAVProperties();
 		//$this->locks->createTable();
@@ -180,7 +177,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
 	
 	/**
-	 * Get singelton iunstance
+	 * Get singelton instance
 	 * @return 
 	 */
 	public static function getInstance()
@@ -193,10 +190,74 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
 
 	/**
+	 * Try authentication
+	 */
+	public function tryAuthentication()
+	{
+		if($GLOBALS['DIC']['ilAuthSession']->isAuthenticated())
+		{
+			ilLoggerFactory::getLogger('init')->debug('User session is valid');
+			return true;
+		}
+		
+		ilLoggerFactory::getLogger('init')->debug('Trying http (webdav) authentication.');
+		
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsHTTP.php';
+		$credentials = new ilAuthFrontendCredentialsHTTP();
+		$credentials->initFromRequest();
+		
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$providers = $provider_factory->getProviders($credentials);
+			
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+			
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_HTTP);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			$providers
+		);
+			
+		$frontend->authenticate();
+			
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful. Serving request');
+				ilLoggerFactory::getLogger('auth')->info('Authenticated user id: ' . $GLOBALS['DIC']['ilAuthSession']->getUserId());
+				ilLoggerFactory::getLogger('auth')->debug('Auth info authenticated: ' .$GLOBALS['DIC']['ilAuthSession']->isAuthenticated());
+				ilLoggerFactory::getLogger('auth')->debug('Auth info expired: ' .$GLOBALS['DIC']['ilAuthSession']->isExpired());
+				ilInitialisation::initUserAccount();
+				return true;
+					
+			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication failed; Account migration required.');
+				return false;
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication failed; Wrong login, password.');
+				return false;
+		}
+		
+		return false;
+	}
+	
+
+	/**
 	 * Serves a WebDAV request.
 	 */
 	public function serveRequest()
 	{
+		if(!$this->tryAuthentication())
+		{
+			return false;
+		}
+		
 		// die quickly if plugin is deactivated
 		if (!self::_isActive())
 		{
@@ -537,7 +598,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// get dav object for path
 		$path = $this->davDeslashify($options['path']);
 		$objDAV =& $this->getObject($path);
-
+		
 		// sanity check
 		if (is_null($objDAV) || $objDAV->isNullResource())
 		{
@@ -1609,11 +1670,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		global $tree;
 
-
 		// If the second path elements starts with 'file_', the following
 		// characters of the path element directly identify the ref_id of
 		// a file object.
-		$davPathComponents = split('/',substr($davPath,1));
+		$davPathComponents = explode('/',substr($davPath,1));
+
 		if (count($davPathComponents) > 1 &&
 			substr($davPathComponents[1],0,5) == 'file_')
 		{
@@ -1688,7 +1749,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog('toNodePath('.$davPath.')...');
 
 		// Split the davPath into path titles
-		$titlePath = split('/',substr($davPath,1));
+		$titlePath = explode('/',substr($davPath,1));
 
 		// Remove the client id from the beginning of the title path
 		if (count($titlePath) > 0)
@@ -1750,7 +1811,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 */
 	private function davBasename($path)
 	{
-		$components = split('/',$path);
+		$components = explode('/',$path);
 		return count($components) == 0 ? '' : $components[count($components) - 1];
 	}
 
@@ -1974,15 +2035,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* Static getter. Returns true, if the WebDAV server is active.
 	*
 	* THe WebDAV Server is active, if the variable file_access::webdav_enabled
-	* is set in the client ini file, and if PEAR Auth_HTTP is installed.
+	* is set in the client ini file. (Removed wit 08.2016: , and if PEAR Auth_HTTP is installed).
 	*
 	* @return	boolean	value
 	*/
 	public static function _isActive()
 	{
 		global $ilClientIniFile;
-		return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1' &&
-			 @include_once("Auth/HTTP.php");
+		return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
 	}
 	/**
 	* Static getter. Returns true, if WebDAV actions are visible for repository items.

@@ -46,7 +46,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		$this->type = "facs";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
@@ -65,7 +66,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess, $ilias, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -113,9 +119,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
-		$GLOBALS['lng']->loadLanguageModule('fm');
+		$GLOBALS['DIC']['lng']->loadLanguageModule('fm');
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -154,9 +162,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	 * Edit settings.
+	 */
 	protected function initDownloadingSettingsForm()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -273,7 +289,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function saveDownloadingSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -311,8 +331,15 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function editWebDAVSettings()
 	{
-		global $rbacsystem, $ilErr, $ilTabs;
-		global $tpl, $ilCtrl, $lng, $tree, $settings;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilTabs = $DIC['ilTabs'];
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 
 		$this->tabs_gui->setTabActive('webdav');
@@ -335,34 +362,21 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		// Enable webdav
 		$ilDAVServer = ilDAVServer::getInstance();
-		$isPearAuthHTTPInstalled = @include_once("Auth/HTTP.php");
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
 		$cb_prop->setValue('1');
-		$cb_prop->setChecked($this->object->isWebdavEnabled() && $isPearAuthHTTPInstalled);
-		$cb_prop->setDisabled(! $isPearAuthHTTPInstalled);
-		$cb_prop->setInfo($isPearAuthHTTPInstalled ?
-			sprintf($lng->txt('enable_webdav_info'),$ilDAVServer->getMountURI($tree->getRootId(),0,null,null,true)) :
-			$lng->txt('webdav_pear_auth_http_needed')
-		);
+		$cb_prop->setChecked($this->object->isWebdavEnabled());
 		$form->addItem($cb_prop);
 
-		// Webdav help text
-		if ($isPearAuthHTTPInstalled)
-		{
-			$rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
-			$rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
-			$rgi_prop->addOption(new ilRadioOption($lng->txt('use_customized_instructions'), 'custom'));
-			$rgi_prop->setValue($this->object->isCustomWebfolderInstructionsEnabled() ? 'custom':'default');
-			$rgi_prop->setDisabled(! $isPearAuthHTTPInstalled);
-			$form->addItem($rgi_prop);
-			$tai_prop = new ilTextAreaInputGUI('', 'custom_webfolder_instructions');
-			$tai_prop->setValue($this->object->getCustomWebfolderInstructions());
-			$tai_prop->setInfo($lng->txt("webfolder_instructions_info"));
-			$tai_prop->setCols(80);
-			$tai_prop->setRows(20);
-			$tai_prop->setDisabled(! $isPearAuthHTTPInstalled);
-			$form->addItem($tai_prop);
-		}
+		$rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
+		$rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
+		$rgi_prop->addOption(new ilRadioOption($lng->txt('use_customized_instructions'), 'custom'));
+		$rgi_prop->setValue($this->object->isCustomWebfolderInstructionsEnabled() ? 'custom':'default');
+		$form->addItem($rgi_prop);
+		$tai_prop = new ilTextAreaInputGUI('', 'custom_webfolder_instructions');
+		$tai_prop->setValue($this->object->getCustomWebfolderInstructions());
+		$tai_prop->setInfo($lng->txt("webfolder_instructions_info"));
+		$tai_prop->setRows(20);
+		$form->addItem($tai_prop);
 
 		// command buttons
 		$form->addCommandButton('saveWebDAVSettings', $lng->txt('save'));
@@ -376,7 +390,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function saveWebDAVSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -409,7 +427,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	function addDiskQuotaSubtabs($a_active_subtab)
 	{
-		global $ilCtrl, $ilTabs;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
 
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 
@@ -438,7 +458,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function editDiskQuotaSettings()
 	{
-		global $rbacsystem, $ilErr, $ilSetting, $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilSetting = $DIC['ilSetting'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
@@ -483,7 +509,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function saveDiskQuotaSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -500,7 +530,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function viewDiskQuotaReport()
 	{
-		global $rbacsystem, $ilErr, $ilSetting, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -724,7 +758,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 	protected function initDiskQuotaMailTemplateForm()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("meta");
 		$lng->loadLanguageModule("mail");
@@ -787,7 +822,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function editDiskQuotaMailTemplate(ilPropertyFormGUI $a_form = null)
 	{
-		global $rbacsystem, $ilErr, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -827,7 +865,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	
 	function saveDiskQuotaMailTemplate()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$form = $this->initDiskQuotaMailTemplateForm();
 		if($form->checkInput())
@@ -857,7 +896,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	private function initUploadSettingsForm()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -912,7 +953,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function editUploadSettings()
 	{
-		global $rbacsystem, $ilErr, $tpl, $lng, $ilSetting;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->tabs_gui->setTabActive('upload_settings');
 
@@ -943,7 +989,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function saveUploadSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl, $lng, $tpl, $ilSetting;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilSetting = $DIC['ilSetting'];
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -977,7 +1029,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	private function initPreviewSettingsForm()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -1017,7 +1071,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function editPreviewSettings()
 	{
-		global $rbacsystem, $ilErr, $tpl, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		$this->tabs_gui->setTabActive('preview_settings');
 
@@ -1067,7 +1125,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function savePreviewSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		$this->tabs_gui->setTabActive('preview_settings');
 
@@ -1096,7 +1159,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	
 	public function addToExternalSettingsForm($a_form_id)
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		
 		switch($a_form_id)
 		{

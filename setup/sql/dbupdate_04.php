@@ -16781,41 +16781,7 @@ $ilDB->modifyTableColumn(
 ?>
 <#5000>
 <?php
-if( !$ilDB->tableExists('crs_cancelations') )
-{
-	$ilDB->createTable('crs_cancelations', array(
-		'crs_id' => array(
-			'type'     => 'integer',
-			'length'   => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'usr_id' => array(
-			'type'     => 'integer',
-			'length'   => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'type' => array(
-			'type'     => 'integer',
-			'length'   => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'counter' => array(
-			'type'     => 'integer',
-			'length'   => 4,
-			'notnull' => true,
-			'default' => 0
-		)
-	));
 
-	$ilDB->addPrimaryKey('crs_cancelations', array('crs_id', 'usr_id', 'type'));
-
-	$ilDB->addIndex('crs_cancelations', array('crs_id', 'usr_id'), 'i1');
-	$ilDB->addIndex('crs_cancelations', array('crs_id', 'type'), 'i2');
-	$ilDB->addIndex('crs_cancelations', array('usr_id', 'type'), 'i3');
-}
 ?>
 <#5001>
 <?php
@@ -17693,4 +17659,7 @@ if (! $ilDB->tableExists('orgu_path_storage')) {
 	$ilDB->addPrimaryKey('orgu_path_storage', array( 'ref_id' ));
 }
 ?>
-
+<#5036>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

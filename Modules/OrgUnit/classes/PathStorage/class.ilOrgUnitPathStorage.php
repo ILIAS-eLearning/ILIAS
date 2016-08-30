@@ -102,12 +102,16 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	/**
 	 * Get ref id path array
 	 *
+	 * @param bool $sort_by_title
+	 *
 	 * @return array
 	 */
-	public static function getTextRepresentationOfOrgUnits() {
-		$paths = ilOrgUnitPathStorage::getArray('ref_id', 'path');
-
-		return $paths;
+	public static function getTextRepresentationOfOrgUnits($sort_by_title = true) {
+		if ($sort_by_title) {
+			return ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
+		} else {
+			return ilOrgUnitPathStorage::getArray('ref_id', 'path');
+		}
 	}
 
 

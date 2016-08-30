@@ -154,6 +154,8 @@ class ilScormAiccDataSet extends ilDataSet
 	 */
 	public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
 	{
+		$GLOBALS["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
+
 		global $ilCtrl, $ilDB;
 		$this->dircnt = 1;
 
@@ -175,71 +177,102 @@ class ilScormAiccDataSet extends ilDataSet
 		$writer->appendXML ("\n");
 		$writer->xmlStartTag($this->getDSPrefixString().'DataSet', $atts);
 		$writer->appendXML ("\n");
-		$moduleTag = "Module";
-		$moduleTagPlural = $moduleTag . "s";
-		$writer->appendXML ("<$moduleTagPlural type=\"sahs\">\n");
 
-		$writer->appendXML ("<$moduleTag id=\"$id\">\n");
-		//write properties (from table sahs_lm)
 		foreach ($this->data as $key => $value)
 		{
 			$writer->xmlElement($this->getElementNameByDbColumn ($key), Null, $value, TRUE, TRUE);
 			$writer->appendXML ("\n");
 		}
-		//write zip module into own tag
 
 		$lmDir = ilUtil::getWebspaceDir ("filesystem")."/lm_data/lm_".$id;
-		$uniqBit = uniqid();
-		include_once ("./Services/Calendar/classes/class.ilDateTime.php");
-		$dateTime = new ilDateTime(time(),IL_CAL_UNIX);
-		$date = $dateTime->get(IL_CAL_DATETIME,'',ilTimeZone::UTC);
 		$baseFileName = "sahs_" . $id;
-		$zipFile = $baseFileName  . "_" . $uniqBit;
-		$zipFilePath=$exportDir . "/" . $zipFile;
-		if (!file_exists ($exportDir)) mkdir ($exportDir, 0777, true);
+		$scormBasePath=$exportDir . "/" . $baseFileName;
+		if (!file_exists ($exportDir)) mkdir ($exportDir, 0755, true);
 
-		ilUtil::zip($lmDir, $zipFilePath, true);
-		$filePath = $zipFilePath . ".zip";
-		if(file_exists($filePath))
-		{
-			$binaryData = file_get_contents ($filePath);
-			$base64Encoded = base64_encode ($binaryData);
-			$dataTag = "zipfile";
-			$writer->xmlElement($dataTag, ["encoding" => "base64", "file_path" => $filePath], $base64Encoded, false, false);
-			$writer->appendXML ("\n");
-		}	
-		else 
-		{
-			die ("no file found at path $filePath");
-		}
-		//delete temporary file
-		unlink ($filePath);
+		ilUtil::zip($lmDir, $scormBasePath, true);
+		$scormFilePath = $scormBasePath . ".zip";
 
-		//finish entry with module end tag
-		$writer->appendXML ("</$moduleTag>\n");
-		$writer->appendXML ("</$moduleTagPlural>\n");
 		$writer->xmlEndTag($this->getDSPrefixString()."DataSet");
+		$writer->appendXML ("\n");
 
 		$xml = $writer->xmlDumpMem(false);
 		$baseExportName = time() . "__" . IL_INST_ID . "__". $baseFileName;
 		$xmlFilePath = $exportDir . "/" . $baseExportName . ".xml";
-		if (!file_exists ($xmlFile))
+
+		if (!file_exists ($xmlFilePath))
 		{
 			$xmlFile = fopen ($xmlFilePath, "w");
 			fwrite ($xmlFile, $xml);
-			fclose;
+			fclose($xmlFile);
+		}
+
+		//create metadata
+		$metaData = $this->buildMetaData ($id);
+
+		$metaDataFilePath = $exportDir . "/" . $baseExportName . "_metadata.xml";
+		if (!file_exists ($metaDataFilePath))
+		{
+			$metaDataFile = fopen ($metaDataFilePath, "w");
+			fwrite ($metaDataFile, $metaData);
+			fclose($metaDataFile);
+		}
+
+		//create manifest file
+		$manWriter = new ilXmlWriter();
+		$manWriter->xmlHeader(); 
+		$manWriter->appendXML ("\n<content>\n");
+
+		$files = [
+			"scormFile" => $baseFileName . ".zip",
+			"properties" => $baseFileName . ".xml",
+			"metadata" => "metadata.xml"
+		];
+		foreach ($files as $key => $value)
+		{
+			$manWriter->xmlElement($key, Null, $value, TRUE, TRUE);
+			$manWriter->appendXML ("\n");
+		}
+
+		$manWriter->appendXML ("</content>\n");
+		$manifest = $manWriter->xmlDumpMem(false);
+
+		$manifestFilePath = $exportDir . "/" . $baseExportName . "_manifest.xml";
+		if (!file_exists ($manifestFilePath))
+		{
+			$manifestFile = fopen ($manifestFilePath, "w");
+			fwrite ($manifestFile, $manifest);
+			fclose($manifestFile);
 		}
 
 		$zArchive = new zipArchive();
-		$filename = $exportDir . "/" . $baseExportName . ".zip";
+		$fileName = $exportDir . "/" . $baseExportName . ".zip";
 
-		if ($zArchive->open($filename, ZipArchive::CREATE)!==TRUE) {
-			    exit("cannot open <$filename>\n");
+		if ($zArchive->open($fileName, ZipArchive::CREATE)!==TRUE) {
+			exit("cannot open <$fileName>\n");
 		}
 
-		$zArchive->addFile($xmlFilePath, $baseExportName . ".xml");
+		//creating final zip file
+		$zArchive->addFile($xmlFilePath, $baseFileName . ".xml");
+		$zArchive->addFile($scormFilePath, $baseFileName . ".zip");
+		$zArchive->addFile($manifestFilePath, "manifest.xml");
+		$zArchive->addFile($metaDataFilePath, "metadata.xml");
 		$zArchive->close();
+		//delete temporary files
 		unlink ($xmlFilePath);
+		unlink ($scormFilePath);
+		unlink ($manifestFilePath);
+		unlink ($metaDataFilePath);
+
+		return $fileName;
+	}
+
+	public function buildMetaData($id)
+	{
+		require_once ("Services/MetaData/classes/class.ilMD2XML.php");
+		$md2xml = new ilMD2XML ($id, $id, "sahs");
+		$md2xml->startExport();
+		$xml = $md2xml->getXML();
+		return $xml;
 	}
 
 	/**
@@ -255,12 +288,10 @@ class ilScormAiccDataSet extends ilDataSet
 		{
 			switch ($a_version)
 			{
-			case "4.3.0":
-			case "4.5.0":
-			case "5.0.0":
+			case "5.1.0":
 				$types = [];
 				foreach ($this->properties as $key => $value)
-					$types[$key] = $property["db_type"];
+					$types[$key] = $value["db_type"];
 				return $types;
 				break;
 			}
@@ -277,10 +308,14 @@ class ilScormAiccDataSet extends ilDataSet
 		return "http://www.ilias.de/xml/Modules/ScormAicc/".$a_entity;
 	}
 	
+	public function getDependencies()
+	{
+		return null;
+	}
 
 	public function getSupportedVersions()
 	{
-		return ["4.3.0", "4.5.0", "5.0.0"];
+		return ["5.1.0"];
 	}
 }
 
