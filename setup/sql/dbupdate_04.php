@@ -16781,7 +16781,7 @@ $ilDB->modifyTableColumn(
 ?>
 <#5000>
 <?php
-
+	//
 ?>
 <#5001>
 <?php
