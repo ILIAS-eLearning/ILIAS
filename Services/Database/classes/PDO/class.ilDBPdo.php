@@ -67,19 +67,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	protected $storage_engine = 'MyISAM';
 	/**
-	 * @var array
-	 */
-	protected $type_to_mysql_type = array(
-		ilDBConstants::T_TEXT      => 'VARCHAR',
-		ilDBConstants::T_INTEGER   => 'INT',
-		ilDBConstants::T_FLOAT     => 'DOUBLE',
-		ilDBConstants::T_DATE      => 'DATE',
-		ilDBConstants::T_TIME      => 'TIME',
-		ilDBConstants::T_DATETIME  => 'TIMESTAMP',
-		ilDBConstants::T_CLOB      => 'LONGTEXT',
-		ilDBConstants::T_TIMESTAMP => 'DATETIME',
-	);
-	/**
 	 * @var string
 	 */
 	protected $dsn = '';
