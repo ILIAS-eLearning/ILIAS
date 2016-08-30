@@ -15901,7 +15901,7 @@ common#:#grpr_new#:#Neue Gruppenlink anlegen
 common#:#obj_grpr#:#Gruppenlink
 common#:#objs_grpr#:#Gruppenlinks
 rbac#:#grpr_copy#:#Gruppenlinks kopieren
-rbac#:#grpr_delete#:Gruppenlinkss verschieben oder löschen
+rbac#:#grpr_delete#:#Gruppenlinks verschieben oder löschen
 rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#grpr_read#:#Lesezugriff auf Gruppenlinken
 rbac#:#grpr_visible#:#Gruppenlinks sind sichtbar und können genutzt werden
