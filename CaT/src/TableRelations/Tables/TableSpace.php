@@ -123,12 +123,12 @@ class TableSpace {
 				throw new TableException("requested field $name not in space");
 			}
 		} elseif($field instanceof AbstractDerivedField) {
-			foreach($field->derivedFrom() as $filed) {
-				if(!$this->fieldInSpace($field)) {
-					$name = $field->name_simple();
+			foreach($field->derivedFrom() as $b_field) {
+				if(!$this->fieldInSpace($b_field)) {
+					$name = $b_field->name_simple();
 					throw new TableException("requested field $name not in space");
 				}
-				$this->relevant_table_ids[] = $field->tableId();
+				$this->relevant_table_ids[] = $b_field->tableId();
 			}
 		} else {
 			throw new TableException("invalid field type");
