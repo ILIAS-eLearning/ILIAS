@@ -1,6 +1,9 @@
 (function($, $scope, $chat, $menu){
 	'use strict';
 
+	var TYPE_CONSTANT	= 'osc';
+	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
+
 	$.widget( "custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
 		_renderMenu: function(ul, items) {
@@ -143,7 +146,7 @@
 			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
 
-				if (conversation && conversation.hasOwnProperty("id")) {
+				if (conversation && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
 					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
 					if (!(conversation instanceof Object)) {
@@ -777,8 +780,9 @@
 	}
 
 	var ConversationStorage = function ConversationStorage() {
+
 		this.get = function(id) {
-			return JSON.parse(window.localStorage.getItem(id));
+			return JSON.parse(window.localStorage.getItem(PREFIX_CONSTANT + id));
 		};
 
 		this.save = function(conversation, callback) {
@@ -789,9 +793,10 @@
 				conversation.open = oldValue.open;
 			}
 
-			conversation.callback = callback;
+			conversation.callback	= callback;
+			conversation.type		= TYPE_CONSTANT;
 
-			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
+			window.localStorage.setItem(PREFIX_CONSTANT + conversation.id, JSON.stringify(conversation));
 
 			var e = $.Event('storage');
 			e.originalEvent = {
