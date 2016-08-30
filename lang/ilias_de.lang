@@ -2817,9 +2817,9 @@ rbac#:#cat_write#:#Einstellungen der Kategorie bearbeiten und Inhalte verwalten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#catr#:#Kategorie-Referenz
-common#:#catr_edit#:#Kategorie-Referenz bearbeiten
+common#:#catr_edit#:#Kategorielink bearbeiten
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
-common#:#catr_new#:#Neue Kategorie-Referenz anlegen
+common#:#catr_new#:#Neue Kategorielink anlegen
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 rbac#:#cert_edit_permission#:#Rechteeinstellungen in Administration ändern
@@ -3026,9 +3026,9 @@ rbac#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
 common#:#crsr#:#Kurs-Referenz
-common#:#crsr_edit#:#Kurs-Referenz bearbeiten
+common#:#crsr_edit#:#Kurslink bearbeiten
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
-common#:#crsr_new#:#Neue Kurs-Referenz anlegen
+common#:#crsr_new#:#Neue Kurslink anlegen
 common#:#csv_export#:#CSV-Export
 common#:#cumulative_time#:#Kumulative Zeit
 common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
@@ -4500,12 +4500,12 @@ common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_alm#:#AICC-Lernmodule
 common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
-common#:#objs_catr#:#Kategorie-Referenzen
+common#:#objs_catr#:#Kategorielinks
 common#:#objs_chat#:#Chats
 common#:#objs_chtr#:#Chaträume
 common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
-common#:#objs_crsr#:#Kurs-Referenzen
+common#:#objs_crsr#:#Kurslinks
 common#:#objs_dbk#:#Digilib-Bücher
 common#:#objs_delete#:#Objekte löschen
 common#:#objs_exc#:#Übungen
@@ -9572,24 +9572,24 @@ rbac#:#cals_read#:#Lesezugriff auf Einstellungen der Kalender-Administration
 rbac#:#cals_visible#:#Kalender-Administration sind sichtbar
 rbac#:#cals_write#:#Einstellungen der Kalender-Administration bearbeiten
 rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
-rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
-rbac#:#catr_delete#:#Kategorie-Referenzen verschieben oder löschen
+rbac#:#catr_copy#:#Kategorielinks kopieren
+rbac#:#catr_delete#:#Kategorielinks verschieben oder löschen
 rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
-rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar und können genutzt werden
-rbac#:#catr_write#:#Einstellungen der Kategorie-Referenzen bearbeiten
+rbac#:#catr_read#:#Lesezugriff auf Kategorielinks
+rbac#:#catr_visible#:#Kategorielinks sind sichtbar und können genutzt werden
+rbac#:#catr_write#:#Einstellungen der Kategorielinks bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
 rbac#:#cmps_visible#:#Administration für Plugins, Module und Dienste ist sichtbar
 rbac#:#cmps_write#:#Einstellungen für Plugins, Module und Dienste bearbeiten
 rbac#:#rbac_create_sess#:#Sitzung anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
-rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
-rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
+rbac#:#crsr_copy#:#Kurslinks kopieren
+rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
-rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
-rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
+rbac#:#crsr_read#:#Lesezugriff auf Kurslinks
+rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
+rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
@@ -12849,7 +12849,7 @@ ecs#:#ecs_cmap_enable#:#Kurszuordnung
 ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
 ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
 ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
-ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
+ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurslinks angelegt.
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
@@ -15132,7 +15132,7 @@ sysc#:#sysc_cron_empty_trash_desc#:#Wenn aktiviert, werden Objekte des Papierkor
 sysc#:#sysc_task_tree_missing_tree#:#Fehlende Einträge im Magazinbaum
 sysc#:#sysc_task_tree_missing_tree_desc#:#Sucht und repariert fehlende Einträge referenzierter Objekte im Magazinbaum.
 sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
-sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objekt-Referenzen für Einträge im Magazinbaum.
+sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objektreferenzen für Einträge im Magazinbaum.
 sysc#:#sysc_task_structure#:#Baumstruktur
 sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
 forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
@@ -15894,19 +15894,19 @@ survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
-common#:#grpr#:#Gruppen-Referenz
-common#:#grpr_edit#:#Gruppen-Referenz bearbeiten
+common#:#grpr#:#Gruppenlink
+common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
-common#:#grpr_new#:#Neue Gruppen-Referenz anlegen
-common#:#obj_grpr#:#Gruppen-Referenz
-common#:#objs_grpr#:#Gruppen-Referenzen
-rbac#:#grpr_copy#:#Gruppen-Referenzen kopieren
-rbac#:#grpr_delete#:#Gruppen-Referenzen verschieben oder löschen
+common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#obj_grpr#:#Gruppenlink
+common#:#objs_grpr#:#Gruppenlinks
+rbac#:#grpr_copy#:#Gruppenlinks kopieren
+rbac#:#grpr_delete#:Gruppenlinkss verschieben oder löschen
 rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
-rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
-rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
-rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+rbac#:#grpr_read#:#Lesezugriff auf Gruppenlinken
+rbac#:#grpr_visible#:#Gruppenlinks sind sichtbar und können genutzt werden
+rbac#:#grpr_write#:#Einstellungen der Gruppenlinks bearbeiten
+rbac#:#rbac_create_grpr#:#Gruppenlink anlegen
 common#:#obj_bdga#:#Badges
 common#:#obj_bdga_desc#:#Verwaltung der Typen, Bildvorlagen und Activity Badges
 rbac#:#bdga_visible#:#Badge-Verwaltung ist sichtbar
