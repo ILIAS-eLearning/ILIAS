@@ -16280,11 +16280,11 @@ rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
 mass#:#mass_add#:#Manuelle Bewertung anlegen
-mass#:#mass_membership_finalized#:#Status finalisiert
-mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
+mass#:#mass_membership_finalized#:#Prüfungsdaten finalisiert
+mass#:#mass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
 mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
-mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
@@ -16300,7 +16300,7 @@ mass#:#mass_phone#:#Telefon
 mass#:#mass_mails#:#E-Mail
 mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
-mass#:#mass_edit_info#:#Informationseinstellungen
+mass#:#mass_edit_info#:#Einstellungen Kontakt
 mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
 mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
