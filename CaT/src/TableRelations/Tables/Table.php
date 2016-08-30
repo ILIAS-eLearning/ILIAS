@@ -42,7 +42,7 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 	 * @inheritdoc
 	 */
 	public function fields() {
-		return array_values($this->fields);
+		return $this->fields;
 	}
 
 	/**
