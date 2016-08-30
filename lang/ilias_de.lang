@@ -2818,7 +2818,7 @@ common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#catr#:#Kategorielink
 common#:#catr_edit#:#Kategorielink bearbeiten
-common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
+common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
 common#:#catr_new#:#Neue Kategorielink anlegen
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
@@ -3027,7 +3027,7 @@ common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
 common#:#crsr#:#Kurslink
 common#:#crsr_edit#:#Kurslink bearbeiten
-common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
+common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
 common#:#crsr_new#:#Neue Kurslink anlegen
 common#:#csv_export#:#CSV-Export
 common#:#cumulative_time#:#Kumulative Zeit
@@ -4216,7 +4216,7 @@ common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
 common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s.
 common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
 common#:#msg_obj_modified#:#Änderungen gespeichert
-common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden das Referenz-Objekt für Kurse und Kategorien.
+common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden die Objekttypen Kategorienlink, Kurslink bzw. Gruppenlink.
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
@@ -4738,7 +4738,7 @@ common#:#readcount_users#:#Lesezugriffe registrierter Benutzer
 common#:#recf_edit#:#Rettungsordner bearbeiten
 common#:#recipient#:#Empfänger
 common#:#reference_deleted#:#Ziel nicht vorhanden
-common#:#reference_of#:#Referenz von:
+common#:#reference_of#:#Link zu:
 common#:#referral_comment#:#Woher kennen Sie ILIAS?
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
@@ -9744,10 +9744,10 @@ rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der aus
 rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
 rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
-rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
+rbac#:#rbac_create_catr#:#Kategorienlink anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
 rbac#:#rbac_create_crs#:#Kurs anlegen
-rbac#:#rbac_create_crsr#:#Kursreferenz anlegen
+rbac#:#rbac_create_crsr#:#Kurslink anlegen
 rbac#:#rbac_create_exc#:#Übung anlegen
 rbac#:#rbac_create_feed#:#Webfeed anlegen
 rbac#:#rbac_create_file#:#Datei hochladen
@@ -12244,10 +12244,10 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
-objref#:#objref_edit_ref#:#Ziel der Referenz
+objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
-objref#:#objref_title_settings#:#Titel der Referenz
-objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
+objref#:#objref_title_settings#:#Titel des verlinkten Objekts
+objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
 objref#:#objref_custom_title#:#Eigenen Titel verwenden
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
 dateplaner#:#cal_import_appointments#:#Termine importieren
@@ -15615,11 +15615,11 @@ prg#:#prg_async_settings#:#Einstellungen
 prg#:#prg_open_node#:#Zum Studienprogramm wechseln.
 prg#:#prg_async_create#:#Neues Element hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
-prg#:#prg_create_new_leaf#:#Neue Kursreferenz hinzufügen.
-prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie eine Kursreferenz.
+prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie einen Kurslink.
 prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
 prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht entfernen.
-prg#:#prg_added_course_ref_successful#:#Neue Kursreferenz erfolgreich hinzugefügt.
+prg#:#prg_added_course_ref_successful#:#Neuer Kurslink erfolgreich hinzugefügt.
 prg#:#prg_manage#:#Verwalten
 prg#:#prg_view#:#Anzeigen
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
@@ -15896,7 +15896,7 @@ survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen
 assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
-common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
+common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
 common#:#grpr_new#:#Neue Gruppenlink anlegen
 common#:#obj_grpr#:#Gruppenlink
 common#:#objs_grpr#:#Gruppenlinks
