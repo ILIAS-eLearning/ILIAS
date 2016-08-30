@@ -336,13 +336,9 @@ class PEAR
     // php7-workaround alex: added static 
     static function setErrorHandling($mode = null, $options = null)
     {
-        if (isset($this) && is_a($this, 'PEAR')) {
-            $setmode     = &$this->_default_error_mode;
-            $setoptions  = &$this->_default_error_options;
-        } else {
-            $setmode     = &$GLOBALS['_PEAR_default_error_mode'];
-            $setoptions  = &$GLOBALS['_PEAR_default_error_options'];
-        }
+        $setmode     = &$GLOBALS['_PEAR_default_error_mode'];
+        $setoptions  = &$GLOBALS['_PEAR_default_error_options'];
+
 
         switch ($mode) {
             case PEAR_ERROR_EXCEPTION:
@@ -569,7 +565,13 @@ class PEAR
         }
         if (intval(PHP_VERSION) < 5) {
             // little non-eval hack to fix bug #12147
-            include 'PEAR/FixPHP5PEARWarnings.php';
+            if ($skipmsg) {
+                $a = new $ec($code, $mode, $options, $userinfo);
+            } else {
+                $a = new $ec($message, $code, $mode, $options, $userinfo);
+            }
+            // end patch
+
             return $a;
         }
         if ($skipmsg) {

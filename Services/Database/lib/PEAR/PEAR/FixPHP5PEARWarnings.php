@@ -1,4 +1,5 @@
 <?php
+// Currently unused
 if ($skipmsg) {
     $a = new $ec($code, $mode, $options, $userinfo);
 } else {
