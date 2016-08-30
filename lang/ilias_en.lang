@@ -16336,3 +16336,4 @@ buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
 chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.
