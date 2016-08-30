@@ -9,7 +9,7 @@ description =
 access = 0
 
 [db]
-type = mysql
+type = "pdo-mysql-innodb"
 host = localhost
 user = root
 pass =

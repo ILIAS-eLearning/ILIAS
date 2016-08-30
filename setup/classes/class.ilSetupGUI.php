@@ -1638,7 +1638,7 @@ echo "<br>+".$client_id;
 		$this->form = new ilPropertyFormGUI();
 
 		// db type
-		$options = ilDBConstants::getAvailableTypes();
+		$options = ilDBConstants::getAvailableTypes(true, version_compare(PHP_VERSION, '7.0.0', '<'));
 		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
 		$si->setOptions($options);
 		$si->setInfo($lng->txt(""));
@@ -1721,7 +1721,7 @@ echo "<br>+".$client_id;
 
 		// db type
 		$ne = new ilNonEditableValueGUI($lng->txt("db_type"), "dbt");
-		$at = ilDBConstants::getAvailableTypes(true);
+		$at = ilDBConstants::getAvailableTypes(true, version_compare(PHP_VERSION, '7.0.0', '<'));
 		$ne->setValue($at[$_SESSION["db_type"]] );
 		$this->form->addItem($ne);
 
