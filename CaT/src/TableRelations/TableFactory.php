@@ -5,6 +5,7 @@ use CaT\Filter as Filters;
 /**
  * This is a class to fullfill our our table construction needs,
  * e.g. shortcuts for tables and derived fields used in many reports.
+ * Will be extended peu a peu according to demand.
  */
 class TableFactory {
 	public function __construct(Filters\PredicateFactory $predicate_factory, GraphFactory $gf) {
