@@ -67,8 +67,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	protected function buildOrder($order) {
 		$order	->mapping('date',array('usrcrs.begin_date'))
 				->mapping('status',array("usrcrs.participation_status"))
-				->mapping('wbd',array("usrcrs.okz"))
-				->mapping('wbd_reported',array('usrcrs.okz','usrcrs.credit_points','usrcrs.wbd_booking_id'));
+				->mapping('wbd',array("usrcrs.okz"));
 				return $order;
 	}
 
@@ -112,6 +111,9 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->select("usrcrs.wbd_booking_id")
 				->select("usrcrs.certificate_filename")
 				->select("oref.ref_id")
+				->select_raw('IF('.$this->gIldb->in('usrcrs.okz',array('OKZ1','OKZ2','OZ3'),false,'text').' AND usrcrs.credit_points > 0 AND usrcrs.credit_points IS NOT NULL ,'
+								.'	IF(usrcrs.wbd_booking_id != '.$this->gIldb->quote('-empty-','text').' AND usrcrs.wbd_booking_id IS NOT NULL'
+								.'		,'.$this->gIldb->quote('Ja','text').','.$this->gIldb->quote('Nein','text').'),\'-\') as wbd_reported')
 				->from("hist_usercoursestatus usrcrs")
 				->join("hist_user usr")
 					->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
