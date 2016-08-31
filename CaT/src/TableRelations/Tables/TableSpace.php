@@ -16,6 +16,9 @@ class TableSpace {
 	const PRIMARY = 'primary_sg';
 	const SECONDARY = 'secondary_sg';
 
+	const ORDER_ASC = 'asc';
+	const ORDER_DESC = 'desc';
+
 	protected $graph;
 	protected $having;
 	protected $fields = array();
@@ -24,6 +27,8 @@ class TableSpace {
 	protected $filter;
 	protected $group_by = array();
 	protected $relevant_table_ids = array();
+	protected $order_by = array();
+	protected $order_direction;
 	protected $root_table;
 	protected $f;
 
@@ -173,6 +178,19 @@ class TableSpace {
 		return $this;
 	}
 
+	public function orderBy(array $field_ids, $direction ) {
+		foreach($order_by as $requested_id) {
+			if(!isset($this->requested_fields[$requested_id])) {
+				throw new TableException('order field '.$requested_id.' unknown');
+			}
+		}
+		if($direction !== self::ORDER_DESC && $direction !== self::ORDER_ASC) {
+			throw new TableException('unknown order mode '.$direction);
+		}
+		$this->order_by = $field_ids;
+		$this->order_direction = $direction;
+	}
+
 	public function addHaving(Predicates\Predicate $predicate) {
 		foreach($predicate->fields() as $field) {
 			if(!isset($this->requested_fields[$field->name()])) {
@@ -206,6 +224,9 @@ class TableSpace {
 		}
 		foreach ($this->group_by as $field) {
 			$query = $query->withGroupByField($field);
+		}
+		if(count($this->order_by) > 0) {
+			$query = $query->withOrderBy($this->order_by,$this->order_direction);
 		}
 		return $query;
 	}
