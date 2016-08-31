@@ -18,15 +18,15 @@ class ilObservationsOverviewGUI {
 
 		$observator = $actions->getAssignedUser($obj_id, $actions->getAssignedUser($obj_id));
 		$obs = $actions->getObservationOverviewData($obj_id, $observator);
-		 $html = "";
-		 $spacer = new \catHSpacerGUI();
+		$html = "";
+		$spacer = new \catHSpacerGUI();
 
-		 foreach ($obs as $key => $ob) {
-		 	$gui = new ilObservationsOverviewTableGUI($this->parent_obj, $ob, $observator);
-		 	$html .= $gui->getHtml();
-		 	$html .= $spacer->render();
-		 }
+		foreach ($obs as $key => $ob) {
+			$gui = new ilObservationsOverviewTableGUI($this->parent_obj, $ob, $observator);
+			$html .= $gui->getHtml();
+			$html .= $spacer->render();
+		}
 
-		 return $html;
+		return $html;
 	}
 }

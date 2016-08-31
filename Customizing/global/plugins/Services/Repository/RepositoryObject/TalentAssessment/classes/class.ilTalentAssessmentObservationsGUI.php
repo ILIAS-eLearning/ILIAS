@@ -69,7 +69,8 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function showObservationsCumulative() {
-
+		$gui = new TalentAssessment\Observations\ilObservationsCumulativeGUI($this);
+		$this->gTpl->setContent($gui->render());
 	}
 
 	protected function showObservationsDiagramm() {

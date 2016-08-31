@@ -343,6 +343,59 @@ class ilDB implements DB {
 		return $ret;
 	}
 
+	public function getObservationsCumulative($obj_id) {
+		$select = "SELECT obj_id, title\n"
+				." FROM ".self::TABLE_OBSERVATIONS."\n"
+				." WHERE ta_id = ".$this->getDB()->quote($obj_id, "integer")."\n"
+				." ORDER BY position";
+
+		$res = $this->getDB()->query($select);
+		$ret = array();
+
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			$ret[$row["obj_id"]] = $row["title"];
+		}
+
+		return $ret;
+	}
+
+	public function getRequestresultCumulative($obs_ids) {
+		$select = "SELECT A.title, A.obs_id, A.position, B.points, B.observator_id, SUM(B.points)\n"
+				." FROM ".self::TABLE_REQUIREMENTS." A\n"
+				." LEFT JOIN ".self::TABLE_REQUIREMENTS_POINTS." B\n"
+				."    ON A.obj_id = B.req_id\n"
+				." WHERE ".$this->getDB()->in("A.obs_id", $obs_ids, false, "integer")."\n"
+				." GROUP BY A.title, A.position, B.points, B.observator_id"
+				." ORDER BY A.position";
+
+		$res = $this->getDB()->query($select);
+
+		$pos = null;
+		$obs = null;
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			if($pos != $row["position"]) {
+				if(!empty($ret_ar)) {
+					$ret_ar["middle"] = $ret_ar["sum"] / count($ret_ar["observator"]);
+					$ret[$obs][] = $ret_ar;
+				}
+
+				$ret_ar = array();
+				$ret_ar["title"] = $row["title"];
+				$ret_ar["observator"] = array();
+				$pos = $row["position"];
+				$obs = $row["obs_id"];
+			}
+
+			$ret_ar["observator"][$row["observator_id"]] = $row["points"];
+			$ret_ar["sum"] += $row["points"];
+		}
+
+		$ret_ar["middle"] = $ret_ar["sum"] / count($ret_ar["observator"]);
+		$ret[$obs][] = $ret_ar;
+
+		return $ret;
+	}
+
 	protected function getDB() {
 		if(!$this->db) {
 			throw new \Exception("no Database");

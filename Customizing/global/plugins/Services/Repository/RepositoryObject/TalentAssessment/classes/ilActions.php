@@ -235,4 +235,12 @@ class ilActions {
 	public function getObservationOverviewData($obj_id, $role_id) {
 		return $this->observations_db->getObservationOverviewData($obj_id, $role_id);
 	}
+
+	public function getObservationsCumulative($obj_id) {
+		return $this->observations_db->getObservationsCumulative($obj_id);
+	}
+
+	public function getRequestresultCumulative($obs_ids) {
+		return $this->observations_db->getRequestresultCumulative($obs_ids);
+	}
 }
