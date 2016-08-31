@@ -13,29 +13,20 @@ class ilObservationsOverviewGUI {
 	}
 
 	public function render() {
-		$obs = $this->parent_obj->getActions()->getObservationOverviewData($this->parent_obj->getObjId());
-		$html = "";
-		$spacer = new \catHSpacerGUI();
+		$obj_id = $this->parent_obj->getObjId();
+		$actions = $this->parent_obj->getActions();
 
-		foreach ($obs as $key => $ob) {
-			$gui = new ilObservationsOverviewTableGUI($this->parent_obj, $ob);
-			$html .= $gui->getHtml();
-			$html .= $spacer->render();
-		}
+		$observator = $actions->getAssignedUser($obj_id, $actions->getAssignedUser($obj_id));
+		$obs = $actions->getObservationOverviewData($obj_id, $observator);
+		 $html = "";
+		 $spacer = new \catHSpacerGUI();
 
-		$html.= $this->renderLegend();
+		 foreach ($obs as $key => $ob) {
+		 	$gui = new ilObservationsOverviewTableGUI($this->parent_obj, $ob, $observator);
+		 	$html .= $gui->getHtml();
+		 	$html .= $spacer->render();
+		 }
 
-		return $html;
-	}
-
-	protected function renderLegend() {
-		$legend = array(array("points"=>1, "description"=>"points_description_1")
-					  , array("points"=>2, "description"=>"points_description_2")
-					  , array("points"=>3, "description"=>"points_description_3")
-					  , array("points"=>4, "description"=>"points_description_4")
-					  , array("points"=>5, "description"=>"points_description_5")
-				);
-		$gui = new ilObservationsListLegendTableGUI($this->parent_obj, $legend);
-		return $gui->getHtml();
+		 return $html;
 	}
 }

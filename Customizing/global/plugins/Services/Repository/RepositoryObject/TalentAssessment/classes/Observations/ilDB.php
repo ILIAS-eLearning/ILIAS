@@ -171,7 +171,7 @@ class ilDB implements DB {
 	 */
 	public function getObservations($obj_id) {
 		$select = "SELECT A.obj_id, A.title, A.description, A.position\n"
-				."    , B.obj_id as req_obj_id, B.title as req_title, A.description as req_description\n"
+				."    , B.obj_id as req_obj_id, B.title as req_title, B.description as req_description\n"
 				."    , C.notice\n"
 				."    , D.points\n"
 				." FROM ".self::TABLE_OBSERVATIONS." A\n"
@@ -280,6 +280,67 @@ class ilDB implements DB {
 				." ON DUPLICATE KEY UPDATE points = ".$this->getDB()->quote($points, "float").", last_change = NOW()";
 
 		$this->getDB()->manipulate($insert);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getObservationOverviewData($obj_id, $observator) {
+		$observator_id = array_map(function($obs) { return $obs["usr_id"]; }
+			, $observator);
+
+		$select = "SELECT A.title, A.position\n"
+				."    , B.title as req_title, B.position as req_position\n"
+				."    , C.points, C.observator_id\n"
+				." FROM ".self::TABLE_OBSERVATIONS." A\n"
+				." JOIN ".self::TABLE_REQUIREMENTS." B\n"
+				."     ON A.obj_id = B.obs_id\n"
+				." LEFT JOIN ".self::TABLE_REQUIREMENTS_POINTS." C\n"
+				."     ON B.obj_id = C.req_id\n"
+				."         AND ".$this->getDB()->in("C.observator_id", array_values($observator_id), false, "integer")."\n"
+				." WHERE A.ta_id = ".$this->getDB()->quote($obj_id, "integer")."\n"
+				." ORDER BY A.position, B.position";
+
+		$res = $this->getDB()->query($select);
+
+		$ret = array();
+		$pos = null;
+		$req_pos = null;
+		$ret_ar = array();
+		$req = array();
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			if($pos != $row["position"]) {
+				if(!empty($ret_ar)) {
+					$ret_ar["requirements"][$req_pos] = $req;
+					$ret[] = $ret_ar;
+				}
+
+				$ret_ar = array();
+				$req = array();
+				$ret_ar["title"] = $row["title"];
+				$ret_ar["requirements"] = array();
+				$pos = $row["position"];
+			}
+
+			if($req_pos != $row["req_position"]) {
+				if(!empty($req)) {
+					$ret_ar["requirements"][$req_pos] = $req;
+				}
+
+				$req["title"] = $row["req_title"];
+				$req["observator"] = array();
+				$req_pos = $row["req_position"];
+			}
+
+			if($row["observator_id"] !== null) {
+				$req["observator"][$row["observator_id"]] = $row["points"];
+			}
+		}
+
+		$ret_ar["requirements"][$req_pos] = $req;
+		$ret[] = $ret_ar;
+
+		return $ret;
 	}
 
 	protected function getDB() {

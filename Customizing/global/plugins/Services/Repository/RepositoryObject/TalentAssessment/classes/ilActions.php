@@ -181,7 +181,7 @@ class ilActions {
 		return $this->gRbacreview->assignedUsers($role_id, array("usr_id", "firstname", "lastname", "login", "email"));
 	}
 
-	protected function getLocalRoleId($obj_id) {
+	public function getLocalRoleId($obj_id) {
 		$role_name = $this->getLocalRoleNameFor($obj_id);
 
 		if(!$role_id = $this->gRbacreview->roleExists($role_name)) {
@@ -230,5 +230,9 @@ class ilActions {
 		foreach ($points as $req_id => $points) {
 			$this->observations_db->setPoints((int)$req_id, (float)$points);
 		}
+	}
+
+	public function getObservationOverviewData($obj_id, $role_id) {
+		return $this->observations_db->getObservationOverviewData($obj_id, $role_id);
 	}
 }

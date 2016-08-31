@@ -46,4 +46,14 @@ interface DB {
 	 * @param 	float 	$points
 	 */
 	public function setPoints($req_id, $points);
+
+	/**
+	 * get data for overview tables
+	 *
+	 * @param 	int 	$obj_id 	object id of the talent assessment
+	 * @param 	array 	$observator
+	 *
+	 * @return array[]
+	 */
+	public function getObservationOverviewData($obj_id, $observator);
 }
