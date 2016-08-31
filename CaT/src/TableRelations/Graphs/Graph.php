@@ -2,7 +2,7 @@
 
 namespace CaT\TableRelations\Graphs;
 /**
- * We are using depth first search (DFS), to get infos about graph.
+ * We are using depth first search , to get infos about graph.
  * These will be represented by a collection of paths, which are 
  * sequences of nodes, that may be not self crossing (can not
  * contain the same node more than once).
@@ -138,7 +138,7 @@ class Graph implements AbstractGraph {
 	 */
 	public function getNodesBetween($from_id, $to_id, $subgraph = null) {
 		$return = array();
-		foreach ($this->DFS($from_id, $to_id, $subgraph) as $path) {
+		foreach ($this->DepthFirstSearch($from_id, $to_id, $subgraph) as $path) {
 			foreach ($path->sequence() as $node) {
 				$return[$node->id()] = $node;
 			}
@@ -150,7 +150,7 @@ class Graph implements AbstractGraph {
 	 * @inheritdoc
 	 */
 	public function getPathsBetween($from_id, $to_id, $sg = null) {
-		return $this->DFS($from_id, $to_id, $sg);
+		return $this->DepthFirstSearch($from_id, $to_id, $sg);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Graph implements AbstractGraph {
 	 * @inheritdoc
 	 */
 	public function connected($from_id, $to_id) {
-		return count($this->DFS($from_id, $to_id)) > 0;
+		return count($this->DepthFirstSearch($from_id, $to_id)) > 0;
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Graph implements AbstractGraph {
 		return isset($this->nodes[$id]) ? $this->nodes[$id] : null;
 	}
 
-	protected function DFS($from_id, $to_id, $subgraph = null) {
+	protected function DepthFirstSearch($from_id, $to_id, $subgraph = null) {
 		$node_paths = array(Path::getInstanceByNode($this->nodes[$from_id]));
 		$return_paths = array();
 		while( $path = array_shift($node_paths)) {
