@@ -17671,3 +17671,7 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::deleteRBACOperation('grpr', ilDBUpdateNewObjectType::RBAC_OP_READ);
 
 ?>
+<#5038>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
