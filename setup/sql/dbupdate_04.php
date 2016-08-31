@@ -17663,3 +17663,11 @@ if (! $ilDB->tableExists('orgu_path_storage')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#5037>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::deleteRBACOperation('grpr', ilDBUpdateNewObjectType::RBAC_OP_READ);
+
+?>

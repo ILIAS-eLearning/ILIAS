@@ -195,6 +195,7 @@ class ilTestImporter extends ilXmlImporter
 		}
 		
 		$newObj->saveToDb(); // this creates test_fi
+		$newObj->update(); // this saves ilObject data
 		
 		// import skill assignments
 		$importedAssignmentList = $this->importQuestionSkillAssignments();

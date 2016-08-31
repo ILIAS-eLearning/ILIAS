@@ -54,7 +54,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 		$this->curAssignment = null;
 		$this->curExpression = null;
 		$this->assignmentList = new ilAssQuestionSkillAssignmentImportList();
-		return parent::ilSaxParser($xmlFile);
+		return parent::__construct($xmlFile);
 	}
 	
 	/**
