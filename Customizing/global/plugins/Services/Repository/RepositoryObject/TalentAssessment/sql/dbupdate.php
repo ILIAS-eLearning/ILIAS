@@ -15,3 +15,11 @@ require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/Ta
 $settings_db = new \CaT\Plugins\TalentAssessment\Observator\ilDB($ilDB, $ilUser);
 $settings_db->createLocalRoleTemplate(\CaT\Plugins\TalentAssessment\ilActions::OBSERVATOR_ROLE_NAME,"");
 ?>
+
+<#3>
+<?php
+global $ilUser;
+$b = new \CaT\Plugins\CareerGoal\Observations\ilDB($ilDB, $ilUser);
+$settings_db = new \CaT\Plugins\TalentAssessment\Observations\ilDB($ilDB, $ilUser, $b);
+$settings_db->install();
+?>

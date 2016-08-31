@@ -21,15 +21,19 @@ class ilActions {
 	const OBSERVATOR_ROLE_NAME = "il_xtas_observator";
 	const OBSERVATOR_ROLE_DESCRIPTION = "Local role for observator at obj_id: ";
 
+	const SI_PREFIX = "req_id";
+
 	public function __construct(\CaT\Plugins\TalentAssessment\ObjTalentAssessment $object
 								, \CaT\Plugins\TalentAssessment\Settings\DB $settings_db
-								, \CaT\Plugins\TalentAssessment\Observator\DB $observator_db) 
+								, \CaT\Plugins\TalentAssessment\Observator\DB $observator_db
+								, \CaT\Plugins\TalentAssessment\Observations\DB $observations_db) 
 	{
 		global $rbacadmin, $rbacreview;
 
 		$this->object = $object;
 		$this->settings_db = $settings_db;
 		$this->observator_db = $observator_db;
+		$this->observations_db = $observations_db;
 
 		$this->gRbacadmin = $rbacadmin;
 		$this->gRbacreview = $rbacreview;
@@ -109,21 +113,21 @@ class ilActions {
 	}
 
 	/**
-	 * @inheritdoc
+	 *
 	 */
 	public function getCareerGoalsOptions() {
 		return $this->settings_db->getCareerGoalsOptions();
 	}
-	
+
 	/**
-	 * @inheritdoc
+	 *
 	 */
 	public function getVenueOptions() {
 		return $this->settings_db->getVenueOptions();
 	}
-	
+
 	/**
-	 * @inheritdoc
+	 *
 	 */
 	public function getOrgUnitOptions() {
 		return $this->settings_db->getOrgUnitOptions();
@@ -189,5 +193,42 @@ class ilActions {
 
 	protected function getLocalRoleNameFor($obj_id) {
 		return self::OBSERVATOR_ROLE_NAME."_".$obj_id;
+	}
+
+	public function ObservationStarted($obj_id) {
+		return $this->settings_db->isStarted($obj_id);
+	}
+
+	public function setObservationStarted($started) {
+		$this->object->updateSettings(function($s) use ($started) {
+			return $s
+				->withStarted($started)
+				;
+		});
+		$this->object->update();
+	}
+
+	public function copyObservations($obj_id, $career_goal_id) {
+		$this->observations_db->copyObservations($obj_id, $career_goal_id);
+	}
+
+	public function getBaseObservations($career_goal_id) {
+		return $this->observations_db->getBaseObservations($career_goal_id);
+	}
+
+	public function getObservationListData($obj_id) {
+		return $this->observations_db->getObservations($obj_id);
+	}
+
+	public function setNoticeFor($obs_id, $notice) {
+		$this->observations_db->setNotice((int)$obs_id, $notice);
+	}
+
+	public function setPoints($post) {
+		$points = $post[self::SI_PREFIX];
+
+		foreach ($points as $req_id => $points) {
+			$this->observations_db->setPoints((int)$req_id, (float)$points);
+		}
 	}
 }

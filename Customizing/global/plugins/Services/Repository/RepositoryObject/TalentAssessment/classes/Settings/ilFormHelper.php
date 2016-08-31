@@ -56,10 +56,11 @@ trait ilFormHelper {
 	 * @param 	array 				$career_goal_options
 	 * @param 	array 				$venue_options
 	 * @param 	array 				$org_unit_options
+	 * @param 	bool 				$edit
 	 *
 	 * @return null
 	 */
-	public function addSettingsFormItemsUpdate(\ilPropertyFormGUI $form, array $career_goal_options, array $venue_options, array $org_unit_options) {
+	public function addSettingsFormItemsUpdate(\ilPropertyFormGUI $form, array $career_goal_options, array $venue_options, array $org_unit_options, $edit) {
 		require_once('Services/Form/classes/class.ilDateDurationInputGUI.php');
 		require_once('Services/Form/classes/class.ilNonEditableValueGUI.php');
 
@@ -69,11 +70,13 @@ trait ilFormHelper {
 		$si = new \ilSelectInputGUI($this->txt("career_goal"), ilActions::F_CAREER_GOAL);
 		$si->setRequired(true);
 		$si->setOptions($career_goal_options);
+		$si->setDisabled($edit);
 		$form->addItem($si);
 
 		$ti = new \ilTextInputGUI($this->txt("username"), ilActions::F_USERNAME);
 		$ti->setRequired(true);
 		$ti->setInfo($this->txt("username_info"));
+		$ti->setDisabled($edit);
 		$form->addItem($ti);
 
 		$ne = new \ilNonEditableValueGUI($this->txt("firstname"), ilActions::F_FIRSTNAME);
@@ -90,15 +93,18 @@ trait ilFormHelper {
 		$du->setShowTime(true);
 		$du->setStartText($this->txt("start"));
 		$du->setEndText($this->txt("end"));
+		$du->setDisabled($edit);
 		$form->addItem($du);
 
 		$si = new \ilSelectInputGUI($this->txt("venue"), ilActions::F_VENUE);
 		$si->setOptions($venue_options);
+		$si->setDisabled($edit);
 		$form->addItem($si);
 
 		$si = new \ilSelectInputGUI($this->txt("org_unit"), ilActions::F_ORG_UNIT);
 		$si->setOptions($org_unit_options);
 		$si->setInfo($this->txt("org_unit_info"));
+		$si->setDisabled($edit);
 		$form->addItem($si);
 	}
 }

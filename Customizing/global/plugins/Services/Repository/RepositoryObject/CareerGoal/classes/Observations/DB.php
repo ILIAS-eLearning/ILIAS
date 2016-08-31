@@ -63,7 +63,16 @@ interface DB {
 	 *
 	 * @param 	int 			$career_goal_id
 	 *
-	 * @return array 			string => string
+	 * @return 	array[]
 	 */
 	public function getListData($career_goal_id);
+
+	/**
+	 * get data for talent assessment observation list if not started
+	 *
+	 * @param 	int 			$career_goal_id
+	 *
+	 * @return 	array[]
+	 */
+	public function getTAListData($career_goal_id);
 }

@@ -5,13 +5,14 @@ use CaT\Plugins\TalentAssessment\Observator as Observator;
 include_once("./Services/Repository/classes/class.ilObjectPluginGUI.php");
 require_once(__DIR__."/class.ilTalentAssessmentSettingsGUI.php");
 require_once(__DIR__."/class.ilTalentAssessmentObservatorGUI.php");
-
+require_once(__DIR__."/class.ilTalentAssessmentObservationsGUI.php");
 /**
  * User Interface class for career goal repository object.
  *
  * @ilCtrl_isCalledBy ilObjTalentAssessmentGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
  * @ilCtrl_Calls ilObjTalentAssessmentGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTalentAssessmentGUI: ilTalentAssessmentSettingsGUI, ilTalentAssessmentObservatorGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjTalentAssessmentGUI: ilTalentAssessmentObservationsGUI
  *
  * @author 		Stefan Hecken <stefan.hecken@concepts-and-training.de> 
  */
@@ -21,8 +22,6 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 	const CMD_PROPERTIES = "editProperties";
 	const CMD_SHOWCONTENT = "showContent";
 	const CMD_SUMMARY = "showSummary";
-	const CMD_OBSERVATIONS = "showObservations";
-	const CMD_OBSERVATOR = "showObservator";
 
 	const TAB_SETTINGS = "tab_settings";
 	const TAB_OBSERVATIONS = "tab_observations";
@@ -85,9 +84,15 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 					case self::CMD_SHOWCONTENT:
 						$this->showContent();
 						break;
-					case self::CMD_OBSERVATIONS:
-					case self::CMD_OBSERVATOR:
-						$this->$cmd();
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_LIST:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_OVERVIEW:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_CUMULATIVE:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_DIAGRAMM:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_REPORT:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATION_START:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATION_SAVE_VALUES:
+						$this->forwardObservations();
 						break;
 				}
 		}
@@ -144,11 +149,16 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 			$this->gTabs->addTab(self::TAB_SETTINGS, $this->txt("properties")
 				,$this->gCtrl->getLinkTarget($this, self::CMD_PROPERTIES));
 
-			$this->gTabs->addTab(self::TAB_OBSERVATIONS, $this->txt("observations")
-				,$this->gCtrl->getLinkTarget($this, self::CMD_OBSERVATIONS));
+			if(!$this->object->getActions()->ObservationStarted($this->object->getId())) {
+				$this->gTabs->addTab(self::TAB_OBSERVATIONS, $this->txt("observations")
+				,$this->gCtrl->getLinkTarget($this, ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS));
+			} else {
+				$this->gTabs->addTab(self::TAB_OBSERVATIONS, $this->txt("observations")
+				,$this->gCtrl->getLinkTarget($this, ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_LIST));
+			}
 
 			$this->gTabs->addTab(self::TAB_OBSERVATOR, $this->txt("observator")
-				,$this->gCtrl->getLinkTarget($this, self::CMD_OBSERVATOR));
+				,$this->gCtrl->getLinkTarget($this, ilTalentAssessmentObservatorGUI::CMD_SHOW));
 		}
 
 		$this->addPermissionTab();
@@ -161,7 +171,7 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 		} else {
 			$this->gTabs->setTabActive(self::TAB_SETTINGS);
 			$actions = $this->object->getActions();
-			$gui = new ilTalentAssessmentSettingsGUI($actions, $this->plugin->txtClosure());
+			$gui = new ilTalentAssessmentSettingsGUI($actions, $this->plugin->txtClosure(), $this->object->getId());
 			$this->gCtrl->forwardCommand($gui);
 		}
 	}
@@ -171,15 +181,15 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 		$this->forwardSettings();
 	}
 
-	protected function showObservations() {
+	protected function forwardObservations() {
 		if(!$this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
 			\ilUtil::sendFailure($this->plugin->txt('obj_permission_denied'), true);
 			$this->gCtrl->redirectByClass("ilPersonalDesktopGUI", "jumpToSelectedItems");
 		} else {
 			$this->gTabs->setTabActive(self::TAB_OBSERVATIONS);
 			$actions = $this->object->getActions();
-			// $gui = new ilTalentAssessmentSettingsGUI($actions, $this->plugin->txtClosure());
-			// $this->gCtrl->forwardCommand($gui);
+			$gui = new ilTalentAssessmentObservationsGUI($this, $actions, $this->plugin->txtClosure(), $this->object->getSettings(), $this->object->getId());
+			$this->gCtrl->forwardCommand($gui);
 		}
 	}
 

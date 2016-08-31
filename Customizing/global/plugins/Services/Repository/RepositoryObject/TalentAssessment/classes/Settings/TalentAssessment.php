@@ -60,7 +60,12 @@ class TalentAssessment {
 	 */
 	protected $org_unit;
 
-	public function __construct($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit) {
+	/**
+	 * @var boolean
+	 */
+	protected $started;
+
+	public function __construct($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started) {
 		assert('is_int($obj_id)');
 		$this->obj_id = $obj_id;
 		assert('is_int($career_goal_id)');
@@ -79,6 +84,8 @@ class TalentAssessment {
 		$this->venue = $venue;
 		assert('is_int($org_unit)');
 		$this->org_unit = $org_unit;
+		assert('is_bool($started)');
+		$this->started = $started;
 
 		$this->state = $state;
 	}
@@ -150,6 +157,14 @@ class TalentAssessment {
 		return $clone;
 	}
 
+	public function withStarted($started) {
+		assert('is_bool($started)');
+		$clone = clone $this;
+		$clone->started = $started;
+
+		return $clone;
+	}
+
 	public function getObjId() {
 		return $this->obj_id;
 	}
@@ -192,5 +207,9 @@ class TalentAssessment {
 
 	public function getOrgUnit() {
 		return $this->org_unit;
+	}
+
+	public function getStarted() {
+		return $this->started;
 	}
 }

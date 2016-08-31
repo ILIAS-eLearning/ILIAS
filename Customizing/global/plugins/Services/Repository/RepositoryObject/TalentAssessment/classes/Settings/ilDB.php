@@ -5,6 +5,7 @@ namespace CaT\Plugins\TalentAssessment\Settings;
 class ilDB implements DB {
 	const PLUGIN_TABLE = "rep_obj_xtas";
 	const USR_TABLE = "usr_data";
+	const CAREER_GOAL_TABLE = "rep_obj_xcgo";
 
 	public function __construct($db, $user) {
 		$this->db = $db;
@@ -58,6 +59,11 @@ class ilDB implements DB {
 						'length'	=> 4,
 						'notnull' 	=> false
 					),
+					'started' => array(
+						'type' 		=> 'integer',
+						'length'	=> 4,
+						'notnull' 	=> false
+					),
 					'last_change' => array(
 						'type' 		=> 'timestamp',
 						'notnull' 	=> true
@@ -77,8 +83,8 @@ class ilDB implements DB {
 	/**
 	 * @inheritdoc
 	 */
-	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit) {
-		$talent_assessment = new TalentAssessment($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit);
+	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started) {
+		$talent_assessment = new TalentAssessment($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started);
 
 		$values = array
 				( "obj_id" => array("integer", $talent_assessment->getObjId())
@@ -89,6 +95,7 @@ class ilDB implements DB {
 				, "end_date" => array("text", $talent_assessment->getEndDate())
 				, "venue" => array("text", $talent_assessment->getVenue())
 				, "org_unit" => array("text", $talent_assessment->getOrgUnit())
+				, "started" => array("integer", $talent_assessment->getStarted())
 				, "last_change" => array("text", date("Y-m-d H:i:s"))
 				, "last_change_user" => array("integer", $this->user->getId())
 				);
@@ -111,6 +118,7 @@ class ilDB implements DB {
 				, "end_date" => array("text", $talent_assessment->getEndDate())
 				, "venue" => array("text", $talent_assessment->getVenue())
 				, "org_unit" => array("text", $talent_assessment->getOrgUnit())
+				, "started" => array("integer", $talent_assessment->getStarted())
 				, "last_change" => array("text", date("Y-m-d H:i:s"))
 				, "last_change_user" => array("integer", $this->user->getId())
 				);
@@ -168,11 +176,34 @@ class ilDB implements DB {
 		return $talent_assessment;
 	}
 
+	public function isStarted($obj_id) {
+		$select = "SELECT started\n"
+				." FROM ".self::PLUGIN_TABLE."\n"
+				." WHERE obj_id = ".$this->getDB()->quote($obj_id, "integer");
+
+		$res = $this->getDB()->query($select);
+		$row = $this->getDB()->fetchAssoc($res);
+
+		return (bool)$row["started"];
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function getCareerGoalsOptions() {
-		return array(1=>"huhu");
+		$ret = array();
+
+		$select = "SELECT obj_id, title\n"
+				." FROM object_data\n"
+				." WHERE type = 'xcgo'";
+
+		$res = $this->getDB()->query($select);
+
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			$ret[(int)$row["obj_id"]] = $row["title"];
+		}
+
+		return $ret;
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 <?php
 
 use CaT\Plugins\TalentAssessment;
+use CaT\Plugins\CareerGoal;
 
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 
@@ -50,5 +51,19 @@ class ilTalentAssessmentPlugin extends ilRepositoryObjectPlugin
 			$this->observator_db = new TalentAssessment\Observator\ilDB($ilDB, $ilUser);
 		}
 		return $this->observator_db;
+	}
+
+	/**
+	 * create (if not available) and returns ObservationsDB
+	 *
+	 * @return \CaT\Plugins\TalentAssessment\Observations\DB
+	 */
+	public function getObservationsDB() {
+		global $ilDB, $ilUser;
+		if($this->observations_db === null) {
+			$base_observations_db = new CareerGoal\Observations\ilDB($ilDB, $ilUser);
+			$this->observations_db = new TalentAssessment\Observations\ilDB($ilDB, $ilUser, $base_observations_db);
+		}
+		return $this->observations_db;
 	}
 }

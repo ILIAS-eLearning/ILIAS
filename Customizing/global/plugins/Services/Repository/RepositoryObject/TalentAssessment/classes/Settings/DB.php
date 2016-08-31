@@ -22,10 +22,11 @@ interface DB {
 	 * @param 	ilDateTime|null 	$end_date
 	 * @param 	int|null 			$venue
 	 * @param 	int|null 			$org_unit
+	 * @param 	bool 				$started
 	 *
 	 * @return TalentAssessment
 	 */
-	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit);
+	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started);
 
 	/**
 	 * updates settings entries

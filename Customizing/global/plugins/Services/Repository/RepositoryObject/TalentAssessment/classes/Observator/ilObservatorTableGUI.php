@@ -19,7 +19,6 @@ class ilObservatorTableGUI extends \ilTable2GUI {
 
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		$this->setShowRowsSelector(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 		$this->setRowTemplate("tpl.talent_assessment_observator_list_row.html", "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");

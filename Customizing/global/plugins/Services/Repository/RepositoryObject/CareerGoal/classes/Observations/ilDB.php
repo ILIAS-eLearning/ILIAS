@@ -261,4 +261,66 @@ class ilDB implements DB {
 
 		return ($row["max_pos"] + 10);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTAListData($career_goal_id) {
+		$select = "SELECT A.obj_id as obj_id, A.title as title, A.description as description, A.position as position\n"
+				."    , C.title as req_title, C.Description as req_description, C.position as req_position\n"
+				." FROM ".self::TABLE_NAME." A\n"
+				." LEFT JOIN ".self::TABLE_OBS_REQ." B\n"
+				."     ON A.obj_id = B.obs_id\n"
+				." LEFT JOIN ".Requirements\ilDB::TABLE_NAME." C\n"
+				."     ON B.req_id = C.obj_id\n"
+				." WHERE A.career_goal_id = ".$this->getDB()->quote($career_goal_id, "integer")."\n"
+				." ORDER BY A.position, C.position";
+
+		$res = $this->getDB()->query($select);
+		$ret = array();
+
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			$ret[] = $row;
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDataForCopy($career_goal_id) {
+		$select = "SELECT A.obj_id, A.title as title, A.description as description, A.position as position\n"
+				."    , C.title as req_title, C.Description as req_description, C.position as req_position\n"
+				." FROM ".self::TABLE_NAME." A\n"
+				." LEFT JOIN ".self::TABLE_OBS_REQ." B\n"
+				."     ON A.obj_id = B.obs_id\n"
+				." LEFT JOIN ".Requirements\ilDB::TABLE_NAME." C\n"
+				."     ON B.req_id = C.obj_id\n"
+				." WHERE A.career_goal_id = ".$this->getDB()->quote($career_goal_id, "integer")."\n"
+				." ORDER BY A.position, C.position";
+
+		$res = $this->getDB()->query($select);
+		$ret = array();
+		$obj_id = null;
+		$ret_ar = array();
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			if($obj_id != $row["obj_id"]) {
+				if(!empty($ret_ar)) {
+					$ret[] = $ret_ar;
+					$ret_ar = array();
+				}
+				$ret_ar["title"] = $row["title"];
+				$ret_ar["description"] = $row["description"];
+				$ret_ar["position"] = $row["position"];
+				$ret_ar["requirements"] = array();
+				$obj_id = $row["obj_id"];
+			}
+			
+			$ret_ar["requirements"][] = array("title"=>$row["req_title"], "description"=>$row["req_description"], "position"=>$row["req_position"]);
+		}
+
+		$ret[] = $ret_ar;
+		return $ret;
+	}
 }
