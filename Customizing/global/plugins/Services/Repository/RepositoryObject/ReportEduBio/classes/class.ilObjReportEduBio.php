@@ -56,7 +56,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->column("status", $this->plugin->txt("status"), true)
 				->column("credit_points", $this->plugin->txt("points"), true, "40px")
 				->column("wbd_reported", $this->plugin->txt("wbd_reported"), true)
-				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true);
+				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true,false);
 		return parent::buildTable($table);
 	}
 
@@ -67,7 +67,8 @@ class ilObjReportEduBio extends ilObjReportBase {
 	protected function buildOrder($order) {
 		$order	->mapping('date',array('usrcrs.begin_date'))
 				->mapping('status',array("usrcrs.participation_status"))
-				->mapping('wbd',array("usrcrs.okz"));
+				->mapping('wbd',array("usrcrs.okz"))
+				->mapping('wbd_reported',array('usrcrs.okz','usrcrs.credit_points','usrcrs.wbd_booking_id'));
 				return $order;
 	}
 
