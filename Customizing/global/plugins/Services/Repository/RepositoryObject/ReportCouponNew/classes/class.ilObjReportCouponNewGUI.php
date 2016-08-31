@@ -125,27 +125,6 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 	}
 
 
-	public static function transformResultRow($a_rec) {
-
-		if(!self::$od_bd_regexp) {
-			require_once './Customizing/global/plugins/Services/Repository/RepositoryObject/ReportCouponNew/config/od_bd_strings.php';
-		}
-		$orgus_above1 = explode(';', $a_rec["above1"]);
-		$orgus_above2 = explode(';', $a_rec["above2"]);
-		$orgus = array();
-		foreach (array_unique(array_merge($orgus_above1, $orgus_above2)) as $value) {
-			if (preg_match(self::$od_bd_regexp, $value)) {
-				$orgus[] = $value;
-			}
-		}
-		$a_rec["odbd"]	=  implode(', ', array_unique($orgus));
-		$a_rec["current"] = number_format($a_rec["current"], 2, ',', '.');
-		$a_rec["start"] = number_format($a_rec["start"], 2, ',', '.');
-		$a_rec["diff"] = number_format($a_rec["diff"], 2, ',', '.');
-		$a_rec = parent::transformResultRow($a_rec);
-		return $a_rec;
-	}
-
 	public static function transformResultRowXLSX($a_rec) {
 		$a_rec = static::transformResultRow($a_rec);
 		return $a_rec;
@@ -208,7 +187,7 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 	}
 	
 	protected function renderTable() {
-		$data = $this->object->deliverData();
+		$data = $this->object->deliverData(array($this,'transformResultRowTable'));
 		$content = $this->renderUngroupedTable($data);
 		//export-button
 		$export_btn = "";
@@ -253,29 +232,10 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 	protected function renderUngroupedTable($data) {
 		$this->table->setRowTemplate('tpl.report_coupons_admin_row.html',$this->object->plugin->getDirectory());
 
-		if ($this->object->deliverOrder() !== null) {
-			$this->table->setOrderField($this->object->deliverOrder()->getOrderField());
-			$this->table->setOrderDirection($this->object->deliverOrder()->getOrderDirection());
-		}
-		
 		$cnt = count($data);
 		$this->table->setLimit($cnt);
 		$this->table->setMaxCount($cnt);
 		$external_sorting = true;
-
-		if($this->object->deliverOrder() === null || 
-			in_array($this->object->deliverOrder()->getOrderField(), 
-				$this->internal_sorting_fields ? $this->internal_sorting_fields : array())
-			) {
-				$external_sorting = false;	
-		}
-		
-		$this->table->setExternalSorting($external_sorting);
-		if ($this->internal_sorting_numeric) {
-			foreach ($this->internal_sorting_numeric as $col) {
-				$table->numericOrdering($col);
-			}
-		}
 
 		$this->table->setData($data);
 		$this->enableRelevantParametersCtrl();
@@ -320,7 +280,7 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 	 */
 	protected function exportExcel() {
 		$this->prepareReport();
-
+		$relevant_columns = $this->table->relevantColumns();
 		$workbook = $this->getExcelWriter();
 
 		$sheet_name = "report";
@@ -329,24 +289,24 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 			->setRowFormatBold();
 
 		$header = array();
-		foreach ($this->table->getRelevantColumns() as $col) {
-			if ($col[4]) {
+		foreach ($relevant_columns as $col) {
+			if ($col['no_excel']) {
 				continue;
 			}
-			$header[] = $col[2] ? $col[1] : $this->lng->txt($col[1]);
+			$header[] = $col['txt'];
 		}
 
 		$workbook
 			->writeRow($header)
 			->setRowFormatWrap();
-		$callback = get_class($this).'::transformResultRowXLSX';
-		foreach ($this->object->deliverData($callback) as $entry) {
+
+		foreach ($this->object->deliverData(array($this,'transformResultRowExcel')) as $entry) {
 			$row = array();
-			foreach ($this->object->deliverTable()->all_columns as $col) {
-				if ($col[4]) {
+			foreach ($relevant_columns as $column_id => $col) {
+				if ($col['no_excel']) {
 					continue;
 				}
-				$row[] = $entry[$col[0]];
+				$row[$column_id] = $entry[$column_id];
 			}
 			$workbook->writeRow($row);
 		}
@@ -354,6 +314,36 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 		$workbook->offerDownload("report.xlsx");
 	}
 
+
+	public function transformResultRowTable($rec) {
+		return $this->transformResultRowCommon($rec);
+	}
+
+	public function transformResultRowExcel($rec) {
+		return $this->transformResultRowCommon($rec);
+	}
+
+	protected function transformResultRowCommon($rec) {
+		$rec['name'] = $rec['lastname'].', '.$rec['firstname'];
+		$rec['start'] = number_format($rec['start'],2,',','');
+		$rec['current'] = number_format($rec['current'],2,',','');
+		$rec['diff'] = number_format($rec['diff'],2,',','');
+
+
+		if(!self::$od_bd_regexp) {
+			require_once './Customizing/global/plugins/Services/Repository/RepositoryObject/ReportCouponNew/config/od_bd_strings.php';
+		}
+		$orgus_above1 = explode(';;', $rec["above1"]);
+		$orgus_above2 = explode(';;', $rec["above2"]);
+		$orgus = array();
+		foreach (array_unique(array_merge($orgus_above1, $orgus_above2)) as $value) {
+			if (preg_match(self::$od_bd_regexp, $value)) {
+				$orgus[] = $value;
+			}
+		}
+		$rec["odbd"]	=  implode(', ', array_unique($orgus));
+		return $rec;
+	}
 
 	final protected static function replaceEmpty($a_rec) {
 		global $lng;
