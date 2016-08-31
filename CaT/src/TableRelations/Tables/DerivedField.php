@@ -20,10 +20,12 @@ class DerivedField extends Filters\Predicates\Field implements AbstractDerivedFi
 	public function derivedFrom() {
 		$return = array();
 		foreach ($this->derived_from as $field) {
-			if($field instanceof Tables\AbstractTableField) {
-				$return[$field->name] = $field;
+			if($field instanceof AbstractTableField) {
+				$return[$field->name()] = $field;
 			} elseif($field instanceof self) {
 				$return = array_merge($return, $field->derived_from);
+			} else {
+				throw new TableExcepiton('unknown field type');
 			}
 		}
 		return $return;
