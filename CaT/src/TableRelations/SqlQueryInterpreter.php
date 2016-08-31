@@ -58,7 +58,12 @@ class SqlQueryInterpreter {
 				.$this->join($query).PHP_EOL
 				.$this->where($query).PHP_EOL
 				.$this->groupBy($query).PHP_EOL
-				.$this->having($query);
+				.$this->having($query).PHP_EOL
+				.$this->orderBy($query);
+	}
+
+	protected function orderBy($query) {
+		return ' ORDER BY '.implode(', ',$query->orderByFields()).' '.$query->orderByMode();
 	}
 
 	protected function interpreteTable(Tables\AbstractTable $table) {
