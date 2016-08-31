@@ -7738,7 +7738,7 @@ function getAnswerFeedbackPoints()
 	function inviteRole($role_id)
 	{
 		global $rbacreview;
-		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
+		$members =  $rbacreview->assignedUsers($role_id);
 		include_once './Services/User/classes/class.ilObjUser.php';
 		foreach ($members as $user_id)
 		{
