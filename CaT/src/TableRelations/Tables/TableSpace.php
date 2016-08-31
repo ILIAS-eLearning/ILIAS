@@ -237,7 +237,7 @@ class TableSpace {
 			if($node_id === $this->root_table) {
 				continue;
 			}
-			$sg = $this->graph->getSubgraphOfNodeId($node_id) === self::PRIMARY ? self::PRIMARY : null;
+			$sg = $this->graph->nodeSubgraphId($this->graph->getNodeById($node_id)) === self::PRIMARY ? self::PRIMARY : null;
 			$paths = array_merge($this->graph->getPathsBetween($this->root_table, $node_id, $sg),$paths);
 		}
 		return $paths;
