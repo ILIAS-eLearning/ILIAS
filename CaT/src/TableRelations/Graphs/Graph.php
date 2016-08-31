@@ -2,10 +2,10 @@
 
 namespace CaT\TableRelations\Graphs;
 /**
- * Instead on relying on expensive graph search algorithms, 
- * we will cache graph information in path-objcets as we build it.
- * This means we will create for any node a set of paths starting
- * from it, and update them successive as we add edges.
+ * We are using depth first search (DFS), to get infos about graph.
+ * These will be represented by a collection of paths, which are 
+ * sequences of nodes, that may be not self crossing (can not
+ * contain the same node more than once).
  */
 class Graph implements AbstractGraph {
 
@@ -129,11 +129,14 @@ class Graph implements AbstractGraph {
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function nodeSubgraphId(AbstractNode $node) {
 		return $this->getSubgraphOfNodeId($node->id());
 	}
 
-	public function getSubgraphOfNodeId($node_id) {
+	protected function getSubgraphOfNodeId($node_id) {
 		return $this->nodes[$node_id]->subgraph();
 	}
 
@@ -150,6 +153,9 @@ class Graph implements AbstractGraph {
 		return array_values($return);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getPathsBetween($from_id, $to_id, $sg = null) {
 		return $this->DFS($from_id, $to_id, $sg);
 	}
@@ -182,6 +188,9 @@ class Graph implements AbstractGraph {
 		return $this->edges;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function edgeBetween($from_id, $to_id) {
 		if(isset($this->connections[$from_id])) {
 			foreach ($this->connections[$from_id] as $subgraph => $edges) {
