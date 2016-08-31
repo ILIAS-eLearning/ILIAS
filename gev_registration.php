@@ -26,12 +26,15 @@ else {
 		$cmd = $_GET["cmd"];
 		$ilCtrl->setCmd($cmd);
 	}else {
-		if (!isset($_POST["cmd"])) {
-			$ilCtrl->setCmd("startRegistration");
-		}
-		else {
+		if (isset($_POST["cmd"])) {
 			$cmds = array_keys($_POST["cmd"]);
 			$ilCtrl->setCmd($cmds[0]);
+		} else if (isset($_GET["cmd"])) {
+				$ilCtrl->setCmd($_GET["cmd"]);
+		}
+		else {
+
+			$ilCtrl->setCmd("startRegistration");
 		}
 	}
 }
