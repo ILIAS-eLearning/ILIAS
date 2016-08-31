@@ -18,12 +18,14 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 * @todo		This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
 */
-include_once 'PEAR.php';
 
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
 require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
 require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
-
+set_include_path("./Services/Database/lib/PEAR" . PATH_SEPARATOR . ini_get('include_path'));
+if (!class_exists('PEAR')) {
+	require_once 'PEAR.php';
+}
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\CallbackHandler;
@@ -69,9 +71,9 @@ class ilErrorHandling extends PEAR
 	* Constructor
 	* @access	public
 	*/
-	function __construct()
+	public function __construct()
 	{
-		$this->PEAR();
+		parent::__construct();
 
 		// init vars
 		$this->DEBUG_ENV = true;
@@ -470,4 +472,3 @@ class ilErrorHandling extends PEAR
 	}
 	
 } // END class.ilErrorHandling
-?>

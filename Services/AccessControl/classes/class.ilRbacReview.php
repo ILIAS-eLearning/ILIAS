@@ -25,8 +25,6 @@ class ilRbacReview
 	const FILTER_NOT_INTERNAL = 5;
 	const FILTER_TEMPLATES = 6;
 
-	var $log = null;
-
     // Cache operation ids
     private static $_opsCache = null;
 
@@ -39,6 +37,11 @@ class ilRbacReview
 	 * @var array
 	 */
 	protected static $is_assigned_cache = array();
+	
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
 	/**
 	 * Constructor
@@ -46,9 +49,9 @@ class ilRbacReview
 	 */
 	public function __construct()
 	{
-		global $ilDB,$ilErr,$ilias,$ilLog;
+		global $ilDB,$ilErr,$ilias;
 
-		$this->log =& $ilLog;
+		$this->log = ilLoggerFactory::getLogger('ac');
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
@@ -413,71 +416,32 @@ class ilRbacReview
 	 * get all assigned users to a given role
 	 * @access	public
 	 * @param	integer	role_id
-	 * @param    array   columns to get form usr_data table (optional)
-	 * @return	array	all users (id) assigned to role OR arrays of user datas
-	 * @todo refactor rolf =>  (check result buffering)
+	 * @return	array	all users (id) assigned to role
 	 */
-	public function assignedUsers($a_rol_id, $a_fields = NULL)
+	public function assignedUsers($a_rol_id)
 	{
 		global $ilBench,$ilDB;
-		
-		$ilBench->start("RBAC", "review_assignedUsers");
 		
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::assignedUsers(): No role_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-		if (! $a_fields AND isset(self::$assigned_users_cache[$a_rol_id])) {
+		if(isset(self::$assigned_users_cache[$a_rol_id]))
+		{
 			return self::$assigned_users_cache[$a_rol_id];
 		}
 		
         $result_arr = array();
 
-        if ($a_fields !== NULL and is_array($a_fields))
-        {
-            if (count($a_fields) == 0)
-            {
-                $select = "*";
-            }
-            else
-            {
-                if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
-                    unset($a_fields[$usr_id_field]);
-
-                $select = implode(",",$a_fields).",usr_data.usr_id";
-                $select = addslashes($select);
-            }
-
-	        $ilDB->enableResultBuffering(false);
-			$query = "SELECT ".$select." FROM usr_data ".
-                 "LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id ".
-                 "WHERE rbac_ua.rol_id =".$ilDB->quote($a_rol_id,'integer');
-            $res = $ilDB->query($query);
-            while($row = $ilDB->fetchAssoc($res))
-            {
-                $result_arr[] = $row;
-            }
-			$ilDB->enableResultBuffering(true);
-        }
-        else
-        {
-		    $ilDB->enableResultBuffering(false);
-			$query = "SELECT usr_id FROM rbac_ua WHERE rol_id= ".$ilDB->quote($a_rol_id,'integer');
-			
-			$res = $ilDB->query($query);
-            while($row = $ilDB->fetchAssoc($res))
-            {
-                array_push($result_arr,$row["usr_id"]);
-            }
-			$ilDB->enableResultBuffering(true);
-        }
-		
-		$ilBench->stop("RBAC", "review_assignedUsers");
-
-		if (! $a_fields) {
-			self::$assigned_users_cache[$a_rol_id] = $result_arr;
+		$query = "SELECT usr_id FROM rbac_ua WHERE rol_id= ".$ilDB->quote($a_rol_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			array_push($result_arr, $row["usr_id"]);
 		}
+
+		self::$assigned_users_cache[$a_rol_id] = $result_arr;
 
 		return $result_arr;
 	}

@@ -28,12 +28,6 @@ class ilTemplateTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 
-		// ensure we can include the local pear lib
-		if (!is_int(strpos(get_include_path(), "./Services/PEAR/lib")))
-		{
-			set_include_path("./Services/PEAR/lib:".get_include_path());
-		}
-
 		// setup stub for global ilPluginAdmin
 		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
 		global $ilPluginAdmin;
@@ -48,8 +42,6 @@ class ilTemplateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testilTemplateGet()
 	{
-		#require_once 'HTML/Template/ITX.php';
-		include_once("./Services/UICore/classes/class.ilTemplateHTMLITX.php");
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$tpl = new ilTemplate("tpl.test_template_1.html", true, true, "Services/UICore/test");
 		$tpl->setVariable("CONTENT", "Hello World");

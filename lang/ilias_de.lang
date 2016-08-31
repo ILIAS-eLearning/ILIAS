@@ -2467,7 +2467,7 @@ common#:#access_scope#:#Zugriff
 common#:#access_unlimited#:#unbefristet
 common#:#access_until#:#Zugriff bis
 common#:#access_users#:#Eingeloggte Benutzer
-common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
+common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
 common#:#accessFree#:#Zeitliche Begrenzung aufheben
 common#:#accessRestrict#:#Zugriff zeitlich begrenzen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
@@ -2816,10 +2816,10 @@ common#:#cat_wizard_page#:#Kategorie kopieren (Schritt 2/2)
 rbac#:#cat_write#:#Einstellungen der Kategorie bearbeiten und Inhalte verwalten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
-common#:#catr#:#Kategorie-Referenz
-common#:#catr_edit#:#Kategorie-Referenz bearbeiten
-common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
-common#:#catr_new#:#Neue Kategorie-Referenz anlegen
+common#:#catr#:#Kategorielink
+common#:#catr_edit#:#Kategorielink bearbeiten
+common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
+common#:#catr_new#:#Neue Kategorielink anlegen
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 rbac#:#cert_edit_permission#:#Rechteeinstellungen in Administration ändern
@@ -3025,10 +3025,10 @@ common#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
 rbac#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
-common#:#crsr#:#Kurs-Referenz
-common#:#crsr_edit#:#Kurs-Referenz bearbeiten
-common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
-common#:#crsr_new#:#Neue Kurs-Referenz anlegen
+common#:#crsr#:#Kurslink
+common#:#crsr_edit#:#Kurslink bearbeiten
+common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
+common#:#crsr_new#:#Neue Kurslink anlegen
 common#:#csv_export#:#CSV-Export
 common#:#cumulative_time#:#Kumulative Zeit
 common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
@@ -4216,7 +4216,7 @@ common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
 common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s.
 common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
 common#:#msg_obj_modified#:#Änderungen gespeichert
-common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden das Referenz-Objekt für Kurse und Kategorien.
+common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden die Objekttypen Kategorienlink, Kurslink bzw. Gruppenlink.
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
@@ -4350,7 +4350,7 @@ common#:#obj_cals_desc#:#Enthält globale Einstellungen für den Kalender.
 common#:#obj_cat#:#Kategorie
 common#:#obj_cat_duplicate#:#Kategorie kopieren
 common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
-common#:#obj_catr#:#Kategorie-Referenz
+common#:#obj_catr#:#Kategorielink
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_cert#:#Zertifikate
 common#:#obj_cert_desc#:#Einstellungen für Zertifikate
@@ -4366,7 +4366,7 @@ common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
-common#:#obj_crsr#:#Kurs-Referenz
+common#:#obj_crsr#:#Kurslink
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
 common#:#obj_exc_duplicate#:#Übung kopieren
@@ -4500,12 +4500,12 @@ common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_alm#:#AICC-Lernmodule
 common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
-common#:#objs_catr#:#Kategorie-Referenzen
+common#:#objs_catr#:#Kategorielinks
 common#:#objs_chat#:#Chats
 common#:#objs_chtr#:#Chaträume
 common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
-common#:#objs_crsr#:#Kurs-Referenzen
+common#:#objs_crsr#:#Kurslinks
 common#:#objs_dbk#:#Digilib-Bücher
 common#:#objs_delete#:#Objekte löschen
 common#:#objs_exc#:#Übungen
@@ -4691,7 +4691,7 @@ common#:#proxy_connectable#:#Verbindung hergestellt.
 common#:#proxy_host#:#Host
 common#:#proxy_host_info#:#Tragen Sie hier einen Host ein.
 common#:#proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
-common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
+common#:#proxy_socket_error#:#Socket-Fehler: %s
 common#:#proxy_port#:#Port
 common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
 common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
@@ -4733,12 +4733,12 @@ common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern, die online sind, ist erreicht. Bitte versuchen sie es später noch einmal.
 common#:#read#:#Lesezugriff
-common#:#readcount_anonymous_users#:#Anzahl anonymer Lesezugriffe
-common#:#readcount_users#:#Anzahl nicht-anonymer Lesezugriffe
+common#:#readcount_anonymous_users#:#Lesezugriffe anonymer Benutzer
+common#:#readcount_users#:#Lesezugriffe registrierter Benutzer
 common#:#recf_edit#:#Rettungsordner bearbeiten
 common#:#recipient#:#Empfänger
 common#:#reference_deleted#:#Ziel nicht vorhanden
-common#:#reference_of#:#Referenz von:
+common#:#reference_of#:#Link zu:
 common#:#referral_comment#:#Woher kennen Sie ILIAS?
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
@@ -9572,24 +9572,24 @@ rbac#:#cals_read#:#Lesezugriff auf Einstellungen der Kalender-Administration
 rbac#:#cals_visible#:#Kalender-Administration sind sichtbar
 rbac#:#cals_write#:#Einstellungen der Kalender-Administration bearbeiten
 rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
-rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
-rbac#:#catr_delete#:#Kategorie-Referenzen verschieben oder löschen
+rbac#:#catr_copy#:#Kategorielinks kopieren
+rbac#:#catr_delete#:#Kategorielinks verschieben oder löschen
 rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
-rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar und können genutzt werden
-rbac#:#catr_write#:#Einstellungen der Kategorie-Referenzen bearbeiten
+rbac#:#catr_read#:#Lesezugriff auf Kategorielinks
+rbac#:#catr_visible#:#Kategorielinks sind sichtbar und können genutzt werden
+rbac#:#catr_write#:#Einstellungen der Kategorielinks bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
 rbac#:#cmps_visible#:#Administration für Plugins, Module und Dienste ist sichtbar
 rbac#:#cmps_write#:#Einstellungen für Plugins, Module und Dienste bearbeiten
 rbac#:#rbac_create_sess#:#Sitzung anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
-rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
-rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
+rbac#:#crsr_copy#:#Kurslinks kopieren
+rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
-rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
-rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
+rbac#:#crsr_read#:#Lesezugriff auf Kurslinks
+rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
+rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
@@ -9744,10 +9744,10 @@ rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der aus
 rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
 rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
-rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
+rbac#:#rbac_create_catr#:#Kategorienlink anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
 rbac#:#rbac_create_crs#:#Kurs anlegen
-rbac#:#rbac_create_crsr#:#Kursreferenz anlegen
+rbac#:#rbac_create_crsr#:#Kurslink anlegen
 rbac#:#rbac_create_exc#:#Übung anlegen
 rbac#:#rbac_create_feed#:#Webfeed anlegen
 rbac#:#rbac_create_file#:#Datei hochladen
@@ -12244,10 +12244,10 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
-objref#:#objref_edit_ref#:#Ziel der Referenz
+objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
-objref#:#objref_title_settings#:#Titel der Referenz
-objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
+objref#:#objref_title_settings#:#Titel des verlinkten Objekts
+objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
 objref#:#objref_custom_title#:#Eigenen Titel verwenden
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
 dateplaner#:#cal_import_appointments#:#Termine importieren
@@ -12849,7 +12849,7 @@ ecs#:#ecs_cmap_enable#:#Kurszuordnung
 ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
 ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
 ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
-ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
+ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurslinks angelegt.
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
@@ -15132,7 +15132,7 @@ sysc#:#sysc_cron_empty_trash_desc#:#Wenn aktiviert, werden Objekte des Papierkor
 sysc#:#sysc_task_tree_missing_tree#:#Fehlende Einträge im Magazinbaum
 sysc#:#sysc_task_tree_missing_tree_desc#:#Sucht und repariert fehlende Einträge referenzierter Objekte im Magazinbaum.
 sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
-sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objekt-Referenzen für Einträge im Magazinbaum.
+sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objektreferenzen für Einträge im Magazinbaum.
 sysc#:#sysc_task_structure#:#Baumstruktur
 sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
 forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
@@ -15615,11 +15615,11 @@ prg#:#prg_async_settings#:#Einstellungen
 prg#:#prg_open_node#:#Zum Studienprogramm wechseln.
 prg#:#prg_async_create#:#Neues Element hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
-prg#:#prg_create_new_leaf#:#Neue Kursreferenz hinzufügen.
-prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie eine Kursreferenz.
+prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie einen Kurslink.
 prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
 prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht entfernen.
-prg#:#prg_added_course_ref_successful#:#Neue Kursreferenz erfolgreich hinzugefügt.
+prg#:#prg_added_course_ref_successful#:#Neuer Kurslink erfolgreich hinzugefügt.
 prg#:#prg_manage#:#Verwalten
 prg#:#prg_view#:#Anzeigen
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
@@ -15894,19 +15894,19 @@ survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
-common#:#grpr#:#Gruppen-Referenz
-common#:#grpr_edit#:#Gruppen-Referenz bearbeiten
-common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
-common#:#grpr_new#:#Neue Gruppen-Referenz anlegen
-common#:#obj_grpr#:#Gruppen-Referenz
-common#:#objs_grpr#:#Gruppen-Referenzen
-rbac#:#grpr_copy#:#Gruppen-Referenzen kopieren
-rbac#:#grpr_delete#:#Gruppen-Referenzen verschieben oder löschen
+common#:#grpr#:#Gruppenlink
+common#:#grpr_edit#:#Gruppenlink bearbeiten
+common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
+common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#obj_grpr#:#Gruppenlink
+common#:#objs_grpr#:#Gruppenlinks
+rbac#:#grpr_copy#:#Gruppenlinks kopieren
+rbac#:#grpr_delete#:#Gruppenlinks verschieben oder löschen
 rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
-rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
-rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
-rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+rbac#:#grpr_read#:#Lesezugriff auf Gruppenlinken
+rbac#:#grpr_visible#:#Gruppenlinks sind sichtbar und können genutzt werden
+rbac#:#grpr_write#:#Einstellungen der Gruppenlinks bearbeiten
+rbac#:#rbac_create_grpr#:#Gruppenlink anlegen
 common#:#obj_bdga#:#Badges
 common#:#obj_bdga_desc#:#Verwaltung der Typen, Bildvorlagen und Activity Badges
 rbac#:#bdga_visible#:#Badge-Verwaltung ist sichtbar
@@ -16280,11 +16280,11 @@ rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
 mass#:#mass_add#:#Manuelle Bewertung anlegen
-mass#:#mass_membership_finalized#:#Status finalisiert
-mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
+mass#:#mass_membership_finalized#:#Prüfungsdaten finalisiert
+mass#:#mass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
 mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
-mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
@@ -16300,7 +16300,7 @@ mass#:#mass_phone#:#Telefon
 mass#:#mass_mails#:#E-Mail
 mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
-mass#:#mass_edit_info#:#Informationseinstellungen
+mass#:#mass_edit_info#:#Einstellungen Kontakt
 mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
 mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
@@ -16338,3 +16338,4 @@ buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
+form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen sie ihre Eingabe.

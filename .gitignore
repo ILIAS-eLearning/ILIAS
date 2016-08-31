@@ -6,7 +6,6 @@
 /.settings
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
-libs/.gitignore
 
 # General Patterns
 *.bak

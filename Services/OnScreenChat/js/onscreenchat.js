@@ -1,6 +1,9 @@
 (function($, $scope, $chat, $menu){
 	'use strict';
 
+	var TYPE_CONSTANT	= 'osc';
+	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
+
 	$.widget( "custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
 		_renderMenu: function(ul, items) {
@@ -90,7 +93,7 @@
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
-				.on('click', '[data-onscreenchat-submit]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
+				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 				.on('click', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked)
@@ -143,7 +146,7 @@
 			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
 
-				if (conversation && conversation.hasOwnProperty("id")) {
+				if (conversation && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
 					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
 					if (!(conversation instanceof Object)) {
@@ -309,7 +312,6 @@
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
-			template = template.replace('#:#chat_osc_send#:#', il.Language.txt('chat_osc_send'));
 
 			return template;
 		},
@@ -340,6 +342,9 @@
 				input.html('');
 				getModule().onMessageInput.call(input);
 				getModule().resizeMessageInput.call(input);
+
+				var e = $.Event('click');
+				$scope.il.OnScreenChatJQueryTriggers.triggers.updatePlaceholder.call(input, e);
 			}
 		},
 
@@ -775,8 +780,9 @@
 	}
 
 	var ConversationStorage = function ConversationStorage() {
+
 		this.get = function(id) {
-			return JSON.parse(window.localStorage.getItem(id));
+			return JSON.parse(window.localStorage.getItem(PREFIX_CONSTANT + id));
 		};
 
 		this.save = function(conversation, callback) {
@@ -787,9 +793,10 @@
 				conversation.open = oldValue.open;
 			}
 
-			conversation.callback = callback;
+			conversation.callback	= callback;
+			conversation.type		= TYPE_CONSTANT;
 
-			window.localStorage.setItem(conversation.id, JSON.stringify(conversation));
+			window.localStorage.setItem(PREFIX_CONSTANT + conversation.id, JSON.stringify(conversation));
 
 			var e = $.Event('storage');
 			e.originalEvent = {

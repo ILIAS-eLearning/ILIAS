@@ -55,12 +55,7 @@ class ilInitialisation
 	 * get common include code files
 	 */
 	protected static function requireCommonIncludes()
-	{			
-		// pear
-		require_once("include/inc.get_pear.php");
-		require_once("include/inc.check_pear.php");
-		require_once "PEAR.php";
-		
+	{
 		// ilTemplate
 		if(ilContext::usesTemplate())
 		{
@@ -1327,6 +1322,11 @@ class ilInitialisation
 		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
+			return true;
+		}
+		if(ilContext::getType() == ilContext::CONTEXT_WEBDAV)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for webdav request');
 			return true;
 		}
 		

@@ -452,12 +452,11 @@ class ilObjRole extends ilObject
 			// users with last role found?
 			if (count($last_role_user_ids) > 0)
 			{
+				$user_names = array();
 				foreach ($last_role_user_ids as $user_id)
 				{
 					// GET OBJECT TITLE
-					$tmp_obj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
-					$user_names[] = $tmp_obj->getFullname();
-					unset($tmp_obj);
+					$user_names[] = ilObjUser::_lookupLogin($user_id);
 				}
 				
 				// TODO: This check must be done in rolefolder object because if multiple
