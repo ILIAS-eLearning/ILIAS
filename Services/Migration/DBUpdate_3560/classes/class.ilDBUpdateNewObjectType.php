@@ -125,7 +125,7 @@ class ilDBUpdateNewObjectType
 		return false;
 	}
 
-		/**
+	/**
 	 * Delete rbac operation
 	 * 
 	 * @param int $a_type
