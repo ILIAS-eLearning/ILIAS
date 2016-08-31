@@ -16,6 +16,7 @@ require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
  * @ingroup Services/WorkflowEngine
  *
  * @ilCtrl_IsCalledBy ilObjWorkflowEngineGUI: ilAdministrationGUI
+ * @ilCtrl_Calls ilObjWorkflowEngineGUI: ilPermissionGUI
  */
 class ilObjWorkflowEngineGUI extends ilObject2GUI
 {
@@ -109,9 +110,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function executeCommand()
 	{
 		$next_class = $this->ilCtrl->getNextClass();
@@ -120,6 +118,23 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		{
 			$this->prepareAdminOutput();
 			$this->tpl->setContent($this->dispatchCommand($this->ilCtrl->getCmd('dashboard.view')));
+			return;
+		}
+
+		switch ($next_class) {
+			case 'ilpermissiongui':
+				$this->prepareAdminOutput();
+				$this->initTabs('permissions');
+				$this->ilTabs->setTabActive('perm_settings');
+				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
+				$perm_gui = new ilPermissionGUI($this);
+				$this->ctrl->forwardCommand($perm_gui);
+				break;
+			default:
+				$this->prepareAdminOutput();
+				$ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
+				$this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
+				break;
 		}
 	}
 
@@ -170,29 +185,44 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	 */
 	public function initTabs($section)
 	{
-	//	$this->ilTabs->addTab(
-	//			'dashboard',
-	//			$this->lng->txt('dashboard'),
-	//			$this->ilCtrl->getLinkTarget($this, 'dashboard.view')
-	//	);
 
+		global $DIC;
+		/** @var $rbacsystem ilRbacSystem */
+		$rbacsystem = $DIC['rbacsystem'];
+
+		/*
 		$this->ilTabs->addTab(
+				'dashboard',
+				$this->lng->txt('dashboard'),
+				$this->ilCtrl->getLinkTarget($this, 'dashboard.view')
+		);
+		*/
+		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId()))
+		{
+			$this->ilTabs->addTab(
 				'definitions',
 				$this->lng->txt('definitions'),
 				$this->ilCtrl->getLinkTarget($this, 'definitions.view')
-		);
-
+			);
+			$this->ilTabs->addTab(
+				'settings',
+				$this->lng->txt('settings'),
+				$this->ilCtrl->getLinkTarget($this, 'settings.view')
+			);
+		}
+		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
+		{
+			$this->ilTabs->addTab(
+				'perm_settings',
+				$this->lng->txt('permission'),
+				$this->ilCtrl->getLinkTargetByClass(array('ilobjworkflowenginegui','ilpermissiongui'), 'perm')
+			);
+		}
 		/*
 		$this->ilTabs->addTab(
 				'instances',
 				$this->lng->txt('instances'),
 				$this->ilCtrl->getLinkTarget($this, 'instances.view')
-		);
-
-		$this->ilTabs->addTab(
-				'settings',
-				$this->lng->txt('settings'),
-				$this->ilCtrl->getLinkTarget($this, 'settings.view')
 		);
 		*/
 
