@@ -18,13 +18,6 @@ class Graph implements AbstractGraph {
 	/**
 	 * @inheritdoc
 	 */
-	public function addGraph(AbstractGraph $graph) {
-
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function addNode(AbstractNode $node) {
 		$node_id = $node->id();
 		$subgraph_id = $node->subgraph();
