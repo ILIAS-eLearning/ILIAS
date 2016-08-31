@@ -15,7 +15,7 @@ class SqlQueryInterpreter {
 	 * @param	Tables\AbstractQuery	$query
 	 * @return	array[]
 	 */
-	public function interprete(Tables\AbstractQuery $query) {
+	public function interpret(Tables\AbstractQuery $query) {
 		$res = $this->gIldb->query($this->getSql($query));
 		$data = array();
 		while($rec = $this->gIldb->fetchAssoc($res)) {
@@ -27,20 +27,20 @@ class SqlQueryInterpreter {
 	protected function requested(Tables\AbstractQuery $query) {
 		$sql_requested = array();
 		foreach ($query->requested() as $id => $field) {
-			$sql_requested[] = $this->interpreteField($field)." AS ".$id;
+			$sql_requested[] = $this->interpretField($field)." AS ".$id;
 		}
 		return implode(", ", $sql_requested);
 	}
 
 
-	protected function interpreteField(Filter\Predicates\Field $field) {
+	protected function interpretField(Filter\Predicates\Field $field) {
 			if($field instanceof Tables\TableField) {
 				return $field->name();
 			} elseif($field instanceof Tables\DerivedField)  {
-				$sub_fields = array_map(array($this, __FUNCTION__), $field->derivedFrom());
+				$sub_fields = array_map(array($this, 'interpretField'), $field->derivedFrom());
 				return call_user_func_array($field->postprocess(), $sub_fields);
 			} else {
-				throw new TableRelationsException("Unknown field");
+				throw new TableRelationsException("Unknown field ".$field->name());
 			}
 
 	}
@@ -66,32 +66,32 @@ class SqlQueryInterpreter {
 		return ' ORDER BY '.implode(', ',$query->orderByFields()).' '.$query->orderByMode();
 	}
 
-	protected function interpreteTable(Tables\AbstractTable $table) {
+	protected function interpretTable(Tables\AbstractTable $table) {
 		if($table instanceof Tables\Table) {
 			return $table->title()." AS ".$table->id();
 		} elseif($table instanceof Tables\DerivedTable) {
-			return $this->interpreteDerivedTable($table);
+			return $this->interpretDerivedTable($table);
 		} else {
 			throw new TableRelationsException();
 		}
 	}
 
 	protected function from(Tables\AbstractQuery $query) {
-		return " FROM ".$this->interpreteTable($query->rootTable());
+		return " FROM ".$this->interpretTable($query->rootTable());
 	}
 
-	protected function interpreteDerivedTable(Tables\DerivedTable $table) {
+	protected function interpretDerivedTable(Tables\DerivedTable $table) {
 		return "(".$this->getSql($table->space->query()).") AS ".$table->id();
 	}
 
-	protected function interpretePredicate(Filter\Predicates\Predicate $predicate) {
+	protected function interpretPredicate(Filter\Predicates\Predicate $predicate) {
 		return $this->predicate_interpreter->interpret($predicate);
 	}
 
 	protected function join(Tables\AbstractQuery $query) {
 		$joins = array();
 		foreach($query as $table_id => $table) {
-			$join = $this->interpreteTable($table);
+			$join = $this->interpretTable($table);
 			$join_conditions = $query->currentJoinCondition();
 			if(current($join_conditions) instanceof Tables\TableLeftJoin) {
 				$join = " LEFT JOIN ".$join;
@@ -105,7 +105,7 @@ class SqlQueryInterpreter {
 			if($table->constrain()) {
 				$condition_aggregate = $condition_aggregate->_AND($table->constrain());
 			}
-			$joins[] = $join." ON ".$this->interpretePredicate($condition_aggregate);
+			$joins[] = $join." ON ".$this->interpretPredicate($condition_aggregate);
 		}
 		return count($joins) > 0 ? implode(PHP_EOL,$joins) : "";
 	}
@@ -118,16 +118,16 @@ class SqlQueryInterpreter {
 			if($root_constrain) {
 				$predicate = $predicate->_AND($root_constrain);
 			}
-			return "WHERE ".$this->interpretePredicate($predicate);
+			return "WHERE ".$this->interpretPredicate($predicate);
 		} elseif( $root_constrain) {
-			return "WHERE ".$this->interpretePredicate($root_constrain);
+			return "WHERE ".$this->interpretPredicate($root_constrain);
 		}
 		return "";
 	}
 
 	protected function having(Tables\AbstractQuery $query) {
 		if($query->having()) {
-			return " HAVING ".$this->interpretePredicate($query->having());
+			return " HAVING ".$this->interpretPredicate($query->having());
 		}
 		return "";
 	}
