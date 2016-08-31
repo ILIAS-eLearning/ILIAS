@@ -72,4 +72,24 @@ interface AbstractGraph {
 	 * @param	AbstractNode	$node
 	 */
 	public function nodeSubgraphId(AbstractNode $node);
+
+	/**
+	 * Get the edge connecting nodes with ids from_id and to_id directed.
+	 *
+	 * @param	int	$from
+	 * @param	int	$to
+	 * @return AbstractEdge
+	 */
+	public function edgeBetween($from_id, $to_id);
+
+	/**
+	 * Get all paths connecting nodes with ids from_id and to_id, that run
+	 * entirely within subgraph sg.
+	 *
+	 * @param	int	$from
+	 * @param	int	$to
+	 * @param	int	$sg
+	 * @return	Path[]
+	 */
+	public function getPathsBetween($from_id, $to_id, $sg = null);
 }
