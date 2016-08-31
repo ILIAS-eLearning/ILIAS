@@ -43,7 +43,8 @@ class ilObjReportCouponNew extends ilObjReportBase {
 				->defineFieldColumn($this->plugin->txt("expires"),'expires',array('expires' => $this->tf->fromUnixtimeSql('expires',$this->fields['c']['coupon_expires'])),true);
 		if($this->settings['admin_mode']) {
 			$table
-				->defineFieldColumn($this->plugin->txt("name"), 'name', array('firstname' => $this->fields['hu']['firstname'],'lastname' => $this->fields['hu']['lastname']),true)
+				->defineFieldColumn($this->plugin->txt("name"), 'name', array('lastname' => $this->fields['hu']['lastname']
+																			, 'firstname' => $this->fields['hu']['firstname']),true)
 				->defineFieldColumn($this->plugin->txt("odbd"), 'odbd', array('above1' => $this->tf->groupConcatFieldSql('above1', $this->fields['huo']['org_unit_above1'],';;')
 																			, 'above2' => $this->tf->groupConcatFieldSql('above2', $this->fields['huo']['org_unit_above2'],';;')),true)
 				->defineFieldColumn($this->plugin->txt("orgu"), 'orgu', array('orgu' => $this->tf->groupConcatFieldSql('orgu', $this->fields['huo']['orgu_title'])),true);
@@ -156,8 +157,13 @@ class ilObjReportCouponNew extends ilObjReportBase {
 		return $this->interpreter;
 	}
 
-	public function deliverData() {
-		return $this->getInterpreter()->interprete($this->space->query());
+	public function deliverData(callable $callable) {
+		$res = $this->gIldb->query($this->getInterpreter()->getSql($this->space->query()));
+		$return = array();
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[] = call_user_func($callable,$rec);
+		}
+		return $return;
 	}
 
 	protected function getRowTemplateTitle() {
