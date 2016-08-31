@@ -9,6 +9,7 @@ use CaT\TableRelations\Graphs as Graphs;
  */
 class Query implements AbstractQuery {
 
+
 	protected $path;
 	protected $having = null;
 	protected $requested;
@@ -82,6 +83,18 @@ class Query implements AbstractQuery {
 	/**
 	 * @inheritdoc
 	 */
+	public function orderByFields() {
+		return $this->order_by;
+	}
+
+	public function orderByMode() {
+		return $this->order_mode;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	public function filter() {
 		return $this->filter;
 	}
@@ -150,6 +163,13 @@ class Query implements AbstractQuery {
 	public function withGroupByField($group_by) {
 		$return = clone $this;
 		$return->group_by[] = $group_by;
+		return $return;
+	}
+
+	public function withOrderBy(array $order_by,$order_mode = self::ORDER_ASC) {
+		$return = clone $this;
+		$return->order_by = $order_by;
+		$return->order_mode = $order_mode;
 		return $return;
 	}
 }
