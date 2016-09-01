@@ -1,0 +1,36 @@
+<!-- language file start -->
+obj_xrcn#:#Gutscheincodereport
+objs_xrcn#:#Gutscheincodereports
+obj_xrcn_duplicate#:#Gutscheincodereport kopieren
+objs_xrcn_duplicate#:#Gutscheincodereports kopieren
+obj_xrcn_select#:#Gutscheincodereport auswählen
+xrcn_add#:#Gutscheincodereport hinzufügen
+xrcn_new#:#Neuen Gutscheincodereport hinzufügen
+xrcn_read#:#Lesezugriff zum Gutscheincodereport
+xrcn_write#:#Gutscheincodereport bearbeiten
+xrcn_delete#:#Gutscheincodereport löschen
+xrcn_visible#:#sichtbar
+xrcn_edit_permission#:#schreibberechtigt
+crs_create_xrcn#:#Gutscheincodereport erzeugen
+grp_create_xrcn#:#Gutscheincodereport erzeugen
+fold_create_xrcn#:#Gutscheincodereport erzeugen
+root_create_xrcn#:#Gutscheincodereport erzeugen
+cat_create_xrcn#:#Gutscheincodereport erzeugen
+rep_robj_xrcn_status#:#Status
+rep_robj_xrcn_offline#:#Offline
+xrcn_content#:#Report
+xrcn_properties#:#Eigenschaften
+admin_mode#:#Admin Modus
+coupon_active_only#:#Nur aktive Gutscheine zeigen
+date_of_issue#:#Ausstellungsdatum
+until#:#bis
+code#:#Gutscheincode(s)
+start#:#gesamtes Guthaben
+diff#:#bereits verbrauchtes Guthaben
+current#:#Restguthaben
+expires#:#gültig bis
+firstname#:#Vorname
+lastname#:#Nachname
+name#:#Name
+odbd#:#OD/BD
+orgu#:#Org.-Einheit
