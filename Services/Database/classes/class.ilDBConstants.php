@@ -47,6 +47,12 @@ class ilDBConstants {
 	// Engines
 	const ENGINE_INNODB = 'InnoDB';
 	const ENGINE_MYISAM = 'MyISAM';
+	// Mapping AutoExec
+	const MDB2_AUTOQUERY_INSERT = 1;
+	const MDB2_AUTOQUERY_UPDATE = 2;
+	const MDB2_AUTOQUERY_DELETE = 3;
+	const MDB2_AUTOQUERY_SELECT = 4;
+	const MDB2_PREPARE_MANIP = false;
 	/**
 	 * @var array
 	 */
