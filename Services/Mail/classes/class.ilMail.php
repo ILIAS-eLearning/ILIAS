@@ -1385,7 +1385,7 @@ class ilMail
 							$roles_object_id = $rbacreview->getObjectOfRole($role_id);
 							if($roles_object_id > 0)
 							{
-								foreach($rbacreview->assignedUsers($possible_role_id) as $usr_id)
+								foreach($rbacreview->assignedUsers($role_id) as $usr_id)
 								{
 									$ids[] = $usr_id;
 								}
