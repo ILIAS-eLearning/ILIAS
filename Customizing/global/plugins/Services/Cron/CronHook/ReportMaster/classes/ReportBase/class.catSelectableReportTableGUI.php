@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Table with selectable columns for report taking care of requested fields
+ */
 class catSelectableReportTableGUI extends catTableGUI {
 	protected $persistent = array();
 	protected $order = array();
