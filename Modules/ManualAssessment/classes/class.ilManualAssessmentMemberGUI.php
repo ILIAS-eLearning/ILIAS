@@ -38,7 +38,10 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	public function executeCommand() {
-		if($this->targetWasEditedByOtherUser($this->member) && !$this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress')) {
+		$edited_by_other = $this->targetWasEditedByOtherUser($this->member);
+		$read_permission = $this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress');
+		$edit_permission = $this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress');
+		if(!$read_permission && !$edit_permission) {
 			$a_parent_gui->handleAccessViolation();
 		}
 		$this->maybeShowWarningLPInactive();
@@ -48,13 +51,12 @@ class ilManualAssessmentMemberGUI {
 			case 'save':
 			case 'finalize':
 			case 'finalizeConfirmation':
-				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
+				if($edited_by_other || !$edit_permission) {
 					$a_parent_gui->handleAccessViolation();
 				}
 				break;
 			case 'view':
-				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress') 
-					&& (string)$this->examiner->getId() !== (string)$member->examinerId()) {
+				if(($edited_by_other || !$edit_permission) && !$read_permission) {
 					$a_parent_gui->handleAccessViolation();
 				}
 				break;
@@ -96,8 +98,8 @@ class ilManualAssessmentMemberGUI {
 			if($form->checkInput()) {
 				$member = $this->updateDataInMemberByArray($this->member,$_POST);
 				if($member->mayBeFinalized()) {
-					if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-						$a_parent_gui->handleAccessViolation();
+					if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
+						$this->parent_gui->handleAccessViolation();
 					}
 					include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 					$confirm = new ilConfirmationGUI();
