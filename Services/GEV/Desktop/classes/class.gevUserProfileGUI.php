@@ -83,7 +83,7 @@ class gevUserProfileGUI {
 				$birthday = $form->getInput("birthday");
 				$bday = new ilDateTime($birthday["date"], IL_CAL_DATE);
 				$form->getItemByPostVar("birthday")->setDate($bday);
-				
+				$this->user->setPasswd($form->getInput('passwd'),IL_PASSWD_PLAIN);
 				$this->user->updateLogin($form->getInput("username"));
 				$this->user->setGender($form->getInput("gender"));
 				$this->user->setBirthday($birthday["date"]);
@@ -138,6 +138,7 @@ class gevUserProfileGUI {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
 		require_once("Services/Form/classes/class.ilTextInputGUI.php");
+		require_once("Services/Form/classes/class.ilPasswordInputGUI.php");
 		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
 		require_once("Services/Form/classes/class.ilRadioGroupInputGUI.php");
 		require_once("Services/Form/classes/class.ilRadioOption.php");
@@ -157,6 +158,13 @@ class gevUserProfileGUI {
 		$username->setValue($this->user->getLogin());
 		$form->addItem($username);
 		
+		$pw = new ilPasswordInputGUI($this->lng->txt("passwd"), "passwd");
+		$pw->setSize(32);
+		$pw->setMaxLength(32);
+		$pw->setValidateAuthPost("auth_mode");
+		$pw->setInfo(ilUtil::getPasswordRequirementsInfo());
+		$form->addItem($pw);
+
 		$lastname = new ilNonEditableValueGUI($this->lng->txt("lastname"));
 		$lastname->setValue($this->user->getLastname());
 		$lastname->setRequired(true);
