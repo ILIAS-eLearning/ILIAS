@@ -749,4 +749,11 @@ interface ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function uniqueConstraintExists($table, array $fields);
+
+
+	/**
+	 * @param $table_name
+	 */
+	public function dropPrimaryKey($table_name);
+
 }

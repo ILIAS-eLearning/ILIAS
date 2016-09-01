@@ -1821,4 +1821,15 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		return false;
 	}
+
+
+	/**
+	 * @param $table_name
+	 * @return bool
+	 */
+	public function dropPrimaryKey($table_name) {
+		return $this->manager->dropConstraint($table_name, "PRIMARY", true);
+	}
+
+
 }
