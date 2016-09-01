@@ -132,7 +132,7 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 		$db = $this->plugin->getSettingsDB();
 		$settings = $db->create((int)$newObj->getId(), \CaT\Plugins\TalentAssessment\Settings\TalentAssessment::IN_PROGRESS, 0
 								, "text", "text", "text", "text", new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME)
-								, new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME), 0, 0);
+								, new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME), 0, 0, 0, 0, 0, "", "");
 		$newObj->setSettings($settings);
 		$actions = $newObj->getActions();
 		$actions->update($post);
@@ -225,5 +225,40 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 			$gui = new ilTalentAssessmentObservatorGUI($this, $actions, $this->plugin->txtClosure(), $this->object->getId());
 			$this->gCtrl->forwardCommand($gui);
 		}
+	}
+
+	function addInfoItems($info) {
+		$settings = $this->object->getSettings();
+		$actions = $this->object->getActions();
+		$career_goal_obj = \ilObjectFactory::getInstanceByObjId($settings->getCareerGoalId());
+		$observator = $actions->getAssignedUser($this->object->getId());
+		$obsv_names = array_map(function ($obsv) { return $obsv["firstname"]." ".$obsv["lastname"];}, $observator);
+
+		$info->addSection($this->txt('ta_info'));
+		$info->addProperty($this->txt('title'), $this->object->getTitle());
+		$info->addProperty($this->txt('description'), $this->object->getDescription());
+		$info->addProperty($this->txt('state'), $this->txt($actions->potentialText()));
+		
+
+		$info->addProperty($this->txt('career_goal'), $career_goal_obj->getTitle());
+		$info->addProperty($this->txt('venue'), $actions->getVenueName($settings->getVenue()));
+		$info->addProperty($this->txt('observator'), implode(", ", $obsv_names));
+
+		$start_date = $settings->getStartDate()->get(IL_CAL_DATE);
+		$end_date = $settings->getEndDate()->get(IL_CAL_DATE);
+		if($start_date == $end_date) {
+			$date = $start_date;
+		} else {
+			$date = $start_date." ".$this->txt("to")." ".$end_date;
+		}
+
+		$start_time = explode(" ", $settings->getStartDate());
+		$end_time = explode(" ", $settings->getEndDate());
+
+		$info->addProperty($this->txt('date'), $date);
+		$info->addProperty($this->txt('start_time'), $start_time[1]);
+		$info->addProperty($this->txt('end_time'), $end_time[1]);
+
+		return $info;
 	}
 }

@@ -20,7 +20,7 @@ class ilTalentAssessmentSettingsGUI {
 	 */
 	protected $actions;
 
-	public function __construct(TalentAssessment\ilActions $actions, \Closure $txt, $obj_id) {
+	public function __construct(TalentAssessment\ilActions $actions, \Closure $txt, $obj_id, $potential) {
 		global $ilCtrl, $tpl;
 
 		$this->gCtrl = $ilCtrl;
@@ -29,6 +29,7 @@ class ilTalentAssessmentSettingsGUI {
 		$this->actions = $actions;
 		$this->txt = $txt;
 		$this->obj_id = $obj_id;
+		$this->potential = $potential;
 	}
 
 	public function executeCommand() {
@@ -55,7 +56,6 @@ class ilTalentAssessmentSettingsGUI {
 	 */
 	public function txt($code) {
 		assert('is_string($code)');
-
 		$txt = $this->txt;
 
 		return $txt($code);
@@ -85,6 +85,8 @@ class ilTalentAssessmentSettingsGUI {
 
 	protected function fillSettingsForm(\ilPropertyFormGUI $form) {
 		$values = $this->actions->read();
+		$values = $this->actions->setPotentialToValues($values, $this->txt($this->actions->potentialText()));
+
 		if($values[TalentAssessment\ilActions::F_FIRSTNAME] === null) {
 			\ilUtil::sendFailure($this->txt("no_valid_username"));
 		}

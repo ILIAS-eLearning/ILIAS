@@ -4,6 +4,7 @@ namespace CaT\Plugins\TalentAssessment\Settings;
 
 class TalentAssessment {
 	const IN_PROGRESS = "1";
+	const FINISHED = "2";
 
 	/**
 	 * @var int
@@ -65,7 +66,29 @@ class TalentAssessment {
 	 */
 	protected $started;
 
-	public function __construct($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started) {
+	/**
+	 * @var float
+	 */
+	protected $lowmark;
+
+	/**
+	 * @var float
+	 */
+	protected $should_specifiaction;
+
+	/**
+	 * @var float
+	 */
+	protected $potential;
+
+	/**
+	 * @var string
+	 */
+	protected $result_comment;
+
+	public function __construct($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date
+								, $end_date, $venue, $org_unit, $started, $lowmark, $should_specifiaction
+								, $potential, $result_comment) {
 		assert('is_int($obj_id)');
 		$this->obj_id = $obj_id;
 		assert('is_int($career_goal_id)');
@@ -86,6 +109,14 @@ class TalentAssessment {
 		$this->org_unit = $org_unit;
 		assert('is_bool($started)');
 		$this->started = $started;
+		assert('is_float($lowmark)');
+		$this->lowmark = $lowmark;
+		assert('is_float($should_specifiaction)');
+		$this->should_specifiaction = $should_specifiaction;
+		assert('is_float($potential)');
+		$this->potential = $potential;
+		assert('is_string($result_comment)');
+		$this->result_comment = $result_comment;
 
 		$this->state = $state;
 	}
@@ -165,6 +196,49 @@ class TalentAssessment {
 		return $clone;
 	}
 
+	public function withLowmark($lowmark) {
+		assert('is_float($lowmark)');
+		$clone = clone $this;
+		$clone->lowmark = $lowmark;
+
+		return $clone;
+	}
+
+	public function withShouldSpecifiaction($should_specifiaction) {
+		assert('is_float($should_specifiaction)');
+		$clone = clone $this;
+		$clone->should_specifiaction = $should_specifiaction;
+
+		return $clone;
+	}
+
+	public function withPotential($potential) {
+		assert('is_float($potential)');
+		$clone = clone $this;
+		$clone->potential = $potential;
+
+		return $clone;
+	}
+
+	public function withResultComment($result_comment) {
+		assert('is_string($result_comment)');
+		$clone = clone $this;
+		$clone->result_comment = $result_comment;
+
+		return $clone;
+	}
+
+	public function withFinished($finished) {
+		if($finished) {
+			$clone = clone $this;
+			$clone->state = self::FINISHED;
+
+			return $clone;
+		}
+
+		return $this;
+	}
+
 	public function getObjId() {
 		return $this->obj_id;
 	}
@@ -211,5 +285,25 @@ class TalentAssessment {
 
 	public function getStarted() {
 		return $this->started;
+	}
+
+	public function getLowmark() {
+		return $this->lowmark;
+	}
+
+	public function getShouldSpecification() {
+		return $this->should_specifiaction;
+	}
+
+	public function getPotential() {
+		return $this->potential;
+	}
+
+	public function getResultComment() {
+		return $this->result_comment;
+	}
+
+	public function Finished() {
+		return $this->state == self::FINISHED;
 	}
 }

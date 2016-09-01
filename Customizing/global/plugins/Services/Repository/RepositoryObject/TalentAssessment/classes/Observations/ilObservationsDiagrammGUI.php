@@ -26,11 +26,8 @@ class ilObservationsDiagrammGUI {
 		$actions = $this->parent_obj->getActions();
 		$settings = $this->parent_obj->getSettings();
 
-		$career_goal_id = $settings->getCareerGoalId();
-		$career_gol_obj = \ilObjectFactory::getInstanceByObjId($career_goal_id);
-
-		$values = array("min" => $career_gol_obj->getSettings()->getLowmark()
-						, "max" => $career_gol_obj->getSettings()->getShouldSpecification()
+		$values = array("min" => $settings->getLowmark()
+						, "max" => $settings->getShouldSpecification()
 					);
 
 		$obs = $actions->getObservationsCumulative($obj_id);

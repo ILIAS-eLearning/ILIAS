@@ -15,6 +15,7 @@ class ilObservationsListTableGUI extends \ilTable2GUI {
 		$this->txt = $a_parent_obj->getTXTClosure();
 		$this->values = $values;
 		$this->possible_cmd = $a_parent_obj->getPossibleCMD();
+		$this->settings = $a_parent_obj->getSettings();
 
 		$this->setId("talent_assessment_observations_list_table");
 
@@ -46,7 +47,7 @@ class ilObservationsListTableGUI extends \ilTable2GUI {
 	public function fillRow($row) {
 		$this->tpl->setVariable("TITLE", $row["title"]);
 		$this->tpl->setVariable("DESCRIPTION", $row["description"]);
-		$this->tpl->setVariable("POINTS", $this->getDropDown($row["obj_id"], $row["value"]));
+		$this->tpl->setVariable("POINTS", $this->getDropDown($row["obj_id"], $row["value"], $this->settings->Finished()));
 	}
 
 	protected function addButtomCMDButton($cmd, $value) {
@@ -57,6 +58,11 @@ class ilObservationsListTableGUI extends \ilTable2GUI {
 		$this->tpl->setCurrentBlock("notice_input");
 		$this->tpl->setVariable("NOTICE_DESCRIPTION", $this->txt("notice_description"));
 		$this->tpl->setVariable("NOTICE_TEXT", $this->values["notice"]);
+
+		if($this->settings->Finished()) {
+			$this->tpl->setVariable("READONLY", 'readonly="readonly"');
+		}
+
 		$this->tpl->parseCurrentBlock();
 
 		foreach ($this->buttom_cmd_btn as $key => $value) {

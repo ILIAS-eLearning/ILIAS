@@ -64,6 +64,22 @@ class ilDB implements DB {
 						'length'	=> 4,
 						'notnull' 	=> false
 					),
+					'lowmark' => array(
+						'type' 		=> 'float',
+						'notnull' 	=> false
+					),
+					'should_specification' => array(
+						'type' 		=> 'float',
+						'notnull' 	=> false
+					),
+					'potential' => array(
+						'type' 		=> 'float',
+						'notnull' 	=> false
+					),
+					'result_comment' => array(
+						'type' 		=> 'clob',
+						'notnull' 	=> false
+					),
 					'last_change' => array(
 						'type' 		=> 'timestamp',
 						'notnull' 	=> true
@@ -83,8 +99,11 @@ class ilDB implements DB {
 	/**
 	 * @inheritdoc
 	 */
-	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started) {
-		$talent_assessment = new TalentAssessment($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue, $org_unit, $started);
+	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue
+							, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment) 
+	{
+		$talent_assessment = new TalentAssessment($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue
+													, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment);
 
 		$values = array
 				( "obj_id" => array("integer", $talent_assessment->getObjId())
@@ -96,6 +115,10 @@ class ilDB implements DB {
 				, "venue" => array("text", $talent_assessment->getVenue())
 				, "org_unit" => array("text", $talent_assessment->getOrgUnit())
 				, "started" => array("integer", $talent_assessment->getStarted())
+				, "lowmark" => array("float", $talent_assessment->getLowmark())
+				, "should_specification" => array("float", $talent_assessment->getShouldspecification())
+				, "potential" => array("float", $talent_assessment->getPotential())
+				, "result_comment" => array("text", $talent_assessment->getResultComment())
 				, "last_change" => array("text", date("Y-m-d H:i:s"))
 				, "last_change_user" => array("integer", $this->user->getId())
 				);
@@ -119,6 +142,10 @@ class ilDB implements DB {
 				, "venue" => array("text", $talent_assessment->getVenue())
 				, "org_unit" => array("text", $talent_assessment->getOrgUnit())
 				, "started" => array("integer", $talent_assessment->getStarted())
+				, "lowmark" => array("float", $talent_assessment->getLowmark())
+				, "should_specification" => array("float", $talent_assessment->getShouldspecification())
+				, "potential" => array("float", $talent_assessment->getPotential())
+				, "result_comment" => array("text", $talent_assessment->getResultComment())
 				, "last_change" => array("text", date("Y-m-d H:i:s"))
 				, "last_change_user" => array("integer", $this->user->getId())
 				);
@@ -144,7 +171,9 @@ class ilDB implements DB {
 	 * @inheritdoc
 	 */
 	public function select($obj_id) {
-		$select = "SELECT A.state, A.career_goal_id, A.username, A.start_date, A.end_date, A.venue, A.org_unit, B.firstname, B.lastname, B.email\n"
+		$select = "SELECT A.state, A.career_goal_id, A.username, A.start_date, A.end_date, A.venue, A.org_unit\n"
+				.", A.started, A.lowmark, A.should_specification, A.potential, A.result_comment\n"
+				.", B.firstname, B.lastname, B.email\n"
 				." FROM ".self::PLUGIN_TABLE." A\n"
 				." LEFT JOIN ".self::USR_TABLE." B\n"
 				."     ON A.username = B.login"
@@ -171,6 +200,11 @@ class ilDB implements DB {
 								 , $end_date
 								 , (int)$row["venue"]
 								 , (int)$row["org_unit"]
+								 , (bool)$row["started"]
+								 , (float)$row["lowmark"]
+								 , (float)$row["should_specification"]
+								 , (float)$row["potential"]
+								 , $row["result_comment"]
 							);
 
 		return $talent_assessment;

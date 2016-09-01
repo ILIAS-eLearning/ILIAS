@@ -2,6 +2,8 @@
 
 namespace CaT\Plugins\TalentAssessment;
 
+require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+
 class ilActions {
 	const F_TITLE = "title";
 	const F_DESCRIPTION = "description";
@@ -14,6 +16,8 @@ class ilActions {
 	const F_FIRSTNAME = "firstname";
 	const F_LASTNAME = "lastname";
 	const F_EMAIL = "email";
+	const F_RESULT_COMMENT = "resultComment";
+	const F_POTENTIAL = "potential";
 
 	const START_DATE = "start_date";
 	const END_DATE = "end_date";
@@ -22,6 +26,11 @@ class ilActions {
 	const OBSERVATOR_ROLE_DESCRIPTION = "Local role for observator at obj_id: ";
 
 	const SI_PREFIX = "req_id";
+
+	const TA_FAILED = "ta_failed";
+	const TA_PASSED = "ta_passed";
+	const TA_MAYBE = "ta_maybe";
+	const TA_IN_PROGRESS = "ta_in_progress";
 
 	public function __construct(\CaT\Plugins\TalentAssessment\ObjTalentAssessment $object
 								, \CaT\Plugins\TalentAssessment\Settings\DB $settings_db
@@ -104,7 +113,6 @@ class ilActions {
 		$values[self::F_DATE] = $date;
 		$values[self::F_VENUE] = $settings->getVenue();
 		$values[self::F_ORG_UNIT] = $settings->getOrgUnit();
-		$values[self::F_STATE] = $settings->getState();
 		$values[self::F_FIRSTNAME] = $settings->getFirstname();
 		$values[self::F_LASTNAME] = $settings->getLastname();
 		$values[self::F_EMAIL] = $settings->getEmail();
@@ -123,14 +131,22 @@ class ilActions {
 	 *
 	 */
 	public function getVenueOptions() {
-		return $this->settings_db->getVenueOptions();
+		return \gevOrgUnitUtils::getVenueNames();
 	}
 
 	/**
 	 *
 	 */
 	public function getOrgUnitOptions() {
-		return $this->settings_db->getOrgUnitOptions();
+		$evg_id = \gevOrgUnitUtils::getEVGOrgUnitRefId();
+		$org_unit_utils = \gevOrgUnitUtils::getAllChildren(array($evg_id));
+
+		$ret = array();
+		foreach($org_unit_utils as $key => $value) {
+			$ret[$value["obj_id"]] = \ilObject::_lookupTitle($value["obj_id"]);
+		}
+
+		return $ret;
 	}
 
 	/**
@@ -242,5 +258,87 @@ class ilActions {
 
 	public function getRequestresultCumulative($obs_ids) {
 		return $this->observations_db->getRequestresultCumulative($obs_ids);
+	}
+
+	public function copyClassificationValues($career_goal_id) {
+		$career_goal_obj = \ilObjectFactory::getInstanceByObjId($career_goal_id);
+
+		$this->object->updateSettings(function($s) use ($career_goal_obj) {
+			return $s
+				->withLowmark($career_goal_obj->getSettings()->getLowmark())
+				->withShouldSpecifiaction($career_goal_obj->getSettings()->getShouldSpecification())
+				;
+		});
+		$this->object->update();
+	}
+
+	public function saveReportData($post) {
+		$this->object->updateSettings(function($s) use ($post) {
+			return $s
+				->withResultComment($post[self::F_RESULT_COMMENT])
+				;
+		});
+		$this->object->update();
+	}
+
+	public function finishTA($potential) {
+		$this->object->updateSettings(function($s) {
+			return $s
+				->withPotential($potential)
+				->withFinished(true)
+				;
+		});
+		$this->object->update();
+	}
+
+	public function setPotentialToValues($values, $potential) {
+		$values[self::F_STATE] = $potential;
+
+		return $values;
+	}
+
+	public function potentialText() {
+		$settings = $this->object->getSettings();
+
+		if(!$middle = $settings->getPotential()) {
+			$middle = $this->requestsMiddle();
+		}
+
+		if(!$middle) {
+			return self::TA_IN_PROGRESS;
+		}
+
+		if($middle <= $settings->getLowmark()) {
+			return self::TA_FAILED;
+		} else if($middle >= $settings->getShouldSpecification()) {
+			return self::TA_PASSED;
+		} else {
+			return self::TA_MAYBE;
+		}
+	}
+
+	protected function requestsMiddle() {
+		$obs = $this->getObservationsCumulative($this->object->getId());
+		$req_res = $this->getRequestresultCumulative(array_keys($obs));
+
+		$middle_total = 0;
+		foreach($obs as $key => $title) {
+			$sum = 0;
+			$req = $req_res[$key];
+			foreach ($req as $key => $req_det) {
+				$sum += $req_det["sum"];
+			}
+
+			$middle = $sum / count($req);
+			$middle_total += $middle;
+		}
+
+		return round($middle_total,1);
+	}
+
+	public function getVenueName($venue_id) {
+		$org_unit_utils = \gevOrgUnitUtils::getInstance($venue_id);
+
+		return $org_unit_utils->getLongTitle();
 	}
 }

@@ -16,6 +16,8 @@ class ilTalentAssessmentObservationsGUI {
 	const CMD_OBSERVATION_PREVIEW_REPORT = "showReportPreview";
 	const CMD_FINISH_TA = "finishTA";
 
+
+
 	public function __construct($parent_obj, $actions, Closure $txt, \CaT\Plugins\TalentAssessment\Settings\TalentAssessment $settings, $obj_id) {
 		global $tpl, $ilCtrl, $ilToolbar, $ilTabs;
 
@@ -29,7 +31,8 @@ class ilTalentAssessmentObservationsGUI {
 		$this->settings = $settings;
 		$this->obj_id = $obj_id;
 
-		$this->possible_cmd = array("CMD_OBSERVATION_SAVE_VALUES"=>self::CMD_OBSERVATION_SAVE_VALUES);
+		$this->possible_cmd = array("CMD_OBSERVATION_SAVE_VALUES"=>self::CMD_OBSERVATION_SAVE_VALUES
+								  , "CMD_OBSERVATION_SAVE_REPORT"=>self::CMD_OBSERVATION_SAVE_REPORT);
 	}
 
 	public function executeCommand() {
@@ -38,6 +41,8 @@ class ilTalentAssessmentObservationsGUI {
 		switch($cmd) {
 			case self::CMD_OBSERVATIONS:
 			case self::CMD_FINISH_TA:
+				$this->$cmd();
+				break;
 			case self::CMD_OBSERVATION_PREVIEW_REPORT:
 				$this->$cmd();
 				break;
@@ -59,7 +64,7 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function showObservations() {
-		$this->setToolbar();
+		$this->setToolbarObservations();
 		$gui = new TalentAssessment\Observations\ilObservationsTableGUI($this);
 		$this->gTpl->setContent($gui->getHtml());
 	}
@@ -85,12 +90,15 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function showObservationsReport() {
+		$this->setToolbarReport();
 		$gui = new TalentAssessment\Observations\ilObservationsReportGUI($this);
 		$gui->show();
 	}
 
 	protected function saveObservationReport() {
-
+		$this->actions->saveReportData($_POST);
+		$red = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATIONS_REPORT, "", false, false);
+		\ilUtil::redirect($red);
 	}
 
 	protected function showReportPreview() {
@@ -98,16 +106,30 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function finishTA() {
+		$this->actions->finishTA($this->requestsMiddle());
 
+		$red = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATIONS_REPORT, "", false, false);
+		\ilUtil::redirect($red);
 	}
 
-	protected function setToolbar() {
+	protected function setToolbarObservations() {
 		$start_observation_link = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATION_START);
 		$this->gToolbar->addButton( $this->txt("start_observation"), $start_observation_link);
 	}
 
+	protected function setToolbarReport() {
+		$start_observation_link = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATION_PREVIEW_REPORT);
+		$this->gToolbar->addButton( $this->txt("preview_report"), $start_observation_link);
+
+		if(!$this->settings->Finished()) {
+			$finish_ta_link = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_FINISH_TA);
+			$this->gToolbar->addButton( $this->txt("finish_ta"), $finish_ta_link);
+		}
+	}
+
 	protected function startObservation() {
 		$this->actions->setObservationStarted(true);
+		$this->actions->copyClassificationValues($this->settings->getCareerGoalId());
 		$this->actions->copyObservations($this->getObjId(), $this->settings->getCareerGoalId());
 		$red = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATIONS_LIST, "", false, false);
 		\ilUtil::redirect($red);
