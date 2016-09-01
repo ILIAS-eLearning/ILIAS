@@ -400,8 +400,8 @@ class ilDclRecordEditGUI {
 			}
 		}
 
-		$hash = $all_values["ilfilehash"];
-		$confirmation->addHiddenItem('ilfilehash', $hash);
+		$confirmation->addHiddenItem('ilfilehash', $all_values["ilfilehash"]);
+		$confirmation->addHiddenItem('empty_fileuploads', $all_values["empty_fileuploads"]);
 		$confirmation->addHiddenItem('table_id', $this->table_id);
 		$confirmation->addHiddenItem('tableview_id', $this->tableview_id);
 		$confirmation->addItem('save_confirmed', 1, $record_data);
@@ -428,6 +428,12 @@ class ilDclRecordEditGUI {
 		if($this->table->getSaveConfirmation() && isset($_POST['save_confirmed']) && isset($_POST['ilfilehash']) && !isset($this->record_id) && !$this->ctrl->isAsynch()) {
 			$restore_files = ilDclPropertyFormGUI::getTempFileByHash($_POST['ilfilehash'], $ilUser->getId());
 			$_FILES = $restore_files;
+
+			//handle empty fileuploads, since $_FILES has to have an entry for each fileuploadGUI
+			if (json_decode($_POST['empty_fileuploads']) && $_POST['empty_fileuploads'] != '') {
+				$_FILES = $_FILES + json_decode($_POST['empty_fileuploads'], true);
+			}
+
 			unset($_SESSION['record_form_values']);
 		}
 
@@ -451,7 +457,14 @@ class ilDclRecordEditGUI {
 		//Check if we can create this record.
 		foreach ($all_fields as $field) {
 			try {
-				$value = $this->form->getInput("field_" . $field->getId());
+				if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+					$value = array(
+						'link' => $this->form->getInput("field_" . $field->getId()),
+						'title' => $this->form->getInput("field_" . $field->getId() . "_title")
+					);
+				} else {
+					$value = $this->form->getInput("field_" . $field->getId());
+				}
 				$field->checkValidity($value, $this->record_id);
 			} catch (ilDclInputException $e) {
 				$valid = false;

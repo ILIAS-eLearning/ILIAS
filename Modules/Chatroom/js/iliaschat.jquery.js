@@ -187,9 +187,7 @@ var Smileys = function Smileys(_smileys) {
 
 			$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
 
-			if ($.browser.chrome || $.browser.safari) {
-				$emoticons_panel.css("top", "3px");
-			}
+			$emoticons_panel.css("top", "3px");
 
 			var $emoticons_table = $("<table></table>");
 			var $emoticons_row = null;
@@ -219,12 +217,14 @@ var Smileys = function Smileys(_smileys) {
 			}
 			$emoticons_flyout.append($emoticons_table);
 
-			$emoticons_flyout_trigger.click(function (e) {
+			$emoticons_flyout_trigger.on('click', function (e) {
 				$emoticons_flyout.toggle();
-			}).toggle(function () {
-				$(this).addClass("active");
-			}, function () {
-				$(this).removeClass("active");
+				
+				if ($(this).hasClass("active")) {
+					$(this).removeClass("active");
+				} else {
+					$(this).addClass("active");
+				}
 			});
 
 			$emoticons_panel.on('clickoutside', function (event) {
@@ -781,7 +781,6 @@ var ChatActions = function ChatActions(selector, _translation, _connector, _priv
 
 								$('#invite_user_text').keyup(function(){
 									if($(this).val().length > 2) {
-										// @TODO Move this to ILIASConnector.
 										$.get(
 												posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
 												function(response){

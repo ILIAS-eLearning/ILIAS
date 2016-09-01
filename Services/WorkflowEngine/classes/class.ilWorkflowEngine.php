@@ -48,6 +48,12 @@ class ilWorkflowEngine
 		$context_id
 	)
 	{
+		/** @var ilSetting $ilSetting */
+		global $ilSetting;
+		if(0 === (bool)$ilSetting->get('wfe_activation', 0))
+		{
+			return;
+		}
 
 		// Get listening event-detectors.
 		/** @noinspection PhpIncludeInspection */

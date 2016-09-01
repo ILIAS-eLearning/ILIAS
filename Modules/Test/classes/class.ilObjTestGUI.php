@@ -353,13 +353,11 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 				$testSessionFactory = new ilTestSessionFactory($this->object);
 				$testSession = $testSessionFactory->getSession();
-				$testResults = $this->object->getTestResult($testSession->getActiveId(), $testSession->getPass(), true);
 
 				require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object->getTestId(),$this->object->getRefId(), $this->object->getId());
+				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object);
 				$gui->setQuestionList($questionList);
 				$gui->setTestSession($testSession);
-				$gui->setTestResults($testResults);
 				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -772,6 +770,13 @@ class ilObjTestGUI extends ilObjectGUI
 	public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results)
 	{
 		global $ilTabs, $ilDB;
+
+        // prepare generation before contents are processed (needed for mathjax)
+		if( $this->isPdfDeliveryRequest() )
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
 
 		$ilTabs->setBackTarget(
 			$this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'participants')
@@ -3174,6 +3179,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
 			$template->parseCurrentBlock();
 		}
+        // prepare generation before contents are processed (for mathjax)
+		else
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		
@@ -3271,6 +3282,10 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 			ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+
+            // prepare generation before contents are processed (for mathjax)
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
 		}
 		
 		foreach ($this->object->questions as $question)

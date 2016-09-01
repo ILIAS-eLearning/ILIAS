@@ -85,7 +85,7 @@ class ilDBConstants {
 		if ($with_descriptions) {
 			$return = array();
 			foreach ($types as $type) {
-				$return [$type] = self::$descriptions[$type];
+				$return [$type] = self::describe($type);
 			}
 			$types = $return;
 		}
@@ -115,7 +115,51 @@ class ilDBConstants {
 			ilDBConstants::TYPE_ORACLE,
 			ilDBConstants::TYPE_POSTGRES_LEGACY,
 			ilDBConstants::TYPE_MYSQL_LEGACY,
+			ilDBConstants::TYPE_MYSQLI_LEGACY,
 			ilDBConstants::TYPE_INNODB_LEGACY,
 		);
+	}
+
+
+	/**
+	 * @param $type
+	 * @return bool
+	 */
+	public static function isLegacy($type) {
+		return in_array($type, self::getLegacyTypes());
+	}
+
+
+	/**
+	 * @param $type
+	 * @return string
+	 */
+	public static function describe($type) {
+		return self::$descriptions[$type];
+	}
+
+
+	/**
+	 * @param $type
+	 * @return string
+	 */
+	public static function mapLegacy($type) {
+		if (!self::isLegacy($type)) {
+			return $type;
+		}
+		switch ($type) {
+			case ilDBConstants::TYPE_ORACLE:
+				return ilDBConstants::TYPE_ORACLE;
+			case ilDBConstants::TYPE_POSTGRES_LEGACY:
+				return ilDBConstants::TYPE_PDO_POSTGRE;
+			case ilDBConstants::TYPE_MYSQL_LEGACY:
+				return ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
+			case ilDBConstants::TYPE_MYSQLI_LEGACY:
+				return ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
+			case ilDBConstants::TYPE_INNODB_LEGACY:
+				return ilDBConstants::TYPE_PDO_MYSQL_INNODB;
+		}
+
+		return $type;
 	}
 }

@@ -1272,6 +1272,7 @@ class ilSetup
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
+		$error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
 
  		$this->ini->setVariable("server","http_path",ILIAS_HTTP_PATH);
 		$this->ini->setVariable("server","absolute_path",ILIAS_ABSOLUTE_PATH);
@@ -1295,6 +1296,7 @@ class ilSetup
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("log", "error_path", $error_log_path);
 
 		$this->ini->setVariable("https","auto_https_detect_enabled", ($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
 		$this->ini->setVariable("https","auto_https_detect_header_name", $a_formdata["auto_https_detect_header_name"]);
@@ -1355,9 +1357,12 @@ class ilSetup
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
 
+		$error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
+
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("log", "error_path", $error_log_path);
 		$this->ini->setVariable("server","timezone",preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["time_zone"])));
 
 		$this->ini->setVariable("https","auto_https_detect_enabled",($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
@@ -1614,6 +1619,30 @@ class ilSetup
 				$this->error = "could_not_create_logfile";
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * check error log path
+	 *
+	 * @param	string	$error_log_path		path to save error log files
+	 *
+	 * @return	boolean
+	 */
+	public function checkErrorLogSetup($error_log_path) {
+		// remove trailing slash & convert backslashes to forwardslashes
+		$clean_error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($error_log_path)));
+
+		if (empty($clean_error_log_path)) {
+			$this->error = "no_error_path_log";
+			return false;
+		}
+
+		if (!ilUtil::makeDirParents($clean_error_log_path)) {
+			$this->error = "could_not_create_error_directory";
+			return false;
 		}
 
 		return true;

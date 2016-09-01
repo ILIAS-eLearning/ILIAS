@@ -18,14 +18,8 @@ PHP PEAR library files, licensed under PHP license:
 
 Other included libraries (regarded being compatible with GPL v3):
 
-- PEAR MDB2 (Services/PEAR) is licensed under BSD license
-- PEAR HTML_Template_IT (Services/PEAR) is licensed under modified BSD license
-- PEAR Log (Services/PEAR) is licensed under MIT license
-- PEAR HTTP_Request/2 (Services/PEAR) is licensed under BSD license
-- PEAR NET_Url/2 (Services/PEAR) is licensed under BSD license
-- PEAR XML_RPC2 (Services/PEAR) is licensed under LGPL license
+- PEAR MDB2 (Services/Database/libs) is licensed under BSD licensee
 - YUI (Services/YUI) is licensed under BSD license
-- JSON.php (Services/JSON/include) is licensed under BSD license
 - EvalMath (Services/Math/classes) is licensed under BSD license
 - mediaElement.js (Services/MediaObjects) is licensed under GPL/MIT
 - jQuery (Services/jQuery/js) is licensed under the MIT, BSD, and GPL

@@ -136,50 +136,57 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 					$sub_type = $parts[1];
 					$sub_id = $parts[2];
 					
-					if(!$new_option)
+					// update existing value (with changed option)						
+					if(isset($old_values[$item]))
 					{
-						// remove existing value					
-						$primary = array(
-							"obj_id" => array("integer", $obj_id),
-							"sub_type" => array("text", $sub_type),
-							"sub_id" => array("integer", $sub_id),
-							"field_id" => array("integer", $this->getFieldId())
-						);
-						ilADTActiveRecordByType::deleteByPrimary("adv_md_values", $primary, "MultiEnum");
-					}
-					else
-					{		
-						// update existing value (with changed option)						
-						if(isset($old_values[$item]))
-						{
-							// find changed option in old value
-							$old_value = explode(ilADTMultiEnumDBBridge::SEPARATOR, $old_values[$item]);
-							// remove separators
-							array_shift($old_value);
-							array_pop($old_value);
-							$old_idx = array_keys($old_value, $old_option);
-							if(sizeof($old_idx))
+						// find changed option in old value
+						$old_value = explode(ilADTMultiEnumDBBridge::SEPARATOR, $old_values[$item]);
+						// remove separators
+						array_shift($old_value);
+						array_pop($old_value);
+						
+						$old_idx = array_keys($old_value, $old_option);
+						if(sizeof($old_idx))
+						{																					
+							$old_idx = array_pop($old_idx);						
+
+							// switch option
+							if($new_option)
 							{
-								// switch option
-								$old_idx = array_pop($old_idx);						
 								$old_value[$old_idx] = $new_option;				
-								$new_value = array_unique($old_value);
+							}
+							// #18885 - remove option
+							else
+							{
+								unset($old_value[$old_idx]);
+							}
+							$new_value = array_unique($old_value);
+														
+							$primary = array(
+								"obj_id" => array("integer", $obj_id),
+								"sub_type" => array("text", $sub_type),
+								"sub_id" => array("integer", $sub_id),
+								"field_id" => array("integer", $this->getFieldId())
+							);
+
+							// update value
+							if(sizeof($new_value))
+							{
 								// add separators
 								$new_value = ilADTMultiEnumDBBridge::SEPARATOR.
 									implode(ilADTMultiEnumDBBridge::SEPARATOR, $new_value).
 									ilADTMultiEnumDBBridge::SEPARATOR;
-								
-								$primary = array(
-									"obj_id" => array("integer", $obj_id),
-									"sub_type" => array("text", $sub_type),
-									"sub_id" => array("integer", $sub_id),
-									"field_id" => array("integer", $this->getFieldId())
-								);
+
 								ilADTActiveRecordByType::writeByPrimary("adv_md_values", $primary, "MultiEnum", $new_value);
 							}
-						}			
-					}
-					
+							// remove existing value - nothing left	
+							else
+							{																				
+								ilADTActiveRecordByType::deleteByPrimary("adv_md_values", $primary, "MultiEnum");		
+							}
+						}						
+					}		
+																					
 					if($sub_type == "wpg")
 					{
 						// #15763 - adapt advmd page lists

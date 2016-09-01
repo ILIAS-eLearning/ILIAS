@@ -77,6 +77,16 @@ class ilObjectGUI
 	var $sub_objects;
 	var $omit_locator = false;
 
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui = null;
+	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	const CFORM_NEW = 1;
 	const CFORM_IMPORT = 2;
 	const CFORM_CLONE = 3;
@@ -92,6 +102,9 @@ class ilObjectGUI
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
 
+		/**
+		 * @var ilTab
+		 */
 		$this->tabs_gui = $ilTabs;
 
 		if (!isset($ilErr))

@@ -12,7 +12,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
 * @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI
 *
 * @ingroup ModulesSession 
@@ -110,8 +110,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			case 'ilmembershipgui':				
 				$this->ctrl->setReturn($this,'members');
-				include_once './Services/Membership/classes/class.ilMembershipGUI.php';
-				$mem = new ilMembershipGUI($this);
+				include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
+				$mem = new ilMembershipMailGUI($this);
 				$this->ctrl->forwardCommand($mem);
 				break;
 			
@@ -1103,7 +1103,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
 			if($ilUser->getPref('grp_subscriber_hide'))
 			{
-				$table_gui = new ilSubscriberTableGUI($this,false, false);
+				$table_gui = new ilSubscriberTableGUI($this,$this->object, false, false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1111,7 +1111,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$table_gui = new ilSubscriberTableGUI($this,true, false);
+				$table_gui = new ilSubscriberTableGUI($this,$this->object, true, false);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));
@@ -1980,8 +1980,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$GLOBALS['ilCtrl']->setReturn($this,'members');
 		$GLOBALS['ilCtrl']->setCmdClass('ilmembershipgui');
-		include_once './Services/Membership/classes/class.ilMembershipGUI.php';
-		$mem = new ilMembershipGUI($this);
+		include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
+		$mem = new ilMembershipMailGUI($this);
 		$GLOBALS['ilCtrl']->forwardCommand($mem);
 	}
 	

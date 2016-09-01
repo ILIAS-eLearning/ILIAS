@@ -151,6 +151,20 @@ class ilUserProfile
 						"group_export_hide" => true,
 						"lists_hide" => true,								
 						"group" => "interests"),
+		"org_units" => array(
+						"input" => "noneditable",
+						"lang_var" => "objs_orgu",
+						"required_hide" => true,
+						"visib_reg_hide" => true,
+						"course_export_hide" => false,
+						"group_export_hide" => false,
+						"export_hide" => true,
+						"changeable_hide" => true,
+						"changeable_fix_value" => 0,
+						"changeable_lua_hide" => true,
+						"changeable_lua_fix_value" => 0,
+						"method" => "getOrgUnitsRepresentation",
+						"group" => "contact_data"),
 		"institution" => array(
 						"input" => "text",
 						"maxlength" => 80,
@@ -296,7 +310,22 @@ class ilUserProfile
 			"visib_reg_hide" => true,
 			"course_export_hide" => true,
 			"group_export_hide" => true,
-			"group" => "settings"),
+			"group" => "settings"
+		),
+		"chat_osc_accept_msg" => array(
+			"input" => "selection",
+			"lang_var" => "chat_osc_accept_msg",
+			"required_hide" => true,
+			"visib_reg_hide" => true,
+			"course_export_hide" => true,
+			"group_export_hide" => true,
+			"group" => "settings",
+			"default" => "y",
+			"options" => array(
+				"n" => "chat_osc_accepts_messages_no",
+				"y" => "chat_osc_accepts_messages_yes"
+			)
+		),
 		"preferences" => array(
 						"visible_fix_value" => 1,
 						"changeable_fix_value" => 1,
@@ -759,6 +788,13 @@ class ilUserProfile
 							$ti->setDataSource($this->ajax_href."&f=".$f);
 						}
 						$a_form->addItem($ti);
+					}
+					break;
+				case "noneditable":
+					if (self::$mode == self::MODE_DESKTOP && ilUserProfile::userSettingVisible($f)) {
+						$ne = new ilNonEditableValueGUI($lng->txt($lv));
+						$ne->setValue($a_user->$m());
+						$a_form->addItem($ne);
 					}
 					break;
 			}

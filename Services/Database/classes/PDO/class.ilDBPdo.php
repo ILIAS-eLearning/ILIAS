@@ -5,6 +5,7 @@ require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
 require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
 require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
 require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
+require_once('./Services/Database/interfaces/interface.ilDBInterface.php');
 
 /**
  * Class pdoDB
@@ -86,8 +87,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @var array
 	 */
 	protected $attributes = array(
-//		PDO::ATTR_EMULATE_PREPARES => true,
-		PDO::ATTR_ERRMODE          => PDO::ERRMODE_EXCEPTION,
+		//		PDO::ATTR_EMULATE_PREPARES => true,
+		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	);
 	/**
 	 * @var string
@@ -241,24 +242,27 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function nextId($table_name) {
 		$sequence_table_name = $table_name . '_seq';
+
+		$last_insert_id = $this->pdo->lastInsertId($table_name);
+		if ($last_insert_id) {
+			return $last_insert_id;
+		}
+
 		if ($this->tableExists($sequence_table_name)) {
 			$stmt = $this->pdo->prepare("SELECT sequence FROM $sequence_table_name");
 			$stmt->execute();
 			$rows = $stmt->fetch(PDO::FETCH_ASSOC);
 			$stmt->closeCursor();
-			$has_set = isset($rows['sequence']);
-			$next_id = ($has_set ? ($rows['sequence'] + 1) : 1);
-			if ($has_set) {
-				$stmt = $this->pdo->prepare("UPDATE $sequence_table_name SET sequence = :next_id");
-			} else {
-				$stmt = $this->pdo->prepare("INSERT INTO $sequence_table_name (sequence) VALUES(:next_id)");
-			}
+			$next_id = $rows['sequence'] + 1;
+			$stmt = $this->pdo->prepare("DELETE FROM $sequence_table_name");
+			$stmt->execute(array( "next_id" => $next_id ));
+			$stmt = $this->pdo->prepare("INSERT INTO $sequence_table_name (sequence) VALUES (:next_id)");
 			$stmt->execute(array( "next_id" => $next_id ));
 
 			return $next_id;
-		} else {
-			return (int)$this->pdo->lastInsertId($this->quoteIdentifier($table_name)) + 1;
 		}
+
+		return 1;
 	}
 
 
@@ -1809,25 +1813,19 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param array $fields
 	 * @return bool
 	 */
-	public function uniqueConstraintExists($table, array $fields)
-	{
+	public function uniqueConstraintExists($table, array $fields) {
 		require_once('../Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer();
 		$cons = $analyzer->getConstraintsInformation($table);
-		foreach ($cons as $c)
-		{
-			if ($c["type"] == "unique" && count($fields) == count($c["fields"]))
-			{
+		foreach ($cons as $c) {
+			if ($c["type"] == "unique" && count($fields) == count($c["fields"])) {
 				$all_in = true;
-				foreach ($fields as $f)
-				{
-					if (!isset($c["fields"][$f]))
-					{
+				foreach ($fields as $f) {
+					if (!isset($c["fields"][$f])) {
 						$all_in = false;
 					}
 				}
-				if ($all_in)
-				{
+				if ($all_in) {
 					return true;
 				}
 			}

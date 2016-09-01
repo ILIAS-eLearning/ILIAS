@@ -299,22 +299,27 @@ class ilChatroomFormFactory
 		$protocol->addOption($https);
 
 		$certificate = new ilTextInputGUI($lng->txt('certificate'), 'cert');
+		$certificate->setInfo($lng->txt('chat_https_cert_info'));
 		$certificate->setRequired(true);
 		$https->addSubItem($certificate);
 
 		$key = new ilTextInputGUI($lng->txt('key'), 'key');
+		$key->setInfo($lng->txt('chat_https_key_info'));
 		$key->setRequired(true);
 		$https->addSubItem($key);
 
 		$dhparam = new ilTextInputGUI($lng->txt('dhparam'), 'dhparam');
+		$dhparam->setInfo($lng->txt('chat_https_dhparam_info'));
 		$dhparam->setRequired(true);
 		$https->addSubItem($dhparam);
 
 		$chatLog = new ilTextInputGUI($lng->txt('log'), 'log');
+		$chatLog->setInfo($lng->txt('chat_log_info'));
 		$chatLog->setRequired(false);
 		$form->addItem($chatLog);
 
 		$chatErrorLog = new ilTextInputGUI($lng->txt('error_log'), 'error_log');
+		$chatErrorLog->setInfo($lng->txt('chat_error_log_info'));
 		$chatErrorLog->setRequired(false);
 		$form->addItem($chatErrorLog);
 
@@ -361,32 +366,37 @@ class ilChatroomFormFactory
 
 		$form = new ilPropertyFormGUI();
 
-		$cb = new ilCheckboxInputGUI($lng->txt('chat_enabled'), 'chat_enabled');
-		$form->addItem($cb);
+		$enable_chat = new ilCheckboxInputGUI($lng->txt('chat_enabled'), 'chat_enabled');
+		$form->addItem($enable_chat);
 
-		$cb = new ilCheckboxInputGUI($lng->txt('enable_osd'), 'enable_osd');
-		$cb->setInfo($lng->txt('hint_osd'));
-		$form->addItem($cb);
+		$enable_osc = new ilCheckboxInputGUI($lng->txt('chatroom_enable_osc'), 'enable_osc');
+		$enable_osc->setInfo($lng->txt('chatroom_enable_osc_info'));
+		$enable_chat->addSubItem($enable_osc);
 
-		$txt = new ilNumberInputGUI($lng->txt('osd_intervall'), 'osd_intervall');
-		$txt->setMinValue(1);
-		$txt->setRequired(true);
-		$txt->setInfo($lng->txt('hint_osd_interval'));
-		$cb->addSubItem($txt);
+		$osd = new ilCheckboxInputGUI($lng->txt('enable_osd'), 'enable_osd');
+		$osd->setInfo($lng->txt('hint_osd'));
+		$enable_chat->addSubItem($osd);
 
-		$cb1 = new ilCheckboxInputGUI($lng->txt('play_invitation_sound'), 'play_invitation_sound');
-		$cb1->setInfo($lng->txt('play_invitation_sound'));
-		$cb->addSubItem($cb1);
+		$interval = new ilNumberInputGUI($lng->txt('osd_intervall'), 'osd_intervall');
+		$interval->setMinValue(1);
+		$interval->setRequired(true);
+		$interval->setInfo($lng->txt('hint_osd_interval'));
+		$osd->addSubItem($interval);
 
-		$cb = new ilCheckboxInputGUI($lng->txt('enable_smilies'), 'enable_smilies');
-		$cb->setInfo($lng->txt('hint_enable_smilies'));
-		$form->addItem($cb);
+		$play_sound = new ilCheckboxInputGUI($lng->txt('play_invitation_sound'), 'play_invitation_sound');
+		$play_sound->setInfo($lng->txt('play_invitation_sound'));
+		$osd->addSubItem($play_sound);
+
+		$enable_smilies = new ilCheckboxInputGUI($lng->txt('enable_smilies'), 'enable_smilies');
+		$enable_smilies->setInfo($lng->txt('hint_enable_smilies'));
+		$enable_chat->addSubItem($enable_smilies);
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php';
 		$auth = new ilChatroomAuthInputGUI($lng->txt('chatroom_auth'), 'auth');
+		$auth->setInfo($lng->txt('chat_auth_token_info'));
 		$auth->setCtrlPath(array('iladministrationgui', 'ilobjchatroomgui', 'ilpropertyformgui', 'ilformpropertydispatchgui', 'ilchatroomauthinputgui'));
 		$auth->setRequired(true);
-		$form->addItem($auth);
+		$enable_chat->addSubItem($auth);
 
 		return $form;
 	}

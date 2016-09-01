@@ -77,6 +77,12 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		require_once 'class.ilTestEvaluationGUI.php';
 		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
 		
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->object->getShowExamviewPdf())
+		{
+			ilPDFGeneration::prepareGeneration();
+		}
+
 		global $ilUser, $ilObjDataCache;
 		
 		$template = new ilTemplate("tpl.il_as_tst_submission_review.html", TRUE, TRUE, "Modules/Test");

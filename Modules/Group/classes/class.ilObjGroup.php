@@ -478,6 +478,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
+	 * Type independent wrapper
+	 * @return type
+	 */
+	public function getEnableMap()
+	{
+		return $this->getEnableGroupMap();
+	}
+	
+	/**
 	* Get Enable Group Map.
 	*
 	* @return	boolean	Enable Group Map
@@ -942,7 +951,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	* returns object id of created default member role
 	* @access	public
 	*/
-	function getDefaultMemberRole()
+	public function getDefaultMemberRole()
 	{
 		$local_group_Roles = $this->getLocalGroupRoles();
 
@@ -953,7 +962,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	* returns object id of created default adminstrator role
 	* @access	public
 	*/
-	function getDefaultAdminRole()
+	public function getDefaultAdminRole()
 	{
 		$local_group_Roles = $this->getLocalGroupRoles();
 

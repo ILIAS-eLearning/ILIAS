@@ -1,7 +1,7 @@
-﻿/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.2.x 2016-07-23 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.2.x 2016-08-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -231,9 +231,6 @@ installed#:#Telepítve
 institution#:#Intézmény
 intro_install#:#Ez az ILIAS setup-jának főlapja. Innen tudja végrehajtani a telepítést.
 ip_address#:#IP-cím
-java_path_comment_win#:#SCORM tananyagmodulok validálásához lehetőség, pl. 'C:/Program Files/Java/bin/java.exe'.
-java_path_comment#:#SCORM tananyagmodulok validálásához lehetőség, pl. '/your_path/java'.
-java_path#:#Java elérési útvonal
 lang_ar#:#Arab
 lang_bg#:#Bolgár
 lang_cs#:#Cseh
@@ -613,3 +610,12 @@ cache_flush#:#Összes gyorsítótár ürítése
 cache_activate_tpl_blocks#:#Sablon (blokkok)
 cache_activate_tpl_variables#:#Sablon (változók)
 cache_activate_all#:#Összes
+error_log_path#:#Hibafájlok útvonala
+error_log_path_comment#:#Csak útvonalat adjon meg, hiba esetén a fájlokat automatikusan oda mentjük.
+enable_system_styles_management#:#Rendszerstílusok kezelése
+enable_system_styles_management_info#:#Rendszerstílusok (Skin-ek) kezelése (létrehozása, módosítása, törlése) a Rendszerbeállítások » Stílus és elrendezés almenüje alatt.
+lessc_path#:#Lessc útvonala
+lessc_path_comment#:#A Lessc less fájlok CSS fájllá fordításához, azaz a Rendszerbeállításokban less változók módosítása miatt a rendszerstílusok új css fájljainak generálásához szükséges.
+lessc#:#Lessc útvonala
+db_switch_legacy#:#Az Ön által jelenleg használt adatbázistípusnál újabbat implementáltunk az ILIAS-ba, mely szintén kompatibilis PHP7-tel. Átvált a következőre:
+db_switch_legacy_button#:#Átváltás

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once ('./Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php');
+require_once ('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 /**
  * Class ilDclTableListGUI
  *
@@ -178,7 +179,7 @@ class ilDclTableListGUI {
 			$conf->addItem('dcl_table_ids[]', $table_id, ilDclCache::getTableCache($table_id)->getTitle());
 		}
 		$conf->setConfirm($this->lng->txt('delete'), 'deleteTables');
-		$conf->setCancel($this->lng->txt('cancel'), 'show');
+		$conf->setCancel($this->lng->txt('cancel'), 'listTables');
 		$this->tpl->setContent($conf->getHTML());
 	}
 
@@ -189,9 +190,8 @@ class ilDclTableListGUI {
 	{
 		$tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
 		foreach ($tables as $table_id) {
-			ilDclCache::getTableCache($table_id)->doDelete(true);
+			ilDclCache::getTableCache($table_id)->doDelete();
 		}
-		$this->table->sortTableViews();
 		ilUtil::sendSuccess($this->lng->txt('dcl_msg_tables_deleted'), true);
 		$this->ctrl->redirect($this, 'listTables');
 	}

@@ -12,7 +12,7 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 /**
  * @ilCtrl_Calls      ilUsersGalleryGUI: ilPublicUserProfileGUI
- * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilObjCourseGUI, ilObjGroupGUI
+ * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
  */
 class ilUsersGalleryGUI
 {

@@ -1010,7 +1010,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 				foreach($roles as $role_id)
 				{
-					$data = array_merge($rbacreview->assignedUsers($role_id, array()),$data);
+					$data = array_merge($rbacreview->assignedUsers($role_id),$data);
 				}
 
 				break;

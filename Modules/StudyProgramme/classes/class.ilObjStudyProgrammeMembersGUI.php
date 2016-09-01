@@ -151,7 +151,7 @@ class ilObjStudyProgrammeMembersGUI {
 		}
 		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
-		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this);
+		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this, "view");
 		return $table->getHTML();
 	}
 

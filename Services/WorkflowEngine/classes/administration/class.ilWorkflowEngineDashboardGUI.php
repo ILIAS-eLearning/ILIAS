@@ -32,6 +32,6 @@ class ilWorkflowEngineDashboardGUI
 	 */
 	public function handle($command)
 	{
-		return "Hello, world";
+		return "";
 	}
 }

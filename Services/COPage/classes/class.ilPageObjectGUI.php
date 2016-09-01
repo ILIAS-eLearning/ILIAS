@@ -1826,7 +1826,8 @@ return;
 		}
 		$output = str_replace("&amp;", "&", $output);
 		
-		$output = ilUtil::insertLatexImages($output);
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		$output = ilMathJax::getInstance()->insertLatexImages($output);
 
 		// insert page snippets
 		//$output = $this->insertContentIncludes($output);

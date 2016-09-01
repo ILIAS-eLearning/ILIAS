@@ -71,6 +71,10 @@ il.Awareness = {
 		t.afterListUpdate();
 	},
 
+	close: function() {
+		$('#awareness_trigger a').popover("hide");
+	},
+
 	reload: function () {
 		var t = il.Awareness;
 		t.updateList($("#il_awareness_filter").val());

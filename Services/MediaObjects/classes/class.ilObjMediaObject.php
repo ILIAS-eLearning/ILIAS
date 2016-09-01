@@ -1544,8 +1544,10 @@ class ilObjMediaObject extends ilObject
 		{
 			if ($size[0] > 0 && $size[1] > 0)
 			{
-				$width = $size[0];
-				$height = $size[1];
+				//$width = $size[0];
+				//$height = $size[1];
+				$width = "";
+				$height = "";
 			}
 			else
 			{
@@ -1584,6 +1586,16 @@ class ilObjMediaObject extends ilObject
 //echo "<br>D-$width-$height-";
 		}
 //echo "<br>E-$width-$height-";
+
+		if ($width == 0 && $a_user_width === "")
+		{
+			$width = "";
+		}
+		if ($height == 0 && $a_user_height === "")
+		{
+			$height = "";
+		}
+
 		return array("width" => $width, "height" => $height, "info" => $info);
 	}
 

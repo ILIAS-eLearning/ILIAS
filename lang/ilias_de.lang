@@ -323,6 +323,8 @@ assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet si
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
+assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
@@ -881,6 +883,13 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
+assessment#:#tst_non_avail_pools_table#:#Nicht verfügbare Fragenpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Der Fragenpool liegt im Papierkorb.</b><br />Sollte er permanent vom System entfernt werden kann der Test die Fragen aus diesem Pool nicht erneut synchronisieren.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
+assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
+assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
+assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
+assessment#:#tst_non_available_pool_newly_derived#:#Der/die neue(n) Fragenpool(s) wurde(n) erfolgreich abgeleitet.
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
@@ -2458,7 +2467,7 @@ common#:#access_scope#:#Zugriff
 common#:#access_unlimited#:#unbefristet
 common#:#access_until#:#Zugriff bis
 common#:#access_users#:#Eingeloggte Benutzer
-common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
+common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
 common#:#accessFree#:#Zeitliche Begrenzung aufheben
 common#:#accessRestrict#:#Zugriff zeitlich begrenzen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
@@ -2807,10 +2816,10 @@ common#:#cat_wizard_page#:#Kategorie kopieren (Schritt 2/2)
 rbac#:#cat_write#:#Einstellungen der Kategorie bearbeiten und Inhalte verwalten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
-common#:#catr#:#Kategorie-Referenz
-common#:#catr_edit#:#Kategorie-Referenz bearbeiten
-common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
-common#:#catr_new#:#Neue Kategorie-Referenz anlegen
+common#:#catr#:#Kategorielink
+common#:#catr_edit#:#Kategorielink bearbeiten
+common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
+common#:#catr_new#:#Neue Kategorielink anlegen
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 rbac#:#cert_edit_permission#:#Rechteeinstellungen in Administration ändern
@@ -2985,7 +2994,8 @@ common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_all_questions_answered_successfully#:#Sie haben bereits alle Fragen korrekt beantwortet.
 common#:#crs_archives#:#Archive
-common#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
+crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
+grp#:#grp_at_least_one_admin#:#Dieser Gruppe muss mindestens ein Administrator zugeordnet sein.
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
@@ -3015,10 +3025,10 @@ common#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
 rbac#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
-common#:#crsr#:#Kurs-Referenz
-common#:#crsr_edit#:#Kurs-Referenz bearbeiten
-common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
-common#:#crsr_new#:#Neue Kurs-Referenz anlegen
+common#:#crsr#:#Kurslink
+common#:#crsr_edit#:#Kurslink bearbeiten
+common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
+common#:#crsr_new#:#Neue Kurslink anlegen
 common#:#csv_export#:#CSV-Export
 common#:#cumulative_time#:#Kumulative Zeit
 common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
@@ -3076,6 +3086,8 @@ common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Ro
 common#:#delete_inactive_user_accounts_interval#:#Häufigkeit
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
+common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
 common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt der Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
@@ -4204,7 +4216,7 @@ common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
 common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s.
 common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
 common#:#msg_obj_modified#:#Änderungen gespeichert
-common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden das Referenz-Objekt für Kurse und Kategorien.
+common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden die Objekttypen Kategorienlink, Kurslink bzw. Gruppenlink.
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
@@ -4338,7 +4350,7 @@ common#:#obj_cals_desc#:#Enthält globale Einstellungen für den Kalender.
 common#:#obj_cat#:#Kategorie
 common#:#obj_cat_duplicate#:#Kategorie kopieren
 common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
-common#:#obj_catr#:#Kategorie-Referenz
+common#:#obj_catr#:#Kategorielink
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_cert#:#Zertifikate
 common#:#obj_cert_desc#:#Einstellungen für Zertifikate
@@ -4354,7 +4366,7 @@ common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
-common#:#obj_crsr#:#Kurs-Referenz
+common#:#obj_crsr#:#Kurslink
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
 common#:#obj_exc_duplicate#:#Übung kopieren
@@ -4488,12 +4500,12 @@ common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_alm#:#AICC-Lernmodule
 common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
-common#:#objs_catr#:#Kategorie-Referenzen
+common#:#objs_catr#:#Kategorielinks
 common#:#objs_chat#:#Chats
 common#:#objs_chtr#:#Chaträume
 common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
-common#:#objs_crsr#:#Kurs-Referenzen
+common#:#objs_crsr#:#Kurslinks
 common#:#objs_dbk#:#Digilib-Bücher
 common#:#objs_delete#:#Objekte löschen
 common#:#objs_exc#:#Übungen
@@ -4679,7 +4691,7 @@ common#:#proxy_connectable#:#Verbindung hergestellt.
 common#:#proxy_host#:#Host
 common#:#proxy_host_info#:#Tragen Sie hier einen Host ein.
 common#:#proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
-common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
+common#:#proxy_socket_error#:#Socket-Fehler: %s
 common#:#proxy_port#:#Port
 common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
 common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
@@ -4721,12 +4733,12 @@ common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern, die online sind, ist erreicht. Bitte versuchen sie es später noch einmal.
 common#:#read#:#Lesezugriff
-common#:#readcount_anonymous_users#:#Anzahl anonymer Lesezugriffe
-common#:#readcount_users#:#Anzahl nicht-anonymer Lesezugriffe
+common#:#readcount_anonymous_users#:#Lesezugriffe anonymer Benutzer
+common#:#readcount_users#:#Lesezugriffe registrierter Benutzer
 common#:#recf_edit#:#Rettungsordner bearbeiten
 common#:#recipient#:#Empfänger
 common#:#reference_deleted#:#Ziel nicht vorhanden
-common#:#reference_of#:#Referenz von:
+common#:#reference_of#:#Link zu:
 common#:#referral_comment#:#Woher kennen Sie ILIAS?
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
@@ -4735,7 +4747,6 @@ common#:#refuse#:#Antrag ablehnen
 common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
-common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
 common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
@@ -6665,6 +6676,7 @@ crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
 crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Sie möchten folgende Mitglieder aus dem Kurs austragen?
+grp#:#grp_header_delete_members#:#Sie möchten folgende Mitglieder aus der Gruppe austragen?
 crs#:#crs_header_delete_subscribers#:#Anträge löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
@@ -6716,7 +6728,8 @@ crs#:#crs_member_of#:#Mitglied des Kurses:
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members#:#Mitglieder
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
 crs#:#crs_members_groups#:#Gruppenmitgliedschaften
@@ -9559,24 +9572,24 @@ rbac#:#cals_read#:#Lesezugriff auf Einstellungen der Kalender-Administration
 rbac#:#cals_visible#:#Kalender-Administration sind sichtbar
 rbac#:#cals_write#:#Einstellungen der Kalender-Administration bearbeiten
 rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
-rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
-rbac#:#catr_delete#:#Kategorie-Referenzen verschieben oder löschen
+rbac#:#catr_copy#:#Kategorielinks kopieren
+rbac#:#catr_delete#:#Kategorielinks verschieben oder löschen
 rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
-rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar und können genutzt werden
-rbac#:#catr_write#:#Einstellungen der Kategorie-Referenzen bearbeiten
+rbac#:#catr_read#:#Lesezugriff auf Kategorielinks
+rbac#:#catr_visible#:#Kategorielinks sind sichtbar und können genutzt werden
+rbac#:#catr_write#:#Einstellungen der Kategorielinks bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
 rbac#:#cmps_visible#:#Administration für Plugins, Module und Dienste ist sichtbar
 rbac#:#cmps_write#:#Einstellungen für Plugins, Module und Dienste bearbeiten
 rbac#:#rbac_create_sess#:#Sitzung anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
-rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
-rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
+rbac#:#crsr_copy#:#Kurslinks kopieren
+rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
-rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
-rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
+rbac#:#crsr_read#:#Lesezugriff auf Kurslinks
+rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
+rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
@@ -9731,10 +9744,10 @@ rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der aus
 rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
 rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
-rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
+rbac#:#rbac_create_catr#:#Kategorienlink anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
 rbac#:#rbac_create_crs#:#Kurs anlegen
-rbac#:#rbac_create_crsr#:#Kursreferenz anlegen
+rbac#:#rbac_create_crsr#:#Kurslink anlegen
 rbac#:#rbac_create_exc#:#Übung anlegen
 rbac#:#rbac_create_feed#:#Webfeed anlegen
 rbac#:#rbac_create_file#:#Datei hochladen
@@ -11651,7 +11664,12 @@ trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 tstv#:#tstv_create#:#Testzertifikat erstellen
 tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
+user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
+user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
+user#:#clipboard_table_title#:#Zwischenablage (Benutzerkonten)
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
+user#:#clipboard_remove_btn#:#Aus Zwischenablage entfernen
+user#:#clipboard_empty_btn#:#Zwischenablage leeren
 user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien und Organisationseinheiten angelegt und verwaltet werden.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
@@ -12024,6 +12042,7 @@ dcl#:#dcl_edit#:#Datensammlung bearbeiten
 dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Exportierbar
 dcl#:#dcl_tables#:#Tabellen
+dcl#:#dcl_invalid_regex_config#:#Der reguläre Ausdruck, der für dieses Feld konfiguriert ist, ist ungültig. Überprüfen Sie die Einstellungen dieses Feldes, um das Problem zu beheben.
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
 rbac#:#dcl_copy#:#Datensammlung kopieren
@@ -12101,6 +12120,7 @@ dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeins
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
 dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
+dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
 dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
@@ -12224,10 +12244,10 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
-objref#:#objref_edit_ref#:#Ziel der Referenz
+objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
-objref#:#objref_title_settings#:#Titel der Referenz
-objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
+objref#:#objref_title_settings#:#Titel des verlinkten Objekts
+objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
 objref#:#objref_custom_title#:#Eigenen Titel verwenden
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
 dateplaner#:#cal_import_appointments#:#Termine importieren
@@ -12443,6 +12463,8 @@ dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
 dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
 dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
+dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht
+dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
@@ -12659,8 +12681,8 @@ common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf Beiträge hinzufügen
 blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
-dcl#:#dcl_visible#:#Im Menu zeigen
-dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
+dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
+dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
 dcl#:#dcl_empty_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
@@ -12690,6 +12712,29 @@ mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, wie sie in Ihrer MathJax-Installation konfiguriert sind.
+mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_enable_client#:#MathJax im Browser aktivieren
+mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
+mathjax#:#mathjax_enable_server_info#:#Aktiviert eine serverseitige Umwandlung von TeX in Grafiken.
+mathjax#:#mathjax_server_installation#:# » Installation
+mathjax#:#mathjax_server_address#:#Server-Adresse
+mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
+mathjax#:#mathjax_server_timeout#:#Antwortzeit
+mathjax#:#mathjax_server_timeout_info#:#Maximale Wartezeit auf eine Antwort des MathJax-Servers in Sekunden
+mathjax#:#mathjax_server_for_pdf#:#Für die PDF-Erzeugung verwenden
+mathjax#:#mathjax_server_for_pdf_info#:#Der Server wird zur Darstellung von TeX in PDF-Dokumenten verwendet.
+mathjax#:#mathjax_server_for_browser#:#Für den Browser verwenden
+mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.###fau: lateex
+mathjax#:#mathjax_server_for_export#:#Für HTML-Exporte verwenden
+mathjax#:#mathjax_server_for_export_info#:#TeX wird in HTML-Exporten von Lernmodulen als SVG-Grafik exportiert.
+mathjax#:#mathjax_server_cached#:#Grafiken cachen
+mathjax#:#mathjax_server_cached_info#:#Erzeugte Grafiken werden im Webdatenverzeichnis von ILIAS gespeichert.
+mathjax#:#mathjax_server_clear_cache#:# » Cache leeren
+mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
+mathjax#:#mathjax_server_cache_size#:#Cache-Größe
+mathjax#:#mathjax_server_cache_size_info#:#Festplattenspeicher, der zur Speicherung der Grafiken verbraucht wird.
+mathjax#:#mathjax_test_expression#:#Test-Ausdruck
+mathjax#:#mathjax_test_expression_info#:#Dieser LaTeX-Ausdruck wird mit den gespeicherten MathJax-Einstellungen dargestellt.
 content#:#cont_initial_attached_content#:#Zusätzliche Einstiegsinhalte
 content#:#cont_topic#:#Thema
 content#:#cont_selected_topic#:#Ausgewähltes Thema
@@ -12804,7 +12849,7 @@ ecs#:#ecs_cmap_enable#:#Kurszuordnung
 ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
 ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
 ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
-ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
+ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurslinks angelegt.
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
@@ -13511,6 +13556,7 @@ content#:#cont_verification_placehl#:#Zertifikat-Platzhalter
 content#:#cont_ed_plachverification#:#Platzhalter Zertifikat
 cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen. Es wurde kein Cloud-Objekt angelegt.
 common#:#objs_orgu#:#Organisationseinheiten
+common#:#org_units#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#il_orgu_employee#:#Mitarbeiter
@@ -14520,6 +14566,8 @@ wiki#:#wiki_purpose#:#Zweck
 wiki#:#wiki_select_one_item#:#Bitte wählen Sie ein Element aus.
 trac#:#trac_mode_questions#:#Alle Fragen richtig beantwortet
 trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet haben, erhalten automatisch den Status 'Bearbeitet'. Bitte nutzen Sie diese Option nur, wenn auch tatsächlich Fragen im Lernmodul vorliegen.
+crs#:#crs_mem_tbl_header#:#Kursteilnehmer
+grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
@@ -15084,7 +15132,7 @@ sysc#:#sysc_cron_empty_trash_desc#:#Wenn aktiviert, werden Objekte des Papierkor
 sysc#:#sysc_task_tree_missing_tree#:#Fehlende Einträge im Magazinbaum
 sysc#:#sysc_task_tree_missing_tree_desc#:#Sucht und repariert fehlende Einträge referenzierter Objekte im Magazinbaum.
 sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
-sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objekt-Referenzen für Einträge im Magazinbaum.
+sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objektreferenzen für Einträge im Magazinbaum.
 sysc#:#sysc_task_structure#:#Baumstruktur
 sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
 forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
@@ -15567,11 +15615,11 @@ prg#:#prg_async_settings#:#Einstellungen
 prg#:#prg_open_node#:#Zum Studienprogramm wechseln.
 prg#:#prg_async_create#:#Neues Element hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
-prg#:#prg_create_new_leaf#:#Neue Kursreferenz hinzufügen.
-prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie eine Kursreferenz.
+prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie einen Kurslink.
 prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
 prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht entfernen.
-prg#:#prg_added_course_ref_successful#:#Neue Kursreferenz erfolgreich hinzugefügt.
+prg#:#prg_added_course_ref_successful#:#Neuer Kurslink erfolgreich hinzugefügt.
 prg#:#prg_manage#:#Verwalten
 prg#:#prg_view#:#Anzeigen
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
@@ -15763,14 +15811,14 @@ book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
 chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
-chatroom#:#chatroom_auth_btn_txt#:#Schüssel generieren
+chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#key#:#Schlüssel
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
-chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, eine alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
+chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
-chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, eine alternative URL für die Verbindung zwischen Client und Server zu definieren.
-chatroom#:#connection_url_info#:#Tragen Sie hier eine URL ohne Protokoll-Definition ein.
+chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
+chatroom#:#connection_url_info#:#Tragen Sie hier einen URL <b>ohne</b> Protokoll-Definition ein.
 chatroom#:#log#:#Chatserver Log-File
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
@@ -15817,8 +15865,19 @@ pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systmenachric
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
+logging#:#log_error_message#:#Fehler %s ist aufgetreten.
+logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
+logging#:#log_error_folder#:#Dateipfad
+logging#:#log_error_mail#:#Email Empfänger
+logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
+logging#:#error_settings_saved#:#Einstellungen gespeichert
+logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog Dateien
+logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
+logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 common#:#objs_prtf#:#Portfolios
+grp#:#grp_member_administration#:#Teilnehmerverwaltung
 survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
 survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
@@ -15835,19 +15894,19 @@ survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen. 
-common#:#grpr#:#Gruppen-Referenz
-common#:#grpr_edit#:#Gruppen-Referenz bearbeiten
-common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie eine Referenz erstellen möchten.
-common#:#grpr_new#:#Neue Gruppen-Referenz anlegen
-common#:#obj_grpr#:#Gruppen-Referenz
-common#:#objs_grpr#:#Gruppen-Referenzen
-rbac#:#grpr_copy#:#Gruppen-Referenzen kopieren
-rbac#:#grpr_delete#:#Gruppen-Referenzen verschieben oder löschen
+common#:#grpr#:#Gruppenlink
+common#:#grpr_edit#:#Gruppenlink bearbeiten
+common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
+common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#obj_grpr#:#Gruppenlink
+common#:#objs_grpr#:#Gruppenlinks
+rbac#:#grpr_copy#:#Gruppenlinks kopieren
+rbac#:#grpr_delete#:#Gruppenlinks verschieben oder löschen
 rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#grpr_read#:#Lesezugriff auf Gruppen-Referenzen
-rbac#:#grpr_visible#:#Gruppen-Referenzen sind sichtbar und können genutzt werden
-rbac#:#grpr_write#:#Einstellungen der Gruppen-Referenzen bearbeiten
-rbac#:#rbac_create_grpr#:#Gruppen-Referenz anlegen
+rbac#:#grpr_read#:#Lesezugriff auf Gruppenlinken
+rbac#:#grpr_visible#:#Gruppenlinks sind sichtbar und können genutzt werden
+rbac#:#grpr_write#:#Einstellungen der Gruppenlinks bearbeiten
+rbac#:#rbac_create_grpr#:#Gruppenlink anlegen
 common#:#obj_bdga#:#Badges
 common#:#obj_bdga_desc#:#Verwaltung der Typen, Bildvorlagen und Activity Badges
 rbac#:#bdga_visible#:#Badge-Verwaltung ist sichtbar
@@ -15948,6 +16007,8 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+prg#:#prg_assign_date#:#Hinzugefügt am
+prg#:#prg_assigned_by#:#Hinzugefügt von
 survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
 survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
@@ -16059,7 +16120,7 @@ style#:#adapt_less#:#Anpassung der Less Datei
 style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
 style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
 style#:#adapt_icons#:#Anpassung der Iconfarben
-style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig:
+style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
 style#:#provided_less_path#:#Angegebener lessc Pfad:
 style#:#used_colors#:#Benutzte Farben:
 style#:#style_imported#:#Style wurde erfolgreich importiert nach:
@@ -16112,168 +16173,6 @@ exc#:#exc_settings_feedback_file#:#Datei
 mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
 mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
-ccmt#:#ccmt_perform_reporting_data_update#:#Daten des Berichtswesens aktualisieren
-ccmt#:#ccmt_custom_reporting_tool#:#Berichtswesen
-ccmt#:#ccmt_custom_reporting_tool_desc#:#Hier sehen Sie den Lernstand Ihrer Mitarbeiter.<br />Bitte beachten Sie, dass die Daten im Berichtswesen nächtlich aktualisiert werden.
-ccmt#:#ccmt_view_by_switch_label#:#Anzeige nach
-ccmt#:#ccmt_numbers_switch_label#:#Darstellung Zahlen
-ccmt#:#ccmt_filter_course_label#:#Filter Kurs
-ccmt#:#ccmt_filter_crstype_label#:#Filter Kursart
-ccmt#:#ccmt_filter_memtype_label#:#Filter Mitgliedschaft
-ccmt#:#ccmt_filter_crsparent_label#:#Filter Kurs Container
-ccmt#:#ccmt_filter_period_label#:#Filter Zeitraum
-ccmt#:#ccmt_period_filter_label_use#:#Verwende Filter
-ccmt#:#ccmt_period_filter_label_not_use#:#Verwende Filter nicht
-ccmt#:#ccmt_filter_period_start#:#Von
-ccmt#:#ccmt_filter_period_end#:#Bis
-ccmt#:#ccmt_filter_option_all#:#Alle
-ccmt#:#ccmt_viewby_option_course#:#Kurs
-ccmt#:#ccmt_viewby_option_crsparent#:#Kurs Container
-ccmt#:#ccmt_viewby_option_crstype#:#Kursart
-ccmt#:#ccmt_viewby_option_orgunit#:#Organisationseinheit
-ccmt#:#ccmt_viewby_option_user#:#Mitarbeiter
-ccmt#:#ccmt_numbers_option_absolute#:#Absolut
-ccmt#:#ccmt_numbers_option_relative#:#Relativ
-ccmt#:#ccmt_filter_crstype_option_optional#:#Freiwillig
-ccmt#:#ccmt_filter_crstype_option_mandatory#:#Pflicht
-ccmt#:#ccmt_filter_memtype_option_auto#:#Automatisch zugewiesen
-ccmt#:#ccmt_filter_memtype_option_manual#:#Manuell zugewiesen
-ccmt#:#ccmt_aggregation_entity_course_total#:#Alle Kurse
-ccmt#:#ccmt_aggregation_entity_crstype_total#:#Alle Kursarten
-ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Alle Kurs Container
-ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Alle Organisationseinheiten
-ccmt#:#ccmt_table_column_course#:#Kurs
-ccmt#:#ccmt_table_column_crsparent#:#Kurs Container
-ccmt#:#ccmt_table_column_crstype#:#Kursart
-ccmt#:#ccmt_table_column_orgunit#:#Organisationseinheit
-ccmt#:#ccmt_table_column_user#:#Mitarbeiter
-ccmt#:#ccmt_table_column_assigned#:#Kurszuweisungen
-ccmt#:#ccmt_table_column_not_attempted#:#Nicht bearbeitet
-ccmt#:#ccmt_table_column_notattempted#:#Nicht bearbeitet
-ccmt#:#ccmt_table_column_inprogress#:#In Bearbeitung
-ccmt#:#ccmt_table_column_in_progress#:#In Bearbeitung
-ccmt#:#ccmt_table_column_completed#:#Abgeschlossen
-ccmt#:#ccmt_table_column_failed#:#Nicht abgeschlossen
-ccmt#:#ccmt_table_column_lp_ratio#:#Lernquote
-ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Zertifikate
-ccmt#:#ccmt_table_column_past_due#:#Überfällig
-ccmt#:#ccmt_table_column_event_days#:#Veranstaltungstage
-ccmt#:#ccmt_not_available#:#offen
-ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lernfortschritt nach Kursen
-ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lernfortschritt nach Kursarten
-ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lernfortschritt nach Kurs Containern
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lernfortschritt nach Organisationseinheit
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_detailed_status_table_header#:#Detaillierter Lernfortschritt
-ccmt#:#ccmt_detailed_status_table_noitems#:#Es existieren keine Kurszuweisungen, die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_table_column_lp_status#:#Status
-ccmt#:#ccmt_table_column_deadline_date#:#Fälligkeit Kurs
-ccmt#:#ccmt_table_column_is_mandatory#:#Kursart (Pflicht/Freiwillig)
-ccmt#:#ccmt_table_column_last_access#:#Letzter Zugriff
-ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Erfüllt am
-ccmt#:#ccmt_lp_status_notattempted#:#Nicht bearbeitet
-ccmt#:#ccmt_lp_status_inprogress#:#In Bearbeitung
-ccmt#:#ccmt_lp_status_completed#:#Abgeschlossen
-ccmt#:#ccmt_lp_status_failed#:#Nicht abgeschlossen
-ccmt#:#ccmt_course_type_mandatory#:#Pflicht
-ccmt#:#ccmt_course_type_optional#:#Freiwillig
-ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Bericht erzeugen
-ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export erzeugen
-ccmt#:#ccmt_menu_item_reporting#:#Berichtswesen
-ccmt#:#ccmt_info_block_label_all_users#:#Anzahl Benutzer
-ccmt#:#ccmt_info_block_label_all_courses#:#Anzahl Kurse
-ccmt#:#ccmt_info_block_label_all_memberships#:#Anzahl Mitgliedschaften
-ccmt#:#ccmt_info_block_label_all_session_days#:#Anzahl Sitzungstage
-ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Die folgenden Kurse wurden aufgrund der jeweiligen Tracking Einstellungen in der Auswertung nicht berücksichtigt:<br />%s
-ccmt#:#ccmt_course_error_lp_mode#:#Der Status für den Kurs "%s" mit der ID "%s" konnte nicht ermittelt werden, da das Tracking auf einen nicht kompatiblen Modus eingestellt ist.<br />Aktueller Modus ist "%s" / Benötigter Modus ist "%s"
-ccmt#:#ccmt_course_error_lp_deactivated#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da das Tracking deaktiviert ist.
-ccmt#:#ccmt_course_error_invalid_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von einem Subobjekt ab, dessen Objekttyp vom Reporting nicht unterstützt wird.
-ccmt#:#ccmt_course_error_multi_obj#:#Der Status für den Kurs "%s" mit der ID "%s" hängt von mehr als nur einem Subobjekt ab.
-ccmt#:#ccmt_course_error_missing_obj#:#Der Status für den Kurs "%s" mit der ID "%s" kann nicht ermittelt werden, da keine relevanten Subobjekte definiert wurden, von denen der Status abhängen soll.
-ccmt#:#ccmt_print_view#:#Druckansicht alle Kurse
-ccmt#:#ccmt_print_view_mandatory_non_completed#:#Druckansicht offene Kurse
-ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Offene Kurse im %s
-ccmt#:#ccmt_print_window_title_orgunit#:#Alle Kurse im %s
-ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Offene Kurse für %s
-ccmt#:#ccmt_print_window_title_user#:#Alle Kurse für %s
-ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Es existieren keine offenen Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_detailed_status_print_view_noitems#:#Es existieren keine Kurszuweisungen,<br />die zur aktuellen Auswahl passen.
-ccmt#:#ccmt_print_table_column_user#:#Mitarbeiter
-ccmt#:#ccmt_print_table_column_course#:#Kurs
-ccmt#:#ccmt_print_table_column_lp_status#:#Status
-ccmt#:#ccmt_print_table_column_is_mandatory#:#Kursart
-ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Erfüllt am
-ccmt#:#ccmt_print_table_column_learning_date#:#Lernen am
-ccmt#:#ccmt_print_table_column_last_access#:#Letzter Zugr.
-ccmt#:#ccmt_print_table_column_deadline_date#:#Fällig bis
-ccmt#:#ccmt_all_employees#:#Alle Mitarbeiter
-ccmt#:#ccmt_table_column_num_users#:#Anzahl Mitarbeiter
-ccmt#:#export_all_lp#:#Lernfortschritt exportieren
-ccmt#:#export_learning_progress#:#Lernfortschritt exportieren
-ccmt#:#export_lp#:#Datei auswählen
-ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
-ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Zertifikat gültig bis
-ccmt#:#ccmt_search_no_user_found#:#Ihre Suche hat leider keine Treffer ergeben.
-ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
-ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
-bot#:#bot_view_by_switch_label#:#Anzeige nach
-bot#:#bot_filter_course_label#:#Filter Kurs
-bot#:#bot_filter_category_label#:#Filter Kurstyp
-bot#:#bot_filter_period_label#:#Filter Zeitraum
-bot#:#bot_period_filter_label_use#:#Verwende Filter
-bot#:#bot_period_filter_label_not_use#:#Verwende Filter nicht
-bot#:#bot_filter_period_start#:#Von
-bot#:#bot_filter_period_end#:#Bis
-bot#:#bot_filter_option_all#:#Alle
-bot#:#bot_viewby_option_course#:#Kurs
-bot#:#bot_viewby_option_category#:#Kurstyp
-bot#:#bot_viewby_option_orgunit#:#Organisationseinheit
-bot#:#bot_viewby_option_user#:#Mitarbeiter
-bot#:#bot_course_name#:#Kurstitel
-bot#:#bot_course_date#:#Datum
-bot#:#bot_course_max_members#:#Anzahl der Plätze
-bot#:#bot_course_num_subs#:#Anzahl der Buchungen
-bot#:#bot_course_subs_left#:#Offene Plätze
-bot#:#bot_course_capacity_utilisation#:#Auslastungsquote
-bot#:#bot_unlimited#:#unbegrenzt
-bot#:#bot_booking_ratio_undefined#:#offen
-bot#:#bot_cancelation_ratio_undefined#:#undefiniert
-bot#:#bot_menu_item_backoffice#:#Backoffice
-bot#:#bot_list_course_capacity_left#:#Liste der Kurse mit offenen Plätzen
-bot#:#bot_list_course_participants#:#Teilnehmerliste des Kurses
-bot#:#bot_lastname#:#Nachname
-bot#:#bot_firstname#:#Vorname
-bot#:#bot_group_category#:#Kurstyp
-bot#:#bot_group_orgunit#:#Organisationseinheit
-bot#:#bot_course_number_events#:#Anzahl der Kurse
-bot#:#bot_course_num_cancel#:#Anzahl der Stornierungen
-bot#:#bot_course_cancel_q#:#Stornierungsquote
-bot#:#bot_list_course_cancelations#:#Liste der Stornierungen
-bot#:#bot_crs_bookings#:#Buchungsübersicht
-bot#:#bot_back_to_crs_bookings#:#Zurück zur Buchungsübersicht
-bot#:#bot_crs_cancelations#:#Stornierungsübersicht
-bot#:#bot_viewby_option_orgunit_district#:#Bezirk
-bot#:#bot_viewby_option_orgunit_shop#:#Verkaufstelle
-bot#:#bot_course_booking#:#Buchung
-bot#:#bot_booking_txt#:#Teilnehmer hinzufügen
-bot#:#bot_crs_needs#:#Bedarfsübersicht
-bot#:#bot_filter_category2_label#:#Aufbaukurstyp
-bot#:#bot_list_course_needs#:#Analyse der Trainingsbedarfe
-bot#:#bot_area#:#Bezirk
-bot#:#bot_status#:#Status
-bot#:#bot_overdue_but_member#:#Überfällig, aber gebucht
-bot#:#bot_overdue#:#Überfällig
-bot#:#bot_vst#:#VST
-bot#:#bot_course_location#:#Ort
-bot#:#bot_filter_position_label#:#Position
-bot#:#bot_filter_months_label#:#Zeitlimit
-bot#:#bot_toolbar_export#:#Export erzeugen
-bot#:#bot_toolbar_submit_create_report_screen#:#Bericht erzeugen
-bot#:#bot_month#:#%s Monat
-bot#:#bot_months#:#%s Monate
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
@@ -16381,11 +16280,11 @@ rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
 mass#:#mass_add#:#Manuelle Bewertung anlegen
-mass#:#mass_membership_finalized#:#Status finalisiert
-mass#:#mass_membership_saved#:#Status gespeichert, jedoch noch nicht finalisiert
+mass#:#mass_membership_finalized#:#Prüfungsdaten finalisiert
+mass#:#mass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
 mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
-mass#:#mass_finalize_user_qst#:#Soll der Status des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
@@ -16401,7 +16300,42 @@ mass#:#mass_phone#:#Telefon
 mass#:#mass_mails#:#E-Mail
 mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
-mass#:#mass_edit_info#:#Informationseinstellungen
+mass#:#mass_edit_info#:#Einstellungen Kontakt
 mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
 mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
+registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
+chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
+chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
+chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
+chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
+chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt. 
+chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
+chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann individuell entschieden werden, ob man von anderen Benutzern angesprochen werden möchte. Konversationen können über das  ‘Who is online?’-Tool begonnen werden.
+chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
+chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
+chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
+chatroom#:#chat_osc_accepts_messages_yes#:#Empfängt Chat-Nachrichten
+chatroom#:#chat_osc_conversations#:#Konversationen
+chatroom#:#chat_osc_send#:#Senden
+chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
+chatroom#:#chat_osc_add_user#:#Weitere Benutzer zum Chat hinzufügen
+chatroom#:#chat_osc_user#:#Benutzer
+chatroom#:#chat_osc_write_a_msg#:#Verfasse eine Nachricht ...
+chatroom#:#chat_osc_emoticons#:#Emoticons
+chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
+chatroom#:#chat_osc_section_head_other_rooms#:#Öffentlicher Chatraum
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
+chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
+chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
+chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren 'Persönlichen Einstellungen' ändern.
+chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
+usr#:#user_actions#:#Benuzteraktionen
+usr#:#user_action#:#Benuzteraktione
+buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
+usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
+chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
+chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
+form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen sie ihre Eingabe.

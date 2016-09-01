@@ -6,7 +6,6 @@
 /.settings
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
-libs/.gitignore
 
 # General Patterns
 *.bak
@@ -19,11 +18,12 @@ libs/.gitignore
 # Generated Files
 /ilias.ini.php
 /ilias.log
-db_template_writer.php
+/db_template_writer.php
+/setup/sql/dbupdate_custom.php
 
 # Directories
 /data
-#/Customizing/global
+/Customizing/global
 /setup/sql/ilDBTemplate
 virtual-data
 
@@ -31,5 +31,3 @@ virtual-data
 /dicto/results/*
 !/dicto/results/README.md
 override.php
-
-.svn
