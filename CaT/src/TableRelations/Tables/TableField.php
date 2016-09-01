@@ -4,8 +4,7 @@ namespace CaT\TableRelations\Tables;
 
 use CaT\Filter as Filters;
 /**
- * A field combining Predicate-Fields and table functinality.
- * Note: it may still be used in Predicates.
+ * @inheritdoc
  */
 class TableField extends Filters\Predicates\Field implements AbstractTableField {
 
@@ -15,28 +14,21 @@ class TableField extends Filters\Predicates\Field implements AbstractTableField 
 	}
 
 	/**
-	 * Any TableField may be related to a Table.
-	 * Two different Tables may contain fields with equal name.
-	 *
-	 * @return	string
+	 * @inheritdoc
 	 */
 	public function tableId() {
 		return $this->table_id;
 	}
 
 	/**
-	 * To avoid ambiguity we have to include related table-id into fieldname,
-	 * i.e. return fully qualified name for query.
-	 *
-	 * @return	string
+	 * @inheritdoc
 	 */
 	public function name() {
 		return $this->table_id.'.'.parent::name();
 	}
+
 	/**
-	 * Return plain field name.
-	 *
-	 * @return	string
+	 * @inheritdoc
 	 */
 	public function name_simple() {
 		return parent::name();

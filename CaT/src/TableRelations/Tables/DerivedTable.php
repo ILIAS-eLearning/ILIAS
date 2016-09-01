@@ -4,6 +4,9 @@ namespace CaT\TableRelations\Tables;
 use CaT\TableRelations\Graphs as Graphs;
 use CaT\Filter as Filters;
 
+/**
+ * Table derived form space (~subselect)
+ */
 class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 	protected $space;
 	protected $fields;
@@ -21,6 +24,9 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 		$this->id = $id;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function addConstraint(Filters\Predicates\Predicate $constraint) {
 		foreach($constrain->fields() as $field) {
 			if(!$this->fieldInTable($field)) {
@@ -69,14 +75,23 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 		return $this->constraint;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function subgraph() {
 		return $this->subgraph;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function setSubgraph($subgraph) {
 		$this->subgraph = $subgraph;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function space() {
 		return $this->space;
 	}
