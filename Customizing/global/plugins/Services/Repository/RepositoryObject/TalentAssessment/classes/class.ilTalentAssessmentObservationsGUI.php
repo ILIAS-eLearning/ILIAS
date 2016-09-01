@@ -12,6 +12,9 @@ class ilTalentAssessmentObservationsGUI {
 
 	const CMD_OBSERVATION_START = "startObservation";
 	const CMD_OBSERVATION_SAVE_VALUES = "saveObservationValues";
+	const CMD_OBSERVATION_SAVE_REPORT = "saveObservationReport";
+	const CMD_OBSERVATION_PREVIEW_REPORT = "showReportPreview";
+	const CMD_FINISH_TA = "finishTA";
 
 	public function __construct($parent_obj, $actions, Closure $txt, \CaT\Plugins\TalentAssessment\Settings\TalentAssessment $settings, $obj_id) {
 		global $tpl, $ilCtrl, $ilToolbar, $ilTabs;
@@ -34,6 +37,8 @@ class ilTalentAssessmentObservationsGUI {
 
 		switch($cmd) {
 			case self::CMD_OBSERVATIONS:
+			case self::CMD_FINISH_TA:
+			case self::CMD_OBSERVATION_PREVIEW_REPORT:
 				$this->$cmd();
 				break;
 			case self::CMD_OBSERVATIONS_LIST:
@@ -44,6 +49,7 @@ class ilTalentAssessmentObservationsGUI {
 			case self::CMD_OBSERVATIONS_REPORT:
 			case self::CMD_OBSERVATION_START:
 			case self::CMD_OBSERVATION_SAVE_VALUES:
+			case self::CMD_OBSERVATION_SAVE_REPORT:
 				$this->setSubtabs($cmd);
 				$this->$cmd();
 				break;
@@ -74,10 +80,24 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function showObservationsDiagramm() {
-
+		$gui = new TalentAssessment\Observations\ilObservationsDiagrammGUI($this);
+		$this->gTpl->setContent($gui->render());
 	}
 
 	protected function showObservationsReport() {
+		$gui = new TalentAssessment\Observations\ilObservationsReportGUI($this);
+		$gui->show();
+	}
+
+	protected function saveObservationReport() {
+
+	}
+
+	protected function showReportPreview() {
+
+	}
+
+	protected function finishTA() {
 
 	}
 

@@ -20,6 +20,7 @@ trait ilFormHelper {
 	public function addSettingsFormItems(\ilPropertyFormGUI $form) {
 		$ni = new \ilNumberInputGUI($this->txt(""), ilActions::F_LOWMARK);
 		$ni->setMinValue(0);
+		$ni->setMaxValue(5);
 		$ni->setInfo($this->txt(""));
 		$ni->setRequired(true);
 		$ni->allowDecimals(true);
@@ -27,6 +28,7 @@ trait ilFormHelper {
 
 		$ni = new \ilNumberInputGUI($this->txt(""), ilActions::F_SHOULD_SPECIFICATION);
 		$ni->setMinValue(0);
+		$ni->setMaxValue(5);
 		$ni->setInfo($this->txt(""));
 		$ni->setRequired(true);
 		$ni->allowDecimals(true);

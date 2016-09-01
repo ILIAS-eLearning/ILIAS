@@ -92,6 +92,9 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATIONS_REPORT:
 					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATION_START:
 					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATION_SAVE_VALUES:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATION_SAVE_REPORT:
+					case ilTalentAssessmentObservationsGUI::CMD_OBSERVATION_PREVIEW_REPORT:
+					case ilTalentAssessmentObservationsGUI::CMD_FINISH_TA:
 						$this->forwardObservations();
 						break;
 				}
