@@ -684,14 +684,14 @@ class ilWikiUtil
 		ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
 		
 		// #15192 - should always be present
+		include_once "./Services/Link/classes/class.ilLink.php";
 		if($a_page_id)
 		{						
-			include_once "./Modules/Wiki/classes/class.ilObjWikiGUI.php";
-			$link = ILIAS_HTTP_PATH."/".ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle());
+			// #18804 - see ilWikiPageGUI::preview()
+			$link = ilLink::_getLink("", "wiki", null, "wpage_".$a_page_id."_".$a_wiki_ref_id);		
 		}
 		else
 		{
-			include_once "./Services/Link/classes/class.ilLink.php";
 			$link = ilLink::_getLink($a_wiki_ref_id);
 		}
 
