@@ -580,6 +580,9 @@ class ilToolbarGUI
 			// form?
 			if ($this->getFormAction() != "")
 			{
+				// #18947
+				$GLOBALS["tpl"]->addJavaScript("Services/Form/js/Form.js");
+				
 				if ($this->getOpenFormTag())
 				{
 					$tpl->setCurrentBlock("form_open");
