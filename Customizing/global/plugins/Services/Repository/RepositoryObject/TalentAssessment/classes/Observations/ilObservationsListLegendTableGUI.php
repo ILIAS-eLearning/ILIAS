@@ -41,7 +41,7 @@ class ilObservationsListLegendTableGUI extends \ilTable2GUI {
 
 	public function fillRow($row) {
 		$this->tpl->setVariable("POINTS", $row["points"]);
-		$this->tpl->setVariable("DESCRIPTION", $row["description"]);
+		$this->tpl->setVariable("DESCRIPTION", $this->txt($row["description"]));
 	}
 
 	/**
