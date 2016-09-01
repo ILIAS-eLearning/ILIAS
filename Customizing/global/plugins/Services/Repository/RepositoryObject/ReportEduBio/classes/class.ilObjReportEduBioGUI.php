@@ -84,6 +84,11 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		parent::renderReport();
 	}
 
+	public function exportExcel() {
+		self::$target_user_id = $this->object->target_user_id;
+		parent::exportExcel();
+	}
+
 	protected function render() {
 		$this->gTpl->setTitle(null);
 		if(!$this->object->getWBD()->userTPStatusOK() &&
@@ -202,17 +207,8 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 		if(in_array($rec["okz"], array("OKZ1", "OKZ2", "OKZ3"))) {
 			$rec['credit_points'] = $rec['credit_points'] >= 0 ? $rec['credit_points'] : 0;
-
-			if($rec["wbd_booking_id"] && $rec["credit_points"] > 0) {
-				$rec['wbd_reported'] = "Ja";
-			} else if(!$rec["wbd_booking_id"] && $rec["credit_points"] > 0) {
-				$rec['wbd_reported'] = "Nein";
-			} else {
-				$rec['wbd_reported'] = "-";
-			}
 		} else {
 			$rec['credit_points'] = "-";
-			$rec['wbd_reported'] = "-";
 		}
 
 		$rec["action"] = "";
