@@ -104,9 +104,9 @@ class ilObjReportCouponNew extends ilObjReportBase {
 
 
 		$this->fields['c'] = $coupon_base->fields();
-		$coupon_base->addConstrain($this->fields['c']['coupon_active']->EQ()->int(1));
+		$coupon_base->addConstraint($this->fields['c']['coupon_active']->EQ()->int(1));
 		if(!$this->settings['admin_mode']) {
-			$coupon_base->addConstrain($this->fields['c']['coupon_usr_id']->EQ()->int((int)$this->gUser->getId()));
+			$coupon_base->addConstraint($this->fields['c']['coupon_usr_id']->EQ()->int((int)$this->gUser->getId()));
 		}
 
 		$coupon_ref = $this->tf->Table('coupon','c2')
@@ -120,11 +120,11 @@ class ilObjReportCouponNew extends ilObjReportBase {
 		
 		$user = $this->tf->histUser('hu');
 		$this->fields['hu'] = $user->fields();
-		$user->addConstrain($this->fields['hu']['hist_historic']->EQ()->int(0));
+		$user->addConstraint($this->fields['hu']['hist_historic']->EQ()->int(0));
 		
 		$userorgu = $this->tf->histUserOrgu('huo');
 		$this->fields['huo']  = $userorgu->fields();
-		$userorgu->addConstrain($this->fields['huo']['hist_historic']->EQ()->int(0)->_AND($this->fields['huo']['action']->GE()->int(0)));
+		$userorgu->addConstraint($this->fields['huo']['hist_historic']->EQ()->int(0)->_AND($this->fields['huo']['action']->GE()->int(0)));
 
 		$this->space = $this->tf->TableSpace()
 			->addTablePrimary($coupon_base)
