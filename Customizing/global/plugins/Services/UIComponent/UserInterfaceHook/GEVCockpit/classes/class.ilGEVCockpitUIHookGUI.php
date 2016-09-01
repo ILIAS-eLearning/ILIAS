@@ -127,7 +127,7 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 
 
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
-		if ($user_utils && ($user_utils->isAdmin() || ilTEPPermissions::getInstance($ilUser->getId())->isTutor())) {
+		if ($user_utils && ($user_utils->isAdmin() || ilTEPPermissions::getInstance($this->gUser->getId())->isTutor())) {
 			$this->gLng->loadLanguageModule("tep");
 			$items["tep"]
 				= array($this->gLng->txt("tep_personal_calendar_title"), "ilias.php?baseClass=ilTEPGUI");
