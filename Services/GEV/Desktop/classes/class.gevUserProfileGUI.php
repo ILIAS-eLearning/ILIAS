@@ -100,7 +100,9 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-				
+
+				$this->user_utils->setEntryDate(new ilDate($form->getInput('entry_date'),IL_CAL_DATE));
+
 				$this->user->readUserDefinedFields();
 				$this->user->update();
 				
@@ -306,9 +308,10 @@ class gevUserProfileGUI {
 		$section4->setTitle($this->lng->txt("gev_activity"));
 		$form->addItem($section4);
 		
-		$entry_date = new ilNonEditableValueGUI($this->lng->txt("gev_entry_date"));
-		$_entry_date = $this->user_utils->getEntryDate();
-		$entry_date->setValue($_entry_date?ilDatePresentation::formatDate($_entry_date):"");
+		$entry_date = new ilTextInputGUI($this->lng->txt("gev_entry_date"),'entry_date');
+		$_entry_date = $this->user_utils->getEntryDate()->get(IL_CAL_DATE);
+		$entry_date->setRequired($this->wbd->forceWBDUserProfileFields());
+		$entry_date->setValue($_entry_date ? $_entry_date : "");
 		$form->addItem($entry_date);
 		
 		$exit_date = new ilNonEditableValueGUI($this->lng->txt("gev_exit_date"));
