@@ -31,7 +31,9 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 		$this->constrain = $constraint;
 	}
 
-
+	/**
+	 * @inheritdoc
+	 */
 	public function fieldInTable(AbstractTableField $field) {
 		if(!isset($this->fields[$field->name_simple()])) {
 			return false;
