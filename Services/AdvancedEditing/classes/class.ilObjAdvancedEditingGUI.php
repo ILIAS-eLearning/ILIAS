@@ -165,7 +165,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 			$tabs_gui->addTarget("adve_rte_settings",
 				$this->ctrl->getLinkTarget($this, "settings"),
-					array("settings","assessment", "survey", "frmPost"), "", "");
+					array("settings","assessment", "survey", "frmPost", "excass"), "", "");
 			
 			$tabs_gui->addTarget("adve_char_selector_settings",
 			$this->ctrl->getLinkTarget($this, "showCharSelectorSettings"),
