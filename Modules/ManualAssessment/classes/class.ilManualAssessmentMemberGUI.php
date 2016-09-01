@@ -98,9 +98,6 @@ class ilManualAssessmentMemberGUI {
 			if($form->checkInput()) {
 				$member = $this->updateDataInMemberByArray($this->member,$_POST);
 				if($member->mayBeFinalized()) {
-					if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
-						$this->parent_gui->handleAccessViolation();
-					}
 					include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 					$confirm = new ilConfirmationGUI();
 					$confirm->addHiddenItem('record', $_POST['record']);
