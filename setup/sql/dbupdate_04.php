@@ -17675,3 +17675,28 @@ ilDBUpdateNewObjectType::deleteRBACOperation('grpr', ilDBUpdateNewObjectType::RB
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5039>
+<?php
+
+// get badge administration ref_id
+$set = $ilDB->query("SELECT oref.ref_id FROM object_reference oref".
+	" JOIN object_data od ON (od.obj_id = oref.obj_id)".
+	" WHERE od.type = ".$ilDB->quote("bdga"));
+$bdga_ref_id = $ilDB->fetchAssoc($set);
+$bdga_ref_id = (int)$bdga_ref_id["ref_id"];
+if($bdga_ref_id)
+{
+	// #18931 - check if ref_id can be found as child of admin node
+	$set = $ilDB->query("SELECT parent FROM tree".
+		" WHERE child = ".$ilDB->quote($bdga_ref_id, "int").
+		" AND tree.tree = ".$ilDB->quote(1, "int"));
+	$bdga_tree = $ilDB->fetchAssoc($set);
+	$bdga_tree = (int)$bdga_tree["parent"];	
+	if($bdga_tree != SYSTEM_FOLDER_ID)
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$tree->insertNode($bdga_ref_id, SYSTEM_FOLDER_ID);
+	}
+}
+
+?>
