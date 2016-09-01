@@ -2499,6 +2499,12 @@ class ilObjectListGUI
 		$parent_ref_id = $this->container_obj->object->getRefId();
 		$parent_type = $this->container_obj->object->getType();
 		
+		// #18737
+		if($this->reference_ref_id)
+		{
+			$this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->reference_ref_id);
+		}
+		
 		if($this->checkCommandAccess('write','',$parent_ref_id,$parent_type) ||
 			$this->checkCommandAccess('write','',$this->ref_id,$this->type))
 		{												
@@ -2510,6 +2516,11 @@ class ilObjectListGUI
 				'edit');
 			
 			$this->insertCommand($cmd_lnk, $this->lng->txt('obj_activation_list_gui'));			
+		}
+		
+		if($this->reference_ref_id)
+		{
+			$this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->ref_id);
 		}
 	}
 
