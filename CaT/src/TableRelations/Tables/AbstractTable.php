@@ -37,7 +37,10 @@ interface AbstractTable {
 	 *
 	 * @return	Predicates\Predicate|null	$predicate
 	 */
-	public function constrain();
+	public function constraint();
 
+	/**
+	 * Check if a field is contained in this table.
+	 */
 	public function fieldInTable(AbstractTableField $field);
 }

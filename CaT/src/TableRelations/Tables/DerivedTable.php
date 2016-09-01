@@ -9,7 +9,7 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 	protected $fields;
 	protected $id;
 	protected $subgraph;
-	protected $constrain = null;
+	protected $constraint = null;
 	public function __construct(Filters\PredicateFactory $pf,TableSpace $space, $id) {
 		if(count($space->requested()) === 0) {
 			throw new TableException("$id:can't construct by space, no fields requested");
@@ -21,14 +21,14 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 		$this->id = $id;
 	}
 
-	public function addConstrain(Filters\Predicates\Predicate $constrain) {
+	public function addConstraint(Filters\Predicates\Predicate $constraint) {
 		foreach($constrain->fields() as $field) {
 			if(!$this->fieldInTable($field)) {
 				$name = $field->name_simple();
 				throw new TableException("field $name not in table.");
 			}
 		}
-		$this->constrain = $constrain;
+		$this->constrain = $constraint;
 	}
 
 
@@ -63,8 +63,8 @@ class DerivedTable implements AbstractTable, Graphs\AbstractNode {
 	/**
 	 * @inheritdoc
 	 */
-	public function constrain() {
-		return $this->constrain;
+	public function constraint() {
+		return $this->constraint;
 	}
 
 	public function subgraph() {

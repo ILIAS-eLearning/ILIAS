@@ -48,13 +48,13 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 	/**
 	 * @inheritdoc
 	 */
-	public function addConstrain(Predicates\Predicate $predicate) {
+	public function addConstraint(Predicates\Predicate $predicate) {
 		foreach ($predicate->fields() as $field) {
 			if(!$this->fieldInTable($field)) {
 				throw new TableException("unknown fields in predicate");
 			}
 		}
-		$this->constrain = $predicate;
+		$this->constraint = $predicate;
 		return $this;
 	}
 
@@ -80,8 +80,8 @@ class Table implements AbstractTable, Graphs\AbstractNode {
 		return $this->title;
 	}
 
-	public function constrain() {
-		return $this->constrain;
+	public function constraint() {
+		return $this->constraint;
 	}
 
 	public function subgraph() {

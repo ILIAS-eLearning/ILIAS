@@ -21,7 +21,8 @@ interface AbstractQuery extends \Iterator {
 	public function requested();
 
 	/**
-	 * Get the root table.
+	 * Get the root table. This corresponds to the 'FROM' part
+	 * of a sql query.
 	 *
 	 * @return Table.
 	 */

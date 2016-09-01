@@ -1,6 +1,10 @@
 <?php
 namespace CaT\TableRelations;
 use CaT\Filter as Filter;
+
+/**
+ * Creates a sql-query or data from a query object.
+ */
 class SqlQueryInterpreter {
 
 	public function __construct(Filter\SqlPredicateInterpreter $predicate_interpreter, Filter\PredicateFactory $pf, \ilDB $ildb) {
@@ -24,7 +28,7 @@ class SqlQueryInterpreter {
 		return $data;
 	}
 
-	protected function requested(Tables\AbstractQuery $query) {
+	protected function requestedFields(Tables\AbstractQuery $query) {
 		$sql_requested = array();
 		foreach ($query->requested() as $id => $field) {
 			$sql_requested[] = $this->interpretField($field)." AS ".$id;
@@ -37,6 +41,7 @@ class SqlQueryInterpreter {
 			if($field instanceof Tables\TableField) {
 				return $field->name();
 			} elseif($field instanceof Tables\DerivedField)  {
+				//call self recursively as long derived field derive from derived fields...
 				$sub_fields = array_map(array($this, 'interpretField'), $field->derivedFrom());
 				return call_user_func_array($field->postprocess(), $sub_fields);
 			} else {
@@ -53,7 +58,7 @@ class SqlQueryInterpreter {
 	 */
 	public function getSql($query) {
 		return 
-			"SELECT ".$this->requested($query).PHP_EOL
+			"SELECT ".$this->requestedFields($query).PHP_EOL
 				.$this->from($query).PHP_EOL
 				.$this->join($query).PHP_EOL
 				.$this->where($query).PHP_EOL
@@ -102,8 +107,8 @@ class SqlQueryInterpreter {
 			}
 			$condition_aggregate = call_user_func_array(array($this->pf,"_ALL"),
 				array_map(function ($condition) {return $condition->dependencyCondition();},$join_conditions));
-			if($table->constrain()) {
-				$condition_aggregate = $condition_aggregate->_AND($table->constrain());
+			if($table->constraint()) {
+				$condition_aggregate = $condition_aggregate->_AND($table->constraint());
 			}
 			$joins[] = $join." ON ".$this->interpretPredicate($condition_aggregate);
 		}
@@ -112,15 +117,15 @@ class SqlQueryInterpreter {
 
 	protected function where(Tables\AbstractQuery $query) {
 		$predicate = null;
-		$root_constrain = $query->rootTable()->constrain();
+		$root_constraint = $query->rootTable()->constraint();
 		if($query->filter()) {
 			$predicate = $query->filter();
-			if($root_constrain) {
-				$predicate = $predicate->_AND($root_constrain);
+			if($root_constraint) {
+				$predicate = $predicate->_AND($root_constraint);
 			}
 			return "WHERE ".$this->interpretPredicate($predicate);
-		} elseif( $root_constrain) {
-			return "WHERE ".$this->interpretPredicate($root_constrain);
+		} elseif( $root_constraint) {
+			return "WHERE ".$this->interpretPredicate($root_constraint);
 		}
 		return "";
 	}

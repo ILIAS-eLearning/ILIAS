@@ -40,6 +40,13 @@ class DerivedField extends Filters\Predicates\Field implements AbstractDerivedFi
 		return $this->postprocess;
 	}
 
+	/**
+	 * In case of TableFields this function returns a composition of 
+	 * field-name and table name for sake of uniqueness. This is not
+	 * necessary here, name and name_simple are same.
+	 *
+	 * @return	string
+	 */
 	public function name_simple() {
 		return $this->name();
 	}
