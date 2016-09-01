@@ -43,7 +43,7 @@ interface AbstractQuery extends \Iterator {
 	public function groupBy();
 
 	/**
-	 * Get a field to group by, if any.
+	 * Get global predicate on the whole table selection.
 	 *
 	 * @return Predicates\Predicvate|null
 	 */
