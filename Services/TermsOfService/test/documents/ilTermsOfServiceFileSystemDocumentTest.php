@@ -72,6 +72,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends ilTermsOfServiceBaseTest
 	{
 		$document = new ilTermsOfServiceFileSystemDocument($this->lng);
 		$this->assertInstanceOf('ilTermsOfServiceSignableDocument', $document);
+		$this->assertTrue($document->exists());
 		$document->setSourceFiles($this->source_files);
 		return $document;
 	}
