@@ -378,7 +378,7 @@ class ilDbSetup {
 	/**
 	 * @return \ilDBInterface
 	 */
-	public function getIlDBInterface(): \ilDBInterface {
+	public function getIlDBInterface() {
 		return $this->ilDBInterface;
 	}
 
