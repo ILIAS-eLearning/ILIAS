@@ -511,7 +511,6 @@ class ilTEPEntries
 		
 		$valid_cat_ids = array_values($this->getCategoryIds());				
 		$valid_user_ids = $this->getUserIds();
-						
 		foreach($a_raw as $user_id => $entries)
 		{						
 			foreach($entries as $entry_id => $entry)
@@ -524,6 +523,12 @@ class ilTEPEntries
 					{
 						continue;
 					}	
+				}
+				// don't show cancelled trainings w/o trainers
+				if((int)$user_id === 0 && isset($entry['course_ref_id'])) {
+					if(gevCourseUtils::getInstanceByObj(new ilObjCourse($entry['course_ref_id']))->getIsCancelled()) {
+						continue;
+					}
 				}
 				
 				if(in_array($entry["cat_id"], $valid_cat_ids) &&
