@@ -20,6 +20,16 @@ class Reader extends AbstractReader
     protected $sheetIterator;
 
     /**
+     * Returns whether stream wrappers are supported
+     *
+     * @return bool
+     */
+    protected function doesSupportStreamWrapper()
+    {
+        return false;
+    }
+
+    /**
      * Opens the file at the given file path to make it ready to be read.
      *
      * @param  string $filePath Path of the file to be read
@@ -32,7 +42,7 @@ class Reader extends AbstractReader
         $this->zip = new \ZipArchive();
 
         if ($this->zip->open($filePath) === true) {
-            $this->sheetIterator = new SheetIterator($filePath);
+            $this->sheetIterator = new SheetIterator($filePath, $this->shouldFormatDates);
         } else {
             throw new IOException("Could not open $filePath for reading.");
         }

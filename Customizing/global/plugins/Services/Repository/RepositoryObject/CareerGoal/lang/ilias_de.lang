@@ -1,0 +1,60 @@
+add_observation#:#Beobachtung hinzufügen
+question_delete_req#:#Sollen diese Anforderungen wirklich entfernt werden?
+remove#:#Entfernen
+cancel#:#Abbrechen
+question_delete_req#:#Sollen diese Beobachtungen wirklich entfernt werden?
+order_saved:Reihenfolge gespeichert
+show_observation#:#Beobachtungen
+sort_observation#:#Beobachtungen sortieren
+add_requirement#:#Anforderung hinzufügen
+show_requirement#:#Anforderungen
+sort_requirement#:#Anforderungen sortieren
+obj_edit_settings#:#Einstellungen bearbeiten
+obj_title#:#Title
+obj_description#:#Beschreibung
+obj_save#:#Speichern
+saved#:#Erfolgreich gespeichert
+not_saved#:#Konnte nicht gespeichert werden
+properties#:#Einstellungen
+requirements#:#Anforderungen
+observations#:#Beobachtungen
+obj_permission_denied#:#Sie besitzten nicht genug Rechte, um auf dieses Objekt zu zugreifen.
+edit#:#Bearbeiten
+status#:#Status
+offline#:#Offline
+observation_saved#:#Beobachtung erfolgreich gespiechert.
+observation_updated#:#Beobachtung erfolgreich aktualisiert.
+update#:#Speichern
+observations_table_title#:#Beobachtungen
+position#:#Position
+observation_table_sort_title#:#Beobachtungen sortieren
+title#:#Titel
+description#:#Beschreibung
+actions#:#Aktionen
+edit_observation#:#Beobachtung bearbeiten
+delete_observation#:#Beobachtung entfernen
+requirement_saved#:#Anforderung erfolgreich gespeichert
+requirement_updated#:#Anforderung erfolgreich aktualisiert
+new_requirement#:#Neue Anforderung
+requirements_table_title#:#Anforderungen
+observation#:#Beobachtung
+edit_requirement#:#Anforderung bearbeiten
+delete_requirement#:#Anforderung enfernen
+lowmark#:#Untergrenze
+lowmark_info#:#Geben Sie den Wert ein, den der Bewerber nicht unterschreiten soll.
+sheduled_specification#:#Soll-Ausprägung
+sheduled_specification_info#:#Geben Sie den Wert ein, den der Bewerber erreichen soll.
+default_text_failed#:#Standardtext (Nicht erfüllt)
+default_text_failed_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Untergrenze erreicht oder unterschritten wurde.
+default_text_partial#:#Standardtext (Teilweise erfüllt)
+default_text_partial_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Untergrenze überschritten und die Soll-Ausprägung unterschritten wurde.
+default_text_success#:#Standardtext (Komplett erfüllt)
+default_text_success_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Soll-Ausprägung erreicht oder überschritten wurde.
+delete_selected#:#Entfernen
+save#:#Speichern
+requirements_table_sort_title#:#Anforderungen sortieren
+objs_xcgo#:#Karriereziele
+obs_xcgo#:#Karriereziel
+xcgo_new#:#Neues Karriereziel anlegen
+objs_xcgo_duplicate#:#Karriereziel kopieren
+new_observation#:#Neue Beobachtung
