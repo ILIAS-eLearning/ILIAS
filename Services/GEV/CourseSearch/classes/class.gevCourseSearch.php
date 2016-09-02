@@ -428,6 +428,8 @@ class gevCourseSearch {
 	public function getPossibleTabs() {
 		if ($this->search_tabs === null) {
 			$this->search_tabs = array();
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "target_user_id", $this->usr_id);
+
 			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab", "all");
 			$this->search_tabs["all"] = array
 				( "gev_crs_search_all"
@@ -449,6 +451,7 @@ class gevCourseSearch {
 				, $this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI")
 				);
 			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "active_tab",null);
+			$this->gCtrl->setParameterByClass("gevCourseSearchGUI", "target_user_id", null);
 		 }
 		return $this->search_tabs;
 	}
