@@ -59,6 +59,33 @@ class ilDbSetup {
 
 
 	/**
+	 * @param $client_name
+	 * @param $dbname
+	 * @param string $host
+	 * @param string $username
+	 * @param string $password
+	 * @param string $type
+	 * @return \ilDbSetup
+	 */
+	public static function getInstanceForNewClient($client_name, $dbname, $host = 'localhost', $username = 'root', $password = '', $type = ilDBConstants::TYPE_PDO_MYSQL_INNODB) {
+		require_once('./setup/classes/class.ilClient.php');
+		require_once('./Services/Init/classes/class.ilIniFile.php');
+		require_once('./setup/classes/class.ilDBConnections.php');
+
+		$ilClient = new ilClient($client_name, new ilDBConnections());
+		$ilClient->init();
+		$ilClient->setDbHost($host);
+		$ilClient->setDbName($dbname);
+		$ilClient->setDbUser($username);
+		$ilClient->setDbPass($password);
+		$ilClient->setDbType($type);
+		$ilClient->writeIni();
+
+		return self::getInstanceForClient($ilClient);
+	}
+
+
+	/**
 	 * @param $a_collation
 	 * @return bool|mixed
 	 */
@@ -97,6 +124,7 @@ class ilDbSetup {
 		$this->client->db = null; // TODO ugly and dirty, but ilClient requires it
 	}
 
+
 	/**
 	 * @param $fp
 	 * @param $delim
@@ -118,7 +146,7 @@ class ilDbSetup {
 
 	/**
 	 * @description legacy version of readdump
-	 * @deprecated use readDumpUltraSmall
+	 * @deprecated  use readDumpUltraSmall
 	 * @return bool
 	 */
 	protected function readDump() {
@@ -202,6 +230,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_POSTGRES_LEGACY:
 					include_once("./setup/sql/ilDBTemplate.php");
 					setupILIASDatabase();
+
 					return true;
 					break;
 			}
@@ -345,5 +374,21 @@ class ilDbSetup {
 		foreach ($this->ilDBInterface->listTables() as $table) {
 			$this->ilDBInterface->manipulate('DROP TABLE ' . $table);
 		}
+	}
+
+
+	/**
+	 * @return \ilDBInterface
+	 */
+	public function getIlDBInterface() {
+		return $this->ilDBInterface;
+	}
+
+
+	/**
+	 * @param \ilDBInterface $ilDBInterface
+	 */
+	public function setIlDBInterface($ilDBInterface) {
+		$this->ilDBInterface = $ilDBInterface;
 	}
 }

@@ -209,7 +209,7 @@ class ilDBPdoReverse implements ilDBReverse {
 
 		if (strtolower($constraint_name) != 'primary') {
 			$constraint_name_pdo = $this->db_instance->getIndexName($constraint_name);
-			$result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name)));
+			$result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name_pdo)));
 			$data = $this->db_instance->fetchAssoc($result);
 			if ($data) {
 				// apply 'idxname_format' only if the query succeeded, otherwise

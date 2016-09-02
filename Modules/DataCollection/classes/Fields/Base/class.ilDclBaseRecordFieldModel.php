@@ -294,11 +294,12 @@ class ilDclBaseRecordFieldModel {
 		return $this->parseSortingValue($this->getValue(), $this, $link);
 	}
 
+
 	/**
-	 * gets the value for the confirmation gui.
+	 * @param ilConfirmationGUI $confirmation
 	 */
-	public function getConfirmationValue() {
-		return $this->getValue();
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {;
+		$confirmation->addHiddenItem('field_'.$this->field->getId(), $this->getValue());
 	}
 
 	/**

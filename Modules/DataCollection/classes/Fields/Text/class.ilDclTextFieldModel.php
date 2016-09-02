@@ -83,12 +83,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 * @throws ilDclInputException
 	 */
 	protected function checkValidityOfURLField($value, $record_id) {
+		// TODO: value should always be an array with url fields, can we remove the check & json_decode?
 		if (!is_array($value)) {
-			if ($json = json_decode($value, true) && is_array(json_decode($value, true))) {
-				$value = $json;
-			} else {
-				$value = array( 'link' => $value, 'title' => '');
-			}
+			$value = array( 'link' => $value, 'title' => '');
 		}
 
 		//Don't check empty values

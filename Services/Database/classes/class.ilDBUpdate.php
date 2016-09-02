@@ -106,16 +106,7 @@ class ilDBUpdate
 	{
 		// 
 	}
-	
-    /**
-	* destructor
-	* 
-	* @return boolean
-	*/
-	function _DBUpdate()
-	{
-		$this->db->disconnect();
-	}
+
 
 	function readDBUpdateFile()
 	{

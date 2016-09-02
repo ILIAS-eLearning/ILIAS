@@ -30,9 +30,13 @@ class ilContainerImporter extends ilXmlImporter
 	{
 		include_once './Services/Container/classes/class.ilContainerXmlParser.php';
 
-		$GLOBALS['ilLog']->write($a_xml);
-		$GLOBALS['ilLog']->write($a_id);
-				
+		/**
+		 * @var ilLogger
+		 */
+		$log = ilLoggerFactory::getLogger('exp');
+		$log->debug('Import xml: '. $a_xml);
+		$log->debug('Using id: ' . $a_id);
+		
 		$parser = new ilContainerXmlParser($a_mapping,trim($a_xml));
 		$parser->parse($a_id);		
 	}
