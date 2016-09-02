@@ -260,4 +260,10 @@ public function getTabs() {
 				break;
 		}
 	}
+
+	protected function afterSave(ilObject $a_new_object) {
+		ilUtil::sendSuccess($this->lng->txt("mass_added"),true);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilmanualassessmentsettingsgui', 'edit', '', false, false));
+	}
 }
