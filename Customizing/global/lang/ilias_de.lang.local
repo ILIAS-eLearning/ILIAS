@@ -1534,3 +1534,5 @@ gev#:#rep_robj_xtda_rbac_create_xtda#:#Report Trainingsauslastung (Ausblick) anl
 gev#:#cron_wbd_relevant_title#:#Setzt Trainings auf WBD relevant.
 gev#:#cron_wbd_relevant_description#:#Wenn beim Benutzer das UDF Feld 'WBD Punkte nachmelden ab' einen Wert besitzt, werden alle Trainings deren Enddatum >= ist auf WBD relevant gestzt.
 gev#:#gev_attendance_list#:#Anwesenheitsliste
+gev#:#gev_entry_date_info#:#Bitte benutzen Sie das Format jjjj-mm-tt.
+gev#:#gev_entry_date_invalid#:#Das angegebene Datum ist ungültig oder falsch formatiert.

@@ -14,6 +14,7 @@ require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 class gevUserProfileGUI {
 	static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
+
 	
 	
 	public function __construct() {
@@ -78,6 +79,10 @@ class gevUserProfileGUI {
 				$form->getItemByPostVar("bwv_id")->setAlert("gev_bwv_id_invalid");
 				$err = true;
 			}
+			if (!gevUserUtils::checkISODateStringIsValid($form->getInput('entry_date'))) {
+				$form->getItemByPostVar("entry_date")->setAlert($this->lng->txt("gev_entry_date_invalid"));
+				$err = true;
+			}
 			
 			if (!$err) {
 				$birthday = $form->getInput("birthday");
@@ -100,7 +105,9 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-				
+
+				$this->user_utils->setEntryDate(new ilDate($form->getInput('entry_date'),IL_CAL_DATE));
+
 				$this->user->readUserDefinedFields();
 				$this->user->update();
 				
@@ -314,9 +321,11 @@ class gevUserProfileGUI {
 		$section4->setTitle($this->lng->txt("gev_activity"));
 		$form->addItem($section4);
 		
-		$entry_date = new ilNonEditableValueGUI($this->lng->txt("gev_entry_date"));
-		$_entry_date = $this->user_utils->getEntryDate();
-		$entry_date->setValue($_entry_date?ilDatePresentation::formatDate($_entry_date):"");
+		$entry_date = new ilTextInputGUI($this->lng->txt("gev_entry_date"),'entry_date');
+		$_entry_date = $this->user_utils->getEntryDate() ? $this->user_utils->getEntryDate()->get(IL_CAL_DATE) : "";
+		$entry_date->setRequired($this->wbd->forceWBDUserProfileFields());
+		$entry_date->setInfo($this->lng->txt('gev_entry_date_info'));
+		$entry_date->setValue($_entry_date ? $_entry_date : "");
 		$form->addItem($entry_date);
 		
 		$exit_date = new ilNonEditableValueGUI($this->lng->txt("gev_exit_date"));

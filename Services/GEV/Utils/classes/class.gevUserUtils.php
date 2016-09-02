@@ -608,12 +608,35 @@ class gevUserUtils {
 		$street = $this->getUser()->getStreet();
 		$city = $this->getUser()->getCity();
 		$zipcode = $this->getUser()->getZipcode();
-		
+
+		$tps_role = count(array_intersect(gevWBD::$wbd_tp_service_roles,
+				array_map(array('ilObject','_lookupTitle'),$this->getGlobalRoles()))) > 0;
+
+		$entry_date =
+			($tps_role && ($this->getEntryDate()
+					&& self::checkISODateStringIsValid($this->getEntryDate()->get(IL_CAL_DATE))))
+			|| !$tps_role;
 		return $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile)
-				&& $mobile && $bday && $city && $zipcode;
+				&& $mobile && $bday && $city && $zipcode && $entry_date;
 	}
 	
-	
+	/**
+	 * Checks wether a date is formatted according to iso and is a valid date.
+	 * For instance: 2016-09-31 should be invalid.
+	 */
+	public static function checkISODateStringIsValid($date) {
+		$date_regexp = '#^\s*[1-2][0-9][0-9][0-9]-(0[1-9]|1[1-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s*$#';
+		if(preg_match($date_regexp, $date) !== 1) {
+			return false;
+		} else {
+			$date = explode('-', trim($date));
+			if(!checkdate($date[1],$date[2],$date[0])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public function getLogin() {
 		return $this->getUser()->getLogin();
 	}
