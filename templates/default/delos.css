@@ -11535,6 +11535,11 @@ div.ilPCMyCoursesPath {
 #onscreenchat-container .panel-heading img {
   width: 16px;
   height: 16px;
+  vertical-align: sub;
+}
+#onscreenchat-container .panel-heading .close {
+  margin-top: -2px;
+  margin-left: 5px;
 }
 #onscreenchat-container .chat-window-wrapper {
   bottom: 0;
