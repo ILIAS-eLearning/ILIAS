@@ -193,10 +193,20 @@ class ilOnScreenChatGUI
 			$settings = self::loadServerSettings();
 
 			$DIC->language()->loadLanguageModule('chatroom');
+			
+			$renderer = $DIC->ui()->renderer();
+			$factory  = $DIC->ui()->factory();
 
-			$button = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit');
 			$chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat');
-			$chatWindowTemplate->setVariable('BUTTON', $DIC->ui()->renderer()->render($button));
+			$chatWindowTemplate->setVariable('SUBMIT_ACTION', $renderer ->render(
+				$factory->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit')
+			));
+			$chatWindowTemplate->setVariable('ADD_ACTION', $renderer ->render(
+				$factory->glyph()->add('addUser')
+			));
+			$chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer ->render(
+				$factory->button()->close()
+			));
 			$chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
 
 			$guiConfig = array(

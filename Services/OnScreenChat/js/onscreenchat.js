@@ -236,6 +236,11 @@
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
 
+				conversationWindow.find('[data-toggle="tooltip"]').tooltip({
+					container: 'body',
+					viewport: { selector: 'body', padding: 10 }
+				});
+
 				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
 					messageField = conversationWindow.find('[data-onscreenchat-message]');
 
@@ -311,12 +316,29 @@
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
-			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
 
-			return template;
+			var $template = $(template);
+
+			$template.find('[href="addUser"]').attr({
+				"title":                 il.Language.txt('chat_osc_add_user'),
+				"data-onscreenchat-add": conversation.id,
+				"data-toggle":           "tooltip",
+				"data-placement":        "auto"
+			});
+			$template.find('.close').attr({
+				"title":                   il.Language.txt('close'),
+				"data-onscreenchat-close": conversation.id,
+				"data-toggle":             "tooltip",
+				"data-placement":          "auto"
+			});
+
+			return $template;
 		},
 
-		close: function() {
+		close: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
 			var button = $(this);
 			var conversation = getModule().storage.get($(button).attr('data-onscreenchat-close'));
 			conversation.open = false;
@@ -335,7 +357,7 @@
 
 		send: function(conversationId) {
 			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
-			var message = input.html();
+			var message = input.text();
 
 			if(message != "") {
 				$chat.sendMessage(conversationId, message);

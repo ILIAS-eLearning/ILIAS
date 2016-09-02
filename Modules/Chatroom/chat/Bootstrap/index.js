@@ -24,7 +24,7 @@ var Bootstrap = function Bootstrap() {
 			setupExitHandler: ['setupNamespaces', SetupExitHandler],
 			setupServer: [ 'setupNamespaces', 'setupIM', SetupServer ]
 		}, function(err, result){
-			Container.getServer().listen(Container.getServerConfig().port);
+			Container.getServer().listen(Container.getServerConfig().port, Container.getServerConfig().address);
 			Container.getLogger().info("The Server is Ready to use! Listening on: %s://%s:%s", Container.getServerConfig().protocol, Container.getServerConfig().address, Container.getServerConfig().port);
 		});
 	}

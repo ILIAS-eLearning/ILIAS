@@ -360,30 +360,6 @@ class ilDclBaseRecordModel {
 		return $return;
 	}
 
-	public function getRecordFieldValuesForConfirmation() {
-		$this->loadRecordFields();
-		$return = array();
-		foreach ($this->recordfields as $id => $record_field) {
-			$value = $record_field->getConfirmationValue();
-			if($value !== null) {
-				$return[$id] = $record_field->getConfirmationValue();
-			}
-
-			// store empty fileuploads
-			if ($record_field instanceof ilDclFileuploadRecordFieldModel && !$value) {
-				$return['empty_fileuploads']['field_'.$id] = array();
-			}
-
-		}
-
-		if (isset($return['empty_fileuploads'])){
-			$return['empty_fileuploads'] = htmlspecialchars(json_encode($return['empty_fileuploads']));
-		}
-
-		return $return;
-	}
-
-
 	/**
 	 * Get Field Value
 	 *

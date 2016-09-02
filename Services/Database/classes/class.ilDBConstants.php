@@ -47,6 +47,12 @@ class ilDBConstants {
 	// Engines
 	const ENGINE_INNODB = 'InnoDB';
 	const ENGINE_MYISAM = 'MyISAM';
+	// Mapping AutoExec
+	const MDB2_AUTOQUERY_INSERT = 1;
+	const MDB2_AUTOQUERY_UPDATE = 2;
+	const MDB2_AUTOQUERY_DELETE = 3;
+	const MDB2_AUTOQUERY_SELECT = 4;
+	const MDB2_PREPARE_MANIP = false;
 	/**
 	 * @var array
 	 */
@@ -58,6 +64,7 @@ class ilDBConstants {
 		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher [legacy]",
 		ilDBConstants::TYPE_POSTGRES_LEGACY  => "Postgres (experimental) [legacy]",
 		ilDBConstants::TYPE_MYSQL_LEGACY     => "MySQL 5.0.x or higher (MyISAM engine) [legacy]",
+		ilDBConstants::TYPE_MYSQLI_LEGACY    => "MySQL 5.0.x or higher (MyISAM engine) / mysqli [legacy]",
 		ilDBConstants::TYPE_INNODB_LEGACY    => "MySQL 5.0.x or higher (InnoDB engine) [legacy]",
 	);
 
@@ -78,10 +85,15 @@ class ilDBConstants {
 
 	/**
 	 * @param bool $with_descriptions
+	 * @param bool $with_legacy
 	 * @return array
 	 */
-	public static function getAvailableTypes($with_descriptions = true) {
-		$types = array_merge(self::getSupportedTypes(), self::getLegacyTypes());
+	public static function getAvailableTypes($with_descriptions = true, $with_legacy = false) {
+		if ($with_legacy) {
+			$types = array_merge(self::getSupportedTypes(), self::getLegacyTypes());
+		} else {
+			$types = self::getSupportedTypes();
+		}
 		if ($with_descriptions) {
 			$return = array();
 			foreach ($types as $type) {

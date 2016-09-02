@@ -968,13 +968,13 @@ class MDB2_Error extends PEAR_Error
      * @param   int     what error level to use for $mode & PEAR_ERROR_TRIGGER
      * @param   smixed   additional debug info, such as the last query
      */
-    function MDB2_Error($code = MDB2_ERROR, $mode = PEAR_ERROR_RETURN,
+    function __construct($code = MDB2_ERROR, $mode = PEAR_ERROR_RETURN,
               $level = E_USER_NOTICE, $debuginfo = null)
     {
         if (is_null($code)) {
             $code = MDB2_ERROR;
         }
-        $this->PEAR_Error('MDB2 Error: '.MDB2::errorMessage($code), $code,
+        parent::__construct('MDB2 Error: '.MDB2::errorMessage($code), $code,
             $mode, $level, $debuginfo);
     }
 

@@ -11526,7 +11526,7 @@ div.ilPCMyCoursesPath {
   padding: 5px 5px 5px 15px;
   pointer-events: auto;
   margin: 0;
-  border: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
   vertical-align: middle;
 }
 #onscreenchat-container .panel-heading .btn {
@@ -11535,6 +11535,11 @@ div.ilPCMyCoursesPath {
 #onscreenchat-container .panel-heading img {
   width: 16px;
   height: 16px;
+  vertical-align: sub;
+}
+#onscreenchat-container .panel-heading .close {
+  margin-top: -2px;
+  margin-left: 5px;
 }
 #onscreenchat-container .chat-window-wrapper {
   bottom: 0;

@@ -6,6 +6,8 @@ require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php
 require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
 require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
 require_once('./Services/Database/interfaces/interface.ilDBInterface.php');
+require_once('./Services/Database/classes/class.ilDBConstants.php');
+require_once('./Services/Database/interfaces/interface.ilDBLegacyInterface.php');
 
 /**
  * Class pdoDB
@@ -66,19 +68,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @var string
 	 */
 	protected $storage_engine = 'MyISAM';
-	/**
-	 * @var array
-	 */
-	protected $type_to_mysql_type = array(
-		ilDBConstants::T_TEXT      => 'VARCHAR',
-		ilDBConstants::T_INTEGER   => 'INT',
-		ilDBConstants::T_FLOAT     => 'DOUBLE',
-		ilDBConstants::T_DATE      => 'DATE',
-		ilDBConstants::T_TIME      => 'TIME',
-		ilDBConstants::T_DATETIME  => 'TIMESTAMP',
-		ilDBConstants::T_CLOB      => 'LONGTEXT',
-		ilDBConstants::T_TIMESTAMP => 'DATETIME',
-	);
 	/**
 	 * @var string
 	 */
@@ -1832,5 +1821,162 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * @param $table_name
+	 * @return bool
+	 */
+	public function dropPrimaryKey($table_name) {
+		return $this->manager->dropConstraint($table_name, "PRIMARY", true);
+	}
+
+
+	/**
+	 * @param $stmt
+	 * @param $a_data
+	 */
+	public function executeMultiple($stmt, $a_data) {
+		for ($i = 0, $j = count($a_data); $i < $j; $i ++) {
+			$stmt->execute($a_data[$i]);
+		}
+	}
+
+
+	/**
+	 * @param $a_expr
+	 * @param bool $a_to_text
+	 * @return string
+	 */
+	public function fromUnixtime($a_expr, $a_to_text = true) {
+		return "FROM_UNIXTIME(" . $a_expr . ")";
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function unixTimestamp() {
+		return "UNIX_TIMESTAMP()";
+	}
+
+
+	/**
+	 * Generate an insert, update or delete query and call prepare() and execute() on it
+	 *
+	 * @param string $tablename of the table
+	 * @param array $fields     ($key=>$value) where $key is a field name and $value its value
+	 * @param int $mode         of query to build
+	 *                          ilDBConstants::MDB2_AUTOQUERY_INSERT
+	 *                          ilDBConstants::MDB2_AUTOQUERY_UPDATE
+	 *                          ilDBConstants::MDB2_AUTOQUERY_DELETE
+	 *                          ilDBConstants::MDB2_AUTOQUERY_SELECT
+	 * @param bool $where       (in case of update and delete queries, this string will be put after the sql WHERE statement)
+	 *
+	 * @deprecated Will be removed in ILIAS 5.3
+	 * @return bool
+	 */
+	public function autoExecute($tablename, $fields, $mode = ilDBConstants::MDB2_AUTOQUERY_INSERT, $where = false) {
+		$fields_values = (array)$fields;
+		if ($mode == ilDBConstants::MDB2_AUTOQUERY_INSERT) {
+			if (!empty($fields_values)) {
+				$keys = $fields_values;
+			} else {
+				$keys = array();
+			}
+		} else {
+			$keys = array_keys($fields_values);
+		}
+		$params = array_values($fields_values);
+		if (empty($params)) {
+			$query = $this->buildManipSQL($tablename, $keys, $mode, $where);
+			$result = $this->pdo->query($query);
+		} else {
+			$stmt = $this->autoPrepare($tablename, $keys, $mode, $where, $types, $result_types);
+			$this->execute($stmt);
+			$this->free($stmt);
+			$result = $stmt;
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * @param $table
+	 * @param $table_fields
+	 * @param int $mode
+	 * @param bool $where
+	 * @param null $types
+	 * @param bool $result_types
+	 * @return string
+	 */
+	protected function autoPrepare($table, $table_fields, $mode = ilDBConstants::MDB2_AUTOQUERY_INSERT, $where = false, $types = null, $result_types = ilDBConstants::MDB2_PREPARE_MANIP) {
+		$query = $this->buildManipSQL($table, $table_fields, $mode, $where);
+
+		return $this->prepare($query, $types, $result_types);
+	}
+
+
+	/**
+	 * @param $table
+	 * @param $table_fields
+	 * @param $mode
+	 * @param bool $where
+	 * @return string
+	 * @throws \ilDatabaseException
+	 */
+	protected function buildManipSQL($table, $table_fields, $mode, $where = false) {
+		if ($this->options['quote_identifier']) {
+			$table = $this->quoteIdentifier($table);
+		}
+
+		if (!empty($table_fields) && $this->options['quote_identifier']) {
+			foreach ($table_fields as $key => $field) {
+				$table_fields[$key] = $this->quoteIdentifier($field);
+			}
+		}
+
+		if ($where !== false && !is_null($where)) {
+			if (is_array($where)) {
+				$where = implode(' AND ', $where);
+			}
+			$where = ' WHERE ' . $where;
+		}
+
+		switch ($mode) {
+			case ilDBConstants::MDB2_AUTOQUERY_INSERT:
+				if (empty($table_fields)) {
+					throw new ilDatabaseException('Insert requires table fields');
+				}
+				$cols = implode(', ', $table_fields);
+				$values = '?' . str_repeat(', ?', (count($table_fields) - 1));
+
+				return 'INSERT INTO ' . $table . ' (' . $cols . ') VALUES (' . $values . ')';
+				break;
+			case ilDBConstants::MDB2_AUTOQUERY_UPDATE:
+				if (empty($table_fields)) {
+					throw new ilDatabaseException('Update requires table fields');
+				}
+				$set = implode(' = ?, ', $table_fields) . ' = ?';
+				$sql = 'UPDATE ' . $table . ' SET ' . $set . $where;
+
+				return $sql;
+				break;
+			case ilDBConstants::MDB2_AUTOQUERY_DELETE:
+				$sql = 'DELETE FROM ' . $table . $where;
+
+				return $sql;
+				break;
+			case ilDBConstants::MDB2_AUTOQUERY_SELECT:
+				$cols = !empty($table_fields) ? implode(', ', $table_fields) : '*';
+				$sql = 'SELECT ' . $cols . ' FROM ' . $table . $where;
+
+				return $sql;
+				break;
+		}
+
+		throw new ilDatabaseException('Syntax error');
 	}
 }

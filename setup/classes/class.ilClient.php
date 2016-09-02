@@ -553,33 +553,6 @@ class ilClient
 
 
 	/**
-	 * Checks whether the db-connection can be established
-	 * @return bool
-	 */
-	public function checkDatabaseHost() {
-		global $lng;
-		switch ($this->getDbType()) {
-			case ilDBConstants::TYPE_ORACLE:
-				return true;
-			case ilDBConstants::TYPE_INNODB_LEGACY:
-			case ilDBConstants::TYPE_MYSQL_LEGACY:
-			case ilDBConstants::TYPE_POSTGRES_LEGACY:
-				$db = $this->db_connections->connectHost($this->dsn_host);
-				if (class_exists('MDB2')) {
-					if (MDB2::isError($db)) {
-						//$this->error = $db->getMessage()."! Please check database hostname, username & password.";
-						$this->error = $db->getMessage() . " - " . $db->getUserInfo() . " - " . $lng->txt("db_error_please_check");
-
-						return false;
-					}
-				}
-			default:
-				$this->db_connections->connectHost($this->dsn_host);
-				return true;
-		}
-	}
-
-	/**
 	* check database connection with database name
 	* @return	boolean
 	*/

@@ -1031,27 +1031,22 @@ class ilStartUpGUI
 		 */
 		global $lng;
 
-		
-		try
+
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
 		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-			if(ilTermsOfServiceHelper::isEnabled() && ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng))
-			{
-				$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
-				$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
-				$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
-	
-				return $this->substituteLoginPageElements(
-					$GLOBALS['tpl'],
-					$page_editor_html,
-					$utpl->get(),
-					'[list-user-agreement]',
-					'USER_AGREEMENT'
-				);
-			}
-		}
-		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
-		{
+			$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
+			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
+			$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
+
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$utpl->get(),
+				'[list-user-agreement]',
+				'USER_AGREEMENT'
+			);
 		}
 
 		return $this->substituteLoginPageElements(
@@ -1268,7 +1263,7 @@ class ilStartUpGUI
 				}
 				else
 				{
-					ilUti::sendFailure($this->lng->txt('err_wrong_login'));
+					ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 					$this->ctrl->redirect($this, 'showAccountMigration');
 				}
 				break;
@@ -1704,11 +1699,10 @@ class ilStartUpGUI
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
 
-		try
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+		if($document->exists())
 		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-			$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-
 			if('getAcceptance' == $this->ctrl->getCmd())
 			{
 				if(isset($_POST['status']) && 'accepted' == $_POST['status'])
@@ -1736,7 +1730,7 @@ class ilStartUpGUI
 
 			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
 		}
-		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+		else
 		{
 			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
 			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));

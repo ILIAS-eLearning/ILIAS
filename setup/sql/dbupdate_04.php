@@ -13029,9 +13029,9 @@ if ($ilDB->tableExists('il_log'))
 if ($ilDB->tableExists('il_verification'))
 {
 	$res = $ilDB->query("
-		SELECT id
+		SELECT id, type
 		FROM il_verification
-		GROUP BY id
+		GROUP BY id, type
 		HAVING COUNT(id) > 1
 	");
 
@@ -13040,20 +13040,21 @@ if ($ilDB->tableExists('il_verification'))
 		if(!$ilDB->tableExists('il_verification_tmp'))
 		{
 			$ilDB->createTable('il_verification_tmp', array(
-				'id' => array(
+					'id' => array(
 					'type'  => 'integer',
 					'length'=> 8,
 					'notnull' => true,
 					'default' => 0
 				)
 			));
-			$ilDB->addPrimaryKey('il_verification_tmp', array('id'));
+			$ilDB->addPrimaryKey('il_verification_tmp', array('id', 'type'));
 		}
 
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$ilDB->replace('il_verification_tmp', array(), array(
-				'id' => array('integer', $row['id'])
+				'id' => array('integer', $row['id']),
+				'type' => array('text', $row['type'])
 			));
 		}
 	}
@@ -13066,7 +13067,7 @@ if ($ilDB->tableExists('il_verification'))
 if ($ilDB->tableExists('il_verification_tmp'))
 {
 	$res = $ilDB->query("
-		SELECT id
+		SELECT id, type
 		FROM il_verification_tmp
 	");
 
@@ -13076,12 +13077,14 @@ if ($ilDB->tableExists('il_verification_tmp'))
 			SELECT *
 			FROM il_verification
 			WHERE
-			id = ".$ilDB->quote($row['id'] ,'integer')
+			id = ".$ilDB->quote($row['id'] ,'integer')." AND
+			type = ".$ilDB->quote($row['type'], 'text')							
 		);
 		$data = $ilDB->fetchAssoc($res_data);
 
 		$ilDB->manipulate("DELETE FROM il_verification WHERE".
-			" id = " . $ilDB->quote($row['id'] ,'integer')
+			" id = " . $ilDB->quote($row['id'] ,'integer').
+			" AND type = ".$ilDB->quote($row['type'], 'text')
 		);
 
 		$ilDB->manipulate("INSERT INTO il_verification (id, type, parameters, raw_data) ".
@@ -13093,7 +13096,8 @@ if ($ilDB->tableExists('il_verification_tmp'))
 			")");
 
 		$ilDB->manipulate("DELETE FROM il_verification_tmp WHERE".
-			" id = " . $ilDB->quote($row['id'] ,'integer')
+			" id = " . $ilDB->quote($row['id'] ,'integer').
+			" AND type = ".$ilDB->quote($row['type'], 'text')
 		);
 	}
 }
@@ -13113,7 +13117,7 @@ if( $ilDB->indexExistsByFields('il_verification', array('id')) )
 
 if($ilDB->tableExists('il_verification'))
 {
-	$ilDB->addPrimaryKey('il_verification', array('id'));
+	$ilDB->addPrimaryKey('il_verification', array('id', 'type'));
 }
 ?>
 <#4825>
@@ -17674,4 +17678,132 @@ ilDBUpdateNewObjectType::deleteRBACOperation('grpr', ilDBUpdateNewObjectType::RB
 <#5038>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#5039>
+<?php
+
+// get badge administration ref_id
+$set = $ilDB->query("SELECT oref.ref_id FROM object_reference oref".
+	" JOIN object_data od ON (od.obj_id = oref.obj_id)".
+	" WHERE od.type = ".$ilDB->quote("bdga"));
+$bdga_ref_id = $ilDB->fetchAssoc($set);
+$bdga_ref_id = (int)$bdga_ref_id["ref_id"];
+if($bdga_ref_id)
+{
+	// #18931 - check if ref_id can be found as child of admin node
+	$set = $ilDB->query("SELECT parent FROM tree".
+		" WHERE child = ".$ilDB->quote($bdga_ref_id, "int").
+		" AND tree.tree = ".$ilDB->quote(1, "int"));
+	$bdga_tree = $ilDB->fetchAssoc($set);
+	$bdga_tree = (int)$bdga_tree["parent"];	
+	if($bdga_tree != SYSTEM_FOLDER_ID)
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$tree->insertNode($bdga_ref_id, SYSTEM_FOLDER_ID);
+	}
+}
+
+?>
+<#5040>
+<?php
+//step 1/5 il_verification removes dublicates
+if ($ilDB->tableExists('il_verification'))
+{
+	$res = $ilDB->query("
+		SELECT id, type
+		FROM il_verification
+		GROUP BY id, type
+		HAVING COUNT(id) > 1
+	");
+
+	if($ilDB->numRows($res))
+	{
+		if(!$ilDB->tableExists('il_verification_tmp'))
+		{
+			$ilDB->createTable('il_verification_tmp', array(
+					'id' => array(
+					'type'  => 'integer',
+					'length'=> 8,
+					'notnull' => true,
+					'default' => 0
+				)
+			));
+			$ilDB->addPrimaryKey('il_verification_tmp', array('id', 'type'));
+		}
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$ilDB->replace('il_verification_tmp', array(), array(
+				'id' => array('integer', $row['id']),
+				'type' => array('text', $row['type'])
+			));
+		}
+	}
+}
+?>
+<#5041>
+<?php
+//step 2/5 il_verification deletes dublicates stored in il_verification_tmp
+if ($ilDB->tableExists('il_verification_tmp'))
+{
+	$res = $ilDB->query("
+		SELECT id, type
+		FROM il_verification_tmp
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$res_data = $ilDB->query("
+			SELECT *
+			FROM il_verification
+			WHERE
+			id = ".$ilDB->quote($row['id'] ,'integer')." AND
+			type = ".$ilDB->quote($row['type'], 'text')							
+		);
+		$data = $ilDB->fetchAssoc($res_data);
+
+		$ilDB->manipulate("DELETE FROM il_verification WHERE".
+			" id = " . $ilDB->quote($row['id'] ,'integer').
+			" AND type = ".$ilDB->quote($row['type'], 'text')
+		);
+
+		$ilDB->manipulate("INSERT INTO il_verification (id, type, parameters, raw_data) ".
+			"VALUES ( ".
+			$ilDB->quote($data['id'] ,'integer').', '.
+			$ilDB->quote($data['type'] ,'text').', '.
+			$ilDB->quote($data['parameters'] ,'text').', '.
+			$ilDB->quote($data['raw_data'] ,'text').
+			")");
+
+		$ilDB->manipulate("DELETE FROM il_verification_tmp WHERE".
+			" id = " . $ilDB->quote($row['id'] ,'integer').
+			" AND type = ".$ilDB->quote($row['type'], 'text')
+		);
+	}
+}
+?>
+<#5042>
+<?php
+//step 3/5 il_verification drops not used indexes
+if( $ilDB->indexExistsByFields('il_verification', array('id')) )
+{
+	$ilDB->dropIndexByFields('il_verification', array('id'));
+}
+?>
+<#5043>
+<?php
+//step 4/5 il_verification adding primary key
+if($ilDB->tableExists('il_verification'))
+{
+	$ilDB->dropPrimaryKey('il_verification'); 
+	$ilDB->addPrimaryKey('il_verification', array('id', 'type'));
+}
+?>
+<#5044>
+<?php
+//step 5/5 il_verification removes temp table
+if ($ilDB->tableExists('il_verification_tmp'))
+{
+	$ilDB->dropTable('il_verification_tmp');
+}
 ?>
