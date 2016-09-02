@@ -4,7 +4,7 @@
 	"license": "GPL v3",
 	"authors": [],
 	"require": {
-		"filp/whoops": "^2.0",
+		"filp/whoops": "^2.1.2",
 		"eluceo/ical": "^0.9.0",
 		"box/spout": "^2.4"
 	},
