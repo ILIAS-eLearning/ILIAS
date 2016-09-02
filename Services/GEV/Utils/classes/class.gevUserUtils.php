@@ -622,7 +622,7 @@ class gevUserUtils {
 	
 	/**
 	 * Checks wether a date is formatted according to iso and is a valid date.
-	 * For instance: 2016-08-31 should be invalid.
+	 * For instance: 2016-09-31 should be invalid.
 	 */
 	public static function checkISODateStringIsValid($date) {
 		$date_regexp = '#^\s*[1-2][0-9][0-9][0-9]-(0[1-9]|1[1-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s*$#';
