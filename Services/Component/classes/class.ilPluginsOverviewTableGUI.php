@@ -50,19 +50,29 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	function getComponents()
 	{		
 		$plugins = array();
+
+		$log = ilLoggerFactory::getLogger("exc");
+		$log->debug("plugins - start processing components");
+		
 		
 		include_once("./Services/Component/classes/class.ilModule.php");
 		$modules = ilModule::getAvailableCoreModules();
 		foreach ($modules as $m)
-		{
+		{						
+			// $log->debug("module ".$m["subdir"].": looking for slots");
+			
 			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE,
 				$m["subdir"]);
 			foreach ($plugin_slots as $ps)
 			{				
+				$log->debug("module ".$m["subdir"].": found slot (".$ps["id"].") ".$ps["name"]);
+				
 				include_once("./Services/Component/classes/class.ilPluginSlot.php");
 				$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
-				{															
+				{											
+					$log->debug("module ".$m["subdir"].": found plugin (".$p["id"].") ".$p["name"]);
+					
 					$plugins[] = $this->gatherPluginData(IL_COMP_MODULE, $slot, $m["subdir"], $p);
 				}				
 			}
@@ -70,19 +80,27 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		include_once("./Services/Component/classes/class.ilService.php");
 		$services = ilService::getAvailableCoreServices();
 		foreach ($services as $s)
-		{
+		{			
+			// $log->debug("service ".$s["subdir"].": looking for slots");
+			
 			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE,
 				$s["subdir"]);
 			foreach ($plugin_slots as $ps)
 			{				
+				$log->debug("service ".$s["subdir"].": found slot (".$ps["id"].") ".$ps["name"]);
+				
 				$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
-				{
+				{					
+					$log->debug("service ".$s["subdir"].": found plugin (".$p["id"].") ".$p["name"]);
+					
 					$plugins[] = $this->gatherPluginData(IL_COMP_SERVICE, $slot, $s["subdir"], $p);
 				}				
 			}
 		}
 		$this->setData($plugins);
+		
+		$log->debug("plugins - stop processing components");
 	}
 	
 	/**
