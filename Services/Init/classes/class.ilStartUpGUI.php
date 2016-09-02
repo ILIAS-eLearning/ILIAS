@@ -1263,7 +1263,7 @@ class ilStartUpGUI
 				}
 				else
 				{
-					ilUti::sendFailure($this->lng->txt('err_wrong_login'));
+					ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 					$this->ctrl->redirect($this, 'showAccountMigration');
 				}
 				break;
