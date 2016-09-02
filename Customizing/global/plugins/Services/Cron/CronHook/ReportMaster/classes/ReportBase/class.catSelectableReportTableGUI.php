@@ -116,6 +116,7 @@ class catSelectableReportTableGUI extends catTableGUI {
 	 * According to selection addColumns
 	 */
 	protected function spanColumns() {
+		$this->addColumn("", "blank", "0px", false);
 		$relevant = $this->relevantColumns();
 		foreach ($this->order as $column_id) {
 			if(isset($relevant[$column_id])) {
