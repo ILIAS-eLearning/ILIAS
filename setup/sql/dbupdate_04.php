@@ -17704,7 +17704,7 @@ if($bdga_ref_id)
 }
 
 ?>
-<#5039>
+<#5040>
 <?php
 //step 1/5 il_verification removes dublicates
 if ($ilDB->tableExists('il_verification'))
@@ -17741,7 +17741,7 @@ if ($ilDB->tableExists('il_verification'))
 	}
 }
 ?>
-<#5040>
+<#5041>
 <?php
 //step 2/5 il_verification deletes dublicates stored in il_verification_tmp
 if ($ilDB->tableExists('il_verification_tmp'))
@@ -17782,7 +17782,7 @@ if ($ilDB->tableExists('il_verification_tmp'))
 	}
 }
 ?>
-<#5041>
+<#5042>
 <?php
 //step 3/5 il_verification drops not used indexes
 if( $ilDB->indexExistsByFields('il_verification', array('id')) )
@@ -17790,7 +17790,7 @@ if( $ilDB->indexExistsByFields('il_verification', array('id')) )
 	$ilDB->dropIndexByFields('il_verification', array('id'));
 }
 ?>
-<#5042>
+<#5043>
 <?php
 //step 4/5 il_verification adding primary key
 if($ilDB->tableExists('il_verification'))
@@ -17799,7 +17799,7 @@ if($ilDB->tableExists('il_verification'))
 	$ilDB->addPrimaryKey('il_verification', array('id', 'type'));
 }
 ?>
-<#5043>
+<#5044>
 <?php
 //step 5/5 il_verification removes temp table
 if ($ilDB->tableExists('il_verification_tmp'))
