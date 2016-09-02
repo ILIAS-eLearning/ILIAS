@@ -210,7 +210,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$id = $ids[0];
 		$expected = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" id=\"$id\">".
-					"	<span aria-hidden=\"true\">x</span>".
+					"	<span aria-hidden=\"true\">&times;</span>".
 					"	<span class=\"sr-only\">Close</span>".
 					"</button>";
 		$this->assertEquals($expected, $html);
