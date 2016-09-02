@@ -72,7 +72,7 @@ class ilDbSetup {
 		require_once('./Services/Init/classes/class.ilIniFile.php');
 		require_once('./setup/classes/class.ilDBConnections.php');
 
-		$ilClient = new ilClient($client_name,  new ilDBConnections());
+		$ilClient = new ilClient($client_name, new ilDBConnections());
 		$ilClient->init();
 		$ilClient->setDbHost($host);
 		$ilClient->setDbName($dbname);
@@ -124,6 +124,7 @@ class ilDbSetup {
 		$this->client->db = null; // TODO ugly and dirty, but ilClient requires it
 	}
 
+
 	/**
 	 * @param $fp
 	 * @param $delim
@@ -145,7 +146,7 @@ class ilDbSetup {
 
 	/**
 	 * @description legacy version of readdump
-	 * @deprecated use readDumpUltraSmall
+	 * @deprecated  use readDumpUltraSmall
 	 * @return bool
 	 */
 	protected function readDump() {
@@ -229,6 +230,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_POSTGRES_LEGACY:
 					include_once("./setup/sql/ilDBTemplate.php");
 					setupILIASDatabase();
+
 					return true;
 					break;
 			}
@@ -386,7 +388,7 @@ class ilDbSetup {
 	/**
 	 * @param \ilDBInterface $ilDBInterface
 	 */
-	public function setIlDBInterface(\ilDBInterface $ilDBInterface) {
+	public function setIlDBInterface($ilDBInterface) {
 		$this->ilDBInterface = $ilDBInterface;
 	}
 }
