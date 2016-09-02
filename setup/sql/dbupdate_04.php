@@ -13029,7 +13029,7 @@ if ($ilDB->tableExists('il_log'))
 if ($ilDB->tableExists('il_verification'))
 {
 	$res = $ilDB->query("
-		SELECT id
+		SELECT id, type
 		FROM il_verification
 		GROUP BY id, type
 		HAVING COUNT(id) > 1
@@ -17710,7 +17710,7 @@ if($bdga_ref_id)
 if ($ilDB->tableExists('il_verification'))
 {
 	$res = $ilDB->query("
-		SELECT id
+		SELECT id, type
 		FROM il_verification
 		GROUP BY id, type
 		HAVING COUNT(id) > 1
