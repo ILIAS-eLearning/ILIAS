@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by PIPPO (EMBRACE) -->
+<wsdl:definitions xmlns:p1="urn:aptar.com:global" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:aptar.com:global" name="EmployeeReplication_Ilias_In">
+	<wsdl:types>
+		<xsd:schema targetNamespace="urn:aptar.com:global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:aptar.com:global">
+			<xsd:element name="EmployeeCreateRequest_Ilias" type="EmployeeData_Ilias"/>
+			<xsd:complexType name="EmployeeAdditionalDataItem">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">a534456d621211e5ce5200000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="Name">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="30"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="Value">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="30"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Employee">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">1215e95082e511e5812400000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="BasicData" type="EmployeeBasicData" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">4575d16f620b11e5c83c5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Personal information</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="TechnicalData" type="EmployeeTechnicalData" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">a73d1c90620b11e598af5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Contact information</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="PayrollData" type="EmployeePayrollData" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">52eaecc9621011e5bdd85445e31df71b</xsd:appinfo>
+							<xsd:documentation>Payroll information</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="OrgChartData" type="EmployeeOrgChartData" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">2e6590d3621311e585d05445e31df71b</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="AdditionalData" type="EmployeeAdditionalData" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">2e6590d4621311e599535445e31df71b</xsd:appinfo>
+							<xsd:documentation>Additional data for future extensions</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeOrgChartMasterData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">609c0afa681a11e5a6be00000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="OTYPE" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">65fe18d0681a11e5a5545445e31df71b</xsd:appinfo>
+							<xsd:documentation>Object Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="OBJID" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">65fe18d1681a11e5b2565445e31df71b</xsd:appinfo>
+							<xsd:documentation>Object ID</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="SHORT" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">65fe45da681a11e5a02a5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Short descr</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="12"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="STEXT" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">65fe45db681a11e5ce255445e31df71b</xsd:appinfo>
+							<xsd:documentation>Long descr</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="40"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeTechnicalData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">d2c0dddf87b011e5a55c00000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="PERNR" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2093ddf620a11e5aec35445e31df71b</xsd:appinfo>
+							<xsd:documentation>SAP Personnel n°</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="INFTY" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2093de0620a11e5aa775445e31df71b</xsd:appinfo>
+							<xsd:documentation>Infotype</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="4"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="BEGDA" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2093de2620a11e5ce645445e31df71b</xsd:appinfo>
+							<xsd:documentation>Start date of the infotypes record</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="AEDTM" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2096f34620a11e5a0025445e31df71b</xsd:appinfo>
+							<xsd:documentation>Date changed on</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="USRID_LONG" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2096f35620a11e5cc315445e31df71b</xsd:appinfo>
+							<xsd:documentation>Email</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="TEL_NUMBER" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2096f36620a11e58a4b5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Work phone</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="USRID" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f2096f37620a11e5a5595445e31df71b</xsd:appinfo>
+							<xsd:documentation>SAP User ID/Active Directory ID/Work mobile</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeePayrollData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">59043203691911e5a33700000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="PERNR" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca06f93620b11e594275445e31df71b</xsd:appinfo>
+							<xsd:documentation>SAP Personnel n°</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="INFTY" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca06f94620b11e5914d5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Infotype</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="4"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="BEGDA" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca06f95620b11e5bc345445e31df71b</xsd:appinfo>
+							<xsd:documentation>Start date of the infotypes record</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="AEDTM" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca06f96620b11e59e575445e31df71b</xsd:appinfo>
+							<xsd:documentation>Date changed on</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="SCHKZ" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09091620b11e5c0ed5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Working schedule rule</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="TRFAR" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09092620b11e5cc645445e31df71b</xsd:appinfo>
+							<xsd:documentation>Pay Scale Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="TRFGB" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09093620b11e58f795445e31df71b</xsd:appinfo>
+							<xsd:documentation>Pay Scale Area</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="TRFGR" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09094620b11e5cdb75445e31df71b</xsd:appinfo>
+							<xsd:documentation>Pay Scale Group</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="TRFST" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09095620b11e5bd855445e31df71b</xsd:appinfo>
+							<xsd:documentation>Pay Scale Level</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="PREAS" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09096620b11e5a0895445e31df71b</xsd:appinfo>
+							<xsd:documentation>Reason</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="ANSAL_15" type="xsd:integer" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09097620b11e591af5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Annual Salary</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ANZHL" type="xsd:integer" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09098620b11e5afc85445e31df71b</xsd:appinfo>
+							<xsd:documentation>Salary</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="BNKSA" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca09099620b11e5ab645445e31df71b</xsd:appinfo>
+							<xsd:documentation>Bank Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="EMFTX" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca0909a620b11e5c4ff5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Payee</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="BANKS" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca0909b620b11e5c6fd5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Bank Country</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="BANKL" type="xsd:integer" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca0909c620b11e5ab845445e31df71b</xsd:appinfo>
+							<xsd:documentation>Bank Key</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="BANKN" type="xsd:integer" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca0909d620b11e5afa65445e31df71b</xsd:appinfo>
+							<xsd:documentation>Bank Account n.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="SWIFT" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca0909e620b11e5b0fc5445e31df71b</xsd:appinfo>
+							<xsd:documentation>SWIFT Code</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ZLSCH" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">fca0909f620b11e5a1a75445e31df71b</xsd:appinfo>
+							<xsd:documentation>Payment Method</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="IBAN" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">0d3a7465620c11e5a74b5445e31df71b</xsd:appinfo>
+							<xsd:documentation>IBAN</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="BKONT" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">0d3a7466620c11e5a3745445e31df71b</xsd:appinfo>
+							<xsd:documentation>Bank Control Key</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeData_Ilias">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">927141dcd40911e58d9900000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="sid" type="xsd:string">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">afb7ff23d40911e5b9da5459b1d45419</xsd:appinfo>
+							<xsd:documentation>sid for authentication</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Employee" type="Employee" minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">afb7ff24d40911e5c1555459b1d45419</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeOrgChartHierarchyData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">b059cdca681a11e5a12600000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="OTYPE" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">b80cad00681a11e5a4d75445e31df71b</xsd:appinfo>
+							<xsd:documentation>Object Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="OBJID" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">b80cad01681a11e5a7545445e31df71b</xsd:appinfo>
+							<xsd:documentation>Object Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="SCLAS" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">b80cad02681a11e5b2d55445e31df71b</xsd:appinfo>
+							<xsd:documentation>Object Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="SOBID" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">b80cad03681a11e58e1d5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Object Type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="45"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeBasicData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">3c316d2782e511e5b67700000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="PERNR" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044709c620611e597465445e31df71b</xsd:appinfo>
+							<xsd:documentation>SAP Personnel n°</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="INFTY" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044709d620611e59a3f5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Infotype</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="4"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="BEGDA" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044709e620611e5cbf45445e31df71b</xsd:appinfo>
+							<xsd:documentation>Start date of the infotypes record</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="AEDTM" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044709f620611e5a6745445e31df71b</xsd:appinfo>
+							<xsd:documentation>Date changed on</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="MASSN" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f04470a0620611e5918f5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Action type</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="STAT2" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4bd620611e59bff5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Employment status</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="BUKRS" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4be620611e5a39e5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Company Code/Legal Entity</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="4"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="WERKS" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4bf620611e586575445e31df71b</xsd:appinfo>
+							<xsd:documentation>Personnel Area</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="4"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="PERSG" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c0620611e5c86b5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Employee group</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="PERSK" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c1620611e5cdca5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Employee Subgroup</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="ORGEH" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c2620611e599c95445e31df71b</xsd:appinfo>
+							<xsd:documentation>Organizational Unit/Department</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="PLANS" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c3620611e587a85445e31df71b</xsd:appinfo>
+							<xsd:documentation>Position</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="ZSEGM" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c4620611e5a13c5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Segment</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="30"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="ZMNGR" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c5620611e5c2375445e31df71b</xsd:appinfo>
+							<xsd:documentation>Personell Number</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="8"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="NACHN" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c6620611e5c1e15445e31df71b</xsd:appinfo>
+							<xsd:documentation>Last name</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="VORNA" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c7620611e5be295445e31df71b</xsd:appinfo>
+							<xsd:documentation>First name</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="NACHN2" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c8620611e596cc5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Second Last name</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ANRED" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4c9620611e5a1955445e31df71b</xsd:appinfo>
+							<xsd:documentation>Title</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="GESCH" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044b4ca620611e5af755445e31df71b</xsd:appinfo>
+							<xsd:documentation>Gender</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="GBDAT" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">f044e022620611e5a8c15445e31df71b</xsd:appinfo>
+							<xsd:documentation>Birth date</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="NATIO" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2d9620711e5b7da5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Nationality</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="FAMST" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2da620711e59b4d5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Marital Status</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="PERID" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2db620711e581d55445e31df71b</xsd:appinfo>
+							<xsd:documentation>Personnel ID</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="PSTLZ" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2dc620711e59b8c5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Postal code</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LAND1" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2dd620711e59bfe5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Country</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:length value="2"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="STATE" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2de620711e59d0d5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Region/State</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="HSNMR" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2df620711e5aed75445e31df71b</xsd:appinfo>
+							<xsd:documentation>House number</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="STRAS_40" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2e0620711e5ae5c5445e31df71b</xsd:appinfo>
+							<xsd:documentation>Street</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ORT01_40" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2e1620711e5a1aa5445e31df71b</xsd:appinfo>
+							<xsd:documentation>City</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LOCAT_40" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccea2e2620711e5bb2c5445e31df71b</xsd:appinfo>
+							<xsd:documentation>2nd address line</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ORT02_40" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">1ccecf2e620711e5823b5445e31df71b</xsd:appinfo>
+							<xsd:documentation>District</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="AREAC" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">372e663d620711e588a55445e31df71b</xsd:appinfo>
+							<xsd:documentation>Area Code</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="TELNR" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">372e663e620711e588215445e31df71b</xsd:appinfo>
+							<xsd:documentation>Telephone number</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="PNALT" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">372e663f620711e5a9dc5445e31df71b</xsd:appinfo>
+							<xsd:documentation>ID in payroll system</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeOrgChartData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">db13de26d3dd11e5b24800000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="MasterData" type="EmployeeOrgChartMasterData" minOccurs="0">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">d964da5ed3dd11e581605459b1d45419</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="HierarchyData" type="EmployeeOrgChartHierarchyData" minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">d964da5fd3dd11e5c68b5459b1d45419</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="EmployeeAdditionalData">
+				<xsd:annotation>
+					<xsd:appinfo source="http://sap.com/xi/VersionID">bd8144ac621211e5acd800000248e2aa</xsd:appinfo>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="Item" type="EmployeeAdditionalDataItem" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:appinfo source="http://sap.com/xi/TextID">ce102935621211e5b0805445e31df71b</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="EmployeeCreateRequest_Ilias">
+		<wsdl:documentation/>
+		<wsdl:part name="EmployeeCreateRequest_Ilias" element="p1:EmployeeCreateRequest_Ilias"/>
+	</wsdl:message>
+	<wsdl:portType name="EmployeeReplication_Ilias_In">
+		<wsdl:documentation/>
+		<wsdl:operation name="EmployeeReplicateRequest_Asynch">
+			<wsdl:documentation/>
+			<wsp:Policy>
+				<wsp:PolicyReference URI="#OP_EmployeeReplicateRequest_Asynch"/>
+			</wsp:Policy>
+			<wsdl:input message="p1:EmployeeCreateRequest_Ilias"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="EmployeeReplication_Ilias_InBinding" type="p1:EmployeeReplication_Ilias_In">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		<wsdl:operation name="EmployeeReplicateRequest_Asynch">
+			<wsp:operation soapAction="urn:ilUserAdministration#EmployeeReplicateRequest_Asynch" style="document" />
+			<wsdl:input>
+				<soap:body xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal"/>
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="EmployeeReplication_Ilias_InService">
+		<wsdl:port name="EmployeeReplication_Ilias_InPort" binding="p1:EmployeeReplication_Ilias_InBinding">
+			<soap:address location="{{HTTP_PATH}}" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</wsdl:port>
+	</wsdl:service>
+	<wsdl:documentation/>
+	<wsp:UsingPolicy wsdl:required="false"/>
+	<wsp:Policy wsu:Id="OP_EmployeeReplicateRequest_Asynch"/>
+</wsdl:definitions>

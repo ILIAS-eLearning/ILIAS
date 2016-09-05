@@ -1385,6 +1385,54 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		
 		return (int)$data['usr_id'];
 	}
+	// aptar-patch: begin
+	/**
+	 * @param string $sid
+	 * @param string $xml
+	 * @return bool
+	 */
+	public function importEmployeeData($sid, $xml)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+		}
+
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('write', USER_FOLDER_ID))
+		{
+			return $this->__raiseError('No access to the global user administration.', 'Server');
+		}
+
+		require_once 'Services/Aptar/classes/class.ilAptarEmployeeXmlReader.php';
+		$reader = new ilAptarEmployeeXmlReader('', true);
+		$reader->setXml($xml);
+
+		if(!$reader->validate())
+		{
+			$fault_string = $reader->errorToString();
+			unset($reader);
+			return $this->__raiseError($fault_string, 'Client');
+		}
+
+		if(!$reader->import())
+		{
+			$fault_string = $reader->errorToString();
+			unset($reader);
+			return $this->__raiseError($fault_string, 'Client');
+		}
+
+		unset($reader);
+
+		return true;
+	}
+	// aptar-patch: end
 }
 ?>

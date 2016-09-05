@@ -1,0 +1,29 @@
+cleanup_status#:#Aufräumarbeiten
+cleanup_status_info#:#Falls aktiviert, werden Logdateien gelöscht, die älter als der definierte Zeitpunkt sind.
+cleanup_boundary_value#:#Wert
+cleanup_boundary_value_info#:#Bitte tragen Sie hier einen ganzzahligen Wert ein.
+cleanup_boundary_unit#:#Einheit
+cleanup_boundary_unit_info#:#Bitte wählen Sie die gewünschte Einheit.
+cleanup_boundary_unit_days#:#Tag(e)
+cleanup_boundary_unit_weeks#:#Woche(n)
+cleanup_boundary_unit_months#:#Monat(e)
+cleanup_boundary_unit_years#:#Jahr(e)
+file#:#Datei
+all_objects#:#Alle Objekte
+datatable#:#Logdateien
+errors#:#Fehler
+warnings#:#Warnungen
+data_sets#:#Daten Sets
+duration#:#Dauer
+file_size#:#Dateigröße
+notification_mail#:#Benachrichtigungs Mail
+notification_mail_info#:#Wenn aktiviert wird eine Email Benachrichtigung versendet.
+recipients#:#Empfänger
+recipients_info#:#Bitte Kommasepariert die Empfänger Login Namen eintragen
+subject#:#Email Betreff
+subject_info#:#Sie können den Betreff der Email änder. Benutzen Sie "%s" um das Datum der Log Erzeugung einzutragen.
+error_level#:#Fehlerlevel
+error_level_info#:#Mails werden nur versendet, wenn der Synchronisationprozess mindestens ein Eintrag mit dem hier eingestellten Fehlerlevel auftritt.
+add_attachment#:#Logfile als Anhang
+add_attachment_info#:#Wenn aktiviert wird das erzeugte Logfile als (zip) Datei angehangen.
+mail_message#:#Der Import lief durch mit folgendem Ergebnis: Fehler: %s, Warnungen: %s, Datensätze: %s, Dauer: %s, Dateigröße Logile: %s.
