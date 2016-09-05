@@ -204,7 +204,9 @@ class ilObjectAddNewItemGUI
 			}				
 			
 			$current_grp = null;
+			// gev patch start
 			$plugins = array();
+			// gev patch end
 			foreach ($subtypes as $type => $subitem)
 			{								
 				if (!in_array($type, $this->disabled_object_types))
@@ -254,7 +256,7 @@ class ilObjectAddNewItemGUI
 							// #13088
 							$title = $lng->txt("obj_".$type);
 						}
-
+						// gev patch start
 						if($type === 'object' && preg_match('#^x[\w]{1,3}$#', $title)) {
 							$plugins[] = array("type" => "object",
 								"value" => $type,
@@ -265,11 +267,12 @@ class ilObjectAddNewItemGUI
 								"title" => $title);
 
 						}
+						// gev patch end
 					}
 				}
 			}
 		}		
-
+		// gev patch start: sorting plugins according to title here
 		usort($plugins, function ($sub_obj_1, $sub_obj_2) {
 			return strcmp($sub_obj_1['title'], $sub_obj_2['title']);
 		});
@@ -277,7 +280,7 @@ class ilObjectAddNewItemGUI
 		foreach ($plugins as $key => $value) {
 			$this->sub_objects[] = $value;
 		}
-
+		// gev patch end
 		return (bool)sizeof($this->sub_objects);
 	}
 	
