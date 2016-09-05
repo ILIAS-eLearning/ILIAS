@@ -121,7 +121,7 @@ class ilObjectAddNewItemGUI
 	protected function parseRepository()
 	{
 		global $objDefinition, $lng, $ilAccess;
-		
+
 		$this->sub_objects = array();
 		
 		if(!is_array($this->disabled_object_types))
@@ -204,6 +204,7 @@ class ilObjectAddNewItemGUI
 			}				
 			
 			$current_grp = null;
+			$plugins = array();
 			foreach ($subtypes as $type => $subitem)
 			{								
 				if (!in_array($type, $this->disabled_object_types))
@@ -253,29 +254,27 @@ class ilObjectAddNewItemGUI
 							// #13088
 							$title = $lng->txt("obj_".$type);
 						}
-						
-						$this->sub_objects[] = array("type" => "object",
-							"value" => $type,
-							"title" => $title);							
+
+						if($type === 'object' && preg_match('#^x[\w]{1,3}$#', $title)) {
+							$plugins[] = array("type" => "object",
+								"value" => $type,
+								"title" => $title);
+						} else {
+							$this->sub_objects[] = array("type" => "object",
+								"value" => $type,
+								"title" => $title);
+
+						}
 					}
-				}				
+				}
 			}
 		}		
-		$reports = array();
-		foreach ($this->sub_objects as $key => $value) {
-			if($value['type'] ===  'object' && preg_match('#^x[\w]{1,3}$#', $value['value'])) {
-				$reports[$key] = $value;
-			}
-		}
-		foreach ($reports as $key => $value) {
-			unset($this->sub_objects[$key]);
-		}
 
-		usort($reports,function ($sub_obj_1, $sub_obj_2) {
+		usort($plugins, function ($sub_obj_1, $sub_obj_2) {
 			return strcmp($sub_obj_1['title'], $sub_obj_2['title']);
 		});
 
-		foreach ($reports as $key => $value) {
+		foreach ($plugins as $key => $value) {
 			$this->sub_objects[] = $value;
 		}
 
