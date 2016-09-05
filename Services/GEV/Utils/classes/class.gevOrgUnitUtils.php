@@ -580,14 +580,6 @@ class gevOrgUnitUtils {
 
 	static public function getSuperiorsIn($a_ref_ids) {
 		global $ilDB;
-		
-		$sql = "SELECT ua.usr_id"
-			."  FROM rbac_ua ua"
-			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
-			."  JOIN rbac_fa fa ON fa.parent = tr.child"
-			."  JOIN object_data od ON od.obj_id = fa.rol_id"
-			." WHERE ua.rol_id = fa.rol_id"
-			."   AND od.title LIKE 'il_orgu_superior_%'";
 
 		$res = $ilDB->query(
 			 "SELECT ua.usr_id"

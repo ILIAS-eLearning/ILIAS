@@ -10,9 +10,10 @@ require_once("./Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
  */
 class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	public function __construct() {
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilCtrl;
 		$this->gLng = $lng;
 		$this->gUser = $ilUser;
+		$this->gCtrl = $ilCtrl;
 	}
 
 	/**
@@ -143,6 +144,19 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 
 		$items["training_admin"]
 			= array($this->gLng->txt("gev_my_trainings_admin"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin");
+
+		$this->plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+							ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", "xtas"));
+
+		if($this->plugin->active) {
+			$items["my_assessments"]
+				= array($this->gLng->txt("gev_my_assessments"), "ilias.php?baseClass=gevDesktopGUI&cmd=toMyAssessments");
+
+			if($user_utils && $user_utils->isAdmin()) {
+				$items["all_assessments"]
+					= array($this->gLng->txt("gev_all_assessments"), "ilias.php?baseClass=gevDesktopGUI&cmd=toAllAssessments");
+			}
+		}
 
 		return $items;
 	}
