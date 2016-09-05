@@ -2,6 +2,8 @@
 
 namespace CaT\Plugins\TalentAssessment\Settings;
 
+require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+
 class ilDB implements DB {
 	const PLUGIN_TABLE = "rep_obj_xtas";
 	const USR_TABLE = "usr_data";
@@ -244,7 +246,7 @@ class ilDB implements DB {
 	 * @inheritdoc
 	 */
 	public function getVenueOptions() {
-
+		return \gevOrgUnitUtils::getVenueNames();
 	}
 	
 	/**
