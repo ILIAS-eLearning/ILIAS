@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Simplesamlphp Saml2" default="build">
+    <target name="build"
+            depends="prepare,composer-run-install,php-lint-ci,phpmd-ci,phpcs-ci,phpcpd-ci,php-security-checker,phpunit-ci"/>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="build/artifacts/coverage"/>
+        <delete dir="build/artifacts/logs"/>
+    </target>
+
+    <target name="prepare-dev" description="Prepare for dev build">
+    </target>
+
+    <target name="prepare" depends="clean" description="Prepare for build">
+        <mkdir dir="build/artifacts/coverage"/>
+        <mkdir dir="build/artifacts/logs"/>
+    </target>
+
+    <target name="check-composer">
+        <available file="composer.phar" property="composer.installed"/>
+    </target>
+
+    <target name="composer-install" depends="check-composer" unless="composer.installed">
+        <get src="http://getcomposer.org/composer.phar" dest="composer.phar"/>
+    </target>
+
+    <target name="composer-update" depends="composer-install">
+        <exec executable="php" failonerror="true">
+            <arg line="composer.phar self-update"/>
+        </exec>
+    </target>
+
+    <target name="composer-run-install" depends="composer-update">
+        <exec executable="php" failonerror="true">
+            <arg line="composer.phar install --dev --prefer-source"/>
+        </exec>
+    </target>
+
+    <target name="php-lint-ci" description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l"/>
+            <fileset dir="src">
+                <include name="**/*.php"/>
+                <modified/>
+            </fileset>
+        </apply>
+    </target>
+    
+    
+    <target name="php-security-checker" description="Check your composer dependencies for insecure components">
+        <exec executable="vendor/bin/security-checker" failonerror="false">
+            <arg value="security:check"/>
+            <arg value="--verbose"/>
+            <arg value="composer.lock"/>
+        </exec>
+    </target>
+    
+    <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="vendor/bin/phpmd" failonerror="true">
+            <arg path="src"/>
+            <arg value="text"/>
+            <arg value="tools/phpmd/ruleset.xml"/>
+            <!-- These classes are already messes, exclude them for now... -->
+            <arg value="--exclude" />
+            <arg value="${basedir}/src/SAML2/AuthnRequest.php,${basedir}/src/SAML2/Assertion.php,${basedir}/src/SAML2/SOAP.php,${basedir}/src/SAML2/SOAPClient.php,${basedir}/src/SAML2/Utils.php,${basedir}/src/SAML2/XML/md/EntityDescriptor.php,${basedir}/src/SAML2/XML/md/RoleDescriptor.php,${basedir}/src/SAML2/XML/saml/SubjectConfirmationData.php" />
+        </exec>
+    </target>
+
+    <target name="phpmd-ci"
+            description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="vendor/bin/phpmd" output="/dev/null" failonerror="true">
+            <arg path="src"/>
+            <arg value="xml"/>
+            <arg value="tools/phpmd/ruleset.xml"/>
+            <arg value="--reportfile"/>
+            <arg value="build/artifacts/logs/pmd.xml"/>
+            <!-- These classes are already messes, exclude them for now... -->
+            <arg value="--exclude" />
+            <arg value="${basedir}/src/SAML2/AuthnRequest.php,${basedir}/src/SAML2/Assertion.php,${basedir}/src/SAML2/SOAP.php,${basedir}/src/SAML2/SOAPClient.php,${basedir}/src/SAML2/Utils.php,${basedir}/src/SAML2/XML/md/EntityDescriptor.php,${basedir}/src/SAML2/XML/md/RoleDescriptor.php,${basedir}/src/SAML2/XML/saml/SubjectConfirmationData.php" />
+        </exec>
+    </target>
+
+    <target name="phpcs"
+            description="Find coding standard violations using PHP_CodeSniffer">
+        <exec executable="vendor/bin/phpcs" failonerror="true">
+            <arg value="--standard=tools/phpcs/ruleset.xml"/>
+            <arg value="--extensions=php"/>
+            <arg path="src"/>
+        </exec>
+    </target>
+
+    <target name="phpcs-ci"
+            description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+        <exec executable="vendor/bin/phpcs" output="/dev/null" failonerror="true">
+            <arg value="--report-checkstyle=build/artifacts/logs/checkstyle-php.xml"/>
+            <arg value="--standard=tools/phpcs/ruleset.xml"/>
+            <arg value="--extensions=php"/>
+            <arg path="src"/>
+        </exec>
+    </target>
+    
+    <target name="phpcpd-ci" description="Find duplicate code using PHPCPD">
+        <exec executable="vendor/bin/phpcpd" failonerror="false">
+            <arg value="--log-pmd"/>
+            <arg value="build/artifacts/logs/pmd-cpd.xml"/>
+            <arg path="src"/>
+        </exec>
+    </target>
+    
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+        <exec executable="vendor/bin/phpunit" failonerror="true">
+            <arg line="--configuration=${basedir}/tools/phpunit"/>
+        </exec>
+    </target>
+
+    <target name="phpunit-ci" description="Run unit tests with PHPUnit">
+        <exec executable="vendor/bin/phpunit" failonerror="true">
+            <arg line="--configuration=${basedir}/tools/phpunit"/>
+            <arg line="--coverage-html=build/artifacts/coverage"/>
+            <arg line="--log-junit=build/artifacts/logs/junit.xml"/>
+            <arg line="--coverage-clover=build/artifacts/logs/clover.xml"/>
+        </exec>
+    </target>
+    
+</project>
