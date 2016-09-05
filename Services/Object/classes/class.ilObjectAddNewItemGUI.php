@@ -257,7 +257,7 @@ class ilObjectAddNewItemGUI
 							$title = $lng->txt("obj_".$type);
 						}
 						// gev patch start
-						if($type === 'object' && preg_match('#^x[\w]{1,3}$#', $title)) {
+						if(preg_match('#^x[\w]{1,3}$#', $type)) {
 							$plugins[] = array("type" => "object",
 								"value" => $type,
 								"title" => $title);
@@ -271,7 +271,7 @@ class ilObjectAddNewItemGUI
 					}
 				}
 			}
-		}		
+		}
 		// gev patch start: sorting plugins according to title here
 		usort($plugins, function ($sub_obj_1, $sub_obj_2) {
 			return strcmp($sub_obj_1['title'], $sub_obj_2['title']);
