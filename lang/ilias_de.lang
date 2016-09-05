@@ -14,31 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-auth#:#auth_saml#:#SAML
-common#:#auth_saml#:#SAML
-common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
-common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
-auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
-auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
-auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Benutzerkonten auf SAML-Authentifizierung umzustellen.
-auth#:#auth_saml_migration#:#Account-Migration:
-auth#:#auth_saml_role_select#:#Rolle:
-auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
-auth#:#auth_saml_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Benutzerkonto für Personen angelegt, wenn sich diese erfolgreich gegen SAML authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.  Des Weiteren werden bei Aktivierung bereits vorhandene Benutzerkonten aktualisiert.
-auth#:#auth_saml_sync#:#Benutzer-Synchronisierung
-auth#:#auth_saml_uid_claim#:#Eindeutiges Attribut für die Benutzerkonten-Identifikation
-auth#:#auth_saml_uid_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS bei der Authentifizierung ermitteln kann, ob ein Benutzerkonto bereits existiert, oder ob es sich um ein bereits vorhandenes Benutzerkonto handelt.
-auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Benutzernamen
-auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Benutzernamen generieren soll.
-auth#:#auth_saml_user_mapping#:#Zuordnung der Profildaten
-auth#:#auth_saml_update_field_info#:#Automatisch aktualisieren
-auth#:#err_auth_saml_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
-auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
-auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
-auth#:#auth_saml_idps#:#SAML IDP Liste
-auth#:#auth_saml_idp#:#IDP
-auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
-auth#:#auth_saml_idp_settings#:#IDP Einstellungen
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum

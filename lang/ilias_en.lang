@@ -14,31 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-auth#:#auth_saml#:#SAML
-common#:#auth_saml#:#SAML
-common#:#saml_login_form_txt#:#Login to ILIAS via SAML
-common#:#saml_login_form_info_txt#:#To log in via SAML, please click on the 'Login' button.
-auth#:#auth_saml_configure#:#Configure SAML Authentication
-auth#:#auth_saml_enable#:#Enable SAML Support
-auth#:#auth_saml_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to SAML authentication.
-auth#:#auth_saml_migration#:#Account Migration:
-auth#:#auth_saml_role_select#:#Role:
-auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
-auth#:#auth_saml_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.  Furthermore existing user accounts will be modified according to the defined user profile mapping rules.
-auth#:#auth_saml_sync#:#User Synchronization
-auth#:#auth_saml_uid_claim#:#Unique Attribute for User Account Matching
-auth#:#auth_saml_uid_claim_info#:#Define the attribute ILIAS uses to detect whether or not an incoming authentication request matches an existing ILIAS user account.
-auth#:#auth_saml_username_claim#:#Arrtibue for Username
-auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
-auth#:#auth_saml_user_mapping#:#User Profile Mapping
-auth#:#auth_saml_update_field_info#:#Update automatically
-auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
-auth#:#auth_saml_login_form#:#Button on Login Page
-auth#:#auth_saml_login_form_info#:#If activated and there is at least one active IDP, a button appears on the login page. A click on this button initiates a SAML request.
-auth#:#auth_saml_idps#:#SAML IDP List
-auth#:#auth_saml_idp#:#IDP
-auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
-auth#:#auth_saml_idp_settings#:#IDP Settings
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_comp_frm#:#Forum
