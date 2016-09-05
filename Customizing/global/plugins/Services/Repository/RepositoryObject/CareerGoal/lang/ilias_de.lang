@@ -54,7 +54,7 @@ delete_selected#:#Entfernen
 save#:#Speichern
 requirements_table_sort_title#:#Anforderungen sortieren
 objs_xcgo#:#Karriereziele
-obs_xcgo#:#Karriereziel
+obj_xcgo#:#Karriereziel
 xcgo_new#:#Neues Karriereziel anlegen
 objs_xcgo_duplicate#:#Karriereziel kopieren
 new_observation#:#Neue Beobachtung
