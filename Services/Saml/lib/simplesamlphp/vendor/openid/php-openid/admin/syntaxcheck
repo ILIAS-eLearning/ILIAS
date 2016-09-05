@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-for file in `./admin/findallphp`
-  do php -l $file
-done
