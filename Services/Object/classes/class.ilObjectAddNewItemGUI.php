@@ -261,7 +261,24 @@ class ilObjectAddNewItemGUI
 				}				
 			}
 		}		
-		
+		$reports = array();
+		foreach ($this->sub_objects as $key => $value) {
+			if($value['type'] ===  'object' && preg_match('#^x[\w]{1,3}$#', $value['value'])) {
+				$reports[$key] = $value;
+			}
+		}
+		foreach ($reports as $key => $value) {
+			unset($this->sub_objects[$key]);
+		}
+
+		usort($reports,function ($sub_obj_1, $sub_obj_2) {
+			return strcmp($sub_obj_1['title'], $sub_obj_2['title']);
+		});
+
+		foreach ($reports as $key => $value) {
+			$this->sub_objects[] = $value;
+		}
+
 		return (bool)sizeof($this->sub_objects);
 	}
 	
