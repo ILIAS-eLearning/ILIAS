@@ -234,7 +234,12 @@ class ilStartUpGUI
 				case AUTH_APACHE_FAILED:
 					$failure = $lng->txt("err_auth_apache_failed");
 					break;
-
+				// saml-patch: begin
+				case AUTH_SAML_FAILED:
+					$lng->loadLanguageModule('auth');
+					$failure = $lng->txt("err_auth_saml_failed");
+					break;
+				// saml-patch: end
 				case AUTH_CAPTCHA_INVALID:
 					$lng->loadLanguageModule('cptch');
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_CAPTCHA);
@@ -330,6 +335,9 @@ class ilStartUpGUI
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
 		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
+		// saml-patch: begin
+		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
+		// saml-patch: end
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
 
@@ -1066,7 +1074,26 @@ class ilStartUpGUI
 					$ilAuth = ilAuthFactory::factory($container);
 					$ilAuth->start();
 					break;
-					
+				// saml-patch: begin
+				case 'saml':
+					$_POST['username'] = ilSession::get('dummy');
+					$_POST['password'] = ilSession::get('dummy');
+					$idp_id = ilSession::get('tmp_auth_mode_id');
+
+					require_once 'Services/Saml/classes/class.ilAuthContainerSAML.php';
+					require_once 'Services/Saml/classes/class.ilAuthSAML.php';
+
+					$container = new ilAuthContainerSAML($idp_id);
+					$container->forceCreation(true);
+					ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SAML);
+					$ilAuth = ilAuthFactory::factory($container);
+
+					$ilAuth->logout();
+					ilSession::_destroy(session_id());
+					ilSession::set('force_creation', true);
+					$ilAuth->start();
+					break;
+				// saml-patch: end
 				case 'openid':
 					$_POST['username'] = ilSession::get('dummy');
 					$_POST['password'] = ilSession::get('dummy');
@@ -1100,7 +1127,12 @@ class ilStartUpGUI
 	function showLogout()
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
-
+		// saml-patch: begin
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+		// saml-patch: end
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$ilAuth->logout();
 		session_destroy();
@@ -1108,7 +1140,12 @@ class ilStartUpGUI
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
-
+		// saml-patch: begin
+		if((int)$ilUser->getAuthMode(true) == AUTH_SAML)
+		{
+			ilUtil::redirect('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
+		}
+		// saml-patch: end
 		//instantiate logout template
 		self::initStartUpTemplate("tpl.logout.html");
 		
@@ -1956,4 +1993,42 @@ class ilStartUpGUI
 		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
 		return ilMainMenuGUI::getLanguageSelection(true);
 	}
+	// saml-patch: begin
+	protected function showSamlLoginForm($page_editor_html)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
+
+		if(count(ilSamlIdp::getActiveIdpList()) > 0 && ilSamlSettings::getInstance()->isDisplayedOnLoginPage())
+		{
+			$tpl = new ilTemplate('tpl.login_form_saml.html', true, true, 'Services/Saml');
+
+			$return = '';
+			if(isset($_GET['target']))
+			{
+				$return = '?returnTo=' . urlencode(ilUtil::stripSlashes($_GET['target']));
+			}
+
+			$tpl->setVariable('SAML_SCRIPT_URL', './saml.php' . $return);
+			$tpl->setVariable('TXT_LOGIN', $lng->txt('log_in'));
+			$tpl->setVariable('TXT_SAML_LOGIN_TXT', $lng->txt('saml_login_form_txt'));
+			$tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $lng->txt('saml_login_form_info_txt'));
+
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$tpl->get(),
+				'[list-saml-login-form]',
+				'SAML_LOGIN_FORM'
+			);
+		}
+
+		return $page_editor_html;
+	}
+	// saml-patch: end
 }

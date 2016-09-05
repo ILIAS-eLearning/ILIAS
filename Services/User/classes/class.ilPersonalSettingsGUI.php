@@ -598,11 +598,23 @@ class ilPersonalSettingsGUI
 		// Moved to ilAuthUtils
 		
 		// do nothing if auth mode is not local database
+		// saml-patch: begin
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		$has_active_saml_idp_with_local_auth = false;
+		if((int)$ilUser->getAuthMode(true) == AUTH_SAML)
+		{
+			$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($ilUser->getAuthMode(true)));
+			$has_active_saml_idp_with_local_auth = $idp->isActive() && $idp->allowLocalAuthentication();
+		}
+		// saml-patch: end
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
 			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
 			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
 			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_OPENID)
+			// saml-patch: begin
+			($ilUser->getAuthMode(true) != AUTH_OPENID) &&
+			((int)$ilUser->getAuthMode(true) != AUTH_SAML || !$has_active_saml_idp_with_local_auth)
+			// saml-patch: end
 			)
 		{
 			return false;

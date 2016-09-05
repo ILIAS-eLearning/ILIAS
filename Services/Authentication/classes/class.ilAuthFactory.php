@@ -78,7 +78,13 @@ class ilAuthFactory
 	 * Apache based authentication
 	 */
 	const CONTEXT_APACHE	= 10;
-
+	// saml-patch: begin
+	/**
+	 * @var int
+	 * SAML based authentication
+	 */
+	const CONTEXT_SAML		= 99;
+	// saml-patch: end
 	/**
 	 * @var int
 	 */
@@ -186,6 +192,11 @@ class ilAuthFactory
 			case self::CONTEXT_APACHE:
 				include_once './Services/AuthApache/classes/class.ilAuthApache.php';
 				return new ilAuthApache($deco,$options);
+			// saml-patch: begin
+			case self::CONTEXT_SAML:
+				include_once './Services/Saml/classes/class.ilAuthSAML.php';
+				return new ilAuthSAML($deco,$options, '', false);
+			// saml-patch: end
 		}
 	}
 }

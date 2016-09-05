@@ -95,7 +95,12 @@ class ilSession
 			// This would result in new session records for each request.
 			return true;
 		}
-
+		// saml-patch: begin
+		if(!$a_session_id)
+		{
+			return true;
+		}
+		// saml-patch: end
 		$now = time();
 
 		// prepare session data
