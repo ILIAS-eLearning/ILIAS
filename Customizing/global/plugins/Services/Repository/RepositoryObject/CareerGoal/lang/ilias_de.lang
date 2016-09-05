@@ -2,7 +2,6 @@ add_observation#:#Beobachtung hinzufügen
 question_delete_req#:#Sollen diese Anforderungen wirklich entfernt werden?
 remove#:#Entfernen
 cancel#:#Abbrechen
-question_delete_req#:#Sollen diese Beobachtungen wirklich entfernt werden?
 order_saved:Reihenfolge gespeichert
 show_observation#:#Beobachtungen
 sort_observation#:#Beobachtungen sortieren

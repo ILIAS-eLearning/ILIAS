@@ -36,6 +36,8 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
 		$this->gCtrl = $ilCtrl;
+
+		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 	}
 
 	/**

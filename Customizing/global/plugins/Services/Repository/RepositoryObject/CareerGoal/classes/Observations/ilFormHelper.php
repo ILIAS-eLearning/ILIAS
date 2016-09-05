@@ -27,6 +27,8 @@ trait ilFormHelper {
 
 		require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
 		$mi = new \ilMultiSelectInputGUI($this->txt("requirements"), ilActions::F_OBSERVATION_REQUIREMENTS);
+		$mi->setWidth("250px");
+		$mi->setHeight("200px");
 		$mi->setOptions($requirements_options);
 		$mi->setRequired(true);
 		$form->addItem($mi);

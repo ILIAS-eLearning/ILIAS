@@ -457,7 +457,7 @@ class ilDB implements DB {
 	}
 
 	public function getAllObservator() {
-		$select = "SELECT rua.usr_id FROM rbac_ua rua JOIN object_data od WHERE od.title LIKE '".ilActions::OBSERVATOR_ROLE_NAME."%'"
+		$select = "SELECT rua.usr_id FROM rbac_ua rua JOIN object_data od WHERE od.title LIKE '".ilActions::OBSERVATOR_ROLE_NAME."%'";
 	}
 
 	protected function getSelect() {
