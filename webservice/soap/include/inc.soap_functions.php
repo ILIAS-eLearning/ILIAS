@@ -1054,19 +1054,7 @@ class ilSoapFunctions {
 		return $sla->getProgressInfo($sid, $ref_id, $progress_filter);
 
 	}
-	// aptar-patch: begin
-	/**
-	 * @param string $sid
-	 * @param string $xml
-	 * @return bool
-	 */
-	public static function importEmployeeData($sid, $xml)
-	{
-		require_once 'webservice/soap/classes/class.ilSoapUserAdministration.php';
-		$sua = new ilSoapUserAdministration();
-		return $sua->importEmployeeData($sid, $xml);
-	}
-	// aptar-patch: end
+
 	
 }
 

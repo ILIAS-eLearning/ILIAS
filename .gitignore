@@ -21,9 +21,7 @@ db_template_writer.php
 
 
 # /Customizing/
-# aptar-patch: begin
-#/Customizing/global
-# aptar-patch: end
+/Customizing/global
 
 # /Modules/BookingManager/js/
 

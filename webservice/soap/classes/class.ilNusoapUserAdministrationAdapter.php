@@ -1317,20 +1317,8 @@ class ilNusoapUserAdministrationAdapter
 				SERVICE_USE,
 				'Delete user progress data of objects. '
 			);
-
-		// aptar-patch: begin
-		$this->server->register('importEmployeeData',
-			array(
-				'sid' => 'xsd:string',
-				'xml' => 'xsd:string'
-			),
-			array('success' => 'xsd:boolean'),
-			SERVICE_NAMESPACE,
-			SERVICE_NAMESPACE.'#importEmployeeData',
-			SERVICE_STYLE,
-			SERVICE_USE,
-			'Interface to import an employee xml file');
-		// aptar-patch: end
+		
+		
 		$this->server->register(
 			'getProgressInfo', 
 			array(
