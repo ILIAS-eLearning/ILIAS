@@ -9,9 +9,6 @@
 * 
 * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
 * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilOpenIdSettingsGUI, ilCASSettingsGUI
-* // saml-patch: begin
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilOpenIdSettingsGUI, ilCASSettingsGUI, ilSamlSettingsGUI
-* // saml-patch: end
 * 
 * @extends ilObjectGUI
 */
@@ -87,10 +84,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$auth_cnt = ilObjUser::_getNumberOfUsersPerAuthMode();
 		$auth_modes = ilAuthUtils::_getAllAuthModes();
-		// saml-patch: begin
-		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-		$valid_modes = array(AUTH_SAML, AUTH_LOCAL,AUTH_LDAP,AUTH_SHIBBOLETH,AUTH_CAS,AUTH_RADIUS,AUTH_APACHE);
-		// saml-patch: end
+		$valid_modes = array(AUTH_LOCAL,AUTH_LDAP,AUTH_SHIBBOLETH,AUTH_CAS,AUTH_RADIUS,AUTH_APACHE);
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		// icon handlers
 		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.svg")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>";
@@ -99,9 +93,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		foreach($auth_modes as $mode => $mode_name)
 		{
-			// saml-patch: begin
-			if(!in_array($mode,$valid_modes) && !ilLDAPServer::isAuthModeLDAP($mode) && !ilSamlIdp::isAuthModeSaml($mode))
-			// saml-patch: end
+			if(!in_array($mode,$valid_modes) && !ilLDAPServer::isAuthModeLDAP($mode))
 			{
 				continue;
 			}
@@ -114,14 +106,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable("AUTH_NAME", $server->getName());
 				$this->tpl->setVariable('AUTH_ACTIVE',$server->isActive() ? $icon_ok : $icon_not_ok);
 			}
-			// saml-patch: begin
-			else if(ilSamlIdp::isAuthModeSaml($mode))
-			{
-				$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
-				$this->tpl->setVariable('AUTH_NAME', $idp->getName());
-				$this->tpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
-			}
-			// saml-patch: end
 			else
 			{
 				$this->tpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
@@ -180,9 +164,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				// even not default, because it can easily be set to
 				// a non-working auth mode
 				if ($auth_name == "default" || $auth_name == "cas"
-					// saml-patch: begin
-					|| $auth_name == 'saml'
-					// saml-patch: end
 					|| $auth_name == "shibboleth" || $auth_name == 'ldap' 
 					|| $auth_name == 'apache' || $auth_name == "ecs"
 					|| $auth_name == "openid")
@@ -201,13 +182,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 					$server = ilLDAPServer::getInstanceByServerId($id);
 					$name = $server->getName();
 				}
-				// saml-patch: begin
-				else if($id = ilSamlIdp::getIdpIdByAuthMode($auth_key))
-				{
-					$idp = ilSamlIdp::getInstanceByIdpId($id);
-					$name = $idp->getName();
-				}
-				// saml-patch: end
 				else
 				{
 					$name = $this->lng->txt('auth_'.$auth_name);
@@ -292,10 +266,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		switch ($_POST["auth_mode"])
 		{
-			// saml-patch: begin
-			case AUTH_SAML:
-				break;
-			// saml-patch: end
 			case AUTH_LDAP:
 		
 				/*
@@ -674,11 +644,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			case AUTH_RADIUS:
 				return $this->lng->txt("auth_radius");
 				break;
-			// saml-patch: begin
-			case AUTH_SAML:
-				return $this->lng->txt("auth_saml");
-				break;
-			// saml-patch: end
+		
 			case AUTH_SCRIPT:
 				return $this->lng->txt("auth_script");
 				break;
@@ -863,15 +829,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		switch($next_class)
 		{
-			// saml-patch: begin
-			case 'ilsamlsettingsgui':
-				$this->tabs_gui->setTabActive('auth_saml');
-
-				require_once './Services/Saml/classes/class.ilSamlSettingsGUI.php';
-				$os = new ilSamlSettingsGUI($this->object->getRefId());
-				$this->ctrl->forwardCommand($os);
-				break;
-			// saml-patch: end
 			case 'ilregistrationsettingsgui':
 
 				include_once './Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
@@ -1010,15 +967,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				'',
 				''
 			);
-			// saml-patch: begin
-			$tabs_gui->addTarget(
-				'auth_saml',
-				$this->ctrl->getLinkTargetByClass('ilsamlsettingsgui', 'showSettings'),
-				'',
-				'',
-				''
-			);
-			// saml-patch: end
+
 			$tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
 					"", "", "");
 		}

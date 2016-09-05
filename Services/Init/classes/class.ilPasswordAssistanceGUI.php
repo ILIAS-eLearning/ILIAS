@@ -219,16 +219,10 @@ class ilPasswordAssistanceGUI
 				$userObj = null;
 				$txt_key = 'pwassist_no_email_found';
 			}
-			// saml-patch: begin
-			else if (
-				(
-					$userObj->getAuthMode(true) != AUTH_LOCAL ||
-					($userObj->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL)
-				) && !(
-					$userObj->getAuthMode(true) == AUTH_SAML
-				)
+			else if(
+				$userObj->getAuthMode(true) != AUTH_LOCAL ||
+				($userObj->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL)
 			)
-			// saml-patch: end
 			{
 				$userObj = null;
 				$txt_key = 'pwassist_invalid_auth_mode';

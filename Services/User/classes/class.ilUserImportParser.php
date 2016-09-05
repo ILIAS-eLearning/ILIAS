@@ -561,9 +561,6 @@ class ilUserImportParser extends ilSaxParser
 						case "script":
 						case "cas":
 						case "soap":
-						// saml-patch: begin
-						case "saml":
-						// saml-patch: end
 						case "openid":
 						// begin-patch auth_plugin
 						default:
@@ -693,9 +690,6 @@ class ilUserImportParser extends ilSaxParser
 						case "script":
 						case "cas":
 						case "soap":
-						// saml-patch: begin
-						case "saml":
-						// saml-patch: end
 						case "openid":
 						// begin-patch auth_plugin
 						default:

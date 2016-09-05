@@ -341,15 +341,10 @@ class Auth extends ilAuthBase {
             @session_start();
             if(!session_id()) {
                 // Throw error
-                // saml-patch: begin
-                if(basename($_SERVER['PHP_SELF']) != 'saml.php' || !$GLOBALS['saml_auth_phpsession'] )
-                {
-                    include_once 'PEAR.php';
-                    PEAR::throwError('Session could not be started by Auth, '
-                        . 'possibly headers are already sent, try putting '
-                        . 'ob_start in the beginning of your script');
-                }
-                // saml-patch: end
+                include_once 'PEAR.php';
+                PEAR::throwError('Session could not be started by Auth, '
+                        .'possibly headers are already sent, try putting '
+                        .'ob_start in the beginning of your script');
             }
         }
 
