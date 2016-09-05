@@ -191,6 +191,18 @@ class gevDesktopGUI {
 				$gui = new ilInfoScreenGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "ilmyobservationsgui":
+				$this->plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+							ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", "xtas"));
+
+				if(!$this->plugin->active) {
+					throw new Exception("Plugin Talent Assessment is not active");
+				}
+
+				require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/classes/Observations/class.ilMyObservationsGUI.php");
+				$gui = new \ilMyObservationsGUI($this, \ilMyObservationsGUI::MODE_MY);
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$this->dispatchCmd($cmd);
 				break;
@@ -225,6 +237,8 @@ class gevDesktopGUI {
 			case "showOpenRequests":
 			case "toWBDRegistration":
 			case "toMyTrainingsAdmin":
+			case "toMyAssessments":
+			case "toAllAssessments":
 				$this->$a_cmd();
 			case "handleExplorerCommand":
 				break;
@@ -346,6 +360,32 @@ class gevDesktopGUI {
 
 	protected function toWBDRegistration() {
 		$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
+	}
+
+	protected function toMyAssessments() {
+		$this->plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+							ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", "xtas"));
+
+		if(!$this->plugin->active) {
+			throw new Exception("Plugin Talent Assessment is not active");
+		}
+
+		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/classes/Observations/class.ilMyObservationsGUI.php");
+		$gui = new \ilMyObservationsGUI($this, ilMyObservationsGUI::MODE_MY);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toAllAssessments() {
+		$this->plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+							ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", "xtas"));
+
+		if(!$this->plugin->active) {
+			throw new Exception("Plugin Talent Assessment is not active");
+		}
+
+		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/classes/Observations/class.ilMyObservationsGUI.php");
+		$gui = new \ilMyObservationsGUI($this, ilMyObservationsGUI::MODE_ALL);
+		$ret = $this->ctrl->forwardCommand($gui);
 	}
 	
 	protected function handleExplorerCommand() {

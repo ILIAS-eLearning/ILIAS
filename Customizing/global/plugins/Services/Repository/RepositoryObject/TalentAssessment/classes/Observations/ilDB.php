@@ -396,6 +396,74 @@ class ilDB implements DB {
 		return $ret;
 	}
 
+	public function getMyAssessmentsData($filter, $filter_values) {
+		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
+		$select = $this->getSelect();
+
+		$where = " WHERE xtas.start_date BETWEEN ".$this->getDB()->quote($filter_values[0]->format("Y-m-d"), "text")."\n"
+					."  AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
+
+		if(!empty($filter_values[2])) {
+			$having = " HAVING result = ".$this->getDB()->quote($filter_values[2][0], "integer");
+		}
+
+		if(!empty($filter_values[3])) {
+			$where .= " AND xtas.career_goal_id = ".$this->getDB()->quote($filter_values[3][0], "integer");
+		}
+
+		if(!empty($filter_values[4])) {
+			$where .= " AND xtas.org_unit = ".$this->getDB()->quote($filter_values[4][0], "integer");
+		}
+
+		$select = $select.$where.$having;
+		
+		$res = $this->getDB()->query($select);
+		$data = array();
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			$data[] = $row;
+		}
+
+		return $data;
+	}
+
+	public function getAllAssessmentsData($filter, $filter_values) {
+		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
+		$select = $this->getSelect();
+
+		$where = " WHERE xtas.start_date BETWEEN ".$this->getDB()->quote($filter_values[0]->format("Y-m-d"), "text")."\n"
+					."  AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
+
+		if(!empty($filter_values[2])) {
+			$having = " HAVING result = ".$this->getDB()->quote($filter_values[2][0], "integer");
+		}
+
+		if(!empty($filter_values[3])) {
+			$where .= " AND xtas.career_goal_id = ".$this->getDB()->quote($filter_values[3][0], "integer");
+		}
+
+		if(!empty($filter_values[4])) {
+			$where .= " AND xtas.org_unit = ".$this->getDB()->quote($filter_values[4][0], "integer");
+		}
+
+		$select = $select.$where.$having;
+		
+		$res = $this->getDB()->query($select);
+		$data = array();
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			$data[] = $row;
+		}
+
+		return $data;
+	}
+
+	public function getAllObservator() {
+		$select = "SELECT rua.usr_id FROM rbac_ua rua JOIN object_data od WHERE od.title LIKE '".ilActions::OBSERVATOR_ROLE_NAME."%'";
+	}
+
+	protected function getSelect() {
+		return "SELECT xtas.obj_id, od.title, xtas.org_unit, xtas.venue, xtas.start_date, xtas.end_date, ud.firstname, ud.lastname, IF(xtas.potential <= 0, 1, IF(xtas.potential > xtas.should_specification, 2 , IF(xtas.potential <= xtas.lowmark, 4,3))) as result FROM rep_obj_xtas xtas JOIN usr_data ud ON xtas.username = ud.login JOIN rep_obj_xcgo xcgo ON xtas.career_goal_id = xcgo.obj_id JOIN object_data od ON xcgo.obj_id = od.obj_id";
+	}
+
 	protected function getDB() {
 		if(!$this->db) {
 			throw new \Exception("no Database");
