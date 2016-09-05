@@ -1,0 +1,34 @@
+<!-- BEGIN table -->
+<table style="background-color:white; width:100%">
+	<!-- BEGIN tr_header -->
+	<tr>
+		<td>Anforderung</td>
+		<!-- BEGIN observations -->
+		<td colspan="{COL_SPAN_HEAD}">{OBS_TITLE}</td>
+		<!-- END observations -->
+		<td>Mittelwert</td>
+	</tr>
+	<!-- END tr_header -->
+	<!-- BEGIN tr_observator -->
+	<tr>
+		<td>&nbsp;</td>
+		<!-- BEGIN observator -->
+		<td>{OBSERVATOR_NAME}</td>
+		<!-- END observator -->
+		<td>&nbsp;</td>
+	</tr>
+	<!-- BEGIN tr_observator -->
+	<!-- BEGIN tr_requirement -->
+	{PTS_ROW}
+	<!-- END tr_requirement-->
+	<!-- BEGIN tr_sum -->
+	<tr>
+		<td>Mittelwert</td>
+		<!-- BEGIN bla -->
+		<td colspan="{COL_SPAN_FOOTER}">{PTS}</td>
+		<!-- END bla -->
+		<td>{MIDDLE_TOTAL}</td>
+	</tr>
+	<!-- BEGIN tr_sum -->
+</table>
+<!-- END table -->

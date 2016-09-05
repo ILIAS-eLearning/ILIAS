@@ -3,6 +3,7 @@
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 require_once 'Services/GEV/Utils/classes/class.gevSettings.php';
+require_once 'Services/UserCourseStatusHistorizing/classes/class.ilCertificateStorage.php';
 
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -13,6 +14,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
+		$this->certificate_storage = new ilCertificateStorage();
 		$self_id = $this->user_utils->getId();
 		$target_user_id = $_POST["target_user_id"]
 					  ? $_POST["target_user_id"]
@@ -36,6 +38,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 		$self_id = $this->user_utils->getId();
 		if ($this->target_user_id != $self_id) {
 			if ( !in_array($this->target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
+				ilUtil::sendFailure($this->plugin->txt('u_access_violation_show_self'));
 				$this->target_user_id = $self_id;
 			}
 		}
@@ -53,7 +56,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->column("status", $this->plugin->txt("status"), true)
 				->column("credit_points", $this->plugin->txt("points"), true, "40px")
 				->column("wbd_reported", $this->plugin->txt("wbd_reported"), true)
-				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true);
+				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true,false);
 		return parent::buildTable($table);
 	}
 
@@ -93,6 +96,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	protected function buildQuery($query) {
 		$query 	->select("crs.title")
 				->select("crs.type")
+				->select('crs.crs_id')
 				->select("usrcrs.begin_date")
 				->select("usrcrs.end_date")
 				->select("crs.venue")
@@ -103,10 +107,13 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->select("usrcrs.participation_status")
 				->select("usrcrs.okz")
 				->select("usrcrs.bill_id")
-				->select("usrcrs.certificate")
 				->select("usrcrs.booking_status")
 				->select("usrcrs.wbd_booking_id")
+				->select("usrcrs.certificate_filename")
 				->select("oref.ref_id")
+				->select_raw('IF('.$this->gIldb->in('usrcrs.okz',array('OKZ1','OKZ2','OZ3'),false,'text').' AND usrcrs.credit_points > 0 AND usrcrs.credit_points IS NOT NULL ,'
+								.'	IF(usrcrs.wbd_booking_id != '.$this->gIldb->quote('-empty-','text').' AND usrcrs.wbd_booking_id IS NOT NULL'
+								.'		,'.$this->gIldb->quote('Ja','text').','.$this->gIldb->quote('Nein','text').'),\'-\') as wbd_reported')
 				->from("hist_usercoursestatus usrcrs")
 				->join("hist_user usr")
 					->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -216,23 +223,22 @@ class ilObjReportEduBio extends ilObjReportBase {
 		return $this->gIldb->numRows($res) == 1;
 	}
 
-	public function validateCertificate($cert_id) {
-		$res = $this->gIldb->query( "SELECT COUNT(*) cnt"
-						."  FROM hist_usercoursestatus "
-						." WHERE usr_id = ".$this->gIldb->quote($this->target_user_id, "integer")
-						."   AND certificate = ".$this->gIldb->quote($cert_id, "integer"));
+	public function validateCertificate($crs_id,$usr_id,$cert_name) {
+		$res = $this->gIldb->query( 'SELECT COUNT(*) cnt'
+						.'	FROM hist_usercoursestatus '
+						.'	WHERE usr_id = '.$this->gIldb->quote($usr_id, 'integer')
+						.'		AND crs_id = '.$this->gIldb->quote($crs_id, 'integer')
+						.'		AND certificate_filename = '.$this->gIldb->quote($cert_name,'text')
+						.'		AND (certificate_hash != '.$this->gIldb->quote('-empty-', 'text')
+						.'			AND certificate_hash IS NOT NULL)');
 		if($this->gIldb->fetchAssoc($res)['cnt'] == 0) {
 			return false;
 		}
 		return true;
 	}
 
-	public function certificateData($cert_id) {
-		$res = $this->gIldb->query( "SELECT hc.certfile, hs.crs_id "
-								."  FROM hist_certfile hc"
-								." JOIN hist_usercoursestatus hs ON hs.certificate = hc.row_id"
-								." WHERE hc.row_id = ".$this->gIldb->quote($cert_id, "integer"));
-		return $this->gIldb->fetchAssoc($res);
+	public function deliverCertificate($cert_name) {
+		return $this->certificate_storage->deliverCertificate($cert_name);
 	}
 
 	/**

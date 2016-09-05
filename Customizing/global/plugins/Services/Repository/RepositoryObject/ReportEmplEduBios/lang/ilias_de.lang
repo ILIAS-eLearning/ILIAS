@@ -36,3 +36,4 @@ show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem viert
 wbd_relevant_only#:#Zeige mir nur Personen die weiterbildungspflichtig sind nach gut beraten.
 truncate_orgu_filter#:#Filter für Organisationseinheiten vorbelegen
 overall_points_goa#:#Gesamtpunktzahl GOA
+filter_no_wbd_imported#:#Keine Trainings aus der WBD

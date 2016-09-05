@@ -84,6 +84,11 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		parent::renderReport();
 	}
 
+	public function exportExcel() {
+		self::$target_user_id = $this->object->target_user_id;
+		parent::exportExcel();
+	}
+
 	protected function render() {
 		$this->gTpl->setTitle(null);
 		if(!$this->object->getWBD()->userTPStatusOK() &&
@@ -155,16 +160,14 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function getCertificate() {
 		// check weather this cert really belongs to an edu bio of the current user
-		$cert_id = $_GET["cert_id"];
-		if (!$this->object->validateCertificate($cert_id)) {
+		$crs_id = $_GET["crs_id"];
+		$usr_id = $_GET["target_user_id"];
+		$cert_name = $_GET["cert_name"];
+		if (!$this->object->validateCertificate($crs_id,$usr_id,$cert_name)) {
 			$this->gCtrl->redirect($this, "showContent");
 		}
-		$cert_data = $this->object->certificateData($cert_id);
-		if ($cert_data) {
-			require_once("Services/Utilities/classes/class.ilUtil.php");
-			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-			$crs_utils = gevCourseUtils::getInstance($cert_data["crs_id"]);
-			ilUtil::deliverData(base64_decode($cert_data["certfile"]), "Zertifikat_".$crs_utils->getCustomId().".pdf", "application/pdf");
+		if ($this->object->deliverCertificate($cert_name)) {
+			
 		} else {
 			$this->gCtrl->redirect($this, "showContent");
 		}
@@ -204,17 +207,8 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 		if(in_array($rec["okz"], array("OKZ1", "OKZ2", "OKZ3"))) {
 			$rec['credit_points'] = $rec['credit_points'] >= 0 ? $rec['credit_points'] : 0;
-
-			if($rec["wbd_booking_id"] && $rec["credit_points"] > 0) {
-				$rec['wbd_reported'] = "Ja";
-			} else if(!$rec["wbd_booking_id"] && $rec["credit_points"] > 0) {
-				$rec['wbd_reported'] = "Nein";
-			} else {
-				$rec['wbd_reported'] = "-";
-			}
 		} else {
 			$rec['credit_points'] = "-";
-			$rec['wbd_reported'] = "-";
 		}
 
 		$rec["action"] = "";
@@ -222,8 +216,10 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 			$params = array("bill_id" => $rec["bill_id"],  "target_user_id" => self::$target_user_id);
 			$rec["action"] .= "<a href='".self::getLinkToThis("getBill",$params)."'>". self::$get_bill_img."</a>";
 		}
-		if ($rec["certificate"] != -1 && $rec["certificate"] != 0) {
-			$params = array("cert_id" => $rec["certificate"],  "target_user_id" => self::$target_user_id);
+		if ($rec["certificate_filename"] != null && $rec["certificate_filename"] != '-empty-') {
+			$params = array("crs_id" => $rec["crs_id"], 
+							"cert_name" => $rec["certificate_filename"],
+							"target_user_id" => self::$target_user_id);
 			$rec["action"] .= "<a href='".self::getLinkToThis("getCertificate",$params)."'>". self::$get_cert_img."</a>";
 		}
 		if ($rec["ref_id"] !== null) {

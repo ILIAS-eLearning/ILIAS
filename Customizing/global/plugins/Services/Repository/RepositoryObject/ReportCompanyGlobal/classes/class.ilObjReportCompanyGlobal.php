@@ -153,6 +153,11 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 ,"none"
 							 ,true
 							 )
+				->checkbox('no_wbd_imported'
+							, $this->plugin->txt("filter_no_wbd_imported")
+							," hucs.crs_id > 0"
+							," TRUE "
+							)
 				->static_condition("hucs.hist_historic = 0")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition($this->gIldb->in('hc.type', $this->types, false, 'text'))

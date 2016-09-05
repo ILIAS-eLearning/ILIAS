@@ -38,6 +38,16 @@ class Reader extends AbstractReader
     }
 
     /**
+     * Returns whether stream wrappers are supported
+     *
+     * @return bool
+     */
+    protected function doesSupportStreamWrapper()
+    {
+        return false;
+    }
+
+    /**
      * Opens the file at the given file path to make it ready to be read.
      * It also parses the sharedStrings.xml file to get all the shared strings available in memory
      * and fetches all the available sheets.
@@ -59,7 +69,7 @@ class Reader extends AbstractReader
                 $this->sharedStringsHelper->extractSharedStrings();
             }
 
-            $this->sheetIterator = new SheetIterator($filePath, $this->sharedStringsHelper, $this->globalFunctionsHelper);
+            $this->sheetIterator = new SheetIterator($filePath, $this->sharedStringsHelper, $this->globalFunctionsHelper, $this->shouldFormatDates);
         } else {
             throw new IOException("Could not open $filePath for reading.");
         }

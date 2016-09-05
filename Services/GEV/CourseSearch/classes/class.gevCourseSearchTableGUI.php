@@ -18,7 +18,6 @@ require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
-require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchTabGUI.php");
 
 class gevCourseSearchTableGUI extends catAccordionTableGUI {
 	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_active_tab, $a_in_search = false, $a_parent_cmd="", $a_template_context="") {
@@ -79,7 +78,6 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->almost_not_bookable_img, "gev_booking_request_pe");
 		$this->setLegend($legend);
 
-		$this->tabs = new gevCourseSearchTabGUI($a_search_options, $this->parent_obj, $this->active_tab, $crs_srch);
 
 		$order = $this->getOrderField();
 		
@@ -254,8 +252,6 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if ($this->_title_enabled) {
 			$ret .= $this->_title->render()."<br />";
 		}
-
-		$ret .= $this->tabs->render();
 		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}

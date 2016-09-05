@@ -80,7 +80,12 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			}
 		}
 		if ($this->isSearch()) {
-			$crs_search = gevCourseSearch::getInstance($this->gUser->getId());
+			$this->target_user_id = $_POST["target_user_id"]
+									? $_POST["target_user_id"]
+									: ( $_GET["target_user_id"]
+										? $_GET["target_user_id"]
+										: $this->gUser->getId());
+			$crs_search = gevCourseSearch::getInstance($this->target_user_id);
 			$tab = $crs_search->getActiveTab();
 			$active = "search_$tab";
 			if (!in_array($active, array("search_onside", "search_webinar", "search_wbt"))) {
@@ -127,7 +132,7 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 
 
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
-		if ($user_utils && ($user_utils->isAdmin() || ilTEPPermissions::getInstance($ilUser->getId())->isTutor())) {
+		if ($user_utils && ($user_utils->isAdmin() || ilTEPPermissions::getInstance($this->gUser->getId())->isTutor())) {
 			$this->gLng->loadLanguageModule("tep");
 			$items["tep"]
 				= array($this->gLng->txt("tep_personal_calendar_title"), "ilias.php?baseClass=ilTEPGUI");
@@ -145,9 +150,9 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 	protected function getSearchItems() {
 		$items = array
 			( "search"
-				=> array("Suche", "http://www.google.de")
+				=> array("Suche")
 			);
-		$crs_search = gevCourseSearch::getInstance($this->gUser->getId());
+		$crs_search = gevCourseSearch::getInstance($this->target_user_id);
 		$search_tabs = $crs_search->getPossibleTabs();
 		$tab_counts = $crs_search->getCourseCounting();
 		foreach ($search_tabs as $key => $data) {

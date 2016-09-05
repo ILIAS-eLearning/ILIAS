@@ -9,7 +9,6 @@ require_once("Services/jQuery/classes/class.iljQueryUtil.php");
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
 * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI
-*
 * @ingroup ServicesInit
 */
 class ilStartUpGUI
@@ -334,7 +333,9 @@ class ilStartUpGUI
 		$page_editor_html = $this->showLanguageSelection($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
-
+		//gev patch start
+		$page_editor_html = $this->setRegistrationLinks($page_editor_html);
+		//gev patch end
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
 		
 		
@@ -364,6 +365,15 @@ class ilStartUpGUI
 		$tpl->show("DEFAULT", false);
 	}
 	
+	protected function setRegistrationLinks($page_editor_html) {
+		global $tpl;
+		$this->ctrl->setTargetScript("gev_registration.php");
+		$tpl->setVariable('AGENT_REGISTRATION_LINK',$this->ctrl->getLinkTargetByClass(array('gevregistrationgui'),'startAgentRegistration'));
+		$tpl->setVariable('NA_REGISTRATION_LINK',$this->ctrl->getLinkTargetByClass(array('gevregistrationgui'),'startNARegistration'));
+		$this->ctrl->setTargetScript("ilias.php");
+		return $page_editor_html;
+	}
+
 	protected function showCodeForm($a_username = null, $a_form = null)
 	{
 		global $tpl, $lng;

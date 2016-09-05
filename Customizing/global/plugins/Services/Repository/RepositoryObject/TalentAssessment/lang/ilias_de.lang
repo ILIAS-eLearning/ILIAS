@@ -1,0 +1,75 @@
+properties#:#Einstellungen
+observations#:#Beobachtungen
+observator#:#Beobachter
+obj_permission_denied#:#Sie besitzten nicht genug Rechte, um auf dieses Objekt zu zugreifen.
+user#:#Benutzer
+add#:#Hinzufügen
+ta_info#:#Allgemeine Informationen
+title#:#Titel
+description#:#Beschreibung
+state#:#Status
+career_goal#:#Karriereziel
+venue#:#Veranstaltungsort
+observator#:#Beobachter
+to#:#bis
+date#:#Datum
+start_time#:#Startzeit
+end_time#:#Endzeit
+edit#:#Bearbeiten
+offline#:#Offline
+start_observation#:#Beobachtungen starten
+preview_report#:#Vorschau
+finish_ta#:#TA Termin finalisieren
+observation_list#:#Liste
+observation_overview#:#Übersicht
+observation_cumultativ#:#Kumulierte Ansicht
+observation_diagramm#:#Balkendiagramm
+observation_report#:#Gutachten
+no_users_selected#:#Keine Benutzer ausgewählt.
+add_observer_success#:#Beobachter erfolgreich hinzugefügt.
+delete_observer_success#:#Beobachter erfolgreich entfernt.
+obj_edit_settings#:#Einstellungen bearbeiten
+obj_title#:#Titel
+obj_description#:#Beschreibung
+obj_save#:#Speichern
+ta_failed#:#Anforderungen nicht erfüllt
+ta_passed#:#Anforderungen erfüllt
+ta_maybe#:#Anforderungen teilweise erfüllt
+ta_in_progress#:#In bearbeitung
+no_valid_username#:#Sie haben einen ungültigen Benutzernamen eingegeben. Bitte korrigieren Sie die Eingabe.
+saved#:#Einstellungen erfolgreich gespeichert.
+not_saved#:#Einstellungen konnten nicht gespeichert werden.
+potential#:#Potenzial
+result_text#:#Gutachtentext
+points#:#Skalenwert
+description#:#Beschreibung
+title_of_req#:#Titel der Anforderung
+description_of_req#:#Beschreibung
+notice_description#:#Notizen zur Beobachtung
+requirement_title#:#zu überprüfende Anforderungen
+requirement_description#:#Beschreibung der Anforderung
+observations_table_title#:#Beobachtungen
+fullname#:#Name
+login#:#Benutzername
+email#:#Mail
+action#:#Aktion
+delete_observator#:#Beobachter entfernen
+username#:#Teilnehmer
+username_info#:#Geben Sie den Benutzername des Teilnehmer ein.
+start#:#Start
+end#:#Ende
+org_unit#:#Organisationseinheit
+org_unit_info#:#Organisationseinheit aus der der Termin initiiert wurde.
+firstname#:#Vorname
+lastname#:#Nachname
+points_description_1#:#Anforderungen stark unterdurchschnittlich erfüllt
+points_description_2#:#Anforderungen eher unterdurchschnittlich erfüllt
+points_description_3#:#Anforderungen durchschnittlich erfüllt
+points_description_4#:#Anforderungen eher überdurchschnittlich erfüllt
+points_description_5#:#Anforderungen stark überdurchschnittlich erfüllt
+save#:#Speichern
+objs_xtas#:#TA Termine
+obj_xtas#:#TA Termin
+xtas_new#:#Neuen TA Termin hinzufügen
+objs_xtas_duplicate#:#TA Termin kopieren
+xtas_add#:#Hinzufügen
