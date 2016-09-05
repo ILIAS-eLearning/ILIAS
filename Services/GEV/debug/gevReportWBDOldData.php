@@ -17,7 +17,7 @@ $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
 
-require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+require "simplePwdSec.php";
 
 //if( !$LIVE) {
 	//context w/o user
