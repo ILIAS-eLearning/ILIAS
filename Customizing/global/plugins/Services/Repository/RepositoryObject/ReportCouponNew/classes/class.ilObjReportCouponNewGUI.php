@@ -328,6 +328,7 @@ class ilObjReportCouponNewGUI extends ilObjectPluginGUI {
 		$rec['start'] = number_format($rec['start'],2,',','');
 		$rec['current'] = number_format($rec['current'],2,',','');
 		$rec['diff'] = number_format($rec['diff'],2,',','');
+		$rec['expires'] = date('d.m.Y',(int)$rec['expires']);
 
 
 		if(!self::$od_bd_regexp) {
