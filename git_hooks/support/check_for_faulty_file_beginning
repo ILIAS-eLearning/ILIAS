@@ -11,7 +11,7 @@ for file in $(git diff --cached --name-only --diff-filter=ACM | grep -e '\.php$'
 do
 	first_line=$(head -1 $file) 
 	if
-		[[ $first_line =~ ^\<\?php$ ]]
+		[[ $first_line =~ ^\<\?php ]]
 	then
 		echo "${green}$file ok${reset}"
 	else
