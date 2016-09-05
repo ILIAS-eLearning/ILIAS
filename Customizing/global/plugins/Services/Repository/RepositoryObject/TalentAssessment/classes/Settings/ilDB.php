@@ -244,14 +244,22 @@ class ilDB implements DB {
 	 * @inheritdoc
 	 */
 	public function getVenueOptions() {
-		return array(1=>"haha");
+
 	}
 	
 	/**
 	 * @inheritdoc
 	 */
 	public function getOrgUnitOptions() {
-		return array(1=>"hehe");
+		$evg_id = \gevOrgUnitUtils::getEVGOrgUnitRefId();
+		$org_unit_utils = \gevOrgUnitUtils::getAllChildren(array($evg_id));
+
+		$ret = array();
+		foreach($org_unit_utils as $key => $value) {
+			$ret[$value["obj_id"]] = \ilObject::_lookupTitle($value["obj_id"]);
+		}
+
+		return $ret;
 	}
 
 	protected function getDB() {
