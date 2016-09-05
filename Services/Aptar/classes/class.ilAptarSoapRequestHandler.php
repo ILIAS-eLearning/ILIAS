@@ -302,7 +302,7 @@ class ilAptarSoapRequestHandler extends ilSoapAdministration
 			$user->setExternalAccount($employee->TechnicalData->USRID);
 
 			$password = current(ilUtil::generatePasswords(1));
-			$user->setPasswd(md5($password), IL_PASSWD_MD5);
+			$user->setPasswd($password);
 		}
 
 		$user->setAuthMode('saml');
