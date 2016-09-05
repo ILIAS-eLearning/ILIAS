@@ -253,7 +253,7 @@ class ilDB implements DB {
 	 */
 	public function setNotice($obs_id, $notice) {
 		if ($notice === null) {
-			$notice = "";
+			$notice = " ";
 		}
 		$insert = "INSERT INTO ".self::TABLE_OBSERVATIONS_NOTICE."\n"
 				."    (obs_id, observator_id, notice, last_change)\n"
