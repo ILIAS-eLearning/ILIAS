@@ -16,6 +16,9 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 class catTableGUI extends ilTable2GUI {
 	protected $_title_enabled = false;
 	protected $_title = null;
+	protected $_filter_enabled = false;
+	protected $_filter = null;
+	protected $_filter_values = null;
 
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -84,12 +87,34 @@ class catTableGUI extends ilTable2GUI {
 		return $this;
 	}
 
+	public function setEnableFilter($enable) {
+		$this->_filter_enabled = $enable;
+	}
+
+	public function getEnableFilter() {
+		return $this->_filter_enabled;
+	}
+
+	public function setFilter(catFilterFlatViewGUI $filter) {
+		$this->_filter = $filter;
+	}
+
+	public function setFilterVals($values) {
+		$this->_filter_values = $values;
+	}
+
 	public function render() {
+		$html = "";
+
 		if ($this->_title_enabled) {
-			return $this->_title->render()."<br />".parent::render();
+			$html .= $this->_title->render()."<br />";
 		}
 
-		return parent::render();
+		if ($this->_filter_enabled) {
+			$html .= $this->_filter->render($this->_filter_values)."<br />";
+		}
+
+		return $html.parent::render();
 	}
 	
 	protected function fillRow($a_set)

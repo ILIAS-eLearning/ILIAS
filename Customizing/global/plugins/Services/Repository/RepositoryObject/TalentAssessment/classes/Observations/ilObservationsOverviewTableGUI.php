@@ -25,10 +25,11 @@ class ilObservationsOverviewTableGUI extends \ilTable2GUI {
 		$this->setEnableNumInfo(false);
 		$this->setRowTemplate("tpl.talent_assessment_observations_overview_row.html", "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
 
-		$this->addColumn($values["title"], null);
+		$this->addColumn($values["title"], null, "25%");
 
+		$obs_width = floor(75 / count($observator));
 		foreach ($observator as $value) {
-			$this->addColumn($value["lastname"]." ".$value["firstname"], null);
+			$this->addColumn($value["lastname"]." ".$value["firstname"], null, $obs_width."%");
 		}
 
 		$this->setData($values["requirements"]);

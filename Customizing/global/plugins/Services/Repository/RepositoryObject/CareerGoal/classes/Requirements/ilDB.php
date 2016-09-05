@@ -127,7 +127,8 @@ class ilDB implements DB {
 	public function selectRequirementsFor($career_goal_id) {
 		$select = "SELECT obj_id, title, description\n"
 				." FROM ".self::TABLE_NAME."\n"
-				." WHERE career_goal_id = ".$this->getDB()->quote($career_goal_id);
+				." WHERE career_goal_id = ".$this->getDB()->quote($career_goal_id)."\n"
+				." ORDER BY title";
 
 		$res = $this->getDB()->query($select);
 
