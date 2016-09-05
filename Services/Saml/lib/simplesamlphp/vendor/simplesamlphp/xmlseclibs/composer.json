@@ -1,0 +1,24 @@
+{
+    "name": "simplesamlphp/xmlseclibs",
+    "description": "A PHP library for XML Security",
+    "authors": [
+        { "name": "Rob Richards" }
+    ],
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "keywords": ["xml", "xmlsec", "security", "signing", "signature", "x.509", "certificate"],
+    "homepage": "http://code.google.com/p/xmlseclibs/",
+    "autoload": {
+        "files": ["xmlseclibs.php"]
+    },
+    "suggest": {
+        "ext/openssl": "",
+        "ext/mcrypt": ""
+    },
+    "time": "2013-06-19",
+    "replace": {
+        "cdatazone/xmlseclibs": "self.version",
+        "fr3d/xmlseclibs": "self.version",
+        "robrichards/xmlseclibs": "self.version"
+    }
+}
