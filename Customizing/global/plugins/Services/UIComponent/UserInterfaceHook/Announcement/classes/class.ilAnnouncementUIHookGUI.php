@@ -26,7 +26,7 @@ class ilAnnouncementUIHookGUI extends ilUIHookPluginGUI {
 			return parent::getHTML($a_comp, $a_part, $a_par);
 		}
 
-		//setcookie("gev_announcement[".$this->gUser->getId()."]", "announcement", time()+31*24*3600);
+		setcookie("gev_announcement[".$this->gUser->getId()."]", "announcement", time()+31*24*3600);
 
 		// TODO: This should totally go to a template:
 		$ann = <<<HTML
