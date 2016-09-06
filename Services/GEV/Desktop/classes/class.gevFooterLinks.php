@@ -11,7 +11,7 @@
 */
 
 class gevFooterLinks {
-	protected function footerLinks($user_id) {
+	protected static function footerLinks($user_id) {
 		$uutils = null;
 		if($user_id) {
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -56,12 +56,12 @@ class gevFooterLinks {
 		/*Infos Decentral*/array
 			( "link" => "./static_pages.php?tpl=infpraesenz"
 			, "desc" => "gev_footer_infos_decentral"
-			, "display" => true
+			, "display" => ($uutils instanceof gevUserUtils)
 			),
 		/*Infos Webinar*/array
 			( "link" => "./static_pages.php?tpl=infwebinar"
 			, "desc" => "gev_footer_infos_webinar"
-			, "display" => true
+			, "display" => ($uutils instanceof gevUserUtils)
 			),
 		/*AGB Agent*/array
 			( "link" => "./Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen.pdf"
@@ -90,7 +90,7 @@ class gevFooterLinks {
 		/*Infos WBD registration*/array
 			( "link" => "./static_pages.php?tpl=wbd_docs"
 			, "desc" => "gev_footer_infos_wbd_registration"
-			, "display" => true
+			, "display" => ($uutils instanceof gevUserUtils)
 			),
 		/*Contact*/array
 			( "link" => "./static_pages.php?tpl=kontakt"
@@ -105,7 +105,7 @@ class gevFooterLinks {
 		/*Academy Benried*/array
 			( "link" => "./static_pages.php?tpl=gszbernried"
 			, "desc" => "gev_footer_academy_benried"
-			, "display" => true
+			, "display" => ($uutils instanceof gevUserUtils)
 			)
 		);
 	}

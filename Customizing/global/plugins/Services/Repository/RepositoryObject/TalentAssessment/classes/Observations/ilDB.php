@@ -424,7 +424,7 @@ class ilDB implements DB {
 		}
 
 		$select = $select.$where.$having;
-		
+
 		$res = $this->getDB()->query($select);
 		$data = array();
 		while($row = $this->getDB()->fetchAssoc($res)) {
