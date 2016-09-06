@@ -55,5 +55,6 @@ requirements_table_sort_title#:#Anforderungen sortieren
 objs_xcgo#:#Karriereziele
 obj_xcgo#:#Karriereziel
 xcgo_new#:#Neues Karriereziel anlegen
+xcgo_add#:#Neues Karriereziel anlegen
 objs_xcgo_duplicate#:#Karriereziel kopieren
 new_observation#:#Neue Beobachtung

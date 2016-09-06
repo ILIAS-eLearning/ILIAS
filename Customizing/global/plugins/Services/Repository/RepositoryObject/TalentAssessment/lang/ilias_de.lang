@@ -41,6 +41,7 @@ saved#:#Einstellungen erfolgreich gespeichert.
 not_saved#:#Einstellungen konnten nicht gespeichert werden.
 potential#:#Potenzial
 result_text#:#Gutachtentext
+result#:#Ergebnis
 points#:#Skalenwert
 description#:#Beschreibung
 title_of_req#:#Titel der Anforderung
@@ -76,3 +77,7 @@ xtas_add#:#Hinzufügen
 my_observations#:#Meine Assessmenttermine
 my_observations_info#:#Hier sehen Sie auf einen Blick alle Assessments, denen Sie als Beobachter zugeordnet sind.
 pls_select#:#Bitte wählen
+actions#:#Aktionen
+org_unit_supervisor#:#Vorschlagender OD
+dateperiod_choice_label#:#Zeitraum
+delete#:#Löschen

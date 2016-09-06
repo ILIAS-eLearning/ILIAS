@@ -9,6 +9,7 @@ class ilMyObservationsTableGUI extends catTableGUI {
 
 		$this->gCtrl = $ilCtrl;
 		$this->txt = $plugin->txtClosure();
+		$this->txt_prefix = $plugin->getPrefix()."_";
 		$this->values = $values;
 
 		$this->setId("my_observations_view");
@@ -19,8 +20,8 @@ class ilMyObservationsTableGUI extends catTableGUI {
 		$this->setEnableFilter(true);
 		$this->setEnableHeader(true);
 		$this->setShowRowsSelector(false);
-		$this->setTitle("my_observations");
-		$this->setSubtitle("my_observations_info");
+		$this->setTitle($this->txt_prefix."my_observations");
+		$this->setSubtitle($this->txt_prefix."my_observations_info");
 
 		$this->in_progress = '<img src="'.ilUtil::getImagePath("scorm/not_attempted.png").'" />';
 		$this->passed = '<img src="'.ilUtil::getImagePath("scorm/completed.png").'" />';
@@ -58,10 +59,10 @@ class ilMyObservationsTableGUI extends catTableGUI {
 	protected function createLegend() {
 		$legend = new \catLegendGUI();
 		
-		$legend->addItem($this->in_progress, "ta_in_progress")
-			   ->addItem($this->passed, "ta_passed")
-			   ->addItem($this->maybe, "ta_maybe")
-			   ->addItem($this->failed, "ta_failed");
+		$legend->addItem($this->in_progress, $this->txt_prefix."ta_in_progress")
+			   ->addItem($this->passed, $this->txt_prefix."ta_passed")
+			   ->addItem($this->maybe, $this->txt_prefix."ta_maybe")
+			   ->addItem($this->failed, $this->txt_prefix."ta_failed");
 
 		return $legend;
 	}
