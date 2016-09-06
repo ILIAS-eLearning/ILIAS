@@ -40,35 +40,36 @@ class ilObservationsCumulativeGUI {
 		}
 
 		$html = "";
-
-		foreach($req_res as $key => $req) {
-			foreach($req as $req_det) {
-				$pts_tpl = new \ilTemplate("tpl.talent_assessment_observations_cumulative_pts.html", true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
-
-				foreach($obs as $obs_key => $title) {
-					foreach ($observator as $usr) {
-						if(array_key_exists($usr["usr_id"], $req_det["observator"]) && $key == $obs_key) {
-							$pts = $req_det["observator"][$usr["usr_id"]];
-						} else {
-							$pts = "-";
-						}
-
-						$pts_tpl->setCurrentBlock("pts");
-						$pts_tpl->setVariable("POINTS", $pts);
-						$pts_tpl->parseCurrentBlock();
-					}
-				}
-
-				$pts_tpl->setVariable("REQ_TITLE", $req_det["title"]);
-				$pts_tpl->setVariable("POINTS_MIDDLE", round($req_det["middle"],1));
-
-				$html .= $pts_tpl->get();
+		$printed = array();
+		foreach($req_res as $req_title => $req) {
+			if($printed[$req_title]) {
+				continue;
 			}
-		}
+			$pts_tpl = new \ilTemplate("tpl.talent_assessment_observations_cumulative_pts.html", true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
 
-		$tpl->setCurrentBlock("tr_requirement");
-		$tpl->setVariable("PTS_ROW", $html);
-		$tpl->parseCurrentBlock();
+			foreach($obs as $obs_key => $title) {
+				foreach ($observator as $usr) {
+					$pts = $this->getPointsFor($req, $obs_key, $usr["usr_id"]);
+
+					var_dump($pts);
+
+					$pts_tpl->setCurrentBlock("pts");
+					$pts_tpl->setVariable("POINTS", $pts);
+					$pts_tpl->parseCurrentBlock();
+					}
+
+				$pts_tpl->setVariable("REQ_TITLE", $req_title);
+				$pts_tpl->setVariable("POINTS_MIDDLE", round($req["middle"],1));
+			}
+
+			$html .= $pts_tpl->get();
+
+			$tpl->setCurrentBlock("tr_requirement");
+			$tpl->setVariable("PTS_ROW", $html);
+			$tpl->parseCurrentBlock();
+
+			$printed[$req_title] = true;
+		}
 
 		$middle_total = 0;
 		foreach($obs as $key => $title) {
@@ -91,4 +92,16 @@ class ilObservationsCumulativeGUI {
 
 		return $tpl->get();
 	}
+
+	protected function getPointsFor($req, $obs_id, $usr_id) {
+        foreach($req as $elements) {
+            foreach($elements as $element) {
+                if($element["obs_id"] == $obs_id && array_key_exists($usr_id, $element["observator"])) {
+                    return $element["observator"][$usr_id];
+                }
+            }
+        }
+
+        return "-";
+    }
 }
