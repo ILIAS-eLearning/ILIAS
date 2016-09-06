@@ -5,6 +5,7 @@ require_once(dirname(__FILE__) . '/Connector/Limit/class.arLimitCollection.php')
 require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php');
 require_once(dirname(__FILE__) . '/Connector/Concat/class.arConcatCollection.php');
 require_once(dirname(__FILE__) . '/Connector/Select/class.arSelectCollection.php');
+require_once(dirname(__FILE__) . '/Connector/Having/class.arHavingCollection.php');
 
 /**
  * Class ActiveRecordList
@@ -42,6 +43,10 @@ class ActiveRecordList {
 	 * @var arSelectCollection
 	 */
 	protected $arSelectCollection;
+	/**
+	 * @var arHavingCollection
+	 */
+	protected $arHavingCollection;
 	/**
 	 * @var bool
 	 */
@@ -100,6 +105,7 @@ class ActiveRecordList {
 		$this->arOrderCollection = arOrderCollection::getInstance($this->getAR());
 		$this->arConcatCollection = arConcatCollection::getInstance($this->getAR());
 		$this->arSelectCollection = arSelectCollection::getInstance($this->getAR());
+		$this->arHavingCollection = arHavingCollection::getInstance($this->getAR());
 
 		$arSelect = new arSelect();
 		$arSelect->setTableName($ar->getConnectorContainerName());
@@ -376,7 +382,20 @@ class ActiveRecordList {
 		return $this->arSelectCollection;
 	}
 
+	/**
+	 * @return arHavingCollection
+	 */
+	public function getArHavingCollection() {
+		return $this->arHavingCollection;
+	}
 
+
+	/**
+	 * @param arHavingCollection $arHavingCollection
+	 */
+	public function setArHavingCollection($arHavingCollection) {
+		$this->arHavingCollection = $arHavingCollection;
+	}
 
 	//
 	// Collection Functions
