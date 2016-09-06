@@ -12,7 +12,7 @@ $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+require "simplePwdSec.php";
 
 
 

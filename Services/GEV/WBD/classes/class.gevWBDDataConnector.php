@@ -48,7 +48,7 @@ $basedir = str_replace('/Services/GEV/WBD/classes', '', $basedir);
 chdir($basedir);
 
 if($DEBUG_HTML_OUT){
-	require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+	require "simplePwdSec.php";
 	echo('<pre>');	
 }
 
