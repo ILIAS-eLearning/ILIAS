@@ -36,17 +36,15 @@ class ilObservationsDiagrammGUI {
 		$tpl = new \ilTemplate("tpl.talent_assessment_observations_diagramm.html", true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
 
 		$counter = 1;
-		foreach($req_res as $req) {
-			foreach($req as $req_det) {
+		foreach($req_res as $title => $req) {
 				$counter++;
-				$width = $this->getWidth($req_det["middle"]);
-				$color = $this->getColor($req_det["middle"], $values);
+				$width = $this->getWidth($req["middle"]);
+				$color = $this->getColor($req["middle"], $values);
 				$tpl->setCurrentBlock("req_row");
-				$tpl->setVariable("TITLE", $req_det["title"]);
+				$tpl->setVariable("TITLE", $title);
 				$tpl->setVariable("WIDTH", $width);
 				$tpl->setVariable("COLOR", $color);
 				$tpl->parseCurrentBlock();
-			}
 		}
 
 		$tpl->setCurrentBlock("vert_line");
