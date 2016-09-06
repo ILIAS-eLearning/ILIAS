@@ -18,13 +18,16 @@ class ilLPRubricCard
     private $rubric_owner;
     private $rubric_complete;
 
+    const RUBRIC_MODE_GRADER = 50;
+    const RUBRIC_MODE_DEVELOPER = 51;
+
+
     public function __construct($obj_id)
     {
         global $ilDB;
         
         $this->ilDB=$ilDB;
         $this->obj_id=$obj_id;
-        
     }
 
 
@@ -689,6 +692,18 @@ class ilLPRubricCard
                 complete=".$complete
         );
     }
+
+    public function _lookupRubricMode()
+    {
+        $set=$this->ilDB->query("select 1 from rubric_data where rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and deleted is null LIMIT 1");
+        $row = $this->ilDB->fetchAssoc($set);
+        return(is_null($row)?self::RUBRIC_MODE_DEVELOPER:self::RUBRIC_MODE_GRADER);
+    }
+
+
+
+
+
 
 }
 

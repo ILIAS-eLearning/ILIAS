@@ -531,14 +531,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $rubricGui=new ilLPRubricCardGUI();
         $rubricObj=new ilLPRubricCard($this->getObjId());
 
-
-
         // check to see if rubric data exists for this object, assign data if it does
         if($rubricObj->objHasRubric()){            
             $rubricGui->setRubricData($rubricObj->load());
+			$rubricGui->setRubricMode($rubricObj->_lookupRubricMode());
         }
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
-        if($rubricObj->isLocked()) {
+        if($rubricObj->isLocked()){
 			$rubricGui->setRubricLocked($rubricObj->getRubricLocked());
 			$rubricGui->setRubricOwner($rubricObj->getRubricOwner());
 		}

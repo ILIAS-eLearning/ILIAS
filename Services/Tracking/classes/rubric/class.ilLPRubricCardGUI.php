@@ -21,6 +21,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     private $student_view=false;
     protected $rubric_locked;
     protected $rubric_owner;
+    protected $rubric_mode;
 
     /**
      * Constructor
@@ -57,19 +58,28 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $this->rubric_owner = $rubric_owner;
     }
 
+    public function setRubricMode($rubric_mode)
+    {
+        $this->rubric_mode = $rubric_mode;
+    }
+
     private function getRubricCardFormHeader()
     {
         // configure the header for content windows
         $rubric_heading_tpl=new ilTemplate('tpl.lp_rubricform_heading.html',true,true,'Services/Tracking');
 
-        $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$this->lng->txt('trac_rubric'));
+
+        $title = $this->rubric_mode === ilLPRubricCard::RUBRIC_MODE_GRADER?
+            $this->lng->txt('trac_rubric_grader'):$this->lng->txt('trac_rubric_developer');
+        $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$title);
 
         return($rubric_heading_tpl);
     }
 
 
-    private function getRubricCardFormCommandRow($form_action)
+    private function getDeveloperRubricCardFormCommandRow($form_action)
     {
+
         global $ilUser;
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         //configure the command row
@@ -108,6 +118,22 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $rubric_commandrow_tpl->setVariable('EXPORT',$this->lng->txt('rubric_option_export_pdf'));
         return($rubric_commandrow_tpl);
     }
+
+    private function getGraderRubricCardFormCommandRow($form_action)
+    {
+        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+        //configure the command row
+        $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricform_grader_commandrow.html',true,true,'Services/Tracking');
+        $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
+        $rubric_commandrow_tpl->setVariable('PASSING_GRADE_VALUE',"$this->passing_grade");
+        $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));
+        $rubric_commandrow_tpl->setVariable('EXPORT',$this->lng->txt('rubric_option_export_pdf'));
+        $rubric_commandrow_tpl->setVariable('RUBRIC_READONLY','readonly="readonly"');
+        return($rubric_commandrow_tpl);
+    }
+
+
+
     private function getRubricCardForm()
     {
         //configure the rubric form
@@ -180,6 +206,12 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         if(!is_null($this->rubric_locked)) {
             $rubric_form_tpl->setVariable('RUBRIC_DISABLED','disabled=""');
         }
+
+
+        if($this->rubric_mode === ilLPRubricCard::RUBRIC_MODE_GRADER){
+            $rubric_form_tpl->setVariable('RUBRIC_READONLY','readonly="readonly"');
+        }
+
         //load language files
         foreach($language_variables as $lang_key => $lang_label){
             $rubric_form_tpl->setVariable($lang_key,$this->lng->txt($lang_label));
@@ -196,7 +228,12 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     {
         // get the required templates
         $rubric_heading_tpl=$this->getRubricCardFormHeader();
-        $rubric_commandrow_tpl=$this->getRubricCardFormCommandRow($form_action);
+
+        if($this->rubric_mode === ilLPRubricCard::RUBRIC_MODE_DEVELOPER){
+            $rubric_commandrow_tpl=$this->getDeveloperRubricCardFormCommandRow($form_action);
+        }else{
+            $rubric_commandrow_tpl=$this->getGraderRubricCardFormCommandRow($form_action);
+        }
 
         if(!empty($this->rubric_data)){
             $rubric_form_tpl=$this->loadRubricCardForm();
@@ -341,7 +378,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\">
                             <div class=\"form-group point-input $div_class has-feedback\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
-                                <input id=\"$tmp_name\" {RUBRIC_DISABLED} name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
+                                <input id=\"$tmp_name\" {RUBRIC_READONLY} {RUBRIC_DISABLED} name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
                                <span class=\"glyphicon $span_class form-control-feedback\" aria-hidden=\"true\"></span>
                                <span id=\"${tmp_name}WarningStatus\" class=\"sr-only\">$span_innerhtml</span>
                             </div>
@@ -430,12 +467,11 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
-                                <input {RUBRIC_DISABLED} id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
+                                <input {RUBRIC_READONLY} {RUBRIC_DISABLED} id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
                         </th>";
-
 
         }
         return($tmp_write);
