@@ -44,7 +44,6 @@ class ilAnnouncementUIHookGUI extends ilUIHookPluginGUI {
 	</div>
 	<div style="background-color: #FFFFFF; padding: 10px;">
 		<img  style="border: 1px solid #CECECE;" src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Announcement/new_design.png">
-		<div style="margin: 10px"><br />Bei Fragen kommen Sie gerne auf uns zu.</div>
 	</div>
 </div>
 <script>
