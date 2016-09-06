@@ -196,7 +196,7 @@ class ilMyObservationsGUI {
 		$tf = new \CaT\Filter\TypeFactory();
 		$f = new \CaT\Filter\FilterFactory($pf, $tf);
 
-		return $f->sequence
+		return $f->sequence($f->sequence
 			( $f->dateperiod
 				( $this->txt("dateperiod_choice_label")
 				, ""
@@ -220,7 +220,7 @@ class ilMyObservationsGUI {
 				 , ""
 				 , $this->getOrgUnitOptions()
 				)
-			);
+			));
 	}
 
 	protected function allAssessments() {
