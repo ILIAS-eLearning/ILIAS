@@ -40,7 +40,13 @@ class ilAnnouncementUIHookGUI extends ilUIHookPluginGUI {
 	</div>
 	<div class="ilClearFloat"></div>
 	<div class="catTitle" style="background-color: #FFFFFF; padding: 10px;">
-		<div class="catTitleHeader">Bald für Sie im neuen Look!</div>
+		<div>
+			<div class="catTitleTextContentsWrapper">
+				<div>
+					<h1 class="catTitleHeader">Bald für Sie im neuen Look!</h1>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div style="background-color: #FFFFFF; padding: 10px;">
 		<img  style="border: 1px solid #CECECE;" src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Announcement/new_design.png">
