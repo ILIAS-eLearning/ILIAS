@@ -369,9 +369,22 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		global $rbacreview, $rbacadmin;
 		
 		// Add local policy
-		if($rbacreview->isRoleAssignedToObject($role['obj_id'],$source->getRefId()))
+		if(!$rbacreview->isRoleAssignedToObject($role['obj_id'],$source->getRefId()))
 		{
-			$rbacadmin->deleteLocalRole($role['obj_id'], $source->getRefId());
+			$GLOBALS['DIC']->rbac()->admin()->assignRoleToFolder(
+				$role['obj_id'],
+				$source->getRefId(),
+				'n'
+			);
+		}
+		
+		// do nothing if role is protected in higher context
+		if(
+			$GLOBALS['DIC']->rbac()->review()->isProtected($source->getRefId(),$role['obj_id'])
+		)
+		{
+			$GLOBALS['DIC']->logger()->otpl()->info('Ignoring protected role: ' . $role['title']);
+			return true;
 		}
 
 		$role_data = array();
@@ -382,8 +395,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 				$role_data = $tmp_role;
 			}
 		}
-		$rbacadmin->assignRoleToFolder($role_data['obj_id'],$source->getRefId(),'n');
-
 		switch($this->getRoleTemplateType())
 		{
 			case self::TPL_ACTION_UNION:

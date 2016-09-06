@@ -460,7 +460,7 @@ class ilAdministrationGUI
 				"user_administration" =>
 					array("usrf", 'tos', "rolf", "auth", "ps", "orgu"),
 				"learning_outcomes" =>
-					array("skmg", "cert", "trac", "bdga")
+					array("skmg", "bdga", "cert", "trac")
 				),
 			2 => array(
 				"user_services" =>

@@ -307,6 +307,8 @@ class arConnectorDB extends arConnector {
 		$q .= ' FROM '.$arl->getAR()->getConnectorContainerName();
 		// JOINS
 		$q .= $arl->getArJoinCollection()->asSQLStatement();
+		// HAVING
+		$q .= $arl->getArHavingCollection()->asSQLStatement();
 		// WHERE
 		$q .= $arl->getArWhereCollection()->asSQLStatement();
 		// ORDER

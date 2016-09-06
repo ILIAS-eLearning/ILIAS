@@ -134,7 +134,7 @@ class ilObjBibliographicAdminLibrariesGUI {
 	public function add() {
 		$form = new ilObjBibliographicAdminLibrariesFormGUI($this, new ilBibliographicSetting());
 		$this->parent_gui->tpl->setContent($form->getHTML());
-		$this->parent_gui->tabs_gui->setTabActive('settings');
+		$this->parent_gui->getTabsGui()->setTabActive('settings');
 	}
 
 
@@ -193,5 +193,3 @@ class ilObjBibliographicAdminLibrariesGUI {
 		$this->parent_gui->tpl->setContent($form->getHTML());
 	}
 }
-
-?>
