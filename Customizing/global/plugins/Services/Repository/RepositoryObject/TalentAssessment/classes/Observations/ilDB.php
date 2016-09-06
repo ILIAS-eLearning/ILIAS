@@ -360,41 +360,49 @@ class ilDB implements DB {
 	}
 
 	public function getRequestresultCumulative($obs_ids) {
-		$select = "SELECT A.title, A.obs_id, A.position, B.points, B.observator_id, SUM(B.points)\n"
-				." FROM ".self::TABLE_REQUIREMENTS." A\n"
-				." LEFT JOIN ".self::TABLE_REQUIREMENTS_POINTS." B\n"
-				."    ON A.obj_id = B.req_id\n"
-				." WHERE ".$this->getDB()->in("A.obs_id", $obs_ids, false, "integer")."\n"
-				." GROUP BY A.title, A.position, B.points, B.observator_id"
-				." ORDER BY A.position";
+                $select = "SELECT A.obj_id as req_id, A.title, A.obs_id, A.position, B.points, B.observator_id, SUM(B.points)\n"
+                                ." FROM ".self::TABLE_REQUIREMENTS." A\n"
+                                ." LEFT JOIN ".self::TABLE_REQUIREMENTS_POINTS." B\n"
+                                ."    ON A.obj_id = B.req_id\n"
+                                ." WHERE ".$this->getDB()->in("A.obs_id", $obs_ids, false, "integer")."\n"
+                                ." GROUP BY A.title, A.position, B.points, B.observator_id"
+                                ." ORDER BY A.position, A.obs_id";
 
-		$res = $this->getDB()->query($select);
+                $res = $this->getDB()->query($select);
 
-		$pos = null;
-		$obs = null;
-		while($row = $this->getDB()->fetchAssoc($res)) {
-			if($pos != $row["position"]) {
-				if(!empty($ret_ar)) {
-					$ret_ar["middle"] = $ret_ar["sum"] / count($ret_ar["observator"]);
-					$ret[$obs][] = $ret_ar;
-				}
+                $pos = null;
+                $obs = null;
+                while($row = $this->getDB()->fetchAssoc($res)) {
+                        if($pos != $row["position"]) {
+                                if(!empty($ret_ar)) {
+                                        $ret_ar["sum"] = $sum;
+                                        $ret_ar["middle"] = $ret_ar["sum"] / $observator_count;
+                                        $ret[$title] = $ret_ar;
+                                        $ret_ar = array();
+                                        $observator_count = 0;
+                                        $sum = 0;
+                                }
 
-				$ret_ar = array();
-				$ret_ar["title"] = $row["title"];
-				$ret_ar["observator"] = array();
-				$pos = $row["position"];
-				$obs = $row["obs_id"];
-			}
+                                $pos = $row["position"];
+                                $title = $row["title"];
+                        }
 
-			$ret_ar["observator"][$row["observator_id"]] = $row["points"];
-			$ret_ar["sum"] += $row["points"];
-		}
+                        $vals = array();
+                        $vals["observator"] = array();
+                        $vals["obs_id"] = $row["obs_id"];
+                        $vals["observator"][$row["observator_id"]] = $row["points"];
+                        $sum += $row["points"];
+                        $observator_count++;
 
-		$ret_ar["middle"] = $ret_ar["sum"] / count($ret_ar["observator"]);
-		$ret[$obs][] = $ret_ar;
+                        $ret_ar[][] = $vals;
+                }
 
-		return $ret;
-	}
+                $ret_ar["sum"] = $sum;
+                $ret_ar["middle"] = $ret_ar["sum"] / $observator_count;
+                $ret[$title] = $ret_ar;
+
+                return $ret;
+        }
 
 	public function getMyAssessmentsData($filter, $filter_values) {
 		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
