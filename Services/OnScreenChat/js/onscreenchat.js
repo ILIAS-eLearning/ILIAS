@@ -112,7 +112,7 @@
 
 	$scope.il.OnScreenChat = {
 		config: {},
-		container: $('<div></div>').addClass('row'),
+		container: $('<div></div>').addClass('row').css('margin-right', -3),
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
