@@ -14,7 +14,7 @@ module.exports = function PreloadConversations(namespace, callback) {
 		var participants = JSON.parse(row.participants);
 
 		var conversation = new Conversation(row.id);
-		conversation.setIsGroup(row.isGroup);
+		conversation.setIsGroup(row.is_group);
 
 		for(var index in participants) {
 			if(participants.hasOwnProperty(index)){
