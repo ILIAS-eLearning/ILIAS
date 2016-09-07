@@ -11503,6 +11503,9 @@ div.ilPCMyCoursesPath {
   pointer-events: none;
   z-index: 1039;
 }
+#onscreenchat-container .iosOnScreenChat{
+  margin-right: -3px;
+}
 #onscreenchat-container .popover {
   max-width: 200px;
 }
