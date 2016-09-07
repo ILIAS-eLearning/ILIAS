@@ -112,7 +112,7 @@
 
 	$scope.il.OnScreenChat = {
 		config: {},
-		container: $('<div></div>').addClass('row'),
+		container: $('<div></div>').addClass('row').addClass('iosOnScreenChat'),
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
