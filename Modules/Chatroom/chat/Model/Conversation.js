@@ -103,8 +103,9 @@ var Conversation = function Conversation(id, participants)
 			id: _id,
 			participants: participants,
 			latestMessage: _latestMessage,
-			numNewMessages: _numNewMessages
-		}
+			numNewMessages: _numNewMessages,
+			isGroup: _group
+		};
 	};
 
 	var forParticipants = function(callback) {
