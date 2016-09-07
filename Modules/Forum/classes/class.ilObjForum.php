@@ -671,50 +671,43 @@ class ilObjForum extends ilObject
 		$threads = $this->Forum->getAllThreads($topData['top_pk']);
 		foreach($threads['items'] as $thread)
 		{
-			$data = array($thread->getId());
-
-			// delete tree
-			$statement = $ilDB->manipulateF('
-				DELETE FROM frm_posts_tree WHERE thr_fk = %s',
-				array('integer'), $data);
-
-			// delete posts
-			$statement = $ilDB->manipulateF('
-				DELETE FROM frm_posts WHERE pos_thr_fk = %s',
-				array('integer'), $data);
-
-			// delete threads
-			$statement = $ilDB->manipulateF('
-				DELETE FROM frm_threads WHERE thr_pk = %s',
-				array('integer'), $data);
-
+			$thread_ids_to_delete[$thread->getId()] = $thread->getId();
 		}
-
-		$data = array($this->getId());
+		
+		// delete tree
+		$ilDB->manipulate('DELETE FROM frm_posts_tree WHERE '. $ilDB->in('thr_fk', $thread_ids_to_delete, false, 'integer'));
+		
+		// delete posts
+		$ilDB->manipulate('DELETE FROM frm_posts WHERE '. $ilDB->in('pos_thr_fk', $thread_ids_to_delete, false, 'integer'));
+		
+		// delete threads
+		$ilDB->manipulate('DELETE FROM frm_threads WHERE '. $ilDB->in('thr_pk', $thread_ids_to_delete, false, 'integer'));
+		
+		$obj_id = array($this->getId());
 		// delete forum
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_data WHERE top_frm_fk = %s',
-			array('integer'), $data);
-
+		$ilDB->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s',
+			array('integer'), $obj_id);
+		
 		// delete settings
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_settings WHERE obj_id = %s',
-			array('integer'), $data);
-
+		$ilDB->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s',
+			array('integer'), $obj_id);
+		
 		// delete read infos
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_user_read WHERE obj_id = %s',
-			array('integer'), $data);
-
+		$ilDB->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s',
+			array('integer'), $obj_id);
+		
 		// delete thread access entries
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_thread_access WHERE obj_id = %s',
-			array('integer'), $data);
-
-		//delete notifications
-		$ilDB->manipulateF('
-				DELETE FROM frm_notification WHERE frm_id = %s',
-			array('integer'), $data);
+		$ilDB->manipulateF('DELETE FROM frm_thread_access WHERE obj_id = %s',
+			array('integer'), $obj_id);
+		
+		//delete thread notifications
+		$ilDB->manipulate('DELETE FROM frm_notification WHERE '. $ilDB->in('thread_id', $thread_ids_to_delete, false, 'integer'));
+		
+		//delete forum notifications
+		$ilDB->manipulateF('DELETE FROM frm_notification WHERE  frm_id = %s', array('integer'), $obj_id);
+		
+		// delete posts_deleted entries 
+		$ilDB->manipulateF('DELETE FROM frm_posts_deleted WHERE obj_id = %s', array('integer'), $obj_id);
 
 		return true;
 	}

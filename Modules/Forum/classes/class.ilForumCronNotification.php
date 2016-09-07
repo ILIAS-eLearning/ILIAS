@@ -385,6 +385,13 @@ class ilForumCronNotification extends ilCronJob
 
 		while($row = $ilDB->fetchAssoc($res))
 		{
+			if($notification_type == ilForumMailNotification::TYPE_POST_DELETED
+				|| $notification_type == ilForumMailNotification::TYPE_THREAD_DELETED)
+			{
+				// important! save the deleted_id to cache before proceeding getFirstAccessibleRefIdBUserAndObjId !
+				self::$deleted_ids_cache[$row['deleted_id']] = $row['deleted_id'];
+			}
+			
 			$ref_id = $this->getFirstAccessibleRefIdBUserAndObjId($row['user_id'], $row['obj_id']);
 			if($ref_id < 1)
 			{
@@ -401,12 +408,6 @@ class ilForumCronNotification extends ilCronJob
 			else
 			{
 				$this->addProviderObject($row);
-			}
-			
-			if($notification_type == ilForumMailNotification::TYPE_POST_DELETED
-			|| $notification_type == ilForumMailNotification::TYPE_THREAD_DELETED)
-			{
-				self::$deleted_ids_cache[$row['deleted_id']] = $row['deleted_id'];
 			}
 		}
 
