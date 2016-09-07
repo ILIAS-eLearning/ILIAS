@@ -105,3 +105,9 @@ $ilDB->addTableColumn("rubric", "complete", array("type" => "boolean"));
 $ilDB->addTableColumn("rubric", "grading_locked", array("type" => "timestamp"));
 $ilDB->addTableColumn("rubric", "grading_locked_by", array("type" => "integer", "length" => 4));
 ?>
+<#10>
+<?php
+require_once('./Services/Tracking/classes/rubric/class.ilRubricGradeHistoryConfig.php');
+$rubricHistory = new rubricGradeHistoryConfig();
+$rubricHistory->installDB();
+?>

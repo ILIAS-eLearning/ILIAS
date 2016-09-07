@@ -423,6 +423,70 @@ class ilLPRubricGrade
         }
     }
 
+    /**
+     * Prepare For a Regrade of a Rubric
+     * @param $obj_id
+     * @param $usr_id
+     * @return bool
+     */
+    public static function _prepareForRegrade($obj_id,$usr_id)
+    {
+        global $ilDB, $ilUser;
+
+        $delete_date = date("Y-m-d H:i:s");
+
+       //try and set deleted on any criteria in rubric_data table where deleted is not null.
+        $affected_rows = $ilDB->manipulate("UPDATE rubric_data d INNER JOIN rubric r on d.rubric_id = r.rubric_id SET d.deleted =
+                                            ".$ilDB->quote($delete_date,"timestamp")." WHERE d.deleted IS NULL AND d.usr_id = "
+                                            .$ilDB->quote($usr_id, "integer")." AND r.obj_id = ".
+                                            $ilDB->quote($obj_id, "integer"));
+        if($affected_rows > 0){
+            //there was a mark prior, we should proceed with preparing things for a regrade.
+            include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+            include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+
+            //grab everything from ut_lp_marks for the users obj_id and usr_id, that way we can save it for our own use.
+            $marks = new ilLPMarks($obj_id, $usr_id);
+            $status = ilLPStatus::_lookupStatus($obj_id,$usr_id);
+            $completed = $marks->getCompleted();
+            $mark = $marks->getMark();
+            $comments = $marks->getComment();
+
+            //Save the UT LP marks for this object. We're using Delete Date for the Create Date so we can inner join to the delete up above so we have a
+            //record of all marks.
+            $ilDB->manipulateF("INSERT INTO rubric_grade_hist(rubric_id,obj_id,usr_id,status,mark,completed,comments,owner,create_date,last_update) VALUES ".
+                " (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                array("integer","integer","integer","integer","float","integer","text","integer","date","date"),
+                array(self::_lookupRubricId($obj_id),$obj_id,$usr_id,$status,$mark,$completed,$comments,$ilUser->getId(),$delete_date,$delete_date));
+
+            //now that a record is saved delete it from marks, status and exercise.
+            $marks->_deleteForUsers($obj_id,array($usr_id));
+            ilLPStatus::writeStatus($obj_id,$usr_id,ilLPStatus::LP_STATUS_IN_PROGRESS_NUM);
+
+            //Remove from Ex Assignment
+            $ass_id=array_shift(ilExAssignment::getAssignmentDataOfExercise($obj_id));
+            $assignment = new ilExAssignment($ass_id['id']);
+            $assignment->updateMarkOfUser($ass_id['id'],$usr_id,'');
+            $assignment->updateStatusOfUser($ass_id['id'],$usr_id,'notgraded');
+
+        } else {
+            //there were no marks to begin with OR this was already marked for regrade, so go no further.
+            return false;
+        }
+
+    }
+
+
+
+    public static function _lookupRubricId($obj_id)
+    {
+        global $ilDB;
+        $res=$ilDB->query(
+            "select rubric_id from rubric where obj_id=".$ilDB->quote($obj_id, "integer")." and deleted is null"
+        );
+        $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
+        return $row->rubric_id;
+    }
 
 
 

@@ -48,5 +48,6 @@ trac#:#rubric_card_not_completed#:#Rubric Card is Incomplete.
 trac#:#rubric_card_please_complete#:#Please Click Here to Continue Editing Rubric Card
 trac#:#trac_rubric_developer#:#Rubric Card (Developer Mode)
 trac#:#trac_rubric_grader#:#Rubric Card (Grading Mode)
+common#:#rubric_confirm_resubmission#:#Please be advised: if resubmitting an assignment learning progress will be reset and your assignment will be regraded.
 common#:#authenticate_ilias#:#Non-REALTOR&#174;
 common#:#login_to_ilias#:#Login

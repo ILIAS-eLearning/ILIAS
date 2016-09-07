@@ -541,8 +541,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$fi->setFilenames(array(0 => ''));
 		//$fi->setInfo($lng->txt(""));
 		$this->form->addItem($fi);
-	
+
+		// START PATCH RUBRIC CPKN 2016
+		$olp = ilObjectLP::getInstance($this->object->getId());
+		$lp_mode = $olp->getCurrentMode();
+		if($lp_mode==92){
+			ilUtil::sendInfo($lng->txt('rubric_confirm_resubmission'));
+		}
 		$this->form->addCommandButton("deliverFile", $lng->txt("upload"));
+		//END PATCH RUBRIC CPKN 2016
+
+
 		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("file_add"));
@@ -558,6 +567,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+
+		// START PATCH RUBRIC CPKN 2016
+		$olp = ilObjectLP::getInstance($this->object->getId());
+		$lp_mode = $olp->getCurrentMode();
+		if($lp_mode==92){
+			ilUtil::sendInfo($lng->txt('rubric_confirm_resubmission'));
+		}
+		$this->form->addCommandButton("deliverFile", $lng->txt("upload"));
+		//END PATCH RUBRIC CPKN 2016
 	
 		// desc
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
@@ -571,14 +589,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->setTitle($lng->txt("header_zip"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
- 
+
  	/**
  	 * Upload files
  	 */
 	function deliverFileObject()
 	{
 		global $ilUser, $lng, $ilCtrl;
-		
+
 		$this->checkPermission("read");
 		
 		// #15322
@@ -609,7 +627,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 
 		if($success)
-		{			
+		{
+
+			// START PATCH RUBRIC CPKN 2016
+			include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+			ilLPRubricGrade::_prepareForRegrade($this->object->getId(),$ilUser->getId());
+			// END PATCH RUBRIC CPKN 2016
+
 			ilUtil::sendSuccess($this->lng->txt("file_added"), true);		
 			
 			$this->sendNotifications((int)$_GET["ass_id"]);
@@ -623,8 +647,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function deliverUnzipObject()
 	{
-		global $ilCtrl;
-	
+		//global $ilCtrl;
+		//START PATCH RUBRIC CPKN 2016
+		global $ilCtrl,$ilUser;
+		//END PATCH RUBRIC CPKN 2016
 		$this->checkPermission("read");
 		
 		// #15322
@@ -639,11 +665,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if($this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false,
 				(int) $_GET["ass_id"]))
 			{
+				// START PATCH RUBRIC CPKN 2016
+				include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+				ilLPRubricGrade::_prepareForRegrade($this->object->getId(),$ilUser->getId());
+				// END PATCH RUBRIC CPKN 2016
 				$this->sendNotifications((int)$_GET["ass_id"]);
 				$this->object->handleSubmission((int)$_GET['ass_id']);
 			}
 		}
-
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
   
@@ -900,8 +929,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
 		}
 		$this->ctrl->redirect($this, "edit");
-	
 	}
+
+
 
 	function uploadFileObject()
 	{
