@@ -436,7 +436,7 @@
 			var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
 			var conversation = getModule().storage.get(conversationId);
 
-			if (conversation.participants.length > 2) {
+			if (conversation.isGroup) {
 				$scope.il.Modal.dialogue({
 					id: 'modal-leave-' + conversation.id,
 					header: il.Language.txt('chat_osc_leave_grp_conv'),
