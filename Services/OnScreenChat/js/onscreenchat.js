@@ -389,6 +389,7 @@
 			}
 
 			conversation.latestMessage = messageObject;
+			conversation.numNewMessages = 0;
 			getModule().storage.save(conversation, function() {
 				getModule().addMessage(messageObject, false);
 			});
@@ -813,6 +814,10 @@
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
+			}
+
+			if(conversation.open) {
+				conversation.numNewMessages = 0;
 			}
 
 			conversation.callback	= callback;
