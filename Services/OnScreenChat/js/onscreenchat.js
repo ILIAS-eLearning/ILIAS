@@ -145,6 +145,9 @@
 
 			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
+				if(typeof conversation == "string") {
+					conversation = JSON.parse(conversation);
+				}
 
 				if (conversation && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
 					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
