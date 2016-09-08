@@ -168,6 +168,19 @@
 				}
 			});
 
+			setInterval(function(){
+				$.ajax(
+					getConfig().verifyLoginURL
+				).done(function(result) {
+					result = JSON.parse(result);
+					if(!result.loggedIn) {
+						window.location = '/login.php';
+					}
+				}).fail(function(e){
+					window.location = '/login.php';
+				});
+			}, 300000); // 5 minutes
+
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.receiveConversation(getModule().onConversation);
