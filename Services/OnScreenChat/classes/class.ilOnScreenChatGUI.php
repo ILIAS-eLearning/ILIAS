@@ -89,6 +89,7 @@ class ilOnScreenChatGUI
 				break;
 			case 'verifyLogin':
 				$this->verifyLogin();
+				break;
 			case 'getUserlist':
 			default:
 				$this->getUserList();
