@@ -7,7 +7,15 @@ var Conversation = require('../Model/Conversation');
  * @param {number} timestamp
  */
 module.exports = function(conversationId, userId) {
-	Container.getLogger().info('Close Conversation %s for participant %s', conversationId, userId);
-	var namespace = Container.getNamespace(this.nsp.name);
-	namespace.getDatabase().closeConversation(conversationId, userId);
+	if(conversationId !== null && userId !== null)
+	{
+		var namespace = Container.getNamespace(this.nsp.name);
+		var conversation = namespace.getConversations().getById(conversationId);
+
+		if(conversation.isParticipant(this.participant))
+		{
+			namespace.getDatabase().closeConversation(conversationId, userId);
+			Container.getLogger().info('Close Conversation %s for participant %s', conversationId, userId);
+		}
+	}
 };
