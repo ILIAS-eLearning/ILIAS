@@ -92,6 +92,10 @@ var Conversation = function Conversation(id, participants)
 		_latestMessage = message;
 	};
 
+	this.isParticipant = function(participant) {
+		return hasParticipant(participant, _participants);
+	};
+
 	this.json = function() {
 		var participants = [];
 
