@@ -17,6 +17,8 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     protected $tpl;
     protected $rubric_data;
     protected $user_data;
+    protected $user_history;
+    protected $user_history_id;
     protected $passing_grade;
     protected $incomplete;
     protected $rubric_grade_locked;
@@ -59,13 +61,31 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $this->user_data=$user_data;
     }
 
+    public function setUserHistory($user_history)
+    {
+        $this->user_history = $user_history;
+    }
+
+    public function setUserHistoryId($user_history_id)
+    {
+        $this->user_history_id = $user_history_id;
+    }
+
     private function getRubricGradeFormHeader($user_full_name)
     {
         // configure the header for content windows
         $rubric_heading_tpl=new ilTemplate('tpl.lp_rubricgrade_heading.html',true,true,'Services/Tracking');
 
-        $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$this->lng->txt('trac_rubric'));
+        if($this->user_history_id === 'current'){
+            $version = $this->lng->txt('rubric_current');
+        }elseif(!is_null($this->user_history_id)) {
+            $version = '('.$this->user_history[$this->user_history_id]['create_date'].')';
+        }
+
+        $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$this->lng->txt('trac_rubric').$version);
         $rubric_heading_tpl->setVariable('USER_FULL_NAME',$user_full_name);
+
+
         if($this->student_view)
         {
            $tmp_user = ilObjectFactory::getInstanceByObjId($this->rubric_data['grader'][0]['grader'],false);
@@ -79,15 +99,25 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function getRubricGradeFormCommandRow($form_action,$user_id)
     {
+        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
         global $ilUser;
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_commandrow.html',true,true,'Services/Tracking');
+
+        if($this->user_history_id !== 'current' && !is_null($this->user_history_id))
+        {
+            $rubric_commandrow_tpl->setVariable('HISTORY_DISABLED','disabled');
+        }
+
         $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));
+        $rubric_commandrow_tpl->setVariable('RUBRIC_REGRADE',$this->lng->txt('rubric_regrade'));
         $rubric_commandrow_tpl->setVariable('RUBRIC_EXPORT',$this->lng->txt('rubric_option_export_pdf'));
         if(!is_null($this->rubric_grade_locked)) {
             $rubric_commandrow_tpl->setVariable('RUBRIC_DISABLED','disabled');
             $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_unlock'));
             $tmp_user = ilObjectFactory::getInstanceByObjId($this->grade_lock_owner, false);
+
             if($this->grade_lock_owner !== $ilUser->getId())
             {
                 $rubric_commandrow_tpl->setVariable('USER_LOCK','disabled');
@@ -97,6 +127,24 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_lock'));
         }
 
+
+        $select_prop=new ilSelectInputGUI('Title','grader_history');
+        $options = array();
+        $last_entry = end($this->user_history);
+
+        foreach($this->user_history as $k=>$user_history)
+        {
+            $grade_text = $user_history == $last_entry?$this->lng->txt('rubric_graded_by'):$this->lng->txt('rubric_regraded_by');
+            $options[$user_history['rubric_history_id']] = $user_history['create_date'].' '.$grade_text.' '.ilObject::_lookupTitle($user_history['owner']) ;
+        }
+
+        if(!array_key_exists('current',$this->user_history)){
+            $options = array('current'=>$this->lng->txt('no_current_rubric_grade'))+$options;
+        }
+        $select_prop->setOptions($options);
+        $select_prop->setValue($this->user_history_id);
+        $rubric_commandrow_tpl->setVariable('RUBRIC_COMMANDROW_HISTORY_SELECT',$select_prop->render());
+        $rubric_commandrow_tpl->setVariable('RUBRIC_VIEW_HISTORY',$this->lng->txt('view'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
 
         $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
@@ -106,9 +154,31 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function getRubricStudentGradeFormCommandRow($form_action,$user_id)
     {
+        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_student_commandrow.html',true,true,'Services/Tracking');
+
+        $select_prop=new ilSelectInputGUI('Title','grader_history');
+        $options = array();
+        $last_entry = end($this->user_history);
+
+        foreach($this->user_history as $k=>$user_history)
+        {
+            $grade_text = $user_history == $last_entry?$this->lng->txt('rubric_graded_by'):$this->lng->txt('rubric_regraded_by');
+            $options[$user_history['rubric_history_id']] = $user_history['create_date'].' '.$grade_text.' '.ilObject::_lookupTitle($user_history['owner']) ;
+        }
+
+        if(!array_key_exists('current',$this->user_history)){
+            $options = array('current'=>$this->lng->txt('no_current_rubric_grade'))+$options;
+        }
+        $select_prop->setValue($this->user_history_id);
+
+        $select_prop->setOptions($options);
+        $rubric_commandrow_tpl->setVariable('RUBRIC_COMMANDROW_HISTORY_SELECT',$select_prop->render());
+
+
         $rubric_commandrow_tpl->setVariable('RUBRIC_EXPORT',$this->lng->txt('rubric_option_export_pdf'));
+        $rubric_commandrow_tpl->setVariable('RUBRIC_VIEW_HISTORY',$this->lng->txt('view'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
         $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
 
@@ -255,8 +325,14 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $tmp_criteria_name='Criteria_'.$group_increment.'_'.$criteria_increment;
         $tmp_comment_name='Comment_'.$group_increment.'_'.$criteria_increment;
 
-        $disabled =(!is_null($this->rubric_grade_locked))?"disabled='disabled'":'';
-
+        if(!is_null($this->rubric_grade_locked)){
+            $disabled = "disabled='disabled'";
+        }elseif(!is_null($this->user_history_id) && $this->user_history_id !=='current')
+        {
+            $disabled = "disabled='disabled'";
+        }else{
+            $disabled = '';
+        }
 
         $tmp_write="<td scope=\"rowgroup\">
                         ${criteria['criteria']}

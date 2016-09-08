@@ -30,7 +30,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		global $ilUser,$ilObjDataCache;
 
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
-		
+
 		// Set item id for details
 		$this->__initDetails((int) $_REQUEST['details_id']);
 	}
@@ -56,7 +56,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 					$user_id, $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
-			
+
 			case 'iltrsummarytablegui':
 				$cmd = "showObjectSummary";
 				if(!$this->details_id)
@@ -77,7 +77,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 			case 'iltrobjectuserspropstablegui':
 				$this->ctrl->setParameter($this, "details_id", $this->details_id);
-			
+
 				include_once './Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php';
 			    $table_gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
@@ -94,53 +94,92 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	function updateUser()
 	{
 		global $rbacsystem;
-		
+
 		if(isset($_GET["userdetails_id"]))
 		{
 			$parent = $this->details_id;
 			$this->__initDetails((int)$_GET["userdetails_id"]);
 		}
-		
+
 		if(!$rbacsystem->checkAccess('edit_learning_progress', $this->details_id))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->returnToParent($this);
 		}
-        
+
         // START PATCH RUBRIC CPKN 2015
         include_once 'Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->getObjId());		
+		$olp = ilObjectLP::getInstance($this->getObjId());
 		$lp_mode = $olp->getCurrentMode();
-        
+
         if($lp_mode==92){
             $passing_grade=$this->saveRubricGrade();
             //only update progress if grading is completed
             if($passing_grade!==false){
-                $this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);                
+                $this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);
             }
-            
+
         }else{
-		
+
     		$this->__updateUser($_REQUEST['user_id'], $this->details_obj_id);
     		ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'), true);
         }
         // END PATCH RUBRIC CPKN 2015
-    						
+
 		$this->ctrl->setParameter($this, "details_id", $this->details_id); // #15043
-		
+
 		// #14993
 		if(!isset($_GET["userdetails_id"]))
 		{
-			$this->ctrl->redirect($this, "details"); 
+			$this->ctrl->redirect($this, "details");
 		}
 		else
 		{
-			$this->ctrl->setParameter($this, "userdetails_id", (int)$_GET["userdetails_id"]); 
-			$this->ctrl->redirect($this, "userdetails"); 
+			$this->ctrl->setParameter($this, "userdetails_id", (int)$_GET["userdetails_id"]);
+			$this->ctrl->redirect($this, "userdetails");
 		}
-        	
-        	 		
+
+
 	}
+
+	// START PATCH RUBRIC CPKN 2016
+	function confirmRegrade()
+	{
+		require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		ilUtil::sendQuestion($this->lng->txt('rubric_regrade_warning'));
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+
+		$conf->addHiddenItem('user_id',$_POST['user_id']);
+		$conf->setConfirm($this->lng->txt('rubric_regrade'), 'regradeUser');
+		$conf->setCancel($this->lng->txt('cancel'), 'cancelRegrade');
+		$this->tpl->setContent($conf->getHTML());
+	}
+
+
+	function regradeUser()
+	{
+		$usr_id = $_POST['user_id'];
+		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+
+		ilLPRubricGrade::_prepareForRegrade($obj_id,$usr_id);
+
+		$obj_gui = new ilLPListOfObjectsGUI(0,$_GET['ref_id']);
+		$obj_gui->editUser();;
+	}
+
+	function cancelRegrade()
+	{
+		//send back to the rubric
+		$obj_gui = new ilLPListOfObjectsGUI(0,$_GET['ref_id']);
+		$obj_gui->editUser();
+	}
+
+
+	// END PATCH RUBRIC CPKN 2016
+
 
 	function editUser()
 	{
@@ -158,34 +197,34 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$sub_id = NULL;
 			$cancel = "details";
 		}
-		
+
 		if(!$rbacsystem->checkAccess('edit_learning_progress', $this->details_id))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->returnToParent($this);
 		}
-        
-        
+
+
         // START PATCH RUBRIC CPKN 2015
         include_once 'Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->getObjId());		
+		$olp = ilObjectLP::getInstance($this->getObjId());
 		$lp_mode = $olp->getCurrentMode();
-                
+
         if($lp_mode==92){
-            
-            $this->showRubricGradeForm();            
-            
+
+            $this->showRubricGradeForm();
+
         }else{
-            
+
             include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
     		$info = new ilInfoScreenGUI($this);
     		$info->setFormAction($this->ctrl->getFormAction($this));
     		$this->__showObjectDetails($info, $this->details_obj_id);
     		$this->__appendUserInfo($info, (int)$_GET['user_id']);
     		// $this->__appendLPDetails($info,$this->details_obj_id,(int)$_GET['user_id']);
-    
+
     		$this->tpl->setVariable("ADM_CONTENT", $this->__showEditUser((int)$_GET['user_id'], $parent_id, $cancel, $sub_id).$info->getHTML());
-            
+
         }
         // END PATCH RUBRIC CPKN 2015
 	}
@@ -201,10 +240,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		   $this->getMode() == self::LP_CONTEXT_ADMINISTRATION)
 		{
 			$print_view = false;
-			
+
 			$ilToolbar->addButton($this->lng->txt('trac_view_list'),
 				$this->ctrl->getLinkTarget($this,'show'));
-		}		
+		}
 		else
 		{
 			/*
@@ -215,7 +254,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setParameter($this, 'prt', 1);
 				$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'details'), '_blank');
 				$this->ctrl->setParameter($this, 'prt', '');
-			}			 
+			}
 			*/
 		}
 
@@ -244,7 +283,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		include_once "Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php";
 		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id, $a_print_view);
-		
+
 		$this->tpl->setVariable("LP_OBJECTS", $gui->getHTML());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 
@@ -253,7 +292,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
 			exit();
-		}		 
+		}
 		*/
 	}
 
@@ -287,7 +326,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->ctrl->setParameter($this, 'prt', '');
 		};
 		*/
-		
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -309,7 +348,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
 			exit();
-		}		 
+		}
 		*/
 	}
 
@@ -338,7 +377,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
 		$lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
-		
+
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
 	}
@@ -357,9 +396,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->details_id = $a_details_id;
 			$this->details_obj_id = $ilObjDataCache->lookupObjId($this->details_id);
 			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);
-			
+
 			include_once 'Services/Object/classes/class.ilObjectLP.php';
-			$olp = ilObjectLP::getInstance($this->details_obj_id);													
+			$olp = ilObjectLP::getInstance($this->details_obj_id);
 			$this->details_mode = $olp->getCurrentMode();
 		}
 	}
@@ -379,7 +418,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->ctrl->setParameter($this, 'prt', 1);
 			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'showObjectSummary'), '_blank');
 			$this->ctrl->setParameter($this, 'prt', '');
-		}		 
+		}
 		*/
 
 		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
@@ -408,7 +447,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			return;
 		}
-		
+
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
@@ -427,35 +466,35 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
 		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
 	}
-    
+
     // START PATCH RUBRIC CPKN 2015
     /**
      *  Save Rubric Grade
      */
     private function saveRubricGrade()
-    {   
-        // bring in the rubric card object       
+    {
+        // bring in the rubric card object
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
         $rubricObj=new ilLPRubricGrade($this->getObjId());
-        
+
         if($rubricObj->objHasRubric()){
             $rubricObj->grade($rubricObj->load());
             ilUtil::sendSuccess($this->lng->txt('rubric_card_save'));
         }else{
-            ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));                
+            ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));
         }
-        
+
         if($rubricObj->isGradeCompleted()){
-            return($rubricObj->getPassingGrade());            
+            return($rubricObj->getPassingGrade());
         }else{
             return(false);
         }
-        
+
     }
     /**
      *  Show Rubric Grade
      */
-    public function showRubricGradeForm()
+    public function showRubricGradeForm($history_id = NULL)
     {
         include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
         include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
@@ -463,12 +502,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $rubricGui=new ilLPRubricGradeGUI();
         $a_user = ilObjectFactory::getInstanceByObjId((int)$_REQUEST['user_id']);
         if($rubricObj->objHasRubric() && $rubricObj->isRubricComplete()){
+			$rubricGui->setUserHistoryId($history_id);
 			if($rubricObj->isGradingLocked()) {
 				$rubricGui->setRubricGradeLocked($rubricObj->getRubricGradeLocked());
 				$rubricGui->setGradeLockOwner($rubricObj->getGradeLockOwner());
 			}
             $rubricGui->setRubricData($rubricObj->load());
-            $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_REQUEST['user_id']));
+			$rubricGui->setUserHistory($rubricObj->getUserHistory((int)$_REQUEST['user_id']));
+            $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_REQUEST['user_id'],$history_id));
             $rubricGui->getRubricGrade(
                 $this->ctrl->getFormAction($this),
                 $a_user->getFullName(),
@@ -485,18 +526,29 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			}
         }
 	}
-     
-    /**
+
+	// START PATCH RUBRIC CPKN 2016
+	function viewHistory()
+	{
+		//send back to the rubric
+		$obj_gui = new ilLPListOfObjectsGUI(0,$_GET['ref_id']);
+		$obj_gui->showRubricGradeForm($_REQUEST['grader_history']);
+	}
+
+	// END PATCH RUBRIC CPKN 2016
+
+
+	/**
      * Save Rubric Card
      */
     public function saveRubricCard()
     {
-        // bring in the rubric card object       
+        // bring in the rubric card object
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
         $rubricObj=new ilLPRubricCard($this->getObjId());
 
         $rubricObj->save();
-        
+
         ilUtil::sendSuccess($this->lng->txt('rubric_card_save'));
 
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
@@ -508,9 +560,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
 
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
-        
+
     }
-     
+
     /**
      * Show Rubric Form
      */
@@ -526,13 +578,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         // bring in GUI and DB objects
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
-        
+
         // instantiate rubric objects
         $rubricGui=new ilLPRubricCardGUI();
         $rubricObj=new ilLPRubricCard($this->getObjId());
 
         // check to see if rubric data exists for this object, assign data if it does
-        if($rubricObj->objHasRubric()){            
+        if($rubricObj->objHasRubric()){
             $rubricGui->setRubricData($rubricObj->load());
 			$rubricGui->setRubricMode($rubricObj->_lookupRubricMode());
         }
@@ -542,7 +594,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$rubricGui->setRubricOwner($rubricObj->getRubricOwner());
 		}
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
-        
+
     }
 
 	public function lockRubricCardForm()

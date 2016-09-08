@@ -6,12 +6,15 @@
 
 <div class="ilTableCommandRowTop form-inline">
     <div class="ilFloatLeft ilFormCmds">
-        <input type="submit" {USER_LOCK} value="{RUBRIC_LOCK}" name="cmd[lockRubricGradeForm]" class="btn btn-default btn-sm">
+        <input type="submit"  {HISTORY_DISABLED}{USER_LOCK} value="{RUBRIC_LOCK}" name="cmd[lockRubricGradeForm]" class="btn btn-default btn-sm">
+        {RUBRIC_COMMANDROW_HISTORY_SELECT}
+        <input type="submit" value="{RUBRIC_VIEW_HISTORY}" name="cmd[viewHistory]" class="btn btn-default btn-sm">
     </div>
     <div class="ilFloatRight ilFormCmds">
 
         <input type="submit" value="{RUBRIC_EXPORT}" name="cmd[exportPDF]" class="btn btn-default btn-sm">
-        <input {RUBRIC_DISABLED} type="submit" value="{RUBRIC_SAVE}" name="cmd[updateUser]" class="btn btn-default btn-sm">
+        <input {HISTORY_DISABLED}{RUBRIC_DISABLED} type="submit" value="{RUBRIC_SAVE}" name="cmd[updateUser]" class="btn btn-default btn-sm">
+        <input type="submit" {HISTORY_DISABLED}{RUBRIC_DISABLED} value="{RUBRIC_REGRADE}" name="cmd[confirmRegrade]" class="btn btn-default btn-sm">
         
     </div>
     

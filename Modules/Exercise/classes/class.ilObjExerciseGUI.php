@@ -1670,9 +1670,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->checkPermission("write");
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		
-//		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
 		$saved_for = array();
 				
 		foreach($_POST["id"] as $key => $value)
@@ -1724,7 +1721,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			foreach($user_ids as $user_id)
-			{								
+			{
 				ilExAssignment::updateStatusOfUser($ass_id, $user_id,
 					ilUtil::stripSlashes($_POST["status"][$key]));
 				ilExAssignment::updateNoticeForUser($ass_id, $user_id,
@@ -1743,6 +1740,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 				ilExAssignment::updateCommentForUser($ass_id, $user_id,
 					ilUtil::stripSlashes($_POST['lcomment'][$key]));				 
 				*/
+
+				// START PATCH RUBRIC CPKN 2016
+				if($_POST['status'][$ass_id] === 'notgraded')
+				{
+
+					include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+					//if it was changed to not graded change the parent exercise object status to in progress.
+					$exc_obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+					ilLPStatus::writeStatus($exc_obj_id,$user_id,ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,false,true);
+				}
+				// END PATCH RUBRIC CPKN 2016
+
 			}			
 		}
 		

@@ -468,7 +468,7 @@ class ilLearningProgressBaseGUI
 		
 		$olp = ilObjectLP::getInstance($item_id);
 		$info->addProperty($this->lng->txt('trac_mode'),
-			$olp->getModeText($olp->getCurrentMode()));
+				$olp->getModeText($olp->getCurrentMode()));
 		
 		switch($type)
 		{
@@ -532,6 +532,10 @@ class ilLearningProgressBaseGUI
 		{
 			$info->addProperty($this->lng->txt('trac_comment'),$comment);
 		}
+
+
+
+
 	}
 
 	function __readStatus($a_obj_id,$user_id)
@@ -761,7 +765,7 @@ class ilLearningProgressBaseGUI
 			$marks->setMark($form->getInput("mark"));
 			$marks->setComment($form->getInput("comment"));
             $marks->setCompleted(1);
-            
+
             $do_lp=true;
 
 			$marks->update();

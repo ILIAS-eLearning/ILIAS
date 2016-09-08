@@ -37,9 +37,18 @@ class ilLPRubricGrade
         return $this->rubric_grade_locked;
     }
 
-    public function getRubricUserGradeData($user_id)
+    public function getRubricUserGradeData($user_id,$history_id = NULL)
     {
         $data=array();
+        if(!is_null($history_id) && $history_id !== 'current'){
+            $res=$this->ilDB->query(
+                "select d.* from rubric_grade_hist h INNER JOIN rubric_data d on d.deleted = h.create_date
+             where
+                h.rubric_history_id = ".$this->ilDB->quote($history_id, "integer")." and
+                d.rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and
+                d.usr_id=".$this->ilDB->quote($user_id, "integer")
+            );
+        }else{
 
         $res=$this->ilDB->query(
             "select
@@ -50,6 +59,8 @@ class ilLPRubricGrade
                 rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and
                 usr_id=".$this->ilDB->quote($user_id, "integer")
         );
+
+        }
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
             array_push($data,array(
                 'rubric_criteria_id'=>$row->rubric_criteria_id,
@@ -57,9 +68,7 @@ class ilLPRubricGrade
                 'criteria_comment'=>$row->criteria_comment,
             ));
         }
-
         return($data);
-
     }
 
     public function lockUnlockGrade()
@@ -248,7 +257,7 @@ class ilLPRubricGrade
         $user_id=$this->getGradeUserId();
 
         // null out grades
-        $this->ilDB->manipulate("update rubric_data set deleted = NOW() where rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and usr_id=".$this->ilDB->quote($user_id, "integer"));
+        //$this->ilDB->manipulate("update rubric_data set deleted = NOW() where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and usr_id=".$this->ilDB->quote($user_id, "integer"));
 
         $count=0;
         foreach($grades as $criteria_id => $grade){
@@ -259,9 +268,11 @@ class ilLPRubricGrade
                         rubric_data_id
                      from rubric_data
                      where
+                        deleted IS NULL and
                         rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and
                         usr_id=".$this->ilDB->quote($user_id, "integer")." and
                         rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer")
+
             );
             $row=$this->ilDB->fetchAssoc($set);
             if(!empty($row)){
@@ -361,6 +372,30 @@ class ilLPRubricGrade
 
     }
 
+    public function getUserHistory($user_id)
+    {
+        $history = array();
+        $res = $this->ilDB->query("SELECT * FROM (select h.rubric_history_id,d.create_date,d.owner from rubric_grade_hist h INNER JOIN rubric_data d on d.deleted = h.create_date WHERE h.deleted IS NULL AND h.obj_id = ".$this->ilDB->quote($this->obj_id, "integer").
+            " AND h.usr_id = ".$this->ilDB->quote($user_id, "integer")." GROUP BY create_date
+             UNION ALL
+            select
+                'current' as rubric_history_id,d.last_update as 'create_date',d.owner
+             from rubric_data d
+             inner join rubric r on r.rubric_id = d.rubric_id
+             where
+               d.deleted is null and
+               r.obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and
+                d.usr_id=".$this->ilDB->quote($user_id, "integer")." GROUP BY create_date) as history ORDER BY create_date DESC"
+            );
+        while ($record = $this->ilDB->fetchAssoc($res))
+        {
+            $history[$record['rubric_history_id']] = $record;
+        }
+
+        return $history;
+    }
+
+
     public function isRubricComplete()
     {
         $res=$this->ilDB->query(
@@ -434,7 +469,6 @@ class ilLPRubricGrade
         global $ilDB, $ilUser;
 
         $delete_date = date("Y-m-d H:i:s");
-
        //try and set deleted on any criteria in rubric_data table where deleted is not null.
         $affected_rows = $ilDB->manipulate("UPDATE rubric_data d INNER JOIN rubric r on d.rubric_id = r.rubric_id SET d.deleted =
                                             ".$ilDB->quote($delete_date,"timestamp")." WHERE d.deleted IS NULL AND d.usr_id = "
@@ -444,6 +478,7 @@ class ilLPRubricGrade
             //there was a mark prior, we should proceed with preparing things for a regrade.
             include_once 'Services/Tracking/classes/class.ilLPMarks.php';
             include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
             //grab everything from ut_lp_marks for the users obj_id and usr_id, that way we can save it for our own use.
             $marks = new ilLPMarks($obj_id, $usr_id);
@@ -454,10 +489,12 @@ class ilLPRubricGrade
 
             //Save the UT LP marks for this object. We're using Delete Date for the Create Date so we can inner join to the delete up above so we have a
             //record of all marks.
-            $ilDB->manipulateF("INSERT INTO rubric_grade_hist(rubric_id,obj_id,usr_id,status,mark,completed,comments,owner,create_date,last_update) VALUES ".
-                " (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                array("integer","integer","integer","integer","float","integer","text","integer","date","date"),
-                array(self::_lookupRubricId($obj_id),$obj_id,$usr_id,$status,$mark,$completed,$comments,$ilUser->getId(),$delete_date,$delete_date));
+
+            $id = $ilDB->nextID('rubric_grade_hist');
+            $ilDB->manipulateF("INSERT INTO rubric_grade_hist(rubric_history_id,rubric_id,obj_id,usr_id,status,mark,completed,comments,owner,create_date,last_update) VALUES ".
+                " (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                array("integer","integer","integer","integer","integer","float","integer","text","integer","date","date"),
+                array($id,self::_lookupRubricId($obj_id),$obj_id,$usr_id,$status,$mark,$completed,$comments,$ilUser->getId(),$delete_date,$delete_date));
 
             //now that a record is saved delete it from marks, status and exercise.
             $marks->_deleteForUsers($obj_id,array($usr_id));
@@ -468,7 +505,7 @@ class ilLPRubricGrade
             $assignment = new ilExAssignment($ass_id['id']);
             $assignment->updateMarkOfUser($ass_id['id'],$usr_id,'');
             $assignment->updateStatusOfUser($ass_id['id'],$usr_id,'notgraded');
-
+            return true;
         } else {
             //there were no marks to begin with OR this was already marked for regrade, so go no further.
             return false;
@@ -486,6 +523,16 @@ class ilLPRubricGrade
         );
         $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
         return $row->rubric_id;
+    }
+
+    public static function _lookupRubricHistoryLP($rubric_history_id)
+    {
+        global $ilDB;
+        $res=$ilDB->query(
+            "select * from rubric_grade_hist where rubric_history_id=".$ilDB->quote($rubric_history_id, "integer")." and deleted is null"
+        );
+        $row=$res->fetchRow(DB_FETCHMODE_ASSOC);
+        return $row;
     }
 
 
