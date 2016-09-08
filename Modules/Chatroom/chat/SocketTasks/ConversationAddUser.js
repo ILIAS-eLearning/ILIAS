@@ -38,5 +38,4 @@ module.exports = function(conversationId, userId, name) {
 			this.emit('addUser', conversation.json());
 		}
 	}
-	
 };
