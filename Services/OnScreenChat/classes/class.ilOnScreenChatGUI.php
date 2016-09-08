@@ -87,11 +87,29 @@ class ilOnScreenChatGUI
 			case 'getUserProfileImages':
 				$this->getUserProfileImages();
 				break;
-
+			case 'verifyLogin':
+				$this->verifyLogin();
+				break;
 			case 'getUserlist':
 			default:
 				$this->getUserList();
 		}
+	}
+
+	/**
+	 * Checks if a user is logged in. If not, this function should cause an redirect, to disallow chatting while not logged
+	 * into ILIAS.
+	 *
+	 * @return bool
+	 */
+	public function verifyLogin()
+	{
+		global $DIC;
+
+		echo json_encode(array(
+			'loggedIn' => $DIC->user() && !$DIC->user()->isAnonymous()
+		));
+		exit;
 	}
 
 	public function getUserList()
@@ -217,6 +235,7 @@ class ilOnScreenChatGUI
 				'username'           => $DIC->user()->getLogin(),
 				'userListURL'        => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserList', '', true, false),
 				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserProfileImages', '', true, false),
+				'verifyLoginURL'     => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'verifyLogin', '', true, false),
 				'loaderImg'          => ilUtil::getImagePath('loader.svg'),
 				'emoticons'          => self::getEmoticons($settings),
 				'locale'             => $DIC->language()->getLangKey()
