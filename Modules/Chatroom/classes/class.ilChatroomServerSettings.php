@@ -80,7 +80,14 @@ class ilChatroomServerSettings
 	{
 		if($this->getIliasUrlEnabled())
 		{
-			return $this->getProtocol() . $this->getIliasUrl();
+			$url = $this->getIliasUrl();
+
+			if(strpos($url, '://') === false)
+			{
+				$url = $this->getProtocol() . $url;
+			}
+
+			return $url;
 		}
 		return $this->getBaseURL();
 	}
@@ -210,7 +217,14 @@ class ilChatroomServerSettings
 	{
 		if($this->getClientUrlEnabled())
 		{
-			return $this->getProtocol() . $this->getClientUrl();
+			$url = $this->getClientUrl();
+
+			if(strpos($url, '://') === false)
+			{
+				$url = $this->getProtocol() . $url;
+			}
+
+			return $url;
 		}
 		return $this->getBaseURL();
 	}
