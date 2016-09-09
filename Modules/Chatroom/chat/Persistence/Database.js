@@ -205,13 +205,15 @@ var Database = function Database(config) {
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
 			function(result){
-				emptyResult = false;
-				_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
-					[timestamp, 0, conversationId, userId],
-					function(err){
-						if(err) throw err;
-					}
-				);
+				if(timestamp > 0) {
+					emptyResult = false;
+					_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
+						[timestamp, 0, conversationId, userId],
+						function(err){
+							if(err) throw err;
+						}
+					);
+				}
 			},
 			function() {
 				if(emptyResult)
