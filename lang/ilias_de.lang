@@ -15818,7 +15818,7 @@ chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
-chatroom#:#connection_url_info#:#Tragen Sie hier einen URL <b>ohne</b> Protokoll-Definition ein.
+chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
 chatroom#:#log#:#Chatserver Log-File
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?

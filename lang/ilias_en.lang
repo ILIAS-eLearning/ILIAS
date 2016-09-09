@@ -15787,7 +15787,7 @@ chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
 chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
-chatroom#:#connection_url_info#:#Please insert an URL <b>without</b> specifying the protocol definition.
+chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
 chatroom#:#log#:#Chatserver Log
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
