@@ -120,7 +120,7 @@ class ilOnScreenChatMenuGUI
 		$DIC->language()->toJSMap(array(
 			'chat_osc_dont_accept_msg' => sprintf(
 				$DIC->language()->txt('chat_osc_dont_accept_msg'),
-				$DIC->ctrl()->getLinkTargetByClass(array('ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'), 'showChatOptions')
+				$DIC->ctrl()->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'), 'showChatOptions')
 			)
 		));
 
