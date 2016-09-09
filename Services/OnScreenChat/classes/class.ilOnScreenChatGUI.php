@@ -242,9 +242,10 @@ class ilOnScreenChatGUI
 			);
 
 			$chatConfig = array(
-				'url'      => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
-				'userId'   => $DIC->user()->getId(),
-				'username' => $DIC->user()->getLogin()
+				'url'           => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
+				'subDirectory'  => $settings->getSubDirectory() . '/socket.io',
+				'userId'        => $DIC->user()->getId(),
+				'username'      => $DIC->user()->getLogin()
 			);
 
 			$DIC->language()->toJS(array(
