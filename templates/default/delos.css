@@ -11503,7 +11503,7 @@ div.ilPCMyCoursesPath {
   pointer-events: none;
   z-index: 1039;
 }
-#onscreenchat-container .iosOnScreenChat{
+#onscreenchat-container .iosOnScreenChat {
   margin-right: -3px;
 }
 #onscreenchat-container .popover {
@@ -11759,6 +11759,14 @@ div.ilPCMyCoursesPath {
   white-space: nowrap;
   max-width: 100%;
   overflow: visible;
+}
+.ilOnScreenChatMenuItem .media-body.info {
+  white-space: normal !important;
+  padding-left: 4px !important;
+  padding-bottom: 4px !important;
+}
+.ilOnScreenChatMenuItem .media-body.info a {
+  color: #557196 !important;
 }
 .ilOnScreenChatMenuItem .media-body p,
 .ilOnScreenChatMenuItem .media-body h4 {

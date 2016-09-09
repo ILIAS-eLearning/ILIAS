@@ -103,8 +103,16 @@
 					conversation_templates += template;
 				}
 
-				if (conversation_templates && getModule().config.showOnScreenChat) {
-					templates += '<div class="dropdown-header">' + il.Language.txt('chat_osc_conversations') + '</div>' + conversation_templates;
+				if (getModule().config.showOnScreenChat) {
+					templates += '<div class="dropdown-header">' + il.Language.txt('chat_osc_conversations') + '</div>';
+
+					if (!getModule().config.showAcceptMessageChange) {
+						templates += (getModule().config.infoTemplate).replace('[[html]]', il.Language.txt('chat_osc_dont_accept_msg'));
+					}
+
+					if (conversation_templates) {
+						templates += conversation_templates;
+					}
 				}
 
 				if (getModule().config.rooms.length > 0) {
