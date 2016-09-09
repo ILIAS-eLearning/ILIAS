@@ -29,7 +29,14 @@ module.exports = function(conversationId, userId, name) {
 
 			var participant = namespace.getSubscriberWithOfflines(userId, name);
 			conversation.addParticipant(participant);
+			participants.push(participant);
 			participant.join(conversation.id);
+
+			for(var key in participants) {
+				if(participants.hasOwnProperty(key)){
+					namespace.getDatabase().trackActivity(conversation.getId(), participants[key].getId(), 0);
+				}
+			}
 
 			Container.getLogger().info('New Participant %s for group conversation %s', participant.getName(), conversation.getId());
 
