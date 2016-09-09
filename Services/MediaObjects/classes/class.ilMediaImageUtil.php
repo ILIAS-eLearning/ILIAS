@@ -44,8 +44,10 @@ class ilMediaImageUtil
 				$c->setOpt(CURLOPT_HEADER, 0);
 				$c->setOpt(CURLOPT_RETURNTRANSFER, 1);
 				$c->setOpt(CURLOPT_FILE, $file);
+				$c->exec();
+				$c->close();
 				fclose($file);
-				$size = @getimagesize($a_location);
+				$size = @getimagesize($filename);
 				unlink($filename);
 			}
 			else
