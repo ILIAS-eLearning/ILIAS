@@ -17,7 +17,7 @@ module.exports = function SetupServer(callback) {
 	} else {
 		server = protocol.createServer(Container.getApi());
 	}
-	var io = SocketIO(server);
+	var io = SocketIO(server, {path: serverConfig.sub_directory + '/socket.io'});
 
 	Container.setServer(server);
 
@@ -33,8 +33,6 @@ module.exports = function SetupServer(callback) {
 		}
 
 		namespace.getIO().on('connect', handler);
-
-
 
 		next();
 	}, function(err) {
