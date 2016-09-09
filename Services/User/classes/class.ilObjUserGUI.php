@@ -1762,7 +1762,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$chat_osc_acm = new ilCheckboxInputGUI($lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
 			if($a_mode == 'create')
 			{
-				$chat_osc_acm->setChecked(ilUtil::yn2tf($ilSetting->get('def_chat_osc_accept_msg', 'n')));
+				$chat_osc_acm->setChecked(ilUtil::yn2tf($ilSetting->get('chat_osc_accept_msg', 'n')));
 			}
 			$this->form_gui->addItem($chat_osc_acm);
 		}
