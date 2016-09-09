@@ -76,7 +76,8 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 			'ilias_proxy'  => $form->getInput('ilias_proxy'),
 			'ilias_url'    => $form->getInput('ilias_url'),
 			'client_proxy' => $form->getInput('client_proxy'),
-			'client_url'   => $form->getInput('client_url')
+			'client_url'   => $form->getInput('client_url'),
+			'sub_directory'=> $form->getInput('sub_directory')
 		);
 
 		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());
