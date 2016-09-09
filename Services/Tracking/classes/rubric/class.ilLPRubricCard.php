@@ -695,7 +695,8 @@ class ilLPRubricCard
 
     public function _lookupRubricMode()
     {
-        $set=$this->ilDB->query("select 1 from rubric_data where rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and deleted is null LIMIT 1");
+        error_log(var_export($this->obj_id,true));
+        $set=$this->ilDB->query("select 1 from rubric_data d INNER JOIN rubric r on r.rubric_id = d.rubric_id AND r.obj_id =".$this->ilDB->quote($this->obj_id, "integer")." and d.deleted is null LIMIT 1");
         $row = $this->ilDB->fetchAssoc($set);
         return(is_null($row)?self::RUBRIC_MODE_DEVELOPER:self::RUBRIC_MODE_GRADER);
     }
