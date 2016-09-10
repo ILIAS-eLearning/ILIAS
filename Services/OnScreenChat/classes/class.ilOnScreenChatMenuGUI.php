@@ -105,7 +105,7 @@ class ilOnScreenChatMenuGUI
 		}
 
 		$config['showAcceptMessageChange'] = (
-			ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')) &&
+			!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')) &&
 			!(bool)$DIC['ilSetting']->get('usr_settings_hide_chat_osc_accept_msg', false) &&
 			!(bool)$DIC['ilSetting']->get('usr_settings_disable_chat_osc_accept_msg', false)
 		);

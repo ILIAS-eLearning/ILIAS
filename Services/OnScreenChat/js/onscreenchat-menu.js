@@ -103,10 +103,10 @@
 					conversation_templates += template;
 				}
 
-				if (getModule().config.showOnScreenChat) {
+				if (getModule().config.showOnScreenChat && (getModule().config.showAcceptMessageChange || conversation_templates)) {
 					templates += '<div class="dropdown-header">' + il.Language.txt('chat_osc_conversations') + '</div>';
 
-					if (!getModule().config.showAcceptMessageChange) {
+					if (getModule().config.showAcceptMessageChange) {
 						templates += (getModule().config.infoTemplate).replace('[[html]]', il.Language.txt('chat_osc_dont_accept_msg'));
 					}
 
