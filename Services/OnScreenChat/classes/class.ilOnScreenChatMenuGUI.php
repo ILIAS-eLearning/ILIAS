@@ -115,7 +115,7 @@ class ilOnScreenChatMenuGUI
 		$DIC->language()->toJS(array(
 			'chat_osc_conversations', 'chat_osc_section_head_other_rooms',
 			'chat_osc_sure_to_leave_grp_conv', 'chat_osc_user_left_grp_conv',
-			'confirm', 'cancel', 'chat_osc_leave_grp_conv'
+			'confirm', 'cancel', 'chat_osc_leave_grp_conv', 'chat_osc_no_conv'
 		));
 		$DIC->language()->toJSMap(array(
 			'chat_osc_dont_accept_msg' => sprintf(

@@ -16339,5 +16339,6 @@ usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
 form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen sie ihre Eingabe.
-chatroom#:#sub_directory#:#Relativer Pfad
-chatroom#:#sub_directory_info#:#Wird der Chatserver so konfiguriert, dass die zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[PFAD]" enthält, muss hier der relative [PFAD] angegeben werden.
+chatroom#:#chat_osc_no_conv#:#Keine Konversationen vorhanden.
+chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
+chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass die zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[PFAD]" enthält, muss hier der relative [PFAD] angegeben werden.

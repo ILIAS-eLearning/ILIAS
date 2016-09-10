@@ -289,9 +289,9 @@ class ilChatroomFormFactory
 		$port->setSize(6);
 		$form->addItem($port);
 
-		$subDirectory = new ilTextInputGUI($lng->txt('sub_directory'), 'sub_directory');
+		$subDirectory = new ilTextInputGUI($lng->txt('chat_osc_no_sub_directory'), 'sub_directory');
 		$subDirectory->setRequired(false);
-		$subDirectory->setInfo($lng->txt('sub_directory_info'));
+		$subDirectory->setInfo($lng->txt('chat_osc_no_sub_directory_info'));
 		$form->addItem($subDirectory);
 
 		$protocol = new ilRadioGroupInputGUI($lng->txt('protocol'), 'protocol');
