@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-08-27
+* @version	5.2.x 2016-09-10
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -227,7 +227,8 @@ assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyr
 assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:
 assessment#:#ass_mc_sel_lim_hint#:#%s darabot jelöljön ki %s válaszból!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Ne jelöljön ki %s darabnál többet %s válaszból!
-assessment#:#essay_scoring_mode#:#Pontozási mód
+assessment#:#ass_mc_sel_lim_setting#:#Válaszlehetőségek korlátja
+assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozható a válaszadók választható válaszainak száma.
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás
@@ -4058,7 +4059,7 @@ common#:#proxy_connectable#:#A kapcsolat létrejött.
 common#:#proxy_host_info#:#Adjon meg egy kiszolgálót.
 common#:#proxy_host#:#Kiszolgáló
 common#:#proxy_not_connectable#:#Az ILIAS nem tud kapcsolatot létrehozni az adott proxy-hoz.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket hiba
+common#:#proxy_socket_error#:#Socket hiba: %s
 common#:#proxy_port_info#:#Adjon meg egy portot 0 és 65535 között, pl. 8080.
 common#:#proxy_port_numeric#:#A portnak 0 és 65535 közötti számértéknek kell lennie.
 common#:#proxy_port#:#Port
@@ -9944,7 +9945,7 @@ user#:#restrict_user_access_info#:#Csak akkor engedélyezze, ha korlátozni szer
 common#:#backto_lua#:#Vissza a helyi ILIAS-fiókok kezeléséhez
 common#:#sort_activation_header#:#Időzítés szerint
 common#:#sort_inherit_prefix#:#Alapértelmezett
-common#:#sorting_info_inherit#:#A rendezés típusát a szülőkurzustól/szülőcsoporttól vesszük át.
+common#:#sorting_info_inherit#:#A rendezés típusát a kurzustárolótól/csoporttárolótól vesszük át.
 content#:#cont_alignment#:#Elrendezés
 content#:#cont_set_alignment#:#Elrendezés beállítása
 rbac#:#rbac_msg_user_already_assigned#:#A kiválasztott felhasználók már hozzá vannak rendelve ehhez a szerephez.
@@ -11389,7 +11390,7 @@ grp#:#grp_view_info_by_type#:#Az objektumokat típusuk alapján csoportosítva j
 grp#:#grp_view_info_simple#:#Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg.
 grp#:#grp_presentation_type#:#Megjelenítés típusa
 grp#:#grp_view_inherit#:#Alapértelmezett
-grp#:#grp_view_inherit_info#:#A megjelenítés típusát a szülőkurzustól vesszük át.
+grp#:#grp_view_inherit_info#:#A megjelenítés típusát a kurzustárolótól vesszük át.
 content#:#cont_open#:#Tananyag megjelenítése
 content#:#cont_open_normal#:#Új fülön vagy pedig új ablakban nyíljon meg, ILIAS főmenü nélkül
 content#:#cont_open_width#:#szélesség
@@ -13207,8 +13208,8 @@ survey#:#survey_reminder_end#:#Záró időpont
 survey#:#survey_reminder_frequency#:#Gyakoriság
 survey#:#survey_reminder_frequency_days#:#Nap
 survey#:#survey_notification_target_group#:#Célcsoport
-survey#:#survey_notification_target_group_parent_course#:#Szülőkurzus/-csoport összes tagja
-survey#:#survey_notification_target_group_parent_course_inactive#:#Nem adott meg szülőkurzust/-csoport - emlékeztetőket nem küldünk!
+survey#:#survey_notification_target_group_parent_course#:#Kurzustároló/csoporttároló összes tagja
+survey#:#survey_notification_target_group_parent_course_inactive#:#Nem adott meg kurzustárolót/csoporttárolót - emlékeztetőket nem küldünk!
 survey#:#survey_notification_target_group_invited#:#Összes olyan felhasználó, akinek asztalára a kérdőívet elhelyezték
 survey#:#survey_notification_target_group_invited_info#:#Jelenlegi felhasználók száma: %s
 survey#:#survey_notification_tutor_setting#:#E-mail küldése, miután az összes válaszadó befejezte a kérdőív kitöltését
@@ -15741,7 +15742,7 @@ crs#:#event_tbl_admin#:#Vezető
 crs#:#event_tbl_member#:#Tag
 crs#:#event_tbl_tutor#:#Tutor
 news#:#news_sorry_not_accessible_anymore#:#Sajnáljuk, ez már nem érhető el.
-note#:#note_comment_notification_reason#:#Ezt az üzenetet azért kapta, mert felhasználói fiókja szerepel a Rendszerbeállítások » Munkasztal alatt az összes megjegyzésről értesítendők között.
+note#:#note_comment_notification_reason#:#Ezt az üzenetet azért kapta, mert felhasználói fiókja szerepel a Rendszerbeállítások » Munkaasztal alatt az összes megjegyzésről értesítendők között.
 note#:#note_comment_notification_user_has_written#:#%s írta:
 prg#:#prg_show_programmes#:#Láthatóság
 content#:#cont_not_saved_edit_lock_expired#:#Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja.
@@ -15786,7 +15787,7 @@ chatroom#:#ilias_chatserver_connection#:#ILIAS kapcsolata a szerverhez
 chatroom#:#ilias_proxy_info#:#Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van az ILIAS számára a szerverhez kapcsolódásához egyéni URL-t beállítani.
 chatroom#:#client_chatserver_connection#:#Kliens kapcsolata a szerverhez
 chatroom#:#client_proxy_info#:#Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van a kliens számára a szerverhez kapcsolódásához egyéni URL-t beállítani.
-chatroom#:#connection_url_info#:#Adjon meg egy <b>protokoll nélküli</b> URL-t.
+chatroom#:#connection_url_info#:#Adja meg a szerverhez kapcsolódás URL-jét.
 chatroom#:#log#:#Csevegőszerver napló
 chatroom#:#error_log#:#Csevegőszerver hibanapló
 chatroom#:#delete_private_room_question#:#Biztos, hogy törli a privát csevegőszobát?
@@ -15826,7 +15827,7 @@ skmg#:#skmg_import_skills#:#Importálás
 skmg#:#skmg_input_file#:#Importfájl
 skmg#:#skmg_skill_in_use#:#Ezt a kompetenciát másik felhasználó vagy tartalom használja, ezért nem minden művelet végezhető el rajta. Módosítása hatással lehet korábbi felhasználásaira.
 form#:#form_no_link#:#Nincs link
-copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, győződjön meg arról, hogy a blokk más interaktív elemet (pl. másik linket) nem tartalmaz, mert azok helyes működése így nem biztosított.
+copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, győződjön meg arról, hogy a blokk más interaktív elemet (például másik linket) nem tartalmaz, mert azok helyes működése így nem biztosított.
 pd#:#pd_enable_mail_pdsysmess#:#Rendszerüzenet blokk bekapcsolása
 pd#:#pd_pdmail_include_sysnmess#:#Rendszerüzeneteket a 'Levelek' blokkba
 pd#:#pd_pdmail_include_sysnmess_info#:#Ha be van kapcsolva, a rendszerüzenetek a 'Levelek' blokkba kerülnek.
@@ -15834,14 +15835,14 @@ pd#:#pd_sys_msg_own_block#:#Rendszerüzenetek megjelenítése saját blokkban
 pd#:#pd_sys_msg_mail_block#:#Rendszerüzenetek megjelenítése a 'Levelek' blokkban
 pd#:#pd_sys_msg_no_block#:#Rendszerüzenet ne jelenjenek meg a Munkaasztalon
 logging#:#log_error_message#:#%s hiba keletkezett.
-logging#:#log_error_message_send_mail#:#Kérjük, küldjön e-mail <a href="mailto:%s?subject=kód: %s">%s</a> részére
+logging#:#log_error_message_send_mail#:#Kérjük, küldjön levelet <a href="mailto:%s?subject=kód: %s">%s</a> részére
 logging#:#log_error_folder#:#Útvonal
 logging#:#log_error_mail#:#Címzett
 logging#:#log_error_settings#:#Hibanaplózás beállításai
-logging#:#error_settings_saved#:#Beállíátsokat sikeresen mentette
+logging#:#error_settings_saved#:#Beállításokat sikeresen mentette
 logging#:#log_error_file_cleanup_title#:#Régi vagy árva hibanapló-fájlok törlése
 logging#:#log_error_file_cleanup_info#:#Törli a hibanapló régi vagy árva fájljait.
-logging#:#frm_clear_older_then#:#Ennél régebbi fájlok tölése:
+logging#:#frm_clear_older_then#:#Ennél régebbi fájlok törlése:
 logging#:#frm_clear_older_then_info#:#Napokban adjon meg egy időszakot.
 blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
 common#:#objs_prtf#:#Portfóliók
@@ -15884,7 +15885,7 @@ rbac#:#bdga_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 badge#:#badge_settings#:#Kitűző beállításai
 badge#:#badge_service_activate#:#Szolgáltatás bekapcsolása
 badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása kitűzők elérhetővé tétéléhez
-badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure bekapcsolása
+badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastruktúra bekapcsolása
 badge#:#badge_obi_activate_info#:#Felhasználók Kitűzőket exportálhatnak az ILIAS-ból. Így felhasználhatják kitűzőiket, hogy másik webes alkalmazásban is igazolhassák képzettségeiket.
 badge#:#badge_obi_organisation#:#Szervezet
 badge#:#badge_obi_organisation_info#:#Ez a bejegyzés a kitűző kibocsátójaként jelenik meg.
@@ -15895,7 +15896,7 @@ badge#:#badge_obi_salt_info#:#Adja meg karakterek és számok kombinációját, 
 badge#:#badge_types#:#Típusok
 badge#:#badge_image_templates#:#Képsablonok
 badge#:#badge_activity_badges#:#Aktivitás kitűzők
-badge#:#badge_crs_merit#:#Merit
+badge#:#badge_crs_merit#:#Érdem
 badge#:#badge_manual#:#Manuális odaítélés
 badge#:#badge_user_profile#:#Felhasználói profil
 badge#:#badge_badge#:#Kitűző
@@ -15919,7 +15920,7 @@ badge#:#badge_backpack_connect_failed#:#%s nem hívhatja meg a Mozilla Backpack-
 badge#:#badge_backpack_no_groups#:#A Mozilla Backpack üres vagy nem publikus.
 badge#:#badge_backpack_list#:#Hátizsákom
 badge#:#badge_personal_badges#:#Kitűzőim
-badge#:#badge_issued_on#:#Issued On
+badge#:#badge_issued_on#:#Kiállítás dátuma:
 badge#:#badge_add_to_backpack#:#Hátizsákba rakás
 badge#:#badge_add_to_backpack_multi#:#Hátizsákba kísérelte rakni: %s
 badge#:#badge_backpack_email#:#Mozilla Hátizsákfiók (Backpack Account) (E-mail)
@@ -15964,8 +15965,8 @@ assessment#:#tst_mc_label_none_above#:#Alábbi válaszok közül egyik sem.
 assessment#:#postpone_question#:#Kérdés mozgatása a végére
 assessment#:#tst_question_not_marked#:#Kérdés nincs megjelölve
 assessment#:#tst_save_and_proceed#:#Mentés és folytatás
-adve#:#char_selector_menu_open#:#Speciális Karakterválasztó megnyitása
-adve#:#char_selector_menu_close#:#Speciális Karakterválasztó bezárása
+adve#:#char_selector_menu_open#:#Speciális karakterválasztó megnyitása
+adve#:#char_selector_menu_close#:#Speciális karakterválasztó bezárása
 wfe#:#dashboard#:#Irányítópult
 wfe#:#definitions#:#Folyamatmeghatározások
 wfe#:#instances#:#Folyamatpéldányok
@@ -16008,7 +16009,7 @@ prg#:#prg_assign_date#:#Hozzárendelés dátuma
 prg#:#prg_assigned_by#:#Hozzárendelte
 survey#:#svy_mail_context_reminder_title#:#Kérdőív-emlékeztető
 survey#:#svy_mail_context_reminder_info#:#Emlékeztető felhasználóknak kérdőívben való résztvételre
-survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
+survey#:#svy_mail_context_reminder_survey_title#:#Kérdőív címe
 survey#:#svy_reminder_mail_template#:#Levélsablon
 survey#:#svy_reminder_mail_template_none#:#Ne használjon levélsablont
 survey#:#svy_eval_view#:#Megjelenítés
@@ -16064,7 +16065,7 @@ style#:#msg_sys_style_update#:#Rendszerstílusokat sikeresen frissítette
 common#:#set_style_does_not_exist#:#A Ön által kiválasztott rendszerstílus már nem létezik. Személyes beállításai alatt választhat másikat vagy keresse fel a rendszergazdát. Jelenlegi választása:
 common#:#set_skin_does_not_exist#:#A Ön által kiválasztott skin már nem létezik. Személyes beállításai alatt választhat másikat vagy keresse fel a rendszergazdát. Jelenlegi választása:
 style#:#cant_deactivate_default_style#:#Alapértelmezett stílusok nem kapcsolhatóak ki.
-style#:#cant_delete_if_users_assigned#:#Azok a stílusok nem törlhetőek, melyekhez felhasználó van rendelve.
+style#:#cant_delete_if_users_assigned#:#Azok a stílusok nem törölhetőek, melyekhez felhasználó van rendelve.
 style#:#default_style_set_to#:#Az alapértelmezett rendszerstílusa mostantól:
 style#:#personal_style_set_to#:#Az Ön személyes rendszerstílusa mostantól:
 style#:#refresh_entries#:#Bejegyzések frissítése
@@ -16096,308 +16097,308 @@ style#:#less_variables_file_not_included#:#Less változók fájlja:
 style#:#in_main_less_file#:#nincs importálva a rendszerstílus fő less fájljába:
 style#:#can_not_read_less_file#:#Less fájl nem olvasható. Útvonala:
 style#:#msg_sys_style_created#:#Az új rendszerstílust sikeresen létrehozta.##XXX
-style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
-style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.
-style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
-style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
+style#:#skin_id_description#:#A skin-ek stílusokat és alstílusokat tartalmaznak. A skin ID egyben azon mappa neve is, ahol az összes, a stílusra és az alstílusokra vonatkozó információt tároljuk. A skin ID csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhat.
+style#:#skin_name_description#:#A skin neve alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő skin kiválasztását.
+style#:#style_id_description#:#Az stílus ID-jét használjuk a skinek mappájában lévő stílus specifikus css és less fájlok neveként. Ezért az ID-k csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhatnak.
+style#:#style_name_description#:#A stílus neve alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő stílus kiválasztását.
 style#:#sub_style#:#Alstílus
-style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
-style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.
-style#:#sound_dir_description#:#Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.
-style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
-style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
-style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
-style#:#system_style_activation_description#:#Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).
-style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
-style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
-style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#image_dir_description#:#A skin képeit (főleg ikonokat) tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható.
+style#:#font_dir_description#:#A skin betűtípusait tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható.
+style#:#sound_dir_description#:#A skin hangfájljait tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható.
+style#:#sub_style_parent_style_description#:#Az alstílusok pontosan egy szülőstílushoz vannak hozzárendelve. Csak akkor jelennek meg a megfelelő felhasználónál, ha ehhez a felhasználóhoz hozzárendelték a szülőstílust. Az alstílus létrehozása után annak szülőstílusa már nem módosítható.
+style#:#sub_style_id_description#:#Az alstílus ID-jét használjuk a skinek mappájában lévő alstílus specifikus css és less fájlok neveként. Ezért az ID-k csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhatnak.
+style#:#sub_style_name_description#:#Az alstílus neve a stílus alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő skin kiválasztását.
+style#:#system_style_activation_description#:#Aktív rendszerstílust rendelhet felhasználókhoz, illetve aktív rendszerstílust választhatnak a felhasználók maguknak, ha a Rendszerbeállítások » ILIAS-fiókok » Beállítások » Standard mezők » Alapértelmezett skin be van kapcsolva.
+style#:#system_style_default_description#:#Stílus beállítása alapértelmezett rendszerstílusnak. Az alapértelmezett rendszerstílust rendeljük azon felhasználókhoz, akikhez nem volt stílus rendelve vagy a felhasználó nincs bejelentkezve.
+style#:#system_style_personal_description#:#Stílus beállítása személyes rendszerstílusnak. Ez a jelenlegi módosítások megtekintését könnyítheti.
+style#:#less_compile_failed#:#A less fájl fordításakor hiba lépett fel. Kérjük, ellenőrizze, hogy a lessc telepítve van-e és az útvonala az ILIAS setup-ban helyesen került-e megadásra. Eredeti hiba:
 style#:#zip_export_failed#:#ZIP exportálás sikertelen a következő hiba miatt:
 style#:#no_style_selected#:#Egy alstílust sem jelölt ki.
 style#:#adapt_less#:#Less átalakítása
-style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
-style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
+style#:#adapt_less_description#:#Ez a kiválasztott skin-ben használt varables.less fájlban lévő összes less változó egy közvetlen reprezentációja. A változók nevét és leírását közvetlenül ebből a fájlból hívjuk le és ezért csak eredeti nyelvükön érhetőek el. A kiválasztott stílust a változók értékeinek frissítésekor/alapértelmezettre állításakor teljesen újrafordítjuk. A változók értékeinek alapértelmezettre állításakor az alapértelmezett delos stílus egy másolata jön létre.      
+style#:#adapt_icons_description#:#A skin-ek képek mappájában lévő összes svg ikont felsoroljuk itt. Ha egy színt módosít, az az összes, azt a színt tartalmazó ikonban is módosul.
 style#:#adapt_icons#:#Ikonszínek átalakítása
 style#:#invalid_less_path#:#A megadott lessc útvonal nem valid vagy a webszervernek nincs jogosultsága futtatni a lessc-t. A webszerver számára olvasási és futtatási jogosultság szükséges a lessc-hez (vagy a lessc útvonalára linkelő fájlhoz).
 style#:#provided_less_path#:#Megadott lessc útvonal:
 style#:#used_colors#:#Felhasznált színek:
-style#:#style_imported#:#Style has been successfully imported into:
-style#:#style_copied#:#Style has been successfully copied.
-style#:#directory_created#:#Directory created:
-style#:#color_changed_from#:#Color changed from:
-style#:#color_changed_to#:#to:
-style#:#edit_by_color#:#Edit by Color
-style#:#edit_by_icon#:#Edit by Icon
-style#:#update_icon#:#Update Icon
-style#:#select_icon#:#Select Icon
-style#:#change_icon#:#Change Icon
-style#:#color#:#Color
-style#:#adapt_icon#:#Adapt Icon
-style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
-style#:#preview#:#Preview
-style#:#icons_gallery#:#Icons Gallery
-style#:#cant_delete_style_with_substyles#:#Styles with sub styles cannot be deleted.
-style#:#style_assignments_deleted#:#Style assignments of the following Sub Style have been deleted:
-style#:#skin_id_exists#:#There exists already a skin with this ID.
-style#:#usages#:#Usages:
-exc#:#exc_individual_deadline#:#Individual Deadline
-exc#:#exc_individual_deadline_action#:#Set Individual Deadline
-exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.
-exc#:#exc_tbl_submission_date#:#Submitted on
-exc#:#exc_tbl_status#:#Grade
-exc#:#exc_tbl_status_time#:#Graded on
-exc#:#exc_tbl_mark#:#Mark
-exc#:#exc_tbl_comment#:#Text Feedback
-exc#:#exc_tbl_notice#:#Note for Tutors
-exc#:#exc_tbl_feedback_time#:#Feedback on
-exc#:#exc_tbl_sent_time#:#Assignment sent on
-exc#:#exc_tbl_team#:#Team
-exc#:#exc_tbl_individual_deadline#:#Individual Deadline
-exc#:#exc_tbl_action_download_files#:#Download Submissions
-exc#:#exc_tbl_action_download_all_files#:#Download All Submissions
-exc#:#exc_tbl_action_download_new_files#:#Download New Submissions
-exc#:#exc_tbl_action_text_assignment_show#:#Show Submission
-exc#:#exc_tbl_action_feedback_text#:#Give Feedback As Text
-exc#:#exc_tbl_action_feedback_mail#:#Give Feedback As Mail
-exc#:#exc_tbl_action_feedback_file#:#Give Feedback As File
-exc#:#exc_tbl_action_team_log#:#Show Team Log
-exc#:#exc_tbl_action_peer_review_given#:#Show Given Peer Feedback
-exc#:#exc_tbl_action_peer_review_received#:#Show Received Peer Feedback
-exc#:#exc_feedback#:#Feedback
-exc#:#exc_settings_feedback#:#Tutor Feedback
-exc#:#exc_settings_feedback_text#:#Textinput
-exc#:#exc_settings_feedback_mail#:#By Mail
-exc#:#exc_settings_feedback_file#:#By File
-mem#:#mem_print_view_form#:#Default Settings for Print View
-mem#:#mem_settings_tab_print_view#:#Print View Settings
-mem#:#mem_settings_tab_settings#:#General Settings
-ccmt#:#ccmt_perform_reporting_data_update#:#Update Reporting Data
-ccmt#:#ccmt_custom_reporting_tool#:#Reporting
-ccmt#:#ccmt_custom_reporting_tool_desc#:#Here you can see the learning progress of your employees.<br />Please notice that the reporting data is updated nightly.
-ccmt#:#ccmt_view_by_switch_label#:#View By
-ccmt#:#ccmt_numbers_switch_label#:#Numbers Presentation
-ccmt#:#ccmt_filter_course_label#:#Filter Course
-ccmt#:#ccmt_filter_crstype_label#:#Filter Course Mode
-ccmt#:#ccmt_filter_memtype_label#:#Filter Membership Mode
-ccmt#:#ccmt_filter_crsparent_label#:#Filter Course Parent
-ccmt#:#ccmt_filter_period_label#:#Filter Period
-ccmt#:#ccmt_period_filter_label_use#:#Use Filter
-ccmt#:#ccmt_period_filter_label_not_use#:#Not Use Filter
-ccmt#:#ccmt_filter_period_start#:#From
-ccmt#:#ccmt_filter_period_end#:#To
-ccmt#:#ccmt_filter_option_all#:#All
-ccmt#:#ccmt_viewby_option_course#:#Course
-ccmt#:#ccmt_viewby_option_crsparent#:#Course Parent
-ccmt#:#ccmt_viewby_option_crstype#:#Course Mode
-ccmt#:#ccmt_viewby_option_orgunit#:#Organisation Unit
-ccmt#:#ccmt_viewby_option_user#:#Employee
-ccmt#:#ccmt_numbers_option_absolute#:#Absolute
-ccmt#:#ccmt_numbers_option_relative#:#Relative
-ccmt#:#ccmt_filter_crstype_option_optional#:#Optional
-ccmt#:#ccmt_filter_crstype_option_mandatory#:#Mandatory
-ccmt#:#ccmt_filter_memtype_option_auto#:#Automatically Assigned
-ccmt#:#ccmt_filter_memtype_option_manual#:#Manually Assigned
-ccmt#:#ccmt_aggregation_entity_course_total#:#All Courses
-ccmt#:#ccmt_aggregation_entity_crsparent_total#:#All Course Parents
-ccmt#:#ccmt_aggregation_entity_crstype_total#:#All Course Modes
-ccmt#:#ccmt_aggregation_entity_orgunit_total#:#All Organisation Units
-ccmt#:#ccmt_table_column_course#:#Course
-ccmt#:#ccmt_table_column_crsparent#:#Course Parent
-ccmt#:#ccmt_table_column_crstype#:#Course Mode
-ccmt#:#ccmt_table_column_orgunit#:#Organisation Unit
-ccmt#:#ccmt_table_column_user#:#Employee
-ccmt#:#ccmt_table_column_assigned#:#Course Assignments
-ccmt#:#ccmt_table_column_notattempted#:#Not Attempted
-ccmt#:#ccmt_table_column_not_attempted#:#Not Attempted
-ccmt#:#ccmt_table_column_inprogress#:#In Progress
-ccmt#:#ccmt_table_column_in_progress#:#In Progress
-ccmt#:#ccmt_table_column_completed#:#Completed
-ccmt#:#ccmt_table_column_failed#:#Failed
-ccmt#:#ccmt_table_column_lp_ratio#:#Learning Ratio
-ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Certificates
-ccmt#:#ccmt_table_column_past_due#:#Past Due
-ccmt#:#ccmt_table_column_event_days#:#Event Days
-ccmt#:#ccmt_not_available#:#open
-ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Lerning Progress by Courses
-ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Lerning Progress by Course Modes
-ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Lerning Progress by Course Parent
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Lerning Progress by Organisation Units
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_detailed_status_table_header#:#Detailed Learning Progress
-ccmt#:#ccmt_detailed_status_table_noitems#:#No existing course assignments matching the current selection.
-ccmt#:#ccmt_table_column_lp_status#:#Status
-ccmt#:#ccmt_table_column_deadline_date#:#Course Deadline
-ccmt#:#ccmt_table_column_is_mandatory#:#Is Mandatory
-ccmt#:#ccmt_table_column_last_access#:#Last Access
-ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Completion Date
-ccmt#:#ccmt_lp_status_notattempted#:#not attempted
-ccmt#:#ccmt_lp_status_inprogress#:#in progress
-ccmt#:#ccmt_lp_status_completed#:#completed
-ccmt#:#ccmt_lp_status_failed#:#failed
-ccmt#:#ccmt_course_type_mandatory#:#Mandatory
-ccmt#:#ccmt_course_type_optional#:#Optional
-ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Create Report
-ccmt#:#ccmt_toolbar_submit_create_report_export#:#Create Export
-ccmt#:#ccmt_menu_item_reporting#:#Reporting
-ccmt#:#ccmt_info_block_label_all_users#:#Total Users
-ccmt#:#ccmt_info_block_label_all_courses#:#Total Courses
-ccmt#:#ccmt_info_block_label_all_memberships#:#Total Memberships
-ccmt#:#ccmt_info_block_label_all_session_days#:#Total Session Days
-ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#The following courses are excluded from the report due to invalid tracking settings:%s
-ccmt#:#ccmt_course_error_lp_mode#:#The status for the course "%s" with id "%s" cannot be determined, because the tracking is configured to an incompatible mode.<br />Current mode is "%s" / Required mode is "%s"
-ccmt#:#ccmt_course_error_lp_deactivated#:#The status for the course "%s" with id "%s" cannot be determined, because the tracking is deactivated.
-ccmt#:#ccmt_course_error_invalid_obj#:#The status for the course "%s" with id "%s" depends on a subobject, whose object type is not supported by the reporting.
-ccmt#:#ccmt_course_error_multi_obj#:#The status for the course "%s" with id "%s" depends on more than one subobjects. This is not supported by the reporting.
-ccmt#:#ccmt_course_error_missing_obj#:#The status for the course "%s" with id "%s" cannot be determined, because no relevant subobjects has been defined on which the status depends.
-ccmt#:#ccmt_print_view#:#Print View All Courses
-ccmt#:#ccmt_print_view_mandatory_non_completed#:#Print View Non Completed
-ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Non Completed Courses in %s
-ccmt#:#ccmt_print_window_title_orgunit#:#All Courses in %s
-ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#Non Completed Courses for %s
-ccmt#:#ccmt_print_window_title_user#:#All Courses for %s
-ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#No existing non completed course assignments<br />matching the current selection.
-ccmt#:#ccmt_detailed_status_print_view_noitems#:#No existing course assignments<br />matching the current selection.
-ccmt#:#ccmt_print_table_column_user#:#Employee
-ccmt#:#ccmt_print_table_column_course#:#Course
-ccmt#:#ccmt_print_table_column_lp_status#:#Status
-ccmt#:#ccmt_print_table_column_is_mandatory#:#Crs Mode
-ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Compl. Date
-ccmt#:#ccmt_print_table_column_learning_date#:#Learning Date
-ccmt#:#ccmt_print_table_column_last_access#:#Last Access
-ccmt#:#ccmt_print_table_column_deadline_date#:#Deadline
-ccmt#:#ccmt_all_employees#:#All Employees
-ccmt#:#ccmt_table_column_num_users#:#Number of Users
-ccmt#:#export_all_lp#:#Export Learning Progress
-ccmt#:#export_learning_progress#:#Export Learning Progress
-ccmt#:#export_lp#:#Choose File
-ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Certificate valid until
-ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Certificate valid until
-ccmt#:#ccmt_search_no_user_found#:#Unfortunately no hits found for your search.
+style#:#style_imported#:#A stílust sikeren importálta a ide:
+style#:#style_copied#:#A stílust sikeresen másolta.
+style#:#directory_created#:#Könyvtár létrejött:
+style#:#color_changed_from#:#Szín változott erről:
+style#:#color_changed_to#:#erre:
+style#:#edit_by_color#:#Szín alapján módosítása
+style#:#edit_by_icon#:#Ikon alapján módosítása
+style#:#update_icon#:#Ikon frissítése
+style#:#select_icon#:#Ikon kiválasztása
+style#:#change_icon#:#Szín módosítása
+style#:#color#:#Szín
+style#:#adapt_icon#:#Ikon átvétele
+style#:#adapt_icon_description#:#Ikonszínek átvétele vagy az ikon módosítása.
+style#:#preview#:#Előnézet
+style#:#icons_gallery#:#Ikonok képtára
+style#:#cant_delete_style_with_substyles#:#Stílusok alstílusokkal nem törölhető.
+style#:#style_assignments_deleted#:#Az alábbi alstílushoz stílushoz rendelésit törölte:
+style#:#skin_id_exists#:#Ilyen ID-jű skin már létezik.
+style#:#usages#:#Használat:
+exc#:#exc_individual_deadline#:#Egyéni határidő
+exc#:#exc_individual_deadline_action#:#Egyéni határidő beállításai
+exc#:#exc_individual_deadline_before_global#:#Ennek az időpontnak a legutolsó határidőnél későbbre kell esnie: %s.
+exc#:#exc_tbl_submission_date#:#Beküldve ekkor:
+exc#:#exc_tbl_status#:#Értékelve
+exc#:#exc_tbl_status_time#:#Értékelve ekkor:
+exc#:#exc_tbl_mark#:#Osztályozás
+exc#:#exc_tbl_comment#:#Szöveges visszajelzés
+exc#:#exc_tbl_notice#:#Megjegyzés a tutoroknak
+exc#:#exc_tbl_feedback_time#:#Visszajelezve ekkor:
+exc#:#exc_tbl_sent_time#:#Értékelés elküldve ekkor:
+exc#:#exc_tbl_team#:#Csapat
+exc#:#exc_tbl_individual_deadline#:#Egyéni határidő
+exc#:#exc_tbl_action_download_files#:#Beadottak letöltése
+exc#:#exc_tbl_action_download_all_files#:#Összes beadott letöltése
+exc#:#exc_tbl_action_download_new_files#:#Új beadottak letöltése
+exc#:#exc_tbl_action_text_assignment_show#:#Beadott megjelenítése
+exc#:#exc_tbl_action_feedback_text#:#Visszajelzés küldés szövegként
+exc#:#exc_tbl_action_feedback_mail#:#Visszajelzés küldés levélként
+exc#:#exc_tbl_action_feedback_file#:#Visszajelzés küldés fájlként
+exc#:#exc_tbl_action_team_log#:#Csapatnaplók megjelenítése
+exc#:#exc_tbl_action_peer_review_given#:#Küldött visszajelzés megjelenítése
+exc#:#exc_tbl_action_peer_review_received#:#Kapott visszajelzés megjelenítése
+exc#:#exc_feedback#:#Visszajelzés
+exc#:#exc_settings_feedback#:#Tutori visszajelzés
+exc#:#exc_settings_feedback_text#:#Szövegbemenet
+exc#:#exc_settings_feedback_mail#:#Levélként
+exc#:#exc_settings_feedback_file#:#Fájlként
+mem#:#mem_print_view_form#:#Nyomtatási nézet alapértelmezett beállításai
+mem#:#mem_settings_tab_print_view#:#Nyomtatási nézet beállításai
+mem#:#mem_settings_tab_settings#:#Általános beállítások
+ccmt#:#ccmt_perform_reporting_data_update#:#Jelentés adatainak frissítése
+ccmt#:#ccmt_custom_reporting_tool#:#Jelentéskészítés
+ccmt#:#ccmt_custom_reporting_tool_desc#:#Itt tekintheti meg beosztottainak tanulási haladását.<br />Kérjük, vegye figyelembe, hogy a jelentés adatai éjszakánként frissülnek.
+ccmt#:#ccmt_view_by_switch_label#:#Megjelenítés alapja:
+ccmt#:#ccmt_numbers_switch_label#:#Számok bemutatása
+ccmt#:#ccmt_filter_course_label#:#Kurzusszűrő
+ccmt#:#ccmt_filter_crstype_label#:#Kurzusszűrő mód
+ccmt#:#ccmt_filter_memtype_label#:#Tagságmód-szűrő
+ccmt#:#ccmt_filter_crsparent_label#:#Kurzustároló-szűrő
+ccmt#:#ccmt_filter_period_label#:#Időszakszűrő
+ccmt#:#ccmt_period_filter_label_use#:#Szűrő használata
+ccmt#:#ccmt_period_filter_label_not_use#:#Szűrő törlése
+ccmt#:#ccmt_filter_period_start#:#Kezdete
+ccmt#:#ccmt_filter_period_end#:#Vége
+ccmt#:#ccmt_filter_option_all#:#Összes
+ccmt#:#ccmt_viewby_option_course#:#Kurzus
+ccmt#:#ccmt_viewby_option_crsparent#:#Kurzustároló
+ccmt#:#ccmt_viewby_option_crstype#:#Kurzusmód
+ccmt#:#ccmt_viewby_option_orgunit#:#Szervezeti egység
+ccmt#:#ccmt_viewby_option_user#:#Beosztott
+ccmt#:#ccmt_numbers_option_absolute#:#Abszolút
+ccmt#:#ccmt_numbers_option_relative#:#Relatíve
+ccmt#:#ccmt_filter_crstype_option_optional#:#Választható
+ccmt#:#ccmt_filter_crstype_option_mandatory#:#Kötelező
+ccmt#:#ccmt_filter_memtype_option_auto#:#Automatikusan hozzárendelt
+ccmt#:#ccmt_filter_memtype_option_manual#:#Manuálisan hozzárendelt
+ccmt#:#ccmt_aggregation_entity_course_total#:#Összes kurzus
+ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Összes kurzustároló
+ccmt#:#ccmt_aggregation_entity_crstype_total#:#Összes kurzusmód
+ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Összes szervezeti egység
+ccmt#:#ccmt_table_column_course#:#Kurzus
+ccmt#:#ccmt_table_column_crsparent#:#Kurzustároló
+ccmt#:#ccmt_table_column_crstype#:#Kurzusmód
+ccmt#:#ccmt_table_column_orgunit#:#Szervezeti egység
+ccmt#:#ccmt_table_column_user#:#Beosztott
+ccmt#:#ccmt_table_column_assigned#:#Kurzus hozzárendelések
+ccmt#:#ccmt_table_column_notattempted#:#Nem próbálkozott
+ccmt#:#ccmt_table_column_not_attempted#:#Nem próbálkozott
+ccmt#:#ccmt_table_column_inprogress#:#Folyamatban
+ccmt#:#ccmt_table_column_in_progress#:#Folyamatban
+ccmt#:#ccmt_table_column_completed#:#Teljesítve
+ccmt#:#ccmt_table_column_failed#:#Befejezetlen
+ccmt#:#ccmt_table_column_lp_ratio#:#Tanulási százalék
+ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Tanúsítvány
+ccmt#:#ccmt_table_column_past_due#:#Határidőn túli
+ccmt#:#ccmt_table_column_event_days#:#Esemény napjai
+ccmt#:#ccmt_not_available#:#megnyitva
+ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Tanulási haladás kurzusonként
+ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Tanulási haladás kurzusmódonként
+ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Tanulási haladás kurzustárolónként
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Tanulási haladás szervezeti egységenként
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_detailed_status_table_header#:#Tanulási haladás részletesen
+ccmt#:#ccmt_detailed_status_table_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_table_column_lp_status#:#Állapot
+ccmt#:#ccmt_table_column_deadline_date#:#Kurzus határideje
+ccmt#:#ccmt_table_column_is_mandatory#:#kötelező
+ccmt#:#ccmt_table_column_last_access#:#Utolsó hozzáférés
+ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Teljesítés dátuma
+ccmt#:#ccmt_lp_status_notattempted#:#nem próbálkozott
+ccmt#:#ccmt_lp_status_inprogress#:#folyamatban
+ccmt#:#ccmt_lp_status_completed#:#teljesítette
+ccmt#:#ccmt_lp_status_failed#:#nem teljesítette
+ccmt#:#ccmt_course_type_mandatory#:#Kötelező
+ccmt#:#ccmt_course_type_optional#:#Választható
+ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Jelentés készítése
+ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export készítése
+ccmt#:#ccmt_menu_item_reporting#:#Jelentéskészítése
+ccmt#:#ccmt_info_block_label_all_users#:#Összes felhasználó
+ccmt#:#ccmt_info_block_label_all_courses#:#Összes kurzus
+ccmt#:#ccmt_info_block_label_all_memberships#:#Összes tagság
+ccmt#:#ccmt_info_block_label_all_session_days#:#Összes munkamenet (napokan)
+ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Az alábbi kurzusokat nem tartalmazza a jelentés, mert nyomkövetési beállításuk nem valid:%s
+ccmt#:#ccmt_course_error_lp_mode#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését evvel nem kompatibilis módra állították be.<br />Jelenlegi mód: '%s' / Szükséges mód: '%s'
+ccmt#:#ccmt_course_error_lp_deactivated#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését kikapcsolták.
+ccmt#:#ccmt_course_error_invalid_obj#:#'%s' kurzus (id-je: '%s') állapota egy alobjektumától függ, aminek típusát a jelentéskészítés nem támogat.
+ccmt#:#ccmt_course_error_multi_obj#:#'%s' kurzus (id-je: '%s') állapota több, mint egy alobjektumától függ. Ezt a jelentéskészítés nem támogatja.
+ccmt#:#ccmt_course_error_missing_obj#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert nincsenek olyan  releváns alobjektumok, melyektől a kurzus állapota függ.
+ccmt#:#ccmt_print_view#:#Összes kurzus nyomtatási képe
+ccmt#:#ccmt_print_view_mandatory_non_completed#:#Nem teljesített kurzusok nyomtatási képe
+ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Nem teljesített kurzusok '%s' szervezeti egységben
+ccmt#:#ccmt_print_window_title_orgunit#:#Összes kurzus '%s' szervezeti egységben
+ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#'%s' összes nem teljesített kurzusa
+ccmt#:#ccmt_print_window_title_user#:#'%s' összes kurzusa
+ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Nem létező nem teljesített kurzusösszerendelések<br />jelenleg kiválasztásnak megfelelő.
+ccmt#:#ccmt_detailed_status_print_view_noitems#:#Nem létező kurzusösszerendelések<br />jelenleg kiválasztásnak megfelelő.
+ccmt#:#ccmt_print_table_column_user#:#Beosztott
+ccmt#:#ccmt_print_table_column_course#:#Kurzus
+ccmt#:#ccmt_print_table_column_lp_status#:#Állapot
+ccmt#:#ccmt_print_table_column_is_mandatory#:#Kurzusmód
+ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Befejezés dátuma
+ccmt#:#ccmt_print_table_column_learning_date#:#Tanulás dátuma
+ccmt#:#ccmt_print_table_column_last_access#:#_Utolsó hozzáférés
+ccmt#:#ccmt_print_table_column_deadline_date#:#Határidő
+ccmt#:#ccmt_all_employees#:#Összes beosztott
+ccmt#:#ccmt_table_column_num_users#:#Felhasználók száma
+ccmt#:#export_all_lp#:#Tanulási haladás exportálása
+ccmt#:#export_learning_progress#:#Tanulási haladás exportálása
+ccmt#:#export_lp#:#Válasszon fájl
+ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Tanúsítvány érvényes eddig:
+ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Tanúsítvány érvényes eddig:
+ccmt#:#ccmt_search_no_user_found#:#Keresése nem adott eredményt.
 ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
 ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
-didactic#:#activate_local_didactic_template#:#Scope of Application
-didactic#:#effective_form#:#Template Effective From
-didactic#:#more_translations#:#More Translations
-didactic#:#didactic_template_update_import#:#Update Didactic Template
-didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.
-grp#:#grp_show_members_info#:#If activated, group members can access the members gallery.
-grp#:#grp_show_members#:#Show Members
-didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.
-didactic#:#didactic_auto_generated#:#Automatic Generated
-didactic#:#activate_exclusive_template#:#Grey Out Default
-didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.
-didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
-didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.
-cont#:#cont_news_timeline#:#News Timeline
-cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
-cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
-cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
-rbac#:#news_add_news#:#Add News
-rbac#:#grp_news_add_news#:#Add and edit own news entries in group
-news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
-obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
-obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
-cont#:#cont_news_settings#:#News Settings
-cont#:#cont_news_timeline_landing_page#:#Landing Page
-cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
-cont#:#cont_news_timeline_tab#:#Timeline
-cont#:#cont_news_edited#:#Bearbeitet
-news#:#news_really_delete_news#:#Do you really want to delete this news item?
-rbac#:#crs_news_add_news#:#Add and edit own news entries in course
-cont#:#cont_news_add_news#:#Add News
-bgtask#:#bgtask_failure#:#Error
-bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.
-bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.
-bgtask#:#bgtask_blocked#:#Concurrent download
-bgtask#:#bgtask_blocked_info#:#There is already a download processed for you.
-bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download 
-bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
-bgtask#:#bgtask_processing#:#Creating download
-bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.
-bgtask#:#bgtask_setting#:#«Background download» enabled
-bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.
-bgtask#:#bgtask_setting_limit#:#Global Limit
-bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.
-bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
-bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
-bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
-bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
-bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection
-bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.
-style#:#enable_system_styles_management_no_write_perm#:#System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.
-awrn#:#awrn_use_osd#:#Popup Online Users
-awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-exc#:#exc_tbl_filter_submission#:#Submission
-exc#:#exc_tbl_filter_has_submission#:#Has submitted
-exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
-mass#:#general#:#General Information
-mass#:#mass_content#:#Assessment content description
-mass#:#mass_record_template#:#Record template
-mass#:#mass_graded_by#:#Graded by
-mass#:#mass_usr_remove#:#Remove user from object
-mass#:#mass_usr_edit#:#Edit user record and learning progress
-mass#:#mass_usr_view#:#User record
-mass#:#mass_edit_record#:#User record
-mass#:#mass_record#:#Record note
-mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
-mass#:#mass_status_completed#:#completed
-mass#:#mass_status_failed#:#failed
-mass#:#mass_status_pending#:#status pending
-mass#:#mass_notify#:#Notify user after finalization
-mass#:#mass_finalize#:#Finalize
-mass#:#il_mass_member#:#Manual Assessment Member
-mass#:#edit_members#:#Edit members
-mass#:#mass_edit_members#:#Edit members
-mass#:#mass_visible#:#Visible
-mass#:#mass_read#:#Read
-mass#:#mass_copy#:#Copy
-mass#:#mass_write#:#Edit Settings
-mass#:#mass_delete#:#Delete
-mass#:#mass_read_learning_progress#:#View learning progress of other users
-mass#:#mass_edit_permissions#:#Change Permissions
-mass#:#mass_edit_learning_progress#:#Edit learning progress
-mass#:#mass_may_not_finalize#:#Examinee may not be finalized.
-mass#:#mass_subj_notification_completed#:#%s: Manual Assessment completed.
-mass#:#mass_subj_notification_failed#:#%s: Manual Assessment failed.
-trac#:#trac_mode_manual_assessment#:#Manual Assessment
-common#:#obj_mass#:#Manual Assessment
-common#:#objs_mass#:#Manual Assessments
-common#:#obj_mass_duplicate#:#Copy Manual Assessment
-common#:#obj_mass_select#:#-- Please select one manual assessment --
-trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
-common#:#il_mass_member#:#Manual Assessment Examinee
-common#:#mass_new#:#Create Manual Assessment
-common#:#mass_import#:#Import Manual Assessment
-rbac#:#mass_visible#:#Manual Assessment is visible
-rbac#:#mass_read#:#Read content of a Manual Assessment
-rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment
-rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment
-rbac#:#mass_copy#:#Copy a Manual Assessment
-rbac#:#mass_write#:#Edit a Manual Assessment
-rbac#:#mass_delete#:#Delete a Manual Assessment
-rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
-rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
-mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
+didactic#:#activate_local_didactic_template#:#Alkalmazás hatásköre
+didactic#:#effective_form#:#Sablon hatályos innentől:
+didactic#:#more_translations#:#További fordítások
+didactic#:#didactic_template_update_import#:#Didaktikai sablon frissítése
+didactic#:#didactic_template_update_import_info#:#Tulajdonságok ettől az importtól függően módosulnak. A már ezt a sablon használó objektumok nem módosulnak.
+grp#:#grp_show_members_info#:#Ha be van kapcsolva, a csoport tagjai elérhetik a tagok képtárát.
+grp#:#grp_show_members#:#Tagok megjelenítése
+didactic#:#didactic_cannot_delete_auto_generated#:#Automatikusan létrehozott didaktikai sablon nem törölhető.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Legalább egy didaktikai sablont automatikusan hoztak létre, így nem törölhető.
+didactic#:#didactic_auto_generated#:#Automatikusan létrehozott
+didactic#:#activate_exclusive_template#:#Alapértelmezetten őszülő
+didactic#:#activate_local_didactic_template_info#:#Ennek a didaktikai sablonnak a használata ezen alterületekre korlátozódik.
+didactic#:#activate_exclusive_template_info#:#A standard sablon nem lesz elérhető ahol ez a sablon aktív.
+didactic#:#dtpl_obj_type_info#:#Az a didaktikai sablon nem alkalmazható erre az objektumtípusra.
+cont#:#cont_news_timeline#:#Hírek idővonala
+cont#:#cont_news_timeline_info#:#Hírek idővonal fülének bekapcsolása
+cont#:#cont_news_timeline_auto_entries#:#Automatikus bejegyzések is megjelenjenek
+cont#:#cont_news_timeline_auto_entries_info#:#Összes automatikusan létrehozott hír is megjelenjen, mint például fórumhozzászólások, fájlok létrehozása.
+rbac#:#news_add_news#:#Hír létrehozása
+rbac#:#grp_news_add_news#:#Csoportban saját hírek létrehozása és módosítása
+news#:#news_timline_add_entries_info#:#Jelenleg egy hír sincs, kattintson a 'Létrehozása' gombra.
+obj#:#obj_tool_setting_use_news#:#Hírek
+obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása.
+obj#:#obj_tool_setting_use_news_open_settings#:#Beállítások megnyitása
+cont#:#cont_news_settings#:#Hírek beállításai
+cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
+cont#:#cont_news_timeline_landing_page_info#:#Idővonal lesz a kezdőoldal.
+cont#:#cont_news_timeline_tab#:#Idővonal
+cont#:#cont_news_edited#:#Módosította
+news#:#news_really_delete_news#:#Biztos, hogy törli ezt a hírt?
+rbac#:#crs_news_add_news#:#Kurzusban saját hírek létrehozása és módosítása
+cont#:#cont_news_add_news#:#Hír létrehozása
+bgtask#:#bgtask_failure#:#Hiba
+bgtask#:#bgtask_empty_folder#:#A jelenlegi kiválasztása nem tartalmaz letölthető objektumokat.
+bgtask#:#bgtask_download_too_large#:#A letöltés átlépi a korlátot (%s).
+bgtask#:#bgtask_blocked#:#Egyidejű letöltés
+bgtask#:#bgtask_blocked_info#:#Már folyamatban van egy letöltése.
+bgtask#:#bgtask_blocked_cancel_old#:#Meglévő letöltés megszakítása
+bgtask#:#bgtask_blocked_cancel_new#:#Új letöltés megszakítása
+bgtask#:#bgtask_processing#:#Letöltés létrehozása
+bgtask#:#bgtask_download_long#:#A letöltés %1$s darab fájllal (%2$s) egy ideig eltarthat.
+bgtask#:#bgtask_setting#:#«Letöltés háttérben» bekapcsolása
+bgtask#:#bgtask_setting_info#:#A ZIP fájl létrehozása aszinkron módon történik, bármikor megszakítható.
+bgtask#:#bgtask_setting_limit#:#Globális korlát
+bgtask#:#bgtask_setting_limit_info#:#Letöltés csak akkor lehetséges, ha a fájlok összmérete ezen érték alatt van.
+bgtask#:#bgtask_setting_threshold_count#:#Minimális szám
+bgtask#:#bgtask_setting_threshold_count_info#:#Ha a fájlok száma meghaladja ezt az értéket, a letöltés aszinkron lesz.
+bgtask#:#bgtask_setting_threshold_size#:#Minimális méret
+bgtask#:#bgtask_setting_threshold_size_info#:#Ha a fájlméret meghaladja ezt az értéket, a letöltés aszinkron lesz.
+bgtask#:#bgtask_cron_gc_title#:#Szemétgyűjtő háttérfolyamat
+bgtask#:#bgtask_cron_gc_desc#:#Háttérfolyamatok által létrehozott elavult fájlok törlése.
+style#:#enable_system_styles_management_no_write_perm#:#Bár a Rendszerstílusok kezelése be van kapcsolva, de az ILIAS-nak nincs írási jogosultsága a Customizing/global/skin mappába, ezért új stílus nem hozható létre és meglévő sem módosítható.
+awrn#:#awrn_use_osd#:#Online felhasználók felugróban
+awrn#:#awrn_use_osd_info#:#'Ki van online' felsorolásában új felhasználók előugróban jelenjenek meg.
+exc#:#exc_tbl_filter_submission#:#Beadás
+exc#:#exc_tbl_filter_has_submission#:#Beadták
+exc#:#exc_tbl_filter_has_no_submission#:#Még adták be
+mass#:#general#:#Általános információ
+mass#:#mass_content#:#Értékelés tartalmának leírása
+mass#:#mass_record_template#:#Bejegyzéssablon
+mass#:#mass_graded_by#:#Értékelést adta
+mass#:#mass_usr_remove#:#Felhasználó eltávolítás az objektumból
+mass#:#mass_usr_edit#:#Felhasználói bejegyzés és tanulási haladás módosítása
+mass#:#mass_usr_view#:#Felhasználói bejegyzés
+mass#:#mass_edit_record#:#Felhasználói bejegyzés
+mass#:#mass_record#:#Bejegyzés megjegyzése
+mass#:#mass_internal_note#:#Belső bejegyzés megjegyzése (vizsgázó nem nézheti meg)
+mass#:#mass_status_completed#:#befejezve
+mass#:#mass_status_failed#:#sikertelen
+mass#:#mass_status_pending#:#állapot függőben
+mass#:#mass_notify#:#Véglegesítés után felhasználók értesítése
+mass#:#mass_finalize#:#Véglegesítés
+mass#:#il_mass_member#:#Manuális értékelés tagjai
+mass#:#edit_members#:#Tagok módosítása
+mass#:#mass_edit_members#:#Tagok módosítása
+mass#:#mass_visible#:#Látható
+mass#:#mass_read#:#Olvasható
+mass#:#mass_copy#:#Másolás
+mass#:#mass_write#:#Beállítások módosítása
+mass#:#mass_delete#:#Törlése
+mass#:#mass_read_learning_progress#:#Többi felhasználó tanulási haladásának megjelenítése
+mass#:#mass_edit_permissions#:#Jogosultságok módosítása
+mass#:#mass_edit_learning_progress#:#Tanulási haladás módosítása
+mass#:#mass_may_not_finalize#:#Vizsgázó talán nincs véglegesítve.
+mass#:#mass_subj_notification_completed#:#%s: Manuális értékelés befejezve.
+mass#:#mass_subj_notification_failed#:#%s: Manuális értékelés sikertelen.
+trac#:#trac_mode_manual_assessment#:#Manuális értékelés
+common#:#obj_mass#:#Manuális értékelés
+common#:#objs_mass#:#Manuális értékelések
+common#:#obj_mass_duplicate#:#Manuális értékelés másolása
+common#:#obj_mass_select#:#-- Válasszon egy manuális értékelést --
+trac#:#trac_mode_manual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a manuális értékelést.
+common#:#il_mass_member#:#Manuális értékelés vizsgázó
+common#:#mass_new#:#Manuális értékelés létrehozása
+common#:#mass_import#:#Manuális értékelés importálása
+rbac#:#mass_visible#:#Manuális értékelés látható
+rbac#:#mass_read#:#Manuális értékelés tartalmának olvasása
+rbac#:#mass_read_learning_progress#:#Manuális értékelés tanulási haladási információjának megjelenítése
+rbac#:#mass_edit_learning_progress#:#Manuális értékelés tanulási haladási információjának módosítása
+rbac#:#mass_copy#:#Manuális értékelés másolása
+rbac#:#mass_write#:#Manuális értékelés módosítása
+rbac#:#mass_delete#:#Manuális értékelés törlése
+rbac#:#mass_edit_members#:#Manuális értékelés tagjainak módosítása
+rbac#:#mass_edit_permission#:#Manuális értékelés jogosultságainak módosítása
+mass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
 mass#:#mass_edit#:#Beállítások
-mass#:#mass_add#:#Create Manual Assessment
+mass#:#mass_add#:#Manuális értékelés létrehozása
 mass#:#mass_membership_finalized#:#Felvétel véglegesítve
 mass#:#mass_membership_saved#:#Felvétel mente, de nincs véglegesítve
 mass#:#mass_return#:#Vissza az áttekintéshez
 mass#:#mass_remove_user_qst#:#Biztos, hogy eltávolítja a felhasználót?
-mass#:#mass_finalize_user_qst#:#Biztos, hogy a felhasználói állapotot befejezni? (Utána módosításra már nincs lehetőség.)
+mass#:#mass_finalize_user_qst#:#Biztos, hogy a felhasználói állapotot véglegesíti? (Utána módosításra már nincs lehetőség.)
 mass#:#mass_settings_saved#:#Beállításokat sikeresen mentette.
 mass#:#mass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
 mass#:#mass_add_user_success#:#Felhasználót sikeresen hozzáadta.
 mass#:#grading#:#Értékelés
 mass#:#grading_info#:#Értékelés info
 mass#:#grading_record#:#Értékelés feljegyzése
-mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
-mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
-mass#:#mass_notify_explanation#:#The user will be notified via email after finalization and will get access to her or his record in the Info-Screen.
+mass#:#mass_content_explanation#:#Értékelés tartalma, például releváns témák.###Topikok
+mass#:#mass_record_template_explanation#:#Tagértékelési sablon. Automatikusan alkalmazzuk új felhasználóra.
+mass#:#mass_notify_explanation#:#Véglegesítés után a felhasználót levélben értesítjük, és hozzáférést kap a saját bejegyzéséhez az információs fülön.
 mass#:#mass_contact#:#Név
 mass#:#mass_responsibility#:#Felelősségi kör
 mass#:#mass_phone#:#Telefon
@@ -16435,10 +16436,14 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Biztos, hogy kilép a csoportbeszé
 chatroom#:#chat_osc_leave_grp_conv#:#Kilépés a beszélgetésből
 chatroom#:#chat_osc_user_left_grp_conv#:#'%s' kilépett a csoportbeszélgetésből.
 chatroom#:#chat_osc_dont_accept_msg#:#Önt jelenleg nem lehet meghívni beszélgetésbe, de ezt személyes beállításaiban módosíthatja.
-chatroom#:#chat_osc_doesnt_accept_msg#:#Beszélgetés nem lehetésges
+chatroom#:#chat_osc_doesnt_accept_msg#:#Beszélgetés nem lehetséges
 usr#:#user_actions#:#Felhasználói műveletek
 usr#:#user_action#:#Felhasználói művelet
 buddysystem#:#buddy_handle_contact_request#:#Kapcsolat kérése
 usr#:#user_actions_activation_info#:#Műveleteket csak akkor soroljuk fel a felhasználóknak, ha a kapcsolódó szolgáltatásokat bekapcsolták és az összes előfeltétel adott (pl. szükséges jogosultságok).
-chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyílvános chatszobába
+chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyilvános chatszobába
 chatroom#:#chat_user_action_invite_osd#:#Meghívás képernyőbeszélgetésbe
+form#:#err_invalid_input#:#Az egyik űrlapmező Ön által megadott bemeneti adata érvénytelen, kérem, ellenőrizze.
+chatroom#:#chat_osc_no_conv#:#Jelenleg nem zajlik beszélgetés.
+chatroom#:#chat_osc_no_sub_directory#:#Alkönyvtár
+chatroom#:#chat_osc_no_sub_directory_info#:#Ha a Chatszerver egy alkönyvtáron keresztül érhető el, mint például 'http(s)://[IP/Domain]/[PATH]', akkor itt adja meg az alkönyvtárat, az előbbi példából a [PATH] részt.
