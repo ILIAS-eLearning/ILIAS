@@ -120,6 +120,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		//Für den Anfang sollen das nur Administratoren sehen
 		$is_training_manager = ($this->user_utils && $this->user_utils->isTrainingManagerOnAnyCourse());
 
+		$view_all_assessments = ($this->user_utils && $this->user_utils->isAdmin());
+
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();
 		$arr_local_user_admin_links = array();
@@ -147,9 +149,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			//link title
 			  "gev_search_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch",$this->gLng->txt("gev_search_menu"), $this->gLng->txt("gev_search_menu"))
 			, "gev_me_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses", $this->gLng->txt("gev_me_menu"))
-			, "gev_others_menu" => array(false, $has_others_menu, array(
+			, "gev_others_menu" => array(false, true, array(
 				  "gev_employee_booking" => array($employee_booking, "ilias.php?baseClass=gevDesktopGUI&cmd=toEmployeeBookings",$this->gLng->txt("gev_employee_booking"))
 				, "gev_create_org_unit" => array($can_create_ha_unit, "ilias.php?baseClass=gevDesktopGUI&cmd=createHAUnit", $this->gLng->txt("gev_create_ha_org_unit"))
+				, "gev_my_assessments" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyAssessments", $this->gLng->txt("gev_my_assessments"))
+				, "gev_all_assessments" => array($view_all_assessments, "ilias.php?baseClass=gevDesktopGUI&cmd=toAllAssessments", $this->gLng->txt("gev_all_assessments"))
 				), $this->gLng->txt("gev_others_menu"))
 			, self::GEV_REPORTING_MENU => array(false, $this->hasReportingMenu(), null)
 

@@ -9,6 +9,7 @@ class ilAllObservationsTableGUI extends catTableGUI {
 
 		$this->gCtrl = $ilCtrl;
 		$this->txt = $plugin->txtClosure();
+		$this->txt_prefix = $plugin->getPrefix()."_";
 		$this->values = $values;
 
 		$this->setId("all_observations_view");
@@ -19,8 +20,8 @@ class ilAllObservationsTableGUI extends catTableGUI {
 		$this->setEnableFilter(true);
 		$this->setEnableHeader(true);
 		$this->setShowRowsSelector(false);
-		$this->setTitle("all_observations");
-		$this->setSubtitle("all_observations_info");
+		$this->setTitle($this->txt_prefix."all_observations");
+		$this->setSubtitle($this->txt_prefix."all_observations_info");
 
 		$this->in_progress = '<img src="'.ilUtil::getImagePath("scorm/not_attempted.png").'" />';
 		$this->passed = '<img src="'.ilUtil::getImagePath("scorm/completed.png").'" />';

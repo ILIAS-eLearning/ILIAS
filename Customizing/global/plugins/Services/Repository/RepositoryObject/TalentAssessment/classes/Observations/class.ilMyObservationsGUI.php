@@ -42,9 +42,11 @@ class ilMyObservationsGUI {
 
 		switch($cmd) {
 			case "toMyAssessments";
+				$this->mode = self::MODE_MY;
 				$this->myAssessments();
 				break;
 			case "toAllAssessments";
+				$this->mode = self::MODE_ALL;
 				$this->allAssessments();
 				break;
 			case "performMyAssFilter":
@@ -75,18 +77,29 @@ class ilMyObservationsGUI {
 	}
 
 	protected function performFilter() {
+
 		$display = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory(), new \CaT\Filter\TypeFactory());
 
 		$filter = $this->myAssessmentsFilter();
 
 		$settings = $display->buildFilterValues($filter, $_POST["filter"]);
 		$this->saveFilterSettings($_POST["filter"]);
-		$this->gCtrl->redirect($this, "toMyAssessments");
+
+		if($this->mode == self::MODE_MY) {
+			$this->gCtrl->redirect($this, "toMyAssessments");
+		} else if($this->mode == self::MODE_ALL) {
+			$this->gCtrl->redirect($this, "toAllAssessments");
+		}
 	}
 
 	protected function saveFilterSettings($settings) {
 		ilSession::set($this->getSessionVar(), serialize($settings));
 		$this->filter_settings = $settings;
+	}
+
+	public function flushFilterSettings() {
+		ilSession::clear($this->getSessionVar());
+		$this->filter_settings = null;
 	}
 
 	public function render() {
@@ -109,11 +122,12 @@ class ilMyObservationsGUI {
 		$ff = new catFilterFlatViewGUI($this, $fs, $df, "performMyAssFilter");
 
 		$gui->setFilter($ff);
+
 		$gui->setFilterVals($this->filter_settings);
 
 		if($this->filter_settings) {
 			$filter_values = $df->buildFilterValues($fs, $this->filter_settings);
-			$base_data = $this->plugin->getObservationsDB()->getMyAssessmentsData($fs, $filter_values);
+			$base_data = $this->plugin->getObservationsDB()->getAssessmentsData($fs, $filter_values);
 			$data = array();
 
 			foreach ($base_data as $key => $row) {
@@ -123,7 +137,7 @@ class ilMyObservationsGUI {
 				$row = $this->addObservator($row);
 				$row = $this->addOrgUnitSupervisor($row);
 
-				if (in_array($this->gUser->getId(), $row["observator_ids"])) {
+				if ($this->observatorIn(array($this->gUser->getId()), $row)) {
 					$data[$key] = $row;
 				}
 			}
@@ -237,16 +251,20 @@ class ilMyObservationsGUI {
 
 		if($this->filter_settings) {
 			$filter_values = $df->buildFilterValues($fs, $this->filter_settings);
-			$data = $this->plugin->getObservationsDB()->getMyAssessmentsData($fs, $filter_values);
+			$base_data = $this->plugin->getObservationsDB()->getAssessmentsData($fs, $filter_values);
 
-			foreach ($data as $key => $row) {
+			foreach ($base_data as $key => $row) {
 				$row = $this->addVenueName($row);
 				$row = $this->addOrgUnitTitle($row);
 				$row = $this->calcStartDate($row);
 				$row = $this->addObservator($row);
 				$row = $this->addOrgUnitSupervisor($row);
 
-				$data[$key] = $row;
+				if(empty($filter_values[5])) {
+					$data[$key] = $row;
+				} else if($this->observatorIn($filter_values[5], $row)) {
+					$data[$key] = $row;
+				}
 			}
 
 			$gui->setData($data);
@@ -255,13 +273,21 @@ class ilMyObservationsGUI {
 		$this->gTpl->setContent($gui->getHtml());
 	}
 
+	public function observatorIn(array $observators, $row) {
+		return count(array_intersect($observators, $row["observator_ids"])) > 0;
+	}
+
 	protected function allAssessemntsFilter() {
 		$pf = new \CaT\Filter\PredicateFactory();
 		$tf = new \CaT\Filter\TypeFactory();
 		$f = new \CaT\Filter\FilterFactory($pf, $tf);
 
-		return $f->sequence
-			( $f->multiselect
+		return $f->sequence($f->sequence
+			( $f->dateperiod
+				( $this->txt("dateperiod_choice_label")
+				, ""
+				)
+			  ,$f->multiselect
 				( $this->txt("result")
 				 , ""
 				 , array(self::TA_IN_PROGRESS=>$this->txt("ta_in_progress")
@@ -276,16 +302,16 @@ class ilMyObservationsGUI {
 				 , $this->plugin->getSettingsDB()->getCareerGoalsOptions()
 				)
 			  , $f->multiselect
-				( $this->txt("observator")
-				 , ""
-				 , $this->plugin->getSettingsDB()->getAllObservator()
-				)
-			  , $f->multiselect
 				( $this->txt("org_unit")
 				 , ""
 				 , $this->getOrgUnitOptions()
 				)
-			);
+			  , $f->multiselect
+				( $this->txt("observator")
+				 , ""
+				 , $this->plugin->getSettingsDB()->getAllObservator(ilActions::OBSERVATOR_ROLE_NAME)
+				)
+			));
 	}
 
 	/**

@@ -404,7 +404,7 @@ class ilDB implements DB {
                 return $ret;
         }
 
-	public function getMyAssessmentsData($filter, $filter_values) {
+	public function getAssessmentsData($filter, $filter_values) {
 		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
 		$select = $this->getSelect();
 
@@ -412,49 +412,19 @@ class ilDB implements DB {
 					."  AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
 
 		if(!empty($filter_values[2])) {
-			$having = " HAVING result = ".$this->getDB()->quote($filter_values[2][0], "integer");
+			$having = " HAVING ".$this->db->in("result", $filter_values[2], false, "integer");
 		}
 
 		if(!empty($filter_values[3])) {
-			$where .= " AND xtas.career_goal_id = ".$this->getDB()->quote($filter_values[3][0], "integer");
+			$where .= " AND ".$this->db->in("xtas.career_goal_id", $filter_values[3], false, "integer");
 		}
 
 		if(!empty($filter_values[4])) {
-			$where .= " AND xtas.org_unit = ".$this->getDB()->quote($filter_values[4][0], "integer");
+			$where .= " AND ".$this->db->in("xtas.org_unit", $filter_values[4], false, "integer");
 		}
 
 		$select = $select.$where.$having;
 
-		$res = $this->getDB()->query($select);
-		$data = array();
-		while($row = $this->getDB()->fetchAssoc($res)) {
-			$data[] = $row;
-		}
-
-		return $data;
-	}
-
-	public function getAllAssessmentsData($filter, $filter_values) {
-		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
-		$select = $this->getSelect();
-
-		$where = " WHERE xtas.start_date BETWEEN ".$this->getDB()->quote($filter_values[0]->format("Y-m-d"), "text")."\n"
-					."  AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
-
-		if(!empty($filter_values[2])) {
-			$having = " HAVING result = ".$this->getDB()->quote($filter_values[2][0], "integer");
-		}
-
-		if(!empty($filter_values[3])) {
-			$where .= " AND xtas.career_goal_id = ".$this->getDB()->quote($filter_values[3][0], "integer");
-		}
-
-		if(!empty($filter_values[4])) {
-			$where .= " AND xtas.org_unit = ".$this->getDB()->quote($filter_values[4][0], "integer");
-		}
-
-		$select = $select.$where.$having;
-		
 		$res = $this->getDB()->query($select);
 		$data = array();
 		while($row = $this->getDB()->fetchAssoc($res)) {
