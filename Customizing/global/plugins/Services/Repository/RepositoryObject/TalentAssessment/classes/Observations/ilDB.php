@@ -411,6 +411,8 @@ class ilDB implements DB {
 		$where = " WHERE xtas.start_date BETWEEN ".$this->getDB()->quote($filter_values[0]->format("Y-m-d"), "text")."\n"
 					."  AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
 
+		$where .= " AND DATE(ADDDATE(xtas.start_date, INTERVAL 6 MONTH)) >= CURDATE()"; 
+
 		if(!empty($filter_values[2])) {
 			$having = " HAVING ".$this->db->in("result", $filter_values[2], false, "integer");
 		}
