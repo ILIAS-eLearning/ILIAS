@@ -407,12 +407,18 @@ class ilDB implements DB {
 	public function getAssessmentsData($filter, $filter_values) {
 		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
 		$select = $this->getSelect();
+		$where = "";
+		$having = "";
 
-		$where = " WHERE xtas.start_date BETWEEN ".$this->getDB()->quote($filter_values[0]->format("Y-m-d"), "text")."\n"
-					."  AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
+		$where = " WHERE DATE(ADDDATE(xtas.start_date, INTERVAL 6 MONTH)) >= CURDATE()"; 
+
+		if(!empty($filter_values[0]) && !empty($filter_values[1])) {
+			$where .= " AND xtas.start_date BETWEEN ".$this->getDB()->quote($filter_values[0]->format("Y-m-d"), "text")."\n"
+					."    AND ".$this->getDB()->quote($filter_values[1]->format("Y-m-d"), "text");
+		}
 
 		if(!empty($filter_values[2])) {
-			$having = " HAVING ".$this->db->in("result", $filter_values[2], false, "integer");
+			$having .= " HAVING ".$this->db->in("result", $filter_values[2], false, "integer");
 		}
 
 		if(!empty($filter_values[3])) {

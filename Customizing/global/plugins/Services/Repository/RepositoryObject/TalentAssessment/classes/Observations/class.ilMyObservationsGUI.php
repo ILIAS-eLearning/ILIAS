@@ -122,28 +122,29 @@ class ilMyObservationsGUI {
 		$ff = new catFilterFlatViewGUI($this, $fs, $df, "performMyAssFilter");
 
 		$gui->setFilter($ff);
-
 		$gui->setFilterVals($this->filter_settings);
 
+		$filter_values = array();
 		if($this->filter_settings) {
 			$filter_values = $df->buildFilterValues($fs, $this->filter_settings);
-			$base_data = $this->plugin->getObservationsDB()->getAssessmentsData($fs, $filter_values);
-			$data = array();
-
-			foreach ($base_data as $key => $row) {
-				$row = $this->addVenueName($row);
-				$row = $this->addOrgUnitTitle($row);
-				$row = $this->calcStartDate($row);
-				$row = $this->addObservator($row);
-				$row = $this->addOrgUnitSupervisor($row);
-
-				if ($this->observatorIn(array($this->gUser->getId()), $row)) {
-					$data[$key] = $row;
-				}
-			}
-
-			$gui->setData($data);
 		}
+
+		$base_data = $this->plugin->getObservationsDB()->getAssessmentsData($fs, $filter_values);
+		$data = array();
+
+		foreach ($base_data as $key => $row) {
+			$row = $this->addVenueName($row);
+			$row = $this->addOrgUnitTitle($row);
+			$row = $this->calcStartDate($row);
+			$row = $this->addObservator($row);
+			$row = $this->addOrgUnitSupervisor($row);
+
+			if ($this->observatorIn(array($this->gUser->getId()), $row)) {
+				$data[$key] = $row;
+			}
+		}
+
+		$gui->setData($data);
 
 		$this->gTpl->setContent($gui->getHtml());
 	}
@@ -249,27 +250,28 @@ class ilMyObservationsGUI {
 		$gui->setFilter($ff);
 		$gui->setFilterVals($this->filter_settings);
 
+		$filter_values = array();
 		if($this->filter_settings) {
 			$filter_values = $df->buildFilterValues($fs, $this->filter_settings);
-			$base_data = $this->plugin->getObservationsDB()->getAssessmentsData($fs, $filter_values);
-
-			foreach ($base_data as $key => $row) {
-				$row = $this->addVenueName($row);
-				$row = $this->addOrgUnitTitle($row);
-				$row = $this->calcStartDate($row);
-				$row = $this->addObservator($row);
-				$row = $this->addOrgUnitSupervisor($row);
-
-				if(empty($filter_values[5])) {
-					$data[$key] = $row;
-				} else if($this->observatorIn($filter_values[5], $row)) {
-					$data[$key] = $row;
-				}
-			}
-
-			$gui->setData($data);
 		}
 
+		$base_data = $this->plugin->getObservationsDB()->getAssessmentsData($fs, $filter_values);
+
+		foreach ($base_data as $key => $row) {
+			$row = $this->addVenueName($row);
+			$row = $this->addOrgUnitTitle($row);
+			$row = $this->calcStartDate($row);
+			$row = $this->addObservator($row);
+			$row = $this->addOrgUnitSupervisor($row);
+
+			if(empty($filter_values[5])) {
+				$data[$key] = $row;
+			} else if($this->observatorIn($filter_values[5], $row)) {
+				$data[$key] = $row;
+			}
+		}
+
+		$gui->setData($data);
 		$this->gTpl->setContent($gui->getHtml());
 	}
 
