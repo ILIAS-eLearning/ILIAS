@@ -81,3 +81,7 @@ actions#:#Aktionen
 org_unit_supervisor#:#Vorschlagender OD
 dateperiod_choice_label#:#Zeitraum
 delete#:#Löschen
+dateperiod_choice_label#:#Zeitraum
+result#:#Ergebnis
+all_observations#:#alle Assessmenttermine
+all_observations_info#:#Hier sehen Sie auf einen Blick alle Assessments.
