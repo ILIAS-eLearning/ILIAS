@@ -22,7 +22,7 @@ module.exports = function(conversationId, userId, message) {
 			conversation.emit('conversation', conversation.json());
 			conversation.send(messageObj);
 
-			Container.getLogger().info('SendMessage "%s" by "%s" in conversation %s', message, userId, conversationId);
+			Container.getLogger().info('SendMessage by "%s" in conversation %s', userId, conversationId);
 		}
 	}
 };

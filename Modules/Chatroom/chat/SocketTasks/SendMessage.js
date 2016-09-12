@@ -16,7 +16,7 @@ module.exports = function(data, roomId, subRoomId)
 	var namespace = Container.getNamespace(this.nsp.name);
 	var subscriber = { id: this.subscriber.getId(),	username: this.subscriber.getName()	};
 
-	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName(), data);
+	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName());
 
 	data.content = HTMLEscape.escape(data.content);
 	var message = {};
