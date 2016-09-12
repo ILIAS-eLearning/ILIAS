@@ -420,26 +420,21 @@
                     var line = $('<div class="messageLine chat"></div>')
 							.addClass((message.target != undefined && !message.target.public) ? 'private' : 'public');
 
-					/*if (message.message && message.message.content) {
-					    message = message.message;
-					}*/
-
 					switch(message.type) {
 						case 'message':
 							var content = message.content;
-							/*var content;
-							try {
-							    content = JSON.parse(message.message);
-								console.log(content);
+
+							if(message.from == undefined) {
+								var legacyMessage = JSON.parse(message.message);
+								content = legacyMessage.content;
+								message.format = legacyMessage.format;
+								message.from = message.user;
+
+								if(message.timestamp.toString().length > 13) { // Max 32-Bit Integer.
+									message.timestamp = parseInt(message.timestamp.toString().substring(0,13));
+								}
 							}
-							catch (ex) {
-							    console.log(ex);
-							    return true;
-							}*/
 
-
-
-							
 							var messageDate =  new Date(message.timestamp);
 
 							if (typeof lastHandledDate.scope == "undefined" ||
