@@ -59,10 +59,10 @@ class ilAllObservationsTableGUI extends catTableGUI {
 	protected function createLegend() {
 		$legend = new \catLegendGUI();
 		
-		$legend->addItem($this->in_progress, "ta_in_progress")
-			   ->addItem($this->passed, "ta_passed")
-			   ->addItem($this->maybe, "ta_maybe")
-			   ->addItem($this->failed, "ta_failed");
+		$legend->addItem($this->in_progress, $this->txt_prefix."ta_in_progress")
+			   ->addItem($this->passed, $this->txt_prefix."ta_passed")
+			   ->addItem($this->maybe, $this->txt_prefix."ta_maybe")
+			   ->addItem($this->failed, $this->txt_prefix."ta_failed");
 
 		return $legend;
 	}
