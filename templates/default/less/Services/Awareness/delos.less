@@ -69,6 +69,9 @@
 #awareness-content .media-body h4 {
 	padding-top: 0px;
 	color: #606060;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #awareness-content .dropdown-menu {
@@ -126,12 +129,32 @@
 	display:none;
 }
 
+.ilAwarenessDropDown .media {
+	display: table;
+	width: 100%;
+}
+
+.ilAwarenessItemRow {
+	display: table-row;
+	width: 100%;
+}
+
+.ilAwarenessDropDown .media-left {
+	width: 45px;
+}
+
+#awareness-list {
+	overflow: hidden;
+}
+
 .ilAwarenessDropDown .media-body {
 	/* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
 	background-repeat: no-repeat;
 	background-size: 12px 12px;
-	width: 100%;
 	background-position: right 10px top 50%;
+	/* see http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell */
+	/* and bug #18937 */
+	max-width: 0;
 }
 
 .ilAwarenessDropDown .media-body.ilAwarenessOnline {
