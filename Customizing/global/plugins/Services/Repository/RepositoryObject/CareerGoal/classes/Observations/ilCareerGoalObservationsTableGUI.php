@@ -53,7 +53,10 @@ class ilCareerGoalObservationsTableGUI extends \ilTable2GUI {
 		$this->setEnableTitle(true);
 		$this->setShowRowsSelector(false);
 
-		$this->setData($a_parent_obj->getActions()->getObservationListData($a_parent_obj->getCareerGoalId()));
+		$data = $a_parent_obj->getActions()->getObservationListData($a_parent_obj->getCareerGoalId());
+		$data = $a_parent_obj->getActions()->changePositionValues($data);
+
+		$this->setData($data);
 	}
 
 	/**

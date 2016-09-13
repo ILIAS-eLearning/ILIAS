@@ -264,6 +264,25 @@ class ilDB implements DB {
 		return $ret;
 	}
 
+	public function getAllObservator($role_name) {
+		$select = "SELECT usr_id, CONCAT(firstname, ' ', lastname) as name\n"
+				 ." FROM usr_data\n"
+				 ." WHERE usr_id IN\n"
+				 ."     (SELECT DISTINCT usr_id\n"
+				 ."      FROM rbac_ua rua\n"
+				 ."      JOIN object_data od\n"
+				 ."          ON rua.rol_id = od.obj_id\n"
+				 ."      WHERE od.title LIKE ".$this->db->quote($role_name."%","text").")";
+
+		$res = $this->db->query($select);
+		$ret = array();
+		while($row = $this->db->fetchAssoc($res)) {
+			$ret[(int)$row["usr_id"]] = $row["name"];
+		}
+
+		return $ret;
+	}
+
 	protected function getDB() {
 		if(!$this->db) {
 			throw new \Exception("no Database");
