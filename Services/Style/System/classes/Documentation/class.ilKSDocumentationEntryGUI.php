@@ -93,16 +93,6 @@ class ilKSDocumentationEntryGUI
 					)
 				)
 			)
-		)->withCard(
-			$this->f->card(
-				"State"
-			)->withSections(array(
-				$this->f->listing()->descriptive(
-				array(
-					"Entry" => $this->entry->getStatusEntry(),
-					"Implementation" => $this->entry->getStatusImplementation()
-				))
-			))
 		);
 
 		$rule_listings = array();
