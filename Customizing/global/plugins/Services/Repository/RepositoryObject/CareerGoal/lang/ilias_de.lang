@@ -58,3 +58,4 @@ xcgo_new#:#Neues Karriereziel anlegen
 xcgo_add#:#Neues Karriereziel anlegen
 objs_xcgo_duplicate#:#Karriereziel kopieren
 new_observation#:#Neue Beobachtung
+order_saved#:#Reihenfolge erfolgreich gespeichert.
