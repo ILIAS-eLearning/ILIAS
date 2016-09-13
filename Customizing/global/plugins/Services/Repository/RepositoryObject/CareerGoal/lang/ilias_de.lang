@@ -44,11 +44,11 @@ lowmark_info#:#Geben Sie den Wert ein, den der Bewerber nicht unterschreiten sol
 sheduled_specification#:#Soll-Ausprägung
 sheduled_specification_info#:#Geben Sie den Wert ein, den der Bewerber erreichen soll.
 default_text_failed#:#Standardtext (Nicht erfüllt)
-default_text_failed_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Untergrenze erreicht oder unterschritten wurde.
+default_text_failed_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Untergrenze erreicht oder unterschritten wurde. Sie können dabei folgende Platzhalter verwenden:<br />[VORNAME], [NACHNAME], [KARRIEREZIEL]
 default_text_partial#:#Standardtext (Teilweise erfüllt)
-default_text_partial_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Untergrenze überschritten und die Soll-Ausprägung unterschritten wurde.
+default_text_partial_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Untergrenze überschritten und die Soll-Ausprägung unterschritten wurde. Sie können dabei folgende Platzhalter verwenden:<br />[VORNAME], [NACHNAME], [KARRIEREZIEL]
 default_text_success#:#Standardtext (Komplett erfüllt)
-default_text_success_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Soll-Ausprägung erreicht oder überschritten wurde.
+default_text_success_info#:#Geben Sie einen Standardtext ein, der angezeigt werden soll, wenn die Soll-Ausprägung erreicht oder überschritten wurde. Sie können dabei folgende Platzhalter verwenden:<br />[VORNAME], [NACHNAME], [KARRIEREZIEL]
 delete_selected#:#Entfernen
 save#:#Speichern
 requirements_table_sort_title#:#Anforderungen sortieren
@@ -58,3 +58,4 @@ xcgo_new#:#Neues Karriereziel anlegen
 xcgo_add#:#Neues Karriereziel anlegen
 objs_xcgo_duplicate#:#Karriereziel kopieren
 new_observation#:#Neue Beobachtung
+order_saved#:#Reihenfolge erfolgreich gespeichert.

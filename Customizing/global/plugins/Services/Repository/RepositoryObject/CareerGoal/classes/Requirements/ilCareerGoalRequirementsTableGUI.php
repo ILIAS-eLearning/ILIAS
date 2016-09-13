@@ -2,6 +2,7 @@
 namespace CaT\Plugins\CareerGoal\Requirements;
 
 require_once("Services/Table/classes/class.ilTable2GUI.php");
+require_once("Services/Utilities/classes/class.ilUtil.php");
 
 class ilCareerGoalRequirementsTableGUI extends \ilTable2GUI {
 	use ilFormHelper;
@@ -54,7 +55,10 @@ class ilCareerGoalRequirementsTableGUI extends \ilTable2GUI {
 		$this->setEnableTitle(true);
 		$this->setShowRowsSelector(false);
 
-		$this->setData($a_parent_obj->getActions()->getRequirementListData($a_parent_obj->getCareerGoalId()));
+		$data = $a_parent_obj->getActions()->getRequirementListData($a_parent_obj->getCareerGoalId());
+		$data = $a_parent_obj->getActions()->changePositionValues($data);
+
+		$this->setData($data);
 	}
 
 	/**

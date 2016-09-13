@@ -194,6 +194,26 @@ class ilActions {
 	}
 
 	/**
+	 * change order numbers to display in ILIAS style
+	 * 10, 20 , 30
+	 *
+	 * @param array 	$data
+	 *
+	 * @return array 	$data
+	 */
+	public function changePositionValues($data) {
+		$pos = 10;
+
+		foreach($data as $key => $value) {
+			$value["position"] = $pos;
+			$data[$key] = $value;
+			$pos += 10;
+		}
+
+		return $data;
+	}
+
+	/**
 	 *
 	 * @param array 	$post
 	 */
