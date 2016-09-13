@@ -1,6 +1,6 @@
 # How to add dependencies with composer in ILIAS
 
-*New dependencies need to be approved by the Jour Fixe of the ILIAS society.*
+**New dependencies need to be approved by the Jour Fixe of the ILIAS society.**
 
 ## Dependencies for production
 - Comment all lines in libs/.gitignore
