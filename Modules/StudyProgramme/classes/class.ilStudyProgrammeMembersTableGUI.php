@@ -27,6 +27,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 		$this->prg_obj_id = $a_prg_obj_id;
 		$this->prg_ref_id = $a_prg_ref_id;
+		$this->prg_has_lp_children = $a_parent_obj->getStudyProgramme()->hasLPChildren();
 
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
@@ -48,15 +49,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 
-		$columns = array( "name" 				=> array("name")
-						, "login" 				=> array("login")
-						, "prg_status" 			=> array("status")
-						, "prg_completion_by"	=> array(null)
-						, "prg_points_required" => array("points")
-						, "prg_points_current"  => array("points_current")
-						, "prg_custom_plan"		=> array("custom_plan")
-						, "prg_belongs_to"		=> array("belongs_to")
-						);
+		if($this->prg_has_lp_children) {
+			$columns = $this->getColumnsLPChildren();
+		} else {
+			$columns = $this->getColumnsChildren();
+		}
 
 		foreach ($this->getSelectedColumns() as $column) {
 			$columns[$column] = array($column);
@@ -86,7 +83,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 
-		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
+		if(!$this->prg_has_lp_children) {
+			$this->tpl->setCurrentBlock("points_current");
+			$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
 												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));
@@ -237,6 +239,29 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				"txt" => $this->lng->txt("prg_assigned_by"));
 
 		return $cols;
+	}
+
+	protected function getColumnsChildren() {
+		return array( "name" 				=> array("name")
+						, "login" 				=> array("login")
+						, "prg_status" 			=> array("status")
+						, "prg_completion_by"	=> array(null)
+						, "prg_points_required" => array("points")
+						, "prg_points_current"  => array("points_current")
+						, "prg_custom_plan"		=> array("custom_plan")
+						, "prg_belongs_to"		=> array("belongs_to")
+						);
+	}
+
+	protected function getColumnsLPChildren() {
+		return array( "name" 				=> array("name")
+						, "login" 				=> array("login")
+						, "prg_status" 			=> array("status")
+						, "prg_completion_by"	=> array(null)
+						, "prg_points_reachable" => array("points")
+						, "prg_custom_plan"		=> array("custom_plan")
+						, "prg_belongs_to"		=> array("belongs_to")
+						);
 	}
 }
 
