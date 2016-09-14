@@ -67,6 +67,14 @@ class ilDBWrapperFactory {
 				require_once('./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php');
 				$ilDB = new ilDBPostgreSQL();
 				break;
+			case 'mysql-legacy':
+				require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
+				$ilDB = new ilDBMySQL();
+				break;
+			case 'innodb-legacy':
+				require_once('./Services/Database/classes/MDB2/class.ilDBInnoDB.php');
+				$ilDB = new ilDBInnoDB();
+				break;
 			default:
 				throw new ilDatabaseException("No viable database-type given: " . var_export($a_type, true));
 		}
