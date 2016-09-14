@@ -1237,7 +1237,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			$public_section = ilPublicSectionSettings::getInstance();
 			$public_section->setEnabled($this->form->getInput('pub_section'));
-			$public_section->setDomains((array) $this->form->getInput('public_section_domains'));
+			
+			$domains = array();
+			foreach((array) $this->form->getInput('public_section_domains') as $domain)
+			{
+				if(strlen(trim($domain)))
+				{
+					$domains[] = $domain;
+				}
+			}
+			$public_section->setDomains($domains);
 			$public_section->save();
 			
 			$global_profiles = ($_POST["pub_section"])
