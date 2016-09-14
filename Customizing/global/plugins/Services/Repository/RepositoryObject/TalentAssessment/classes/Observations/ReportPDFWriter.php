@@ -4,8 +4,6 @@ require_once "Services/Billing/lib/fpdf/fpdf.php";
 
 class ReportPDFWriter extends \fpdf implements ReportWriter {
 
-	
-
 	public function BackgroundImage($bg_image_location) {
 		$this->bg_image_location = $bg_image_location;		
 	}
@@ -102,5 +100,12 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		if(count($font_color) === 3) {
 			$this->SetTextColor($font_color[0],$font_color[1],$font_color[2]);
 		}
+	}
+
+	protected function Output() {
+		if($this->PageNo() > 1) {
+			throw new \ilException("too long");
+		}
+		parent::Output();
 	}
 }
