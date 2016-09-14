@@ -43,7 +43,7 @@ class ilLicense {
 	/**
 	 * @return int
 	 */
-	public function getObjId(): int {
+	public function getObjId() {
 		return $this->obj_id;
 	}
 
@@ -51,7 +51,7 @@ class ilLicense {
 	/**
 	 * @param int $obj_id
 	 */
-	public function setObjId(int $obj_id) {
+	public function setObjId($obj_id) {
 		$this->obj_id = $obj_id;
 	}
 
