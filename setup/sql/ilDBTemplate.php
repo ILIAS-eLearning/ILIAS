@@ -33947,7 +33947,7 @@ $fields = array (
 	)
 	,"insert_time" => array (
 		"notnull" => true
-		,"default" => "0000-00-00 00:00:00"
+		,"default" => "NOW()"
 		,"type" => "timestamp"
 	)
 	,"order_nr" => array (

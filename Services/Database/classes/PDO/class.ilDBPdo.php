@@ -1979,4 +1979,14 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		throw new ilDatabaseException('Syntax error');
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDBVersion() {
+		$d = $this->fetchObject($this->query("SELECT VERSION() AS version"));
+
+		return ($d->version ? $d->version : 'Unknown');
+	}
 }
