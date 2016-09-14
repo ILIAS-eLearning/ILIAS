@@ -687,7 +687,7 @@ interface ilDBPdoInterface {
 	 * @param string $engine
 	 * @return array of failed tables
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB);
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB);
 
 
 	/**
