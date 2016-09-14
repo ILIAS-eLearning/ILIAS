@@ -157,7 +157,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			$regex .= "/";
 		}
 
-		if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < mb_strlen($value, 'UTF-8')
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value, 'UTF-8')
 			&& is_numeric($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH))
 		) {
 			throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
@@ -173,6 +173,23 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			if ($preg_match == false) {
 				throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
 			}
+		}
+	}
+
+
+	/**
+	 * @param $value
+	 * @param string $encoding
+	 * @return int
+	 */
+	public function strlen($value, $encoding = 'UTF-8') {
+		switch (true) {
+			case function_exists('mb_strlen'):
+				return mb_strlen($value, $encoding);
+			case function_exists('iconv_strlen'):
+				return iconv_strlen($value, $encoding);
+			default:
+				return strlen($value);
 		}
 	}
 }
