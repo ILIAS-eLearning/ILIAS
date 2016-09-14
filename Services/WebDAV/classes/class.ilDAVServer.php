@@ -915,7 +915,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
         
 		// determine mime type
 		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-		$mime = ilMimeTypeUtil::getMimeType("", $name, $options['content_type']);
+		$mime = ilMimeTypeUtil::lookupMimeType($name);
 
 		$objDAV =& $this->getObject($path);
 		if (is_null($objDAV))
@@ -1021,10 +1021,15 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		// Update the content length in the file object, if the
 		// the client did not specify a content_length
-		if ($options['content_length'] == null)
+		if ($options['content_length'] == null || $this->putObjDAV->getContentLength() == 0)
 		{
 			$objDAV = $this->putObjDAV;
-     		$objDAV->setContentLength($objDAV->getContentOutputStreamLength());
+			if ($objDAV->getContentOutputStreamLength() != null) {
+				$objDAV->setContentLength($objDAV->getContentOutputStreamLength());
+			} else {
+				$objDAV->write();
+				$objDAV->setContentLength(filesize($objDAV->obj->getDirectory($objDAV->obj->version).'/'.$objDAV->obj->filename));
+			}
 			$objDAV->write();
 			$this->putObjDAV = null;
 		}
