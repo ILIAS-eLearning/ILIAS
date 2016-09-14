@@ -619,3 +619,4 @@ lessc_path_comment#:#Lessc is needed to compile less files to CSS. This is a req
 lessc#:#Path to lessc
 db_switch_legacy#:#You are using a Database-Type which has been replaced with a newer implementation. The newer implementation also supports PHP7. Do you want to switch to:
 db_switch_legacy_button#:#Switch
+error_log_path_comment_win#:#Please enter only the path(E.g. 'C:/iliasdata'). Files will be automaticly saved on error.
