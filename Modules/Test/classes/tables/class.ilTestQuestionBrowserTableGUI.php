@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/Table/classes/class.ilTable2GUI.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 
 /**
  *
@@ -10,11 +11,29 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
  * @version $Id$
  *
  * @ingroup ModulesGroup
+ *
+ * @ilCtrl_Calls ilTestQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilTestQuestionBrowserTableGUI: ilTestQuestionBrowserTableGUI
  */
 class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 {
+	const REPOSITORY_ROOT_NODE_ID = 1;
+	
+	const CONTEXT_PARAMETER = 'question_browse_context';
+	const CONTEXT_PAGE_VIEW = 'contextPageView';
+	const CONTEXT_LIST_VIEW = 'contextListView';
+	
+	const MODE_PARAMETER = 'question_browse_mode';
+	const MODE_BROWSE_POOLS = 'modeBrowsePools';
+	const MODE_BROWSE_TESTS = 'modeBrowseTests';
+	
+	const CMD_BROWSE_QUESTIONS = 'browseQuestions';
+	const CMD_APPLY_FILTER = 'applyFilter';
+	const CMD_RESET_FILTER = 'resetFilter';
+	const CMD_INSERT_QUESTIONS = 'insertQuestions';
+	
 	protected $writeAccess = false;
-
+	
 	/**
 	 * Constructor
 	 *
@@ -25,18 +44,24 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	 *
 	 * @return \ilTestQuestionBrowserTableGUI
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_write_access = false)
+	public function __construct(
+		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
+		ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+	)
 	{
-		$this->setId('qst_browser_' . $a_ref_id);
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-
-		global $lng, $ilCtrl;
-
+		$this->ctrl = $ctrl;
+		$this->mainTpl = $mainTpl;
+		$this->tabs = $tabs;
 		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-	
-		$this->setWriteAccess($a_write_access);
+		$this->tree = $tree;
+		$this->db = $db;
+		$this->pluginAdmin = $pluginAdmin;
+		$this->testOBJ = $testOBJ;
 		
+		parent::__construct($this, self::CMD_BROWSE_QUESTIONS);
+		$this->setFilterCommand(self::CMD_APPLY_FILTER);
+		$this->setResetCommand(self::CMD_RESET_FILTER);
+	
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn('','','1%', true);
@@ -46,35 +71,241 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("author"),'author', '');
 		$this->addColumn($this->lng->txt("create_date"),'created', '');
 		$this->addColumn($this->lng->txt("last_update"),'tstamp', '');  // name of col is proper "updated" but in data array the key is "tstamp"
-		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
+		$this->addColumn($this->getParentObjectLabel(),'qpl', '');
 		$this->addColumn($this->lng->txt("working_time"),'working_time', '');
-		if ($this->getWriteAccess())
-		{
-			$this->addMultiCommand('insertQuestions', $this->lng->txt('insert'));
-		}
-	
 		$this->setSelectAllCheckbox('q_id');
 		$this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
 
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj, $this->parent_cmd));
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
 		$this->enable('sort');
-		$this->enable('header');
+		//$this->enable('header');
 		$this->enable('select_all');
-		$this->setFilterCommand('filterAvailableQuestions');
-		$this->setResetCommand('resetfilterAvailableQuestions');
 		$this->initFilter();
 	}
 
-	/**
-	 * Init filter
-	 */
-	function initFilter()
+	public function setWriteAccess($value)
 	{
-		global $lng;
+		$this->writeAccess = $value;
+	}
+
+	public function hasWriteAccess()
+	{
+		return $this->writeAccess;
+	}
+	
+	public function init()
+	{
+		if( $this->hasWriteAccess() )
+		{
+			$this->addMultiCommand(self::CMD_INSERT_QUESTIONS, $this->lng->txt('insert'));
+		}
+	}
+
+	public function executeCommand()
+	{
+		$this->handleParameters();
+		$this->handleTabs();
 		
+		switch( $this->ctrl->getNextClass($this) )
+		{
+			case strtolower(__CLASS__):
+			case '':
+
+				$cmd = $this->ctrl->getCmd().'Cmd';
+				return $this->$cmd();
+
+			default:
+
+				$this->ctrl->setReturn($this, self::CMD_BROWSE_QUESTIONS);
+				return parent::executeCommand();
+		}
+	}
+	
+	private function browseQuestionsCmd()
+	{
+		$this->setData($this->getQuestionsData());
+		
+		$this->mainTpl->setContent($this->ctrl->getHTML($this));
+	}
+	
+	private function applyFilterCmd()
+	{
+		$this->writeFilterToSession();
+		$this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
+	}
+	
+	private function resetFilterCmd()
+	{
+		$this->resetFilter();
+		$this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
+	}
+	
+	private function insertQuestionsCmd()
+	{
+		$selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
+		if (!count($selected_array))
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+			$this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
+		}
+		
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+
+		$testQuestionSetConfig = $this->buildTestQuestionSetConfig();
+		
+		$manscoring = FALSE;
+		
+		foreach ($selected_array as $key => $value)
+		{
+			$last_question_id = $this->testOBJ->insertQuestion($testQuestionSetConfig, $value);
+			
+			if (!$manscoring)
+			{
+				$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+			}
+		}
+		
+		$this->testOBJ->saveCompleteStatus($testQuestionSetConfig);
+		
+		if ($manscoring)
+		{
+			ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), TRUE);
+		}
+
+		//$this->ctrl->setParameter($this, 'q_id', $last_question_id); // for page view ?
+		
+		$this->ctrl->redirectByClass($this->getBackTargetCmdClass(), $this->getBackTargetCommand());
+	}
+	
+	private function handleParameters()
+	{
+		// $this->ctrl->saveParameter($this, 'q_id'); // required ?? maybe for page view ?
+
+		$this->ctrl->saveParameter($this, self::CONTEXT_PARAMETER);
+		$this->addHiddenInput(self::CONTEXT_PARAMETER, $_GET[self::CONTEXT_PARAMETER]);
+		
+		$this->ctrl->saveParameter($this, self::MODE_PARAMETER);
+		$this->addHiddenInput(self::MODE_PARAMETER, $_GET[self::MODE_PARAMETER]);
+	}
+
+	private function fetchContextParameter()
+	{
+		if( isset($_POST[self::CONTEXT_PARAMETER]) )
+		{
+			return $_POST[self::CONTEXT_PARAMETER];
+		}
+
+		if( isset($_GET[self::CONTEXT_PARAMETER]) )
+		{
+			return $_GET[self::CONTEXT_PARAMETER];
+		}
+
+		return null;
+	}
+
+	private function fetchModeParameter()
+	{
+		if( isset($_POST[self::MODE_PARAMETER]) )
+		{
+			return $_POST[self::MODE_PARAMETER];
+		}
+
+		if( isset($_GET[self::MODE_PARAMETER]) )
+		{
+			return $_GET[self::MODE_PARAMETER];
+		}
+		
+		return null;
+	}
+	
+	private function handleTabs()
+	{
+		$this->tabs->clearTargets();
+		$this->tabs->clearSubTabs();
+		
+		$this->tabs->setBackTarget(
+			$this->getBackTargetLabel(), $this->getBackTargetUrl()
+		);
+		
+		$this->tabs->addTab(
+			'browseQuestions', $this->getBrowseQuestionsTabLabel(), $this->getBrowseQuestionsTabUrl()
+		);
+	}
+	
+	private function getBackTargetLabel()
+	{
+		return $this->lng->txt('backtocallingtest');
+	}
+
+	private function getBackTargetUrl()
+	{
+		return $this->ctrl->getLinkTargetByClass(
+			$this->getBackTargetCmdClass(), $this->getBackTargetCommand()
+		);
+	}
+	
+	private function getBackTargetCmdClass()
+	{
+		switch( $this->fetchContextParameter() )
+		{
+			case self::CONTEXT_LIST_VIEW:
+
+				return 'ilObjTestGUI';
+
+			case self::CONTEXT_PAGE_VIEW:
+
+				return 'ilTestExpressPageObjectGUI';
+		}
+		
+		return '';
+	}
+	
+	private function getBackTargetCommand()
+	{
+		switch( $this->fetchContextParameter() )
+		{
+			case self::CONTEXT_LIST_VIEW:
+
+				return 'questions';
+
+			case self::CONTEXT_PAGE_VIEW:
+
+				return 'showPage';
+		}
+
+		return '';
+	}
+
+	private function getBrowseQuestionsTabLabel()
+	{
+		switch( $this->fetchModeParameter() )
+		{
+			case self::MODE_BROWSE_POOLS:
+
+				return $this->lng->txt('tst_browse_for_qpl_questions');
+
+			case self::MODE_BROWSE_TESTS:
+
+				return $this->lng->txt('tst_browse_for_tst_questions');
+		}
+
+		return '';
+	}
+
+	private function getBrowseQuestionsTabUrl()
+	{
+		return $this->ctrl->getLinkTarget($this, self::CMD_BROWSE_QUESTIONS);
+	}
+
+	public function initFilter()
+	{
 		// title
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($this->lng->txt("tst_qbt_filter_question_title"), "title");
@@ -86,7 +317,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->filter["title"] = $ti->getValue();
 		
 		// description
-		$ti = new ilTextInputGUI($lng->txt("description"), "description");
+		$ti = new ilTextInputGUI($this->lng->txt("description"), "description");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
@@ -99,7 +330,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 		$types = ilObjQuestionPool::_getQuestionTypes();
 		$options = array();
-		$options[""] = $lng->txt('filter_all_question_types');
+		$options[""] = $this->lng->txt('filter_all_question_types');
 		foreach ($types as $translation => $row)
 		{
 			$options[$row['type_tag']] = $translation;
@@ -112,7 +343,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->filter["type"] = $si->getValue();
 		
 		// author
-		$ti = new ilTextInputGUI($lng->txt("author"), "author");
+		$ti = new ilTextInputGUI($this->lng->txt("author"), "author");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
@@ -121,23 +352,39 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->filter["author"] = $ti->getValue();
 		
 		// question pool
-		$ti = new ilTextInputGUI($lng->txt("qpl"), "qpl");
+		$ti = new ilTextInputGUI($this->getParentObjectLabel(), 'parent_title');
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
-		$this->filter["qpl"] = $ti->getValue();
+		$this->filter['parent_title'] = $ti->getValue();
 	
+		// repo root node
+		require_once 'Services/Form/classes/class.ilRepositorySelectorInputGUI.php';
+		$ri = new ilRepositorySelectorInputGUI($this->lng->txt('repository'), 'repository_root_node');
+		$ri->setHeaderMessage($this->lng->txt('question_browse_area_info'));
+		$this->addFilterItem($ri);
+		$ri->readFromSession();
+		$this->filter['repository_root_node'] = $ri->getValue();
+	}
+	
+	private function getParentObjectLabel()
+	{
+		switch( $this->fetchModeParameter() )
+		{
+			case self::MODE_BROWSE_POOLS:
+
+				return $this->lng->txt('qpl');
+
+			case self::MODE_BROWSE_TESTS:
+
+				return $this->lng->txt('tst');
+		}
+
+		return '';
 	}
 
-	/**
-	 * fill row
-	 *
-	 * @param array $data
-	 *
-	 * @return void
-	 */
 	public function fillRow($data)
 	{
 		$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
@@ -148,17 +395,110 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 		$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
-		$this->tpl->setVariable("QUESTION_POOL", $data['qpl']);
+		$this->tpl->setVariable("QUESTION_POOL", $data['parent_title']);
 		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);
 	}
-	
-	public function setWriteAccess($value)
+
+	/**
+	 * @return ilTestQuestionSetConfig
+	 */
+	private function buildTestQuestionSetConfig()
 	{
-		$this->writeAccess = $value;
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+			$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
+		);
+		
+		return $testQuestionSetConfigFactory->getQuestionSetConfig();
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getQuestionsData()
+	{
+		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+
+		$questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
+		$questionList->setExcludeQuestionIdsFilter($this->testOBJ->getExistingQuestions());
+
+		$repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+		
+		foreach($this->getFilterItems() as $item)
+		{
+			if($item->getValue() !== false)
+			{
+				switch( $item->getPostVar() )
+				{
+					case 'title':
+					case 'description':
+					case 'author':
+					case 'type':
+					case 'parent_title':
+						
+						$questionList->addFieldFilter($item->getPostVar(), $item->getValue());
+						break;
+					
+					case 'repository_root_node':
+						
+						$repositoryRootNode = $item->getValue();
+				}
+			}
+		}
+		
+		$parentObjectIds = $this->getQuestionParentObjIds($repositoryRootNode);
+		
+		if( !count($parentObjectIds) )
+		{
+			return array();
+		}
+		
+		$questionList->setParentObjIdsFilter($parentObjectIds);
+
+		$questionList->load();
+		
+		return $questionList->getQuestionDataArray();
 	}
 	
-	public function getWriteAccess()
+	private function getQuestionInstanceTypeFilter()
 	{
-		return $this->writeAccess;
+		if( $this->fetchModeParameter() == self::MODE_BROWSE_TESTS )
+		{
+			return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
+		}
+
+		return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
+	}
+	
+	private function getQuestionParentObjIds($repositoryRootNode)
+	{
+		$parents = $this->tree->getSubTree(
+			$this->tree->getNodeData($repositoryRootNode), true, $this->getQuestionParentObjectType()
+		);
+		
+		$parentIds = array();
+		
+		foreach($parents as $nodeData)
+		{
+			if( $nodeData['obj_id'] == $this->testOBJ->getId() )
+			{
+				continue;
+			}
+			
+			$parentIds[ $nodeData['obj_id'] ] = $nodeData['obj_id'];
+		}
+		
+		return array_values($parentIds);
+	}
+	
+	private function getQuestionParentObjectType()
+	{
+		if( $this->fetchModeParameter() == self::MODE_BROWSE_TESTS )
+		{
+			return 'tst';
+		}
+
+		return 'qpl';
 	}
 }

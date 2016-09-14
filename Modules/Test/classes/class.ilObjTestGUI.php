@@ -41,6 +41,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI
  *
  * @ingroup ModulesTest
  */
@@ -336,6 +337,16 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php';
 				$gui = new ilTestRandomQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $ilPluginAdmin, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case 'iltestquestionbrowsertablegui':
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
+				$gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->object);
+				$gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
+				$gui->init();
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -2254,9 +2265,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$ilToolbar->addButton($this->lng->txt("ass_create_question"), $this->ctrl->getLinkTarget($this, "addQuestion"));
 				
-				if ($this->object->getPoolUsage()) {
+				if( $this->object->getPoolUsage() )
+				{
 					$ilToolbar->addSeparator();
-					$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
+					
+					require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
+					
+					$this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
 				}
 
 				$ilToolbar->addSeparator();
@@ -2330,6 +2345,25 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * @param $ilToolbar
+	 * @param $context
+	 */
+	private function populateQuestionBrowserToolbarButtons(ilToolbarGUI $toolbar, $context)
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
+		
+		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CONTEXT_PARAMETER, $context);
+		
+		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_POOLS);
+		
+		$toolbar->addButton($this->lng->txt("tst_browse_for_qpl_questions"), $this->ctrl->getLinkTargetByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS));
+		
+		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_TESTS);
+		
+		$toolbar->addButton($this->lng->txt("tst_browse_for_tst_questions"), $this->ctrl->getLinkTargetByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS));
 	}
 
 	function takenObject() {
@@ -4636,7 +4670,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 			if($this->object->getPoolUsage())
 			{
-				$ilToolbar->addFormButton($lng->txt("tst_browse_for_questions"), "browseForQuestions");
+				require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
+				
+				$this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_PAGE_VIEW);
 
 				$show_separator = true;
 			}
