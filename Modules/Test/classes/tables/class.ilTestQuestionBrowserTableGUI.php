@@ -46,7 +46,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	 */
 	public function __construct(
 		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
-		ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+		ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
 	)
 	{
 		$this->ctrl = $ctrl;

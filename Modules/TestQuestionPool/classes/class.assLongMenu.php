@@ -31,8 +31,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 		$this->minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
 		parent::__construct($title, $comment, $author, $owner, $question);
-		global $ilDB;
-		$this->ilDB = $ilDB;
+		$this->ilDB = $GLOBALS['DIC']['ilDB'];
 	}
 	
 	/**

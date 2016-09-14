@@ -392,8 +392,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		/** @var ilDBInterface $ilDB */
+		$ilDB = $GLOBALS['DIC']['ilDB'];
 
 		if (is_null($pass))
 		{
