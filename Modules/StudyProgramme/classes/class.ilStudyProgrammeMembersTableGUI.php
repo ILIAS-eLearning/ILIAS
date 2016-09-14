@@ -26,7 +26,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 		$this->prg_obj_id = $a_prg_obj_id;
 		$this->prg_ref_id = $a_prg_ref_id;
-		$this->prg_obj = new ilObjStudyProgramme($a_prg_ref_id);
+		$this->prg_has_lp_children = $a_parent_obj->getStudyProgramme()->hasLPChildren();
 
 		global $ilCtrl, $lng, $ilDB;
 		$this->ctrl = $ilCtrl;
@@ -44,7 +44,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 
-		if($this->prg_obj->hasLPChildren()) {
+		if($this->prg_has_lp_children) {
 			$columns = $this->getColumnsLPChildren();
 		} else {
 			$columns = $this->getColumnsChildren();
@@ -53,7 +53,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		foreach ($columns as $lng_var => $params) {
 			$this->addColumn($lng->txt($lng_var), $params[0]);
 		}
-		
+
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 		$oder = $this->getOrderField();
@@ -72,7 +72,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 
-		if($this->prg_obj->hasChildren() || (!$this->prg_obj->hasChildren() && !$this->prg_obj->hasLPChildren())) {
+		if(!$this->prg_has_lp_children) {
 			$this->tpl->setCurrentBlock("points_current");
 			$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 			$this->tpl->parseCurrentBlock();
