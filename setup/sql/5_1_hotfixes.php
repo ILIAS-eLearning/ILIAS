@@ -193,3 +193,7 @@ if($ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
 	);
 }
 ?>
+<#14>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
