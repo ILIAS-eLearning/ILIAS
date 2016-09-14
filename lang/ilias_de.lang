@@ -1228,7 +1228,8 @@ assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
-assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
+assessment#:#tst_browse_for_qpl_questions#:#Aus Pool hinzufügen
+assessment#:#tst_browse_for_tst_questions#:#Aus anderem Test hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse entfernen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
