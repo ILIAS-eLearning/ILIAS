@@ -372,8 +372,10 @@ class ilErrorHandling extends PEAR
 			$file_name = $session_id."_".$err_num;
 
 			$logger = ilLoggingErrorSettings::getInstance();
-			$lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
-			$lwriter->write();
+			if(!empty($logger->folder())) {
+				$lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
+				$lwriter->write();
+			}
 
 			$message = sprintf($lng->txt("log_error_message"), $file_name);
 

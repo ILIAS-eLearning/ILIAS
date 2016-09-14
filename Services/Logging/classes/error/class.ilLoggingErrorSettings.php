@@ -40,12 +40,10 @@ class ilLoggingErrorSettings {
 	}
 
 	protected function setFolder($folder) {
-		assert('is_string($folder)');
 		$this->folder = $folder;
 	}
 
 	public function setMail($mail) {
-		assert('is_string($mail)');
 		$this->mail = $mail;
 	}
 
