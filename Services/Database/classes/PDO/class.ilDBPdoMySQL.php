@@ -48,7 +48,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 	 * @param string $engine
 	 * @return array
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
 		$engines = $this->queryCol('SHOW ENGINES');
 		if (!in_array($engine, $engines)) {
 			return array();

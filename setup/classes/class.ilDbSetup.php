@@ -94,8 +94,8 @@ class ilDbSetup {
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-				case ilDBConstants::TYPE_MYSQL_LEGACY:
-				case ilDBConstants::TYPE_INNODB_LEGACY:
+				case ilDBConstants::TYPE_MYSQL:
+				case ilDBConstants::TYPE_INNODB:
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 					$clientIniFile = $this->client->ini;
 
@@ -114,7 +114,9 @@ class ilDbSetup {
 
 
 	public function provideGlobalDB() {
+		global $DIC;
 		$GLOBALS["ilDB"] = $this->ilDBInterface;
+		$DIC["ilDB"] = $this->ilDBInterface;
 		$this->client->db = $this->ilDBInterface; // TODO ugly and dirty, but ilClient requires it
 	}
 
@@ -212,11 +214,12 @@ class ilDbSetup {
 	 */
 	public function installDatabase() {
 		if ($this->canDatabaseBeInstalled()) {
+			$this->provideGlobalDB();
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-				case ilDBConstants::TYPE_MYSQL_LEGACY:
-				case ilDBConstants::TYPE_INNODB_LEGACY:
+				case ilDBConstants::TYPE_MYSQL:
+				case ilDBConstants::TYPE_INNODB:
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();
@@ -227,7 +230,7 @@ class ilDbSetup {
 
 					break;
 				case ilDBConstants::TYPE_PDO_POSTGRE:
-				case ilDBConstants::TYPE_POSTGRES_LEGACY:
+				case ilDBConstants::TYPE_POSTGRES:
 					include_once("./setup/sql/ilDBTemplate.php");
 					setupILIASDatabase();
 
