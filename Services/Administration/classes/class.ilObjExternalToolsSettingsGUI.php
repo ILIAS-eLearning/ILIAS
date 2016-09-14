@@ -482,7 +482,17 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$types->setOptions(ilMapUtil::getAvailableMapTypes());
 		$types->setValue($type);
 		$form->addItem($types);
-		
+
+		// map data server property
+		$type = ilMapUtil::getType();
+		if($type != "openlayers") {
+			// api key for google
+			$key = new ilTextInputGUI("Google API Key", "api_key");
+			$key->setMaxLength(200);
+			$key->setValue(ilMapUtil::getApiKey());
+			$form->addItem($key);
+		}
+
 		// location property
 		$loc_prop = new ilLocationInputGUI($lng->txt("maps_std_location"),
 			"std_location");
@@ -506,7 +516,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		require_once("Services/Maps/classes/class.ilMapUtil.php");
 		
 		global $ilCtrl;
-		
+		ilMapUtil::setApiKey(ilUtil::stripSlashes(trim($_POST["api_key"])));
 		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
 		ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
 		ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
