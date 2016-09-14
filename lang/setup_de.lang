@@ -631,3 +631,4 @@ lessc_path#:#Pfad zu lessc
 lessc_path_comment#:#Lessc wird benötigt, um Less-Dateien zu CSS zu kompilieren. Dies ist eine Voraussetzung um neue System Styles in der Administration via GUI zu erstellen.
 db_switch_legacy#:#Sie nutzen einen Datenbank-Typ, der durch eine Neuimplementierung ersetzt wurde. Diese Neuimplementierung unterstützt ausserdem PHP7. Möchten Sie wechsen zu:
 db_switch_legacy_button#:#Switch
+error_log_path_comment_win#:#Bitte nur den Pfad angeben (z. B. 'C:/iliasdata). Hier werden die Dateien im Falle eines Fehlers abgelegt.
