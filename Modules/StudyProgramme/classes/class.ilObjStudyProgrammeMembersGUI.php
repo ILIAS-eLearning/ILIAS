@@ -293,7 +293,7 @@ class ilObjStudyProgrammeMembersGUI {
 		);
 	}
 	
-	protected function getStudyProgramme($a_ref_id = null) {
+	public function getStudyProgramme($a_ref_id = null) {
 		if ($a_ref_id === null) {
 			$a_ref_id = $this->ref_id;
 		}
