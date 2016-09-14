@@ -382,7 +382,7 @@ adve#:#char_selector_enabled_info_test#:#ユーザ個々の設定に関わらず
 adve#:#char_selector_enabled_info_user#:#テスト中に特殊文字選択用のメニューは表示されます。しかしながら、個別テストはこの設定が有効にならないよう防止可能でありメニューはそれを有効にする選択にしてもず特殊文字を表示しません。
 adve#:#char_selector_enabled_test#:#特殊文字選択はオンです。
 adve#:#char_selector_enabled_user#:#特殊文字選択メニューはオンです
-adve#:#char_selector_inactive_admin#:#特殊文字選択用メニューを有効にします
+adve#:#char_selector_inactive_admin#:#特殊文字選択用メニューはグローバルで解除
 adve#:#char_selector_inactive_info_admin#:#特殊文字選択用のメニューはシステム全体で解除されています。ユーザは自身のPersonal Desktopの個別設定も個別テストあるいは問題集への切替変更もできません。
 adve#:#char_selector_inherit_info_test#:#プラットフォームの管理設定やパーソナルデスクトップ上の個別ユーザによる変更次第でパーソナルエスクトップ上のΩボタンはテスト中やそれ以外で表示されます。
 adve#:#char_selector_inherit_info_user#:#プラットフォーム全体の管理者により変更された設定が使用されます。
@@ -449,11 +449,13 @@ assessment#:#ass_completion_by_submission#:#提出すると完了
 assessment#:#ass_completion_by_submission_info#:#有効にすると提出ファイルの一つはこの問題の最高点で承認して完了した事になります。点数は後で手動にて修正可能です。この設定の変更は既に提出済みの解答には影響しません。
 assessment#:#ass_create_archive_export#:#アーカイブーエクスポートを作成
 assessment#:#ass_create_export_file#:#テストエクスポートファイルを作成
+assessment#:#ass_create_export_file_with_results#:#テストエクスポートファイル(受験者結果を含む)を作成
 assessment#:#ass_create_export_test_archive#:#テストアーカイブファイルを作成
 assessment#:#ass_create_export_test_results#:#テスト結果エクスポートファイルを作成
 assessment#:#ass_create_question#:#問題を作成
 assessment#:#ass_export_files#:#エクスポートファイル
 assessment#:#ass_file#:#ファイル
+assessment#:#ass_imap_hint#:#トップタイトルへ表示されるヒント
 assessment#:#ass_lac_answer_index_not_exist#:#インデックス"Q%s"の問題にはインデックス"%s"の回答がありません。
 assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#現在の問題にはインデックス"%s"の回答がありません。
 assessment#:#ass_lac_answer_value_not_exists#:#問題Q%s[%s]中には値"%s"がありません。 
@@ -475,6 +477,7 @@ assessment#:#ass_lac_question_not_reachable#:#インデックス"Q%s"の問題�
 assessment#:#ass_lac_show_legend_btn#:#凡例を表示
 assessment#:#ass_lac_unable_to_parse_condition#:#条件"%s"は検証できません。
 assessment#:#ass_lac_validation_error#:#条件式の検証中にエラーが発生しました!
+assessment#:#ass_location#:#Location
 assessment#:#ass_process_lock#:#受験中のロックを使用
 assessment#:#ass_process_lock_desc#:#どのロックメカニズムも使用もしないで競技条件は可能です。これは矛盾するテスト結果につながります。
 assessment#:#ass_process_lock_mode#:#受験中のロックモード
@@ -743,6 +746,7 @@ assessment#:#extratime#:#延長時間
 assessment#:#factor#:#要因
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
+assessment#:#false#:#False
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全ての選択された/選択した解答特定のフィードバック解答を表示
@@ -1341,6 +1345,7 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#上位%sの結果
 assessment#:#toplist_your_result#:#順位
+assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成のせいになります。
@@ -1394,6 +1399,9 @@ assessment#:#tst_confirm_delete_results#:#以前入力したこのテストの�
 assessment#:#tst_confirm_delete_results_info#:#以前入力した問題結果は削除されました。テストは正しくリセットされました!
 assessment#:#tst_confirm_print#:#点数と正解つきの全ての問題を印刷するにはボタンを押します。 問題は常に最終ページに表示されます。
 assessment#:#tst_confirm_submit_answers#:#答案提出を確認してください。 提出ボタンを押すと解答に戻る事はできません。
+assessment#:#tst_conflict_fbh_oblig_quest#:#必修問題とロックされた回答の使用の組合せは許可されません。
+assessment#:#tst_conflict_reset_fbh_force#:#"回答をロック"設定は"回答をロックしないがフィードバックを強制"へ調整されました。
+assessment#:#tst_conflict_reset_non_fbh#:# "回答をロック"設定は"回答をロックしない"へ調整されました。
 assessment#:#tst_copy#:#テストをコピー
 assessment#:#tst_count_correct_solutions#:#正解と完全解答得点のみ
 assessment#:#tst_count_correct_solutions_desc#:#受験者は全問正解で完全解答の最高点数または他のどこかが0点のどちらかを得点します。これは部分解答を定義する問題にも有効です。
@@ -2084,6 +2092,7 @@ auth#:#auth_account_migration_new#:#新規ユーザアカウントを作成し�
 auth#:#auth_auth_settings#:#設定
 auth#:#auth_info_add#:#ILIASに一度も登録したことがなければオプションを選択。新規アカウントが作成されます。
 auth#:#auth_info_migrate#:#既にILIASのアカウントがあれば、パーソナルデータ(メール、テスト結果など）を移行するためのユーザ名とパスワードを入力します。
+auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#ログインスクリーンエディタ
 auth#:#auth_openid#:#OpenId
 auth#:#auth_openid_configure#:#Open-ID認証を構成
@@ -2473,6 +2482,7 @@ blog#:#blog_rename_posting#:#投稿名を変更
 blog#:#blog_search_users#:#ユーザを検索
 blog#:#blog_settings#:#ブログ管理
 blog#:#blog_settings_navigation#:#ナビゲーション列
+blog#:#blog_show_latest#:#最終投稿/ドラフトを表示
 blog#:#blog_style#:#ブログスタイル
 blog#:#blog_toggle_draft#:#告知を取り消す
 blog#:#blog_toggle_draft_admin#:#ブログ投稿を解除
@@ -2591,6 +2601,10 @@ buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#リンクなし
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#無視
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#確認
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#要求をキャンセル
+buddysystem#:#buddy_bs_action_already_ignored#:#ユーザ'%s'はすでに無視済です。
+buddysystem#:#buddy_bs_action_already_linked#:#ユーザ '%s'からのコンタクト要求はすでに承認済です。
+buddysystem#:#buddy_bs_action_already_requested#:#ユーザ'%s'はすでに要求済です。
+buddysystem#:#buddy_bs_action_already_unlinked#:#ユーザ'%s'のコンタクト状況はすでにリンク解除済です。
 buddysystem#:#buddy_bs_action_not_possible#:#アクション不可
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#要求したコンタクト
 buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#リクエストは無視されました
@@ -4777,7 +4791,7 @@ common#:#msg_obj_already_deleted#:#オブジェクトはすでに削除されて
 common#:#msg_obj_created#:#オブジェクト作成しました。
 common#:#msg_obj_exists#:#オブジェクトがすでにこのフォルダ内にあります
 common#:#msg_obj_exists_in_folder#:#オブジェクトがすでにフォルダ %s内にあります。
-common#:#msg_obj_may_not_contain_objects_of_type#:#オブジェクト%sはオブジェクトタイプ%sを含まない事があります。
+common#:#msg_obj_may_not_contain_objects_of_type#:#オブジェクト%sはオブジェクトタイプ:%sを含まない可能性があります。
 common#:#msg_obj_modified#:#修正が保存されました。
 common#:#msg_obj_no_download#:#ダウンロードできません
 common#:#msg_obj_no_link#:#リンクを許可されていません
@@ -6226,7 +6240,7 @@ content#:#citate_from#:#...から引用する
 content#:#citate_page#:#このページを引用
 content#:#citate_to#:#...へ引用
 content#:#cont_accented#:#強調
-content#:#cont_act_number#:#章の計算
+content#:#cont_act_number#:#章の数値表現
 content#:#cont_activate_html#:#HTMLレンダリングを起動
 content#:#cont_activate_js#:#Javascriptモードを起動
 content#:#cont_activate_media#:#メディアを起動
@@ -6275,11 +6289,11 @@ content#:#cont_anonymous_user_missing_perm#:#匿名ユーザには現在この�
 content#:#cont_api_adapter#:#APIアダプター名
 content#:#cont_api_func_prefix#:#API ファンクションプレフィックス
 content#:#cont_areas_deleted#:#MAP範囲は削除されました。
-content#:#cont_assign_characteristic#:#特徴の割当て
-content#:#cont_assign_full#:#全画面
-content#:#cont_assign_std#:#標準
-content#:#cont_assign_to_parent#:#親へ割り当てる
-content#:#cont_assign_translation#:#翻訳の割当て
+content#:#cont_assign_characteristic#:#特性を割当
+content#:#cont_assign_full#:#全画面を割当
+content#:#cont_assign_std#:#標準を割当
+content#:#cont_assign_to_parent#:#親へ割り当て
+content#:#cont_assign_translation#:#翻訳を割当て
 content#:#cont_assignments_deleted#:#割り当ては削除されました
 content#:#cont_auto_glossaries#:#自動リンクの用語集
 content#:#cont_auto_last_visited#:#前回訪問の章を続ける
@@ -6328,7 +6342,7 @@ content#:#cont_chap_and_pages#:#章とページ
 content#:#cont_chap_copy_select_target_now#:#コピーの章をマークします。 現在のターゲットを選択します。
 content#:#cont_chap_select_target_now#:#移動の章をマークしました。現在のターゲットを選択してください。
 content#:#cont_chapters#:#章
-content#:#cont_chapters_after_pages#:#ページは同じレベルの全ての副章よりも先になければななない事に注意してください。
+content#:#cont_chapters_after_pages#:#ページは同じレベルの全ての下位の章より上位になる必要がある事に注意してください。
 content#:#cont_chapters_and_pages#:#章とページ
 content#:#cont_chapters_only#:#章のみ
 content#:#cont_char_format#:#文字
@@ -6339,13 +6353,13 @@ content#:#cont_char_style_quot#:#引用
 content#:#cont_characteristic#:#スタイルクラス
 content#:#cont_check_values#:#SCOの送った値をチェック
 content#:#cont_check_values_info#:#テストツールはSCOからSCORMスタンダードへ準拠する値を送るかどうかをチェックします。<br/>SCORMスタンダードは値の保存に関して非常に多くの要求があります。すべての学習モジュールがスタンダード要件を満たしているものではありません。このオプションはモジュールがスタンダードに準拠するか否かをチェックさせます。ILIASがこのモジュールで動作するかどうかの単なるチェックにこのオプションは使用してはいけません。
-content#:#cont_choose_characteristic#:#特徴を選択
+content#:#cont_choose_characteristic#:#特性を選択
 content#:#cont_choose_characteristic_section#:#セクション
 content#:#cont_choose_characteristic_text#:#テキスト要素
-content#:#cont_choose_cont_obj#:#コンテンツオブジェクトを編集
+content#:#cont_choose_cont_obj#:#コンテンツオブジェクトを選択
 content#:#cont_choose_glossary#:#用語集を選択
 content#:#cont_choose_media_source#:#メディアソースを選択
-content#:#cont_choose_pages_or_chapters_only#:#ページか章のどちらかのみ選択してください。
+content#:#cont_choose_pages_or_chapters_only#:#ページか章のどちらか一つを選択してください。
 content#:#cont_choose_wiki#:#Wikiを選択
 content#:#cont_Circle#:#円
 content#:#cont_Citation#:#引用
@@ -6481,7 +6495,7 @@ content#:#cont_ed_edit_data#:#データを編集
 content#:#cont_ed_edit_files#:#ファイルを編集
 content#:#cont_ed_edit_multiple#:#段落シーケンスを編集
 content#:#cont_ed_edit_prop#:#プロパティを編集
-content#:#cont_ed_enable#:#(未)使用要素
+content#:#cont_ed_enable#:#(非)アクティブ化要素
 content#:#cont_ed_flist#:# ファイルリスト
 content#:#cont_ed_go#:#Go
 content#:#cont_ed_insert_amd_page_list#:#ページリストを挿入
@@ -6930,7 +6944,7 @@ content#:#cont_page_select_target_now#:#ページを移動用にマークしま�
 content#:#cont_page_toc#:#ページ全体概要
 content#:#cont_page_translation_does_not_exist#:#翻訳ページまだありませんが現在のマスターページのコンテンツをコピーして作成されます。言語翻訳のページ。
 content#:#cont_pages#:#ページ
-content#:#cont_pages_and_subchapters#:#副章とページ
+content#:#cont_pages_and_subchapters#:#下位の章とページ
 content#:#cont_par_format#:#段落
 content#:#cont_paragraph_styles#:#段落書式
 content#:#cont_parameter#:#パラメーター
@@ -7373,8 +7387,8 @@ content#:#lm_menu_new_entry#:#新しいメニューエントリーを作成
 content#:#lm_menu_select_internal_object#:#内部オブジェクト選択 >>
 content#:#lm_menu_select_object_to_add#:#メニューへ追加したいオブジェクトを選択してください
 content#:#lm_no_download_files#:#現在ダウンロード可能なファイルがありません。
-content#:#lm_rate_page#:#ぺージレート
-content#:#lm_rating#:#学習モジュールレート
+content#:#lm_rate_page#:#ぺージを評価
+content#:#lm_rating#:#学習モジュールを評価
 content#:#mep_folder_created#:#新規フォルダを追加しました。
 content#:#mob_upload_dir#:#ディレクトリ更新
 content#:#mob_upload_dir_info#:#複数ファイルからサーバディレクトリはメディアプール内にメディアオブジェクトを作成する事できます。ILIAS管理者のみにこのディレクトリのファイル選択が見えます。最後がスラッシュではないフルサーバーpathを入力してください。
@@ -7521,6 +7535,7 @@ crs#:#crs_admin#:#管理者
 crs#:#crs_admin_no_notify#:#管理者 (通知なし)
 crs#:#crs_admin_notify#:#管理者 (通知あり)
 crs#:#crs_administrators#:#管理者
+crs#:#crs_admission_link_failure_invalid_code#:#登録できません: リンクが無効です。
 crs#:#crs_admission_link_failure_membership_limited#:#登録不可;コースメンバーが限定されています。
 crs#:#crs_admission_link_failure_registration_period#:#登録不可:コースは登録期限を過ぎています。
 crs#:#crs_admission_link_success_registration#:#正しくコース"%s"へ登録されました。
@@ -7559,6 +7574,7 @@ crs#:#crs_cancel_subscription_body2#:#コースの待ちリスト上に他のメ
 crs#:#crs_cancellation_end#:#`コースから登録取り消し`を制限
 crs#:#crs_cancellation_end_info#:#選択した日付になるまでメンバーはコースから登録を取り消しできます。
 crs#:#crs_cancellation_end_rbac_info#:#キャンセル締め切りは%sでしたのでキャンセルはもうできません。
+crs#:#crs_cannot_find_role#:#この役割を見つける事ができません。
 crs#:#crs_cdf_edit_member#:#ユーザーデータに関連するコースを編集
 crs#:#crs_cdf_tbl_last_edit#:#最終更新 (コース特定データ)
 crs#:#crs_change_status#:#学習目標のステータスを変更:
@@ -8247,10 +8263,10 @@ crs#:#event_unregister#:#登録解除
 crs#:#event_unregistered#:#登録が解除されました。
 crs#:#event_updated#:#設定を保存しました
 crs#:#event_user_selection#:#ユーザの選択
-crs#:#event_user_selection_include_filter#:#"%1$s"を含む
-crs#:#event_user_selection_include_requests#:#"参加要求"の全ユーザを含む
-crs#:#event_user_selection_include_role#:#"%1$s"の役割の全ユーザを含む
-crs#:#event_user_selection_include_waiting_list#:#"待ちリスト"の全ユーザを含む
+crs#:#event_user_selection_include_filter#:#%1$sを含む
+crs#:#event_user_selection_include_requests#:#参加要求の全ユーザを含む
+crs#:#event_user_selection_include_role#:#%1$sの役割の全ユーザを含む
+crs#:#event_user_selection_include_waiting_list#:#待ちリストの全ユーザを含む
 crs#:#events#:#セッション
 crs#:#events_clone_title#:#セッションを複製
 crs#:#events_deleted#:#セッション削除
@@ -8841,7 +8857,7 @@ dcl#:#dcl_all_entries#:#全てのエントリー
 dcl#:#dcl_any#:#どれか
 dcl#:#dcl_asc#:#昇順 (ASC)
 dcl#:#dcl_boolean#:#ブール代数
-dcl#:#dcl_boolean_desc#:#"True" または "False"用のチェックボックス
+dcl#:#dcl_boolean_desc#:#True または "False"用のチェックボックス
 dcl#:#dcl_cant_delete_main_table#:#データ収集の初期テーブル値につきこのテーブルを完全に削除はできません。内容と階層が削除されてしまいます。
 dcl#:#dcl_change_notification_dcl_delete_record#:#次のレコードが削除されました
 dcl#:#dcl_change_notification_dcl_new_record#:#次のレコードが作成されました
@@ -8996,7 +9012,7 @@ dcl#:#dcl_prop_expression#:#式
 dcl#:#dcl_prop_expression_info#:#サポートオペレーター: <b>%s</b><br>サポート機能: <b>%s</b><br>ブラケットを使用 <b>"(", ")"</b> グループ計算へ<br>連結ストリングとプレースフォルダー &: <b>"結果は" & [[Int 1]] * [[Int2]]</b><br>使用機能: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>代替フィールド(内部の式をコピーするにはタイトルをクリック:<br>%s
 dcl#:#dcl_public_comments#:#レコードのパブリックコメントを利用可にする
 dcl#:#dcl_public_comments_desc#:#ユーザは表のエントリーにコメントできます。
-dcl#:#dcl_rating#:#評価
+dcl#:#dcl_rating#:#星評価
 dcl#:#dcl_rating_desc#:#ユーザは5つ星までのエントリを評価できます。
 dcl#:#dcl_record#:#記録
 dcl#:#dcl_record_deleted#:#レコードを削除しました
@@ -9008,6 +9024,7 @@ dcl#:#dcl_record_view_viewdefinition#:#ビュー定義を表示
 dcl#:#dcl_reference#:#参考
 dcl#:#dcl_reference_desc#:#表の異なるフィールドへ保存された参照オプションのフィールド
 dcl#:#dcl_reference_link#:#テーブルビュー内へのリンクとして表示
+dcl#:#dcl_reference_link_info#:#詳細表示は参照テーブル内を有効にする必要があります。
 dcl#:#dcl_reference_title#:#表とフィールドの参照
 dcl#:#dcl_regex#:#正規表現
 dcl#:#dcl_regex_info#:#(区切り記号なし)
@@ -9496,7 +9513,7 @@ exc#:#exc_peer_review_overview#:#ピアグループを表示する
 exc#:#exc_peer_review_overview_invalid_users#:#無効ユーザ
 exc#:#exc_peer_review_personal#:#個別化されたピアフィードバック
 exc#:#exc_peer_review_personal_info#:#ピアはフルネーム表示します
-exc#:#exc_peer_review_rating#:#レート
+exc#:#exc_peer_review_rating#:#評価
 exc#:#exc_peer_review_recipient#:#フィードバック受領者
 exc#:#exc_peer_review_reset#:#ピアフィードバックの追加とリセット
 exc#:#exc_peer_review_reset_done#:#全てのピアフィードバック関連データは割り当て用に削除されました。
@@ -9825,7 +9842,7 @@ forum#:#frm_notification_deactivated#:#通知を解除しました
 forum#:#frm_post_not_activated_yet#:#まだ有効になっていません。
 forum#:#frm_pseudonym#:#ペンネーム
 forum#:#frm_purifier_not_implemented_for_type_x#:#タイプ %の検証ツールはまだ実装されていません。
-forum#:#frm_rating#:#レート
+forum#:#frm_rating#:#評価
 forum#:#frm_revoke_censorship#:#検閲権破棄
 forum#:#frm_search#:#検索
 forum#:#frm_selected_merge_src#:#マージする選択したスレッド: %s
@@ -9904,6 +9921,7 @@ grp#:#grp_accept_subscriber_body#:#グループ "%1$s"へ加入済みです。\n
 grp#:#grp_activate_notification#:#通知をオン
 grp#:#grp_added_to_list#:#グループ "%s"の待ちリストに割当てられています。待ちリスト上の%sの位置にいます。
 grp#:#grp_admins#:#管理者
+grp#:#grp_admission_link_failure_invalid_code#:#登録できません: リンクが無効です。
 grp#:#grp_admission_link_failure_membership_limited#:#登録不可: グループメンバーシップは制限されています。
 grp#:#grp_admission_link_failure_registration_period#:#登録不可: グループは登録機関買いです。
 grp#:#grp_admission_link_success_registration#:#グループ"%s"へ新しい予定が作成されました。正しく登録されました。
@@ -10500,6 +10518,7 @@ mail#:#mail_select_recipients#:#メールの受取人を選択してください
 mail#:#mail_send_html#:#外部メール用HTMLフレーム
 mail#:#mail_send_html_info#:#有効にすると外部メールの本文がHTMLフレームへ埋め込まれます。対応のテンプレートは './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' の './Services/Mail/templates/default/tpl.html_mail_template.html' をコピーしてカスタマイズすることができます。
 mail#:#mail_send_with_system_address#:#システムアドレスと一緒に送ってください
+mail#:#mail_serial_letter_placeholders#:#連続文字プレースフォルダ
 mail#:#mail_settings_incoming_type_see_also#:#<a href="%s">ここ</a>でユーザが今後受信するemaiタイプの修正可能です。
 mail#:#mail_subject_prefix#:#メール件名
 mail#:#mail_subject_prefix_info#:#自動生成される発信メール件名の行の部分へ挿入するテキストを入力します。
@@ -12562,14 +12581,14 @@ pwassist#:#pwassist_password_assigned#:#パスワードは、正しくユーザ 
 pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください.\nパスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
 pwassist#:#pwassist_update_error#:#システム管理者へ連絡してください。\nデータベース更新中のエラーにより、パスワードをユーザ アカウントへ割当てる事ができませんでした。
 pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。:\n%s\n\nこのメッセージは自動的に次のILIAS作成したものです:\n\t%s\n\nあなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。\n\n次をチェックして候補として実行してください。::\n\n-ミスによりこのe-mailを要求しました。:\nこのe-mailを削除.\n\n-このe-mailを要求したことがないのは間違いありません:\n%sへ連絡してください。\n\n-このe-maiを要求するには、次のように進めてください。::\n\n1. インターネットブラウザを開始。\n\n2。次のURLを入力:\n\t%s\n\n重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。\n\n3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
-rating#:#rat_not_rated_yet#:#未評価
-rating#:#rat_nr_ratings#:#%sレート
-rating#:#rat_one_rating#:#一段階
-rating#:#rating_activate_rating#:#評価を有効
+rating#:#rat_not_rated_yet#:#星評価なし
+rating#:#rat_nr_ratings#:#%s星評価
+rating#:#rat_one_rating#:#1つ星評価
+rating#:#rating_activate_rating#:#星評価を有効
 rating#:#rating_activate_rating_info#:#有効にするとユーザはこのオブジェクトを評価できます。
 rating#:#rating_add_category#:#カテゴリ追加
-rating#:#rating_average_rating#:#平均レート
-rating#:#rating_categories#:#評価カテゴリ
+rating#:#rating_average_rating#:#平均星評価
+rating#:#rating_categories#:#星評価カテゴリ
 rating#:#rating_category_add#:#追加
 rating#:#rating_category_create#:#カテゴリ作成
 rating#:#rating_category_created#:#カテゴリを追加しました。
@@ -12580,13 +12599,13 @@ rating#:#rating_category_update#:#保存
 rating#:#rating_category_updated#:#カテゴリを保存しました。
 rating#:#rating_export_category#:#カテゴリ
 rating#:#rating_export_date#:#日付
-rating#:#rating_export_rating#:#評価
+rating#:#rating_export_rating#:#星評価
 rating#:#rating_new_objects_auto#:#新規オブジェクトの評価を有効にする
-rating#:#rating_new_objects_auto_info#:#有効にすると新規ファイル、学習モジュールwikiが評価できます。
-rating#:#rating_nr_users#:#%s ユーザ
-rating#:#rating_number_votes#:#%s評価
-rating#:#rating_overlay_submit#:#評価提出
-rating#:#rating_overlay_title_overall#:#全般評価
+rating#:#rating_new_objects_auto_info#:#新規のファイル、学習モジュール、wikは初期設定で星評価iが有効です。
+rating#:#rating_nr_users#:#%s ユーザ数
+rating#:#rating_number_votes#:#%s星評価数
+rating#:#rating_overlay_submit#:#星評価を提出
+rating#:#rating_overlay_title_overall#:#全般星評価
 rating#:#rating_remove#:#評価を削除
 rating#:#rating_update_positions#:#順を保存
 rating#:#rating_your_rating#:#評価
@@ -12906,6 +12925,7 @@ rbac#:#mds_edit_permission#:#アクセス権限設定を変更
 rbac#:#mds_read#:#メタデータ設定を読込む
 rbac#:#mds_visible#:#メタデータ設定を表示
 rbac#:#mds_write#:#メタデータ設定を編集
+rbac#:#mep_copy#:#ユーザはメディア集をコピーできます
 rbac#:#mep_delete#:#ユーザはメディア集を移動または削除できます
 rbac#:#mep_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#mep_read#:#ユーザはメディア集の読込アクセス権がありメディアオブジェクトの再利用ができます
@@ -13957,8 +13977,10 @@ search#:#search_user_search_info_form#:#有効にするとユーザデータが�
 search#:#search_user_simple#:#シンプルユーザ検索
 search#:#search_users#:#ユーザを検索
 search#:#until#:#最大
+sess#:#sess_accept_request#:#参加を承諾
 sess#:#sess_copy#:#セッションをコピー
 sess#:#sess_import#:#インポートセッション
+sess#:#sess_list_reg_limit_places#:#フリーの場所
 sess#:#sess_lp_preset#:#学習進捗を有効化
 sess#:#sess_lp_preset_info#:#全てのセッションイベント用の学習進捗を解除する
 sess#:#sess_mail_permanent_link#:#セッションに必要なすべての情報見つけるには次のリンクをクリックします:
@@ -13969,6 +13991,7 @@ sess#:#sess_mail_sub_dec_sub#:#セッション"%s"の登録拒否
 sess#:#sess_max_members_needed#:#最大メンバー数が待ちリスト機能用に必要です。
 sess#:#sess_msg_applicants_assigned#:#応募者はセッションを登録しました。
 sess#:#sess_msg_applicants_removed#:#応募者はリストから削除しました。
+sess#:#sess_new_registrations#:#参加を要求
 sess#:#sess_reg_added_to_wl#:#あなたは待ちリストへ追加されました。
 sess#:#sess_reg_direct#:#ダイレクト登録
 sess#:#sess_reg_direct_info#:#ユーザがセッションへ参加するには'参加'をクリックする必要があります。
@@ -15574,6 +15597,7 @@ trac#:#trac_collection_tlt_learner_subitem#:#(%s%s)完了に必要な%sの%sを�
 trac#:#trac_comment#:#コメント
 trac#:#trac_comments#:#コメント
 trac#:#trac_completed#:#完了
+trac#:#trac_cron_info#:#データを収集するには"オブジェクト統計"cron jobを有効にしてください。
 trac#:#trac_crs_assignments#:#コースアイテムの割当て
 trac#:#trac_crs_items#:#割り当て可能なコースアイテム
 trac#:#trac_crs_members#:#コース受講者:
@@ -16106,7 +16130,7 @@ wiki#:#wiki_stat_page_ratings#:#レーティング数
 wiki#:#wiki_stat_page_read#:#読み込みアクセス数
 wiki#:#wiki_stat_page_user_edit#:#ページ編集したユーザ数
 wiki#:#wiki_stat_page_words#:#単語数
-wiki#:#wiki_stat_rating_avg#:#平均レート
+wiki#:#wiki_stat_rating_avg#:#平均評価
 wiki#:#wiki_stat_read_pages#:#読み込みアクセス数
 wiki#:#wiki_stat_scope#:#時間軸
 wiki#:#wiki_stat_user_edit_pages#:#編集した平均ユーザ数
@@ -16186,27 +16210,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###19 05 2016 new variable
-assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###19 05 2016 new variable
-assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###19 05 2016 new variable
-assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###19 05 2016 new variable
-assessment#:#false#:#False###19 05 2016 new variable
-assessment#:#true#:#True###19 05 2016 new variable
-dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###19 05 2016 new variable
-buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.###19 05 2016 new variable
-buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.###19 05 2016 new variable
-buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.###19 05 2016 new variable
-buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.###19 05 2016 new variable
-trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###19 05 2016 new variable
-sess#:#sess_list_reg_limit_places#:#Free places###19 05 2016 new variable
-sess#:#sess_accept_request#:#Accept Participation###19 05 2016 new variable
-sess#:#sess_new_registrations#:#Join Request###19 05 2016 new variable
-mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###06 07 2016 new variable
-rbac#:#mep_copy#:#User can copy media pool###06 07 2016 new variable
-crs#:#crs_cannot_find_role#:#Can't find this role.###06 07 2016 new variable
-grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###06 07 2016 new variable
-crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###06 07 2016 new variable
-auth#:#auth_ldap_server_ds#:#LDAP-Server###03 08 2016 new variable
-assessment#:#ass_location#:#Location###03 08 2016 new variable
-assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###03 08 2016 new variable
-blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
