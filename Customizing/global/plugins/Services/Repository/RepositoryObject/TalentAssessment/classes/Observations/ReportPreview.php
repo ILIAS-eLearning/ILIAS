@@ -15,14 +15,19 @@ class ReportPreview {
 		$this->writer->LeftIndent($x);
 	}
 
+	/**
+	 * Set the text width starting from the left indent.
+	 */
 	public function TextWidth($w) {
 		$this->text_width = $w;
 	}
 
+	/**
+	 * Set the background image by its path will repeat every single page.
+	 */
 	public function SetBackground($image_path) {
 		$this->writer->BackgroundImage($image_path);
 	}
-
 
 	public function TitlePosition($x,$y) {
 		$this->title_x = $x;
@@ -53,9 +58,9 @@ class ReportPreview {
 	private $name_font = 'Arial';
 	private $name_fontsize = 10;
 	private $name_options = '';
-	private $name_color = array(0,0,0);
+	private $name_color = array(195,28,28);
 
-	public function NameFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function NameFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->name_font = $font;
 		$this->name_fontsize = $size;
 		$this->name_options = $options;
@@ -74,9 +79,9 @@ class ReportPreview {
 	private $orgu_font = 'Arial';
 	private $orgu_fontsize = 10;
 	private $orgu_options = '';
-	private $orgu_color = array(0,0,0);
+	private $orgu_color = array(195,28,28);
 
-	public function OrguFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function OrguFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->orgu_font = $font;
 		$this->orgu_fontsize = $size;
 		$this->orgu_options = $options;
@@ -95,9 +100,9 @@ class ReportPreview {
 	private $date_font = 'Arial';
 	private $date_fontsize = 10;
 	private $date_options = '';
-	private $date_color = array(0,0,0);
+	private $date_color = array(195,28,28);
 
-	public function DateFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function DateFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->date_font = $font;
 		$this->date_fontsize = $size;
 		$this->date_options = $options;
@@ -124,9 +129,9 @@ class ReportPreview {
 	private $summary_title_font = 'Arial';
 	private $summary_title_fontsize = 10;
 	private $summary_title_options = '';
-	private $summary_title_color = array(0,0,0);
+	private $summary_title_color = array(195,28,28);
 
-	public function SummaryTitleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function SummaryTitleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->summary_title_font = $font;
 		$this->summary_title_fontsize = $size;
 		$this->summary_title_options = $options;
@@ -156,9 +161,9 @@ class ReportPreview {
 	private $judgement_font = 'Arial';
 	private $judgement_fontsize = 10;
 	private $judgement_options = '';
-	private $judgement_color = array(0,0,0);
+	private $judgement_color = array(195,28,28);
 
-	public function JudgementFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function JudgementFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->judgement_font = $font;
 		$this->judgement_fontsize = $size;
 		$this->judgement_options = $options;
