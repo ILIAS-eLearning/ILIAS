@@ -1064,7 +1064,6 @@ echo "<br>+".$client_id;
 		// path to error log dir
 		$ti = new ilTextInputGUI($lng->txt("error_log_path"), "error_log_path");
 		$ti->setInfo($lng->txt("error_log_path_comment".$lvext));
-		$ti->setRequired(true);
 		$this->form->addItem($ti);
 
 		// server settings
