@@ -60,6 +60,8 @@ acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
 adm#:#adm_update_skill_status#:#Kompetenzstatus global aktualisieren
 adm#:#adm_update_skill_tables#:#Kompetenz DB-Tabellen aktualisieren
+administration#:#adm_pub_section_domain_filter#:#Domänen-Filter
+administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anonymen Zugriff. Geben sie einen oder mehrere Domänen-Namen an, für die der anonyme Zugriff freigeschaltet ist. Domänen, die nicht aufgeführt sind, erlauben keinen anonymen Zugriff.
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen

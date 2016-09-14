@@ -54,6 +54,8 @@ acc#:#acc_previous#:#Previous
 acc#:#acc_reply#:#Reply
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
+administration#:#adm_pub_section_domain_filter#:#Domain Filter
+administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. 
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
 administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
