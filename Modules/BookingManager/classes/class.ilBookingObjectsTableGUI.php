@@ -116,14 +116,18 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		);		
 		$this->filter["title"] = $title->getValue();
 		
-		// booking period
-		$period = $this->addFilterItemByMetaType(
-			"period", 
-			ilTable2GUI::FILTER_DATE_RANGE,
-			false,
-			$lng->txt("book_period")
-		);
-		$this->filter["period"] = $period->getValue();
+		// #18651
+		if($this->has_schedule)
+		{
+			// booking period
+			$period = $this->addFilterItemByMetaType(
+				"period", 
+				ilTable2GUI::FILTER_DATE_RANGE,
+				false,
+				$lng->txt("book_period")
+			);
+			$this->filter["period"] = $period->getValue();
+		}
 	}
 	
 	/**
