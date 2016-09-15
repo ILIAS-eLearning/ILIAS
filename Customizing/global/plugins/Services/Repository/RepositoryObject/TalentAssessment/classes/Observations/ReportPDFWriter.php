@@ -102,7 +102,7 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		}
 	}
 
-	protected function Output() {
+	public function Output() {
 		if($this->PageNo() > 1) {
 			throw new \ilException("too long");
 		}
