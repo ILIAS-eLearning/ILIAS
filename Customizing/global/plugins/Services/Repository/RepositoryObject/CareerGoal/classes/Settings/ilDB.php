@@ -140,6 +140,16 @@ class ilDB implements DB {
 		}
 	}
 
+	public function getCareerGoalDefaultText($obj_id) {
+		$obj = $this->select($obj_id);
+		$ret = array();
+		$ret["default_text_failed"] = $obj->getDefaultTextFailed();
+		$ret["default_text_partial"] = $obj->getDefaultTextPartial();
+		$ret["default_text_success"] = $obj->getDefaultTextSuccess();
+
+		return $ret;
+	}
+
 	protected function getDB() {
 		if(!$this->db) {
 			throw new \Exception("no Database");

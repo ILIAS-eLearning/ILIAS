@@ -134,7 +134,7 @@ class ilObjTalentAssessmentGUI extends ilObjectPluginGUI {
 		$db = $this->plugin->getSettingsDB();
 		$settings = $db->create((int)$newObj->getId(), \CaT\Plugins\TalentAssessment\Settings\TalentAssessment::IN_PROGRESS, 0
 								, "text", "text", "text", "text", new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME)
-								, new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME), 0, 0, 0, 0, 0, "", "");
+								, new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME), 0, 0, 0, 0, 0, "", "", "", "", "");
 		$newObj->setSettings($settings);
 		$actions = $newObj->getActions();
 		$actions->update($post);

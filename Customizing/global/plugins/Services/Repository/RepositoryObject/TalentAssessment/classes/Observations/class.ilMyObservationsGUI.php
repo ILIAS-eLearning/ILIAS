@@ -3,7 +3,7 @@ require_once(__DIR__."/class.ilMyObservationsTableGUI.php");
 require_once(__DIR__."/class.ilAllObservationsTableGUI.php");
 require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
-use \CaT\Plugins\TalentAssessment\ilActions;
+use \CaT\Plugins\TalentAssessment;
 
 /**
  * @ilCtrl_isCalledBy ilMyObservationsGUI: gevDesktopGUI
@@ -56,8 +56,29 @@ class ilMyObservationsGUI {
 			case "performAllAssFilter":
 				$this->mode = self::MODE_ALL;
 				$this->performFilter();
+			case "showPDF":
+				$this->showPDF();
 				break;
 		}
+	}
+
+	protected function showPDF() {
+		$this->mode = $_GET["mode"];
+
+		require_once($this->plugin->getDirectory()."/classes/class.ilObjTalentAssessment.php");
+		$ta_obj = new ilObjTalentAssessment($_GET["xtas_ref_id"]);
+		$settings = $ta_obj->getSettings();
+		$actions = $ta_obj->getActions();
+
+		$pdf = new TalentAssessment\Observations\ilResultPDF($settings, $actions, $this->txt);
+		$file_name = "TA_".$settings->getFirstname()."_".$settings->getLastname();
+		try {
+			$pdf->show($file_name, "D");
+		} catch(\Exception $e) {
+
+		}
+
+		$this->render();
 	}
 
 	public function loadFilterSettings() {
@@ -119,7 +140,7 @@ class ilMyObservationsGUI {
 
 		$fs = $this->myAssessmentsFilter();
 		$df = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory(), new \CaT\Filter\TypeFactory());
-		$ff = new catFilterFlatViewGUI($this, $fs, $df, "performMyAssFilter");
+		$ff = new catFilterFlatViewGUI($this, $fs, $df, $this->mode, "performMyAssFilter");
 
 		$gui->setFilter($ff);
 		$gui->setFilterVals($this->filter_settings);
@@ -157,7 +178,7 @@ class ilMyObservationsGUI {
 	}
 
 	protected function addObservator($data) {
-		$role_id = $this->gRbacreview->roleExists(ilActions::OBSERVATOR_ROLE_NAME."_".$data["obj_id"]);
+		$role_id = $this->gRbacreview->roleExists(TalentAssessment\ilActions::OBSERVATOR_ROLE_NAME."_".$data["obj_id"]);
 		$usrs = $this->gRbacreview->assignedUsers($role_id, array("usr_id", "firstname", "lastname"));
 		$usrs_names = array();
 		$usrs_ids = array();
@@ -241,7 +262,7 @@ class ilMyObservationsGUI {
 	protected function allAssessments() {
 		$this->filter_settings = $this->loadFilterSettings();
 
-		$gui = new \ilAllObservationsTableGUI($this, $this->plugin);
+		$gui = new \ilAllObservationsTableGUI($this, $this->plugin, $this->mode);
 
 		$fs = $this->allAssessemntsFilter();
 		$df = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory(), new \CaT\Filter\TypeFactory());
@@ -311,7 +332,7 @@ class ilMyObservationsGUI {
 			  , $f->multiselect
 				( $this->txt("observator")
 				 , ""
-				 , $this->plugin->getSettingsDB()->getAllObservator(ilActions::OBSERVATOR_ROLE_NAME)
+				 , $this->plugin->getSettingsDB()->getAllObservator(TalentAssessment\ilActions::OBSERVATOR_ROLE_NAME)
 				)
 			));
 	}

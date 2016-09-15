@@ -23,3 +23,12 @@ $b = new \CaT\Plugins\CareerGoal\Observations\ilDB($ilDB, $ilUser);
 $settings_db = new \CaT\Plugins\TalentAssessment\Observations\ilDB($ilDB, $ilUser, $b);
 $settings_db->install();
 ?>
+
+<#4>
+<?php
+global $ilUser;
+
+require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/classes/Settings/ilDB.php");
+$settings_db = new \CaT\Plugins\TalentAssessment\Settings\ilDB($ilDB, $ilUser);
+$settings_db->install();
+?>

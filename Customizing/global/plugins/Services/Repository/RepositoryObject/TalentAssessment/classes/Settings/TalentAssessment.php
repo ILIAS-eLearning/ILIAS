@@ -86,9 +86,24 @@ class TalentAssessment {
 	 */
 	protected $result_comment;
 
+	/**
+	 * @var string
+	 */
+	protected $default_text_failed;
+
+	/**
+	 * @var string
+	 */
+	protected $default_text_partial;
+
+	/**
+	 * @var string
+	 */
+	protected $default_text_success;
+
 	public function __construct($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date
 								, $end_date, $venue, $org_unit, $started, $lowmark, $should_specifiaction
-								, $potential, $result_comment) {
+								, $potential, $result_comment, $default_text_failed, $default_text_partial, $default_text_success) {
 		assert('is_int($obj_id)');
 		$this->obj_id = $obj_id;
 		assert('is_int($career_goal_id)');
@@ -117,6 +132,12 @@ class TalentAssessment {
 		$this->potential = $potential;
 		assert('is_string($result_comment)');
 		$this->result_comment = $result_comment;
+		assert('is_string($default_text_failed)');
+		$this->default_text_failed = $default_text_failed;
+		assert('is_string($default_text_partial)');
+		$this->default_text_partial = $default_text_partial;
+		assert('is_string($result_comment)');
+		$this->default_text_success = $default_text_success;
 
 		$this->state = $state;
 	}
@@ -130,6 +151,7 @@ class TalentAssessment {
 
 	public function withCareerGoalID($career_goal_id) {
 		assert('is_int($career_goal_id)');
+
 		$clone = clone $this;
 		$clone->career_goal_id = $career_goal_id;
 
@@ -228,6 +250,30 @@ class TalentAssessment {
 		return $clone;
 	}
 
+	public function withDefaultTextFailed($default_text_failed) {
+		assert('is_string($default_text_failed)');
+		$clone = clone $this;
+		$clone->default_text_failed = $default_text_failed;
+
+		return $clone;
+	}
+
+	public function withDefaultTextPartial($default_text_partial) {
+		assert('is_string($default_text_partial)');
+		$clone = clone $this;
+		$clone->default_text_partial = $default_text_partial;
+
+		return $clone;
+	}
+
+	public function withDefaultTextSuccess($default_text_success) {
+		assert('is_string($default_text_success)');
+		$clone = clone $this;
+		$clone->default_text_success = $default_text_success;
+
+		return $clone;
+	}
+
 	public function withFinished($finished) {
 		if($finished) {
 			$clone = clone $this;
@@ -303,7 +349,33 @@ class TalentAssessment {
 		return $this->result_comment;
 	}
 
+	public function getDefaultTextFailed() {
+		return $this->default_text_failed;
+	}
+
+	public function getDefaultTextPartial() {
+		return $this->default_text_partial;
+	}
+
+	public function getDefaultTextSuccess() {
+		return $this->default_text_success;
+	}
+
 	public function Finished() {
 		return $this->state == self::FINISHED;
+	}
+
+	public function getPotentialText() {
+		$potential = $this->getPotential();
+		$lowmark = $this->getLowmark();
+		$should = $this->getShouldSpecification();
+
+		if($potential < $lowmark) {
+			return $this->getDefaultTextFailed();
+		} else if($potential > $should) {
+			return $this->getDefaultTextSuccess();
+		} else {
+			return $this->getDefaultTextPartial();
+		}
 	}
 }

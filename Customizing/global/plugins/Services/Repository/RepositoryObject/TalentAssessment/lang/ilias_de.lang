@@ -85,3 +85,8 @@ dateperiod_choice_label#:#Zeitraum
 result#:#Ergebnis
 all_observations#:#alle Assessmenttermine
 all_observations_info#:#Hier sehen Sie auf einen Blick alle Assessments.
+pdf_title_text#:#Assessment Center für %s
+pdf_summary_title#:#Zusammenfassung:
+judgement_text#:#Ergebnis
+judgement_text_info#:#Siehe sehen den Standardtext passend zum aktuellen Ergebnis. Wenn Sie möchten, können Sie diesen verändern. Dabei können folgende Platzhalter verwenden:<br />[VORNAME], [NACHNAME], [KARRIEREZIEL]
+show_pdf#:#Ergebnisbericht
