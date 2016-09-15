@@ -207,9 +207,9 @@ class ReportSVGRenderer {
 	}
 
 	protected function renderCategory(\ilTemplate $tpl, $category_title, $category_score, $category_position) {
-		if($category_score > $this->excellent) {
+		if($category_score >= $this->excellent) {
 			$tpl->setCurrentBlock('graph_row_excellent');
-		} elseif($category_score > $this->sufficient) {
+		} elseif($category_score >= $this->sufficient) {
 			$tpl->setCurrentBlock('graph_row_sufficient');
 		} else {
 			$tpl->setCurrentBlock('graph_row_insufficient');
