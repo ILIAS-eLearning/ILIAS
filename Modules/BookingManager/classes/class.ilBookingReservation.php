@@ -408,9 +408,16 @@ class ilBookingReservation
 		$definition = $a_schedule->getDefinition();						
 		$map = array_flip(array("su", "mo", "tu", "we", "th", "fr", "sa"));
 		foreach($definition as $day => $day_slots)
-		{			
-			$schedule_slots[$map[$day]] += sizeof($day_slots)*$per_slot;			
+		{						
+			$schedule_slots[$map[$day]] = $day_slots;			
 		}		
+		
+		$av_from = ($a_schedule->getAvailabilityFrom() && !$a_schedule->getAvailabilityFrom()->isNull())
+			? $a_schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+			: null;
+		$av_to = ($a_schedule->getAvailabilityTo() && !$a_schedule->getAvailabilityTo()->isNull())
+			? strtotime($a_schedule->getAvailabilityTo()->get(IL_CAL_DATE)." 23:59:59")
+			: null;	
 		
 		// sum up max available items in period per (week)day
 		$available_in_period = 0;
@@ -418,16 +425,25 @@ class ilBookingReservation
 		while($a_from < $a_to &&
 			++$loop < 1000)
 		{
-			// we are only interested in available booking slots
-			if($a_from < time())
-			{
-				continue;
-			}
-			
-			$day_slots = $schedule_slots[date("w", $a_from)];						
+			// any slots for current weekday?
+			$day_slots = $schedule_slots[date("w", $a_from)];
 			if($day_slots)
 			{
-				$available_in_period += $day_slots;
+				foreach($day_slots as $slot)
+				{
+					// convert slot to current datetime
+					$slot = explode("-", $slot);				
+					$slot_from = strtotime(date("Y-m-d", $a_from)." ".$slot[0]);
+					$slot_to = strtotime(date("Y-m-d", $a_from)." ".$slot[1]);
+
+					// slot has to be in the future and part of schedule availability
+					if($slot_to > time() &&
+						$slot_from >= $av_from &&
+						$slot_to <= $av_to)
+					{
+						$available_in_period += $per_slot;
+					}
+				}			
 			}
 			
 			$a_from += (60*60*24);						
