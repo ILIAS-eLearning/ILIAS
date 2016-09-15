@@ -19,7 +19,7 @@ class ilResultPDF {
 		$pdf = new ReportPreview($pdf_write);
 		$pdf->SetBackground("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/templates/images/result_bg.png");
 		$pdf->LeftIndent(19);
-		$pdf->TextWidth(172);
+		$pdf->TextWidth(170);
 
 		$pdf->TitlePosition(45, 12);
 		$pdf->TitleFontSettings('Arial', 18 , '', array(255,255,255));
@@ -45,11 +45,11 @@ class ilResultPDF {
 		$svg_converter = new SVGConverter($graph);
 		$destination = $svg_converter->ConvertAndReturnPath();
 
-		$pdf->GraphPosition(161, 45.5);
+		$pdf->GraphPosition(20, 55);
 
 		$pdf->Graph($destination);
 
-		$pdf->SummaryTitlePositionOffset(10);
+		$pdf->SummaryTitlePositionOffset(15);
 
 		$pdf->SummaryTitleFontSettings('Arial', 14 , '', array(0,0,0));
 		$pdf->SummaryTitle($this->txt("pdf_summary_title"));

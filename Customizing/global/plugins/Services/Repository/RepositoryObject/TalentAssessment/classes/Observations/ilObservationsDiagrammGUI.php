@@ -35,19 +35,17 @@ class ilObservationsDiagrammGUI {
 		$svg_tpl = new \ilTemplate("tpl.assessment_result_graph.svg", true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
 		$svg = new ReportSVGRenderer($svg_tpl);
 
-		$svg->setLegendDelimiterWidth(1);
+		$svg->setLegendDelimiterWidth(2);
 		$svg->setLegendPositionVertical(0);
-		$svg->setLegendBarVerticalPosition(10);
-		$svg->setLegendBarHeight(1);
-		$svg->setPaddingTop(10);
-		$svg->setPaddingBottom(10);
-		$svg->setInnerWidth(440);
-		$svg->setCategoryGraphRowHeight(15);
-		$svg->setCategoryBlockPadding(2);
-		$svg->setGraphVerticalDistanceLegend(5);
-		$svg->setCategoryBlockDelimiterWidth(4);
-
-
+		$svg->setLegendBarVerticalPosition(20);
+		$svg->setLegendBarHeight(2);
+		$svg->setPaddingTop(20);
+		$svg->setPaddingBottom(20);
+		$svg->setInnerWidth(880);
+		$svg->setCategoryGraphRowHeight(30);
+		$svg->setCategoryBlockPadding(4);
+		$svg->setGraphVerticalDistanceLegend(10);
+		$svg->setCategoryBlockDelimiterWidth(8);
 
 		$obs = $this->actions->getObservationsCumulative($this->obj_id);
 		$req_res = $this->actions->getRequestresultCumulative(array_keys($obs));

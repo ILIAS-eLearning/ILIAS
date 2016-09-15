@@ -229,7 +229,7 @@ class ReportPreview {
 	}
 
 	protected function DrawGraph() {
-		$this->writer->ImagePositionAbsolute($this->graph_x,$this->graph_y,$this->text_width/2,0,$this->graph);
+		$this->writer->ImagePositionAbsolute($this->graph_x,$this->graph_y,$this->text_width,0,$this->graph);
 	}
 
 	protected function DrawSummaryTitle() {
