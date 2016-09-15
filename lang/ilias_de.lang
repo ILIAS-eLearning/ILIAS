@@ -288,7 +288,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
-assessment#:#essay_scoring_mode#:#Bewertungs Modus
+assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
