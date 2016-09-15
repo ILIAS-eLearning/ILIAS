@@ -85,7 +85,7 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function showObservationsDiagramm() {
-		$gui = new TalentAssessment\Observations\ilObservationsDiagrammGUI($this);
+		$gui = new TalentAssessment\Observations\ilObservationsDiagrammGUI($this->getSettings(), $this->getActions(), $this->txt);
 		$this->gTpl->setContent($gui->render());
 	}
 
@@ -102,7 +102,12 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function showReportPreview() {
+		$pdf = new TalentAssessment\Observations\ilResultPDF($this->getSettings(), $this->getActions(), $this->getTXTClosure());
+		try {
+			$pdf->show();
+		} catch(\Exception $e) {
 
+		}
 	}
 
 	protected function finishTA() {
@@ -130,6 +135,7 @@ class ilTalentAssessmentObservationsGUI {
 	protected function startObservation() {
 		$this->actions->setObservationStarted(true);
 		$this->actions->copyClassificationValues($this->settings->getCareerGoalId());
+		$this->actions->copyCopyDefaultText($this->settings->getCareerGoalId());
 		$this->actions->copyObservations($this->getObjId(), $this->settings->getCareerGoalId());
 		$red = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATIONS_LIST, "", false, false);
 		\ilUtil::redirect($red);

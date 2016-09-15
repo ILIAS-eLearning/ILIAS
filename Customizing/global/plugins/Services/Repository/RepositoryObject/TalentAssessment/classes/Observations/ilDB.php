@@ -445,7 +445,13 @@ class ilDB implements DB {
 	}
 
 	protected function getSelect() {
-		return "SELECT xtas.obj_id, od.title, xtas.org_unit, xtas.venue, xtas.start_date, xtas.end_date, ud.firstname, ud.lastname, IF(xtas.potential <= 0, 1, IF(xtas.potential > xtas.should_specification, 2 , IF(xtas.potential <= xtas.lowmark, 4,3))) as result FROM rep_obj_xtas xtas JOIN usr_data ud ON xtas.username = ud.login JOIN rep_obj_xcgo xcgo ON xtas.career_goal_id = xcgo.obj_id JOIN object_data od ON xcgo.obj_id = od.obj_id";
+		return "SELECT xtas.obj_id, od.title, xtas.org_unit, xtas.venue, xtas.start_date, xtas.end_date, ud.firstname, ud.lastname, oref.ref_id\n"
+			  ." , IF(xtas.potential <= 0, 1, IF(xtas.potential > xtas.should_specification, 2 , IF(xtas.potential <= xtas.lowmark, 4,3))) as result\n"
+			  ." FROM rep_obj_xtas xtas\n"
+			  ." JOIN usr_data ud ON xtas.username = ud.login\n"
+			  ." JOIN rep_obj_xcgo xcgo ON xtas.career_goal_id = xcgo.obj_id\n"
+			  ." JOIN object_data od ON xcgo.obj_id = od.obj_id\n"
+			  ." JOIN object_reference oref ON oref.obj_id = xtas.obj_id";
 	}
 
 	protected function getDB() {

@@ -112,7 +112,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$can_create_ha_unit = ($this->user_utils && ($this->user_utils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->user_utils->getId())));
 		$local_user_admin = ($this->user_utils && $this->user_utils->isSuperior()); //Local User Administration Permission
 
-		$has_others_menu = $employee_booking || $can_create_ha_unit;
+		$has_others_menu = true;//$employee_booking || $can_create_ha_unit;
 		$could_do_wbd_registration = $this->wbd && $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
 		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());

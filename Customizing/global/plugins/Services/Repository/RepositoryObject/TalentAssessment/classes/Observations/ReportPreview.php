@@ -174,17 +174,18 @@ class ReportPreview {
 		$this->judgement = $judgement;
 	}
 
-	public function Draw() {
+	public function Draw($name = '', $dest = '') {
 		$this->writer->AddPage();
 		$this->DrawTitle();
 		$this->DrawName();
 		$this->DrawDate();
 		$this->DrawOrgu();
-		$this->DrawGraph();
+		//$this->DrawGraph();
 		$this->DrawSummaryTitle();
 		$this->DrawSummary();
 		$this->DrawJudgement();
-		$this->writer->Output();
+
+		$this->writer->Output($name, $dest);
 	}
 
 	protected function DrawTitle() {

@@ -1,6 +1,7 @@
 <?php
 
 namespace CaT\Plugins\TalentAssessment\Settings;
+use CaT\Plugins\CareerGoal\Settings as CareerGoal;
 
 require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
@@ -9,9 +10,10 @@ class ilDB implements DB {
 	const USR_TABLE = "usr_data";
 	const CAREER_GOAL_TABLE = "rep_obj_xcgo";
 
-	public function __construct($db, $user) {
+	public function __construct($db, $user, CareerGoal\ilDB $career_goal_db) {
 		$this->db = $db;
 		$this->user = $user;
+		$this->career_goal_db = $career_goal_db;
 	}
 
 	/**
@@ -19,6 +21,7 @@ class ilDB implements DB {
 	 */
 	public function install() {
 		$this->createTable();
+		$this->addColumns();
 	}
 
 	protected function createTable() {
@@ -98,14 +101,36 @@ class ilDB implements DB {
 		}
 	}
 
+	protected function addColumns() {
+		if(!$this->getDB()->tableColumnExists(self::PLUGIN_TABLE, "default_text_failed")) {
+			$this->getDB()->addTableColumn(self::PLUGIN_TABLE, "default_text_failed", array(
+						'type' 		=> 'clob',
+						'notnull' 	=> false));
+		}
+
+		if(!$this->getDB()->tableColumnExists(self::PLUGIN_TABLE, "default_text_partial")) {
+			$this->getDB()->addTableColumn(self::PLUGIN_TABLE, "default_text_partial", array(
+						'type' 		=> 'clob',
+						'notnull' 	=> false));
+		}
+
+		if(!$this->getDB()->tableColumnExists(self::PLUGIN_TABLE, "default_text_success")) {
+			$this->getDB()->addTableColumn(self::PLUGIN_TABLE, "default_text_success", array(
+						'type' 		=> 'clob',
+						'notnull' 	=> false));
+		}
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue
-							, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment) 
+							, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment
+							, $default_text_failed, $default_text_partial, $default_text_success) 
 	{
 		$talent_assessment = new TalentAssessment($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue
-													, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment);
+													, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment
+													, $default_text_failed, $default_text_partial, $default_text_success);
 
 		$values = array
 				( "obj_id" => array("integer", $talent_assessment->getObjId())
@@ -123,6 +148,9 @@ class ilDB implements DB {
 				, "result_comment" => array("text", $talent_assessment->getResultComment())
 				, "last_change" => array("text", date("Y-m-d H:i:s"))
 				, "last_change_user" => array("integer", $this->user->getId())
+				, "default_text_failed" => array("text", $talent_assessment->getDefaultTextFailed())
+				, "default_text_partial" => array("text", $talent_assessment->getDefaultTextPartial())
+				, "default_text_success" => array("text", $talent_assessment->getDefaultTextSuccess())
 				);
 		$this->getDB()->insert(self::PLUGIN_TABLE, $values);
 
@@ -150,6 +178,9 @@ class ilDB implements DB {
 				, "result_comment" => array("text", $talent_assessment->getResultComment())
 				, "last_change" => array("text", date("Y-m-d H:i:s"))
 				, "last_change_user" => array("integer", $this->user->getId())
+				, "default_text_failed" => array("text", $talent_assessment->getDefaultTextFailed())
+				, "default_text_partial" => array("text", $talent_assessment->getDefaultTextPartial())
+				, "default_text_success" => array("text", $talent_assessment->getDefaultTextSuccess())
 				);
 
 		$where = array
@@ -175,6 +206,7 @@ class ilDB implements DB {
 	public function select($obj_id) {
 		$select = "SELECT A.state, A.career_goal_id, A.username, A.start_date, A.end_date, A.venue, A.org_unit\n"
 				.", A.started, A.lowmark, A.should_specification, A.potential, A.result_comment\n"
+				.", A.default_text_failed, A.default_text_partial, A.default_text_success\n"
 				.", B.firstname, B.lastname, B.email\n"
 				." FROM ".self::PLUGIN_TABLE." A\n"
 				." LEFT JOIN ".self::USR_TABLE." B\n"
@@ -207,6 +239,9 @@ class ilDB implements DB {
 								 , (float)$row["should_specification"]
 								 , (float)$row["potential"]
 								 , $row["result_comment"]
+								 , $row["default_text_failed"]
+								 , $row["default_text_partial"]
+								 , $row["default_text_success"]
 							);
 
 		return $talent_assessment;
@@ -288,5 +323,9 @@ class ilDB implements DB {
 			throw new \Exception("no Database");
 		}
 		return $this->db;
+	}
+
+	public function getCareerGoalDefaultText($career_goal_id) {
+		return $this->career_goal_db->getCareerGoalDefaultText($career_goal_id);
 	}
 }
