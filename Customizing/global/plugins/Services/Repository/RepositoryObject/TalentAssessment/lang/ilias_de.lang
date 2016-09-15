@@ -90,3 +90,4 @@ pdf_summary_title#:#Zusammenfassung:
 judgement_text#:#Ergebnis
 judgement_text_info#:#Siehe sehen den Standardtext passend zum aktuellen Ergebnis. Wenn Sie möchten, können Sie diesen verändern. Dabei können folgende Platzhalter verwenden:<br />[VORNAME], [NACHNAME], [KARRIEREZIEL]
 show_pdf#:#Ergebnisbericht
+pdf_to_long#:#Bitte kürzen Sie Ihren Text für den Ergebnisbericht. Die maximale Seitenzahl beträgt 1.

@@ -42,8 +42,8 @@ class ilResultPDF {
 
 		$gui = new ilObservationsDiagrammGUI($this->settings, $this->actions, $this->txt);
 		$graph = $gui->getSVGData();
-		$svg_converter = new SVGConverter($graph);
-		$destination = $svg_converter->convertAndReturnPath();
+		$svg_converter = new SVGConverter();
+		$destination = $svg_converter->convertAndReturnPath($graph);
 
 		$pdf->graphPosition(20, 55);
 
@@ -56,7 +56,7 @@ class ilResultPDF {
 
 		$pdf->summary($this->encodeSpecialChars($this->settings->getResultComment()));
 
-		$judgement_text = $this->settings->getPotentialText();
+		$judgement_text = $this->settings->getTextForPotential();
 		$judgement_text = $this->fillPlaceholder($this->encodeSpecialChars($judgement_text));
 		$pdf->judgement($judgement_text);
 
