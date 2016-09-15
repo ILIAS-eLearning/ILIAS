@@ -171,7 +171,7 @@ class ilHTTPS
 	* @access	public
 	* @return	boolean
 	*/
-	function _checkHTTPS()
+	public static function _checkHTTPS()
 	{
 		// only check standard port in the moment
 		$port = 443;

@@ -757,9 +757,6 @@ class ilInternalLinkGUI
 	 */
 	function saveFileLink()
 	{
-		$mtpl = new ilTemplate("tpl.link_help.html", true, true, "Services/Link");
-		$mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
 		if ($_FILES["link_file"]["name"] != "")
 		{
 			include_once("./Modules/File/classes/class.ilObjFile.php");

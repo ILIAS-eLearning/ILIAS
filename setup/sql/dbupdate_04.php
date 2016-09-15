@@ -17811,3 +17811,8 @@ if ($ilDB->tableExists('il_verification_tmp'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5046>
+<?php
+	$ilDB->addPrimaryKey('glo_glossaries', array('id', 'glo_id'));
+?>
+

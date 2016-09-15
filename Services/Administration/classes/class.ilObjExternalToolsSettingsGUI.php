@@ -274,6 +274,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 			$form->addItem($tile);
 			$form->addItem($geolocation);
+		} else {
+			// api key for google
+			$key = new ilTextInputGUI("Google API Key", "api_key");
+			$key->setMaxLength(200);
+			$key->setValue(ilMapUtil::getApiKey());
+			$form->addItem($key);
 		}
 
 		// location property
@@ -306,6 +312,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if(ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
 			ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));
 			ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
+		} else {
+			ilMapUtil::setApiKey(ilUtil::stripSlashes(trim($_POST["api_key"])));
 		}
 
 		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");

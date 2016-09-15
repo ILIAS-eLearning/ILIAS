@@ -10,6 +10,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 
+
 	protected static function getMethod($name) {
 		$class = new ReflectionClass('assLongMenu');
 		$method = $class->getMethod($name);
@@ -19,6 +20,8 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 	
 	protected function setUp()
 	{
+		$GLOBALS['DIC']['ilDB']  = 'test';
+
 		require_once './Modules/TestQuestionPool/classes/class.assLongMenu.php';
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

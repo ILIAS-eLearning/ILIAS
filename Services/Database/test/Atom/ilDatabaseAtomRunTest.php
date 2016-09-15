@@ -58,11 +58,11 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		ilUnitUtil::performInitialisation();
 
 		global $ilClientIniFile;
-		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
 
-		$this->ilDBInterfaceGaleraSecond = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		$this->ilDBInterfaceGaleraSecond = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGaleraSecond->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGaleraSecond->connect();
 

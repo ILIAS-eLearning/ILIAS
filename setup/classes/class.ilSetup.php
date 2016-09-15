@@ -1540,14 +1540,11 @@ class ilSetup
 		// remove trailing slash & convert backslashes to forwardslashes
 		$clean_error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($error_log_path)));
 
-		if (empty($clean_error_log_path)) {
-			$this->error = "no_error_path_log";
-			return false;
-		}
-
-		if (!ilUtil::makeDirParents($clean_error_log_path)) {
-			$this->error = "could_not_create_error_directory";
-			return false;
+		if (!empty($clean_error_log_path)) {
+			if (!ilUtil::makeDirParents($clean_error_log_path)) {
+				$this->error = "could_not_create_error_directory";
+				return false;
+			}
 		}
 
 		return true;

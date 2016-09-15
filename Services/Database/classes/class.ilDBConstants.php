@@ -12,17 +12,19 @@ class ilDBConstants {
 	const FETCHMODE_ASSOC = 2;
 	const FETCHMODE_OBJECT = 3;
 	const FETCHMODE_DEFAULT = self::FETCHMODE_ASSOC;
-	// Legacy
-	const TYPE_INNODB_LEGACY = 'innodb';
-	const TYPE_MYSQL_LEGACY = 'mysql';
-	const TYPE_POSTGRES_LEGACY = 'postgres';
-	const TYPE_MYSQLI_LEGACY = 'mysqli';
-	// Oracle
+	// Main Types
+	const TYPE_INNODB = 'innodb';
+	const TYPE_MYSQL = 'mysql';
+	// Experimental
+	const TYPE_GALERA = 'galera';
+	const TYPE_POSTGRES = 'postgres';
+	const TYPE_MYSQLI = 'mysqli';
+	// Oracle Legacy
 	const TYPE_ORACLE = 'oracle';
-	// PDO
+	// Development identifiers (will be removed in 5.3), are mapped with Main and Experimental types
 	const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
-	const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
 	const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
+	const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
 	const TYPE_PDO_POSTGRE = 'pdo-postgre';
 	// Locks
 	const LOCK_WRITE = ilAtomQuery::LOCK_WRITE;
@@ -45,8 +47,8 @@ class ilDBConstants {
 	const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
 	const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
 	// Engines
-	const ENGINE_INNODB = 'InnoDB';
-	const ENGINE_MYISAM = 'MyISAM';
+	const MYSQL_ENGINE_INNODB = 'InnoDB';
+	const MYSQL_ENGINE_MYISAM = 'MyISAM';
 	// Mapping AutoExec
 	const MDB2_AUTOQUERY_INSERT = 1;
 	const MDB2_AUTOQUERY_UPDATE = 2;
@@ -57,15 +59,19 @@ class ilDBConstants {
 	 * @var array
 	 */
 	protected static $descriptions = array(
-		ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine)",
-		ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
-		ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental)",
-		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental)",
-		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher [legacy]",
-		ilDBConstants::TYPE_POSTGRES_LEGACY  => "Postgres (experimental) [legacy]",
-		ilDBConstants::TYPE_MYSQL_LEGACY     => "MySQL 5.0.x or higher (MyISAM engine) [legacy]",
-		ilDBConstants::TYPE_MYSQLI_LEGACY    => "MySQL 5.0.x or higher (MyISAM engine) / mysqli [legacy]",
-		ilDBConstants::TYPE_INNODB_LEGACY    => "MySQL 5.0.x or higher (InnoDB engine) [legacy]",
+		// Main
+		ilDBConstants::TYPE_MYSQL            => "MySQL 5.5.x or higher (MyISAM engine)",
+		ilDBConstants::TYPE_MYSQLI           => "MySQL 5.5.x or higher (MyISAM engine)",
+		ilDBConstants::TYPE_INNODB           => "MySQL 5.5.x or higher (InnoDB engine)",
+		// Experimental
+		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher (PHP 5.x only)",
+		ilDBConstants::TYPE_POSTGRES         => "Postgres (experimental)",
+		ilDBConstants::TYPE_GALERA           => "Galera-Cluster (experimental)",
+		// Development identifiers (will be removed in 5.3)
+		ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine) [developers-identifier]",
+		ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine) [developers-identifier]",
+		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental) [developers-identifier]",
+		ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental) [developers-identifier]",
 	);
 
 
@@ -74,26 +80,23 @@ class ilDBConstants {
 	 */
 	public static function getInstallableTypes() {
 		return array(
-			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
-			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
-			ilDBConstants::TYPE_PDO_MYSQL_GALERA,
-			ilDBConstants::TYPE_MYSQL_LEGACY,
-			ilDBConstants::TYPE_INNODB_LEGACY,
+			// Main
+			ilDBConstants::TYPE_MYSQL,
+			ilDBConstants::TYPE_INNODB,
+			// Experimental
+			ilDBConstants::TYPE_GALERA,
+			ilDBConstants::TYPE_ORACLE,
+			ilDBConstants::TYPE_GALERA,
 		);
 	}
 
 
 	/**
 	 * @param bool $with_descriptions
-	 * @param bool $with_legacy
 	 * @return array
 	 */
-	public static function getAvailableTypes($with_descriptions = true, $with_legacy = false) {
-		if ($with_legacy) {
-			$types = array_merge(self::getSupportedTypes(), self::getLegacyTypes());
-		} else {
-			$types = self::getSupportedTypes();
-		}
+	public static function getAvailableTypes($with_descriptions = true) {
+		$types = self::getSupportedTypes();
 		if ($with_descriptions) {
 			$return = array();
 			foreach ($types as $type) {
@@ -111,34 +114,12 @@ class ilDBConstants {
 	 */
 	public static function getSupportedTypes() {
 		return array(
-			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
-			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
-			ilDBConstants::TYPE_PDO_POSTGRE,
-			ilDBConstants::TYPE_PDO_MYSQL_GALERA,
-		);
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public static function getLegacyTypes() {
-		return array(
+			ilDBConstants::TYPE_MYSQL,
+			ilDBConstants::TYPE_INNODB,
+			ilDBConstants::TYPE_POSTGRES,
+			ilDBConstants::TYPE_GALERA,
 			ilDBConstants::TYPE_ORACLE,
-			ilDBConstants::TYPE_POSTGRES_LEGACY,
-			ilDBConstants::TYPE_MYSQL_LEGACY,
-			ilDBConstants::TYPE_MYSQLI_LEGACY,
-			ilDBConstants::TYPE_INNODB_LEGACY,
 		);
-	}
-
-
-	/**
-	 * @param $type
-	 * @return bool
-	 */
-	public static function isLegacy($type) {
-		return in_array($type, self::getLegacyTypes());
 	}
 
 
@@ -148,30 +129,5 @@ class ilDBConstants {
 	 */
 	public static function describe($type) {
 		return self::$descriptions[$type];
-	}
-
-
-	/**
-	 * @param $type
-	 * @return string
-	 */
-	public static function mapLegacy($type) {
-		if (!self::isLegacy($type)) {
-			return $type;
-		}
-		switch ($type) {
-			case ilDBConstants::TYPE_ORACLE:
-				return ilDBConstants::TYPE_ORACLE;
-			case ilDBConstants::TYPE_POSTGRES_LEGACY:
-				return ilDBConstants::TYPE_PDO_POSTGRE;
-			case ilDBConstants::TYPE_MYSQL_LEGACY:
-				return ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
-			case ilDBConstants::TYPE_MYSQLI_LEGACY:
-				return ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
-			case ilDBConstants::TYPE_INNODB_LEGACY:
-				return ilDBConstants::TYPE_PDO_MYSQL_INNODB;
-		}
-
-		return $type;
 	}
 }
