@@ -53,13 +53,13 @@ class arJoin extends arStatement {
 
 
 	/**
-	 * @param ActiveRecord $ar
-	 *
+	 * @param \ActiveRecord $ar
+	 * @param string $as
 	 * @return string
 	 */
-	public function asSQLStatement(ActiveRecord $ar) {
+	protected function asStatementText(ActiveRecord $ar, $as = ' AS ') {
 		$return = ' ' . $this->getType() . ' ';
-		$return .= ' JOIN ' . $this->getTableName() . ' AS ' . $this->getTableNameAs();
+		$return .= ' JOIN ' . $this->getTableName() . $as . $this->getTableNameAs();
 		if ($this->getBothExternal()) {
 			$return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
 		} else {
@@ -68,6 +68,25 @@ class arJoin extends arStatement {
 		$return .= $this->getTableNameAs() . '.' . $this->getOnSecondField();
 
 		return $return;
+	}
+
+
+	/**
+	 * @param ActiveRecord $ar
+	 *
+	 * @return string
+	 */
+	public function asSQLStatement(ActiveRecord $ar) {
+		return $this->asStatementText($ar, ' AS ');
+	}
+
+
+	/**
+	 * @param \ActiveRecord $ar
+	 * @return string
+	 */
+	public function asORACLEStatement(ActiveRecord $ar) {
+		return $this->asStatementText($ar, ' ');
 	}
 
 

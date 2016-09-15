@@ -438,14 +438,33 @@ class ilDclTable {
 		if (!$this->fields) {
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
+			/**
+			 * @var $ilDB ilDBInterface
+			 */
+			$desc = $ilDB->getDBType() == 'oracle' ? '' : 'il_dcl_field.description, ';
+			$query = "SELECT DISTINCT il_dcl_field.datatype_id,
+						                  il_dcl_field.id,
+						                  il_dcl_field.is_locked,
+						                  il_dcl_field.is_unique,
+						                  $desc
+						                  il_dcl_field.required,
+						                  il_dcl_field.table_id,
+						                  il_dcl_field.title,
+						                  il_dcl_tfield_set.field_order
+						    FROM il_dcl_field
+						         INNER JOIN il_dcl_tfield_set
+						            ON (    il_dcl_tfield_set.field NOT IN ('owner',
+						                                                    'last_update',
+						                                                    'last_edit_by',
+						                                                    'id',
+						                                                    'create_date')
+						                AND il_dcl_tfield_set.table_id = il_dcl_field.table_id
+						                AND TO_NUMBER (il_dcl_tfield_set.field) = il_dcl_field.id)
+						   WHERE il_dcl_field.table_id = %s
+						ORDER BY il_dcl_tfield_set.field_order ASC";
 
-			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
-			          INNER JOIN il_dcl_tfield_set AS setting ON (setting.table_id = field.table_id AND field.id = setting.field)
-			          WHERE field.table_id =" . $ilDB->quote($this->getId(), "integer") . "
-			          ORDER BY setting.field_order ASC";
+			$set = $ilDB->queryF($query, array('integer'), array((int)$this->getId()));
 			$fields = array();
-			$set = $ilDB->query($query);
-
 			while ($rec = $ilDB->fetchAssoc($set)) {
 				$field = ilDclCache::buildFieldFromRecord($rec);
 				$fields[] = $field;
@@ -1427,6 +1446,9 @@ class ilDclTable {
 	public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		$ilUser = $DIC['ilUser'];
 		$rbacreview = $DIC['rbacreview'];
 
@@ -1473,7 +1495,10 @@ class ilDclTable {
 		if ($select_str) {
 			$sql .= ', ';
 		}
-		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
+
+		$as = $ilDB->getDBType() == 'oracle' ? '' : ' AS ';
+
+		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record {$as} record ";
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer');
 
