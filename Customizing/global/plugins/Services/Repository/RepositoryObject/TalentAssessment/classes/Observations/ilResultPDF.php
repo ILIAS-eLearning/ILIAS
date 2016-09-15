@@ -42,8 +42,8 @@ class ilResultPDF {
 
 		$gui = new ilObservationsDiagrammGUI($this->settings, $this->actions, $this->txt);
 		$graph = $gui->getSVGData();
-		$svg_converter = new SVGConverter($graph);
-		$destination = $svg_converter->ConvertAndReturnPath();
+		$svg_converter = new SVGConverter();
+		$destination = $svg_converter->convertAndReturnPath($graph);
 
 		$pdf->GraphPosition(20, 55);
 
