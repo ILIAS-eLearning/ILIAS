@@ -180,7 +180,7 @@ class ReportPreview {
 		$this->DrawName();
 		$this->DrawDate();
 		$this->DrawOrgu();
-		//$this->DrawGraph();
+		$this->DrawGraph();
 		$this->DrawSummaryTitle();
 		$this->DrawSummary();
 		$this->DrawJudgement();
