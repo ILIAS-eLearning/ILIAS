@@ -44,9 +44,7 @@ class ilResultPDF {
 		$graph = $gui->getSVGData();
 		$svg_converter = new SVGConverter($graph);
 		$destination = $svg_converter->ConvertAndReturnPath();
-		var_dump($destination);
-		echo '<img src="/private/var/tmp/phpXV0sZY.png" />';
-		die();
+
 		$pdf->GraphPosition(161, 45.5);
 
 		$pdf->Graph($destination);
