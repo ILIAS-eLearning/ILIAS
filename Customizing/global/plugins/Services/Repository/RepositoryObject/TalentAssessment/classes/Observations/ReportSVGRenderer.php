@@ -133,8 +133,6 @@ class ReportSVGRenderer {
 		$this->sufficient = $sufficient;
 		$this->excellent = $excellent;
 		$this->max_score = $max_score;
-
-		$this->scale = $scale;
 	}
 
 	/**
@@ -170,13 +168,13 @@ class ReportSVGRenderer {
 		$excellent = $this->excellent;
 		$max_score = $this->max_score;
 
-		$rest_width = $this->inner_width - 2 * $legend_delimiter_width;
+		$inner_width = $this->inner_width;
 
-		$insufficient_width = $sufficient * $rest_width / $max_score;
+		$insufficient_width = $sufficient * $inner_width / $max_score - $legend_delimiter_width;
 		$sufficient_position = $insufficient_width + $legend_delimiter_width;
-		$sufficient_width = ($excellent - $sufficient) * $rest_width /$max_score;
+		$sufficient_width = ($excellent - $sufficient) * $inner_width / $max_score - $legend_delimiter_width;
 		$excellent_position = $sufficient_position + $sufficient_width + $legend_delimiter_width;
-		$excellent_width = ($max_score - $excellent) * $rest_width / $max_score;
+		$excellent_width = ($max_score - $excellent) * $inner_width / $max_score;
 
 		$insufficient_label_position = $insufficient_width / 2;
 		$sufficient_label_position = $sufficient_position + $sufficient_width / 2;
@@ -207,9 +205,9 @@ class ReportSVGRenderer {
 	}
 
 	protected function renderCategory(\ilTemplate $tpl, $category_title, $category_score, $category_position) {
-		if($category_score > $this->excellent) {
+		if($category_score >= $this->excellent) {
 			$tpl->setCurrentBlock('graph_row_excellent');
-		} elseif($category_score > $this->sufficient) {
+		} elseif($category_score >= $this->sufficient) {
 			$tpl->setCurrentBlock('graph_row_sufficient');
 		} else {
 			$tpl->setCurrentBlock('graph_row_insufficient');
@@ -219,12 +217,12 @@ class ReportSVGRenderer {
 		$tpl->setVariable('GRAPH_ROW_HEIGHT',$this->cat_graph_row_height);
 		$tpl->setVariable('CATEGORY',$category_title);
 		$tpl->setVariable('GRAPH_BLOCK_PADDING', $this->graph_block_padding);
-		$bar_delimiter_width = $this->bar_delimiter_width;
-		$rest_width = $this->inner_width - $this->cat_block_delimiter_width;
+		$delimiter_width =$this->cat_block_delimiter_width;
+		$inner_width = $this->inner_width;
 
-		$score_width = $rest_width * $category_score / $this->max_score;
-		$fill_width = $rest_width - $score_width;
-		$fill_position = $score_width + $this->cat_block_delimiter_width;
+		$score_width = $inner_width * $category_score / $this->max_score;
+		$fill_width = $inner_width - $score_width - $delimiter_width;
+		$fill_position = $score_width + $delimiter_width;
 
 		$tpl->setVariable('GRAPH_WIDTH_ACHIEVED',$score_width);
 		$tpl->setVariable('GRAPH_POS_FILL',$fill_position);
