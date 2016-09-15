@@ -365,7 +365,12 @@ class TalentAssessment {
 		return $this->state == self::FINISHED;
 	}
 
-	public function getPotentialText() {
+	/**
+	 * return the default text suitable to actual result
+	 *
+	 * @return string
+	 */
+	public function getTextForPotential() {
 		$potential = $this->getPotential();
 		$lowmark = $this->getLowmark();
 		$should = $this->getShouldSpecification();

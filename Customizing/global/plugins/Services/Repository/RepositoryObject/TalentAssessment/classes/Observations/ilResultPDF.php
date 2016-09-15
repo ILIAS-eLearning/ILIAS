@@ -56,7 +56,7 @@ class ilResultPDF {
 
 		$pdf->Summary($this->encodeSpecialChars($this->settings->getResultComment()));
 
-		$judgement_text = $this->settings->getPotentialText();
+		$judgement_text = $this->settings->getTextForPotential();
 		$judgement_text = $this->fillPlaceholder($this->encodeSpecialChars($judgement_text));
 		$pdf->Judgement($judgement_text);
 

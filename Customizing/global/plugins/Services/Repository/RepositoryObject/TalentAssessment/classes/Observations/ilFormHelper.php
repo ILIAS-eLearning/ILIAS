@@ -69,7 +69,7 @@ trait ilFormHelper {
 	protected function getReportFormValues($values, $settings, $potential_text) {
 		$values[ilActions::F_POTENTIAL] = $this->txt($potential_text);
 		$values[ilActions::F_RESULT_COMMENT] = $settings->getResultComment();
-		$values[ilActions::F_JUDGEMENT_TEXT] = $settings->getPotentialText();
+		$values[ilActions::F_JUDGEMENT_TEXT] = $settings->getTextForPotential();
 
 		return $values;
 	}
