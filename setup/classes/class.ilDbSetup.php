@@ -231,6 +231,7 @@ class ilDbSetup {
 					break;
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 				case ilDBConstants::TYPE_POSTGRES:
+				case ilDBConstants::TYPE_ORACLE:
 					include_once("./setup/sql/ilDBTemplate.php");
 					setupILIASDatabase();
 
