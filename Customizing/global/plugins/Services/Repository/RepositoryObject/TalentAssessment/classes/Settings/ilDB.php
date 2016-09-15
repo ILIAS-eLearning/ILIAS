@@ -325,6 +325,13 @@ class ilDB implements DB {
 		return $this->db;
 	}
 
+	/**
+	 * returns user entries for all default result texts
+	 *
+	 * @param int 	$career_goal_id
+	 *
+	 * @return array
+	 */
 	public function getCareerGoalDefaultText($career_goal_id) {
 		return $this->career_goal_db->getCareerGoalDefaultText($career_goal_id);
 	}
