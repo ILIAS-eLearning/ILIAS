@@ -159,7 +159,7 @@ class ilLearningModuleExporter extends ilXmlExporter
 			$qti_file = fopen($dir."/qti.xml", "w");
 			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 			$pool = new ilObjQuestionPool();
-			fwrite($qti_file, $pool->toXML($q_ids));
+			fwrite($qti_file, $pool->questionsToXML($q_ids));
 			fclose($qti_file);
 		}
 
