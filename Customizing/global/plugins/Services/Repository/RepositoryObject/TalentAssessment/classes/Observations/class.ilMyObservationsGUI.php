@@ -75,7 +75,7 @@ class ilMyObservationsGUI {
 		try {
 			$pdf->show($file_name, "D");
 		} catch(\Exception $e) {
-
+			throw new \Exception($this->txt("pdf_to_long"));
 		}
 
 		$this->render();
