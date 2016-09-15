@@ -133,8 +133,6 @@ class ReportSVGRenderer {
 		$this->sufficient = $sufficient;
 		$this->excellent = $excellent;
 		$this->max_score = $max_score;
-
-		$this->scale = $scale;
 	}
 
 	/**
