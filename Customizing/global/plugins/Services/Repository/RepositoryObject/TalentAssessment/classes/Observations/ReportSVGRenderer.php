@@ -3,7 +3,7 @@ namespace CaT\Plugins\TalentAssessment\Observations;
 
 class ReportSVGRenderer {
 
-	const MAX_WIDTH = 500;
+	const MAX_WIDTH = 1000;
 
 	protected $categories = array();
 	protected $scale = array();
@@ -172,7 +172,7 @@ class ReportSVGRenderer {
 
 		$insufficient_width = $sufficient * $inner_width / $max_score - $legend_delimiter_width;
 		$sufficient_position = $insufficient_width + $legend_delimiter_width;
-		$sufficient_width = ($excellent - $sufficient) * $inner_width / $max_score - $legend_delimiter_width;
+		$sufficient_width = max(($excellent - $sufficient) * $inner_width / $max_score - $legend_delimiter_width,0);
 		$excellent_position = $sufficient_position + $sufficient_width + $legend_delimiter_width;
 		$excellent_width = ($max_score - $excellent) * $inner_width / $max_score;
 
@@ -221,7 +221,7 @@ class ReportSVGRenderer {
 		$inner_width = $this->inner_width;
 
 		$score_width = $inner_width * $category_score / $this->max_score;
-		$fill_width = $inner_width - $score_width - $delimiter_width;
+		$fill_width = max($inner_width - $score_width - $delimiter_width,0);
 		$fill_position = $score_width + $delimiter_width;
 
 		$tpl->setVariable('GRAPH_WIDTH_ACHIEVED',$score_width);
