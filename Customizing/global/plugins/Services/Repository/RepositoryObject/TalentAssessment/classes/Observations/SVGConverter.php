@@ -7,7 +7,7 @@ class SVGConverter {
 		$this->img = $img_markup_string;
 	}
 
-	public function ConvertAndReturnPath($format = 'png24') {
+	public function convertAndReturnPath($format = 'png24') {
 		$svg_file_h = tmpfile();
 		$png_file_h = tmpfile();
 		fwrite($svg_file_h, $this->img);
