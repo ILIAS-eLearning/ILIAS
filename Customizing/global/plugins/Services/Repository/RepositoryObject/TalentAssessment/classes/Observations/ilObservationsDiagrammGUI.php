@@ -6,76 +6,70 @@ require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/UICore/classes/class.ilTemplate.php");
 
 class ilObservationsDiagrammGUI {
-	const COLOR_ROSA = "ta_div_result_rosa";
-	const COLOR_GREY = "ta_div_result_grey";
-	const COLOR_GREEN = "ta_div_result_green";
+	const SVG_WIDTH = "100%";
+	const MAX_VALUE = "5";
 
-	const REQ_BLOCK_HEIGHT = 40;
-	const REQ_SPACER_HEIGHT = 20;
-	const MAX_POINTS = 5;
-
-	public function __construct($parent_obj) {
+	public function __construct($settings, $actions, \Closure $txt) {
 		global $tpl;
 
 		$this->gTpl = $tpl;
-		$this->parent_obj = $parent_obj;
+
+		$this->obj_id = $settings->getObjId();
+		$this->actions = $actions;
+		$this->settings = $settings;
+		$this->txt = $txt;
 	}
 
 	public function render() {
-		$obj_id = $this->parent_obj->getObjId();
-		$actions = $this->parent_obj->getActions();
-		$settings = $this->parent_obj->getSettings();
-
-		$values = array("min" => $settings->getLowmark()
-						, "max" => $settings->getShouldSpecification()
-					);
-
-		$obs = $actions->getObservationsCumulative($obj_id);
-		$req_res = $actions->getRequestresultCumulative(array_keys($obs));
-
 		$tpl = new \ilTemplate("tpl.talent_assessment_observations_diagramm.html", true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
-
-		$counter = 1;
-		foreach($req_res as $title => $req) {
-				$counter++;
-				$width = $this->getWidth($req["middle"]);
-				$color = $this->getColor($req["middle"], $values);
-				$tpl->setCurrentBlock("req_row");
-				$tpl->setVariable("TITLE", $title);
-				$tpl->setVariable("WIDTH", $width);
-				$tpl->setVariable("COLOR", $color);
-				$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setCurrentBlock("vert_line");
-		$tpl->setVariable("VERT_LINE_LEFT", $this->getWidth($values["min"]));
-		$tpl->setVariable("VERT_LINE_COLOR", self::COLOR_ROSA);
-		$tpl->setVariable("VERT_LINE_HEIGHT", ((self::REQ_SPACER_HEIGHT + self::REQ_BLOCK_HEIGHT) * $counter + self::REQ_SPACER_HEIGHT));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("vert_line");
-		$tpl->setVariable("VERT_LINE_LEFT", $this->getWidth($values["max"]));
-		$tpl->setVariable("VERT_LINE_COLOR", self::COLOR_GREEN);
-		$tpl->setVariable("VERT_LINE_HEIGHT", ((self::REQ_SPACER_HEIGHT + self::REQ_BLOCK_HEIGHT) * $counter + self::REQ_SPACER_HEIGHT));
-		$tpl->parseCurrentBlock();
+	
+		$svg_data = $this->getSVGData();
+		$svg_data_encoded = base64_encode($svg_data);
+		$tpl->setVariable("SVG", $svg_data_encoded);
+		$tpl->setVariable("SVG_WIDTH", self::SVG_WIDTH);
 
 		return $tpl->get();
 	}
 
-	protected function getWidth($middle) {
-		return ($middle * 100) / self::MAX_POINTS;
+	public function getSVGData() {
+		$svg_tpl = new \ilTemplate("tpl.assessment_result_graph.svg", true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment");
+		$svg = new ReportSVGRenderer($svg_tpl);
+
+		$svg->setLegendDelimiterWidth(2);
+		$svg->setLegendPositionVertical(0);
+		$svg->setLegendBarVerticalPosition(20);
+		$svg->setLegendBarHeight(2);
+		$svg->setPaddingTop(20);
+		$svg->setPaddingBottom(20);
+		$svg->setInnerWidth(880);
+		$svg->setCategoryGraphRowHeight(30);
+		$svg->setCategoryBlockPadding(4);
+		$svg->setGraphVerticalDistanceLegend(10);
+		$svg->setCategoryBlockDelimiterWidth(8);
+
+		$obs = $this->actions->getObservationsCumulative($this->obj_id);
+		$req_res = $this->actions->getRequestresultCumulative(array_keys($obs));
+
+		$svg->setLegendParams($this->txt("ta_failed"), $this->settings->getLowmark()
+			, $this->txt("ta_maybe"), $this->settings->getShouldSpecification()
+			, $this->txt("ta_passed"), self::MAX_VALUE);
+
+		foreach($req_res as $title => $req) {
+			$svg->addCategory($req["middle"],$title);
+		}
+
+		return $svg->render();
 	}
 
-	protected function getColor($middle, $values) {
-		$min = $values["min"];
-		$max = $values["max"];
+	/**
+	 * @param 	string	$code
+	 * @return	string
+	 */
+	protected function txt($code) {
+		assert('is_string($code)');
 
-		if($middle <= $min) {
-			return self::COLOR_ROSA;
-		} else if($middle >= $max) {
-			return self::COLOR_GREEN;
-		} else {
-			return self::COLOR_GREY;
-		}
+		$txt = $this->txt;
+
+		return $txt($code);
 	}
 }

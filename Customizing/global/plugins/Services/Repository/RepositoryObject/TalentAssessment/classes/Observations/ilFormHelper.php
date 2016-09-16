@@ -49,6 +49,12 @@ trait ilFormHelper {
 		$tea->setRows(10);
 		$tea->setDisabled($finished);
 		$form->addItem($tea);
+
+		$tea = new \ilTextAreaInputGUI($this->txt("judgement_text"), ilActions::F_JUDGEMENT_TEXT);
+		$tea->setRows(10);
+		$tea->setInfo($this->txt("judgement_text_info"));
+		$tea->setDisabled($finished);
+		$form->addItem($tea);
 	}
 
 	/**
@@ -63,6 +69,7 @@ trait ilFormHelper {
 	protected function getReportFormValues($values, $settings, $potential_text) {
 		$values[ilActions::F_POTENTIAL] = $this->txt($potential_text);
 		$values[ilActions::F_RESULT_COMMENT] = $settings->getResultComment();
+		$values[ilActions::F_JUDGEMENT_TEXT] = $settings->getTextForPotential();
 
 		return $values;
 	}

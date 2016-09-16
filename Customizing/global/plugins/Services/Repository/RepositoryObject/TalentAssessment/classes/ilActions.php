@@ -18,6 +18,7 @@ class ilActions {
 	const F_EMAIL = "email";
 	const F_RESULT_COMMENT = "resultComment";
 	const F_POTENTIAL = "potential";
+	const F_JUDGEMENT_TEXT = "judgement_text";
 
 	const START_DATE = "start_date";
 	const END_DATE = "end_date";
@@ -216,6 +217,24 @@ class ilActions {
 		$this->object->update();
 	}
 
+	public function copyCopyDefaultText($career_goal_id) {
+		$default_texts = $this->settings_db->getCareerGoalDefaultText($career_goal_id);
+
+		$this->updateDefaultText($default_texts);
+	}
+
+	protected function updateDefaultText(array &$values) {
+		$this->object->updateSettings(function($s) use (&$values) {
+			return $s
+				->withDefaultTextFailed($values["default_text_failed"])
+				->withDefaultTextPartial($values["default_text_partial"])
+				->withDefaultTextSuccess($values["default_text_success"])
+				;
+		});
+
+		$this->object->update();
+	}
+
 	public function copyObservations($obj_id, $career_goal_id) {
 		$this->observations_db->copyObservations($obj_id, $career_goal_id);
 	}
@@ -265,6 +284,31 @@ class ilActions {
 	}
 
 	public function saveReportData($post) {
+		$settings = $this->object->getSettings();
+		$potential = $settings->getPotential();
+		$lowmark = $settings->getLowmark();
+		$should = $settings->getShouldSpecification();
+
+		if($potential < $lowmark) {
+			$this->object->updateSettings(function($s) use ($post) {
+				return $s
+					->withDefaultTextFailed($post[self::F_JUDGEMENT_TEXT])
+					;
+			});
+		} else if($potential > $should) {
+			$this->object->updateSettings(function($s) use ($post) {
+				return $s
+					->withDefaultTextSuccess($post[self::F_JUDGEMENT_TEXT])
+					;
+			});
+		} else {
+			$this->object->updateSettings(function($s) use ($post) {
+				return $s
+					->withDefaultTextPartial($post[self::F_JUDGEMENT_TEXT])
+					;
+			});
+		}
+
 		$this->object->updateSettings(function($s) use ($post) {
 			return $s
 				->withResultComment($post[self::F_RESULT_COMMENT])
@@ -332,5 +376,16 @@ class ilActions {
 		$org_unit_utils = \gevOrgUnitUtils::getInstance($venue_id);
 
 		return $org_unit_utils->getLongTitle();
+	}
+
+	public function getOrgUnitTitle($org_unit_id) {
+		$org_unit_utils = \gevOrgUnitUtils::getInstance($org_unit_id);
+
+		return $org_unit_utils->getTitle();
+	}
+
+	public function getCareerGoalTitle($career_goal_id) {
+		$obj = \ilObjectFactory::getInstanceByObjId($career_goal_id);
+		return $obj->getTitle();
 	}
 }

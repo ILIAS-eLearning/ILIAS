@@ -1,0 +1,57 @@
+<svg version="1.1"
+	baseProfile="full"
+	width="1000"
+	height="{HEIGHT_TOTAL}"
+	xmlns="http://www.w3.org/2000/svg"
+	>
+	<g font-family="Arial" font-weight="lighter">
+		<rect width="100%" height="100%" fill="#f5f5f6"  stroke="#e2e2e3" stroke-width="2"/>
+		<g transform="translate({INNER_PADDING_LEFT},{INNER_PADDING_TOP})">
+			<g transform="translate(0,{LEGEND_POS_TOP})" font-size="12">
+				<g transform="translate(0,-5)" text-anchor="middle">
+					<text x="{LEGEND_TEXT_POS_H_INSUFFICIENT}" y="{LEGEND_POS_V}" fill="#c6117c">{LEGEND_TEXT_INSUFFICIENT}</text>
+					<text x="{LEGEND_TEXT_POS_H_SUFFICIENT}" y="{LEGEND_POS_V}" fill="#a4a6a8">{LEGEND_TEXT_SUFFICIENT}</text>
+					<text x="{LEGEND_TEXT_POS_H_EXCELLENT}" y="{LEGEND_POS_V}" fill="#99c144">{LEGEND_TEXT_EXCELLENT}</text>
+				</g>
+				<rect x="0" y="{LEGEND_POS_V}" width="{LEGEND_WIDTH_INSUFFICIENT}" height="{LEGEND_HEIGHT}" fill="#c6117c"/>
+				<rect x="{LEGEND_POS_SUFFICIENT}" y="{LEGEND_POS_V}" width="{LEGEND_WIDTH_SUFFICIENT}" height="{LEGEND_HEIGHT}" fill="#a4a6a8"/>
+				<rect x="{LEGEND_POS_EXCELLENT}" y="{LEGEND_POS_V}" width="{LEGEND_WIDTH_EXCELLENT}" height="{LEGEND_HEIGHT}" fill="#99c144"/>
+			</g>
+			<g transform="translate(0,{GRAPH_POSITION_V})" font-size="18" text-anchor="start">
+				<!-- BEGIN graph_row_excellent -->
+				<g transform="translate(0,{CATEGORY_POSITION_V})">
+					<g transform="translate(0,{GRAPH_BLOCK_PADDING})" >
+						<rect x="0" y="0" width="{GRAPH_WIDTH_ACHIEVED}" height="{GRAPH_ROW_HEIGHT}" fill="#99c144"/>
+						<g transform="translate(5,-7)" >
+							<text x="0" y="{GRAPH_ROW_HEIGHT}" fill="#f5f5f6">{CATEGORY}</text>
+						</g>
+						<rect x="{GRAPH_POS_FILL}" y="0" width="{GRAPH_WIDTH_FILL}" height="{GRAPH_ROW_HEIGHT}" fill="#d8d9da"/>
+					</g>
+				</g>
+				<!-- END graph_row_excellent -->
+				<!-- BEGIN graph_row_sufficient -->
+				<g transform="translate(0,{CATEGORY_POSITION_V})">
+					<g transform="translate(0,{GRAPH_BLOCK_PADDING})">
+						<rect x="0" y="0" width="{GRAPH_WIDTH_ACHIEVED}" height="{GRAPH_ROW_HEIGHT}" fill="#a4a6a8"/>
+						<g transform="translate(5,-7)" >
+							<text x="0" y="{GRAPH_ROW_HEIGHT}" text-anchor="start" fill="#f5f5f6">{CATEGORY}</text>
+						</g>
+						<rect x="{GRAPH_POS_FILL}" y="0" width="{GRAPH_WIDTH_FILL}" height="{GRAPH_ROW_HEIGHT}" fill="#d8d9da"/>
+					</g>
+				</g>
+				<!-- END graph_row_sufficient -->
+				<!-- BEGIN graph_row_insufficient -->
+				<g transform="translate(0,{CATEGORY_POSITION_V})">
+					<g transform="translate(0,{GRAPH_BLOCK_PADDING})">
+						<rect x="0" y="0" width="{GRAPH_WIDTH_ACHIEVED}" height="{GRAPH_ROW_HEIGHT}" fill="#c6117c"/>
+						<g transform="translate(5,-7)" >
+							<text x="0" y="{GRAPH_ROW_HEIGHT}" text-anchor="start" fill="#f5f5f6">{CATEGORY}</text>
+						</g>
+						<rect x="{GRAPH_POS_FILL}" y="0" width="{GRAPH_WIDTH_FILL}" height="{GRAPH_ROW_HEIGHT}" fill="#d8d9da"/>
+					</g>
+				</g>
+				<!-- END graph_row_insufficient -->
+			</g>
+		</g>
+	</g>
+</svg>

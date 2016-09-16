@@ -31,7 +31,8 @@ interface DB {
 	 * @return TalentAssessment
 	 */
 	public function create($obj_id, $state, $career_goal_id, $username, $firstname, $lastname, $email, $start_date, $end_date, $venue
-							, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment);
+							, $org_unit, $started, $lowmark, $should_specification, $potential, $result_comment
+							, $default_text_failed, $default_text_partial, $default_text_success);
 
 	/**
 	 * updates settings entries

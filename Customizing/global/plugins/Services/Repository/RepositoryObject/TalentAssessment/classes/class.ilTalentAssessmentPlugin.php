@@ -35,7 +35,8 @@ class ilTalentAssessmentPlugin extends ilRepositoryObjectPlugin
 	public function getSettingsDB() {
 		global $ilDB, $ilUser;
 		if($this->settings_db === null) {
-			$this->settings_db = new TalentAssessment\Settings\ilDB($ilDB, $ilUser);
+			$career_goal_db = new CareerGoal\Settings\ilDB($ilDB, $ilUser);
+			$this->settings_db = new TalentAssessment\Settings\ilDB($ilDB, $ilUser, $career_goal_db);
 		}
 		return $this->settings_db;
 	}
