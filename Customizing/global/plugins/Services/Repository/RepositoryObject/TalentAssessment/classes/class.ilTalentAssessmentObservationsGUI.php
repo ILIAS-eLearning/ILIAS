@@ -103,8 +103,9 @@ class ilTalentAssessmentObservationsGUI {
 
 	protected function showReportPreview() {
 		$pdf = new TalentAssessment\Observations\ilResultPDF($this->getSettings(), $this->getActions(), $this->getTXTClosure());
+		$file_name = "TA_".$this->getSettings()->getFirstname()."_".$this->getSettings()->getLastname().".pdf";
 		try {
-			$pdf->show();
+			$pdf->show($file_name);
 		} catch(\Exception $e) {
 
 		}
