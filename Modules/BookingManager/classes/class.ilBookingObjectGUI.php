@@ -416,6 +416,8 @@ class ilBookingObjectGUI
 			return;
 		}
 		
+		$this->setHelpId("cancel_booking");	
+		
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
