@@ -49,7 +49,7 @@ class ilObservationsCumulativeGUI {
 
 			foreach($obs as $obs_key => $title) {
 				foreach ($observator as $usr) {
-					$pts = $this->getPointsFor($req, $obs_key, $usr["usr_id"]);
+					$pts = $this->getPointsFor($req_res, $req_title, $obs_key, $usr["usr_id"]);
 
 					$pts_tpl->setCurrentBlock("pts");
 					$pts_tpl->setVariable("POINTS", $pts);
@@ -73,9 +73,6 @@ class ilObservationsCumulativeGUI {
 		foreach($obs as $key => $title) {
 			$middle = $this->getObservationMiddle($req_res, $key);
 			$middle_total += $middle;
-			if($middle == 0) {
-				echo $key;
-			}
 
 			$tpl->setCurrentBlock("bla");
 			$tpl->setVariable("COL_SPAN_FOOTER", $col_span);
@@ -88,13 +85,11 @@ class ilObservationsCumulativeGUI {
 		return $tpl->get();
 	}
 
-	protected function getPointsFor($req, $obs_id, $usr_id) {
-		foreach($req as $elements) {
-			foreach($elements as $element) {
-				if($element["obs_id"] == $obs_id && array_key_exists($usr_id, $element["observator"])) {
-					return $element["observator"][$usr_id];
-				}
-			}
+	protected function getPointsFor($req, $title, $obs_id, $usr_id) {
+		$observator = $req[$title][$obs_id]["observator"];
+
+		if(array_key_exists($usr_id, $observator)) {
+			return $observator[$usr_id];
 		}
 
 		return "-";
