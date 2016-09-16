@@ -464,4 +464,21 @@ class ilDB implements DB {
 	protected function getObjId($table) {
 		return $this->getDB()->nextId($table);
 	}
+
+	/**
+	 *@inheritdoc
+	 */
+	public function deleteObservationResults($obj_id, $user_id) {
+		$delete = "DELETE FROM ".self::TABLE_REQUIREMENTS_POINTS."\n"
+				." WHERE req_id IN\n"
+				."    (SELECT DISTINCT A.obj_id FROM ".self::TABLE_REQUIREMENTS. " A\n"
+				."     JOIN ".self::TABLE_OBSERVATIONS. " B\n"
+				."         ON A.obs_id = B.obj_id\n"
+				."     WHERE B.ta_id = ".$this->getDB()->quote($obj_id, "integer")."\n"
+				."    )\n"
+				." AND observator_id = ".$this->getDB()->quote($user_id, "integer")."\n";
+
+		echo $delete;
+		die();
+	}
 }

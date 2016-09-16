@@ -375,6 +375,10 @@ class TalentAssessment {
 		$lowmark = $this->getLowmark();
 		$should = $this->getShouldSpecification();
 
+		if(!$potential) {
+			return "";
+		}
+
 		if($potential < $lowmark) {
 			return $this->getDefaultTextFailed();
 		} else if($potential > $should) {

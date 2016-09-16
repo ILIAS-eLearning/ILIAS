@@ -111,7 +111,8 @@ class ilTalentAssessmentObservationsGUI {
 	}
 
 	protected function finishTA() {
-		$this->actions->finishTA($this->requestsMiddle());
+		$this->actions->finishTA();
+		$this->actions->updatePotential($this->actions->requestsMiddle());
 
 		$red = $this->gCtrl->getLinkTarget($this->parent_obj, self::CMD_OBSERVATIONS_REPORT, "", false, false);
 		\ilUtil::redirect($red);

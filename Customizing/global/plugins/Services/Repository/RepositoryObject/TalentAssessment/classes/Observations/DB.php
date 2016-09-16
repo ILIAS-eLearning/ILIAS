@@ -56,4 +56,12 @@ interface DB {
 	 * @return array[]
 	 */
 	public function getObservationOverviewData($obj_id, $observator);
+
+	/**
+	 * delete enteres observation results if observator is deleted
+	 *
+	 * @param 	int 	$obj_id
+	 * @param 	int 	$user_id
+	 */
+	public function deleteObservationResults($obj_id, $user_id);
 }
