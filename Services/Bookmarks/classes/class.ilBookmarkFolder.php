@@ -259,7 +259,7 @@ class ilBookmarkFolder
 	/**
 	* static
 	*/
-	function getObject($a_id)
+	static function getObject($a_id)
 	{
 		$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
 		$tree = new ilTree($a_tree_id);
