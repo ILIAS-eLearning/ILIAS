@@ -71,7 +71,7 @@ class ilMyObservationsGUI {
 		$actions = $ta_obj->getActions();
 
 		$pdf = new TalentAssessment\Observations\ilResultPDF($settings, $actions, $this->txt);
-		$file_name = "TA_".$settings->getFirstname()."_".$settings->getLastname();
+		$file_name = "TA_".$settings->getFirstname()."_".$settings->getLastname().".pdf";
 		try {
 			$pdf->show($file_name, "D");
 		} catch(\Exception $e) {

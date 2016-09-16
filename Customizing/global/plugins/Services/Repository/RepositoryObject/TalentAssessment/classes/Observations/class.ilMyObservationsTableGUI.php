@@ -70,6 +70,7 @@ class ilMyObservationsTableGUI extends catTableGUI {
 
 	public function fillRow($row) {
 		$this->tpl->setVariable("CAREER_GOAL", $row["title"]);
+		$this->tpl->setVariable("CAREER_GOAL", $row["title"]);
 		$this->tpl->setVariable("NAME", $row["lastname"]." ".$row["firstname"]);
 		$this->tpl->setVariable("ORG_UNIT", $row["org_unit_title"]);
 		$this->tpl->setVariable("ORG_UNIT_SUPERVISOR", $row["supervisor"]);
@@ -124,8 +125,13 @@ class ilMyObservationsTableGUI extends catTableGUI {
 		$link_pdf = $this->memberlist_link = $this->gCtrl->getLinkTarget($this->parent_obj, "showPDF");
 		$this->gCtrl->clearParameters($this->parent_obj);
 
+		$this->gCtrl->setParameterByClass("ilObjTalentAssessmentGUI", "ref_id", $ref_id);
+		$link_ta = $this->gCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI", "ilObjTalentAssessmentGUI"), "showObservationsList");
+		$this->gCtrl->clearParametersByClass("ilObjTalentAssessmentGUI");
+
 		$items = array();
 		$items[] = array("title" => $this->txt("show_pdf"), "link" => $link_pdf, "image" => "", "frame"=>"");
+		$items[] = array("title" => $this->txt("open"), "link" => $link_ta, "image" => "", "frame"=>"");
 
 		return $items;
 	}
