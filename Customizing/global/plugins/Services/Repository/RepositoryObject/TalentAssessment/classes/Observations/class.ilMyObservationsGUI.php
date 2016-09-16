@@ -183,11 +183,12 @@ class ilMyObservationsGUI {
 		$usrs_names = array();
 		$usrs_ids = array();
 		foreach ($usrs as $key => $value) {
-			$usrs_names[] = $value["lastname"]." ".$value["firstname"];
+			$usrs_names[] = $value["lastname"].", ".$value["firstname"];
+			sort($usrs_names, SORT_STRING);
 			$usrs_ids[] = $value["usr_id"];
 		}
 
-		$data["observator"] = implode(", ", $usrs_names);
+		$data["observator"] = implode("<br />", $usrs_names);
 		$data["observator_ids"] = $usrs_ids;
 
 		return $data;
@@ -206,10 +207,11 @@ class ilMyObservationsGUI {
 		$names = array();
 		foreach ($supervisor as $key => $value) {
 			$user_utils = gevUserUtils::getInstance((int)$value);
-			$names[] = $user_utils->getLastname()." ".$user_utils->getFirstname();
+			$names[] = $user_utils->getLastname().", ".$user_utils->getFirstname();
+			sort($names, SORT_STRING);
 		}
 
-		$data["supervisor"] = implode(", ",$names);
+		$data["supervisor"] = implode("<br />",$names);
 
 		return $data;
 	}

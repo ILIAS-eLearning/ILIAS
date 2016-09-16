@@ -179,6 +179,9 @@ class ilActions {
 	 * @param int 	$user_id
 	 */
 	public function deassignObservator($user_id, $obj_id) {
+		$this->observations_db->deleteObservationResults($obj_id, $user_id);
+		$middle = $this->requestsMiddle();
+		$this->updatePotential($middle);
 		$role_id = $this->getLocalRoleId($obj_id);
 
 		$this->gRbacadmin->deassignUser($role_id, $user_id);
@@ -317,11 +320,19 @@ class ilActions {
 		$this->object->update();
 	}
 
-	public function finishTA($potential) {
+	public function finishTA() {
 		$this->object->updateSettings(function($s) {
 			return $s
-				->withPotential($potential)
 				->withFinished(true)
+				;
+		});
+		$this->object->update();
+	}
+
+	public function updatePotential($potential) {
+		$this->object->updateSettings(function($s) use ($potential) {
+			return $s
+				->withPotential($potential)
 				;
 		});
 		$this->object->update();
@@ -336,12 +347,12 @@ class ilActions {
 	public function potentialText() {
 		$settings = $this->object->getSettings();
 
-		if(!$middle = $settings->getPotential()) {
-			$middle = $this->requestsMiddle();
+		if(!$settings->Finished()) {
+			return self::TA_IN_PROGRESS;
 		}
 
-		if(!$middle) {
-			return self::TA_IN_PROGRESS;
+		if(!$middle = $settings->getPotential()) {
+			$middle = $this->requestsMiddle();
 		}
 
 		if($middle <= $settings->getLowmark()) {
@@ -353,21 +364,17 @@ class ilActions {
 		}
 	}
 
-	protected function requestsMiddle() {
+	public function requestsMiddle() {
 		$obs = $this->getObservationsCumulative($this->object->getId());
 		$req_res = $this->getRequestresultCumulative(array_keys($obs));
 
 		$middle_total = 0;
-		foreach($obs as $key => $title) {
-			$sum = 0;
-			$req = $req_res[$key];
-			foreach ($req as $key => $req_det) {
-				$sum += $req_det["sum"];
-			}
-
-			$middle = $sum / count($req);
-			$middle_total += $middle;
+		foreach ($req_res as $key => $req_det) {
+			$sum += $req_det["sum"];
 		}
+
+		$middle = $sum / count($req_res);
+		$middle_total += $middle;
 
 		return round($middle_total,1);
 	}
@@ -387,5 +394,9 @@ class ilActions {
 	public function getCareerGoalTitle($career_goal_id) {
 		$obj = \ilObjectFactory::getInstanceByObjId($career_goal_id);
 		return $obj->getTitle();
+	}
+
+	public function getSettings() {
+		return $this->object->getSettings();
 	}
 }

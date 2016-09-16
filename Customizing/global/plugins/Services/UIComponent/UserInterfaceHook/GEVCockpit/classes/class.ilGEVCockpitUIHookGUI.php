@@ -50,6 +50,10 @@ class ilGEVCockpitUIHookGUI extends ilUIHookPluginGUI {
 			)
 			&& $_GET["cmdClass"] != "gevcoursesearchgui"
 			&& $_GET["cmdClass"] != "iladminsearchgui"
+			&& (
+				$_GET["cmd"] != "toMyAssessments"
+				&& $_GET["cmd"] != "toAllAssessments"
+				&& $_GET["cmd"] != "toEmployeeBookings")
 			;
 	}
 

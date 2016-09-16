@@ -37,8 +37,8 @@ ta_failed_short#:#nicht erfüllt
 ta_passed#:#Anforderungen erfüllt
 ta_passed_short#:#erfüllt
 ta_maybe#:#Anforderungen teilweise erfüllt
+ta_in_progress#:#in Bearbeitung
 ta_maybe_short#:#teilweise erfüllt
-ta_in_progress#:#In bearbeitung
 no_valid_username#:#Sie haben einen ungültigen Benutzernamen eingegeben. Bitte korrigieren Sie die Eingabe.
 saved#:#Einstellungen erfolgreich gespeichert.
 not_saved#:#Einstellungen konnten nicht gespeichert werden.
