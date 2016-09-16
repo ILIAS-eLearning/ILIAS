@@ -660,7 +660,7 @@ die ("ilObjComponentSettigsGUI::updatePluginDB: deprecated");
 		$pl_meta = $ilPluginAdmin->getAllData($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
 		
-		$activation = (bool)$pl_meta["activation_possible"];
+		$activation = ((bool)$pl_meta["activation_possible"] || (bool)$pl_meta["is_active"]); // #18827
 		$reason = $pl_meta["inactive_reason"];
 		
 		$question = $activation
