@@ -58,8 +58,10 @@ class ilResultPDF {
 		$pdf->summaryTitleFontSettings('OpenSans', 12 , 'semibold', $gev_red);
 		$pdf->summaryTitle($this->txt("pdf_summary_title"));
 
+		$pdf->summaryFontSettings('OpenSans', 10 , '', array(0,0,0));
 		$pdf->summary($this->encodeSpecialChars($this->settings->getResultComment()));
 
+		$pdf->judgementFontSettings('OpenSans', 10 , 'semibold', $gev_red);
 		$judgement_text = $this->settings->getTextForPotential();
 		$judgement_text = $this->fillPlaceholder($this->encodeSpecialChars($judgement_text));
 		$pdf->judgement($judgement_text);
