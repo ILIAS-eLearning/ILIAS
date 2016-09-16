@@ -3,21 +3,36 @@ namespace CaT\Plugins\TalentAssessment\Observations;
 
 class ReportSVGRenderer {
 
+	/**
+	 * Properties of the render box. Total width = 1000. Height is variable.
+	 */
 	const MAX_WIDTH = 1000;
 
-	protected $categories = array();
-	protected $scale = array();
-
-	public function __construct(\ilTemplate $tpl) {
-		$this->tpl = $tpl;
-	}
+	/**
+	 * @var array
+	 */
+	protected $categories;
 
 	/**
-	 * Properties of the render box. Total width = 500. Height is variable.
+	 * @var array
 	 */
+	protected $scale;
 
 	/**
 	 * Top padding of the render box.
+	 *
+	 * @param \ilTemplate 	$tpl
+	 */
+	public function __construct(\ilTemplate $tpl) {
+		$this->tpl = $tpl;
+		$this->categories = array();
+		$this->scale = array();
+	}
+
+	/**
+	 * Top padding of the render box.
+	 *
+	 * @param int 	$padding_top
 	 */
 	public function setPaddingTop($padding_top) {
 		$this->padding_top = $padding_top;
@@ -25,6 +40,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Bottom padding of the render box.
+	 *
+	 * @param int 	$padding_bottom
 	 */
 	public function setPaddingBottom($padding_bottom) {
 		$this->padding_bottom = $padding_bottom;
@@ -32,11 +49,13 @@ class ReportSVGRenderer {
 
 	/**
 	 * Width of the render area inside box.
-	 * Must be < 500.
+	 * Must be < 1000.
+	 *
+	 * @param int 	$inner_width
 	 */
 	public function setInnerWidth($inner_width) {
 		if($inner_width > self::MAX_WIDTH) {
-			throw new \ilException('width must be < 500');
+			throw new \ilException('width must be < 1000');
 		}
 		$this->inner_width = $inner_width;
 	}
@@ -47,6 +66,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Locate legend box verticaly inside the render box.
+	 *
+	 * @param int 	$legend_position_vertical
 	 */
 	public function setLegendPositionVertical($legend_position_vertical) {
 		$this->legend_position_vertical = $legend_position_vertical;
@@ -54,6 +75,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Width of delimiters between legend scale bars.
+	 *
+	 * @param int 	$legend_delimiter_width
 	 */
 	public function setLegendDelimiterWidth($legend_delimiter_width) {
 		$this->legend_delimiter_width = $legend_delimiter_width;
@@ -61,6 +84,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Set legend scale bar height.
+	 *
+	 * @param int 	$legend_bar_height
 	 */
 	public function setLegendBarHeight($legend_bar_height) {
 		$this->legend_bar_height = $legend_bar_height;
@@ -68,6 +93,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Locate legend bars vertically inside the legend box.
+	 *
+	 * @param int 	$legend_bar_position
 	 */
 	public function setLegendBarVerticalPosition($legend_bar_position) {
 		$this->legend_bar_position = $legend_bar_position;
@@ -76,6 +103,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Set the vertical distance from legend box of the graph box.
+	 *
+	 * @param int 	$graph_legend_distance
 	 */
 	public function setGraphVerticalDistanceLegend($graph_legend_distance) {
 		$this->graph_legend_distance = $graph_legend_distance;
@@ -83,6 +112,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Set graph box top and bottom padding around graph bar inside category box.
+	 *
+	 * @param int 	$graph_block_padding
 	 */
 	public function setCategoryBlockPadding($graph_block_padding) {
 		$this->graph_block_padding = $graph_block_padding;
@@ -90,6 +121,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Set height of graph bar.
+	 *
+	 * @param int 	$cat_graph_row_height
 	 */
 	public function setCategoryGraphRowHeight($cat_graph_row_height) {
 		$this->cat_graph_row_height = $cat_graph_row_height;
@@ -97,6 +130,8 @@ class ReportSVGRenderer {
 
 	/**
 	 * Set delimiter width in graph bar.
+	 *
+	 * @param int 	$cat_block_delimiter_width
 	 */
 	public function setCategoryBlockDelimiterWidth($cat_block_delimiter_width) {
 		$this->cat_block_delimiter_width = $cat_block_delimiter_width;
@@ -104,13 +139,23 @@ class ReportSVGRenderer {
 
 	/**
 	 * Add a category defined by it's score and title.
+	 *
+	 * @param int 		$score
+	 * @param string 	$title
 	 */
-	public function addCategory($score,$title) {
-		$this->categories[] = array('score'=>$score,'title'=>$title);
+	public function addCategory($score, $title) {
+		$this->categories[] = array('score'=>$score, 'title'=>$title);
 	}
 
 	/**
 	 * Define the legend-related parameters.
+	 *
+	 * @param string 	$insufficient_label
+	 * @param int 		$sufficient
+	 * @param string 	$sufficient_label
+	 * @param int 		$excellent
+	 * @param string 	$excellent_label
+	 * @param int 		$max_score
 	 */
 	public function setLegendParams(
 		$insufficient_label, 
@@ -161,6 +206,9 @@ class ReportSVGRenderer {
 		return $this->tpl->get();
 	}
 
+	/**
+	 * @param \ilTemplate 	$tpl
+	 */
 	protected function renderLegend(\ilTemplate $tpl) {
 		$legend_delimiter_width = $this->legend_delimiter_width;
 
@@ -204,6 +252,12 @@ class ReportSVGRenderer {
 		return $tpl;
 	}
 
+	/**
+	 * @param \ilTemplate 	$tpl
+	 * @param string 		$category_title
+	 * @param int 			$category_score
+	 * @param int 			$category_position
+	 */
 	protected function renderCategory(\ilTemplate $tpl, $category_title, $category_score, $category_position) {
 		if($category_score >= $this->excellent) {
 			$tpl->setCurrentBlock('graph_row_excellent');
