@@ -111,3 +111,19 @@ require_once('./Services/Tracking/classes/rubric/class.ilRubricGradeHistoryConfi
 $rubricHistory = new rubricGradeHistoryConfig();
 $rubricHistory->installDB();
 ?>
+<#11>
+<?php
+// Remove rubric_data.rubric_label_id
+if($ilDB->tableColumnExists('rubric','grading_locked')){
+    $ilDB->dropTableColumn('rubric','grading_locked');
+}
+
+if($ilDB->tableColumnExists('rubric','grading_locked_by')){
+    $ilDB->dropTableColumn('rubric','grading_locked_by');
+}
+//add new gradelock table after removing old locking info. (this is for unlocking/locking multiple rubrics)
+require_once('./Services/Tracking/classes/rubric/class.ilRubricGradeLockConfig.php');
+$rubricLock = new rubricGradeLockConfig();
+$rubricLock->installDB();
+
+?>

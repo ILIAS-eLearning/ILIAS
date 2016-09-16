@@ -73,23 +73,34 @@ class ilLPRubricGrade
 
     public function lockUnlockGrade()
     {
-
-        $lock_var = ($this->isGradingLocked())?NULL:date("Y-m-d H:i:s");
-        $this->ilDB->manipulate(
-            "update rubric set
-              grading_locked = ".$this->ilDB->quote($lock_var,"timestamp").
-            ",grading_locked_by= ".$this->ilDB->quote($_SESSION['AccountId'], "integer").
-            " where obj_id=".$this->ilDB->quote($this->obj_id, "integer")
-        );
+        global $ilUser;
+        if(!$this->isGradingLocked()){
+            $this->ilDB->manipulateF('INSERT INTO rubric_grade_lock(grade_lock_id,rubric_id,user_id,owner,create_date,last_update)
+            VALUES (%s,%s,%s,%s,%s,%s)'
+            ,array("integer","integer","integer","integer","timestamp","timestamp"),
+                array($this->ilDB->nextId('rubric_grade_lock'),$this->rubric_id,$this->getGradeUserId(),
+                    $ilUser->getId(),date("Y-m-d H:i:s"),date("Y-m-d H:i:s"))
+            );
+        }else{
+            $this->ilDB->manipulate("DELETE FROM rubric_grade_lock WHERE rubric_id = ".$this->ilDB->quote($this->rubric_id, "integer")
+            ." AND user_id = ".$this->ilDB->quote($this->getGradeUserId(), "integer")
+            );
+        }
     }
 
     public function isGradingLocked()
     {
+        $user_id = is_null($this->getGradeUserId())?$_GET['user_id']:$this->getGradeUserId();
         $res=$this->ilDB->query(
-            "select grading_locked,grading_locked_by from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+            "select grade_lock_id,create_date,owner from rubric_grade_lock where rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." AND user_id="
+            .$this->ilDB->quote($user_id, "integer")
         );
+
         $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
-        return (is_null($row->grading_locked))?false:true;
+        $this->rubric_grade_locked = $row->create_date;
+        $this->grade_lock_owner = $row->owner;
+
+        return (is_null($row->grade_lock_id))?false:true;
     }
 
     private function getRubricCriteriaByGroupId($rubric_group_id)
@@ -356,15 +367,12 @@ class ilLPRubricGrade
     public function objHasRubric()
     {
         $res=$this->ilDB->query(
-            "select rubric_id,passing_grade,grading_locked,grading_locked_by from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+            "select rubric_id,passing_grade from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
         );
         $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
         if(!empty($row->rubric_id)){
             $this->rubric_id=$row->rubric_id;
             $this->passing_grade=$row->passing_grade;
-            $this->rubric_grade_locked = $row->grading_locked;
-
-            $this->grade_lock_owner = $row->grading_locked_by;
             return(true);
         }else{
             return(false);

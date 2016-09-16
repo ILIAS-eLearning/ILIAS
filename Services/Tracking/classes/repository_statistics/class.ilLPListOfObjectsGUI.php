@@ -616,14 +616,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
 		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
 		$rubricObj=new ilLPRubricGrade($this->getObjId());
-		$rubricObj=new ilLPRubricGrade($this->getObjId());
-		$rubricObj->lockUnlockGrade();
-		if($rubricObj->isGradingLocked())
-		{
-			$passing_grade=$this->saveRubricGrade();
-			//only update progress if grading is completed
-			if($passing_grade!==false){
-				$this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);
+		if($rubricObj->objHasRubric()){
+			$rubricObj->lockUnlockGrade();
+			if($rubricObj->isGradingLocked())
+			{
+				$passing_grade=$this->saveRubricGrade();
+				//only update progress if grading is completed
+				if($passing_grade!==false){
+					$this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);
+				}
 			}
 		}
 		$this->showRubricGradeForm();
