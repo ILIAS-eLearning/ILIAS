@@ -1,6 +1,9 @@
 <?php
 namespace CaT\Plugins\TalentAssessment\Observations;
-require_once "Services/Billing/lib/fpdf/fpdf.php";
+
+/**
+ * creates the result pdf for a ta
+ */
 class ReportPreview {
 
 	public function __construct(ReportPDFWriter $writer) {
@@ -9,7 +12,8 @@ class ReportPreview {
 
 	/**
 	 * Set the left page indent, for relative-y-positioned objects.
-	 * @param	int	$x
+	 *
+	 * @param int		$x
 	 */
 	public function leftIndent($x) {
 		$this->writer->leftIndent($x);
@@ -17,6 +21,8 @@ class ReportPreview {
 
 	/**
 	 * Set the text width starting from the left indent.
+	 *
+	 * @param int 	$w
 	 */
 	public function textWidth($w) {
 		$this->text_width = $w;
@@ -24,11 +30,17 @@ class ReportPreview {
 
 	/**
 	 * Set the background image by its path will repeat every single page.
+	 *
+	 * @param string 	$image_path 	path png image for graph
 	 */
 	public function setBackground($image_path) {
 		$this->writer->backgroundImage($image_path);
 	}
 
+	/**
+	* @param int 		$x 		position on x
+	* @param int 		$y 		position on y
+	*/
 	public function titlePosition($x,$y) {
 		$this->title_x = $x;
 		$this->title_y = $y;
@@ -39,6 +51,12 @@ class ReportPreview {
 	private $title_options = '';
 	private $title_color = array(0,0,0);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function titleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
 		$this->title_font = $font;
 		$this->title_fontsize = $size;
@@ -46,10 +64,17 @@ class ReportPreview {
 		$this->title_color = $color;
 	}
 
+	/**
+	 * @param string 		$title
+	 */
 	public function title($title) {
 		$this->title = $title;
 	}
 
+	/**
+	* @param int 		$x 		position on x
+	* @param int 		$y 		position on y
+	*/
 	public function namePosition($x,$y) {
 		$this->name_x = $x;
 		$this->name_y = $y;
@@ -60,6 +85,12 @@ class ReportPreview {
 	private $name_options = '';
 	private $name_color = array(195,28,28);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function nameFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->name_font = $font;
 		$this->name_fontsize = $size;
@@ -67,10 +98,17 @@ class ReportPreview {
 		$this->name_color = $color;
 	}
 
+	/**
+	 * @param string 		$name
+	 */
 	public function name($name) {
 		$this->name = $name;
 	}
 
+	/**
+	* @param int 		$x 		position on x
+	* @param int 		$y 		position on y
+	*/
 	public function orguPosition($x,$y) {
 		$this->orgu_x = $x;
 		$this->orgu_y = $y;
@@ -81,6 +119,12 @@ class ReportPreview {
 	private $orgu_options = '';
 	private $orgu_color = array(195,28,28);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function orguFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->orgu_font = $font;
 		$this->orgu_fontsize = $size;
@@ -88,10 +132,17 @@ class ReportPreview {
 		$this->orgu_color = $color;
 	}
 
+	/**
+	 * @param string 		$orgu
+	 */
 	public function orgu($orgu) {
 		$this->orgu = $orgu;
 	}
 
+	/**
+	* @param int 		$x 		position on x
+	* @param int 		$y 		position on y
+	*/
 	public function datePosition($x,$y) {
 		$this->date_x = $x;
 		$this->date_y = $y;
@@ -102,6 +153,12 @@ class ReportPreview {
 	private $date_options = '';
 	private $date_color = array(195,28,28);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function dateFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->date_font = $font;
 		$this->date_fontsize = $size;
@@ -109,19 +166,34 @@ class ReportPreview {
 		$this->date_color = $color;
 	}
 
+	/**
+	 * @param string 		$orgu
+	 */
 	public function date($date) {
 		$this->date = $date;
 	}
 
+	/**
+	* @param int 		$x 		position on x
+	* @param int 		$y 		position on y
+	*/
 	public function graphPosition($x,$y) {
 		$this->graph_x = $x;
 		$this->graph_y = $y;
 	}
 
+	/**
+	 * @param string 	$graph_file_location
+	 */
 	public function graph($graph_file_location) {
 		$this->graph = $graph_file_location;
 	}
 
+	/**
+	 * set the offset between summary header and graph
+	 *
+	 * @param int 		$dy
+	 */
 	public function summaryTitlePositionOffset($dy) {
 		$this->summary_title_dy = $dy;
 	}
@@ -131,6 +203,12 @@ class ReportPreview {
 	private $summary_title_options = '';
 	private $summary_title_color = array(195,28,28);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function summaryTitleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->summary_title_font = $font;
 		$this->summary_title_fontsize = $size;
@@ -138,6 +216,9 @@ class ReportPreview {
 		$this->summary_title_color = $color;
 	}
 
+	/**
+	 * @param string 	$summary_title
+	 */
 	public function summaryTitle($summary_title) {
 		$this->summary_title = $summary_title;
 	}
@@ -147,6 +228,12 @@ class ReportPreview {
 	private $summary_options = '';
 	private $summary_color = array(0,0,0);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function summaryFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
 		$this->summary_font = $font;
 		$this->summary_fontsize = $size;
@@ -154,6 +241,9 @@ class ReportPreview {
 		$this->summary_color = $color;
 	}
 
+	/**
+	 * @param string 	$summary
+	 */
 	public function summary($summary) {
 		$this->summary = $summary;
 	}
@@ -163,6 +253,12 @@ class ReportPreview {
 	private $judgement_options = '';
 	private $judgement_color = array(195,28,28);
 
+	/**
+	 * @param string 		$font 	font type
+	 * @param int 			$size 	font size
+	 * @param string 		$options
+	 * @param array<int> 	$color 	settings for color in RGB
+	 */
 	public function judgementFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->judgement_font = $font;
 		$this->judgement_fontsize = $size;
@@ -170,10 +266,19 @@ class ReportPreview {
 		$this->judgement_color = $color;
 	}
 
+	/**
+	 * @param string 	$summary
+	 */
 	public function judgement($judgement) {
 		$this->judgement = $judgement;
 	}
 
+	/**
+	 * draws the pdf document
+	 *
+	 * @param string 	$name 	name of the pdf file
+	 * @param string 	$dest 	output mode see fpdf output
+	 */
 	public function draw($name = '', $dest = '') {
 		$this->writer->AddPage();
 		$this->drawTitle();
