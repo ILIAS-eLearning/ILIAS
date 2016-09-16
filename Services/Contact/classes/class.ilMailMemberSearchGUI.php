@@ -301,7 +301,7 @@ class ilMailMemberSearchGUI
 		$radio_grp = $this->getMailRadioGroup();
 
 		$form->addItem($radio_grp);
-		$form->addCommandButton('nextMailForm', $this->lng->txt('continue'));
+		$form->addCommandButton('nextMailForm', $this->lng->txt('mail_members_search_continue'));
 		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
 		return $form;

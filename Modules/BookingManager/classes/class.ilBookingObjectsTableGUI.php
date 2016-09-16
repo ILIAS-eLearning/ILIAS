@@ -116,14 +116,18 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		);		
 		$this->filter["title"] = $title->getValue();
 		
-		// booking period
-		$period = $this->addFilterItemByMetaType(
-			"period", 
-			ilTable2GUI::FILTER_DATE_RANGE,
-			false,
-			$lng->txt("book_period")
-		);
-		$this->filter["period"] = $period->getValue();
+		// #18651
+		if($this->has_schedule)
+		{
+			// booking period
+			$period = $this->addFilterItemByMetaType(
+				"period", 
+				ilTable2GUI::FILTER_DATE_RANGE,
+				false,
+				$lng->txt("book_period")
+			);
+			$this->filter["period"] = $period->getValue();
+		}
 	}
 	
 	/**
@@ -162,6 +166,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 				{
 					$data[$idx]["not_yet"] = ilDatePresentation::formatDate(new ilDate($av_from, IL_CAL_UNIX));
 				}
+				if($av_to)
+				{				
+					// #18658
+					if(!ilBookingReservation::isObjectAvailableInPeriod($item["booking_object_id"], $schedule, $av_from, $av_to))
+					{
+						$this->lng->loadLanguageModule("dateplaner");
+						$data[$idx]["full_up"] = $this->lng->txt("cal_booked_out");
+					}
+				}					
 			}
 		}
 		
@@ -289,10 +302,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
 		}
 		
-		if($a_set["not_yet"])
+		if($a_set["full_up"])
+		{
+			$this->tpl->setVariable("NOT_YET", $a_set["full_up"]);
+			$booking_possible = false;
+		}
+		else if($a_set["not_yet"])
 		{
 			$this->tpl->setVariable("NOT_YET", $a_set["not_yet"]);
-		}
+		}		
 		
 		if(!$this->has_schedule)		
 		{												
