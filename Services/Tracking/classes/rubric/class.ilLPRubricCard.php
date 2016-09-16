@@ -558,7 +558,7 @@ class ilLPRubricCard
             );
             
             $broken_weight=explode('-',$weights[$k]);
-            error_log(count($broken_weight));
+
             if(count($broken_weight) == 1)
             {
                 $broken_weight[1]=$broken_weight[0];
@@ -695,13 +695,11 @@ class ilLPRubricCard
 
     public function _lookupRubricMode()
     {
-        error_log(var_export($this->obj_id,true));
         $set=$this->ilDB->query("select 1 from rubric_data d INNER JOIN rubric r on r.rubric_id = d.rubric_id AND r.obj_id =".$this->ilDB->quote($this->obj_id, "integer")." and d.deleted is null LIMIT 1");
         $row = $this->ilDB->fetchAssoc($set);
         return(is_null($row)?self::RUBRIC_MODE_DEVELOPER:self::RUBRIC_MODE_GRADER);
     }
-
-
+    
 
 
 
