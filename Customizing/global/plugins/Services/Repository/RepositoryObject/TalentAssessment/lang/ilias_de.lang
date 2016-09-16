@@ -33,9 +33,12 @@ obj_title#:#Titel
 obj_description#:#Beschreibung
 obj_save#:#Speichern
 ta_failed#:#Anforderungen nicht erfüllt
+ta_failed_short#:#nicht erfüllt
 ta_passed#:#Anforderungen erfüllt
+ta_passed_short#:#erfüllt
 ta_maybe#:#Anforderungen teilweise erfüllt
-ta_in_progress#:#In bearbeitung
+ta_in_progress#:#in Bearbeitung
+ta_maybe_short#:#teilweise erfüllt
 no_valid_username#:#Sie haben einen ungültigen Benutzernamen eingegeben. Bitte korrigieren Sie die Eingabe.
 saved#:#Einstellungen erfolgreich gespeichert.
 not_saved#:#Einstellungen konnten nicht gespeichert werden.
@@ -91,3 +94,4 @@ judgement_text#:#Ergebnis
 judgement_text_info#:#Siehe sehen den Standardtext passend zum aktuellen Ergebnis. Wenn Sie möchten, können Sie diesen verändern. Dabei können folgende Platzhalter verwenden:<br />[VORNAME], [NACHNAME], [KARRIEREZIEL]
 show_pdf#:#Ergebnisbericht
 pdf_to_long#:#Bitte kürzen Sie Ihren Text für den Ergebnisbericht. Die maximale Seitenzahl beträgt 1.
+open#:#Beobachtungen bearbeiten

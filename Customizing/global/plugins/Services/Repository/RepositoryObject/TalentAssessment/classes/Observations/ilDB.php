@@ -360,49 +360,44 @@ class ilDB implements DB {
 	}
 
 	public function getRequestresultCumulative($obs_ids) {
-                $select = "SELECT A.obj_id as req_id, A.title, A.obs_id, A.position, B.points, B.observator_id, SUM(B.points)\n"
-                                ." FROM ".self::TABLE_REQUIREMENTS." A\n"
-                                ." LEFT JOIN ".self::TABLE_REQUIREMENTS_POINTS." B\n"
-                                ."    ON A.obj_id = B.req_id\n"
-                                ." WHERE ".$this->getDB()->in("A.obs_id", $obs_ids, false, "integer")."\n"
-                                ." GROUP BY A.title, A.position, B.points, B.observator_id"
-                                ." ORDER BY A.position, A.obs_id";
+		$select = "SELECT A.obj_id as req_id, A.title, A.obs_id, A.position, B.points, B.observator_id, SUM(B.points)\n"
+				 ." FROM ".self::TABLE_REQUIREMENTS." A\n"
+				 ." LEFT JOIN ".self::TABLE_REQUIREMENTS_POINTS." B\n"
+				 ."    ON A.obj_id = B.req_id\n"
+				 ." WHERE ".$this->getDB()->in("A.obs_id", $obs_ids, false, "integer")."\n"
+				 ." GROUP BY A.obj_id, A.title, A.obs_id, A.position, B.points, B.observator_id\n"
+				 ." ORDER BY A.position, A.obs_id";
 
-                $res = $this->getDB()->query($select);
+		$res = $this->getDB()->query($select);
 
-                $pos = null;
-                $obs = null;
-                while($row = $this->getDB()->fetchAssoc($res)) {
-                        if($pos != $row["position"]) {
-                                if(!empty($ret_ar)) {
-                                        $ret_ar["sum"] = $sum;
-                                        $ret_ar["middle"] = $ret_ar["sum"] / $observator_count;
-                                        $ret[$title] = $ret_ar;
-                                        $ret_ar = array();
-                                        $observator_count = 0;
-                                        $sum = 0;
-                                }
+		$pos = null;
+		$obs = null;
+		while($row = $this->getDB()->fetchAssoc($res)) {
+			if($pos != $row["position"]) {
+				if(!empty($ret_ar)) {
+					$ret_ar["sum"] = $sum;
+					$ret_ar["middle"] = $ret_ar["sum"] / $observator_count;
+					$ret[$title] = $ret_ar;
+					$ret_ar = array();
+					$observator_count = 0;
+					$sum = 0;
+				}
 
-                                $pos = $row["position"];
-                                $title = $row["title"];
-                        }
+				$pos = $row["position"];
+				$title = $row["title"];
+			}
 
-                        $vals = array();
-                        $vals["observator"] = array();
-                        $vals["obs_id"] = $row["obs_id"];
-                        $vals["observator"][$row["observator_id"]] = $row["points"];
-                        $sum += $row["points"];
-                        $observator_count++;
+			$ret_ar[$row["obs_id"]]["observator"][$row["observator_id"]] = $row["points"];
+			$sum += $row["points"];
+			$observator_count++;
+		}
 
-                        $ret_ar[][] = $vals;
-                }
+		$ret_ar["sum"] = $sum;
+		$ret_ar["middle"] = $ret_ar["sum"] / $observator_count;
+		$ret[$title] = $ret_ar;
 
-                $ret_ar["sum"] = $sum;
-                $ret_ar["middle"] = $ret_ar["sum"] / $observator_count;
-                $ret[$title] = $ret_ar;
-
-                return $ret;
-        }
+		return $ret;
+	}
 
 	public function getAssessmentsData($filter, $filter_values) {
 		$to_sql = new \CaT\Filter\SqlPredicateInterpreter($this->getDB());
@@ -463,5 +458,21 @@ class ilDB implements DB {
 
 	protected function getObjId($table) {
 		return $this->getDB()->nextId($table);
+	}
+
+	/**
+	 *@inheritdoc
+	 */
+	public function deleteObservationResults($obj_id, $user_id) {
+		$delete = "DELETE FROM ".self::TABLE_REQUIREMENTS_POINTS."\n"
+				." WHERE req_id IN\n"
+				."    (SELECT DISTINCT A.obj_id FROM ".self::TABLE_REQUIREMENTS. " A\n"
+				."     JOIN ".self::TABLE_OBSERVATIONS. " B\n"
+				."         ON A.obs_id = B.obj_id\n"
+				."     WHERE B.ta_id = ".$this->getDB()->quote($obj_id, "integer")."\n"
+				."    )\n"
+				." AND observator_id = ".$this->getDB()->quote($user_id, "integer")."\n";
+
+		$this->getDB()->manipulate($delete);
 	}
 }

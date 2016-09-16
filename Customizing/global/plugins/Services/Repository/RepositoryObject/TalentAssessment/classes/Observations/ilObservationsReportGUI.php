@@ -33,6 +33,11 @@ class ilObservationsReportGUI {
 
 	protected function fillForm(\ilPropertyFormGUI $form) {
 		$values = array();
+		if(!$this->settings->getPotential()) {
+			$middle = $this->parent_obj->getActions()->requestsMiddle();
+			$this->parent_obj->getActions()->updatePotential($middle);
+			$this->settings = $this->parent_obj->getActions()->getSettings();
+		}
 		$values = $this->getReportFormValues($values, $this->settings, $this->parent_obj->getActions()->potentialText());
 		$form->setValuesByArray($values);
 	}

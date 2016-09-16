@@ -183,7 +183,6 @@ class ilObjReportEduBio extends ilObjReportBase {
 				."		AND ".$this->gIldb->in('usrcrs.function',array('Mitglied', 'Teilnehmer'),false,'text')
 				."		AND usrcrs.booking_status = ".$this->gIldb->quote('gebucht','text')
 				."		AND usrcrs.credit_points > 0 "
-				."		AND usrcrs.crs_id > 0 "
 				."		AND ( usrcrs.end_date >= ".$this->gIldb->quote($start->get(IL_CAL_DATE), "date")
 				."			OR usrcrs.end_date = '0000-00-00')"
 				."		AND usrcrs.begin_date <= ".$this->gIldb->quote($end->get(IL_CAL_DATE), "date")
@@ -196,11 +195,11 @@ class ilObjReportEduBio extends ilObjReportBase {
 		return $sql;
 	}
 
-	protected function wbdQueryWhere(ilDate $start = null, ilDate $end = null, $no_historic = true) {
+	protected function wbdQueryWhere(ilDate $start = null, ilDate $end = null) {
 		return $start === null ?
 				$this->queryWhere() :
 				" WHERE usrcrs.usr_id = ".$this->gIldb->quote($this->target_user_id, "integer")
-				.($no_historic ? "   AND usrcrs.hist_historic = 0 " : "")
+				."   AND usrcrs.hist_historic = 0 "
 				."   AND ( usrcrs.end_date >= ".$this->gIldb->quote($start->get(IL_CAL_DATE), "date")
 				."        OR usrcrs.end_date = '0000-00-00')"
 				."   AND usrcrs.begin_date <= ".$this->gIldb->quote($end->get(IL_CAL_DATE), "date")
@@ -210,7 +209,7 @@ class ilObjReportEduBio extends ilObjReportBase {
 	protected function wbdQuery(ilDate $start, ilDate $end) {
 		return   "SELECT SUM(usrcrs.credit_points) sum "
 				." FROM hist_usercoursestatus usrcrs"
-				.$this->wbdQueryWhere($start, $end, false)
+				.$this->wbdQueryWhere($start, $end)
 				." AND NOT usrcrs.wbd_booking_id IS NULL";
 	}
 
