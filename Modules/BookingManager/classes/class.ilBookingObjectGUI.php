@@ -101,6 +101,8 @@ class ilBookingObjectGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+		
+		$this->setHelpId('create');		
 
 		$form = $this->initForm();
 		$tpl->setContent($form->getHTML());
@@ -115,9 +117,24 @@ class ilBookingObjectGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+		
+		$this->setHelpId('edit');	
 
 		$form = $this->initForm('edit', (int)$_GET['object_id']);
 		$tpl->setContent($form->getHTML());
+	}
+		
+	protected function setHelpId($a_id)
+	{
+		global $ilHelp; 
+		
+		$object_subtype = $this->pool_has_schedule
+			? '-schedule'
+			: '-nonschedule';
+		
+		$ilHelp->setScreenIdComponent('book');
+		$ilHelp->setScreenId('object'.$object_subtype);
+		$ilHelp->setSubScreenId($a_id);
 	}
 
 	/**
