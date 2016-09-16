@@ -904,7 +904,7 @@ class ilExAssignment
 	function updateStatusOfUser($a_ass_id, $a_user_id, $a_status)
 	{
 		global $ilDB;
-
+		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
 		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
 			"SET status = %s, status_time= %s ".
 			" WHERE ass_id = %s AND usr_id = %s AND status <> %s ",

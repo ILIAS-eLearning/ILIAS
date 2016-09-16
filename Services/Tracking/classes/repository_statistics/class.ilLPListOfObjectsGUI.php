@@ -586,8 +586,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         // check to see if rubric data exists for this object, assign data if it does
         if($rubricObj->objHasRubric()){
             $rubricGui->setRubricData($rubricObj->load());
-			$rubricGui->setRubricMode($rubricObj->_lookupRubricMode());
         }
+		$rubricGui->setRubricMode($rubricObj->_lookupRubricMode());
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
         if($rubricObj->isLocked()){
 			$rubricGui->setRubricLocked($rubricObj->getRubricLocked());
@@ -679,7 +679,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public static function generatePDF($pdf_output, $output_mode, $filename=null)
     {
         require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-
+		ob_clean();
         define ('PDF_PAGE_ORIENTATION', 'L');
 
         if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
