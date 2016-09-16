@@ -39,20 +39,20 @@ class ilObservationsDiagrammGUI {
 		$svg->setLegendPositionVertical(0);
 		$svg->setLegendBarVerticalPosition(20);
 		$svg->setLegendBarHeight(2);
-		$svg->setPaddingTop(20);
-		$svg->setPaddingBottom(20);
+		$svg->setPaddingTop(40);
+		$svg->setPaddingBottom(40);
 		$svg->setInnerWidth(880);
 		$svg->setCategoryGraphRowHeight(30);
 		$svg->setCategoryBlockPadding(4);
-		$svg->setGraphVerticalDistanceLegend(10);
+		$svg->setGraphVerticalDistanceLegend(20);
 		$svg->setCategoryBlockDelimiterWidth(8);
 
 		$obs = $this->actions->getObservationsCumulative($this->obj_id);
 		$req_res = $this->actions->getRequestresultCumulative(array_keys($obs));
 
-		$svg->setLegendParams($this->txt("ta_failed"), $this->settings->getLowmark()
-			, $this->txt("ta_maybe"), $this->settings->getShouldSpecification()
-			, $this->txt("ta_passed"), self::MAX_VALUE);
+		$svg->setLegendParams($this->txt("ta_failed_short"), $this->settings->getLowmark()
+			, $this->txt("ta_maybe_short"), $this->settings->getShouldSpecification()
+			, $this->txt("ta_passed_short"), self::MAX_VALUE);
 
 		foreach($req_res as $title => $req) {
 			$svg->addCategory($req["middle"],$title);
