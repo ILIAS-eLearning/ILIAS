@@ -555,6 +555,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $rubricGui=new ilLPRubricCardGUI();
 
         if($rubricObj->objHasRubric()){
+			$rubricGui->setRubricMode($rubricObj->_lookupRubricMode());
             $rubricGui->setRubricData($rubricObj->load());
         }
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());

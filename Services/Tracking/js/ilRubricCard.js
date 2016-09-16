@@ -879,7 +879,7 @@ addBehavior:function(thead,tbody,tfoot,position){
                     verified=false;
                 }else{
                     //value is all good
-                    inputs[a].setAttribute('style','border-color:green');
+                    inputs[a].setAttribute('style','border:3px solid green');
                 }
             }            
         }
