@@ -543,6 +543,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->addItem($fi);
 
 		// START PATCH RUBRIC CPKN 2016
+		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($this->object->getId());
 		$lp_mode = $olp->getCurrentMode();
 		if($lp_mode==92){
