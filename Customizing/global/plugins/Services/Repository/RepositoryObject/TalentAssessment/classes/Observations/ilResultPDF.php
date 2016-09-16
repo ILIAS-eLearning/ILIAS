@@ -11,54 +11,54 @@ class ilResultPDF {
 
 	public function show($name = '', $dest = '') {
 		$pdf = $this->createPDF();
-		$pdf->Draw($name, $dest);
+		$pdf->draw($name, $dest);
 	}
 
 	protected function createPDF() {
 		$pdf_write = new ReportPDFWriter();
 		$pdf = new ReportPreview($pdf_write);
-		$pdf->SetBackground("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/templates/images/result_bg.png");
-		$pdf->LeftIndent(19);
-		$pdf->TextWidth(170);
+		$pdf->setBackground("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/templates/images/result_bg.png");
+		$pdf->leftIndent(19);
+		$pdf->textWidth(170);
 
-		$pdf->TitlePosition(45, 12);
-		$pdf->TitleFontSettings('Arial', 18 , '', array(255,255,255));
+		$pdf->titlePosition(45, 12);
+		$pdf->titleFontSettings('Arial', 18 , '', array(255,255,255));
 
-		$pdf->Title($this->encodeSpecialChars(sprintf($this->txt("pdf_title_text"), $this->actions->getCareerGoalTitle($this->settings->getCareerGoalId()))));
+		$pdf->title($this->encodeSpecialChars(sprintf($this->txt("pdf_title_text"), $this->actions->getCareerGoalTitle($this->settings->getCareerGoalId()))));
 
-		$pdf->NamePosition(21, 45.5);
-		$pdf->NameFontSettings('Arial', 14 , '', array(0,0,0));
-		$pdf->Name($this->encodeSpecialChars($this->settings->getFirstname()." ".$this->settings->getLastname()));
+		$pdf->namePosition(21, 45.5);
+		$pdf->nameFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->name($this->encodeSpecialChars($this->settings->getFirstname()." ".$this->settings->getLastname()));
 
-		$pdf->OrguPosition(110, 45.5);
-		$pdf->OrguFontSettings('Arial', 14 , '', array(0,0,0));
-		$pdf->Orgu($this->encodeSpecialChars($this->actions->getOrgUnitTitle($this->settings->getOrgUnit())));
+		$pdf->orguPosition(110, 45.5);
+		$pdf->orguFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->orgu($this->encodeSpecialChars($this->actions->getOrgUnitTitle($this->settings->getOrgUnit())));
 
-		$pdf->DatePosition(161, 45.5);
-		$pdf->DateFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->datePosition(161, 45.5);
+		$pdf->dateFontSettings('Arial', 14 , '', array(0,0,0));
 		$date = $this->settings->getStartdate()->get(IL_CAL_DATE);
 		$date = explode("-", $date);
-		$pdf->Date($date[2].".".$date[1].".".$date[0]);
+		$pdf->date($date[2].".".$date[1].".".$date[0]);
 
 		$gui = new ilObservationsDiagrammGUI($this->settings, $this->actions, $this->txt);
 		$graph = $gui->getSVGData();
 		$svg_converter = new SVGConverter();
 		$destination = $svg_converter->convertAndReturnPath($graph);
 
-		$pdf->GraphPosition(20, 55);
+		$pdf->graphPosition(20, 55);
 
-		$pdf->Graph($destination);
+		$pdf->graph($destination);
 
-		$pdf->SummaryTitlePositionOffset(15);
+		$pdf->summaryTitlePositionOffset(15);
 
-		$pdf->SummaryTitleFontSettings('Arial', 14 , '', array(0,0,0));
-		$pdf->SummaryTitle($this->txt("pdf_summary_title"));
+		$pdf->summaryTitleFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->summaryTitle($this->txt("pdf_summary_title"));
 
-		$pdf->Summary($this->encodeSpecialChars($this->settings->getResultComment()));
+		$pdf->summary($this->encodeSpecialChars($this->settings->getResultComment()));
 
 		$judgement_text = $this->settings->getTextForPotential();
 		$judgement_text = $this->fillPlaceholder($this->encodeSpecialChars($judgement_text));
-		$pdf->Judgement($judgement_text);
+		$pdf->judgement($judgement_text);
 
 		return $pdf;
 	}

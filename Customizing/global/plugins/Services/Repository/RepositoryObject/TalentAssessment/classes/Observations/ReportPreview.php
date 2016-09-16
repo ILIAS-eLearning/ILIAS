@@ -11,25 +11,25 @@ class ReportPreview {
 	 * Set the left page indent, for relative-y-positioned objects.
 	 * @param	int	$x
 	 */
-	public function LeftIndent($x) {
-		$this->writer->LeftIndent($x);
+	public function leftIndent($x) {
+		$this->writer->leftIndent($x);
 	}
 
 	/**
 	 * Set the text width starting from the left indent.
 	 */
-	public function TextWidth($w) {
+	public function textWidth($w) {
 		$this->text_width = $w;
 	}
 
 	/**
 	 * Set the background image by its path will repeat every single page.
 	 */
-	public function SetBackground($image_path) {
-		$this->writer->BackgroundImage($image_path);
+	public function setBackground($image_path) {
+		$this->writer->backgroundImage($image_path);
 	}
 
-	public function TitlePosition($x,$y) {
+	public function titlePosition($x,$y) {
 		$this->title_x = $x;
 		$this->title_y = $y;
 	}
@@ -39,18 +39,18 @@ class ReportPreview {
 	private $title_options = '';
 	private $title_color = array(0,0,0);
 
-	public function TitleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function titleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
 		$this->title_font = $font;
 		$this->title_fontsize = $size;
 		$this->title_options = $options;
 		$this->title_color = $color;
 	}
 
-	public function Title($title) {
+	public function title($title) {
 		$this->title = $title;
 	}
 
-	public function NamePosition($x,$y) {
+	public function namePosition($x,$y) {
 		$this->name_x = $x;
 		$this->name_y = $y;
 	}
@@ -60,18 +60,18 @@ class ReportPreview {
 	private $name_options = '';
 	private $name_color = array(195,28,28);
 
-	public function NameFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
+	public function nameFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->name_font = $font;
 		$this->name_fontsize = $size;
 		$this->name_options = $options;
 		$this->name_color = $color;
 	}
 
-	public function Name($name) {
+	public function name($name) {
 		$this->name = $name;
 	}
 
-	public function OrguPosition($x,$y) {
+	public function orguPosition($x,$y) {
 		$this->orgu_x = $x;
 		$this->orgu_y = $y;
 	}
@@ -81,18 +81,18 @@ class ReportPreview {
 	private $orgu_options = '';
 	private $orgu_color = array(195,28,28);
 
-	public function OrguFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
+	public function orguFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->orgu_font = $font;
 		$this->orgu_fontsize = $size;
 		$this->orgu_options = $options;
 		$this->orgu_color = $color;
 	}
 
-	public function Orgu($orgu) {
+	public function orgu($orgu) {
 		$this->orgu = $orgu;
 	}
 
-	public function DatePosition($x,$y) {
+	public function datePosition($x,$y) {
 		$this->date_x = $x;
 		$this->date_y = $y;
 	}
@@ -102,27 +102,27 @@ class ReportPreview {
 	private $date_options = '';
 	private $date_color = array(195,28,28);
 
-	public function DateFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
+	public function dateFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->date_font = $font;
 		$this->date_fontsize = $size;
 		$this->date_options = $options;
 		$this->date_color = $color;
 	}
 
-	public function Date($date) {
+	public function date($date) {
 		$this->date = $date;
 	}
 
-	public function GraphPosition($x,$y) {
+	public function graphPosition($x,$y) {
 		$this->graph_x = $x;
 		$this->graph_y = $y;
 	}
 
-	public function Graph($graph_file_location) {
+	public function graph($graph_file_location) {
 		$this->graph = $graph_file_location;
 	}
 
-	public function SummaryTitlePositionOffset($dy) {
+	public function summaryTitlePositionOffset($dy) {
 		$this->summary_title_dy = $dy;
 	}
 
@@ -131,14 +131,14 @@ class ReportPreview {
 	private $summary_title_options = '';
 	private $summary_title_color = array(195,28,28);
 
-	public function SummaryTitleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
+	public function summaryTitleFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->summary_title_font = $font;
 		$this->summary_title_fontsize = $size;
 		$this->summary_title_options = $options;
 		$this->summary_title_color = $color;
 	}
 
-	public function SummaryTitle($summary_title) {
+	public function summaryTitle($summary_title) {
 		$this->summary_title = $summary_title;
 	}
 
@@ -147,14 +147,14 @@ class ReportPreview {
 	private $summary_options = '';
 	private $summary_color = array(0,0,0);
 
-	public function SummaryFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
+	public function summaryFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(0,0,0)) {
 		$this->summary_font = $font;
 		$this->summary_fontsize = $size;
 		$this->summary_options = $options;
 		$this->summary_color = $color;
 	}
 
-	public function Summary($summary) {
+	public function summary($summary) {
 		$this->summary = $summary;
 	}
 
@@ -163,33 +163,33 @@ class ReportPreview {
 	private $judgement_options = '';
 	private $judgement_color = array(195,28,28);
 
-	public function JudgementFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
+	public function judgementFontSettings($font = 'Arial',$size = 10 ,$options = '', array $color = array(195,28,28)) {
 		$this->judgement_font = $font;
 		$this->judgement_fontsize = $size;
 		$this->judgement_options = $options;
 		$this->judgement_color = $color;
 	}
 
-	public function Judgement($judgement) {
+	public function judgement($judgement) {
 		$this->judgement = $judgement;
 	}
 
-	public function Draw($name = '', $dest = '') {
+	public function draw($name = '', $dest = '') {
 		$this->writer->AddPage();
-		$this->DrawTitle();
-		$this->DrawName();
-		$this->DrawDate();
-		$this->DrawOrgu();
-		$this->DrawGraph();
-		$this->DrawSummaryTitle();
-		$this->DrawSummary();
-		$this->DrawJudgement();
+		$this->drawTitle();
+		$this->drawName();
+		$this->drawDate();
+		$this->drawOrgu();
+		$this->drawGraph();
+		$this->drawSummaryTitle();
+		$this->drawSummary();
+		$this->drawJudgement();
 
 		$this->writer->Output($name, $dest);
 	}
 
-	protected function DrawTitle() {
-		$this->writer->StringPositionedAbsolute(
+	protected function drawTitle() {
+		$this->writer->stringPositionedAbsolute(
 			$this->title_x, $this->title_y, $this->title, 'L',
 			0, 0,
 			$this->title_font, 
@@ -198,8 +198,8 @@ class ReportPreview {
 			$this->title_color);
 	}
 
-	protected function DrawName() {
-		$this->writer->StringPositionedAbsolute(
+	protected function drawName() {
+		$this->writer->stringPositionedAbsolute(
 			$this->name_x, $this->name_y, $this->name, 'L',
 			0, 0,
 			$this->name_font,
@@ -208,8 +208,8 @@ class ReportPreview {
 			$this->name_color);
 	}
 
-	protected function DrawDate() {
-		$this->writer->StringPositionedAbsolute(
+	protected function drawDate() {
+		$this->writer->stringPositionedAbsolute(
 			$this->date_x, $this->date_y, $this->date, 'L',
 			0, 0,
 			$this->date_font,
@@ -218,8 +218,8 @@ class ReportPreview {
 			$this->date_color);
 	}
 
-	protected function DrawOrgu() {
-		$this->writer->StringPositionedAbsolute(
+	protected function drawOrgu() {
+		$this->writer->stringPositionedAbsolute(
 			$this->orgu_x, $this->orgu_y, $this->orgu, 'L',
 			0, 0,
 			$this->orgu_font,
@@ -228,12 +228,12 @@ class ReportPreview {
 			$this->orgu_color);
 	}
 
-	protected function DrawGraph() {
-		$this->writer->ImagePositionAbsolute($this->graph_x,$this->graph_y,$this->text_width,0,$this->graph);
+	protected function drawGraph() {
+		$this->writer->imagePositionAbsolute($this->graph_x,$this->graph_y,$this->text_width,0,$this->graph);
 	}
 
-	protected function DrawSummaryTitle() {
-		$this->writer->StringPositionedRelativeY($this->summary_title_dy,$this->summary_title, 'L',
+	protected function drawSummaryTitle() {
+		$this->writer->stringPositionedRelativeY($this->summary_title_dy,$this->summary_title, 'L',
 			0, 0,
 			$this->summary_title_font,
 			$this->summary_title_fontsize,
@@ -241,8 +241,8 @@ class ReportPreview {
 			$this->summary_title_color);
 	}
 
-	protected function DrawSummary() {
-		$this->writer->TextPositionedNextLine($this->summary, 'L',
+	protected function drawSummary() {
+		$this->writer->textPositionedNextLine($this->summary, 'L',
 			$this->text_width, 0,
 			$this->summary_font,
 			$this->summary_fontsize,
@@ -250,8 +250,8 @@ class ReportPreview {
 			$this->summary_color);
 	}
 
-	protected function DrawJudgement() {
-		$this->writer->TextPositionedNextLine($this->judgement, 'L',
+	protected function drawJudgement() {
+		$this->writer->textPositionedNextLine($this->judgement, 'L',
 			$this->text_width, 0,
 			$this->judgement_font,
 			$this->judgement_fontsize,

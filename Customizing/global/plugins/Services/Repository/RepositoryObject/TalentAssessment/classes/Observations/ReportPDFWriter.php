@@ -4,21 +4,24 @@ require_once "Services/Billing/lib/fpdf/fpdf.php";
 
 class ReportPDFWriter extends \fpdf implements ReportWriter {
 
-	public function BackgroundImage($bg_image_location) {
+	public function backgroundImage($bg_image_location) {
 		$this->bg_image_location = $bg_image_location;		
 	}
 
-	public function LeftIndent($left_indent) {
+	public function leftIndent($left_indent) {
 		$this->left_indent = $left_indent;
 	}
 	
+	/**
+	 * Method inherited from fpdf
+	 */
 	public function AddPage() {
 		parent::AddPage();
 		$this->Image($this->bg_image_location, 0, 0, $this->w, $this->h);
 		$this->SetXY(0,0);
 	}
 
-	public function StringPositionedAbsolute($x, $y, $text, $text_allign = 'L',
+	public function stringPositionedAbsolute($x, $y, $text, $text_allign = 'L',
 		$w = 0, $h = 0, $font = 'Arial', $size = 10, $text_options = '',
 		 array $font_color = array(0,0,0)) {
 
@@ -29,7 +32,7 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetTextColor(0,0,0);
 	}
 
-	public function StringPositionedRelativeY($y, $text, $text_allign = 'L',
+	public function stringPositionedRelativeY($y, $text, $text_allign = 'L',
 		$w = 0, $h = 0, $font = 'Arial', $size = 10, $text_options = '',
 		 array $font_color = array(0,0,0)) {
 		$this->SetTextColorArray($font_color);
@@ -40,7 +43,7 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetTextColor(0,0,0);
 	}
 
-	public function TextPositionedAbsolute($x, $y, $text, $text_allign = 'L',
+	public function textPositionedAbsolute($x, $y, $text, $text_allign = 'L',
 		$w = 0, $h = 0, $font = 'Arial', $size = 10, $text_options = '',
 		 array $font_color = array(0,0,0)) {
 		$this->SetTextColorArray($font_color);
@@ -50,7 +53,7 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetTextColor(0,0,0);
 	}
 
-	public function TextPositionedRelativeY($y, $text, $text_allign = 'L',
+	public function textPositionedRelativeY($y, $text, $text_allign = 'L',
 		$w = 0, $h = 0, $font = 'Arial', $size = 10, $text_options = '',
 		 array $font_color = array(0,0,0)) {
 		$this->SetTextColorArray($font_color);
@@ -61,7 +64,7 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetTextColor(0,0,0);
 	}
 
-	public function ImagePositionAbsolute($x,$y,$w,$h,$image_location) {
+	public function imagePositionAbsolute($x,$y,$w,$h,$image_location) {
 		$dims = getimagesize($image_location);
 
 		$h = $w*$dims[1]/$dims[0];
@@ -70,12 +73,12 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetXY($this->left_indent,$this->GetY()+$h);
 	}
 
-	public function ImagePositionRelativeY($y,$w,$h,$image_location) {
+	public function imagePositionRelativeY($y,$w,$h,$image_location) {
 		$this->ln($y);
 		$this->Image($image_location,$this->left_indent, $this->GetY(), $w, $h, 'PNG');
 	}
 
-	public function TextPositionedNextline($text, $text_allign = 'L',
+	public function textPositionedNextline($text, $text_allign = 'L',
 		$w = 0, $h = 0, $font = 'Arial', $size = 10, $text_options = '',
 		 array $font_color = array(0,0,0)) {
 		$this->ln();
@@ -86,7 +89,7 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetTextColor(0,0,0);
 	}
 
-	public function StringPositionedNextline($text, $text_allign = 'L',
+	public function stringPositionedNextline($text, $text_allign = 'L',
 		$w = 0, $h = 0, $font = 'Arial', $size = 10, $text_options = '',
 		 array $font_color = array()) {
 		$this->ln();
@@ -96,12 +99,15 @@ class ReportPDFWriter extends \fpdf implements ReportWriter {
 		$this->SetTextColor(0,0,0);
 	}
 
-	protected function SetTextColorArray(array $font_color = array()) {
+	protected function setTextColorArray(array $font_color = array()) {
 		if(count($font_color) === 3) {
 			$this->SetTextColor($font_color[0],$font_color[1],$font_color[2]);
 		}
 	}
-
+	
+	/**
+	 * Method inherited from fpdf
+	 */
 	public function Output($name='', $dest='') {
 		if($this->PageNo() > 1) {
 			throw new \ilException("too long");
