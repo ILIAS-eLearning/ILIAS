@@ -16,26 +16,30 @@ class ilResultPDF {
 
 	protected function createPDF() {
 		$pdf_write = new ReportPDFWriter();
+		$pdf_write->AddFont("OpenSans", "", "OpenSans-Regular.php");
+		$pdf_write->AddFont("OpenSans", "semibold", "Opensans-semibold.php");
 		$pdf = new ReportPreview($pdf_write);
 		$pdf->setBackground("Customizing/global/plugins/Services/Repository/RepositoryObject/TalentAssessment/templates/images/result_bg.png");
 		$pdf->leftIndent(19);
 		$pdf->textWidth(170);
 
-		$pdf->titlePosition(45, 12);
-		$pdf->titleFontSettings('Arial', 18 , '', array(255,255,255));
+		$gev_red = array(197, 49, 28);
+
+		$pdf->titlePosition(42, 14);
+		$pdf->titleFontSettings('OpenSans', 14, '', array(255,255,255));
 
 		$pdf->title($this->encodeSpecialChars(sprintf($this->txt("pdf_title_text"), $this->actions->getCareerGoalTitle($this->settings->getCareerGoalId()))));
 
-		$pdf->namePosition(21, 45.5);
-		$pdf->nameFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->namePosition(21, 46);
+		$pdf->nameFontSettings('OpenSans', 11 , 'semibold', $gev_red);
 		$pdf->name($this->encodeSpecialChars($this->settings->getFirstname()." ".$this->settings->getLastname()));
 
-		$pdf->orguPosition(110, 45.5);
-		$pdf->orguFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->orguPosition(110, 46);
+		$pdf->orguFontSettings('OpenSans', 11 , 'semibold', $gev_red);
 		$pdf->orgu($this->encodeSpecialChars($this->actions->getOrgUnitTitle($this->settings->getOrgUnit())));
 
-		$pdf->datePosition(161, 45.5);
-		$pdf->dateFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->datePosition(161, 46);
+		$pdf->dateFontSettings('OpenSans', 11 , 'semibold', $gev_red);
 		$date = $this->settings->getStartdate()->get(IL_CAL_DATE);
 		$date = explode("-", $date);
 		$pdf->date($date[2].".".$date[1].".".$date[0]);
@@ -51,11 +55,13 @@ class ilResultPDF {
 
 		$pdf->summaryTitlePositionOffset(15);
 
-		$pdf->summaryTitleFontSettings('Arial', 14 , '', array(0,0,0));
+		$pdf->summaryTitleFontSettings('OpenSans', 12 , 'semibold', $gev_red);
 		$pdf->summaryTitle($this->txt("pdf_summary_title"));
 
+		$pdf->summaryFontSettings('OpenSans', 10 , '', array(0,0,0));
 		$pdf->summary($this->encodeSpecialChars($this->settings->getResultComment()));
 
+		$pdf->judgementFontSettings('OpenSans', 10 , 'semibold', $gev_red);
 		$judgement_text = $this->settings->getTextForPotential();
 		$judgement_text = $this->fillPlaceholder($this->encodeSpecialChars($judgement_text));
 		$pdf->judgement($judgement_text);
