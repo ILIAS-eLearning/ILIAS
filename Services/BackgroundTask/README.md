@@ -19,5 +19,5 @@ The service will update the GUI progress bar accordingly.
 
 ## Json
 
-The communication between client and server is done via Json. 
-See ilFolderDownloadBackgroundTaskHandler::init() for the possible status codes and Json structure.
+The communication between client and server is done via Json. Use ilBackgroundTaskJson to generate valid Json messages which can be parsed by the JavaScript frontend.
+See ilFolderDownloadBackgroundTaskHandler::init() for examples.

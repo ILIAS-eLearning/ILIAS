@@ -16342,3 +16342,4 @@ chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.
 prg#:#prg_points_reachable#:#Points Obtainable
+mail#:#mail_members_search_continue#:#Continue

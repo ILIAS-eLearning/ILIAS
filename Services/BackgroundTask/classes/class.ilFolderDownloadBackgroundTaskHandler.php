@@ -135,28 +135,20 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		$file_count = $total_bytes = 0;
 		$this->calculateRecursive($this->getRefIds(), $file_count, $total_bytes);
 		
-		$json = new stdClass();
+		include_once "Services/BackgroundTask/classes/class.ilBackgroundTaskJson.php";
 		
 		// empty folder - nothing to do
 		if(!$file_count)
 		{
-			$json->status = "fail";
-			$json->title = $this->jsonSafeString($lng->txt("bgtask_failure"));
-			$json->message = $this->jsonSafeString($lng->txt("bgtask_empty_folder"));
-			$json->button = $this->jsonSafeString($lng->txt("ok"));
+			$json = ilBackgroundTaskJson::getFailedJson($lng->txt("bgtask_empty_folder"));			
 		}
 		else
 		{
 			// check if below download size limit
 			$size_limit_mb = $this->getDownloadSizeLimit() * 1024 * 1024;
 			if($size_limit_mb > 0 && $total_bytes > $size_limit_mb) 
-			{
-				$bytes_formatted = ilUtil::formatSize($size_limit_mb);
-				
-				$json->status = "fail";
-				$json->title = $this->jsonSafeString($lng->txt("bgtask_failure"));
-				$json->message = $this->jsonSafeString(sprintf($lng->txt("bgtask_download_too_large"), $bytes_formatted));	
-				$json->button = $this->jsonSafeString($lng->txt("ok"));
+			{			
+				$json = ilBackgroundTaskJson::getFailedJson(sprintf($lng->txt("bgtask_download_too_large"), ilUtil::formatSize($size_limit_mb)));					
 			} 
 			else 
 			{					
@@ -173,9 +165,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 				$task->save();
 				
 				$this->setTask($task);
-							
-				$json->task_id = $task->getId();	
-
+				
 				// above thresholds: do background task
 				if($file_count >= $this->getFileCountThreshold()
 					|| $total_bytes >= $this->getTotalSizeThreshold() * 1024 * 1024) 
@@ -184,21 +174,15 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 					$existing = ilBackgroundTask::getActiveByUserId($ilUser->getId());
 					if(sizeof($existing))
 					{
-						$json->status = "block";	
-						$json->title = $this->jsonSafeString($lng->txt("bgtask_blocked"));
-						$json->message = $this->jsonSafeString($lng->txt("bgtask_blocked_info"));
-						$json->button_old = $this->jsonSafeString($lng->txt("bgtask_blocked_cancel_old"));
-						$json->button_new = $this->jsonSafeString($lng->txt("bgtask_blocked_cancel_new"));
+						$json = ilBackgroundTaskJson::getBlockedJson($task->getId());	
 					}
 					else
-					{
-						$bytes_formatted = ilUtil::formatSize($total_bytes);
-
-						$json->status = "bg";
-						$json->title = $this->jsonSafeString($lng->txt("bgtask_processing"));
-						$json->message = $this->jsonSafeString(sprintf($lng->txt("bgtask_download_long"), $file_count, $bytes_formatted));	
-						$json->button = $this->jsonSafeString($lng->txt("cancel"));
-						$json->steps = $file_count+1;
+					{						
+						$json = ilBackgroundTaskJson::getProcessingJson(
+							$task->getId(),
+							sprintf($lng->txt("bgtask_download_long"), $file_count, ilUtil::formatSize($total_bytes)),
+							$file_count+1
+						);						
 					}
 				}
 				// below thresholds: direct download
@@ -211,11 +195,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 					
 					$res = $this->finish();
 					
-					$json->status = "finished";
-					
 					// see ilBackgroundTaskHub::progress()
-					$json->result_cmd = $res[0];
-					$json->result = $res[1];
+					$json = ilBackgroundTaskJson::getFinishedJson($task->getId(), $res[0], $res[1]);						
 				}
 			}
 		}

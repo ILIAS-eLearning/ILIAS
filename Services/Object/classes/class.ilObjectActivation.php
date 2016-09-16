@@ -266,8 +266,8 @@ class ilObjectActivation
 			"suggestion_start = ".$ilDB->quote((int)$this->getSuggestionStart(),'integer').", ".
 			"suggestion_end = ".$ilDB->quote((int)$this->getSuggestionEnd(),'integer').", ".
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
-			"earliest_start = ".$ilDB->quote($this->getEarliestStart(),'integer').", ".
-			"latest_end = ".$ilDB->quote($this->getLatestEnd(),'integer').", ";
+			"earliest_start = ".$ilDB->quote((int)$this->getEarliestStart(),'integer').", ".
+			"latest_end = ".$ilDB->quote((int)$this->getLatestEnd(),'integer').", ";
 		
 		if($a_parent_id)
 		{

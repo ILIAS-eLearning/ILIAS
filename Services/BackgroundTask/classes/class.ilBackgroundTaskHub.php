@@ -161,17 +161,17 @@ class ilBackgroundTaskHub
 	 */
 	protected function progress() 
 	{		
-		$json = new stdClass();
-		$json->status = $this->task->getStatus();				
-		$json->steps = $this->task->getSteps();
-		$json->current = $this->task->getCurrentStep();		
+		include_once "Services/BackgroundTask/classes/class.ilBackgroundTaskJson.php";
 		
 		// if task has been finished, get result action
 		if($this->task->getStatus() == ilBackgroundTask::STATUS_FINISHED)
 		{
 			$result = $this->handler->finish();
-			$json->result_cmd = $result[0];
-			$json->result = $result[1];
+			$json = ilBackgroundTaskJson::getProgressJson($this->task, $result[0], $result[1]);
+		}
+		else
+		{
+			$json = ilBackgroundTaskJson::getProgressJson($this->task);
 		}
 		
 		$this->sendJson($json);
