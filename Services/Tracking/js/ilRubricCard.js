@@ -875,7 +875,7 @@ addBehavior:function(thead,tbody,tfoot,position){
                 var test_value=parseFloat(inputs[a].value);
                 if(isNaN(inputs[a].value)||test_value>max||test_value<min){
                     // value is out of range or not a number                  
-                    inputs[a].setAttribute('style','border-color:default');
+                    inputs[a].setAttribute('style','border:3px solid red');
                     verified=false;
                 }else{
                     //value is all good
