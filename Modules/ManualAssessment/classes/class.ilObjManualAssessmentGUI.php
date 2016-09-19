@@ -45,7 +45,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function addLocatorItems() {
 
 		if (is_object($this->object)) {
-			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "view"), "", $_GET["ref_id"]);
+			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "view"), "", $this->object->getRefId());
 		}
 	}
 
