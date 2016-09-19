@@ -1835,6 +1835,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		$lng->loadLanguageModule("administration");
 		$lng->loadLanguageModule("mail");
+		$lng->loadLanguageModule("chatroom");
 		$this->setSubTabs('settings');
 		$ilTabs->activateTab('settings');
 		$ilTabs->activateSubTab('standard_fields');
@@ -2035,6 +2036,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		$ilias->setSetting('mail_incoming_mail', (int)$_POST['select']['default_mail_incoming_mail']);
+		$ilias->setSetting('chat_osc_accept_msg', ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg']));
 
 		ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();
@@ -2714,6 +2716,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{			
 			$cmds["mail"] = $this->lng->txt("send_mail");
 		}
+		
+		$cmds['addToClipboard'] = $this->lng->txt('clipboard_add_btn');
 						
 		return $cmds;
 	}
@@ -2860,5 +2864,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}		
 	}
 	
+	protected function addToClipboardObject()
+	{
+		$users = (array) $_POST['id'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->redirect($this, 'view');
+		}
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
+		$this->ctrl->redirect($this, 'view');
+		
+	}
 } // END class.ilObjUserFolderGUI
 ?>

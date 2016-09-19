@@ -202,7 +202,7 @@ class ilRepositoryExplorer extends ilExplorer
 		return parent::getImage($a_name);
 	}
 
-	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
+	function isClickable($a_type, $a_ref_id = 0,$a_obj_id = 0)
 	{
 		global $rbacsystem,$tree,$ilDB,$ilUser,$ilAccess;
 
@@ -405,7 +405,7 @@ class ilRepositoryExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader(&$tpl, $a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias, $tree, $ilCtrl;
 

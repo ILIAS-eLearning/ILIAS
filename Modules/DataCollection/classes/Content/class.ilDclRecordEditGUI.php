@@ -348,11 +348,7 @@ class ilDclRecordEditGUI {
 		$this->cancelUpdate();
 	}
 
-	public function saveConfirmation() {
-
-		if(!isset($_SESSION['record_form_values'])) {
-			$this->ctrl->redirect($this, "edit");
-		}
+	public function saveConfirmation(ilDclBaseRecordModel $record_obj, $filehash) {
 
 		$permission = ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id);
 		if ($permission) {
@@ -361,7 +357,6 @@ class ilDclRecordEditGUI {
 			$all_fields = $this->table->getEditableFields();
 		}
 
-		$record_obj = ilDclCache::getRecordCache($this->record_id);
 		$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 		$record_obj->setTableId($this->table_id);
 		$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
@@ -378,30 +373,27 @@ class ilDclRecordEditGUI {
 		$confirmation->setCancel($this->lng->txt('dcl_edit_record'), 'edit');
 		$confirmation->setConfirm($this->lng->txt('dcl_save_record'), 'save');
 		
-		$all_values = $_SESSION['record_form_values'];
 		$record_data = "";
 
-		foreach($all_fields as $key=>$field) {
-			$field_record = ilDclCache::getRecordFieldCache($record_obj, $field);
-			$field_record->setValue($all_values[$field->getId()]);
+		$empty_fileuploads = array();
+		foreach($all_fields as $field) {
+			$record_field = $record_obj->getRecordField($field->getId());
+			/** @var ilDclBaseRecordFieldModel $record_field */
+			$record_field->addHiddenItemsToConfirmation($confirmation);
 
-			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($field_record);
-
-			if(is_array($all_values[$field->getId()])) {
-				foreach($all_values[$field->getId()] as $key=>$value) {
-					$confirmation->addHiddenItem('field_'.$field->getId().'['.$key.']', $value);
-				}
-			} else {
-				$confirmation->addHiddenItem('field_'.$field->getId(), $all_values[$field->getId()]);
+			if (($record_field instanceof ilDclFileuploadRecordFieldModel || $record_field instanceof ilDclMobRecordFieldModel)
+				&& $record_field->getValue() == null) {
+				$empty_fileuploads['field_'.$field->getId()] = array();
 			}
+			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 
 			if($record_representation->getConfirmationHTML() !== false) {
 				$record_data .= $field->getTitle().": ".$record_representation->getConfirmationHTML() ."<br />";
 			}
 		}
 
-		$hash = $all_values["ilfilehash"];
-		$confirmation->addHiddenItem('ilfilehash', $hash);
+		$confirmation->addHiddenItem('ilfilehash', $filehash);
+		$confirmation->addHiddenItem('empty_fileuploads', htmlspecialchars(json_encode($empty_fileuploads)));
 		$confirmation->addHiddenItem('table_id', $this->table_id);
 		$confirmation->addHiddenItem('tableview_id', $this->tableview_id);
 		$confirmation->addItem('save_confirmed', 1, $record_data);
@@ -428,6 +420,12 @@ class ilDclRecordEditGUI {
 		if($this->table->getSaveConfirmation() && isset($_POST['save_confirmed']) && isset($_POST['ilfilehash']) && !isset($this->record_id) && !$this->ctrl->isAsynch()) {
 			$restore_files = ilDclPropertyFormGUI::getTempFileByHash($_POST['ilfilehash'], $ilUser->getId());
 			$_FILES = $restore_files;
+
+			//handle empty fileuploads, since $_FILES has to have an entry for each fileuploadGUI
+			if (json_decode($_POST['empty_fileuploads']) && $_POST['empty_fileuploads'] != '') {
+				$_FILES = $_FILES + json_decode($_POST['empty_fileuploads'], true);
+			}
+
 			unset($_SESSION['record_form_values']);
 		}
 
@@ -451,7 +449,14 @@ class ilDclRecordEditGUI {
 		//Check if we can create this record.
 		foreach ($all_fields as $field) {
 			try {
-				$value = $this->form->getInput("field_" . $field->getId());
+				if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+					$value = array(
+						'link' => $this->form->getInput("field_" . $field->getId()),
+						'title' => $this->form->getInput("field_" . $field->getId() . "_title")
+					);
+				} else {
+					$value = $this->form->getInput("field_" . $field->getId());
+				}
 				$field->checkValidity($value, $this->record_id);
 			} catch (ilDclInputException $e) {
 				$valid = false;
@@ -515,10 +520,7 @@ class ilDclRecordEditGUI {
 						$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
 					}
 
-					$_SESSION['record_form_values'] = $record_obj->getRecordFieldValuesForConfirmation();
-					$_SESSION['record_form_values']['ilfilehash'] = $hash;
-
-					$this->ctrl->redirect($this, 'saveConfirmation');
+					$this->saveConfirmation($record_obj, $hash);
 					return;
 				}
 

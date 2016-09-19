@@ -11,7 +11,7 @@
 class ilTestRandomQuestionSetStagingPoolQuestion
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -31,9 +31,9 @@ class ilTestRandomQuestionSetStagingPoolQuestion
 	protected $questionId;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

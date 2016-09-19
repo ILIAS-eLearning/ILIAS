@@ -888,17 +888,14 @@ class ilTemplate extends HTML_Template_ITX
 			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
 		}
 
-        // output translation link (extended language maintenance)
-        if ($ilSetting->get("lang_ext_maintenance") == "1")
-        {
-            include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
-            if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
-            {
-				// fix #9992: remember linked translation instead of saving language usages here
-				$this->translation_linked = true;
-                $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
-            }
-        }
+        // output translation link
+		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+		if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
+		{
+			// fix #9992: remember linked translation instead of saving language usages here
+			$this->translation_linked = true;
+			$link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
+		}
 
         $cnt = 0;
 		foreach($link_items as $url => $caption)
@@ -2151,7 +2148,7 @@ class ilTemplate extends HTML_Template_ITX
 		if ($this->mount_webfolder != "")
 		{
 			require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-			$davServer = new ilDAVServer();
+			$davServer = ilDAVServer::getInstance();
 			$a_ref_id = $this->mount_webfolder;
 			$a_link =  $davServer->getMountURI($a_ref_id);
 			$a_folder = $davServer->getFolderURI($a_ref_id);
@@ -2411,13 +2408,15 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "")
+	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
 	{
 		$this->permanent_link = array(
 			"type" => $a_type,
 			"id" => $a_id,
 			"append" => $a_append,
-			"target" => $a_target);
+			"target" => $a_target,
+			"title" => $a_title);
+
 	}
 	
 	/**
@@ -2433,6 +2432,10 @@ class ilTemplate extends HTML_Template_ITX
 				$this->permanent_link["id"],
 				$this->permanent_link["append"],
 				$this->permanent_link["target"]);
+			if ($this->permanent_link["title"] != "")
+			{
+				$plinkgui->setTitle($this->permanent_link["title"]);
+			}
 			$this->setVariable("PRMLINK", $plinkgui->getHTML());
 		}
 	}

@@ -77,22 +77,38 @@ class ilDclBaseRecordModel {
 
 
 	/**
+	 * @param $value
+	 * @return string
+	 */
+	private function fixDate($value) {
+		global $DIC;
+		if ($DIC['ilDB']->getDBType() != ilDBConstants::TYPE_ORACLE) {
+			return $value;
+		}
+
+		$date = explode(' ', $value);
+
+		return $date[0];
+	}
+
+
+	/**
 	 * doUpdate
 	 */
 	public function doUpdate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$ilDB->update("il_dcl_record", array(
-			"table_id" => array(
+		$values = array(
+			"table_id"     => array(
 				"integer",
 				$this->getTableId()
 			),
-			"last_update" => array(
+			"last_update"  => array(
 				"date",
-				$this->getLastUpdate()
+				$this->fixDate($this->getLastUpdate())
 			),
-			"owner" => array(
+			"owner"        => array(
 				"text",
 				$this->getOwner()
 			),
@@ -100,7 +116,8 @@ class ilDclBaseRecordModel {
 				"text",
 				$this->getLastEditBy()
 			)
-		), array(
+		);
+		$ilDB->update("il_dcl_record", $values, array(
 			"id" => array(
 				"integer",
 				$this->id
@@ -359,19 +376,6 @@ class ilDclBaseRecordModel {
 
 		return $return;
 	}
-
-	public function getRecordFieldValuesForConfirmation() {
-		$this->loadRecordFields();
-		$return = array();
-		foreach ($this->recordfields as $id => $record_field) {
-			$value = $record_field->getConfirmationValue();
-			if($value !== null)
-				$return[$id] = $record_field->getConfirmationValue();
-		}
-
-		return $return;
-	}
-
 
 	/**
 	 * Get Field Value

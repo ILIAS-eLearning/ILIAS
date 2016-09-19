@@ -55,15 +55,18 @@ class ilTestLP extends ilObjectLP
 			require_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
 			$course_obj_id = ilLOSettings::isObjectiveTest($test_ref_id);
 			if($course_obj_id)
-			{
-				// is test initial and/or qualified?
-				$lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);				
-				$is_i = ($lo_settings->getInitialTest() == $test_ref_id);
-				$is_q = ($lo_settings->getQualifiedTest() == $test_ref_id);		
-				
+			{													
 				// remove objective results data
+				$lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);		
+				
 				require_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
-				ilLOUserResults::deleteResultsFromLP($course_obj_id, $a_user_ids, $is_i, $is_q);
+				ilLOUserResults::deleteResultsFromLP(
+					$course_obj_id, 
+					$a_user_ids, 
+					($lo_settings->getInitialTest() == $test_ref_id), 
+					($lo_settings->getQualifiedTest() == $test_ref_id), 
+					ilLOTestAssignments::lookupObjectivesForTest($test_ref_id)
+				);					
 				
 				// refresh LP - see ilLPStatusWrapper::_updateStatus()
 				require_once "Services/Tracking/classes/class.ilLPStatusFactory.php";

@@ -9,5 +9,8 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+	<crons>
+		<cron id="log_error_file_cleanup" class="ilLoggerCronCleanErrorFiles" path="Services/Logging/classes/error/" />
+	</crons>
 	<logging id="log" />
 </service>

@@ -275,101 +275,6 @@ class ilSetup
 		return false;
 	}
 
-//	function getline( $fp, $delim )
-//	{
-//		$result = "";
-//		while( !feof( $fp ) )
-//		{
-//			$tmp = fgetc( $fp );
-//			if( $tmp == $delim )
-//				return $result;
-//			$result .= $tmp;
-//		}
-//		return $result;
-//	}
-//
-//	/**
-//	* execute a query
-//	* @param	string
-//	* @param	string
-//	* @return	boolean	ture if query was processed successfully
-//	*/
-//	function readDump($db, $file)
-//	{
-//		// mysql (old procedure)
-//		if ($db->getDBType() == "mysql")
-//		{
-//			$fp = fopen($file, 'r');
-//
-//			while(!feof($fp))
-//			{
-//				//$line = trim(fgets($fp, 200000));
-//				$line = trim($this->getline($fp, "\n"));
-//
-//				if ($line != "" && substr($line,0,1)!="#"
-//					&& substr($line,0,1)!="-")
-//				{
-//					//take line per line, until last char is ";"
-//					if (substr($line,-1)==";")
-//					{
-//						//query is complete
-//						$q .= " ".substr($line,0,-1);
-//						$r = $db->query($q);
-//
-//						if ($db->getErrorNo() > 0)
-//						{
-//							echo "<br />ERROR: ".$db->getError().
-//								"<br />SQL: $q";
-//							return false;
-//						}
-//						unset($q);
-//						unset($line);
-//					} //if
-//					else
-//					{
-//						$q .= " ".$line;
-//					} //else
-//				} //if
-//			} //for
-//
-//			fclose($fp);
-//		}
-//
-//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-//		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
-//		{
-//			if(@is_dir('./setup/sql/ilDBTemplate'))
-//			{
-//				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
-//				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
-//				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
-//				foreach($reader as $file)
-//				{
-//					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
-//					try
-//					{
-//						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
-//						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
-//						$parser->startParsing();
-//						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
-//
-//					}
-//					catch(ilSaxParserException $e)
-//					{
-//						die($e);
-//					}
-//				}
-//			}
-//			else
-//			{
-//				include_once("./setup/sql/ilDBTemplate.php");
-//				setupILIASDatabase();
-//			}
-//		}
-//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-//		return true;
-//	}
-
 
 	/**
 	* check if inifile exists
@@ -1272,6 +1177,7 @@ class ilSetup
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
+		$error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
 
  		$this->ini->setVariable("server","http_path",ILIAS_HTTP_PATH);
 		$this->ini->setVariable("server","absolute_path",ILIAS_ABSOLUTE_PATH);
@@ -1295,6 +1201,7 @@ class ilSetup
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("log", "error_path", $error_log_path);
 
 		$this->ini->setVariable("https","auto_https_detect_enabled", ($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
 		$this->ini->setVariable("https","auto_https_detect_header_name", $a_formdata["auto_https_detect_header_name"]);
@@ -1355,9 +1262,12 @@ class ilSetup
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
 
+		$error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
+
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("log", "error_path", $error_log_path);
 		$this->ini->setVariable("server","timezone",preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["time_zone"])));
 
 		$this->ini->setVariable("https","auto_https_detect_enabled",($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
@@ -1612,6 +1522,27 @@ class ilSetup
 			if (!@touch($log_path))
 			{
 				$this->error = "could_not_create_logfile";
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * check error log path
+	 *
+	 * @param	string	$error_log_path		path to save error log files
+	 *
+	 * @return	boolean
+	 */
+	public function checkErrorLogSetup($error_log_path) {
+		// remove trailing slash & convert backslashes to forwardslashes
+		$clean_error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($error_log_path)));
+
+		if (!empty($clean_error_log_path)) {
+			if (!ilUtil::makeDirParents($clean_error_log_path)) {
+				$this->error = "could_not_create_error_directory";
 				return false;
 			}
 		}

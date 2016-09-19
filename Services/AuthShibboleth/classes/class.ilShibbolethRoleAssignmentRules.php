@@ -121,7 +121,7 @@ class ilShibbolethRoleAssignmentRules {
 		$ilDB = $DIC['ilDB'];
 		$rbacadmin = $DIC['rbacadmin'];
 		$ilLog = $DIC['ilLog'];
-		$query = "SELECT rule_id FROM shib_role_assignment ";
+		$query = "SELECT rule_id,add_on_update FROM shib_role_assignment WHERE add_on_update = 1";
 		$num_matches = 0;
 		$res = $ilDB->query($query);
 		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

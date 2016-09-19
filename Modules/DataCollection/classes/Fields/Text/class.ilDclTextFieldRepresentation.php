@@ -77,7 +77,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 		$opt->addSubItem($prop_length);
 
-		$prop_regex = new ilTextInputGUI($this->lng->txt('dcl_regex'), $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX));
+		$prop_regex = new ilDclTextInputGUI($this->lng->txt('dcl_regex'), $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX));
 		$prop_regex->setInfo($this->lng->txt('dcl_regex_info'));
 
 		$opt->addSubItem($prop_regex);

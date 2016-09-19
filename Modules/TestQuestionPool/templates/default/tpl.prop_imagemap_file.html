@@ -1,7 +1,14 @@
-<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
-<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
+<div class="input-group">
+	<span class="input-group-btn">
+		<span class="btn btn-default btn-file">
+			{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+		</span>
+	</span>
+	<input type="text" class="form-control" readonly="readonly">
+</div>
+<div class="help-block">{TXT_MAX_SIZE}</div>
 <!-- BEGIN allowed_image_suffixes -->
-<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
+<div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
 <!-- END allowed_image_suffixes -->
 <!-- BEGIN image -->
 <img class="imagemap" style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />

@@ -435,7 +435,7 @@ class ilDclTableEditGUI {
 	 * cancelDelete
 	 */
 	public function cancelDelete() {
-		$this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
 	}
 
 	/*
@@ -444,9 +444,11 @@ class ilDclTableEditGUI {
 	public function delete() {
 		if (count($this->table->getCollectionObject()->getTables()) < 2) {
 			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
+			$this->table->doDelete(true);
+		} else {
+			$this->table->doDelete(false);
 		}
 
-		$this->table->doDelete();
 		$this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
 	}
 

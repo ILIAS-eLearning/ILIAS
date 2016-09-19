@@ -14,7 +14,7 @@ class ilAwarenessData
 	protected $user_id;
 	protected $ref_id = 0;
 	protected $user_collector;
-	protected $feature_collector;
+	protected $action_collector;
 	protected $user_collection;
 	protected $data = null;
 	protected $online_user_data = null;
@@ -33,8 +33,8 @@ class ilAwarenessData
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollector.php");
 		$this->user_collector = ilAwarenessUserCollector::getInstance($a_user_id);
-		include_once("./Services/Awareness/classes/class.ilAwarenessFeatureCollector.php");
-		$this->feature_collector = ilAwarenessFeatureCollector::getInstance($a_user_id);
+		include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
+		$this->action_collector = ilUserActionCollector::getInstance($a_user_id);
 	}
 
 	/**
@@ -343,16 +343,16 @@ class ilAwarenessData
 					$obj->online = $n["online"];
 					$obj->last_login = $n["last_login"];;
 
-					// get features
-					$feature_collection = $this->feature_collector->getFeaturesForTargetUser($n["id"]);
-					$obj->features = array();
-					foreach ($feature_collection->getFeatures() as $feature)
+					// get actions
+					$action_collection = $this->action_collector->getActionsForTargetUser($n["id"], "awrn", "toplist");
+					$obj->actions = array();
+					foreach ($action_collection->getActions() as $action)
 					{
 						$f = new stdClass;
-						$f->text = $feature->getText();
-						$f->href = $feature->getHref();
-						$f->data = $feature->getData();
-						$obj->features[] = $f;
+						$f->text = $action->getText();
+						$f->href = $action->getHref();
+						$f->data = $action->getData();
+						$obj->actions[] = $f;
 					}
 
 					$this->data[] = $obj;

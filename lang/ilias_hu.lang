@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-08-07
+* @version	5.2.x 2016-09-10
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -14,6 +14,35 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+forum#:#delete_drafts_successfully#:#Piszkozatokat sikeresen törölte.
+forum#:#sure_delete_drafts#:#Biztos, hogy törli a kijelölt piszkozatokat?
+forum#:#restore#:#Visszaállítás
+forum#:#restore_draft_from_autosave#:#Piszkozat visszaállítása
+forum#:#autosave_draft_info#:#<span class="asterisk">Ezt a piszkozatot automatikusan mentjük %s másodpercenként.</span>
+forum#:#autosave_post_draft_info#:#<span class="asterisk">Ezt a hozzászólást automatikusan piszkozatként mentjük %s másodpercenként.</span>
+forum#:#publishThreadDrafts#:#Témapiszkozat közzététele
+forum#:#deleteThreadDrafts#:#Témapiszkozat törlése
+forum#:#edit_thread_draft#:#Témapiszkozat módosítása
+common#:#pd_enable_pdfrmpostdraft#:#'Hozzászólás-piszkozataim' engedélyezése
+common#:#pd_enable_pdfrmpostdraft_info#:#Ha be van kapcsolva, 'Hozzászólás-piszkozataim' blokk helyezhető a felhasználó Munkaasztalára. Ez a blokk a fórumokban létrehozott hozzászólások piszkozatait tartalmazza.
+pd#:#block_show_pdfrmpostdraft#:#'Témapiszkozataim' megjelenítése
+forum#:#forums_thread_drafts_deleted#:#A kiválasztott témát, annak összes hozzászólásával és piszkozatával sikeresen törölte.
+forum#:#forums_threads_drafts_deleted#:#A kiválasztott témákat, annak összes hozzászólásával és piszkozatával sikeresen törölte.
+forum#:#save_draft_successfully#:#A piszkozatot sikeresen mentette.
+forum#:#forums_info_delete_draft#:#Biztos, hogy törli ezt a piszkozatot?
+forum#:#delete_draft_successfully#:#Piszkozatot sikeresen mentette.
+forum#:#forums_edit_draft#:#Piszkozat módosítása
+forum#:#publish#:#Közzététel
+forum#:#frm_my_posting_drafts#:#Hozzászólás-piszkozataim
+forum#:#frm_posting_draft#:#Piszkozat
+forum#:#frm_posting_drafts#:#Piszkozatok
+forum#:#enable_send_attachments#:#Csatolmányok küldése fórumértesítésekkel
+forum#:#enable_send_attachments_desc#:#Megjegyzés: ez nagy tárhelyhasználatot okozhat a szerveren, mert minden csatolt fájlt minden értesítendő felhasználóhoz külön-külön mentünk.
+forum#:#adm_save_drafts#:#Piszkozatok mentése   
+forum#:#adm_save_drafts_desc#:#Ha be van kapcsolva, a regisztrált felhasználók piszkozatként menthetik fórumhozzászólásaikat.    
+forum#:#adm_autosave_drafts#:#Piszkozatok automatikus mentése
+forum#:#adm_autosave_ival#:#Időköz
+forum#:#adm_autosave_drafts_desc#:#Ha be van kapcsolva, a szerkesztés alatt lévő piszkozatokat automatikusan mentjük.
 acc#:#acc_access_key#:#Gyorsbillentyű
 acc#:#acc_access_keys#:#Gyorsbillentyűk
 acc#:#acc_comp_frm#:#Fórum
@@ -72,17 +101,17 @@ administration#:#language_compare#:#Összehasonlítás
 administration#:#language_default_entries#:#(alapértelmezett bejegyzések)
 administration#:#language_delete_local_changes#:#Az összes helyi változat törlése az adatbázisban
 administration#:#language_error_clear_local#:#A helyi változatok nem törölhetők az adatbázisból!
-administration#:#language_error_read_local#:#A helyi nyelvi fájl nem létezik vagy nem olvasható!
-administration#:#language_error_write_local#:#A helyi nyelvi fájl nem írható!
+administration#:#language_error_read_local#:#Az egyéni nyelvi fájl nem létezik vagy nem olvasható!
+administration#:#language_error_write_local#:#Az egyéni nyelvi fájl nem írható!
 administration#:#language_export_file#:#Nyelvi fájl exportja
 administration#:#language_file_imported#:#A nyelvi fájlt (%s) importáltuk.
 administration#:#language_file_scope#:#Nyelvi fájl hatóköre
-administration#:#language_former_file_description#:#A helyi módosításainak a legutóbbi frissítés módosításaival való összehasonlításhoz másolja a korábban installált ILIAS-verzió nyelvi fájlját a helyi nyelvi fájlok mappájába. A jelenlegi nyelvi fájl automatikusan másolásra kerül, amikor a 'Karbantartás' fülön menti a helyi nyelvi fájlját.
+administration#:#language_former_file_description#:#A helyi módosításainak a legutóbbi frissítés módosításaival való összehasonlításhoz másolja a korábban installált ILIAS-verzió nyelvi fájlját a fentebb említett mappába. A következő frissítés előtt ezt megteheti a Karbantartás fül alatt a 'Standard nyelvi fájlok biztonsági mentése' beállítással.
 administration#:#language_former_file_equal#:#<b>%s</b> fájl azonos a jelenlegi nyelvi fájllal.
 administration#:#language_former_file_missing#:#<b>%s</b> fájl hiányzik.
 administration#:#language_import_file#:#Nyelvi fájl importálása
-administration#:#language_load_local_changes#:#Helyi nyelvi fájl betöltése az adatbázisba
-administration#:#language_loaded_local#:#A helyi nyelvi fájlt sikeresen betöltötte az adatbázisba.
+administration#:#language_load_local_changes#:#Egyéni nyelvi fájl betöltése az adatbázisba
+administration#:#language_loaded_local#:#Az egyéni nyelvi fájlt sikeresen betöltötte az adatbázisba.
 administration#:#language_maintain_local_changes#:#Helyi módosítások karbantartás
 administration#:#language_maintain#:#Karbantartás
 administration#:#language_maintenance#:#Nyelv karbantartása
@@ -91,11 +120,11 @@ administration#:#language_mode_existing_keepall#:#Az összes már létező bejeg
 administration#:#language_mode_existing_keepnew#:#Az összes helyi változat megtartása
 administration#:#language_mode_existing_replace#:#Létező bejegyzések cseréje
 administration#:#language_mode_existing#:#Létező bejegyzések
-administration#:#language_note_save_local#:#Rendszeresen mentse változtatásait a helyi nyelvi fájlba! Ha nincs írási joga a helyi nyelvi fájlokhoz, exportálhatja a helyi változatokat, így szükség esetén importálhatja azokat.
+administration#:#language_note_save_local#:#Rendszeresen mentse változtatásait az egyéni nyelvi fájlba! Ha nincs írási joga az egyéni nyelvi fájlokhoz, exportálhatja a helyi változatokat, így szükség esetén importálhatja azokat.
 administration#:#language_note_translation#:#Az oldalfordító az egyes nyelvekhez külön-külön kapcsolható be. A felhasználónak olvasási és írási jogosultsággal is rendelkeznie kell az egyes nyelvi fájlokhoz.
 administration#:#language_process_maintenance#:#Karbantartás futtatása
-administration#:#language_save_local_changes#:#Az összes változtatás helyi nyelvi fájlba mentése
-administration#:#language_saved_local#:#Az összes változtatást sikeresen mentette a helyi nyelvi fájlba.
+administration#:#language_save_local_changes#:#Az összes változtatást egyéni nyelvi fájlba mentése
+administration#:#language_saved_local#:#Az összes változtatást sikeresen mentette az egyéni nyelvi fájlba.
 administration#:#language_scope_commented#:#Csak a nyelvi fájlban megjegyzésekkel ellátott bejegyzések megjelenítése
 administration#:#language_scope_conflicts#:#Helyi és módosított változások
 administration#:#language_scope_dbremarks#:#Csak az adatbázisban megjegyzésekkel ellátott bejegyzések megjelenítése
@@ -187,12 +216,19 @@ assessment#:#autosave#:#Automatikus mentés
 assessment#:#autosave_info#:#A válaszokat meghatározott időközönként automatikusan mentjük, az adatvesztés elkerülése érdekében.
 assessment#:#autosave_ival#:#Időköz
 assessment#:#for#:#ehhez
+assessment#:#wait_for_next_pass_hint_msg#:#További kitöltés lehetséges ekkor: %s
+assessment#:#tst_pass_waiting_enabled#:#Várakozási idő kikényszerítése kitöltések között
+assessment#:#tst_pass_waiting_info#:#Ha be van kapcsolva, további kitöltés nem indítható amíg megadott idő el nem telik az utolsó kitöltés befejezése óta.
+assessment#:#tst_pass_waiting_time#:#Várakozási idő
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt induló kitöltése nem tartalmaz kérdését.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#A jelenleg beállított '%s' kérdésgyűjteményt törölték.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé.
 assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:
-assessment#:#essay_scoring_mode#:#Pontozási mód
+assessment#:#ass_mc_sel_lim_hint#:#%s darabot jelöljön ki %s válaszból!
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Ne jelöljön ki %s darabnál többet %s válaszból!
+assessment#:#ass_mc_sel_lim_setting#:#Válaszlehetőségek korlátja
+assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozható a válaszadók választható válaszainak száma.
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás
@@ -229,7 +265,7 @@ assessment#:#all_available_question_pools#:#Összes elérhető kérdésgyűjtem�
 assessment#:#allow_images#:#Képsegítség válaszokhoz
 assessment#:#allowedextensions_info#:#Sorolja fel veszővel tagolva az engedélyezett fájlkiterjesztéseket, amennyiben korlátozni szeretné a feltölthető fájltípusokat (például: doc, xls, odt).
 assessment#:#allowedextensions#:#Engedélyezett fájlkiterjesztések
-assessment#:#analyze_errortext#:#Szöveg hibaelemzése
+assessment#:#analyze_errortext#:#Szöveg elemzése
 assessment#:#answer_image#:#Válaszkép
 assessment#:#answer_is_not_correct_but_positive#:#Szerzett pontot a megoldására, de megoldása nem a legtökéletesebb megoldás.
 assessment#:#answer_is_right#:#A megoldása helyes
@@ -269,11 +305,11 @@ assessment#:#ass_size#:#Méret
 assessment#:#tst_objectives_progress_header#:#Tanulási célkitűzések folyamata
 assessment#:#tst_objective_progress_header#:#Tanulási célkitűzés folyamata
 assessment#:#assClozeTest#:#Mondatkiegészítés
-assessment#:#assErrorText#:#Hibás szöveg megjelölése
+assessment#:#assErrorText#:#Hibás szövegrész(ek) megjelölése
 assessment#:#assessment_eval_settings#:#Az alábbi mezők megjelenítése az értékelésben minden felhasználóhoz
 assessment#:#assFileUpload#:#Fájlfeltöltéses kérdés
 assessment#:#assFlashQuestion#:#Flash-kérdés
-assessment#:#assImagemapQuestion#:#Aktív terület /képtérképes kérdés
+assessment#:#assImagemapQuestion#:#Aktív terület/képtérképes kérdés
 assessment#:#assJavaApplet#:#Java-Applet kérdés
 assessment#:#assMatchingQuestion#:#Párosító kérdés
 assessment#:#assMultipleChoice#:#Többválaszos kérdés (jelölőnégyzetes)
@@ -291,14 +327,14 @@ assessment#:#available_points#:#Elérhető pontok
 assessment#:#available_terms#:#Elérhető kifejezések
 assessment#:#average_reached_points#:#Elért pontok átlaga
 assessment#:#backtocallingtest#:#Vissza a teszthez
-assessment#:#assLongMenu#:#Hosszú menü
+assessment#:#assLongMenu#:#'Étlap'-kérdés
 assessment#:#answers_text_box#:#Szöveg
-assessment#:#min_auto_complete#:#Autokiegészítés
-assessment#:#autocomplete_error#:#Autokiegészítése túl nagy szám. Mivel válaszai rövidebbek, sosem fognak megjelenni.
+assessment#:#min_auto_complete#:#Automatikus kiegészítés 
+assessment#:#autocomplete_error#:#Az automatikus kiegészítés értéke túl nagy szám. Mivel válaszai rövidebbek, azok sosem fognak megjelenni.
 assessment#:#answers_select#:#Legördülő
 assessment#:#info_text_upload#:#Válasszon egy UTF-8 kódolású válaszfájlt a feltöltéshez
 assessment#:#manual_editing#:#Kézi szerkesztés
-assessment#:#longmenu_text#:#Hosszú menü szövege
+assessment#:#longmenu_text#:#'Étlap'-szöveg
 assessment#:#correct_answers#:#Helyes válaszok: 
 assessment#:#answer_options#:#Válaszlehetőségek: ###XXX
 assessment#:#add_answers#:#Válasz hozzáadása 
@@ -432,15 +468,15 @@ assessment#:#error_no_upper_limit#:#Adjon meg egy felső határt!
 assessment#:#error_open_image_file#:#Hiba történt egy képfájl megnyitásakor.
 assessment#:#error_open_java_file#:#Hiba lépett fel egy java applet megnyitásakor.
 assessment#:#error_random_question_generation#:#Végzetes hiba történt tesztjéhez a kérdések véletlenszerű generálása közben. Vegye fel a kapcsolatot a rendszergazdával a következő információkkal: A rendszer nem tudott aktív ID-t létrehozni %s user_ID-hez és %s test_ID-hez.
-assessment#:#error_save_image_file#:#Hiba lépett fel egy képfájl mentésekor.
-assessment#:#errors_section#:#Hibaadat
+assessment#:#error_save_image_file#:#Hiba egy képfájl mentésekor.
+assessment#:#errors_section#:#Hibás szövegrész(ek) adatai
 assessment#:#errors#:#Hibák
-assessment#:#errortext_info#:#Adja meg a hibás szöveget! A hibás szavakat előzze meg egy kettőskereszt (#) karakter. A &quot;Szöveg hibaelemzése&quot; gomb megnyomására a megjelölt szavak kivonatolásra kerülnek a további feldolgozáshoz.
-assessment#:#errortext#:#Hibás szöveg megjelölése
+assessment#:#errortext_info#:#Adja meg a hibás szöveget. Ha a hibás szövegrész egy-egy szó, mindegyik elé rakjon kettőskereszt (#) karaktert. Például: Ember #barátnak #farkasa. Ha a hibás szövegrész több egymás utáni szó, használjon dupla zárójelet. Például: ((Barát barátnak)) farkasa. A &quot;Szöveg elemzése&quot; gomb megnyomására az összes megjelölt hibás szövegrészt további feldolgozásra kiemeljük.
+assessment#:#errortext#:#Hibás szöveg
 assessment#:#score_partsol_enabled#:#Részmegoldások pontozásának bekapcsolása
 assessment#:#score_partsol_enabled_info#:#A felhasználóknak általában a összes kérdést hibátlanul meg kell válaszolniuk a beállított pont eléréséhez. Evvel a lehetőséggel a beállított pont felét megszerezhetik legalább három hibátlan döntés esetén.
 assessment#:#option_label#:#Választható címkék
-assessment#:#option_label_info#:#A résztvevők választható címkeként használják az itt megadott megnevezéseket döntésüknél.
+assessment#:#option_label_info#:#A résztvevők döntésüknél választható címkeként látják az itt megadott megnevezéseket.
 assessment#:#option_label_right_wrong#:#helyes / helytelen
 assessment#:#option_label_right#:#helyes
 assessment#:#option_label_wrong#:#helytelen
@@ -617,8 +653,8 @@ assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#A negyedik válaszlehetőség egy választásosrés és a második lehetőséget választották válaszul
 assessment#:#qpl_skill_point_eval_mode_quest_result#:#Kérdéseredmény
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Megoldás-összehasonlítás
-assessment#:#qpl_skill_point_eval_by_quest_result#:#Kompetenciapontszámok kiértékelése kérdéseredmény alapján
-assessment#:#qpl_skill_point_eval_by_solution_compare#:#Kompetenciapontszámok kiértékelése megoldás-összehasonlítás alapján
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Kompetencia-pontszámok kiértékelése kérdéseredmény alapján
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Kompetencia-pontszámok kiértékelése megoldás-összehasonlítás alapján
 assessment#:#tst_solution_compare_cfg#:#Megoldás összehasonlításához beállítások
 assessment#:#tst_sol_comp_expressions#:#Összehasonlító kifejezések
 assessment#:#ass_lac_hide_legend_btn#:#Jelmagyarázat elrejtése
@@ -644,9 +680,11 @@ assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Ez a kérdés ne
 assessment#:#ass_lac_operator_not_supported_by_expression#:#'%s' művelet nem használható '%s' kifejezéssel összehasonlításban.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Kompetencia felméréséhez szükséges válaszok száma
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenciára nem váltunk át amíg a válaszok száma nem elegendő a kompetenciaszint számításához.
+assessment#:#export_essay_qst_with_html#:#Esszé kérdések exportálása HTML kódként
+assessment#:#export_essay_qst_with_html_desc#:#Ha be van kapcsolva, lehetővé válik esszékérdések exportálása HTML segítségével Excelbe.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetencia
 assessment#:#qpl_qst_skl_usg_numq_col#:#Kérdésgyűjteményben lévő, erre a kompetenciára vonatkozó kérdések száma
-assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Kompetenciapontszámok összege kérdésenként
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Kompetencia-pontszámok összege kérdésenként
 assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#A tesztek a kompetencia és kérdés összerendelése '%s' módon a megfelelő kérdésgyűjtemény(ek)ben történik:<br />%s<br /><br />A küszöbértékek beállítása itt, a tesztben szükséges.
 assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#A tesztek a kompetencia és kérdés összerendelése '%s' módon a megfelelő kérdésgyűjteményben történik:<br />%s<br /><br />A küszöbértékek beállítása itt, a tesztben szükséges.
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Kérdéshez rendelt kompetenciák: %s
@@ -660,6 +698,7 @@ assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális 
 assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adott meg. Bemenet: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert az egyidejű kitöltők száma elérte a maximumot.
 assessment#:#log_create_new_test#:#Új teszt jött létre
+assessment#:#new_test_created#:#Új teszt
 assessment#:#log_manual_feedback#:#%s manuális visszajelzést adott %s tesztet kitöltőnek a(z) %s kérdéshez
 assessment#:#log_mark_added#:#Érdemjegy hozzáadva.
 assessment#:#log_mark_changed#:#Érdemjegyet sikeresen módosította.
@@ -726,14 +765,23 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Véletlenszerűen kiválasztott
 assessment#:#tst_source_question_pool#:#Kérdésgyűjtemény
 assessment#:#tst_filter_taxonomy#:#Taxonómia
 assessment#:#tst_filter_tax_node#:#Taxonómia csomópont
+assessment#:#tst_non_avail_pools_table#:#Nem elérhető kérdésgyűjtemények
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#Ez a kérdésgyűjtemény jelenleg a kukában van, amint véglegesen törlődik a rendszerből, a teszt nem lesz képes szinkronizálni kérdéseket belőle.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#Ez a kérdésgyűjtemény többé nem érhető el, ezért kérdései szionkornizációja nem lehetséges. Új kérdésgyűjteményet származtathat a teszt kérdéseiből.
+assessment#:#tst_derive_new_pool#:#Új kérdésgyűjtemény származtatása
+assessment#:#tst_derive_new_pools#:#Új kérdésgyűjtemények származtatása
+assessment#:#tst_please_select_target_for_pool_derives#:#Válassza ki a cél tárolót.
+assessment#:#tst_non_available_pool_newly_derived#:#Az új kérdésgyűjtemény(eke)t sikeresen származtatta.
 assessment#:#tst_introduction_text#:#Bevezető üzenet
 assessment#:#tst_save_and_create_new_rule#:#Mentés és új szabály hozzáadása
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#A véletlenszerű kérdéskiválasztás beállításai módosultak. Új szabályt hozzáadhat.
 assessment#:#tst_msg_random_question_set_config_modified#:#A véletlenszerű kérdéskiválasztás beállításai sikeresen módosultak.
 assessment#:#tst_msg_random_question_set_synced#:#A jelenlegi beállítások alapján a véletlenszerűen kiválasztott kérdések sikeresen szinkronizálódtak.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Kérdések szinkronizálása gyűjteményekből
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A jelenlegi beállítások alapján a tesztet lehetséges véletlenszerű kérdésekre beállítani.<br/>A kiválasztott kérdésgyűjtemények utolsó szinkronizációjának dátuma: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A kiválasztott kérdésgyűjtemények utolsó szinkronizációjának dátuma: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A jelenlegi beállítások alapján a tesztet lehetséges véletlenszerű kérdésekre beállítani.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A jelenleg kiválasztott kérdésgyűjtemények és kérdések alapján a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#A teszt kérdéskiválasztási módja nem módosítható, mert a beállításokban szereplő alábbi kérdésgyűjtemények nem érhetőek el többé:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Kérdésgyűjtemény kiválasztása nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Pontosan meghatározott kérdésszám nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Jelenleg me, adhat meg új szabályt a kérdéskiválasztáshoz, mert nincs elérhető kérdésgyűjtemény.
@@ -780,7 +828,7 @@ assessment#:#nr_of_correct_answers#:#Elvárt válaszok száma
 assessment#:#number_of_answers#:#Válaszok száma
 assessment#:#numeric_gap#:#Számszerű hely
 assessment#:#online_exam_show_answer_print_sheet#:#Befejezte online vizsgáját. A válaszok nyomtatási előnézetének megtekintéséhez, amelyből kinyomtathatja teszteredményét, nyomja meg a &quot;Válaszok nyomtatási nézete&quot; gombot.
-assessment#:#online_exam_show_finish_test#:#Még hivatalosan is be kell fejeznie online vizsgáját. Ehhez nyomja meg a &quot;Teszt befejezése&quot; gombot!
+assessment#:#online_exam_show_finish_test#:#Online vizsgáját még be kell fejeznie. Ehhez nyomja meg a &quot;Teszt befejezése&quot; gombot.
 assessment#:#optional_keywords#:#Lehetséges kulcsszavak
 assessment#:#or#:#vagy
 assessment#:#oq_btn_use_order_pictures#:#Rendezze a képeket
@@ -814,10 +862,10 @@ assessment#:#point#:#pont
 assessment#:#points_checked#:#Pont (bejelölve)
 assessment#:#points_short#:#pont
 assessment#:#points_unchecked#:#Pont (bejelölés nélkül)
-assessment#:#points_wrong_info#:#Adja meg - a megjelölt hibák listában nem szereplő - kiválasztott szavakhoz a negatív pontokat.
-assessment#:#points_wrong#:#Rossz kiválasztások
+assessment#:#points_wrong_info#:#Adja meg minden helytelen kiválasztás, azaz a hibás szavak felsorolásában nem szereplő szó kiválasztása esetén járó negatív pontot.
+assessment#:#points_wrong#:#Helytelen kiválasztások
 assessment#:#points#:#Pont
-assessment#:#polygon_click_next_or_save#:#Kattintson a sokszög következő pontjára vagy mentse a területet! (Nem szükséges ismét kattintani a sokszög kezdőpontján.)
+assessment#:#polygon_click_next_or_save#:#Kattintson a sokszög következő pontjára vagy mentse a területet. (Nem szükséges ismét kattintani a sokszög kezdőpontján.)
 assessment#:#polygon_click_next_point#:#Kattintson a sokszög következő pontjára!
 assessment#:#polygon_click_starting_point#:#Kattintson a sokszög kezdőpontjára!
 assessment#:#polygon#:#Sokszög
@@ -953,13 +1001,13 @@ assessment#:#search_term#:#Fogalom keresése
 assessment#:#search_users#:#Felhasználók keresése
 assessment#:#tst_instant_feedback_handling#:#Válaszok zárolása
 assessment#:#tst_instant_feedback_handling_none#:#Válaszok ne legyenek zárolva
-assessment#:#tst_instant_feedback_handling_none_desc#:#A résztvevők válaszaikat bármelyik kitöltés alatt módosíthatják.
-assessment#:#tst_instant_feedback_handling_freeze#:#Válaszok zárolása, kérésre visszajelzés
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#A 'Válasz' gombra kattintás után a válasz már nem módosítható. A résztevők az 'Ellenőrzés' gombra kattintva visszajelzést kérhetnek. Kérjük, állítsa be a visszajelzés működését az 'Azonnali visszajelzés' alatt.
+assessment#:#tst_instant_feedback_handling_none_desc#:#A résztvevők a 'Visszajelzés kérése' gombra kattinthatnak, hogy visszajelzést kérjenek válaszukra az 'Azonnali visszajelzés' beállításainak megfelelően. Ezután a résztvevők még módosíthatják válaszukat.
+assessment#:#tst_instant_feedback_handling_freeze#:#Válaszok zárolása és visszajelzés küldése
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#A résztvevők a 'Válasz mentése, zárolása és ellenőrzése' gombra kattinthatnak, hogy zárolják válaszukat és visszajelzést kérjenek az 'Azonnali visszajelzés' beállításainak megfelelően. Ezután a résztvevők már nem módosíthatják válaszukat.
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Válaszok zárolása és visszajelzés kikényszerítése
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#A 'Válasz' gombra kattintás után a válasz már nem módosítható. A résztevőknek a visszajelzés jelenik meg az 'Azonnali visszajelzés' alatt beállítottaknak megfelelően.
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Miután a résztvevők a 'Válasz mentése, zárolása és ellenőrzése' gombra kattintottak vagy mentették válaszukat mikor elnavigáltak a kérdésről, válaszukat már nem módosíthatják. A résztvevők visszajelzésükkel automatikusan megjelenik az 'Azonnali visszajelzés' beállításainak megfelelően.
 assessment#:#tst_instant_feedback_handling_force#:#Válaszok ne legyenek zárolva, de a visszajelzés legyen kikényszerítve
-assessment#:#tst_instant_feedback_handling_force_desc#:#A 'Válasz' gombra kattintás után a résztevőknek a visszajelzés jelenik meg az 'Azonnali visszajelzés' alatt beállítottaknak megfelelően. A résztvevők válaszaikat bármelyik kitöltés alatt módosíthatják.
+assessment#:#tst_instant_feedback_handling_force_desc#:#Miután a résztvevők a 'Visszajelzés kérése' gombra kattintottak vagy mentették válaszukat mikor elnavigáltak a kérdésről, visszajelzésükkel automatikusan megjelennek az 'Azonnali visszajelzés' beállításainak megfelelően. Ezután még módosíthatják válaszaikat.
 assessment#:#see_details_for_further_information#:#Nézze meg az ismétlő összefoglaló tartalmának részleteit!
 assessment#:#select_an_answer#:#--- Válasszon ki egy választ! ---
 assessment#:#select_gap#:#Szöveghelyre választás
@@ -1007,8 +1055,8 @@ assessment#:#text_gap#:#Szöveghely
 assessment#:#text_maximum_chars_allowed#:#Ne adjon meg több, mint %s karaktert! Az efölötti karaktereket nem tároljuk.
 assessment#:#text_rating#:#Szövegillesztési módszer
 assessment#:#text_wrong#:#Hibás szöveg
-assessment#:#textsize_errortext_info#:#Adja meg a hibaszöveg szövegméretét százalékban, ha nem 100%-ot szeretne.
-assessment#:#textsize_info#:#Adja meg a sorrendbe rakó szöveg szövegméretét százalékban, ha nem 100%-ot szeretne.
+assessment#:#textsize_errortext_info#:#Adja meg a hibás szöveg méretét százalékban, ha 100%-tól eltérőt szeretne.
+assessment#:#textsize_info#:#Adja meg a sorrendbe rakó szöveg szövegméretét százalékban, ha 100%-tól eltérőt szeretne.
 assessment#:#textsize#:#Szövegméret
 assessment#:#thumb_geometry_info#:#A bélyegkép adott magasság és szélesség maximális értékekkel jön létre, megtartva a kép méretarányát.
 assessment#:#thumb_geometry#:#Bélyegkép geometriája
@@ -1079,10 +1127,16 @@ assessment#:#tst_finish_notification_no#:#Nincs e-mail
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
 assessment#:#tst_finished#:#Befejezve
-assessment#:#tst_fixed_participants_data_exists#:#Már vannak olyan résztvevők, akik végzik a tesztet. Nincs engedélye a tesztben résztvevők állapotainak változtatásához.
-assessment#:#tst_fixed_participants_disable_description#:#Ön meg szeretné szüntetni bizonyos felhasználók támogatását ebben a tesztben. Minden olyan megadott résztvevő, aki még nem kezdte el a tesztet, kikerül a tesztfelhasználók közül. Biztos, hogy folytatja?
-assessment#:#tst_fixed_participants_disable#:#Erősítse meg az állapotváltoztatásokat!
-assessment#:#tst_fixed_participating_users#:#Állandó résztvevők ebben a tesztben
+assessment#:#unfinished_passes#:#Befejezetlen kitöltések
+assessment#:#finish_pass_for_user_confirmation#:#Biztos, hogy törli ezt a tesztkitöltést?
+assessment#:#finish_pass_for_all_users#:#Biztos, hogy az összes felhasználó kitöltését befejezettre állítja?
+assessment#:#finish_all_user_passes#:#Összes tesztkitöltés befejezettre állítása
+assessment#:#finish_unfinished_passes#:#Összes befejezetlen tesztkitöltés befejezettre állítása
+assessment#:#finish_unfinished_passes_desc#:#Ez az ütemezett feladat az összes záró időponttal vagy időtartamkorláttal rendelkező kitöltést befejezettre állítja. 
+assessment#:#tst_fixed_participants_data_exists#:#Már vannak olyan résztvevők, akik töltik a tesztet, ezért nem módosíthatja, hogy a tesztet csak előre meghatározott résztvevők tölthetik ki.
+assessment#:#tst_fixed_participants_disable_description#:#Ön meg szeretné szüntetni, hogy a tesztet előre meghatározott felhasználók töltessék ki. Minden olyan megadott résztvevőt, aki még nem kezdte el a teszt kitöltését, törlünk a résztvevők közül. Biztos, hogy folytatja?
+assessment#:#tst_fixed_participants_disable#:#Állapotmódosítás megerősítse
+assessment#:#tst_fixed_participating_users#:#Előre beállított résztvevők ebben a tesztben
 assessment#:#tst_general_properties#:#Általános beállítások
 assessment#:#tst_generate_xls#:#Létrehozás Excel (.xls) fájlba
 assessment#:#tst_heading_scoring#:#Pontozás
@@ -1091,6 +1145,7 @@ assessment#:#tst_hide_previous_results_hide#:#Előző tesztkitöltéseim eredmé
 assessment#:#tst_hide_previous_results_introduction#:#Ha nem először teljesíti ez a tesztet, előző megoldásai nem képeznek alapértelmezett értékeket.
 assessment#:#tst_hide_previous_results#:#Előző eredmények elrejtése
 assessment#:#tst_hide_side_list#:#Kérdéslista elrejtése
+assessment#:#new_test_online#:#A tesztet sikeresen online-ra állította.
 assessment#:#tst_import_no_items#:#Hiba: Az importfájl nem tartalmaz kérdéseket.
 assessment#:#tst_import_verify_found_questions#:#Az ILIAS az alábbi kérdéseket találta a teszt importfájlban. Válassza ki azokat a kérdéseket, amelyeket be szeretne importálni ebbe a tesztbe.
 assessment#:#tst_in_use_edit_questions_disabled#:#A tesztet %d felhasználó használja. Nem szerkeszthet vagy helyezhet át kérdéseket a tesztben.
@@ -1264,11 +1319,11 @@ assessment#:#tst_score_cut_question_desc#:#Előfordulhat, hogy egy résztvevők 
 assessment#:#tst_score_cut_test#:#Negatív pontszámú végeredmény 0-ra módosítása
 assessment#:#tst_score_cut_test_desc#:#Az összes kérdésre elért válasz pontszáma - melyek között lehet negatív is - összeadódik. A végeredmény, az összpontszám azonban nem lehet negatív, azt 0-ra módosítjuk. Ebben az esetben a negatív pontszámok nagy hangsúlyt kapnak.
 assessment#:#tst_score_cutting#:#Negatív pontszámok
-assessment#:#tst_score_mcmr_questions#:#Meg nem válaszolt többválaszos kérdés (jelölőnégyzetes)
-assessment#:#tst_score_mcmr_use_scoring_system#:#A meg nem válaszolt többválaszos kérdésekért a meghatározott pontszámok összege jár
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#A kiválasztott és nem kiválasztott válaszokért a kérdésnél megadott pontszámok járnak. Mivel nem történt válaszadás, és a kérdésre elért pontszám nem feltétlenül 0, ezért ezt ritkán célszerű alkalmazni.
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#A meg nem válaszolt kérdésekért 0 pont jár
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Amennyiben a résztvevő egy jelölőnégyzetet sem választ ki, a kérdésnél meghatározott pontszámoktól függetlenül 0 pontot kap.
+assessment#:#tst_score_mcmr_questions#:#Többválaszos kérdések, melyeknél egy válasz sincs megjelölve (jelölőnégyzetes)
+assessment#:#tst_score_mcmr_use_scoring_system#:#Egy megjelölt választ sem tartalmazó válaszok mentése és pontozása (Elavult)
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Az 'Alábbiak egyike sem' választása lehetővé teszi egy jelölőnégyzetet sem kiválasztott válaszok mentését. Az ilyen válaszért a kérdésnél meghatározott pontszám jár. Ez a beállítás a következő ILIAS-verzióban már nem lesz elérhető, csak korábbi ILIAS-verziók kompatibilitása miatt maradt a már meglévő tesztekben.
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Egy megjelölt választ sem tartalmazó válaszok mentésének tiltása
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Amennyiben a résztvevő egy jelölőnégyzetet sem választ ki, válaszát nem mentjük. A résztvevők 0 pontot kapnak ebben az esetben.
 assessment#:#tst_score_reporting_date#:#Eredmény megjelenítésének dátuma
 assessment#:#tst_score_reporting#:#Jelentés a ponteredményekről
 assessment#:#tst_score_type#:#Eredmény megjelenítésének típusa
@@ -1939,7 +1994,7 @@ rbac#:#adm_visible#:#A felhasználó láthatja a Rendszerbeállítások » Álta
 rbac#:#adm_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Általános beállítások beállításait
 common#:#admin_force_noti#:#Az értesítés aktív
 common#:#admin_panel#:#Rendszerbeállítások panel
-common#:#administrate_users#:#Helyi felhasználókezelés
+common#:#administrate_users#:#Helyi ILIAS-fiókok kezelése
 common#:#administrate#:#Rendszerbeállítások kezelése
 common#:#administration#:#Rendszerbeállítások
 common#:#administrator#:#Vezető
@@ -2168,9 +2223,7 @@ common#:#bkm_import#:#Könyvjelzők importálása
 common#:#bkm_sendmail#:#Küldés mellékletként
 common#:#block_management#:#Blokkmenedzsment
 common#:#block#:#Blokk
-common#:#bm_add_to_ilias#:#ILIAS-könyvjelzők
-common#:#bm_add_to_social_bookmarks#:#Könyvjelzők létrehozása
-common#:#bm_manage_social_bm#:#Közösségi könyvjelzők kezelése
+common#:#bm_add_to_ilias#:#Hozzáadás ILIAS-könyvjelzőkhöz 
 common#:#bm#:#Könyvjelző
 common#:#bmf#:#Könyvjelzőmappa
 common#:#bold#:#Félkövér
@@ -2215,7 +2268,7 @@ common#:#cat_clear_page#:#Lap törlése
 common#:#cat_copy_threads_info#:#Döntse el, mely kategóriaelemeket kell másolni, csatolni vagy kihagyni!
 rbac#:#cat_copy#:#A felhasználó másolhat kategóriát
 rbac#:#cat_delete#:#A felhasználó áthelyezheti vagy törölheti a kategóriát
-rbac#:#cat_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#cat_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#cat_edit#:#Kategória beállításai
 common#:#cat_new#:#Új kategória
 common#:#cat_pages_clear#:#A kategórialap üres.
@@ -2262,7 +2315,7 @@ common#:#change_metadata#:#Metaadat-változtatás
 common#:#change_owner#:#Tulajdonos cseréje
 common#:#change_sort_direction#:#Rendezési irány változtatása
 common#:#change#:#Változtatás
-common#:#changeable#:#Változtatható a felhasználói adatokban és profilban
+common#:#changeable#:#Módosítható a 'Felhasználói adatok és profil' alatt
 common#:#changed_to#:#amire változtat
 common#:#changing_loginname_not_possible_info#:#Ön legutóbb %s-kor cserélte a felhasználónevét. Legközelebb %s-kor cserélheti.
 common#:#chapter_number#:#Fejezetszám
@@ -2378,7 +2431,7 @@ common#:#cron_forum_notification_cron#:#rendszeresen ütemezett feladatonként
 common#:#cron_forum_notification_desc#:#Ha be van kapcsolva, azon felhasználók, akik meghatározott fórumtémákban értesülni szeretnének új hozzászólásokról, e-mailben értesítést kapnak.
 common#:#cron_forum_notification_directly#:#közvetlenül új bejegyzésenként
 common#:#cron_forum_notification_crob_desc#:#Ha be van kapcsolva, az összes olyan felhasználó aki a fórumértesítéseket engedélyezte az azonnali e-mail helyett naponta kap e-mail értesítést az új hozzászólásokról.
-common#:#cron_forum_notification_never#:#soha
+common#:#cron_forum_notification_never#:#soha (kikapcsolt)
 common#:#cron_forum_notification#:#Fórumértesítések küldése
 common#:#cron_jobs_desc#:#Az ütemezett feladat (cron job) automatizált folyamat, amely előre definiált időintervallumokban fut le. A telepítési dokumentációban talál információt a működéséről.
 common#:#cron_jobs#:#Ütemezett feladatok
@@ -2394,7 +2447,8 @@ common#:#crs_add#:#Kurzus létrehozása
 common#:#crs_added#:#Sikeresen létrehozott egy kurzust
 common#:#crs_all_questions_answered_successfully#:#Sikeresen megválaszolt minden kérdést.
 common#:#crs_archives#:#Tömörített állományok
-common#:#crs_at_least_one_admin#:#Legalább egy kurzusvezetőnek kell, hogy legyen.
+crs#:#crs_at_least_one_admin#:#Legalább egy csoportvezető kell, hogy legyen.
+grp#:#grp_at_least_one_admin#:#Legalább egy kurzusvezető kell, hogy legyen.
 common#:#crs_available#:#Elérhető kurzusok
 common#:#crs_cancel_waiting_list#:#Biztos, hogy leveszi magát a(z) '%s' kurzus várólistájáról?
 common#:#crs_container_link_not_allowed#:#Erre az objektumtípusra nem lehet linkelni.
@@ -2403,7 +2457,7 @@ rbac#:#crs_copy#:#A felhasználó másolhat kurzust
 rbac#:#rbac_create_fold#:#Mappa létrehozása
 rbac#:#crs_delete#:#A felhasználó áthelyezhet vagy törölhet kurzust
 rbac#:#crs_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#crs_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#crs_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#crs_edit#:#Kurzus szerkesztése
 common#:#crs_info#:#Információ
 rbac#:#crs_join#:#A felhasználó csatlakozhat a kurzushoz
@@ -2485,7 +2539,6 @@ common#:#deleted_user_account#:#Törölt ILIAS-fiók
 common#:#deleted_user#:#A felhasználót törölte.
 common#:#deleted_users#:#Törölt felhasználók
 common#:#deleted#:#Törölt
-common#:#delicious#:#Delicious felhasználói fiók
 common#:#deliver#:#Küldés
 common#:#department#:#Tagozat / Szak / Évfolyam
 common#:#desc#:#Leírás
@@ -2621,7 +2674,7 @@ common#:#exc_download_files#:#Fájl(ok) letöltése
 common#:#exc_download_new#:#Új letöltése
 common#:#exc_edit_exercise#:#Beadandó feladat szerkesztése
 rbac#:#exc_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#exc_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#exc_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#exc_edit_until#:#Beadási határidő
 common#:#exc_edit#:#Sikeresen létrehozott egy új beadandó feladatot.
 common#:#exc_exercise_sent#:#Küldés időpontja
@@ -2693,7 +2746,7 @@ common#:#failure_message#:#Hibaüzenet
 common#:#faq_exercise#:#GYIK beadandó feladat
 common#:#fax#:#Fax
 rbac#:#feed_delete#:#A felhasználó áthelyezhet vagy törölhet webhírforrást
-rbac#:#feed_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#feed_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#feed_read#:#A felhasználó olvashat webhírforrást
 rbac#:#feed_visible#:#A webhírforrás látható
 rbac#:#feed_write#:#A felhasználó szerkeszthet webhírforrás-beállításokat
@@ -2710,7 +2763,7 @@ common#:#file_allowed_suffixes#:#Engedélyezett fájltípusok:
 rbac#:#file_copy#:#A felhasználó másolhat fájlt
 common#:#file_created#:#A fájl elkészült.
 rbac#:#file_delete#:#A felhasználó áthelyezhet vagy törölhet fájlt
-rbac#:#file_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#file_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#file_edit#:#Fájl szerkesztése és új verzió feltöltése
 common#:#file_icon#:#Fájlikon
 common#:#file_info#:#Fájlinformációk
@@ -2762,7 +2815,7 @@ common#:#fold_copy_threads_info#:#Jelölje be, mely segédanyagok legyenek máso
 rbac#:#fold_copy#:#A felhasználó másolhat mappát
 rbac#:#fold_delete#:#A felhasználó áthelyezhet vagy törölhet mappát
 rbac#:#fold_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#fold_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#fold_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#fold_edit#:#Mappa módosítása
 common#:#fold_new#:#Új mappa
 rbac#:#fold_read#:#A felhasználónak olvasási elérése van a mappához
@@ -2813,7 +2866,7 @@ rbac#:#frm_copy#:#A felhasználó másolhat fórumot
 common#:#frm_create#:#Fórum létrehozása
 common#:#frm_delete_post#:#Hozzászólás szerkesztése és törlése
 rbac#:#frm_delete#:#A felhasználó áthelyezhet vagy törölhet fórumot
-rbac#:#frm_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#frm_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#frm_edit_post#:#Új téma létrehozása
 common#:#frm_edit#:#Fórum szerkesztése
 common#:#frm_latest_postings#:#Legújabb hozzászólások
@@ -2842,7 +2895,7 @@ common#:#glo_added#:#Sikeresen létrehozott egy fogalomtárat.
 rbac#:#glo_copy#:#A felhasználó másolhat fogalomtárat
 common#:#glo_create#:#Fogalomtár létrehozása
 rbac#:#glo_delete#:#A felhasználó áthelyezhet vagy vagy törölhet fogalomtárat
-rbac#:#glo_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#glo_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#glo_mode_desc#:#A virtuális fogalomtár úgy működik, mint a normál fogalomtár. A különbség azokhoz képest, hogy tartalmazza a taneszköztárolóban vele azonos szinten, illetve a pozíciójától lejjebb elhelyezkedő fogalomtárak fogalmait is.
 common#:#glo_mode_level#:#virtuális (csak ez a szint)
 common#:#glo_mode_normal#:#normál
@@ -2924,7 +2977,7 @@ common#:#grp_deleted_export_files#:#Kiválasztott fájlokat sikeresen törölte.
 common#:#grp_dismiss_member#:#Biztos, hogy eltávolítja a csoportból alábbi tagokat?
 common#:#grp_dismiss_myself#:#Biztos, hogy leiratkozik a csoportból?
 rbac#:#grp_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#grp_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#grp_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#grp_edit#:#Csoport szerkesztése
 common#:#grp_err_administrator_required#:#A tag nem távolítható el, mert minden csoportnak legalább egy vezetője kell,hogy legyen.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Minden csoportoknak legalább egy vezetője kell, hogy legyen
@@ -2973,7 +3026,7 @@ common#:#guest#:#Vendég
 common#:#guests#:#vendég
 common#:#header_searchable#:#Kereshető
 common#:#header_title#:#Fejléccím
-common#:#header_visible_registration#:#Látható a regisztrációban
+common#:#header_visible_registration#:#Látható a 'Regisztráció' alatt
 common#:#header_zip#:#Több fájl feltöltése ZIP formátumban
 common#:#height#:#Magasság
 common#:#help#:#Súgó
@@ -3026,7 +3079,7 @@ common#:#htlm_add#:#HTML-tananyag létrehozása
 rbac#:#htlm_copy#:#A felhasználó másolhat HTML-tananyagot
 rbac#:#htlm_delete#:#A felhasználó áthelyezhet vagy törölhet HTML-tananyagot
 rbac#:#htlm_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#htlm_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#htlm_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#htlm_edit#:#HTML-tananyag tulajdonságainak szerkesztése
 common#:#htlm_new#:#Új HTML-tananyag
 rbac#:#htlm_read#:#A felhasználó olvashat HTML-tananyagot
@@ -3063,20 +3116,6 @@ common#:#il_grp_status_open#:#Nyílt csoport
 common#:#ilias_and_webfolder_username#:#ILIAS és webmappa felhasználójának neve
 common#:#ilias_username#:#ILIAS-felhasználó neve
 common#:#ilias_version#:#ILIAS-verzió
-common#:#im_aim_icon#:#AIM logo
-common#:#im_aim#:#AIM
-common#:#im_icq_icon#:#ICQ logo
-common#:#im_icq#:#ICQ
-common#:#im_jabber_icon#:#Jabber logo
-common#:#im_jabber#:#Jabber
-common#:#im_msn_icon#:#MSN logo
-common#:#im_msn#:#MSN
-common#:#im_skype_icon#:#Skype logo
-common#:#im_skype#:#Skype
-common#:#im_voip_icon#:#VoIP-logo
-common#:#im_voip#:#VoIP
-common#:#im_yahoo_icon#:#Yahoo logo
-common#:#im_yahoo#:#Yahoo
 common#:#image_gen_unsucc#:#Képgenerálás sikertelen. Vegye fel a kapcsolatot egy rendszergazdával, hogy ellenőrizhesse a konvertálási útvonalat.
 common#:#image#:#Kép
 common#:#import_alm#:#AICC-csomag importálása
@@ -3109,7 +3148,7 @@ common#:#in_use#:#felhasználói nyelve
 common#:#in#:#miben
 common#:#inactive#:#Inaktív
 common#:#inbox#:#Beérkező posta
-common#:#include_local#:#foglalja magában a helyi nyelvi fájlt a nyelv frissítésénél
+common#:#include_local#:#foglalja magában az egyéni nyelvi fájlt a nyelv frissítésénél
 common#:#info_access_and_status_info#:#Elérési és állapotinformáció
 common#:#info_access_permissions#:#Elérési jogosultságok
 common#:#info_accessFree_sure#:#Biztos, hogy eltávolítja a korlátozott hozzáférési jogosultságot az alábbi felhasználó(k)ról?
@@ -3149,15 +3188,15 @@ common#:#insert#:#Beszúrás
 common#:#inst_id#:#Telepítési azonosító (ID)
 common#:#inst_info#:#Telepítési információ
 common#:#inst_name#:#Telepítési név
-common#:#install_local#:#Telepítés helyi nyelvi fájllal
+common#:#install_local#:#Telepítés egyéni nyelvi fájllal
 common#:#install#:#Telepítés
-common#:#installed_local#:#Helyi nyelvi fájllal telepítve
+common#:#installed_local#:#Egyéni nyelvi fájllal telepítve
 common#:#installed#:#Telepítve
 common#:#instant_messengers#:#Azonnali üzenetküldő alkalmazások
 common#:#institution#:#Intézmény
 common#:#internal_local_roles_only#:#Helyi szerepek (csak automatikusan létrejöttek)
 common#:#internal_system#:#Belső rendszer
-common#:#invalid_visible_required_options_selected#:#Minden kitöltendő mezőt láthatóvá kell tenni a regisztrációban is.
+common#:#invalid_visible_required_options_selected#:#Minden kitöltendő mezőt láthatóvá kell tenni a 'Regisztráció' alatt is.
 common#:#invisible_block_mess#:#Nincs jogosultsága ennek a blokknak a megtekintésére.
 common#:#invisible_block#:#Nem látható blokk
 common#:#ip_address#:#IP-cím
@@ -3175,9 +3214,12 @@ common#:#kb#:#kByte
 common#:#keywords#:#Kulcsszavak
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Nyelv elérési útja
-common#:#lang_refresh_confirm_info#:#A haladó nyelvi karbantartó aktív. A nyelvek frissítéséhez az ILIAS globális nyelvi fájljainak és a Customizing könyvtár esetleges helyi nyelvi fájljanak értékeit töltjük be az adatbázisba. A globális nyelvi fájlok nem írják felül a manuálisan végzett módosításokat. A helyi nyelvi fájl értékeivel viszont felülírjuk azokat a manuálisan végzett módosításokat, amelyek régebbiek, mint a helyi nyelvi fájl utolsó mentésének dátuma, .
+common#:#lang_refresh_confirm_info#:#ILIAS nyelvi változói módosultak. Egy nyelv frissítésékor a standard nyelvi fájl és az esetleges egyéni nyelvi fájl értékeit töltjük be az adatbázisba. A standard nyelvi fájl nem írja felül módosításait. Az egyéni nyelvi fájl értékeivel felülírjuk azokat a módosításait, amelyek régebbiek, mint a fájl utolsó mentésének dátuma.
 common#:#lang_refresh_confirm_selected#:#Biztos, hogy frissíti a kiválasztott nyelveket?
 common#:#lang_refresh_confirm#:#Biztos, hogy frissíti az összes nyelvet?
+common#:#lang_uninstall_confirm#:#Biztos, hogy eltávolítja a kiválasztott nyelveket?
+common#:#lang_uninstall_changes#:#Helyi módosítások eltávolítása
+common#:#lang_uninstall_changes_confirm#:#Biztos, hogy törli a kiválasztott nyelvek helyi módosításait és visszaállítja a jelenlegi ILIAS-verzió alapértelmezett értékeit?
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#&nbsp;
 common#:#lang_size_bytes#:#bájt
@@ -3273,7 +3315,7 @@ rbac#:#lm_copy#:#A felhasználó másolhat ILIAS-tananyagot
 common#:#lm_create#:#ILIAS-tananyag létrehozása
 rbac#:#lm_delete#:#A felhasználó áthelyezhet vagy törölhet ILIAS-tananyagot
 rbac#:#lm_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#lm_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#lm_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#lm_join#:#ILIAS-tananyaghoz feliratkozás
 common#:#lm_leave#:#ILIAS-tananyagról leiratkozás
 common#:#lm_new#:#Új ILIAS-tananyag
@@ -3299,9 +3341,9 @@ common#:#lo_no_content#:#Nincsenek elérhető tananyagok
 common#:#lo_other_langs#:#Tananyagobjektumok más nyelveken
 common#:#lo_overview#:#Tananyagobjektum áttekintése
 common#:#lo#:#Tananyagobjektum
-common#:#local_language_file#:#helyi nyelvi fájl
-common#:#local_language_files#:#helyi nyelvi fájlok
-common#:#local_languages_already_installed#:#A kiválasztott helyi nyelvi fájlok már telepítve vannak.
+common#:#local_language_file#:#egyéni nyelvi fájl
+common#:#local_language_files#:#egyéni nyelvi fájlok
+common#:#local_languages_already_installed#:#A kiválasztott egyéni nyelvi fájlok már telepítve vannak.
 common#:#local#:#Helyi
 common#:#location#:#Hely
 common#:#locator#:#Hely:
@@ -3392,7 +3434,7 @@ common#:#max_time#:#Maximális idő
 common#:#mcst_add#:#Médiasugárzás létrehozása
 rbac#:#mcst_copy#:#A felhasználó másolhat médiasugárzást
 rbac#:#mcst_delete#:#A felhasználó áthelyezhet vagy törölhet médiasugárzást
-rbac#:#mcst_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#mcst_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#mcst_new#:#Új médiasugárzás
 rbac#:#mcst_read#:#A felhasználó olvashat médiasugárzást
 rbac#:#mcst_visible#:#Médiasugárzás látható
@@ -3424,7 +3466,7 @@ common#:#membership_leave#:#Elhagyás
 common#:#mep_add#:#Médiagyűjtemény létrehozása
 common#:#mep_added#:#Felvett médiagyűjtemény
 rbac#:#mep_delete#:#A felhasználó áthelyezhet vagy törölhet médiagyűjteményt
-rbac#:#mep_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#mep_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#mep_edit#:#Médiagyűjtemény tulajdonságainak szerkesztése
 common#:#mep_new#:#Új médiagyűjtemény
 common#:#mep_not_insert_already_exist#:#Az alábbi elemek beillesztése sikertelen, mert már benne vannak a médiagyűjteményben:
@@ -3702,6 +3744,7 @@ common#:#obj_catr#:#Kategórialink
 common#:#obj_cen#:#Centra-esemény
 common#:#obj_cert_desc#:#Beállítások az igazolásokhoz
 common#:#obj_cert#:#Igazolás
+common#:#obj_wfe#:#Munkafolyamat-motor
 common#:#obj_chac_desc#:#Csevegésszerver konfigurálása; csevegések engedélyezése/tiltása
 common#:#obj_chac#:#Csevegésszerver
 common#:#obj_chap#:#Fejezet
@@ -3915,7 +3958,6 @@ common#:#pages#:#Lapok
 common#:#parameter#:#Paraméter
 common#:#parse#:#Szövegszerkezet elemzés
 common#:#passed#:#Sikeresen teljesítette
-common#:#passwd_generation_info#:#Ha be van kapcsolva, a jelszavak csak egy generált listából választhatók.
 common#:#passwd_generation#:#Jelszógenerálás
 common#:#passwd_invalid#:#Az új jelszó nem megfelelő. Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#Jelszavak listája
@@ -4017,7 +4059,7 @@ common#:#proxy_connectable#:#A kapcsolat létrejött.
 common#:#proxy_host_info#:#Adjon meg egy kiszolgálót.
 common#:#proxy_host#:#Kiszolgáló
 common#:#proxy_not_connectable#:#Az ILIAS nem tud kapcsolatot létrehozni az adott proxy-hoz.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket hiba
+common#:#proxy_socket_error#:#Socket hiba: %s
 common#:#proxy_port_info#:#Adjon meg egy portot 0 és 65535 között, pl. 8080.
 common#:#proxy_port_numeric#:#A portnak 0 és 65535 közötti számértéknek kell lennie.
 common#:#proxy_port#:#Port
@@ -4043,7 +4085,7 @@ common#:#purpose#:#Cél
 common#:#qpl_add#:#Tesztkérdésgyűjtemény létrehozása
 rbac#:#qpl_copy#:#A felhasználó másolhat tesztkérdésgyűjteményt tesztekhez
 rbac#:#qpl_delete#:#A felhasználó áthelyezhet vagy törölhet tesztkérdésgyűjteményt
-rbac#:#qpl_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#qpl_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#qpl_new#:#Új tesztkérdésgyűjtemény
 rbac#:#qpl_read#:#A felhasználó olvashat gyűjteményben lévő tesztkérdéseket, és beszúrhatja azokat tesztekbe
 common#:#qpl_upload_file#:#Fájl feltöltése
@@ -4072,7 +4114,6 @@ common#:#refuse#:#Visszautasítás
 common#:#reg_account_confirmation_successful#:#ILIAS-fiókját aktiválták.
 common#:#reg_mail_body_2_confirmation#:#A link csak ehhez lesz jó: %s, aztán meg kell próbálnia ismét a kezdetektől.
 common#:#reg_mail_body_3_confirmation#:#Ha ez a levél nem jelent Önnek semmit, lehet hogy valaki más is belépett az Ön postafiókjába szándékosan vagy véletlenül. Kérjük, tekintse semmisnek ezt a levelet!
-common#:#reg_mail_body_confirmation#:#ILIAS-fiókja aktiválásához és annak igazolásához, hogy ez az e-mail cím az Öné, kattintson az alábbi linkre:
 common#:#reg_mail_body_forgot_password_info#:#Ehhez az ILIAS-fiókhoz új jelszó kéréséhez használja a bejelentkező képernyőn található « Elfelejtette jelszavát? » linket.
 common#:#reg_mail_body_salutation#:#Tisztelt
 common#:#reg_mail_body_text1#:#üdvözöljük ILIAS e-learning rendszerünkben!
@@ -4192,7 +4233,7 @@ common#:#rolt_edit#:#Szerepminta módosítása
 common#:#rolt_new#:#Új szerepminta
 common#:#rolt#:#Szerepminta
 rbac#:#rbac_create_cat#:#Kategóriák létrehozása
-rbac#:#root_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#root_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#root_edit#:#Rendszer gyökércsomópont szerkesztése
 rbac#:#root_read#:#A felhasználónak olvasási elérése van a <i>Taneszköztároló - Kezdőlap</i>-hoz
 rbac#:#root_visible#:#<i>Taneszköztároló - Kezdőlap</i> látható
@@ -4206,7 +4247,7 @@ rbac#:#sahs_copy#:#A felhasználó másolhat SCORM-tananyagot
 common#:#sahs_create#:#SCORM-tananyag létrehozása
 rbac#:#sahs_delete#:#A felhasználó áthelyezhet vagy törölhet SCORM-tananyagot
 rbac#:#sahs_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-rbac#:#sahs_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#sahs_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#sahs_insert_chap_from_clip#:#Fejezetek beillesztése vágólapról
 common#:#sahs_insert_page_from_clip#:#Lapok beillesztése vágólapról
 common#:#sahs_insert_sco_from_clip#:#SCO-k beillesztése vágólapról
@@ -4246,7 +4287,7 @@ common#:#search_in#:#Keresés helye
 common#:#search_inactive#:#Beleértve az inaktív felhasználókat
 common#:#search_minimum_characters#:#A minimális szóhossz:
 common#:#search_new#:#Új keresés
-common#:#search_note#:#Ha a &quot;keresés&quot; beviteli mező üres, minden felhasználó felsorolásra kerül. Ez lehetővé teszi, hogy megtaláljunk minden aktív vagy inaktív felhasználót.
+common#:#search_note#:#Ha a &quot;keresés&quot; beviteli mező üresen hagyja, minden felhasználót felsorolunk. Így lehetővé válik az összes aktív vagy inaktív felhasználó keresése.
 common#:#search_recipient#:#Címzett keresése
 common#:#search_result#:#Keresési találat
 common#:#search_results#:#Keresési találatok
@@ -4373,11 +4414,6 @@ common#:#soap_user_administration_desc#:#Ha be van kapcsolva, az ILIAS kezelhet�
 common#:#soap_user_administration#:#Kezelés SOAP-on keresztül
 common#:#soap_wsdl_path_info#:#Adja meg a webszolgáltatásokhoz használandó ILIAS WSDL fájl útját. Ha üresen hagyja ezt a mezőt, az alábbi útvonal lesz alapértelmezett: %s
 common#:#soap_wsdl_path#:#WSDL útvonal
-common#:#socialbm_disable#:#Letiltás
-common#:#socialbm_enable#:#Engedélyezés
-common#:#socialbm_extt_social_bookmarks#:#Közösségi könyvjelzők
-common#:#socialbm_link_description#:#Használhatja a &#123;TITLE&#125 és &#123;LINK&#125 helyőrzőket a lapcím és az URL hivatkozásba beszúrására.
-common#:#socialbm_sure_delete_entry#:#Biztos, hogy törli a társasági könyvjelzőzést?
 common#:#sort_by_this_column#:#Rendezés erre az oszlopra
 common#:#sorting_header#:#Rendezés
 common#:#sorting_info_manual#:#Objektumok sorrendjének kézi beállítása a Tartalom » Rendezés alatt. Tovább kérjük, adja meg az új objektumok alapértelmezett rendezési szempontját.
@@ -4389,7 +4425,7 @@ common#:#spacer#:#Térközállító
 common#:#spl_add#:#Kérdőívkérdés-gyűjtemény létrehozása
 rbac#:#spl_copy#:#A felhasználó másolhat kérdőívkérdés-gyűjteményt kérdőívekhez
 rbac#:#spl_delete#:#A felhasználó áthelyezhet vagy törölhet kérdőívkérdés-gyűjteményt
-rbac#:#spl_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#spl_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#spl_new#:#Új kérdőívkérdés-gyűjtemény
 rbac#:#spl_read#:#A felhasználó kérdőívkérdéseket olvashat kérdőívkérdés-gyűjteményben, és beszúrhatja azokat kérdőívbe
 common#:#spl_upload_file#:#Fájl feltöltése
@@ -4444,7 +4480,7 @@ common#:#survey_unlimited_invitation#:#Mindenki meghívása
 common#:#svy_add#:#Kérdőív létrehozása
 rbac#:#svy_copy#:#A felhasználó másolhat kérdőívet
 rbac#:#svy_delete#:#A felhasználó áthelyezhet vagy törölhet kérdőívet
-rbac#:#svy_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#svy_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#svy_evaluation#:#Statisztika
 common#:#svy_finished#:#Befejezte a kérdőív kitöltését.
 rbac#:#svy_invite#:#A felhasználó meghívhat másokat kérdőívhez
@@ -4589,7 +4625,7 @@ common#:#udf_field_deleted#:#Törölt mező
 common#:#udf_name_already_exists#:#Ez a mezőnév már létezik. Válasszon egy másik nevet!
 common#:#udf_no_entries#:#Legalább egy értéket adjon meg!
 common#:#udf_no_name_given#:#Adjon meg egy mezőnevet!
-common#:#udf_required_requires_visib_reg#:#Ha a mező 'kötelező', a 'látható a regisztrációban' opciót is be kell állítani
+common#:#udf_required_requires_visib_reg#:#Ha a mező 'kötelező', a 'Látható a Regisztráció alatt' opciót is be kell állítani
 common#:#udf_type_date#:#Dátum
 common#:#udf_type_datetime#:#Dátum és idő
 common#:#udf_type_select#:#Kiválasztólista (egyválasztásos)
@@ -4709,12 +4745,12 @@ common#:#usr_hits_per_page#:#Listákban egyszerre megjelenített elemszám
 common#:#usr_inactive_only#:#Csak inaktív felhasználók
 common#:#usr_limited_access_only#:#Csak korlátozott hozzáféréssel rendelkező felhasználók
 common#:#usr_new#:#Új felhasználó
-common#:#usr_settings_explanation_profile#:#A 'Látható' jelölőnégyzet kipipálása a Regisztrációs lap és a Munkaasztal » Felhasználói adatok oldalon teszi láthatóvá a mezőket.<br />A 'Változtatható' jelölőnégyzet kipipálása a felhasználónak engedélyezi az adatmódosítást. Ne felejtse el, hogy a látható mezőket kitölthetik a regisztrációs lapon.<br />A 'Kötelező' jelölőnégyzettel kipipált adatot a regisztrációs űrlapon és a felhasználói adatok űrlapon kötelező kitölteni. Ezektől a beállításoktól függetlenül a Rendszerbeállítások » ILIAS-fiókok felületen az összes adat megváltoztatható.
+common#:#usr_settings_explanation_profile#:#A 'Látható' jelölőnégyzet kipipálása a Regisztrációs lap és a Munkaasztal » Felhasználói adatok oldalon teszi láthatóvá a mezőket.<br />A 'Módosítható' jelölőnégyzet kipipálása a felhasználónak engedélyezi az adatmódosítást. Ne felejtse el, hogy a látható mezőket kitölthetik a regisztrációs lapon.<br />A 'Kötelező' jelölőnégyzettel kipipált adatot a regisztrációs űrlapon és a felhasználói adatok űrlapon kötelező kitölteni. Ezektől a beállításoktól függetlenül a Rendszerbeállítások » ILIAS-fiókok felületen az összes adat módosítható.
 common#:#usr_settings_header_profile_profile#:#Felhasználói adatok beállítás
 common#:#usr_settings_header_profile#:#Standard felhasználói adatmezők
 common#:#usr_settings_saved#:#A globális felhasználói beállítások mentése sikerült.
-common#:#usr_settings_visib_lua#:#Látható a helyi felhasználókezelőben
-common#:#usr_settings_changeable_lua#:#Változtatható a helyi felhasználókezelőben
+common#:#usr_settings_visib_lua#:#Látható a 'Helyi ILIAS-fiókok kezelése' alatt
+common#:#usr_settings_changeable_lua#:#Módosítható a 'Helyi ILIAS-fiókok kezelése' alatt
 common#:#usr_skin_style#:#Képernyő / stílus
 common#:#usr_style#:#Felhasználói stílus
 common#:#usr_without_courses#:#Hozzárendelt kurzus nélküli felhasználók
@@ -4764,7 +4800,7 @@ common#:#versions#:#Verziók
 common#:#view_content#:#Tartalom nézet
 common#:#view#:#Megjelenítés
 common#:#visible_layers#:#Látható rétegek
-common#:#visible_registration#:#Látható a regisztrációban
+common#:#visible_registration#:#Látható a 'Regisztráció' alatt
 common#:#visible#:#Látható
 common#:#visitor#:#Látogató
 common#:#visitors#:#látogató
@@ -4789,7 +4825,7 @@ rbac#:#webr_delete#:#A felhasználó áthelyezhet vagy törölhet weblinket
 common#:#webr_deleted_items#:#Törölt weblink(ek).
 common#:#webr_disable_check#:#Ellenőrzés letiltása
 common#:#webr_edit_item#:#Weblink módosítása
-rbac#:#webr_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#webr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#webr_edit#:#Weblink módosítása
 common#:#webr_fillout_all#:#Minden kötelező mezőt töltsön ki!
 common#:#webr_item_updated#:#Módosítások mentése
@@ -4818,7 +4854,7 @@ common#:#wiki_add#:#Wiki létrehozása
 rbac#:#wiki_copy#:#A felhasználó másolhat wikit
 rbac#:#wiki_delete#:#A felhasználó áthelyezhet vagy törölhet wikit.
 rbac#:#wiki_edit_content#:#A felhasználó létrehozhat és szerkeszthet wikilapokat
-rbac#:#wiki_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#wiki_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 common#:#wiki_new#:#Új wiki
 rbac#:#wiki_read#:#A felhasználó olvashat wikitartalmat
 rbac#:#wiki_visible#:#Wiki látható
@@ -5738,7 +5774,8 @@ crs#:#crs_grp_no_course_selected#:#Válasszon ki egy kurzust!
 crs#:#crs_grp_no_courses_assigned#:#Egy kurzus sincs hozzárendelve.
 crs#:#crs_grp_table_assigned_courses#:#Hozzárendelt kurzusok
 crs#:#crs_header_archives#:#Tömörített kurzusállományok
-crs#:#crs_header_delete_members#:#Biztos, hogy eltávolítja a következő tagokat kurzusból?
+crs#:#crs_header_delete_members#:#Biztos, hogy eltávolítja az alábbi tagokat ebből a kurzusból?
+grp#:#grp_header_delete_members#:#Biztos, hogy eltávolítja az alábbi tagokat ebből a csoportból?
 crs#:#crs_header_delete_subscribers#:#Feliratkozások törlése
 crs#:#crs_header_edit_members#:#Tagok szerkesztése
 crs#:#crs_header_members#:#Kurzustagok
@@ -6020,7 +6057,7 @@ crs#:#crs_test_status_random#:#Véletlen-választásos teszt
 crs#:#crs_time#:#Feliratkozási idő
 crs#:#crs_timings_availability_enabled#:#Elérhetőség időbeli korlátozása
 crs#:#crs_timings_availability_tbl#:#Elérhető
-crs#:#crs_timings_changeable#:#Javasolt tanulási időszak változtatható
+crs#:#crs_timings_changeable#:#Javasolt tanulási időszak módosítható
 crs#:#crs_timings_changed#:#Időzítés módosult.
 crs#:#crs_timings_disabled_info#:#Válassza ezt a beállítást, ha nem kívánja időben korlátozni a elérhetőséget.
 crs#:#crs_timings_disabled#:#Nincs időzítés
@@ -6456,7 +6493,7 @@ dateplaner#:#help_properties_import_l#:#Itt Outlook eseményeket tartalmazó CSV
 dateplaner#:#help_properties_import#:#Outlook-fájl importja - vesszővel szeparált értékűek -
 dateplaner#:#help_properties_new_l#:#Új kulcsszó létrehozása az \'új\' mezőhöz. Fontos: maximum 20 karakter legyen.
 dateplaner#:#help_properties_new#:#Kulcsszó létrehozása - maximum 20 karakteres
-dateplaner#:#help_properties_time_l#:#A szabványos napi és heti nézet megjelenítési idő változtatható. Ha a dátumok kívül vannak a megjelenítési időn egy adott napon vagy héten, a megjelenítési idő arra az időtartamra fog megváltozni. A szabvány 8 - 18 óra.
+dateplaner#:#help_properties_time_l#:#A szabványos napi és heti nézet megjelenítési idő módosítható. Ha a dátumok kívül vannak a megjelenítési időn egy adott napon vagy héten, a megjelenítési idő arra az időtartamra fog megváltozni. A szabvány 8 - 18 óra.
 dateplaner#:#help_properties_time#:#Időmegjelenítés napi nézethez / heti nézethez
 dateplaner#:#help_rotation_l#:#Az ismétlődés / ismétlés típusát tartalmazza.
 dateplaner#:#help_rotation#:#Ismétlődés
@@ -6566,11 +6603,6 @@ dateplaner#:#wk_short#:#Hét
 dateplaner#:#year#:#Év
 dateplaner#:#yui_cal_choose_month#:#Hónap:
 dateplaner#:#yui_cal_choose_year#:#Év:
-delic#:#delic_add_info_links#:#del.icio.us linkek hozzáadása az infoképernyőhöz
-delic#:#delic_add_to_delicious#:#Hozzáadás a következőhöz: del.icio.us
-delic#:#delic_extt_delicious#:#del.icio.us
-delic#:#delic_settings#:#del.icio.us beállítások
-delic#:#delic_user_profile#:#del.icio.us bejelentkezési beállítás engedélyezése a felhasználói adatokban
 ecs#:#cert_serial#:#Igazolás sorozatszáma
 ecs#:#ecs_abr#:#Rövidítés
 ecs#:#ecs_account_duration_info#:#Az új ECS-felhasználók a munkamenet tartamára vannak korlátozva. Miután hozzárendelt egy felhasználót egy kurzushoz, az aktiválási időszak meghosszabbításra kerül az adott számú hónappal.
@@ -7078,6 +7110,29 @@ mathjax#:#mathjax_path_to_mathjax#:#URL a MathJaxhoz
 mathjax#:#mathjax_settings#:#MathJax beállítások
 mathjax#:#mathjax_limiter#:#Beágyazott határolójelek
 mathjax#:#mathjax_limiter_info#:#Válassza ki a beágyazott határolójeleket, ahogy azok az Ön MathJax installációjában konfiguráltak.
+mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_enable_client#:#MathJax engedélyezése a böngészőben
+mathjax#:#mathjax_enable_server#:#MathJax engedélyezése a szerveren
+mathjax#:#mathjax_enable_server_info#:#Aktiválja a TeX szerveroldali képpé renderelését.
+mathjax#:#mathjax_server_installation#:# » Telepítés
+mathjax#:#mathjax_server_address#:#Szerver címe
+mathjax#:#mathjax_server_address_info#:#Pl. http://localhost:8003
+mathjax#:#mathjax_server_timeout#:#Időtúllépés
+mathjax#:#mathjax_server_timeout_info#:#A mathjax szerver hívásának időtúllépése másodpercben
+mathjax#:#mathjax_server_for_pdf#:#Használat PDF generáláshoz
+mathjax#:#mathjax_server_for_pdf_info#:#A szervert használjuk PDF fájl előállításához.
+mathjax#:#mathjax_server_for_browser#:#Használat böngészőhöz
+mathjax#:#mathjax_server_for_browser_info#:#A TeX SVG képként jelenik meg, így nem szükséges a MathJax engedélyezése a böngészőben.
+mathjax#:#mathjax_server_for_export#:#Használat HTML exporthoz
+mathjax#:#mathjax_server_for_export_info#:#Tananyagok HTML exportálásakor a TeX-et SVG képként exportáljuk.
+mathjax#:#mathjax_server_cached#:#Kép gyorsítótárazása
+mathjax#:#mathjax_server_cached_info#:#Az összes renderelt kép gyorsítótárazása az ILIAS webes könyvtárába.
+mathjax#:#mathjax_server_clear_cache#:# » Gyorsítótár ürítése
+mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárás sikeresen ürítette.
+mathjax#:#mathjax_server_cache_size#:#Gyorsítótár mérete
+mathjax#:#mathjax_server_cache_size_info#:#Renderelt képek gyorsítótárazására használható lemezerület mérete.
+mathjax#:#mathjax_test_expression#:#Teszt kifejezés
+mathjax#:#mathjax_test_expression_info#:#Ezt a LaTeX kifejezéset rendereljük a MathJax mentett beállításaival.
 ldap#:#ldap_add_missing#:#Hiányzó szerepek összerendelése
 ldap#:#ldap_add_remove#:#Szerepek létrehozása /eltávolítása
 ldap#:#ldap_add_role_ass_rule#:#Új szerep a szerep-összerendelésekhez
@@ -8171,8 +8226,6 @@ pd#:#pd_my_memberships_intro#:#Üdvözöljük tagságaiban!
 pd#:#pd_my_memberships_intro2#:#Ez az Ön személyes területe minden olyan kurzushoz és csoporthoz, amelynek tagja. Jelenleg egy ilyen objektumnak sem tagja. Két módon lehet tagja kurzusnak vagy csoportnak:<br/><ol><li>Csatlakozhat olyan kurzusokhoz, illetve csoportokhoz, amelyekhez a csatlakozást azok vezetője lehetővé tette.</li><li>Kurzus- vagy csoportvezetők tagnak veheti Önt fel.</li></ol><br/>A megfelelő objektumok minden esetben automatikusan jelennek itt meg.
 pd#:#pd_my_memberships#:#Tagságaim
 pd#:#pd_my_offers#:#Kigyűjtött objektumok
-pd#:#pd_osi_host_info#:#Valós idejű üzenetküldő online állapot jelző kiszolgáló (opcionális). Lásd:
-pd#:#pd_osi_host#:#OSI kiszolgáló
 pd#:#pd_personal_items_default_view_info#:#Munkaasztal alapértelmezett nézete.
 pd#:#pd_personal_items_default_view#:#Alapértelmezett nézet
 pd#:#pd_settings#:#Munkaasztal
@@ -8307,7 +8360,7 @@ rbac#:#cals_visible#:#A felhasználó láthatja a Rendszerbeállítások » Napt
 rbac#:#cals_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Naptár beállításait
 rbac#:#catr_copy#:#A felhasználó másolhat kategórialinket
 rbac#:#catr_delete#:#A felhasználó áthelyezhet vagy törölhet kategórialinket
-rbac#:#catr_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#catr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#catr_read#:#Olvasási elérés kategórialinkhez
 rbac#:#catr_visible#:#A kategórialink látható
 rbac#:#catr_write#:#A felhasználó szerkeszthet kategórialinket beállításokat
@@ -8316,10 +8369,10 @@ rbac#:#cmps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbe�
 rbac#:#cmps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Bővítmények menüpontot
 rbac#:#cmps_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények beállításait
 rbac#:#rbac_create_sess#:#Esemény létrehozása
-rbac#:#crs_edit_event#:#Naptáresemények szerkesztése
+rbac#:#crs_edit_event#:#Naptáresemények módosítása
 rbac#:#crsr_copy#:#A felhasználó másolhat kurzuslinket
 rbac#:#crsr_delete#:#A felhasználó áthelyezhet vagy törölhet kurzuslinket
-rbac#:#crsr_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#crsr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#crsr_read#:#Olvasási elérés kurzuslinkhez
 rbac#:#crsr_visible#:#A kurzuslink látható
 rbac#:#crsr_write#:#A felhasználó szerkesztheti kurzuslinket
@@ -8333,7 +8386,7 @@ rbac#:#filter_global_roles#:#A globális szerepek megjelenítése
 rbac#:#filter_local_roles_object#:#Az itt létrehozott helyi szerepek megjelenítése
 rbac#:#filter_local_roles#:#Az itt érvényben lévő helyi szerepek megjelenítése
 rbac#:#filter_roles_local_policy#:#Az itt helyi hozzáférés-szabályozást használó szerepek megjelenítése
-rbac#:#grp_edit_event#:#Naptáresemények szerkesztése
+rbac#:#grp_edit_event#:#Naptáresemények módosítása
 rbac#:#info_user_view_changed#:#A felhasználói nézet megváltozott
 rbac#:#leave#:#Kilépés
 rbac#:#mcts_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » médiasugárzás jogosultsági beállításait
@@ -8375,7 +8428,7 @@ rbac#:#rbac_role_exists_alert#:#Már van ilyen nevű szerep ebben a tartalomban.
 rbac#:#rbac_unprotected_delete_local_policies_info#:#Ha be van kapcsolva, a helyi szabályokat is törli. A jogosultságok újrainicializálódnak a kurzusokban és a csoportokban.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#A helyi szabályok megtartásához ezt a módot válassza.
 rbac#:#rcrs_delete#:#A felhasználó áthelyezhet vagy törölhet ECS-kurzust
-rbac#:#rcrs_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rcrs_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rcrs_read#:#A felhasználó használhat ECS-kurzust
 rbac#:#rcrs_visible#:#ECS-kurzus látható
 rbac#:#rcrs_write#:#A felhasználó szerkesztheti ECS-kurzus beállításait
@@ -8405,8 +8458,8 @@ rbac#:#rbac_create_tst#:#Teszt létrehozása
 rbac#:#rbac_create_webr#:#Weblink létrehozása
 rbac#:#rbac_create_wiki#:#Wiki létrehozása
 rbac#:#sess_delete#:#A felhasználó áthelyezhet vagy törölhet munkamenetet
-rbac#:#sess_edit_event#:#Naptáresemények szerkesztése
-rbac#:#sess_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#sess_edit_event#:#A felhasználó módosíthat naptáreseményeket
+rbac#:#sess_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#sess_read#:#A felhasználónak olvasási elérése van munkamenetekhez
 rbac#:#sess_visible#:#Az események láthatók
 rbac#:#sess_write#:#A felhasználó eseménytartalmakat és -beállításokat szerkeszthet
@@ -8980,7 +9033,7 @@ survey#:#cannot_participate_survey#:#Nincs megfelelő jogosultsága a kérdőív
 survey#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához.
 survey#:#cannot_read_survey#:#Nincs megfelelő jogosultsága a kérdőív adatainak olvasásához.
 survey#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok mentéséhez.
-survey#:#cannot_switch_to_online_no_questions#:#Nem változtatható &quot;online&quot;-ra az állapot, mert nincsenek kérdések a kérdőívben.
+survey#:#cannot_switch_to_online_no_questions#:#Nem módosítható &quot;online (aktív)&quot;-ra az állapot, mert nincsenek kérdések a kérdőívben.
 survey#:#categories#:#Válaszok
 survey#:#category_delete_confirm#:#Biztos, hogy törli az alábbi válasz(oka)t?
 survey#:#category_delete_select_none#:#Legalább egy választ jelöljön ki a törléshez!
@@ -9230,7 +9283,7 @@ survey#:#non_ratio#:#Intervallum
 survey#:#not_used#:#még nem használt
 survey#:#obligatory#:#Kötelező
 survey#:#off#:#kikapcsolás
-survey#:#offline#:#offline
+survey#:#offline#:#offline (nem aktív)
 survey#:#on_additional#:#Bekapcsolás és további
 survey#:#on#:#bekapcsolás
 survey#:#or#:#vagy
@@ -9346,7 +9399,7 @@ survey#:#survey_error_insert_incomplete_question#:#Nem teljes kérdést próbál
 survey#:#survey_finish#:#Kérdőív befejezése
 survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük résztvételét!
 survey#:#survey_has_datasets_warning#:#A kérdőív tartalmaz már adathalmazokat. Amíg nem távolítja el ezeket a válaszadók részben, nem tudja szerkeszteni a kérdőív kérdéseit.
-survey#:#survey_is_offline#:#Nem tudja elkezdeni a kérdőív kitöltését. A kérdőív jelenleg offline.
+survey#:#survey_is_offline#:#Nem tudja elkezdeni a kérdőív kitöltését. A kérdőív jelenleg offline (nem aktív).
 survey#:#survey_next#:#Következő >>>
 survey#:#survey_offline_message#:#Nem hívhatók meg felhasználók, mert a kérdőív offline.
 survey#:#survey_online_warning#:#Mivel a kérdőív online, nem szerkesztheti a kérdőív kérdéseit.
@@ -9673,6 +9726,11 @@ trac#:#view_mode#:#Nézet
 trac#:#vm_access_of_users#:#Felhasználók hozzáférése
 trac#:#vm_days_of_period#:#Időszak napjai
 trac#:#vm_times_of_day#:#Napok órái
+user#:#clipboard_add_btn#:#Hozzáadás a vágólaphoz
+user#:#clipboard_user_added#:#Sikeresen hozzáadta a kiválasztott felhasználókat a vágólaphoz.
+user#:#clipboard_table_title#:#Vágólap (ILIAS-fiókok)
+user#:#clipboard_remove_btn#:#Eltávolítás a vágólapról
+user#:#clipboard_empty_btn#:#Vágólap ürítése
 user#:#user_access_limited#:#Korlátozott
 user#:#user_access_unlimited#:#Korlátlan
 user#:#user_activate_public_profile_info#:#Ha bekapcsolta, családi és utóneve mindig látható lesz a profiljában.
@@ -9692,7 +9750,7 @@ user#:#user_public_profile_info#:#Válassza ki, mely személyes adatai legyenek 
 user#:#user_screen_reader_optimization_info#:#ILIAS finomhangolása képernyőolvasókkal való használathoz.
 user#:#user_screen_reader_optimization#:#Képernyőolvasó optimalizálás
 user#:#user_select_course_group#:#Kurzus/csoport kiválasztása
-user#:#user_visible_in_profile#:#Látható a felhasználói adatokban
+user#:#user_visible_in_profile#:#Látható a 'Felhasználói adatok és profil' alatt
 user#:#usr_link_to_profile#:#Link a felhasználói adatokhoz
 user#:#usr_public_profile_disabled_info#:#Információit csak az adminisztratív személyzet láthatja.
 user#:#usr_public_profile_disabled#:#Profil letiltva
@@ -9736,7 +9794,7 @@ wiki#:#wiki_last_visited_page#:#Utoljára megtekintett lap
 wiki#:#wiki_main_page#:#Főlap
 wiki#:#wiki_mark#:#Osztályzat
 wiki#:#wiki_media_list#:#Médialista
-wiki#:#wiki_msg_short_name_regexp#:#A rövid cím nem kezdődhet számmal, és nem tartalmazhatja a következő karaktereket:
+wiki#:#wiki_msg_short_name_regexp#:#A rövid cím nem kezdődhet számmal és nem tartalmazhatja a következő karaktereket:
 wiki#:#wiki_new_pages#:#Új lapok
 wiki#:#wiki_no_start_page#:#A wikiből hiányzik az érvényes kezdőlap.
 wiki#:#wiki_notgraded#:#Nincs értékelve
@@ -9819,6 +9877,8 @@ common#:#delete_inactive_user_accounts_period_desc#:#A megadott időszak óta be
 common#:#delete_inactive_user_accounts_include_roles#:#Figyelembe vett szerepek
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Azon szerepek megadása, amelyek részt vesznek a törlésben.
 common#:#delete_inactive_user_accounts_interval#:#Gyakoriság
+common#:#update_orgunits#:#Hozzárendelt szervezeti egységek frissítése
+common#:#update_orgunits_desc#:#Ha be van kapcsolva, a 'Szervezeti egység' mező az összes ILIAS-fiókban módosul.
 common#:#delete_inactivated_user_accounts#:#Inaktivált ILIAS-fiókok törlése
 common#:#delete_inactivated_user_accounts_desc#:#Ha be van kapcsolva, az inaktiválásuk dátumától függően törlünk ILIAS-fiókokat.
 common#:#delete_inactivated_user_accounts_period#:#Inaktiválás óta eltelt napok száma
@@ -9879,13 +9939,13 @@ trac#:#trac_user_objects#:#Tanulási célok a felhasználónak
 content#:#cont_link_whole_picture#:#Link a teljes képre
 content#:#cont_edit_shape_whole_picture#:#Alakzat szerkesztése (teljes kép)
 user#:#enable_local_user_administration#:#Helyi ILIAS-fiókok kezelésének engedélyezése
-user#:#enable_local_user_administration_info#:#Ha be van kapcsolva, a 'Helyi felhasználókezelés' fül megjelenik a kategóriáknál és a szervezeti egységeknél.
+user#:#enable_local_user_administration_info#:#Ha be van kapcsolva, a 'Helyi ILIAS-fiókok kezelése' fül megjelenik a kategóriáknál és a szervezeti egységeknél.
 user#:#restrict_user_access#:#Korlátozott hozzáférés az ILIAS-fiókokhoz
 user#:#restrict_user_access_info#:#Csak akkor engedélyezze, ha korlátozni szeretné a hozzáférést az ILIAS-fiókokhoz. 'Olvasási elérés a helyi ILIAS-fiókhoz' jogosultság szükséges a helyi és a globális ILIAS-fiókok hozzáféréséhez.
 common#:#backto_lua#:#Vissza a helyi ILIAS-fiókok kezeléséhez
 common#:#sort_activation_header#:#Időzítés szerint
 common#:#sort_inherit_prefix#:#Alapértelmezett
-common#:#sorting_info_inherit#:#A rendezés típusát a szülőkurzustól/szülőcsoporttól vesszük át.
+common#:#sorting_info_inherit#:#A rendezés típusát a kurzustárolótól/csoporttárolótól vesszük át.
 content#:#cont_alignment#:#Elrendezés
 content#:#cont_set_alignment#:#Elrendezés beállítása
 rbac#:#rbac_msg_user_already_assigned#:#A kiválasztott felhasználók már hozzá vannak rendelve ehhez a szerephez.
@@ -10008,7 +10068,7 @@ content#:#cont_correct_after_first#:#Sikeres próbálkozás az első
 content#:#cont_second#:#Második
 content#:#cont_third_and_more#:#Harmadik vagy további
 content#:#cont_never#:#Soha
-user#:#user_adm_enable_alpha_nav#:#Betűrendes navigálás a felhasználókezelőben
+user#:#user_adm_enable_alpha_nav#:#Betűrendes navigálás az ILIAS-fiókok kezelőjében
 form#:#form_alphabet_all#:#Összes
 content#:#cont_download_no_menu#:#A felhasználók nem fognak tudni letölteni, mert a tananyagmenü nincs aktiválva.
 content#:#cont_download_no_download#:#A felhasználók nem fognak tudni letölteni, mert a letöltés nincs aktiválva.
@@ -10360,21 +10420,21 @@ mail#:#mail_select_recipients#:#Válassza ki a címzetteket:
 grp#:#grp_import#:#Csoport importálása
 crs#:#crs_grp_assignments#:#Kurzustagok csoportokba rendezése
 assessment#:#ordering_answer_sequence_info#:#Az itt megadott válaszsorozat a helyes megoldások sorozataként kerül felhasználásra.
-administration#:#language_scope_merged#:#A helyi változatokat összefésülte a globális nyelvi fájllal
+administration#:#language_scope_merged#:#A helyi változatokat összefésülte a standard nyelvi fájllal
 administration#:#language_scope_added#:#Csak helyi felvétel
-administration#:#language_merge_local_changes#:#Helyi változatok összefésülése a globális nyelvi fájllal
+administration#:#language_merge_local_changes#:#Helyi változatok összefésülése a standard nyelvi fájllal
 administration#:#language_delete_local_additions#:#Helyi kiegészítések törlése az adatbázisból
-administration#:#language_error_write_global#:#A globális nyelvi fájl nem írható!
-administration#:#language_error_local_missed#:#A helyi nyelvi fájl nem létezik!
-administration#:#language_error_delete_local#:#A helyi nyelvi fájl nem törölhető!
-administration#:#language_local_file_deleted#:#A helyi nyelvi fájlt sikeresen törölte.
-administration#:#language_remove_local_file#:#Helyi nyelvi fájl törlése
+administration#:#language_error_write_global#:#A standard nyelvi fájl nem írható!
+administration#:#language_error_local_missed#:#Az egyéni nyelvi fájl nem létezik!
+administration#:#language_error_delete_local#:#Az egyéni nyelvi fájl nem törölhető!
+administration#:#language_local_file_deleted#:#Az egyéni nyelvi fájlt sikeresen törölte.
+administration#:#language_remove_local_file#:#Egyéni nyelvi fájl törlése
 rbac#:#export_member_data#:#Felhasználói adatokhoz hozzáférés
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Ennek a szerepnek a jogosultsági beállításait a már összes létező objektumra alkalmazzunk.
 forum#:#frm_edit_title#:#Cím szerkesztése
 common#:#webdav_pwd_instruction#:#Javasolt egy helyi jelszó létrehozása a taneszköztároló webmappaként történő megnyitásához.<br/>Ez a jelszó csak a webmappafunkciókhoz szükséges.
 common#:#webdav_pwd_instruction_success#:#Új helyi jelszó jött létre. Most már webmappaként nyithatja meg a taneszköztárolót.
-administration#:#language_merged_global#:#A helyi változatokat összefésülte a globális nyelvi fájllal
+administration#:#language_merged_global#:#A helyi változatokat összefésülte a standard nyelvi fájllal
 content#:#cont_submit_answers#:#Mehet
 content#:#cont_wrong_answers#:#Hibás válaszok
 content#:#cont_tries_remaining#:#Lehetséges próbálkozások száma
@@ -10762,8 +10822,8 @@ style#:#sty_type_qimg#:#Kérdéskép
 style#:#sty_type_qimgd#:#Kép tulajdonságainak linkje
 style#:#sty_type_qordli#:#Számozott felsorolás eleme
 style#:#sty_type_qordul#:#Számozott felsorolás
-style#:#sty_type_qetitem#:#Hibaszöveg elem
-style#:#sty_type_qetcorr#:#Hibaszöveg kijavítva
+style#:#sty_type_qetitem#:#Hibás szöveg eleme
+style#:#sty_type_qetcorr#:#Hibás szöveg javítva
 prtf#:#prtf_portfolios#:#Portfóliók
 prtf#:#prtf_add_portfolio#:#Portfólió hozzáadása
 prtf#:#prtf_edit_portfolio#:#Portfólió szerkesztése
@@ -11065,7 +11125,7 @@ administration#:#apache_auth_domains_description#:#Adjon meg soronként egy doma
 skmg#:#skmg_insert_skill_template_reference#:#Kompetenciasablon-hivatkozás beszúrása
 skmg#:#skmg_insert_skill_template_reference_child#:#Kompetenciasablon-hivatkozás beszúrása altételként
 skmg#:#skmg_insert_skill_template_reference_from_clip#:#Kompetenciasablon-hivatkozás beszúrása vágólapról
-assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Az állapot nem változtatható ehhez: &quot;online&quot; mivel nincsenek kérdések és/vagy érdemjegyek a tesztben.
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Nem módosítható &quot;online (aktív)&quot;-ra az állapot, mert nincsenek kérdések és/vagy érdemjegyek a tesztben.
 blog#:#blog_preview#:#Előnézet
 ecs#:#ecs_field_community#:#Közösség
 skmg#:#skmg_new_sktr#:#Új kompetenciasablon-hivatkozás
@@ -11076,7 +11136,7 @@ skmg#:#skmg_assign_materials#:#Anyagok hozzárendelése
 skmg#:#skmg_add_skill#:#Kompetencia létrehozása
 skmg#:#skmg_selectable#:#Kiválasztható
 skmg#:#skmg_selectable_info#:#Felhasználó személyes kompetenciaként választhatja ki ezt a kategóriát
-assessment#:#test_is_offline#:#Nem kezdheti el a tesztet, mert az offline.
+assessment#:#test_is_offline#:#Nem kezdheti el a tesztet, mert az offline (nem aktív).
 skmg#:#skmg_materials#:#Segédanyagok
 skmg#:#skmg_remove_skills#:#Kompetencia eltávolítása
 skmg#:#skmg_really_remove_skills#:#Biztos, hogy eltávolítja az alábbi kompetenciákat a listáról?
@@ -11330,7 +11390,7 @@ grp#:#grp_view_info_by_type#:#Az objektumokat típusuk alapján csoportosítva j
 grp#:#grp_view_info_simple#:#Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg.
 grp#:#grp_presentation_type#:#Megjelenítés típusa
 grp#:#grp_view_inherit#:#Alapértelmezett
-grp#:#grp_view_inherit_info#:#A megjelenítés típusát a szülőkurzustól vesszük át.
+grp#:#grp_view_inherit_info#:#A megjelenítés típusát a kurzustárolótól vesszük át.
 content#:#cont_open#:#Tananyag megjelenítése
 content#:#cont_open_normal#:#Új fülön vagy pedig új ablakban nyíljon meg, ILIAS főmenü nélkül
 content#:#cont_open_width#:#szélesség
@@ -12039,7 +12099,7 @@ rbac#:#blog_read#:#A felhasználó olvashat blogtartalmat
 rbac#:#blog_copy#:#A felhasználó másolhat blogot
 rbac#:#blog_write#:#A felhasználó szerkeszthet blogbeállításokat
 rbac#:#blog_delete#:#A felhasználó áthelyezhet vagy törölhet blogot
-rbac#:#blog_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#blog_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rbac_create_blog#:#Blog létrehozása
 user#:#user_delete_own_account#:#ILIAS-fiók törlése
 rbac#:#trac_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Statisztikák és tanulási haladás beállításait
@@ -12055,6 +12115,7 @@ dcl#:#dcl_edit#:#Adatgyűjtés szerkesztése
 dcl#:#dcl_import#:#Adatgyűjtés importálása
 dcl#:#dcl_in_export#:#Exportálható
 dcl#:#dcl_tables#:#Táblák
+dcl#:#dcl_invalid_regex_config#:#Ezen mezőre beállított reguláris kifejezés nem valid. Ellenőrizze a beállításokat a probléma elhárítása érdekében.
 rbac#:#dcl_visible#:#Adatgyűjtés látható
 rbac#:#dcl_read#:#Olvasási hozzáférés az adatgyűjtéshez
 rbac#:#dcl_copy#:#A felhasználó másolhat adatgyűjtést
@@ -12159,7 +12220,7 @@ rbac#:#poll_read#:#A felhasználó részt vehet szavazásban
 rbac#:#poll_write#:#A felhasználó szerkeszthet szavazásbeállításokat és -tartalmat
 rbac#:#poll_delete#:#A felhasználó áthelyezhet és törölhet szavazást
 rbac#:#poll_copy#:#A felhasználó másolhat szavazást
-rbac#:#poll_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#poll_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rbac_create_poll#:#Szavazás létrehozása
 rbac#:#fld_create_poll#:#Szavazás létrehozása
 poll#:#poll_question#:#Kérdés
@@ -12246,7 +12307,7 @@ dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kez
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen modult sem sikerült találni ez alapján:
 dcl#:#dcl_export_enabled#:#Export használatának engedélyezése az összes felhasználó számára
 dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
-dcl#:#dcl_create_fields#:#Kérem hozzon létre legalább egy mezőt a 'Mezők' fül alatti 'Új mező létrehozása' gombbal.
+dcl#:#dcl_create_fields#:#Kérem, hozzon létre legalább egy mezőt a 'Mezők' fül alatti 'Új mező létrehozása' gombbal.
 dcl#:#dcl_inconsistent_at#:#Az adatgyűjtés inkonzisztens. A hivatkozás már nem létezik.
 dcl#:#dcl_all_entries#:#Összes bejegyzés
 dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
@@ -12266,6 +12327,8 @@ dcl#:#dcl_msg_tableview_deleted#:#Nézetet sikeresen törölte
 dcl#:#dcl_msg_tableviews_deleted#:#Nézeteket sikeresen törölte
 dcl#:#dcl_msg_tableviews_delete_all#:#Nem törlöhető: legalább egy nézetnek maradni kell
 dcl#:#dcl_msg_tables_delete_all#:#Nem törlöhető: legalább egy táblának maradni kell
+dcl#:#dcl_msg_tables_deleted#:#A táblákat sikeresen törölte.
+dcl#:#dcl_tables_confirm_delete#:#Biztos, hogy törli az alábbi táblákat?
 dcl#:#dcl_msg_tableviews_order_updated#:#Nézetek sorrendjét sikeresen mentette
 dcl#:#dcl_msg_info_alternatives#:#Nincs megfelelő jogosultsága ezen rekord megtekintéséhez, vagy nincs részletes változtata ennek a nézetnek. a A rekord megtekintéséhez válasszon egy nézetet a felsorolásból.
 dcl#:#dcl_tableviews_confirm_delete#:#Biztos, hogy törli az alábbi nézteteket?
@@ -12403,7 +12466,7 @@ rbac#:#itgr_read#:#A felhasználó olvashat objektumcsoportot
 rbac#:#itgr_write#:#A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait
 rbac#:#itgr_copy#:#A felhasználó másolhat objektumcsoportot
 rbac#:#itgr_delete#:#A felhasználó áthelyezhet vagy törölhet objektumcsoportot
-rbac#:#itgr_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#itgr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rbac_create_itgr#:#Objektumcsoport létrehozása
 poll#:#poll_active_no_edit#:#Ez a szavazás jelenleg aktív és nem szerkeszthető.
 poll#:#poll_votes_no_edit#:#Ez a szavazás már tartalmaz szavazatokat. A szavazás nem szerkeszthető, míg nem törli a szavazatokat.
@@ -12418,8 +12481,6 @@ common#:#itgr_add#:#Objektumcsoport létrehozása
 content#:#cont_auto_last_visited#:#Folytatás az utoljára megtekintett fejezettel
 content#:#cont_check_values#:#SCO-ból küldött értékek ellenőrzése
 content#:#cont_check_values_info#:#A Teszteszköz ellenőrzi, hogy a SCO-k a SCORM-szabványoknak megfelelő adatokat küld-e.<br />A SCORM-szabvány nagyon pontosan előírja az értékek mentését. Nem minden tananyag felel meg ezeknek az elvárásoknak. Ezen opcióval ellenőrizhető, hogy a tananyag ezen szabványnak megfelel-e vagy sem. Ne kapcsolja be, ha csak arra kíváncsi, hogy az ILIAS képes-e a tananyagot futtatni.
-administration#:#adm_social_bm_create#:#Szociális könyvjelző létrehozása
-administration#:#adm_social_bm_edit#:#Szociális könyvjelző szerkesztése
 dcl#:#dcl_actions#:#Cselekmény
 dcl#:#dcl_export_table_excel#:#Exportálás Excel (.xlsx) fájlba
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Nincs exportálható mező vagy adat
@@ -12725,12 +12786,12 @@ help#:#help_set_mode#:#Mód beállítása
 poll#:#poll_result#:#Végeredmények
 fold#:#fold_copy#:#Mappa másolása
 rbac#:#rfil_delete#:#A felhasználó áthelyezhet vagy törölhet ECS fájlt
-rbac#:#rfil_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rfil_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rfil_read#:#A felhasználó használhat ECS fájlt
 rbac#:#rfil_visible#:#ECS fájl látható
 rbac#:#rfil_write#:#A felhasználó szerkeszthet ECS fájl beállításokat
 rbac#:#rgrp_delete#:#A felhasználó áthelyezhet vagy törölhet ECS csoportokat
-rbac#:#rgrp_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rgrp_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rgrp_read#:#A felhasználó használhat ECS csoportot
 rbac#:#rgrp_visible#:#ECS csoport látható
 rbac#:#rgrp_write#:#A felhasználó szerkeszthet ECS csoport szerkesztési beállításokat
@@ -12740,12 +12801,12 @@ rbac#:#rglo_read#:#A felhasználó használhat ECS fogalomtárat
 rbac#:#rglo_visible#:#Az ECS fogalomtár látható
 rbac#:#rglo_write#:#A felhasználó szerkeszthet ECS fogalomtár beállításokat
 rbac#:#rlm_delete#:#A felhasználó áthelyezhet vagy törölhet ECS tanulási modult
-rbac#:#rlm_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rlm_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rlm_read#:#A felhasználó használhat ECS tanulási modult
 rbac#:#rlm_visible#:#Az ECS tanulási modul látható
 rbac#:#rlm_write#:#A felhasználó szerkeszthet ECS tanulási modul beállításokat
 rbac#:#rtst_delete#:#A felhasználó áthelyezhet vagy törölhet ECS tesztet
-rbac#:#rtst_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rtst_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rtst_read#:#A felhasználó használhat ECS tesztet
 rbac#:#rtst_visible#:#Az ECS teszt látható
 rbac#:#rtst_write#:#A felhasználó szerkesztheti az ECS teszt beállításokat
@@ -12755,7 +12816,7 @@ rbac#:#rwik_read#:#A felhasználó használhat ECS wikit
 rbac#:#rwik_visible#:#Az ECS wiki látható
 rbac#:#rwik_write#:#A felhasználó szerkeszthet ECS wiki beállításokat
 rbac#:#rcat_delete#:#A felhasználó áthelyezhet vagy törölhet ECS kategóriát
-rbac#:#rcat_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rcat_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rcat_read#:#A felhasználó használhat ECS kategóriát
 rbac#:#rcat_visible#:#Az ECS kategória látható
 rbac#:#rcat_write#:#A felhasználó szerkeszthet ECS kategória beállításokat
@@ -12818,7 +12879,7 @@ tos#:#tos_period_from#:#Tól
 tos#:#tos_period_until#:#Ig
 tos#:#tos_acceptance_datetime#:#Dátum
 tos#:#tos_no_documents_exist#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel.
-tos#:#tos_no_documents_exist_cant_save#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem legalább egy nyelvhez hozzon létre.
+tos#:#tos_no_documents_exist_cant_save#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem, legalább egy nyelvhez hozzon létre.
 ecs#:#ecs_sync_trees#:#Könyvtár faszerkezet szinkronizálása
 survey#:#svy_invite_action#:#Munkaasztalra helyezés
 rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csevegőszobát
@@ -12944,6 +13005,7 @@ dcl#:#dcl_skipped_delete_records#:#%s bejegyzések törlése sikertelen jogosult
 dcl#:#dcl_plugin#:#Bővítmény
 dcl#:#dcl_plugin_desc#:#Adatgyűjtés mező-bővítmények
 dcl#:#dcl_plugin_hooks#:#Elérhető bővítmények
+dcl#:#dcl_plugin_no_hooks_available#:#Egy aktív mezőtípusú bővítmény sem található
 dcl#:#dcl_save_confirmation#:#Mentés megerősítése
 dcl#:#dcl_save_confirmation_desc#:#Felhasználóknak jóvá kell hagyniuk minden új adatgyűjtemény bejegyzést.
 dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
@@ -12993,7 +13055,7 @@ rbac#:#bibl_read#:#A felhasználónak olvasási hozzáférése van a bibliográf
 rbac#:#bibl_copy#:#A felhasználó másolhatja a bibliográfiát
 rbac#:#bibl_write#:#A felhasználó szerkesztheti a bibliográfiát beállításait
 rbac#:#bibl_delete#:#A felhasználó mozgathatja és törölheti a bibliográfiát
-rbac#:#bibl_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#bibl_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#bibs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Bibliográfia menüpontot
 rbac#:#bibs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Bibliográfiához
 rbac#:#bibs_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Bibliográfia beállításait
@@ -13146,13 +13208,13 @@ survey#:#survey_reminder_end#:#Záró időpont
 survey#:#survey_reminder_frequency#:#Gyakoriság
 survey#:#survey_reminder_frequency_days#:#Nap
 survey#:#survey_notification_target_group#:#Célcsoport
-survey#:#survey_notification_target_group_parent_course#:#Szülőkurzus/-csoport összes tagja
-survey#:#survey_notification_target_group_parent_course_inactive#:#Nem adott meg szülőkurzust/-csoport - emlékeztetőket nem küldünk!
+survey#:#survey_notification_target_group_parent_course#:#Kurzustároló/csoporttároló összes tagja
+survey#:#survey_notification_target_group_parent_course_inactive#:#Nem adott meg kurzustárolót/csoporttárolót - emlékeztetőket nem küldünk!
 survey#:#survey_notification_target_group_invited#:#Összes olyan felhasználó, akinek asztalára a kérdőívet elhelyezték
 survey#:#survey_notification_target_group_invited_info#:#Jelenlegi felhasználók száma: %s
 survey#:#survey_notification_tutor_setting#:#E-mail küldése, miután az összes válaszadó befejezte a kérdőív kitöltését
 survey#:#survey_notification_tutor_recipients#:#Tutorok (felhasználónevek)
-survey#:#survey_notification_tutor_recipients_invalid#:#Kérem adjon írási jogosultságot a felhasználók számára.
+survey#:#survey_notification_tutor_recipients_invalid#:#Kérem, adjon írási jogosultságot a felhasználók számára.
 survey#:#survey_notification_tutor_subject#:#Az összes válaszadó befejezte a(z) '%s' kérdőívet.
 survey#:#survey_notification_tutor_salutation#:#Tisztelt %s,
 survey#:#survey_notification_tutor_body#:#ezúton tájékoztatjuk, hogy az alábbi kérdőív kitöltését az összes válaszadó befejezte.
@@ -13209,7 +13271,7 @@ dateplaner#:#cal_ch_cancel_booking_info#:#A 'Foglalás lemondása' e-mailben ér
 dateplaner#:#cal_ch_delete_app_booking_info#:#Az alábbi eseményekhez van létező foglalás. A felhasználók nem kapnak értesítést, ha törli ezeket az eseményeket.
 dateplaner#:#cal_ch_user_assignment_success#:#A kiválasztott eseményekhez hozzárendeltük a felhasználókat.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#A kiválasztott eseményekhez az alábbi felhasználók hozzárendelése sikertelen, mert elérték a foglalások maximális számát.
-dateplaner#:#cal_booking_failed_info#:#Az esemény betelt. Kérem válasszon másikat.
+dateplaner#:#cal_booking_failed_info#:#Az esemény betelt. Kérem, válasszon másikat.
 registration#:#registration_codes_override_info#:#Ez a beállítás felülírja a 'Regisztráció beállítások' alatt lévő bármely értékét.
 registration#:#registration_codes_override_global_info#:#Ezek a beállítások regisztrációs kódokkal felülírhatóak.
 crs#:#event_list_registered_only#:#Csak azon tagok, akik feljelentkeztek
@@ -13235,7 +13297,7 @@ blog#:#blog_draft_info_contributors#:#Ezt a bejegyzéstervezetet csak a szerkesz
 assessment#:#tst_extratime_added#:#A résztvevő munkaideje megnövelve %s perccel.
 assessment#:#tst_extratime_nodata#:#A kiválasztott résztvevőnek nincsenek bejegyzései.
 assessment#:#tst_extratime_notavailable#:#Extra-időt csak egy kitöltött és elért maximális kitöltési idővel rendelkező teszthez lehet adni.
-assessment#:#tst_extratime_info#:#Amennyiben többször szeretne extra-időt adni ugyanannak a résztvevőnek az idejéhez, kérem az összesített extra-időt adja meg.
+assessment#:#tst_extratime_info#:#Amennyiben többször szeretne extra-időt adni ugyanannak a résztvevőnek az idejéhez, az összesített extra-időt adja meg.
 assessment#:#extratime#:#Extra-idő
 assessment#:#log_added_extratime#:#Extra %d perc adása a(z) %d azonosítójú résztvevőnek
 assessment#:#timing#:#Extra-idő
@@ -13352,7 +13414,7 @@ rbac#:#cld_visible#:#Felhőobjektum látható
 rbac#:#cld_read#:#Felhasználó nyithat felhőobjektumot
 rbac#:#cld_write#:#Felhasználó szerkesztheti a felhőobjektum beállításait
 rbac#:#cld_delete#:#Felhasználó törölhet a felhőobjektumot
-rbac#:#cld_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#cld_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#cld_upload#:#Felhasználó feltölthet fájlt a felhőobjektumba
 rbac#:#cld_download#:#Felhasználó letölthet fájlt a felhőobjektumból
 rbac#:#cld_edit_permission#:#Felhasználó szerkesztheti a jogosultsági beállításokat
@@ -13518,6 +13580,7 @@ cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjekt
 dcl#:#fieldtitle_allow_chars#:#Nem engedélyezett karakterek: %s
 dcl#:#add_value#:#Új bejegyzés hozzáadása
 common#:#objs_orgu#:#Szervezeti egységek
+common#:#org_units#:#Szervezeti egységek
 common#:#obj_orgu#:#Szervezeti egység
 common#:#obj_orgu_description#:#Szervezeti felépítés létrehozása és módosítása
 common#:#il_orgu_superior#:#Felettes
@@ -13971,7 +14034,7 @@ blog#:#blog_edit_posting#:#Bejegyzés szerkesztése
 sop#:#sop_check_system_requirements#:#Rendszerkövetelmények ellenőrzése
 sop#:#sop_already_exported#:#Ezt a tanulási modult már exportálták. Nyissa meg egy olyan számítógépen, melyre Firefox-ot telepítettek SCORM Offline Player kiegészítővel.
 sop#:#sop_firefox_required#:#A SCORM offline modul naprakész Mozilla Firefox böngészőt igényel (> v. 20)<br/><a href="http://www.mozilla.org/en/firefox/new" target="_new">Firefox letöltése</a>
-sop#:#sop_xpi_install#:#Kérem telepítse az alábbi Firefox-kiegészítőt: %s<br/>A sikeres xpi telepítés után az 'Oldal újratöltése' gombbal szükséges az oldal frissítése. Ezután a SCORM tanulási modul használható offline módban.
+sop#:#sop_xpi_install#:#Telepítse az alábbi Firefox-kiegészítőt: %s<br/>A sikeres xpi telepítés után az 'Oldal újratöltése' gombbal szükséges az oldal frissítése. Ezután a SCORM tanulási modul használható offline módban.
 sop#:#sop_reload_page#:#Oldal újratöltése
 sop#:#sop_text_export#:#SCORM tanulási modul exportálása offline használathoz
 sop#:#sop_export#:#SCORM tanulási modul exportálása
@@ -13984,12 +14047,12 @@ sop#:#sop_text_push_tracking#:#Offline követési adat importálása az ILIAS-ba
 sop#:#sop_push_tracking#:#Követési adat importálása
 common#:#offline_mode#:#Offline használat
 sop#:#sop_msg_lm_not_exists#:#A tanulási modul vagy nem létezik vagy nem aktív a SCORM Offline Manager-ben.
-sop#:#sop_msg_close_lm#:#A tanulási folyamat még nyitva van. Kérem zárja be a SCORM Offline Player-t. 
+sop#:#sop_msg_close_lm#:#A tanulási folyamat még nyitva van. Legyen szíves zárja be a SCORM Offline Player-t. 
 sop#:#sop_msg_export_failure#:#Tartalom és követési adat átemelése a SCORM Offline Manager-be sikertelen.
 sop#:#sop_msg_export_ok#:#Tartalom és követési adat átemelése sikeresen megtörtént.
-sop#:#sop_msg_export_content#:#Tartalom átemelése a SCORM Offline Manager-be folyamatban. Ez sok időt vehet igénybe. Kérem várjon türelemmel.
-sop#:#sop_msg_export_tracking#:#Követési adat átemelése a SCORM Offline Manager-be folyamatban. Kérem várjon.
-sop#:#sop_msg_push_tracking#:#Követési adat átemelése az ILIAS-ba folyamatban. Kérem várjon.
+sop#:#sop_msg_export_content#:#Tartalom átemelése a SCORM Offline Manager-be folyamatban. Ez sok időt vehet igénybe. Kérem, várjon türelemmel.
+sop#:#sop_msg_export_tracking#:#Követési adat átemelése a SCORM Offline Manager-be folyamatban. Kérem, várjon.
+sop#:#sop_msg_push_tracking#:#Követési adat átemelése az ILIAS-ba folyamatban. Kérem, várjon.
 sop#:#sop_msg_push_tracking_failure#:#Követési adat átemelése sikertelen.
 sop#:#sop_msg_push_tracking_ok#:#Követési adat átemelése sikeresen megtörtént.
 content#:#glo_hide_taxonomy#:#Taxonómia elrejtése
@@ -14209,7 +14272,7 @@ rbac#:#orgu_write#:#A felhasználó szerkesztheti a Szervezeti egységet beáll�
 rbac#:#orgu_read_users#:#A felhasználó láthatja a helyi ILIAS-fiókokat ebben a Szervezeti egységben
 rbac#:#orgu_cat_administrate_users#:#A felhasználó létrehozhat és helyi ILIAS-fiókokat kezelhet ebben a Szervezeti egységben
 rbac#:#orgu_delete#:#A felhasználó mozgathatja és törölheti a Szervezeti egységet
-rbac#:#orgu_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#orgu_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#orgu_copy#:#Szervezeti egység másolása
 rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 rbac#:#rbac_create_orgu#:#Szervezeti egységek létrehozása
@@ -14289,7 +14352,7 @@ meta#:#md_adv_number_min#:#Minimális érték
 meta#:#udf_type_float#:#Lebegőpontos szám
 meta#:#udf_type_location#:#Helyszín
 meta#:#md_adv_number_decimals#:#Tizedes tört
-meta#:#md_adv_confirm_definition#:#Kérem hagyja jóvá az új definíció beállításait.
+meta#:#md_adv_confirm_definition#:#Kérem, hagyja jóvá az új definíció beállításait.
 meta#:#md_adv_confirm_definition_select_option#:#Törölt opció
 meta#:#md_adv_confirm_definition_select_option_remove#:#Érték eltávolítása 
 meta#:#md_adv_confirm_definition_select_option_overwrite#:#Értéke legyen
@@ -14320,9 +14383,7 @@ blog#:#blog_nav_sortorder#:#Blokkok rendezése
 survey#:#svy_view_own_results#:#Válaszaim megtekintése
 survey#:#svy_mail_own_results#:#Válaszaim küldése levélben
 survey#:#svy_mail_own_results_subject#:#'%s' kérdőívre adott válaszai
-survey#:#svy_mail_own_results_body#:#ezúton küldjük résztvételének teljes összefoglalóját.
-survey#:#svy_results_view_own#:#Válaszadók megtekintheti saját válaszaikat
-survey#:#svy_results_mail_own#:#Válaszadók levélben elküldheti saját válaszaikat
+survey#:#svy_results_view_own#:#Válaszadók megnézhetik saját válaszaikat
 exercise#:#exc_to_desktop_info#:#A beadandó feladat a beküldő munkaasztalára kerüljön a megoldás beadása után
 wiki#:#wiki_wpg#:#Wiki oldal
 wiki#:#wiki_add_page_properties#:#Kiegészítő Wikioldal-tulajdonságok bekapcsolása
@@ -14330,7 +14391,7 @@ wiki#:#wiki_advmd_block_title#:#Oldal bővített metaadatai
 content#:#cont_ed_insert_amd_page_list#:#Oldallista beszúrása
 content#:#cont_insert_amd_page_list#:#Oldallista beszúrása
 content#:#cont_update_amd_page_list#:#Oldallista szerkesztése
-wiki#:#wiki_amd_page_list_no_hits#:#Egy érintett oldal sincs###No items
+wiki#:#wiki_amd_page_list_no_hits#:#Egy ilyen oldal sincs###No items
 obj#:#obj_tool_setting_taxonomies#:#Taxonómiák
 administration#:#obj_excs#:#Beadandó feladat
 administration#:#obj_excs_desc#:# Beadandó feladat globális beállításai
@@ -14414,7 +14475,6 @@ obj#:#obj_tool_setting_tag_cloud_info#:#'Címkefelhő' blokk megjelenik a 'Tarta
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Címék megjelenítése a számok helyett
 tagging#:#tagging_other_users#:#Más felhasználók címkéi
 common#:#autocomplete_more#:#továbbiak
-user#:#passwd_generation_pre#:#Előre definiált jelszavak
 mail#:#mail_max_size_attachments_total#:#Adja meg egy levél mellékleteinek maximálisan engedélyezett összméretét. Ez a beállítás független más korláttól (pl. upload_max_filesize, stb.), mert egy levélhez több fájlt is csatolhat mellékletként.
 mail#:#mail_max_size_attachments_total_error#:#Mellékletek maximálisan engedélyezett összmérete:
 grp#:#grp_cdf_tbl_last_edit#:#Utoljára módosítva (Csoportspecifikus adat)
@@ -14524,6 +14584,8 @@ wiki#:#wiki_link_text#:#Link szövege
 wiki#:#wiki_target_page#:#Céllap
 mmbr#:#mmbr_selected_users#:#Kiválasztott résztvevők
 mmbr#:#mmbr_btn_mail_selected_users#:#Levél küldése
+crs#:#crs_mem_tbl_header#:#Kurzusrésztvevők
+grp#:#grp_mem_tbl_header#:#Csoportrésztvevők
 sess#:#sess_mail_permanent_link#:#Az alábbi linkre kattintva talál információkat az eseményről:
 sess#:#sess_reg_type#:#Regisztráció módja
 sess#:#sess_reg_direct#:#Közvetlen jelentkezés
@@ -14574,7 +14636,7 @@ content#:#cont_show_content_after_focus#:#Tovább a tananyaghoz
 content#:#cont_to_focus_beginning#:#Vissza a tanulási célhoz kapcsolódó tartalomhoz
 content#:#cont_to_focus_return_crs#:#Vissza a kurzushoz
 crs#:#crs_loc_learning_objective#:#Tanulási célok
-crs#:#crs_loc_suggested#:#Kérem dolgozza fel az alábbi tanulási segédanyagokat.
+crs#:#crs_loc_suggested#:#Legyen szíves dolgozza fel az alábbi tanulási segédanyagokat.
 crs#:#crs_loc_itest_info#:#Belépő teszt
 crs#:#crs_loc_qtest_info#:#Záró teszt
 crs#:#crs_loc_tt_info#:#%1$d%%-ot ért el. %2$d%%-tól sikeresen teljesített a teszt.
@@ -14642,10 +14704,10 @@ crs#:#crs_loc_qtst_for_objective#:#'%1$s' záró teszt
 crs#:#crs_loc_itst_for_objective#:#'%1$s' belépő teszt
 crs#:#crs_loc_progress_result_itest#:#Belépő teszt eredménye
 crs#:#crs_loc_progress_result_qtest#:#Végeredmény
-crs#:#crs_loc_progress_no_result_do_initial#:#Kérem töltse ki a belépő tesztet.
+crs#:#crs_loc_progress_no_result_do_initial#:#Kérem, töltse ki a belépő tesztet.
 crs#:#crs_loc_progress_objective_complete#:#Tanulási célokat sikeresen teljesített.
-crs#:#crs_loc_progress_do_qualifying#:#Kérem töltse ki a záró teszt.
-crs#:#crs_loc_progress_do_qualifying_again#:#Kérem újra dolgozza fel az alábbi tanulási cél segédanyagait.
+crs#:#crs_loc_progress_do_qualifying#:#Kérem, töltse ki a záró teszt.
+crs#:#crs_loc_progress_do_qualifying_again#:#Kérem, újra dolgozza fel az alábbi tanulási cél segédanyagait.
 content#:#cont_out_of_focus_message_last_page#:#Jelenleg ez a tanulási céljaihoz kapcsolódó tartalom utolsó oldala.
 crs#:#crs_loc_err_nr_tries_exceeded#:#Az objektumonkénti kitöltési lehetőségeinek száma meghaladja a záró teszt kitöltési lehetőségeinek számát.
 crs#:#crs_loc_passes_left#:#Hátralévő tesztkitöltési lehetőségek száma
@@ -14655,7 +14717,7 @@ crs#:#crs_loc_tst_resume#:#Tesztkitöltés folytatása###XXX
 crs#:#crs_loc_settings_reset#:#Teszteredmények###XXX
 crs#:#crs_loc_settings_reset_enable#:#'Teszteredmények visszaállításának' engedélyezése
 crs#:#crs_loc_settings_reset_enable_info#:#Ha be van kapcsolva, minden felhasználó visszaállíthatja a saját teszteredményeit és újrakezdheti a kurzust.
-crs#:#crs_loc_progress_no_result_no_initial#:#Kérem újra dolgozza fel az alábbi tanulási cél segédanyagait és töltse ki újra a záró tesztet.
+crs#:#crs_loc_progress_no_result_no_initial#:#Kérem, újra dolgozza fel az alábbi tanulási cél segédanyagait és töltse ki újra a záró tesztet.
 crs#:#crs_loc_qst_resume_tst_itest#:#Különböző tanulás célokhoz belépő tesztek nem indíthatóak el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat.
 crs#:#crs_loc_qst_resume_tst_qtest#:#Különböző tanulás célokhoz záró tesztek nem indíthatóak el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy záró tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat.
 bibl#:#bibl_library_show_in_list#:#A link is jelenjen meg a felsorolásban
@@ -14729,7 +14791,7 @@ scormtrac#:#sco_title#:#Fejezet/SCO címe
 scormtrac#:#session_time#:#session_time: utolsó munkamenet időtartama
 scormtrac#:#session_time_seconds#:#session_time: utolsó munkamenet időtartama másodpercben
 scormtrac#:#success_status#:#success_status: sikeres feldolgozás állapota
-scormtrac#:#suspend_data#:#suspend_data: SCO változtatható puffere
+scormtrac#:#suspend_data#:#suspend_data: SCO módosítható puffere
 scormtrac#:#total_time#:#total_time: összes idő
 scormtrac#:#total_time_seconds#:#total_time: összes idő másodpercben
 scormtrac#:#tracinteractionitem#:#Interakciónkénti értékelés
@@ -14756,8 +14818,7 @@ content#:#cont_table_border_info#:#A tartalomstílus beállításainak érvényr
 content#:#cont_table_cellpadding_info#:#A tartalomstílus beállításainak érvényre juttatásához hagyja üresen. Az értékeknél a mértékegységet is adja meg (például px).
 survey#:#svy_evaluation_access_all_info#:#Az összes, a kérdőívhez hozzáféréssel rendelkező felhasználó hozzáférhet ennek a kérdőívnek a végeredményeihez. 
 survey#:#svy_evaluation_access_off_info#:#Csak a kérdőívet módosítani képes (írási hozzáféréssel rendelkező) felhasználó férhet hozzá ennek a kérdőívnek a végeredményeihez. 
-survey#:#svy_evaluation_access_participants_info#:#Az összes válaszadó a kérdőív kitöltését követően hozzáférhet ennek a kérdőívnek a végeredményeihez. 
-survey#:#svy_results_mail_own_info#:#A válaszadók saját válaszaikat tartalmazó levelet kérhetnek.
+survey#:#svy_evaluation_access_participants_info#:#Az összes válaszadó a kérdőív kitöltését követően hozzáférhet ennek a kérdőívnek a végeredményeihez.
 survey#:#svy_results_view_own_info#:#A válaszadók a kérdőívkitöltés végén saját válaszaikat megjeleníthetik, de nem módosíthatják.
 survey#:#survey_360_self_evaluation_info#:#A válaszadók a kérdéseken keresztül értékelhetik saját magukat.
 survey#:#survey_360_self_raters_info#:#Az értékelendők önállóan kiválaszthatják és meghívhatják azokat a felhasználókat, akik értékelést adhatnak rájuk.
@@ -14768,7 +14829,7 @@ survey#:#survey_360_results_all_info#:#Minden értékelendő hozzáférhet az ö
 survey#:#survey_activate_skill_service_info#:#Egy új, 'Kompetencia' nevű fül jelenik meg. Itt kompetenciákat rendelhet a kérdésekhez, majd küszöbértéket kompetenciaszintekhez.
 survey#:#survey_execution_sure_finish#:#Biztos, hogy befejezi a kérdőív kitöltését? Utána már nem tudja módosítani válaszait.
 survey#:#survey_execution_exit#:#Vissza a Taneszköztárolóhoz
-news#:#news_inactive_private_feed_info#:#Az Ön privát hírcsatornája nincs engedélyezve. Kérem adjon meg egy jelszót a beállításokban.
+news#:#news_inactive_private_feed_info#:#Az Ön privát hírcsatornája nincs engedélyezve. Kérem, adjon meg egy jelszót a beállításokban.
 content#:#cont_notify_on_blocked_users#:#Blokkolt felhasználókról értesítés
 content#:#cont_notify_on_blocked_users_info#:#Értesítést kap, amikor egy felhasználó blokkolunk, mert elhasználta a tananyagban az összes válaszadási lehetőségét.
 content#:#cont_user_blocked#:#'%s' felhasználó elhasználta a tananyagban az összes válaszadási lehetőségét.
@@ -14784,16 +14845,20 @@ administration#:#language_mode_existing_keepall_info#:#Csak az új, adatbázisba
 administration#:#language_mode_existing_keepnew_info#:#Új begyezések importálása és az alapértelmezett értékűek felülírása. A megváltozott, nem alapértelmezett értékűek változatlanok maradnak az adatbázisban.
 administration#:#language_mode_existing_replace_info#:#Új begyezések importálása és az összes adatbázisban lévő érték cseréje az importfájlban lévő értékre.
 administration#:#language_scope_global_info#:#Ezen nyelv összes adatbázis bejegyzésének exportálása. Ez biztonsági mentésre használható.
-administration#:#language_scope_local_info#:#Az összes helyiként hozzáadott vagy az adatbázisban megváltoztatott bejegyzés exportálása. Ez hasonló, mint a 'Karbantartás' fülön lévő helyi nyelvi fájl mentése.
+administration#:#language_scope_local_info#:#Az összes helyiként hozzáadott vagy az adatbázisban megváltoztatott bejegyzés exportálása.
 administration#:#language_scope_added_info#:#Az összes, az adatbázisba helyiként hozzáadott bejegyzés exportálása. A fejlesztés alatt lévő változatok biztonsági mentésére lehet felhasználni a 'Karbantartás' fülön történő helyi változatok törlése előtt.
 administration#:#language_scope_unchanged_info#:#Az összes alapértelmezett, adatbázisban meg nem változtatott bejegyzés exportálása. Ez a 'Csak a helyi változatok' ellentéte. A kettő együtt az adatbázisban jelenleg lévő összes nyelvi bejegyzés biztonsági mentése.
-administration#:#language_scope_merged_info#:#Standard ILIAS nyelvi fájl exportálása az összes helyi változattal együtt, modulonként és azonosítónként rendezve. Ez az ILIAS SVN szerveren lévő globális nyelvi fájl frissítésére használható.
+administration#:#language_scope_merged_info#:#Standard ILIAS nyelvi fájl exportálása az összes helyi változattal együtt, modulonként és azonosítónként rendezve. Ez az ILIAS ILIAS git repository-ban lévő standard nyelvi fájl frissítésére használható.
 administration#:#language_save_local_changes_info#:#Az összes helyileg hozzáadott vagy adatbázisban megváltoztatott bejegyzés mentése a Customizing/global/lang/ilias_%s.lang.local fájlban, és a nyelv átállítása 'Helyi nyelvi fájllal telepítve' állapotúra. A webszerver futtatójának írási jog szükséges a mappába. Figyeljen arra, hogy a telepítés összes kliense ezt a fájlt használja.
 administration#:#language_load_local_changes_info#:#A Customizing/global/lang/ilias_%s.lang.local fájl betöltése az adatbázisba. A már meglévő bejegyezések felülíródnak, az újak hozzáadódnak az adatbázishoz.
 administration#:#language_clear_local_changes_info#:#A nyelv összes bejegyzését a lang/ilias_%s.lang fájlban megadott alapértelmezett értékre állítjuk. Minden egyéb változtatás törlünk.
 administration#:#language_delete_local_additions_info#:#Az összes helyileg hozzáadott változat törlése az adatbázisból.
 administration#:#language_merge_local_changes_info#:#A összes helyi és egyéb változat összeolvasztása a lang/ilias_%s.lang standard nyelvi fájlba betűrendben. A webszerver futtatójának írási jog szükséges a fájlhoz.
 administration#:#language_remove_local_file_info#:#A Customizing/global/lang/ilias_%s.lang.local fájl törlése és a nyelv 'Helyi nyelvi fájllal telepítve' cseréje 'Telepítve' állapotra. Az adatbázisban nem történik változtatás.
+administration#:#language_save_dist#:#A standard nyelvi fájl biztonsági mentése
+administration#:#language_save_dist_info#:#Az ILIAS adatkönyvtárában lévő standard ILIAS nyelvi fájlról biztonsági másolat készül. Ez segítségére lehet ILIAS frissítés után a saját módosítások és a frissített nyelvi változók közötti ütközések keresésékor.
+administration#:#language_saved_dist#:#Sikeresen létrehozta a standard nyelvi fájl biztonsági mentését.
+administration#:#language_save_dist_failed#:#A standard nyelvi fájl biztonsági mentése nem sikerült (írási hiba).
 crs#:#crs_loc_type_initial_all_info#:#Az ILIAS a belépő teszt végeredménye alapján személyre szabott tananyagot ajánl a még nem teljesített tanulási célok eléréséhez. A végső záró teszt azt méri, hogy a résztvevő elsajátította-e a tanulási célokat, vagy további tanulásra és képzésre van-e szüksége.
 crs#:#crs_loc_type_qualified_info#:#A kurzus egy teszttel indul, ami felméri, hogy a kurzustag elsajátította-e már a tanulási célokat. A kurzustagnak a sikeresen teljesíti tanulási célok tananyagaival nincs teendője, több tesztet sem kell kitölteni. Az el nem ért tanulási célok teljesítéséhez az ILIAS tananyagot ajánl, teljesítését további teszt vizsgálja.
 crs#:#crs_loc_type_practise_info#:#A kurzustagok a tanulási célokat és az azokhoz rendelt tananyagokat azonnal használhatják. Záró tesztel számot adhatnak, hogy a tanulási célt sikeresen elsajátították-e, avagy további tanulás és képzés szükséges-e számukra.
@@ -14838,7 +14903,7 @@ survey#:#survey_results_personalized_info#:#A válaszadók neve és válaszai a 
 survey#:#survey_results_anonymized#:#Nevek nélküli / Anonimizált kérdőív
 survey#:#survey_results_anonymized_info#:#'Végeredmény' fülön a válaszadók neve helyett kódja jelenik meg. Akiknek hozzáférése van ehhez a fülhöz, azok sem köthetik a válaszokat válaszadóikhoz, csak például az 'iTXaF' kérdőívkódú felhasználóhoz.
 survey#:#material_added_empty#:#Az objektum nem tartalmaz megfelelő segédanyagot.
-ecs#:#ecs_refresh_participants#:#Refresh ECS-résztvevők
+ecs#:#ecs_refresh_participants#:#ECS-résztvevők frissítése
 survey#:#survey_sure_delete_constraint#:#Biztos, hogy törli a(z) '%2$s' kérdés '%1$s' elágazási szabályát?
 survey#:#survey_constraint_deleted#:#Az elágazási szabályt sikeresen törölte.
 error#:#error_back_to_repository#:#Vissza a Taneszköztárolóba
@@ -15234,7 +15299,7 @@ common#:#mem_cron_min_members#:#Kurzus/Csoport: Minimális taglétszám ellenőr
 common#:#mem_cron_min_members_info#:#A rendszergazdák értesítést kapnak, ha a minimális taglétszám nem jön össze.
 crs#:#crs_cancellation_end_rbac_info#:#A lemondást határideje %s volt, lemondása utána már nem lehetséges.
 common#:#mem_min_users#:#Felhasználók minimális száma
-grp#:#grp_wrong_min_max_members#:#Kérem ellenőrizze a felhasználók minimális, illetve maximális számát.
+grp#:#grp_wrong_min_max_members#:#Legyen szíves ellenőrizze a felhasználók minimális, illetve maximális számát.
 grp#:#reg_grp_min_members#:#Tagok minimális száma
 grp#:#grp_cancellation_end#:#Lemondás időkorlátja
 grp#:#grp_cancellation_end_rbac_info#:#A lemondást határideje %s volt, lemondása utána már nem lehetséges.
@@ -15571,7 +15636,7 @@ rbac#:#prg_visible#:#A Tanulmányi program látható
 rbac#:#prg_copy#:#A felhasználó másolhat Tanulmányi programot
 rbac#:#prg_write#:#A felhasználó módosíthatja Tanulmányi programok beállításait
 rbac#:#prg_delete#:#A felhasználó törölhet Tanulmányi programot
-rbac#:#prg_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#prg_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rbac_create_prg#:#Tanulmányi program létrehozása
 rbac#:#prgs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Tanulmányi programok menüpontot
 rbac#:#prgs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulmányi programok beállításaihoz
@@ -15612,7 +15677,7 @@ meta#:#md_adv_field_filter_warning#:#%s mezőtípusok jelenleg nem használható
 grp#:#grp_subscription_min_members_info#:#A csoport indulásához szükséges minimális létszámot határozza meg. Amennyiben a csoportlétszám nem éri el ezt a számot a csoport regisztrációs, illetve lejelentkezési határidejéig, figyelmeztető levelet küldünk a csoport azon vezetőinek és tutorainak, akinél aktív az értesítés a csoport 'Tagok' fülén.
 grp#:#grp_max_and_min_members_invalid#:#A tagok minimális száma kisebb kell hogy legyen, mint a maximális.
 crs#:#mem_cron_min_members_reason#:#Ezt a levelet azért kapta, mert a tagok fülön beállította, hogy kér értesítést.
-crs#:#mem_cron_min_members_task#:#Kérem értesítse a résztvevőket, ha a kurzus nem indul el elegendő jelentkező hiányában. Ennek megfelelően módosítsa a kurzus beállításait.
+crs#:#mem_cron_min_members_task#:#Kérem, ha elegendő jelentkező hiányában a kurzus nem indul el, értesítse a résztvevőket és módosítsa a kurzus beállításait.
 common#:#prg_copy_threads_info#:#Válassza ki a Tanulmányi program mely elemit másolja, linkeli vagy hagyja figyelmen kívül.
 common#:#prg_wizard_page#:#Tanulmányi program másolása (2/2 lépés)
 crs#:#crs_loc_settings_passed_mode#:#Teljesített tanulási célkitűzések
@@ -15658,17 +15723,17 @@ administration#:#adm_content_objects#:#Tartalomobjektumok
 administration#:#adm_content_services#:#Tartalomszolgáltatások
 administration#:#adm_learning_outcomes#:#Tanulási eredmények
 administration#:#adm_maintenance#:#Karbantartás
-administration#:#adm_user_administration#:#Felhasználókezelés
+administration#:#adm_user_administration#:#ILIAS-fiókok kezelése
 administration#:#adm_user_services#:#Felhasználói szolgáltatások
 common#:#enter_new_name#:#Adjon meg egy nevet
 rbac#:#awra_visible#:#A felhasználó láthatja a Rendszerbeállítások » 'Ki van online' menüpontot
 rbac#:#awra_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » 'Ki van online' beállításaihoz
 rbac#:#awra_write#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Ki van online' beállításait
-rbac#:#awra_edit_permission#:# felhasználó módosíthatja a Rendszerbeállítások » 'Ki van online' jogosultsági beállításait
+rbac#:#awra_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Ki van online' jogosultsági beállításait
 rbac#:#svy_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#svy_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#sess_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
-crs#:#event_user_selection_include_role#:#'%1$s' szereppel rendelezők is
+crs#:#event_user_selection_include_role#:#'%1$s' szereppel rendelkezők is
 crs#:#event_user_selection_include_waiting_list#:#Várólistán lévők is
 crs#:#event_user_selection_include_requests#:#Csatlakozási kérelemmel rendelkezők is
 crs#:#event_user_selection_include_filter#:#'%1$s' is
@@ -15677,7 +15742,7 @@ crs#:#event_tbl_admin#:#Vezető
 crs#:#event_tbl_member#:#Tag
 crs#:#event_tbl_tutor#:#Tutor
 news#:#news_sorry_not_accessible_anymore#:#Sajnáljuk, ez már nem érhető el.
-note#:#note_comment_notification_reason#:#Ezt az üzenetet azért kapta, mert felhasználói fiókja szerepel a Rendszerbeállítások » Munkasztal alatt az összes megjegyzésről értesítendők között.
+note#:#note_comment_notification_reason#:#Ezt az üzenetet azért kapta, mert felhasználói fiókja szerepel a Rendszerbeállítások » Munkaasztal alatt az összes megjegyzésről értesítendők között.
 note#:#note_comment_notification_user_has_written#:#%s írta:
 prg#:#prg_show_programmes#:#Láthatóság
 content#:#cont_not_saved_edit_lock_expired#:#Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja.
@@ -15706,7 +15771,7 @@ blog#:#blog_news_posting_updated#:#%s módosított egy bloghozzászólást.
 blog#:#blog_news_posting_published#:#%s közzétett egy bloghozzászólást.
 blog#:#blog_news_posting_authors#:#Szerzők: %s
 book#:#book_reservation_filter_period#:#Foglalási lista időköze
-book#:#book_reservation_filter_period_info#:#Az alapértelemzett időszakszűrő értéke napokban a mai dátumtól számítva.
+book#:#book_reservation_filter_period_info#:#Az alapértelmezett időszakszűrő értéke napokban a mai dátumtól számítva.
 book#:#book_filter_past_reservations#:#Múltbéli foglalások megjelenítése
 book#:#book_deadline_options#:#Foglalási határidő
 book#:#book_deadline_hours#:#X órával a foglalási időszak előttig
@@ -15722,7 +15787,7 @@ chatroom#:#ilias_chatserver_connection#:#ILIAS kapcsolata a szerverhez
 chatroom#:#ilias_proxy_info#:#Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van az ILIAS számára a szerverhez kapcsolódásához egyéni URL-t beállítani.
 chatroom#:#client_chatserver_connection#:#Kliens kapcsolata a szerverhez
 chatroom#:#client_proxy_info#:#Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van a kliens számára a szerverhez kapcsolódásához egyéni URL-t beállítani.
-chatroom#:#connection_url_info#:#Adjon meg egy protokoll nélküli URL-t.
+chatroom#:#connection_url_info#:#Adja meg a szerverhez kapcsolódás URL-jét.
 chatroom#:#log#:#Csevegőszerver napló
 chatroom#:#error_log#:#Csevegőszerver hibanapló
 chatroom#:#delete_private_room_question#:#Biztos, hogy törli a privát csevegőszobát?
@@ -15745,13 +15810,16 @@ form#:#form_date_duration_start#:#Kezdő időpont
 form#:#form_date_duration_end#:#Záró időpont
 auth#:#auth_ldap_server_ds#:#LDAP szerver
 content#:#cont_permission_object#:#Jogosultságobjektum
+auth#:#auth_err_invalid_user_account#:#Hitelesítés belső hiba miatt sikertelen.
+auth#:#auth_err_expired#:#Munkamenete inaktivitás miatt lejárt.
+auth#:#auth_err_ldap_exception#:#Hitelesítés belső (LDAP) hitelesítési hiba miatt sikertelen.
 assessment#:#ass_location#:#Helyszín
 assessment#:#ass_imap_hint#:#Tippek buboréksúgóként jelenjenek meg
 assessment#:#ass_imap_map_file_not_readable#:#A feltöltött képtérkép nem olvasható.
 assessment#:#ass_imap_no_map_found#:#Egy űrlap sem található a feltöltött képtérképben.
 rbac#:#sty_write_content#:#Tartalomstílusok módosítása
 rbac#:#stys_sty_write_custom#:#Tartalomstílusok módosítása
-rbac#:#sty_write_system#:#endszerstílusok módosítása
+rbac#:#sty_write_system#:#Rendszerstílusok módosítása
 rbac#:#stys_sty_write_system#:#Rendszerstílusok módosítása
 rbac#:#sty_write_page_layout#:#Lapelrendezések módosítása
 rbac#:#stys_sty_write_page_layout#:#Lapelrendezések módosítása
@@ -15759,9 +15827,623 @@ skmg#:#skmg_import_skills#:#Importálás
 skmg#:#skmg_input_file#:#Importfájl
 skmg#:#skmg_skill_in_use#:#Ezt a kompetenciát másik felhasználó vagy tartalom használja, ezért nem minden művelet végezhető el rajta. Módosítása hatással lehet korábbi felhasználásaira.
 form#:#form_no_link#:#Nincs link
-copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, győződjön meg arról, hogy a blokk más interaktív elemet (pl. másik linket) nem tartalmaz, mert azok helyes működése így nem biztosított.
+copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, győződjön meg arról, hogy a blokk más interaktív elemet (például másik linket) nem tartalmaz, mert azok helyes működése így nem biztosított.
+pd#:#pd_enable_mail_pdsysmess#:#Rendszerüzenet blokk bekapcsolása
+pd#:#pd_pdmail_include_sysnmess#:#Rendszerüzeneteket a 'Levelek' blokkba
+pd#:#pd_pdmail_include_sysnmess_info#:#Ha be van kapcsolva, a rendszerüzenetek a 'Levelek' blokkba kerülnek.
 pd#:#pd_sys_msg_own_block#:#Rendszerüzenetek megjelenítése saját blokkban
 pd#:#pd_sys_msg_mail_block#:#Rendszerüzenetek megjelenítése a 'Levelek' blokkban
-pd#:#pd_sys_msg_no_block#:#Egy rendszerüzenet se jelenjen meg a Munkaasztalon
+pd#:#pd_sys_msg_no_block#:#Rendszerüzenet ne jelenjenek meg a Munkaasztalon
+logging#:#log_error_message#:#%s hiba keletkezett.
+logging#:#log_error_message_send_mail#:#Kérjük, küldjön levelet <a href="mailto:%s?subject=kód: %s">%s</a> részére
+logging#:#log_error_folder#:#Útvonal
+logging#:#log_error_mail#:#Címzett
+logging#:#log_error_settings#:#Hibanaplózás beállításai
+logging#:#error_settings_saved#:#Beállításokat sikeresen mentette
+logging#:#log_error_file_cleanup_title#:#Régi vagy árva hibanapló-fájlok törlése
+logging#:#log_error_file_cleanup_info#:#Törli a hibanapló régi vagy árva fájljait.
+logging#:#frm_clear_older_then#:#Ennél régebbi fájlok törlése:
+logging#:#frm_clear_older_then_info#:#Napokban adjon meg egy időszakot.
 blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
 common#:#objs_prtf#:#Portfóliók
+grp#:#grp_member_administration#:#Résztvevők módosítása
+survey#:#svy_results_mail_confirm#:#Résztvevők résztvételi megerősítést kérhetnek
+survey#:#svy_results_mail_confirm_info#:#A résztvevők levelet kérhetnek résztvételük megerősítéséhez a kérdőív végén.
+survey#:#svy_results_mail_own#:#Adott válaszok belefoglalása
+survey#:#svy_results_mail_own_info#:#Az adott válaszok kerüljenek bele a résztvételi megerősítőbe.
+survey#:#svy_mail_send_confirmation#:#Résztvételi megerősítő küldése
+survey#:#svy_mail_confirmation_subject#:#'%s' kérdőívben résztvétel megerősítése
+survey#:#svy_anonymous_participants#:#Résztvevők listája
+survey#:#svy_anonymous_participants_info#:#Ha be van kapcsolva, a résztvevők listája bekapcsolható névtelen kérdőívekben.
+survey#:#svy_anonymous_participants_min#:#Résztvevők minimális száma
+survey#:#svy_anonymous_participants_min_info#:#A lista csak akkor lesz elérhető, ha a résztvevők száma meghaladja a minimálisat.
+survey#:#svy_anonymous_participants_svy#:#Résztvevők listája
+survey#:#svy_anonymous_participants_svy_info#:#Ha be van kapcsolva, a résztvevők listája elérhető a záró időpont után.
+survey#:#survey_results_started#:#Kérdőív elindult
+survey#:#survey_results_not_started#:#Kérdőív nem indult el
+survey#:#svy_mail_own_results_body#:#a következő kérdőívben vett részt:
+assessment#:#ass_competence_respect_level_ordering#:#Figyeljen arra, hogy a kompetencia-küszöbértékeket az elérhető szintek alapján növekvő sorrendben szükséges megadni.
+common#:#grpr_edit_info#:#Válasszon egy csoportot egy új hivatkozás létrehozásához.
+common#:#grpr_edit#:#Csoportlink módosítása
+common#:#grpr_new#:#Csoportlink létrehozása
+common#:#grpr#:#Csoportlink
+common#:#obj_grpr#:#Csoportlink
+common#:#objs_grpr#:#Csoportlinkek
+rbac#:#grpr_copy#:#A felhasználók másolhatnak Csoportlinket
+rbac#:#grpr_delete#:#A felhasználó mozgathat vagy törölhet Csoportlinket
+rbac#:#grpr_edit_permission#:#A felhasználók módosíthatja Csoportlink jogosultságat
+rbac#:#grpr_read#:#A felhasználónak olvasási hozzáférése van a Csoportlinkhez
+rbac#:#grpr_visible#:#A Csoportlink látható
+rbac#:#grpr_write#:#A felhasználók módosíthatja a Csoportlink beállításait
+rbac#:#rbac_create_grpr#:#Csoportlink létrehozása
+common#:#obj_bdga#:#Kitűzők
+common#:#obj_bdga_desc#:#Kitűzőtípusok, sablonképek és aktivitások kezelése
+rbac#:#bdga_visible#:#A felhasználó láthatja a Rendszerbeállítások » 'Kitűzők' menüpontot
+rbac#:#bdga_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » 'Kitűzők' beállításaihoz
+rbac#:#bdga_write#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Kitűzők' beállításait
+rbac#:#bdga_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Kitűzők' jogosultsági beállításait
+badge#:#badge_settings#:#Kitűző beállításai
+badge#:#badge_service_activate#:#Szolgáltatás bekapcsolása
+badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása kitűzők elérhetővé tétéléhez
+badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastruktúra bekapcsolása
+badge#:#badge_obi_activate_info#:#Felhasználók Kitűzőket exportálhatnak az ILIAS-ból. Így felhasználhatják kitűzőiket, hogy másik webes alkalmazásban is igazolhassák képzettségeiket.
+badge#:#badge_obi_organisation#:#Szervezet
+badge#:#badge_obi_organisation_info#:#Ez a bejegyzés a kitűző kibocsátójaként jelenik meg.
+badge#:#badge_obi_contact#:#Kapcsolattartó e-mail címe
+badge#:#badge_obi_contact_info#:#Ez az e-mail cím nem jelenik meg, de belekerül a kitűzőbe.
+badge#:#badge_obi_salt#:#Salt
+badge#:#badge_obi_salt_info#:#Adja meg karakterek és számok kombinációját, amivel 3. fél felé igazolhatja a kitűző eredetiségét. Ezt a bejegyzést később ne módosítsa. 
+badge#:#badge_types#:#Típusok
+badge#:#badge_image_templates#:#Képsablonok
+badge#:#badge_activity_badges#:#Aktivitás kitűzők
+badge#:#badge_crs_merit#:#Érdem
+badge#:#badge_manual#:#Manuális odaítélés
+badge#:#badge_user_profile#:#Felhasználói profil
+badge#:#badge_badge#:#Kitűző
+obj#:#obj_tool_setting_badges#:#Kitűzők
+obj#:#obj_tool_setting_badges_info#:#Ha be van kapcsolva, kitűzők kezelése és használata elérhető.
+badge#:#badge_add_template#:#Sablon létrehozása
+badge#:#badge_image_template_form#:#Képsablon
+badge#:#badge_image_from_upload#:#Kép feltöltése
+badge#:#badge_image_from_template#:#Sablon használata
+badge#:#badge_award_badge#:#Kitűző odaítélése
+badge#:#badge_remove_badge#:#Kitűző visszavonása
+badge#:#badge_template_deletion_confirmation#:#Biztos, hogy törli a következő képsablont?
+badge#:#badge_assignment_deletion_confirmation#:#Biztos, hogy visszavonja az alábbi kitűzőt a következőktől: '%s'?
+badge#:#badge_deletion_confirmation#:#Biztos, hogy törli az alábbi kitűzőket azok összes hozzárendeléseivel? 
+badge#:#badge_template_types#:#Valid típusok
+badge#:#badge_template_types_all#:#Összes
+badge#:#badge_template_types_specific#:#Specifikus
+badge#:#badge_valid#:#Érvényességi eddig
+badge#:#badge_object_badges#:#Kitűzők objektum
+badge#:#badge_backpack_connect_failed#:#%s nem hívhatja meg a Mozilla Backpack-et.
+badge#:#badge_backpack_no_groups#:#A Mozilla Backpack üres vagy nem publikus.
+badge#:#badge_backpack_list#:#Hátizsákom
+badge#:#badge_personal_badges#:#Kitűzőim
+badge#:#badge_issued_on#:#Kiállítás dátuma:
+badge#:#badge_add_to_backpack#:#Hátizsákba rakás
+badge#:#badge_add_to_backpack_multi#:#Hátizsákba kísérelte rakni: %s
+badge#:#badge_backpack_email#:#Mozilla Hátizsákfiók (Backpack Account) (E-mail)
+badge#:#badge_notification_subject#:#Kitűzőt kapott
+badge#:#badge_notification_body#:#ezúton értesítjük, hogy új kitűzőt kapott.
+badge#:#badge_notification_osd#:#Új kitűzőket kapott: [BADGE_LIST]
+badge#:#badge_notification_badges#:#Új kitűzők
+badge#:#badge_notification_badges_goto#:#Kitűzőimhez
+badge#:#badge_notification_parent_goto#:#Taneszköztárolóhoz
+badge#:#badge_notification_reason#:#Ezt az üzenetet azért kapta, mert kitűzőt adhat profiljához.
+badge#:#badge_in_profile#:#Profilban
+badge#:#badge_add_to_profile#:#Hozzáadás a Profilhoz
+badge#:#badge_remove_from_profile#:#Eltávolítás a Profilból
+badge#:#badge_criteria#:#Kritérium
+badge#:#badge_edit_with_published#:#%s felhasználó már berakta hátizsákjába ezt a kitűzőt, ezért a kitűző tulajdonságainak módosítása inkonzisztenciához vezet. Új kitűző létrehozása talán célszerűbb lenne
+badge#:#badge_no_valid_types_for_obj#:#Nem hozhat létre új kitűzőt, mert egy aktív kitűzőtípus sem érhető el. Keresse a rendszergazdát.
+badge#:#badge_course_lp#:#Kurzus-haladás
+badge#:#badge_profile_more#:#Összes megjelenítése
+badge#:#badge_profile_less#:#Kevesebb megjelenítése
+badge#:#badge_backpack_gallery_info#:#Ezek az Ön nyilvános kitűzői az Ön Mozilla Hátizsákjában.
+badge#:#badge_profile_view#:#Megjelenítése
+badge#:#badge_profile_manage#:#Kezelés
+badge#:#badge_subtype_manual#:#manuális
+badge#:#badge_subtype_auto#:#automatikus
+badge#:#badge_course_lp_invalid#:#Az alábbi objektumok tanulási haladásának módja nem támogatott: %s.
+trac#:#trac_defaults#:#Befejezési állapot
+trac#:#trac_defaults_info#:#Teljesítettségi állapot meghatározásának módja támogatott objektumtípusok esetén. Több kitűzőtípus használja.
+trac#:#trac_defaults_inactive#:#Inaktív
+copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
+assessment#:#tst_revert_changes#:#Módosítás visszavonása
+assessment#:#save_on_navigation#:#Mentés navigáláskor
+assessment#:#save_on_navigation_confirmation#:#Módosításait automatikusan mentjük navigáláskor.
+assessment#:#save_on_navigation_locked_confirmation#:#Módosított válaszait automatikusan mentjük és zároljuk navigáláskor.
+assessment#:#save_on_navigation_forced_feedback_hint#:#Mielőtt visszajelzést kap válaszára.
+assessment#:#save_on_navigation_prevent_confirmation#:#Többször ne jelenjen meg ez az üzenet.
+assessment#:#tst_answer_status_editing#:# (módosítás ... )
+assessment#:#tst_answer_status_answered#:#Megválaszolt
+assessment#:#tst_answer_status_not_answered#:#Meg nem válaszolt
+assessment#:#tst_unchanged_answer_is_correct#:#A jelenlegi válasz helyes.
+assessment#:#tst_unchanged_order_is_correct#:#A jelenlegi sorrend helyes.
+assessment#:#tst_mc_label_none_above#:#Alábbi válaszok közül egyik sem.
+assessment#:#postpone_question#:#Kérdés mozgatása a végére
+assessment#:#tst_question_not_marked#:#Kérdés nincs megjelölve
+assessment#:#tst_save_and_proceed#:#Mentés és folytatás
+adve#:#char_selector_menu_open#:#Speciális karakterválasztó megnyitása
+adve#:#char_selector_menu_close#:#Speciális karakterválasztó bezárása
+wfe#:#dashboard#:#Irányítópult
+wfe#:#definitions#:#Folyamatmeghatározások
+wfe#:#instances#:#Folyamatpéldányok
+wfe#:#obj_wfe_desc#:#Folyamatautomatizálás
+wfe#:#upload_process#:#Folyamatmeghatározás feltöltése
+wfe#:#process_definition_file#:#Folyamatmeghatározás-fájl
+wfe#:#process_definition_file_info#:#BPMN2-Modellek
+wfe#:#upload_parse_success#:#Folyamatmeghatározás sikeresen feltöltve, feldolgozva és tárolva.
+wfe#:#definition_table_title#:#Folyamatmeghatározások
+wfe#:#start_process#:#Folyamat indítása
+wfe#:#process_started#:#Folyamat elindult
+wfe#:#input_variables_required#:#Kötelező bemeneti paraméter
+wfe#:#input_variables_desc#:#A folyamatnak a következő adatokra van szüksége az indításhoz:
+wfe#:#input_static_variables_desc#:#A folyamatnak a következő adatokra van szüksége az indításához:
+wfe#:#delete_definition#:#Meghatározás törlése
+wfe#:#definition_deleted#:#Munkafolyamat-meghatározást sikeresen törölte.
+wfe#:#subject_type#:#Tárgytípus
+wfe#:#subject_id#:#Tárgy ID
+wfe#:#subject_by_id#:#Tárgy ID alapján
+wfe#:#subject_by_mask#:#Maszkolt tárgy
+wfe#:#context_type#:#Tartalomtípus
+wfe#:#context_id#:#Tartalom ID
+wfe#:#context_by_id#:#Tartalom ID alapján
+wfe#:#context_by_mask#:#Maszkolt tartalom
+wfe#:#start_listening#:#Figyelő aktiválása
+wfe#:#stop_listening#:#Figyelő deaktiválása
+wfe#:#static_input_form_header#:#Munkafolyamat összes példányának bemenő adatai
+wfe#:#start_event_form_header#:#Munkafolyamatok indításával összefüggő események
+glo#:#glo_link_glo_in_glo#:#Biztos, hogy a cél fogalomtár összes kifejezését linkeli a jelenlegi fogalomtárban?
+glo#:#glo_add_from_other#:#Kifejezések gyűjtése
+glo#:#glo_select_terms#:#Kifejezések kiválasztása
+glo#:#glo_copy_terms#:#Kifejezések másolása
+glo#:#glo_reference_terms#:#Kifejezéshivatkozások
+glo#:#glo_select_source_glo#:#Válasszon forrás fogalomtárat.
+glo#:#glo_referenced_term#:#Hivatkozott kifejezés
+glo#:#glo_term_reference#:#Kifejezéshivatkozás
+glo#:#glo_reference#:#Hivatkozás
+glo#:#glo_selected_terms_have_been_copied#:#A kiválasztott kifejezéseket a vágólapra másoltuk. Nyissa meg a cél fogalomtárat, majd nyomja meg a 'Beillesztés' gombot.
+prg#:#prg_assign_date#:#Hozzárendelés dátuma
+prg#:#prg_assigned_by#:#Hozzárendelte
+survey#:#svy_mail_context_reminder_title#:#Kérdőív-emlékeztető
+survey#:#svy_mail_context_reminder_info#:#Emlékeztető felhasználóknak kérdőívben való résztvételre
+survey#:#svy_mail_context_reminder_survey_title#:#Kérdőív címe
+survey#:#svy_reminder_mail_template#:#Levélsablon
+survey#:#svy_reminder_mail_template_none#:#Ne használjon levélsablont
+survey#:#svy_eval_view#:#Megjelenítés
+survey#:#svy_eval_view_tables_charts#:#Táblázat és diagram
+survey#:#svy_eval_view_tables#:#Táblázat
+survey#:#svy_eval_view_charts#:#Diagram
+survey#:#svy_eval_captions#:#Ábrák
+survey#:#svy_eval_captions_abs_perc#:#Abszolúte és százalék
+survey#:#svy_eval_captions_abs#:#Abszolúte
+survey#:#svy_eval_captions_perc#:#Százalék
+style#:#add_system_style#:#REndszerstílus létrehozása
+style#:#add_substyle#:#Alstílus létrehozása
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin megnevezése
+style#:#skin#:#Skin
+style#:#style_id#:#Stílus ID
+style#:#Style#:#Stílus
+style#:#style_name#:#Stílus megnevezése
+style#:#image_dir#:#Képek könyvtára
+style#:#font_dir#:#Betűtípusok könyvtára
+style#:#sound_dir#:#Hangok könyvtára
+style#:#system_style_activation#:#Rendszerstílust sikeresen aktiválta
+style#:#personal#:#Személyes
+style#:#system_styel_activation#:#Rendszerstílus aktiválása
+style#:#less#:#Less
+style#:#icons#:#Ikonok
+style#:#documentation#:#Dokumentáció
+style#:#less_can_not_be_modified#:#Less nem módosítható
+style#:#no_less_path_set#:#Nincs Less útvonal beállítva
+style#:#less_less_installation_detected#:#Less telepítés itt található:
+style#:#grey_colors#:#Szürke színek
+style#:#grey_color#:#Szürke szín
+style#:#grey_colors_description#:#Szürke szín leírása
+style#:#red_colors#:#Piros színek
+style#:#red_color#:#Piros szín
+style#:#red_colors_description#:#Piros szín leírása
+style#:#green_colors#:#Zöld színek
+style#:#green_color#:#Zöld szín
+style#:#green_colors_description#:#Zöld szín leírása
+style#:#blue_colors#:#Kék színek
+style#:#blue_color#:#Kék szín
+style#:#blue_colors_description#:#Kék szín leírása
+style#:#reset_icons#:#Ikonok alapértelmezettre állítása
+style#:#update_colors#:#Színek frissítése
+style#:#style_not_deleted#:#A stílus az alábbi ok miatt nem törölhető:
+style#:#styles_not_deleted#:#A stílus az alábbi okok miatt nem törölhető:
+style#:#cant_delete_activated_style#:#Aktív stílus nem törölhető.
+style#:#style_deleted#:#Törölt stílus:
+style#:#dir_preserved_linked#:#Lefoglalt link:
+style#:#file_deleted#:#A következő fájlt töröltük:
+style#:#skin_deleted#:#A következő skin-t töröltük
+style#:#msg_sys_style_update#:#Rendszerstílusokat sikeresen frissítette
+common#:#set_style_does_not_exist#:#A Ön által kiválasztott rendszerstílus már nem létezik. Személyes beállításai alatt választhat másikat vagy keresse fel a rendszergazdát. Jelenlegi választása:
+common#:#set_skin_does_not_exist#:#A Ön által kiválasztott skin már nem létezik. Személyes beállításai alatt választhat másikat vagy keresse fel a rendszergazdát. Jelenlegi választása:
+style#:#cant_deactivate_default_style#:#Alapértelmezett stílusok nem kapcsolhatóak ki.
+style#:#cant_delete_if_users_assigned#:#Azok a stílusok nem törölhetőek, melyekhez felhasználó van rendelve.
+style#:#default_style_set_to#:#Az alapértelmezett rendszerstílusa mostantól:
+style#:#personal_style_set_to#:#Az Ön személyes rendszerstílusa mostantól:
+style#:#refresh_entries#:#Bejegyzések frissítése
+style#:#entries_reloaded#:#Az összes bejegyzést sikeresen újratöltötte.
+style#:#msg_sub_style_created#:#Az alstílust sikeresen létrehozta.
+style#:#style#:#Stílus
+style#:#sub_style_settings#:#Alstílus hozzárendelései
+style#:#parent#:#Szülőstílus
+style#:#sty_substyle_of#:#alstílusa a következőnek: 
+style#:#assignment#:#Hozzárendelés
+style#:#remove_assignment#:#Hozzárendelés eltávolítása
+style#:#reset_variables#:#Változók alapértelmezettre állítása
+style#:#update_variables#:#Változók frissítése
+style#:#less_file_updated#:#A less változókat sikeresen frissítette.
+style#:#settings_of_substyle#:#Alstílus kezelése
+style#:#settings_of_style#:#Stílus kezelése
+style#:#of_parent#:#szülője a következőnek:
+style#:#from_skin#:#skin-je a következőnek:
+style#:#dir_copied_from#:#A könyvtárat innen másolta:
+style#:#to#:#ide:
+style#:#dir_deleted#:#Az alábbi könyvtárt sikeresen törölte:
+style#:#sty_create_new_system_style#:#Új rendszerstílus létrehozása.
+style#:#sty_create_new_system_sub_style#:#Új rendszeralstílus létrehozása.
+style#:#sty_import_system_style#:#Meglévő rendszerstílus importálása ZIP-fájlként.
+style#:#sty_copy_other_system_style#:#Meglévő rendszerstílus klónozása.
+style#:#sub_style_id#:#Alstílus ID
+style#:#sub_style_name#:#Alstílus megnevezése
+style#:#less_variables_file_not_included#:#Less változók fájlja:
+style#:#in_main_less_file#:#nincs importálva a rendszerstílus fő less fájljába:
+style#:#can_not_read_less_file#:#Less fájl nem olvasható. Útvonala:
+style#:#msg_sys_style_created#:#Az új rendszerstílust sikeresen létrehozta.##XXX
+style#:#skin_id_description#:#A skin-ek stílusokat és alstílusokat tartalmaznak. A skin ID egyben azon mappa neve is, ahol az összes, a stílusra és az alstílusokra vonatkozó információt tároljuk. A skin ID csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhat.
+style#:#skin_name_description#:#A skin neve alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő skin kiválasztását.
+style#:#style_id_description#:#Az stílus ID-jét használjuk a skinek mappájában lévő stílus specifikus css és less fájlok neveként. Ezért az ID-k csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhatnak.
+style#:#style_name_description#:#A stílus neve alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő stílus kiválasztását.
+style#:#sub_style#:#Alstílus
+style#:#image_dir_description#:#A skin képeit (főleg ikonokat) tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható.
+style#:#font_dir_description#:#A skin betűtípusait tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható.
+style#:#sound_dir_description#:#A skin hangfájljait tároló mappa. Ez a mappa más skin-ek stílusainak és alstílusainak mappájával közössé tehető, megosztható.
+style#:#sub_style_parent_style_description#:#Az alstílusok pontosan egy szülőstílushoz vannak hozzárendelve. Csak akkor jelennek meg a megfelelő felhasználónál, ha ehhez a felhasználóhoz hozzárendelték a szülőstílust. Az alstílus létrehozása után annak szülőstílusa már nem módosítható.
+style#:#sub_style_id_description#:#Az alstílus ID-jét használjuk a skinek mappájában lévő alstílus specifikus css és less fájlok neveként. Ezért az ID-k csak betűket, számokat, kötőjeleket és alulvonásokat tartalmazhatnak.
+style#:#sub_style_name_description#:#Az alstílus neve a stílus alkalmazásának területét célszerű, hogy leírja, ember számára olvasható módon. Ez a név jelenik meg felhasználó felületen könnyítve a megfelelő skin kiválasztását.
+style#:#system_style_activation_description#:#Aktív rendszerstílust rendelhet felhasználókhoz, illetve aktív rendszerstílust választhatnak a felhasználók maguknak, ha a Rendszerbeállítások » ILIAS-fiókok » Beállítások » Standard mezők » Alapértelmezett skin be van kapcsolva.
+style#:#system_style_default_description#:#Stílus beállítása alapértelmezett rendszerstílusnak. Az alapértelmezett rendszerstílust rendeljük azon felhasználókhoz, akikhez nem volt stílus rendelve vagy a felhasználó nincs bejelentkezve.
+style#:#system_style_personal_description#:#Stílus beállítása személyes rendszerstílusnak. Ez a jelenlegi módosítások megtekintését könnyítheti.
+style#:#less_compile_failed#:#A less fájl fordításakor hiba lépett fel. Kérjük, ellenőrizze, hogy a lessc telepítve van-e és az útvonala az ILIAS setup-ban helyesen került-e megadásra. Eredeti hiba:
+style#:#zip_export_failed#:#ZIP exportálás sikertelen a következő hiba miatt:
+style#:#no_style_selected#:#Egy alstílust sem jelölt ki.
+style#:#adapt_less#:#Less átalakítása
+style#:#adapt_less_description#:#Ez a kiválasztott skin-ben használt varables.less fájlban lévő összes less változó egy közvetlen reprezentációja. A változók nevét és leírását közvetlenül ebből a fájlból hívjuk le és ezért csak eredeti nyelvükön érhetőek el. A kiválasztott stílust a változók értékeinek frissítésekor/alapértelmezettre állításakor teljesen újrafordítjuk. A változók értékeinek alapértelmezettre állításakor az alapértelmezett delos stílus egy másolata jön létre.      
+style#:#adapt_icons_description#:#A skin-ek képek mappájában lévő összes svg ikont felsoroljuk itt. Ha egy színt módosít, az az összes, azt a színt tartalmazó ikonban is módosul.
+style#:#adapt_icons#:#Ikonszínek átalakítása
+style#:#invalid_less_path#:#A megadott lessc útvonal nem valid vagy a webszervernek nincs jogosultsága futtatni a lessc-t. A webszerver számára olvasási és futtatási jogosultság szükséges a lessc-hez (vagy a lessc útvonalára linkelő fájlhoz).
+style#:#provided_less_path#:#Megadott lessc útvonal:
+style#:#used_colors#:#Felhasznált színek:
+style#:#style_imported#:#A stílust sikeren importálta a ide:
+style#:#style_copied#:#A stílust sikeresen másolta.
+style#:#directory_created#:#Könyvtár létrejött:
+style#:#color_changed_from#:#Szín változott erről:
+style#:#color_changed_to#:#erre:
+style#:#edit_by_color#:#Szín alapján módosítása
+style#:#edit_by_icon#:#Ikon alapján módosítása
+style#:#update_icon#:#Ikon frissítése
+style#:#select_icon#:#Ikon kiválasztása
+style#:#change_icon#:#Szín módosítása
+style#:#color#:#Szín
+style#:#adapt_icon#:#Ikon átvétele
+style#:#adapt_icon_description#:#Ikonszínek átvétele vagy az ikon módosítása.
+style#:#preview#:#Előnézet
+style#:#icons_gallery#:#Ikonok képtára
+style#:#cant_delete_style_with_substyles#:#Stílusok alstílusokkal nem törölhető.
+style#:#style_assignments_deleted#:#Az alábbi alstílushoz stílushoz rendelésit törölte:
+style#:#skin_id_exists#:#Ilyen ID-jű skin már létezik.
+style#:#usages#:#Használat:
+exc#:#exc_individual_deadline#:#Egyéni határidő
+exc#:#exc_individual_deadline_action#:#Egyéni határidő beállításai
+exc#:#exc_individual_deadline_before_global#:#Ennek az időpontnak a legutolsó határidőnél későbbre kell esnie: %s.
+exc#:#exc_tbl_submission_date#:#Beküldve ekkor:
+exc#:#exc_tbl_status#:#Értékelve
+exc#:#exc_tbl_status_time#:#Értékelve ekkor:
+exc#:#exc_tbl_mark#:#Osztályozás
+exc#:#exc_tbl_comment#:#Szöveges visszajelzés
+exc#:#exc_tbl_notice#:#Megjegyzés a tutoroknak
+exc#:#exc_tbl_feedback_time#:#Visszajelezve ekkor:
+exc#:#exc_tbl_sent_time#:#Értékelés elküldve ekkor:
+exc#:#exc_tbl_team#:#Csapat
+exc#:#exc_tbl_individual_deadline#:#Egyéni határidő
+exc#:#exc_tbl_action_download_files#:#Beadottak letöltése
+exc#:#exc_tbl_action_download_all_files#:#Összes beadott letöltése
+exc#:#exc_tbl_action_download_new_files#:#Új beadottak letöltése
+exc#:#exc_tbl_action_text_assignment_show#:#Beadott megjelenítése
+exc#:#exc_tbl_action_feedback_text#:#Visszajelzés küldés szövegként
+exc#:#exc_tbl_action_feedback_mail#:#Visszajelzés küldés levélként
+exc#:#exc_tbl_action_feedback_file#:#Visszajelzés küldés fájlként
+exc#:#exc_tbl_action_team_log#:#Csapatnaplók megjelenítése
+exc#:#exc_tbl_action_peer_review_given#:#Küldött visszajelzés megjelenítése
+exc#:#exc_tbl_action_peer_review_received#:#Kapott visszajelzés megjelenítése
+exc#:#exc_feedback#:#Visszajelzés
+exc#:#exc_settings_feedback#:#Tutori visszajelzés
+exc#:#exc_settings_feedback_text#:#Szövegbemenet
+exc#:#exc_settings_feedback_mail#:#Levélként
+exc#:#exc_settings_feedback_file#:#Fájlként
+mem#:#mem_print_view_form#:#Nyomtatási nézet alapértelmezett beállításai
+mem#:#mem_settings_tab_print_view#:#Nyomtatási nézet beállításai
+mem#:#mem_settings_tab_settings#:#Általános beállítások
+ccmt#:#ccmt_perform_reporting_data_update#:#Jelentés adatainak frissítése
+ccmt#:#ccmt_custom_reporting_tool#:#Jelentéskészítés
+ccmt#:#ccmt_custom_reporting_tool_desc#:#Itt tekintheti meg beosztottainak tanulási haladását.<br />Kérjük, vegye figyelembe, hogy a jelentés adatai éjszakánként frissülnek.
+ccmt#:#ccmt_view_by_switch_label#:#Megjelenítés alapja:
+ccmt#:#ccmt_numbers_switch_label#:#Számok bemutatása
+ccmt#:#ccmt_filter_course_label#:#Kurzusszűrő
+ccmt#:#ccmt_filter_crstype_label#:#Kurzusszűrő mód
+ccmt#:#ccmt_filter_memtype_label#:#Tagságmód-szűrő
+ccmt#:#ccmt_filter_crsparent_label#:#Kurzustároló-szűrő
+ccmt#:#ccmt_filter_period_label#:#Időszakszűrő
+ccmt#:#ccmt_period_filter_label_use#:#Szűrő használata
+ccmt#:#ccmt_period_filter_label_not_use#:#Szűrő törlése
+ccmt#:#ccmt_filter_period_start#:#Kezdete
+ccmt#:#ccmt_filter_period_end#:#Vége
+ccmt#:#ccmt_filter_option_all#:#Összes
+ccmt#:#ccmt_viewby_option_course#:#Kurzus
+ccmt#:#ccmt_viewby_option_crsparent#:#Kurzustároló
+ccmt#:#ccmt_viewby_option_crstype#:#Kurzusmód
+ccmt#:#ccmt_viewby_option_orgunit#:#Szervezeti egység
+ccmt#:#ccmt_viewby_option_user#:#Beosztott
+ccmt#:#ccmt_numbers_option_absolute#:#Abszolút
+ccmt#:#ccmt_numbers_option_relative#:#Relatíve
+ccmt#:#ccmt_filter_crstype_option_optional#:#Választható
+ccmt#:#ccmt_filter_crstype_option_mandatory#:#Kötelező
+ccmt#:#ccmt_filter_memtype_option_auto#:#Automatikusan hozzárendelt
+ccmt#:#ccmt_filter_memtype_option_manual#:#Manuálisan hozzárendelt
+ccmt#:#ccmt_aggregation_entity_course_total#:#Összes kurzus
+ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Összes kurzustároló
+ccmt#:#ccmt_aggregation_entity_crstype_total#:#Összes kurzusmód
+ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Összes szervezeti egység
+ccmt#:#ccmt_table_column_course#:#Kurzus
+ccmt#:#ccmt_table_column_crsparent#:#Kurzustároló
+ccmt#:#ccmt_table_column_crstype#:#Kurzusmód
+ccmt#:#ccmt_table_column_orgunit#:#Szervezeti egység
+ccmt#:#ccmt_table_column_user#:#Beosztott
+ccmt#:#ccmt_table_column_assigned#:#Kurzus hozzárendelések
+ccmt#:#ccmt_table_column_notattempted#:#Nem próbálkozott
+ccmt#:#ccmt_table_column_not_attempted#:#Nem próbálkozott
+ccmt#:#ccmt_table_column_inprogress#:#Folyamatban
+ccmt#:#ccmt_table_column_in_progress#:#Folyamatban
+ccmt#:#ccmt_table_column_completed#:#Teljesítve
+ccmt#:#ccmt_table_column_failed#:#Befejezetlen
+ccmt#:#ccmt_table_column_lp_ratio#:#Tanulási százalék
+ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Tanúsítvány
+ccmt#:#ccmt_table_column_past_due#:#Határidőn túli
+ccmt#:#ccmt_table_column_event_days#:#Esemény napjai
+ccmt#:#ccmt_not_available#:#megnyitva
+ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Tanulási haladás kurzusonként
+ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Tanulási haladás kurzusmódonként
+ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Tanulási haladás kurzustárolónként
+ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Tanulási haladás szervezeti egységenként
+ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_detailed_status_table_header#:#Tanulási haladás részletesen
+ccmt#:#ccmt_detailed_status_table_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
+ccmt#:#ccmt_table_column_lp_status#:#Állapot
+ccmt#:#ccmt_table_column_deadline_date#:#Kurzus határideje
+ccmt#:#ccmt_table_column_is_mandatory#:#kötelező
+ccmt#:#ccmt_table_column_last_access#:#Utolsó hozzáférés
+ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Teljesítés dátuma
+ccmt#:#ccmt_lp_status_notattempted#:#nem próbálkozott
+ccmt#:#ccmt_lp_status_inprogress#:#folyamatban
+ccmt#:#ccmt_lp_status_completed#:#teljesítette
+ccmt#:#ccmt_lp_status_failed#:#nem teljesítette
+ccmt#:#ccmt_course_type_mandatory#:#Kötelező
+ccmt#:#ccmt_course_type_optional#:#Választható
+ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Jelentés készítése
+ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export készítése
+ccmt#:#ccmt_menu_item_reporting#:#Jelentéskészítése
+ccmt#:#ccmt_info_block_label_all_users#:#Összes felhasználó
+ccmt#:#ccmt_info_block_label_all_courses#:#Összes kurzus
+ccmt#:#ccmt_info_block_label_all_memberships#:#Összes tagság
+ccmt#:#ccmt_info_block_label_all_session_days#:#Összes munkamenet (napokan)
+ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Az alábbi kurzusokat nem tartalmazza a jelentés, mert nyomkövetési beállításuk nem valid:%s
+ccmt#:#ccmt_course_error_lp_mode#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését evvel nem kompatibilis módra állították be.<br />Jelenlegi mód: '%s' / Szükséges mód: '%s'
+ccmt#:#ccmt_course_error_lp_deactivated#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését kikapcsolták.
+ccmt#:#ccmt_course_error_invalid_obj#:#'%s' kurzus (id-je: '%s') állapota egy alobjektumától függ, aminek típusát a jelentéskészítés nem támogat.
+ccmt#:#ccmt_course_error_multi_obj#:#'%s' kurzus (id-je: '%s') állapota több, mint egy alobjektumától függ. Ezt a jelentéskészítés nem támogatja.
+ccmt#:#ccmt_course_error_missing_obj#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert nincsenek olyan  releváns alobjektumok, melyektől a kurzus állapota függ.
+ccmt#:#ccmt_print_view#:#Összes kurzus nyomtatási képe
+ccmt#:#ccmt_print_view_mandatory_non_completed#:#Nem teljesített kurzusok nyomtatási képe
+ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Nem teljesített kurzusok '%s' szervezeti egységben
+ccmt#:#ccmt_print_window_title_orgunit#:#Összes kurzus '%s' szervezeti egységben
+ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#'%s' összes nem teljesített kurzusa
+ccmt#:#ccmt_print_window_title_user#:#'%s' összes kurzusa
+ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Nem létező nem teljesített kurzusösszerendelések<br />jelenleg kiválasztásnak megfelelő.
+ccmt#:#ccmt_detailed_status_print_view_noitems#:#Nem létező kurzusösszerendelések<br />jelenleg kiválasztásnak megfelelő.
+ccmt#:#ccmt_print_table_column_user#:#Beosztott
+ccmt#:#ccmt_print_table_column_course#:#Kurzus
+ccmt#:#ccmt_print_table_column_lp_status#:#Állapot
+ccmt#:#ccmt_print_table_column_is_mandatory#:#Kurzusmód
+ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Befejezés dátuma
+ccmt#:#ccmt_print_table_column_learning_date#:#Tanulás dátuma
+ccmt#:#ccmt_print_table_column_last_access#:#_Utolsó hozzáférés
+ccmt#:#ccmt_print_table_column_deadline_date#:#Határidő
+ccmt#:#ccmt_all_employees#:#Összes beosztott
+ccmt#:#ccmt_table_column_num_users#:#Felhasználók száma
+ccmt#:#export_all_lp#:#Tanulási haladás exportálása
+ccmt#:#export_learning_progress#:#Tanulási haladás exportálása
+ccmt#:#export_lp#:#Válasszon fájl
+ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Tanúsítvány érvényes eddig:
+ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Tanúsítvány érvényes eddig:
+ccmt#:#ccmt_search_no_user_found#:#Keresése nem adott eredményt.
+ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
+ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
+didactic#:#activate_local_didactic_template#:#Alkalmazás hatásköre
+didactic#:#effective_form#:#Sablon hatályos innentől:
+didactic#:#more_translations#:#További fordítások
+didactic#:#didactic_template_update_import#:#Didaktikai sablon frissítése
+didactic#:#didactic_template_update_import_info#:#Tulajdonságok ettől az importtól függően módosulnak. A már ezt a sablon használó objektumok nem módosulnak.
+grp#:#grp_show_members_info#:#Ha be van kapcsolva, a csoport tagjai elérhetik a tagok képtárát.
+grp#:#grp_show_members#:#Tagok megjelenítése
+didactic#:#didactic_cannot_delete_auto_generated#:#Automatikusan létrehozott didaktikai sablon nem törölhető.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Legalább egy didaktikai sablont automatikusan hoztak létre, így nem törölhető.
+didactic#:#didactic_auto_generated#:#Automatikusan létrehozott
+didactic#:#activate_exclusive_template#:#Alapértelmezetten őszülő
+didactic#:#activate_local_didactic_template_info#:#Ennek a didaktikai sablonnak a használata ezen alterületekre korlátozódik.
+didactic#:#activate_exclusive_template_info#:#A standard sablon nem lesz elérhető ahol ez a sablon aktív.
+didactic#:#dtpl_obj_type_info#:#Az a didaktikai sablon nem alkalmazható erre az objektumtípusra.
+cont#:#cont_news_timeline#:#Hírek idővonala
+cont#:#cont_news_timeline_info#:#Hírek idővonal fülének bekapcsolása
+cont#:#cont_news_timeline_auto_entries#:#Automatikus bejegyzések is megjelenjenek
+cont#:#cont_news_timeline_auto_entries_info#:#Összes automatikusan létrehozott hír is megjelenjen, mint például fórumhozzászólások, fájlok létrehozása.
+rbac#:#news_add_news#:#Hír létrehozása
+rbac#:#grp_news_add_news#:#Csoportban saját hírek létrehozása és módosítása
+news#:#news_timline_add_entries_info#:#Jelenleg egy hír sincs, kattintson a 'Létrehozása' gombra.
+obj#:#obj_tool_setting_use_news#:#Hírek
+obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása.
+obj#:#obj_tool_setting_use_news_open_settings#:#Beállítások megnyitása
+cont#:#cont_news_settings#:#Hírek beállításai
+cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
+cont#:#cont_news_timeline_landing_page_info#:#Idővonal lesz a kezdőoldal.
+cont#:#cont_news_timeline_tab#:#Idővonal
+cont#:#cont_news_edited#:#Módosította
+news#:#news_really_delete_news#:#Biztos, hogy törli ezt a hírt?
+rbac#:#crs_news_add_news#:#Kurzusban saját hírek létrehozása és módosítása
+cont#:#cont_news_add_news#:#Hír létrehozása
+bgtask#:#bgtask_failure#:#Hiba
+bgtask#:#bgtask_empty_folder#:#A jelenlegi kiválasztása nem tartalmaz letölthető objektumokat.
+bgtask#:#bgtask_download_too_large#:#A letöltés átlépi a korlátot (%s).
+bgtask#:#bgtask_blocked#:#Egyidejű letöltés
+bgtask#:#bgtask_blocked_info#:#Már folyamatban van egy letöltése.
+bgtask#:#bgtask_blocked_cancel_old#:#Meglévő letöltés megszakítása
+bgtask#:#bgtask_blocked_cancel_new#:#Új letöltés megszakítása
+bgtask#:#bgtask_processing#:#Letöltés létrehozása
+bgtask#:#bgtask_download_long#:#A letöltés %1$s darab fájllal (%2$s) egy ideig eltarthat.
+bgtask#:#bgtask_setting#:#«Letöltés háttérben» bekapcsolása
+bgtask#:#bgtask_setting_info#:#A ZIP fájl létrehozása aszinkron módon történik, bármikor megszakítható.
+bgtask#:#bgtask_setting_limit#:#Globális korlát
+bgtask#:#bgtask_setting_limit_info#:#Letöltés csak akkor lehetséges, ha a fájlok összmérete ezen érték alatt van.
+bgtask#:#bgtask_setting_threshold_count#:#Minimális szám
+bgtask#:#bgtask_setting_threshold_count_info#:#Ha a fájlok száma meghaladja ezt az értéket, a letöltés aszinkron lesz.
+bgtask#:#bgtask_setting_threshold_size#:#Minimális méret
+bgtask#:#bgtask_setting_threshold_size_info#:#Ha a fájlméret meghaladja ezt az értéket, a letöltés aszinkron lesz.
+bgtask#:#bgtask_cron_gc_title#:#Szemétgyűjtő háttérfolyamat
+bgtask#:#bgtask_cron_gc_desc#:#Háttérfolyamatok által létrehozott elavult fájlok törlése.
+style#:#enable_system_styles_management_no_write_perm#:#Bár a Rendszerstílusok kezelése be van kapcsolva, de az ILIAS-nak nincs írási jogosultsága a Customizing/global/skin mappába, ezért új stílus nem hozható létre és meglévő sem módosítható.
+awrn#:#awrn_use_osd#:#Online felhasználók felugróban
+awrn#:#awrn_use_osd_info#:#'Ki van online' felsorolásában új felhasználók előugróban jelenjenek meg.
+exc#:#exc_tbl_filter_submission#:#Beadás
+exc#:#exc_tbl_filter_has_submission#:#Beadták
+exc#:#exc_tbl_filter_has_no_submission#:#Még adták be
+mass#:#general#:#Általános információ
+mass#:#mass_content#:#Értékelés tartalmának leírása
+mass#:#mass_record_template#:#Bejegyzéssablon
+mass#:#mass_graded_by#:#Értékelést adta
+mass#:#mass_usr_remove#:#Felhasználó eltávolítás az objektumból
+mass#:#mass_usr_edit#:#Felhasználói bejegyzés és tanulási haladás módosítása
+mass#:#mass_usr_view#:#Felhasználói bejegyzés
+mass#:#mass_edit_record#:#Felhasználói bejegyzés
+mass#:#mass_record#:#Bejegyzés megjegyzése
+mass#:#mass_internal_note#:#Belső bejegyzés megjegyzése (vizsgázó nem nézheti meg)
+mass#:#mass_status_completed#:#befejezve
+mass#:#mass_status_failed#:#sikertelen
+mass#:#mass_status_pending#:#állapot függőben
+mass#:#mass_notify#:#Véglegesítés után felhasználók értesítése
+mass#:#mass_finalize#:#Véglegesítés
+mass#:#il_mass_member#:#Manuális értékelés tagjai
+mass#:#edit_members#:#Tagok módosítása
+mass#:#mass_edit_members#:#Tagok módosítása
+mass#:#mass_visible#:#Látható
+mass#:#mass_read#:#Olvasható
+mass#:#mass_copy#:#Másolás
+mass#:#mass_write#:#Beállítások módosítása
+mass#:#mass_delete#:#Törlése
+mass#:#mass_read_learning_progress#:#Többi felhasználó tanulási haladásának megjelenítése
+mass#:#mass_edit_permissions#:#Jogosultságok módosítása
+mass#:#mass_edit_learning_progress#:#Tanulási haladás módosítása
+mass#:#mass_may_not_finalize#:#Vizsgázó talán nincs véglegesítve.
+mass#:#mass_subj_notification_completed#:#%s: Manuális értékelés befejezve.
+mass#:#mass_subj_notification_failed#:#%s: Manuális értékelés sikertelen.
+trac#:#trac_mode_manual_assessment#:#Manuális értékelés
+common#:#obj_mass#:#Manuális értékelés
+common#:#objs_mass#:#Manuális értékelések
+common#:#obj_mass_duplicate#:#Manuális értékelés másolása
+common#:#obj_mass_select#:#-- Válasszon egy manuális értékelést --
+trac#:#trac_mode_manual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a manuális értékelést.
+common#:#il_mass_member#:#Manuális értékelés vizsgázó
+common#:#mass_new#:#Manuális értékelés létrehozása
+common#:#mass_import#:#Manuális értékelés importálása
+rbac#:#mass_visible#:#Manuális értékelés látható
+rbac#:#mass_read#:#Manuális értékelés tartalmának olvasása
+rbac#:#mass_read_learning_progress#:#Manuális értékelés tanulási haladási információjának megjelenítése
+rbac#:#mass_edit_learning_progress#:#Manuális értékelés tanulási haladási információjának módosítása
+rbac#:#mass_copy#:#Manuális értékelés másolása
+rbac#:#mass_write#:#Manuális értékelés módosítása
+rbac#:#mass_delete#:#Manuális értékelés törlése
+rbac#:#mass_edit_members#:#Manuális értékelés tagjainak módosítása
+rbac#:#mass_edit_permission#:#Manuális értékelés jogosultságainak módosítása
+mass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
+mass#:#mass_edit#:#Beállítások
+mass#:#mass_add#:#Manuális értékelés létrehozása
+mass#:#mass_membership_finalized#:#Felvétel véglegesítve
+mass#:#mass_membership_saved#:#Felvétel mente, de nincs véglegesítve
+mass#:#mass_return#:#Vissza az áttekintéshez
+mass#:#mass_remove_user_qst#:#Biztos, hogy eltávolítja a felhasználót?
+mass#:#mass_finalize_user_qst#:#Biztos, hogy a felhasználói állapotot véglegesíti? (Utána módosításra már nincs lehetőség.)
+mass#:#mass_settings_saved#:#Beállításokat sikeresen mentette.
+mass#:#mass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
+mass#:#mass_add_user_success#:#Felhasználót sikeresen hozzáadta.
+mass#:#grading#:#Értékelés
+mass#:#grading_info#:#Értékelés info
+mass#:#grading_record#:#Értékelés feljegyzése
+mass#:#mass_content_explanation#:#Értékelés tartalma, például releváns témák.###Topikok
+mass#:#mass_record_template_explanation#:#Tagértékelési sablon. Automatikusan alkalmazzuk új felhasználóra.
+mass#:#mass_notify_explanation#:#Véglegesítés után a felhasználót levélben értesítjük, és hozzáférést kap a saját bejegyzéséhez az információs fülön.
+mass#:#mass_contact#:#Név
+mass#:#mass_responsibility#:#Felelősségi kör
+mass#:#mass_phone#:#Telefon
+mass#:#mass_mails#:#Levelek
+mass#:#mass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
+mass#:#mass_consultation_hours#:#Fogadóórák
+mass#:#mass_edit_info#:#Info beállításai
+mass#:#mass_mess_notification_completed#:#Sikeresen teljesített %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+mass#:#mass_mess_notification_failed#:#Nem sikerült teljesítenie %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+mass#:#mass_contact_info#:#Kapcsolat
+registration#:#reg_mail_body_activation#:#ILIAS-fiókja aktiváláshoz és e-mail címének igazolásához kattintson ide:###XXX
+chatroom#:#chat_auth_token_info#:#Kérem, egyedi stringeket hozzon létre. Ezeket a stringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a stringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliens id-nek <b>egyedinek</b> kell lennie.
+chatroom#:#chat_https_cert_info#:#Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem).
+chatroom#:#chat_https_key_info#:#Kérem, adja meg a privátkulcs-fájl abszolút útvonalát (pl: /etc/ssl/private/server.key).
+chatroom#:#chat_https_dhparam_info#:#Kérem, adja meg a fájl abszolút útvonalát (pl: /etc/ssl/private/dhparam.pem), amit a Diffie-Hellman paraméterek átadására használunk (pl. így generálták: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
+chatroom#:#chat_log_info#:#Kérem, adja meg a chatszerver naplófájljának abszolút útvonalát (pl.: /var/www/ilias/data/chat.log). Amennyiben üresen hagyja, a naplófájl a chatszerver könyvtárába kerül.
+chatroom#:#chat_error_log_info#:#Kérem, adja meg a chatszerver hibanapló-fájljának abszolút útvonalát (pl.: /var/www/ilias/data/chat_error.log). Amennyiben üresen hagyja, a naplófájl a chatszerver könyvtárába kerül.
+chatroom#:#chatroom_enable_osc#:#Képernyőbeszélgetések bekapcsolása
+chatroom#:#chatroom_enable_osc_info#:#Ha be van kapcsolva, az összes felhasználó számára elérhetővé válik a képernyőbeszélgetés, de mindenki beállíthatja, hogy engedélyezi-e a többieknek, hogy beszélgethessenek vele. Beszélgetés a 'Ki van online'-eszközből indítható.
+chatroom#:#chat_osc_start_conversation#:#Beszélgetés indítása
+chatroom#:#chat_osc_accept_msg#:#Képernyőbeszélgetések bekapcsolása
+chatroom#:#chat_osc_accept_msg_info#:#Ha be van kapcsolva, mások beszélgetést kezdeményezhetnek Önnel.
+chatroom#:#chat_osc_accepts_messages_no#:#Üzeneteket nem fogad
+chatroom#:#chat_osc_accepts_messages_yes#:#Üzeneteket fogad
+chatroom#:#chat_osc_conversations#:#Beszélgetések
+chatroom#:#chat_osc_send#:#Küldés
+chatroom#:#chat_osc_invite_to_conversation#:#Beszélgetéshez hozzáadás
+chatroom#:#chat_osc_add_user#:#További felhasználók hozzáadása
+chatroom#:#chat_osc_user#:#Felhasználó
+chatroom#:#chat_osc_write_a_msg#:#Éppen üzenetet ír ...
+chatroom#:#chat_osc_emoticons#:#Hangulatikonok
+chatroom#:#chat_osc_no_usr_found#:#Nincs a keresési feltételnek megfelelő felhasználó.
+chatroom#:#chat_osc_section_head_other_rooms#:#Nyilvános chatszoba
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Biztos, hogy kilép a csoportbeszélgetésből?
+chatroom#:#chat_osc_leave_grp_conv#:#Kilépés a beszélgetésből
+chatroom#:#chat_osc_user_left_grp_conv#:#'%s' kilépett a csoportbeszélgetésből.
+chatroom#:#chat_osc_dont_accept_msg#:#Önt jelenleg nem lehet meghívni beszélgetésbe, de ezt személyes beállításaiban módosíthatja.
+chatroom#:#chat_osc_doesnt_accept_msg#:#Beszélgetés nem lehetséges
+usr#:#user_actions#:#Felhasználói műveletek
+usr#:#user_action#:#Felhasználói művelet
+buddysystem#:#buddy_handle_contact_request#:#Kapcsolat kérése
+usr#:#user_actions_activation_info#:#Műveleteket csak akkor soroljuk fel a felhasználóknak, ha a kapcsolódó szolgáltatásokat bekapcsolták és az összes előfeltétel adott (pl. szükséges jogosultságok).
+chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyilvános chatszobába
+chatroom#:#chat_user_action_invite_osd#:#Meghívás képernyőbeszélgetésbe
+form#:#err_invalid_input#:#Az egyik űrlapmező Ön által megadott bemeneti adata érvénytelen, kérem, ellenőrizze.
+chatroom#:#chat_osc_no_conv#:#Jelenleg nem zajlik beszélgetés.
+chatroom#:#chat_osc_no_sub_directory#:#Alkönyvtár
+chatroom#:#chat_osc_no_sub_directory_info#:#Ha a Chatszerver egy alkönyvtáron keresztül érhető el, mint például 'http(s)://[IP/Domain]/[PATH]', akkor itt adja meg az alkönyvtárat, az előbbi példából a [PATH] részt.

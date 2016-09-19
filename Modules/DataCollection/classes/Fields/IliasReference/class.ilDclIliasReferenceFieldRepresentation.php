@@ -45,7 +45,7 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
 		$prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_learning_progress'), 'prop_'.ilDclBaseFieldModel::PROP_LEARNING_PROGRESS);
 		$opt->addSubItem($prop_ref_link);
 
-		$prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_ilias_reference_link'), 'prop_'.ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK);
+		$prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_ILIAS_reference_link'), 'prop_'.ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK);
 		$opt->addSubItem($prop_multi_select);
 
 		$prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_display_action_menu'), 'prop_'.ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU);

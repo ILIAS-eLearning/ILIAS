@@ -10,6 +10,14 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
 {
 
 	/**
+	 * @var array
+	 */
+	protected $options = array(
+		'default_text_field_length' => 4096,
+		'decimal_places' => 2,
+	);
+
+	/**
 	 * @param $field
 	 * @return string
 	 */
@@ -20,10 +28,11 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
 		switch ($field['type'])
 		{
 			case 'text':
-				$length = !empty($field['length']) ? $field['length'] : $db->options['default_text_field_length'];
+				$length = !empty($field['length']) ? $field['length'] : $this->options['default_text_field_length'];
 				$fixed = !empty($field['fixed']) ? $field['fixed'] : false;
+				$fixed = false; // FSX we do not want to have fixed lengths
 
-				return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(' . $db->options['default_text_field_length']
+				return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(' . $this->options['default_text_field_length']
 				                                                     . ')') : ($length ? 'VARCHAR(' . $length . ')' : 'TEXT');
 			case 'clob':
 				return 'TEXT';
@@ -71,7 +80,7 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
 				return 'FLOAT8';
 			case 'decimal':
 				$length = !empty($field['length']) ? $field['length'] : 18;
-				$scale = !empty($field['scale']) ? $field['scale'] : $db->options['decimal_places'];
+				$scale = !empty($field['scale']) ? $field['scale'] : $this->options['decimal_places'];
 
 				return 'NUMERIC(' . $length . ',' . $scale . ')';
 		}

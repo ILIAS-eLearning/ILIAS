@@ -61,7 +61,7 @@ class ilMDDescription extends ilMDBase
 	{
 		if($this->db->autoExecute('il_meta_description',
 								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
 		{
 			$this->setMetaId($this->db->getLastInsertId());
 
@@ -78,7 +78,7 @@ class ilMDDescription extends ilMDBase
 		{
 			if($this->db->autoExecute('il_meta_description',
 									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
+									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
 									  "meta_description_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;

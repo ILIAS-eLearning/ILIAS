@@ -59,6 +59,33 @@ class ilDbSetup {
 
 
 	/**
+	 * @param $client_name
+	 * @param $dbname
+	 * @param string $host
+	 * @param string $username
+	 * @param string $password
+	 * @param string $type
+	 * @return \ilDbSetup
+	 */
+	public static function getInstanceForNewClient($client_name, $dbname, $host = 'localhost', $username = 'root', $password = '', $type = ilDBConstants::TYPE_PDO_MYSQL_INNODB) {
+		require_once('./setup/classes/class.ilClient.php');
+		require_once('./Services/Init/classes/class.ilIniFile.php');
+		require_once('./setup/classes/class.ilDBConnections.php');
+
+		$ilClient = new ilClient($client_name, new ilDBConnections());
+		$ilClient->init();
+		$ilClient->setDbHost($host);
+		$ilClient->setDbName($dbname);
+		$ilClient->setDbUser($username);
+		$ilClient->setDbPass($password);
+		$ilClient->setDbType($type);
+		$ilClient->writeIni();
+
+		return self::getInstanceForClient($ilClient);
+	}
+
+
+	/**
 	 * @param $a_collation
 	 * @return bool|mixed
 	 */
@@ -67,8 +94,8 @@ class ilDbSetup {
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-				case ilDBConstants::TYPE_MYSQL_LEGACY:
-				case ilDBConstants::TYPE_INNODB_LEGACY:
+				case ilDBConstants::TYPE_MYSQL:
+				case ilDBConstants::TYPE_INNODB:
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 					$clientIniFile = $this->client->ini;
 
@@ -87,8 +114,9 @@ class ilDbSetup {
 
 
 	public function provideGlobalDB() {
+		global $DIC;
 		$GLOBALS["ilDB"] = $this->ilDBInterface;
-		$GLOBALS["DIC"]["ilDB"] = $GLOBALS["ilDB"];
+		$DIC["ilDB"] = $this->ilDBInterface;
 		$this->client->db = $this->ilDBInterface; // TODO ugly and dirty, but ilClient requires it
 	}
 
@@ -97,6 +125,7 @@ class ilDbSetup {
 		$GLOBALS["ilDB"] = null;
 		$this->client->db = null; // TODO ugly and dirty, but ilClient requires it
 	}
+
 
 	/**
 	 * @param $fp
@@ -119,7 +148,7 @@ class ilDbSetup {
 
 	/**
 	 * @description legacy version of readdump
-	 * @deprecated use readDumpUltraSmall
+	 * @deprecated  use readDumpUltraSmall
 	 * @return bool
 	 */
 	protected function readDump() {
@@ -185,11 +214,12 @@ class ilDbSetup {
 	 */
 	public function installDatabase() {
 		if ($this->canDatabaseBeInstalled()) {
+			$this->provideGlobalDB();
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-				case ilDBConstants::TYPE_MYSQL_LEGACY:
-				case ilDBConstants::TYPE_INNODB_LEGACY:
+				case ilDBConstants::TYPE_MYSQL:
+				case ilDBConstants::TYPE_INNODB:
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();
@@ -200,9 +230,11 @@ class ilDbSetup {
 
 					break;
 				case ilDBConstants::TYPE_PDO_POSTGRE:
-				case ilDBConstants::TYPE_POSTGRES_LEGACY:
+				case ilDBConstants::TYPE_POSTGRES:
+				case ilDBConstants::TYPE_ORACLE:
 					include_once("./setup/sql/ilDBTemplate.php");
 					setupILIASDatabase();
+
 					return true;
 					break;
 			}
@@ -346,5 +378,21 @@ class ilDbSetup {
 		foreach ($this->ilDBInterface->listTables() as $table) {
 			$this->ilDBInterface->manipulate('DROP TABLE ' . $table);
 		}
+	}
+
+
+	/**
+	 * @return \ilDBInterface
+	 */
+	public function getIlDBInterface() {
+		return $this->ilDBInterface;
+	}
+
+
+	/**
+	 * @param \ilDBInterface $ilDBInterface
+	 */
+	public function setIlDBInterface($ilDBInterface) {
+		$this->ilDBInterface = $ilDBInterface;
 	}
 }

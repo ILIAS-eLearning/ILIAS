@@ -460,6 +460,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$userObj->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
 			}
+			if($this->isSettingChangeable('chat_osc_accept_msg'))
+			{
+				$userObj->setPref('chat_osc_accept_msg', $_POST['chat_osc_accept_msg'] ? 'y' : 'n');
+			}
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$userObj->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
@@ -880,6 +884,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->object->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
 			}
+			if($this->isSettingChangeable('chat_osc_accept_msg'))
+			{
+				$this->object->setPref('chat_osc_accept_msg', $_POST['chat_osc_accept_msg'] ? 'y' : 'n');
+			}
 
 			// set a timestamp for last_password_change
 			// this ts is needed by ilSecuritySettings
@@ -1060,6 +1068,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
 		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
+		$data['chat_osc_accept_msg'] = $this->object->prefs['chat_osc_accept_msg'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
 
 		$data["send_mail"] = ($this->object->prefs['send_info_mails'] == 'y');
@@ -1474,6 +1483,15 @@ class ilObjUserGUI extends ilObjectGUI
 				$sec_cd = new ilFormSectionHeaderGUI();
 				$sec_cd->setTitle($this->lng->txt("contact_data"));
 				$this->form_gui->addItem($sec_cd);
+
+				// org units
+				if ($a_mode == "edit")
+				{
+					$orgus = new ilNonEditableValueGUI($lng->txt('objs_orgu'), 'org_units');
+					$orgus->setValue($this->object->getOrgUnitsRepresentation());
+					$this->form_gui->addItem($orgus);
+				}
+
 			}
 			if($this->isSettingChangeable($field[0]))
 			{
@@ -1626,7 +1644,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->isSettingChangeable( 'skin_style') or
 			$this->isSettingChangeable( 'hits_per_page') or
 			$this->isSettingChangeable( 'hide_own_online_status') or
-			$this->isSettingChangeable( 'bs_allow_to_contact_me')
+			$this->isSettingChangeable( 'bs_allow_to_contact_me') or
+			$this->isSettingChangeable( 'chat_osc_accept_msg')
 		)
 		{
 			$sec_st = new ilFormSectionHeaderGUI();
@@ -1736,6 +1755,16 @@ class ilObjUserGUI extends ilObjectGUI
 			$lng->loadLanguageModule('buddysystem');
 			$os = new ilCheckboxInputGUI($lng->txt('buddy_allow_to_contact_me'), 'bs_allow_to_contact_me');
 			$this->form_gui->addItem($os);
+		}
+		if($this->isSettingChangeable('chat_osc_accept_msg'))
+		{
+			$lng->loadLanguageModule('chatroom');
+			$chat_osc_acm = new ilCheckboxInputGUI($lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
+			if($a_mode == 'create')
+			{
+				$chat_osc_acm->setChecked(ilUtil::yn2tf($ilSetting->get('chat_osc_accept_msg', 'n')));
+			}
+			$this->form_gui->addItem($chat_osc_acm);
 		}
 
 		if((int)$ilSetting->get('session_reminder_enabled'))
@@ -2412,6 +2441,14 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->object->setPref('bs_allow_to_contact_me', 'n');
 		}
+		if(isset($_POST['Fobject']['chat_osc_accept_msg']) && $_POST['Fobject']['chat_osc_accept_msg'] == 1)
+		{
+			$this->object->setPref('chat_osc_accept_msg', 'y');
+		}
+		else
+		{
+			$this->object->setPref('chat_osc_accept_msg', 'n');
+		}
 
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
@@ -2647,7 +2684,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// Add link to objector local Rores
 	        if ($role["role_type"] == "local") {
         	        // Get Object to the role
-                	$obj_id = ilRbacReview::getObjectOfRole($role["rol_id"]);
+                	$obj_id = $rbacreview->getObjectOfRole($role["rol_id"]);
 
 	                $obj_type = ilObject::_lookupType($obj_id);
 

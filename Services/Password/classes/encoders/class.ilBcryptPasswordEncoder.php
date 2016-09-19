@@ -185,14 +185,15 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
 	/**
 	 * Generates a bcrypt encoded string
-	 * @param    string $raw
-	 * @param    string $salt
+	 * @param    string $raw         The raw password
+	 * @param    string $user_secret A randomly generated string (should be 16 ASCII chars)
 	 * @return   string
 	 * @throws   ilPasswordException
 	 */
-	protected function encode($raw, $salt)
+	protected function encode($raw, $user_secret)
 	{
-		$hashed_password = hash_hmac('whirlpool', str_pad($raw, strlen($raw) * 4, sha1($salt), STR_PAD_BOTH), $this->getClientSalt(), true);
+		$client_secret   = $this->getClientSalt();
+		$hashed_password = hash_hmac('whirlpool', str_pad($raw, strlen($raw) * 4, sha1($user_secret), STR_PAD_BOTH), $client_secret, true);
 		$salt            = substr(str_shuffle(str_repeat('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 22)), 0, 22);
 
 		/**
@@ -218,13 +219,14 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 			}
 		}
 
-		$encrypted_password = crypt($hashed_password, $prefix . $this->getCosts() . '$' . $salt);
-		if(strlen($encrypted_password) <= 13)
+		$salted_password = crypt($hashed_password, $prefix . $this->getCosts() . '$' . $salt);
+		if(strlen($salted_password) <= 13)
 		{
 			require_once 'Services/Password/exceptions/class.ilPasswordException.php';
 			throw new ilPasswordException('Error during the bcrypt generation');
 		}
-		return $encrypted_password;
+
+		return $salted_password;
 	}
 
 	/**
@@ -287,7 +289,8 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 		$result = @file_put_contents($this->getClientSaltLocation(), $this->getClientSalt());
 		if(!$result)
 		{
-			throw new ilPasswordException("Could not store the client salt. Please contact an administrator.");
+			require_once 'Services/Password/exceptions/class.ilPasswordException.php';
+			throw new ilPasswordException(sprintf("Could not store the client salt in: %s. Please contact an administrator.", $this->getClientSaltLocation()));
 		}
 	}
 }

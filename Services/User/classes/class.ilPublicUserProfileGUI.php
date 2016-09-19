@@ -336,7 +336,12 @@ class ilPublicUserProfileGUI
 			$tpl->setCurrentBlock("mail");
 			$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
 			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$tpl->setVariable('HREF_MAIL', ilMailFormCall::getLinkTarget($ref_url, '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
+			$tpl->setVariable(
+				'HREF_MAIL',
+				ilMailFormCall::getLinkTarget(
+					$ref_url, '', array(), array('type' => 'new', 'rcp_to' => $user->getLogin())
+				)
+			);
 			$tpl->parseCurrentBlock();			
 		}
 		
@@ -461,6 +466,15 @@ class ilPublicUserProfileGUI
 			}
 		}
 
+		// if value "y" show information
+		if ($this->getPublicPref($user, "public_org_units") == "y")
+		{
+			$tpl->setCurrentBlock("org_units");
+			$tpl->setVariable("TXT_ORG_UNITS", $lng->txt("objs_orgu"));
+			$tpl->setVariable("ORG_UNITS", $user->getOrgUnitsRepresentation());
+			$tpl->parseCurrentBlock();
+		}
+
 		// institution / department
 		if ($this->getPublicPref($user, "public_institution") == "y" ||
 			$this->getPublicPref($user, "public_department") == "y")
@@ -507,11 +521,11 @@ class ilPublicUserProfileGUI
 
 		
 		$val_arr = array(
-			"getHobby" => "hobby", 
+			"getHobby" => "hobby",
 			"getGeneralInterestsAsText" => "interests_general",
 			"getOfferingHelpAsText" => "interests_help_offered",
-			"getLookingForHelpAsText" => "interests_help_looking",			
-			"getMatriculation" => "matriculation", 
+			"getLookingForHelpAsText" => "interests_help_looking",
+			"getMatriculation" => "matriculation",
 			"getClientIP" => "client_ip");
 			
 		foreach ($val_arr as $key => $value)
@@ -732,13 +746,13 @@ class ilPublicUserProfileGUI
 			}
 		}
 
-		$val_arr = array("getInstitution" => "institution", "getDepartment" => "department",
-			"getStreet" => "street",
+		$val_arr = array("getOrgUnitsRepresentation" => "org_units", "getInstitution" => "institution",
+			"getDepartment" => "department", "getStreet" => "street",
 			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
-			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip",
-			"dummy" => "location");
+			"getHobby" => "hobby", "getMatriculation" => "matriculation",
+			"getClientIP" => "client_ip", "dummy" => "location");
 
 		$org = array();
 		$adr = array();

@@ -227,7 +227,9 @@ class ilMainMenuGUI
 			// online help
 			$this->renderHelpButtons();
 
+			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
+			$this->populateWithOnScreenChat();
 			$this->renderAwareness();
 		}
 
@@ -381,17 +383,6 @@ class ilMainMenuGUI
 		
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 
-		// set link to return to desktop, not depending on a specific position in the hierarchy
-		//$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
-		
-		/*
-		else
-		{
-			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
-			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
-		}
-		*/
-		
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
@@ -742,17 +733,7 @@ class ilMainMenuGUI
 	*/
 	function getScriptTarget($a_script)
 	{
-		global $ilias;
-
 		$script = "./".$a_script;
-
-		//if ($this->start_template == true)
-		//{
-			//if(is_file("./templates/".$ilias->account->skin."/tpl.start.html"))
-			//{
-	//			$script = "./start.php?script=".rawurlencode($script);
-			//}
-		//}
 		if (defined("ILIAS_MODULE"))
 		{
 			$script = ".".$script;
@@ -1064,6 +1045,22 @@ class ilMainMenuGUI
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
 			ilBuddySystemGUI::initializeFrontend();
 		}
+	}
+
+	protected function populateWithOnScreenChat()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChat.php';
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php';
+
+		ilOnScreenChatGUI::initializeFrontend();
+	}
+
+	protected function renderOnScreenChatMenu()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php';
+
+		$menu = new ilOnScreenChatMenuGUI();
+		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
 	}
 
 	/**

@@ -134,7 +134,7 @@ class ilObjBibliographic extends ilObject2 {
 		//il_bibl_attribute
 		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
 		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer")
-		                  . ");");
+		                  . ")");
 		//il_bibl_entry
 		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
 		if (!$leave_out_il_bibl_data) {

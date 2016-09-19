@@ -48,6 +48,12 @@ class ilWorkflowEngine
 		$context_id
 	)
 	{
+		/** @var ilSetting $ilSetting */
+		global $ilSetting;
+		if(0 === (bool)$ilSetting->get('wfe_activation', 0))
+		{
+			return;
+		}
 
 		// Get listening event-detectors.
 		/** @noinspection PhpIncludeInspection */
@@ -110,15 +116,57 @@ class ilWorkflowEngine
 				$extracted_params->getContextId()
 			);
 
-			$this->launchArmedWorkflows($extracted_params);
+			$this->launchArmedWorkflows($component, $event, $extracted_params);
 		}
 	}
 
 	/**
 	 * @param \ilExtractedParams $extractedParams
 	 */
-	public function launchArmedWorkflows(ilExtractedParams $extractedParams)
+	public function launchArmedWorkflows($component, $event, $extractedParams)
 	{
-		$a = 1;
+		$workflows = ilWorkflowDbHelper::findApplicableWorkflows($component, $event, $extractedParams);
+
+		foreach($workflows as $workflow)
+		{
+			$a = 1;
+			$data = ilWorkflowDbHelper::getStaticInputDataForEvent($workflow['event']);
+
+			/** @noinspection PhpIncludeInspection */
+			require_once './Services/WorkflowEngine/classes/class.ilObjWorkflowEngine.php';
+
+			require_once ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php';
+			$class = substr($workflow['workflow'],4);
+			/** @var ilBaseWorkflow $workflow_instance */
+			$workflow_instance = new $class;
+
+			$workflow_instance->setWorkflowClass('wfd.'.$class.'.php');
+			$workflow_instance->setWorkflowLocation(ilObjWorkflowEngine::getRepositoryDir());
+
+			if(count($workflow_instance->getInputVars()))
+			{
+				foreach ($workflow_instance->getInputVars() as $input_var)
+				{
+					$workflow_instance->setInstanceVarById($input_var['name'], $data[ $input_var['name'] ]);
+				}
+			}
+
+			require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
+			ilWorkflowDbHelper::writeWorkflow( $workflow_instance );
+
+			$workflow_instance->startWorkflow();
+			$workflow_instance->handleEvent(
+				array(
+					'time_passed',
+					'time_passed',
+					'none',
+					0,
+					'none',
+					0
+				)
+			);
+
+			ilWorkflowDbHelper::writeWorkflow( $workflow_instance );
+		}
 	}
 }

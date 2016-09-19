@@ -99,7 +99,18 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
-		$tpl->setHeaderPageTitle(ilObject::_lookupTitle(ilObject::_lookupObjId((int) $_GET["ref_id"])).": ".$this->getWikiPage()->getTitle());
+		$head_title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $_GET["ref_id"])).": ".$this->getWikiPage()->getTitle();
+		$tpl->setHeaderPageTitle($head_title);
+		// see #13804
+		if ($_GET["page"] != "")
+		{
+			$tpl->setPermanentLink("wiki", "", "wpage_".$this->getPageObject()->getId()."_".$_GET["ref_id"], "", $head_title);
+		}
+		else
+		{
+			$tpl->setPermanentLink("wiki", $_GET["ref_id"]);
+		}
+
 
 		switch($next_class)
 		{
@@ -354,22 +365,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
 				$may_delete, $callback));
 		}
-		
-		// permanent link
-		$append = ($_GET["page"] != "")
-			? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
-			: "";
-
-		// see #13804
-		if ($_GET["page"] != "")
-		{
-			$tpl->setPermanentLink("wiki", "", "wpage_".$this->getPageObject()->getId()."_".$_GET["ref_id"]);
-		}
-		else
-		{
-			$tpl->setPermanentLink("wiki", $_GET["ref_id"]);
-		}
-
 
 
 		// page content

@@ -49,22 +49,11 @@ class ilInitialisation
 	{
 		global $ilBench;
 
-		// get pear
-		require_once("include/inc.get_pear.php");
-		require_once("include/inc.check_pear.php");
-
 		//include class.util first to start StopWatch
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		require_once "./Services/Utilities/classes/class.ilBenchmark.php";
 		$ilBench = new ilBenchmark();
 		$GLOBALS['ilBench'] = $ilBench;
-
-		// Major PEAR Includes
-		require_once "PEAR.php";
-		//require_once "DB.php";
-		// require_once "Auth/Auth.php";
-
-		
 
 		//include classes and function libraries
 		require_once "./Services/Database/classes/MDB2/class.ilDB.php";

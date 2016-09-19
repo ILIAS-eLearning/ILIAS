@@ -183,7 +183,7 @@ class ilDclRecordListGUI {
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
 
 		if ($desc = $this->table_obj->getDescription()) {
-			$desc = "<div class='ilDclTableDescription'>{$desc}</div>";
+			$desc = "<div class='ilDclTableDescription'>".nl2br($desc)."</div>";
 		}
 		$tpl->setContent($desc . $list->getHTML());
 	}

@@ -7,6 +7,8 @@ define ("IL_PASSWD_CRYPTED", "crypted");
 
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once './Services/User/exceptions/class.ilUserException.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
 
 /**
 * @defgroup ServicesUser Services/User
@@ -153,6 +155,12 @@ class ilObjUser extends ilObject
 	 * @var bool
 	 */
 	private $is_self_registered = false;
+
+	/**
+	 * ids of assigned org-units, comma seperated
+	 * @var string
+	 */
+	protected $org_units;
 	
 	protected $interests_general; // [array]
 	protected $interests_help_offered; // [array]
@@ -268,7 +276,6 @@ class ilObjUser extends ilObject
 			{
 				$this->prefs["hits_per_page"] = 10;
 			}
-
 		}
 		else
 		{
@@ -498,10 +505,10 @@ class ilObjUser extends ilObject
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
 			'inactivation_date' => array('timestamp', $this->inactivation_date),
-			'is_self_registered' => array('integer', (int)$this->is_self_registered)
+			'is_self_registered' => array('integer', (int)$this->is_self_registered),
 			);
 		$ilDB->insert("usr_data", $insert_array);
-		
+
 		$this->updateMultiTextFields(true);
 
 		// add new entry in usr_defined_data
@@ -2512,11 +2519,32 @@ class ilObjUser extends ilObject
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if(ilDAVActivationChecker::_isActive())
 		{
-			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-			require_once ('Services/Database/classes/class.ilAuthContainerMDB2.php');
-			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($login);
+			$login = self::toUsernameWithoutDomain($login);
 		}
 		return $login;
+	}
+	
+	/**
+ 	 * Static function removes Microsoft domain name from username
+	 * webdav related
+	 * @param string $a_login
+	 * @return string
+	 */
+	public static function toUsernameWithoutDomain($a_login)
+	{
+		// Remove all characters including the last slash or the last backslash
+		// in the username
+		$pos = strrpos($a_login, '/');
+		$pos2 = strrpos($a_login, '\\');
+		if ($pos === false || $pos < $pos2) 
+		{
+			$pos = $pos2;
+		}
+		if ($pos !== false)
+		{
+			$a_login = substr($a_login, $pos + 1);
+		}
+		return $a_login;
 	}
 
 	/*
@@ -3544,6 +3572,26 @@ class ilObjUser extends ilObject
 		}
 		return $id ? $id : 0;
 	}
+	
+	/**
+	 * lokup org unit representation
+	 * @param int $a_usr_id
+	 * @return string
+	 */
+	public static function lookupOrgUnitsRepresentation($a_usr_id)
+	{
+		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
+		return ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_usr_id);
+	}
+
+
+	/**
+	 * @return String
+	 */
+	public function getOrgUnitsRepresentation() {
+		return self::lookupOrgUnitsRepresentation($this->getId());
+	}
+
 
 	/**
     * set auth mode

@@ -233,28 +233,22 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled())
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
 		{
-			try
-			{
-				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-				$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-				$field    = new ilFormSectionHeaderGUI();
-				$field->setTitle($lng->txt('usr_agreement'));
-				$this->form->addItem($field);
+			$field = new ilFormSectionHeaderGUI();
+			$field->setTitle($lng->txt('usr_agreement'));
+			$this->form->addItem($field);
 
-				$field = new ilCustomInputGUI();
-				$field->setHTML('<div id="agreement">' . $document->getContent() . '</div>');
-				$this->form->addItem($field);
+			$field = new ilCustomInputGUI();
+			$field->setHTML('<div id="agreement">' . $document->getContent() . '</div>');
+			$this->form->addItem($field);
 
-				$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
-				$field->setRequired(true);
-				$field->setValue(1);
-				$this->form->addItem($field);
-			}
-			catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
-			{
-			}
+			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
+			$field->setRequired(true);
+			$field->setValue(1);
+			$this->form->addItem($field);
 		}
 
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
@@ -657,14 +651,8 @@ class ilAccountRegistrationGUI
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
-		try
-		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-			ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng));
-		}
-		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
-		{
-		}
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+		ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng));
 
 		// setup user preferences
 		$this->userObj->setLanguage($this->form->getInput('usr_language'));
@@ -681,6 +669,7 @@ class ilAccountRegistrationGUI
 		}
 		$this->userObj->setPref("show_users_online", $show_online);*/
 		$this->userObj->setPref('bs_allow_to_contact_me', 'y');
+		$this->userObj->setPref('chat_osc_accept_msg', $ilSetting->get('def_chat_osc_accept_msg', 'n'));
 		$this->userObj->writePrefs();
 
 		

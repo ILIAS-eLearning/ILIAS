@@ -45,10 +45,16 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					break;
 				case ilDclDatatype::INPUTFORMAT_TEXT:
 					$value = $record->getRecordFieldValue($fieldref);
-					$json = json_decode($value);
-					if ($json instanceof stdClass) {
-						$value = $json->title ? $json->title : $json->link;
+					if ($record->getRecordField($fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+						if (!is_array($value)) {
+							throw new ilDclException('Value of URL-Field should always be an array');
+						}
+						$value = $value['title'] ? $value['title'] : $value['link'];
 					}
+//					$json = json_decode($value);
+//					if ($json instanceof stdClass) {
+//						$value = $json->title ? $json->title : $json->link;
+//					}
 					$options[$record->getId()] = $value;
 					break;
 				default:

@@ -64,6 +64,14 @@ abstract class arStatementCollection {
 
 
 	/**
+	 * @return string
+	 */
+	public function asORACLEStatement() {
+		return $this->asSQLStatement();
+	}
+
+
+	/**
 	 * @param \ActiveRecord $ar
 	 */
 	public function setAr($ar) {

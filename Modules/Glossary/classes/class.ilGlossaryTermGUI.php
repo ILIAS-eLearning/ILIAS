@@ -42,6 +42,7 @@ class ilGlossaryTermGUI
 		if($a_id != 0)
 		{
 			$this->term = new ilGlossaryTerm($a_id);
+			require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 			$this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($a_id), false);
 		}
 	}
@@ -370,7 +371,8 @@ class ilGlossaryTermGUI
 				$tpl->parseCurrentBlock();
 			}
 
-			ilUtil::includeMathjax($tpl);
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			ilMathJax::getInstance()->includeMathJax($tpl);
 
 			$tpl->setCurrentBlock("definition");
 			$tpl->setVariable("PAGE_CONTENT", $output);

@@ -1157,7 +1157,12 @@ class ilUserImportParser extends ilSaxParser
 									}
 								}
 							}
-														
+
+							if(!is_array($this->prefs) || array_search('chat_osc_accept_msg', $this->prefs) === false)
+							{
+								$this->userObj->setPref('chat_osc_accept_msg', $ilSetting->get('chat_osc_accept_msg', 'n'));
+							}
+
 							$this->userObj->writePrefs();
 
 							// update mail preferences, to be extended
@@ -2380,6 +2385,12 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");				
 				break;
 			case 'bs_allow_to_contact_me':
+				if(!in_array($value, array('y', 'n')))
+				{
+					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
+				}
+				break;
+			case 'chat_osc_accept_msg':
 				if(!in_array($value, array('y', 'n')))
 				{
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");

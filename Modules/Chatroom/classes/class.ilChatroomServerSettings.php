@@ -21,6 +21,7 @@ class ilChatroomServerSettings
 	private $clientUrl;
 	private $iliasUrlEnabled;
 	private $iliasUrl;
+	private $subDirectory;
 
 	public static function loadDefault()
 	{
@@ -48,6 +49,7 @@ class ilChatroomServerSettings
 		$settings->setIliasUrlEnabled($server_settings->ilias_proxy);
 		$settings->setClientUrl($server_settings->client_url);
 		$settings->setIliasUrl($server_settings->ilias_url);
+		$settings->setSubDirectory($server_settings->sub_directory);
 
 		return $settings;
 	}
@@ -78,7 +80,14 @@ class ilChatroomServerSettings
 	{
 		if($this->getIliasUrlEnabled())
 		{
-			return $this->getProtocol() . $this->getIliasUrl();
+			$url = $this->getIliasUrl();
+
+			if(strpos($url, '://') === false)
+			{
+				$url = $this->getProtocol() . $url;
+			}
+
+			return $url;
 		}
 		return $this->getBaseURL();
 	}
@@ -208,7 +217,14 @@ class ilChatroomServerSettings
 	{
 		if($this->getClientUrlEnabled())
 		{
-			return $this->getProtocol() . $this->getClientUrl();
+			$url = $this->getClientUrl();
+
+			if(strpos($url, '://') === false)
+			{
+				$url = $this->getProtocol() . $url;
+			}
+
+			return $url;
 		}
 		return $this->getBaseURL();
 	}
@@ -291,5 +307,21 @@ class ilChatroomServerSettings
 	public function setAuthSecret($authSecret)
 	{
 		$this->authSecret = $authSecret;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getSubDirectory()
+	{
+		return $this->subDirectory;
+	}
+
+	/**
+	 * @param mixed $subDirectory
+	 */
+	public function setSubDirectory($subDirectory)
+	{
+		$this->subDirectory = $subDirectory;
 	}
 }
