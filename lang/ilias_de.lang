@@ -16305,6 +16305,7 @@ mass#:#mass_edit_info#:#Einstellungen Kontakt
 mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
 mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
+mass#:#mass_added#:#Manuelle Bewertung hinzugefügt
 registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).

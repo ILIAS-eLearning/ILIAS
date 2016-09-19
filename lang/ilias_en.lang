@@ -16303,6 +16303,7 @@ mass#:#mass_edit_info#:#Info Settings
 mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
 mass#:#mass_contact_info#:#Contactinformation
+mass#:#mass_added#:#Manual Assessment addedd
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
