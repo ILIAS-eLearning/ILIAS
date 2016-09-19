@@ -88,6 +88,7 @@ class ilDbSetup {
 
 	public function provideGlobalDB() {
 		$GLOBALS["ilDB"] = $this->ilDBInterface;
+		$GLOBALS["DIC"]["ilDB"] = $GLOBALS["ilDB"];
 		$this->client->db = $this->ilDBInterface; // TODO ugly and dirty, but ilClient requires it
 	}
 
