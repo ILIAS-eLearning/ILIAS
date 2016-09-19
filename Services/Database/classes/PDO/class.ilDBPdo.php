@@ -234,7 +234,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		$last_insert_id = $this->pdo->lastInsertId($table_name);
 		if ($last_insert_id) {
-			return $last_insert_id;
+			//			return $last_insert_id;
 		}
 
 		if ($this->tableExists($sequence_table_name)) {
@@ -1691,7 +1691,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param string $engine
 	 * @return array
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
 		return array();
 	}
 
@@ -1978,5 +1978,15 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 
 		throw new ilDatabaseException('Syntax error');
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDBVersion() {
+		$d = $this->fetchObject($this->query("SELECT VERSION() AS version"));
+
+		return ($d->version ? $d->version : 'Unknown');
 	}
 }

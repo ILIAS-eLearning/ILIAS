@@ -54,7 +54,7 @@ class arConnectorDB extends arConnector {
 		if ($arFieldList->getPrimaryField()->getName()) {
 			$ilDB->addPrimaryKey($ar->getConnectorContainerName(), array( $arFieldList->getPrimaryField()->getName() ));
 		}
-		if ($ar->getArFieldList()->getPrimaryField()->getSequence() AND ! $ilDB->sequenceExists($ar->getConnectorContainerName())) {
+		if ($ar->getArFieldList()->getPrimaryField()->getSequence() AND !$ilDB->sequenceExists($ar->getConnectorContainerName())) {
 			$ilDB->createSequence($ar->getConnectorContainerName());
 		}
 		$this->updateIndices($ar);
@@ -222,7 +222,7 @@ class arConnectorDB extends arConnector {
 		$ilDB = $this->returnDB();
 
 		$query = 'SELECT * FROM ' . $ar->getConnectorContainerName() . ' ' . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar) . ' = '
-			. $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar));
+		         . $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar));
 
 		$set = $ilDB->query($query);
 		$records = array();
@@ -243,7 +243,7 @@ class arConnectorDB extends arConnector {
 		$ilDB->update($ar->getConnectorContainerName(), $ar->getArrayForConnector(), array(
 			arFieldCache::getPrimaryFieldName($ar) => array(
 				arFieldCache::getPrimaryFieldType($ar),
-				$ar->getPrimaryFieldValue()
+				$ar->getPrimaryFieldValue(),
 			),
 		));
 	}
@@ -256,7 +256,7 @@ class arConnectorDB extends arConnector {
 		$ilDB = $this->returnDB();
 
 		$ilDB->manipulate('DELETE FROM ' . $ar->getConnectorContainerName() . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar) . ' = '
-			. $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar)));
+		                  . $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar)));
 	}
 
 
@@ -300,21 +300,30 @@ class arConnectorDB extends arConnector {
 	 * @return mixed|string
 	 */
 	protected function buildQuery(ActiveRecordList $arl) {
+		$ilDB = $this->returnDB();
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		if ($ilDB->getDBType() == ilDBConstants::TYPE_ORACLE) {
+			$method = 'asORACLEStatement';
+		} else {
+			$method = 'asSQLStatement';
+		}
 		// SELECTS
-		$q = $arl->getArSelectCollection()->asSQLStatement();
+		$q = $arl->getArSelectCollection()->{$method}();
 		// Concats
-		$q .= $arl->getArConcatCollection()->asSQLStatement();
-		$q .= ' FROM '.$arl->getAR()->getConnectorContainerName();
+		$q .= $arl->getArConcatCollection()->{$method}();
+		$q .= ' FROM ' . $arl->getAR()->getConnectorContainerName();
 		// JOINS
-		$q .= $arl->getArJoinCollection()->asSQLStatement();
+		$q .= $arl->getArJoinCollection()->{$method}();
 		// HAVING
-		$q .= $arl->getArHavingCollection()->asSQLStatement();
+		$q .= $arl->getArHavingCollection()->{$method}();
 		// WHERE
-		$q .= $arl->getArWhereCollection()->asSQLStatement();
+		$q .= $arl->getArWhereCollection()->{$method}();
 		// ORDER
-		$q .= $arl->getArOrderCollection()->asSQLStatement();
+		$q .= $arl->getArOrderCollection()->{$method}();
 		// LIMIT
-		$q .= $arl->getArLimitCollection()->asSQLStatement();
+		$q .= $arl->getArLimitCollection()->{$method}();
 
 		//TODO: using template in the model.
 		if ($arl->getDebug()) {
@@ -342,6 +351,22 @@ class arConnectorDB extends arConnector {
 
 		return $ilDB->quote($value, $type);
 	}
-}
 
-?>
+
+	/**
+	 * @param $value
+	 * @return string
+	 */
+	public function fixDate($value) {
+		$ilDB = $this->returnDB();
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		if ($ilDB->getDBType() != ilDBConstants::TYPE_ORACLE) {
+			return parent::fixDate($value);
+		}
+
+		return parent::fixDate($value);
+		//		return "TO_DATE('{$value}','YYYY-MM-DD HH24:MI:SS')";
+	}
+}

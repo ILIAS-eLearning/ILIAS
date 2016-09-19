@@ -389,7 +389,7 @@ class ilObjOrgUnitTree {
 				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
 				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu'";
 
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();

@@ -34,11 +34,13 @@ require_once('ilDatabaseImplementationBaseTest.php');
 class ilDatabaseMDB2MyISAMTest extends ilDatabaseImplementationBaseTest {
 
 	/**
-	 * @return \ilDBPdoMySQLInnoDB
+	 * @return \ilDBMySQL
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_MYSQL_LEGACY);
+		require_once('./Services/Database/classes/MDB2/class.ilDBMySQL.php');
+
+		return new ilDBMySQL();
 	}
 
 

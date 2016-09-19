@@ -190,7 +190,9 @@ public function getTabs() {
 									, $this->getLinkTarget('settings')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'edit_members')) {
+		if($access_handler->checkAccessToObj($this->object,'edit_members')
+			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
+			|| $access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 									, $this->lng->txt('members')
 									, $this->getLinkTarget('members')
@@ -257,5 +259,11 @@ public function getTabs() {
 				return $this->lng->txt('mass_status_failed');
 				break;
 		}
+	}
+
+	protected function afterSave(ilObject $a_new_object) {
+		ilUtil::sendSuccess($this->lng->txt("mass_added"),true);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilmanualassessmentsettingsgui', 'edit', '', false, false));
 	}
 }

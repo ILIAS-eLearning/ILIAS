@@ -438,7 +438,7 @@ class ilObjectTranslationGUI
 	{
 		global $ilCtrl, $lng, $tpl;
 
-		$form = $this->getMultiLangForm();
+		$form = $this->getMultiLangForm(true);
 		if($form->checkInput())
 		{
 			$ad = $form->getInput("additional_langs");

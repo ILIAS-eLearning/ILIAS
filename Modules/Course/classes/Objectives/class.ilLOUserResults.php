@@ -156,31 +156,42 @@ class ilLOUserResults
 	 * @param array $a_user_ids
 	 * @param bool $a_remove_initial
 	 * @param bool $a_remove_qualified
+	 * @param array $a_objective_ids
 	 * @return bool
 	 */
-	public static function deleteResultsFromLP($a_course_id, array $a_user_ids, $a_remove_initial, $a_remove_qualified)
+	public static function deleteResultsFromLP($a_course_id, array $a_user_ids, $a_remove_initial, $a_remove_qualified, array $a_objective_ids)
 	{
 		global $ilDB;
 		
-		if(!(int)$a_course_id || !sizeof($a_user_ids))
+		if(!(int)$a_course_id || 
+			!sizeof($a_user_ids))
 		{
 			return false;
 		}
 		
-		$sql = "DELETE FROM loc_user_results".
+		$base_sql = "DELETE FROM loc_user_results".
 			" WHERE course_id = ".$ilDB->quote($a_course_id, "integer").
 			" AND ".$ilDB->in("user_id", $a_user_ids, "", "integer");
 		
-		if(!(bool)$a_remove_initial || !(bool)$a_remove_qualified)
+		if((bool)$a_remove_initial)
 		{
-			if((bool)$a_remove_initial)
-			{
-				$sql .= " AND type = ".$ilDB->quote(self::TYPE_INITIAL, "integer");
-			}
-			else
-			{
-				$sql .= " AND type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer");
-			}
+			$sql = $base_sql.
+				" AND type = ".$ilDB->quote(self::TYPE_INITIAL, "integer");
+			$ilDB->manipulate($sql);		
+		}
+		
+		if((bool)$a_remove_qualified)
+		{
+			$sql = $base_sql.
+				" AND type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer");
+			$ilDB->manipulate($sql);		
+		}
+		
+		if(is_array($a_objective_ids))
+		{
+			$sql = $base_sql.
+				" AND ".$ilDB->in("objective_id", $a_objective_ids, "", "integer");
+			$ilDB->manipulate($sql);	
 		}
 				
 		$ilDB->manipulate($sql);

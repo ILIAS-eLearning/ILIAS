@@ -112,25 +112,28 @@ class ilStyleDefinition
 	public static function getCurrentSkin()
 	{
 		/**
-		 * @var $ilias ILIAS
+		 * @var ILIAS $ilias
+		 * @var ilStyleDefinition $styleDefinition
 		 */
-		global $DIC,$ilias;
+		global $DIC,$ilias, $styleDefinition;
 
-		$system_style_conf = new ilSystemStyleConfig();
-
-		if (is_object($ilias) && is_object($ilias->account) && property_exists($ilias->account,"skin")) {
-			$skin_id = $ilias->account->skin;
-			if(!self::skinExists($skin_id)){
-				ilUtil::sendFailure($DIC->language()->txt("set_skin_does_not_exist")." ".$skin_id);
-				$skin_id = $system_style_conf->getDefaultSkinId();
-			}
-			return $skin_id;
-		}else{
-
-			return null;
+		if(is_object($styleDefinition) && is_object($styleDefinition->getSkin())){
+			return $styleDefinition->getSkin()->getId();
 		}
+		else{
+			$system_style_conf = new ilSystemStyleConfig();
 
-
+			if (is_object($ilias) && is_object($ilias->account) && property_exists($ilias->account,"skin")) {
+				$skin_id = $ilias->account->skin;
+				if(!self::skinExists($skin_id)){
+					ilUtil::sendFailure($DIC->language()->txt("set_skin_does_not_exist")." ".$skin_id);
+					$skin_id = $system_style_conf->getDefaultSkinId();
+				}
+				return $skin_id;
+			}else{
+				return null;
+			}
+		}
 	}
 
 	/**
@@ -412,6 +415,9 @@ class ilStyleDefinition
 		if (is_object($styleDefinition) && $styleDefinition->getSkin()->getName() != $a_skin)
 		{
 			$styleDefinition = new ilStyleDefinition($a_skin);
+			if(!$styleDefinition->getSkin()->hasStyle($styleDefinition->getCurrentStyle())){
+				$styleDefinition->setCurrentStyle($styleDefinition->getSkin()->getDefaultStyle()->getId());
+			}
 		}
 	}
 
