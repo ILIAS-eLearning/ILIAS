@@ -197,3 +197,7 @@ if($ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#15>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
