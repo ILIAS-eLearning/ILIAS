@@ -98,21 +98,23 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 
 	protected function buildActionDropDown($a_set) {
 		$l = new ilAdvancedSelectionListGUI();
+
+		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
+		$edited_by_other = $this->setWasEditedByOtherUser($a_set);
+
+		if (($a_set['finalized'] && $this->may_edit && !$edited_by_other) || $this->may_view) {
+			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','view');
+			$l->addItem($this->lng->txt('mass_usr_view'), 'view', $target);
+		}
+		if(!$a_set['finalized'] && $this->may_edit && !$edited_by_other) {
+			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
+			$l->addItem($this->lng->txt('mass_usr_edit'), 'edit', $target);
+		}
 		if(!$a_set['finalized'] && $this->may_book) {
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
 			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt('mass_usr_remove'), 'removeUser', $target);
-		}
-		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		$edited_by_other = $this->setWasEditedByOtherUser($a_set);
-		if(!$a_set['finalized'] && $this->may_edit && !$edited_by_other) {
-			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','edit');
-			$l->addItem($this->lng->txt('mass_usr_edit'), 'edit', $target);
-		}
-		if (($a_set['finalized'] && $this->may_edit && !$edited_by_other) || $this->may_view) {
-			$target = $this->ctrl->getLinkTargetByClass('ilManualAssessmentMemberGUI','view');
-			$l->addItem($this->lng->txt('mass_usr_view'), 'view', $target);
 		}
 		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', null);
 		return $l->getHTML();
