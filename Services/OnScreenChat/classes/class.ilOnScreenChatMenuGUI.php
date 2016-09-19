@@ -89,6 +89,7 @@ class ilOnScreenChatMenuGUI
 		$config = array(
 			'conversationTemplate' => (new ilTemplate('tpl.chat-menu-item.html', false, false, 'Services/OnScreenChat'))->get(),
 			'roomTemplate'         => (new ilTemplate('tpl.chat-menu-item-room.html', false, false, 'Services/OnScreenChat'))->get(),
+			'infoTemplate'         => (new ilTemplate('tpl.chat-menu-item-info.html', false, false, 'Services/OnScreenChat'))->get(),
 			'userId'               => $DIC->user()->getId()
 		);
 
@@ -103,13 +104,24 @@ class ilOnScreenChatMenuGUI
 			);
 		}
 
+		$config['showAcceptMessageChange'] = (
+			!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')) &&
+			!(bool)$DIC['ilSetting']->get('usr_settings_hide_chat_osc_accept_msg', false) &&
+			!(bool)$DIC['ilSetting']->get('usr_settings_disable_chat_osc_accept_msg', false)
+		);
 		$config['showOnScreenChat'] = $this->oscAccess;
 
 		$DIC->language()->loadLanguageModule('chatroom');
 		$DIC->language()->toJS(array(
 			'chat_osc_conversations', 'chat_osc_section_head_other_rooms',
 			'chat_osc_sure_to_leave_grp_conv', 'chat_osc_user_left_grp_conv',
-			'confirm', 'cancel', 'chat_osc_leave_grp_conv'
+			'confirm', 'cancel', 'chat_osc_leave_grp_conv', 'chat_osc_no_conv'
+		));
+		$DIC->language()->toJSMap(array(
+			'chat_osc_dont_accept_msg' => sprintf(
+				$DIC->language()->txt('chat_osc_dont_accept_msg'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'), 'showChatOptions')
+			)
 		));
 
 		$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat-menu.js');
@@ -126,12 +138,6 @@ class ilOnScreenChatMenuGUI
 			return '';
 		});
 		$glyph_html = $renderer->render($glyph);
-
-		if(!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')))
-		{
-			require_once 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php';
-			ilToolTipGUI::addTooltip($glyph_id, $DIC->language()->txt('chat_osc_dont_accept_msg'), '', 'bottom center', 'top center', false);
-		}
 
 		$config['triggerId'] = $glyph_id;
 		$config['conversationNoveltyCounter'] = $renderer->render($f->counter()->novelty(0));

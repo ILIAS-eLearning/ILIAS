@@ -58,8 +58,22 @@ class ilModulesTestTasks
 		$input_params = $params[0];
 		$output_params =$params[1];
 
+		$usr_id_list = array();
+
+		if(isset($input_params['usrIdList']))
+		{
+			$usr_id_list = $input_params['usrIdList'];
+		}
+		if(isset($input_params['discloseMap']))
+		{
+			foreach($input_params['discloseMap'] as $map_entry)
+			{
+				$usr_id_list[] = $map_entry['Anon User'];
+			}
+		}
+
 		$test_object = new ilObjTest($input_params['tstRefId']);
-		foreach($input_params['usrIdList'] as $user_id)
+		foreach($usr_id_list as $user_id)
 		{
 			$test_object->inviteUser($user_id);
 		}

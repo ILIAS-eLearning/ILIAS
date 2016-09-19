@@ -10027,7 +10027,16 @@ li.smallPad {
   height: 300px;
   padding: 2px;
   overflow-y: scroll;
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
   width: 100%;
   min-height: 200px;
   background-color: #FFFFFF;
@@ -11423,6 +11432,9 @@ div.ilPCMyCoursesPath {
 #awareness-content .media-body h4 {
   padding-top: 0px;
   color: #606060;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #awareness-content .dropdown-menu {
   background-color: #f0f0f0;
@@ -11453,12 +11465,28 @@ div.ilPCMyCoursesPath {
 .ilAwarenessDropDown h3.popover-title {
   display: none;
 }
+.ilAwarenessDropDown .media {
+  display: table;
+  width: 100%;
+}
+.ilAwarenessItemRow {
+  display: table-row;
+  width: 100%;
+}
+.ilAwarenessDropDown .media-left {
+  width: 45px;
+}
+#awareness-list {
+  overflow: hidden;
+}
 .ilAwarenessDropDown .media-body {
   /* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
   background-repeat: no-repeat;
   background-size: 12px 12px;
-  width: 100%;
   background-position: right 10px top 50%;
+  /* see http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell */
+  /* and bug #18937 */
+  max-width: 0;
 }
 .ilAwarenessDropDown .media-body.ilAwarenessOnline {
   background-image: url('images/scorm/completed.svg');
@@ -11503,6 +11531,9 @@ div.ilPCMyCoursesPath {
   pointer-events: none;
   z-index: 1039;
 }
+#onscreenchat-container .iosOnScreenChat {
+  margin-right: -3px;
+}
 #onscreenchat-container .popover {
   max-width: 200px;
 }
@@ -11526,7 +11557,7 @@ div.ilPCMyCoursesPath {
   padding: 5px 5px 5px 15px;
   pointer-events: auto;
   margin: 0;
-  border: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
   vertical-align: middle;
 }
 #onscreenchat-container .panel-heading .btn {
@@ -11535,6 +11566,11 @@ div.ilPCMyCoursesPath {
 #onscreenchat-container .panel-heading img {
   width: 16px;
   height: 16px;
+  vertical-align: sub;
+}
+#onscreenchat-container .panel-heading .close {
+  margin-top: -2px;
+  margin-left: 5px;
 }
 #onscreenchat-container .chat-window-wrapper {
   bottom: 0;
@@ -11560,9 +11596,6 @@ div.ilPCMyCoursesPath {
   overflow-x: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -11751,6 +11784,14 @@ div.ilPCMyCoursesPath {
   white-space: nowrap;
   max-width: 100%;
   overflow: visible;
+}
+.ilOnScreenChatMenuItem .media-body.info {
+  white-space: normal !important;
+  padding-left: 4px !important;
+  padding-bottom: 4px !important;
+}
+.ilOnScreenChatMenuItem .media-body.info a {
+  color: #557196 !important;
 }
 .ilOnScreenChatMenuItem .media-body p,
 .ilOnScreenChatMenuItem .media-body h4 {
@@ -12346,7 +12387,7 @@ table.mceToolbar td {
   img {
     max-width: 100%;
   }
-  td.ilc_Mob img {
+  div.ilc_Mob img {
     height: auto !important;
   }
   img.olTileImage {

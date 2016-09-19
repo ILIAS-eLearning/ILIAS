@@ -834,7 +834,7 @@ class ilLMObject
 	/**
 	* Copy a set of chapters/pages into the clipboard
 	*/
-	function clipboardCut($a_cont_obj_id, $a_ids)
+	static function clipboardCut($a_cont_obj_id, $a_ids)
 	{
 		$tree = ilLMObject::getTree($a_cont_obj_id);
 		

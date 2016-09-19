@@ -87,11 +87,29 @@ class ilOnScreenChatGUI
 			case 'getUserProfileImages':
 				$this->getUserProfileImages();
 				break;
-
+			case 'verifyLogin':
+				$this->verifyLogin();
+				break;
 			case 'getUserlist':
 			default:
 				$this->getUserList();
 		}
+	}
+
+	/**
+	 * Checks if a user is logged in. If not, this function should cause an redirect, to disallow chatting while not logged
+	 * into ILIAS.
+	 *
+	 * @return bool
+	 */
+	public function verifyLogin()
+	{
+		global $DIC;
+
+		echo json_encode(array(
+			'loggedIn' => $DIC->user() && !$DIC->user()->isAnonymous()
+		));
+		exit;
 	}
 
 	public function getUserList()
@@ -193,10 +211,20 @@ class ilOnScreenChatGUI
 			$settings = self::loadServerSettings();
 
 			$DIC->language()->loadLanguageModule('chatroom');
+			
+			$renderer = $DIC->ui()->renderer();
+			$factory  = $DIC->ui()->factory();
 
-			$button = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit');
 			$chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat');
-			$chatWindowTemplate->setVariable('BUTTON', $DIC->ui()->renderer()->render($button));
+			$chatWindowTemplate->setVariable('SUBMIT_ACTION', $renderer ->render(
+				$factory->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit')
+			));
+			$chatWindowTemplate->setVariable('ADD_ACTION', $renderer ->render(
+				$factory->glyph()->add('addUser')
+			));
+			$chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer ->render(
+				$factory->button()->close()
+			));
 			$chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
 
 			$guiConfig = array(
@@ -207,15 +235,17 @@ class ilOnScreenChatGUI
 				'username'           => $DIC->user()->getLogin(),
 				'userListURL'        => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserList', '', true, false),
 				'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserProfileImages', '', true, false),
+				'verifyLoginURL'     => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'verifyLogin', '', true, false),
 				'loaderImg'          => ilUtil::getImagePath('loader.svg'),
 				'emoticons'          => self::getEmoticons($settings),
 				'locale'             => $DIC->language()->getLangKey()
 			);
 
 			$chatConfig = array(
-				'url'      => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
-				'userId'   => $DIC->user()->getId(),
-				'username' => $DIC->user()->getLogin()
+				'url'           => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
+				'subDirectory'  => $settings->getSubDirectory() . '/socket.io',
+				'userId'        => $DIC->user()->getId(),
+				'username'      => $DIC->user()->getLogin()
 			);
 
 			$DIC->language()->toJS(array(

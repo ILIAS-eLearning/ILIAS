@@ -416,4 +416,48 @@ class ilWorkflowDbHelper
 			)
 		);
 	}
+
+	public static function findApplicableWorkflows($component, $event, $params)
+	{
+		$query = "SELECT event_id, workflow_id FROM wfe_startup_events WHERE
+		type = '".$component."' AND content = '".$event."' AND subject_type = '".$params->getSubjectType()."'
+		AND context_type = '".$params->getContextType()."' ";
+
+		if($params->getSubjectId() != 0)
+		{
+			$query .= "AND subject_id = '".$params->getSubjectId()."' ";
+		}
+
+		if($params->getContextId() != 0)
+		{
+			$query .= "AND context_id = '".$params->getContextId()."'";
+		}
+
+		global $ilDB;
+
+		$workflows = array();
+		$result = $ilDB->query($query);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$workflows[] = array('event' => $row['event_id'], 'workflow' => $row['workflow_id']);
+		}
+		return $workflows;
+	}
+
+	public static function getStaticInputDataForEvent($event_id)
+	{
+		$query = "SELECT name, value FROM wfe_static_inputs WHERE event_id = '" . $event_id . "'";
+
+		global $ilDB;
+		$result = $ilDB->query($query);
+
+		$retval = array();
+
+		while($row = $ilDB->fetchAssoc($result))
+		{
+			$retval[$row['name']] = $row['value'];
+		}
+
+		return $retval;
+	}
 }

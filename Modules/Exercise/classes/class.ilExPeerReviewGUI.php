@@ -325,8 +325,10 @@ class ilExPeerReviewGUI
 
 			$submission = new ilExSubmission($this->ass, $this->submission->getUserId());						
 			$file_info = $submission->getDownloadedFilesInfoForTableGUIS($this, "showReceivedPeerReview");
-
-			$a_info_widget->addProperty($file_info["last_submission"]["txt"], $file_info["last_submission"]["value"]);
+			
+			$a_info_widget->addProperty($file_info["last_submission"]["txt"], 
+				$file_info["last_submission"]["value"].
+				$this->getLateSubmissionInfo($submission));
 
 			$sub_data = $this->getSubmissionContent($submission);
 			if(!$sub_data)
@@ -376,7 +378,9 @@ class ilExPeerReviewGUI
 				$submission = new ilExSubmission($this->ass, $peer_id);						
 				$file_info = $submission->getDownloadedFilesInfoForTableGUIS($this, "editPeerReviewItem");
 
-				$a_info_widget->addProperty($file_info["last_submission"]["txt"], $file_info["last_submission"]["value"]);
+				$a_info_widget->addProperty($file_info["last_submission"]["txt"], 
+					$file_info["last_submission"]["value"].
+					$this->getLateSubmissionInfo($submission));
 
 				$sub_data = $this->getSubmissionContent($submission);
 				if(!$sub_data)
@@ -407,6 +411,20 @@ class ilExPeerReviewGUI
 				$html = $item->getHTML($values[$crit_id]);				
 				$a_info_widget->addProperty($title ? $title : "&nbsp;", $html ? $html : "&nbsp;");
 			}							
+		}
+	}
+	
+	protected function getLateSubmissionInfo(ilExSubmission $a_submission)
+	{		
+		global $lng;
+		
+		// #18966 - late files info
+		foreach($a_submission->getFiles() as $file)
+		{
+			if($file["late"])
+			{	
+				return '<div class="warning">'.$lng->txt("exc_late_submission").'</div>';
+			}
 		}
 	}
 	
@@ -542,8 +560,9 @@ class ilExPeerReviewGUI
 		$submission = new ilExSubmission($this->ass, $peer["peer_id"]);						
 		$file_info = $submission->getDownloadedFilesInfoForTableGUIS($this, "editPeerReviewItem");
 		
-		$last_sub = new ilNonEditableValueGUI($file_info["last_submission"]["txt"]);
-		$last_sub->setValue($file_info["last_submission"]["value"]);
+		$last_sub = new ilNonEditableValueGUI($file_info["last_submission"]["txt"], "", true);
+		$last_sub->setValue($file_info["last_submission"]["value"].
+			$this->getLateSubmissionInfo($submission));
 		$form->addItem($last_sub);
 			
 		$sub_data = $this->getSubmissionContent($submission);

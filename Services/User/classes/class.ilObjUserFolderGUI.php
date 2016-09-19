@@ -2036,7 +2036,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		$ilias->setSetting('mail_incoming_mail', (int)$_POST['select']['default_mail_incoming_mail']);
-		$ilias->setSetting('def_chat_osc_accept_msg', ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg']));
+		$ilias->setSetting('chat_osc_accept_msg', ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg']));
 
 		ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();

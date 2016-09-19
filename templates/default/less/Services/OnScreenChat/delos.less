@@ -13,6 +13,10 @@
 	pointer-events: none;
 	z-index: 1039;
 
+	.iosOnScreenChat{
+		margin-right: -3px;
+	}
+
 	.popover {
 		max-width: 200px;
 
@@ -41,7 +45,7 @@
 		padding: 5px 5px 5px 15px;
 		pointer-events: auto;
 		margin: 0;
-		border: 1px solid #dcdcdc;
+		border-bottom: 1px solid #dcdcdc;
 		vertical-align: middle;
 
 		.btn {
@@ -51,6 +55,12 @@
 		img {
 			width: 16px;
 			height: 16px;
+			vertical-align: sub;
+		}
+
+		.close {
+			margin-top: -2px;
+			margin-left: 5px;
 		}
 	}
 
@@ -82,9 +92,6 @@
 			overflow-x: hidden;
 			overflow-wrap: break-word;
 			word-wrap: break-word;
-			-ms-word-break: break-all;
-			word-break: break-all;
-			word-break: break-word;
 			-ms-hyphens: auto;
 			-moz-hyphens: auto;
 			-webkit-hyphens: auto;
@@ -309,6 +316,15 @@
 		white-space: nowrap;
 		max-width: 100%;
 		overflow: visible;
+
+		&.info {
+			white-space: normal !important;
+			padding-left: 4px !important;
+			padding-bottom: 4px !important;
+			a {
+				color: @link-color !important;
+			}
+		}
 
 		p, h4 {
 			font-size: 12px;

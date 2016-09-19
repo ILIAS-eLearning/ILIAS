@@ -94,15 +94,25 @@ class ilMapUtil
 	{
 		return self::settings()->get("std_longitude");
 	}
-	
-	static function setStdZoom($a_zoom) 
+
+	static function setStdZoom($a_zoom)
 	{
 		self::settings()->set("std_zoom", $a_zoom);
 	}
-	
-	static function getStdZoom() 
+
+	static function getStdZoom()
 	{
 		return self::settings()->get("std_zoom");
+	}
+
+	static function setApiKey($a_api_key)
+	{
+		self::settings()->set("api_key", $a_api_key);
+	}
+
+	static function getApiKey()
+	{
+		return self::settings()->get("api_key");
 	}
 
 	static function setStdTileServers($a_tile)

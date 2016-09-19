@@ -2408,13 +2408,15 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "")
+	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
 	{
 		$this->permanent_link = array(
 			"type" => $a_type,
 			"id" => $a_id,
 			"append" => $a_append,
-			"target" => $a_target);
+			"target" => $a_target,
+			"title" => $a_title);
+
 	}
 	
 	/**
@@ -2430,6 +2432,10 @@ class ilTemplate extends HTML_Template_ITX
 				$this->permanent_link["id"],
 				$this->permanent_link["append"],
 				$this->permanent_link["target"]);
+			if ($this->permanent_link["title"] != "")
+			{
+				$plinkgui->setTitle($this->permanent_link["title"]);
+			}
 			$this->setVariable("PRMLINK", $plinkgui->getHTML());
 		}
 	}

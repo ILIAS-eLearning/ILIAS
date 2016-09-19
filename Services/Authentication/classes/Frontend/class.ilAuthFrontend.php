@@ -308,6 +308,9 @@ class ilAuthFrontend
 		$this->getLogger()->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
 		$this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
 		
+		include_once './Services/Init/classes/class.ilInitialisation.php';
+		ilInitialisation::initUserAccount();
+		
 		// --- anonymous/registered user
 		ilLoggerFactory::getLogger('auth')->info(
 			'logged in as '. $user->getLogin() . 

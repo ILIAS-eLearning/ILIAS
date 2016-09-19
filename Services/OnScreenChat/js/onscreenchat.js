@@ -112,7 +112,7 @@
 
 	$scope.il.OnScreenChat = {
 		config: {},
-		container: $('<div></div>').addClass('row'),
+		container: $('<div></div>').addClass('row').addClass('iosOnScreenChat'),
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
@@ -145,6 +145,9 @@
 
 			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
+				if(typeof conversation == "string") {
+					conversation = JSON.parse(conversation);
+				}
 
 				if (conversation && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
 					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
@@ -164,6 +167,19 @@
 					}
 				}
 			});
+
+			setInterval(function(){
+				$.ajax(
+					getConfig().verifyLoginURL
+				).done(function(result) {
+					result = JSON.parse(result);
+					if(!result.loggedIn) {
+						window.location = '/login.php';
+					}
+				}).fail(function(e){
+					window.location = '/login.php';
+				});
+			}, 300000); // 5 minutes
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
@@ -235,6 +251,11 @@
 					.removeClass('ilNoDisplay');
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
+
+				conversationWindow.find('[data-toggle="tooltip"]').tooltip({
+					container: 'body',
+					viewport: { selector: 'body', padding: 10 }
+				});
 
 				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
 					messageField = conversationWindow.find('[data-onscreenchat-message]');
@@ -311,12 +332,29 @@
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
-			template = template.replace('#:#chat_osc_add_user#:#', il.Language.txt('chat_osc_add_user'));
 
-			return template;
+			var $template = $(template);
+
+			$template.find('[href="addUser"]').attr({
+				"title":                 il.Language.txt('chat_osc_add_user'),
+				"data-onscreenchat-add": conversation.id,
+				"data-toggle":           "tooltip",
+				"data-placement":        "auto"
+			});
+			$template.find('.close').attr({
+				"title":                   il.Language.txt('close'),
+				"data-onscreenchat-close": conversation.id,
+				"data-toggle":             "tooltip",
+				"data-placement":          "auto"
+			});
+
+			return $template;
 		},
 
-		close: function() {
+		close: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
 			var button = $(this);
 			var conversation = getModule().storage.get($(button).attr('data-onscreenchat-close'));
 			conversation.open = false;
@@ -335,7 +373,7 @@
 
 		send: function(conversationId) {
 			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
-			var message = input.html();
+			var message = input.text();
 
 			if(message != "") {
 				$chat.sendMessage(conversationId, message);
@@ -367,6 +405,7 @@
 			}
 
 			conversation.latestMessage = messageObject;
+			conversation.numNewMessages = 0;
 			getModule().storage.save(conversation, function() {
 				getModule().addMessage(messageObject, false);
 			});
@@ -410,7 +449,7 @@
 			var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
 			var conversation = getModule().storage.get(conversationId);
 
-			if (conversation.participants.length > 2) {
+			if (conversation.isGroup) {
 				$scope.il.Modal.dialogue({
 					id: 'modal-leave-' + conversation.id,
 					header: il.Language.txt('chat_osc_leave_grp_conv'),
@@ -791,6 +830,10 @@
 
 			if(conversation.open == undefined && oldValue != null) {
 				conversation.open = oldValue.open;
+			}
+
+			if(conversation.open) {
+				conversation.numNewMessages = 0;
 			}
 
 			conversation.callback	= callback;

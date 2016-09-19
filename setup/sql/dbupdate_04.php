@@ -17807,3 +17807,15 @@ if ($ilDB->tableExists('il_verification_tmp'))
 	$ilDB->dropTable('il_verification_tmp');
 }
 ?>
+<#5045>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5046>
+<?php
+	$ilDB->addPrimaryKey('glo_glossaries', array('id', 'glo_id'));
+?>
+<#5047>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -2522,7 +2522,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @param string $engine
 	 * @return array
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
 		return array();
 	}
 

@@ -251,8 +251,8 @@ class ilObjOrgUnit extends ilContainer {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		if (!$this->employee_role || !$this->superior_role) {
-			$q = "SELECT obj_id, title FROM object_data WHERE title LIKE 'il_orgu_employee_" . $ilDB->quote($this->getRefId(), "integer")
-			     . "' OR title LIKE 'il_orgu_superior_" . $ilDB->quote($this->getRefId(), "integer") . "'";
+			$q = "SELECT obj_id, title FROM object_data WHERE title = 'il_orgu_employee_" . $ilDB->quote($this->getRefId(), "integer")
+			     . "' OR title = 'il_orgu_superior_" . $ilDB->quote($this->getRefId(), "integer") . "'";
 			$set = $ilDB->query($q);
 			while ($res = $ilDB->fetchAssoc($set)) {
 				if ($res["title"] == "il_orgu_employee_" . $this->getRefId()) {

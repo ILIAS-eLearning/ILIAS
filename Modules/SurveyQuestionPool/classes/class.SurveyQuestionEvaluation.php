@@ -413,10 +413,12 @@ abstract class SurveyQuestionEvaluation
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT survey_id FROM svy_svy".
-			" WHERE obj_fi = ".$ilDB->quote($this->question->getObjId(), "integer"));
+		// #18968
+		$set = $ilDB->query("SELECT survey_fi".
+			" FROM svy_svy_qst".
+			" WHERE question_fi = ".$ilDB->quote($this->question->getId(), "integer"));		
 		$row = $ilDB->fetchAssoc($set);
-		return $row["survey_id"];
+		return $row["survey_fi"];
 	}
 	
 	

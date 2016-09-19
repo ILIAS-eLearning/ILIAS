@@ -2519,11 +2519,32 @@ class ilObjUser extends ilObject
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if(ilDAVActivationChecker::_isActive())
 		{
-			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-			require_once ('Services/Database/classes/class.ilAuthContainerMDB2.php');
-			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($login);
+			$login = self::toUsernameWithoutDomain($login);
 		}
 		return $login;
+	}
+	
+	/**
+ 	 * Static function removes Microsoft domain name from username
+	 * webdav related
+	 * @param string $a_login
+	 * @return string
+	 */
+	public static function toUsernameWithoutDomain($a_login)
+	{
+		// Remove all characters including the last slash or the last backslash
+		// in the username
+		$pos = strrpos($a_login, '/');
+		$pos2 = strrpos($a_login, '\\');
+		if ($pos === false || $pos < $pos2) 
+		{
+			$pos = $pos2;
+		}
+		if ($pos !== false)
+		{
+			$a_login = substr($a_login, $pos + 1);
+		}
+		return $a_login;
 	}
 
 	/*

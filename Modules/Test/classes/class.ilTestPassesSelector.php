@@ -43,6 +43,7 @@ class ilTestPassesSelector
 
 	public function setLastFinishedPass($lastFinishedPass)
 	{
+		$lastFinishedPass = $lastFinishedPass === null ? -1 : $lastFinishedPass;
 		$this->lastFinishedPass = $lastFinishedPass;
 	}
 	
@@ -186,8 +187,18 @@ class ilTestPassesSelector
 		return false;
 	}
 	
+	private function checkLastFinishedPassInitialised()
+	{
+		if( $this->getLastFinishedPass() === null )
+		{
+			return ilTestException('invalid object state: last finished pass was not set!');
+		}
+	}
+	
 	private function isClosedPass($pass)
 	{
+		$this->checkLastFinishedPassInitialised();
+		
 		if( $pass <= $this->getLastFinishedPass() )
 		{
 			return true;

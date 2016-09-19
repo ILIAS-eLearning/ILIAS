@@ -464,7 +464,6 @@ echo "<br>+".$client_id;
 			case "createMemcacheServer":
 			case "updateMemcacheServer":
 			case "flushCache":
-			case "switchLegacyDB":
 				$this->$cmd();
 				break;
 
@@ -1064,7 +1063,6 @@ echo "<br>+".$client_id;
 		// path to error log dir
 		$ti = new ilTextInputGUI($lng->txt("error_log_path"), "error_log_path");
 		$ti->setInfo($lng->txt("error_log_path_comment".$lvext));
-		$ti->setRequired(true);
 		$this->form->addItem($ti);
 
 		// server settings
@@ -1638,7 +1636,7 @@ echo "<br>+".$client_id;
 		$this->form = new ilPropertyFormGUI();
 
 		// db type
-		$options = ilDBConstants::getAvailableTypes(true, version_compare(PHP_VERSION, '7.0.0', '<'));
+		$options = ilDBConstants::getAvailableTypes(true);
 		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
 		$si->setOptions($options);
 		$si->setInfo($lng->txt(""));
@@ -1721,7 +1719,7 @@ echo "<br>+".$client_id;
 
 		// db type
 		$ne = new ilNonEditableValueGUI($lng->txt("db_type"), "dbt");
-		$at = ilDBConstants::getAvailableTypes(true, version_compare(PHP_VERSION, '7.0.0', '<'));
+		$at = ilDBConstants::getAvailableTypes(true);
 		$ne->setValue($at[$_SESSION["db_type"]] );
 		$this->form->addItem($ne);
 
@@ -2112,12 +2110,6 @@ echo "<br>+".$client_id;
 	//// DISPLAY DATABASE
 	////
 
-	protected function switchLegacyDB() {
-		$this->setup->getClient()->setDbType(ilDBConstants::mapLegacy($this->setup->getClient()->getDbType()));
-		$this->setup->getClient()->writeIni();
-		ilUtil::redirect('setup.php?cmd=db');
-	}
-
 	/**
 	 * display database form and process form input
 	 */
@@ -2126,17 +2118,6 @@ echo "<br>+".$client_id;
 		global $ilErr,$ilDB,$ilLog;
 
 		$this->checkDisplayMode("setup_database");
-
-		if (ilDBConstants::isLegacy($ilDB->getDBType())) {
-			require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-			$b = ilLinkButton::getInstance();
-			$b->setCaption($this->lng->txt('db_switch_legacy_button'), false);
-			$b->addCSSClass('pull-right');
-			$b->setUrl('setup.php?cmd=switchLegacyDB');
-			ilUtil::sendInfo($this->lng->txt('db_switch_legacy') . ' ' . ilDBConstants::describe(ilDBConstants::mapLegacy($ilDB->getDBType())) . ' '
-			                 . $b->render());
-		}
-
 
 		// database is intalled
 		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled())

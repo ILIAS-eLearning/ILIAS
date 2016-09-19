@@ -325,7 +325,7 @@ assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
-assessment#:#essay_scoring_mode#:#Bewertungs Modus
+assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
@@ -1228,7 +1228,8 @@ assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
-assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
+assessment#:#tst_browse_for_qpl_questions#:#Aus Pool hinzufügen
+assessment#:#tst_browse_for_tst_questions#:#Aus anderem Test hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse entfernen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
@@ -3094,7 +3095,7 @@ common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rolle
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
 common#:#delete_inactivated_user_accounts_interval#:#Häufigkeit
 common#:#delete_inactivated_user_accounts_interval_desc#:#Häufigkeit in der die Löschbedingungen überprüft werden.
-common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
+common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_parameter#:#Parameter löschen
@@ -8379,7 +8380,7 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie den vom System bereinigten Inhalt und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
-mail#:#bc#:#BC
+mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
@@ -8404,8 +8405,8 @@ mail#:#mail_addr_entries#:#Einträge
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbucheintrags zum Verteiler
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
-mail#:#mail_bc_not_valid#:#Der BC-Empfänger ist nicht gültig
-mail#:#mail_bc_search#:#BC-Empfänger suchen
+mail#:#mail_bc_not_valid#:#Der BCC-Empfänger ist nicht gültig
+mail#:#mail_bc_search#:#BCC-Empfänger suchen
 mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#Der CC-Empfänger ist nicht gültig
 mail#:#mail_cc_search#:#CC-Empfänger suchen
@@ -15818,7 +15819,7 @@ chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
-chatroom#:#connection_url_info#:#Tragen Sie hier einen URL <b>ohne</b> Protokoll-Definition ein.
+chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
 chatroom#:#log#:#Chatserver Log-File
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
@@ -16331,7 +16332,7 @@ chatroom#:#chat_osc_section_head_other_rooms#:#Öffentlicher Chatraum
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
 chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
-chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren 'Persönlichen Einstellungen' ändern.
+chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren <a href="%s">'Persönlichen Einstellungen'</a> ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 usr#:#user_actions#:#Benuzteraktionen
 usr#:#user_action#:#Benuzteraktione
@@ -16340,3 +16341,8 @@ usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
 form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen sie ihre Eingabe.
+chatroom#:#chat_osc_no_conv#:#Keine Konversationen vorhanden.
+chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
+chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass die zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[PFAD]" enthält, muss hier der relative [PFAD] angegeben werden.
+prg#:#prg_points_reachable#:#Erreichbare Punkte
+mail#:#mail_members_search_continue#:#Weiter

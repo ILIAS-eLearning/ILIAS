@@ -118,11 +118,10 @@
 
         var helper = $('<div class="draggableHelper" />');
         helper.html(draggable.html());
-        helper.css('width', draggable.css('width'));
-        helper.css('height', draggable.css('height'));
-
-        helper.zIndex('1035');
-
+        helper.css({'width' :  draggable.css('width'),
+                    'height': draggable.css('height'),
+                    'z-index' : 1035
+                    });
         return helper;
     };
 

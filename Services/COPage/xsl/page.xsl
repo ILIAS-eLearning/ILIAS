@@ -1341,7 +1341,7 @@
 			<xsl:variable name="link_target">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
 			</xsl:variable>
-			<xsl:if test="$mode != 'edit'">
+			<xsl:if test="$mode != 'edit' and $mode != 'preview'">
 			<script type="text/javascript">
 				il.Util.addOnLoad(function() {il.LearningModule.initContentFrame('<xsl:value-of select='$link_href'/>', '<xsl:value-of select='$link_target'/>');});
 			</script>

@@ -20,6 +20,12 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
 class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+
+	/**
 	 * @param      $a_data
 	 * @param      $a_id
 	 * @param bool $a_call_by_reference
@@ -67,11 +73,27 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
 				'ilObjBibliographicAdminGUI',
-				'ilObjBibliographicAdminLibrariesGUI'
+				'ilObjBibliographicAdminLibrariesGUI',
 			), 'view'));
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
 		}
+	}
+
+
+	/**
+	 * @return \ilTabsGUI
+	 */
+	public function getTabsGui() {
+		return $this->tabs_gui;
+	}
+
+
+	/**
+	 * @param \ilTabsGUI $tabs_gui
+	 */
+	public function setTabsGui($tabs_gui) {
+		$this->tabs_gui = $tabs_gui;
 	}
 }

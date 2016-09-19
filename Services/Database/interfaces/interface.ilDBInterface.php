@@ -687,7 +687,7 @@ interface ilDBPdoInterface {
 	 * @param string $engine
 	 * @return array of failed tables
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB);
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB);
 
 
 	/**
@@ -794,4 +794,12 @@ interface ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function autoExecute($tablename, $fields, $mode = ilDBConstants::MDB2_AUTOQUERY_INSERT, $where = false);
+
+
+	/**
+	 * returns the Version of the Database (e.g. MySQL 5.6)
+	 *
+	 * @return string
+	 */
+	public function getDBVersion();
 }

@@ -3,7 +3,13 @@
 == Requirements ==
 
   NodeJs
-    It is required that NodeJs is installed on the host machine
+    It is required that NodeJs is installed on the host machine.
+    The chatserver is tested and runs with the following versions of NodeJs:
+    * v0.10.24
+    * v0.12.04
+    * v0.12.10
+    * 4.5.0 (LTS)
+    * 6.5.0
 
   Https
     For https using highly secured TLS it is required to have NodeJS >= 0.12.04 installed on the host machine.
@@ -51,6 +57,12 @@ After you made changes, the chatserver must be restarted.
 
   The port to be bound to the chatserver
 
+==== Sub-Directory ====
+  Example: /[PATH]/[TO]/[CHAT]
+
+  There may be some configurations, where the URL to the Chatserver will be defined as http(s)://[IP/DOMAIN]/[PATH]/[TO]/[CHAT].
+  Because of some technical requirements, it is important to define the relative path in this option.
+
 ==== Protocol ====
   HTTP: chatserver opens an unencrypted http socket
 
@@ -76,7 +88,9 @@ After you made changes, the chatserver must be restarted.
     By default the ilias uses the IP-Address/FQN on which the chatserver is listening. There may be some configurations
     where the chatserver is only accessible through a proxy server. For this you can enable the proxy use and deliver
     another URL which is used to connect ILIAS with the Chatserver.
-    Note: Please do not insert the protocol to url definition
+    Note: It is possible to define the URL with or without a protocol definition. If the URL contains a protocol definition, it
+    will be used as defined. If the URL does not contain any protocol definition, the protocol definition of the protocol setting
+    will be prepended to the URL
 
     Example: proxy.domain.com:8080
 
@@ -84,7 +98,9 @@ After you made changes, the chatserver must be restarted.
     By default the client uses the IP-Address/FQN on which the chatserver is listening. There may be some configurations
     where the chatserver is only accessible through a proxy server. For this you can enable the proxy use and deliver
     another URL which is used to connect the client with the Chatserver.
-    Note: Please do not insert the protocol to url definition
+    Note: It is possible to define the URL with or without a protocol definition. If the URL contains a protocol definition, it
+    will be used as defined. If the URL does not contain any protocol definition, the protocol definition of the protocol setting
+    will be prepended to the URL
 
 	Example: proxy.domain.com:8081
 

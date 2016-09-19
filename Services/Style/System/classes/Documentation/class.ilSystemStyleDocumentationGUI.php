@@ -69,18 +69,27 @@ class ilSystemStyleDocumentationGUI
 
 	public function show(){
 		$entries = $this->readEntries();
-		$toolbar = new ilToolbarGUI();
-		$reload_btn = ilLinkButton::getInstance();
-		$reload_btn->setCaption($this->lng->txt('refresh_entries'),false);
-		if($_GET["node_id"]){
-			$this->ctrl->saveParameter($this,"node_id");
+		$content = "";
+
+		//The button to parse the entries from code should only be shown in DEVMODE. Other users do not need that.
+		if(DEVMODE == 1){
+			$toolbar = new ilToolbarGUI();
+			$reload_btn = ilLinkButton::getInstance();
+			$reload_btn->setCaption($this->lng->txt('refresh_entries'),false);
+			if($_GET["node_id"]){
+				$this->ctrl->saveParameter($this,"node_id");
+			}
+			$reload_btn->setUrl($this->ctrl->getLinkTarget($this, 'parseEntries'));
+			$toolbar->addButtonInstance($reload_btn);
+			$content .= $toolbar->getHTML();
 		}
-		$reload_btn->setUrl($this->ctrl->getLinkTarget($this, 'parseEntries'));
-		$toolbar->addButtonInstance($reload_btn);
+
 		$explorer = new ilKSDocumentationExplorerGUI($this, "entries", $entries, $_GET["node_id"]);
 		$this->tpl->setLeftNavContent($explorer->getHTML());
 		$entry_gui = new ilKSDocumentationEntryGUI($this,$explorer->getCurrentOpenedNode(), $entries);
-		$this->tpl->setContent($toolbar->getHTML().$entry_gui->renderEntry());
+		$content .= $entry_gui->renderEntry();
+
+		$this->tpl->setContent($content);
 	}
 
 	/**

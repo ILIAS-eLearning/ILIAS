@@ -11,13 +11,18 @@ module.exports = function SetupServer(callback) {
 	var options = _generateOptions(serverConfig);
 	var protocol = require(serverConfig.protocol);
 	var server = null;
+	var path = '/socket.io';
+
+	if(serverConfig.hasOwnProperty('sub_directory')) {
+		path = serverConfig.sub_directory + path;
+	}
 
 	if(serverConfig.protocol == 'https') {
 		server = protocol.createServer(options, Container.getApi());
 	} else {
 		server = protocol.createServer(Container.getApi());
 	}
-	var io = SocketIO(server);
+	var io = SocketIO(server, {path: path});
 
 	Container.setServer(server);
 
@@ -33,8 +38,6 @@ module.exports = function SetupServer(callback) {
 		}
 
 		namespace.getIO().on('connect', handler);
-
-
 
 		next();
 	}, function(err) {

@@ -29,10 +29,10 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function getWherePart($search_query)
+	protected function getWherePart(array $search_query)
 	{
 		global $DIC;
-		
+
 		$where  = parent::getWherePart($search_query);
 		$where .= ' AND (ud.usr_id != ' . $DIC->database()->quote($this->getUser()->getId(), 'integer') . ') ';
 

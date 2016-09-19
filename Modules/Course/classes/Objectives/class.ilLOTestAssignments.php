@@ -298,5 +298,27 @@ class ilLOTestAssignments
 			);
 		}
 	}
+	
+	
+	/**
+	 * Get all objectives that are assigned to given test
+	 * @param int $a_test_ref_id
+	 * @return array
+	 */
+	public static function lookupObjectivesForTest($a_test_ref_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$query = 'SELECT objective_id FROM loc_tst_assignments '.
+				'WHERE tst_ref_id = '.$ilDB->quote($a_test_ref_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$res[] =  $row->objective_id;
+		}
+		return $res;
+	}
 }
 ?>

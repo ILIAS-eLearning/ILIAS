@@ -222,29 +222,4 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	{
 		return ilUtil::getDataDir() . "/temp/dl_" . $this->task->getId();
 	}	
-	
-	
-	
-	//
-	// helper
-	//
-
-	/**
-	 * Makes the specified string safe for JSON
-	 *
-	 * @param string $a_text 
-	 * @return string
-	 */
-	protected function jsonSafeString($a_text)
-	{
-		if(!is_string($a_text)) 
-		{
-			return $a_text;
-		}
-
-		$a_text = htmlentities($a_text, ENT_COMPAT | ENT_HTML401, "UTF-8");
-		$a_text = str_replace("'", "&#039;", $a_text);
-
-		return $a_text;
-	}		
 }
