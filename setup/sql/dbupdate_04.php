@@ -17815,4 +17815,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilDB->addPrimaryKey('glo_glossaries', array('id', 'glo_id'));
 ?>
-
+<#5047>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
