@@ -67,10 +67,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'ilmanualassessmentmembersgui':
-				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
-				$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
-				$this->ctrl->forwardCommand($gui);
+				$this->membersObject();
 				break;
 			case 'ilinfoscreengui':
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
@@ -90,9 +87,18 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 											$this->usr->getId());
 				$this->ctrl->forwardCommand($learning_progress);
 				break;
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
+					if($this->object->access_handler->checkAccessToObj($this->object, 'edit_members')) {
+						$this->ctrl->setCmdClass('ilmanualassessmentmembersgui');
+						$cmd = 'members';
+					}
 				}
 				$cmd .= 'Object';
 				$this->$cmd();
@@ -107,11 +113,18 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function viewObject() {
 		$this->tabs_gui->setTabActive(self::TAB_INFO);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
-		$cmd = $this->ctrl->getCmd();
 		$this->ctrl->setCmd('showSummary');
 		$this->ctrl->setCmdClass('ilinfoscreengui');
 		$info = $this->buildInfoScreen();
 		$this->ctrl->forwardCommand($info);
+	}
+
+	public function membersObject() {
+		$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+		require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
+		$this->ctrl->setCmd('view');
+		$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
+		$this->ctrl->forwardCommand($gui);
 	}
 
 	protected function buildInfoScreen() {

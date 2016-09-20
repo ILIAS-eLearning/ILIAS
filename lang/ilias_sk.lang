@@ -10035,7 +10035,7 @@ trac#:#trac_reached_visits#:#Požadované návštěvy
 trac#:#trac_read_count#:#Počet přístupů###16 07 2010 new variable
 trac#:#trac_refresh#:#Obnovit
 trac#:#trac_registered#:#Registrován(a)
-trac#:#trac_repository_changes#:#Změny v úložišti
+trac#:#trac_show_repository_views#:#Změny v úložišti
 trac#:#trac_required_visits#:#Počet požadovaných návštěv
 trac#:#trac_sahs_relevant_items#:#Obsahuje položky
 trac#:#trac_select_area#:#Vybrat oblast

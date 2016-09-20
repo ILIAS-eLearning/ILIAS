@@ -98,6 +98,7 @@ class ilManualAssessmentMembersTableGUI extends ilTable2GUI {
 
 	protected function buildActionDropDown($a_set) {
 		$l = new ilAdvancedSelectionListGUI();
+		$l->setListTitle($this->lng->txt("actions"));
 
 		$this->ctrl->setParameterByClass('ilManualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
 		$edited_by_other = $this->setWasEditedByOtherUser($a_set);
