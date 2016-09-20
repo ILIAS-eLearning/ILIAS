@@ -11600,7 +11600,8 @@ trac#:#trac_registered#:#Angemeldet
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen
 trac#:#trac_report_date#:#Datum des Reports
 trac#:#trac_report_owner#:#Ersteller des Reports
-trac#:#trac_repository_changes#:#Änderungen im Magazin
+trac#:#trac_show_repository_views#:#Anzahl Zugriffe anzeigen
+trac#:#trac_show_repository_views_info#:#Wenn eingeschaltet werden die Anzahl Zugriffe auf der Info-Seite angezeigt.
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
 trac#:#trac_sahs_relevant_items#:#SCOs
 trac#:#trac_scale#:#Skala
