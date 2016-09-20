@@ -90,6 +90,11 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 											$this->usr->getId());
 				$this->ctrl->forwardCommand($learning_progress);
 				break;
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
