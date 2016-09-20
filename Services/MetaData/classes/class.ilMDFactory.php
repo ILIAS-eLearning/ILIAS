@@ -38,7 +38,7 @@ class ilMDFactory
 	 *
 	 * @return MD object
 	 */
-	function &_getInstance($a_type,$a_index,$a_technical_id = 0)
+	public static function _getInstance($a_type,$a_index,$a_technical_id = 0)
 	{
 		switch($a_type)
 		{
