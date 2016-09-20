@@ -1,151 +1,233 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
-// @deprecated
-define('DEFAULT_TIMEOUT',5);
-// @deprecated
-define('DEFAULT_RESPONSE_TIMEOUT',30);
-
-include_once './webservice/soap/lib/nusoap.php';
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
-* Wrapper class for NuSOAP soap_client
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @package ilias
-*/
+ * Wrapper class for soap_client
+ * Extends built-in soap client and offers time (connect, response) settings
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ *
+ * @package ilias
+ */
 class ilSoapClient
 {
 	const DEFAULT_CONNECT_TIMEOUT = 10;
 	const DEFAULT_RESPONSE_TIMEOUT = 5;
 
-	var $server = '';
-	var $timeout = null;
-	var $response_timeout = null;
-	var $use_wsdl = true;
-
-	function __construct($a_server = '')
+	/**
+	 * @var ilLogger
+	 */
+	private $log = null;
+	
+	/**
+	 * @var SoapClient
+	 */
+	private $client = null;
+	
+	private $uri;
+	
+	private $connect_timeout = 10;
+	private $response_timeout = 10;
+	
+	private $stored_socket_timeout = null;
+	
+	
+	/**
+	 * @param string $a_uri
+	 */
+	public function __construct($a_uri = '')
 	{
+		global $ilSetting;
+		
 		$this->log = ilLoggerFactory::getLogger('wsrv');
 
-		$this->__setServer($a_server);
-	}
+		$this->uri = $a_uri;
 
-	function __setServer($a_server)
-	{
-		global $ilSetting; 
-		
-		if(strlen($a_server))
+		$this->use_wsdl = true;
+		$timeout = $ilSetting->get('soap_connect_timeout',self::DEFAULT_CONNECT_TIMEOUT);
+		if(!$timeout)
 		{
-			return $this->server = $a_server;
-		}		
-		
-		if(strlen(trim($ilSetting->get('soap_wsdl_path'))))
-		{
-			return $this->server = trim($ilSetting->get('soap_wsdl_path'));
+			$timeout = self::DEFAULT_CONNECT_TIMEOUT;
 		}
-
-		$this->setTimeout($ilSetting->get('soap_connect_timeout', self::DEFAULT_CONNECT_TIMEOUT));
+		$this->connect_timeout = $timeout;
 		
-		$this->server = ilUtil::_getHttpPath().'/webservice/soap/server.php?wsdl';
-	}
-
-	function getServer()
-	{
-		return $this->server;
+		$this->response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
 	}
 	
-	function setTimeout($a_timeout)
+	/**
+	 * Get server uri
+	 * @return string
+	 */
+	public function getServer()
 	{
-		$this->timeout = $a_timeout;
+		return $this->uri;
 	}
-	function getTimeout()
+	
+	/**
+	 * Set connect timeout
+	 * @param int $a_timeout
+	 */
+	public function setTimeout($a_timeout)
 	{
-		return $this->timeout ? $this->timeout : self::DEFAULT_CONNECT_TIMEOUT;
+		$this->connect_timeout = $a_timeout;
 	}
-
-	function setResponseTimeout($a_timeout)
+	
+	/**
+	 * Get connect timeout
+	 * @return int
+	 */
+	public function getTimeout()
+	{
+		return $this->connect_timeout;
+	}
+	
+	/**
+	 * Set response timeout
+	 * @param type $a_timeout
+	 */
+	public function setResponseTimeout($a_timeout)
 	{
 		$this->response_timeout = $a_timeout;
 	}
-	function getResponseTimeout()
+	
+	/**
+	 * Get response timeout
+	 */
+	public function getResponseTimeout()
 	{
 		return $this->response_timeout;
 	}
-
-	function enableWSDL($a_status)
+	
+	/**
+	 * enable wsdl mode
+	 * @param type $a_stat
+	 */
+	public function enableWSDL($a_stat)
 	{
-		$this->use_wsdl = (bool) $a_status;
+		$this->use_wsdl = $a_stat;
 	}
-	function enabledWSDL()
+	
+	/**
+	 * Check if wsdl is enabled
+	 * @return type
+	 */
+	public function enabledWSDL()
 	{
-		return (bool) $this->use_wsdl;
+		return $this->use_wsdl;
 	}
+	
 
-	function init()
+	/**
+	 * Init soap client
+	 */
+	public function init()
 	{
-		$this->client = new nusoap_client($this->getServer(),
-										$this->enabledWSDL(),
-										false, // no proxy support in the moment
-										false,
-										false,
-										false,
-										$this->getTimeout(),
-										$this->getResponseTimeout());
+		global $ilSetting;
 		
-		if($error = $this->client->getError())
+		if(!strlen(trim($this->getServer())))
 		{
-			if(stristr($error, 'socket read of headers') === FALSE)
+			if(strlen(trim($ilSetting->get('soap_wsdl_path',''))))
 			{
-				$this->log->debug('Error calling soap server: '. $this->getServer().' ERROR: '. $error);
+				$this->uri = $ilSetting->get('soap_wsdl_path','');
 			}
+			else
+			{
+				$this->uri = ilUtil::_getHttpPath().'/webservice/soap/server.php?wsdl';
+			}
+		}
+		if(strlen)
+		
+		try {
+			
+			$this->log->debug('Using wsdl: ' . $this->getServer());
+			$this->log->debug('Using connection timeout: ' . $this->getTimeout());
+			$this->log->debug('Using response timeout: ' . $this->getResponseTimeout());
+			
+			$this->setSocketTimeout(true);
+			$this->client = new SoapClient(
+				$this->uri,
+				array(
+					'exceptions' => true,
+					'trace' => 1,
+					'connection_timeout' => (int) $this->getTimeout()
+				)
+			);
+			return true;
+		} 
+		catch (SoapFault $ex) {
+			
+			$this->log->warning('Soap init failed with message: ' . $ex->getMessage());
+			$this->resetSocketTimeout();
 			return false;
+		}
+		finally {
+			$this->resetSocketTimeout();
+		}
+	}
+	
+	/**
+	 * Set socket timeout
+	 * @return boolean
+	 */
+	protected function setSocketTimeout($a_wsdl_mode)
+	{
+		$this->stored_socket_timeout = ini_get('default_socket_timeout');
+		$this->log->debug('Default socket timeout is: ' . $this->stored_socket_timeout);
+		
+		if($a_wsdl_mode)
+		{
+			$this->log->debug('WSDL mode, using socket timeout: ' . $this->getTimeout());
+			ini_set('default_socket_timeout', $this->getTimeout());
+		}
+		else
+		{
+			$this->log->debug('Non WSDL mode, using socket timeout: ' . $this->getResponseTimeout());
+			ini_set('default_socket_timeout', $this->getResponseTimeout());
 		}
 		return true;
 	}
-
-	function &call($a_operation,$a_params)
+	
+	/**
+	 * Reset socket default timeout to defaults 
+	 * @return boolean
+	 */
+	protected function resetSocketTimeout()
 	{
-		$res = $this->client->call($a_operation,$a_params);
+		ini_set('default_socket_timeout', $this->stored_socket_timeout);
+		$this->log->debug('Restoring default socket timeout to: ' . $this->stored_socket_timeout);
+		return true;
+	}
+	
+	/**
+	 * Call webservice method
+	 * @param string $a_operation
+	 * @param array $a_params
+	 */
+	public function call($a_operation, $a_params)
+	{
+		$this->log->debug('Calling webseervice: ' . $a_operations);
 
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->request);
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->response);
-
-		if($error = $this->client->getError())
-		{
-			if(stristr($error, 'socket read of headers') === FALSE)
-			{
-				$this->log->debug($this->client->request);
-				$this->log->debug($this->client->response);
-				$this->log->info('Error calling soap server: '. $this->getServer().' ERROR: '. $error);
-			}
+		$this->setSocketTimeout(false);
+		try {
+			return $this->client->__call($a_operation, $a_params);
+		} 
+		catch(SoapFault $exception) {
+			$this->log->error('Calling webservice failed with message: ' . $exception->getMessage());
+			$this->log->debug($this->client->__getLastResponseHeaders());
+			$this->log->debug($this->client->__getLastResponse());
+			return false;
 		}
-
-		return $res;
-		// Todo cannot check errors here since it's not possible to distinguish between 'timeout' and other errors.
+		catch(Exception $exception)
+		{
+			$this->log->error('Caught unknown exception with message: '. $exception->getMessage());
+			$this->log->debug($this->client->__getLastResponseHeaders());
+			$this->log->debug($this->client->__getLastResponse());
+		}
+		finally {
+			$this->resetSocketTimeout();
+		}
 	}
 }
 ?>
