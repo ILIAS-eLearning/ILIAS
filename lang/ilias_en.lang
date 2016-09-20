@@ -9698,7 +9698,8 @@ trac#:#trac_reached_points#:#Achieved Score
 trac#:#trac_reached_visits#:#Required Visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
-trac#:#trac_repository_changes#:#Changes in the repository
+trac#:#trac_show_repository_views#:#Show Tracking Information
+trac#:#trac_show_repository_views_info#:#Show tracking information for repository objects on info page.
 trac#:#trac_required_visits#:#Number of Required Visits
 trac#:#trac_sahs_relevant_items#:#Content Items
 trac#:#trac_select_area#:#Select Area
@@ -16304,6 +16305,7 @@ mass#:#mass_edit_info#:#Info Settings
 mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
 mass#:#mass_contact_info#:#Contactinformation
+mass#:#mass_added#:#Manual Assessment addedd
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).

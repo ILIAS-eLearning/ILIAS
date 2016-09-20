@@ -34,10 +34,16 @@ class ilManualAssessmentMemberGUI {
 			$this->examiner = $DIC['ilUser'];
 			$this->setTabs($DIC['ilTabs']);
 			$this->member = $this->object->membersStorage()
-								->loadMember($this->object,$this->examinee);
+								->loadMember($this->object, $this->examinee);
 	}
 
 	public function executeCommand() {
+		$edited_by_other = $this->targetWasEditedByOtherUser($this->member);
+		$read_permission = $this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress');
+		$edit_permission = $this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress');
+		if(!$read_permission && !$edit_permission) {
+			$a_parent_gui->handleAccessViolation();
+		}
 		$this->maybeShowWarningLPInactive();
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
@@ -45,13 +51,12 @@ class ilManualAssessmentMemberGUI {
 			case 'save':
 			case 'finalize':
 			case 'finalizeConfirmation':
-				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_learning_progress')) {
+				if($edited_by_other || !$edit_permission) {
 					$a_parent_gui->handleAccessViolation();
 				}
 				break;
 			case 'view':
-				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'read_learning_progress') 
-					&& (string)$this->examiner->getId() !== (string)$member->examinerId()) {
+				if(($edited_by_other || !$edit_permission) && !$read_permission) {
 					$a_parent_gui->handleAccessViolation();
 				}
 				break;
@@ -93,9 +98,6 @@ class ilManualAssessmentMemberGUI {
 			if($form->checkInput()) {
 				$member = $this->updateDataInMemberByArray($this->member,$_POST);
 				if($member->mayBeFinalized()) {
-					if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-						$a_parent_gui->handleAccessViolation();
-					}
 					include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 					$confirm = new ilConfirmationGUI();
 					$confirm->addHiddenItem('record', $_POST['record']);
@@ -144,7 +146,7 @@ class ilManualAssessmentMemberGUI {
 	}
 
 	protected function mayBeEdited() {
-		return !$this->member->finalized();
+		return !$this->member->finalized() && !$this->targetWasEditedByOtherUser($this->member);
 	}
 
 	protected function  edit() {
@@ -216,8 +218,8 @@ class ilManualAssessmentMemberGUI {
 		$learning_progress = new ilSelectInputGUI($this->lng->txt('grading'),'learning_progress');
 		$learning_progress->setOptions(
 			array(ilManualAssessmentMembers::LP_IN_PROGRESS => $this->lng->txt('mass_status_pending')
-				, ilManualAssessmentMembers::LP_FAILED => $this->lng->txt('mass_status_failed')
-				, ilManualAssessmentMembers::LP_COMPLETED => $this->lng->txt('mass_status_completed')));
+				, ilManualAssessmentMembers::LP_COMPLETED => $this->lng->txt('mass_status_completed')
+				, ilManualAssessmentMembers::LP_FAILED => $this->lng->txt('mass_status_failed')));
 		$learning_progress->setDisabled(!$may_be_edited);
 		$form->addItem($learning_progress);
 
@@ -246,5 +248,10 @@ class ilManualAssessmentMemberGUI {
 			, 'learning_progress' => (int)$member->LPStatus()
 			));
 		return $a_form;
+	}
+
+	protected function targetWasEditedByOtherUser(ilManualAssessmentMember $member) {
+		return (int)$member->examinerId() !== (int)$this->examiner->getId()
+				&& 0 !== (int)$member->examinerId();
 	}
 }

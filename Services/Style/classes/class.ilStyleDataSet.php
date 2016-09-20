@@ -27,6 +27,25 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
 class ilStyleDataSet extends ilDataSet
 {
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
+	 * constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		$this->log = ilLoggerFactory::getLogger('styl');
+		$this->log->debug("constructed");
+	}
+
+
+	/**
 	 * Get supported versions
 	 *
 	 * @return string version
@@ -401,6 +420,7 @@ class ilStyleDataSet extends ilDataSet
 		{
 			case "sty":
 				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+				$this->log->debug("Entity: ".$a_entity);
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -418,6 +438,7 @@ class ilStyleDataSet extends ilDataSet
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Services/Style", "sty", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
+				$this->log->debug("Added mapping Services/Style sty  ".$a_rec["Id"]." > ".$newObj->getId());
 
 				$dir = str_replace("..", "", $a_rec["ImagesDir"]);
 				if ($dir != "" && $this->getImportDirectory() != "")
