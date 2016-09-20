@@ -6308,11 +6308,11 @@ button.close {
 .il-card .caption:first-child {
   border-top: none;
 }
-.il-deck {
+.il-deck .row {
   margin-left: 0;
   margin-right: 0;
 }
-.il-deck > div {
+.il-deck .row > div {
   padding-left: 5px;
   padding-right: 5px;
 }
