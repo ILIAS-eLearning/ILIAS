@@ -277,6 +277,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 							}
 							$ltarget = "ilContObj".$lm_id;
 						}
+						if ($lm_id == "")
+						{
+							$href = "";
+						}
 						break;
 
 					case "GlossaryItem":
@@ -300,11 +304,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$ltarget = $t_frame;
 						break;
 				}
-				
-				$anc_par = 'Anchor="'.$anc.'"';
-				
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+
+				if ($href != "")
+				{
+					$anc_par = 'Anchor="' . $anc . '"';
+					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+				}
 			}
 		}
 		$link_info.= "</IntLinkInfos>";

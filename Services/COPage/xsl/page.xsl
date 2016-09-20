@@ -1315,6 +1315,9 @@
 
 <!-- IntLink -->
 <xsl:template match="IntLink">
+	<xsl:variable name="target" select="@Target"/>
+	<xsl:variable name="type" select="@Type"/>
+	<xsl:variable name="anchor" select="@Anchor"/>
 	<xsl:variable name="targetframe">
 		<xsl:choose>
 			<xsl:when test="@TargetFrame">
@@ -1332,9 +1335,6 @@
 		</xsl:when>
 		<!-- initial opened content -->
 		<xsl:when test="name(..) = 'InitOpenedContent'">
-			<xsl:variable name="target" select="@Target"/>
-			<xsl:variable name="type" select="@Type"/>
-			<xsl:variable name="anchor" select="@Anchor"/>
 			<xsl:variable name="link_href">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
@@ -1350,16 +1350,24 @@
 		<!-- all internal links except inline mob vris -->
 		<xsl:when test="((@Type != 'MediaObject' or @TargetFrame) and @Type != 'User')">
 			<xsl:if test="$mode != 'print'">
-				<a class="ilc_link_IntLink">
-					<xsl:call-template name="SetIntLinkAttributes"><xsl:with-param name="targetframe"><xsl:value-of select="$targetframe"/></xsl:with-param></xsl:call-template>
-					<xsl:if test="@Type = 'File'">
-						<xsl:attribute name="class">ilc_link_FileLink</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@Type = 'GlossaryItem'">
-						<xsl:attribute name="class">ilc_link_GlossaryLink</xsl:attribute>
-					</xsl:if>
-					<xsl:apply-templates/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref">
+						<a class="ilc_link_IntLink">
+							<xsl:call-template name="SetIntLinkAttributes"><xsl:with-param name="targetframe"><xsl:value-of select="$targetframe"/></xsl:with-param></xsl:call-template>
+							<xsl:if test="@Type = 'File'">
+								<xsl:attribute name="class">ilc_link_FileLink</xsl:attribute>
+							</xsl:if>
+							<xsl:if test="@Type = 'GlossaryItem'">
+								<xsl:attribute name="class">ilc_link_GlossaryLink</xsl:attribute>
+							</xsl:if>
+							<xsl:apply-templates/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="$mode = 'edit'">[Link Target Not Found] </xsl:if>
+						<xsl:apply-templates/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:if>
 			<xsl:if test="$mode = 'print'">
 				<span class="ilc_Print_IntLink">

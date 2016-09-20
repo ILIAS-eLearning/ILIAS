@@ -2470,6 +2470,10 @@ return;
 						{
 							$href = "./goto.php?target=st_".$target_id;
 						}
+						if ($lm_id == "")
+						{
+							$href = "";
+						}
 						break;
 
 					case "GlossaryItem":
@@ -2519,9 +2523,12 @@ return;
 						break;
 
 				}
-				$anc_par = 'Anchor="'.$anc.'"';
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".$anc_par." ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
+				if ($href != "")
+				{
+					$anc_par = 'Anchor="' . $anc . '"';
+					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " . $anc_par . " " .
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
+				}
 			}
 		}
 		$link_info.= "</IntLinkInfos>";

@@ -1549,7 +1549,7 @@ class ilLMPresentationGUI
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$link_xml.= $this->getLinkTargetsXML();
-//echo htmlentities($link_xml);
+
 		// get lm page object
 		$lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
@@ -1871,6 +1871,10 @@ class ilLMPresentationGUI
 							$href =
 								$this->getLink($_GET["ref_id"], "layout", $target_id, $nframe, $type,
 									"append", $anc);
+							if ($lm_id == "")
+							{
+								$href = "";
+							}
 						}
 						else
 						{
@@ -1960,8 +1964,11 @@ class ilLMPresentationGUI
 				
 				$anc_par = 'Anchor="'.$anc.'"';
 
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+				if ($href != "")
+				{
+					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+				}
 
 				// set equal link info for glossary links of target "None" and "Glossary"
 				/*
