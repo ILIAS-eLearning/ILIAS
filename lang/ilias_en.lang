@@ -9698,7 +9698,8 @@ trac#:#trac_reached_points#:#Achieved Score
 trac#:#trac_reached_visits#:#Required Visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
-trac#:#trac_repository_changes#:#Changes in the repository
+trac#:#trac_show_repository_views#:#Show Tracking Information
+trac#:#trac_show_repository_views_info#:#Show tracking information for repository objects on info page.
 trac#:#trac_required_visits#:#Number of Required Visits
 trac#:#trac_sahs_relevant_items#:#Content Items
 trac#:#trac_select_area#:#Select Area

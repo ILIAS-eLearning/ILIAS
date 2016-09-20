@@ -7424,7 +7424,7 @@ cntr#:#cntr_view_info_by_type#:#Kursusmaterialet grupperes efter hvilken resurse
 cntr#:#cntr_view_simple#:#Simpel
 cntr#:#cntr_view_by_type#:#Gruper-efter-type
 trac#:#trac_user_activities#:#Brugeraktiviteter
-trac#:#trac_repository_changes#:#Ændringer i oversigten
+trac#:#trac_show_repository_views#:#Ændringer i oversigten
 common#:#webdav_pear_auth_http_needed#:#Det er nødvendigt du installerer Pear Auth_HTTP for at bruge denne funktion. For at gøre dette skal du taste <code>pear install Auth_HTTP</code> i din terminal. Hvis du ikke ved hvad du laver, så lad være.
 dateplaner#:#cal_table_categories#:#Kalenderudvalg
 dateplaner#:#cal_type_usr#:#Personlig kalender

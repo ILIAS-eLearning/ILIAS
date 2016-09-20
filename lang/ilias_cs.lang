@@ -13801,7 +13801,7 @@ trac#:#trac_registered#:#Registrován(a)
 trac#:#trac_release_materials#:#Dezintegrovat skupinu materiálů
 trac#:#trac_report_date#:#Datum zprávy
 trac#:#trac_report_owner#:#Vlastník zprávy
-trac#:#trac_repository_changes#:#Změny v úložišti
+trac#:#trac_show_repository_views#:#Změny v úložišti
 trac#:#trac_required_visits#:#Počet požadovaných návštěv
 trac#:#trac_sahs_relevant_items#:#Obsahuje položky
 trac#:#trac_scale#:#Scale
