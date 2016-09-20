@@ -97,7 +97,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				break;
 			default:
 				if(!$cmd) {
-					$cmd = 'view';
+					$cmd = $this->object->access_handler->checkAccessToObj($this->object, 'edit_members') ? 'members' : 'view';
 				}
 				$cmd .= 'Object';
 				$this->$cmd();
@@ -112,11 +112,19 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function viewObject() {
 		$this->tabs_gui->setTabActive(self::TAB_INFO);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
-		$cmd = $this->ctrl->getCmd();
 		$this->ctrl->setCmd('showSummary');
 		$this->ctrl->setCmdClass('ilinfoscreengui');
 		$info = $this->buildInfoScreen();
 		$this->ctrl->forwardCommand($info);
+	}
+
+	public function membersObject() {
+		$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+		require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
+		$this->ctrl->setCmd('view');
+		$this->ctrl->setCmdClass('ilmanualassessmentmembersgui');
+		$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
+		$this->ctrl->forwardCommand($gui);
 	}
 
 	protected function buildInfoScreen() {
