@@ -838,7 +838,7 @@ echo htmlentities($a_text);*/
 		}
 
 		// user
-		while (preg_match('~\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."user$ws=$ws(\"([^\"])*)\")$ws)/\]~i', $a_text, $found))
+		while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."user$ws=$ws(\"([^\"])*)\")$ws)/\]~i", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
