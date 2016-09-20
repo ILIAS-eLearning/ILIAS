@@ -95,6 +95,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$lng = $DIC['lng'];
 		$ilLog = $DIC['ilLog'];
 		$ilias = $DIC['ilias'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->ref_id = $a_ref_id;
 		$this->tpl = $tpl;
@@ -106,6 +107,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$this->log = $ilLog;
 		$this->ilias = $ilias;
 		$this->lng = $lng;
+		$this->ilSetting = $ilSetting;
 		$this->modal_id = "tree_modal";
 		$this->async_output_handler = new ilAsyncOutputHandler();
 
@@ -365,8 +367,10 @@ class ilObjStudyProgrammeTreeGUI {
 				$added_slides++;
 			}
 
-			// only allow adding new LP-Children if there are no other StudyProgrammes
-			if(!$parent->hasChildren()) {
+			/* only allow adding new LP-Children if there are no other StudyProgrammes
+			 * AND creating crs references is activated in administration
+			 */
+			if(!$parent->hasChildren() && $this->ilSetting->get("obj_dis_creation_crsr") === "") {
 				$content_new_leaf = $this->tpl->getMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
 				$content_new_leaf .= $this->getContainerSelectionExplorer();
 
