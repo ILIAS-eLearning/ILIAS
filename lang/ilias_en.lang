@@ -12412,6 +12412,7 @@ registration#:#reg_allowed_domains#:#Allowed Email Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
+pd#:#block_show_pdsysmess#:#Show System Messages
 pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdusers#:#Show Active Users
