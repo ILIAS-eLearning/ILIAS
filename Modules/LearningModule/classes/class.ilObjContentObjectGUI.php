@@ -3079,8 +3079,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function editMenuEntry()
 	{
-		global $ilToolbar, $ilCtrl;
-		
+		global $ilToolbar, $ilCtrl, $ilTabs;
+
+		$this->setTabs();
+
+		$ilTabs->setTabActive("settings");
+		$this->setSubTabs("cont_lm_menu");
+
+
 		if (empty($_GET["menu_entry"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
