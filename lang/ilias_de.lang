@@ -16243,7 +16243,7 @@ mass#:#mass_record#:#Prüfungsnotiz
 mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
 mass#:#mass_status_completed#:#bestanden
 mass#:#mass_status_failed#:#nicht bestanden
-mass#:#mass_status_pending#:#noch nicht gesetzt
+mass#:#mass_status_pending#:#noch nicht bewertet
 mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
 mass#:#mass_finalize#:#Finalisieren
 mass#:#il_mass_member#:#Mitglied

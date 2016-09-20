@@ -218,8 +218,8 @@ class ilManualAssessmentMemberGUI {
 		$learning_progress = new ilSelectInputGUI($this->lng->txt('grading'),'learning_progress');
 		$learning_progress->setOptions(
 			array(ilManualAssessmentMembers::LP_IN_PROGRESS => $this->lng->txt('mass_status_pending')
-				, ilManualAssessmentMembers::LP_FAILED => $this->lng->txt('mass_status_failed')
-				, ilManualAssessmentMembers::LP_COMPLETED => $this->lng->txt('mass_status_completed')));
+				, ilManualAssessmentMembers::LP_COMPLETED => $this->lng->txt('mass_status_completed')
+				, ilManualAssessmentMembers::LP_FAILED => $this->lng->txt('mass_status_failed')));
 		$learning_progress->setDisabled(!$may_be_edited);
 		$form->addItem($learning_progress);
 
