@@ -38,7 +38,15 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		$this->lng = $DIC['lng'];
 		$this->lng->loadLanguageModule('mass');
 		$this->tpl->getStandardTemplate();
+		$this->locator = $DIC['ilLocator'];
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+	}
+
+	public function addLocatorItems() {
+
+		if (is_object($this->object)) {
+			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "view"), "", $this->object->getRefId());
+		}
 	}
 
 	public function executeCommand() {
