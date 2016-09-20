@@ -1056,7 +1056,7 @@ class ilLMPresentationGUI
 	/**
 	* locator
 	*/
-	function ilLocator()
+	function ilLocator($a_std_templ_loaded = false)
 	{
 		global $ilLocator, $tree, $ilCtrl;
 
@@ -1071,7 +1071,10 @@ class ilLMPresentationGUI
 			$a_id = $_GET["obj_id"];
 		}
 
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		if (!$a_std_templ_loaded)
+		{
+			$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		}
 		
 		if (!$this->lm->cleanFrames())
 		{
@@ -2708,7 +2711,7 @@ class ilLMPresentationGUI
 
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 		$this->tpl->getStandardTemplate();
-		$this->ilLocator();
+		$this->ilLocator(true);
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", true));
@@ -2818,7 +2821,7 @@ class ilLMPresentationGUI
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$this->ilLocator();
+			$this->ilLocator(true);
 		}
 		else
 		{
@@ -2927,7 +2930,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "print", true));
 			
-		$this->ilLocator();
+		$this->ilLocator(true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
 			"tpl.lm_print_selection.html", "Modules/LearningModule");
 
@@ -3755,7 +3758,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "download", true));
 
-		$this->ilLocator();
+		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", "Modules/LearningModule");
 

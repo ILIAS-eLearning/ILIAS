@@ -2120,24 +2120,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 						"", "", $buttonTarget, $active["learning_progress"]);
 			}
 		}
-		
-		// edit learning module
-		if (!$a_offline && $a_cur_page > 0)
-		{
-			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
-			{
-				//$page_id = $this->getCurrentPageId();
-				$page_id = $a_cur_page;
-				$tabs_gui->$addcmd("edit_page", ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"].
-					"&obj_id=".$page_id."&to_page=1",
-					"", "", $buttonTarget, $active["edit_page"]);
-			}
-		}
 
 		// get user defined menu entries
 		$this->__initLMMenuEditor();
 		$entries = $this->lmme_obj->getMenuEntries(true);
-
 		if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			foreach ($entries as $entry)
@@ -2161,6 +2147,19 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$tabs_gui->$addcmd($entry["title"],
 					$entry["link"],
 					"", "", "_blank", "", true);
+			}
+		}
+
+		// edit learning module
+		if (!$a_offline && $a_cur_page > 0)
+		{
+			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+			{
+				//$page_id = $this->getCurrentPageId();
+				$page_id = $a_cur_page;
+				$tabs_gui->$addcmd("edit_page", ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"].
+					"&obj_id=".$page_id."&to_page=1",
+					"", "", $buttonTarget, $active["edit_page"]);
 			}
 		}
 
@@ -3124,6 +3123,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->lmme_obj->readEntry($_REQUEST["menu_entry"]);
 		$this->lmme_obj->setTitle($_POST["title"]);
 		$this->lmme_obj->setTarget($_POST["target"]);
+		if ($_POST["link_ref_id"])
+		{
+			$this->lmme_obj->setLinkType("intern");
+		}
+		if (is_int(strpos($_POST["target"] , ".")))
+		{
+			$this->lmme_obj->setLinkType("extern");
+		}
 		$this->lmme_obj->update();
 
 		ilUtil::sendSuccess($this->lng->txt("msg_entry_updated"), true);
