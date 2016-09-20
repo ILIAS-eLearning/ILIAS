@@ -3812,7 +3812,7 @@ common#:#keywords#:#Schlagwörter
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprachen lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreiben nur Änderungen, die älter sind als Datum der Sprachdatei.
+common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprachen lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreibt nur Änderungen, die älter sind als ihr eigenes Speicherdatum.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
 common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
