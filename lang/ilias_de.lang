@@ -769,7 +769,7 @@ assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
-assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
+assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
@@ -1519,7 +1519,7 @@ assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
-assessment#:#tst_final_information#:#Test abschliessen
+assessment#:#tst_final_information#:#Test abschließen
 assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
@@ -1978,7 +1978,7 @@ blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
-blog#:#blog_finalize_blog#:#Blog abschliessen und abgeben
+blog#:#blog_finalize_blog#:#Blog abschließen und abgeben
 blog#:#blog_finalized#:#Das Blog wurde abgegeben.
 blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
@@ -3147,7 +3147,7 @@ common#:#down#:#Runter
 common#:#download#:#Download
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
-common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
+common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
@@ -4143,7 +4143,7 @@ common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, wohin die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
-common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Weiter-Button.
+common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Weiter-Button.
 common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs oder die Gruppe aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
@@ -6509,7 +6509,7 @@ content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
 content#:#scplayer_debugger#:#Testwerkzeug zeigen
-content#:#scplayer_exit#:#Schliessen
+content#:#scplayer_exit#:#Schließen
 content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
 content#:#scplayer_hidetree#:#Baum verbergen
@@ -6526,7 +6526,7 @@ content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#seq_abandon#:#Die Anfrage wurde durchgeführt.
 content#:#seq_abandonall#:#Die Kurssitzung wurde abgebrochen.
 content#:#seq_blocked#:#Zugriff verweigert.
-content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM-Lernmoduls.
+content#:#seq_close#:#Bitte schließen sie das Fenster des SCORM-Lernmoduls.
 content#:#seq_coursecomplete#:#Der aktuelle Kurs wurde vollständig bearbeitet.
 content#:#seq_deadlock#:#Fehler: Der Sequencer befindet sich in einem Deadlock.
 content#:#seq_endsession#:#Die aktuelle Kurssitzung wurde beendet.
@@ -9404,7 +9404,7 @@ prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
 prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
-prtf#:#prtf_finalize_portfolio#:#Portfolio abschliessen und abgeben
+prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
 prtf#:#prtf_first_page_title#:#Typ der 1. Seite
 prtf#:#prtf_font_color#:#Schriftfarbe
@@ -10360,7 +10360,7 @@ skmg#:#skmg_remove_skills#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
 skmg#:#skmg_save_all_titles#:#Alle Titel speichern
 skmg#:#skmg_save_order#:#Reihenfolge speichern
-skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschliessen
+skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschließen
 skmg#:#skmg_sctp#:#Vorlagenkategorie
 skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen.
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
@@ -13181,12 +13181,12 @@ survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschloss
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_appraisee_info#:#Info über Feedback-Nehmer
 survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
-survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schliessen
+survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
 survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.
 survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzausprägungen werden aktualisiert.
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
-survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schliessen?
+survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
 survey#:#survey_360_appraisee_close_table#:#Geschlossen am
 survey#:#svy_eval_competences#:#Kompetenz-Ergebnisse
 survey#:#svy_gap_analysis#:#Gap-Analyse
@@ -13315,7 +13315,7 @@ assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verf
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#answers_of#:#Antworten von:
 survey#:#survey_360_appraisee_close_action_success_admin#:#Die 360°-Umfragen der Feedback-Nehmer wurden geschlossen.
-survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schliessen?
+survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schließen?
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen

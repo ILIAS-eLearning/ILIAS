@@ -11,7 +11,7 @@
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.8.0",
 		"phpmailer/phpmailer": "^5.2",
-		"phansys/getid3": "^1.9.4",
+		"phansys/getid3": "^2.0.0-BETA1",
 		"geshi/geshi": "dev-master",
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
