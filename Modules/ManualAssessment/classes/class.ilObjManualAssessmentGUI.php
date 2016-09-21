@@ -122,7 +122,6 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function membersObject() {
 		$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 		require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
-		$this->ctrl->setCmd('view');
 		$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
 		$this->ctrl->forwardCommand($gui);
 	}
