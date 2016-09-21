@@ -162,5 +162,22 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 			return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
 		}
 	}
+
+    /**
+     * @access	public
+     * @param	string
+     * @return	boolean	numeric ordering
+     */
+    public function numericOrdering($a_field)
+    {
+        switch($a_field)
+        {
+            case 'workingtime':
+                return true;
+
+            default:
+                return false;
+        }
+    }
 }
 ?>
