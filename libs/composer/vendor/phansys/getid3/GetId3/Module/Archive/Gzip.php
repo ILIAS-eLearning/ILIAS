@@ -1,4 +1,10 @@
 <?php
+
+namespace GetId3\Module\Archive;
+
+use GetId3\Lib\Helper;
+use GetId3\GetId3Core;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -26,7 +32,7 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
+class Gzip
 {
     /**
      * Optional file list - disable for speed.
@@ -40,7 +46,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
      *
      * @return boolean
      */
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
@@ -54,6 +60,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
 
         if ($info['filesize'] > $info['php_memory_limit']) {
             $info['error'][] = 'File is too large (' . number_format($info['filesize']) . ' bytes) to read into memory (limit: ' . number_format($info['php_memory_limit'] / 1048576) . 'MB)';
+
             return false;
         }
         fseek($this->getid3->fp, 0);
@@ -96,7 +103,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             $buff = "\x1F\x8B\x08" . $arr_members[$i];
 
             $attr = unpack($unpack_header, substr($buff, 0, $start_length));
-            $thisInfo['filemtime'] = GetId3_Lib_Helper::LittleEndian2Int($attr['mtime']);
+            $thisInfo['filemtime'] = Helper::LittleEndian2Int($attr['mtime']);
             $thisInfo['raw']['id1'] = ord($attr['cmethod']);
             $thisInfo['raw']['id2'] = ord($attr['cmethod']);
             $thisInfo['raw']['cmethod'] = ord($attr['cmethod']);
@@ -114,6 +121,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             $thisInfo['os'] = $this->get_os_type($thisInfo['raw']['os']);
             if (!$thisInfo['os']) {
                 $info['error'][] = 'Read error on gzip file';
+
                 return false;
             }
 
@@ -125,7 +133,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             //+---+---+=================================+
             if ($thisInfo['flags']['extra']) {
                 $w_xlen = substr($buff, $fpointer, 2);
-                $xlen = GetId3_Lib_Helper::LittleEndian2Int($w_xlen);
+                $xlen = Helper::LittleEndian2Int($w_xlen);
                 $fpointer += 2;
 
                 $thisInfo['raw']['xfield'] = substr($buff, $fpointer, $xlen);
@@ -142,7 +150,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
                     $si2 = ord(substr($buff, $fpointer + $idx++, 1));
                     if (($si1 == 0x41) && ($si2 == 0x70)) {
                         $w_xsublen = substr($buff, $fpointer + $idx, 2);
-                        $xsublen = GetId3_Lib_Helper::LittleEndian2Int($w_xsublen);
+                        $xsublen = Helper::LittleEndian2Int($w_xsublen);
                         $idx += 2;
                         $arr_xsubfield[] = substr($buff, $fpointer + $idx,
                                                   $xsublen);
@@ -190,7 +198,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             //+---+---+
             if ($thisInfo['flags']['crc16']) {
                 $w_crc = substr($buff, $fpointer, 2);
-                $thisInfo['crc16'] = GetId3_Lib_Helper::LittleEndian2Int($w_crc);
+                $thisInfo['crc16'] = Helper::LittleEndian2Int($w_crc);
                 $fpointer += 2;
             }
             // bit 0 - FLG.FTEXT
@@ -199,14 +207,14 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             //}
             // bits 5, 6, 7 - reserved
 
-            $thisInfo['crc32'] = GetId3_Lib_Helper::LittleEndian2Int(substr($buff,
+            $thisInfo['crc32'] = Helper::LittleEndian2Int(substr($buff,
                                                                             strlen($buff) - 8,
                                                                                    4));
-            $thisInfo['filesize'] = GetId3_Lib_Helper::LittleEndian2Int(substr($buff,
+            $thisInfo['filesize'] = Helper::LittleEndian2Int(substr($buff,
                                                                                strlen($buff) - 4));
 
-            $info['gzip']['files'] = GetId3_Lib_Helper::array_merge_clobber($info['gzip']['files'],
-                                                                            GetId3_Lib_Helper::CreateDeepArray($thisInfo['filename'],
+            $info['gzip']['files'] = Helper::array_merge_clobber($info['gzip']['files'],
+                                                                            Helper::CreateDeepArray($thisInfo['filename'],
                                                                                                                '/',
                                                                                                                $thisInfo['filesize']));
 
@@ -227,7 +235,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
 
                     // determine format
                     $formattest = substr($inflated, 0, 32774);
-                    $getid3_temp = new GetId3_GetId3();
+                    $getid3_temp = new GetId3Core();
                     $determined_format = $getid3_temp->GetFileFormat($formattest);
                     unset($getid3_temp);
 
@@ -237,7 +245,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
                         case 'tar':
                             // view TAR-file info
                             if (class_exists($determined_format['class'])) {
-                                if (($temp_tar_filename = tempnam(GetId3_GetId3::getTempDir(),
+                                if (($temp_tar_filename = tempnam(GetId3Core::getTempDir(),
                                                                   'getID3')) === false) {
                                     // can't find anywhere to create a temp file, abort
                                     $info['error'][] = 'Unable to create temp file to parse TAR inside GZIP file';
@@ -247,10 +255,10 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
                                                          'w+b')) {
                                     fwrite($fp_temp_tar, $inflated);
                                     fclose($fp_temp_tar);
-                                    $getid3_temp = new GetId3_GetId3();
+                                    $getid3_temp = new GetId3Core();
                                     $getid3_temp->openfile($temp_tar_filename);
-                                    $getid3_tar = new GetId3_Module_Archive_Tar($getid3_temp);
-                                    $getid3_tar->Analyze();
+                                    $getid3_tar = new Tar($getid3_temp);
+                                    $getid3_tar->analyze();
                                     $info['gzip']['member_header'][$idx]['tar'] = $getid3_temp->info['tar'];
                                     unset($getid3_temp, $getid3_tar);
                                     unlink($temp_tar_filename);
@@ -269,6 +277,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
                 }
             }
         }
+
         return true;
     }
 
@@ -276,7 +285,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
      * Converts the OS type
      *
      * @staticvar array $os_type
-     * @param type $key
+     * @param  type $key
      * @return type
      */
     public function get_os_type($key)
@@ -298,6 +307,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             '13' => 'Acorn RISCOS',
             '255' => 'unknown'
         );
+
         return (isset($os_type[$key]) ? $os_type[$key] : '');
     }
 
@@ -305,7 +315,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
      * Converts the eXtra FLags
      *
      * @staticvar array $xflag_type
-     * @param type $key
+     * @param  type $key
      * @return type
      */
     public function get_xflag_type($key)
@@ -315,6 +325,7 @@ class GetId3_Module_Archive_Gzip extends GetId3_Handler_BaseHandler
             '2' => 'maximum compression',
             '4' => 'fastest algorithm'
         );
+
         return (isset($xflag_type[$key]) ? $xflag_type[$key] : '');
     }
 }

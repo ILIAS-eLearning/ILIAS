@@ -89,7 +89,7 @@ class ImageTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($i));
 
-		$expected = "<img src=\"source\" class=\"img-standard\" alt=\"alt\">";
+		$expected = "<img src=\"source\" class=\"img-standard\" alt=\"alt\" />";
 
 		$this->assertEquals($expected, $html);
 	}
@@ -101,7 +101,7 @@ class ImageTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($i));
 
-		$expected = "<img src=\"source\" class=\"img-responsive\" alt=\"alt\">";
+		$expected = "<img src=\"source\" class=\"img-responsive\" alt=\"alt\" />";
 
 		$this->assertEquals($expected, $html);
 	}

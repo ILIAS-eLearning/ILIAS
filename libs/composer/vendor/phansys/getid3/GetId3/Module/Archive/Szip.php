@@ -1,5 +1,10 @@
 <?php
 
+namespace GetId3\Module\Archive;
+
+use GetId3\Handler\BaseHandler;
+use GetId3\Lib\Helper;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -21,29 +26,30 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_Archive_Szip extends GetId3_Handler_BaseHandler
+class Szip extends BaseHandler
 {
     /**
      *
      * @return boolean
      */
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
         fseek($this->getid3->fp, $info['avdataoffset'], SEEK_SET);
         $SZIPHeader = fread($this->getid3->fp, 6);
         if (substr($SZIPHeader, 0, 4) != "SZ\x0A\x04") {
-            $info['error'][] = 'Expecting "53 5A 0A 04" at offset ' . $info['avdataoffset'] . ', found "' . GetId3_Lib_Helper::PrintHexBytes(substr($SZIPHeader,
+            $info['error'][] = 'Expecting "53 5A 0A 04" at offset ' . $info['avdataoffset'] . ', found "' . Helper::PrintHexBytes(substr($SZIPHeader,
                                                                                                                                                     0,
                                                                                                                                                     4)) . '"';
+
             return false;
         }
         $info['fileformat'] = 'szip';
-        $info['szip']['major_version'] = GetId3_Lib_Helper::BigEndian2Int(substr($SZIPHeader,
+        $info['szip']['major_version'] = Helper::BigEndian2Int(substr($SZIPHeader,
                                                                                  4,
                                                                                  1));
-        $info['szip']['minor_version'] = GetId3_Lib_Helper::BigEndian2Int(substr($SZIPHeader,
+        $info['szip']['minor_version'] = Helper::BigEndian2Int(substr($SZIPHeader,
                                                                                  5,
                                                                                  1));
 
@@ -58,7 +64,7 @@ class GetId3_Module_Archive_Szip extends GetId3_Handler_BaseHandler
                     break;
 
                 case 'BH':
-                    $BHheaderbytes = GetId3_Lib_Helper::BigEndian2Int(fread($this->getid3->fp,
+                    $BHheaderbytes = Helper::BigEndian2Int(fread($this->getid3->fp,
                                                                             3));
                     $BHheaderdata = fread($this->getid3->fp, $BHheaderbytes);
                     $BHheaderoffset = 0;
@@ -90,27 +96,27 @@ class GetId3_Module_Archive_Szip extends GetId3_Handler_BaseHandler
                                                                "\x00"));
                         $BHheaderoffset += (strlen($BHdataArray['group']) + 1);
 
-                        $BHdataArray['filelength'] = GetId3_Lib_Helper::BigEndian2Int(substr($BHheaderdata,
+                        $BHdataArray['filelength'] = Helper::BigEndian2Int(substr($BHheaderdata,
                                                                                              $BHheaderoffset,
                                                                                              3));
                         $BHheaderoffset += 3;
 
-                        $BHdataArray['access_flags'] = GetId3_Lib_Helper::BigEndian2Int(substr($BHheaderdata,
+                        $BHdataArray['access_flags'] = Helper::BigEndian2Int(substr($BHheaderdata,
                                                                                                $BHheaderoffset,
                                                                                                2));
                         $BHheaderoffset += 2;
 
-                        $BHdataArray['creation_time'] = GetId3_Lib_Helper::BigEndian2Int(substr($BHheaderdata,
+                        $BHdataArray['creation_time'] = Helper::BigEndian2Int(substr($BHheaderdata,
                                                                                                 $BHheaderoffset,
                                                                                                 4));
                         $BHheaderoffset += 4;
 
-                        $BHdataArray['modification_time'] = GetId3_Lib_Helper::BigEndian2Int(substr($BHheaderdata,
+                        $BHdataArray['modification_time'] = Helper::BigEndian2Int(substr($BHheaderdata,
                                                                                                     $BHheaderoffset,
                                                                                                     4));
                         $BHheaderoffset += 4;
 
-                        $BHdataArray['access_time'] = GetId3_Lib_Helper::BigEndian2Int(substr($BHheaderdata,
+                        $BHdataArray['access_time'] = Helper::BigEndian2Int(substr($BHheaderdata,
                                                                                               $BHheaderoffset,
                                                                                               4));
                         $BHheaderoffset += 4;

@@ -653,12 +653,12 @@ echo htmlentities($a_text);*/
 
 		// anchor
 		$ws= "[ \t\r\f\v\n]*";
-		while (preg_match('~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i', $a_text, $found))
+		while (preg_match("~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
 		}
-		$a_text = preg_replace('~\[\/anc\]~i', "</Anchor>",$a_text);
+		$a_text = preg_replace("~\[\/anc\]~i", "</Anchor>",$a_text);
 
 		// marked text
 		while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found))
@@ -838,7 +838,7 @@ echo htmlentities($a_text);*/
 		}
 
 		// user
-		while (preg_match('~\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."user$ws=$ws(\"([^\"])*)\")$ws)/\]~i', $a_text, $found))
+		while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."user$ws=$ws(\"([^\"])*)\")$ws)/\]~i", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];

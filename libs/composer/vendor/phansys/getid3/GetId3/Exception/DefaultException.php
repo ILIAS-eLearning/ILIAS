@@ -1,6 +1,8 @@
 <?php
 
-class GetId3_Exception_DefaultException extends Exception
+namespace GetId3\Exception;
+
+class DefaultException extends \Exception
 {
-	public $message;
+    public $message;
 }

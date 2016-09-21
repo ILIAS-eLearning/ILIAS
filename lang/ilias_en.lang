@@ -9698,7 +9698,8 @@ trac#:#trac_reached_points#:#Achieved Score
 trac#:#trac_reached_visits#:#Required Visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
-trac#:#trac_repository_changes#:#Changes in the repository
+trac#:#trac_show_repository_views#:#Show Tracking Information
+trac#:#trac_show_repository_views_info#:#Show tracking information for repository objects on info page.
 trac#:#trac_required_visits#:#Number of Required Visits
 trac#:#trac_sahs_relevant_items#:#Content Items
 trac#:#trac_select_area#:#Select Area
@@ -12412,6 +12413,7 @@ registration#:#reg_allowed_domains#:#Allowed Email Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
+pd#:#block_show_pdsysmess#:#Show System Messages
 pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdusers#:#Show Active Users
@@ -16344,3 +16346,4 @@ chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?

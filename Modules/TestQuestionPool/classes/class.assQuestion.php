@@ -2083,12 +2083,12 @@ abstract class assQuestion
 		}
 	}
 	
-		/**
+	/**
 	* Returns question text
 	*
 	* @param	int		$a_q_id		question id
 	*/
-	function _getQuestionText($a_q_id)
+	static function _getQuestionText($a_q_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT question_text FROM qpl_questions WHERE question_id = %s",

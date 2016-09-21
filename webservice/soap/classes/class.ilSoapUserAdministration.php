@@ -51,11 +51,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $ilUser;
 
 		unset($_COOKIE['PHPSESSID']);
-		ilUtil::setCookie('ilClientId',$client);
-		
+		$_COOKIE['ilClientId'] = $client;
+
 		try
 		{
-			include_once './include/inc.header.php';
+			$this->initIlias();
 		}
 		catch(Exception $e)
 		{
