@@ -13,9 +13,8 @@
 
 die('Due to a security issue, this demo has been disabled. It can be enabled by removing line '.__LINE__.' in '.$_SERVER['PHP_SELF']);
 
-
 // include getID3() library (can be in a different directory if full path is specified)
-require_once('../getid3/getid3.php');
+require_once '../getid3/getid3.php';
 
 // Initialize getID3 engine
 $getID3 = new getID3;
@@ -49,5 +48,3 @@ getid3_lib::CopyTagsToComments($ThisFileInfo);
  if you want to see ALL the output, uncomment this line:
 */
 //echo '<pre>'.htmlentities(print_r($ThisFileInfo, true)).'</pre>';
-
-?>
