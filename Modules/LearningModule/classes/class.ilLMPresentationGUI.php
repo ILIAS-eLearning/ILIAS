@@ -2710,6 +2710,8 @@ class ilLMPresentationGUI
 		}
 
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
+		//var_dump($GLOBALS["tpl"]); echo "<br><br>";
+		//exit;
 		$this->tpl->getStandardTemplate();
 		$this->ilLocator(true);
 		

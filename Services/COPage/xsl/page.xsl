@@ -1386,7 +1386,7 @@
 			</xsl:variable>
 
 			<!-- determine format (mime type) -->
-			<xsl:variable name="type">
+			<xsl:variable name="mtype">
 				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/>
 			</xsl:variable>
 
@@ -1415,7 +1415,7 @@
 
 			<xsl:call-template name="MOBTag">
 				<xsl:with-param name="data" select="$data" />
-				<xsl:with-param name="type" select="$type" />
+				<xsl:with-param name="type" select="$mtype" />
 				<xsl:with-param name="width" select="$width" />
 				<xsl:with-param name="height" select="$height" />
 				<xsl:with-param name="curPurpose" >Standard</xsl:with-param>
