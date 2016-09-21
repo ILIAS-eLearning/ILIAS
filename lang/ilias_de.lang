@@ -730,7 +730,7 @@ assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
-assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
+assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
