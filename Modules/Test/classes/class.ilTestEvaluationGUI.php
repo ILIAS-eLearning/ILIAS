@@ -2019,7 +2019,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
 
-		$questionList->setQuestionIdsFilter($questionIds);
+		$questionList->setIncludeQuestionIdsFilter($questionIds);
 		$questionList->setQuestionInstanceTypeFilter(null);
 
 		foreach ($table_gui->getFilterItems() as $item)

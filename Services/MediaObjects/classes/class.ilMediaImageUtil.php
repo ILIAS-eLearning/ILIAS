@@ -21,7 +21,7 @@ class ilMediaImageUtil
 	{
 		if (substr($a_location, 0, 4) == "http")
 		{
-			include_once("./Services/Webservices/Curl/classes/class.ilCurlConnection.php");
+			include_once("./Services/WebServices/Curl/classes/class.ilCurlConnection.php");
 			if (ilCurlConnection::_isCurlExtensionLoaded())
 			{
 				$dir = ilUtil::getDataDir() . "/temp/mob/remote_img";

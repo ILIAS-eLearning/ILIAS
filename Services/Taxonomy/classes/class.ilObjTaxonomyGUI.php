@@ -620,9 +620,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 			foreach ($_POST["order"] as $k => $v)
 			{
 				ilTaxonomyNode::writeOrderNr(ilUtil::stripSlashes($k), $v);
-				ilTaxonomyNode::fixOrderNumbers($this->getCurrentTaxonomyId(), (int) $_GET["tax_node"]);
-//				$cnt+= 10;
 			}
+			ilTaxonomyNode::fixOrderNumbers($this->getCurrentTaxonomyId(), (int) $_GET["tax_node"]);
 		}
 		
 		// save titles

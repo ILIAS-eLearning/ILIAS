@@ -1653,7 +1653,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				
 				$taxId = substr($item->getPostVar(), strlen('tax_'));
-				$questionList->addTaxonomyFilter($taxId, $item->getValue());
+				
+				$questionList->addTaxonomyFilter(
+					$taxId, $item->getValue(), $this->object->getId(), $this->object->getType()
+				);
 			}
 			elseif( $item->getValue() !== false )
 			{
@@ -1663,7 +1666,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		if( $this->object->isNavTaxonomyActive() && (int)$_GET['tax_node'] )
 		{
-			$questionList->addTaxonomyFilter( $this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']) );
+			$questionList->addTaxonomyFilter(
+				$this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']),
+				$this->object->getId(), $this->object->getType()
+			);
 		}
 
 		$questionList->load();

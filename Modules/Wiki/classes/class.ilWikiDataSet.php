@@ -248,6 +248,7 @@ class ilWikiDataSet extends ilDataSet
 				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
 				break;

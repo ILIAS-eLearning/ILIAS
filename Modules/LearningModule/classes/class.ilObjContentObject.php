@@ -2503,7 +2503,25 @@ class ilObjContentObject extends ilObject
 				"target" => $mathJaxSetting->get("path_to_mathjax"),
 				"type" => "js");
 		}
-		
+
+		// auto linking js
+		include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
+		foreach (ilLinkifyUtil::getLocalJsPaths() as $p)
+		{
+			if (is_int(strpos($p, "ExtLink")))
+			{
+				$scripts[] = array("source" => $p,
+					"target" => $a_target_dir.'/js/ilExtLink.js',
+					"type" => "js");
+			}
+			if (is_int(strpos($p, "linkify")))
+			{
+				$scripts[] = array("source" => $p,
+					"target" => $a_target_dir.'/js/linkify.js',
+					"type" => "js");
+			}
+		}
+
 		return $scripts;
 
 	}
