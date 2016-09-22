@@ -30,6 +30,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
 		global $DIC;
+		$this->ilNavigationHistory = $DIC['ilNavigationHistory'];
 		$this->type = 'mass';
 		$this->tpl = $DIC['tpl'];
 		$this->ctrl = $DIC['ilCtrl'];
@@ -270,16 +271,13 @@ public function getTabs() {
 	}
 
 	public function addToNavigationHistory(){
-		global $DIC;
-		$ilNavigationHistory = $DIC['ilNavigationHistory'];
-		
+		$access_handler = $this->object->accessHandler();
+
 		if(!$this->getCreationMode() &&
-			$this->ilAccess->checkAccess('read', '', $_GET['ref_id']))
+			$access_handler->checkAccessToObj($this->object,'read'))
 		{
 			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
-			
-			$ilNavigationHistory->addItem($_GET['ref_id'],
-				$link, 'mass');
+			$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'mass');
 		}
 	}
 }
