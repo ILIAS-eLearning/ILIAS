@@ -878,7 +878,7 @@ class ilSurveyParticipantsGUI
 				{
 					$lang = $this->lng->getDefaultLanguage();
 				}			
-				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message'],$lang);
+				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], nl2br($_POST['m_message']),$lang);
 				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
 				$this->ctrl->redirect($this, 'mailCodes');
 			}
