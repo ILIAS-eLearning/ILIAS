@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.2.x 2016-08-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.2.x 2016-09-22 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -619,3 +619,4 @@ lessc_path_comment#:#A Lessc less fájlok CSS fájllá fordításához, azaz a R
 lessc#:#Lessc útvonala
 db_switch_legacy#:#Az Ön által jelenleg használt adatbázistípusnál újabbat implementáltunk az ILIAS-ba, mely szintén kompatibilis PHP7-tel. Átvált a következőre:
 db_switch_legacy_button#:#Átváltás
+error_log_path_comment_win#:#Csak az útvonalat adja meg (például 'C:\iliasdata'), hiba esetén a fájlok automatikusan létrejönnek.

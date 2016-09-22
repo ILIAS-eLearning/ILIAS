@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-09-10
+* @version	5.2.x 2016-09-22
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -1079,7 +1079,8 @@ assessment#:#tst_answer_sheet#:#Teszt válaszlapja
 assessment#:#tst_answered_questions_test#:#Ebben a tesztben megválaszolt kérdések
 assessment#:#tst_answered_questions#:#Megválaszolt kérdések
 assessment#:#tst_best_solution_is#:#A legjobb megoldás
-assessment#:#tst_browse_for_questions#:#Kérdés hozzáadása kérdésgyűjteményből
+assessment#:#tst_browse_for_qpl_questions#:#Hozzáadás kérdésgyűjteményből
+assessment#:#tst_browse_for_tst_questions#:#Hozzáadás másik tesztből
 assessment#:#tst_change_points_for_question#:#Válaszért járó pontszám
 assessment#:#tst_confirm_delete_results_info#:#Korábbi válaszeredményeit eltávolította. A tesztet sikeresen alapállapotba állította.
 assessment#:#tst_confirm_delete_results#:#Ön ebben a tesztben levő minden eddigi teszteredményét eltávolítani készül. Ez vissza fogja állítani az összes kérdést alapértelmezett értékére. Ne feledje, hogy nem fogja tudni visszaállítani a teszt végzése során eddig igénybe vett próbálkozásait. Biztos, hogy alapállapotba állítja az összes eddigi megoldását?
@@ -1902,7 +1903,7 @@ cmps#:#cmps_plugin#:#Bővítmény
 cmps#:#cmps_plugins#:#Bővítmények
 cmps#:#cmps_refresh_plugins_inf#:#Bővítmény-információk frissítése
 cmps#:#cmps_refresh#:#Frissítés
-cmps#:#cmps_rep_object#:#Taneszköztárolóban levő objektumtípus
+cmps#:#cmps_rep_object#:#Taneszköztárolóban lévő objektumtípus
 cmps#:#cmps_responsible#:#Felelős
 cmps#:#cmps_save_options#:#Mentés
 cmps#:#cmps_service#:#Szolgáltatás
@@ -2528,7 +2529,7 @@ common#:#default#:#Alapértelmezett
 common#:#defaults#:#Alapértelmezett értékek
 common#:#delete_all_rec#:#Összes rekord törlése
 common#:#delete_all#:#Mindet töröl
-common#:#delete_existing_file#:#Meglévő fájlok törlése
+common#:#delete_existing_file#:#Meglévő fájl törlése
 common#:#delete_object#:#Objektum(ok) törlése
 common#:#delete_parameter#:#Paraméter törlése
 common#:#delete_selected_items#:#Törlés
@@ -9697,7 +9698,8 @@ trac#:#trac_reached_points#:#Elért eredmény
 trac#:#trac_reached_visits#:#Elvárt látogatások
 trac#:#trac_refresh#:#Frissítés
 trac#:#trac_registered#:#Regisztrált
-trac#:#trac_show_repository_views#:#Változáskövetés a taneszköztárolóban
+trac#:#trac_show_repository_views#:#Nyomkövetési információk megjelenítése
+trac#:#trac_show_repository_views_info#:#Taneszköztárolóbeli objektumok nyomkövetési információinak megjelenítése azok információs lapján.
 trac#:#trac_required_visits#:#Elvárt látogatások száma
 trac#:#trac_sahs_relevant_items#:#Tartalomelemek
 trac#:#trac_select_area#:#Terület kiválasztása
@@ -12020,8 +12022,8 @@ mcst#:#mcst_save_order#:#Sorrend mentése
 content#:#glo_style#:#Fogalomtárstílus
 pdesk#:#bookmark_select_target#:#Válasszon célt
 pdesk#:#bookmark_moved_ok#:#A könyvjelző áthelyeződött.
-wsp#:#wsp_tab_ownership#:#Taneszköztárolóban levő objektumaim
-user#:#user_ownership#:#Taneszköztárolóban levő objektumok
+wsp#:#wsp_tab_ownership#:#Taneszköztárolóban lévő objektumaim
+user#:#user_ownership#:#Taneszköztárolóban lévő objektumai
 registration#:#registration_code_role_info#:#Ha regisztrációs kódot használ, lehet hogy a kód végzi a szerepkiválasztást.
 mail#:#mail_system_from_name#:#Feladó neve
 mail#:#mail_system_from_name_info#:#Adjon meg egy nevet (pl. Gipsz Jakab) az automatikusan generált (belső és külső) üzenetekhez. Ha üresen hagyja a mezőt, az ILIAS ennek az telepítésnek a rövid címét használja. Ha ez sincs megadva, 'ILIAS' lesz a feladó.
@@ -12411,6 +12413,7 @@ registration#:#reg_allowed_domains#:#Engedélyezett e-mail cím domain-ek
 registration#:#reg_allowed_domains_info#:#Használjon helyettesítőnek *-ot, elválasztónak ;-t.
 pd#:#block_show_pdcal#:#Naptár megjelenítése
 pd#:#block_show_pdmail#:#E-mail megjelenítése
+pd#:#block_show_pdsysmess#:#Rendszerüzenetek megjelenítése
 pd#:#block_show_pdtag#:#Saját címkéim megjelenítése
 pd#:#block_show_pdnews#:#Hírek megjelenítése
 pd#:#block_show_pdusers#:#Aktív felhasználók megjelenítése
@@ -14190,7 +14193,7 @@ grp#:#grp_mail_tutors_only_info#:#Csak vezetők használhatják a 'Tagok' fülö
 grp#:#grp_mail_all_info#:#Tagok és vezetők használhatják a 'Tagok' fülön lévő 'Levél küldése tagoknak' lehetőséget.
 rep#:#rep_time_period#:#Időszak
 crs#:#crs_registration_period#:#Regisztrációs időszak
-crs#:#crs_registration_confirmation_info#:#Az regisztrációt egy kurzusvezetőnek jóvá kell hagynia.
+crs#:#crs_registration_confirmation_info#:#A regisztrációt egy kurzusvezetőnek jóvá kell hagynia.
 crs#:#crs_reg_no_selfreg#:#Senki sem regisztrálhatja saját magát
 crs#:#crs_reg_password_info#:#A felhasználóknak a kurzushoz való csatlakozáskor ezt a jelszót kell majd begépelniük.
 cat#:#cat_more_translations#:#További fordítások
@@ -15876,78 +15879,78 @@ rbac#:#grpr_read#:#A felhasználónak olvasási hozzáférése van a Csoportlink
 rbac#:#grpr_visible#:#A Csoportlink látható
 rbac#:#grpr_write#:#A felhasználók módosíthatja a Csoportlink beállításait
 rbac#:#rbac_create_grpr#:#Csoportlink létrehozása
-common#:#obj_bdga#:#Kitűzők
-common#:#obj_bdga_desc#:#Kitűzőtípusok, sablonképek és aktivitások kezelése
-rbac#:#bdga_visible#:#A felhasználó láthatja a Rendszerbeállítások » 'Kitűzők' menüpontot
-rbac#:#bdga_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » 'Kitűzők' beállításaihoz
-rbac#:#bdga_write#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Kitűzők' beállításait
-rbac#:#bdga_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Kitűzők' jogosultsági beállításait
-badge#:#badge_settings#:#Kitűző beállításai
+common#:#obj_bdga#:#Érdemérmek
+common#:#obj_bdga_desc#:#Érdemérem-típusok, sablonképek és aktivitások kezelése
+rbac#:#bdga_visible#:#A felhasználó láthatja a Rendszerbeállítások » 'Érdemérmek' menüpontot
+rbac#:#bdga_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » 'Érdemérmek' beállításaihoz
+rbac#:#bdga_write#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Érdemérmek' beállításait
+rbac#:#bdga_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Érdemérmek' jogosultsági beállításait
+badge#:#badge_settings#:#Érdemérem beállításai
 badge#:#badge_service_activate#:#Szolgáltatás bekapcsolása
-badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása kitűzők elérhetővé tétéléhez
+badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása érdemérmek elérhetővé tétéléhez
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastruktúra bekapcsolása
-badge#:#badge_obi_activate_info#:#Felhasználók Kitűzőket exportálhatnak az ILIAS-ból. Így felhasználhatják kitűzőiket, hogy másik webes alkalmazásban is igazolhassák képzettségeiket.
+badge#:#badge_obi_activate_info#:#Felhasználók érdemérmeket exportálhatnak az ILIAS-ból. Így felhasználhatják érdemérmeiket, hogy másik webes alkalmazásban is igazolhassák képzettségeiket.
 badge#:#badge_obi_organisation#:#Szervezet
-badge#:#badge_obi_organisation_info#:#Ez a bejegyzés a kitűző kibocsátójaként jelenik meg.
+badge#:#badge_obi_organisation_info#:#Ez a bejegyzés az érdemérem kibocsátójaként jelenik meg.
 badge#:#badge_obi_contact#:#Kapcsolattartó e-mail címe
-badge#:#badge_obi_contact_info#:#Ez az e-mail cím nem jelenik meg, de belekerül a kitűzőbe.
+badge#:#badge_obi_contact_info#:#Ez az e-mail cím nem jelenik meg, de belekerül az érdemérembe.
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#Adja meg karakterek és számok kombinációját, amivel 3. fél felé igazolhatja a kitűző eredetiségét. Ezt a bejegyzést később ne módosítsa. 
+badge#:#badge_obi_salt_info#:#Adja meg karakterek és számok kombinációját, amivel 3. fél felé igazolhatja az érdemérem eredetiségét. Ezt a bejegyzést később ne módosítsa. 
 badge#:#badge_types#:#Típusok
 badge#:#badge_image_templates#:#Képsablonok
-badge#:#badge_activity_badges#:#Aktivitás kitűzők
+badge#:#badge_activity_badges#:#Aktivitás érdemérmek
 badge#:#badge_crs_merit#:#Érdem
 badge#:#badge_manual#:#Manuális odaítélés
 badge#:#badge_user_profile#:#Felhasználói profil
-badge#:#badge_badge#:#Kitűző
-obj#:#obj_tool_setting_badges#:#Kitűzők
-obj#:#obj_tool_setting_badges_info#:#Ha be van kapcsolva, kitűzők kezelése és használata elérhető.
+badge#:#badge_badge#:#Érdemérem
+obj#:#obj_tool_setting_badges#:#Érdemérmek
+obj#:#obj_tool_setting_badges_info#:#Ha be van kapcsolva, érdemérmek kezelése és használata elérhető.
 badge#:#badge_add_template#:#Sablon létrehozása
 badge#:#badge_image_template_form#:#Képsablon
 badge#:#badge_image_from_upload#:#Kép feltöltése
 badge#:#badge_image_from_template#:#Sablon használata
-badge#:#badge_award_badge#:#Kitűző odaítélése
-badge#:#badge_remove_badge#:#Kitűző visszavonása
+badge#:#badge_award_badge#:#Érdemérem odaítélése
+badge#:#badge_remove_badge#:#Érdemérem visszavonása
 badge#:#badge_template_deletion_confirmation#:#Biztos, hogy törli a következő képsablont?
-badge#:#badge_assignment_deletion_confirmation#:#Biztos, hogy visszavonja az alábbi kitűzőt a következőktől: '%s'?
-badge#:#badge_deletion_confirmation#:#Biztos, hogy törli az alábbi kitűzőket azok összes hozzárendeléseivel? 
+badge#:#badge_assignment_deletion_confirmation#:#Biztos, hogy visszavonja az alábbi érdemérmet a következőktől: '%s'?
+badge#:#badge_deletion_confirmation#:#Biztos, hogy törli az alábbi érdemérmeket azok összes hozzárendeléseivel? 
 badge#:#badge_template_types#:#Valid típusok
 badge#:#badge_template_types_all#:#Összes
 badge#:#badge_template_types_specific#:#Specifikus
-badge#:#badge_valid#:#Érvényességi eddig
-badge#:#badge_object_badges#:#Kitűzők objektum
+badge#:#badge_valid#:#Érvényes eddig
+badge#:#badge_object_badges#:#Érdemérem-objektumok
 badge#:#badge_backpack_connect_failed#:#%s nem hívhatja meg a Mozilla Backpack-et.
 badge#:#badge_backpack_no_groups#:#A Mozilla Backpack üres vagy nem publikus.
 badge#:#badge_backpack_list#:#Hátizsákom
-badge#:#badge_personal_badges#:#Kitűzőim
-badge#:#badge_issued_on#:#Kiállítás dátuma:
+badge#:#badge_personal_badges#:#Érdemérmeim
+badge#:#badge_issued_on#:#Kiállítás dátuma
 badge#:#badge_add_to_backpack#:#Hátizsákba rakás
 badge#:#badge_add_to_backpack_multi#:#Hátizsákba kísérelte rakni: %s
 badge#:#badge_backpack_email#:#Mozilla Hátizsákfiók (Backpack Account) (E-mail)
-badge#:#badge_notification_subject#:#Kitűzőt kapott
-badge#:#badge_notification_body#:#ezúton értesítjük, hogy új kitűzőt kapott.
-badge#:#badge_notification_osd#:#Új kitűzőket kapott: [BADGE_LIST]
-badge#:#badge_notification_badges#:#Új kitűzők
-badge#:#badge_notification_badges_goto#:#Kitűzőimhez
+badge#:#badge_notification_subject#:#Érdemérmet kapott
+badge#:#badge_notification_body#:#ezúton értesítjük, hogy új érdemérmet kapott.
+badge#:#badge_notification_osd#:#Új érdemérmeket kapott: [BADGE_LIST]
+badge#:#badge_notification_badges#:#Új érdemérem
+badge#:#badge_notification_badges_goto#:#Érdemérmeimhez
 badge#:#badge_notification_parent_goto#:#Taneszköztárolóhoz
-badge#:#badge_notification_reason#:#Ezt az üzenetet azért kapta, mert kitűzőt adhat profiljához.
+badge#:#badge_notification_reason#:#Ezt az üzenetet azért kapta, mert érdemérmet adhat profiljához.
 badge#:#badge_in_profile#:#Profilban
 badge#:#badge_add_to_profile#:#Hozzáadás a Profilhoz
 badge#:#badge_remove_from_profile#:#Eltávolítás a Profilból
 badge#:#badge_criteria#:#Kritérium
-badge#:#badge_edit_with_published#:#%s felhasználó már berakta hátizsákjába ezt a kitűzőt, ezért a kitűző tulajdonságainak módosítása inkonzisztenciához vezet. Új kitűző létrehozása talán célszerűbb lenne
-badge#:#badge_no_valid_types_for_obj#:#Nem hozhat létre új kitűzőt, mert egy aktív kitűzőtípus sem érhető el. Keresse a rendszergazdát.
-badge#:#badge_course_lp#:#Kurzus-haladás
+badge#:#badge_edit_with_published#:#%s felhasználó már berakta hátizsákjába ezt az érdemérmet, ezért az érdemérem tulajdonságainak módosítása inkonzisztenciához vezet. Új érdemérem létrehozása talán célszerűbb lenne
+badge#:#badge_no_valid_types_for_obj#:#Nem hozhat létre új érdemérmet, mert egy aktív érdemérem-típus sem érhető el. Keresse a rendszergazdát.
+badge#:#badge_course_lp#:#Kurzushaladás
 badge#:#badge_profile_more#:#Összes megjelenítése
 badge#:#badge_profile_less#:#Kevesebb megjelenítése
-badge#:#badge_backpack_gallery_info#:#Ezek az Ön nyilvános kitűzői az Ön Mozilla Hátizsákjában.
+badge#:#badge_backpack_gallery_info#:#Ezek az Ön nyilvános érdemérmei az Ön Mozilla Hátizsákjában.
 badge#:#badge_profile_view#:#Megjelenítése
 badge#:#badge_profile_manage#:#Kezelés
 badge#:#badge_subtype_manual#:#manuális
 badge#:#badge_subtype_auto#:#automatikus
 badge#:#badge_course_lp_invalid#:#Az alábbi objektumok tanulási haladásának módja nem támogatott: %s.
 trac#:#trac_defaults#:#Befejezési állapot
-trac#:#trac_defaults_info#:#Teljesítettségi állapot meghatározásának módja támogatott objektumtípusok esetén. Több kitűzőtípus használja.
+trac#:#trac_defaults_info#:#Teljesítettségi állapot meghatározásának módja támogatott objektumtípusok esetén. Több érdemérem-típus használja.
 trac#:#trac_defaults_inactive#:#Inaktív
 copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
 assessment#:#tst_revert_changes#:#Módosítás visszavonása
@@ -16245,7 +16248,7 @@ ccmt#:#ccmt_menu_item_reporting#:#Jelentéskészítése
 ccmt#:#ccmt_info_block_label_all_users#:#Összes felhasználó
 ccmt#:#ccmt_info_block_label_all_courses#:#Összes kurzus
 ccmt#:#ccmt_info_block_label_all_memberships#:#Összes tagság
-ccmt#:#ccmt_info_block_label_all_session_days#:#Összes munkamenet (napokan)
+ccmt#:#ccmt_info_block_label_all_session_days#:#Összes munkamenet (napokban)
 ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Az alábbi kurzusokat nem tartalmazza a jelentés, mert nyomkövetési beállításuk nem valid:%s
 ccmt#:#ccmt_course_error_lp_mode#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését evvel nem kompatibilis módra állították be.<br />Jelenlegi mód: '%s' / Szükséges mód: '%s'
 ccmt#:#ccmt_course_error_lp_deactivated#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését kikapcsolták.
@@ -16409,6 +16412,7 @@ mass#:#mass_edit_info#:#Info beállításai
 mass#:#mass_mess_notification_completed#:#Sikeresen teljesített %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
 mass#:#mass_mess_notification_failed#:#Nem sikerült teljesítenie %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
 mass#:#mass_contact_info#:#Kapcsolat
+mass#:#mass_added#:#Manuális hozzárendelést sikeresen elvégezte
 registration#:#reg_mail_body_activation#:#ILIAS-fiókja aktiváláshoz és e-mail címének igazolásához kattintson ide:###XXX
 chatroom#:#chat_auth_token_info#:#Kérem, egyedi stringeket hozzon létre. Ezeket a stringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a stringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliens id-nek <b>egyedinek</b> kell lennie.
 chatroom#:#chat_https_cert_info#:#Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem).
@@ -16435,7 +16439,7 @@ chatroom#:#chat_osc_section_head_other_rooms#:#Nyilvános chatszoba
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Biztos, hogy kilép a csoportbeszélgetésből?
 chatroom#:#chat_osc_leave_grp_conv#:#Kilépés a beszélgetésből
 chatroom#:#chat_osc_user_left_grp_conv#:#'%s' kilépett a csoportbeszélgetésből.
-chatroom#:#chat_osc_dont_accept_msg#:#Önt jelenleg nem lehet meghívni beszélgetésbe, de ezt személyes beállításaiban módosíthatja.
+chatroom#:#chat_osc_dont_accept_msg#:#Önt jelenleg nem lehet meghívni beszélgetésbe, ezt a <a href="%s">'Személyes beállításai'</a> alatt módosíthatja.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Beszélgetés nem lehetséges
 usr#:#user_actions#:#Felhasználói műveletek
 usr#:#user_action#:#Felhasználói művelet
@@ -16447,3 +16451,6 @@ form#:#err_invalid_input#:#Az egyik űrlapmező Ön által megadott bemeneti ada
 chatroom#:#chat_osc_no_conv#:#Jelenleg nem zajlik beszélgetés.
 chatroom#:#chat_osc_no_sub_directory#:#Alkönyvtár
 chatroom#:#chat_osc_no_sub_directory_info#:#Ha a Chatszerver egy alkönyvtáron keresztül érhető el, mint például 'http(s)://[IP/Domain]/[PATH]', akkor itt adja meg az alkönyvtárat, az előbbi példából a [PATH] részt.
+prg#:#prg_points_reachable#:#Elérhető pontszám
+mail#:#mail_members_search_continue#:#Folytatás
+copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kiválasztott elemeket?
