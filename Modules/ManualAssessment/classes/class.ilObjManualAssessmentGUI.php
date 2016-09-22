@@ -30,12 +30,14 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
 		global $DIC;
+		$this->ilNavigationHistory = $DIC['ilNavigationHistory'];
 		$this->type = 'mass';
 		$this->tpl = $DIC['tpl'];
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->usr = $DIC['ilUser'];
 		$this->ilias = $DIC['ilias'];
 		$this->lng = $DIC['lng'];
+		$this->ilAccess = $DIC['ilAccess'];
 		$this->lng->loadLanguageModule('mass');
 		$this->tpl->getStandardTemplate();
 		$this->locator = $DIC['ilLocator'];
@@ -53,6 +55,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+		$this->addToNavigationHistory();
 		switch($next_class) {
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
@@ -286,5 +289,16 @@ public function getTabs() {
 		ilUtil::sendSuccess($this->lng->txt("mass_added"),true);
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
 		ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilmanualassessmentsettingsgui', 'edit', '', false, false));
+	}
+
+	public function addToNavigationHistory(){
+		$access_handler = $this->object->accessHandler();
+
+		if(!$this->getCreationMode() &&
+			$access_handler->checkAccessToObj($this->object,'read'))
+		{
+			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+			$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'mass');
+		}
 	}
 }
