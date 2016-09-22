@@ -81,40 +81,42 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		return $username;
 	}
 	
-	
-	/** 
-	 * Called from fetchData after successful login.
-	 *
-	 * @param string username
+	/**
+	 * Check for local password in case of auth modes, which allow local authentication
+	 * @param type $username
+	 * @param type $password
+	 * @param type $isChallengeResponse
 	 */
-	public function loginObserver($a_username,$a_auth)
+	function fetchData($username, $password, $isChallengeResponse = false)
 	{
-		$usr_id = ilObjUser::_lookupId($a_username);
+		$usr_id = ilObjUser::_lookupId($username);
 		$auth_mode = ilObjUser::_lookupAuthMode($usr_id);
 		$auth_id = ilAuthUtils::_getAuthMode($auth_mode);
-
-		$GLOBALS['ilLog']->write(__METHOD__.': auth id =  ' . $auth_id);
 		
+		ilLoggerFactory::getLogger('auth')->debug('Current auth id of user: ' . $auth_id);
+		
+		$local_passwords_allowed = false;
 		switch($auth_id)
 		{
 			case AUTH_APACHE:
 			case AUTH_LOCAL:
-				return true;
+				$local_passwords_allowed = true;
 				
 			default:
 				if(ilAuthUtils::isPasswordModificationEnabled($auth_id))
 				{
-					return true;
+					$local_passwords_allowed = true;
 				}
 		}
+		if($local_passwords_allowed)
+		{
+			return parent::fetchData($username, $password, $isChallengeResponse);
+		}
 		
-
-		$a_auth->status = AUTH_WRONG_LOGIN;
-		$a_auth->logout();
-		
+		ilLoggerFactory::getLogger('auth')->debug('No local password authentication allowed');
 		return false;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
