@@ -1,5 +1,10 @@
 <?php
 
+namespace GetId3\Module\Archive;
+
+use GetId3\Handler\BaseHandler;
+use GetId3\Lib\Helper;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -27,14 +32,14 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_Archive_Tar extends GetId3_Handler_BaseHandler
+class Tar extends BaseHandler
 {
 
     /**
      *
      * @return boolean
      */
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
@@ -124,18 +129,19 @@ class GetId3_Module_Archive_Tar extends GetId3_Handler_BaseHandler
                     'devmajor' => $devmaj,
                     'devminor' => $devmin
             );
-            $info['tar']['files'] = GetId3_Lib_Helper::array_merge_clobber($info['tar']['files'],
-                                                                           GetId3_Lib_Helper::CreateDeepArray($info['tar']['file_details'][$name]['name'],
+            $info['tar']['files'] = Helper::array_merge_clobber($info['tar']['files'],
+                                                                           Helper::CreateDeepArray($info['tar']['file_details'][$name]['name'],
                                                                                                               '/',
                                                                                                               $size));
         }
+
         return true;
     }
 
     /**
      * Parses the file mode to file permissions
      *
-     * @param type $mode
+     * @param  type $mode
      * @return type
      */
     public function display_perms($mode)
@@ -177,6 +183,7 @@ class GetId3_Module_Archive_Tar extends GetId3_Handler_BaseHandler
                       $group['execute']);
         $s .= sprintf('%1s%1s%1s' . "\n", $world['read'], $world['write'],
                       $world['execute']);
+
         return $s;
     }
 
@@ -184,7 +191,7 @@ class GetId3_Module_Archive_Tar extends GetId3_Handler_BaseHandler
      * Converts the file type
      *
      * @staticvar array $flag_types
-     * @param type $typflag
+     * @param  type $typflag
      * @return type
      */
     public function get_flag_type($typflag)
@@ -206,6 +213,7 @@ class GetId3_Module_Archive_Tar extends GetId3_Handler_BaseHandler
             'S' => 'LF_SPARSE',
             'V' => 'LF_VOLHDR'
         );
+
         return (isset($flag_types[$typflag]) ? $flag_types[$typflag] : '');
     }
 }

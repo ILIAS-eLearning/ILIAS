@@ -415,7 +415,7 @@ class ilStyleDefinition
 		if (is_object($styleDefinition) && $styleDefinition->getSkin()->getName() != $a_skin)
 		{
 			$styleDefinition = new ilStyleDefinition($a_skin);
-			if(!$styleDefinition->getSkin()->hasStyle($styleDefinition->getCurrentStyle())){
+			if(!self::styleExistsForCurrentSkin(self::$current_style)){
 				$styleDefinition->setCurrentStyle($styleDefinition->getSkin()->getDefaultStyle()->getId());
 			}
 		}

@@ -1,4 +1,10 @@
 <?php
+
+namespace GetId3\Extension\Cache;
+
+use GetId3\GetId3Core;
+use GetId3\Exception\DefaultException;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -13,7 +19,6 @@
 // This extension written by Allan Hansen <ahØartemis*dk>      //
 //                                                            ///
 /////////////////////////////////////////////////////////////////
-
 
 /**
 * This is a caching extension for GetId3(). It works the exact same
@@ -75,151 +80,151 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Extension_Cache_Dbm extends GetId3_GetId3
+class Dbm extends GetId3
 {
 
     /**
      * public: constructor - see top of this file for cache type and cache_options
      *
-     * @param type $cache_type
-     * @param type $dbm_filename
-     * @param type $lock_filename
+     * @param  type      $cache_type
+     * @param  type      $dbm_filename
+     * @param  type      $lock_filename
      * @throws Exception
      */
-	public function __construct($cache_type, $dbm_filename, $lock_filename) {
+    public function __construct($cache_type, $dbm_filename, $lock_filename)
+    {
+        // Check for dba extension
+        if (!extension_loaded('dba')) {
+            throw new DefaultException('PHP is not compiled with dba support, required to use DBM style cache.');
+        }
 
-		// Check for dba extension
-		if (!extension_loaded('dba')) {
-			throw new Exception('PHP is not compiled with dba support, required to use DBM style cache.');
-		}
+        // Check for specific dba driver
+        if (!function_exists('dba_handlers') || !in_array($cache_type, dba_handlers())) {
+            throw new DefaultException('PHP is not compiled --with '.$cache_type.' support, required to use DBM style cache.');
+        }
 
-		// Check for specific dba driver
-		if (!function_exists('dba_handlers') || !in_array($cache_type, dba_handlers())) {
-			throw new Exception('PHP is not compiled --with '.$cache_type.' support, required to use DBM style cache.');
-		}
+        // Create lock file if needed
+        if (!file_exists($lock_filename)) {
+            if (!touch($lock_filename)) {
+                throw new DefaultException('failed to create lock file: '.$lock_filename);
+            }
+        }
 
-		// Create lock file if needed
-		if (!file_exists($lock_filename)) {
-			if (!touch($lock_filename)) {
-				throw new Exception('failed to create lock file: '.$lock_filename);
-			}
-		}
+        // Open lock file for writing
+        if (!is_writeable($lock_filename)) {
+            throw new DefaultException('lock file: '.$lock_filename.' is not writable');
+        }
+        $this->lock = fopen($lock_filename, 'w');
 
-		// Open lock file for writing
-		if (!is_writeable($lock_filename)) {
-			throw new Exception('lock file: '.$lock_filename.' is not writable');
-		}
-		$this->lock = fopen($lock_filename, 'w');
+        // Acquire exclusive write lock to lock file
+        flock($this->lock, LOCK_EX);
 
-		// Acquire exclusive write lock to lock file
-		flock($this->lock, LOCK_EX);
+        // Create dbm-file if needed
+        if (!file_exists($dbm_filename)) {
+            if (!touch($dbm_filename)) {
+                throw new DefaultException('failed to create dbm file: '.$dbm_filename);
+            }
+        }
 
-		// Create dbm-file if needed
-		if (!file_exists($dbm_filename)) {
-			if (!touch($dbm_filename)) {
-				throw new Exception('failed to create dbm file: '.$dbm_filename);
-			}
-		}
+        // Try to open dbm file for writing
+        $this->dba = dba_open($dbm_filename, 'w', $cache_type);
+        if (!$this->dba) {
 
-		// Try to open dbm file for writing
-		$this->dba = dba_open($dbm_filename, 'w', $cache_type);
-		if (!$this->dba) {
+            // Failed - create new dbm file
+            $this->dba = dba_open($dbm_filename, 'n', $cache_type);
 
-			// Failed - create new dbm file
-			$this->dba = dba_open($dbm_filename, 'n', $cache_type);
+            if (!$this->dba) {
+                throw new DefaultException('failed to create dbm file: '.$dbm_filename);
+            }
 
-			if (!$this->dba) {
-				throw new Exception('failed to create dbm file: '.$dbm_filename);
-			}
+            // Insert GetId3 version number
+            dba_insert(GetId3Core::VERSION, GetId3Core::VERSION, $this->dba);
+        }
 
-			// Insert GetId3 version number
-			dba_insert(GetId3_GetId3::VERSION, GetId3_GetId3::VERSION, $this->dba);
-		}
+        // Init misc values
+        $this->cache_type   = $cache_type;
+        $this->dbm_filename = $dbm_filename;
 
-		// Init misc values
-		$this->cache_type   = $cache_type;
-		$this->dbm_filename = $dbm_filename;
+        // Register destructor
+        register_shutdown_function(array($this, '__destruct'));
 
-		// Register destructor
-		register_shutdown_function(array($this, '__destruct'));
+        // Check version number and clear cache if changed
+        if (dba_fetch(GetId3Core::VERSION, $this->dba) != GetId3Core::VERSION) {
+            $this->clear_cache();
+        }
 
-		// Check version number and clear cache if changed
-		if (dba_fetch(GetId3_GetId3::VERSION, $this->dba) != GetId3_GetId3::VERSION) {
-			$this->clear_cache();
-		}
-
-		parent::__construct();
-	}
+        parent::__construct();
+    }
 
     /**
      *
      */
-	public function __destruct() {
+    public function __destruct()
+    {
+        // Close dbm file
+        dba_close($this->dba);
 
-		// Close dbm file
-		dba_close($this->dba);
+        // Release exclusive lock
+        flock($this->lock, LOCK_UN);
 
-		// Release exclusive lock
-		flock($this->lock, LOCK_UN);
+        // Close lock file
+        fclose($this->lock);
+    }
 
-		// Close lock file
-		fclose($this->lock);
-	}
-
-	/**
+    /**
      * clear cache
      *
      * @throws Exception
      */
-	public function clear_cache() {
+    public function clear_cache()
+    {
+        // Close dbm file
+        dba_close($this->dba);
 
-		// Close dbm file
-		dba_close($this->dba);
+        // Create new dbm file
+        $this->dba = dba_open($this->dbm_filename, 'n', $this->cache_type);
 
-		// Create new dbm file
-		$this->dba = dba_open($this->dbm_filename, 'n', $this->cache_type);
+        if (!$this->dba) {
+            throw new DefaultException('failed to clear cache/recreate dbm file: '.$this->dbm_filename);
+        }
 
-		if (!$this->dba) {
-			throw new Exception('failed to clear cache/recreate dbm file: '.$this->dbm_filename);
-		}
+        // Insert GetId3 version number
+        dba_insert(GetId3Core::VERSION, GetId3Core::VERSION, $this->dba);
 
-		// Insert GetId3 version number
-		dba_insert(GetId3_GetId3::VERSION, GetId3_GetId3::VERSION, $this->dba);
+        // Re-register shutdown function
+        register_shutdown_function(array($this, '__destruct'));
+    }
 
-		// Re-register shutdown function
-		register_shutdown_function(array($this, '__destruct'));
-	}
-
-	/**
+    /**
      * analyze file
      *
-     * @param type $filename
+     * @param  type $filename
      * @return type
      */
-	public function analyze($filename) {
+    public function analyze($filename)
+    {
+        if (file_exists($filename)) {
 
-		if (file_exists($filename)) {
+            // Calc key     filename::mod_time::size    - should be unique
+            $key = $filename.'::'.filemtime($filename).'::'.filesize($filename);
 
-			// Calc key     filename::mod_time::size    - should be unique
-			$key = $filename.'::'.filemtime($filename).'::'.filesize($filename);
+            // Loopup key
+            $result = dba_fetch($key, $this->dba);
 
-			// Loopup key
-			$result = dba_fetch($key, $this->dba);
+            // Hit
+            if ($result !== false) {
+                return unserialize($result);
+            }
+        }
 
-			// Hit
-			if ($result !== false) {
-				return unserialize($result);
-			}
-		}
+        // Miss
+        $result = parent::analyze($filename);
 
-		// Miss
-		$result = parent::analyze($filename);
+        // Save result
+        if (file_exists($filename)) {
+            dba_insert($key, serialize($result), $this->dba);
+        }
 
-		// Save result
-		if (file_exists($filename)) {
-			dba_insert($key, serialize($result), $this->dba);
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 }

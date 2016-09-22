@@ -1,5 +1,12 @@
 <?php
 
+namespace GetId3\Module\AudioVideo;
+
+use GetId3\Handler\BaseHandler;
+use GetId3\Lib\Helper;
+use GetId3\GetId3Core;
+use GetId3\Module\Tag\Id3v2;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -18,11 +25,11 @@
  * module for analyzing ASF, WMA and WMV files
  *
  * @author James Heinrich <info@getid3.org>
- * @uses GetId3_Module_AudioVideo_Riff
+ * @uses GetId3\Module\AudioVideo\Riff
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
+class Asf extends BaseHandler
 {
     protected static $GETID3_ASF_Extended_Stream_Properties_Object;
     protected static $GETID3_ASF_Padding_Object;
@@ -144,14 +151,13 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
     /**
      *
      */
-    public function __construct(GetId3_GetId3 $getid3)
+    public function __construct(GetId3Core $getid3)
     {
         parent::__construct($getid3);  // extends GetId3_handler::__construct()
         // initialize all GUID statics
         $GUIDarray = self::KnownGUIDs();
         foreach ($GUIDarray as $GUIDname => $hexstringvalue) {
-            if (isset(self::$$GUIDname))
-            {
+            if (property_exists($this, $GUIDname)) {
                 self::$$GUIDname = self::GUIDtoBytestring($hexstringvalue);
             }
         }
@@ -161,7 +167,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
      *
      * @return boolean
      */
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
@@ -174,7 +180,6 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
         $thisfile_asf_comments = &$thisfile_asf['comments'];
         $thisfile_asf['header_object'] = array();
         $thisfile_asf_headerobject = &$thisfile_asf['header_object'];
-
 
         // ASF structure:
         // * Header Object [required]
@@ -206,18 +211,19 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
             $info['warning'][] = 'ASF header GUID {' . self::BytestringToGUID($thisfile_asf_headerobject['objectid']) . '} does not match expected "GETID3_ASF_Header_Object" GUID {' . self::BytestringToGUID(self::$GETID3_ASF_Header_Object) . '}';
             unset($info['fileformat']);
             unset($info['asf']);
+
             return false;
         }
-        $thisfile_asf_headerobject['objectsize'] = GetId3_Lib_Helper::LittleEndian2Int(substr($HeaderObjectData,
+        $thisfile_asf_headerobject['objectsize'] = Helper::LittleEndian2Int(substr($HeaderObjectData,
                                                                                               16,
                                                                                               8));
-        $thisfile_asf_headerobject['headerobjects'] = GetId3_Lib_Helper::LittleEndian2Int(substr($HeaderObjectData,
+        $thisfile_asf_headerobject['headerobjects'] = Helper::LittleEndian2Int(substr($HeaderObjectData,
                                                                                                  24,
                                                                                                  4));
-        $thisfile_asf_headerobject['reserved1'] = GetId3_Lib_Helper::LittleEndian2Int(substr($HeaderObjectData,
+        $thisfile_asf_headerobject['reserved1'] = Helper::LittleEndian2Int(substr($HeaderObjectData,
                                                                                              28,
                                                                                              1));
-        $thisfile_asf_headerobject['reserved2'] = GetId3_Lib_Helper::LittleEndian2Int(substr($HeaderObjectData,
+        $thisfile_asf_headerobject['reserved2'] = Helper::LittleEndian2Int(substr($HeaderObjectData,
                                                                                              29,
                                                                                              1));
 
@@ -232,7 +238,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
             $NextObjectGUID = substr($ASFHeaderData, $offset, 16);
             $offset += 16;
             $NextObjectGUIDtext = self::BytestringToGUID($NextObjectGUID);
-            $NextObjectSize = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+            $NextObjectSize = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                          $offset,
                                                                          8));
             $offset += 8;
@@ -270,47 +276,47 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                           16);
                     $offset += 16;
                     $thisfile_asf_filepropertiesobject['fileid_guid'] = self::BytestringToGUID($thisfile_asf_filepropertiesobject['fileid']);
-                    $thisfile_asf_filepropertiesobject['filesize'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['filesize'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                 $offset,
                                                                                                                 8));
                     $offset += 8;
-                    $thisfile_asf_filepropertiesobject['creation_date'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['creation_date'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                      $offset,
                                                                                                                      8));
                     $thisfile_asf_filepropertiesobject['creation_date_unix'] = self::FILETIMEtoUNIXtime($thisfile_asf_filepropertiesobject['creation_date']);
                     $offset += 8;
-                    $thisfile_asf_filepropertiesobject['data_packets'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['data_packets'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                     $offset,
                                                                                                                     8));
                     $offset += 8;
-                    $thisfile_asf_filepropertiesobject['play_duration'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['play_duration'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                      $offset,
                                                                                                                      8));
                     $offset += 8;
-                    $thisfile_asf_filepropertiesobject['send_duration'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['send_duration'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                      $offset,
                                                                                                                      8));
                     $offset += 8;
-                    $thisfile_asf_filepropertiesobject['preroll'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['preroll'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                $offset,
                                                                                                                8));
                     $offset += 8;
-                    $thisfile_asf_filepropertiesobject['flags_raw'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['flags_raw'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                  $offset,
                                                                                                                  4));
                     $offset += 4;
                     $thisfile_asf_filepropertiesobject['flags']['broadcast'] = (bool) ($thisfile_asf_filepropertiesobject['flags_raw'] & 0x0001);
                     $thisfile_asf_filepropertiesobject['flags']['seekable'] = (bool) ($thisfile_asf_filepropertiesobject['flags_raw'] & 0x0002);
 
-                    $thisfile_asf_filepropertiesobject['min_packet_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['min_packet_size'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                        $offset,
                                                                                                                        4));
                     $offset += 4;
-                    $thisfile_asf_filepropertiesobject['max_packet_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['max_packet_size'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                        $offset,
                                                                                                                        4));
                     $offset += 4;
-                    $thisfile_asf_filepropertiesobject['max_bitrate'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_filepropertiesobject['max_bitrate'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                    $offset,
                                                                                                                    4));
                     $offset += 4;
@@ -369,19 +375,19 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                                16);
                     $offset += 16;
                     $StreamPropertiesObjectData['error_correct_guid'] = self::BytestringToGUID($StreamPropertiesObjectData['error_correct_type']);
-                    $StreamPropertiesObjectData['time_offset'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $StreamPropertiesObjectData['time_offset'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                             $offset,
                                                                                                             8));
                     $offset += 8;
-                    $StreamPropertiesObjectData['type_data_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $StreamPropertiesObjectData['type_data_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                  $offset,
                                                                                                                  4));
                     $offset += 4;
-                    $StreamPropertiesObjectData['error_data_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $StreamPropertiesObjectData['error_data_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                   $offset,
                                                                                                                   4));
                     $offset += 4;
-                    $StreamPropertiesObjectData['flags_raw'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $StreamPropertiesObjectData['flags_raw'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                           $offset,
                                                                                                           2));
                     $offset += 2;
@@ -404,11 +410,11 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             $thisfile_audio['dataformat'] = (!empty($thisfile_audio['dataformat']) ? $thisfile_audio['dataformat'] : 'asf');
                             $thisfile_audio['bitrate_mode'] = (!empty($thisfile_audio['bitrate_mode']) ? $thisfile_audio['bitrate_mode'] : 'cbr');
 
-                            $audiodata = GetId3_Module_AudioVideo_Riff::RIFFparseWAVEFORMATex(substr($StreamPropertiesObjectData['type_specific_data'],
+                            $audiodata = Riff::RIFFparseWAVEFORMATex(substr($StreamPropertiesObjectData['type_specific_data'],
                                                                                    0,
                                                                                    16));
                             unset($audiodata['raw']);
-                            $thisfile_audio = GetId3_Lib_Helper::array_merge_noclobber($audiodata,
+                            $thisfile_audio = Helper::array_merge_noclobber($audiodata,
                                                                                        $thisfile_audio);
                             break;
 
@@ -454,16 +460,16 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         //return false;
                         break;
                     }
-                    $thisfile_asf_headerextensionobject['reserved_2'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_headerextensionobject['reserved_2'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                    $offset,
                                                                                                                    2));
                     $offset += 2;
                     if ($thisfile_asf_headerextensionobject['reserved_2'] != 6) {
-                        $info['warning'][] = 'header_extension_object.reserved_2 (' . GetId3_Lib_Helper::PrintHexBytes($thisfile_asf_headerextensionobject['reserved_2']) . ') does not match expected value of "6"';
+                        $info['warning'][] = 'header_extension_object.reserved_2 (' . Helper::PrintHexBytes($thisfile_asf_headerextensionobject['reserved_2']) . ') does not match expected value of "6"';
                         //return false;
                         break;
                     }
-                    $thisfile_asf_headerextensionobject['extension_data_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_headerextensionobject['extension_data_size'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                             $offset,
                                                                                                                             4));
                     $offset += 4;
@@ -512,7 +518,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         //return false;
                         break;
                     }
-                    $thisfile_asf_codeclistobject['codec_entries_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_codeclistobject['codec_entries_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                       $offset,
                                                                                                                       4));
                     $offset += 4;
@@ -523,13 +529,13 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         $thisfile_asf_codeclistobject['codec_entries'][$CodecEntryCounter] = array();
                         $thisfile_asf_codeclistobject_codecentries_current = &$thisfile_asf_codeclistobject['codec_entries'][$CodecEntryCounter];
 
-                        $thisfile_asf_codeclistobject_codecentries_current['type_raw'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_codeclistobject_codecentries_current['type_raw'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                     $offset,
                                                                                                                                     2));
                         $offset += 2;
                         $thisfile_asf_codeclistobject_codecentries_current['type'] = $this->ASFCodecListObjectTypeLookup($thisfile_asf_codeclistobject_codecentries_current['type_raw']);
 
-                        $CodecNameLength = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $CodecNameLength = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                       $offset,
                                                                                       2)) * 2; // 2 bytes per character
                         $offset += 2;
@@ -538,7 +544,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                                             $CodecNameLength);
                         $offset += $CodecNameLength;
 
-                        $CodecDescriptionLength = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $CodecDescriptionLength = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                              $offset,
                                                                                              2)) * 2; // 2 bytes per character
                         $offset += 2;
@@ -547,7 +553,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                                                    $CodecDescriptionLength);
                         $offset += $CodecDescriptionLength;
 
-                        $CodecInformationLength = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $CodecInformationLength = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                              $offset,
                                                                                              2));
                         $offset += 2;
@@ -678,18 +684,18 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         //return false;
                         break;
                     }
-                    $thisfile_asf_scriptcommandobject['commands_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_scriptcommandobject['commands_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                      $offset,
                                                                                                                      2));
                     $offset += 2;
-                    $thisfile_asf_scriptcommandobject['command_types_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_scriptcommandobject['command_types_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                           $offset,
                                                                                                                           2));
                     $offset += 2;
                     for ($CommandTypesCounter = 0;
                             $CommandTypesCounter < $thisfile_asf_scriptcommandobject['command_types_count'];
                             $CommandTypesCounter++) {
-                        $CommandTypeNameLength = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $CommandTypeNameLength = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                             $offset,
                                                                                             2)) * 2; // 2 bytes per character
                         $offset += 2;
@@ -701,16 +707,16 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     for ($CommandsCounter = 0;
                             $CommandsCounter < $thisfile_asf_scriptcommandobject['commands_count'];
                             $CommandsCounter++) {
-                        $thisfile_asf_scriptcommandobject['commands'][$CommandsCounter]['presentation_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_scriptcommandobject['commands'][$CommandsCounter]['presentation_time'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                           $offset,
                                                                                                                                                           4));
                         $offset += 4;
-                        $thisfile_asf_scriptcommandobject['commands'][$CommandsCounter]['type_index'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_scriptcommandobject['commands'][$CommandsCounter]['type_index'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                    $offset,
                                                                                                                                                    2));
                         $offset += 2;
 
-                        $CommandTypeNameLength = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $CommandTypeNameLength = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                             $offset,
                                                                                             2)) * 2; // 2 bytes per character
                         $offset += 2;
@@ -756,19 +762,19 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         $info['warning'][] = 'marker_object.reserved GUID {' . self::BytestringToGUID($thisfile_asf_markerobject['reserved_1']) . '} does not match expected "GETID3_ASF_Reserved_1" GUID {4CFEDB20-75F6-11CF-9C0F-00A0C90349CB}';
                         break;
                     }
-                    $thisfile_asf_markerobject['markers_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_markerobject['markers_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                              $offset,
                                                                                                              4));
                     $offset += 4;
-                    $thisfile_asf_markerobject['reserved_2'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_markerobject['reserved_2'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                           $offset,
                                                                                                           2));
                     $offset += 2;
                     if ($thisfile_asf_markerobject['reserved_2'] != 0) {
-                        $info['warning'][] = 'marker_object.reserved_2 (' . GetId3_Lib_Helper::PrintHexBytes($thisfile_asf_markerobject['reserved_2']) . ') does not match expected value of "0"';
+                        $info['warning'][] = 'marker_object.reserved_2 (' . Helper::PrintHexBytes($thisfile_asf_markerobject['reserved_2']) . ') does not match expected value of "0"';
                         break;
                     }
-                    $thisfile_asf_markerobject['name_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_markerobject['name_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                            $offset,
                                                                                                            2));
                     $offset += 2;
@@ -779,27 +785,27 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     for ($MarkersCounter = 0;
                             $MarkersCounter < $thisfile_asf_markerobject['markers_count'];
                             $MarkersCounter++) {
-                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['offset'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['offset'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                       $offset,
                                                                                                                                       8));
                         $offset += 8;
-                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['presentation_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['presentation_time'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                  $offset,
                                                                                                                                                  8));
                         $offset += 8;
-                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['entry_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['entry_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                             $offset,
                                                                                                                                             2));
                         $offset += 2;
-                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['send_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['send_time'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                          $offset,
                                                                                                                                          4));
                         $offset += 4;
-                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['flags'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['flags'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                      $offset,
                                                                                                                                      4));
                         $offset += 4;
-                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['marker_description_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_markerobject['markers'][$MarkersCounter]['marker_description_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                          $offset,
                                                                                                                                                          4));
                         $offset += 4;
@@ -843,14 +849,14 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         //return false;
                         break;
                     }
-                    $thisfile_asf_bitratemutualexclusionobject['stream_numbers_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_bitratemutualexclusionobject['stream_numbers_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                     $offset,
                                                                                                                                     2));
                     $offset += 2;
                     for ($StreamNumberCounter = 0;
                             $StreamNumberCounter < $thisfile_asf_bitratemutualexclusionobject['stream_numbers_count'];
                             $StreamNumberCounter++) {
-                        $thisfile_asf_bitratemutualexclusionobject['stream_numbers'][$StreamNumberCounter] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_bitratemutualexclusionobject['stream_numbers'][$StreamNumberCounter] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                         $offset,
                                                                                                                                                         2));
                         $offset += 2;
@@ -878,7 +884,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                                           16);
                     $offset += 16;
                     $thisfile_asf_errorcorrectionobject['error_correction_guid'] = self::BytestringToGUID($thisfile_asf_errorcorrectionobject['error_correction_type']);
-                    $thisfile_asf_errorcorrectionobject['error_correction_data_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_errorcorrectionobject['error_correction_data_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                      $offset,
                                                                                                                                      4));
                     $offset += 4;
@@ -896,19 +902,19 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             // Silence Data Length          WORD         16              // number of bytes in Silence Data field
                             // Silence Data                 BYTESTREAM   variable        // hardcoded: 0x00 * (Silence Data Length) bytes
 
-                            $thisfile_asf_errorcorrectionobject['span'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                            $thisfile_asf_errorcorrectionobject['span'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                      $offset,
                                                                                                                      1));
                             $offset += 1;
-                            $thisfile_asf_errorcorrectionobject['virtual_packet_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                            $thisfile_asf_errorcorrectionobject['virtual_packet_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                       $offset,
                                                                                                                                       2));
                             $offset += 2;
-                            $thisfile_asf_errorcorrectionobject['virtual_chunk_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                            $thisfile_asf_errorcorrectionobject['virtual_chunk_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                      $offset,
                                                                                                                                      2));
                             $offset += 2;
-                            $thisfile_asf_errorcorrectionobject['silence_data_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                            $thisfile_asf_errorcorrectionobject['silence_data_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                     $offset,
                                                                                                                                     2));
                             $offset += 2;
@@ -949,23 +955,23 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     $thisfile_asf_contentdescriptionobject['objectid'] = $NextObjectGUID;
                     $thisfile_asf_contentdescriptionobject['objectid_guid'] = $NextObjectGUIDtext;
                     $thisfile_asf_contentdescriptionobject['objectsize'] = $NextObjectSize;
-                    $thisfile_asf_contentdescriptionobject['title_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_contentdescriptionobject['title_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                         $offset,
                                                                                                                         2));
                     $offset += 2;
-                    $thisfile_asf_contentdescriptionobject['author_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_contentdescriptionobject['author_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                          $offset,
                                                                                                                          2));
                     $offset += 2;
-                    $thisfile_asf_contentdescriptionobject['copyright_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_contentdescriptionobject['copyright_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                             $offset,
                                                                                                                             2));
                     $offset += 2;
-                    $thisfile_asf_contentdescriptionobject['description_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_contentdescriptionobject['description_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                               $offset,
                                                                                                                               2));
                     $offset += 2;
-                    $thisfile_asf_contentdescriptionobject['rating_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_contentdescriptionobject['rating_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                          $offset,
                                                                                                                          2));
                     $offset += 2;
@@ -1024,7 +1030,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     $thisfile_asf_extendedcontentdescriptionobject['objectid'] = $NextObjectGUID;
                     $thisfile_asf_extendedcontentdescriptionobject['objectid_guid'] = $NextObjectGUIDtext;
                     $thisfile_asf_extendedcontentdescriptionobject['objectsize'] = $NextObjectSize;
-                    $thisfile_asf_extendedcontentdescriptionobject['content_descriptors_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_extendedcontentdescriptionobject['content_descriptors_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                              $offset,
                                                                                                                                              2));
                     $offset += 2;
@@ -1036,7 +1042,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current = &$thisfile_asf_extendedcontentdescriptionobject['content_descriptors'][$ExtendedContentDescriptorsCounter];
 
                         $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['base_offset'] = $offset + 30;
-                        $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['name_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['name_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                              $offset,
                                                                                                                                                              2));
                         $offset += 2;
@@ -1044,11 +1050,11 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                                                                   $offset,
                                                                                                                   $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['name_length']);
                         $offset += $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['name_length'];
-                        $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value_type'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value_type'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                             $offset,
                                                                                                                                                             2));
                         $offset += 2;
-                        $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value_length'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                               $offset,
                                                                                                                                                               2));
                         $offset += 2;
@@ -1065,13 +1071,13 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                 break;
 
                             case 0x0002: // BOOL
-                                $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value'] = (bool) GetId3_Lib_Helper::LittleEndian2Int($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']);
+                                $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value'] = (bool) Helper::LittleEndian2Int($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']);
                                 break;
 
                             case 0x0003: // DWORD
                             case 0x0004: // QWORD
                             case 0x0005: // WORD
-                                $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value'] = GetId3_Lib_Helper::LittleEndian2Int($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']);
+                                $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value'] = Helper::LittleEndian2Int($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']);
                                 break;
 
                             default:
@@ -1141,7 +1147,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             case 'id3':
                                 // id3v2 module might not be loaded
                                 if (class_exists('getid3_id3v2')) {
-                                    $tempfile = tempnam(GetId3_GetId3::getTempDir(),
+                                    $tempfile = tempnam(GetId3Core::getTempDir(),
                                                         'getID3');
                                     $tempfilehandle = fopen($tempfile, 'wb');
                                     $tempThisfileInfo = array('encoding' => $info['encoding']);
@@ -1149,10 +1155,10 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                            $thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']);
                                     fclose($tempfilehandle);
 
-                                    $getid3_temp = new GetId3_GetId3();
+                                    $getid3_temp = new GetId3Core();
                                     $getid3_temp->openfile($tempfile);
-                                    $getid3_id3v2 = new GetId3_Module_Tag_Id3v2($getid3_temp);
-                                    $getid3_id3v2->Analyze();
+                                    $getid3_id3v2 = new Id3v2($getid3_temp);
+                                    $getid3_id3v2->analyze();
                                     $info['id3v2'] = $getid3_temp->info['id3v2'];
                                     unset($getid3_temp, $getid3_id3v2);
 
@@ -1249,19 +1255,19 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     $thisfile_asf_streambitratepropertiesobject['objectid'] = $NextObjectGUID;
                     $thisfile_asf_streambitratepropertiesobject['objectid_guid'] = $NextObjectGUIDtext;
                     $thisfile_asf_streambitratepropertiesobject['objectsize'] = $NextObjectSize;
-                    $thisfile_asf_streambitratepropertiesobject['bitrate_records_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                    $thisfile_asf_streambitratepropertiesobject['bitrate_records_count'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                       $offset,
                                                                                                                                       2));
                     $offset += 2;
                     for ($BitrateRecordsCounter = 0;
                             $BitrateRecordsCounter < $thisfile_asf_streambitratepropertiesobject['bitrate_records_count'];
                             $BitrateRecordsCounter++) {
-                        $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags_raw'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags_raw'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                                          $offset,
                                                                                                                                                                          2));
                         $offset += 2;
                         $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags']['stream_number'] = $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['flags_raw'] & 0x007F;
-                        $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['bitrate'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFHeaderData,
+                        $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['bitrate'] = Helper::LittleEndian2Int(substr($ASFHeaderData,
                                                                                                                                                                        $offset,
                                                                                                                                                                        4));
                         $offset += 4;
@@ -1359,7 +1365,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
 
                         $audiomediaoffset = 0;
 
-                        $thisfile_asf_audiomedia_currentstream = GetId3_Module_AudioVideo_Riff::RIFFparseWAVEFORMATex(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_audiomedia_currentstream = Riff::RIFFparseWAVEFORMATex(substr($streamdata['type_specific_data'],
                                                                                                            $audiomediaoffset,
                                                                                                            16));
                         $audiomediaoffset += 16;
@@ -1394,7 +1400,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         $thisfile_audio['streams'][$streamnumber]['dataformat'] = 'wma';
                         unset($thisfile_audio['streams'][$streamnumber]['raw']);
 
-                        $thisfile_asf_audiomedia_currentstream['codec_data_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_audiomedia_currentstream['codec_data_size'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                $audiomediaoffset,
                                                                                                                                2));
                         $audiomediaoffset += 2;
@@ -1429,39 +1435,39 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         $thisfile_asf_videomedia_currentstream = &$thisfile_asf['video_media'][$streamnumber];
 
                         $videomediaoffset = 0;
-                        $thisfile_asf_videomedia_currentstream['image_width'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['image_width'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                            $videomediaoffset,
                                                                                                                            4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['image_height'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['image_height'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                             $videomediaoffset,
                                                                                                                             4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['flags'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['flags'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                      $videomediaoffset,
                                                                                                                      1));
                         $videomediaoffset += 1;
-                        $thisfile_asf_videomedia_currentstream['format_data_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data_size'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                 $videomediaoffset,
                                                                                                                                 2));
                         $videomediaoffset += 2;
-                        $thisfile_asf_videomedia_currentstream['format_data']['format_data_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['format_data_size'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                                $videomediaoffset,
                                                                                                                                                4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['image_width'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['image_width'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                           $videomediaoffset,
                                                                                                                                           4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['image_height'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['image_height'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                            $videomediaoffset,
                                                                                                                                            4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['reserved'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['reserved'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                        $videomediaoffset,
                                                                                                                                        2));
                         $videomediaoffset += 2;
-                        $thisfile_asf_videomedia_currentstream['format_data']['bits_per_pixel'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['bits_per_pixel'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                              $videomediaoffset,
                                                                                                                                              2));
                         $videomediaoffset += 2;
@@ -1469,23 +1475,23 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                                                        $videomediaoffset,
                                                                                                        4);
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['image_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['image_size'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                          $videomediaoffset,
                                                                                                                                          4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['horizontal_pels'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['horizontal_pels'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                               $videomediaoffset,
                                                                                                                                               4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['vertical_pels'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['vertical_pels'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                             $videomediaoffset,
                                                                                                                                             4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['colors_used'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['colors_used'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                           $videomediaoffset,
                                                                                                                                           4));
                         $videomediaoffset += 4;
-                        $thisfile_asf_videomedia_currentstream['format_data']['colors_important'] = GetId3_Lib_Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
+                        $thisfile_asf_videomedia_currentstream['format_data']['colors_important'] = Helper::LittleEndian2Int(substr($streamdata['type_specific_data'],
                                                                                                                                                $videomediaoffset,
                                                                                                                                                4));
                         $videomediaoffset += 4;
@@ -1503,7 +1509,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             }
                         }
 
-                        $thisfile_asf_videomedia_currentstream['format_data']['codec'] = GetId3_Module_AudioVideo_Riff::RIFFfourccLookup($thisfile_asf_videomedia_currentstream['format_data']['codec_fourcc']);
+                        $thisfile_asf_videomedia_currentstream['format_data']['codec'] = Riff::RIFFfourccLookup($thisfile_asf_videomedia_currentstream['format_data']['codec_fourcc']);
 
                         $thisfile_video['streams'][$streamnumber]['fourcc'] = $thisfile_asf_videomedia_currentstream['format_data']['codec_fourcc'];
                         $thisfile_video['streams'][$streamnumber]['codec'] = $thisfile_asf_videomedia_currentstream['format_data']['codec'];
@@ -1516,15 +1522,13 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         break;
                 }
             }
-        }
-
-        while (ftell($this->getid3->fp) < $info['avdataend']) {
+        } while (ftell($this->getid3->fp) < $info['avdataend']) {
             $NextObjectDataHeader = fread($this->getid3->fp, 24);
             $offset = 0;
             $NextObjectGUID = substr($NextObjectDataHeader, 0, 16);
             $offset += 16;
             $NextObjectGUIDtext = self::BytestringToGUID($NextObjectGUID);
-            $NextObjectSize = GetId3_Lib_Helper::LittleEndian2Int(substr($NextObjectDataHeader,
+            $NextObjectSize = Helper::LittleEndian2Int(substr($NextObjectDataHeader,
                                                                          $offset,
                                                                          8));
             $offset += 8;
@@ -1554,16 +1558,16 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                 $offset, 16);
                     $offset += 16;
                     $thisfile_asf_dataobject['fileid_guid'] = self::BytestringToGUID($thisfile_asf_dataobject['fileid']);
-                    $thisfile_asf_dataobject['total_data_packets'] = GetId3_Lib_Helper::LittleEndian2Int(substr($DataObjectData,
+                    $thisfile_asf_dataobject['total_data_packets'] = Helper::LittleEndian2Int(substr($DataObjectData,
                                                                                                                 $offset,
                                                                                                                 8));
                     $offset += 8;
-                    $thisfile_asf_dataobject['reserved'] = GetId3_Lib_Helper::LittleEndian2Int(substr($DataObjectData,
+                    $thisfile_asf_dataobject['reserved'] = Helper::LittleEndian2Int(substr($DataObjectData,
                                                                                                       $offset,
                                                                                                       2));
                     $offset += 2;
                     if ($thisfile_asf_dataobject['reserved'] != 0x0101) {
-                        $info['warning'][] = 'data_object.reserved (' . GetId3_Lib_Helper::PrintHexBytes($thisfile_asf_dataobject['reserved']) . ') does not match expected value of "0x0101"';
+                        $info['warning'][] = 'data_object.reserved (' . Helper::PrintHexBytes($thisfile_asf_dataobject['reserved']) . ') does not match expected value of "0x0101"';
                         //return false;
                         break;
                     }
@@ -1612,15 +1616,15 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                                                        16);
                     $offset += 16;
                     $thisfile_asf_simpleindexobject['fileid_guid'] = self::BytestringToGUID($thisfile_asf_simpleindexobject['fileid']);
-                    $thisfile_asf_simpleindexobject['index_entry_time_interval'] = GetId3_Lib_Helper::LittleEndian2Int(substr($SimpleIndexObjectData,
+                    $thisfile_asf_simpleindexobject['index_entry_time_interval'] = Helper::LittleEndian2Int(substr($SimpleIndexObjectData,
                                                                                                                               $offset,
                                                                                                                               8));
                     $offset += 8;
-                    $thisfile_asf_simpleindexobject['maximum_packet_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($SimpleIndexObjectData,
+                    $thisfile_asf_simpleindexobject['maximum_packet_count'] = Helper::LittleEndian2Int(substr($SimpleIndexObjectData,
                                                                                                                          $offset,
                                                                                                                          4));
                     $offset += 4;
-                    $thisfile_asf_simpleindexobject['index_entries_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($SimpleIndexObjectData,
+                    $thisfile_asf_simpleindexobject['index_entries_count'] = Helper::LittleEndian2Int(substr($SimpleIndexObjectData,
                                                                                                                         $offset,
                                                                                                                         4));
                     $offset += 4;
@@ -1630,11 +1634,11 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     for ($IndexEntriesCounter = 0;
                             $IndexEntriesCounter < $thisfile_asf_simpleindexobject['index_entries_count'];
                             $IndexEntriesCounter++) {
-                        $thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]['packet_number'] = GetId3_Lib_Helper::LittleEndian2Int(substr($IndexEntriesData,
+                        $thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]['packet_number'] = Helper::LittleEndian2Int(substr($IndexEntriesData,
                                                                                                                                                              $offset,
                                                                                                                                                              4));
                         $offset += 4;
-                        $thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]['packet_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($IndexEntriesData,
+                        $thisfile_asf_simpleindexobject['index_entries'][$IndexEntriesCounter]['packet_count'] = Helper::LittleEndian2Int(substr($IndexEntriesData,
                                                                                                                                                             $offset,
                                                                                                                                                             4));
                         $offset += 2;
@@ -1675,15 +1679,15 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     $thisfile_asf_asfindexobject['objectid_guid'] = $NextObjectGUIDtext;
                     $thisfile_asf_asfindexobject['objectsize'] = $NextObjectSize;
 
-                    $thisfile_asf_asfindexobject['entry_time_interval'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                    $thisfile_asf_asfindexobject['entry_time_interval'] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                      $offset,
                                                                                                                      4));
                     $offset += 4;
-                    $thisfile_asf_asfindexobject['index_specifiers_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                    $thisfile_asf_asfindexobject['index_specifiers_count'] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                         $offset,
                                                                                                                         2));
                     $offset += 2;
-                    $thisfile_asf_asfindexobject['index_blocks_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                    $thisfile_asf_asfindexobject['index_blocks_count'] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                     $offset,
                                                                                                                     4));
                     $offset += 4;
@@ -1693,12 +1697,12 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     for ($IndexSpecifiersCounter = 0;
                             $IndexSpecifiersCounter < $thisfile_asf_asfindexobject['index_specifiers_count'];
                             $IndexSpecifiersCounter++) {
-                        $IndexSpecifierStreamNumber = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                        $IndexSpecifierStreamNumber = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                  $offset,
                                                                                                  2));
                         $offset += 2;
                         $thisfile_asf_asfindexobject['index_specifiers'][$IndexSpecifiersCounter]['stream_number'] = $IndexSpecifierStreamNumber;
-                        $thisfile_asf_asfindexobject['index_specifiers'][$IndexSpecifiersCounter]['index_type'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                        $thisfile_asf_asfindexobject['index_specifiers'][$IndexSpecifiersCounter]['index_type'] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                                                              $offset,
                                                                                                                                                              2));
                         $offset += 2;
@@ -1706,7 +1710,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     }
 
                     $ASFIndexObjectData .= fread($this->getid3->fp, 4);
-                    $thisfile_asf_asfindexobject['index_entry_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                    $thisfile_asf_asfindexobject['index_entry_count'] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                    $offset,
                                                                                                                    4));
                     $offset += 4;
@@ -1716,7 +1720,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     for ($IndexSpecifiersCounter = 0;
                             $IndexSpecifiersCounter < $thisfile_asf_asfindexobject['index_specifiers_count'];
                             $IndexSpecifiersCounter++) {
-                        $thisfile_asf_asfindexobject['block_positions'][$IndexSpecifiersCounter] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                        $thisfile_asf_asfindexobject['block_positions'][$IndexSpecifiersCounter] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                                               $offset,
                                                                                                                                               8));
                         $offset += 8;
@@ -1730,7 +1734,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         for ($IndexSpecifiersCounter = 0;
                                 $IndexSpecifiersCounter < $thisfile_asf_asfindexobject['index_specifiers_count'];
                                 $IndexSpecifiersCounter++) {
-                            $thisfile_asf_asfindexobject['offsets'][$IndexSpecifiersCounter][$IndexEntryCounter] = GetId3_Lib_Helper::LittleEndian2Int(substr($ASFIndexObjectData,
+                            $thisfile_asf_asfindexobject['offsets'][$IndexSpecifiersCounter][$IndexEntryCounter] = Helper::LittleEndian2Int(substr($ASFIndexObjectData,
                                                                                                                                                               $offset,
                                                                                                                                                               4));
                             $offset += 4;
@@ -1988,6 +1992,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
             'GETID3_ASF_Index_Placeholder_Object' => 'D9AADE20-7C17-4F9C-BC28-8555DD98E2A2', // http://cpan.uwinnipeg.ca/htdocs/Audio-WMA/Audio/WMA.pm.html
             'GETID3_ASF_Compatibility_Object' => '26F18B5D-4584-47EC-9F5F-0E651F0452C9', // http://cpan.uwinnipeg.ca/htdocs/Audio-WMA/Audio/WMA.pm.html
         );
+
         return $GUIDarray;
     }
 
@@ -1997,6 +2002,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
         if (empty($GUIDarray)) {
             $GUIDarray = self::KnownGUIDs();
         }
+
         return array_search($GUIDstring, $GUIDarray);
     }
 
@@ -2008,6 +2014,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
             $ASFIndexObjectIndexTypeLookup[2] = 'Nearest Past Media Object';
             $ASFIndexObjectIndexTypeLookup[3] = 'Nearest Past Cleanpoint';
         }
+
         return (isset($ASFIndexObjectIndexTypeLookup[$id]) ? $ASFIndexObjectIndexTypeLookup[$id] : 'invalid');
     }
 
@@ -2087,6 +2094,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
         if ($round) {
             return intval(round(($FILETIME - 116444736000000000) / 10000000));
         }
+
         return ($FILETIME - 116444736000000000) / 10000000;
     }
 
@@ -2094,68 +2102,69 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
     {
         static $WMpictureTypeLookup = array();
         if (empty($WMpictureTypeLookup)) {
-            $WMpictureTypeLookup[0x03] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x03] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Front Cover');
-            $WMpictureTypeLookup[0x04] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x04] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Back Cover');
-            $WMpictureTypeLookup[0x00] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x00] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'User Defined');
-            $WMpictureTypeLookup[0x05] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x05] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Leaflet Page');
-            $WMpictureTypeLookup[0x06] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x06] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Media Label');
-            $WMpictureTypeLookup[0x07] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x07] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Lead Artist');
-            $WMpictureTypeLookup[0x08] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x08] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Artist');
-            $WMpictureTypeLookup[0x09] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x09] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Conductor');
-            $WMpictureTypeLookup[0x0A] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x0A] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Band');
-            $WMpictureTypeLookup[0x0B] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x0B] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Composer');
-            $WMpictureTypeLookup[0x0C] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x0C] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Lyricist');
-            $WMpictureTypeLookup[0x0D] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x0D] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Recording Location');
-            $WMpictureTypeLookup[0x0E] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x0E] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'During Recording');
-            $WMpictureTypeLookup[0x0F] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x0F] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'During Performance');
-            $WMpictureTypeLookup[0x10] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x10] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Video Screen Capture');
-            $WMpictureTypeLookup[0x12] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x12] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Illustration');
-            $WMpictureTypeLookup[0x13] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x13] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Band Logotype');
-            $WMpictureTypeLookup[0x14] = GetId3_Lib_Helper::iconv_fallback('ISO-8859-1',
+            $WMpictureTypeLookup[0x14] = Helper::iconv_fallback('ISO-8859-1',
                                                                            'UTF-16LE',
                                                                            'Publisher Logotype');
         }
+
         return (isset($WMpictureTypeLookup[$WMpictureType]) ? $WMpictureTypeLookup[$WMpictureType] : '');
     }
 
     /**
      *
-     * @param type $asf_header_extension_object_data
-     * @param type $unhandled_sections
+     * @param  type $asf_header_extension_object_data
+     * @param  type $unhandled_sections
      * @return type
      * @link http://msdn.microsoft.com/en-us/library/bb643323.aspx
      */
@@ -2175,7 +2184,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
             $thisObject['guid_text'] = self::BytestringToGUID($thisObject['guid']);
             $thisObject['guid_name'] = self::GUIDname($thisObject['guid_text']);
 
-            $thisObject['size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+            $thisObject['size'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                              $offset,
                                                                              8));
             $offset += 8;
@@ -2185,54 +2194,54 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
 
             switch ($thisObject['guid']) {
                 case self::$GETID3_ASF_Extended_Stream_Properties_Object:
-                    $thisObject['start_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['start_time'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                            $offset,
                                                                                            8));
                     $offset += 8;
                     $thisObject['start_time_unix'] = self::FILETIMEtoUNIXtime($thisObject['start_time']);
 
-                    $thisObject['end_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['end_time'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                          $offset,
                                                                                          8));
                     $offset += 8;
                     $thisObject['end_time_unix'] = self::FILETIMEtoUNIXtime($thisObject['end_time']);
 
-                    $thisObject['data_bitrate'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['data_bitrate'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                              $offset,
                                                                                              4));
                     $offset += 4;
 
-                    $thisObject['buffer_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['buffer_size'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                             $offset,
                                                                                             4));
                     $offset += 4;
 
-                    $thisObject['initial_buffer_fullness'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['initial_buffer_fullness'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                         $offset,
                                                                                                         4));
                     $offset += 4;
 
-                    $thisObject['alternate_data_bitrate'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['alternate_data_bitrate'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        4));
                     $offset += 4;
 
-                    $thisObject['alternate_buffer_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['alternate_buffer_size'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                       $offset,
                                                                                                       4));
                     $offset += 4;
 
-                    $thisObject['alternate_initial_buffer_fullness'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['alternate_initial_buffer_fullness'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                                   $offset,
                                                                                                                   4));
                     $offset += 4;
 
-                    $thisObject['maximum_object_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['maximum_object_size'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                     $offset,
                                                                                                     4));
                     $offset += 4;
 
-                    $thisObject['flags_raw'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['flags_raw'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                           $offset,
                                                                                           4));
                     $offset += 4;
@@ -2241,27 +2250,27 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     $thisObject['flags']['no_cleanpoints'] = (bool) $thisObject['flags_raw'] & 0x00000004;
                     $thisObject['flags']['resend_live_cleanpoints'] = (bool) $thisObject['flags_raw'] & 0x00000008;
 
-                    $thisObject['stream_number'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['stream_number'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                               $offset,
                                                                                               2));
                     $offset += 2;
 
-                    $thisObject['stream_language_id_index'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['stream_language_id_index'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                          $offset,
                                                                                                          2));
                     $offset += 2;
 
-                    $thisObject['average_time_per_frame'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['average_time_per_frame'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        4));
                     $offset += 4;
 
-                    $thisObject['stream_name_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['stream_name_count'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                   $offset,
                                                                                                   2));
                     $offset += 2;
 
-                    $thisObject['payload_extension_system_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['payload_extension_system_count'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                                $offset,
                                                                                                                2));
                     $offset += 2;
@@ -2269,17 +2278,17 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     for ($i = 0; $i < $thisObject['stream_name_count']; $i++) {
                         $streamName = array();
 
-                        $streamName['language_id_index'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $streamName['language_id_index'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                       $offset,
                                                                                                       2));
                         $offset += 2;
 
-                        $streamName['stream_name_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $streamName['stream_name_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        2));
                         $offset += 2;
 
-                        $streamName['stream_name'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $streamName['stream_name'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                 $offset,
                                                                                                 $streamName['stream_name_length']));
                         $offset += $streamName['stream_name_length'];
@@ -2298,7 +2307,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                         $offset += 16;
                         $payloadExtensionSystem['extension_system_id_text'] = self::BytestringToGUID($payloadExtensionSystem['extension_system_id']);
 
-                        $payloadExtensionSystem['extension_system_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $payloadExtensionSystem['extension_system_size'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                                       $offset,
                                                                                                                       2));
                         $offset += 2;
@@ -2306,12 +2315,12 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             break 2;
                         }
 
-                        $payloadExtensionSystem['extension_system_info_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $payloadExtensionSystem['extension_system_info_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                                              $offset,
                                                                                                                              4));
                         $offset += 4;
 
-                        $payloadExtensionSystem['extension_system_info_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $payloadExtensionSystem['extension_system_info_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                                              $offset,
                                                                                                                              $payloadExtensionSystem['extension_system_info_length']));
                         $offset += $payloadExtensionSystem['extension_system_info_length'];
@@ -2326,7 +2335,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     break;
 
                 case self::$GETID3_ASF_Metadata_Object:
-                    $thisObject['description_record_counts'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['description_record_counts'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                           $offset,
                                                                                                           2));
                     $offset += 2;
@@ -2335,28 +2344,28 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             $i++) {
                         $descriptionRecord = array();
 
-                        $descriptionRecord['reserved_1'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['reserved_1'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                       $offset,
                                                                                                       2)); // must be zero
                         $offset += 2;
 
-                        $descriptionRecord['stream_number'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['stream_number'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                          $offset,
                                                                                                          2));
                         $offset += 2;
 
-                        $descriptionRecord['name_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['name_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        2));
                         $offset += 2;
 
-                        $descriptionRecord['data_type'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['data_type'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                      $offset,
                                                                                                      2));
                         $offset += 2;
                         $descriptionRecord['data_type_text'] = self::ASFmetadataLibraryObjectDataTypeLookup($descriptionRecord['data_type']);
 
-                        $descriptionRecord['data_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['data_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        4));
                         $offset += 4;
@@ -2379,13 +2388,13 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                                 break;
 
                             case 0x0002: // BOOL
-                                $descriptionRecord['data'] = (bool) GetId3_Lib_Helper::LittleEndian2Int($descriptionRecord['data']);
+                                $descriptionRecord['data'] = (bool) Helper::LittleEndian2Int($descriptionRecord['data']);
                                 break;
 
                             case 0x0003: // DWORD
                             case 0x0004: // QWORD
                             case 0x0005: // WORD
-                                $descriptionRecord['data'] = GetId3_Lib_Helper::LittleEndian2Int($descriptionRecord['data']);
+                                $descriptionRecord['data'] = Helper::LittleEndian2Int($descriptionRecord['data']);
                                 break;
 
                             case 0x0006: // GUID
@@ -2398,7 +2407,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     break;
 
                 case self::$GETID3_ASF_Language_List_Object:
-                    $thisObject['language_id_record_counts'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['language_id_record_counts'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                           $offset,
                                                                                                           2));
                     $offset += 2;
@@ -2407,7 +2416,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             $i++) {
                         $languageIDrecord = array();
 
-                        $languageIDrecord['language_id_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $languageIDrecord['language_id_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                              $offset,
                                                                                                              1));
                         $offset += 1;
@@ -2422,7 +2431,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                     break;
 
                 case self::$GETID3_ASF_Metadata_Library_Object:
-                    $thisObject['description_records_count'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                    $thisObject['description_records_count'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                           $offset,
                                                                                                           2));
                     $offset += 2;
@@ -2431,28 +2440,28 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
                             $i++) {
                         $descriptionRecord = array();
 
-                        $descriptionRecord['language_list_index'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['language_list_index'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                                $offset,
                                                                                                                2));
                         $offset += 2;
 
-                        $descriptionRecord['stream_number'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['stream_number'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                          $offset,
                                                                                                          2));
                         $offset += 2;
 
-                        $descriptionRecord['name_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['name_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        2));
                         $offset += 2;
 
-                        $descriptionRecord['data_type'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['data_type'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                      $offset,
                                                                                                      2));
                         $offset += 2;
                         $descriptionRecord['data_type_text'] = self::ASFmetadataLibraryObjectDataTypeLookup($descriptionRecord['data_type']);
 
-                        $descriptionRecord['data_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
+                        $descriptionRecord['data_length'] = Helper::LittleEndian2Int(substr($asf_header_extension_object_data,
                                                                                                        $offset,
                                                                                                        4));
                         $offset += 4;
@@ -2494,6 +2503,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
 
             $objectOffset += $thisObject['size'];
         }
+
         return $HeaderExtensionObjectParsed;
     }
 
@@ -2508,6 +2518,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
             0x0005 => 'WORD', // The data is 2 bytes long and should be interpreted as a 16-bit unsigned integer
             0x0006 => 'GUID', // The data is 16 bytes long and should be interpreted as a 128-bit GUID
         );
+
         return (isset($ASFmetadataLibraryObjectDataTypeLookup[$id]) ? $ASFmetadataLibraryObjectDataTypeLookup[$id] : 'invalid');
     }
 
@@ -2524,12 +2535,12 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
         $WMpicture = array();
 
         $offset = 0;
-        $WMpicture['image_type_id'] = GetId3_Lib_Helper::LittleEndian2Int(substr($data,
+        $WMpicture['image_type_id'] = Helper::LittleEndian2Int(substr($data,
                                                                                  $offset,
                                                                                  1));
         $offset += 1;
         $WMpicture['image_type'] = $this->WMpictureTypeLookup($WMpicture['image_type_id']);
-        $WMpicture['image_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($data,
+        $WMpicture['image_size'] = Helper::LittleEndian2Int(substr($data,
                                                                               $offset,
                                                                               4));
         $offset += 4;
@@ -2553,7 +2564,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
 
         $imageinfo = array();
         $WMpicture['image_mime'] = '';
-        $imagechunkcheck = GetId3_Lib_Helper::GetDataImageSize($WMpicture['data'],
+        $imagechunkcheck = Helper::GetDataImageSize($WMpicture['data'],
                                                                $imageinfo);
         unset($imageinfo);
         if (!empty($imagechunkcheck)) {
@@ -2570,7 +2581,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
     // Remove terminator 00 00 and convert UTF-16LE to Latin-1
     public static function TrimConvert($string)
     {
-        return trim(GetId3_Lib_Helper::iconv_fallback('UTF-16LE', 'ISO-8859-1',
+        return trim(Helper::iconv_fallback('UTF-16LE', 'ISO-8859-1',
                                                       self::TrimTerm($string)),
                                                                      ' ');
     }
@@ -2582,6 +2593,7 @@ class GetId3_Module_AudioVideo_Asf extends GetId3_Handler_BaseHandler
         if (substr($string, -2) === "\x00\x00") {
             $string = substr($string, 0, -2);
         }
+
         return $string;
     }
 }

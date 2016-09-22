@@ -7,11 +7,11 @@ If you don't know what to run, take a look at <a href="demo.browse.php"><b>demo.
 Other demos:<ul>
 <?php
 if ($dh = opendir('.')) {
-	while ($file = readdir($dh)) {
-		if (preg_match('#^demo\\..+\\.php$#', $file)) {
-			echo '<li><a href="'.htmlentities($file, ENT_QUOTES).'">'.htmlentities($file).'</a></li>';
-		}
-	}
+    while ($file = readdir($dh)) {
+        if (preg_match('#^demo\\..+\\.php$#', $file)) {
+            echo '<li><a href="'.htmlentities($file, ENT_QUOTES).'">'.htmlentities($file).'</a></li>';
+        }
+    }
 }
 ?>
 </ul>

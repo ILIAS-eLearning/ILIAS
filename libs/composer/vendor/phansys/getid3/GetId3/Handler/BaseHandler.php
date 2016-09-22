@@ -1,5 +1,11 @@
 <?php
 
+namespace GetId3\Handler;
+
+use GetId3\Lib\Helper;
+use GetId3\GetId3Core;
+use GetId3\Exception\DefaultException;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -16,12 +22,12 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-abstract class GetId3_Handler_BaseHandler
+abstract class BaseHandler
 {
     /**
      * pointer
      *
-     * @var GetId3_GetId3
+     * @var GetId3\GetId3
      */
     protected $getid3;
 
@@ -52,15 +58,15 @@ abstract class GetId3_Handler_BaseHandler
      * @var integer
      */
     protected $data_string_length = 0;
-    
+
     private $dependency_to;
 
     /**
      *
-     * @param GetId3_GetId3 $getid3
-     * @param type $call_module
+     * @param GetId3\GetId3 $getid3
+     * @param type          $call_module
      */
-    public function __construct(GetId3_GetId3 $getid3, $call_module = null)
+    public function __construct(GetId3Core $getid3, $call_module = null)
     {
         $this->getid3 = $getid3;
 
@@ -72,7 +78,7 @@ abstract class GetId3_Handler_BaseHandler
     /**
      * Analyze from file pointer
      */
-    abstract public function Analyze();
+    abstract public function analyze();
 
     /**
      * Analyze from string instead
@@ -92,7 +98,7 @@ abstract class GetId3_Handler_BaseHandler
         $this->getid3->info['avdataend'] = $this->getid3->info['filesize'] = $this->data_string_length = strlen($string);
 
         // Analyze
-        $this->Analyze();
+        $this->analyze();
 
         // Restore some info
         $this->getid3->info['avdataoffset'] = $saved_avdataoffset;
@@ -112,28 +118,31 @@ abstract class GetId3_Handler_BaseHandler
         if ($this->data_string_flag) {
             return $this->data_string_position;
         }
+
         return ftell($this->getid3->fp);
     }
 
     /**
      *
-     * @param type $bytes
+     * @param  type $bytes
      * @return type
      */
     protected function fread($bytes)
     {
         if ($this->data_string_flag) {
             $this->data_string_position += $bytes;
+
             return substr($this->data_string,
                           $this->data_string_position - $bytes, $bytes);
         }
+
         return fread($this->getid3->fp, $bytes);
     }
 
     /**
      *
-     * @param type $bytes
-     * @param type $whence
+     * @param  type $bytes
+     * @param  type $whence
      * @return int
      */
     protected function fseek($bytes, $whence = SEEK_SET)
@@ -152,8 +161,10 @@ abstract class GetId3_Handler_BaseHandler
                     $this->data_string_position = $this->data_string_length + $bytes;
                     break;
             }
+
             return 0;
         }
+
         return fseek($this->getid3->fp, $bytes, $whence);
     }
 
@@ -166,12 +177,13 @@ abstract class GetId3_Handler_BaseHandler
         if ($this->data_string_flag) {
             return $this->data_string_position >= $this->data_string_length;
         }
+
         return feof($this->getid3->fp);
     }
 
     /**
      *
-     * @param type $module
+     * @param  type $module
      * @return type
      */
     final protected function isDependencyFor($module)
@@ -181,7 +193,7 @@ abstract class GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $text
+     * @param  type    $text
      * @return boolean
      */
     protected function error($text)
@@ -193,7 +205,7 @@ abstract class GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $text
+     * @param  type $text
      * @return type
      */
     protected function warning($text)
@@ -203,10 +215,10 @@ abstract class GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $ThisFileInfoIndex
-     * @param type $filename
-     * @param type $offset
-     * @param type $length
+     * @param  type      $ThisFileInfoIndex
+     * @param  type      $filename
+     * @param  type      $offset
+     * @param  type      $length
      * @return boolean
      * @throws Exception
      */
@@ -214,8 +226,8 @@ abstract class GetId3_Handler_BaseHandler
                                    $length)
     {
         try {
-            if (!GetId3_Lib_Helper::intValueSupported($offset + $length)) {
-                throw new Exception('it extends beyond the ' . round(PHP_INT_MAX / 1073741824) . 'GB limit');
+            if (!Helper::intValueSupported($offset + $length)) {
+                throw new DefaultException('it extends beyond the ' . round(PHP_INT_MAX / 1073741824) . 'GB limit');
             }
 
             // do not extract at all
@@ -230,7 +242,7 @@ abstract class GetId3_Handler_BaseHandler
                 $this->fseek($offset);
                 $ThisFileInfoIndex = $this->fread($length);
                 if ($ThisFileInfoIndex === false || strlen($ThisFileInfoIndex) != $length) { // verify
-                    throw new Exception('failed to read attachment data');
+                    throw new DefaultException('failed to read attachment data');
                 }
             }
 
@@ -242,13 +254,13 @@ abstract class GetId3_Handler_BaseHandler
                                          $this->getid3->option_save_attachments),
                                          DIRECTORY_SEPARATOR);
                 if (!is_dir($dir) || !is_writable($dir)) { // check supplied directory
-                    throw new Exception('supplied path (' . $dir . ') does not exist, or is not writable');
+                    throw new DefaultException('supplied path (' . $dir . ') does not exist, or is not writable');
                 }
                 $dest = $dir . DIRECTORY_SEPARATOR . $filename;
 
                 // create dest file
                 if (($fp_dest = fopen($dest, 'wb')) == false) {
-                    throw new Exception('failed to create file ' . $dest);
+                    throw new DefaultException('failed to create file ' . $dest);
                 }
 
                 // copy data
@@ -260,7 +272,7 @@ abstract class GetId3_Handler_BaseHandler
                                                                                                                     $buffer)) === false) {
                         fclose($fp_dest);
                         unlink($dest);
-                        throw new Exception($buffer === false ? 'not enough data to read' : 'failed to write to destination file, may be not enough disk space');
+                        throw new DefaultException($buffer === false ? 'not enough data to read' : 'failed to write to destination file, may be not enough disk space');
                     }
                     $bytesleft -= $byteswritten;
                 }
@@ -268,12 +280,14 @@ abstract class GetId3_Handler_BaseHandler
                 fclose($fp_dest);
                 $ThisFileInfoIndex = $dest;
             }
-        } catch (Exception $e) {
+        } catch (DefaultException $e) {
 
             unset($ThisFileInfoIndex); // do not set any is case of error
             $this->warning('Failed to extract attachment ' . $filename . ': ' . $e->getMessage());
+
             return false;
         }
+
         return true;
     }
 }

@@ -1197,6 +1197,9 @@ class ilTrQuery
 
 					switch($field)
 					{
+						case 'org_units':
+							break;
+						
 						case "language":
 							if($function)
 							{

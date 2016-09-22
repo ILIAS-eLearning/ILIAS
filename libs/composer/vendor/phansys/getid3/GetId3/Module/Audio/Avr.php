@@ -1,5 +1,10 @@
 <?php
 
+namespace GetId3\Module\Audio;
+
+use GetId3\Handler\BaseHandler;
+use GetId3\Lib\Helper;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -21,9 +26,9 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_Audio_Avr extends GetId3_Handler_BaseHandler
+class Avr extends BaseHandler
 {
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
@@ -74,50 +79,51 @@ class GetId3_Module_Audio_Avr extends GetId3_Handler_BaseHandler
         $info['avr']['raw']['magic'] = substr($AVRheader, 0, 4);
         $magic = '2BIT';
         if ($info['avr']['raw']['magic'] != $magic) {
-            $info['error'][] = 'Expecting "' . GetId3_Lib_Helper::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . GetId3_Lib_Helper::PrintHexBytes($info['avr']['raw']['magic']) . '"';
+            $info['error'][] = 'Expecting "' . Helper::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . Helper::PrintHexBytes($info['avr']['raw']['magic']) . '"';
             unset($info['fileformat']);
             unset($info['avr']);
+
             return false;
         }
         $info['avdataoffset'] += 128;
 
         $info['avr']['sample_name'] = rtrim(substr($AVRheader, 4, 8));
-        $info['avr']['raw']['mono'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['raw']['mono'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                               12,
                                                                               2));
-        $info['avr']['bits_per_sample'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['bits_per_sample'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                                   14,
                                                                                   2));
-        $info['avr']['raw']['signed'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['raw']['signed'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                                 16,
                                                                                 2));
-        $info['avr']['raw']['loop'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['raw']['loop'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                               18,
                                                                               2));
-        $info['avr']['raw']['midi'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['raw']['midi'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                               20,
                                                                               2));
-        $info['avr']['raw']['replay_freq'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['raw']['replay_freq'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                                      22,
                                                                                      1));
-        $info['avr']['sample_rate'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['sample_rate'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                               23,
                                                                               3));
-        $info['avr']['sample_length'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['sample_length'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                                 26,
                                                                                 4));
-        $info['avr']['loop_start'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['loop_start'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                              30,
                                                                              4));
-        $info['avr']['loop_end'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['loop_end'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                            34, 4));
-        $info['avr']['midi_split'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['midi_split'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                              38,
                                                                              2));
-        $info['avr']['sample_compression'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['sample_compression'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                                      40,
                                                                                      2));
-        $info['avr']['reserved'] = GetId3_Lib_Helper::BigEndian2Int(substr($AVRheader,
+        $info['avr']['reserved'] = Helper::BigEndian2Int(substr($AVRheader,
                                                                            42, 2));
         $info['avr']['sample_name_extra'] = rtrim(substr($AVRheader, 44, 20));
         $info['avr']['comment'] = rtrim(substr($AVRheader, 64, 64));
@@ -146,7 +152,6 @@ class GetId3_Module_Audio_Avr extends GetId3_Handler_BaseHandler
         $info['audio']['channels'] = ($info['avr']['flags']['stereo'] ? 2 : 1);
         $info['playtime_seconds'] = ($info['avr']['sample_length'] / $info['audio']['channels']) / $info['avr']['sample_rate'];
         $info['audio']['bitrate'] = ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 8 : 16)) / $info['playtime_seconds'];
-
 
         return true;
     }
