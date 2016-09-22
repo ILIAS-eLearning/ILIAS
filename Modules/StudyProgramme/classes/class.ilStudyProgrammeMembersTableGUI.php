@@ -134,7 +134,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , pcp.lastname"
 				   ."     , pcp.login"
 				   ."     , prgrs.points"
-				   ."     , prgrs.points_cur"
+				   //the following is a replacement for:
+				   //IF(prgrs.status - ".ilStudyProgrammeProgress::STATUS_ACCREDITED.",prgrs.points,prgrs.points_cur)
 				   //dirty hack to make it work with oracle :/ 1-|x-a|/max(|x-a|,1) = id_a(x)
 				   ."     , prgrs.points_cur*"
 				       ."ABS(prgrs.status - ".ilStudyProgrammeProgress::STATUS_ACCREDITED.")"
