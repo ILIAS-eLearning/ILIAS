@@ -207,6 +207,13 @@ var ClozeGapBuilder = (function () {
 		tinymce_iframe_selector.blur(function () {
 			pro.checkTextAreaAgainstJson();
 		});
+
+		tinymce_iframe_selector.focusout(function () {
+			var inst = tinyMCE.activeEditor;
+			var cursorPosition = inst.selection.getRng().startOffset + 3;
+			ClozeGlobals.cursor_pos = cursorPosition;
+		});
+
 		tinymce_iframe_selector.on('paste', function (event) {
 			event.preventDefault();
 			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
@@ -1550,6 +1557,32 @@ var ClozeGapCombinationBuilder = (function () {
 	pub.protect = pro;
 	return pub;
 
+}());
+
+il.ClozeHelper = (function () {
+	var pub = {}, pro = {};
+
+	pub.internetExplorerTinyMCECursorFix = function(ed)
+	{
+		var ua = window.navigator.userAgent;
+		if(!!ua.match(/MSIE|Trident/))
+		{
+			pro.correctCursorPosition(ed);
+		}
+	};
+
+	pro.correctCursorPosition = function(ed)
+	{
+		var content = ed.getContent({format: 'html'});
+		var part1 = content.substr(0, ClozeGlobals.cursor_pos);
+		var part2 = content.substr(ClozeGlobals.cursor_pos);
+		var bookmark = ed.selection.getBookmark(0);
+		var positionString = '<span id="' + bookmark.id + '_start" data-mce-type="bookmark" data-mce-style="overflow:hidden;line-height:0px"></span>';
+		var contentWithString = part1 + positionString + part2;
+		ed.setContent(contentWithString, ({format: 'raw'}));
+		ed.selection.moveToBookmark(bookmark);
+	};
+	return pub;
 }());
 
 $(document).ready(function () {
