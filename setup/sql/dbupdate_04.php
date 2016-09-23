@@ -17819,3 +17819,27 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5048>
+<?php
+if($ilDB->sequenceExists('mail_obj_data'))
+{
+	$ilDB->dropSequence('mail_obj_data');
+}
+
+if($ilDB->sequenceExists('mail_obj_data'))
+{
+	die("Sequence could not be dropped!");
+}
+else
+{
+	$res1 = $ilDB->query("SELECT MAX(child) max_id FROM mail_tree");
+	$row1 = $ilDB->fetchAssoc($res1);
+
+	$res2 = $ilDB->query("SELECT MAX(obj_id) max_id FROM mail_obj_data");
+	$row2 = $ilDB->fetchAssoc($res2);
+
+	$start = max($row1['max_id'], $row2['max_id']) + 2; // add + 2 to be save
+
+	$ilDB->createSequence('mail_obj_data', $start);
+}
+?>
