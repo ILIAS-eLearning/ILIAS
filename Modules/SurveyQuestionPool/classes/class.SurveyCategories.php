@@ -283,7 +283,7 @@ class SurveyCategories
 	function getScale($index)
 	{
 		$obj = $this->categories[$index];
-		if (is_object($obj) && $obj->scale > 0)
+		if (is_object($obj) && $obj->scale >= 0)
 		{
 			return $obj->scale;
 		}
