@@ -1521,7 +1521,6 @@ class ilMimeTypeUtil {
 				return self::VIDEO__VIMEO;
 			}
 		}
-
 		if ($this->getSuffix()) {
 			if (isset(self::$suffix_map[$this->getSuffix()])) {
 				if (! is_array(self::$suffix_map[$this->getSuffix()])) {
@@ -1531,7 +1530,6 @@ class ilMimeTypeUtil {
 				}
 			}
 		}
-
 		if (extension_loaded('Fileinfo') && is_file($this->getPath())) {
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
 			$info = finfo_file($finfo, $this->getPath());
@@ -1589,7 +1587,7 @@ class ilMimeTypeUtil {
 	 * @param string $suffix
 	 */
 	public function setSuffix($suffix) {
-		$this->suffix = $suffix;
+		$this->suffix = strtolower($suffix);
 	}
 
 
