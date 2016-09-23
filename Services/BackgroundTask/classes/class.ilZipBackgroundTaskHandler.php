@@ -13,7 +13,23 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 {
 	protected $task; // [ilBackgroundTask]
 	protected $filename; // [string]
-	
+
+	/**
+	 * @var ilLogger
+	 */
+	private $log;
+
+	/**
+	 * Constructor
+	 *
+	 * @return self
+	 */
+	public function __construct()
+	{
+		$this->log = ilLoggerFactory::getLogger('btsk');
+		$this->settings = new ilSetting("fold");
+	}
+
 	// 
 	// setter/getter
 	//
@@ -59,7 +75,8 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	}
 	
 	public function process()
-	{					
+	{
+		$this->log->debug("start");
 		// create temporary file to download
 		$tmpdir = $this->getTempFolderPath();
 		ilUtil::makeDirParents($tmpdir);
@@ -91,6 +108,7 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 		
 		$this->task->setStatus(ilBackgroundTask::STATUS_FINISHED);
 		$this->task->save();
+		$this->log->debug("end");
 	}
 	
 	/**
@@ -99,7 +117,8 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	 * @return boolean
 	 */
 	public function cancel()
-	{					
+	{
+		$this->log->debug("");
 		$this->deleteTempFiles();		
 		
 		$this->task->setStatus(ilBackgroundTask::STATUS_CANCELLED);

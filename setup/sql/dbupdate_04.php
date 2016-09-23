@@ -17843,3 +17843,7 @@ else
 	$ilDB->createSequence('mail_obj_data', $start);
 }
 ?>
+<#5049>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
