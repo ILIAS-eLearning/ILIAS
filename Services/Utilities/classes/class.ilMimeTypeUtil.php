@@ -1587,6 +1587,7 @@ class ilMimeTypeUtil {
 	 * @param string $suffix
 	 */
 	public function setSuffix($suffix) {
+		// see #18157
 		$this->suffix = strtolower($suffix);
 	}
 
