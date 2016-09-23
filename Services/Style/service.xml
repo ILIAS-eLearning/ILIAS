@@ -16,4 +16,5 @@
 	<copage>
 		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="classes"/>
 	</copage>
+	<logging />
 </service>

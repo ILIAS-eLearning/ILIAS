@@ -199,6 +199,10 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#15>
 <?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#16>
+<?php
 if($ilDB->sequenceExists('mail_obj_data'))
 {
 	$ilDB->dropSequence('mail_obj_data');

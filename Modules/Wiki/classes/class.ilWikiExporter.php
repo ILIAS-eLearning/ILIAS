@@ -82,7 +82,17 @@ class ilWikiExporter extends ilXmlExporter
 				"ids" => $advmd_ids
 			);	
 		}
-		
+
+		// style
+		$obj_ids = (is_array($a_ids))
+			? $a_ids
+			: array($a_ids);
+		$deps[] = array(
+			"component" => "Services/Style",
+			"entity" => "object_style",
+			"ids" => $obj_ids
+		);
+
 		return $deps;
 	}
 	

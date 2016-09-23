@@ -81,6 +81,8 @@ class ilCOPageImporter extends ilXmlImporter
 						{
 							$lstr = "-";
 						}
+						// see bug #0019049
+						$next_xml = str_replace("&amp;", "&", $next_xml);
 						if ($this->config->getUpdateIfExists() && ilPageObject::_exists($id[0], $id[1], $lstr))
 						{
 							$page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $lstr);
