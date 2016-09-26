@@ -177,13 +177,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			case 'illicensegui':
-				$ilTabs->activateTab('id_license');
-				include_once("./Services/License/classes/class.ilLicenseGUI.php");
-				$license_gui = new ilLicenseGUI($this);
-				$ret = $this->ctrl->forwardCommand($license_gui);
-				break;
-
 			case "ilexportgui":
 				$ilTabs->activateTab("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
@@ -293,19 +286,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$ne->setValue(basename($this->lng->txt("no_start_file")));
 		}
 		$this->form->addItem($ne);
-		
-		include_once("Services/License/classes/class.ilLicenseAccess.php");
-		if (ilLicenseAccess::_isEnabled())
-		{
-			$lic = new ilCheckboxInputGUI($lng->txt("cont_license"), "lic");
-			$lic->setInfo($lng->txt("cont_license_info"));
-			$this->form->addItem($lic);
-			
-			if(!$ilAccess->checkAccess('edit_permission', '', $this->ref_id))
-			{
-				$lic->setDisabled(true);
-			}
-		}		
 
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$this->form->addCommandButton("toFilesystem", $lng->txt("cont_set_start_file"));
@@ -337,7 +317,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$values["startfile"] = $startfile;
 		$values["title"] = $this->object->getTitle();
 		$values["desc"] = $this->object->getDescription();
-		$values["lic"] = $this->object->getShowLicense();
+		//$values["lic"] = $this->object->getShowLicense();
 
 		$this->form->setValuesByArray($values);
 	}
@@ -369,12 +349,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$this->object->setDescription($this->form->getInput("desc"));
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 
-			$lic = $this->form->getItemByPostVar("lic");
-			if($lic && !$lic->getDisabled())
-			{
-				$this->object->setShowLicense($this->form->getInput("lic"));
-			}						
-			
 			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");
@@ -530,11 +504,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
-		// Note license usage
-		include_once "Services/License/classes/class.ilLicense.php";
-		ilLicense::_noteAccess($this->object->getId(), $this->object->getType(),
-			$this->object->getRefId());
-		
 		// #9483
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{	
@@ -675,16 +644,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array('ilobjfilebasedlmgui','illearningprogressgui'), ''));
 		}
 
-		include_once("Services/License/classes/class.ilLicenseAccess.php");
-		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id) &&
-			ilLicenseAccess::_isEnabled() &&
-			$this->object->getShowLicense())
-		{
-			$ilTabs->addTab("id_license",
-				$lng->txt("license"),
-				$this->ctrl->getLinkTargetByClass('illicensegui', ''));
-		}
-		
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
