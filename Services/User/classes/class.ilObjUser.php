@@ -833,31 +833,6 @@ class ilObjUser extends ilObject
 			 array("integer"), array($this->id));
 	}
 
-	/**
-	 * Replaces the user password with a new md5 hash. This method is currently used by the ILIAS webservice.
-	 * @param   string $md5_encoded_password Password as md5
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function replacePassword($md5_encoded_password)
-	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
-
-		$this->setPasswd($md5_encoded_password, IL_PASSWD_CRYPTED);
-		$this->setPasswordEncodingType('md5');
-
-		$ilDB->manipulateF(
-			'UPDATE usr_data
-			SET passwd = %s, passwd_enc_type = %s
-			WHERE usr_id = %s',
-			array('text', 'text', 'integer'),
-			array($this->getPasswd(), $this->getPasswordEncodingType(), $this->getId())
-		);
-
-		return true;
-	}
 
 	/**
 	 * Resets the user password
