@@ -4,6 +4,7 @@
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
+require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
 
 /**
  * Class ilObjBibliographic
