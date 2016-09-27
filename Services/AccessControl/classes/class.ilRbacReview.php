@@ -1876,13 +1876,5 @@ class ilRbacReview
 		self::$is_assigned_cache = array();
 		self::$assigned_users_cache = array();
 	}
-	
-
-
-	public function clearCaches() {
-		self::$is_assigned_cache = array();
-		self::$assigned_users_cache = array();
-	}
-
 } // END class.ilRbacReview
 ?>
