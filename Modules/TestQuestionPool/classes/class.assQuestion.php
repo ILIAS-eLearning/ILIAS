@@ -2233,6 +2233,21 @@ abstract class assQuestion
 	{
 		return $this->original_id;
 	}
+	
+	protected static $imageSourceFixReplaceMap = array(
+		'ok.svg' => 'ok.png', 'not_ok.svg' => 'not_ok.png',
+		'checkbox_checked.svg' => 'checkbox_checked.png',
+		'checkbox_unchecked.svg' => 'checkbox_unchecked.png',
+		'radiobutton_checked.svg' => 'radiobutton_checked.png',
+		'radiobutton_unchecked.svg' => 'radiobutton_unchecked.png'
+	);
+	
+	protected function fixSvgToPng($imageFilenameContainingString)
+	{
+		$needles = array_keys(self::$imageSourceFixReplaceMap);
+		$replacements = array_values(self::$imageSourceFixReplaceMap);
+		return str_replace($needles, $replacements, $imageFilenameContainingString);
+	}
 
 /**
 * Loads the question from the database
@@ -2272,6 +2287,14 @@ abstract class assQuestion
 					"internal_link" => $row["internal_link"],
 					"import_id" => $row["import_id"]
 				);
+				
+				if($this->suggested_solutions[$row["subquestion_index"]]['type'] == 'text')
+				{
+					$this->suggested_solutions[$row["subquestion_index"]]['value'] = $this->fixSvgToPng(
+						$this->suggested_solutions[$row["subquestion_index"]]['value']
+					);
+				}
+				
 			}
 		}
 	}

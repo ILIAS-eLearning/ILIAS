@@ -372,7 +372,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					if( $this->isPdfOutputMode() )
+					if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
 					{
 						$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
 						$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
@@ -389,7 +389,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			if (!$checked)
 			{
-				if( $this->isPdfOutputMode() )
+				if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
 				{
 					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
