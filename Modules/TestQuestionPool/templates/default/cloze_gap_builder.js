@@ -208,9 +208,9 @@ var ClozeGapBuilder = (function () {
 			pro.checkTextAreaAgainstJson();
 		});
 
-		tinymce_iframe_selector.focusout(function () {
+		tinymce_iframe_selector.mouseleave(function () {
 			var inst = tinyMCE.activeEditor;
-			var cursorPosition = inst.selection.getRng().startOffset + 3;
+			var cursorPosition = pro.getCursorPositionTiny(inst, false);
 			ClozeGlobals.cursor_pos = cursorPosition;
 		});
 

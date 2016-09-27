@@ -358,7 +358,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#circle#:#Circle
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and click the button ‘Insert Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
