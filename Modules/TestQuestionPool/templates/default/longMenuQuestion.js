@@ -578,7 +578,7 @@ var longMenuQuestion = (function () {
 	pro.sliceInNewQuestionPart = function (gap_id)
 	{
 		pub.questionParts.list.splice(gap_id, 0,  [[], '0', '1']);
-		pub.answers.splice(gap_id,0,[[]]);
+		pub.answers.splice(gap_id,0,[]);
 		pro.redrawFormParts();
 		pro.syncWithHiddenTextField();
 	};
