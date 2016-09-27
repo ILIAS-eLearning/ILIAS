@@ -334,7 +334,10 @@ class ilDataCollectionRecordListGUI {
 
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
-						$record->setRecordFieldValue($field->getId(), is_array($value) ? $value : utf8_encode($value));
+						if (!is_array($value) && mb_detect_encoding($value) != 'UTF-8') {
+							$value = utf8_encode($value);
+						}
+						$record->setRecordFieldValue($field->getId(), $value);
 					}
 				} catch (ilDataCollectionInputException $e) {
 					$warnings[] = "(" . $i . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $e;
