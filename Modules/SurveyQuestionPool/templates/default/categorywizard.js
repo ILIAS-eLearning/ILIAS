@@ -10,7 +10,14 @@ var ilCategoryWizardInputTemplate = {
 	
 	getContainerFromEvent: function(e) {
 		return $(e.target).parents(this.tag_container);
-	},	
+	},
+
+	cleanValuesRow: function (row) {
+		$(row).find('input:text').attr('value', '');
+		$(row).find('input:text[id*="[answer]"]').val('');
+		$(row).find('input:checkbox').prop('checked', false);
+
+	},
 	
 	cleanRow: function(row) {
 		$(row).find('input:text').attr('value', '');
