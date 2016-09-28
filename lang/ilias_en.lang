@@ -16347,3 +16347,4 @@ chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable 
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
