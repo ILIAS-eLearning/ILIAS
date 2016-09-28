@@ -1058,6 +1058,7 @@ var ClozeGapBuilder = (function () {
 	pro.cloneFormPart = function (pos) {
 		ClozeGlobals.clone_active = pos;
 		pos = parseInt(pos, 10) - 1;
+
 		if (ClozeSettings.gaps_php[0][pos]) {
 			$('.modal-body').html('');
 			if (ClozeGlobals.jour_fixe_incompatible === false) {
@@ -1066,29 +1067,27 @@ var ClozeGapBuilder = (function () {
 					values: ClozeSettings.gaps_php[0][pos]
 				}));
 			}
-			else {
-				var clone_type = ClozeSettings.gaps_php[0][pos].type;
-				if (clone_type === '') {
-					clone_type = 'text';
-				}
-				if (clone_type == 'text') {
-					$('#text-gap-r-' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#gap_' + pos + '_gapsize_row').clone(true).removeAttr('id').appendTo('.modal-body');
-				}
-				else if (clone_type == 'select') {
-					$('#select-gap-r-' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#shuffle_answers_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-				}
-				else if (clone_type == 'numeric') {
-					$('#numeric-gap-r-' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#numeric_answers_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#numeric_answers_lower_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#numeric_answers_upper_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#numeric_answers_points_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-					$('#remove_gap_container_' + pos).clone(true).appendTo('.modal-body');
-				}
+
+			var clone_type = ClozeSettings.gaps_php[0][pos].type;
+			if (clone_type === '') {
+				clone_type = 'text';
 			}
-			$('#text_row_' + pos + '_0').clone(true).removeAttr('id').appendTo('.modal-body');
+			if (clone_type == 'text')
+			{
+				$('#text_row_' + pos + '_0').clone(true).removeAttr('id').appendTo('.modal-body');
+			}
+			else if (clone_type == 'select')
+			{
+				$('#text_row_' + pos + '_0').clone(true).removeAttr('id').appendTo('.modal-body');
+			}
+			else if (clone_type == 'numeric')
+			{
+				$('#numeric_answers_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+				$('#numeric_answers_lower_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+				$('#numeric_answers_upper_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+				$('#numeric_answers_points_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+				$('#remove_gap_container_' + pos).clone(true).appendTo('.modal-body');
+			}
 			$('.error_answer_' + pos).clone(true).removeAttr('id').appendTo('.modal-body');
 			var gapName = parseInt(pos, 10) + 1;
 			$('.modal-title').html('Gap ' + gapName);
