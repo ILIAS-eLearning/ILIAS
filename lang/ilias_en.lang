@@ -15437,6 +15437,10 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
 buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+common#:#buddy_allow_to_contact_me_no#:#Doesn`t Receive Contact Requests
+common#:#buddy_allow_to_contact_me_yes#:#Receives Contact Requests
+buddysystem#:#buddy_use_osd#:#Popup Contact Requests
+buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests

@@ -1162,6 +1162,10 @@ class ilUserImportParser extends ilSaxParser
 							{
 								$this->userObj->setPref('chat_osc_accept_msg', $ilSetting->get('chat_osc_accept_msg', 'n'));
 							}
+							if(!is_array($this->prefs) || array_search('bs_allow_to_contact_me', $this->prefs) === false)
+							{
+								$this->userObj->setPref('bs_allow_to_contact_me', $ilSetting->get('bs_allow_to_contact_me', 'n'));
+							}
 
 							$this->userObj->writePrefs();
 

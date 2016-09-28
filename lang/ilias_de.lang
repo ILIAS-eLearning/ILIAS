@@ -15455,6 +15455,10 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
+common#:#buddy_allow_to_contact_me_no#:#Erhält keine Kontaktanfragen
+common#:#buddy_allow_to_contact_me_yes#:#Erhält Kontaktanfragen
+buddysystem#:#buddy_use_osd#:#Popup Kontaktanfragen
+buddysystem#:#buddy_use_osd_info#:#Zeigt ein Popup an, wenn ein Benutzer mit mir in Kontakt treten möchte.
 common#:#my_contacts#:#Meine Kontakte
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
 contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
