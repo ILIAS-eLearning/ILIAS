@@ -19,6 +19,10 @@ class ilCtrl
 	 * This always seems to be "ilias.php" (or null for some short init time), as
 	 * grep -r "setTargetScript" reveals.
 	 *
+	 * This is used in: setTargetScript, getTargetScrot
+	 *
+	 * This most likely is superfluous, see getTargetScript and setTargetScript.
+	 *
 	 * @var	string|null
 	 */
 	protected	$target_script = null;
@@ -903,7 +907,11 @@ class ilCtrl
 	}
 
 	/**
-	 * set target script name
+	 * Set target script name.
+	 *
+	 * This is in fact used in various places, but as `grep -r setTargetScript .`
+	 * reveals is always set to "ilias.php". The target script stuff seems to be
+	 * pointless.
 	 *
 	 * @param	string		$a_target_script		target script name
 	 */
@@ -914,11 +922,11 @@ class ilCtrl
 
 
 	/**
-	 * Get target script name
+	 * Get target script name.
 	 *
 	 * @return	string		target script name
 	 */
-	public function getTargetScript()
+	protected function getTargetScript()
 	{
 		return $this->target_script;
 	}
