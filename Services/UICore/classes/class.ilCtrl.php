@@ -27,7 +27,17 @@ class ilCtrl
 	 */
 	protected	$target_script = null;
 
-	var $forward;			// forward array
+	/**
+	 * Forward array.
+	 *
+	 * TODO: What is this?
+	 *
+	 * This is used in: forwards
+	 *
+	 * @var	array
+	 */
+	protected	$forward;
+
 	var $parent;			// parent array (reverse forward)
 	var $save_parameter;	// save parameter array
 	var $return;			// return commmands

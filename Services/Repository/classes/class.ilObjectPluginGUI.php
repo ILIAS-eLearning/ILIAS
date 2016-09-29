@@ -352,11 +352,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
 		
-//var_dump($ilCtrl->call_node);
-//var_dump($ilCtrl->forward);
-//var_dump($ilCtrl->parent);
-//var_dump($ilCtrl->root_class);
-
 		$ilCtrl->setParameterByClass(get_class($this), "ref_id", $newObj->getRefId());
 		$ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class($this)), $this->getAfterCreationCmd());
 	}
