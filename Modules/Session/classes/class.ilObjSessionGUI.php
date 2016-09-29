@@ -2321,12 +2321,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
-	 function cancelEditObject()
-	 {
-		 global $ilCtrl, $tree;
-		 $parent_id = $tree->getParentId($this->object->getRefId());
-		 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
-		 $ilCtrl->redirectByClass("ilrepositorygui", "");
-	 }
+
+	/**
+	 * Cancel editigin
+	 * @global type $ilCtrl
+	 * @global type $tree
+	 */
+	protected function cancelEditObject()
+	{
+		global $ilCtrl, $tree;
+		
+		$parent_id = $tree->getParentId((int) $_REQUEST['ref_id']);
+		
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
+
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
+	}
+
 }
 ?>
