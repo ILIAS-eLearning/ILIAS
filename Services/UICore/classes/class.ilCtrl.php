@@ -38,7 +38,17 @@ class ilCtrl
 	 */
 	protected	$forward;
 
-	var $parent;			// parent array (reverse forward)
+	/**
+	 * Parent array (reverse forward).
+	 *
+	 * TODO: What is this?
+	 *
+	 * This is used in forwards
+	 *
+	 * @var array
+	 */
+	protected	$parent;
+
 	var $save_parameter;	// save parameter array
 	var $return;			// return commmands
 	var $call_hist = array();	// calling history
