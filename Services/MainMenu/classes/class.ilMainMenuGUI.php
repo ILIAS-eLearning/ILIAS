@@ -565,16 +565,12 @@ class ilMainMenuGUI {
 
 
 			// always set ajax url
-			$ts = $ilCtrl->getTargetScript();
-			$ilCtrl->setTargetScript("ilias.php");
-
 			$ilHelp->setCtrlPar();
 			$this->main_tpl->addOnLoadCode(
 				"il.Help.setAjaxUrl('" .
 				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
 				. "');"
 			);
-			$ilCtrl->setTargetScript($ts);
 		}
 	}
 
