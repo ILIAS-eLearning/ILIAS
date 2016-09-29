@@ -27,7 +27,15 @@ class ilCtrl
 	 */
 	protected	$target_script = null;
 
-	var $save_parameter;	// save parameter array
+	/**
+	 * Maps lowercase class names to lists of parameters saved for them.
+	 *
+	 * This is used in: saveParameterByClass, getParameterArrayByClass
+	 *
+	 * @var	array<string, mixed[]>
+	 */
+	protected $save_parameter;
+
 	var $return;			// return commmands
 	var $call_hist = array();	// calling history
 	var $debug = array();
