@@ -32,8 +32,7 @@ class ilCtrl
 
 		$this->bench = $ilBench;
 		
-		// initialisation
-		$this->init();
+		$this->initializeMemberVariables();
 		
 		// this information should go to xml files one day
 		$this->stored_trees = array
@@ -43,9 +42,13 @@ class ilCtrl
 	}
 	
 	/**
-	 * initialisation
+	 * Initialize member variables.
+     *
+	 * This is used in __construct and initBaseClass.
+	 *
+	 * @return	null
 	 */
-	function init()
+	protected function initializeMemberVariables()
 	{
 		$this->transit = array();
 		$this->forward = array();			// forward array
@@ -926,7 +929,7 @@ class ilCtrl
 		$_GET["cmd"] = "";
 		$_GET["cmdClass"] = "";
 		$_GET["cmdNode"] = "";
-		$this->init();
+		$this->initializeMemberVariables();
 	}
 	
 	/**
