@@ -27,28 +27,6 @@ class ilCtrl
 	 */
 	protected	$target_script = null;
 
-	/**
-	 * Forward array.
-	 *
-	 * TODO: What is this?
-	 *
-	 * This is used in: forwards
-	 *
-	 * @var	array
-	 */
-	protected	$forward;
-
-	/**
-	 * Parent array (reverse forward).
-	 *
-	 * TODO: What is this?
-	 *
-	 * This is used in forwards
-	 *
-	 * @var array
-	 */
-	protected	$parent;
-
 	var $save_parameter;	// save parameter array
 	var $return;			// return commmands
 	var $call_hist = array();	// calling history
@@ -84,8 +62,6 @@ class ilCtrl
 	protected function initializeMemberVariables()
 	{
 		$this->transit = array();
-		$this->forward = array();			// forward array
-		$this->parent = array();			// parent array (reverse forward)
 		$this->save_parameter = array();	// save parameter array
 		$this->parameter = array();			// save parameter array
 		$this->return = array();			// return commmands
@@ -557,60 +533,11 @@ class ilCtrl
 			$a_nr = $this->readCallStructure($call_rec["child"], $a_nr, $a_parent);
 			$forw[] = $call_rec["child"];
 		}
-		
-		// determin forward and parent array
-		$this->forwards($a_class, $forw);
 
 		// determine root class
 		$this->root_class = $a_class;
 		return $a_nr;
 	}
-
-
-	/**
-	 * Stores which classes forwards commands to which other classes.
-	 *
-	 * @param	string	$a_from_class	source class name
-	 * @param	string	$a_to_class		target class name
-	 */
-	private function forwards($a_from_class, $a_to_class)
-	{
-		$a_from_class = strtolower($a_from_class);
-
-		if (is_array($a_to_class))
-		{
-			foreach($a_to_class as $to_class)
-			{
-				if ($a_from_class != "" && $to_class != "")
-				{
-					if (!is_array($this->forward[$a_from_class]) || !in_array(strtolower($to_class), $this->forward[$a_from_class]))
-					{
-						$this->forward[$a_from_class][] = strtolower($to_class);
-					}
-					if (!is_array($this->parent[strtolower($to_class)]) || !in_array($a_from_class, $this->parent[strtolower($to_class)]))
-					{
-						$this->parent[strtolower($to_class)][] = $a_from_class;
-					}
-				}
-			}
-		}
-		else
-		{
-			$to_class = $a_to_class;
-			if ($a_from_class != "" && $to_class != "")
-			{
-				if (!is_array($this->forward[$a_from_class]) || !in_array(strtolower($to_class), $this->forward[$a_from_class]))
-				{
-					$this->forward[$a_from_class][] = strtolower($to_class);
-				}
-				if (!is_array($this->parent[strtolower($to_class)]) || !in_array($a_from_class, $this->parent[strtolower($to_class)]))
-				{
-					$this->parent[strtolower($to_class)][] = $a_from_class;
-				}
-			}
-		}
-	}
-
 
 	/**
 	 * Set parameters that should be passed in every form and link of a
