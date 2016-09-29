@@ -29,10 +29,10 @@ var ilWizardInput = {
 		this.initEvents(target);
 		
 		// empty inputs
-		//this.cleanRow(target);
+		this.cleanRow(target);
 
 		// empty inputs with jquery val() not attr()
-		this.cleanValuesRow(target);
+		//this.cleanValuesRow(target);
 		
 		$(source).after(target);	
 					
