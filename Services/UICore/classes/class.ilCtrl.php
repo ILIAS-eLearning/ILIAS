@@ -13,7 +13,16 @@ class ilCtrl
 {
 	const IL_RTOKEN_NAME = 'rtoken';
 	
-	var $target_script;
+	/**
+	 * Name of the script to be used when creating URLs.
+	 *
+	 * This always seems to be "ilias.php" (or null for some short init time), as
+	 * grep -r "setTargetScript" reveals.
+	 *
+	 * @var	string|null
+	 */
+	protected	$target_script = null;
+
 	var $forward;			// forward array
 	var $parent;			// parent array (reverse forward)
 	var $save_parameter;	// save parameter array
