@@ -111,7 +111,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 		{
 			$cat = $this->object->categories->getCategory($i);
-			$value = ($cat->scale >=0) ? ($cat->scale) : $i;
+			$value = ($cat->scale >= 0) ? ($cat->scale) : $i;
 		
 			$checked = "unchecked";
 			$text = null;
@@ -280,7 +280,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 						{
 							$template->setVariable("OTHER_LABEL", $cat->title);
 						}
-						$template->setVariable("VALUE_SC", ($cat->scale >=0) ? ($cat->scale) : $i);
+						$template->setVariable("VALUE_SC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
@@ -340,7 +340,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					$cat = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("radio_col");
 					if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
-					$template->setVariable("VALUE_SC", ($cat->scale >=0) ? ($cat->scale) : $i);
+					$template->setVariable("VALUE_SC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
@@ -366,7 +366,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("text_other_col");
-						$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale) : $i);
+						$template->setVariable("VALUE_SC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (strlen($cat->title))
 						{
@@ -391,7 +391,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					{
 						$template->setCurrentBlock("text_col");
 						if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
-						$template->setVariable("VALUE_SC", ($cat->scale >=0) ? ($cat->scale) : $i);
+						$template->setVariable("VALUE_SC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						$template->parseCurrentBlock();
@@ -406,7 +406,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					$cat = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow");
 					$template->setVariable("TEXT_SC", $cat->title);
-					$template->setVariable("VALUE_SC", ($cat->scale >=0) ? ($cat->scale) : $i);
+					$template->setVariable("VALUE_SC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 					if (is_array($working_data))
 					{
 						if (strcmp($working_data[0]["value"], "") != 0)
