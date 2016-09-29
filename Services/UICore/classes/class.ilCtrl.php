@@ -75,7 +75,6 @@ class ilCtrl
 	{
 		$this->transit = array();
 		$this->forward = array();			// forward array
-		$this->forwards = array();			// forward array
 		$this->parent = array();			// parent array (reverse forward)
 		$this->save_parameter = array();	// save parameter array
 		$this->parameter = array();			// save parameter array
