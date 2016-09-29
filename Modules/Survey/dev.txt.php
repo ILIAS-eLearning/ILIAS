@@ -9,9 +9,9 @@
 
 ## Questions
 * class SurveyQuestion
-* table svy_question: general question properties
-  * questiontype_fi -> question type in svy_qtype
-  * obj_fi -> survey or survey pool in object_data
+* table svy_question (general question properties)
+  * questiontype_fi: question type -> svy_qtype
+  * obj_fi: survey or survey pool object -> object_data
   
 
 ### Single Choice Question
@@ -44,21 +44,21 @@
 * neither ilSurveyCategory nor SurveyCategories writes into table svy_category this is done by
   classes SurveySingleChoiceQuestion, SurveyQuesiton, SurveyMatrixQuestion and SurveyPhrases
 * table svy_category
-  * title
-  * defaultvalue (is set to "1" for categories predefined by the system? or phrases)
-  * neutral
+  * title: answer text
+  * defaultvalue: is set to "1" for categories predefined by the system? or for user defined phrases
+  * neutral:
 
 ## "Variables" (Answer Options of Concrete Questions)
 * Answer options for each question
 * Hold Scale Values
 * table svy_variable
-  * category_fi -> general answer option
-  * question_fi -> question
-  * value1 ...
-  * value2 ...
+  * category_fi: general answer option -> svy_category
+  * question_fi: question -> svy_question
+  * value1:
+  * value2:
   * sequence (order of the options in the question presentation)
-  * other ...
-  * scale (scale value)
+  * other:
+  * scale: scale value
 
 ## "Phrases"
 * Reusable sets of answer options (only for single choice and matrix questions) 
@@ -115,11 +115,26 @@
   * question_fi: question -> svy_question (could have pointed to svy_svy_qst instead, but does not do)
   * question_block_fi: block -> svy_qblk
   
-## Rule Relation Definition
+## Rule Relation
+* <, <=, =>, ...
+* table svy_relation (fixed set of relations, should be moved from table to class constants)
+  * longname, e.g. less
+  * shortname, e.g. <
 
 ## Rule / Condition Definition
+* Rules can be defined using single choice, multiple choice and metric questions
+* table svy_constraint
+  * question_fi: "source" question -> svy_question
+  * relation_fi: relation -> svy_relation
+  * value: scale value - 1 !?
+  * conjunction: or/and (but why on this level?)
 
-## Rules / Condition use on a Question
+## Rules / Condition used on a Question
+* "If condition is met, show the question"
+* table svy_qst_constraint (it seems that svy_constraint and svy_qst_constraint could be merged into one table)
+  * survey_fi: survey -> svy_svy
+  * question_fi: "target" question -> svy_question
+  * constraint_fi: constraint definition -> svy_constraint
 
 ## Survey Run ("Finished")
 * Stores progress of user working through a survey
@@ -143,7 +158,7 @@
 * Given answers by user during test run, mc question answers may lead to multiple entries for one question in a run
 * table svy_answer
   * active_fi: survey run -> svy_finished
-  * question_fi: question -> svy_question (does not seem to point to svy_svy_qst)
+  * question_fi: question -> svy_question (does not point to svy_svy_qst)
   * value: scale value of corresponding "variable" -1?
   * textanswer: 
   * rowvalue: 
