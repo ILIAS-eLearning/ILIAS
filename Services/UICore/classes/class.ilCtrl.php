@@ -43,26 +43,6 @@ class ilCtrl
 	}
 	
 	/**
-	 * Collect debugging strings (@deprecated)
-	 *
-	 * @param	string		debug message
-	 */
-	function debug($str)
-	{
-		$this->debug[] = $str;
-	}
-	
-	/**
-	 * Get debug message string (@deprecated)
-	 *
-	 * @return	array		array of debug strings
-	 */
-	function getDebug()
-	{
-		return $this->debug;
-	}
-	
-	/**
 	 * initialisation
 	 */
 	function init()
