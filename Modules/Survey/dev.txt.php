@@ -1,3 +1,5 @@
+<?php exit; ?>
+
 # Survey Question Pool (Modules/SurveyQuestionPool)
 * Main question editing/storing
 * Storing of phrases
