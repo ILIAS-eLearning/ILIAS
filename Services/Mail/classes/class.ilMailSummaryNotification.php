@@ -57,7 +57,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
 			$this->initMail();
 
-			$this->setRecipients($user_id);
+			$this->setRecipients(array($user_id));
 			$this->setSubject($this->getLanguageText('mail_notification_subject'));
 
 			$this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
