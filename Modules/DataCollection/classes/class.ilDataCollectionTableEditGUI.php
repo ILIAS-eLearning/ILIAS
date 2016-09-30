@@ -185,9 +185,13 @@ class ilDataCollectionTableEditGUI {
 		$item = new ilTextInputGUI($this->lng->txt('title'), 'title');
 		$item->setRequired(true);
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_visible'), 'is_visible');
-        $item->setInfo($this->lng->txt('dcl_visible_desc'));
-		$this->form->addItem($item);
+
+		//#0019146: Main Table is always visible in the menu-dropdown, if some other table is visible too
+		if ($this->table_id != $this->parent_object->getDataCollectionObject()->getMainTableId()) {
+			$item = new ilCheckboxInputGUI($this->lng->txt('dcl_visible'), 'is_visible');
+			$item->setInfo($this->lng->txt('dcl_visible_desc'));
+			$this->form->addItem($item);
+		}
 
 		// Show default order field and direction only in edit mode, because table id is not yet given and there are no fields to select
 		if ($a_mode != 'create') {
