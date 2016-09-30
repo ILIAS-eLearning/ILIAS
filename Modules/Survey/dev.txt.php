@@ -181,14 +181,14 @@ Repository home -> create new survey, create new page with any of this "Question
 
 - Problem:
 
-At this point, if we don not save any answer and press "back to de Survey" or leave this page without save.
+At this point, if we do not save any answer and press "back to de Survey" or we leave this page without save.
 In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and
 "tstamp" with value 0  (Look for services/cron which delete this rows)
 
 - Problem:
 
 We can put as scale values everything without restrictions. Strings, numbers and symbols are allowed.
-After press the save button we get the success message "Modifications saved."
+After pressing the save button we get the success message "Modifications saved."
 But in the database table "svy_variable" the column scale has "NULL".
 
 - Problem:
@@ -198,7 +198,7 @@ scale values. Therefore we have NULL in the DB and one new number in the edit fo
 
 - Problem:
 
-Everytime one answer is added the javascript clone exactly the same row above. Therefore we have to delete the text
+Everytime one answer is added, the javascript clones exactly the same row above. Therefore we have to delete the text
 and scale before write.
 
 - Observation:
@@ -240,7 +240,7 @@ Here que can create pages, add from pool etc...
 
 - Problem/Observation:
 
-Here we are passing to the template the scale -1. Therefore all the radiobuttons, checkboxes will have the scale value as scale -1
+Here we are passing to the template, the scale -1. Therefore all the radio buttons, checkboxes will have the scale value as scale -1
 Also if we need store 0 values this if statement is not valid.
 
     $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
