@@ -1582,7 +1582,7 @@ class ilCtrl
 	}
 
 	/**
-	 * Get Cid for Class
+	 * Get cid for class after fetching and storing corresponding information, if necessary.
 	 */
 	private function getCidForClass($a_class, $a_check = false)
 	{
@@ -1614,7 +1614,7 @@ class ilCtrl
 
 
 	/**
-	 * Get class for cid
+	 * Get class for cid after fetching and storing corresponding information, if necessary.
 	 */
 	private function getClassForCid($a_cid)
 	{
@@ -1664,14 +1664,15 @@ class ilCtrl
 	}
 
 	/**
-	 * Read info of node
-	 *  
-	 * @param	object	$a_class	class name
+	 * Save classes respective to the cid's of a node and store corresponding
+	 * class calls for future reference.
+	 *
+	 * @param	string	$a_node
 	 */
 	private function readNodeInfo($a_node)
 	{
-		$n_arr = explode(":", $a_node);
-		foreach ($n_arr as $cid)
+		$node_array = explode(":", $a_node);
+		foreach ($node_array as $cid)
 		{
 			$this->readCidInfo($cid);
 		}
@@ -1732,7 +1733,7 @@ class ilCtrl
 	}
 
 	/**
-	 * Remove last cid of node
+	 * Remove the cid that comes ath beginning the sequence.
 	 */
 	private function removeLastCid($a_node)
 	{
