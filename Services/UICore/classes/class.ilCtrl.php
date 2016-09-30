@@ -1577,16 +1577,20 @@ class ilCtrl
 		return $params;
 	}
 	
+	private function classCidUnknown($a_class) {
+		return $this->class_cid[$a_class] == "";
+	}
+
 	/**
 	 * Get Cid for Class
 	 */
 	private function getCidForClass($a_class, $a_check = false)
 	{
-		if ($this->class_cid[$a_class] == "")
+		if ($this->classCidUnknown($a_class))
 		{
 			$this->readClassInfo($a_class);
 		}
-		if ($this->class_cid[$a_class] == "")
+		if ($this->classCidUnknown($a_class))
 		{
 			if ($a_check)
 			{
@@ -1604,16 +1608,21 @@ class ilCtrl
 		return $this->class_cid[$a_class];
 	}
 
+	private function cidClassUnknown($a_cid) {
+		return $this->cid_class[$a_cid] == "";
+	}
+
+
 	/**
 	 * Get class for cid
 	 */
 	private function getClassForCid($a_cid)
 	{
-		if ($this->cid_class[$a_cid] == "")
+		if ($this->cidClassUnknown($a_cid))
 		{
 			$this->readCidInfo($a_cid);
 		}
-		if ($this->cid_class[$a_cid] == "")
+		if ($this->cidClassUnknown($a_cid))
 		{
 			include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
 			throw new ilCtrlException("Cannot find class for cid ".$a_cid.".");
@@ -1622,40 +1631,33 @@ class ilCtrl
 	}
 
 	/**
-	 * Read information of class per cid
-	 * @return 
+	 * Save class respective to $a_cid and store corresponding
+	 * class calls for future reference.
+	 *
 	 * @param object $a_cid		cid
 	 */
 	private function readCidInfo($a_cid)
 	{
-		global $ilDB;
-
 		if (isset($this->info_read_cid[$a_cid]))
 		{
 			return;
 		}
 
 		$cached_ctrl = ilCachedCtrl::getInstance();
-		$rec = $cached_ctrl->lookupCid($a_cid);
+		$cid_info = $cached_ctrl->lookupCid($a_cid);
 
-		if($rec)
+		if($cid_info)
 		{
-			$this->cid_class[$a_cid] = $rec["class"];
-			$this->class_cid[$rec["class"]] = $a_cid;
+			$this->updateClassCidMap($cid_info['class'], $a_cid);
 
-			$calls = $cached_ctrl->lookupCall($rec["class"]);
-
-			foreach($calls as $rec2)
+			foreach($cached_ctrl->lookupCall($cid_info["class"]) as $call)
 			{
-				if (!isset($this->calls[$rec["class"]]) || !is_array($this->calls[$rec["class"]]) || !in_array($rec2["child"], $this->calls[$rec["class"]]))
+				if ($call["child"] != "" && $this->callOfClassNotKnown($cid_info['class'],$call['child']))
 				{
-					if ($rec2["child"] != "")
-					{
-						$this->calls[$rec["class"]][] = $rec2["child"];
-					}
+					$this->calls[$cid_info["class"]][] = $call["child"];
 				}
 			}
-			$this->info_read_class[$rec["class"]] = true;
+			$this->info_read_class[$cid_info["class"]] = true;
 		}
 		
 		$this->info_read_cid[$a_cid] = true;
@@ -1676,14 +1678,13 @@ class ilCtrl
 	}
 
 	/**
-	 * Read info of class
+	 * Save cid respective to $a_class and store corresponding
+	 * class calls for future reference.
 	 *  
 	 * @param	object	$a_class	class name
 	 */
 	private function readClassInfo($a_class)
 	{
-		global $ilDB;
-
 		$a_class = strtolower($a_class);
 		if (isset($this->info_read_class[$a_class]))
 		{
@@ -1691,24 +1692,18 @@ class ilCtrl
 		}
 
 		$cached_ctrl = ilCachedCtrl::getInstance();
-		$rec = $cached_ctrl->lookupClassFile($a_class);
+		$class_info = $cached_ctrl->lookupClassFile($a_class);
 
-
-		if($rec)
+		if($class_info)
 		{
-			$this->cid_class[$rec["cid"]] = $a_class;
-			$this->class_cid[$a_class] = $rec["cid"];
+			$this->updateClassCidMap($a_class,$class_info['cid']);
 		}
 		
-		$recs = $cached_ctrl->lookupCall($a_class);
-		foreach($recs as $rec)
+		foreach($cached_ctrl->lookupCall($a_class) as $call)
 		{
-			if (!isset($this->calls[$a_class]) || !is_array($this->calls[$a_class]) || !in_array($rec["child"], $this->calls[$a_class]))
+			if ($call["child"] != "" && $this->callOfClassNotKnown($a_class, $call["child"]) )
 			{
-				if ($rec["child"] != "")
-				{
-					$this->calls[$a_class][] = $rec["child"];
-				}
+				$this->calls[$a_class][] = $call["child"];
 			}
 		}
 		
@@ -1716,13 +1711,24 @@ class ilCtrl
 		$this->info_read_cid[$this->class_cid[$a_class]] = true;
 	}
 
+	private function callOfClassNotKnown($a_class, $a_child) {
+		return !isset($this->calls[$a_class])
+				|| !is_array($this->calls[$a_class])
+				|| !in_array($a_child, $this->calls[$a_class]);
+	}
+
+	private function updateClassCidMap($a_class, $a_cid) {
+			$this->cid_class[$a_cid] = $a_class;
+			$this->class_cid[$a_class] = $a_cid;
+	}
+
 	/**
-	 * Get last but one cid of node id
+	 * Get parent cid of node
 	 */
 	private function getParentCidOfNode($a_node)
 	{
-		$n_arr = explode(":", $a_node);
-		return $n_arr[count($n_arr) - 2];
+		$node_array = explode(":", $a_node);
+		return $node_array[count($node_array) - 2];
 	}
 
 	/**
@@ -1735,7 +1741,7 @@ class ilCtrl
 	}
 
 	/**
-	 * Get last cid of node id
+	 * Get cid of node
 	 */
 	private function getCurrentCidOfNode($a_node)
 	{
