@@ -151,7 +151,16 @@ class ilDataCollectionRecordEditGUI {
 		$conf->setFormAction($this->ctrl->getFormAction($this));
 		$conf->setHeaderText($this->lng->txt('dcl_confirm_delete_record'));
 		$record = ilDataCollectionCache::getRecordCache($this->record_id);
-		$conf->addItem('record_id', $record->getId(), implode(", ", $record->getRecordFieldValues()));
+		$text = '';
+		foreach ($record->getRecordFields() as $record_field) {
+			$value = $record_field->getExportValue();
+			// cut long texts
+			if (strlen($value) > 150) {
+				$value = substr($value, 0, 100) . ' ...';
+			}
+			$text .= $record_field->getField()->getTitle() . ': ' . $value . "<br>";
+		}
+		$conf->addItem('record_id', $record->getId(), $text);
 		$conf->addHiddenItem('table_id', $this->table_id);
 		$conf->setConfirm($this->lng->txt('delete'), 'delete');
 		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
