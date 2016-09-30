@@ -6,12 +6,22 @@
 
 ## Question Types
 * stored in table svy_qtype
+* Can we get rid of legacy plugin architecture?
+* Can we get of the table completely?
 
 ## Questions
-* class SurveyQuestion
+* class SurveyQuestion (parent for specialized question classes)
 * table svy_question (general question properties)
   * questiontype_fi: question type -> svy_qtype
   * obj_fi: survey or survey pool object -> object_data
+  * owner_fi: author user -> usr_data and object_data
+  * complete: 1 or 0 depending if the user saved any data
+  * original_id: 
+  * ...
+* Problem: If we do not save any answer and press "back to de Survey" or we leave this page without save.
+  In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and
+  "tstamp" with value 0  (Look for services/cron which delete this rows)
+
   
 
 ### Single Choice Question
@@ -39,14 +49,15 @@
   * other ...
   * neutral
   * label ...
-  * scale (<- this will be stored in "Variables"
+  * scale (<- this will be stored in "Variables")
 * class SurveyCategories handles an array of ilSurveyCategory objects (for a question)
-* neither ilSurveyCategory nor SurveyCategories writes into table svy_category this is done by
-  classes SurveySingleChoiceQuestion, SurveyQuesiton, SurveyMatrixQuestion and SurveyPhrases
+* problem: neither ilSurveyCategory nor SurveyCategories writes into table svy_category this is done by
+  classes SurveySingleChoiceQuestion, SurveyQuesiton, SurveyMatrixQuestion and SurveyPhrases, ...
 * table svy_category
   * title: answer text
   * defaultvalue: is set to "1" for categories predefined by the system? or for user defined phrases
   * neutral:
+  * ..
 
 ## "Variables" (Answer Options of Concrete Questions)
 * Answer options for each question
@@ -54,11 +65,13 @@
 * table svy_variable
   * category_fi: general answer option -> svy_category
   * question_fi: question -> svy_question
-  * value1:
-  * value2:
-  * sequence (order of the options in the question presentation)
+  * value1: for metric q: min value
+  * value2: for metric q: max value
+  * sequence: order of the options in the question presentation
   * other:
-  * scale: scale value
+  * scale: scale value (positives or NULL. Here the scale have the real value entered, not scale -1 )
+* problem: value1/value2 values seem to be redundant or belong to other tables (e.g. metric)
+
 
 ## "Phrases"
 * Reusable sets of answer options (only for single choice and matrix questions) 
@@ -73,18 +86,23 @@
   * sequence: order of the options in the question presentation
   * other:
   * scale: always NULL?, editing provides only disabled input fields
+* problem: why scale field when always NULL?
+
 
 ## Question Editing
 * Question GUI classes 
   * Save process: save() -> saveForm() -> importEditFormValues() -> question object saveToDb()
   
+
 # Survey (Modules/Survey)
 * Represents Survey Repository Object
 * Manages question of survey
 * Stores given answers
+* ...
 
 ## Survey
 * table svy_svy (general settings of the survey)
+  * obj_fi: general object -> object_data
   * ...
 
 ## Questions in a survey
@@ -92,10 +110,11 @@
   * survey_fi: survey -> svy_svy
   * question_fi: question -> svy_question
   * sequence: ordering of the questions in the survey (increments +1 normally through question blocks)
+  * ...
   
 ## Compulsory questions in a survey
 * Stores compulsory (obligatory/mandatory) state of each question in a survey
-* Why is this not a simple property in svy_svy_qst?
+* problem: Why is this not a simple property in svy_svy_qst?
 * table svy_qst_oblig
   * survey_fi: survey -> svy_svy
   * question_fi: question -> svy_question
@@ -115,11 +134,15 @@
   * question_fi: question -> svy_question (could have pointed to svy_svy_qst instead, but does not do)
   * question_block_fi: block -> svy_qblk
   
+## Rules/Routing
+* General Idea: Conditional presentation of questions or question blocks (pages) depending on former answers
+
 ## Rule Relation
 * <, <=, =>, ...
 * table svy_relation (fixed set of relations, should be moved from table to class constants)
   * longname, e.g. less
   * shortname, e.g. <
+* problem: why storing this in a table, its static?
 
 ## Rule / Condition Definition
 * Rules can be defined using single choice, multiple choice and metric questions
@@ -131,10 +154,11 @@
 
 ## Rules / Condition used on a Question
 * "If condition is met, show the question"
-* table svy_qst_constraint (it seems that svy_constraint and svy_qst_constraint could be merged into one table)
+* table svy_qst_constraint 
   * survey_fi: survey -> svy_svy
   * question_fi: "target" question -> svy_question
   * constraint_fi: constraint definition -> svy_constraint
+* problem: it seems that svy_constraint and svy_qst_constraint could be merged into one table
 
 ## Survey Run ("Finished")
 * Stores progress of user working through a survey
@@ -163,7 +187,7 @@
   * textanswer: 
   * rowvalue:
 
-
+====================================
 
 ## Current behaviour without patch.
 
@@ -179,11 +203,7 @@ Repository home -> create new survey, create new page with any of this "Question
 
 **In the answers section:**
 
-- Problem:
 
-At this point, if we do not save any answer and press "back to de Survey" or we leave this page without save.
-In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and
-"tstamp" with value 0  (Look for services/cron which delete this rows)
 
 - Problem:
 
@@ -260,26 +280,12 @@ In this Services I have seen "svy_variable"
 
 ## DATABASE TABLES
 
-#### svy_question
 
-Stores questions
-
-Special columns:
-- "complete" 1 or 0 depending if the user saved any data.
 
 #### svy_qtype
 
 Stores the question types: SingleChoice / MultipleChoice / Matrix / Metric
 
-#### svy_variable
-
-Stores the answers available.
-
-Special columns:
-- "sequence" determines the position in the form.
-- "scale" scale value (positives or NULL. Here the scale have the real value entered, not scale -1 )
-- "value1" ??? it seems to be the same as sequence but starting by 1 instead of 0 (tested deleting and adding answers)
-- "value2" ??? always null?
 
 #### svy_category
 
