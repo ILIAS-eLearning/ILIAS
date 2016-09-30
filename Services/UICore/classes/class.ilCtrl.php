@@ -1393,16 +1393,6 @@ class ilCtrl
 
 
 	/**
-	 * Get current redirect source
-	 *
-	 * @return	string		redirect source class
-	 */
-	function getRedirectSource()
-	{
-		return $_GET["redirectSource"];
-	}
-
-	/**
 	 * Get return script url
 	 */
 	function getParentReturn($a_gui_obj)
@@ -1463,6 +1453,16 @@ class ilCtrl
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get current redirect source
+	 *
+	 * @return	string		redirect source class
+	 */
+	function getRedirectSource()
+	{
+		return $_GET["redirectSource"];
 	}
 
 	/**
