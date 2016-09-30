@@ -216,7 +216,7 @@ But in the database table "svy_variable" the column scale has "NULL".
 If we go to edit this answer we can see that the javascript filled the Scale with the first number available in the
 scale values. Therefore we have NULL in the DB and one new number in the edit form.
 
-- Problem:
+- Observation:
 
 Everytime one answer is added, the javascript clones exactly the same row above. Therefore we have to delete the text
 and scale before write.
@@ -321,3 +321,302 @@ User answered but the scale is saved as value 10: (scale -1)
     +-----------+-----------+-------------+-------+------------+----------+------------+
     1 row in set (0.00 sec)
 
+
+
+##Tables documentation.
+
+* table svy_qtype
+    * questiontype_id: sequence value -> svy_qtype_seq (PK)
+    * type_tag
+    * plugin: always 0??
+
+
+* table svy_question
+    * question_id: sequence value -> svy_question_seq (PK)
+    * questiontype_fi: question type -> svy_qtype
+    * obj_fi: survey or survey pool object -> object_data (MUL)
+    * owner_fi: author user -> usr_data and object_data (MUL)
+    * title: question text (MUL)
+    * description:
+    * author:
+    * obligatory:
+    * complete: 1 or 0 depending if the user saved any data
+    * created:
+    * original_id:
+    * tstamp:
+    * questiontext:
+    * label:
+    INSERT: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - saveToDb
+    UPDATE: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - saveToDb
+    DELETE: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - delete
+    UPDATE: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - delete
+    UPDATE: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - _changeOriginalId
+    INSERT: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - createNewQuestion
+    UPDATE: Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php - saveCompletionStatus
+    UPDATE: Modules/Survey/classes/class.ilObjSurvey.php - setObligatoryStates
+    UPDATE: Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php - setObligatoryStates
+
+* table svy_category
+    * category_id: sequence value -> svy_category_seq (PK)
+    * title: answer text
+    * defaultvalue: is set to "1" for categories predefined by the system? or for user defined phrases
+    * owner_fi: (MUL)
+    * neutral:
+    * tstamp:
+
+
+* table svy_variable
+    * variable_id: sequence value -> svy_variable_seq (PK)
+    * category_fi: general answer option -> svy_category (MUL)
+    * question_fi: question -> svy_question (MUL)
+    * value1: for metric q: min value
+    * value2: for metric q: max value
+    * sequence: order of the options in the question presentation
+    * other:
+    * scale: scale value (positives or NULL. Here the scale have the real value entered, not scale -1 )
+
+* table svy_phrase
+    * phrase_id: sequence value -> svy_phrase_seq (PK)
+    * title: phrase text
+    * defaultvalue:
+    * owner_fi: (MUL)
+    * tstamp:
+
+
+* table svy_phrase_cat
+    * phrase_category_id: sequence value -> svy_phrase_cat_seq (PK)
+    * phrase_fi -> phrase in svy_phrase (MUL)
+    * category_fi -> general answer option in svy_category (MUL)
+    * sequence: order of the options in the question presentation
+    * other:
+    * scale: always NULL?, editing provides only disabled input fields
+
+* table svy_svy
+    * survey_id: sequence value -> svy_svy_seq (PK)
+    * obj_fi: general object -> object_data (MUL)
+    * author
+    * introduction: (MUL)
+    * outro
+    * status
+    * evaluation_access
+    * invitation
+    * invitation_mode
+    * complete
+    * anonymize
+    * show_question_titles
+    * tstamp
+    * created
+    * mailnotification
+    * startdate
+    * enddate
+    * mailaddresses
+    * mailparticipantdata
+    * template_id
+    * pool_usage
+    * mode_360
+    * mode_360_self_eval
+    * mode_360_self_rate
+    * mode_360_self_appr
+    * mode_360_results
+    * mode_360_skill_service
+    * reminder_status
+    * reminder_start
+    * reminder_end
+    * reminder_frequency
+    * reminder_target
+    * tutor_ntf_status
+    * tutor_ntf_reci
+    * tutor_ntf_target
+    * reminder_last_sent
+    * own_results_view
+    * own_results_mail
+    * confirmation_mail
+    * anon_user_list
+    * reminder_tmpl
+
+*table svy_settings
+    * settings_id: sequence value -> svy_settings_seq (PK)
+    * usr_id
+    * keyword
+    * title
+    * value
+
+* table svy_svy_qst
+    * survey_question_id: sequence value -> svy_svy_qst_seq (PK)
+    * survey_fi: survey -> svy_svy (MUL)
+    * question_fi: question -> svy_question
+    * sequence: ordering of the questions in the survey (increments +1 normally through question blocks)
+    * heading
+    * tstamp
+
+
+* table svy_qst_oblig
+    * question_obligatory_id -> sequence value -> sv_qst_oblig_seq (PK)
+    * survey_fi: survey -> svy_svy (MUL)
+    * question_fi: question -> svy_question
+    * obligatory: 1 for true
+    *tstamp
+
+* table svy_qblk
+    * questionblock_id: sequence value -> sv_qblk_seq (PK)
+    * title: block title
+    * show_questiontext: enables to show/hide question texts for questions of the block
+    * owner_fi: (MUL)
+    * tstamp:
+    * show_blocktitle: show/hide title of the block in presentation
+
+* table svy_qblk_qst
+    * qblk_qst_id: sequence value -> sv_gblk_qst_seq (PK)
+    * survey_fi: survey -> svy_svy
+    * question_fi: question -> svy_question (could have pointed to svy_svy_qst instead, but does not do)
+    * question_block_fi: block -> svy_qblk
+
+* table svy_relation (fixed set of relations, should be moved from table to class constants)
+    * relation_id: sequence value -> sv_relation_seq (PK)
+    * longname: e.g. less
+    * shortname: e.g. <
+    * tstamp:
+
+* table svy_constraint
+    * constraint_id: sequence value -> svy_constraint_seq (PK)
+    * question_fi: "source" question -> svy_question (MUL)
+    * relation_fi: relation -> svy_relation (MUL)
+    * value: scale value - 1 !?
+    * conjunction: or/and (but why on this level?)
+
+* table svy_qst_constraint
+    * question_constraint_id: sequence value -> svy_qst_constraint_seq (PK)
+    * survey_fi: survey -> svy_svy (MUL)
+    * question_fi: "target" question -> svy_question (MUL)
+    * constraint_fi: constraint definition -> svy_constraint (MUL)
+
+* table svy_finished
+    * finished_id: sequence value -> svy_finished_seq (PK)
+    * survey_fi: survey -> svy_svy (MUL)
+    * user_fi: user -> usr_data (and object_data)(MUL)
+    * anonymous_id: (MUL)
+    * state: 1 if finished? 0 otherwise?
+    * lastpage:
+    * appr_id:
+
+*table svy_material
+    * material_id: sequence value -> svy_material_seq (PK)
+    * question_fi: question -> svy_question (MUL)
+    * internal_link:
+    * import_id:
+    * material_title:
+    * tstamp:
+    * text_material:
+    * external_link:
+    * file material:
+    * material_type:
+
+* table svy_qst_metric
+    * question_fi: question -> sv_question (PK)
+    * subtype: default 3
+
+* table svy_times
+    * id: sequence value -> svy_times_seq (PK)
+    * finished_fi: survey run -> svy_finished (MUL)
+    * first_question: first question id of page/block -> svy_question (does not seem to point to svy_svy_qst)
+    * entered_page: timestamp when page has been rendered
+    * left_page: timestamp when answers of page have been saved
+
+* table svy_answer
+    * answer_id: sequence value -> svy_answer_seq (PK)
+    * active_fi: survey run -> svy_finished
+    * question_fi: question -> svy_question (does not point to svy_svy_qst)
+    * value: scale value of corresponding "variable" -1?
+    * textanswer:
+    * rowvalue:
+    * tstamp:
+
+* table svy_qst_sc
+    * question_fi: question -> svy_question (PK)
+    * orientation: horizontal, vertial or combobox
+
+* table svy_qst_mc
+    * question_fi: question -> svy_question (PK)
+    * orientation: horizontal, vertial
+    * nr_min_answers:
+    * nr_max_answers:
+
+* table svy_qst_matrix
+    * question_fi: question -> svy_question (PK)
+    * subtype
+    * column_separators
+    * row_separators
+    * neutral_column_separator
+    * column_placeholders
+    * legend
+    * singleline_row_caption
+    * repeat_column_header
+    * column_header_position
+    * random_rows
+    * column_order
+    * column_images
+    * row_images
+    * bipolar_adjective1
+    * bipolar_adjective2
+    * layout
+    * tstamp
+
+*table svy_qst_matrix_rows
+    * id_svy_qst_matrixrows: sequence value -> svy_qst_matrix_rows_seq (PK)
+    * title
+    * sequence
+    * question_fi: question -> svy_question (MUL)
+    * other
+    * label
+
+* table svy_qpl
+    * id_questionpool: sequence value -> svy_qpl_seq (PK)
+    * obj_fi: (MUL)
+    * isonline:
+    * tstamp
+
+* table svy_inv_usr
+    * invited_user_id: sequence value -> svy_inv_usr_seq (PK)
+    * survey_fi: survey -> svy_svy (MUL)
+    * user_fi: user -> usr_data (MUL)
+    * tstamp
+
+* table svy_qst_text
+    * question_fi: question -> svy_question (PK)
+    * maxchars:
+    * width:
+    * height:
+
+* table svy_anonymous:
+    * anonymous_id: sequence value -> svy_anonymous_seq (PK)
+    * survey_key:
+    * survey_fi: survey -> svy_svy
+    * user_key:
+    * tstamp:
+    * externaldata:
+    * sent:
+
+* table svy_360_appr
+    * obj_id:
+    * user_id:
+    * has_closed:
+
+*table svy_360_rater
+    * obj_id
+    * appr_id
+    * user_id
+    * anonymous_id
+    * mail_sent
+
+*table svy_quest_skill
+    * q_id:
+    * survey_id
+    * base_skill_id
+    * tref_id
+
+*table svy_skill_threshold
+    * survey_id:
+    * base_skill_id:
+    * tref_id:
+    * level_id:
+    * threshold
