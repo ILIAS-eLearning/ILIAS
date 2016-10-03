@@ -41,7 +41,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					$options[$record->getId()] = $media_obj->getTitle();
 					break;
 				case ilDclDatatype::INPUTFORMAT_DATETIME:
-					$options[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
+					$options[$record->getId()] = strtotime($record->getRecordFieldSingleHTML($fieldref));
+					// TT #0019091: options2 are the actual values, options the timestamp for sorting
+					$options2[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
 					break;
 				case ilDclDatatype::INPUTFORMAT_TEXT:
 					$value = $record->getRecordFieldValue($fieldref);
@@ -63,6 +65,17 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 			}
 		}
 		asort($options);
+
+		// TT #0019091: restore the actual values after sorting with timestamp
+		if ($reffield->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
+			foreach ($options as $key => $opt) {
+				$options[$key] = $options2[$key];
+			}
+			// the option 'please select' messes with the order, therefore we reset it
+			unset($options[""]);
+			array_unshift($options, $this->lng->txt('dcl_please_select'));
+		}
+
 		$input->setOptions($options);
 
 		if ($reftable->hasPermissionToAddRecord($_GET['ref_id'])) {

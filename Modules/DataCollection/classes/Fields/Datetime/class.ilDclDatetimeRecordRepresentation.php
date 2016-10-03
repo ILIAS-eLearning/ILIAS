@@ -17,11 +17,34 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 * @return string
 	 */
 	public function getHTML($link = true) {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+
 		$value = $this->getRecordField()->getValue();
-		if ($value == '0000-00-00 00:00:00') {
+		if ($value == '0000-00-00 00:00:00' OR !$value) {
 			return $this->lng->txt('no_date');
 		}
-		return ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATE));
+		return $this->formatDate($value, $ilUser->getDateFormat());
+	}
+
+	/**
+	 * @param $value
+	 * @param $format
+	 *
+	 * @return false|string
+	 */
+	protected function formatDate($value, $format) {
+		$timestamp = strtotime($value);
+		switch($format)
+		{
+			case ilCalendarSettings::DATE_FORMAT_DMY:
+				return date("d.m.Y", $timestamp);
+			case ilCalendarSettings::DATE_FORMAT_YMD:
+				return date("Y-m-d", $timestamp);
+			case ilCalendarSettings::DATE_FORMAT_MDY:
+				return date("m/d/Y", $timestamp);
+		}
+		return $this->lng->txt('no_date');
 	}
 
 
