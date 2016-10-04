@@ -111,6 +111,7 @@ If you would like to implement a new component to the framework you should perfo
 
 1. Add your new component into the respective factory interface. E.g. If you introduce a component of a completely new type, you MUST add the description to the main factory (src/UI/Factory.php). If you add a new type of a button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/Factory.
 2. The description MUST use the following template:
+
     ``` php
     /**
     * ---
@@ -148,9 +149,11 @@ If you would like to implement a new component to the framework you should perfo
     **/
     public function demo($content);
     ```
+
 3. This freshly added function in the factory leads to an error as soon as ILIAS is opened, since the implementation
  of the factory (located at src/UI/Implementation/Factory.php) does not implement that function yet. For
  the moment, implement it, as follows:
+ 
     ``` php
     /**
     * @inheritdoc
@@ -160,6 +163,7 @@ If you would like to implement a new component to the framework you should perfo
         throw new \ILIAS\UI\NotImplementedException();
     }
     ```
+
 4. Next, you should think about the interface you would like to propose for this component.
  You need to model the component you want to introduce by defining its
  interface and the factory method that constructs the component. To make your
@@ -297,9 +301,11 @@ If you would like to implement a new component to the framework you should perfo
     }
     ```
 9. Next, make the factory return the new component (change demo() of src/UI/Implementation/Factory.php):
+
     ``` php
     return new Component\Demo\Demo($content);
     ```
+
 10. Then, implement the renderer at src/UI/Implementation/Component/Demo/Demo.php:
     ``` php
     <?php
