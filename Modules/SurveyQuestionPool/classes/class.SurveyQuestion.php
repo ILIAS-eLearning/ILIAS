@@ -144,6 +144,11 @@ class SurveyQuestion
 	*/
 	private $arrData;
 
+    /**
+     * @var ilLogger
+     */
+    protected $log;
+
 /**
 * SurveyQuestion constructor
 * The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
@@ -183,6 +188,8 @@ class SurveyQuestion
 		$this->materials = array();
 		$this->material = array();
 		$this->arrData = array();
+
+        $this->log = ilLoggerFactory::getLogger('svy');
 	}
 
 	/**
@@ -760,6 +767,8 @@ class SurveyQuestion
 
 		if ($this->getId() > 0) 
 		{
+            $this->log->debug("UPDATE svy_question question_id=".$question_id);
+
 			// update existing dataset
 			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET complete = %s, tstamp = %s WHERE question_id = %s",
 				array('text', 'integer', 'integer'),
@@ -784,7 +793,7 @@ class SurveyQuestion
 		$affectedRows = 0;
 		if ($this->getId() == -1) 
 		{
-			// Write new dataset
+            // Write new dataset
 			$next_id = $ilDB->nextId('svy_question');
 			$affectedRows = $ilDB->insert("svy_question", array(
 				"question_id" => array("integer", $next_id),
@@ -802,6 +811,9 @@ class SurveyQuestion
 				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
 				"tstamp" => array("integer", time())
 			));
+
+            $this->log->debug("INSERT: svy_question id=".$next_id." questiontype_fi=".$this->getQuestionTypeID()." obj_fi".$this->getObjId()." title=".$this->getTitle()." ...");
+
 			$this->setId($next_id);
 		} 
 		else 
@@ -819,6 +831,8 @@ class SurveyQuestion
 			), array(
 			"question_id" => array("integer", $this->getId())
 			));
+
+            $this->log->debug("UPDATE svy_question id=".$this->getId()." SET: title=".$this->getTitle()." ...");
 		}
 		
 		// #12420
@@ -843,7 +857,9 @@ class SurveyQuestion
 				{
 					$ilDB->manipulate("DELETE FROM svy_qst_oblig".
 						" WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
-						" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));			
+						" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));
+
+                    $this->log->debug("DELETE svy_qst_oblig WHERE survey_fi=".$survey_fi." AND question_fi=".$this->getId());
 				}
 			}
 			else if($this->getObligatory())
@@ -879,6 +895,9 @@ class SurveyQuestion
 		global $ilDB;
 		
 		include_once "./Services/Link/classes/class.ilInternalLink.php";
+
+        $this->log->debug("DELETE: svy_material question_fi=".$this->getId());
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
@@ -888,6 +907,9 @@ class SurveyQuestion
 		foreach ($this->material as $material)
 		{
 			$next_id = $ilDB->nextId('svy_material');
+
+            $this->log->debug("INSERT: svy_material question_fi=".$this->getId());
+
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_material " .
 				"(material_id, question_fi, internal_link, import_id, material_title, tstamp," .
 				"text_material, external_link, file_material, material_type) ".
@@ -941,7 +963,9 @@ class SurveyQuestion
 					0
 				)
 			);
-			$this->setId($next_id);
+            $this->log->debug("INSERT INTO svy_question question_id= ".$next_id." questiontype_fi= ".$this->getQuestionTypeID());
+
+            $this->setId($next_id);
 		}
 		return $this->getId();
 	}
@@ -1043,6 +1067,9 @@ class SurveyQuestion
 				array('integer','text','text','integer','integer'),
 				array($next_id, $categorytext, $neutral, $ilUser->getId(), time())
 			);
+
+            $this->log->debug("INSERT INTO svy_category id=".$next_id);
+
 			$returnvalue = $next_id;
 		}
 		return $returnvalue;
@@ -1057,6 +1084,9 @@ class SurveyQuestion
 	function deleteAdditionalTableData($question_id)
 	{
 		global $ilDB;
+
+        $this->log->debug("DELETE FROM ".$this->getAdditionalTableName());
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
@@ -1115,7 +1145,6 @@ class SurveyQuestion
 			array('integer'),
 			array($question_id)
 		);
-
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qblk_qst WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
@@ -1143,6 +1172,9 @@ class SurveyQuestion
 			array('integer'),
 			array($question_id)
 		);
+
+        $this->log->debug("SET OF DELETES svy_answer, svy_constraint, svy_qst_constraint, svy_qblk_qst, svy_qst_oblig, svy_svy_qst, svy_variable, svy_question, svy_material WHERE question_fi = ".$question_id);
+
 		include_once "./Services/Link/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
@@ -1167,8 +1199,9 @@ class SurveyQuestion
 		
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		ilSurveySkill::handleQuestionDeletion($question_id, $obj_id);
-		
-		// #12772 - untie question copies from pool question 
+
+        $this->log->debug("UPDATE svy_question");
+        // #12772 - untie question copies from pool question
 		$ilDB->manipulate("UPDATE svy_question".
 			" SET original_id = NULL".
 			" WHERE original_id  = ".$ilDB->quote($question_id, "integer"));		
@@ -1278,6 +1311,8 @@ class SurveyQuestion
 			$this->setId($id);
 			$this->setOriginalId($original);
 
+            $this->log->debug("DELETE FROM svy_material WHERE question_fi = ".$this->getOriginalId());
+
 			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 				array('integer'),
@@ -1291,6 +1326,9 @@ class SurveyQuestion
 					array('integer', 'integer', 'text', 'text', 'text', 'integer'),
 					array($next_id, $this->getOriginalId(), $this->material["internal_link"], $this->material["import_id"], $this->material["title"], time())
 				);
+
+                $this->log->debug("INSERT svy_material material_id=".$next_id." question_fi=".$this->getOriginalId());
+
 				if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
 				{
 					ilInternalLink::_saveLink("sqst", $this->getOriginalId(), $matches[2], $matches[3], $matches[1]);

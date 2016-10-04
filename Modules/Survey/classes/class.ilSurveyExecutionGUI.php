@@ -40,6 +40,11 @@ class ilSurveyExecutionGUI
 	var $ctrl;
 	var $tree;
 	var $preview;
+
+    /**
+     * @var ilLogger
+     */
+    protected $log;
 	
 /**
 * ilSurveyExecutionGUI constructor
@@ -72,6 +77,8 @@ class ilSurveyExecutionGUI
 		$this->preview = (bool)$_REQUEST["prvw"];
 		$this->ctrl->saveParameter($this, "prvw");
 		$this->ctrl->saveParameter($this, "pgov");
+
+        $this->log = ilLoggerFactory::getLogger("svy");
 	}
 	
 	/**
@@ -83,6 +90,9 @@ class ilSurveyExecutionGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
+
+        $this->log->debug("- cmd= ".$cmd);
+
 		if (strlen($cmd) == 0)
 		{
 			$this->ctrl->setParameter($this, "qid", $_GET["qid"]);
@@ -371,6 +381,8 @@ class ilSurveyExecutionGUI
 		// check for constraints
 		if (count($page[0]["constraints"]))
 		{
+            $this->log->debug("Page constraints= ", $page[0]["constraints"]);
+
 			while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
 			{
 				$constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;

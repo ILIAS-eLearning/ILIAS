@@ -331,7 +331,7 @@ User answered but the scale is saved as value 10: (scale -1)
     * plugin: always 0??
 
 
-* table svy_question
+* table svy_question  (What is the difference between tstamp and created?)
     * question_id: sequence value -> svy_question_seq (PK)
     * questiontype_fi: question type -> svy_qtype
     * obj_fi: survey or survey pool object -> object_data (MUL)

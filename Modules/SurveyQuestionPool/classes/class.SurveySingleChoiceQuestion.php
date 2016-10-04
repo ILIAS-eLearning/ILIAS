@@ -228,6 +228,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
 		{
+		    $this->log->debug("Before save Category-> DELETE from svy_qst_sc WHERE question_fi = ".$this->getId()." AND INSERT again the same id and orientation in svy_qst_sc");
 			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 				array('integer'),
 				array($this->getId())
@@ -248,7 +249,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	function saveCategoriesToDb()
 	{
 		global $ilDB;
-		
+
+        $this->log->debug("DELETE from svy_variable before the INSERT into svy_variable. if scale > 0  we get scale value else we get null");
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
@@ -263,6 +265,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				array('integer','integer','integer','float','integer','integer', 'integer','integer'),
 				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, ($cat->scale > 0) ? $cat->scale : null, time())
 			);
+
+            $debug_scale = ($cat->scale > 0) ? $cat->scale : null;
+            $this->log->debug("INSERT INTO svy_variable category_fi= ".$category_id." question_fi= ".$this->getId()." value1= ".($i + 1)." other= ".$cat->other." sequence= ".$i." scale =".$debug_scale);
 		}
 		$this->saveCompletionStatus();
 	}
@@ -506,6 +511,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_value"];
+
+        $this->log->debug("Entered value = ".$entered_value);
 		
 		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
@@ -554,6 +561,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			array('integer','integer','integer','float','text','integer'),
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
 		);
+
+        $debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
+        $debug_answer = ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : "NULL";
+        $this->log->debug("INSERT svy_answer answer_id=".$next_id." question_fi=".$this->getId()." active_fi=".$active_id." value=".$debug_value. " textanswer=".$debug_answer);
 	}
 
 	/**

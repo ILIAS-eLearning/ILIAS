@@ -86,6 +86,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	
 	protected function importEditFormValues(ilPropertyFormGUI $a_form)
 	{
+	    $this->log->debug("importing edit values");
+
 		$this->object->setOrientation($a_form->getInput("orientation"));
 		
 		$this->object->categories->flushCategories();
@@ -273,6 +275,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+                    $debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+                    $this->log->debug("Vertical orientation - Original scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("other_row");
@@ -334,6 +340,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+                    $debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+                    $this->log->debug("Horizontal orientation - Original NEUTRAL scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					$template->setCurrentBlock("radio_col");
 					if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
 					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
@@ -359,6 +369,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+                    $debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+                    $this->log->debug("Horizontal orientation - Original scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("text_other_col");
@@ -400,6 +414,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+                    $debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+                    $this->log->debug("Combobox - Original scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					$template->setCurrentBlock("comborow");
 					$template->setVariable("TEXT_SC", $cat->title);
 					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
