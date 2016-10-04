@@ -129,7 +129,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			{
 				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					$this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
+					$this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale'] != null) ? $data['scale'] : ($data['sequence'] + 1));
 				}
 			}
 		}
@@ -208,7 +208,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$next_id = $ilDB->nextId('svy_variable');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, other, sequence, scale, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','integer','integer', 'integer','integer'),
-				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, ($cat->scale > 0) ? $cat->scale : null, time())
+				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, ($cat->scale >= 0) ? $cat->scale : null, time())
 			);
 		}
 		$this->saveCompletionStatus();

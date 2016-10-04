@@ -257,22 +257,27 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			{
 				foreach ($foundvalues['scale'] as $scale)
 				{
+                    //scales required
 					if ((strlen($scale)) == 0) 
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
 					}
+                    //scales positive number
+                    if (!ctype_digit($scale))
+                    {
+                        $this->setAlert($lng->txt("msg_input_only_positive_numbers"));
+                        return FALSE;
+                    }
 				}
+                //scales no duplicates.
+                if (count(array_unique($foundvalues['scale'])) != count($foundvalues['scale']))
+                {
+                    $this->setAlert($lng->txt("msg_duplicate_scale"));
+                    return FALSE;
+                }
 			}
-			// check scales
-			if (is_array($foundvalues['scale']))
-			{
-				if (count(array_unique($foundvalues['scale'])) != count($foundvalues['scale']))
-				{
-					$this->setAlert($lng->txt("msg_duplicate_scale"));
-					return FALSE;
-				}
-			}
+
 			// check neutral column scale
 			if (strlen($_POST[$this->postvar . '_neutral_scale']))
 			{

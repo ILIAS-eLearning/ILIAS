@@ -183,7 +183,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 		{
 			$cat = $this->object->categories->getCategory($i);
-			$value = ($cat->scale) ? ($cat->scale - 1) : $i;
+			$value = ($cat->scale >= 0) ? ($cat->scale) : $i;
 		
 			$checked = "unchecked";
 			$text = null;
@@ -351,7 +351,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						{
 							$template->setVariable("OTHER_LABEL", $cat->title);
 						}
-						$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
+						$template->setVariable("VALUE_MC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
@@ -359,7 +359,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if (strlen($value["value"]))
 								{
-									if ($value["value"] == $cat->scale-1)
+									if ($value["value"] == $cat->scale)
 									{
 										$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
 										if (!$value['uncheck'])
@@ -377,7 +377,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						$template->setCurrentBlock("mc_row");
 						if ($cat->neutral) $template->setVariable('ROWCLASS', ' class="neutral"');
 						$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($cat->title));
-						$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
+						$template->setVariable("VALUE_MC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
@@ -385,7 +385,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if (strlen($value["value"]))
 								{
-									if ($value["value"] == $cat->scale-1)
+									if ($value["value"] == $cat->scale)
 									{
 										if (!$value['uncheck'])
 										{
@@ -411,7 +411,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					// checkbox
 					$template->setCurrentBlock("checkbox_col");
 					if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
-					$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
+					$template->setVariable("VALUE_MC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
@@ -419,7 +419,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						{
 							if (strlen($value["value"]))
 							{
-								if ($value["value"] == $cat->scale-1)
+								if ($value["value"] == $cat->scale)
 								{
 									if (!$value['uncheck'])
 									{
@@ -435,7 +435,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					if ($cat->other)
 					{						
 						$template->setCurrentBlock("text_other_col");
-						$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
+						$template->setVariable("VALUE_MC", ($cat->scale >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (strlen($cat->title))
 						{
@@ -447,7 +447,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if (strlen($value["value"]))
 								{
-									if ($value["value"] == $cat->scale-1)
+									if ($value["value"] == $cat->scale)
 									{
 										$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
 									}
@@ -461,7 +461,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					{						
 						$template->setCurrentBlock("text_col");
 						if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
-						$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
+						$template->setVariable("VALUE_MC", ($cat->scale  >= 0) ? ($cat->scale) : $i);
 						$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($cat->title));
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						$template->parseCurrentBlock();
