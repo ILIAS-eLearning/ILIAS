@@ -1582,7 +1582,7 @@ class ilCtrl
 	}
 
 	/**
-	 * Get cid for class after fetching and storing corresponding information, if necessary.
+	 * Get class id for class after fetching and storing corresponding information, if necessary.
 	 */
 	private function getCidForClass($a_class, $a_check = false)
 	{
@@ -1614,7 +1614,7 @@ class ilCtrl
 
 
 	/**
-	 * Get class for cid after fetching and storing corresponding information, if necessary.
+	 * Get class for class id after fetching and storing corresponding information, if necessary.
 	 */
 	private function getClassForCid($a_cid)
 	{
@@ -1628,6 +1628,14 @@ class ilCtrl
 			throw new ilCtrlException("Cannot find class for cid ".$a_cid.".");
 		}
 		return $this->cid_class[$a_cid];
+	}
+
+	private function fetchCallsOfClassFromCache($a_class, ilCachedCtrl $a_cached_ctrl) {
+		foreach($a_cached_ctrl->lookupCall($a_class) as $call) {
+			if ($call["child"] != "" && $this->callOfClassNotKnown($a_class,$call['child'])) {
+				$this->calls[$a_class][] = $call["child"];
+			}
+		}
 	}
 
 	/**
@@ -1649,14 +1657,7 @@ class ilCtrl
 		if($cid_info)
 		{
 			$this->updateClassCidMap($cid_info['class'], $a_cid);
-
-			foreach($cached_ctrl->lookupCall($cid_info["class"]) as $call)
-			{
-				if ($call["child"] != "" && $this->callOfClassNotKnown($cid_info['class'],$call['child']))
-				{
-					$this->calls[$cid_info["class"]][] = $call["child"];
-				}
-			}
+			$this->fetchCallsOfClassFromCache($cid_info['class'], $cached_ctrl);
 			$this->info_read_class[$cid_info["class"]] = true;
 		}
 		
@@ -1664,22 +1665,22 @@ class ilCtrl
 	}
 
 	/**
-	 * Save classes respective to the cid's of a node and store corresponding
+	 * Save classes respective to the class id's of a node and store corresponding
 	 * class calls for future reference.
 	 *
 	 * @param	string	$a_node
 	 */
 	private function readNodeInfo($a_node)
 	{
-		$node_array = explode(":", $a_node);
-		foreach ($node_array as $cid)
+		$class_ids = explode(":", $a_node);
+		foreach ($class_ids as $cid)
 		{
 			$this->readCidInfo($cid);
 		}
 	}
 
 	/**
-	 * Save cid respective to $a_class and store corresponding
+	 * Save class id respective to $a_class and store corresponding
 	 * class calls for future reference.
 	 *  
 	 * @param	object	$a_class	class name
@@ -1699,14 +1700,7 @@ class ilCtrl
 		{
 			$this->updateClassCidMap($a_class,$class_info['cid']);
 		}
-		
-		foreach($cached_ctrl->lookupCall($a_class) as $call)
-		{
-			if ($call["child"] != "" && $this->callOfClassNotKnown($a_class, $call["child"]) )
-			{
-				$this->calls[$a_class][] = $call["child"];
-			}
-		}
+		$this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
 		
 		$this->info_read_class[$a_class] = true;
 		$this->info_read_cid[$this->class_cid[$a_class]] = true;
@@ -1724,16 +1718,16 @@ class ilCtrl
 	}
 
 	/**
-	 * Get parent cid of node
+	 * Get 2nd to last class id of node
 	 */
 	private function getParentCidOfNode($a_node)
 	{
-		$node_array = explode(":", $a_node);
-		return $node_array[count($node_array) - 2];
+		$class_ids = explode(":", $a_node);
+		return $class_ids[count($class_ids) - 2];
 	}
 
 	/**
-	 * Remove the cid that comes ath beginning the sequence.
+	 * Remove the class id that comes at the beginning the sequence.
 	 */
 	private function removeLastCid($a_node)
 	{
