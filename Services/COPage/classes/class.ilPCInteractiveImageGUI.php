@@ -20,7 +20,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 {
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**

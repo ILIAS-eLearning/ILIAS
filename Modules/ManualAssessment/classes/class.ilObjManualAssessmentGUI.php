@@ -290,14 +290,13 @@ public function getTabs() {
 		ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilmanualassessmentsettingsgui', 'edit', '', false, false));
 	}
 
-	public function addToNavigationHistory(){
-		$access_handler = $this->object->accessHandler();
-
-		if(!$this->getCreationMode() &&
-			$access_handler->checkAccessToObj($this->object,'read'))
-		{
-			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
-			$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'mass');
+	public function addToNavigationHistory() {
+		if(!$this->getCreationMode()) {
+			$access_handler = $this->object->accessHandler();
+			if($access_handler->checkAccessToObj($this->object,'read')) {
+				$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+				$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'mass');
+			}
 		}
 	}
 }
