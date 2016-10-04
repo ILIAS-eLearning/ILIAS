@@ -80,12 +80,20 @@ class ilBibliographicDataSet extends ilDataSet {
 		global $ilDB;
 		switch ($a_entity) {
 			case 'bibl':
-				$new_obj = new ilObjBibliographic();
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['id']))
+				{
+					// container content
+					$new_obj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				} else {
+					$new_obj = new ilObjBibliographic();
+				}
 				$new_obj->setTitle($a_rec['title']);
 				$new_obj->setDescription($a_rec['description']);
 				$new_obj->setFilename($a_rec['fileName']);
 				$new_obj->setOnline(false);
-				$new_obj->create();
+				if (!$new_obj->getId()) {
+					$new_obj->create();
+				}
 				$this->import_bib_object = $new_obj;
 				$a_mapping->addMapping('Modules/Bibliographic', 'bibl', $a_rec['id'], $new_obj->getId());
 				$this->importLibraryFile($a_mapping);
@@ -197,6 +205,7 @@ class ilBibliographicDataSet extends ilDataSet {
 		$new_path = ilUtil::getDataDir() . "/bibl/" . $new_id;
 		mkdir($new_path);
 		copy($import_path, $new_path . "/" . $this->import_bib_object->getFilename());
-		$this->import_bib_object->writeSourcefileEntriesToDb();
+		// this will write the source file entry to db
+		$this->import_bib_object->update();
 	}
 }
