@@ -694,6 +694,30 @@ class ilDataCollectionDatatype {
 
 
 	/**
+	 * @param $value
+	 * @param $format
+	 *
+	 * @return false|string
+	 */
+	protected function formatDate($value, $format) {
+		if ($value == '0000-00-00 00:00:00' OR !$value) {
+			return '';
+		}
+		$timestamp = strtotime($value);
+		switch($format)
+		{
+			case ilCalendarSettings::DATE_FORMAT_DMY:
+				return date("d.m.Y", $timestamp);
+			case ilCalendarSettings::DATE_FORMAT_YMD:
+				return date("Y-m-d", $timestamp);
+			case ilCalendarSettings::DATE_FORMAT_MDY:
+				return date("m/d/Y", $timestamp);
+		}
+		return '';
+	}
+
+
+	/**
 	 * function parses stored value in database to a html output for eg. the record list gui.
 	 *
 	 * @param                             $value
@@ -702,14 +726,11 @@ class ilDataCollectionDatatype {
 	 * @return mixed
 	 */
 	public function parseHTML($value, ilDataCollectionRecordField $record_field, $link = true) {
-		global $ilAccess, $ilCtrl, $lng;;
+		global $ilAccess, $ilCtrl, $lng, $ilUser;
 
 		switch ($this->id) {
 			case self::INPUTFORMAT_DATETIME:
-				$format = ilDatePresentation::useRelativeDates();
-				ilDatePresentation::setUseRelativeDates(false);
-				$html = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATETIME));
-				ilDatePresentation::setUseRelativeDates($format);
+				$html = $this->formatDate($value, $ilUser->getDateFormat());
 				break;
 
 			case self::INPUTFORMAT_FILE:

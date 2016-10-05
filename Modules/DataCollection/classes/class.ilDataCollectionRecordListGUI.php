@@ -138,6 +138,11 @@ class ilDataCollectionRecordListGUI {
 		$list->setRecordData($records);
 
 		if (count($options) > 0) {
+			//#0019146: Main Table is always visible in the menu-dropdown, if some other table is visible too
+			$main_table_id = $this->parent_obj->getDataCollectionObject()->getMainTableId();
+			if (!in_array($main_table_id, array_keys($options))) {
+				$options = array($main_table_id => ilDataCollectionCache::getTableCache($main_table_id)->getTitle()) + $options;
+			}
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$table_selection = new ilSelectInputGUI('', 'table_id');
 			$table_selection->setOptions($options);

@@ -151,7 +151,16 @@ class ilDataCollectionRecordEditGUI {
 		$conf->setFormAction($this->ctrl->getFormAction($this));
 		$conf->setHeaderText($this->lng->txt('dcl_confirm_delete_record'));
 		$record = ilDataCollectionCache::getRecordCache($this->record_id);
-		$conf->addItem('record_id', $record->getId(), implode(", ", $record->getRecordFieldValues()));
+		$text = '';
+		foreach ($record->getRecordFields() as $record_field) {
+			$value = $record_field->getExportValue();
+			// cut long texts
+			if (strlen($value) > 150) {
+				$value = substr($value, 0, 100) . ' ...';
+			}
+			$text .= $record_field->getField()->getTitle() . ': ' . $value . "<br>";
+		}
+		$conf->addItem('record_id', $record->getId(), $text);
 		$conf->addHiddenItem('table_id', $this->table_id);
 		$conf->setConfirm($this->lng->txt('delete'), 'delete');
 		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
@@ -252,7 +261,9 @@ class ilDataCollectionRecordEditGUI {
 							$options[$record->getId()] = $media_obj->getTitle();
 							break;
 						case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
-							$options[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
+							$options[$record->getId()] = strtotime($record->getRecordFieldSingleHTML($fieldref));
+							// TT #0019091: options2 are the actual values, options the timestamp for sorting
+							$options2[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
 							break;
 						case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 							$value = $record->getRecordFieldValue($fieldref);
@@ -267,6 +278,17 @@ class ilDataCollectionRecordEditGUI {
 					}
 				}
 				asort($options);
+
+				// TT #0019091: restore the actual values after sorting with timestamp
+				if ($reffield->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
+					foreach ($options as $key => $opt) {
+						$options[$key] = $options2[$key];
+					}
+					// the option 'please select' messes with the order, therefore we reset it
+					unset($options[""]);
+					array_unshift($options, $this->lng->txt('dcl_please_select'));
+ 				}
+
 				$item->setOptions($options);
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) { // FSX use this to apply to MultiSelectInputGUI
 					if ($reftable->hasPermissionToAddRecord($_GET['ref_id'])) {
