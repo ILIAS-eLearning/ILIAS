@@ -31,7 +31,7 @@ abstract class assQuestionGUI
 	*
 	* A reference to the matching question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -1389,8 +1389,11 @@ abstract class assQuestionGUI
 			}
 			else if (strcmp($solution_array["type"], "text") == 0)
 			{
+				$solutionContent = $solution_array['value'];
+				$solutionContent = $this->object->fixSvgToPng($solutionContent);
+				$solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
 				$question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-				$question->setValue($this->object->prepareTextareaOutput($solution_array["value"]));
+				$question->setValue($this->object->prepareTextareaOutput($solutionContent));
 				$question->setRequired(TRUE);
 				$question->setRows(10);
 				$question->setCols(80);
