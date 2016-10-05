@@ -34,20 +34,20 @@ include_once "Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
 class SurveyCategories
 {
 
-/**
- * @var ilLogger
- */
+	/**
+	* @var ilLogger
+	*/
 	protected $log;
 
-/**
-* Category container
-*
-* An array containing the categories of a nominal or
-* ordinal question object
-*
-* @var array
-*/
-  var $categories;
+	/**
+	* Category container
+	*
+	* An array containing the categories of a nominal or
+	* ordinal question object
+	*
+	* @var array
+	*/
+	var $categories;
 
 	/**
 	* Constructor
