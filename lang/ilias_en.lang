@@ -16245,14 +16245,14 @@ mass#:#mass_usr_view#:#User record
 mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
 mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
-mass#:#mass_status_completed#:#completed
-mass#:#mass_status_failed#:#failed
-mass#:#mass_status_pending#:#status pending
+mass#:#mass_status_completed#:#Completed
+mass#:#mass_status_failed#:#Failed
+mass#:#mass_status_pending#:#Status pending
 mass#:#mass_notify#:#Notify user after finalization
 mass#:#mass_finalize#:#Finalize
-mass#:#il_mass_member#:#Manual Assessment Member
-mass#:#edit_members#:#Edit members
-mass#:#mass_edit_members#:#Edit members
+mass#:#il_mass_member#:#Individual Assessment examinee
+mass#:#edit_members#:#Edit examinees
+mass#:#mass_edit_members#:#Edit examinees
 mass#:#mass_visible#:#Visible
 mass#:#mass_read#:#Read
 mass#:#mass_copy#:#Copy
@@ -16261,12 +16261,12 @@ mass#:#mass_delete#:#Delete
 mass#:#mass_read_learning_progress#:#View learning progress of other users
 mass#:#mass_edit_permissions#:#Change Permissions
 mass#:#mass_edit_learning_progress#:#Edit learning progress
-mass#:#mass_may_not_finalize#:#Examinee may not be finalized.
-mass#:#mass_subj_notification_completed#:#%s: Manual Assessment completed.
-mass#:#mass_subj_notification_failed#:#%s: Manual Assessment failed.
-trac#:#trac_mode_manual_assessment#:#Manual Assessment
-common#:#obj_mass#:#Manual Assessment
-common#:#objs_mass#:#Manual Assessments
+mass#:#mass_may_not_finalize#:#Examinee may not be finalised.
+mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.
+mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.
+trac#:#trac_mode_manual_assessment#:#Individual Assessment
+common#:#obj_mass#:#Individual Assessment
+common#:#objs_mass#:#Individual Assessments
 common#:#obj_mass_duplicate#:#Copy Manual Assessment
 common#:#obj_mass_select#:#-- Please select one manual assessment --
 trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
@@ -16282,23 +16282,23 @@ rbac#:#mass_write#:#Edit a Manual Assessment
 rbac#:#mass_delete#:#Delete a Manual Assessment
 rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
 rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
-mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
+mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
 mass#:#mass_edit#:#Settings
-mass#:#mass_add#:#Create Manual Assessment
-mass#:#mass_membership_finalized#:#Record finalized
-mass#:#mass_membership_saved#:#Record saved, not yet finalized
+mass#:#mass_add#:#Create Individual Assessment
+mass#:#mass_membership_finalized#:#Record finalised
+mass#:#mass_membership_saved#:#Record saved, not yet finalised
 mass#:#mass_return#:#Back to overview
-mass#:#mass_remove_user_qst#:#Should the user really be removed?
-mass#:#mass_finalize_user_qst#:#Should the user status really be finalized? (No changes possibel thereafter.)
+mass#:#mass_remove_user_qst#:#Should the examinee really be removed?
+mass#:#mass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 mass#:#mass_settings_saved#:#Settings saved.
 mass#:#mass_add_user_failure#:#One or more user could not be added.
-mass#:#mass_add_user_success#:#User added.
+mass#:#mass_add_user_success#:#User added as examinee.
 mass#:#grading#:#Grading
 mass#:#grading_info#:#Grading info
 mass#:#grading_record#:#Grading record
 mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
-mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
-mass#:#mass_notify_explanation#:#The user will be notified via email after finalization and will get access to her or his record in the Info-Screen.
+mass#:#mass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
+mass#:#mass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
 mass#:#mass_contact#:#Name
 mass#:#mass_responsibility#:#Responsibility
 mass#:#mass_phone#:#Phone
@@ -16308,8 +16308,8 @@ mass#:#mass_consultation_hours#:#Consultation Hours
 mass#:#mass_edit_info#:#Info Settings
 mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
-mass#:#mass_contact_info#:#Contactinformation
-mass#:#mass_added#:#Manual Assessment addedd
+mass#:#mass_contact_info#:#Contact information
+mass#:#mass_added#:#Individual Assessment added
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).

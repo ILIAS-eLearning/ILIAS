@@ -16241,8 +16241,8 @@ mass#:#general#:#Allgemein
 mass#:#mass_content#:#Inhalt
 mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
 mass#:#mass_graded_by#:#Bewertet von
-mass#:#mass_usr_remove#:#Benutzer entfernen
-mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
+mass#:#mass_usr_remove#:#Teilnehmer entfernen
+mass#:#mass_usr_edit#:#Teilnehmer und Lernfortschritt bearbeiten
 mass#:#mass_usr_view#:#Prüfungsdaten
 mass#:#mass_edit_record#:#Prüfungsdaten
 mass#:#mass_record#:#Prüfungsnotiz
@@ -16252,66 +16252,66 @@ mass#:#mass_status_failed#:#nicht bestanden
 mass#:#mass_status_pending#:#noch nicht bewertet
 mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
 mass#:#mass_finalize#:#Finalisieren
-mass#:#il_mass_member#:#Mitglied
-mass#:#edit_members#:#Mitglieder bearbeiten
-mass#:#mass_edit_members#:#Mitglieder bearbeiten
+mass#:#il_mass_member#:#Teilnehmer
+mass#:#edit_members#:#Teilnehmer bearbeiten
+mass#:#mass_edit_members#:#Teilnehmer bearbeiten
 mass#:#mass_visible#:#Anzeigen
 mass#:#mass_read#:#Lesezugriff
-mass#:#mass_copy#:#Manuelle Bewertung Kopieren
-mass#:#mass_write#:#Berabeiten
+mass#:#mass_copy#:#Individuelle Bewertung kopieren
+mass#:#mass_write#:#Bearbeiten
 mass#:#mass_delete#:#Löschen
-mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
+mass#:#mass_read_learning_progress#:#Lernfortschritt der Teilnehmer einsehen
 mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
 mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
 mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
-mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
-mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
-trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
-common#:#obj_mass#:#Manuelle Bewertung
-common#:#objs_mass#:#Manuelle Bewertungen
-common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
-common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
+mass#:#mass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
+mass#:#mass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
+trac#:#trac_mode_manual_assessment#:#Individuelle Bewertung
+common#:#obj_mass#:#Individuelle Bewertung
+common#:#objs_mass#:#Individuelle Bewertungen
+common#:#obj_mass_duplicate#:#Individuelle Bewertung kopieren
+common#:#obj_mass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
 trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
-common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
-common#:#mass_new#:#Neue Manuelle Bewertung anlegen
-common#:#mass_import#:#Manuelle Bewertung importieren
-rbac#:#mass_visible#:#Manuele Bwertung sichtbar
-rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
-rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
-rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
-rbac#:#mass_copy#:#Manuelle Bewertung kopieren
-rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
-rbac#:#mass_delete#:#Manuelle Bewertung löschen
-rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
-rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
+common#:#il_mass_member#:#Teilnehmer einer Individuellen Bewertung
+common#:#mass_new#:#Neue Individuelle Bewertung anlegen
+common#:#mass_import#:#Individuelle Bewertung importieren
+rbac#:#mass_visible#:#Manuele Bewertung sichtbar
+rbac#:#mass_read#:#Lesezugriff auf Individuelle Bewertung
+rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung bearbeiten
+rbac#:#mass_copy#:#Individuelle Bewertung kopieren
+rbac#:#mass_write#:#Individuelle Bewertung bearbeiten
+rbac#:#mass_delete#:#Individuelle Bewertung löschen
+rbac#:#mass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Individuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
-mass#:#mass_add#:#Manuelle Bewertung anlegen
+mass#:#mass_add#:#Individuelle Bewertung anlegen
 mass#:#mass_membership_finalized#:#Prüfungsdaten finalisiert
 mass#:#mass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
-mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
-mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Teilnehmers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
-mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
+mass#:#mass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
 mass#:#grading#:#Bewertung
 mass#:#grading_info#:#Bewertungsinformationen
 mass#:#grading_record#:#Bewertungszusammenfassung
 mass#:#mass_content_explanation#:#Inhalte der Prüfung.
-mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
-mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jeden neuen Teilnehmer verwendet.
+mass#:#mass_notify_explanation#:#Der Teilnehmer wird nach der Finalisierung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
 mass#:#mass_contact#:#Name
 mass#:#mass_responsibility#:#Zuständigkeit
 mass#:#mass_phone#:#Telefon
 mass#:#mass_mails#:#E-Mail
-mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
+mass#:#mass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
 mass#:#mass_edit_info#:#Einstellungen Kontakt
-mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
-mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
+mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
-mass#:#mass_added#:#Manuelle Bewertung hinzugefügt
+mass#:#mass_added#:#Individuelle Bewertung hinzugefügt
 registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
