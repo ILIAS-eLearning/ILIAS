@@ -35,10 +35,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	const TAB_ID_RECORDS = "id_records";
 	const TAB_ID_PERMISSIONS = "id_permissions";
 	const TAB_ID_INFO = "id_info";
+	const CMD_SHOW_DETAILS = "showDetails";
+	const CMD_EDIT = "edit";
 	/**
 	 * @var ilObjBibliographic
 	 */
 	protected $bibl_obj;
+	/**
+	 * @var string
+	 */
+	protected $cmd = self::CMD_SHOW_CONTENT;
 
 
 	/**
@@ -193,19 +199,17 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public static function _goto($a_target) {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
+
 		$id = explode("_", $a_target);
-		$ilCtrl->setTargetScript("ilias.php");
-		$ilCtrl->initBaseClass("ilRepositoryGUI");
-		$ilCtrl->setParameterByClass("ilobjbibliographicgui", "ref_id", $id[0]);
-		//Detail-View
+		$DIC['ilCtrl']->setTargetScript("ilias.php");
+		$DIC['ilCtrl']->initBaseClass("ilRepositoryGUI");
+		$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", "ref_id", $id[0]);
+		// Detail-View
 		if ($id[1]) {
-			$ilCtrl->setParameterByClass("ilobjbibliographicgui", ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
-			$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), "showDetails");
+			$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
+			$DIC['ilCtrl']->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), self::CMD_SHOW_DETAILS);
 		} else {
-			$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), self::CMD_VIEW);
+			$DIC['ilCtrl']->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), self::CMD_VIEW);
 		}
 	}
 
@@ -255,7 +259,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		assert($a_new_object instanceof ilObjBibliographic);
 		$a_new_object->doUpdate();
 		$this->addNews($a_new_object->getId(), 'created');
-		$this->ctrl->redirect($this, "edit");
+		$this->ctrl->redirect($this, self::CMD_EDIT);
 	}
 
 
@@ -395,22 +399,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function sendFile() {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
+
+		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
 			$file_path = $this->bibl_obj->getFileAbsolutePath();
 			if ($file_path) {
 				if (is_file($file_path)) {
 					require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 					ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
 				} else {
-					ilUtil::sendFailure($lng->txt("file_not_found"));
+					ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
 					$this->showContent();
 				}
 			}
 		} else {
-			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+			ilUtil::sendFailure($DIC['lng']->txt("no_permission"), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}
@@ -418,10 +420,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 	public function showDetails() {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
+
+		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
 			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->bibl_obj, $_GET[self::P_ENTRY_ID]);
 			$this->tpl->setContent($bibGUI->getHTML());
 		} else {
