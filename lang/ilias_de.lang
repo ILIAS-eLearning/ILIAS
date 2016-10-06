@@ -16266,7 +16266,7 @@ mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
 mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
 mass#:#mass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 mass#:#mass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
-trac#:#trac_mode_manual_assessment#:#Individuelle Bewertung
+trac#:#trac_mode_manual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
 common#:#obj_mass#:#Individuelle Bewertung
 common#:#objs_mass#:#Individuelle Bewertungen
 common#:#obj_mass_duplicate#:#Individuelle Bewertung kopieren

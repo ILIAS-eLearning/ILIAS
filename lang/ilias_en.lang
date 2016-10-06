@@ -16264,7 +16264,7 @@ mass#:#mass_edit_learning_progress#:#Edit learning progress
 mass#:#mass_may_not_finalize#:#Examinee may not be finalised.
 mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.
 mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.
-trac#:#trac_mode_manual_assessment#:#Individual Assessment
+trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer
 common#:#obj_mass#:#Individual Assessment
 common#:#objs_mass#:#Individual Assessments
 common#:#obj_mass_duplicate#:#Copy Manual Assessment
