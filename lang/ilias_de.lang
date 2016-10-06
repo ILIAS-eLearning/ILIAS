@@ -16242,14 +16242,14 @@ mass#:#mass_content#:#Inhalt
 mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
 mass#:#mass_graded_by#:#Bewertet von
 mass#:#mass_usr_remove#:#Teilnehmer entfernen
-mass#:#mass_usr_edit#:#Teilnehmer und Lernfortschritt bearbeiten
+mass#:#mass_usr_edit#:#Teilnehmer bewerten und Lernfortschritt bearbeiten
 mass#:#mass_usr_view#:#Prüfungsdaten
 mass#:#mass_edit_record#:#Prüfungsdaten
 mass#:#mass_record#:#Prüfungsnotiz
 mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
-mass#:#mass_status_completed#:#bestanden
-mass#:#mass_status_failed#:#nicht bestanden
-mass#:#mass_status_pending#:#noch nicht bewertet
+mass#:#mass_status_completed#:#Bestanden
+mass#:#mass_status_failed#:#Nicht bestanden
+mass#:#mass_status_pending#:#Noch nicht bewertet
 mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
 mass#:#mass_finalize#:#Finalisieren
 mass#:#il_mass_member#:#Teilnehmer
