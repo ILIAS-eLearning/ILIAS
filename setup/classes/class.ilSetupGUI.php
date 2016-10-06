@@ -2511,9 +2511,12 @@ echo "<br>+".$client_id;
 		$this->form->addItem($ne);
 
 		// version
-		if ($this->setup->getClient()->getDBType() == "mysql" ||
-			$this->setup->getClient()->getDBType() == "innodb")
-		{
+		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled()
+		    && in_array($this->setup->getClient()->getDbType(), array(
+				ilDBConstants::TYPE_MYSQL,
+				ilDBConstants::TYPE_INNODB,
+			))
+		) {
 			$ne = new ilNonEditableValueGUI($lng->txt("version"), "db_version");
 			$ilDB = $this->setup->getClient()->db;
 			$ne->setValue($ilDB->getDBVersion());
