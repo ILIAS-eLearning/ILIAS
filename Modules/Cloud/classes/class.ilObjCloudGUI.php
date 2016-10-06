@@ -26,6 +26,10 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 *  ilCloudPluginService
 	 */
 	protected $plugin_service;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
 
 
 	/**
@@ -71,7 +75,7 @@ class ilObjCloudGUI extends ilObject2GUI {
 			ilObjectGUI::redirectToRefId($this->parent_id);
 		}
 
-		if ($this->object != NULL) {
+		if ($this->object != null) {
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "cld");
 
 			try {
@@ -236,6 +240,22 @@ class ilObjCloudGUI extends ilObject2GUI {
 
 
 	/**
+	 * @return \ilCtrl
+	 */
+	public function getCtrl(): \ilCtrl {
+		return $this->ctrl;
+	}
+
+
+	/**
+	 * @param \ilCtrl $ctrl
+	 */
+	public function setCtrl(\ilCtrl $ctrl) {
+		$this->ctrl = $ctrl;
+	}
+
+
+	/**
 	 * show information screen
 	 */
 	public function infoScreenForward() {
@@ -266,7 +286,7 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 */
 	protected function initCreationForms($a_new_type) {
 		$forms = array(
-			self::CFORM_NEW => $this->initCreateForm($a_new_type)
+			self::CFORM_NEW => $this->initCreateForm($a_new_type),
 		);
 
 		return $forms;
@@ -378,6 +398,7 @@ class ilObjCloudGUI extends ilObject2GUI {
 		}
 	}
 
+
 	protected function afterServiceAuth() {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
@@ -441,10 +462,10 @@ class ilObjCloudGUI extends ilObject2GUI {
 		$tpl = $DIC['tpl'];
 
 		$response = new stdClass();
-		$response->message = NULL;
-		$response->locator = NULL;
-		$response->content = NULL;
-		$response->success = NULL;
+		$response->message = null;
+		$response->locator = null;
+		$response->content = null;
+		$response->success = null;
 
 		try {
 			$file_tree = ilCloudFileTree::getFileTreeFromSession();
