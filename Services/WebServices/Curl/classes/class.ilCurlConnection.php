@@ -222,13 +222,21 @@ class ilCurlConnection
 	 */
 	public final function close()
 	{
-		$this->log->debug('Calling curl close for: '. $this->ch);
 		if($this->ch != null)
 		{
 			curl_close($this->ch);
 			$this->ch = null;
 		}
 	}
-
+	
+	/**
+	 * Destructor
+	 * @access public
+	 * @param
+	 */
+	public function __destruct()
+	{
+		$this->close();
+	}
 }
 ?>
