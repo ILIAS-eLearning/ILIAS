@@ -219,6 +219,7 @@ class ilCurlConnection
 		if($this->ch != null)
 		{
 			curl_close($this->ch);
+			$this->ch = null;
 		}
 	}
 
