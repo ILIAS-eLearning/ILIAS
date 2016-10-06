@@ -36,24 +36,24 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 */
 class SurveySingleChoiceQuestion extends SurveyQuestion 
 {
-/**
-* Categories contained in this question
-*
-* @var array
-*/
-  var $categories;
+	/**
+	* Categories contained in this question
+	*
+	* @var array
+	*/
+	var $categories;
 
-/**
-* SurveySingleChoiceQuestion constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestion object.
-*
-* @param string $title A title string to describe the question
-* @param string $description A description string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @access public
-*/
+	/**
+	* SurveySingleChoiceQuestion constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestion object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $description A description string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @access public
+	*/
 	function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $orientation = 1)
 	{
 		parent::__construct($title, $description, $author, $questiontext, $owner);
@@ -63,13 +63,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$this->categories = new SurveyCategories();
 	}
 	
-/**
-* Gets the available categories for a given phrase
-*
-* @param integer $phrase_id The database id of the given phrase
-* @result array All available categories
-* @access public
-*/
+	/**
+	* Gets the available categories for a given phrase
+	*
+	* @param integer $phrase_id The database id of the given phrase
+	* @result array All available categories
+	* @access public
+	*/
 	function &getCategoriesForPhrase($phrase_id)
 	{
 		global $ilDB;
@@ -92,12 +92,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		return $categories;
 	}
 	
-/**
-* Adds a phrase to the question
-*
-* @param integer $phrase_id The database id of the given phrase
-* @access public
-*/
+	/**
+	* Adds a phrase to the question
+	*
+	* @param integer $phrase_id The database id of the given phrase
+	* @access public
+	*/
 	function addPhrase($phrase_id)
 	{
 		global $ilUser;
@@ -146,12 +146,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 	
-/**
-* Loads a SurveySingleChoiceQuestion object from the database
-*
-* @param integer $id The database id of the single choice survey question
-* @access public
-*/
+	/**
+	* Loads a SurveySingleChoiceQuestion object from the database
+	*
+	* @param integer $id The database id of the single choice survey question
+	* @access public
+	*/
 	function loadFromDb($id) 
 	{
 		global $ilDB;
@@ -193,12 +193,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		parent::loadFromDb($id);
 	}
 
-/**
-* Returns true if the question is complete for use
-*
-* @result boolean True if the question is complete for use, otherwise false
-* @access public
-*/
+	/**
+	* Returns true if the question is complete for use
+	*
+	* @result boolean True if the question is complete for use, otherwise false
+	* @access public
+	*/
 	function isComplete()
 	{
 		if (
@@ -216,11 +216,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 	
-/**
-* Saves a SurveySingleChoiceQuestion object to a database
-*
-* @access public
-*/
+	/**
+	* Saves a SurveySingleChoiceQuestion object to a database
+	*
+	* @access public
+	*/
 	function saveToDb($original_id = "")
 	{
 		global $ilDB;
@@ -228,6 +228,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
 		{
+			$this->log->debug("Before save Category-> DELETE from svy_qst_sc WHERE question_fi = ".$this->getId()." AND INSERT again the same id and orientation in svy_qst_sc");
 			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 				array('integer'),
 				array($this->getId())
@@ -248,7 +249,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	function saveCategoriesToDb()
 	{
 		global $ilDB;
-		
+
+		$this->log->debug("DELETE from svy_variable before the INSERT into svy_variable. if scale > 0  we get scale value else we get null");
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
@@ -263,6 +266,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				array('integer','integer','integer','float','integer','integer', 'integer','integer'),
 				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, ($cat->scale > 0) ? $cat->scale : null, time())
 			);
+
+			$debug_scale = ($cat->scale > 0) ? $cat->scale : null;
+			$this->log->debug("INSERT INTO svy_variable category_fi= ".$category_id." question_fi= ".$this->getId()." value1= ".($i + 1)." other= ".$cat->other." sequence= ".$i." scale =".$debug_scale);
 		}
 		$this->saveCompletionStatus();
 	}
@@ -389,13 +395,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 
-/**
-* Adds standard numbers as categories
-*
-* @param integer $lower_limit The lower limit
-* @param integer $upper_limit The upper limit
-* @access public
-*/
+	/**
+	* Adds standard numbers as categories
+	*
+	* @param integer $lower_limit The lower limit
+	* @param integer $upper_limit The upper limit
+	* @access public
+	*/
 	function addStandardNumbers($lower_limit, $upper_limit)
 	{
 		for ($i = $lower_limit; $i <= $upper_limit; $i++)
@@ -404,13 +410,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 
-/**
-* Saves a set of categories to a default phrase
-*
-* @param array $phrases The database ids of the seleted phrases
-* @param string $title The title of the default phrase
-* @access public
-*/
+	/**
+	* Saves a set of categories to a default phrase
+	*
+	* @param array $phrases The database ids of the seleted phrases
+	* @param string $title The title of the default phrase
+	* @access public
+	*/
 	function savePhrase($title)
 	{
 		global $ilUser;
@@ -424,7 +430,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$phrase_id = $next_id;
 				
 		$counter = 1;
-	  foreach ($_SESSION['save_phrase_data'] as $data) 
+		foreach ($_SESSION['save_phrase_data'] as $data) 
 		{
 			$next_id = $ilDB->nextId('svy_category');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -506,6 +512,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_value"];
+
+		$this->log->debug("Entered value = ".$entered_value);
 		
 		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
@@ -554,6 +562,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			array('integer','integer','integer','float','text','integer'),
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
 		);
+
+		$debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
+		$debug_answer = ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : "NULL";
+		$this->log->debug("INSERT svy_answer answer_id=".$next_id." question_fi=".$this->getId()." active_fi=".$active_id." value=".$debug_value. " textanswer=".$debug_answer);
 	}
 
 	/**

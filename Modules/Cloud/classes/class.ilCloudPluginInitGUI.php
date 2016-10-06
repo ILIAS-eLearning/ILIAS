@@ -247,10 +247,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 
 				$this->addToolbar($file_tree->getRootNode());
 
-				$this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock", true)));
-				$this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudplugincreatefoldergui", "asyncCreateFolder", true)));
-				$this->tpl_file_tree->setVariable("ASYNC_UPLOAD_FILE", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudpluginuploadgui", "asyncUploadFile", true)));
-				$this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudplugindeletegui", "asyncDeleteItem", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugincreatefoldergui", "asyncCreateFolder", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_UPLOAD_FILE", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudpluginuploadgui", "asyncUploadFile", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugindeletegui", "asyncDeleteItem", true)));
 				$this->tpl_file_tree->setVariable("ROOT_ID", json_encode($file_tree->getRootNode()->getId()));
 				$this->tpl_file_tree->setVariable("ROOT_PATH", json_encode($file_tree->getRootNode()->getPath()));
 				if (isset($_POST["path"])) {
@@ -350,5 +350,3 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 
 	public function afterInitGUI() { }
 }
-
-?>

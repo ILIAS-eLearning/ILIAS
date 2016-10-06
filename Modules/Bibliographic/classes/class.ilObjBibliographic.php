@@ -17,6 +17,8 @@ require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
  */
 class ilObjBibliographic extends ilObject2 {
 
+	const FILETYPE_RIS = "ris";
+	const FILETYPE_BIB = "bib";
 	/**
 	 * Number of maximum allowed characters for attributes in order to fit in the database
 	 *
@@ -103,13 +105,11 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	/**
-	 * Update data
-	 */
 	public function doUpdate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		if (!empty($_FILES['bibliographic_file']['name'])) {
+		$file_changed = !empty($_FILES['bibliographic_file']['name']);
+		if ($file_changed) {
 			$this->deleteFile();
 			$this->moveFile();
 		}
@@ -118,7 +118,9 @@ class ilObjBibliographic extends ilObject2 {
 		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
 		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
 		                  " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
-		$this->writeSourcefileEntriesToDb($this);
+		if ($file_changed) {
+			$this->writeSourcefileEntriesToDb();
+		}
 	}
 
 
@@ -246,7 +248,7 @@ class ilObjBibliographic extends ilObject2 {
 	public function getFiletype() {
 		//return bib for filetype .bibtex:
 		if (strtolower(substr($this->getFilename(), - 6)) == "bibtex") {
-			return "bib";
+			return self::FILETYPE_BIB;
 		}
 
 		//else return its true filetype
@@ -359,7 +361,7 @@ class ilObjBibliographic extends ilObject2 {
 			}
 		}
 	}
-	
+
 
 	/**
 	 * Reads out the source file and writes all entries to the database
@@ -370,13 +372,13 @@ class ilObjBibliographic extends ilObject2 {
 		//Read File
 		$entries_from_file = array();
 		switch ($this->getFiletype()) {
-			case("ris"):
+			case(self::FILETYPE_RIS):
 				$ilRis = new ilRis();
 				$ilRis->readContent($this->getFileAbsolutePath());
 
 				$entries_from_file = $ilRis->parseContent();
 				break;
-			case("bib"):
+			case(self::FILETYPE_BIB):
 				$bib = new ilBibTex();
 				$bib->readContent($this->getFileAbsolutePath());
 

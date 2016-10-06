@@ -41,6 +41,11 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	var $defaultscript;
 	
 	/**
@@ -57,6 +62,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		parent::__construct("", $_GET["ref_id"], true, false);
+
+		$this->log = ilLoggerFactory::getLogger('svy');
 	}
 
 	/**
@@ -92,6 +99,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				? $_POST["sel_question_types"]
 				: $_GET["sel_question_types"];
 		}
+
+		$this->log->debug("- cmd=".$cmd." next_class=".$next_class);
 		switch($next_class)
 		{
 			case 'ilobjectmetadatagui':
@@ -138,6 +147,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			default:
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 				$q_gui = SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$this->log->debug("- This is the switch/case default, going to question id =".$_GET["q_id"]);
 				// $q_gui->object->setObjId($this->object->getId());
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);

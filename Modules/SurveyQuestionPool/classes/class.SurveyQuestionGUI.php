@@ -38,6 +38,11 @@ abstract class SurveyQuestionGUI
 	protected $ctrl;
 	protected $cumulated; // [array]	
 	protected $parent_url;
+
+    /**
+     * @var ilLogger
+     */
+    protected $log;
 	
 	public $object;
 		
@@ -58,7 +63,9 @@ abstract class SurveyQuestionGUI
 		{
 			$this->object->loadFromDb($a_id);
 		}
-	}
+        $this->log = ilLoggerFactory::getLogger('svy');
+
+    }
 	
 	abstract protected function initObject();
 	abstract public function setQuestionTabs();
