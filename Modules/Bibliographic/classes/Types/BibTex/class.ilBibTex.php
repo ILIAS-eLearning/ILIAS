@@ -241,5 +241,3 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		return in_array($entry_ype, self::$entry_types);
 	}
 }
-
-?>
