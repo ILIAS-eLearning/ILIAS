@@ -445,7 +445,7 @@ class ilLDAPQuery
 			
 			case IL_LDAP_SCOPE_BASE:
 
-				$res = ldap_read($this->lh,$a_base_dn,$a_filter,$a_attributes);
+				$res = @ldap_read($this->lh,$a_base_dn,$a_filter,$a_attributes);
 				break;
 
 			default:
