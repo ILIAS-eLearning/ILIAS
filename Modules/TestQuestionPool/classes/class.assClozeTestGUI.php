@@ -1506,7 +1506,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		{
 			if ($gap->type == CLOZE_SELECT)
 			{
-				$html .= '<p>Gap '.$i . ' - SELECT</p>';
+				$html .= '<p>Gap '. ($i+1) . ' - SELECT</p>';
 				$html .= '<ul>';
 				$j = 0;
 				foreach($gap->getItems($this->object->getShuffler()) as $gap_item)
@@ -1520,19 +1520,35 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 			if($gap->type == CLOZE_TEXT)
 			{
-				$html .= '<p>Gap '.$i . ' - TEXT</p>';
+				$present_elements = array();
+				foreach($gap->getItems(new ilArrayElementShuffler()) as $item)
+				{
+					/** @var assAnswerCloze $item */
+					$present_elements[] = $item->getAnswertext();
+				}
+
+				$html .= '<p>Gap ' . ($i+1) . ' - TEXT</p>';
 				$html .= '<ul>';
 				$aggregate = (array)$aggregation[$i];
 				foreach($aggregate as $answer => $count)
 				{
-					$html .= '<li>' . $answer . ' - ' . $count . '</li>';
+					$show_mover = '';
+					if(in_array($answer, $present_elements))
+					{
+						$show_mover = ' style="display: none;" ';
+					}
+
+					$html .= '<li>' . $answer . ' - ' . $count
+						. '&nbsp;<button class="clone_fields_add btn btn-link" ' . $show_mover . ' data-answer="'.$answer.'" name="add_gap_'.$i.'_0">
+						<span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
+						</li>';
 				}
 				$html .= '</ul>';
 			}
 
 			if($gap->type == CLOZE_NUMERIC)
 			{
-				$html .= '<p>Gap '.$i . ' - NUMERIC</p>';
+				$html .= '<p>Gap ' . ($i+1) . ' - NUMERIC</p>';
 				$html .= '<ul>';
 				$j = 0;
 				foreach($gap->getItems($this->object->getShuffler()) as $gap_item)
