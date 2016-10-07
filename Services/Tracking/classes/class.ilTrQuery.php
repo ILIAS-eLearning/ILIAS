@@ -870,7 +870,16 @@ class ilTrQuery
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
 				return $member_obj->getMembers();
-			
+
+			/* Mantis 19296: Individual Assessment can be subtype of crs.
+		 	 * But for LP view only his own members should be displayed.
+		 	 * We need to return the members without checking the parent path. */
+			case "mass":
+				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
+				$mass = new ilObjManualAssessment($obj_id, false);
+				return $mass->loadMembers()->membersIds();
+				break;
+
 			default:				
 				// walk path to find course or group object and use members of that object
 				$path = $tree->getPathId($a_ref_id);
@@ -940,12 +949,6 @@ class ilTrQuery
 				include_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 				$prg = new ilObjStudyProgramme($obj_id, false);
 				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
-				break;
-			
-			case "mass":
-				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
-				$mass = new ilObjManualAssessment($obj_id, false);
-				$a_users = $mass->loadMembers()->membersIds();
 				break;
 			default:
 				// no sensible data: return null
