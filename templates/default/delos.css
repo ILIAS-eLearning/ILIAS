@@ -9721,7 +9721,7 @@ div.iosCaptchaInputCommandContainer .audio {
 div.ilProfile {
   width: 450px;
   margin: 0 auto;
-  background: url("images/form_back.png") repeat-y #F6F6F6;
+  background-color: #F6F6F6;
   border: 1px solid #D0D5EA;
   padding: 15px;
 }
