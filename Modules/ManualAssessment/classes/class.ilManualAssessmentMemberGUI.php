@@ -131,7 +131,9 @@ class ilManualAssessmentMemberGUI {
 					$this->member = $member->withFinalized()->maybeSendNotification($this->notificator);
 					$this->object->membersStorage()->updateMember($this->member);
 					ilUtil::sendSuccess($this->lng->txt('mass_membership_finalized'));
-					ilManualAssessmentLPInterface::updateLPStatusOfMember($this->member);
+					if($this->object->isActiveLP()) {
+						ilManualAssessmentLPInterface::updateLPStatusOfMember($this->member);
+					}
 					$this->view();
 				} else {
 					ilUtil::sendFailure($this->lng->txt('mass_may_not_finalize'));
@@ -231,9 +233,7 @@ class ilManualAssessmentMemberGUI {
 
 		if($may_be_edited) {
 			$form->addCommandButton('save', $this->lng->txt('save'));
-			if($this->object->isActiveLP()) {
-				$form->addCommandButton('finalizeConfirmation',$this->lng->txt('mass_finalize'));
-			}
+			$form->addCommandButton('finalizeConfirmation',$this->lng->txt('mass_finalize'));
 		}
 		$form->addCommandButton('cancel', $this->lng->txt('mass_return'));
 		return $form;
