@@ -706,7 +706,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
 			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
-			"show_members = ".$ilDB->quote($this->getShowMembers() ,'integer')." ".
+			"show_members = ".$ilDB->quote((int) $this->getShowMembers() ,'integer')." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
