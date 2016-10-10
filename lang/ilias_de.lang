@@ -16217,3 +16217,5 @@ registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten u
 form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen sie ihre Eingabe.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
+copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
+crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online

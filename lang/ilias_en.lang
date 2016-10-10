@@ -16217,3 +16217,6 @@ registration#:#reg_mail_body_activation#:#to activate your account and confirm o
 form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.

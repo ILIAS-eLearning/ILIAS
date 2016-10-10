@@ -412,6 +412,15 @@ class ilLOEditorStatus
 					}
 					return FALSE;
 				}
+				if(!$this->checkTestOnline($tst_ref))
+				{
+					if($a_set_errors)
+					{
+						$this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_tst_offline');
+					}
+					return false;
+				}
+				
 			}
 			return TRUE;
 		}
@@ -425,6 +434,14 @@ class ilLOEditorStatus
 				$this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_no_it');
 			}
 			return FALSE;
+		}
+		if(!$this->checkTestOnline($tst_ref))
+		{
+			if($a_set_errors)
+			{
+				$this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_tst_offline');
+			}
+			return false;
 		}
 		return TRUE;
 	}
@@ -449,6 +466,14 @@ class ilLOEditorStatus
 					}
 					return FALSE;
 				}
+				if(!$this->checkTestOnline($tst_ref))
+				{
+					if($a_set_errors)
+					{
+						$this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_tst_offline');
+					}
+					return false;
+				}
 			}
 			return TRUE;
 		}
@@ -458,6 +483,14 @@ class ilLOEditorStatus
 			if($a_set_errors)
 			{
 				$this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
+			}
+			return false;
+		}
+		if(!$this->checkTestOnline($tst_ref))
+		{
+			if($a_set_errors)
+			{
+				$this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_tst_offline');
 			}
 			return false;
 		}
@@ -606,6 +639,16 @@ class ilLOEditorStatus
 		}
 		$GLOBALS['ilLog']->write(__METHOD__.': '.$obj_tries);
 		return $obj_tries <= $tries;
+	}
+	
+	/**
+	 * Check if test is online
+	 * @param int $a_ref_id
+	 */
+	protected function checkTestOnline($a_ref_id)
+	{
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+		return ilObjTestAccess::_isOnline(ilObject::_lookupObjId($a_ref_id));
 	}
 }
 ?>
