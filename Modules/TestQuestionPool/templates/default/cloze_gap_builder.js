@@ -1210,6 +1210,7 @@ var ClozeGapBuilder = (function () {
 
 
    pro.appendEventListenerToBeRefactored = function(){
+       $('.clone_fields_add').off('click');
        $('.clone_fields_add').on('click', function ()
        {
            var getPosition, pos , insert;
@@ -1219,9 +1220,14 @@ var ClozeGapBuilder = (function () {
                pos = getPosition.split('_');
                insert = new Object({
                    points  : '0',
-                   answer  : ''
+                   answer  : $(this).data("answer")
                });
+               if($(this).data("answer") != '')
+               {
+                   $(this).hide();
+               }
                ClozeSettings.gaps_php[0][pos[2]].values.splice(parseInt(pos[3], 10) + 1, 0, insert);
+               pro.editTextarea(pos[2]);
            }
            else
            {
@@ -1274,9 +1280,11 @@ var ClozeGapBuilder = (function () {
 
        $('.clone_fields_remove').on('click', function ()
        {
-           var getPosition, pos;
+           var getPosition, pos, value;
            if($(this).attr('class') != 'clone_fields_remove combination btn btn-link')
            {
+               value = $(this).parent().parent().find('.text_field').val();
+               $('[data-answer="'+value+'"]').show();
                getPosition = $(this).attr('name');
                pos = getPosition.split('_');
                ClozeSettings.gaps_php[0][pos[2]].values.splice(pos[3], 1);

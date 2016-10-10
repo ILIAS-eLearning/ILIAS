@@ -15,6 +15,10 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @var array
 	 */
 	protected $stay_with_command = array( "", "render", "view", "infoScreen", "showStaff", "performPaste", "cut" );
+	/**
+	 * @var ilTree
+	 */
+	protected $tree = null;
 
 
 	/**
@@ -27,6 +31,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
 		$this->setAjax(true);
 		$this->setTypeWhiteList(array( "orgu" ));
+		$this->tree->initLangCode();
 	}
 
 
@@ -107,7 +112,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		}
 	}
 
-
 	/**
 	 * Get childs of node
 	 *
@@ -182,7 +186,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	/**
 	 * Is node clickable?
 	 *
-	 * @param mixed            $a_node node object/array
+	 * @param mixed $a_node node object/array
 	 *
 	 * @global ilAccessHandler $ilAccess
 	 * @return boolean node clickable true/false

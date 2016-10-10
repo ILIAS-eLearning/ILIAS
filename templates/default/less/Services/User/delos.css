@@ -2,7 +2,7 @@
 div.ilProfile {
   width: 450px;
   margin: 0 auto;
-  /*background: url("@{background-images-path}form_back.png") repeat-y #F6F6F6;*/
+  background-color: #F6F6F6;
   border: 1px solid #D0D5EA;
   padding: 15px;
 }
@@ -36,6 +36,10 @@ table.il_user_quota_disk_usage_overview {
   width: 100%;
   height: auto;
   text-align: center;
+}
+.ilUsersGalleryContainer div.ilUser img {
+  min-height: 80px;
+  max-height: 80px;
 }
 .ilUsersGalleryContainer div.ilUser h3 {
   white-space: nowrap;
