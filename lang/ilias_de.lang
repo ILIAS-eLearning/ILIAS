@@ -16353,3 +16353,4 @@ chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert,
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
+crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
