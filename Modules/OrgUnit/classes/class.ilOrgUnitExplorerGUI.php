@@ -15,6 +15,10 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 * @var array
 	 */
 	protected $stay_with_command = array( "", "render", "view", "infoScreen", "showStaff", "performPaste", "cut" );
+	/**
+	 * @var ilTree
+	 */
+	protected $tree = null;
 
 
 	/**
@@ -27,6 +31,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
 		$this->setAjax(true);
 		$this->setTypeWhiteList(array( "orgu" ));
+		$this->tree->initLangCode();
 	}
 
 
@@ -94,7 +99,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
 		$ilCtrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $node["child"]);
 
-		return ($node['type']=="orgu")?$this->getLinkTarget():$this->getPluginLinkTarget();
+		return ($node['type'] == "orgu") ? $this->getLinkTarget() : $this->getPluginLinkTarget();
 	}
 
 
@@ -106,15 +111,17 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 		$ilCtrl = $DIC['ilCtrl'];
 
 		if ($ilCtrl->getCmdClass() == "ilobjorgunitgui" AND in_array($ilCtrl->getCmd(), $this->stay_with_command)) {
-			return $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", $ilCtrl->getCmdClass()), $ilCtrl->getCmd());
+			return $ilCtrl->getLinkTargetByClass(array( "ilAdministrationGUI", $ilCtrl->getCmdClass() ), $ilCtrl->getCmd());
 		} else {
-			return $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilobjorgunitgui"), "view");
+			return $ilCtrl->getLinkTargetByClass(array( "ilAdministrationGUI", "ilobjorgunitgui" ), "view");
 		}
 	}
+
 
 	protected function getPluginLinkTarget() {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
+
 		return $ilCtrl->getLinkTargetByClass("ilObjPluginDispatchGUI", "forward");
 	}
 
@@ -194,7 +201,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	/**
 	 * Is node clickable?
 	 *
-	 * @param mixed            $a_node node object/array
+	 * @param mixed $a_node node object/array
 	 *
 	 * @global ilAccessHandler $ilAccess
 	 * @return boolean node clickable true/false
