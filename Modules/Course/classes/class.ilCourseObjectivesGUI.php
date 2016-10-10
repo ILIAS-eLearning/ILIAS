@@ -889,9 +889,8 @@ class ilCourseObjectivesGUI
 			$this->objectives_qst_obj->updateTest($test['test_objective_id']);
 		}
 
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->finalTestAssignment();
-		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->returnToParent($this);
 	}
 	
 	
