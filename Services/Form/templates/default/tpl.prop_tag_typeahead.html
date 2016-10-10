@@ -16,13 +16,14 @@
 	var ilBootstrapTaggingOnLoad  = (function () 
 	{
 		'use strict';
-		var pub 	= {}, 
-			pri 	= {};
-		pub.id	 	= '';
-		pub.terms 	= {TERMS};
-		pub.callbackItemAdded = {};
-		pub.callbackItemRemoved = {};
-		
+		var pub 				= {},
+			pri 				= {};
+		pub.id	 				= '';
+		pub.terms 				= {TERMS};
+		pub.selected_terms		= [];
+		pub.callbackItemAdded 	= {};
+		pub.callbackItemRemoved	= {};
+
 		pub.Init = function() {
 			$(pub.id).tagsinput({
 				typeaheadjs: [{
@@ -40,33 +41,48 @@
 			});
 
 			pri.preventFormSubmissionOnEnterInTypeahead();
-			
-			$(pub.id).on('itemAdded', function() {
+
+			$(pub.id).on('itemAdded', function(elem) {
 				if (typeof pub.callbackItemAdded === 'function') {
 					pub.callbackItemAdded();
+					if($(pub.id).tagsinput()[0].options.allowDuplicates !== true)
+					{
+						pub.selected_terms.push(elem.item);
+					}
 				}
 			});
-			$(pub.id).on('itemRemoved', function() {
+			$(pub.id).on('itemRemoved', function(elem) {
 				if (typeof pub.callbackItemRemoved === 'function') {
 					pub.callbackItemRemoved();
+					if($(pub.id).tagsinput()[0].options.allowDuplicates !== true)
+					{
+						var pos = $.inArray(elem.item, pub.selected_terms);
+						if (pos > -1) {
+							pub.selected_terms.splice(pos, 1);
+						}
+					}
 				}
 			});
 		};
 
 		pri.substringMatcher = function(strings) {
 			return function findMatches(query, callback) {
-				var matches, substringRegex;
+				var matches, substringRegex, pos;
 				matches = [];
 				substringRegex = new RegExp(query, "{CASE}");
 				$.each(strings, function(i, str) {
 					if (substringRegex.test(str)) {
-						matches.push(str);
+						pos = $.inArray(str, pub.selected_terms);
+						if(pos === -1)
+						{
+							matches.push(str);
+						}
 					}
 				});
 				callback(matches);
 			};
 		};
-		
+
 		pri.preventFormSubmissionOnEnterInTypeahead = function()
 		{
 			$(document).ready(function() {
@@ -78,7 +94,7 @@
 				});
 			});
 		};
-		
+
 		return pub;
 	}());
 </script>
