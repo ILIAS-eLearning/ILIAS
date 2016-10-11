@@ -233,9 +233,9 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		// we cannot use $this->object->getOrderType()
 		// if set to inherit it will be translated to parent setting
-		#include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		#$sort = new ilContainerSortingSettings($this->object->getId());
-		#$a_values["sor"] = $sort->getSortMode();
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$a_values["sor"] = $sort->getSortMode();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)

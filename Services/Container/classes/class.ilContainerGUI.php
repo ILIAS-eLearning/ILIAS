@@ -3742,7 +3742,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$sort->addOption($sort_manual);
 		}
 
-		$sort->setValue($settings->getSortMode());
+		// Handle moved containers and there possibly invalid values
+		if(in_array($settings->getSortMode(), $a_sorting_settings))
+		{
+			$sort->setValue($settings->getSortMode());
+		}
+		else
+		{
+			$sort->setValue(ilContainer::SORT_TITLE);
+		}
 		$form->addItem($sort);
 		
 		return $form;
