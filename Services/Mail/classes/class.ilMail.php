@@ -1773,7 +1773,6 @@ class ilMail
 
 		if (in_array("system",$a_type))
 		{
-			$this->__checkSystemRecipients($a_rcp_to);
 			$a_type = array('system');
 		}
 
@@ -2506,18 +2505,6 @@ class ilMail
 		$message .= $a_m_message;
 
 		return $message;
-	}
-
-	function __checkSystemRecipients(&$a_rcp_to)
-	{
-		if (preg_match("/@all/",$a_rcp_to))
-		{
-			// GET ALL LOGINS
-			$all = ilObjUser::_getAllUserLogins($this->ilias);
-			$a_rcp_to = preg_replace("/@all/",implode(',',$all),$a_rcp_to);
-		}
-
-		return;
 	}
 
 	/**
