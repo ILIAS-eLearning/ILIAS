@@ -443,119 +443,126 @@ class ilMathJax
 		}
 
 		// store cached rendered image in cascading sub directories
-		$hash = md5($a_tex.'#'.$this->dpi);
-		$file = $this->cache_dir. '/' .substr($hash,0,4).'/'.substr($hash,4,4).'/'. $hash. $suffix;
+		$hash = md5($a_tex . '#' . $this->dpi);
+		$file = $this->cache_dir . '/' . substr($hash, 0, 4) . '/' . substr($hash, 4, 4) . '/' . $hash . $suffix;
 
-		if (!is_file($file))
+		try
 		{
-			// file has to be rendered
-			if ($this->use_curl)
+			if (!is_file($file))
 			{
-				$curl = curl_init($this->server_address);
-				curl_setopt($curl, CURLOPT_HEADER, false);
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-				curl_setopt($curl, CURLOPT_POST, true);
-				curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($options));
-				curl_setopt($curl, CURLOPT_TIMEOUT, $this->server_timeout);
-
-				$response = curl_exec($curl);
-				$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-				curl_close($curl);
-
-				if ( $status != 200 )
+				// file has to be rendered
+				if ($this->use_curl)
 				{
-					$lines = explode("\n", $response);
-					return "[TeX rendering failed: ". $lines[1]. " ". htmlspecialchars($a_tex) . "]";
+					$curl = curl_init($this->server_address);
+					curl_setopt($curl, CURLOPT_HEADER, false);
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+					curl_setopt($curl, CURLOPT_POST, true);
+					curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($options));
+					curl_setopt($curl, CURLOPT_TIMEOUT, $this->server_timeout);
+
+					$response = curl_exec($curl);
+					$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+					curl_close($curl);
+
+					if ($status != 200)
+					{
+						$lines = explode("\n", $response);
+						return "[TeX rendering failed: " . $lines[1] . " " . htmlspecialchars($a_tex) . "]";
+					}
 				}
+				else
+				{
+					$context = stream_context_create(
+						array(
+							'http' => array(
+								'method' => 'POST',
+								'content' => json_encode($options),
+								'header' => "Content-Type: application/json\r\n",
+								'timeout' => $this->server_timeout,
+								'ignore_errors' => true
+							)
+						));
+					$response = @file_get_contents($this->server_address, false, $context);
+					if (empty($response))
+					{
+						return "[TeX rendering failed: " . htmlspecialchars($a_tex) . "]";
+					}
+				}
+
+				// create the parent directories recursively
+				@mkdir(dirname($file), 0777, true);
+
+				// save a rendered image to the temp folder
+				file_put_contents($file, $response);
+			}
+
+			// handle output of images for offline usage without embedding
+			if (isset($a_output_dir) && is_dir($a_output_dir))
+			{
+				@copy($file, $a_output_dir . '/' . $hash . $suffix);
+				$src = $a_image_path . '/' . $hash . $suffix;
 			}
 			else
 			{
-				$context  = stream_context_create(
-					array(
-						'http' => array(
-							'method'  => 'POST',
-							'content' => json_encode($options),
-							'header'=>  "Content-Type: application/json\r\n",
-							'timeout' => $this->server_timeout,
-							'ignore_errors' => true
-						)
-				));
-				$response = @file_get_contents( $this->server_address, false, $context );
-				if (empty($response))
-				{
-					return "[TeX rendering failed: ". htmlspecialchars($a_tex) . "]";
-				}
+				$src = ILIAS_HTTP_PATH . '/' . $file;
 			}
 
-			// create the parent directories recursively
-			@mkdir(dirname($file), 0777, true);
+			// generate the image tag
+			switch ($this->output)
+			{
+				case 'png':
+					list($width, $height) = getimagesize($file);
+					$width = round($width * $this->zoom_factor);
+					$height = round($height * $this->zoom_factor);
+					$mime = 'image/png';
+					break;
 
-			// save a rendered image to the temp folder
-			file_put_contents($file, $response);
+				case 'svg':
+				default:
+					$svg = simplexml_load_file($file);
+					$width = round($svg['width'] * $this->zoom_factor);
+					$height = round($svg['height'] * $this->zoom_factor);
+					$mime = 'image/svg+xml';
+					break;
+			}
+
+
+			// generate the image tag
+			switch ($this->rendering)
+			{
+				case self::RENDER_SVG_AS_XML_EMBED:
+					$html = empty($response) ? file_get_contents($file) : $response;
+					break;
+
+				case self::RENDER_SVG_AS_IMG_EMBED:
+				case self::RENDER_PNG_AS_IMG_EMBED:
+					$html = '<img src="data:' . $mime . ';base64,'
+						. base64_encode(empty($response) ? file_get_contents($file) : $response)
+						. '" style="width:' . $width . '; height:' . $height . ';" />';
+					break;
+
+				case self::RENDER_SVG_AS_IMG_FILE:
+				case self::RENDER_PNG_AS_IMG_FILE:
+					$html = '<img src="' . $src . '" style="width:' . $width . '; height:' . $height . ';" />';
+					break;
+
+				case self::RENDER_PNG_AS_FO_FILE:
+					$html = '<fo:external-graphic src="url(' . realpath($file) . ')"'
+						. ' content-height="' . $height . 'px" content-width="' . $width . 'px"></fo:external-graphic>';
+					break;
+
+				default:
+					$html = htmlspecialchars($a_tex);
+					break;
+			}
+
+			return $html;
 		}
-
-		// handle output of images for offline usage without embedding
-		if (isset($a_output_dir) && is_dir($a_output_dir))
+		catch (Exception $e)
 		{
-			@copy($file, $a_output_dir .'/'. $hash. $suffix);
-			$src = $a_image_path . '/' .  $hash. $suffix;
+			return "[TeX rendering failed: " . $e->getMessage() . "]";
 		}
-		else
-		{
-			$src = ILIAS_HTTP_PATH .'/'. $file;
-		}
-
-		// generate the image tag
-		switch ($this->output)
-		{
-			case 'png':
-				list($width, $height) = getimagesize($file);
-				$width = round($width * $this->zoom_factor);
-				$height = round($height * $this->zoom_factor);
-				$mime = 'image/png';
-				break;
-
-			case 'svg':
-			default:
-				$svg = simplexml_load_file($file);
-				$width = round($svg['width'] * $this->zoom_factor);
-				$height = round($svg['height'] * $this->zoom_factor);
-				$mime = 'image/svg+xml';
-				break;
-		}
-
-
-		// generate the image tag
-		switch ($this->rendering)
-		{
-			case self::RENDER_SVG_AS_XML_EMBED:
-				$html = empty($response) ? file_get_contents($file) : $response;
-				break;
-
-			case self::RENDER_SVG_AS_IMG_EMBED:
-			case self::RENDER_PNG_AS_IMG_EMBED:
-				$html = '<img src="data:'.$mime.';base64,'
-					.base64_encode(empty($response) ? file_get_contents($file) : $response)
-					.'" style="width:'.$width.'; height:'.$height.';" />';
-				break;
-
-			case self::RENDER_SVG_AS_IMG_FILE:
-			case self::RENDER_PNG_AS_IMG_FILE:
-				$html = '<img src="'.$src.'" style="width:'.$width.'; height:'.$height.';" />';
-				break;
-
-			case self::RENDER_PNG_AS_FO_FILE:
-				$html = '<fo:external-graphic src="url('. realpath($file) .')"'
-					.' content-height="'.$height.'px" content-width="'.$width.'px"></fo:external-graphic>';
-				break;
-
-			default:
-				$html = htmlspecialchars($a_tex);
-				break;
-		}
-
-		return $html;
 	}
 
 
