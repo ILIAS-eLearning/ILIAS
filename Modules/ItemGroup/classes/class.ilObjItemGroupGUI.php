@@ -106,6 +106,24 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	}
 
 	/**
+	 * Init edit form, custom part
+	 *
+	 * @param
+	 * @return
+	 */
+	function initEditCustomForm($a_form)
+	{
+		$a_form->removeItemByPostVar("desc");
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setRows(2);
+		$ta->setInfo($this->lng->txt("itgr_desc_info"));
+		$a_form->addItem($ta);
+	}
+
+
+	/**
 	 * After save
 	 */
 	protected function afterSave(ilObject $a_new_object)
