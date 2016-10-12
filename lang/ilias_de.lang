@@ -12099,6 +12099,7 @@ dcl#:#dcl_regex#:#Regulärer Ausdruck
 dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Falscher Typ).
@@ -15044,7 +15045,7 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können

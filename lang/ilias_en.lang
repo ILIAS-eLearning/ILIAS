@@ -12296,6 +12296,7 @@ dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
 dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
@@ -15011,7 +15012,7 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
-dcl#:#dcl_number_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
 dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
