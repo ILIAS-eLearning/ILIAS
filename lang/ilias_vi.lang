@@ -395,7 +395,6 @@ assessment#:#tst_already_submitted#:#Bài kiểm tra đã kết thúc và đã �
 assessment#:#tst_already_taken#:#Bài kiểm tra đã làm
 assessment#:#tst_answer_sheet#:#Bảng câu trả lời bài kiểm tra
 assessment#:#tst_answered_questions#:#Những câu hỏi đã trả lời
-assessment#:#tst_browse_for_questions#:#Duyệt tìm câu hỏi
 assessment#:#tst_confirm_delete_results#:#Bạn đang xóa tất cả các kết quả câu hỏi của bài kiểm tra này. Điều này sẽ đặt lại toàn bộ câu hỏi về giá trị mặc định. Hãy chú ý, nếu không thể đặt lại số lần thử, bạn bắt buộc phải làm bài kiểm tra này. Bạn có chắc muốn đặt lại các kết quả trước không?
 assessment#:#tst_confirm_delete_results_info#:#Những kết quả bạn vào câu hỏi trước đó đã bị xóa. Bạn đã đặt lại bài kiểm tra thành công!
 assessment#:#tst_confirm_print#:#Nhấn nút để in tất cả câu hỏi cùng với điểm và giải pháp. Câu hỏi luôn ở cuối trang.
@@ -8963,7 +8962,6 @@ ldap#:#ldap_role_selection#:#Role Selection###24 07 2009 new variable
 ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.###24 07 2009 new variable
 ldap#:#ldap_role_by_plugin#:#By Plugin###24 07 2009 new variable
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###24 07 2009 new variable
 style#:#sty_type_heading1#:#Heading 1###24 07 2009 new variable
 style#:#sty_type_heading2#:#Heading 2###24 07 2009 new variable
 content#:#saved_media_object#:#Saved media object.###24 07 2009 new variable
@@ -16212,3 +16210,16 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server###03 08 2016 new variable
 assessment#:#ass_location#:#Location###03 08 2016 new variable
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###03 08 2016 new variable
 blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
+assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable

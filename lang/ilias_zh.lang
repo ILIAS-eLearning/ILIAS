@@ -718,7 +718,6 @@ assessment#:#tst_answer_sheet#:#答题卡
 assessment#:#tst_answered_questions#:#已经回答题目
 assessment#:#tst_answered_questions_test#:#这个测试中已回答的题目
 assessment#:#tst_best_solution_is#:#最佳方案是
-assessment#:#tst_browse_for_questions#:#浏览题目
 assessment#:#tst_change_points_for_question#:#Change the Points for the Answer改变此回答所对应的分数
 assessment#:#tst_confirm_delete_results#:#您即将删除所有您之前输入的这次测试的答案。这将重置所有题目为缺省值。请注意，您不能重置重试的次数，为这次测试您已经重置一次了。您确信要重置所有您之前输入的答案？
 assessment#:#tst_confirm_delete_results_info#:#您之前输入的答案已被删除。您成功重置了此次测试！
@@ -3442,7 +3441,6 @@ common#:#refuse#:#拒绝
 common#:#reg_account_confirmation_successful#:#您的账号已经激活。
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
 common#:#reg_mail_body_3_confirmation#:#如果这封邮件对您毫无意义，它有可能是其他人有意或无意的输入了您的电子邮件地址，因此请忽略此邮件。
-common#:#reg_mail_body_confirmation#:#要激活您的账号并确认这个邮件地址的所有权，请点击下面的链接：
 common#:#reg_mail_body_forgot_password_info#:#取得您的密码，请使用登录屏幕上的“忘记了密码？”功能为这个账号请求一个新密码。
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#欢迎来到ILIAS学习！
@@ -16209,3 +16207,16 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server###03 08 2016 new variable
 assessment#:#ass_location#:#Location###03 08 2016 new variable
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###03 08 2016 new variable
 blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
+assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable

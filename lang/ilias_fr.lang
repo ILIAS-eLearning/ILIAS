@@ -1108,7 +1108,6 @@ assessment#:#tst_availability_until_info#:#Le test est disponible pour une duré
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Retour au Test avec Sélection de la Question Courante
 assessment#:#tst_beginning_ending_information#:#Informations de Début et Fin de Test
 assessment#:#tst_best_solution_is#:#La meilleure réponse est
-assessment#:#tst_browse_for_questions#:#Ajouter depuis une Banque
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Le test ne peut pas être mis en-ligne car le mode de test a été modifié. Vous devez choisir une configuration avant de pouvoir mettre le test en-ligne.
 assessment#:#tst_change_dyn_test_question_selection#:#Modifier la Sélection de Question Courante
 assessment#:#tst_change_points_for_question#:#Points Affectés
@@ -4778,7 +4777,6 @@ common#:#reg_account_confirmation_successful#:#Votre compte utilisateur a été 
 common#:#reg_goto_parent_membership_info#:#Seuls les membres peuvent accéder à cet objet.
 common#:#reg_mail_body_2_confirmation#:#Ce lien est valide pour une durée de %s. Au delà, vous devrez recommencer depuis le début.
 common#:#reg_mail_body_3_confirmation#:#Si cet email ne signifie rien pour vous, il est possible que quelqu'un ait entré votre adresse email intentionnellement ou accidentellement. Dans ce cas, merci d'ignorer ce message.
-common#:#reg_mail_body_confirmation#:#pour activer votre compte et confirmer cette adresse email, cliquez sur le lien suivant :
 common#:#reg_mail_body_forgot_password_info#:#Pour obtenir un nouveau mot de passe, veuillez utiliser le lien "Mot de passe oublié ?" de la page de connexion.
 common#:#reg_mail_body_salutation#:#Bonjour
 common#:#reg_mail_body_text1#:#Bienvenue dans ILIAS !
@@ -16210,3 +16208,16 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server###03 08 2016 new variable
 assessment#:#ass_location#:#Location###03 08 2016 new variable
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###03 08 2016 new variable
 blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
+assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable

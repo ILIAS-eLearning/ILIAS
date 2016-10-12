@@ -1110,7 +1110,6 @@ assessment#:#tst_availability_until_info#:#Zvolte tento mód pro nastavení toho
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zpět do testu s běžným výběrem otázky
 assessment#:#tst_beginning_ending_information#:#Informace na začátku a na konci testu
 assessment#:#tst_best_solution_is#:#Nejlepší řešení je
-assessment#:#tst_browse_for_questions#:#Přidat ze zásobníku
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Tento test nemůže být nastaven online, protože nastavení módu testu bylo změněno. Musíte nastavit mód testu odpovídající konfiguraci otázky dříve než může být test nastaven online.
 assessment#:#tst_change_dyn_test_question_selection#:#Změnit výběr aktuální otázky
 assessment#:#tst_change_points_for_question#:#Změnit body za odpověď
@@ -4782,7 +4781,6 @@ common#:#reg_account_confirmation_successful#:#Váš uživatelský účet byl ak
 common#:#reg_goto_parent_membership_info#:#Pouze členové mají přístup k cílovému objektu.
 common#:#reg_mail_body_2_confirmation#:#Tento odkaz bude správný jen do %s, pak to budete muset zkusit znovu od začátku.
 common#:#reg_mail_body_3_confirmation#:#Pokud tento email pro vás nemá žádný význam, pak je možné, že někdo jiný vložil Vaši emailovou adresu buď úmyslně, nebo náhodně, proto prosím tento email ignorujte.
-common#:#reg_mail_body_confirmation#:#k aktivaci Vašeho účtu a potvrzení vlastnictví této emailové adresy klepněte na níže uvedený odkaz:
 common#:#reg_mail_body_forgot_password_info#:#Pro získání svého hesla použijte prosím funkci « Zapomenuté heslo? » na přihlašovací obrazovce. Tak zašlete požadavek na získání nového hesla pro tento účet.
 common#:#reg_mail_body_salutation#:#Nazdar
 common#:#reg_mail_body_text1#:#Vítejte v e-learningu ILIAS!
@@ -16210,3 +16208,16 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server###03 08 2016 new variable
 assessment#:#ass_location#:#Location###03 08 2016 new variable
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###03 08 2016 new variable
 blog#:#blog_show_latest#:#Show latest postings/drafts###03 08 2016 new variable
+assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable

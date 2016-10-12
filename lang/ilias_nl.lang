@@ -1379,7 +1379,6 @@ assessment#:#tst_back_to_top#:#Terug naar Top
 assessment#:#tst_back_to_virtual_pass#:#Terug naar vragenoverzicht
 assessment#:#tst_beginning_ending_information#:#Informatie aan het begin van de toets
 assessment#:#tst_best_solution_is#:#De beste oplossing is
-assessment#:#tst_browse_for_questions#:#Zoek naar vragen
 assessment#:#tst_btn_hide_best_solutions#:#Verberg beste oplossing
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchroniseer vragen van pool
 assessment#:#tst_btn_show_best_solutions#:#Toon beste oplossing
@@ -5430,7 +5429,6 @@ common#:#reg_account_confirmation_successful#:#Je gebruikersaccount is actief.
 common#:#reg_goto_parent_membership_info#:#Alleen deelnemers kunnen het doelobject benaderen
 common#:#reg_mail_body_2_confirmation#:#Deze link is geldig gedurende %s, hierna zul je je aanvraag opnieuw moeten starten.
 common#:#reg_mail_body_3_confirmation#:#Als deze mail je niets zegt dan kan het zijn dat iemand anders per ongeluk of expres jouw e-mailadres gebruikt heeft. In dat geval hoef je niets te doen, je e-mailadres wordt automatisch uit ons systeem verwijderd.
-common#:#reg_mail_body_confirmation#:#Om je account te activeren en je toegang tot dit e-mailadres te bevestigen, klik op de link hieronder:
 common#:#reg_mail_body_forgot_password_info#:#Om je wachtwoord op te vragen, gebruik je de functie wachtwoord vergeten" op het login scherm om een nieuw wachtwoord aan te vragen.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Welkom bij ILIAS!
@@ -16209,3 +16207,17 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 assessment#:#ass_location#:#Locatie
 assessment#:#ass_imap_hint#:#Hint als Tooltip
 blog#:#blog_show_latest#:#Toon laatste berichten
+assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
+buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.###12 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable

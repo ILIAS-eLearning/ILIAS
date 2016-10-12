@@ -1031,7 +1031,6 @@ assessment#:#tst_answer_sheet#:#Teszt válaszlapja
 assessment#:#tst_answered_questions_test#:#Ebben a tesztben megválaszolt kérdések
 assessment#:#tst_answered_questions#:#Megválaszolt kérdések
 assessment#:#tst_best_solution_is#:#A legjobb megoldás
-assessment#:#tst_browse_for_questions#:#Kérdés hozzáadása kérdésgyűjteményből
 assessment#:#tst_change_points_for_question#:#Válaszért járó pontszám
 assessment#:#tst_confirm_delete_results_info#:#Korábbi válaszeredményeit eltávolította. A tesztet sikeresen alapállapotba állította.
 assessment#:#tst_confirm_delete_results#:#Ön ebben a tesztben levő minden eddigi teszteredményét eltávolítani készül. Ez vissza fogja állítani az összes kérdést alapértelmezett értékére. Ne feledje, hogy nem fogja tudni visszaállítani a teszt végzése során eddig igénybe vett próbálkozásait. Biztos, hogy alapállapotba állítja az összes eddigi megoldását?
@@ -4088,7 +4087,6 @@ common#:#refuse#:#Visszautasítás
 common#:#reg_account_confirmation_successful#:#ILIAS-fiókját aktiválták.
 common#:#reg_mail_body_2_confirmation#:#A link csak ehhez lesz jó: %s, aztán meg kell próbálnia ismét a kezdetektől.
 common#:#reg_mail_body_3_confirmation#:#Ha ez a levél nem jelent Önnek semmit, lehet hogy valaki más is belépett az Ön postafiókjába szándékosan vagy véletlenül. Kérjük, tekintse semmisnek ezt a levelet!
-common#:#reg_mail_body_confirmation#:#ILIAS-fiókja aktiválásához és annak igazolásához, hogy ez az e-mail cím az Öné, kattintson az alábbi linkre:
 common#:#reg_mail_body_forgot_password_info#:#Ehhez az ILIAS-fiókhoz új jelszó kéréséhez használja a bejelentkező képernyőn található « Elfelejtette jelszavát? » linket.
 common#:#reg_mail_body_salutation#:#Tisztelt
 common#:#reg_mail_body_text1#:#üdvözöljük ILIAS e-learning rendszerünkben!
@@ -13122,7 +13120,6 @@ exc#:#exc_team_notification_link#:#Link a beadandó feladathoz
 poll#:#poll_absolute#:#Szavazatok száma
 dcl#:#dcl_reference_link#:#Link megjelenítése hivatkozott bejegyzésként
 dcl#:#dcl_reference_link_info#:#A részletes megjelenítést be kell kapcsolani a hivatkozott táblában
-dcl#:#dcl_ilias_reference_link#:#Táblanézetben linkként jelenjen meg
 dcl#:#dcl_text_area#:#Szövegterület
 dcl#:#dcl_delete_table#:#Tábla törlése
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' fület) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok szerkesztése' jogosultságú felhasználók (lásd a 'Jogosultságok' fület) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
@@ -16212,3 +16209,15 @@ auth#:#auth_ldap_server_ds#:#LDAP szerver
 assessment#:#ass_location#:#Helyszín
 assessment#:#ass_imap_hint#:#Tippek buboréksúgóként jelenjenek meg
 blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
+dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###12 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
