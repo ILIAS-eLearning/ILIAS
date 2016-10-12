@@ -1260,7 +1260,7 @@ assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse für Testdur
 assessment#:#tst_eval_results_by_pass_lo#:#Detaillierte Testergebnisse für den %s. Versuch
 assessment#:#tst_eval_results_lo#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die maximale Anzahl Passes eingereicht haben.)
+assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die die maximale Anzahl Testdurchläufe absolviert haben.)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests
 assessment#:#review_view#:#Vorschau
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
