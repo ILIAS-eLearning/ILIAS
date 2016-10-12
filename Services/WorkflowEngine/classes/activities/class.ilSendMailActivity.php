@@ -7,10 +7,9 @@ require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
 require_once './Services/WorkflowEngine/interfaces/ilNode.php';
 
 /**
- * Class ilStaticMethodCallActivity
+ * Class ilSendMailActivity
  *
- * This activity calls a given static method with a reference to itself as
- * and a given array as parameters.
+ * This activity setup and send or read an email.
  *
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
