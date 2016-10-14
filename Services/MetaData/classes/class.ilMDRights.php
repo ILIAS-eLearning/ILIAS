@@ -200,10 +200,13 @@ class ilMDRights extends ilMDBase
 											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
 											? $this->getCopyrightAndOtherRestrictions()
 											: 'No'));
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
+		include_once './Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php';
+		$writer->xmlElement(
+			'Description',array('Language' => $this->getDescriptionLanguageCode()
 												? $this->getDescriptionLanguageCode()
 												: 'en'),
-							$this->getDescription());
+			ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($this->getDescription())
+		);
 		$writer->xmlEndTag('Rights');
 	}
 	
