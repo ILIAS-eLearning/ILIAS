@@ -15330,7 +15330,6 @@ style#:#sty_va_ihcap_class#:#Texto desplegable Vert###01 03 2016 new variable
 assessment#:#ass_create_export_file_with_results#:#Crear fichero de exportación de Test  (incl. resultados de los participantes)###06 05 2016 new variable
 assessment#:#tst_conflict_fbh_oblig_quest#:#No se permite combinar preguntas obligatorias y respuestas bloqueadas.###06 05 2016 new variable
 assessment#:#tst_conflict_reset_non_fbh#:#La configuración de "Respuestas bloqueadas" se ha modificado a "No hay respuestas bloqueadas"###06 05 2016 new variable
-assessment#:#tst_conflict_reset_fbh_force#:#La configuración de "Respuestas bloqueadas" se ha modificado a "No hay respuestas bloquedas pero se fuerza la retroalimentación"###06 05 2016 new variable
 exc#:#exc_delete_team#:#Borrar equipo###06 05 2016 new variable
 trac#:#trac_cron_info#:#Por favor, active la tarea "Estadísticas de objeto" en el Cron para recopilar datos.###06 05 2016 new variable
 dcl#:#dcl_reference_link_info#:#La vista detallada debe estar activa en la tabla referenciada###29 06 2016 new variable
@@ -15338,3 +15337,11 @@ rbac#:#mep_copy#:#El usuario puede copiar un repositorio multimedia###29 06 2016
 crs#:#crs_cannot_find_role#:#No se puede encontrar este rol.###29 06 2016 new variable
 grp#:#grp_admission_link_failure_invalid_code#:#No se puede registrar: el enlace no es válido.###29 06 2016 new variable
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###10 08 2016 new variable
+auth#:#auth_ldap_server_ds#:#LDAP-Server###14 10 2016 new variable
+assessment#:#ass_location#:#Location###14 10 2016 new variable
+assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###14 10 2016 new variable
+blog#:#blog_show_latest#:#Show latest postings/drafts###14 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###14 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###14 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###14 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###14 10 2016 new variable

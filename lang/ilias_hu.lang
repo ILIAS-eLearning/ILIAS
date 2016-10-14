@@ -391,7 +391,6 @@ assessment#:#enable_javascript#:#Kattintson a JavaScript támogatás engedélyez
 assessment#:#end_tag#:#Zárócímke
 assessment#:#tst_conflict_fbh_oblig_quest#:#A kötelező kérdések és a zárolt válaszok használata egyszerre nem lehetséges.
 assessment#:#tst_conflict_reset_non_fbh#:#A 'Válaszok zárolása' beállítás megváltozott 'Ne zárolja a válaszokat'-ra.
-assessment#:#tst_conflict_reset_fbh_force#:#A 'Válaszok zárolása' beállítás megváltozott 'Ne zárolja a válaszokat, de kényszerítse ki a visszajelzést'-re.
 assessment#:#ending_time_reached#:#Elérte a záró időpontot
 assessment#:#enlarge#:#növelés
 assessment#:#enter_anonymous_code#:#Adja meg az anonymous felhasználó belépési kódját
@@ -15336,3 +15335,11 @@ rbac#:#mep_copy#:#A felhasználó másolhat médiagyűjteményt
 crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
 grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
 crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
+auth#:#auth_ldap_server_ds#:#LDAP-Server###14 10 2016 new variable
+assessment#:#ass_location#:#Location###14 10 2016 new variable
+assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###14 10 2016 new variable
+blog#:#blog_show_latest#:#Show latest postings/drafts###14 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###14 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###14 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###14 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###14 10 2016 new variable
