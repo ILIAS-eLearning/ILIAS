@@ -1306,7 +1306,8 @@ $bs["tref"] = $bs["tref_id"];
 			foreach ($profile_levels as $pl)
 			{
 				if ($pl["level_id"] == $v["id"] &&
-					$pl["base_skill_id"] == $v["skill_id"])
+					$pl["base_skill_id"] == $v["skill_id"] &&
+					$a_tref_id == $pl["tref_id"])
 				{
 					$target_level = true;
 					$current_target_level = $v["id"];
