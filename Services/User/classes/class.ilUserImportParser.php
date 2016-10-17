@@ -549,13 +549,26 @@ class ilUserImportParser extends ilSaxParser
 			case "AuthMode":
 				if (array_key_exists("type", $a_attribs))
 				{
-					// begin-patch ldap_multiple
-					// cast to int
-					switch ((int) $a_attribs["type"])
+					switch ($a_attribs["type"])
 					{
 						case "default":
 						case "local":
 						case "ldap":
+							
+							if(strcmp('ldap', $a_attribs['type']) === 0)
+							{
+								// no server id provided => use default server
+								include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+								$list = ilLDAPServer::_getActiveServerList();
+								if(count($list) == 1)
+								{
+									$this->auth_mode_set = true;
+									$ldap_id = current($list);
+									$this->userObj->setAuthMode('ldap_'.$ldap_id);
+								}
+							}
+							break;
+							
 						case "radius":
 						case "shibboleth":
 						case "script":
@@ -680,11 +693,26 @@ class ilUserImportParser extends ilSaxParser
 			case "AuthMode":
 				if (array_key_exists("type", $a_attribs))
 				{
-					switch ($a_attribs["type"])
+					switch($a_attribs["type"])
 					{
 						case "default":
 						case "local":
 						case "ldap":
+							
+							if(strcmp('ldap', $a_attribs['type']) === 0)
+							{
+								// no server id provided
+								include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+								$list = ilLDAPServer::_getActiveServerList();
+								if(count($list) != 1)
+								{
+									$this->logFailure(
+										$this->userObj->getImportId(), 
+										sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs['type']));
+								}
+							}
+							break;
+							
 						case "radius":
 						case "shibboleth":
 						case "script":
