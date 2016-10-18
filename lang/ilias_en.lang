@@ -15782,7 +15782,7 @@ book#:#book_reservation_filter_period#:#Period for the reservation list
 book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
 book#:#book_filter_past_reservations#:#Show past reservations
 book#:#book_deadline_options#:#Booking deadline
-book#:#book_deadline_hours#:#X hours prior to booking priod
+book#:#book_deadline_hours#:#X hours prior to booking period
 book#:#book_deadline_slot_end#:#Until end of booking period
 book#:#book_deadline_slot_start#:#Until begin of booking period
 chatroom#:#chatroom_auth#:#Authentication
