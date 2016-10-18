@@ -6013,7 +6013,19 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 					SELECT login FROM usr_data GROUP BY login HAVING COUNT(*) > 1
 				) tmp ON tmp.login = ud.login
 
-				Please manipulate the affected records by choosing different login names.
+				Please manipulate the affected records by choosing different login names or use the following statement
+				to change the duplicate login name to unique name like [usr_id]_[login]_duplicate. The further changes on
+				user data (e.g. deletion of duplicates) could then be easily done in ILIAS administration.
+
+				UPDATE usr_data ud
+				INNER JOIN (
+					SELECT udinner.login, udinner.usr_id
+					FROM usr_data udinner
+					GROUP BY udinner.login
+					HAVING COUNT(udinner.login) > 1
+				) dup ON ud.login = dup.login
+				SET ud.login = CONCAT(CONCAT(CONCAT(ud.usr_id, '_'), CONCAT(ud.login, '_')), 'duplicate')
+
 				If you try to rerun the update process, this warning will apear again if the issue is still not solved.
 
 				Best regards,
