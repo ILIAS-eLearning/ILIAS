@@ -1258,6 +1258,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "infoScreen");
 	}
+	
+	/**
+	 * Called from goto?
+	 */
+	protected function membersObject()
+	{
+		$GLOBALS['ilCtrl']->redirectByClass('ilgroupmembershipgui');
+	}
+	
 
 	/**
 	 * goto target group
