@@ -202,7 +202,10 @@ class ilDclContentImporter
 		}
 
 		foreach ($titles as $key => $value) {
-			if (!isset($import_fields[$key])) {
+			$std_field_titles = ilDclStandardField::_getAllStandardFieldTitles();
+			if (in_array($value, $std_field_titles)) {
+				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key) . ") \"" . $value . "\" " . $this->lng->txt("dcl_std_field_not_importable");
+			} else if (!isset($import_fields[$key])) {
 				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key+1) . ") \"" . $value . "\" " . $this->lng->txt("dcl_row_not_found");
 			}
 		}
