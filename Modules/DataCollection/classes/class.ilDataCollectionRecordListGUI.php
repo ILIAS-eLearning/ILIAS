@@ -460,7 +460,10 @@ class ilDataCollectionRecordListGUI {
 			}
 		}
 		foreach ($titles as $key => $value) {
-			if (!isset($import_fields[$key])) {
+			$std_field_titles = ilDataCollectionStandardField::_getAllStandardFieldTitles();
+			if (in_array($value, $std_field_titles)) {
+				$warnings[] = "(1, " . $this->getExcelCharForInteger($key) . ") \"" . $value . "\" " . $lng->txt("dcl_std_field_not_importable");
+			} elseif (!isset($import_fields[$key])) {
 				$warnings[] = "(1, " . $this->getExcelCharForInteger($key) . ") \"" . $value . "\" " . $lng->txt("dcl_row_not_found");
 			}
 		}
