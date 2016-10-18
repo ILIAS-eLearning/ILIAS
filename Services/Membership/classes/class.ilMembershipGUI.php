@@ -140,7 +140,7 @@ class ilMembershipGUI
 				$participants = $this->getMembersObject();
 				if(
 					$participants->isAdmin($GLOBALS['ilUser']->getId()) ||
-					$ilAccess->checkAccess('write','', $this->getParentObject()->getRefId())
+					$ilAccess->checkAccess('manage_members','', $this->getParentObject()->getRefId())
 				)
 				{
 					$rep_search->setCallback(
@@ -179,7 +179,7 @@ class ilMembershipGUI
 				if(
 					!(
 						$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
-						$ilAccess->checkAccess('write',"",$this->getParentObject()->getRefId())
+						$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId())
 					) ||  !$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
 				)
 				{
@@ -200,8 +200,11 @@ class ilMembershipGUI
 			case 'ilusersgallerygui':
 				
 				$this->setSubTabs($GLOBALS['ilTabs']);
+				$tabs = $GLOBALS['DIC']->tabs()->setSubTabActive(
+					$this->getParentObject()->getType().'_members_gallery'
+				);
 				
-				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->getParentObject()->getRefId());
+				$is_admin       = (bool)$ilAccess->checkAccess('manage_members', '', $this->getParentObject()->getRefId());
 				$is_participant = (bool)ilParticipants::_isParticipant($this->getParentObject()->getRefId(), $ilUser->getId());
 				if(
 					!$is_admin &&
@@ -802,7 +805,7 @@ class ilMembershipGUI
 		if(
 			($this->getParentObject()->getMailToMembersType() == 1) ||
 			(
-				$ilAccess->checkAccess('write',"",$this->getParentObject()->getRefId()) &&
+				$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId()) &&
 				$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
 			)
 		)
@@ -845,7 +848,7 @@ class ilMembershipGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
-		if($ilAccess->checkAccess('write', '' , $this->getParentObject()->getRefId()))
+		if($ilAccess->checkAccess('manage_members', '' , $this->getParentObject()->getRefId()))
 		{
 			$tabs->addTab(
 				'members',
@@ -884,7 +887,7 @@ class ilMembershipGUI
 	{
 		global $ilAccess;
 		
-		if($ilAccess->checkAccess('write','',$this->getParentObject()->getRefId()))
+		if($ilAccess->checkAccess('manage_members','',$this->getParentObject()->getRefId()))
 		{
 			$tabs->addSubTabTarget(
 				$this->getParentObject()->getType()."_member_administration",
