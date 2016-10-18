@@ -110,6 +110,25 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 		return $stdFields;
 	}
 
+
+	/**
+	 * @return array all possible standardfield titles, in all languages (used for excel-import);
+	 */
+	static function _getAllStandardFieldTitles() {
+		global $ilDB;
+		$identifiers = '';
+		foreach (array('dcl_id', 'dcl_creation_date', 'dcl_last_update', 'dcl_owner', 'dcl_last_edited_by', 'dcl_comments') as $id) {
+			$identifiers .= $ilDB->quote($id, 'text') . ',';
+		}
+		$identifiers = rtrim($identifiers, ',');
+		$sql = $ilDB->query('SELECT value FROM lng_data WHERE identifier IN (' . $identifiers . ')');
+		$titles = array();
+		while ($rec = $ilDB->fetchAssoc($sql)) {
+			$titles[] = $rec['value'];
+		}
+		return $titles;
+	}
+
 	/*
 	 * _isStandardField
 	 */
