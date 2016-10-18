@@ -40,6 +40,11 @@ class ilMembershipGUI
 	 */
 	protected $tpl;
 	
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+	
 	
 	/**
 	 * Constructor
@@ -59,6 +64,8 @@ class ilMembershipGUI
 		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
 		
 		$this->logger = ilLoggerFactory::getLogger($this->getParentObject()->getType());
+		
+		$this->access = $GLOBALS['DIC']->access();
 	}
 	
 	/**
@@ -91,6 +98,22 @@ class ilMembershipGUI
 		}
 		include_once './Services/Membership/classes/class.ilParticipants.php';
 		return $this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+	}
+	
+	/**
+	 * Check permission
+	 * @param type $a_permission
+	 * @param type $a_cmd
+	 * @param type $a_type
+	 * @param type $a_ref_id
+	 */
+	protected function checkPermissionBool($a_permission, $a_cmd = '', $a_type = '', $a_ref_id = 0)
+	{
+		if(!$a_ref_id)
+		{
+			$a_ref_id = $this->getParentObject()->getRefId();
+		}
+		return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
 	}
 	
 	/**
@@ -251,9 +274,16 @@ class ilMembershipGUI
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
 
 				//exclude mailMembersBtn cmd from this check
-				if($cmd != "mailMembersBtn")
+				if(
+					$cmd != "mailMembersBtn" &&
+					$cmd != 'membersMap'
+				)
 				{
 					$this->checkPermission('manage_members');
+				}
+				else
+				{
+					$this->checkPermission('read');
 				}
 
 				$this->$cmd();
