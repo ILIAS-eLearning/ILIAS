@@ -69,7 +69,12 @@ public class DBFactory {
 				logger.info("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
 
 				// MySQL
-				if(client.getDbType().equalsIgnoreCase("mysql")) {
+				if(
+                                    client.getDbType().equalsIgnoreCase("mysql") || 
+                                    client.getDbType().equalsIgnoreCase("mysqli") ||
+                                    client.getDbType().equalsIgnoreCase("innodb")
+                                ) 
+                                {
 
 					logger.info("Loading Mysql driver...");
 					Class.forName( "com.mysql.jdbc.Driver");
