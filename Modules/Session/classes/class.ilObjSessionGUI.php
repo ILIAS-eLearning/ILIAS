@@ -606,7 +606,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->initForm('create');
 		$ilErr->setMessage('');
-		if(!$this->form->checkInput())		{
+		if(!$this->form->checkInput())
+		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
 		
@@ -618,7 +619,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendFailure($ilErr->getMessage());			
+			ilUtil::sendFailure($ilErr->getMessage());
+			$this->form->setValuesByPost();
 			$this->createObject();
 			return false;
 		}
