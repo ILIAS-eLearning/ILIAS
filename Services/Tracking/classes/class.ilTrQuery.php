@@ -187,7 +187,14 @@ class ilTrQuery
 		return $items;
 	}
 	
-	function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
+	/**
+	 * Get subitems status
+	 * @param type $a_user_id
+	 * @param type $a_parent_obj_id
+	 * @param array $a_item_ids
+	 * @return type
+	 */
+	public static function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		
