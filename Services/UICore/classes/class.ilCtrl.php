@@ -36,7 +36,17 @@ class ilCtrl
 	 */
 	protected $save_parameter;
 
-	var $return;			// return commmands
+	/**
+	 * Return commands per class.
+	 *
+	 * TODO: What is this?
+	 *
+	 * This is used in: setReturn, setReturnByClass, getParentReturnByClass, searchReturnClass
+	 *
+	 * @var	array<string, string>
+	 */
+	protected $return;
+
 	var $call_hist = array();	// calling history
 	var $debug = array();
 	var $calls = array();
@@ -70,7 +80,7 @@ class ilCtrl
 	protected function initializeMemberVariables()
 	{
 		$this->transit = array();
-		$this->save_parameter = array();	// save parameter array
+		$this->save_parameter = array();
 		$this->parameter = array();			// save parameter array
 		$this->return = array();			// return commmands
 		$this->location = array();
@@ -1373,9 +1383,9 @@ class ilCtrl
 	}
 
 	/**
-	 * Redirects to next parent class that used setReturn
+	 * Redirects to next parent class that used setReturn.
 	 */
-	function returnToParent($a_gui_obj, $a_anchor = "")
+	public function returnToParent($a_gui_obj, $a_anchor = "")
 	{
 		$script = $this->getParentReturn($a_gui_obj);
 
@@ -1393,9 +1403,11 @@ class ilCtrl
 
 
 	/**
-	 * Get return script url
+	 * Get return script url.
+	 *
+	 * Used in conjunction with ilTabs->setBackTarget and ilBlockGUI->addHeaderCommand.
 	 */
-	function getParentReturn($a_gui_obj)
+	public function getParentReturn($a_gui_obj)
 	{
 		return $this->getParentReturnByClass(strtolower(get_class($a_gui_obj)));
 	}
@@ -1403,8 +1415,10 @@ class ilCtrl
 
 	/**
 	 * Get return script url
+	 *
+	 * Only used in getParentReturn.
 	 */
-	function getParentReturnByClass($a_class)
+	protected function getParentReturnByClass($a_class)
 	{
 		$a_class = strtolower($a_class);
 		$ret_class = $this->searchReturnClass($a_class);
@@ -1415,12 +1429,14 @@ class ilCtrl
 	}
 
 	/**
-	 * Get return class
+	 * Get return class.
 	 *
-	 * @param
-	 * @return
+	 * Only used in COPage/ilPCParagraphGUI and COPage/ilPCPlaceHolderGUI
+	 *
+	 * @param	string|object	$class
+	 * @return	string|bool
 	 */
-	function getReturnClass($a_class)
+	public function getReturnClass($a_class)
 	{
 		if (is_object($a_class))
 		{
