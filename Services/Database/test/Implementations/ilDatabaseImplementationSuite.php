@@ -30,7 +30,7 @@
 class ilDatabaseImplementationSuite extends PHPUnit_Framework_TestSuite {
 
 	/**
-	 * @return \ilServicesDatabaseSuite
+	 * @return \ilDatabaseImplementationSuite
 	 */
 	public static function suite() {
 		$suite = new self();

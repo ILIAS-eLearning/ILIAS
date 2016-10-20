@@ -215,7 +215,7 @@ class ilObjDataCollection extends ilObject2 {
 									FROM il_dcl_table 
 									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
 									$only_visible . '
-									ORDER BY table_order DESC '); //"-table_order DESC" is ASC with NULL last
+									ORDER BY -table_order DESC '); //"-table_order DESC" is ASC with NULL last
 
 		// if there's no visible table, fetch first one not visible
 		// this is to avoid confusion, since the default of a table after creation is not visible
@@ -224,7 +224,7 @@ class ilObjDataCollection extends ilObject2 {
 			$result = $ilDB->query('SELECT id 
 									FROM il_dcl_table 
 									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . '
-									ORDER BY table_order DESC ');
+									ORDER BY -table_order DESC ');
 		}
 		return $ilDB->fetchObject($result)->id;	
 	}

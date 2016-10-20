@@ -128,7 +128,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         ),
         'G' => 
         array (
-            'GetId3_' => 
+            'GetId3' => 
             array (
                 0 => __DIR__ . '/..' . '/phansys/getid3',
             ),

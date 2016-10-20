@@ -40,6 +40,11 @@ class ilMembershipGUI
 	 */
 	protected $tpl;
 	
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+	
 	
 	/**
 	 * Constructor
@@ -59,6 +64,8 @@ class ilMembershipGUI
 		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
 		
 		$this->logger = ilLoggerFactory::getLogger($this->getParentObject()->getType());
+		
+		$this->access = $GLOBALS['DIC']->access();
 	}
 	
 	/**
@@ -94,6 +101,22 @@ class ilMembershipGUI
 	}
 	
 	/**
+	 * Check permission
+	 * @param type $a_permission
+	 * @param type $a_cmd
+	 * @param type $a_type
+	 * @param type $a_ref_id
+	 */
+	protected function checkPermissionBool($a_permission, $a_cmd = '', $a_type = '', $a_ref_id = 0)
+	{
+		if(!$a_ref_id)
+		{
+			$a_ref_id = $this->getParentObject()->getRefId();
+		}
+		return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
+	}
+	
+	/**
 	 * Execute command
 	 */
 	public function executeCommand()
@@ -117,7 +140,7 @@ class ilMembershipGUI
 				$participants = $this->getMembersObject();
 				if(
 					$participants->isAdmin($GLOBALS['ilUser']->getId()) ||
-					$ilAccess->checkAccess('write','', $this->getParentObject()->getRefId())
+					$ilAccess->checkAccess('manage_members','', $this->getParentObject()->getRefId())
 				)
 				{
 					$rep_search->setCallback(
@@ -156,7 +179,7 @@ class ilMembershipGUI
 				if(
 					!(
 						$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
-						$ilAccess->checkAccess('write',"",$this->getParentObject()->getRefId())
+						$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId())
 					) ||  !$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
 				)
 				{
@@ -177,8 +200,11 @@ class ilMembershipGUI
 			case 'ilusersgallerygui':
 				
 				$this->setSubTabs($GLOBALS['ilTabs']);
+				$tabs = $GLOBALS['DIC']->tabs()->setSubTabActive(
+					$this->getParentObject()->getType().'_members_gallery'
+				);
 				
-				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->getParentObject()->getRefId());
+				$is_admin       = (bool)$ilAccess->checkAccess('manage_members', '', $this->getParentObject()->getRefId());
 				$is_participant = (bool)ilParticipants::_isParticipant($this->getParentObject()->getRefId(), $ilUser->getId());
 				if(
 					!$is_admin &&
@@ -251,9 +277,16 @@ class ilMembershipGUI
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
 
 				//exclude mailMembersBtn cmd from this check
-				if($cmd != "mailMembersBtn")
+				if(
+					$cmd != "mailMembersBtn" &&
+					$cmd != 'membersMap'
+				)
 				{
 					$this->checkPermission('manage_members');
+				}
+				else
+				{
+					$this->checkPermission('read');
 				}
 
 				$this->$cmd();
@@ -772,7 +805,7 @@ class ilMembershipGUI
 		if(
 			($this->getParentObject()->getMailToMembersType() == 1) ||
 			(
-				$ilAccess->checkAccess('write',"",$this->getParentObject()->getRefId()) &&
+				$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId()) &&
 				$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
 			)
 		)
@@ -815,7 +848,7 @@ class ilMembershipGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
-		if($ilAccess->checkAccess('write', '' , $this->getParentObject()->getRefId()))
+		if($ilAccess->checkAccess('manage_members', '' , $this->getParentObject()->getRefId()))
 		{
 			$tabs->addTab(
 				'members',
@@ -854,7 +887,7 @@ class ilMembershipGUI
 	{
 		global $ilAccess;
 		
-		if($ilAccess->checkAccess('write','',$this->getParentObject()->getRefId()))
+		if($ilAccess->checkAccess('manage_members','',$this->getParentObject()->getRefId()))
 		{
 			$tabs->addSubTabTarget(
 				$this->getParentObject()->getType()."_member_administration",

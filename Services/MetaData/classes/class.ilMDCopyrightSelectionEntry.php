@@ -79,6 +79,28 @@ class ilMDCopyrightSelectionEntry
 	}
 	
 	/**
+	 * Lookup copyright title. 
+	 * Currently used for export of meta data
+	 * @param type $a_cp_string
+	 */
+	public static function lookupCopyyrightTitle($a_cp_string)
+	{
+		global $ilDB;
+		
+		if(!$entry_id = self::_extractEntryId($a_cp_string))
+		{
+			return $a_cp_string;
+		}
+				
+		$query = "SELECT title FROM il_md_cpr_selections ".
+			"WHERE entry_id = ".$ilDB->quote($entry_id)." ";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->title ? $row->title : '';
+	}
+
+
+	/**
 	 * lookup copyright by entry id
 	 *
 	 * @access public

@@ -9822,7 +9822,7 @@ div.iosCaptchaInputCommandContainer .audio {
 div.ilProfile {
   width: 450px;
   margin: 0 auto;
-  background: url("images/form_back.png") repeat-y #F6F6F6;
+  background-color: #F6F6F6;
   border: 1px solid #D0D5EA;
   padding: 15px;
 }
@@ -12639,27 +12639,26 @@ table.mceToolbar td {
 }
 /* print css */
 @media print {
+  #ilTopBar,
+  .osdNotificationContainer,
+  .ilMainHeader,
+  .ilMainMenu,
+  .ilTreeView,
+  .btn,
+  #ilTab,
+  #ilSubTab,
+  #minheight,
+  #ilFooter {
+    display: none;
+  }
+  #mainspacekeeper {
+    padding: 0;
+  }
+  .ilLeftNavSpace {
+    margin-left: 0 !important;
+  }
   div.ilTabContentOuter {
     border: none;
-    box-shadow: none;
-  }
-  div.ilTabsTable {
-    display: block;
-    width: auto;
-  }
-  div.ilTabsTableRow {
-    display: block;
-  }
-  div.ilTabsTableCell {
-    display: block;
-  }
-  div.ilContentFixed {
-    left: 0;
-    position: static;
-  }
-  [dir="rtl"] div.ilContentFixed {
-    left: auto;
-    right: 0;
   }
   div.ilFileDropTargetOverlay {
     display: none;

@@ -19,6 +19,10 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 */
 class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger = null;
 
 
 	public $lng;
@@ -53,6 +57,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
+		
+		$this->logger = $GLOBALS['DIC']->logger()->sess();
 	}
 	
 	
@@ -600,7 +606,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->initForm('create');
 		$ilErr->setMessage('');
-		if(!$this->form->checkInput())		{
+		if(!$this->form->checkInput())
+		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
 		
@@ -612,7 +619,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendFailure($ilErr->getMessage());			
+			ilUtil::sendFailure($ilErr->getMessage());
+			$this->form->setValuesByPost();
 			$this->createObject();
 			return false;
 		}
@@ -1844,12 +1852,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 				
 			case 3:
-				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
-				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
-				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
-				
+				$frequence = $this->form->getItemByPostVar('frequence');
+				$end = $frequence->getRecurrence()->getFrequenceUntilDate();
 				$this->rec->setFrequenceUntilCount(0);
-				$this->rec->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+				$this->rec->setFrequenceUntilDate($end);
 				break;
 		}
 	}

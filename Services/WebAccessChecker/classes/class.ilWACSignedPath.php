@@ -96,7 +96,7 @@ class ilWACSignedPath {
 	public function isFolderSigned() {
 		$this->setType(self::TYPE_FOLDER);
 		$plain_token = $this->buildTokenInstance();
-		$name = $plain_token->getId();
+		$name = $plain_token->getHashedId();
 		$this->getPathObject()->setToken($this->cookie->get($name));
 		$this->getPathObject()->setTimestamp($this->cookie->get($name . self::TS_SUFFIX));
 		$this->getPathObject()->setTTL($this->cookie->get($name . self::TTL_SUFFIX));
@@ -124,7 +124,7 @@ class ilWACSignedPath {
 		$str = 'save folder token for folder: ' . $this->getPathObject()->getDirName() . ', valid for ' . $cookie_lifetime . 's';
 		ilWACLog::getInstance()->write($str);
 		ilWACLog::getInstance()->write('token: ' . $this->getTokenInstance()->getToken());
-		$id = $this->getTokenInstance()->getId();
+		$id = $this->getTokenInstance()->getHashedId();
 		$expire = time() + $cookie_lifetime;
 		$this->cookie->set($id, $this->getTokenInstance()->getToken(), time() + 24 * 3600, '/', null, false, false);
 		$this->cookie->set($id . self::TS_SUFFIX, time(), $expire, '/', '', false, false);
@@ -299,7 +299,7 @@ class ilWACSignedPath {
 
 		switch ($this->getType()) {
 			case self::TYPE_FOLDER:
-				$path = dirname($this->getPathObject()->getPathWithoutQuery());
+				$path = $this->getPathObject()->getModulePath();
 				break;
 			case self::TYPE_FILE:
 				$path = $this->getPathObject()->getPathWithoutQuery();

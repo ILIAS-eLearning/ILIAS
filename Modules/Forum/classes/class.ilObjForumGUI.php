@@ -2129,11 +2129,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply' || $_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft')
 		{
-			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
+			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
 		}
 		else
 		{
-			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
+			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
 		}
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
@@ -4031,7 +4031,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$post_gui->removePlugin('advlink');
 		$post_gui->usePurifier(true);
 		$post_gui->setRTERootBlockElement('');
-		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
+		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
 		$post_gui->disableButtons(array(
 			'charmap',
 			'undo',

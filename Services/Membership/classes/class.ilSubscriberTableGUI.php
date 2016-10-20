@@ -260,7 +260,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
 		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['usr_id']);
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_mem_send_mail');
+		$trans = $this->lng->txt($this->getRepositoryObject()->getType().'_mem_send_mail');
 		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
 		$list->addItem($trans, '', $link,'sendMailToSelectedUsers');
 		

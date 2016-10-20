@@ -61,12 +61,13 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		{
 			// fetch user
 			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			
 			if(!$users)
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 			}
-			if(!array_key_exists($this->getCredentials()->getUsername(), $users))
+			if(!array_key_exists($this->changeKeyCase($this->getCredentials()->getUsername()), $users))
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 			}
@@ -78,7 +79,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 		try 
 		{
-			$query->bind(IL_LDAP_BIND_AUTH, $users[$this->getCredentials()->getUsername()]['dn'], $this->getCredentials()->getPassword());
+			$query->bind(IL_LDAP_BIND_AUTH, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]['dn'], $this->getCredentials()->getPassword());
 		} 
 		catch (ilLDAPQueryException $e) {
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
@@ -86,7 +87,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 
 		// authentication success update profile
-		return $this->updateAccount($status, $users[$this->getCredentials()->getUsername()]);
+		return $this->updateAccount($status, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]);
 	}
 	
 	/**
@@ -174,7 +175,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 			}
-			if(!array_key_exists($this->getCredentials()->getUsername(), $users))
+			if(!array_key_exists($this->changeKeyCase($this->getCredentials()->getUsername()), $users))
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 			}
@@ -186,7 +187,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 
 		// authentication success update profile
-		$this->updateAccount($status, $users[$this->getCredentials()->getUsername()]);
+		$this->updateAccount($status, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]);
 	}
 	
 	
@@ -228,6 +229,20 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 	public function setExternalAccountName($a_name)
 	{
 		$this->migration_account = $a_name;
+	}
+	
+	/**
+	 * Change case similar to array_change_key_case, to avoid further encoding problems.
+	 * @param string $a_string
+	 * @return string
+	 */
+	protected function changeKeyCase($a_string)
+	{
+		$as_array = array_change_key_case(array($a_string => $a_string));
+		foreach($as_array as $key => $string)
+		{
+			return $key;
+		}
 	}
 
 }

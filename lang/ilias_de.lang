@@ -1260,7 +1260,7 @@ assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse für Testdur
 assessment#:#tst_eval_results_by_pass_lo#:#Detaillierte Testergebnisse für den %s. Versuch
 assessment#:#tst_eval_results_lo#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die maximale Anzahl Passes eingereicht haben.)
+assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die die maximale Anzahl Testdurchläufe absolviert haben.)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests
 assessment#:#review_view#:#Vorschau
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
@@ -6514,7 +6514,7 @@ content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
 content#:#scplayer_hidetree#:#Baum verbergen
 content#:#scplayer_next#:#Vor
-content#:#scplayer_phpmysqlcheck#:#Sie benötigen MYSQL 4.1 oder höher und JSON-support um die JavaScript-RTE zu nutzen.
+content#:#scplayer_phpmysqlcheck#:#Sie benötigen JSON-support um die JavaScript-RTE zu nutzen.
 content#:#scplayer_previous#:#Zurück
 content#:#scplayer_showtree#:#Baum anzeigen
 content#:#scplayer_start#:#Start
@@ -11532,7 +11532,7 @@ trac#:#trac_mode_collection#:#Status wird anhand einer Auswahl von Objekten best
 trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts wird automatisch durch den Status der ausgewählten Objekten bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten Objekte ausgewählt werden.
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
-trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
+trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
 trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
@@ -12099,6 +12099,7 @@ dcl#:#dcl_regex#:#Regulärer Ausdruck
 dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Falscher Typ).
@@ -12985,6 +12986,7 @@ dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwe
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
+dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
 dcl#:#dcl_import_records .xls#:#Import .xlsx
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
 dcl#:#dcl_simulate_import#:#Import simulieren
@@ -15044,7 +15046,7 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
@@ -16241,77 +16243,77 @@ mass#:#general#:#Allgemein
 mass#:#mass_content#:#Inhalt
 mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
 mass#:#mass_graded_by#:#Bewertet von
-mass#:#mass_usr_remove#:#Benutzer entfernen
-mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
+mass#:#mass_usr_remove#:#Teilnehmer entfernen
+mass#:#mass_usr_edit#:#Teilnehmer bewerten und Lernfortschritt bearbeiten
 mass#:#mass_usr_view#:#Prüfungsdaten
 mass#:#mass_edit_record#:#Prüfungsdaten
 mass#:#mass_record#:#Prüfungsnotiz
 mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
-mass#:#mass_status_completed#:#bestanden
-mass#:#mass_status_failed#:#nicht bestanden
-mass#:#mass_status_pending#:#noch nicht bewertet
+mass#:#mass_status_completed#:#Bestanden
+mass#:#mass_status_failed#:#Nicht bestanden
+mass#:#mass_status_pending#:#Noch nicht bewertet
 mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
 mass#:#mass_finalize#:#Finalisieren
-mass#:#il_mass_member#:#Mitglied
-mass#:#edit_members#:#Mitglieder bearbeiten
-mass#:#mass_edit_members#:#Mitglieder bearbeiten
+mass#:#il_mass_member#:#Teilnehmer
+mass#:#edit_members#:#Teilnehmer bearbeiten
+mass#:#mass_edit_members#:#Teilnehmer bearbeiten
 mass#:#mass_visible#:#Anzeigen
 mass#:#mass_read#:#Lesezugriff
-mass#:#mass_copy#:#Manuelle Bewertung Kopieren
-mass#:#mass_write#:#Berabeiten
+mass#:#mass_copy#:#Individuelle Bewertung kopieren
+mass#:#mass_write#:#Bearbeiten
 mass#:#mass_delete#:#Löschen
-mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
+mass#:#mass_read_learning_progress#:#Lernfortschritt der Teilnehmer einsehen
 mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
 mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
 mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
-mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
-mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
-trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
-common#:#obj_mass#:#Manuelle Bewertung
-common#:#objs_mass#:#Manuelle Bewertungen
-common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
-common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
+mass#:#mass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
+mass#:#mass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
+trac#:#trac_mode_manual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
+common#:#obj_mass#:#Individuelle Bewertung
+common#:#objs_mass#:#Individuelle Bewertungen
+common#:#obj_mass_duplicate#:#Individuelle Bewertung kopieren
+common#:#obj_mass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
 trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
-common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
-common#:#mass_new#:#Neue Manuelle Bewertung anlegen
-common#:#mass_import#:#Manuelle Bewertung importieren
-rbac#:#mass_visible#:#Manuele Bwertung sichtbar
-rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
-rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
-rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
-rbac#:#mass_copy#:#Manuelle Bewertung kopieren
-rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
-rbac#:#mass_delete#:#Manuelle Bewertung löschen
-rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
-rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
+common#:#il_mass_member#:#Teilnehmer einer Individuellen Bewertung
+common#:#mass_new#:#Neue Individuelle Bewertung anlegen
+common#:#mass_import#:#Individuelle Bewertung importieren
+rbac#:#mass_visible#:#Manuele Bewertung sichtbar
+rbac#:#mass_read#:#Lesezugriff auf Individuelle Bewertung
+rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung bearbeiten
+rbac#:#mass_copy#:#Individuelle Bewertung kopieren
+rbac#:#mass_write#:#Individuelle Bewertung bearbeiten
+rbac#:#mass_delete#:#Individuelle Bewertung löschen
+rbac#:#mass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Individuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
-mass#:#mass_add#:#Manuelle Bewertung anlegen
+mass#:#mass_add#:#Individuelle Bewertung anlegen
 mass#:#mass_membership_finalized#:#Prüfungsdaten finalisiert
 mass#:#mass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
-mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
-mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Teilnehmers wirklich finalisiert werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
-mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
+mass#:#mass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
 mass#:#grading#:#Bewertung
 mass#:#grading_info#:#Bewertungsinformationen
 mass#:#grading_record#:#Bewertungszusammenfassung
 mass#:#mass_content_explanation#:#Inhalte der Prüfung.
-mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
-mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jeden neuen Teilnehmer verwendet.
+mass#:#mass_notify_explanation#:#Der Teilnehmer wird nach der Finalisierung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
 mass#:#mass_contact#:#Name
 mass#:#mass_responsibility#:#Zuständigkeit
 mass#:#mass_phone#:#Telefon
 mass#:#mass_mails#:#E-Mail
-mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
+mass#:#mass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
 mass#:#mass_edit_info#:#Einstellungen Kontakt
-mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
-mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
+mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
-mass#:#mass_added#:#Manuelle Bewertung hinzugefügt
+mass#:#mass_added#:#Individuelle Bewertung hinzugefügt
 registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
@@ -16353,3 +16355,5 @@ chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert,
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
+crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
+itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.

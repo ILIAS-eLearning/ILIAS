@@ -5622,7 +5622,7 @@ content#:#scplayer_exit#:#Exit
 content#:#scplayer_exitall#:#Exit All
 content#:#scplayer_expandtree#:#Expand All
 content#:#scplayer_hidetree#:#Hide Tree
-content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE
+content#:#scplayer_phpmysqlcheck#:#You need enabled JSON-support to use the JavaScript-RTE
 content#:#scplayer_previous#:#Previous
 content#:#scplayer_next#:#Next
 content#:#scplayer_showtree#:#Show Tree
@@ -10393,7 +10393,7 @@ ps#:#ps_export_excel#:#Start Excel Export
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
-trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.
+trac#:#trac_mode_deactivated_info_new#:#The learning progress status is not displayed and does not influence parent objects.
 common#:#cronjob_last_start#:#Last Start of the Cron Job
 common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
 common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
@@ -12296,6 +12296,7 @@ dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
 dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
@@ -12962,6 +12963,7 @@ dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to up
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_import_records .xls#:#Import .xlsx
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
@@ -15011,7 +15013,7 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
-dcl#:#dcl_number_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
 dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
@@ -15781,7 +15783,7 @@ book#:#book_reservation_filter_period#:#Period for the reservation list
 book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
 book#:#book_filter_past_reservations#:#Show past reservations
 book#:#book_deadline_options#:#Booking deadline
-book#:#book_deadline_hours#:#X hours prior to booking priod
+book#:#book_deadline_hours#:#X hours prior to booking period
 book#:#book_deadline_slot_end#:#Until end of booking period
 book#:#book_deadline_slot_start#:#Until begin of booking period
 chatroom#:#chatroom_auth#:#Authentication
@@ -16245,14 +16247,14 @@ mass#:#mass_usr_view#:#User record
 mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
 mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
-mass#:#mass_status_completed#:#completed
-mass#:#mass_status_failed#:#failed
-mass#:#mass_status_pending#:#status pending
+mass#:#mass_status_completed#:#Completed
+mass#:#mass_status_failed#:#Failed
+mass#:#mass_status_pending#:#Status pending
 mass#:#mass_notify#:#Notify user after finalization
 mass#:#mass_finalize#:#Finalize
-mass#:#il_mass_member#:#Manual Assessment Member
-mass#:#edit_members#:#Edit members
-mass#:#mass_edit_members#:#Edit members
+mass#:#il_mass_member#:#Individual Assessment examinee
+mass#:#edit_members#:#Edit examinees
+mass#:#mass_edit_members#:#Edit examinees
 mass#:#mass_visible#:#Visible
 mass#:#mass_read#:#Read
 mass#:#mass_copy#:#Copy
@@ -16261,12 +16263,12 @@ mass#:#mass_delete#:#Delete
 mass#:#mass_read_learning_progress#:#View learning progress of other users
 mass#:#mass_edit_permissions#:#Change Permissions
 mass#:#mass_edit_learning_progress#:#Edit learning progress
-mass#:#mass_may_not_finalize#:#Examinee may not be finalized.
-mass#:#mass_subj_notification_completed#:#%s: Manual Assessment completed.
-mass#:#mass_subj_notification_failed#:#%s: Manual Assessment failed.
-trac#:#trac_mode_manual_assessment#:#Manual Assessment
-common#:#obj_mass#:#Manual Assessment
-common#:#objs_mass#:#Manual Assessments
+mass#:#mass_may_not_finalize#:#Examinee may not be finalised.
+mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.
+mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.
+trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer
+common#:#obj_mass#:#Individual Assessment
+common#:#objs_mass#:#Individual Assessments
 common#:#obj_mass_duplicate#:#Copy Manual Assessment
 common#:#obj_mass_select#:#-- Please select one manual assessment --
 trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
@@ -16282,23 +16284,23 @@ rbac#:#mass_write#:#Edit a Manual Assessment
 rbac#:#mass_delete#:#Delete a Manual Assessment
 rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
 rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
-mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalized.
+mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
 mass#:#mass_edit#:#Settings
-mass#:#mass_add#:#Create Manual Assessment
-mass#:#mass_membership_finalized#:#Record finalized
-mass#:#mass_membership_saved#:#Record saved, not yet finalized
+mass#:#mass_add#:#Create Individual Assessment
+mass#:#mass_membership_finalized#:#Record finalised
+mass#:#mass_membership_saved#:#Record saved, not yet finalised
 mass#:#mass_return#:#Back to overview
-mass#:#mass_remove_user_qst#:#Should the user really be removed?
-mass#:#mass_finalize_user_qst#:#Should the user status really be finalized? (No changes possibel thereafter.)
+mass#:#mass_remove_user_qst#:#Should the examinee really be removed?
+mass#:#mass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 mass#:#mass_settings_saved#:#Settings saved.
 mass#:#mass_add_user_failure#:#One or more user could not be added.
-mass#:#mass_add_user_success#:#User added.
+mass#:#mass_add_user_success#:#User added as examinee.
 mass#:#grading#:#Grading
 mass#:#grading_info#:#Grading info
 mass#:#grading_record#:#Grading record
 mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
-mass#:#mass_record_template_explanation#:#Template for member grading record. Will be used automatically for any new member.
-mass#:#mass_notify_explanation#:#The user will be notified via email after finalization and will get access to her or his record in the Info-Screen.
+mass#:#mass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
+mass#:#mass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
 mass#:#mass_contact#:#Name
 mass#:#mass_responsibility#:#Responsibility
 mass#:#mass_phone#:#Phone
@@ -16308,8 +16310,8 @@ mass#:#mass_consultation_hours#:#Consultation Hours
 mass#:#mass_edit_info#:#Info Settings
 mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
-mass#:#mass_contact_info#:#Contactinformation
-mass#:#mass_added#:#Manual Assessment addedd
+mass#:#mass_contact_info#:#Contact information
+mass#:#mass_added#:#Individual Assessment added
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
@@ -16352,3 +16354,5 @@ prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.

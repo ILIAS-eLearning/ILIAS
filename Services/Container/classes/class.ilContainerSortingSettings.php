@@ -74,6 +74,73 @@ class ilContainerSortingSettings
 		}
 		return self::$instances[$a_obj_id] = new self($a_obj_id);
 	}
+	
+	/**
+	 * Load inherited settings
+	 * @return ilContainerSortingSettings
+	 */
+	public function loadEffectiveSettings()
+	{
+		if($this->getSortMode() != ilContainer::SORT_INHERIT)
+		{
+			return $this;
+		}
+
+		$effective_settings = $this->getInheritedSettings($this->obj_id);
+		$inherited = clone $this;
+		
+		if($effective_settings->getSortMode() == ilContainer::SORT_INHERIT)
+		{
+			$inherited->setSortMode(ilContainer::SORT_TITLE);
+		}
+		else
+		{
+			$inherited->setSortMode($effective_settings->getSortMode());
+			$inherited->setSortNewItemsOrder($effective_settings->getSortNewItemsOrder());
+			$inherited->setSortNewItemsPosition($effective_settings->getSortNewItemsPosition());
+		}
+		return $inherited;
+	}
+	
+	
+	/**
+	 * Read inherited settings of course/group
+	 * @global ilTree $tree
+	 * @param int $a_container_obj_id
+	 */
+	public function getInheritedSettings($a_container_obj_id)
+	{
+		global $tree;
+		
+		if(!$a_container_obj_id)
+		{
+			$a_container_obj_id = $this->obj_id;
+		}
+		
+		$ref_ids = ilObject::_getAllReferences($a_container_obj_id);
+		$ref_id = current($ref_ids);
+		
+		if($cont_ref_id = $tree->checkForParentType($ref_id,'grp',true))
+		{
+			$parent_obj_id = ilObject::_lookupObjId($cont_ref_id);
+			$parent_settings = self::getInstanceByObjId($parent_obj_id);
+			
+			if($parent_settings->getSortMode() == ilContainer::SORT_INHERIT)
+			{
+				return $this->getInheritedSettings($parent_obj_id);
+			}
+			return $parent_settings;
+		}
+		
+		if($cont_ref_id = $tree->checkForParentType($ref_id,'crs',true))
+		{
+			$parent_obj_id = ilObject::_lookupObjId($cont_ref_id);
+			$parent_settings = self::getInstanceByObjId($parent_obj_id);
+			return $parent_settings;
+		}
+		// no parent settings found => return current settings
+		return $this;
+	}
 
 
 	public static function _readSortMode($a_obj_id)
@@ -126,36 +193,9 @@ class ilContainerSortingSettings
 	 */
 	public static function lookupSortModeFromParentContainer($a_obj_id)
 	{
-		global $tree, $ilDB, $objDefinition;
-
-		if(!$objDefinition->isContainer(ilObject::_lookupType($a_obj_id)))
-		{
-			return ilContainer::SORT_TITLE;
-		}
-		
-		$ref_ids = ilObject::_getAllReferences($a_obj_id);
-		$ref_id = current($ref_ids);
-
-		
-		if($cont_ref_id = $tree->checkForParentType($ref_id,'grp'))
-		{
-			$a_obj_id = ilObject::_lookupObjId($cont_ref_id);
-			$sort_mode = self::_readSortMode($a_obj_id);
-			if($sort_mode != ilContainer::SORT_INHERIT)
-			{
-				return $sort_mode;
-			}
-		}
-		if($cont_ref_id = $tree->checkForParentType($ref_id,'crs'))
-		{
-			$a_obj_id = ilObject::_lookupObjId($cont_ref_id);
-			$sort_mode = self::_readSortMode($a_obj_id);
-			if($sort_mode != ilContainer::SORT_INHERIT)
-			{
-				return $sort_mode;
-			}
-		}
-		return ilContainer::SORT_TITLE;
+		$settings = self::getInstanceByObjId($a_obj_id);
+		$inherited_settings = $settings->getInheritedSettings($a_obj_id);
+		return $inherited_settings->getSortMode();
 	}
 	
 	/**
