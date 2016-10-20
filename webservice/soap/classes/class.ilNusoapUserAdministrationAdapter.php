@@ -148,9 +148,18 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS login function via LDAP');
 
+		// loginAsUser()
+		$this->server->register('loginAsUser',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:int'),
+								array('sid' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#loginAsUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS login function for Stud.IP-Connection');
 
-
-								// logout()
+		// logout()
 		$this->server->register('logout',
 								array('sid' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
