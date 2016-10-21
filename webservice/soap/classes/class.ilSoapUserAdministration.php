@@ -105,7 +105,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	 * @param int $user_id
 	 * @return string $sid
 	 */
-	public function loginAsUser($sid, $user_id)
+	public function loginStudipUser($sid, $user_id)
 	{
 		global $rbacsystem, $ilUser, $ilIliasIniFile;
 
