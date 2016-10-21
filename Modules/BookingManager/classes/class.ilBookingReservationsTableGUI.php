@@ -441,9 +441,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		}
 		else
 		{			
-			$ilCtrl->setParameter($this->parent_obj, 'user_id', $a_set['user_id']);
-			$this->tpl->setVariable("HREF_PROFILE", $ilCtrl->getLinkTarget($this->parent_obj, 'showprofile'));
-			$ilCtrl->setParameter($this->parent_obj, 'user_id', '');
+			//$ilCtrl->setParameter($this->parent_obj, 'user_id', $a_set['user_id']);
+			//$this->tpl->setVariable("HREF_PROFILE", $ilCtrl->getLinkTarget($this->parent_obj, 'showprofile'));
+			//$ilCtrl->setParameter($this->parent_obj, 'user_id', '');
+			include_once("./Services/User/classes/class.ilUserUtil.php");
+			$uname = ilUserUtil::getNamePresentation($a_set['user_id'], false, true, "", true);
 		}
 		$this->tpl->setVariable("TXT_CURRENT_USER", $uname);
 
