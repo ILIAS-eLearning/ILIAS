@@ -107,7 +107,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	 */
 	public function loginStudipUser($sid, $user_id)
 	{
-		global $rbacsystem, $ilUser, $ilIliasIniFile;
+		global $rbacreview, $ilUser, $ilIliasIniFile;
 
 		$this->initAuth($sid);
 		$this->initIlias();
@@ -123,7 +123,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('Stud.IP mode not active.','Server');
 		}
 
-		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
+		if(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
 		{
 			return $this->__raiseError('No permission to initialize user session.','Server');
 		}
