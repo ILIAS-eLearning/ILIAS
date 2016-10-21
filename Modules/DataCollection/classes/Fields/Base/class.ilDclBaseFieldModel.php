@@ -628,6 +628,7 @@ class ilDclBaseFieldModel {
 	 * @param $value
 	 */
 	public function setProperty($key, $value) {
+		$this->loadProperties();
 		if(isset($this->property[$key])) {
 			$this->property[$key]->setValue($value);
 		} else {

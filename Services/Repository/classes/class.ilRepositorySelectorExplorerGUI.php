@@ -35,7 +35,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	 * @param string $a_selection_par selection parameter
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "selectObject",
-								$a_selection_par = "sel_ref_id")
+								$a_selection_par = "sel_ref_id", $a_id = "rep_exp_sel")
 	{
 		global $tree, $objDefinition;
 
@@ -49,8 +49,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 			: strtolower($a_selection_gui);
 		$this->selection_cmd = $a_selection_cmd;
 		$this->selection_par = $a_selection_par;
-
-		parent::__construct("rep_exp_sel", $a_parent_obj, $a_parent_cmd, $tree);
+		parent::__construct($a_id, $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
