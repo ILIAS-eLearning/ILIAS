@@ -24,7 +24,7 @@ class ilUserDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", "4.5.0");
+		return array("4.3.0", "4.5.0", "5.1.0", "5.2.0");
 	}
 	
 	/**
@@ -53,6 +53,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"Id" => "integer",
 						"Username" => "text",
@@ -89,6 +90,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"UserId" => "integer",
 						"Keyword" => "text",
@@ -103,6 +105,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"Id" => "integer"
 					);
@@ -114,6 +117,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"UserId" => "integer",
 						"FieldId" => "text",
@@ -189,6 +193,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					$this->data = array();
 					foreach ($a_ids as $id)
 					{
@@ -204,6 +209,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
@@ -268,7 +274,8 @@ class ilUserDataSet extends ilDataSet
 		{			
 			switch ($a_version)
 			{
-				case "4.5.0":					
+				case "4.5.0":
+				case "5.1.0":
 					$this->data = array();
 					$set = $ilDB->query("SELECT * FROM usr_data_multi".
 						" WHERE ".$ilDB->in("usr_id", $a_ids, false, "integer"));
