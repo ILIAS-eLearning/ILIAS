@@ -138,6 +138,11 @@ class ilObjSurvey extends ilObject
 	var $mailparticipantdata;
 	var $template_id;
 	var $pool_usage;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 	
 	protected $activation_visibility;
 	protected $activation_starting_time;
@@ -202,7 +207,8 @@ class ilObjSurvey extends ilObject
 		$this->surveyCodeSecurity = TRUE;
 		$this->template_id = NULL;
 		$this->pool_usage = true;
-		
+		$this->log = ilLoggerFactory::getLogger("svy");
+
 		parent::__construct($a_id,$a_call_by_reference);
 	}
 
@@ -3710,19 +3716,20 @@ class ilObjSurvey extends ilObject
 		$isZip = FALSE;
 		if ((strcmp($file_info["type"], "text/xml") == 0) || (strcmp($file_info["type"], "application/xml") == 0))
 		{
+			$this->log->debug("isXML");
 			$isXml = TRUE;
 		}
 		// too many different mime-types, so we use the suffix
 		$suffix = pathinfo($file_info["name"]);
 		if (strcmp(strtolower($suffix["extension"]), "zip") == 0)
 		{
+			$this->log->debug("isZip");
 			$isZip = TRUE;
 		}
 		if (!$isXml && !$isZip)
 		{
 			$error = $this->lng->txt("import_wrong_file_type");
-			global $ilLog;
-			$ilLog->write("Survey: Import error. Filetype was \"" . $file_info["type"] ."\"");
+			$this->log->debug("Survey: Import error. Filetype was \"" . $file_info["type"] ."\"");
 		}
 		if (strlen($error) == 0)
 		{
@@ -3749,6 +3756,10 @@ class ilObjSurvey extends ilObject
 				$importfile = tempnam($import_dir, "survey_import");
 				ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
 			}
+
+			$this->log->debug("Import file = $importfile");
+			$this->log->debug("Import subdir = $import_subdir");
+
 			$fh = fopen($importfile, "r");
 			if (!$fh)
 			{
@@ -3774,12 +3785,19 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
+				$this->log->debug("survey id = ".$this->getId());
+				$this->log->debug("question pool id = ".$svy_qpl_id);
+
 				include_once("./Services/Export/classes/class.ilImport.php");
 				$imp = new ilImport();
+				$config = $imp->getConfig("Modules/Survey");
+				$config->setQuestionPoolID($svy_qpl_id);
 				$imp->getMapping()->addMapping("Modules/Survey", "svy", 0, $this->getId());
 				$imp->importFromDirectory($import_subdir, "svy", "Modules/Survey");
+				$this->log->debug("config(Modules/survey)->getQuestionPoolId =".$config->getQuestionPoolID());
 				return "";
 
+				//old code
 				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 				$import = new SurveyImportParser($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);

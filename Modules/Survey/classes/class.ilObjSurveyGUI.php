@@ -21,7 +21,12 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ingroup ModulesSurvey
 */
 class ilObjSurveyGUI extends ilObjectGUI
-{		
+{
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	public function __construct()
 	{
 		global $lng, $ilCtrl;
@@ -30,7 +35,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$lng->loadLanguageModule("survey");
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
-	
+
+		$this->log = ilLoggerFactory::getLogger("svy");
+
 		parent::__construct("", (int)$_GET["ref_id"], true, false);
 	}
 	
@@ -87,6 +94,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
 		$this->prepareOutput();
 
+		$this->log->debug("next_class= $next_class");
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -215,6 +223,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			default:
 				$this->addHeaderAction();
 				$cmd.= "Object";
+
+				$this->log->debug("Default cmd= $cmd");
+
 				$this->$cmd();
 				break;
 		}
@@ -1419,6 +1430,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->putObjectInTree($newObj);
 
 			// copy uploaded file to import directory
+
+			$this->log->debug("form->getInput(spl) = ".$form->getInput("spl"));
+
 			$error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
 			if (strlen($error))
 			{
