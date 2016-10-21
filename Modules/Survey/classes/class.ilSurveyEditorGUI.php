@@ -1271,7 +1271,7 @@ class ilSurveyEditorGUI
 		{
 			$_POST["export_label"] = $this->object->getShowQuestionTitles();
 		}
-		$current_title = (int)$_REQUEST["export_label"];
+		$current_title = (int)$_POST["export_label"];
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");

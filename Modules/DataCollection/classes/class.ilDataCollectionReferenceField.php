@@ -151,7 +151,12 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 		$table = ilDataCollectionCache::getTableCache($field->getTableId());
 		$record_id = 0;
 		foreach ($table->getRecords() as $record) {
-			if ($record->getRecordField($field->getId())->getValue() == $value) {
+			$record_value = $record->getRecordField($field->getId())->getValue();
+			// in case of a url-field
+			if ($json = json_decode($record_value,true)) {
+				$record_value = array_shift($json);
+			}
+			if ($record_value == $value) {
 				$record_id = $record->getId();
 			}
 		}

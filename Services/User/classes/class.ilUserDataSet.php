@@ -231,7 +231,9 @@ class ilUserDataSet extends ilDataSet
 						"public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office", "public_profile",
 						"public_sel_country", "public_street", "public_title", "public_upload", "public_zipcode",
 						"screen_reader_optimization", "show_users_online",
-						"store_last_visited", "time_format", "user_tz", "weekstart");
+						"store_last_visited", "time_format", "user_tz", "weekstart",
+						"session_reminder_enabled", "session_reminder_lead_time", "usr_starting_point",
+						"char_selector_availability", "char_selector_definition");
 					$this->data = array();
 					$set = $ilDB->query("SELECT * FROM usr_pref ".
 						" WHERE ".$ilDB->in("keyword", $prefs, false, "text").
