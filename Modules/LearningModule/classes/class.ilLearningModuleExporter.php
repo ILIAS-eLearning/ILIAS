@@ -46,67 +46,86 @@ class ilLearningModuleExporter extends ilXmlExporter
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 
-		$md_ids = array();
+		$deps = array();
 
-		// lm related ids
-		foreach ($a_ids as $id)
+		if ($a_entity == "lm")
 		{
-			$md_ids[] = $id.":0:lm";
-		}
+			$md_ids = array();
 
-		// chapter related ids
-		foreach ($a_ids as $id)
-		{
-			$chaps = ilLMObject::getObjectList($id, "st");
-			foreach ($chaps as $c)
+			// lm related ids
+			foreach ($a_ids as $id)
 			{
-				$md_ids[] = $id.":".$c["obj_id"].":st";
+				$md_ids[] = $id . ":0:lm";
 			}
-		}
 
-		// page related ids
-		$pg_ids = array();
-		foreach ($a_ids as $id)
-		{
-			$pages = ilLMPageObject::getPageList($id);
-			foreach ($pages as $p)
+			// chapter related ids
+			foreach ($a_ids as $id)
 			{
-				$pg_ids[] = "lm:".$p["obj_id"];
-				$md_ids[] = $id.":".$p["obj_id"].":pg";
+				$chaps = ilLMObject::getObjectList($id, "st");
+				foreach ($chaps as $c)
+				{
+					$md_ids[] = $id . ":" . $c["obj_id"] . ":st";
+				}
 			}
-		}
 
-		// style, multilang, metadata per page/chap?
+			// page related ids
+			$pg_ids = array();
+			foreach ($a_ids as $id)
+			{
+				$pages = ilLMPageObject::getPageList($id);
+				foreach ($pages as $p)
+				{
+					$pg_ids[] = "lm:" . $p["obj_id"];
+					$md_ids[] = $id . ":" . $p["obj_id"] . ":pg";
+				}
+			}
 
-		$deps = array (
-			array(
-				"component" => "Services/COPage",
-				"entity" => "pg",
-				"ids" => $pg_ids),
-			array(
-				"component" => "Services/MetaData",
-				"entity" => "md",
-				"ids" => $md_ids),
-		);
+			// style, multilang, metadata per page/chap?
 
-		if (!$this->config->getMasterLanguageOnly())
-		{
-			$deps[] = array(
-				"component" => "Services/Object",
-				"entity" => "transl",
-				"ids" => $md_ids);
-		}
+			$deps = array(
+				array(
+					"component" => "Services/COPage",
+					"entity" => "pg",
+					"ids" => $pg_ids),
+				array(
+					"component" => "Services/MetaData",
+					"entity" => "md",
+					"ids" => $md_ids),
+			);
 
-		// help export
-		foreach ($a_ids as $id)
-		{
-			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-			if (ilObjContentObject::isOnlineHelpModule($id, true))
+			if (!$this->config->getMasterLanguageOnly())
 			{
 				$deps[] = array(
-					"component" => "Services/Help",
-					"entity" => "help",
-					"ids" => array($id));
+					"component" => "Services/Object",
+					"entity" => "transl",
+					"ids" => $md_ids);
+			}
+
+			// help export
+			foreach ($a_ids as $id)
+			{
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+				if (ilObjContentObject::isOnlineHelpModule($id, true))
+				{
+					$deps[] = array(
+						"component" => "Services/Help",
+						"entity" => "help",
+						"ids" => array($id));
+				}
+			}
+
+			// style
+			foreach ($a_ids as $id)
+			{
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+				if (($s = ilObjContentObject::_lookupStyleSheetId($id)) > 0)
+				{
+					$deps[] = array(
+						"component" => "Services/Style",
+						"entity" => "sty",
+						"ids" => $s
+					);
+				}
 			}
 		}
 

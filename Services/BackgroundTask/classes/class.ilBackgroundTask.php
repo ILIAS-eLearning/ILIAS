@@ -19,6 +19,11 @@ class ilBackgroundTask
 	protected $handler; // [string]
 	protected $params; // [array]
 	protected $exists; // [bool]
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 	
 	// :TODO:
 	const STATUS_INITIALIZED = "initialized";	
@@ -38,7 +43,8 @@ class ilBackgroundTask
 	 * @return self
 	 */
 	public function __construct($a_id = 0)
-	{		
+	{
+		$this->log = ilLoggerFactory::getLogger('btsk');
 		if ($a_id != 0)
 		{
 			$this->doRead($a_id);
@@ -52,6 +58,7 @@ class ilBackgroundTask
 	public function getHandlerInstance()
 	{
 		$handler_id = $this->getHandlerId();
+		$this->log->debug("Handler ID: ".$handler_id);
 		if($handler_id)
 		{
 			include_once "Services/BackgroundTask/classes/class.".$handler_id.".php";
@@ -279,7 +286,8 @@ class ilBackgroundTask
 	//
 	
 	public function save()
-	{		
+	{
+		$this->log->debug($this->getHandlerId());
 		// does not exist yet?
 		if (!$this->exists)
 		{
@@ -293,6 +301,7 @@ class ilBackgroundTask
 	
 	public function delete()
 	{
+		$this->log->debug($this->getHandlerId());
 		if(!$this->exists)
 		{
 			return;
@@ -305,6 +314,8 @@ class ilBackgroundTask
 	protected function doRead($a_id)
 	{
 		global $ilDB;
+
+		$this->log->debug($this->getHandlerId()."/".$a_id);
 		
 		$set = $ilDB->queryF(
 			"SELECT * FROM " . self::DB_NAME . " WHERE id=%s", 

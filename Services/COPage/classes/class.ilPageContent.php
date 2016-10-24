@@ -367,7 +367,7 @@ abstract class ilPageContent
 	/**
 	* Check whether Hier ID $a is greater than Hier ID $b
 	*/
-	function isGreaterHierId($a, $b)
+	static function isGreaterHierId($a, $b)
 	{
 		$a_arr = explode("_", $a);
 		$b_arr = explode("_", $b);

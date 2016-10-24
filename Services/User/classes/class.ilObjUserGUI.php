@@ -1754,6 +1754,10 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$lng->loadLanguageModule('buddysystem');
 			$os = new ilCheckboxInputGUI($lng->txt('buddy_allow_to_contact_me'), 'bs_allow_to_contact_me');
+			if($a_mode == 'create')
+			{
+				$os->setChecked(ilUtil::yn2tf($ilSetting->get('bs_allow_to_contact_me', 'n')));
+			}
 			$this->form_gui->addItem($os);
 		}
 		if($this->isSettingChangeable('chat_osc_accept_msg'))

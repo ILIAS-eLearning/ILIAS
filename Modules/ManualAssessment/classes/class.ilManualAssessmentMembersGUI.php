@@ -28,10 +28,13 @@ class ilManualAssessmentMembersGUI {
 		$this->tpl =  $DIC['tpl'];
 		$this->lng = $DIC['lng'];
 		$this->toolbar = $DIC['ilToolbar'];
+		$this->access_handler = $this->object->accessHandler();
 	}
 
 	public function executeCommand() {
-		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
+		if(!$this->access_handler->checkAccessToObj($this->object,'edit_members')
+			&& !$this->access_handler->checkAccessToObj($this->object,'edit_learning_progress')
+			&& !$this->access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
 			$this->parent_gui->handleAccessViolation();
 		}
 		$cmd = $this->ctrl->getCmd();
@@ -67,18 +70,20 @@ class ilManualAssessmentMembersGUI {
 	}
 
 	protected function view() {
-		require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$this->toolbar,
-			array(
-				'auto_complete_name'	=> $this->lng->txt('user'),
-				'submit_name'			=> $this->lng->txt('add')
-			)
-		);
-		$this->toolbar->addSeparator();
-		$this->toolbar->addButton($this->lng->txt('search_user'),
-		$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		if($this->access_handler->checkAccessToObj($this->object,'edit_members')) {
+			require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$this->toolbar,
+				array(
+					'auto_complete_name'	=> $this->lng->txt('user'),
+					'submit_name'			=> $this->lng->txt('add')
+				)
+			);
+			$this->toolbar->addSeparator();
+			$this->toolbar->addButton($this->lng->txt('search_user'),
+			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		}
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
 	}

@@ -310,7 +310,12 @@ class ilUserProfile
 			"visib_reg_hide" => true,
 			"course_export_hide" => true,
 			"group_export_hide" => true,
-			"group" => "settings"
+			"group" => "settings",
+			"default" => "y",
+			"options" => array(
+				"n" => "buddy_allow_to_contact_me_no",
+				"y" => "buddy_allow_to_contact_me_yes"
+			)
 		),
 		"chat_osc_accept_msg" => array(
 			"input" => "selection",

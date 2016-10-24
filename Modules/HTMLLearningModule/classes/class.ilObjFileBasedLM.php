@@ -22,7 +22,6 @@ class ilObjFileBasedLM extends ilObject
 	var $tree;
 	
 	protected $online; // [bool]
-	protected $show_license; // [bool]
 
 	/**
 	* Constructor
@@ -36,7 +35,6 @@ class ilObjFileBasedLM extends ilObject
 		$this->type = "htlm";
 		parent::__construct($a_id,$a_call_by_reference);
 		
-		$this->setShowLicense(false);
 	}
 
 
@@ -56,7 +54,6 @@ class ilObjFileBasedLM extends ilObject
 		$ilDB->manipulate($q = "UPDATE file_based_lm SET ".
 			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").
 			", startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
-			", show_lic = ".$ilDB->quote($this->getShowLicense(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		return true;
 	}
@@ -75,7 +72,6 @@ class ilObjFileBasedLM extends ilObject
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
 		$this->setStartFile((string) $lm_rec["startfile"]);
-		$this->setShowLicense($lm_rec["show_lic"]);
 	}
 
 
@@ -134,17 +130,7 @@ class ilObjFileBasedLM extends ilObject
 	{
 		return $this->online;
 	}
-	
-	function setShowLicense($a_value)
-	{
-		$this->show_license = (bool)$a_value;
-	}
-	
-	function getShowLicense()
-	{
-		return $this->show_license;
-	}
-	
+
 	/**
 	* check wether content object is online
 	*/
@@ -249,7 +235,6 @@ class ilObjFileBasedLM extends ilObject
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
-		$new_obj->setShowLicense($this->getShowLicense());
 
 		// copy content
 		$new_obj->populateByDirectoy($this->getDataDirectory());

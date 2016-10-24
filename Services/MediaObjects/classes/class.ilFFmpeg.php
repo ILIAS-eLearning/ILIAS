@@ -118,7 +118,7 @@ class ilFFmpeg
 	 * @param
 	 * @return
 	 */
-	function getPossibleTargetMimeTypes($a_source_mime_type)
+	static function getPossibleTargetMimeTypes($a_source_mime_type)
 	{
 		$pt = array();
 		if (in_array($a_source_mime_type, self::getSourceMimeTypes()))
@@ -149,7 +149,7 @@ class ilFFmpeg
 	 * @param
 	 * @return
 	 */
-	function exec($args)
+	static function exec($args)
 	{
 		return ilUtil::execQuoted(self::getCmd(), $args);
 	}
@@ -247,7 +247,7 @@ class ilFFmpeg
 	 * @param
 	 * @return
 	 */
-	function getLastReturnValues()
+	static function getLastReturnValues()
 	{
 		return self::$last_return;
 	}

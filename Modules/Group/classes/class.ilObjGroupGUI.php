@@ -420,8 +420,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// check for parent group or course => SORT_INHERIT
 		$sort_mode = ilContainer::SORT_TITLE;
 		if(
-				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'crs') ||
-				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'grp')
+				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'crs',true) ||
+				$GLOBALS['tree']->checkForParentType($new_object->getRefId(),'grp',true)
 		)
 		{
 			$sort_mode = ilContainer::SORT_INHERIT;
@@ -1258,6 +1258,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "infoScreen");
 	}
+	
+	/**
+	 * Called from goto?
+	 */
+	protected function membersObject()
+	{
+		$GLOBALS['ilCtrl']->redirectByClass('ilgroupmembershipgui');
+	}
+	
 
 	/**
 	 * goto target group
@@ -1489,8 +1498,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			// Group presentation
 			$hasParentMembership = 
 				(
-					$tree->checkForParentType($this->object->getRefId(),'crs') ||
-					$tree->checkForParentType($this->object->getRefId(),'grp')
+					$tree->checkForParentType($this->object->getRefId(),'crs',true) ||
+					$tree->checkForParentType($this->object->getRefId(),'grp',true)
 				);
 			
 			$pres = new ilFormSectionHeaderGUI();

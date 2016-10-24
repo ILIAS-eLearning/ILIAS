@@ -148,7 +148,15 @@ class ilDataCollectionDataSet extends ilDataSet {
 	public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) {
 		switch ($a_entity) {
 			case 'dcl':
-				$new_obj = new ilObjDataCollection();
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['id']))
+				{
+					$new_obj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$new_obj = new ilObjDataCollection();
+					$new_obj->create(true);
+				}
 				$new_obj->setTitle($a_rec['title']);
 				$new_obj->setDescription($a_rec['description']);
 				$new_obj->setApproval($a_rec['approval']);
@@ -157,7 +165,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$new_obj->setPublicNotes($a_rec['public_notes']);
 				$new_obj->setOnline(false);
 				$new_obj->setRating($a_rec['rating']);
-				$new_obj->create(true); //clone mode, so no table will be created
+				$new_obj->update(); //clone mode, so no table will be created
 				$this->import_dc_object = $new_obj;
 				$a_mapping->addMapping('Modules/DataCollection', 'dcl', $a_rec['id'], $new_obj->getId());
 				break;

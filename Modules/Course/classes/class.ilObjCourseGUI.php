@@ -3022,6 +3022,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 		}
 	}
+	
+	/**
+	 * Called from goto?
+	 */
+	protected function membersObject()
+	{
+		$GLOBALS['ilCtrl']->redirectByClass('ilcoursemembershipgui');
+	}
 
 	/**
 	* goto target course

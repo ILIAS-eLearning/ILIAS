@@ -25,4 +25,5 @@
 	<mailtemplates>
 		<context id="svy_context_rmd" class="ilSurveyMailTemplateReminderContext" />		
 	</mailtemplates>
+	<logging />
 </module>

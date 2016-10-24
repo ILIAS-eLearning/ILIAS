@@ -1867,12 +1867,14 @@ class ilRbacReview
 	{
 		return self::$is_assigned_cache[$a_role_id][$a_user_id];
 	}
-
-
-	public function clearCaches() {
+	
+	/**
+	 * Clear assigned users caches
+	 */
+	public function clearCaches() 
+	{
 		self::$is_assigned_cache = array();
 		self::$assigned_users_cache = array();
 	}
-
 } // END class.ilRbacReview
 ?>

@@ -7347,7 +7347,7 @@ cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by re
 cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
 trac#:#trac_user_activities#:#Benutzeraktivitäten###02 06 2008 new variable
-trac#:#trac_repository_changes#:#Changes in the repository###02 06 2008 new variable
+trac#:#trac_show_repository_views#:#Changes in the repository###02 06 2008 new variable
 common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.###02 06 2008 new variable
 dateplaner#:#cal_table_categories#:#Calendar Selection###02 06 2008 new variable
 dateplaner#:#cal_type_usr#:#Personal Calendar###02 06 2008 new variable

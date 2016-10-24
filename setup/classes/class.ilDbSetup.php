@@ -264,16 +264,14 @@ class ilDbSetup {
 	 */
 	public function isConnectable($keep_connection = false) {
 		switch ($this->ilDBInterface->getDBType()) {
-			case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
-			case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-			case ilDBConstants::TYPE_PDO_POSTGRE:
+			default:
 				try {
 					$connect = $this->ilDBInterface->connect();
 				} catch (PDOException $e) {
 					$connect = ($e->getCode() == 1049);
 				}
 				break;
-			default:
+			case ilDBConstants::TYPE_ORACLE:
 				$connect = $this->ilDBInterface->connect(true);
 				break;
 		}

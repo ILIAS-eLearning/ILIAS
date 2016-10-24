@@ -35,6 +35,10 @@ class ilWACToken {
 	/**
 	 * @var string
 	 */
+	protected $raw_token = '';
+	/**
+	 * @var string
+	 */
 	protected $path = '';
 	/**
 	 * @var string
@@ -59,8 +63,7 @@ class ilWACToken {
 	 */
 	public function __construct($path, $client, $timestamp = null, $ttl = null) {
 		$this->setClient($client);
-		$parts = parse_url($path);
-		$this->setPath($parts['path']);
+		$this->setPath($path);
 		$session_id = session_id();
 		$this->setSessionId($session_id ? $session_id : '-');
 		if (isset($_SERVER['REMOTE_ADDR'])) {
@@ -70,7 +73,7 @@ class ilWACToken {
 		$ttl = $ttl ? $ttl : ilWACSignedPath::getTokenMaxLifetimeInSeconds();
 		$this->setTTL($ttl); //  since we do not know the type at this poit we choose the shorter duration for security reasons
 		$this->generateToken();
-		self::isDEBUG() ? $this->setId($this->getPath()) : $this->setId(md5($this->getPath()));
+		$this->setId($this->getPath());
 	}
 
 
@@ -85,7 +88,8 @@ class ilWACToken {
 	public function generateToken() {
 		$this->initSalt();
 		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTTL() ));
-		$token = self::isDEBUG() ? $token : sha1($token);
+		$this->setRawToken($token);
+		$token = sha1($token);
 		$this->setToken($token);
 	}
 
@@ -220,6 +224,14 @@ class ilWACToken {
 
 
 	/**
+	 * @return string
+	 */
+	public function getHashedId() {
+		return md5($this->id);
+	}
+
+
+	/**
 	 * @param string $id
 	 */
 	public function setId($id) {
@@ -272,5 +284,21 @@ class ilWACToken {
 	 */
 	public function setTTL($ttl) {
 		$this->ttl = $ttl;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getRawToken() {
+		return $this->raw_token;
+	}
+
+
+	/**
+	 * @param string $raw_token
+	 */
+	public function setRawToken($raw_token) {
+		$this->raw_token = $raw_token;
 	}
 }

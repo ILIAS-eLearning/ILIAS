@@ -1007,7 +1007,8 @@ abstract class ilParticipants
 	protected function readParticipants()
 	{
 		global $rbacreview,$ilObjDataCache,$ilLog;
-
+		
+		$GLOBALS['rbacreview']->clearCaches();
 		$this->roles = $rbacreview->getRolesOfRoleFolder($this->ref_id,false);
 
 		$users = array();

@@ -30,21 +30,32 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
 		global $DIC;
+		$this->ilNavigationHistory = $DIC['ilNavigationHistory'];
 		$this->type = 'mass';
 		$this->tpl = $DIC['tpl'];
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->usr = $DIC['ilUser'];
 		$this->ilias = $DIC['ilias'];
 		$this->lng = $DIC['lng'];
+		$this->ilAccess = $DIC['ilAccess'];
 		$this->lng->loadLanguageModule('mass');
 		$this->tpl->getStandardTemplate();
+		$this->locator = $DIC['ilLocator'];
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+	}
+
+	public function addLocatorItems() {
+
+		if (is_object($this->object)) {
+			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "view"), "", $this->object->getRefId());
+		}
 	}
 
 	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+		$this->addToNavigationHistory();
 		switch($next_class) {
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
@@ -59,10 +70,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'ilmanualassessmentmembersgui':
-				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
-				$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
-				$this->ctrl->forwardCommand($gui);
+				$this->membersObject();
 				break;
 			case 'ilinfoscreengui':
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
@@ -82,9 +90,18 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 											$this->usr->getId());
 				$this->ctrl->forwardCommand($learning_progress);
 				break;
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
+					if($this->object->access_handler->checkAccessToObj($this->object, 'edit_members')) {
+						$this->ctrl->setCmdClass('ilmanualassessmentmembersgui');
+						$cmd = 'members';
+					}
 				}
 				$cmd .= 'Object';
 				$this->$cmd();
@@ -99,11 +116,17 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	public function viewObject() {
 		$this->tabs_gui->setTabActive(self::TAB_INFO);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
-		$cmd = $this->ctrl->getCmd();
 		$this->ctrl->setCmd('showSummary');
 		$this->ctrl->setCmdClass('ilinfoscreengui');
 		$info = $this->buildInfoScreen();
 		$this->ctrl->forwardCommand($info);
+	}
+
+	public function membersObject() {
+		$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+		require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentMembersGUI.php';
+		$gui = new ilManualAssessmentMembersGUI($this, $this->ref_id);
+		$this->ctrl->forwardCommand($gui);
 	}
 
 	protected function buildInfoScreen() {
@@ -190,7 +213,9 @@ public function getTabs() {
 									, $this->getLinkTarget('settings')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'edit_members')) {
+		if($access_handler->checkAccessToObj($this->object,'edit_members')
+			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
+			|| $access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 									, $this->lng->txt('members')
 									, $this->getLinkTarget('members')
@@ -256,6 +281,22 @@ public function getTabs() {
 			case ilManualAssessmentMembers::LP_FAILED :
 				return $this->lng->txt('mass_status_failed');
 				break;
+		}
+	}
+
+	protected function afterSave(ilObject $a_new_object) {
+		ilUtil::sendSuccess($this->lng->txt("mass_added"),true);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilmanualassessmentsettingsgui', 'edit', '', false, false));
+	}
+
+	public function addToNavigationHistory() {
+		if(!$this->getCreationMode()) {
+			$access_handler = $this->object->accessHandler();
+			if($access_handler->checkAccessToObj($this->object,'read')) {
+				$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+				$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'mass');
+			}
 		}
 	}
 }

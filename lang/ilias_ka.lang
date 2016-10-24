@@ -12387,7 +12387,7 @@ trac#:#trac_registered#:#დარეგისტრირებული
 trac#:#trac_release_materials#:#დაჯგუფების დაშლა არჩევითი მასალებით
 trac#:#trac_report_date#:#მოხსენების თარიღი
 trac#:#trac_report_owner#:#მოხსენების მფლობელი
-trac#:#trac_repository_changes#:#ცვლილებები საცავში
+trac#:#trac_show_repository_views#:#ცვლილებები საცავში
 trac#:#trac_required_visits#:#მოთხოვნილი ვიზიტების რაოდენობა
 trac#:#trac_sahs_relevant_items#:#შინაარსის ნივთები
 trac#:#trac_scale#:#Scale

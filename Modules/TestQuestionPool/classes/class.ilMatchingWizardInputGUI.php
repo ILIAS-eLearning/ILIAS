@@ -315,6 +315,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock('addimage');
+				$tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
 				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
 				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);

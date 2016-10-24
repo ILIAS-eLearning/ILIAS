@@ -848,6 +848,8 @@ abstract class assQuestion
 					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
+					$output = $this->fixSvgToPng($output);
+					$output = $this->fixUnavailableSkinImageSources($output);
 					array_push($output, $this->prepareTextareaOutput($solution["value"], true));
 					break;
 			}
@@ -1076,7 +1078,7 @@ abstract class assQuestion
 		
 		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
 		{
-			$this->logAction(
+			assQuestion::logAction(
 				sprintf(
 					$this->lng->txtlng(
 						"assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()
@@ -1381,47 +1383,30 @@ abstract class assQuestion
 	}
 
 	/**
-* Logs an action into the Test&Assessment log
-*
-* @param string $logtext The log text
-* @param integer $question_id If given, saves the question id to the database
-* @access public
-*/
-	function logAction($logtext = "", $active_id = "", $question_id = "")
+	 * Logs an action into the Test&Assessment log
+	 *
+	 * @param string $logtext The log text
+	 * @param int|string $active_id
+	 * @param int|string $question_id If given, saves the question id to the database
+	 */
+	public static function logAction($logtext = "", $active_id = "", $question_id = "")
 	{
-		global $ilUser;
-
 		$original_id = "";
-		if (strcmp($question_id, "") != 0)
+		if( strlen($question_id) )
 		{
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$original_id = assQuestion::_getOriginalId($question_id);
+			$original_id = self::_getOriginalId($question_id);
 		}
-		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromActiveID($active_id), $logtext, $question_id, $original_id);
-	}
-	
-/**
-* Logs an action into the Test&Assessment log
-*
-* @param string $logtext The log text
-* @param integer $question_id If given, saves the question id to the database
-* @access public
-*/
-	function _logAction($logtext = "", $active_id = "", $question_id = "")
-	{
-		global $ilUser;
-
-		$original_id = "";
-		if (strcmp($question_id, "") != 0)
-		{
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$original_id = assQuestion::_getOriginalId($question_id);
-		}
-		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromActiveID($active_id), $logtext, $question_id, $original_id);
+		
+		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+		require_once 'Modules/Test/classes/class.ilObjTest.php';
+		
+		ilObjAssessmentFolder::_addLog(
+			$GLOBALS['DIC']['ilUser']->getId(),
+			ilObjTest::_getObjectIDFromActiveID($active_id),
+			$logtext,
+			$question_id,
+			$original_id
+		);
 	}
 	
 	/**
@@ -2065,7 +2050,7 @@ abstract class assQuestion
 	*
 	* @param	int		$a_q_id		question id
 	*/
-	function _getTitle($a_q_id)
+	static function _getTitle($a_q_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT title FROM qpl_questions WHERE question_id = %s",
@@ -2083,12 +2068,12 @@ abstract class assQuestion
 		}
 	}
 	
-		/**
+	/**
 	* Returns question text
 	*
 	* @param	int		$a_q_id		question id
 	*/
-	function _getQuestionText($a_q_id)
+	static function _getQuestionText($a_q_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT question_text FROM qpl_questions WHERE question_id = %s",
@@ -2225,6 +2210,65 @@ abstract class assQuestion
 	function getOriginalId()
 	{
 		return $this->original_id;
+	}
+	
+	protected static $imageSourceFixReplaceMap = array(
+		'ok.svg' => 'ok.png', 'not_ok.svg' => 'not_ok.png',
+		'checkbox_checked.svg' => 'checkbox_checked.png',
+		'checkbox_unchecked.svg' => 'checkbox_unchecked.png',
+		'radiobutton_checked.svg' => 'radiobutton_checked.png',
+		'radiobutton_unchecked.svg' => 'radiobutton_unchecked.png'
+	);
+	
+	public function fixSvgToPng($imageFilenameContainingString)
+	{
+		$needles = array_keys(self::$imageSourceFixReplaceMap);
+		$replacements = array_values(self::$imageSourceFixReplaceMap);
+		return str_replace($needles, $replacements, $imageFilenameContainingString);
+	}
+	
+	
+	public function fixUnavailableSkinImageSources($html)
+	{
+		$matches = null;
+		if( preg_match_all('/src="(.*?)"/m', $html, $matches) )
+		{
+			$sources = $matches[1];
+			
+			$needleReplacementMap = array();
+			
+			foreach($sources as $src)
+			{
+				$file = ilUtil::removeTrailingPathSeparators( ILIAS_ABSOLUTE_PATH ) . DIRECTORY_SEPARATOR . $src;
+				
+				if( file_exists($file) )
+				{
+					continue;
+				}
+				
+				$levels = explode(DIRECTORY_SEPARATOR, $src);
+				if( count($levels) < 5 || $levels[0] != 'Customizing' || $levels[2] != 'skin' )
+				{
+					continue;
+				}
+				
+				$component = '';
+				
+				if( $levels[4] == 'Modules' || $levels[4] == 'Services' )
+				{
+					$component = $levels[4] . DIRECTORY_SEPARATOR . $levels[5];
+				}
+				
+				$needleReplacementMap[$src] = ilUtil::getImagePath(basename($src), $component);
+			}
+			
+			if( count($needleReplacementMap) )
+			{
+				$html = str_replace(array_keys($needleReplacementMap), array_values($needleReplacementMap), $html);
+			}
+		}
+		
+		return $html;
 	}
 
 /**
@@ -3505,7 +3549,7 @@ abstract class assQuestion
 					global $lng, $ilUser;
 					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 					$username = ilObjTestAccess::_getParticipantData($active_id);
-					assQuestion::_logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
+					assQuestion::logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
 				}
 			}
 

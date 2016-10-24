@@ -12445,7 +12445,7 @@ trac#:#trac_registered#:#Zarejestrowany
 trac#:#trac_release_materials#:#Disintegrate Material Group
 trac#:#trac_report_date#:#Date of Report
 trac#:#trac_report_owner#:#Owner of Report
-trac#:#trac_repository_changes#:#Changes in the repository
+trac#:#trac_show_repository_views#:#Changes in the repository
 trac#:#trac_required_visits#:#Liczba żądanych wizyt
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_scale#:#Scale

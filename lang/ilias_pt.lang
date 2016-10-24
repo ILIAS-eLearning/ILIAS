@@ -11413,7 +11413,7 @@ trac#:#trac_registered#:#Registered
 trac#:#trac_release_materials#:#Disintegrate Material Group
 trac#:#trac_report_date#:#Date of Report
 trac#:#trac_report_owner#:#Owner of Report
-trac#:#trac_repository_changes#:#Changes in the repository
+trac#:#trac_show_repository_views#:#Changes in the repository
 trac#:#trac_required_visits#:#Number of required visits
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_area#:#Selecionar Área###30 04 2009 new variable

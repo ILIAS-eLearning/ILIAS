@@ -225,44 +225,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getUser(): get complete set of user data.');
-		// updateUser()
-		$this->server->register('updateUser',
-								array('sid' => 'xsd:string',
-									  'user_data' => 'tns:ilUserData'),
-								array('success' => 'xsd:boolean'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#updateUser',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS updateUser(). DEPRECATED: Use importUsers() for modifications of user data. Updates all user data. '.
-								'Use getUser(), then modify desired fields and finally start the updateUser() call.');
-		// Update password
-		$this->server->register('updatePassword',
-								array('sid' => 'xsd:string',
-									  'user_id' => 'xsd:int',
-									  'new_password' => 'xsd:string'),
-								array('success' => 'xsd:boolean'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#updatePassword',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS updatePassword(). Updates password of given user. Password must be MD5 hash. DEPRECATED: Use importUsers() for modifications of user data.');
-
-
-		// addUser()
-		$this->server->register('addUser',
-								array('sid' => 'xsd:string',
-									  'user_data' => 'tns:ilUserData',
-									  'global_role_id' => 'xsd:int'),
-								array('user_id' => 'xsd:int'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#addUser',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS addUser() user. DEPRECATED: Since it is not possible to add new user data fields '.
-								'without breaking the backward compatability, this method is deprecated. Please use importUser() instead. '.
-								'Add new ILIAS user. Requires complete or subset of user_data structure');
+								'ILIAS getUser(): get complete set of user data. DEPRECATED with release 5.2, will be deleted with 5.3. Use searchUsers() instead.');
 
 		// deleteUser()
 		$this->server->register('deleteUser',

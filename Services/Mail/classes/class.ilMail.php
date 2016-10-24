@@ -1103,7 +1103,6 @@ class ilMail
 
 		if(in_array('system', $a_type))
 		{
-			$this->__checkSystemRecipients($a_rcp_to);
 			$a_type = array('system');
 		}
 
@@ -1478,18 +1477,6 @@ class ilMail
 		}
 
 		return implode(',', $rcp);
-	}
-
-	/**
-	 * @param string $a_rcp_to
-	 */
-	protected function __checkSystemRecipients(&$a_rcp_to)
-	{
-		if(preg_match("/@all/", $a_rcp_to))
-		{
-			$all = ilObjUser::getAllUserLogins();
-			$a_rcp_to = preg_replace("/@all/", implode(',', $all), $a_rcp_to);
-		}
 	}
 
 	/**

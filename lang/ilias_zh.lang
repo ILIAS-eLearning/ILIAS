@@ -9089,7 +9089,7 @@ trac#:#trac_reached_points#:#取得分数
 trac#:#trac_reached_visits#:#请求的访问
 trac#:#trac_refresh#:#刷新
 trac#:#trac_registered#:#已注册
-trac#:#trac_repository_changes#:#知识库中的变化
+trac#:#trac_show_repository_views#:#知识库中的变化
 trac#:#trac_required_visits#:#请求访问的数量
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_area#:#选择区域 

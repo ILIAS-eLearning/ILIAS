@@ -2240,7 +2240,7 @@ class ilObjContentObject extends ilObject
 		if ($this->isActiveTOC())
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
-			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$lm_gui->tpl = $tpl;
 			$content = $lm_gui->showTableOfContents();
 			$file = $a_target_dir."/table_of_contents.html";
 				

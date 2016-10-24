@@ -160,12 +160,13 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 						break;
 
 					case "cont":
-						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
+						$otype  = ilObject::_lookupType($page_obj->getId());
+						$item["obj_type_txt"] = $this->lng->txt("obj_".$otype);
 						$item["obj_title"] = ilObject::_lookupTitle($page_obj->getId());
 						$ref_id = $this->getFirstWritableRefId($page_obj->getId());
 						if ($ref_id > 0)
 						{
-							$item["obj_link"] = ilLink::_getStaticLink($ref_id, $cont_type);
+							$item["obj_link"] = ilLink::_getStaticLink($ref_id, $otype);
 						}
 						break;
 

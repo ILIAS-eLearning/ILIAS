@@ -12395,7 +12395,7 @@ trac#:#trac_registered#:#Registrado
 trac#:#trac_release_materials#:#Desagrupar materiales
 trac#:#trac_report_date#:#Fecha del informe
 trac#:#trac_report_owner#:#Propietario del informe
-trac#:#trac_repository_changes#:#Cambios en el repositorio
+trac#:#trac_show_repository_views#:#Cambios en el repositorio
 trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_scale#:#Escala

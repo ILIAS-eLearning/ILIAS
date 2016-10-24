@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "392a30cc5a20806918c3f3f043cfeb6b",
-    "content-hash": "16a04fcfc18ee1a010922ec40100ece6",
+    "hash": "27e7d866a658bc21f6ce83fd193e5ff0",
+    "content-hash": "ef7f8d9ac206424f132d8b79d4ffebaf",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -403,26 +403,27 @@
         },
         {
             "name": "phansys/getid3",
-            "version": "v1.9.4-p2",
+            "version": "v2.0.0-BETA1",
             "target-dir": "GetId3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phansys/GetId3.git",
-                "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd"
+                "reference": "ec3847c935d25efc3c0184c691e00399ef9e72f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phansys/GetId3/zipball/cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
-                "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+                "url": "https://api.github.com/repos/phansys/GetId3/zipball/ec3847c935d25efc3c0184c691e00399ef9e72f0",
+                "reference": "ec3847c935d25efc3c0184c691e00399ef9e72f0",
                 "shasum": ""
             },
             "suggest": {
-                "ext-exif": "EXIF extension is required for graphic modules."
+                "ext-exif": "EXIF extension is required for graphic modules.",
+                "ext-rar": "RAR extension is required for RAR archive module."
             },
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "GetId3_": ""
+                    "GetId3": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -436,14 +437,14 @@
                     "homepage": "http://www.getid3.org"
                 }
             ],
-            "description": "This package integrates the GetId3 library with the Symfony2 project, emulating the PSR-0 CS",
+            "description": "This release of GetId3 library updates to PSR-0 CS, add namespaces and makes it Symfony 2.x installable by deps or composer mechanisms.",
             "homepage": "http://www.getid3.org",
             "keywords": [
                 "getid3",
                 "metadata",
                 "tags"
             ],
-            "time": "2012-08-30 21:21:23"
+            "time": "2012-12-04 17:31:30"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1061,16 +1062,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd"
+                "reference": "8331b5efe816ae05461b7ca1e721c01b46bafb3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/9270140b940ff02e58ec577c237274e92cd40cdd",
-                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/8331b5efe816ae05461b7ca1e721c01b46bafb3e",
+                "reference": "8331b5efe816ae05461b7ca1e721c01b46bafb3e",
                 "shasum": ""
             },
             "require": {
@@ -1102,7 +1103,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2016-06-10 09:48:41"
+            "time": "2016-09-30 07:12:33"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -2010,6 +2011,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "phansys/getid3": 10,
         "geshi/geshi": 20
     },
     "prefer-stable": false,

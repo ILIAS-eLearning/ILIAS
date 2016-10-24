@@ -27,6 +27,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->settings = new ilSetting("fold");
 	}
 	

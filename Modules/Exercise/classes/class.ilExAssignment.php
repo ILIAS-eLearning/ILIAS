@@ -956,7 +956,7 @@ class ilExAssignment
 	 * @param
 	 * @return
 	 */
-	function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id, array $a_crit_cat_map)
+	static function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id, array $a_crit_cat_map)
 	{
 		$ass_data = self::getInstancesByExercise($a_old_exc_id);
 		foreach ($ass_data as $d)

@@ -37,7 +37,8 @@ class Deck implements D\Deck {
 	 * @inheritdoc
 	 */
 	public function withCards($cards){
-		checkArgListElements("sections",$cards,array(\ILIAS\UI\Component\Card\Card::class));
+		$classes = [\ILIAS\UI\Component\Card\Card::class];
+		$this->checkArgListElements("sections",$cards,$classes);
 
 		$clone = clone $this;
 		$clone->cards = $cards;
@@ -78,4 +79,3 @@ class Deck implements D\Deck {
 	, self::SIZE_XS
 	);
 }
-?>

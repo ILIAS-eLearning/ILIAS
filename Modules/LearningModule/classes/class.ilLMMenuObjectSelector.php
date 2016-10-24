@@ -81,7 +81,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 		return '';
 	}
 
-	function isClickable($a_type, $a_ref_id)
+	function isClickable($a_type, $a_ref_id = 0)
 	{//return true;
 		return in_array($a_type,$this->selectable_types) and $a_ref_id != $this->ref_id;
 	}

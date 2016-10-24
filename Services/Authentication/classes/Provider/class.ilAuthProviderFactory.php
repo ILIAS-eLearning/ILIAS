@@ -40,15 +40,11 @@ class ilAuthProviderFactory
 		if(strlen($credentials->getAuthMode()))
 		{
 			$this->getLogger()->debug('Returning fixed provider for auth mode: ' . $credentials->getAuthMode());
-			if($this->getProvidersByAuthMode($credentials))
-			{
-				return array(
-					$this->getProvidersByAuthMode($credentials, $credentials->getAuthMode())
-				);
-			}
+			return array(
+				$this->getProviderByAuthMode($credentials, $credentials->getAuthMode())
+			);
 		}
 		
-		// check for dynamic provider selection
 		include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
 		$auth_determination = ilAuthModeDetermination::_getInstance();
 		$sequence = $auth_determination->getAuthModeSequence($credentials->getUsername());

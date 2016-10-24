@@ -31,7 +31,7 @@ abstract class assQuestionGUI
 	*
 	* A reference to the matching question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -75,6 +75,7 @@ abstract class assQuestionGUI
 
 	const OUTPUT_MODE_SCREEN = 'outModeScreen';
 	const OUTPUT_MODE_PDF = 'outModePdf';
+	const OUTPUT_MODE_USERINPUT = 'outModeUsrInp';
 	
 	/**
 	 * @var string
@@ -185,6 +186,11 @@ abstract class assQuestionGUI
 	public function isPdfOutputMode()
 	{
 		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
+	}
+
+	public function isUserInputOutputMode()
+	{
+		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
 	}
 	
 	/**
@@ -1317,10 +1323,14 @@ abstract class assQuestionGUI
 		} 
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
+			$oldOutputMode = $this->getOutputMode();
+			$this->setOutputMode(self::OUTPUT_MODE_USERINPUT);
+			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
+			$this->setOutputMode($oldOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{
@@ -1420,8 +1430,11 @@ abstract class assQuestionGUI
 			}
 			else if (strcmp($solution_array["type"], "text") == 0)
 			{
+				$solutionContent = $solution_array['value'];
+				$solutionContent = $this->object->fixSvgToPng($solutionContent);
+				$solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
 				$question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-				$question->setValue($this->object->prepareTextareaOutput($solution_array["value"]));
+				$question->setValue($this->object->prepareTextareaOutput($solutionContent));
 				$question->setRequired(TRUE);
 				$question->setRows(10);
 				$question->setCols(80);
@@ -1988,7 +2001,7 @@ abstract class assQuestionGUI
 			array('ilAssQuestionPreviewGUI')
 		);
 	}
-	
+
 	abstract public function getSolutionOutput(
 		$active_id,
 		$pass = NULL,

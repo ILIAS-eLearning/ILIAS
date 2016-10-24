@@ -466,7 +466,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und klicken Sie auf die Schaltfläche "Lücke einfügen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
+assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und nutzen Sie die Schaltfläche "Textlücke". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
 assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
@@ -769,7 +769,7 @@ assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
-assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
+assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
@@ -1260,7 +1260,7 @@ assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse für Testdur
 assessment#:#tst_eval_results_by_pass_lo#:#Detaillierte Testergebnisse für den %s. Versuch
 assessment#:#tst_eval_results_lo#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die maximale Anzahl Passes eingereicht haben.)
+assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die die maximale Anzahl Testdurchläufe absolviert haben.)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests
 assessment#:#review_view#:#Vorschau
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
@@ -1519,7 +1519,7 @@ assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
-assessment#:#tst_final_information#:#Test abschliessen
+assessment#:#tst_final_information#:#Test abschließen
 assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
@@ -1978,7 +1978,7 @@ blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
-blog#:#blog_finalize_blog#:#Blog abschliessen und abgeben
+blog#:#blog_finalize_blog#:#Blog abschließen und abgeben
 blog#:#blog_finalized#:#Das Blog wurde abgegeben.
 blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
@@ -3147,7 +3147,7 @@ common#:#down#:#Runter
 common#:#download#:#Download
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
-common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
+common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
@@ -3812,7 +3812,7 @@ common#:#keywords#:#Schlagwörter
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprachen lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreiben nur Änderungen, die älter sind als Datum der Sprachdatei.
+common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprachen lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreibt nur Änderungen, die älter sind als ihr eigenes Speicherdatum.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
 common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
@@ -4143,7 +4143,7 @@ common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, wohin die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
-common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Weiter-Button.
+common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Weiter-Button.
 common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs oder die Gruppe aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
@@ -6509,12 +6509,12 @@ content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
 content#:#scplayer_debugger#:#Testwerkzeug zeigen
-content#:#scplayer_exit#:#Schliessen
+content#:#scplayer_exit#:#Schließen
 content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
 content#:#scplayer_hidetree#:#Baum verbergen
 content#:#scplayer_next#:#Vor
-content#:#scplayer_phpmysqlcheck#:#Sie benötigen MYSQL 4.1 oder höher und JSON-support um die JavaScript-RTE zu nutzen.
+content#:#scplayer_phpmysqlcheck#:#Sie benötigen JSON-support um die JavaScript-RTE zu nutzen.
 content#:#scplayer_previous#:#Zurück
 content#:#scplayer_showtree#:#Baum anzeigen
 content#:#scplayer_start#:#Start
@@ -6526,7 +6526,7 @@ content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#seq_abandon#:#Die Anfrage wurde durchgeführt.
 content#:#seq_abandonall#:#Die Kurssitzung wurde abgebrochen.
 content#:#seq_blocked#:#Zugriff verweigert.
-content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM-Lernmoduls.
+content#:#seq_close#:#Bitte schließen sie das Fenster des SCORM-Lernmoduls.
 content#:#seq_coursecomplete#:#Der aktuelle Kurs wurde vollständig bearbeitet.
 content#:#seq_deadlock#:#Fehler: Der Sequencer befindet sich in einem Deadlock.
 content#:#seq_endsession#:#Die aktuelle Kurssitzung wurde beendet.
@@ -9404,7 +9404,7 @@ prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
 prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
-prtf#:#prtf_finalize_portfolio#:#Portfolio abschliessen und abgeben
+prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
 prtf#:#prtf_first_page_title#:#Typ der 1. Seite
 prtf#:#prtf_font_color#:#Schriftfarbe
@@ -10360,7 +10360,7 @@ skmg#:#skmg_remove_skills#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
 skmg#:#skmg_save_all_titles#:#Alle Titel speichern
 skmg#:#skmg_save_order#:#Reihenfolge speichern
-skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschliessen
+skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschließen
 skmg#:#skmg_sctp#:#Vorlagenkategorie
 skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen.
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
@@ -11532,7 +11532,7 @@ trac#:#trac_mode_collection#:#Status wird anhand einer Auswahl von Objekten best
 trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts wird automatisch durch den Status der ausgewählten Objekten bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten Objekte ausgewählt werden.
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
-trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
+trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
 trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
 trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status 
 trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
@@ -11600,7 +11600,8 @@ trac#:#trac_registered#:#Angemeldet
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen
 trac#:#trac_report_date#:#Datum des Reports
 trac#:#trac_report_owner#:#Ersteller des Reports
-trac#:#trac_repository_changes#:#Änderungen im Magazin
+trac#:#trac_show_repository_views#:#Anzahl Zugriffe anzeigen
+trac#:#trac_show_repository_views_info#:#Wenn eingeschaltet werden die Anzahl Zugriffe auf der Info-Seite angezeigt.
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
 trac#:#trac_sahs_relevant_items#:#SCOs
 trac#:#trac_scale#:#Skala
@@ -12098,6 +12099,7 @@ dcl#:#dcl_regex#:#Regulärer Ausdruck
 dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Falscher Typ).
@@ -12276,6 +12278,7 @@ registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Registrierungscodes heben diese Prüfung auf.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
+pd#:#block_show_pdsysmess#:#Systemnachrichten anzeigen
 pd#:#block_show_pdtag#:#Tags anzeigen
 pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdusers#:#Benutzer anzeigen
@@ -12983,6 +12986,7 @@ dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwe
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
+dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
 dcl#:#dcl_import_records .xls#:#Import .xlsx
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
 dcl#:#dcl_simulate_import#:#Import simulieren
@@ -13179,12 +13183,12 @@ survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschloss
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_appraisee_info#:#Info über Feedback-Nehmer
 survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
-survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schliessen
+survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
 survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.
 survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzausprägungen werden aktualisiert.
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
-survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schliessen?
+survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
 survey#:#survey_360_appraisee_close_table#:#Geschlossen am
 survey#:#svy_eval_competences#:#Kompetenz-Ergebnisse
 survey#:#svy_gap_analysis#:#Gap-Analyse
@@ -13313,7 +13317,7 @@ assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verf
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#answers_of#:#Antworten von:
 survey#:#survey_360_appraisee_close_action_success_admin#:#Die 360°-Umfragen der Feedback-Nehmer wurden geschlossen.
-survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schliessen?
+survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schließen?
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
@@ -15042,7 +15046,7 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
@@ -15453,6 +15457,10 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
+common#:#buddy_allow_to_contact_me_no#:#Erhält keine Kontaktanfragen
+common#:#buddy_allow_to_contact_me_yes#:#Erhält Kontaktanfragen
+buddysystem#:#buddy_use_osd#:#Popup Kontaktanfragen
+buddysystem#:#buddy_use_osd_info#:#Zeigt ein Popup an, wenn ein Benutzer mit mir in Kontakt treten möchte.
 common#:#my_contacts#:#Meine Kontakte
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
 contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
@@ -16235,76 +16243,77 @@ mass#:#general#:#Allgemein
 mass#:#mass_content#:#Inhalt
 mass#:#mass_record_template#:#Vorlage Prüfungsnotiz
 mass#:#mass_graded_by#:#Bewertet von
-mass#:#mass_usr_remove#:#Benutzer entfernen
-mass#:#mass_usr_edit#:#Benutzer und Lernfortschritt bearbeiten
+mass#:#mass_usr_remove#:#Teilnehmer entfernen
+mass#:#mass_usr_edit#:#Teilnehmer bewerten und Lernfortschritt bearbeiten
 mass#:#mass_usr_view#:#Prüfungsdaten
 mass#:#mass_edit_record#:#Prüfungsdaten
 mass#:#mass_record#:#Prüfungsnotiz
 mass#:#mass_internal_note#:#Interne Anmerkungen zur Prüfung
-mass#:#mass_status_completed#:#bestanden
-mass#:#mass_status_failed#:#nicht bestanden
-mass#:#mass_status_pending#:#noch nicht gesetzt
+mass#:#mass_status_completed#:#Bestanden
+mass#:#mass_status_failed#:#Nicht bestanden
+mass#:#mass_status_pending#:#Noch nicht bewertet
 mass#:#mass_notify#:#Benutzer nach Finalisierung benachrichtigen
 mass#:#mass_finalize#:#Finalisieren
-mass#:#il_mass_member#:#Mitglied
-mass#:#edit_members#:#Mitglieder bearbeiten
-mass#:#mass_edit_members#:#Mitglieder bearbeiten
+mass#:#il_mass_member#:#Teilnehmer
+mass#:#edit_members#:#Teilnehmer bearbeiten
+mass#:#mass_edit_members#:#Teilnehmer bearbeiten
 mass#:#mass_visible#:#Anzeigen
 mass#:#mass_read#:#Lesezugriff
-mass#:#mass_copy#:#Manuelle Bewertung Kopieren
-mass#:#mass_write#:#Berabeiten
+mass#:#mass_copy#:#Individuelle Bewertung kopieren
+mass#:#mass_write#:#Bearbeiten
 mass#:#mass_delete#:#Löschen
-mass#:#mass_read_learning_progress#:#Lernfortschritt der Mitglieder Einsehen
+mass#:#mass_read_learning_progress#:#Lernfortschritt der Teilnehmer einsehen
 mass#:#mass_edit_permissions#:#Rechteeinstellungen ändern
 mass#:#mass_edit_learning_progress#:#Lernfortschritt bearbeiten
 mass#:#mass_may_not_finalize#:#Status kann nicht finalisiert werden.
-mass#:#mass_subj_notification_completed#:#%s: Manuelle Bewertung erforlgreich abgeschlossen.
-mass#:#mass_subj_notification_failed#:#%s: Manuelle Bewertung nicht erfolgreich.
-trac#:#trac_mode_manual_assessment#:#Manuelle Bewertung
-common#:#obj_mass#:#Manuelle Bewertung
-common#:#objs_mass#:#Manuelle Bewertungen
-common#:#obj_mass_duplicate#:#Manuelle Bewertung kopieren
-common#:#obj_mass_select#:#-- Wählen Sie eine Manuelle Bewertung aus --
+mass#:#mass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
+mass#:#mass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
+trac#:#trac_mode_manual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
+common#:#obj_mass#:#Individuelle Bewertung
+common#:#objs_mass#:#Individuelle Bewertungen
+common#:#obj_mass_duplicate#:#Individuelle Bewertung kopieren
+common#:#obj_mass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
 trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
-common#:#il_mass_member#:#Mitglied einer Manuellen Bewertung
-common#:#mass_new#:#Neue Manuelle Bewertung anlegen
-common#:#mass_import#:#Manuelle Bewertung importieren
-rbac#:#mass_visible#:#Manuele Bwertung sichtbar
-rbac#:#mass_read#:#Lesezugriff zur Manuellen Bewertung
-rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung einsehen
-rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Manuellen Bewertung bearbeiten
-rbac#:#mass_copy#:#Manuelle Bewertung kopieren
-rbac#:#mass_write#:#Manuelle Bewertung bearbeiten
-rbac#:#mass_delete#:#Manuelle Bewertung löschen
-rbac#:#mass_edit_members#:#Mitglieder einer Manuellen Bewertung bearbeiten
-rbac#:#mass_edit_permission#:#Rechte einer Manuellen Bewertung bearbeiten
+common#:#il_mass_member#:#Teilnehmer einer Individuellen Bewertung
+common#:#mass_new#:#Neue Individuelle Bewertung anlegen
+common#:#mass_import#:#Individuelle Bewertung importieren
+rbac#:#mass_visible#:#Manuele Bewertung sichtbar
+rbac#:#mass_read#:#Lesezugriff auf Individuelle Bewertung
+rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung bearbeiten
+rbac#:#mass_copy#:#Individuelle Bewertung kopieren
+rbac#:#mass_write#:#Individuelle Bewertung bearbeiten
+rbac#:#mass_delete#:#Individuelle Bewertung löschen
+rbac#:#mass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechte einer Individuellen Bewertung bearbeiten
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
-mass#:#mass_add#:#Manuelle Bewertung anlegen
+mass#:#mass_add#:#Individuelle Bewertung anlegen
 mass#:#mass_membership_finalized#:#Prüfungsdaten finalisiert
 mass#:#mass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
 mass#:#mass_return#:#Zurück zur Übersicht
-mass#:#mass_remove_user_qst#:#Soll der Benutzer wirklich entfernt werden?
-mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Benutzers wirklich finalisiert werden? (Änderungen sind hinterher nicht mehr möglich.)
+mass#:#mass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+mass#:#mass_finalize_user_qst#:#Sollen die Prüfungsdaten des Teilnehmers wirklich finalisiert werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 mass#:#mass_settings_saved#:#Einstellungen gespeichert.
 mass#:#mass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
-mass#:#mass_add_user_success#:#Benutzer hinzugefügt.
+mass#:#mass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
 mass#:#grading#:#Bewertung
 mass#:#grading_info#:#Bewertungsinformationen
 mass#:#grading_record#:#Bewertungszusammenfassung
 mass#:#mass_content_explanation#:#Inhalte der Prüfung.
-mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jedes neue Mitglied verwendet.
-mass#:#mass_notify_explanation#:#Das Mitglied wird nach der Finalisierung via eMail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+mass#:#mass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jeden neuen Teilnehmer verwendet.
+mass#:#mass_notify_explanation#:#Der Teilnehmer wird nach der Finalisierung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
 mass#:#mass_contact#:#Name
 mass#:#mass_responsibility#:#Zuständigkeit
 mass#:#mass_phone#:#Telefon
 mass#:#mass_mails#:#E-Mail
-mass#:#mass_info_emails_expl#:#Sie können mehrere Addressen mit einem Komma getrennt angeben.
+mass#:#mass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 mass#:#mass_consultation_hours#:#Sprechstunden
 mass#:#mass_edit_info#:#Einstellungen Kontakt
-mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten sie auch die folgende Zusammnefassung für Details. 
-mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten sie auch die folgende Zusammnefassung für Details.
+mass#:#mass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
+mass#:#mass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
 mass#:#mass_contact_info#:#Kontaktinformationen
+mass#:#mass_added#:#Individuelle Bewertung hinzugefügt
 registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
@@ -16345,3 +16354,6 @@ chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
 chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass die zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[PFAD]" enthält, muss hier der relative [PFAD] angegeben werden.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
+copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
+crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
+itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.

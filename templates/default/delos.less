@@ -481,15 +481,15 @@ code {
 
 
 @media print {
-  h1, h2, h3, h4, h5, h6 { 
+   h1, h2, h3, h4, h5, h6 { 
 	page-break-after: avoid;
   }
   
   ul, ol, dl { 
 	page-break-before: avoid;
-  }
+  } 
 }
-
+  
 /* --------------------------------------------------------------
    SPECIAL STYLES
 -------------------------------------------------------------- */
@@ -1694,6 +1694,9 @@ div.ilNewObjectSelector {
     float: right;
     margin-bottom: 8px;
     padding: 0 10px;
+    ~ div {
+        clear: right;
+    }
     > .btn-group {
         display: block;
         width: 100%;
@@ -1944,41 +1947,31 @@ table.mceToolbar {
 
 /* print css */
 @media print {
-
+    //i also duplicate the selectors  untill the class hidden-print is used
+    #ilTopBar,
+    .osdNotificationContainer,
+    .ilMainHeader,
+    .ilMainMenu,
+    .ilTreeView,
+    .btn,
+    #ilTab,
+    #ilSubTab,
+    #minheight,
+    #ilFooter {
+        display: none;
+    }
+    #mainspacekeeper {
+        padding: 0;
+    }
+    .ilLeftNavSpace {
+        margin-left: 0 !important;
+    }
 	div.ilTabContentOuter {
 		border: none;
-		box-shadow: none;
-	}
-
-	div.ilTabsTable {
-		display: block; 
-		width: auto;
 	}
 	
-	div.ilTabsTableRow {
-		display: block;
-	}
-	
-	div.ilTabsTableCell {
-		display: block;
-	}
-	
-	div.ilContentFixed {
-		left: 0;
-		position: static;
-	}
-	
-	[dir="rtl"] div.ilContentFixed {
-		left: auto;
-		right: 0;
-	}
-
 	div.ilFileDropTargetOverlay {
 		display: none;
-	}
-
-	.ilTreeView {
-		//display: none;
 	}
 
 	// overwrite bootstrap href printing

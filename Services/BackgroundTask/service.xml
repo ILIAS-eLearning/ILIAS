@@ -4,4 +4,5 @@
 	<crons>
 		<cron id="bgtsk_gc" class="ilBackgroundTaskCronGarbageCollection" />		
 	</crons>
+	<logging />
 </service>

@@ -134,7 +134,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , pcp.lastname"
 				   ."     , pcp.login"
 				   ."     , prgrs.points"
-				   ."     , IF(prgrs.status = ".ilStudyProgrammeProgress::STATUS_ACCREDITED.", prgrs.points, prgrs.points_cur) points_current"
+				   //the following is a replacement for:
+				   //IF(prgrs.status = ".ilStudyProgrammeProgress::STATUS_ACCREDITED.",prgrs.points,prgrs.points_cur)
+				   //dirty hack to make it work with oracle :/ 1-|x-a|/max(|x-a|,1) = id_a(x)
+				   ."     , prgrs.points_cur*"
+				       ."ABS(prgrs.status - ".ilStudyProgrammeProgress::STATUS_ACCREDITED.")"
+				           ."/(GREATEST(ABS(prgrs.status - ".ilStudyProgrammeProgress::STATUS_ACCREDITED."),1))"
+				   ."     + prgrs.points*"
+				       ."(1 -ABS(prgrs.status - ".ilStudyProgrammeProgress::STATUS_ACCREDITED.")"
+				           ."/(GREATEST(ABS(prgrs.status - ".ilStudyProgrammeProgress::STATUS_ACCREDITED."),1))) points_current"
 				   ."     , prgrs.last_change_by"
 				   ."     , prgrs.status"
 				   ."     , blngs.title belongs_to"
@@ -146,7 +154,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , ass_usr.login assigned_by"
 				   // for sorting
 				   ."     , CONCAT(pcp.firstname, pcp.lastname) name"
-				   ."     , IF(prgrs.last_change_by IS NULL, 0, 1) custom_plan"
+				   ."     , (prgrs.last_change_by IS NOT NULL) custom_plan"
 				   ;
 		
 		$query .= $this->getFrom();
@@ -162,11 +170,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 
 		if($limit !== null) {
-			$query .= " LIMIT ".$this->db->quote($limit, "integer");
-		}
-
-		if($offset !== null) {
-			$query .= " OFFSET ".$this->db->quote($offset, "integer");
+			$this->db->setLimit($limit, $offset !== null ? $offset : 0);
 		}
 		$res = $this->db->query($query);
 
@@ -174,7 +178,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		while($rec = $this->db->fetchAssoc($res)) {
 			$rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
-
+			$rec['points_current'] = number_format($rec['points_current']);
 			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
 				// If the status completed and there is a non-null completion_by field
 				// in the set, this means the completion was achieved by some leaf in

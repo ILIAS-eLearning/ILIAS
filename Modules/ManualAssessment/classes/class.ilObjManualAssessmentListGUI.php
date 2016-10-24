@@ -55,7 +55,6 @@ class ilObjManualAssessmentListGUI extends ilObjectListGUI {
 	}
 
 	public function getCommandLink($a_cmd) {
-		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",$this->ref_id);
 		switch($a_cmd) {
 			case 'edit':
 				$return = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name,'ilmanualassessmentsettingsgui'),"edit");
@@ -66,7 +65,7 @@ class ilObjManualAssessmentListGUI extends ilObjectListGUI {
 			default:
 				$return = parent::getCommandLink($a_cmd);
 		}
-		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",null);
+
 		return $return;
 	}
 

@@ -10,6 +10,12 @@ require_once('./Modules/Bibliographic/classes/Types/class.ilBibliograficFileRead
 class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFileReader {
 
 	/**
+	 * @var array
+	 */
+	protected static $ignored_keywords = array( 'Preamble' );
+
+
+	/**
 	 * should return
 	 *
 	 * Array
@@ -33,8 +39,11 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$this->normalizeContent();
 
 		// get entries
-		$objects = preg_split("/\\@([\\w]*)/uix", $this->file_content, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$objects = preg_split("/\\@([\\w]*)/uix", $this->getFileContent(), null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
+		if (in_array($objects[0], self::$ignored_keywords)) {
+			$objects = array_splice($objects, 2);
+		}
 		// some files lead to a empty first entry in the array with the fist bib-entry, we have to trow them away...
 		if (strlen($objects[0]) <= 3) {
 			$objects = array_splice($objects, 1);
@@ -73,7 +82,7 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 
 
 	protected function normalizeContent() {
-		$result = $this->file_content;
+		$result = $this->getFileContent();
 		// remove emty newlines
 		$result = preg_replace("/^\\n/um", "", $result);
 		// Remove lines with only whitespaces
@@ -95,7 +104,7 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$subst = "$1";
 		$result = preg_replace($re, $subst, $result);
 
-		$this->file_content = $result;
+		$this->setFileContent($result);
 	}
 
 
@@ -157,7 +166,7 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$bibtex_special_chars['ń'] = "{\\'n}";
 		$bibtex_special_chars['l'] = "{\\'n}";
 
-		$this->file_content = str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->file_content);
+		$this->setFileContent(str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->getFileContent()));
 	}
 
 
@@ -232,5 +241,3 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		return in_array($entry_ype, self::$entry_types);
 	}
 }
-
-?>

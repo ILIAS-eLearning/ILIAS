@@ -71,8 +71,8 @@ Since the representation of the components are implemented as immutable objects,
 you can savely reuse components created elsewhere in your code, or pass your
 component to other code without being concerned if the other code modifies it.
 
-[Example 1](examples/Glyphs/envelope.php)
-[Example 1](examples/Glyphs/attachment_with_counters.php)
+[Example 1](examples/Button/Primary/base.php)
+[Example 2](examples/Glyph/Mail/mail_example.php)
 
 ## Implementing Elements in the Framework
 
@@ -107,34 +107,283 @@ source code in the trunk.
 
 ### How to Implement a Component?
 
-TODO: write me
-STEPS:
+If you would like to implement a new component to the framework you should perform the following tasks:
 
-* Create a test for a factory if your component requires a new factory.
-* Create an interface for the factory and fill in kitchen sink information.
-* Create and empty interfaces for the component you want to implement.
-* Work on your yaml definitions until they pass your newly written test.
-  Remember that yaml does not use tabs for indentation. You could also use
-  the $kitchen_sink_info of the factory test to tell the test which should
-  rules you disregard.
-* Add your newly created factory methods to the implementatio of the factory
-  and make sure it throw an \ILIAS\UI\NotImplementedException.
-* Make sure you didn't break other tests by running all UI tests.
-* Your good to go for your first commit.
-* Know you need to model the component you want to introduce by defining its
-  interface and the factory method that constructs the component. To make your
-  component easy to use, it should be creatable with a minimum of parameters
-  and use sensible defaults for the most of its properties. Also think about the
-  use cases for your component. Make typical use cases easy to implement and
-  more special use cases harder to implement. Put getters for all properties on
-  your interface. Make sure you understand, that all UI components should be
-  immutable, i.e. instead of defining setters `setXYZ` you must define mutators
-  `withXYZ` that return copies of your component with changed properties. Try
-  to use as little mutators as possible and try to make it easy to maintain the
-  invariants defined in your rules when mutators will be used.
-* Write some tests on your component. Add your new Component to NoUIFactory in tests/UI/Base.php.
-  Add the thests of your new component to tests/UI/Component/newComponent/.
-* Wire the implementation of new factories, if you needed to create new factories.
+1. Add your new component into the respective factory interface. E.g. If you introduce a component of a completely new type, you MUST add the description to the main factory (src/UI/Factory.php). If you add a new type of a button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/Factory.
+2. The description MUST use the following template:
+
+    ``` php
+    /**
+    * ---
+    * description:
+    *   purpose: What is to be done by this control
+    *   composition: What happens if the control is operated
+    *   effect: What happens if the control is operated
+    *   rivals:
+    *     Rival 1: What other controls are similar, what is their distinction
+    *
+    * background: Relevant academic information
+    * context: >
+    *     The context states: where this control is used specifically
+    *     (this list might not be complete) and how common is this control used
+    *
+    * rules:
+    *   usage:
+    *     1: Where and when an element is to be used or not.
+    *   interaction:
+    *     2: How the interaction with this object takes place.
+    *   wording:
+    *     3: How the wording of labels or captions must be.
+    *   style:
+    *     4: How this element should look like.
+    *   ordering:
+    *     5: How different elements of this instance are to be ordered.
+    *   responsiveness:
+    *     6: How this element behaves on changing screen sizes
+    *   accessibility:
+    *     7: How this element is made accessible
+    *
+    * ---
+    * @param   string $content
+    * @return \ILIAS\UI\Component\Demo\Demo
+    **/
+    public function demo($content);
+    ```
+
+3. This freshly added function in the factory leads to an error as soon as ILIAS is opened, since the implementation
+ of the factory (located at src/UI/Implementation/Factory.php) does not implement that function yet. For
+ the moment, implement it, as follows:
+ 
+    ``` php
+    /**
+    * @inheritdoc
+    */
+    public function demo($content)
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
+    ```
+
+4. Next, you should think about the interface you would like to propose for this component.
+ You need to model the component you want to introduce by defining its
+ interface and the factory method that constructs the component. To make your
+ component easy to use, it should be creatable with a minimum of parameters
+ and use sensible defaults for the most of its properties. Also think about the
+ use cases for your component. Make typical use cases easy to implement and
+ more special use cases harder to implement. Put getters for all properties on
+ your interface. Make sure you understand, that all UI components should be
+ immutable, i.e. instead of defining setters `setXYZ` you must define mutators
+ `withXYZ` that return copies of your component with changed properties. Try
+ to use as little mutators as possible and try to make it easy to maintain the
+ invariants defined in your rules when mutators will be used.
+ Take care to keep it as minimal as possible. At a description for each function.
+ For the demo component, this interface could look as follows (located at (src/UI/Component/Demo/Demo.php):
+    ``` php
+    <?php
+    namespace ILIAS\UI\Component\Demo;
+
+    /**
+     * Interface Demo
+     * @package ILIAS\UI\Component\Demo
+     */
+    interface Demo extends \ILIAS\UI\Component\Component {
+
+        /**
+         * Gets the content of this demo component
+         * @return Demo
+         */
+        public function getContent();
+    }
+    ```
+5. Make sure all tests are passing by executing '''phpunit tests/UI'''. For the demo component
+  this means we have to add the following line to NoUIFactory in tests/UI/Base.php:
+    ``` php
+    public function demo($demo){}
+    ```
+
+6. Congratulations, at this point you are ready to present your work to the JF.
+ However, it would be wise to enhence your work with a little mockup. This makes
+ it much easier to discuss the new component at the JF. So best create such an example
+ located e.g. at src/UI/examples/Demo/html.php:
+    ``` php
+    <?php
+    function html() {
+        return "<h1>Hello Demo!</h1>";
+    }
+    ```
+   If needed, you can also add JS-logic (e.g. src/UI/examples/Demo/html.php):
+    ``` php
+    <?php
+    function script() {
+        return "<script>console.log('Hello Demo');</script>Open your JS console!";
+    }
+    ```
+
+
+7. Next you should create the necessary tests for the new component. At least provide tests
+  for all interface methods and the rendering.
+  For the demo component this looks as follows (located at tests/UI/Component/Demo/DemoTest.php):
+   ``` php
+    <?php
+
+    require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
+    require_once(__DIR__."/../../Base.php");
+
+    use \ILIAS\UI\Component as C;
+
+    /**
+     * Test on demo implementation.
+     */
+    class DemoTest extends ILIAS_UI_TestBase {
+
+        public function test_implements_factory_interface() {
+            $f = new \ILIAS\UI\Implementation\Factory();
+
+            $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
+            $demo = $f->demo("Demo Implementation!");
+            $this->assertInstanceOf( "ILIAS\\UI\\Component\\Demo\\Demo", $demo);
+        }
+
+        public function test_get_content() {
+            $f = new \ILIAS\UI\Implementation\Factory();
+            $demo = $f->demo("Demo Implementation!");
+
+            $this->assertEquals($demo->getContent(), "Demo Implementation!");
+        }
+
+        public function test_render_content() {
+            $r = $this->getDefaultRenderer();
+            $f = new \ILIAS\UI\Implementation\Factory();
+            $demo = $f->demo("Demo Implementation!");
+
+
+            $html = $r->render($demo);
+
+            $expected_html = '<h1 class="il-demo">Demo Implementation!</h1>';
+
+            $this->assertHTMLEquals($expected_html, $html);
+        }
+    }
+    ```
+
+8. Currently you will only get the NotImplementedException you throwed previously. That needs to be changed.
+  First, add an implementation for the new interface (add it at src/UI/Implementation/Component/Demo/Demo.php):
+    ``` php
+    <?php
+    namespace ILIAS\UI\Implementation\Component\Demo;
+
+    use ILIAS\UI\Component\Demo as D;
+    use ILIAS\UI\Implementation\Component\ComponentHelper;
+
+    class Demo implements D\Demo {
+        use ComponentHelper;
+
+        /**
+         * @var string
+         */
+        protected $content;
+
+        /**
+         * @param $content
+         */
+        public function __construct($content){
+            $this->checkStringArg("title", $content);
+
+            $this->content = $content;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public function getContent(){
+            return $this->content;
+        }
+    }
+    ```
+9. Next, make the factory return the new component (change demo() of src/UI/Implementation/Factory.php):
+
+    ``` php
+    return new Component\Demo\Demo($content);
+    ```
+
+10. Then, implement the renderer at src/UI/Implementation/Component/Demo/Demo.php:
+    ``` php
+    <?php
+
+    /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+
+    namespace ILIAS\UI\Implementation\Component\Demo;
+
+    use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+    use ILIAS\UI\Renderer as RendererInterface;
+    use ILIAS\UI\Component;
+
+    class Renderer extends AbstractComponentRenderer {
+        /**
+         * @inheritdocs
+         */
+        public function render(Component\Component $component, RendererInterface $default_renderer) {
+            $this->checkComponent($component);
+            $tpl = $this->getTemplate("tpl.demo.html", true, true);
+            $tpl->setVariable("CONTENT",$component->getContent());
+            return $tpl->get();
+        }
+
+        /**
+         * @inheritdocs
+         */
+        protected function getComponentInterfaceName() {
+            return array(Component\Demo\Demo::class);
+        }
+    }
+    ```
+11. Finally you need the template used to render your component. Create it at src/UI/templates/default/Demo/tpl.demo.html:
+     ``` php
+    <h1 class="il-demo">{CONTENT}</h1>
+     ```
+12. Execute the UI tests again. At this point, everything should pass. Thanks, you just made ILIAS more powerful!
+13. Create a PR and hope for mercy.
+14. Optional: It is possible good to add an examples demonstrating the usage of your new component.
+  The example for the demo looks as follows (located at src/UI/examples/Demo/render.php):
+    ``` php
+      <?php
+      function render() {
+          //Init Factory and Renderer
+          global $DIC;
+          $f = $DIC->ui()->factory();
+          $renderer = $DIC->ui()->renderer();
+
+          $demo = $f->demo("Demo rendered by template!");
+
+
+          return $renderer->render($demo);
+      }
+    ```
+15. Optional: You might need to add some less, to make your new component look nice. However, only do that
+ if this is really required. Use bootstrap classes as much as possible. If you really need to add
+ additional less, use existing less variables whenever appropriate. If you add a new variable, add the il- prefix
+ to mark the as special ILIAS less variable and provide the proper description. For the demo this could look as
+ follows (located at src/UI/templates/default/Demo/demo.less):
+    ``` less
+    .il-demo{
+     color: @il-demo-color;
+    }
+    ```
+16. Include the new less file to delos (located at templates/default/less/delos.less):
+    ``` less
+    @import "@{uibase}Demo/demo.less";
+    ```
+
+17. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
+    ``` less
+    //== Demo Component
+    //
+    //## Those variables are only used for demo purposes
+    //** Color of the text shown in the demo
+    @il-demo-color: @brand-danger;
+    ```
+18. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
+
 
 ### How to Change an Existing Component?
 

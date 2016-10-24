@@ -191,7 +191,7 @@ class ilSkinXML implements \Iterator, \Countable{
 	}
 
 	/**
-	 * @return mixed
+	 * @return ilSkinStyleXML
 	 */
 	public function getDefaultStyle(){
 		return array_values($this->styles)[0];
