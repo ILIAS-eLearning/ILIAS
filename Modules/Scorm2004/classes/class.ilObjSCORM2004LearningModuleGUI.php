@@ -445,28 +445,40 @@ $this->ctrl->redirect($this, "properties");
 		$radg->addOption($op2);
 		$radg->setValue($this->object->getOpenMode()); //ACHTUNG: DATENBANK
 		// width
-		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width");
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_0");
 		$ni->setMaxLength(4);
 		$ni->setSize(4);
-		//ACHTUNG: DATENBANKUPDATE
 		$ni->setValue($this->object->getWidth());
 		$op1->addSubItem($ni);
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_1");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$ni->setValue($this->object->getWidth());
 		$op2->addSubItem($ni);
 		// height
-		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height");
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height_0");
 		$ni->setMaxLength(4);
 		$ni->setSize(4);
 		$ni->setValue($this->object->getHeight());
 		$ni->setInfo($this->lng->txt("cont_width_height_info"));
 		$op1->addSubItem($ni);
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height_1");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$ni->setValue($this->object->getHeight());
+		$ni->setInfo($this->lng->txt("cont_width_height_info"));
 		$op2->addSubItem($ni);
 		
 		// set IE compatibility mode
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility_0");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getIe_compatibility());
 		$cb->setInfo($this->lng->txt("cont_ie_compatibility_info"));
 		$op0->addSubItem($cb);
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility_1");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getIe_compatibility());
+		$cb->setInfo($this->lng->txt("cont_ie_compatibility_info"));
 		$op2->addSubItem($cb);
 
 		// force IE to render again
@@ -478,22 +490,6 @@ $this->ctrl->redirect($this, "properties");
 
 		$this->form->addItem($radg);
 
-
-
-		
-		// // width
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width");
-		// $ni->setMaxLength(4);
-		// $ni->setSize(4);
-		// $ni->setValue($this->object->getWidth());
-		// $this->form->addItem($ni);
-		
-		// // height
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height");
-		// $ni->setMaxLength(4);
-		// $ni->setSize(4);
-		// $ni->setValue($this->object->getHeight());
-		// $this->form->addItem($ni);
 		
 		// disable top menu
 		//Hide Top Navigation Bar
@@ -518,19 +514,6 @@ $this->ctrl->redirect($this, "properties");
 		$cb->setInfo($this->lng->txt("cont_auto_last_visited_info"));
 		$this->form->addItem($cb);
 
-		// // set IE compatibility mode
-		// $cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility");
-		// $cb->setValue("y");
-		// $cb->setChecked($this->object->getIe_compatibility());
-		// $cb->setInfo($this->lng->txt("cont_ie_compatibility_info"));
-		// $this->form->addItem($cb);
-
-		// // force IE to render again
-		// $cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_force_render"), "cobj_ie_force_render");
-		// $cb->setValue("y");
-		// $cb->setChecked($this->object->getIe_force_render());
-		// $cb->setInfo($this->lng->txt("cont_ie_force_render_info"));
-		// $this->form->addItem($cb);
 
 		//
 		// scorm options
@@ -828,10 +811,22 @@ $this->ctrl->redirect($this, "properties");
 				$t_session = true;
 			}
 			
+			$t1_ie_compatibility = false;
+			if (ilUtil::yn2tf($_POST["cobj_ie_compatibility_0"]) != $this->object->getIe_compatibility()) $t_ie_compatibility = ilUtil::yn2tf($_POST["cobj_ie_compatibility_0"]);
+			if (ilUtil::yn2tf($_POST["cobj_ie_compatibility_1"]) != $this->object->getIe_compatibility()) $t_ie_compatibility = ilUtil::yn2tf($_POST["cobj_ie_compatibility_1"]);
+			
+			$t_height = $this->object->getHeight();
+			if ($_POST["height_0"] != $this->object->getHeight()) $t_height = $_POST["height_0"];
+			if ($_POST["height_1"] != $this->object->getHeight()) $t_height = $_POST["height_1"];
+
+			$t_width = $this->object->getWidth();
+			if ($_POST["width_0"] != $this->object->getWidth()) $t_width = $_POST["width_0"];
+			if ($_POST["width_1"] != $this->object->getWidth()) $t_width = $_POST["width_1"];
+			
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 			$this->object->setOpenMode($_POST["open_mode"]);
-			$this->object->setWidth($_POST["width"]);
-			$this->object->setHeight($_POST["height"]);
+			$this->object->setWidth($t_width);
+			$this->object->setHeight($t_height);
 			$this->object->setCreditMode($_POST["credit_mode"]);
 			$this->object->setMaxAttempt($_POST["max_attempt"]);
 			$this->object->setAutoReviewChar($t_auto_review);
@@ -840,7 +835,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
 			$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
-			$this->object->setIe_compatibility(ilUtil::yn2tf($_POST["cobj_ie_compatibility"]));
+			$this->object->setIe_compatibility($t_ie_compatibility);
 			$this->object->setIe_force_render(ilUtil::yn2tf($_POST["cobj_ie_force_render"]));
 			$this->object->setFourth_edition($tmpFourth_edition);
 			$this->object->setSequencing($tmpSequencing);
