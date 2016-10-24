@@ -179,10 +179,7 @@ class ilBookingScheduleGUI
 		$deadline_opts = new ilRadioGroupInputGUI($lng->txt("book_deadline_options"), "deadline_opts");
 		$deadline_opts->setRequired(true);
 		$form_gui->addItem($deadline_opts);
-		
-		$deadline_start = new ilRadioOption($lng->txt("book_deadline_slot_start"), "slot_start");
-		$deadline_opts->addOption($deadline_start);
-		
+
 		$deadline_time = new ilRadioOption($lng->txt("book_deadline_hours"), "hours");
 		$deadline_opts->addOption($deadline_time);
 
@@ -193,7 +190,10 @@ class ilBookingScheduleGUI
 		$deadline->setSize(3);
 		$deadline->setMaxLength(3);
 		$deadline_time->addSubItem($deadline);
-		
+
+		$deadline_start = new ilRadioOption($lng->txt("book_deadline_slot_start"), "slot_start");
+		$deadline_opts->addOption($deadline_start);
+
 		$deadline_slot = new ilRadioOption($lng->txt("book_deadline_slot_end"), "slot_end");
 		$deadline_opts->addOption($deadline_slot);
 		
