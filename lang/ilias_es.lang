@@ -5441,7 +5441,6 @@ content#:#cont_lm_default_layout#:#Fondo por defecto en Módulo de aprendizaje
 content#:#cont_lm_menu#:#Menú
 content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
 content#:#cont_localfile#:#Fichero local
-content#:#cont_LocalFile#:#Fichero local
 content#:#cont_localization_info#:#Lenguaje utilizado en los textos predefinidos, ejemplo. "Anterior" y "Siguiente"
 content#:#cont_localization#:#Localización
 content#:#cont_location#:#Localización
@@ -14098,7 +14097,6 @@ content#:#cont_edit_definitions#:#Editar Definiciones###10 02 2014 new variable
 content#:#cont_edit_definition#:#Editar Definición###10 02 2014 new variable
 payment#:#pay_unpayed_bill#:#Por favor, asocie el saldo pendiente con la cuenta de banco proporcionada###14 02 2014 new variable
 meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
-certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
 certificate#:#certificate_ph_matriculation#:#Número de matrícula del usuario###11 03 2014 new variable
 survey#:#mailparticipantdata_placeholder#:#Los siguientes marcadores serán reemplazados con los datos reales del usuario en encuestas personalizadas:###11 03 2014 new variable
 exc#:#exc_create_portfolio_no_template#:#No usar plantilla###11 03 2014 new variable
@@ -16223,3 +16221,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

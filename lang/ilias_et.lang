@@ -2426,7 +2426,6 @@ certificate#:#certificate_text#:#Tunnistuse tekst
 certificate#:#certificate_top#:#Päis
 certificate#:#certificate_unit_description#:#Sisesta mõõduühikud kui VÄÄRTUS[cm|mm|in|pt|pc|px|em], NT. 10mm või 3in
 certificate#:#certificate_usage#:#Pane tähele, et sertifikaatide kasutamine on võimalik ainult siis, kui ILIASe Java-server töötab. Java-serveri konfigureerimine on võimalik ILIASe administreerimise pealehel veebiteenuste sektsioonis.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Hea
 certificate#:#certificate_var_result_mark_short#:#B
@@ -6416,7 +6415,6 @@ content#:#cont_lm_default_layout#:#Vaikimisi paigutus õppemoodulile
 content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
 content#:#cont_lm_menu#:#Menüü
 content#:#cont_lm_properties#:#Õpimooduli omadused
-content#:#cont_LocalFile#:#Local File
 content#:#cont_localization#:#Lokaliseerimine
 content#:#cont_localization_info#:#Kasutajaliidese keel, nagu näiteks. "Eelmine" and "Järgmine".
 content#:#cont_location#:#Asukoht
@@ -16221,3 +16219,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
