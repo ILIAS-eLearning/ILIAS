@@ -122,24 +122,35 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		{
 			foreach($drafts_instances as $draft)
 			{
-				if($draft->getThreadId() == 0)
+				$is_thread = false;
+				if((int)$draft->getThreadId() == 0)
 				{
-					continue 1;
+					$is_thread = true;
 				}
 				
 				$draft_as_array['subject']  = $draft->getPostSubject();
 				$draft_as_array['draft_id'] = $draft->getDraftId();
 				
-				$params['thr_pk']       = $draft->getThreadId();
-				$params['pos_pk']       = $draft->getPostId();
-				$params['cmd']          = 'viewThread';
-				$obj_id                 = ilForum::_lookupObjIdForForumId($draft->getForumId());
-				$ref_id                 = end(ilObject::_getAllReferences($obj_id));
-				$draft_as_array['href'] = ilLink::_getLink($ref_id, 'frm', $params) . '#draft_' . $draft->getDraftId();
-				
 				$information              = ilForumUtil::collectPostInformationByPostId($draft->getPostId());
 				$draft_as_array['source'] = implode('/', $information);
 				$draft_as_array['create_date'] = $draft->getPostDate();
+				
+				$obj_id                 = ilForum::_lookupObjIdForForumId($draft->getForumId());
+				$ref_id                 = end(ilObject::_getAllReferences($obj_id));
+				
+				if($is_thread)
+				{
+					$params['cmd']          = 'editThreadDraft';
+					$params['draft_id']     = $draft->getDraftId();
+					$draft_as_array['href'] = ilLink::_getLink($ref_id, 'frm', $params);
+				}
+				else
+				{
+					$params['thr_pk']       = $draft->getThreadId();
+					$params['pos_pk']       = $draft->getPostId();
+					$params['cmd']          = 'viewThread';
+					$draft_as_array['href'] = ilLink::_getLink($ref_id, 'frm', $params) . '#draft_' . $draft->getDraftId();
+				}
 				
 				$data[] = $draft_as_array;
 			}
