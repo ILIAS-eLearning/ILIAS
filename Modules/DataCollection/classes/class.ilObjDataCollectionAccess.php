@@ -272,6 +272,21 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 		return !empty(array_intersect($assigned_roles, $allowed_roles));
 	}
+
+
+	/**
+	 * returns true if either the table is visible for all users, or no tables are visible and this is
+	 * the table with the lowest order (getFirstVisibleTableId())
+	 *
+	 * @param $table_id
+	 *
+	 * @return bool
+	 */
+	public static function hasAccessToTable($table_id) {
+		$table = ilDclCache::getTableCache($table_id);
+		$collection = $table->getCollectionObject();
+		return $table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId());
+	}
 	
 	
 }

@@ -581,7 +581,8 @@ class ilDclRecordListGUI {
 	 */
 	protected function checkAccess()
 	{
-		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id);
+		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) ||
+		(ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) && ilObjDataCollectionAccess::hasAccessToTable($this->table_id));
 	}
 
 }
