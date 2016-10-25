@@ -12,7 +12,7 @@ include_once("./Services/Export/classes/class.ilImportConfig.php");
  */
 class ilSurveyImportConfig extends ilImportConfig
 {
-	protected $svy_qpl_id;
+	protected $svy_qpl_id = -1;
 
 	/**
 	 * Set survey question pool id
