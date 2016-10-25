@@ -4,7 +4,7 @@
 *
 * @module			language file Portuguese
 * @modulegroup		language
-* @author			Juergen Busch <jurgen@elearneasy.net>, Christian de Lamboy <christian@instituto-arc.com>
+* @author			Christian de Lamboy <christian@instituto-arc.com>, Juergen Busch <jurgen@elearneasy.net>
 * @version			$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -240,7 +240,7 @@ administration#:#language_translation_mode#:#Modo de tradução
 administration#:#log_scan#:#Fazer Log dos resultados da verificação
 administration#:#log_scan_desc#:#Escrever os resultados da verificação em 'scanlog.log' na directoria de dados do cliente.
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
-administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.
+administration#:#loginname_change_blocking_time_info#:#Inserir um período de segundos que um usuário tem que esperar antes de mudar novamente o seu nome de login. Se você digitar 0, o usuário pode alterar nomes de login a qualquer hora. Entre 3600 para uma hora, 86400 para um dia, etc.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
 administration#:#nothing_to_purge#:#Nada para limpar...
@@ -290,7 +290,7 @@ administration#:#restoring_missing_objs#:#A restaurar os objectos em falta...
 administration#:#restoring_trash#:#A restaurar o lixo...
 administration#:#restoring_unbound_objs#:#A restaurar os objectos incircunscritos e subobjectos...
 administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
-administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
+administration#:#reuse_of_loginnames_contained_in_history_info#:#Se ativado, tem permissão para reutilizar qualquer nome de login que já está guardado na história (mesmo que ele pertence a um usuário que foi excluído).
 administration#:#scan#:#Scan
 administration#:#scan_completed#:#Scan completado
 administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
@@ -317,7 +317,7 @@ administration#:#user_criteria#:#Critério único do usuário
 administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
 administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
 administration#:#vc_information#:#Version Control Information
-administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.
+administration#:#vc_information_not_determined#:#ILIAS não pude determinar informação de controle de versão.
 administration#:#view_last_log#:#Veja o último scan log
 administration#:#view_log#:#Veja os detalhes
 adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings
@@ -333,8 +333,8 @@ adve#:#adve_grp_rep#:#Repository Pages
 adve#:#adve_grp_scorm#:#SCORM Editing
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#Minutes
-adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
+adve#:#adve_minutes#:#Minutos
+adve#:#adve_minutes_info#:#Minutos de inatividade antes de um bloqueio de edição expirar e uma página pode ser editada por outro usuário.
 adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
 adve#:#adve_pe_general#:#General
 adve#:#adve_rte_settings#:#Rich Text Editor Settings
@@ -396,25 +396,25 @@ assessment#:#add_questionpool#:#Adicionar repositório de perguntas
 assessment#:#add_rect#:#Adicionar área do retângulo
 assessment#:#add_solution#:#Adicionar solução sugerida
 assessment#:#additional_rating_info#:#Por favor, note que os valores dados aqui são expressas em percentagens e devem somar 100
-assessment#:#addSuggestedSolution#:#Add suggested solution
-assessment#:#adm_categories#:#Pool-Categories
-assessment#:#adm_settings_templates#:#Settings Templates
-assessment#:#advanced_rating#:#Advanced Rating
-assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
-assessment#:#all_available_question_pools#:#All available question pools
-assessment#:#all_participants#:#All participants
-assessment#:#all_units#:#All Units
-assessment#:#allow_images#:#Image Support for Answers
+assessment#:#addSuggestedSolution#:#Adicionar solução sugerida
+assessment#:#adm_categories#:#Coleção de Categorias
+assessment#:#adm_settings_templates#:#Modelos de Configurações
+assessment#:#advanced_rating#:#Classificação Avançada
+assessment#:#advanced_rating_info#:#A avaliação avançada somente está disponível se uma unidade é atribuída ao resultado. Outros ajustes de classificação são exibidos após salvar as unidades especificadas.
+assessment#:#all_available_question_pools#:#Todas as coleções de questões disponíveis
+assessment#:#all_participants#:#Todos os participantes
+assessment#:#all_units#:#Todas as Unidades
+assessment#:#allow_images#:#Suporte para imagens dentro de respostas
 assessment#:#allowedextensions#:#Extensões de arquivos permitidas
-assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
+assessment#:#allowedextensions_info#:#Inclui uma lista separada por vírgulas de extensões de arquivos permitidas se você quiser restringir o upload para um determinado conjunto de extensões de arquivo (por exemplo, doc,xls,odt).
 assessment#:#analyze_errortext#:#Analisar texto com erros
 assessment#:#answer#:#Resposta
-assessment#:#answer_characters#:# carateres permitidos, número de carateres usados:
+assessment#:#answer_characters#:#carateres permitidos, número de carateres usados: 
 assessment#:#answer_image#:#Imagem resposta
 assessment#:#answer_is_not_correct_but_positive#:#Você ganhou pontos para a sua solução, mas não é a melhor solução
 assessment#:#answer_is_right#:#Sua solução é certo
 assessment#:#answer_is_wrong#:#Sua solução é errado
-assessment#:#answer_picture#:#Foto de resposta
+assessment#:#answer_picture#:#Imagem de resposta
 assessment#:#answer_text#:#Texto de resposta
 assessment#:#answer_types#:#Tipos de resposta
 assessment#:#answered#:#Respondeu
@@ -422,71 +422,71 @@ assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_of#:#Respostas de:
 assessment#:#answers_singleline#:#Single Line Answers
 assessment#:#applet_attributes#:#Applet attributes
-assessment#:#applet_new_parameter#:#New parameter
-assessment#:#applet_parameter#:#Parameter
-assessment#:#applet_parameters#:#Applet parameters
+assessment#:#applet_new_parameter#:#novo parâmetro
+assessment#:#applet_parameter#:#parâmetro
+assessment#:#applet_parameters#:#parâmetros do applet
 assessment#:#apply#:#Aplicar
-assessment#:#apply_def_settings_to_tst#:#Apply Settings
+assessment#:#apply_def_settings_to_tst#:#Aplicar Configurações
 assessment#:#ass_completion_by_submission#:#Completed by Submission
-assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
-assessment#:#ass_create_archive_export#:#Create Archive-Export.
-assessment#:#ass_create_export_file#:#Create export file
-assessment#:#ass_create_export_test_archive#:#Create Test Archive File
-assessment#:#ass_create_export_test_results#:#Export test results
-assessment#:#ass_create_question#:#Create Question
-assessment#:#ass_export_files#:#Export files
-assessment#:#ass_file#:#File
-assessment#:#ass_process_lock#:#Use Lockings during Test Passes
-assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.
-assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass
-assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks
-assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.
-assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks
-assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.
+assessment#:#ass_completion_by_submission_info#:#Se ativado, a apresentação de pelo menos um arquivo faz com que a conclusão desta questão, concedendo a pontuação máxima para esta pergunta. A pontuação pode ser alterado manualmente mais tarde. Mudando esta configuração não afeta soluções já apresentadas.
+assessment#:#ass_create_archive_export#:#Criar Export de Arquivo.
+assessment#:#ass_create_export_file#:#Criar Teste de Export de Arquivo.
+assessment#:#ass_create_export_test_archive#:#Criar Teste de Arquivo.
+assessment#:#ass_create_export_test_results#:#Criar Teste de Resultados de Export de Arquivo
+assessment#:#ass_create_question#:#Criar Pergunta
+assessment#:#ass_export_files#:#Arquivos de Exportação
+assessment#:#ass_file#:#Arquivo
+assessment#:#ass_process_lock#:#Use bloqueio durante o teste
+assessment#:#ass_process_lock_desc#:#Sem a utilização de qualquer mecanismo de bloqueio, corridas são possíveis. Isto pode levar a resultados inconsistentes.
+assessment#:#ass_process_lock_mode#:#Modo de bloqueio durante teste
+assessment#:#ass_process_lock_mode_db#:#Use bloqueios de tabela de banco de dados
+assessment#:#ass_process_lock_mode_db_desc#:#Este mecanismo de bloqueio bloqueia tabelas dentro do banco de dados. Processos concorrentes para os mesmos ou outros utilizadores no mesmo ou em outro teste para a mesma ou outra questão estão esperando até que o outro processo libera seus bloqueios.
+assessment#:#ass_process_lock_mode_file#:#Use bloqueios do sistema de arquivos
+assessment#:#ass_process_lock_mode_file_desc#:#Este mecanismo de bloqueio solicita bloqueios em arquivos vazios no sistema de arquivos. Processos concorrentes para o sameuser e o mesmo teste / question estão esperando até que o outro processo libera o bloqueio.
 assessment#:#ass_question#:#Pergunta
 assessment#:#ass_size#:#Tamanho
-assessment#:#assClozeTest#:#Fechar pergunta
+assessment#:#assClozeTest#:#Fechar Pergunta
 assessment#:#assErrorText#:#Error Text
-assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users
-assessment#:#assessment_existing_pool#:#Use existing question pool
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
-assessment#:#assessment_new_pool#:#Create new question pool
-assessment#:#assessment_no_pool#:#Do not use question pool
-assessment#:#assessment_pool_selection#:#Pool Selection
-assessment#:#assessment_scoring_adjust#:#Enable corrections
-assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.
-assessment#:#assFileUpload#:#File Upload Question
-assessment#:#assFlashQuestion#:#Flash Question
-assessment#:#assFormulaQuestion#:#Formula Question
-assessment#:#assImagemapQuestion#:#Image Map Question
-assessment#:#assJavaApplet#:#Java Applet Question
-assessment#:#assKprimChoice#:#Multiple Choice Question (Kprim Answers)
-assessment#:#assMatchingQuestion#:#Matching Question
-assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Response)
-assessment#:#assNumeric#:#Numeric Question
-assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)
-assessment#:#assOrderingQuestion#:#Ordering Question
-assessment#:#assQuestions#:#Questions
-assessment#:#assSingleChoice#:#Multiple Choice Question (Single Response)
+assessment#:#assessment_eval_settings#:#Mostrar os seguintes campos na avaliação para todos os usuários
+assessment#:#assessment_existing_pool#:#Usar coleção de pergunta existente
+assessment#:#assessment_log_scoring_adjustment_activate#:#Tipos de perguntas disponíveis no ajuste
+assessment#:#assessment_log_scoring_adjustment_desc#:#Tipos de perguntas verificados aqui estão disponíveis no ajuste. Esta definição é independentemente da capacidade atual dos tipos de perguntas, por exemplo uma pergunta que não suporte ajuste ainda é mostrado aqui.
+assessment#:#assessment_new_pool#:#Criar nova coleção de pergunta
+assessment#:#assessment_no_pool#:#Não utilizar a coleção questão
+assessment#:#assessment_pool_selection#:#Seleção da Coleção
+assessment#:#assessment_scoring_adjust#:#Ativar correções
+assessment#:#assessment_scoring_adjust_desc#:#Permite que as correções recurso para permitir modificações a perguntas em um teste.
+assessment#:#assFileUpload#:#Pergunta de Upload de Arquivo
+assessment#:#assFlashQuestion#:#Pergunta Flash
+assessment#:#assFormulaQuestion#:#Pergunta Formula
+assessment#:#assImagemapQuestion#:#Pergunta de Mapa Imagem 
+assessment#:#assJavaApplet#:#Pergunta Java Applet
+assessment#:#assKprimChoice#:#Pergunta de Múltipla Escolha (Respostas Kprim)
+assessment#:#assMatchingQuestion#:#Pergunta de Correspondência
+assessment#:#assMultipleChoice#:#Pergunta de Múltipla Escolha (Resposta Múltipla)
+assessment#:#assNumeric#:#Pergunta Numérica
+assessment#:#assOrderingHorizontal#:#Pergunta de Ordenação (horizontal)
+assessment#:#assOrderingQuestion#:#Pergunta de Ordenação (vertical)
+assessment#:#assQuestions#:#Perguntas
+assessment#:#assSingleChoice#:#Pergunta de Múltipla Escolha (Resposta única)
 assessment#:#assTextQuestion#:#Essay Question
 assessment#:#assTextSubset#:#Text Subset Question
-assessment#:#autosave#:#Automatic saving
-assessment#:#autosave_failed#:#Autosave failed!
-assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)
-assessment#:#autosave_ival#:#Interval
-assessment#:#autosave_success#:#Autosave successful...
-assessment#:#available_points#:#Available points
-assessment#:#available_terms#:#Available Terms
-assessment#:#average_reached_points#:#Average reached points
+assessment#:#autosave#:#Salvar automático
+assessment#:#autosave_failed#:#Salvar automático falhou!
+assessment#:#autosave_info#:#Se marcada, as respostas são salvos em intervalos sem interação do usuário para evitar perda de dados. (Se aplica apenas para as perguntas selecionadas.)
+assessment#:#autosave_ival#:#Intervalo
+assessment#:#autosave_success#:#Salvar automático com êxito...
+assessment#:#available_points#:#Pontos disponíveis
+assessment#:#available_terms#:#Termos disponíveis
+assessment#:#average_reached_points#:#Média de pontos alcançadas
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#baseunit#:#Base Unit
-assessment#:#button_request_next_question_hint#:#Request Next Hint
-assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
+assessment#:#button_request_next_question_hint#:#Solicitar próxima dica
+assessment#:#button_request_question_hint#:#Solicitar Dica
+assessment#:#button_show_requested_question_hints#:#Mostrar dicas solicitadas
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar o teste
-assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
+assessment#:#cannot_edit_marks#:#Já existem alunos executando o teste. Você só pode alterar as marcas se uma data é ativada e a data do balanço ainda não é atingido.
 assessment#:#cannot_edit_test#:#Você não possui permissões suficientes para editar o teste!
 assessment#:#cannot_execute_test#:#Você não possui permissões suficientes para executar o teste!
 assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
@@ -498,7 +498,7 @@ assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions 
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!
 assessment#:#categories#:#Categories
 assessment#:#category#:#Category
-assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions concerning this category.
+assessment#:#change_adm_categories_not_allowed#:#Você não tem quaisquer permissões relativas a esta categoria.
 assessment#:#change_adm_units_not_allowed#:#This unit can only by changed by administrator
 assessment#:#change_solution#:#Change suggested solution
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
@@ -654,8 +654,8 @@ assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
-assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Scoring automático com palavras-chave em encontrar QUALQUER
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Para qualquer palavra-chave encontrado os pontos correspondentes são concedidas automaticamente.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
@@ -766,10 +766,10 @@ assessment#:#insert_gap#:#Insert Gap
 assessment#:#internal_links#:#Internal Links
 assessment#:#internal_links_update#:#Update
 assessment#:#intprecision#:#Divisible By
-assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
+assessment#:#intprecision_info#:#"Divisível por" afeta apenas a criação de variáveis, se o valor da precisão é 0. Neste caso, é possível definir para "divisível por" um valor inteiro, que deve ser divisível por com a variável criada. Um valor de 10 gera, portanto, apenas números inteiros que são divisíveis por 10. Um valor de 5 produz números inteiros que são divisíveis por cinco, etc. Para uma precisão de 0, "divisível por" é um campo obrigatório e deve conter um número inteiro positivo. O valor padrão é de 1 para quaisquer inteiros.
 assessment#:#intro_desc#:#This message appears at the beginning of the test.
 assessment#:#javaapplet#:#Java Applet
-assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
+assessment#:#keywords_hint#:#Digite uma lista de palavras-chave, separadas por espaços ou quebras de linha para adicionar uma opção de pontuação automática para a questão do ensaio. Se qualquer uma das palavras-chave serão encontrados no texto de resposta do aluno, a pontuação padrão será definido para o máximo de pontos disponíveis em vez de 0 pontos.
 assessment#:#kiosk#:#Kiosk Mode
 assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.
 assessment#:#kiosk_options#:#Kiosk Mode Options
@@ -1002,7 +1002,7 @@ assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for inc
 assessment#:#qst_nr_of_tries#:#Number of tries
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
-assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
+assessment#:#que_contains_unused_var#:#O texto da pergunta contém uma variável, que não é usado em qualquer fórmula resultado!
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_id#:#Question ID
 assessment#:#question_id_short#:#ID
@@ -1153,7 +1153,7 @@ assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
 assessment#:#terms#:#Terms
 assessment#:#test_cancelled#:#The test was cancelled
-assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
+assessment#:#test_confirm_template_reset#:#Tem certeza que você não quer usar o modelo mais?
 assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#test_enable_archiving#:#Enable Archiving.
@@ -1179,7 +1179,7 @@ assessment#:#test_results#:#Results Options
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-assessment#:#test_using_template_link#:#Do not use template anymore
+assessment#:#test_using_template_link#:#Não usar o modelo mais
 assessment#:#text_answers_saved#:#Text question points modified!
 assessment#:#text_correct#:#Correct Text
 assessment#:#text_gap#:#Espaço de Texto
@@ -1263,7 +1263,7 @@ assessment#:#tst_competence#:#Competence
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.
+assessment#:#tst_confirm_submit_answers#:#Por favor, confirme a sua submissão de sua solução. Você não poderá reverter suas respostas após pressionar o botão enviar.
 assessment#:#tst_copy#:#Copy Test
 assessment#:#tst_count_correct_solutions#:#Count only complete solutions
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
@@ -1313,7 +1313,7 @@ assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice ques
 assessment#:#tst_exp_sc_short_desc#:#In the 'Statistics'-tab an additional export option is offered. It generates a spreadsheet for item analysis outside of ILIAS. This option only works for tests purely composed of Single Choice Questions.
 assessment#:#tst_express_allow_question_pool#:#Allow Questionpool in Page View
 assessment#:#tst_express_allow_question_pool_description#:#If checked, questions can be added to a question pool.
-assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
+assessment#:#tst_extratime_added#:#O tempo de trabalho do participante foi aumentado por %s minutos.
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#tst_extratime_nodata#:#There are no entries for the selected participant.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
@@ -1538,7 +1538,7 @@ assessment#:#tst_presentation_properties#:#Presentation Settings
 assessment#:#tst_print#:#Teste & Avaliação - Visão da impressão
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. tempo de processamento
-assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.
+assessment#:#tst_processing_time_desc#:#O tempo máximo de processamento começa a partir do momento em que um usuário inicia um teste e termina após a expiração das horas inscritos, minutos e segundos.
 assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#tst_properties#:#Test properties
@@ -1955,7 +1955,7 @@ barometer#:#feedb_feedback_settings#:#Feedback Settings
 barometer#:#feedb_time#:#Time
 barometer#:#first_vote#:#1. Vote is the
 barometer#:#from#:#From
-barometer#:#hours#:#Hours
+barometer#:#hours#:#Horas
 barometer#:#lines#:#Lines
 barometer#:#login#:#Login
 barometer#:#missing_fields#:#Please fill in all required information
@@ -2273,7 +2273,7 @@ blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_toggle_final#:#Publish Posting
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Object
-book#:#book_add_schedule#:#Add Schedule
+book#:#book_add_schedule#:#Adicione Cronograma
 book#:#book_add_type#:#Add Type
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
@@ -2298,17 +2298,17 @@ book#:#book_download_info#:#Download Additional Description
 book#:#book_earlier#:#Earlier
 book#:#book_edit#:#Edit Booking Pool
 book#:#book_edit_object#:#Edit Object
-book#:#book_edit_schedule#:#Edit Schedule
+book#:#book_edit_schedule#:#Editar Cronograma
 book#:#book_edit_type#:#Edit Type
 book#:#book_fromto#:#Date Range
 book#:#book_group_objects#:#Group objects
 book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.
-book#:#book_hours#:#Hours
+book#:#book_hours#:#Horas
 book#:#book_is_used#:#Is Used
 book#:#book_later#:#Later
 book#:#book_list_items#:#Listar Objetos
 book#:#book_log#:#Log
-book#:#book_minutes#:#Minutes
+book#:#book_minutes#:#Minutos
 book#:#book_new#:#New Booking Pool
 book#:#book_no_of_objects#:#No. of Objects
 book#:#book_not#:#No
@@ -2338,7 +2338,7 @@ book#:#book_reservation_status_2#:#In Use
 book#:#book_reservation_status_5#:#Cancelled
 book#:#book_reservation_title#:#Booking Reservation for
 book#:#book_reservations_list#:#Reservations
-book#:#book_schedule#:#Schedule
+book#:#book_schedule#:#Cronograma
 book#:#book_schedule_added#:#A booking schedule has been added.
 book#:#book_schedule_break#:#Auto-Break between Bookings
 book#:#book_schedule_break_info#:#Given in multiples of time raster
@@ -2363,7 +2363,7 @@ book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, 
 book#:#book_schedule_updated#:#The booking schedule has been updated.
 book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.
 book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.
-book#:#book_schedules#:#Schedules
+book#:#book_schedules#:#Cronogramas
 book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_in_use#:#Is in Use
 book#:#book_set_not_cancel#:#Undo Cance
@@ -2490,7 +2490,7 @@ certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Pa
 certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
 certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
-certificate#:#download_certificate#:#Download Certificate
+certificate#:#download_certificate#:#Baixar Certificado
 chatroom#:#allow_anonymous#:#Allow anonymous login
 chatroom#:#allow_custom_usernames#:#Allow custom usernames
 chatroom#:#allow_private_rooms#:#Allow private rooms
@@ -2911,7 +2911,7 @@ common#:#allow_assign_users#:#Allow user assignment for local administrators.
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#allow_register#:#Disponível no formulário de registo para novos usuários 
 common#:#allow_user_toggle_noti#:#Membro poderá desativar a notificação
-common#:#already_delivered_files#:#Already delivered files
+common#:#already_delivered_files#:#Arquivos enviados
 common#:#and#:#e
 common#:#announce#:#Anunciar
 common#:#announce_changes#:#Anunciar Alterações
@@ -3330,8 +3330,8 @@ common#:#crs_info#:#Info
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
-common#:#crs_list_reg_noreg#:#No Registration Possible
-common#:#crs_list_reg_period#:#Registration Period
+common#:#crs_list_reg_noreg#:#Inscrição não permitido
+common#:#crs_list_reg_period#:#Período de inscrição
 common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_management_system#:#Sistema de Gestão de Curso
 common#:#crs_member_not_passed#:#Reprovado
@@ -3463,7 +3463,7 @@ common#:#display_webdav_actions_info#:#Displays the action 'open as webfolder' n
 common#:#domain#:#Domínio
 common#:#down#:#Baixo
 common#:#download#:#Baixar
-common#:#download_all_returned_files#:#Download all returned files
+common#:#download_all_returned_files#:#Baixar todos os arquivos enviados
 common#:#download_link#:#Download Link
 common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#download_selected_items#:#Download
@@ -3549,7 +3549,7 @@ common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication suc
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Razão: Contagem de parâmetros errada
-common#:#err_enter_current_passwd#:#Please enter your current password
+common#:#err_enter_current_passwd#:#Por favor digite sua senha atual
 common#:#err_in_line#:#Erro na linha
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
 common#:#err_invalid_port#:#Invalid port number
@@ -3573,7 +3573,7 @@ common#:#error_extraction_failed#:#The extraction of the archive and its directo
 common#:#error_parser#:#Erro a começar o analisador.
 common#:#error_recipient#:#Recipiente Errado
 common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile.
-common#:#event_ass_materials_prop#:#Session Materials
+common#:#event_ass_materials_prop#:#Materiais da sessão
 common#:#event_assign_files#:#File Assignment
 common#:#exc#:#Exercício
 common#:#exc_add#:#Adicionar Exercício
@@ -3593,7 +3593,7 @@ common#:#exc_edit_until#:#Editar até
 common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_feedback_sent#:#Feedback Sent
 common#:#exc_files#:#Ficheiros
-common#:#exc_files_returned#:#Returned files
+common#:#exc_files_returned#:#Arquivos enviados
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Exercício(membros)
 common#:#exc_instruction#:#Instruções de trabalho
@@ -3603,14 +3603,14 @@ common#:#exc_members_already_assigned#:#Estes utilizadores já estão atribuidos
 common#:#exc_members_assigned#:#Membros atribuidos
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
 common#:#exc_new#:#Novo exercício
-common#:#exc_next_deadline#:#Next Deadline
+common#:#exc_next_deadline#:#Próximo Prazo
 common#:#exc_no_members_assigned#:#Nenhuns membros atribuidos
 common#:#exc_notices#:#Nuances
 common#:#exc_obj#:#Exercício
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
-common#:#exc_schedule#:#Schedule
+common#:#exc_schedule#:#Cronograma
 common#:#exc_search_for#:#Procurar por
 common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.
 common#:#exc_send_exercise#:#Enviar exercício
@@ -3624,7 +3624,7 @@ common#:#exc_status_solved#:#Resolvido
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
 common#:#exc_time_over_short#:#Time is over.
-common#:#exc_time_to_send#:#Remaining Working Time
+common#:#exc_time_to_send#:#Tempo restante
 common#:#exc_upload_error#:#Erro a enviar o ficheiro
 common#:#exc_users#:#Utilizadores
 common#:#excs#:#Exercícios
@@ -3665,7 +3665,7 @@ common#:#file_added#:#Ficheiro enviado
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?
 common#:#file_confirm_delete_versions#:#Are you sure to delete the following file versions?
-common#:#file_created#:#A new file has been added.
+common#:#file_created#:#Um novo arquivo foi adicionado.
 common#:#file_edit#:#Edit File
 common#:#file_icon#:#File icon
 common#:#file_info#:#File Information
@@ -3752,7 +3752,7 @@ common#:#forums_articles#:#Mensagens
 common#:#forums_disable_forum_notification#:#Disable notification for this forum
 common#:#forums_enable_forum_notification#:#Enable notification for this forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
-common#:#forums_last_post#:#Last Article
+common#:#forums_last_post#:#Último artigo
 common#:#forums_moderators#:#Moderators
 common#:#forums_new_articles#:#Novos mensagens
 common#:#forums_notification_settings#:#Forums Notification Setting
@@ -3835,7 +3835,7 @@ common#:#group_registration_expiration_time#:#Tempo de Expiração
 common#:#group_registration_expired#:#O período de inscrição expirou
 common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.
 common#:#group_registration_mode#:#Modo de Inscrição
-common#:#group_registration_time#:#Registration period
+common#:#group_registration_time#:#Período de inscrição
 common#:#group_req_direct#:#Inscrever-se direto
 common#:#group_req_password#:#Senha de inscrição necessária
 common#:#group_req_registration#:#Inscrição necessária
@@ -3879,8 +3879,8 @@ common#:#grp_header_edit_members#:#Edit members
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
-common#:#grp_list_reg_noreg#:#No Registration Possible
-common#:#grp_list_reg_period#:#Registration Period
+common#:#grp_list_reg_noreg#:#Inscrição não permitido
+common#:#grp_list_reg_period#:#Período de inscrição
 common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_users#:#List users
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
@@ -3916,7 +3916,7 @@ common#:#guests#:#Convidados
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#header_visible_registration#:#Visible in Registration
-common#:#header_zip#:#Upload Zip-Archive
+common#:#header_zip#:#Upload muitos arquivos como zip
 common#:#height#:#Height
 common#:#help#:#Ajuda
 common#:#HH#:#HH:MM
@@ -3960,7 +3960,7 @@ common#:#hits_per_page#:#Elementos por página
 common#:#hobby#:#Interesses/Passatempos
 common#:#home#:#Página inicial
 common#:#host#:#Anfitrião
-common#:#hour#:#Hour
+common#:#hour#:#Hora
 common#:#hours#:#hora(s)
 common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#HTML Learning Module
@@ -4167,7 +4167,7 @@ common#:#ldap_configure#:#Configure LDAP Authentication
 common#:#ldap_edit_permission#:#Mudar definições de permissões
 common#:#ldap_login_key#:#Attribute for login name
 common#:#ldap_objectclass#:#ObjectClass of user accounts
-common#:#ldap_passwd#:#Your current password
+common#:#ldap_passwd#:#Sua senha atual
 common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Leia acesso às definições LDAP
 common#:#ldap_search_base#:#LDAP Search base
@@ -4345,7 +4345,7 @@ common#:#mem_max_users#:#Maximum of Users:
 common#:#mem_participants#:#Participants
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_reg_not_started#:#The registration has not started
-common#:#mem_reg_period#:#Registration Period
+common#:#mem_reg_period#:#Período de inscrição
 common#:#mem_reg_type#:#Registration Type
 common#:#mem_start#:#Registration Start:
 common#:#mem_unlimited#:#ilimitado
@@ -4368,15 +4368,14 @@ common#:#mep_new#:#Novo Banco de Média
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
 common#:#message#:#Mensagem
 common#:#message_content#:#Conteúdo da Mensagem
-common#:#message_no_delivered_files#:#You don't have delivered a file!
+common#:#message_no_delivered_files#:#Você não enviou nenhum arquivo.
 common#:#message_to#:#Mensagem para:
 common#:#meta_data#:#Meta Dados
-common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
-common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
 common#:#migrate#:#Migrar
 common#:#min_time#:#Minimum time
 common#:#minute#:#Minute
-common#:#minutes#:#Minutes
+common#:#minutes#:#Minutos
 common#:#missing#:#Ausente
 common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
@@ -4449,8 +4448,7 @@ common#:#msg_input_is_required#:#Esta entrada é necessária. Por favor inserir 
 common#:#msg_invalid_filetype#:#Invalid file type
 common#:#msg_is_last_role#:#Você desatribuiu os seguintes usuários do seu último papel global
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.
-common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.
+common#:#msg_link_clipboard#:#Objeto(s) seleccionados salvados no clipboard (Acção: ligar)
 common#:#msg_linked#:#Objeto(s) seleccionados ligados.
 common#:#msg_may_not_contain#:#Este objeto não pode conter objetos do tipo:
 common#:#msg_min_one_active_role#:#Cada usuário tem de ter pelo menos um papel global ativo!
@@ -4483,7 +4481,7 @@ common#:#msg_no_perm_perm#:#Você não tem permissão para editar definições d
 common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
-common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
+common#:#msg_no_perm_read_track#:#Você não tem permissão para acessar o rastreamento do usuário.
 common#:#msg_no_perm_undelete#:#Você não tem permissão para repor os seguintes objeto(s):
 common#:#msg_no_perm_write#:#Você não tem permissão para escrever
 common#:#msg_no_rolf_allowed1#:#O objeto
@@ -4550,7 +4548,7 @@ common#:#new_language#:#Novo Idioma
 common#:#new_list_password#:#Novas sugestões.
 common#:#new_lowercase#:#new
 common#:#new_mail#:#Nova mensagem!
-common#:#new_pass_equals_old_pass#:#The new password equals the old one.
+common#:#new_pass_equals_old_pass#:#A nova senha é igual ao antigo.
 common#:#newline#:#Newline
 common#:#news#:#Notícias
 common#:#next#:#Próximo
@@ -4794,7 +4792,7 @@ common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_svy#:#Pesquisa 
 common#:#obj_svy_duplicate#:#Copia Pesquisa
 common#:#obj_svy_select#:#-- Please select one Survey --
-common#:#obj_svyf#:#Survey
+common#:#obj_svyf#:#Pesquisa
 common#:#obj_svyf_desc#:#Platform settings for the Survey Tool
 common#:#obj_sysc#:#System Check
 common#:#obj_sysc_desc#:#System Check and Repair Tools
@@ -4811,8 +4809,8 @@ common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool Settings
 common#:#obj_tos#:#Terms of Service
 common#:#obj_tos_desc#:#Terms of Service Settings
-common#:#obj_trac#:#User Tracking
-common#:#obj_trac_desc#:#User access tracking data
+common#:#obj_trac#:#Estatística e Progresso de Aprendizagem
+common#:#obj_trac_desc#:#Estatísticas e Configurações Progresso de Aprendizagem e Visão Geral
 common#:#obj_tst#:#Teste
 common#:#obj_tst_duplicate#:#Copia Teste
 common#:#obj_tst_select#:#-- Please select one Test --
@@ -4838,7 +4836,7 @@ common#:#obj_wiks_desc#:#Global Wiki Settings
 common#:#object#:#Object
 common#:#object_added#:#Objecto adicionado
 common#:#object_copy_in_progress#:#Started Copying.
-common#:#object_duplicated#:#Object duplicated
+common#:#object_duplicated#:#Objeto copiado
 common#:#object_duration#:#Access-Duration
 common#:#object_id#:#Object-Id
 common#:#object_imported#:#Object imported
@@ -4927,8 +4925,8 @@ common#:#open_views_inside_frameset#:#Open views inside frameset
 common#:#operation#:#Operação
 common#:#optimize#:#Optimizar
 common#:#option#:#Option
-common#:#optional_filter_hint#:#Please activate one of the optional filters.
-common#:#optional_filters#:#Optional Filters
+common#:#optional_filter_hint#:#Por favor, ative um dos filtros opcionais.
+common#:#optional_filters#:#Filtros Opcionais
 common#:#options#:#Opções
 common#:#options_for_subobjects#:#Options for subobjects
 common#:#order_by#:#Ordenar por
@@ -4959,18 +4957,18 @@ common#:#password#:#Senha
 common#:#password_allow_chars#:#Caracteres permitidos: %s
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.
 common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
-common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services
-common#:#password_contains_invalid_chars#:#The password contains invalid characters
-common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
-common#:#password_empty#:#The password must not be empty.
-common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.
+common#:#password_change_on_first_login_demand#:#Precisa mudar sua senha inicial antes que possa começar a usar os serviços.
+common#:#password_contains_invalid_chars#:#A senha contém caracteres inválidos
+common#:#password_contains_parts_of_login_err#:#A senha escolhida contém seu nome de usuário. Por favor, insira uma nova senha.
+common#:#password_empty#:#A senha não pode ser vazio.
+common#:#password_expired#:#Sua senha expirou e tem de ser alterado, a última alteração foi % s dia(s) atrás.
 common#:#password_multiple_errors#:#Multiple criterias are not satisfied:
-common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
-common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
-common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.
-common#:#password_must_special_chars#:#The password must contain special characters.
-common#:#password_to_long#:#The password must have at most a size of %s characters.
-common#:#password_to_short#:#The password must have at least a size of %s characters.
+common#:#password_must_chars_and_numbers#:#A senha deve conter letras e números.
+common#:#password_must_contain_lcase_chars#:#A senha deve conter pelo menos % s letras minúsculas.
+common#:#password_must_contain_ucase_chars#:#A senha deve conter pelo menos %s letras maiúsculas.
+common#:#password_must_special_chars#:#A senha deve conter caracteres especiais.
+common#:#password_to_long#:#A senha deve ter no máximo um tamanho de caracteres %s.
+common#:#password_to_short#:#A senha deve ter no mínimo um tamanho de caracteres %s.
 common#:#paste#:#Colar
 common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#paste_clipboard_items_into_multiple_objects#:#Paste Into Multiple Objects
@@ -5195,7 +5193,7 @@ common#:#require_hobby#:#Reque passatempo
 common#:#require_institution#:#Reque instituição
 common#:#require_lastname#:#Requer sobrenome
 common#:#require_login#:#Reque login
-common#:#require_mandatory#:#mandatory
+common#:#require_mandatory#:#obrigatório
 common#:#require_matriculation#:#Reque matriculation number
 common#:#require_passwd#:#Reque senha
 common#:#require_passwd2#:#Reque repetir senha
@@ -5545,18 +5543,18 @@ common#:#sure_delete_selected_users#:#Are you sure you want to delete the select
 common#:#survey_defaults#:#Default Settings for Surveys
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
-common#:#svy#:#Survey
+common#:#svy#:#Pesquisa
 common#:#svy_add#:#Adicionar pesquisa 
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#completed
-common#:#svy_new#:#New survey
-common#:#svy_no_content#:#No surveys available
+common#:#svy_new#:#Nova Pesquisa
+common#:#svy_no_content#:#Nenhuma pesquisa disponível
 common#:#svy_not_finished#:#A pesquisa não foi concluída ainda
 common#:#svy_not_started#:#not started
 common#:#svy_participate#:#Participate in a survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
-common#:#svy_warning_survey_not_complete#:#The survey is not complete!
+common#:#svy_warning_survey_not_complete#:#A pesquisa não está completa!
 common#:#system#:#Sistema
 common#:#system_check#:#Verificação de Sistema
 common#:#system_choose_language#:#Escolha idioma de sistema
@@ -5598,7 +5596,7 @@ common#:#thread#:#Thread
 common#:#thumbnail#:#Thumbnail
 common#:#time#:#Hora
 common#:#time_d#:#Day
-common#:#time_h#:#Hour
+common#:#time_h#:#Hora
 common#:#time_limit#:#Acesso 
 common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.
 common#:#time_limit_applied_users#:#Applied users
@@ -5661,7 +5659,7 @@ common#:#tutors#:#Tutores
 common#:#txt_add_object_instruction1#:#Indique a localização onde quer adicionar
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Você conseguiu se registrar com sucesso no sistema ILIAS. Por favor clique no botão abaixo para acessar no sistema ILIAS com a sua conta de usuário.
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.
+common#:#txt_registered_passw_gen#:#Você se registrou com sucesso. Um e-mail com sua senha gerada deve chegar em breve.
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Definição de Tipo de Objecto
 common#:#type#:#Tipo
@@ -5689,9 +5687,9 @@ common#:#udf_value#:#Value
 common#:#udf_value_deleted#:#The value has been deleted.
 common#:#uid#:#UID
 common#:#ums_create_new_account#:#Create New Account
-common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.
+common#:#ums_explanation#:#Sua conta externa não pode ser mapeado para uma conta no sistema. Mas foi encontrado uma conta com o seu endereço de e-mail. Se esta é a sua conta, por favor, faça o login com sua senha.
 common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.
-common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.
+common#:#ums_explanation_3#:#Sua conta externa não pode ser mapeado para uma conta no sistema. Mas foi encontrado várias contas com o seu endereço de e-mail. Se uma delas é a sua conta, por favor, faça o login com sua senha.
 common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.
 common#:#ums_login_account#:#Conta de Acesso
 common#:#unambiguousness#:#Unambiguousness
@@ -5723,7 +5721,7 @@ common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_a#:#a URL
 common#:#url_add#:#Adicionar URL
-common#:#url_added#:#URL added
+common#:#url_added#:#URL adicionado
 common#:#url_create_url#:#Create URL
 common#:#url_delete#:#Delete URL
 common#:#url_description#:#Descrição do URL
@@ -5760,7 +5758,6 @@ common#:#user_new_account_mail#:#New Account Mail
 common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.
 common#:#user_not_chosen#:#Você não escolheu um membro do grupo!
 common#:#user_not_found#:#User not found
-common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers
 common#:#user_profile_other#:#Other Information
@@ -5785,7 +5782,7 @@ common#:#users_online_show_short_associated#:#Only course and group members
 common#:#users_online_show_short_n#:#Don't show active users
 common#:#users_online_show_short_y#:#Show all active users
 common#:#users_online_show_y#:#Mostrar todos os usuários ativos
-common#:#usertracking#:#User Tracking
+common#:#usertracking#:#Rastreamento do Usuário
 common#:#usr#:#Usuário
 common#:#usr_a#:#um Usuário
 common#:#usr_account_inactive#:#Inactive Account
@@ -6117,7 +6114,7 @@ content#:#cont_debug#:#Show debug menu
 content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.
 content#:#cont_debug_deactivated#:#Hint: The test tool is disabled for all learning modules.
 content#:#cont_debugging#:#Debugging
-content#:#cont_debugpw#:#Password
+content#:#cont_debugpw#:#Senha
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.
 content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.
@@ -6325,7 +6322,7 @@ content#:#cont_glo_detach#:#Detach Glossary
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Glossary Properties
 content#:#cont_glossaries#:#Glossaries
-content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
+content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
 content#:#cont_header#:#Header
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -6455,7 +6452,7 @@ content#:#cont_lk_media_new#:#Média (Nova janela)
 content#:#cont_lk_page#:#Página
 content#:#cont_lk_page_faq#:#Página (janela FAQ)
 content#:#cont_lk_page_new#:#Página (Nova janela)
-content#:#cont_lk_survey#:#Survey
+content#:#cont_lk_survey#:#Pesquisa
 content#:#cont_lk_term#:#Termo do Glossário
 content#:#cont_lk_term_new#:#Termo do Glossário (Nova janela)
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
@@ -6466,7 +6463,7 @@ content#:#cont_lm_properties#:#Propriedades do Módulo de Aprendizagem
 content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
-content#:#cont_location#:#Location
+content#:#cont_location#:#Local
 content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form
@@ -6541,7 +6538,6 @@ content#:#cont_no_zip_file#:#Import file is not a zip file.
 content#:#cont_nomenu#:#Disable Topnavigation-Bar
 content#:#cont_none#:#Nenhum
 content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode
-content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users
 content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when they run out of tries.
 content#:#cont_nr_col_footer#:#Footer Columns
@@ -7104,7 +7100,7 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_edit#:#Edit
-cron#:#cron_action_edit_success#:#Schedule updated.
+cron#:#cron_action_edit_success#:#Cronograma atualizada.
 cron#:#cron_action_reset#:#Reset
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?
@@ -7126,14 +7122,14 @@ cron#:#cron_result_status_no_action#:#Ok, no processing
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_reset#:#Reset
 cron#:#cron_running_since#:#Running since
-cron#:#cron_schedule#:#Schedule
+cron#:#cron_schedule#:#Cronograma
 cron#:#cron_schedule_daily#:#Daily
 cron#:#cron_schedule_in_days#:#Every %s days
 cron#:#cron_schedule_in_hours#:#Every %s hours
-cron#:#cron_schedule_in_minutes#:#Every %s minutes
+cron#:#cron_schedule_in_minutes#:#Cada %s minutos
 cron#:#cron_schedule_monthly#:#Monthly
 cron#:#cron_schedule_quarterly#:#Quarterly
-cron#:#cron_schedule_type#:#Schedule
+cron#:#cron_schedule_type#:#Cronograma
 cron#:#cron_schedule_value#:#Interval
 cron#:#cron_schedule_weekly#:#Weekly
 cron#:#cron_schedule_yearly#:#Yearly
@@ -7148,7 +7144,7 @@ crs#:#contact_email_not_valid#:#the contact email is not valid.
 crs#:#crs_accept_subscriber#:#Course subscription
 crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.
 crs#:#crs_access#:#Access
-crs#:#crs_access_password#:#Password
+crs#:#crs_access_password#:#Senha
 crs#:#crs_activate_notification#:#Ativar Notificação 
 crs#:#crs_activation#:#Activation
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
@@ -7166,7 +7162,7 @@ crs#:#crs_add_starter#:#Add start object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_add_to_group#:#Add to Group
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Course membership
+crs#:#crs_added_member#:#Sua inscrição para o curso "%s"
 crs#:#crs_added_member_body#:#You have been accepted to this course.
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
@@ -7176,7 +7172,7 @@ crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (no notification)
 crs#:#crs_admin_notify#:#Administrator (notification)
 crs#:#crs_administrators#:#Administrators
-crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.
+crs#:#crs_admission_link_failure_membership_limited#:#Não é possível inscrever: a inscrição ão curso é limitado
 crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".
 crs#:#crs_agree#:#Aceitação
@@ -7201,7 +7197,7 @@ crs#:#crs_auto_notification_info#:#New members get a mail notification when adde
 crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time.
 crs#:#crs_blocked#:#Access refused
-crs#:#crs_blocked_member#:#Course membership
+crs#:#crs_blocked_member#:#Sua inscrição para o curso "%s" foi bloqueado.
 crs#:#crs_blocked_member_body#:#Your membership has been terminated.
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#Course deregistration
@@ -7240,7 +7236,7 @@ crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected o
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
 crs#:#crs_details#:#Course details
-crs#:#crs_dismiss_member#:#Course membership
+crs#:#crs_dismiss_member#:#Sua inscrição para o curso "%s" foi removido.
 crs#:#crs_dismiss_member_body#:#You membership has been terminated
 crs#:#crs_edit_archive#:#Edit Archives
 crs#:#crs_edit_content#:#Edit items
@@ -7305,9 +7301,9 @@ crs#:#crs_info_agreement#:#Os seguintes tipos de dados são visíveis para os ad
 crs#:#crs_info_download#:#Files for Download
 crs#:#crs_info_reg#:#Admissão
 crs#:#crs_info_reg_confirmation#:#This course needs confimation by a course administrator. You will get a message if you have been assigned to the course.
-crs#:#crs_info_reg_deactivated#:#There is no registration possible
+crs#:#crs_info_reg_deactivated#:#Inscrição fechou
 crs#:#crs_info_reg_direct#:#É necessário registar-se ao curso
-crs#:#crs_info_reg_password#:#Registration needs a valid password.
+crs#:#crs_info_reg_password#:#Registro precisa de uma senha válida.
 crs#:#crs_info_settings#:#Course Informations
 crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_intro_course_group_notification_for#:#This is the daily news digest for: %s
@@ -7571,8 +7567,8 @@ crs#:#crs_other_resources#:#Other resources
 crs#:#crs_passed#:#Passed
 crs#:#crs_passed_status_manual_by#:#Manual by
 crs#:#crs_passed_status_system#:#System
-crs#:#crs_password_not_valid#:#Your password is not valid
-crs#:#crs_password_required#:#This registration procedure requires a password.
+crs#:#crs_password_not_valid#:#Sua senha não é válida.
+crs#:#crs_password_required#:#Este processo de registo requer uma senha.
 crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list
 crs#:#crs_presentation_type#:#Presentation Type
@@ -7589,7 +7585,7 @@ crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned
 crs#:#crs_reg_no_selfreg#:#No self-enrolment
 crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.
 crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.
-crs#:#crs_reg_period#:#Registration Period
+crs#:#crs_reg_period#:#Período de inscrição
 crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
@@ -7729,7 +7725,7 @@ crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
 crs#:#crs_tutors#:#Tutors
 crs#:#crs_unblocked#:#Free entrance
-crs#:#crs_unblocked_member#:#Course membership
+crs#:#crs_unblocked_member#:#Sua inscrição para o curso "%s" foi feito.
 crs#:#crs_unblocked_member_body#:#Your membership has been restored
 crs#:#crs_unlimited#:#ilimitado
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
@@ -7802,8 +7798,8 @@ crs#:#event_inc_members#:#Show Members
 crs#:#event_inc_tutors#:#Show Tutors
 crs#:#event_lecturer#:#Nome
 crs#:#event_list_registered_only#:#Only Registered Members
-crs#:#event_location#:#Location
-crs#:#event_materials#:#Session Materials
+crs#:#event_location#:#Local
+crs#:#event_materials#:#Materiais da sessão
 crs#:#event_not_participated#:#Not Participated
 crs#:#event_overview#:#Participations in Sessions
 crs#:#event_participant_selection#:#Participant Selection
@@ -7924,7 +7920,7 @@ dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please ch
 dateplaner#:#cal_cache#:#Kalender-Cache
 dateplaner#:#cal_cache_disabled#:#Disabled
 dateplaner#:#cal_cache_enabled#:#Enabled
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.
+dateplaner#:#cal_cache_info#:#Se ativado, compromissos do calendário na área de trabalho pessoal e no repositório são calculadas apenas a cada x minutos.
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted
 dateplaner#:#cal_cal_details#:#Calendar Details
@@ -8135,13 +8131,13 @@ dateplaner#:#cal_shared_access_read_write#:#Read and Write
 dateplaner#:#cal_shared_access_table_col#:#Access
 dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
 dateplaner#:#cal_shared_header#:#Shared Calendars
-dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.
+dateplaner#:#cal_shared_selected_usr#:#O calendário foi compartilhado com os usuários / funções selecionadas.
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_subscription_header#:#Calendar Address
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.
 dateplaner#:#cal_subscription_url#:#Calendar URL:
 dateplaner#:#cal_sync_cache#:#Calendar Cache
-dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.
+dateplaner#:#cal_sync_cache_info#:#Se ativado, novos/modificados compromissos do calendário são calculadas apenas a cada x minutos.
 dateplaner#:#cal_sync_disabled#:#Disabled
 dateplaner#:#cal_sync_enabled#:#Enabled
 dateplaner#:#cal_sync_header#:#Synchronisation Settings
@@ -8173,7 +8169,7 @@ dateplaner#:#cal_user_settings#:#Calendar Settings
 dateplaner#:#cal_user_time_format#:#Formato da hora
 dateplaner#:#cal_user_timezone#:#Fuso horário
 dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation
-dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.
+dateplaner#:#cal_webcal_sync_info#:#sincronizar automaticamente as agendas externas cada x minutos.
 dateplaner#:#cal_week_abbrev#:#Sem.
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings
 dateplaner#:#cal_week_overview#:#Week Overview
@@ -8183,7 +8179,7 @@ dateplaner#:#cal_week_start#:#Week Start
 dateplaner#:#cal_weekday#:#Weekday
 dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_what#:#Title
-dateplaner#:#cal_where#:#Location
+dateplaner#:#cal_where#:#Local
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#changedDates#:#Datas mudadas
@@ -8869,14 +8865,14 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occured.
-exc#:#exc_add_assignment#:#Add Assignment
+exc#:#exc_add_assignment#:#Adicione Tarefa
 exc#:#exc_add_feedback_file#:#Add Feedback File
 exc#:#exc_add_participant#:#Add Participant
-exc#:#exc_assignment#:#Assignment
+exc#:#exc_assignment#:#Tarefa
 exc#:#exc_assignment_type#:#Type of Submission
-exc#:#exc_assignment_view#:#Assignment View
-exc#:#exc_assignments#:#Assignments
-exc#:#exc_assignments_deleted#:#The assignments have been deleted.
+exc#:#exc_assignment_view#:#Vista da Tarefa
+exc#:#exc_assignments#:#Tarefas
+exc#:#exc_assignments_deleted#:#As tarefas foram excluídos.
 exc#:#exc_blog_created#:#Blog was created.
 exc#:#exc_blog_returned#:#Submitted Blog
 exc#:#exc_blog_selected#:#The blog has been assigned.
@@ -8899,8 +8895,8 @@ exc#:#exc_direct_submit#:#Submit
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 exc#:#exc_download_zip_structure#:#Download ZIP Structure
-exc#:#exc_edit_assignment#:#Edit Assignment
-exc#:#exc_edit_assignments#:#Edit Assignments
+exc#:#exc_edit_assignment#:#Editar Tarefa
+exc#:#exc_edit_assignments#:#Editar Tarefas
 exc#:#exc_edit_submission#:#Edit Submission
 exc#:#exc_ended_on#:#Ended On
 exc#:#exc_export_excel#:#Export (Excel)
@@ -8909,9 +8905,9 @@ exc#:#exc_fb_tutor_info#:#When a feedback file is uploaded, a notification is se
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.
 exc#:#exc_feedback_notification_link#:#Link to exercise
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
-exc#:#exc_feedback_notification_salutation#:#Hello %s,
+exc#:#exc_feedback_notification_salutation#:#Olá %s,
 exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment of exercise "%s"
-exc#:#exc_files_returned_text#:#Assignment Text
+exc#:#exc_files_returned_text#:#Texto da Tarefa
 exc#:#exc_global_feedback_file#:#Feedback file for all learners
 exc#:#exc_global_feedback_file_cron#:#Notification
 exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.
@@ -8920,7 +8916,7 @@ exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_grades#:#Grades Overview
 exc#:#exc_grades_overview#:#Grades View
-exc#:#exc_hand_in#:#Hand In
+exc#:#exc_hand_in#:#Enviar
 exc#:#exc_import#:#Import Exercise
 exc#:#exc_instruction_files#:#Instruction Files
 exc#:#exc_list_submission#:#List All Submissions
@@ -8928,11 +8924,11 @@ exc#:#exc_list_text_assignment#:#List All Submissions
 exc#:#exc_mail_permanent_link#:#Click on the following link to access the exercise:
 exc#:#exc_manage#:#Manage
 exc#:#exc_manage_team#:#Manage Team
-exc#:#exc_mandatory#:#Mandatory
-exc#:#exc_mandatory_info#:#Mandatory assignments must be passed to pass the whole exercise.
-exc#:#exc_min_nr#:#Number of Assignments
+exc#:#exc_mandatory#:#Obrigatório
+exc#:#exc_mandatory_info#:#Tarefas obrigatórias deve ser passado para passar todo o exercício.
+exc#:#exc_min_nr#:#Número de tarefas
 exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of obligatory assignments.
-exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
+exc#:#exc_msg_all_mandatory_ass#:#Você deve passar todas as tarefas obrigatórias para passar o exercício.
 exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
 exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
 exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
@@ -8951,7 +8947,7 @@ exc#:#exc_multi_feedback_files#:#Multi-Feedback Files
 exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
 exc#:#exc_new_assignment#:#New Assignment
 exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.
-exc#:#exc_no_deadline_specified#:#No deadline specified.
+exc#:#exc_no_deadline_specified#:#Sem prazo definido
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
 exc#:#exc_no_participants#:#There are currently no participants.
 exc#:#exc_no_team_yet#:#No team yet
@@ -8960,14 +8956,14 @@ exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!
 exc#:#exc_note_for_tutor#:#Note for Tutors
 exc#:#exc_notification#:#Personal Notification
 exc#:#exc_order_by_deadline#:#Order by Deadline
-exc#:#exc_overview#:#Overview
+exc#:#exc_overview#:#Visão geral
 exc#:#exc_participant#:#Participant
 exc#:#exc_participant_view#:#Participant View
-exc#:#exc_pass_all#:#All Mandatory Assignments
+exc#:#exc_pass_all#:#Todas as tarefas obrigatórias
 exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.
 exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments
 exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.
-exc#:#exc_pass_mode#:#Pass Mode
+exc#:#exc_pass_mode#:#Modo de passar
 exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
 exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
@@ -9032,8 +9028,8 @@ exc#:#exc_send_assignment#:#Send Assignment by Mail
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline
 exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.
-exc#:#exc_start_time#:#Start Time
-exc#:#exc_starting_on#:#Starting On
+exc#:#exc_start_time#:#Início
+exc#:#exc_starting_on#:#A partir de
 exc#:#exc_submission_notification#:#Email Notification on Submissions
 exc#:#exc_submission_notification_body#:#A new submission was uploaded for exercise "%s"
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded.
@@ -9064,7 +9060,7 @@ exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload
 exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
-exc#:#exc_team_notification_salutation#:#Hello %s,
+exc#:#exc_team_notification_salutation#:#Olá %s,
 exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment
 exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment
 exc#:#exc_team_upload_not_supported#:#This feature does not support team upload assignments.
@@ -9090,9 +9086,9 @@ exercise#:#exc_mark#:#Mark
 exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Passed
 exercise#:#exc_send_mail#:#Send Mail
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
+exercise#:#exc_start_date_should_be_before_end_date#:#Início deve ser antes do prazo.
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
-exercise#:#exc_your_submission#:#Your Submission
+exercise#:#exc_your_submission#:#Sua submissão
 exp#:#exp_create_file#:#Create Export File
 exp#:#exp_create_xml_file#:#Create Export Package (XML)
 exp#:#exp_export_files#:#Export Files
@@ -9439,7 +9435,7 @@ grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
-grp#:#grp_missing_password#:#Please enter a group password.
+grp#:#grp_missing_password#:#Por favor insira uma senha de grupo.
 grp#:#grp_missing_title#:#Please enter a group title.
 grp#:#grp_new_status#:#Your new status is:
 grp#:#grp_notification#:#Notification
@@ -9451,7 +9447,7 @@ grp#:#grp_notify_off#:#Notification about new registrations disabled
 grp#:#grp_notify_on#:#Notification about new registrations enabled
 grp#:#grp_open#:#Open Group
 grp#:#grp_open_info#:#Non-members can see this group and join it directly..
-grp#:#grp_pass_request#:#Join With Group Password
+grp#:#grp_pass_request#:#Entrar com senha do grupo
 grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_print_list#:#Generate List
 grp#:#grp_public#:#Public Group
@@ -9464,24 +9460,24 @@ grp#:#grp_reg_deac_info_screen#:#Group admittance is closed.
 grp#:#grp_reg_direct#:#Direct Registration
 grp#:#grp_reg_direct_info#:#Direct registration.
 grp#:#grp_reg_direct_info_screen#:#You can join this group directly.
-grp#:#grp_reg_disabled#:#No Registration Possible
+grp#:#grp_reg_disabled#:#Inscrição não permitido
 grp#:#grp_reg_disabled_info#:#Only group administrators can add users to the group.
 grp#:#grp_reg_end#:#Registration End:
 grp#:#grp_reg_limit_num#:#Maximum Of Users
-grp#:#grp_reg_limit_num_info#:#Limited Registration Period
-grp#:#grp_reg_limit_time#:#Registration Period
-grp#:#grp_reg_limited#:#Registration Period
+grp#:#grp_reg_limit_num_info#:#Período de inscrição limitada
+grp#:#grp_reg_limit_time#:#Período de inscrição
+grp#:#grp_reg_limited#:#Período de inscrição
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_reg_no_selfreg#:#No self-enrolment
 grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
 grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
-grp#:#grp_reg_period#:#Registration Period
+grp#:#grp_reg_period#:#Período de inscrição
 grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.
 grp#:#grp_reg_request#:#Request Membership
 grp#:#grp_reg_request_info#:#Interested users can send a request/message to group administrator.
 grp#:#grp_reg_start#:#Registration Start:
 grp#:#grp_reg_subject#:#Message
-grp#:#grp_registration_unlimited#:#Unlimited registration period
+grp#:#grp_registration_unlimited#:#Período de inscrição ilimitada
 grp#:#grp_role_status#:#Role/Status
 grp#:#grp_search_users#:#Search User
 grp#:#grp_select_one_file#:#Please select one file.
@@ -9668,8 +9664,8 @@ ldap#:#ldap_role_assignments#:#Role Assignment
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.
 ldap#:#ldap_role_at_name#:#Attribute Name
 ldap#:#ldap_role_at_value#:#Attribute Value
-ldap#:#ldap_role_bind_pass#:#Password
-ldap#:#ldap_role_bind_pass_info#:#Password
+ldap#:#ldap_role_bind_pass#:#Senha
+ldap#:#ldap_role_bind_pass_info#:#Senha
 ldap#:#ldap_role_bind_user#:#Usern DN
 ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.
 ldap#:#ldap_role_by_attribute#:#LDAP Attribute
@@ -9695,7 +9691,7 @@ ldap#:#ldap_scope_sub#:#Sub
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
 ldap#:#ldap_search_filter#:#LDAP Filter
 ldap#:#ldap_server_bind_dn#:#User Search Base
-ldap#:#ldap_server_bind_pass#:#Password
+ldap#:#ldap_server_bind_pass#:#Senha
 ldap#:#ldap_server_binding#:#Binding
 ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
@@ -10446,7 +10442,7 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idéia
 meta#:#meta_identifier#:#Identificador
 meta#:#meta_index#:#Índice
-meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.
+meta#:#meta_info_tlt_not_valid#:#O valor atual não é válido. Portanto, não pode ser usado de outras seções, por exemplo para a aprendizagem de estatísticas de progresso. Por favor, insira o tempo de aprendizagem atípica em horas e / ou minutos.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Observações da Instalação
 meta#:#meta_instructional_designer#:#instructional designer
@@ -10697,7 +10693,7 @@ meta#:#meta_yes#:#Sim
 meta#:#sco_propagate#:#Propagate to all SCOs
 meta#:#udf_type_float#:#Float
 meta#:#udf_type_integer#:#Integer
-meta#:#udf_type_location#:#Location
+meta#:#udf_type_location#:#Local
 meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)
 mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
@@ -10712,7 +10708,7 @@ mob#:#mob_subtitle_file#:#Subtitle File
 mob#:#mob_subtitle_files#:#Subtitle Files
 mob#:#mob_subtitles#:#Subtitles
 news#:#finish_publishing_date#:#Finish Publishing:
-news#:#news_1_file_created#:#1 File has been added.
+news#:#news_1_file_created#:#1 arquivo foi adicionado.
 news#:#news_1_file_updated#:#1 File has been updated.
 news#:#news_1_postings#:#1 Comentário foi adicionado
 news#:#news_add_news#:#Add News
@@ -10724,8 +10720,8 @@ news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods o
 news#:#news_attached_to#:#Attached to
 news#:#news_block_information#:#O bloco<b>Notícias</b>mostra todas as notícias relacionadas com os<b>Ítens Pessoais</b> associados no Espaço Pessoal.
 news#:#news_block_news_for_context#:#News
-news#:#news_cache#:#News Cache (Minutes)
-news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.
+news#:#news_cache#:#Cache de Notícias (minutos)
+news#:#news_cache_info#:#Atualizar blocos de notícias todos x minutos. '0' significa que cada vez. Valores mais altos melhorar o desempenho, mas a notícia pode conectar-se a itens não acessíveis.
 news#:#news_default_visibility#:#Default Access
 news#:#news_edit_news_settings#:#Edit Settings
 news#:#news_enable_internal_news#:#Enable Internal News
@@ -10795,7 +10791,7 @@ news#:#news_time_period#:#Período de tempo
 news#:#news_unsubscribe#:#Cancelar
 news#:#news_visibility_public#:#Public
 news#:#news_visibility_users#:#Logged in Users
-news#:#news_x_files_created#:#%s Files have been added.
+news#:#news_x_files_created#:#%s Arquivos foram adicionados.
 news#:#news_x_files_updated#:#%s Files have been updated.
 news#:#news_x_postings#:#%s Postings have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
@@ -10889,7 +10885,6 @@ orgu#:#lp_is_anonym#:#The learning progress can't be viewed because the data is 
 orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.
 orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.
 orgu#:#no_roles#:#There are no additional roles at this point.
-orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 orgu#:#obj_orgu_duplicate#:#Dublicate Organisational Unit
 orgu#:#org_unit_not_found#:#Organisational Unit not found.
 orgu#:#orgu_add#:#Add Organisational Unit
@@ -10975,7 +10970,7 @@ payment#:#excel_export#:#Excel export
 payment#:#extension_price#:#Preço de extensão 
 payment#:#external_bill_no#:#%s Billing-No.
 payment#:#filter_by#:#por
-payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
+payment#:#have_existing_account#:#Você já tem uma conta existente? Por favor insira seu nome de usuário e senha.
 payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
 payment#:#ilias_invoice_number#:#ILIAS invoice number
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.
@@ -11017,7 +11012,7 @@ payment#:#pay_bmf_description_personal_data#:#Please fill out the following form
 payment#:#pay_bmf_house_number#:#House number
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
+payment#:#pay_bmf_password_not_valid#:#Sua senha não é válido.
 payment#:#pay_bmf_payment_type#:#Kind of paying
 payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.
 payment#:#pay_bmf_personal_data#:#Your personal data
@@ -11040,7 +11035,7 @@ payment#:#pay_bmf_vat_included#:#VAT included
 payment#:#pay_bmf_your_order#:#Your order
 payment#:#pay_change_price#:#Change price/duration combination
 payment#:#pay_click_to_buy#:#Comprar Agora
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.
+payment#:#pay_confirm_order#:#Por favor, confirme a sua encomenda por digitar sua senha.
 payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.
 payment#:#pay_customer_no#:#Customer no.
 payment#:#pay_deleted_booking#:#The entry has been deleted.
@@ -11051,7 +11046,7 @@ payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and
 payment#:#pay_ending#:#ends with
 payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for
 payment#:#pay_epay_canceled#:#O pagamento foi cancelado
-payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.
+payment#:#pay_epay_success#:#O pagamento foi processado. Por favor, esteja ciente de que isso pode levar alguns minutos antes de sua compra está totalmente registrado.
 payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.
 payment#:#pay_filter#:#Filtro
 payment#:#pay_goto_buyed_objects#:#Ir para objetos comprados
@@ -11519,7 +11514,7 @@ pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_settings#:#Personal Desktop Settings
-pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)
+pd#:#pd_time_before_removal#:#Máximo tempo de inatividade (minutos)
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
@@ -12090,7 +12085,7 @@ rbac#:#il_orgu_superior#:#Organisational Unit Superior
 rbac#:#ilias_id#:#ILIAS-ID
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#internal_mail#:#Internal Mail
-rbac#:#invite#:#Inviting to survey
+rbac#:#invite#:#Convidar para Pesquisa
 rbac#:#itgr_copy#:#User can copy item group
 rbac#:#itgr_delete#:#User can move or delete item group
 rbac#:#itgr_edit_permission#:#User can change permission settings
@@ -12280,7 +12275,7 @@ rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module
 rbac#:#rbac_create_sess#:#Create Session
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
-rbac#:#rbac_create_svy#:#Create Survey
+rbac#:#rbac_create_svy#:#Criar Pesquisa
 rbac#:#rbac_create_tst#:#Create Test
 rbac#:#rbac_create_usr#:#User is allowed to create user accounts
 rbac#:#rbac_create_webr#:#Create Weblink
@@ -12467,7 +12462,7 @@ rbac#:#trac_delete#:#Delete Tracking Data
 rbac#:#trac_edit_permission#:#Change permission settings
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users
 rbac#:#trac_read#:#Read Tracking Data
-rbac#:#trac_visible#:#User tracking is visible
+rbac#:#trac_visible#:#Rastreamento do Usuário é visível
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration
 rbac#:#tst_copy#:#Copy Test
 rbac#:#tst_delete#:#Apagar Teste
@@ -12727,6 +12722,7 @@ scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Co
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.
 scormdebug#:#API-call#:#API-call
+scormdebug#:#cmi_location#:#The learner's current location in the SCO
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -12807,7 +12803,7 @@ scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_filename#:#Nome do Ficheiro
 scormdebug#:#debugwindow_logs#:#Logs
 scormdebug#:#debugwindow_open#:#Open
-scormdebug#:#debugwindow_password_enter#:#Please enter your password
+scormdebug#:#debugwindow_password_enter#:#Por favor, insira sua senha
 scormdebug#:#debugwindow_start_recording#:#Start Recording
 scormdebug#:#debugwindow_stop_recording#:#Stop Recording
 scormdebug#:#debugwindow_submission_failed#:#Submission failed
@@ -13363,7 +13359,7 @@ sop#:#sop_desc_export#:#Offline learning modules are only available for offline 
 sop#:#sop_export#:#SCORM-Learning Module Export
 sop#:#sop_firefox_required#:#The Offline-Mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>
 sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
-sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
+sop#:#sop_msg_export_content#:#Transferindo conteúdo de gestor SCORM offline. Isso precisa às vezes vários minutos. Por favor, aguarde.
 sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
 sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
 sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds
@@ -13464,9 +13460,7 @@ style#:#sty_glo_char#:#Glossary
 style#:#sty_ha_cntr_class#:#Hor. Accordion Container
 style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container
 style#:#sty_ha_icont_class#:#Hor. Accordion Item Content
-style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
 style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header
-style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)
 style#:#sty_haccordion_templates#:#Hor. Accordion Templates
 style#:#sty_height#:#Height
 style#:#sty_hide#:#Hide
@@ -13594,9 +13588,7 @@ style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link
 style#:#sty_type_ha_cntr#:#Hor. Accordion Container
 style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container
 style#:#sty_type_ha_icont#:#Hor. Accordion Item Content
-style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption
 style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header
-style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)
 style#:#sty_type_heading1#:#Heading 1
 style#:#sty_type_heading2#:#Heading 2
 style#:#sty_type_heading3#:#Heading 3
@@ -13666,16 +13658,12 @@ style#:#sty_type_text_inline#:#Character
 style#:#sty_type_va_cntr#:#Vert. Accordion Container
 style#:#sty_type_va_icntr#:#Vert. Accordion Item Container
 style#:#sty_type_va_icont#:#Vert. Accordion Item Content
-style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
 style#:#sty_type_va_ihead#:#Vert. Accordion Item Header
-style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
 style#:#sty_ul#:#Bullet List
 style#:#sty_va_cntr_class#:#Vert. Accordion Container
 style#:#sty_va_icntr_class#:#Vert. Accordion Item Container
 style#:#sty_va_icont_class#:#Vert. Accordion Item Content
-style#:#sty_va_ihcap_class#:#Vert. Accordion Caption
 style#:#sty_va_ihead_class#:#Vert. Accordion Item Header
-style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
 style#:#sty_vaccordion_templates#:#Vert. Accordion Templates
 style#:#sty_vertical#:#Vertical
 style#:#sty_vertical_align#:#Vertical Alignment
@@ -13797,7 +13785,7 @@ survey#:#dc_undesired#:#undesired
 survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
-survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]
+survey#:#default_codes_mail_message#:#O seu código de acesso da pesquisa é [code]. Você pode começar a pesquisa no seu navegador web usando o URL [url]
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#define_questionblock#:#Definir bloco de perguntas
 survey#:#delete_saved_message#:#Delete Messagetext
@@ -13829,7 +13817,7 @@ survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undec
 survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Duplicate
-survey#:#duplicate_svy#:#Duplicate survey
+survey#:#duplicate_svy#:#Duplicar Pesquisa
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
 survey#:#edit_heading#:#Edit heading
@@ -14248,7 +14236,7 @@ survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
 survey#:#survey_copy_questions_to_pool#:#Copy Questions To Pool
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
-survey#:#survey_default_mode#:#Survey
+survey#:#survey_default_mode#:#Pesquisa
 survey#:#survey_default_mode_info#:#Use for evaluation purposes
 survey#:#survey_delete_heading#:#Remove Heading
 survey#:#survey_delete_page#:#Delete Page
@@ -14265,12 +14253,12 @@ survey#:#survey_execution_exit#:#Voltar para o campus virtual
 survey#:#survey_execution_sure_finish#:#Por favor, confirme a conclusão da pesquisa. Depois conclusão não pode mais editar suas respostas.
 survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#salvar e enviar pesquisa >>>
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
+survey#:#survey_finished#:#A pesquisa está concluída. Obrigado pela sua participação!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
-survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
+survey#:#survey_introduction_info#:#Esta mensagem é exibida no início da pesquisa.
+survey#:#survey_is_offline#:#Você não pode iniciar a pesquisa! A pesquisa está offline.
 survey#:#survey_jump_to#:#Jump To
 survey#:#survey_mode#:#Mode
 survey#:#survey_move_page#:#Move Page
@@ -14279,7 +14267,7 @@ survey#:#survey_next#:#Salvar e ir para próxima página >>>
 survey#:#survey_next_question#:#Next Page
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
-survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
+survey#:#survey_notification_finished_introduction#:#Seguinte participante terminou a pesquisa.
 survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.
 survey#:#survey_notification_settings#:#Notification
 survey#:#survey_notification_target_group#:#Target Group
@@ -14288,10 +14276,10 @@ survey#:#survey_notification_target_group_invited_info#:#Currently invited users
 survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
 survey#:#survey_notification_tutor_body#:#The following survey has been finished by all participants
-survey#:#survey_notification_tutor_link#:#Link to Survey
+survey#:#survey_notification_tutor_link#:#Link para pesquisa
 survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])
 survey#:#survey_notification_tutor_recipients_invalid#:#Please state users with write permission.
-survey#:#survey_notification_tutor_salutation#:#Hello %s,
+survey#:#survey_notification_tutor_salutation#:#Olá %s,
 survey#:#survey_notification_tutor_setting#:#Notify tutors when	all participants have finished
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
@@ -14320,16 +14308,16 @@ survey#:#survey_questions#:#Questions
 survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_reached_level#:#Reached Level
-survey#:#survey_reminder_body#:#the following survey has not been finished by you yet
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
+survey#:#survey_reminder_body#:#a pesquisa ainda não foi finalizada por você
+survey#:#survey_reminder_cron_info#:#Se ativado, os usuários serão lembrados para participar de pesquisas.
 survey#:#survey_reminder_end#:#End
 survey#:#survey_reminder_frequency#:#Frequency
 survey#:#survey_reminder_frequency_days#:#Days
 survey#:#survey_reminder_link#:#URL
-survey#:#survey_reminder_salutation#:#Hello %s,
+survey#:#survey_reminder_salutation#:#Olá %s,
 survey#:#survey_reminder_setting#:#Remind Users to Participate
 survey#:#survey_reminder_start#:#Start
-survey#:#survey_reminder_subject#:#Survey "%s" was not finished
+survey#:#survey_reminder_subject#:#Pesquisa "%s" não finalizada
 survey#:#survey_remove_competence#:#Remove Competence
 survey#:#survey_results_anonymization#:#Privacy
 survey#:#survey_results_anonymized#:#Without Names
@@ -14346,7 +14334,7 @@ survey#:#survey_skill_level#:#Competence Level
 survey#:#survey_skill_max_scale_points#:#Max. Scale Points
 survey#:#survey_skill_nr_q#:#Number of Questions
 survey#:#survey_skill_thresholds#:#Competence Thresholds
-survey#:#survey_skip_finish#:#skip and finish survey >>>
+survey#:#survey_skip_finish#:#pule e terminar pesquisa >>>
 survey#:#survey_skip_next#:#skip and next page >>>
 survey#:#survey_skip_previous#:#<<< skip and previous page
 survey#:#survey_skip_start#:#<<< skip and go to start page
@@ -14383,7 +14371,7 @@ survey#:#svy_back#:#Back
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
-survey#:#svy_copy#:#Copy Survey
+survey#:#svy_copy#:#Copiar Pesquisa
 survey#:#svy_create_export_file#:#Create export file
 survey#:#svy_create_question#:#Create Question
 survey#:#svy_delete_all_user_data#:#Excluir todos os dados
@@ -14409,7 +14397,7 @@ survey#:#svy_import_codes_info#:#This import requires a "%s" export file.
 survey#:#svy_invite_action#:#Invite users to a survey
 survey#:#svy_mail_own_results#:#Por favor, envie as minhas respostas por e-mail.
 survey#:#svy_mail_own_results_body#:#segue um resumo completo da sua participação da pesquisa.
-survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
+survey#:#svy_mail_own_results_subject#:#Pesquisa "%s" - Suas Respostas
 survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
 survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.
@@ -14434,12 +14422,12 @@ survey#:#svy_select_questionpools#:#Please select a question pool to store the i
 survey#:#svy_select_surveys#:#Please select a survey for duplication
 survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
 survey#:#svy_settings_section_access#:#Administering the Survey: Access
-survey#:#svy_settings_section_before_start#:#Information before Start of Survey
+survey#:#svy_settings_section_before_start#:#Informações antes do início da pesquisa
 survey#:#svy_settings_section_finishing#:#Finishing the Survey
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
 survey#:#svy_settings_section_reminders#:#Reminders
 survey#:#svy_settings_template#:#Template
-survey#:#svy_show_questiontitles#:#Show question titles in survey
+survey#:#svy_show_questiontitles#:#Mostrar título da pergunta
 survey#:#svy_size#:#Size
 survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
@@ -14480,7 +14468,7 @@ survey#:#warning_question_in_use#:#Warning! The question you want to edit is in 
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#workingtime#:#Working time
 survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!
-survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.
+survey#:#wrong_survey_code_used#:#Você não pode entrar na pesquisa, porque você tentou iniciá-lo com um código de pesquisa não autorizada.
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_repair#:#Repair
 sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump
@@ -14496,7 +14484,7 @@ sysc#:#sysc_grp_tree#:#Repository Tree
 sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.
 sysc#:#sysc_message_success#:#No errors found
 sysc#:#sysc_message_tree_missing_confirm#:#Do you really want to restore missing entries in the repository tree structure?
-sysc#:#sysc_overview#:#Overview
+sysc#:#sysc_overview#:#Visão geral
 sysc#:#sysc_status_completed#:#Completed
 sysc#:#sysc_status_failed#:#Failed
 sysc#:#sysc_status_na#:#Not Executed
@@ -14599,16 +14587,16 @@ trac#:#create_date_max#:#Último registo
 trac#:#create_date_min#:#Registo mais próximo
 trac#:#found_objects#:#Found Objects
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.
-trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.
+trac#:#info_all_objects#:#O seguinte rastreamento do usuário refere-se a todos os objetos do tipo '%s'.
 trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!
-trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.
+trac#:#info_found_objects#:#O seguinte rastreamento do usuário refere-se a todos os objetos do tipo '%s' que foram encontrados de acordo com seus termos de pesquisa.
 trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
 trac#:#last_login#:#Last login
 trac#:#meta_typical_learning_time#:#Tempo médio de aprendizagem
 trac#:#newUT_settings#:#Learning Module Statistics
 trac#:#obj_types#:#Object types:
 trac#:#read_count_avg#:#Average page views
-trac#:#registration_filter#:#Date of Registration
+trac#:#registration_filter#:#Data de registro
 trac#:#search_area_info#:#Por favor escolhe um objeto
 trac#:#search_terms#:#Search term(s)
 trac#:#select_one#:#Please select one object
@@ -14705,9 +14693,9 @@ trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
 trac#:#trac_activated#:#Tracking activated
-trac#:#trac_active_both#:#User Tracking and Learning progress activated
+trac#:#trac_active_both#:#Rastreamento de usuário e aprendizagem progresso ativada
 trac#:#trac_active_lp_only#:#Progresso de aprendizagem ativado
-trac#:#trac_active_ut_only#:#User Tracking activated
+trac#:#trac_active_ut_only#:#Rastreamento de usuário ativada
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.
 trac#:#trac_aggregation#:#Aggregation
 trac#:#trac_all#:#All
@@ -14774,7 +14762,7 @@ trac#:#trac_head_timing#:#Edit Until
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_hide_selected#:#Ocultar objetos selecionados 
 trac#:#trac_in_progress#:#Em progresso
-trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated
+trac#:#trac_inactive_both#:#Rastreamento de usuário e aprendizagem progresso não ativada
 trac#:#trac_info_edited#:#Define o status como "Concluído" se você achar que o conteúdo foi processado.
 trac#:#trac_last_access#:#Último acesso
 trac#:#trac_last_aggregation#:#Last Aggregation
@@ -14807,7 +14795,7 @@ trac#:#trac_manual_is_displayed#:#Is Displayed
 trac#:#trac_manual_no_display#:#Do not display in Learning Progress
 trac#:#trac_mark#:#Nota
 trac#:#trac_marks#:#Marks
-trac#:#trac_matrix#:#Matrix View
+trac#:#trac_matrix#:#Ver Matriz
 trac#:#trac_maxed_out_counter#:#Rejected Users
 trac#:#trac_maxed_out_time#:#Full Load [min]
 trac#:#trac_measure#:#Figure
@@ -14825,7 +14813,7 @@ trac#:#trac_mode_deactivated_info#:#No progress will be calculated.
 trac#:#trac_mode_deactivated_info_new#:#O status do progresso de aprendizagem não será exibido
 trac#:#trac_mode_event#:#Participation in Sessions
 trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
-trac#:#trac_mode_exercise_returned#:#Exercise Solved
+trac#:#trac_mode_exercise_returned#:#exercício resolvido
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_manual_by_tutor#:#De forma manual pelo Tutor
@@ -14960,7 +14948,7 @@ trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
 tstv#:#tstv_create#:#Create Test Verification
 tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
+user#:#del_mail_body#:#Olá %1$s, %2$s você não se conectou por um período de tempo, on %3$s. Portanto, sua conta será excluída em %4$s dias. Por favor fazer o login novamente para impedir a exclusão de sua conta.
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
@@ -15022,7 +15010,7 @@ user#:#user_delete_own_account_info#:#Here you can delete your current user acco
 user#:#user_delete_own_account_logout_button#:#Proceed to Authentication
 user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.
 user#:#user_delete_own_account_notification_email#:#Notification Email
-user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation
+user#:#user_delete_own_account_password_confirmation#:#Digite a senha de autorização
 user#:#user_ext_profile#:#Perfil estendido
 user#:#user_ext_profiles#:#Perfis estendidos
 user#:#user_ext_profiles_desc#:#Permite aos usuários adicionar etiquetas individuais os seus perfis
@@ -15268,7 +15256,7 @@ wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wsp#:#wsp_copy_to_repository#:#Copy to Repository
-wsp#:#wsp_invalid_password#:#The given password is invalid.
+wsp#:#wsp_invalid_password#:#A senha fornecida é inválida.
 wsp#:#wsp_list_crsv#:#Course Certificate
 wsp#:#wsp_list_excv#:#Exercise Certificate
 wsp#:#wsp_list_scov#:#SCORM Certificate
@@ -15276,12 +15264,12 @@ wsp#:#wsp_list_tstv#:#Test Certificate
 wsp#:#wsp_move_to_repository#:#Move to Repository
 wsp#:#wsp_navigation_folders#:#View Folder
 wsp#:#wsp_navigation_resource#:#Create New
-wsp#:#wsp_password_for#:#Password for
-wsp#:#wsp_password_protected_resource#:#Password-protected Resource
-wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.
+wsp#:#wsp_password_for#:#Senha para
+wsp#:#wsp_password_protected_resource#:#Recurso protegido por senha
+wsp#:#wsp_password_protected_resource_info#:#Para usar este recurso você tem que digitar uma senha.
 wsp#:#wsp_permission_add_users#:#Add Users
 wsp#:#wsp_permission_all_info#:#This object has been published.
-wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
+wsp#:#wsp_permission_registered_info#:#Este objeto é compartilhado com todos os usuários registrados.
 wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_workspace#:#Recursos
@@ -15289,7 +15277,7 @@ wsp#:#wsp_personal_workspace_description#:#Aqui você pode gerenciar suas pastas
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_root_folder#:#Resources
 wsp#:#wsp_set_permission_all#:#Publish
-wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
+wsp#:#wsp_set_permission_all_password#:#Publicar (senha necessária)
 wsp#:#wsp_set_permission_course#:#Course
 wsp#:#wsp_set_permission_group#:#Group
 wsp#:#wsp_set_permission_registered#:#All Registered Users
@@ -15300,20 +15288,20 @@ wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_with_users#:#Share with users
 wsp#:#wsp_shared_date#:#Date of Share
-wsp#:#wsp_shared_date_filter#:#Shared From
+wsp#:#wsp_shared_date_filter#:#compartilhados a partir de
 wsp#:#wsp_shared_filter_button#:#Search
 wsp#:#wsp_shared_filter_reset_button#:#Reset Search
-wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.
-wsp#:#wsp_shared_member_filter#:#Members of Course / Group
-wsp#:#wsp_shared_object_type#:#Type of Resource
-wsp#:#wsp_shared_resources#:#Shared Resources
+wsp#:#wsp_shared_mandatory_filter_info#:#Por favor, defina pelo menos um atributo de filtro. Filtros de texto tem que ser de pelo menos 4 carateres.
+wsp#:#wsp_shared_member_filter#:#Os membros do Curso / Grupo
+wsp#:#wsp_shared_object_type#:#Tipo de Recurso
+wsp#:#wsp_shared_resources#:#Recursos Compartilhados
 wsp#:#wsp_shared_table_title#:#Shares
-wsp#:#wsp_shared_title#:#Title of Resource
-wsp#:#wsp_shared_type#:#Shared With
-wsp#:#wsp_shared_user_filter#:#Login/Name
-wsp#:#wsp_shared_with#:#Shared With
+wsp#:#wsp_shared_title#:#Título de Recursos
+wsp#:#wsp_shared_type#:#compartilhado com
+wsp#:#wsp_shared_user_filter#:#Login/Nome
+wsp#:#wsp_shared_with#:#compartilhado com
 wsp#:#wsp_status_shared#:#Shared
-wsp#:#wsp_tab_ownership#:#My Repository Objects
+wsp#:#wsp_tab_ownership#:#Meus objetos de repositório
 wsp#:#wsp_tab_personal#:#Meus Recursos
 wsp#:#wsp_tab_shared#:#Compartilhado com outros usuários
 wsp#:#wsp_type_blog#:#Blog
@@ -15324,22 +15312,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verificação: Teste
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Pasta
-assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###06 05 2016 new variable
-assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###06 05 2016 new variable
-assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###06 05 2016 new variable
-content#:#cont_LocalFile#:#Local File###06 05 2016 new variable
-exc#:#exc_delete_team#:#Delete Team###06 05 2016 new variable
-trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###06 05 2016 new variable
-dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###29 06 2016 new variable
-rbac#:#mep_copy#:#User can copy media pool###29 06 2016 new variable
-crs#:#crs_cannot_find_role#:#Can't find this role.###29 06 2016 new variable
-grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###29 06 2016 new variable
-crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###29 06 2016 new variable
-auth#:#auth_ldap_server_ds#:#LDAP-Server###14 10 2016 new variable
-assessment#:#ass_location#:#Location###14 10 2016 new variable
-assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###14 10 2016 new variable
-blog#:#blog_show_latest#:#Show latest postings/drafts###14 10 2016 new variable
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###14 10 2016 new variable
-registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###14 10 2016 new variable
-form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###14 10 2016 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###14 10 2016 new variable
