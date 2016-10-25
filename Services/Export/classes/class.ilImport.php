@@ -34,7 +34,7 @@ class ilImport
 	{
 		include_once("./Services/Export/classes/class.ilImportMapping.php");
 		$this->mapping = new ilImportMapping();
-		$this->mapping->setTagetId($a_target_id);
+		$this->mapping->setTargetId($a_target_id);
 		$this->log = ilLoggerFactory::getLogger('exp');
 	}
 
@@ -291,7 +291,10 @@ class ilImport
 		foreach ($expfiles as $expfile)
 		{								
 			$comp = $expfile["component"];
-			$class = ilImportExportFactory::getImporterClass($comp);			
+			$class = ilImportExportFactory::getImporterClass($comp);
+
+			$this->log->debug("create new class = $class");
+
 			$this->importer = new $class();
 			$this->importer->setImport($this);
 			$all_importers[] = $this->importer;
