@@ -2255,7 +2255,7 @@ abstract class assQuestion
 	public function fixUnavailableSkinImageSources($html)
 	{
 		$matches = null;
-		if( preg_match_all('/src="(.*?)"/m', $html, $matches) )
+		if(! is_array($html) && preg_match_all('/src="(.*?)"/m', $html, $matches) )
 		{
 			$sources = $matches[1];
 			
