@@ -1873,41 +1873,33 @@ table.mceToolbar {
 
 /* print css */
 @media print {
-
+    //i also duplicate the selectors  untill the class hidden-print is used (downgrade to 5.1, 5.0)
+    #ilTopBar,
+    .osdNotificationContainer,
+    .ilMainHeader,
+    .ilMainMenu,
+    .ilTreeView,
+    #left_nav,
+    ol.breadcrumb,
+    .btn,
+    #ilTab,
+    #ilSubTab,
+    #minheight,
+    #ilFooter {
+        display: none;
+    }
+    #mainspacekeeper {
+        padding: 0;
+    }
+    .ilLeftNavSpace {
+        margin-left: 0 !important;
+    }
 	div.ilTabContentOuter {
 		border: none;
-		box-shadow: none;
-	}
-
-	div.ilTabsTable {
-		display: block; 
-		width: auto;
 	}
 	
-	div.ilTabsTableRow {
-		display: block;
-	}
-	
-	div.ilTabsTableCell {
-		display: block;
-	}
-	
-	div.ilContentFixed {
-		left: 0;
-		position: static;
-	}
-	
-	[dir="rtl"] div.ilContentFixed {
-		left: auto;
-		right: 0;
-	}
-
 	div.ilFileDropTargetOverlay {
 		display: none;
-	}
-
-	.ilTreeView {
-		//display: none;
 	}
 
 	// overwrite bootstrap href printing
