@@ -44,7 +44,6 @@ class ilManualAssessmentMemberGUI {
 		if(!$read_permission && !$edit_permission) {
 			$a_parent_gui->handleAccessViolation();
 		}
-		$this->maybeShowWarningLPInactive();
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
 			case 'edit':
@@ -66,12 +65,6 @@ class ilManualAssessmentMemberGUI {
 				$a_parent_gui->handleAccessViolation();
 		}
 		$this->$cmd();
-	}
-
-	protected function maybeShowWarningLPInactive() {
-		if(!$this->object->isActiveLP()) {
-			ilUtil::sendInfo($this->lng->txt('lp_inactive'));
-		}
 	}
 
 	protected function setTabs(ilTabsGUI $tabs) {
