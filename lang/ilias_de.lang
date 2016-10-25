@@ -12515,7 +12515,6 @@ fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
 common#:#chat_invite_public_room#:#Öffentlicher Chatraum
 rbac#:#sahs_copy#:#Benutzer kann SCORM-Lernmodul kopieren
-content#:#cont_LocalFile#:#Likale Datei
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
 ecs#:#ecs_node_mapping_status_1#:#Den gesamten Baum mappen
 ecs#:#ecs_node_mapping_status_2#:#Manuelles Mappen
