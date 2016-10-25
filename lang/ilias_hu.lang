@@ -5046,7 +5046,6 @@ content#:#cont_lm_default_layout#:#Alapértelmezett elrendezés a tananyagokhoz
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Tananyag beállításai
 content#:#cont_localfile#:#Helyi fájl
-content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_location#:#Elhelyezkedés
 content#:#cont_lrs_settings#:#Beállítások
 content#:#cont_lvalue#:#Adatelem
@@ -14496,7 +14495,6 @@ poll#:#poll_result_answers#:#Szavazatok
 poll#:#poll_result_users#:#Résztvevők
 user#:#usr_id#:#User ID
 meta#:#meta_c_XK#:#Koszovó
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Felhasználó törzskönyvi száma
 survey#:#mailparticipantdata_placeholder#:#Ezek a helykitöltők a felhasználó aktuális adatára cserélődnek, ha a 'Titkosítás' értéke 'Nevekkel':
 poll#:#poll_notification_subscribe#:#Figyelmeztetés bekapcsolása
@@ -15343,3 +15341,5 @@ assessment#:#ass_competence_respect_level_ordering#:#Please note that the compet
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###14 10 2016 new variable
 form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###14 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###14 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

@@ -5045,7 +5045,6 @@ content#:#cont_lm_default_layout#:#Fondo por defecto en Módulo de aprendizaje
 content#:#cont_lm_menu#:#Menú
 content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
 content#:#cont_localfile#:#Fichero local
-content#:#cont_LocalFile#:#Fichero local
 content#:#cont_location#:#Localización
 content#:#cont_lrs_settings#:#Configuración
 content#:#cont_lvalue#:#-Datos-
@@ -14494,7 +14493,6 @@ poll#:#poll_result_answers#:#Votos###26 09 2014 new variable
 poll#:#poll_result_users#:#Participantes###26 09 2014 new variable
 user#:#usr_id#:#ID del Usuario###26 09 2014 new variable
 meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
-certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
 certificate#:#certificate_ph_matriculation#:#Número de matrícula del usuario###11 03 2014 new variable
 survey#:#mailparticipantdata_placeholder#:#Los siguientes marcadores serán reemplazados con los datos reales del usuario en encuestas personalizadas:###11 03 2014 new variable
 poll#:#poll_notification_subscribe#:#Activar notificación###26 09 2014 new variable
@@ -15345,3 +15343,5 @@ assessment#:#ass_competence_respect_level_ordering#:#Please note that the compet
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###14 10 2016 new variable
 form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###14 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###14 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

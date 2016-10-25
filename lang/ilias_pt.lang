@@ -2461,7 +2461,6 @@ certificate#:#certificate_text#:#Certificate Text
 certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Good
 certificate#:#certificate_var_result_mark_short#:#B
@@ -4371,7 +4370,6 @@ common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_no_delivered_files#:#Você não enviou nenhum arquivo.
 common#:#message_to#:#Mensagem para:
 common#:#meta_data#:#Meta Dados
-common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
 common#:#migrate#:#Migrar
 common#:#min_time#:#Minimum time
 common#:#minute#:#Minute
@@ -4448,7 +4446,6 @@ common#:#msg_input_is_required#:#Esta entrada é necessária. Por favor inserir 
 common#:#msg_invalid_filetype#:#Invalid file type
 common#:#msg_is_last_role#:#Você desatribuiu os seguintes usuários do seu último papel global
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard#:#Objeto(s) seleccionados salvados no clipboard (Acção: ligar)
 common#:#msg_linked#:#Objeto(s) seleccionados ligados.
 common#:#msg_may_not_contain#:#Este objeto não pode conter objetos do tipo:
 common#:#msg_min_one_active_role#:#Cada usuário tem de ter pelo menos um papel global ativo!
@@ -6322,7 +6319,6 @@ content#:#cont_glo_detach#:#Detach Glossary
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Glossary Properties
 content#:#cont_glossaries#:#Glossaries
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
 content#:#cont_header#:#Header
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -12722,7 +12718,6 @@ scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Co
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.
 scormdebug#:#API-call#:#API-call
-scormdebug#:#cmi_location#:#The learner's current location in the SCO
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -15312,3 +15307,39 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verificação: Teste
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Pasta
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###25 10 2016 new variable
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and freezing answers given is not allowed.###25 10 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Freeze Answers Given" has been disabled.###25 10 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###25 10 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###25 10 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###25 10 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###25 10 2016 new variable
+common#:#user_not_found_to_delete#:#A user could not be found to delete.###25 10 2016 new variable
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###25 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###25 10 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###25 10 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###25 10 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###25 10 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###25 10 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###25 10 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###25 10 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###25 10 2016 new variable
+rbac#:#mep_copy#:#User can copy media pool###25 10 2016 new variable
+crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###25 10 2016 new variable
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###25 10 2016 new variable
+auth#:#auth_ldap_server_ds#:#LDAP-Server###25 10 2016 new variable
+assessment#:#ass_location#:#Location###25 10 2016 new variable
+assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###25 10 2016 new variable
+blog#:#blog_show_latest#:#Show latest postings/drafts###25 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###25 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###25 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###25 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable

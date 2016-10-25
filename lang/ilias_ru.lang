@@ -2170,7 +2170,6 @@ certificate#:#certificate_text#:#Certificate Text
 certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Помните, что использование сертификатов доступно только при запущенном ILIAS Java-Server. Конфигурация Java-Server доступна на основной странице администрирования в разделе Веб-сервисы.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Good
 certificate#:#certificate_var_result_mark_short#:#B
@@ -6105,7 +6104,6 @@ content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Меню
 content#:#cont_lm_properties#:#свойства Обучающего Модуля
-content#:#cont_LocalFile#:#Local File
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
 content#:#cont_location#:#Location
@@ -15343,3 +15341,5 @@ assessment#:#ass_competence_respect_level_ordering#:#Please note that the compet
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###14 10 2016 new variable
 form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###14 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###14 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
