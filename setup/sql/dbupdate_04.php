@@ -17859,3 +17859,9 @@ else
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5050>
+<?php
+	require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+	ilDBUpdateNewObjectType::updateOperationOrder("edit_members", 2400);
+?>
