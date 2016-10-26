@@ -445,6 +445,7 @@ assessment#:#applet_parameter#:#パラメーター
 assessment#:#applet_parameters#:#アプレットパラメーター
 assessment#:#apply#:#適用
 assessment#:#apply_def_settings_to_tst#:#設定適用
+assessment#:#ass_competence_respect_level_ordering#:#能力スレッシュールドは可能なレベルに沿って昇順に定義されることに注意願います。
 assessment#:#ass_completion_by_submission#:#提出すると完了
 assessment#:#ass_completion_by_submission_info#:#有効にすると提出ファイルの一つはこの問題の最高点で承認して完了した事になります。点数は後で手動にて修正可能です。この設定の変更は既に提出済みの解答には影響しません。
 assessment#:#ass_create_archive_export#:#アーカイブーエクスポートを作成
@@ -514,6 +515,7 @@ assessment#:#assQuestions#:#問題
 assessment#:#assSingleChoice#:#多肢選択問題(単一解答)
 assessment#:#assTextQuestion#:#小論文
 assessment#:#assTextSubset#:#記入問題
+assessment#:#autocomplete_error#:#文字の少な目な解答はオートコンプリート数宇が大きくなるので表示されることはありません。
 assessment#:#autosave#:#自動保存
 assessment#:#autosave_failed#:#自動保存に失敗しました !
 assessment#:#autosave_info#:#データ紛失回避のために設定した間隔で自動保存されます。
@@ -933,6 +935,7 @@ assessment#:#maximum_points#:#最高得点
 assessment#:#maxsize#:#最大アップロードファイルサイズ
 assessment#:#maxsize_info#:#ファイル アップロードを許可するバイト単位の最大サイズを入力します。このフィールドを空白のままにする場合は、このインストールの最大サイズが代わりに選択されます。
 assessment#:#meaning#:#意味
+assessment#:#min_auto_complete#:#オートコンプリート
 assessment#:#min_percentage_ne_0#:#最小0のパーセントを定義する必要があります! 評価尺度は保存されませんでした。
 assessment#:#misc#:#その他オプション
 assessment#:#msg_circle_added#:#円の追加
@@ -1383,6 +1386,8 @@ assessment#:#tst_back_to_top#:#トップへ戻る
 assessment#:#tst_back_to_virtual_pass#:#問題概要へ戻る
 assessment#:#tst_beginning_ending_information#:#テスト中と終了の情報
 assessment#:#tst_best_solution_is#:#模範解答は
+assessment#:#tst_browse_for_qpl_questions#:#問題集から追加
+assessment#:#tst_browse_for_tst_questions#:#他のテストから追加
 assessment#:#tst_btn_hide_best_solutions#:#模範解答を非表示
 assessment#:#tst_btn_rebuild_random_question_stage#:#問題集と問題を同期する
 assessment#:#tst_btn_show_best_solutions#:#模範解答を表示
@@ -1399,7 +1404,7 @@ assessment#:#tst_confirm_delete_results_info#:#以前入力した問題結果は
 assessment#:#tst_confirm_print#:#点数と正解つきの全ての問題を印刷するにはボタンを押します。 問題は常に最終ページに表示されます。
 assessment#:#tst_confirm_submit_answers#:#答案提出を確認してください。 提出ボタンを押すと解答に戻る事はできません。
 assessment#:#tst_conflict_fbh_oblig_quest#:#必修問題とロックされた回答の使用の組合せは許可されません。
-assessment#:#tst_conflict_reset_fbh_force#:#"回答をロック"設定は"回答をロックしないがフィードバックを強制"へ調整されました。
+assessment#:#tst_conflict_reset_fbh_force#:#回答をロック設定は"回答をロックしないがフィードバックを強制"へ調整されました。
 assessment#:#tst_conflict_reset_non_fbh#:# "回答をロック"設定は"回答をロックしない"へ調整されました。
 assessment#:#tst_copy#:#テストをコピー
 assessment#:#tst_count_correct_solutions#:#正解と完全解答得点のみ
@@ -7446,6 +7451,7 @@ content#:#stop_user_offline_mode#:#オフラインモードを停止
 content#:#stop_user_offline_mode_for_user#:#オフラインモード利用停止
 content#:#text_repr#:#テキスト表現
 content#:#text_repr_info#:#イメージ "alt"属性用として使用されます。
+copg#:#copg_confirm_el_deletion#:#本当に選択の要素を削除しますか?
 cptch#:#captcha_alt_txt#:#ビジュアルcaptcha(画像認証)です。音声captchaをするにはタブをクリック。
 cptch#:#captcha_audio_title#:#音声captcha.文字とcaptchaの文字を聞くにはクリック。
 cptch#:#captcha_code_info#:#文字とイメージの文字を入力してください。
@@ -7707,6 +7713,7 @@ crs#:#crs_loc_err_nr_tries_exceeded#:#資格テスト合格可能者数を超え
 crs#:#crs_loc_err_stat_no_it#:#初期テスト利用不可
 crs#:#crs_loc_err_stat_no_materials#:#コース教材利用不可
 crs#:#crs_loc_err_stat_no_qt#:#資格テスト利用不可
+crs#:#crs_loc_err_stat_tst_offline#:#全テストはオンラインではありません。
 crs#:#crs_loc_form_assign#:#既存のテストを使用
 crs#:#crs_loc_form_assign_initial_info#:#配置テストとして提供するにはこのコースからテストを選択します
 crs#:#crs_loc_form_assign_it#:#テスト割り当て
@@ -9384,7 +9391,7 @@ exc#:#exc_criterias#:#基準
 exc#:#exc_deadline#:#締め切り
 exc#:#exc_deadline_ext_mismatch#:#猶予期間は締め切り後に終了する必要があります。
 exc#:#exc_deadline_extended#:#猶予期間
-exc#:#exc_deadline_extended_info#:#後で提出は締め切りと猶予期間最後の間で可能です。
+exc#:#exc_deadline_extended_info#:#遅れての提出が締切り期限と最終猶予期間の間で可能です。
 exc#:#exc_delete_team#:#チームを削除
 exc#:#exc_direct_submit#:#送信
 exc#:#exc_direct_submit_blog#:#現在のバージョンのブログを直ぐに提出しますか?後からブログエディタでいつでもできます。
@@ -9406,7 +9413,7 @@ exc#:#exc_feedback_notification_subject#:#フィードバックが割当の試�
 exc#:#exc_files_returned_text#:#割当て文章
 exc#:#exc_global_feedback_file#:#サンプル解答
 exc#:#exc_global_feedback_file_cron#:#通知
-exc#:#exc_global_feedback_file_cron_info#:#サンプル解答が利用可能になるとcron-job経由で全学習者は通知されます。
+exc#:#exc_global_feedback_file_cron_info#:#サンプル解答が利用可能になるとcron-job経由で全学習者へ通知されます。
 exc#:#exc_global_feedback_file_date#:#アベイラビリティ,可用性
 exc#:#exc_global_feedback_file_date_deadline#:#締め切り後
 exc#:#exc_global_feedback_file_date_upload#:#提出後
@@ -9450,7 +9457,7 @@ exc#:#exc_multi_feedback_files#:#マルチ-フィードバックファイル
 exc#:#exc_needs_deadline#:#この機能は割当て締切りでのみしか動作しません。
 exc#:#exc_new_assignment#:#新しい割り当て
 exc#:#exc_no_assignments_available#:#まだアセスメントが未作成です。最初にアセスメントを作成するには"割当て"と"編集"を開いてください。
-exc#:#exc_no_deadline_specified#:#確定期限なし
+exc#:#exc_no_deadline_specified#:#締切り期限なし
 exc#:#exc_no_feedback_dir_found_in_zip#:#アップロードされたzipアーカイブのディレクトリ構造を処理できませんでした。
 exc#:#exc_no_participants#:#現時点の受講者はいません。
 exc#:#exc_no_team_yet#:#チームへ割当てられていません
@@ -9473,7 +9480,7 @@ exc#:#exc_passing_exc#:#演習問題に合格
 exc#:#exc_peer_deadline_mismatch#:#締切り後にフィードバックをする場合は、割当てる設定の締切りよりフィードバック締切りを早くしてはいけません。
 exc#:#exc_peer_edit_file#:#ファイルを編集
 exc#:#exc_peer_review#:#ピアフィードバック
-exc#:#exc_peer_review_ass_setting_info#:#締め切り後に猶予期間が経過したことを認められるとユーザはピア正解を評価できます。ピアフィードバックの特定の設定はそれぞれのタブ内に生成されます。このオプションを有効にして保存した後で`ピア-フィードバックタブが表示されるようになります。`
+exc#:#exc_peer_review_ass_setting_info#:#猶予期間が経過したことを認められると締切り後にユーザはピア正解を評価できます。ピアフィードバックの特定の設定はそれぞれのタブ内に生成されます。このオプションを有効にして保存した後で'ピア-フィードバック’タブが表示されるようになります。
 exc#:#exc_peer_review_chars_invalid#:#フィードバックには最小%sの文字長が一つもありません。
 exc#:#exc_peer_review_comment#:#マイフィードバック
 exc#:#exc_peer_review_completion#:#合格ステータスの決定
@@ -9683,6 +9690,7 @@ fold#:#fold_import#:#インポートフォルダ
 fold#:#fold_settings#:#フォルダ設定
 form#:#captcha_code#:#ユーザ検証
 form#:#email_not_match#:#メールアドレスのエントリが一致しません!メールアドレスを再入力してください。
+form#:#err_invalid_input#:#無効な値が送信されました。入力を確認願います。
 form#:#form_alphabet_all#:#全て
 form#:#form_days#:#日
 form#:#form_file_input#:#ファイル入力
@@ -10100,6 +10108,7 @@ init#:#init_error_redirect_click#:#継続するにはクリックしてくださ
 init#:#init_error_redirect_info#:#コンテキストでのリダイレクトはサポートされていません。
 itgr#:#itgr_assigned_materials#:#割り当てる教材
 itgr#:#itgr_assignment#:#割り当て
+itgr#:#itgr_desc_info#:#説明はそのコンテナ内グループプレゼンテーションのアイテムの一部にはなりません。
 itgr#:#itgr_edit#:#アイテムグループを編集
 itgr#:#itgr_hide_title#:#タイトルを非表示
 itgr#:#itgr_hide_title_info#:#学習者用のプレゼンテーションにアイテムグループのタイトルを表示しません。
@@ -10451,6 +10460,7 @@ mail#:#mail_maxsize_attachment_error#:#アップロード制限:
 mail#:#mail_member_notification#:#受講者通知
 mail#:#mail_members_added_addressbook#:#連絡先へ追加するメンバー
 mail#:#mail_members_of_mailing_list#:#メーリングリストのメンバー
+mail#:#mail_members_search_continue#:#続ける
 mail#:#mail_message_send#:#メッセージ送信
 mail#:#mail_move_error#:#メール移動中エラー
 mail#:#mail_move_to#:#移動:
@@ -12324,6 +12334,7 @@ prg#:#prg_open_node#:#このノードへ切替
 prg#:#prg_please_select_a_course_for_creating_a_leaf#:#コースレファレンスリーフ作成中のコースを選択してください。
 prg#:#prg_points#:#ポイント
 prg#:#prg_points_current#:#現在のポイント
+prg#:#prg_points_reachable#:#入手可能な点数
 prg#:#prg_points_required#:#必須ポイント
 prg#:#prg_possible#:#可能
 prg#:#prg_prg_type#:#学習プログラムタイプ
@@ -13371,6 +13382,7 @@ registration#:#reg_email_role_assignment#:#ドメインの役割の割当て
 registration#:#reg_enable_access_limitations#:#アクセス制限を有効にする
 registration#:#reg_fixed#:#別リストから選択
 registration#:#reg_info_pwd#:#有効にすると、パスワードは新規ユーザへemailで自動的に送信されます。
+registration#:#reg_mail_body_activation#:#アカウントを有効にしてこのeメールアドレスのオーナーシップを確認するには以下のリンクをクリックします:
 registration#:#reg_mail_body_approve#:#すでに学習管理システムLIASへ登録済でありアカウントデータのemailを受信済です。今、アカウントは、管理者によって有効になりました。
 registration#:#reg_mail_body_confirmation#:#この登録を確認するには、ILIAS ユーザ 管理に入ってアカウントを有効にします。
 registration#:#reg_mail_body_profile#:#プロファイルデータ
@@ -14857,6 +14869,7 @@ survey#:#mode_text#:#最も選択された値(テキスト)
 survey#:#msg_deleted_export_files#:#エクスポート ファイルの削除
 survey#:#msg_duplicate_scale#:#一意のスケール値を入力してください。
 survey#:#msg_enter_value_for_valid_constraint#:#有効なルーティングルールを作成する値を入力してください!
+survey#:#msg_input_only_positive_numbers#:#スケール値で正数を入力してください。
 survey#:#msg_max_nr_answers#:#最大%s個の回答をチェックしてください
 survey#:#msg_message_deleted#:#削除されたメッセージテキスト
 survey#:#msg_message_inserted#:#挿入されたメッセージテキスト
@@ -15375,8 +15388,8 @@ sysc#:#sysc_task_tree_missing_reference_desc#:#検索してリポジトリツリ
 sysc#:#sysc_task_tree_missing_tree#:#リポジトリ内の欠損エントリー
 sysc#:#sysc_task_tree_missing_tree_desc#:#検索してリポジトリツリー内の欠損エントリーをリペア
 sysc#:#sysc_trash_action#:#アクション
-sysc#:#sysc_trash_limit_age#:#年齢制限
-sysc#:#sysc_trash_limit_num#:#数字制限
+sysc#:#sysc_trash_limit_age#:#期間制限
+sysc#:#sysc_trash_limit_num#:#数値制限
 sysc#:#sysc_trash_limit_type#:#タイプ制限
 sysc#:#sysc_trash_remove#:#システムから削除されたオブジェクトを削除する
 sysc#:#sysc_trash_remove_info#:#システムから削除されたオブジェクト(ゴミ箱)を削除する
@@ -16208,16 +16221,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
-assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
-assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
-assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
-registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
-form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
-prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
-mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
-copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
-survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
-crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
