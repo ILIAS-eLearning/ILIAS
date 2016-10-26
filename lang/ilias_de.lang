@@ -325,11 +325,9 @@ assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
-assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Für jeden gefundenen Begriff werden die entsprechenden Punkte vergeben.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatische Bewertung bei Nennung aller Begriffe
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Die Punkte werden automatisch vergeben, wenn alle Begriffe gefunden werden.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
@@ -605,11 +603,11 @@ assessment#:#option_label_custom#:#Benutzerdefinierte Bezeichnungen
 assessment#:#option_label_custom_true#:#Bezeichnung für "WAHR"
 assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
 assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden: [%s] oder [%s]
-assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
+assessment#:#kprim_answers_info#:#Der Multiple Choice-Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#tst_feedback#:#Rückmeldung
-assessment#:#ass_process_lock#:#Verwende Lock-Mechanismus während Testdurchläufen
+assessment#:#ass_process_lock#:#Verwende Locking-Mechanismus während der Testdurchläufe
 assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
-assessment#:#ass_process_lock_mode#:#Lock-Modus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_process_lock_mode#:#Locking-Modus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem-Locks
 assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
 assessment#:#ass_process_lock_mode_db#:#Verwende Datenbanktabellen-Locks
@@ -2635,8 +2633,6 @@ common#:#associated_user#:#Mitglied
 common#:#associated_users#:#Mitglieder
 common#:#at_least_one_style#:#Es muss mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
-common#:#attach_sr_invoice#:#An E-Mail anhängen
-common#:#attach_sr_invoice_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen an die Kaufbestätigungs-E-Mail als Dateianhang hinzugefügt
 common#:#attachment#:#Anhang
 common#:#attachments#:#Anhänge
 common#:#attempts#:#Versuche
@@ -5108,7 +5104,6 @@ common#:#statistic#:#Statistik
 common#:#statistics#:#Statistik
 common#:#status#:#Status
 common#:#status_no_permission#:#Kein Zugriff gewährt.
-common#:#statutory_regulations#:#Gesetzliche Bestimmungen
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#stop_moving_blocks#:#Verschieben der Blöcke beenden
@@ -6729,7 +6724,6 @@ crs#:#crs_member_of#:#Mitglied des Kurses:
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members#:#Mitglieder
-grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
@@ -6923,7 +6917,7 @@ crs#:#crs_show_link_objectives#:#Lernziele anzeigen
 crs#:#crs_show_link_or#:#Andere Objekte anzeigen
 crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_show_link_tst#:#Tests anzeigen
-crs#:#crs_show_members#:#Mitglieder-Reiter
+crs#:#crs_show_members#:#Mitgliedergallerie
 crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
 crs#:#crs_show_objectives_view#:#Lernziel-Ansicht
 crs#:#crs_size#:#Dateigröße
@@ -12113,7 +12107,6 @@ dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
 dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_comments#:#Kommentare
-dcl#:#dcl_comments_description#:#Zeigt die Anzahl Kommentare eines Eintrags.
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
 dcl#:#dcl_delete_records#:#Datensätze löschen
@@ -12474,7 +12467,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansich
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_field_visible#:#Sichtbar
-dcl#:#dcl_standardview#:#Standardansicht
 dcl#:#dcl_std_filter#:#Filtervorbelegung
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_settings#:#Tools
@@ -12515,7 +12507,6 @@ fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
 common#:#chat_invite_public_room#:#Öffentlicher Chatraum
 rbac#:#sahs_copy#:#Benutzer kann SCORM-Lernmodul kopieren
-content#:#cont_LocalFile#:#Likale Datei
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
 ecs#:#ecs_node_mapping_status_1#:#Den gesamten Baum mappen
 ecs#:#ecs_node_mapping_status_2#:#Manuelles Mappen
@@ -12664,7 +12655,6 @@ exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
 dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
 dcl#:#dcl_reference_link_info#:#Die Seitenvorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein
-dcl#:#dcl_ILIAS_reference_link#:#Link zum Objekt
 dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
@@ -14219,7 +14209,7 @@ poll#:#poll_result_answers#:#Stimmen
 poll#:#poll_result_users#:#Teilnehmer
 user#:#usr_id#:#Systeminterne ID
 meta#:#meta_c_XK#:#Kosovo
-certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_var_user_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
 survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Benutzerdaten ersetzt, wenn 'Datenschutz' auf 'Mit namen' gesetzt ist.
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
@@ -16187,7 +16177,7 @@ didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
 didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
-grp#:#grp_show_members#:#Mitglieder-Reiter
+grp#:#grp_show_members#:#Mitgliedergallerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
 didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
 didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eine der gewählten Didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden.
@@ -16357,3 +16347,11 @@ mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###25 10 2016 new variable
+common#:#object_purchased_date#:#Purchase-Date###25 10 2016 new variable
+dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated###25 10 2016 new variable
+dcl#:#dcl_create_table#:#Create Table###25 10 2016 new variable
+dcl#:#dcl_ilias_reference_link#:#Show as link in table view###25 10 2016 new variable
+dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.###25 10 2016 new variable
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?###25 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable

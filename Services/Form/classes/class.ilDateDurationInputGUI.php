@@ -402,6 +402,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		
 		if($this->enabledToggleFullTime())
 		{
+			$this->setShowTime(true);
+			
 			$toggle_id = md5($this->getPostVar().'_fulltime'); // :TODO: unique?
 			
 			$tpl->setCurrentBlock('toggle_fullday');

@@ -5250,7 +5250,6 @@ content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Settings
 content#:#cont_localfile#:#Local File
-content#:#cont_LocalFile#:#Local File
 content#:#cont_location#:#Location
 content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
@@ -14260,7 +14259,7 @@ poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
 user#:#usr_id#:#User ID
 meta#:#meta_c_XK#:#Kosovo
-certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_var_user_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
 survey#:#mailparticipantdata_placeholder#:#These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:
 poll#:#poll_notification_subscribe#:#Activate Notification

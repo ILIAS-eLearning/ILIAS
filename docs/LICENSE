@@ -28,9 +28,7 @@ Other included libraries (regarded being compatible with GPL v3):
 - jQuery outside events (Services/jQuery/js) licensed under the MIT and GPL
 - TinyMCE (Services/RTE/tiny_mce) is licensed under LGPL
 - NuSOAP (Services/SOAPAuth/include) is licensed under LGPL
-- Info(Un)Zip (Services/Windows/bin32/(un)zip) is licensed under InfoZip license
   see http://www.info-zip.org/pub/infozip/license.html
-- ImageMagick convert (Services/Windows/bin32/convert) Imagemagick license
   see http://www.imagemagick.org/script/license.php
 - Aborla.net Validator (Services/XHTMLValidator) is licensed under LGPL
 - Nuvola Icon Set (templates/default/images) is licensed under LGPL

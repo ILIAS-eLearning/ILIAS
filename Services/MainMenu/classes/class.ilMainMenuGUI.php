@@ -358,7 +358,7 @@ class ilMainMenuGUI
 			{
 				$this->tpl->setCurrentBlock("header_top_title");
 				// php7-workaround alex: added phpversion() to help during development of php7 compatibility
-				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title." PHP ".phpversion());
+				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
 				$this->tpl->parseCurrentBlock();
 			}
 		}

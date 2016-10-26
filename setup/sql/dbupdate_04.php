@@ -2094,7 +2094,7 @@ if($wiki_type_id)
 		array(
 			"type" => "text",
 			"length" => 100,
-			"notnull" => false,
+			"notnull" => true,
 			'fixed' => false
 		)
 	);
@@ -2107,7 +2107,7 @@ if($wiki_type_id)
 		array(
 			"type" => "text",
 			"length" => 100,
-			"notnull" => false,
+			"notnull" => true,
 			'fixed' => false
 		)
 	);
@@ -17858,4 +17858,10 @@ else
 <#5049>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#5050>
+<?php
+	require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+	ilDBUpdateNewObjectType::updateOperationOrder("edit_members", 2400);
 ?>

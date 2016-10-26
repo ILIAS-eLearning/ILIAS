@@ -1367,6 +1367,7 @@ class ilMembershipGUI
 		$clip->add($users);
 		$clip->save();
 		
+		$this->lng->loadLanguageModule('user');
 		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
 		$this->ctrl->redirect($this, 'participants');
 		
