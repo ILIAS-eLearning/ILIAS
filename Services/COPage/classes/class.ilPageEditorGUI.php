@@ -255,6 +255,7 @@ exit;
 				$cmd != "activatePage" && $cmd != "deactivatePage" &&
 				$cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
 				$cmd != "deleteSelected" && $cmd != "paste" &&
+				$cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
 				$cmd != "copySelected" && $cmd != "cutSelected" &&
 				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "" || $_POST["imagemap_x"] != "") &&
 				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "") &&
@@ -499,8 +500,7 @@ exit;
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])
 		{
 			// not nice, should be solved differently in the future
-			if ($this->page->getParentType() == "lm" ||
-				$this->page->getParentType() == "dbk")
+			if ($this->page->getParentType() == "lm")
 			{
 				$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
 			}
@@ -508,8 +508,7 @@ exit;
 		$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		
 		// again not so nice...
-		if ($this->page->getParentType() == "lm" ||
-			$this->page->getParentType() == "dbk")
+		if ($this->page->getParentType() == "lm")
 		{
 			$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 		}
@@ -554,19 +553,56 @@ exit;
 		ilUtil::sendSuccess($this->lng->txt("cont_added_comment"), true);
 		$this->ctrl->returnToParent($this);
 	}
-	
+
 	/**
-	 * Delete selected items
+	 * Confirm
 	 */
 	function deleteSelected()
 	{
-		if (is_int(strpos($_POST["target"][0], ";")))
+		global $ilCtrl, $tpl, $lng;
+
+		$targets = explode(";", $_POST["target"][0]);
+
+		if (count($targets) == 0)
 		{
-			$_POST["target"] = explode(";", $_POST["target"][0]);
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$this->ctrl->returnToParent($this);
 		}
-		if (is_array($_POST["target"]))
+		else
 		{
-			$updated = $this->page->deleteContents($_POST["target"], true,
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("copg_confirm_el_deletion"));
+			$cgui->setCancel($lng->txt("cancel"), "cancelDeleteSelected");
+			$cgui->setConfirm($lng->txt("confirm"), "confirmedDeleteSelected");
+			$cgui->addHiddenItem("target", $_POST["target"][0]);
+
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Cancel deletion
+	 *
+	 * @param
+	 * @return
+	 */
+	function cancelDeleteSelected()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+
+
+	/**
+	 * Delete selected items
+	 */
+	function confirmedDeleteSelected()
+	{
+		$targets = explode(";", $_POST["target"]);
+		if (count($targets) > 0)
+		{
+			$updated = $this->page->deleteContents($targets, true,
 				$this->page_gui->getPageConfig()->getEnableSelfAssessment());
 			if($updated !== true)
 			{

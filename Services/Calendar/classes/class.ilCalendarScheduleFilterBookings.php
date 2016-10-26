@@ -32,7 +32,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 		return $a_cats;
 	}
 	
-	public function isValidEvent(ilCalendarEntry $a_event)
+	public function modifyEvent(ilCalendarEntry $a_event)
 	{
 		global $ilUser;
 		
@@ -57,12 +57,17 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 			if(($this->user_id == $ilUser->getId() ||
 				!$booking->isBookedOut($a_event->getEntryId(), true)) &&
 				$booking->isTargetObjectVisible($this->cats->getTargetRefId()))
-			{				
-				return true;
+			{
+				return $a_event;
 			}
 		}
 		
 		return false;		
+	}
+	
+	public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories)
+	{
+		
 	}
 }
 

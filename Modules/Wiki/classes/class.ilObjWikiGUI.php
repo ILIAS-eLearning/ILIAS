@@ -1490,6 +1490,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		foreach ($page_ids as $p_id)
 		{
 			$page_gui = new ilWikiPageGUI($p_id);
+			$page_gui->setWiki($this->object);
 			$page_gui->setOutputMode("print");
 			$page_content.= $page_gui->showPage();
 			
@@ -1527,7 +1528,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	
 	public function pdfExportObject()
 	{
-		$html = $this->printViewObject(true);	
+
+        // prepare generation before contents are processed (for mathjax)
+		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+		ilPDFGeneration::prepareGeneration();
+
+		$html = $this->printViewObject(true);
 		
 		// :TODO: fixing css dummy parameters
 		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);

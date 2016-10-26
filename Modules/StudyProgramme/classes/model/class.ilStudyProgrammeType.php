@@ -137,7 +137,12 @@ class ilStudyProgrammeType extends ActiveRecord {
 	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function __construct($primary_key = 0) {
-		global $ilDB, $ilLog, $ilUser, $ilPluginAdmin, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
+		$ilUser = $DIC['ilUser'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$lng = $DIC['lng'];
 		$this->db = $ilDB;
 		$this->log = $ilLog;
 		$this->user = $ilUser;
@@ -878,7 +883,8 @@ class ilStudyProgrammeType extends ActiveRecord {
 	* @return string 	icon path
 	*/
 	public static function getIconPathByStudyProgrammObjId($obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$sql = "SELECT prgt.id, prgt.icon\n"
 				." FROM prg_type prgt\n"

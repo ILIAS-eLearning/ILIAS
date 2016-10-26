@@ -88,7 +88,7 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function removeScreenIdsOfChapter($a_chap, $a_module_id = 0)
+	static function removeScreenIdsOfChapter($a_chap, $a_module_id = 0)
 	{
 		global $ilDB;
 		

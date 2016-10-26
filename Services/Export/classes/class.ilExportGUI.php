@@ -388,7 +388,7 @@ class ilExportGUI
 		{
 			if ($c["func"] == $cmd)
 			{
-				$c["obj"]->$c["func"]($_POST["file"]);
+				$c["obj"]->{$c["func"]}($_POST["file"]);
 			}
 		}
 	}

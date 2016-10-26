@@ -214,8 +214,8 @@ class ilBuddySystemRelationRepository
 	public function save(ilBuddySystemRelation $relation)
 	{
 		$ilAtomQuery = $this->db->buildAtomQuery();
-		$ilAtomQuery->lockTable('buddylist_requests');
-		$ilAtomQuery->lockTable('buddylist');
+		$ilAtomQuery->addTableLock('buddylist_requests');
+		$ilAtomQuery->addTableLock('buddylist');
 
 		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($relation) {
 			if($relation->isLinked())

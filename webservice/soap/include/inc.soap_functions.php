@@ -90,44 +90,9 @@ class ilSoapFunctions {
 		return $sua->getUser($sid,$user_id);
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public static function  updateUser($sid,$user_data)
-	{
-		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-		$sua = new ilSoapUserAdministration();
-
-		return $sua->updateUser($sid,$user_data);
-	}
 
 	/**
-	 * @deprecated
-	 */
-	public static function  updatePassword($sid,$user_id,$new_password)
-	{
-		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-		$sua = new ilSoapUserAdministration();
-
-		return $sua->updatePassword($sid,$user_id,$new_password);
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public static function  addUser($sid,$user_data,$global_role_id)
-	{
-		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-		$sua = new ilSoapUserAdministration();
-
-		return $sua->addUser($sid,$user_data,$global_role_id);
-	}
-
-	/**
-	 * @deprecated
 	 */
 	public static function  deleteUser($sid,$user_id)
 	{
@@ -1070,6 +1035,20 @@ class ilSoapFunctions {
 		include_once './webservice/soap/classes/class.ilSoapDataCollectionAdministration.php';
 		$dcl = new ilSoapDataCollectionAdministration();
 		return $dcl->exportDataCollectionContent($sid, $data_collection_id, $table_id, $format, $filepath);
+	}
+	
+	/**
+	 * Process background task
+	 *
+	 * @param string $sid
+	 * @param int $task_id	 
+	 *
+	 * @return string
+	 */
+	public static function processBackgroundTask($sid, $task_id) {
+		include_once './webservice/soap/classes/class.ilSoapBackgroundTaskAdministration.php';
+		$bg = new ilSoapBackgroundTaskAdministration();
+		return $bg->processBackgroundTask($sid, $task_id);
 	}
 
 }

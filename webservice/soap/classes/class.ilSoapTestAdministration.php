@@ -147,53 +147,55 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 		$processLocker  = $processLockerFactory->getLocker();
 
-		$processLocker->requestPersistWorkingStateLock();
-		$processLocker->requestUserSolutionUpdateLock();
-
-		$ilDB = $GLOBALS['ilDB'];
-		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer', 'integer', 'integer'),
-				array($active_id, $question_id, $pass)
-			);
-		}
 		$totalrows = 0;
-		for($i = 0; $i < count($solution); $i += 3)
-		{
-			$next_id = $ilDB->nextId('tst_solutions');
-			$affectedRows = $ilDB->insert("tst_solutions", array(
-				"solution_id" => array("integer", $next_id),
-				"active_fi" => array("integer", $active_id),
-				"question_fi" => array("integer", $question_id),
-				"value1" => array("clob", $solution[$i]),
-				"value2" => array("clob", $solution[$i+1]),
-				"points" => array("float", $solution[$i+2]),
-				"pass" => array("integer", $pass),
-				"tstamp" => array("integer", time())
-			));
-			$totalrows += $affectedRows;
-		}
 
-		$processLocker->releaseUserSolutionUpdateLock();
+		$processLocker->executePersistWorkingStateLockOperation(function() use (&$totalrows, $processLocker, $active_id, $question_id, $pass, $solution) {
+
+			$processLocker->executeUserSolutionUpdateLockOperation(function() use (&$totalrows, $active_id, $question_id, $pass, $solution) {
+
+				$ilDB = $GLOBALS['ilDB'];
+				if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
+				{
+					$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+						array('integer', 'integer', 'integer'),
+						array($active_id, $question_id, $pass)
+					);
+				}
+				for($i = 0; $i < count($solution); $i += 3)
+				{
+					$next_id = $ilDB->nextId('tst_solutions');
+					$affectedRows = $ilDB->insert("tst_solutions", array(
+						"solution_id" => array("integer", $next_id),
+						"active_fi" => array("integer", $active_id),
+						"question_fi" => array("integer", $question_id),
+						"value1" => array("clob", $solution[$i]),
+						"value2" => array("clob", $solution[$i+1]),
+						"points" => array("float", $solution[$i+2]),
+						"pass" => array("integer", $pass),
+						"tstamp" => array("integer", time())
+					));
+					$totalrows += $affectedRows;
+				}
+			});
+
+			if($totalrows != 0)
+			{
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				$question = assQuestion::_instanciateQuestion($question_id);
+				$question->setProcessLocker($processLocker);
+				$question->calculateResultsFromSolution($active_id, $pass);
+			}
+
+		});
 
 		if($totalrows == 0)
 		{
-			$processLocker->releasePersistWorkingStateLock();
 			return $this->__raiseError(
-				"Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution, true), 
+				"Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution, true),
 				'No result'
 			);
 		}
-		else
-		{
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$question = assQuestion::_instanciateQuestion($question_id);
-			$question->setProcessLocker($processLocker);
-			$question->calculateResultsFromSolution($active_id, $pass);
 
-			$processLocker->releasePersistWorkingStateLock();
-		}
 		return true;
 	}
 

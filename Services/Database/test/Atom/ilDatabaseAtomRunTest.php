@@ -58,11 +58,11 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		ilUnitUtil::performInitialisation();
 
 		global $ilClientIniFile;
-		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
 
-		$this->ilDBInterfaceGaleraSecond = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		$this->ilDBInterfaceGaleraSecond = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGaleraSecond->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGaleraSecond->connect();
 
@@ -119,7 +119,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 
 	public function testWriteWithTransactions() {
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
-		$ilAtomQuery->lockTable('il_db_tests_atom', true);
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true);
 		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
 		$ilAtomQuery->run();
@@ -130,7 +130,42 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 
 	public function testWriteWithLocks() {
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('il_db_tests_atom', true);
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true);
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+
+		$ilAtomQuery->run();
+
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
+	}
+
+
+	public function testWriteWithLocksAndAlias() {
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_alias');
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+
+		$ilAtomQuery->run();
+
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
+	}
+
+
+	public function testWriteWithMultipleLocksAndAlias() {
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_alias');
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_second_alias');
+		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
+
+		$ilAtomQuery->run();
+
+		$this->assertEquals($this->getExpectedResult(), $this->getResultFromDB());
+	}
+
+
+	public function testWriteWithMultipleLocksWithAndWithoutAlias() {
+		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true);
+		$ilAtomQuery->addTableLock('il_db_tests_atom')->lockSequence(true)->aliasName('my_alias');
 		$ilAtomQuery->addQueryCallable($this->getInsertQueryCallable());
 
 		$ilAtomQuery->run();
@@ -151,7 +186,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	public function testNoQueries() {
 		$this->setExpectedException('ilDatabaseException');
 		$ilAtomQuery = $this->ilDBInterfaceInnoDB->buildAtomQuery();
-		$ilAtomQuery->lockTable('il_db_tests_atom');
+		$ilAtomQuery->addTableLock('il_db_tests_atom');
 
 		$ilAtomQuery->run();
 	}

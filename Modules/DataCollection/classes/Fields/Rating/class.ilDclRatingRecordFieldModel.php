@@ -35,6 +35,12 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 
+
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		return;
+	}
+
+
 	/**
 	 * override the loadValue.
 	 */

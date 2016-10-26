@@ -49,6 +49,7 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("clientip"),'clientip', '');
 		$this->addColumn($this->lng->txt("tst_started"),'started', '');
 		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'passes', '');
+		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
 		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
 		$this->addColumn($this->lng->txt("last_access"),'access', '');
 		
@@ -119,15 +120,28 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		*/
 		$this->tpl->setVariable("STARTED", ($data['started']) ? $started : '');
 		$this->tpl->setVariable("PASSES", $passes);
+		$unfinished_passes = $data['unfinished'] == 1 ? $this->lng->txt('yes') : $this->lng->txt('no');
+		$this->tpl->setVariable("UNFINISHED_PASSES", $unfinished_passes );
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
 		$this->tpl->setVariable("ACCESS", (strlen($data['access'])) ? ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME)) : $this->lng->txt('not_yet_accessed'));
 		
 		if( $data['active_id'] > 0 && !$this->testQuestionSetDepenciesBroken )
 		{
-			$this->tpl->setCurrentBlock('action_results');
-			$this->tpl->setVariable("RESULTS", $data['result']);
-			$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
-			$this->tpl->parseCurrentBlock();
+			if($data['unfinished'] == 1)
+			{
+				$adv = new ilAdvancedSelectionListGUI();
+				$this->tpl->setCurrentBlock('action_results_list');
+				$adv->addItem($this->lng->txt('tst_show_results'), $data['result'], $data['result']);
+				$adv->addItem($this->lng->txt('finish_test'), $data['finish_link'], $data['finish_link']);
+				$this->tpl->setVariable('RESULTS_LIST', $adv->getHTML());
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock('action_results');
+				$this->tpl->setVariable("RESULTS", $data['result']);
+				$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		if( $this->actionsColumnRequired )

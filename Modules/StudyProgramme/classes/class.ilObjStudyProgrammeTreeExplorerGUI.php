@@ -84,7 +84,12 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @param $a_tree
 	 */
 	public function __construct($a_tree_root_id, $modal_id, $a_expl_id, $a_parent_obj, $a_parent_cmd) {
-		global $ilAccess, $lng, $tpl, $ilToolbar, $ilCtrl;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
 
@@ -116,7 +121,9 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return string
 	 */
 	public function getNodeContent($node) {
-		global $lng, $ilAccess;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$current_ref_id = (isset($_GET["ref_id"]))? $_GET["ref_id"] : -1;
 
@@ -315,7 +322,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return string
 	 */
 	public function getNodeIcon($a_node) {
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$obj_id = ilObject::_lookupObjId($a_node->getRefId());
 		if ($ilias->getSetting('custom_icons')) {
@@ -334,7 +342,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return string
 	 */
 	public function getNodeHref($node) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if ($ilCtrl->getCmd() == "performPaste") {
 			$ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "target_node", $node->getRefId());
@@ -355,7 +364,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return array childs
 	 */
 	public function getChildsOfNode($a_parent_node_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$parent_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($a_parent_node_id);
 

@@ -66,8 +66,14 @@ class ilContainerXmlParser
 		$ref_id = (string) $item['RefId'];
 		$obj_id = (string) $item['Id'];
 		$type = (string) $item['Type'];
+		
+		
+		$new_ref = $this->getMapping()->getMapping('Services/Container', 'refs', $ref_id);
 
-		if($obj_id == $this->root_id)
+		if(
+			!$new_ref &&
+			($obj_id == $this->root_id)
+		)
 		{
 			// if container without subitems a dummy container has already been created
 			// see ilImportContainer::createDummy()			

@@ -68,7 +68,8 @@ class ilPluginAdmin
 					"ilias_max_version" => $ilias_max_version,
 					"responsible" => $responsible,
 					"responsible_mail" => $responsible_mail,
-					"learning_progress" => (bool)$learning_progress);
+					"learning_progress" => (bool)$learning_progress,
+					"supports_export" => (bool)$supports_export);
 			}
 			
 			$active = $rec["active"];
@@ -338,11 +339,27 @@ class ilPluginAdmin
 	* @param	string	$a_cname	Component Name
 	* @param	string	$a_slot_id	Slot ID
 	* @param	string	$a_pname	Plugin Name
+	* @return	bool
 	*/
 	function hasLearningProgress($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["learning_progress"];
+	}
+	
+	/**
+	* Checks whether plugin supports export/import
+	*
+	* @param	string	$a_ctype	Component Type
+	* @param	string	$a_cname	Component Name
+	* @param	string	$a_slot_id	Slot ID
+	* @param	string	$a_pname	Plugin Name
+	* @return	bool
+	*/
+	function supportsExport($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{		
+		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);		
+		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["supports_export"];
 	}
 }
 

@@ -87,6 +87,7 @@ class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
 	{
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerOrdering.php';
+		require_once './Services/Database/classes/class.ilDBConstants.php';
 		$instance = new ASS_AnswerOrdering();
 		$random_id = 13579;
 

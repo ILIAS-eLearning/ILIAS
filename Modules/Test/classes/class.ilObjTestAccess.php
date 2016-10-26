@@ -417,7 +417,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	 * Returns (request cached) information if a specific user has finished at least one test pass
 	 *
-	 * @param integer $user_id obj_id of the user
+	 * @param integer $a_user_id obj_id of the user
 	 * @param integer $a_obj_id obj_id of the test
 	 * @return bool
 	 */
@@ -449,7 +449,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 			self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"] = count($testPassesSelector->getClosedPasses());
 		}
 		
-		return self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"];
+		return (bool) self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"];
 	}
 
 /**

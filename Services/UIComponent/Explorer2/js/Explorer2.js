@@ -21,13 +21,13 @@ il.Explorer2 = {
 			js_tree_config.html_data.data = $("#" + config.container_id).html();
 		}
 		il.Explorer2.configs[config.container_id] = config;
-		$("#" + config.container_id).bind("loaded.jstree", function (event, data) {
+		$("#" + config.container_id).on("loaded.jstree", function (event, data) {
 				var i;
 				$("#" + config.container_outer_id).removeClass("ilNoDisplay");
 				for (i = 0; i < config.second_hnodes.length; i++) {
 					$("#" + config.second_hnodes[i]).addClass("ilExplSecHighlight");
 				}
-			}).bind("open_node.jstree close_node.jstree", function (event, data) {
+			}).on("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
 			}).jstree(js_tree_config);
 	},
@@ -68,12 +68,12 @@ il.Explorer2 = {
 	
 	// init select input
 	initSelect: function(id) {
-		$("#" + id + "_select").bind("click", function (ev) {
+		$("#" + id + "_select").on("click", function (ev) {
 			il.UICore.showRightPanel();
 			il.UICore.loadWrapperToRightPanel(id + "_expl_wrapper");
 			return false;
 		});
-		$("#" + id + "_reset").bind("click", function (ev) {
+		$("#" + id + "_reset").on("click", function (ev) {
 			$("#" + id + "_hid").empty();
 			$("#" + id + "_cont_txt").empty();
 			$('#' + id + '_expl_content input[type="checkbox"]').each(function() {
@@ -82,7 +82,7 @@ il.Explorer2 = {
 
 			return false;
 		});
-		$("#" + id + "_expl_content a.ilExplSelectInputButS").bind("click", function (ev) {
+		$("#" + id + "_expl_content a.ilExplSelectInputButS").on("click", function (ev) {
 			var t = sep = "";
 			// create hidden inputs with values
 			$("#" + id + "_hid").empty();
@@ -110,7 +110,7 @@ il.Explorer2 = {
 			
 			return false;
 		});		
-		$("#" + id + "_expl_content a.ilExplSelectInputButC").bind("click", function (ev) {
+		$("#" + id + "_expl_content a.ilExplSelectInputButC").on("click", function (ev) {
 			il.UICore.hideRightPanel();
 			return false;
 		});		

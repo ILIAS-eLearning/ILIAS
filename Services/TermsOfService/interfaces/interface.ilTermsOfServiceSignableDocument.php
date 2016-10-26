@@ -23,6 +23,11 @@ interface ilTermsOfServiceSignableDocument
 	public function hasContent();
 
 	/**
+	 * @return bool
+	 */
+	public function exists();
+
+	/**
 	 * @return string
 	 */
 	public function getContent();

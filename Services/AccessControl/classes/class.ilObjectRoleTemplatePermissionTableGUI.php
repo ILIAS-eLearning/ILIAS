@@ -3,6 +3,7 @@
 
 include_once ('./Services/Table/classes/class.ilTable2GUI.php');
 include_once './Services/AccessControl/classes/class.ilPermissionGUI.php';
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Table for object role permissions
@@ -178,7 +179,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			else
 			{
 				$pl_txt = ($objDefinition->isPlugin($this->getTemplateType()))
-					? ilPlugin::lookupTxt("rep_robj", $this->getTemplateType(),
+					? ilObjectPlugin::lookupTxtById($this->getTemplateType(),
 						"objs_".$this->getTemplateType())
 					: $this->lng->txt('objs_'.$this->getTemplateType());
 				
@@ -211,13 +212,13 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			if ($row["create_type"] != "" && $objDefinition->isPlugin($row['create_type']))
 			{
 				$this->tpl->setVariable('TXT_PERMISSION',
-					ilPlugin::lookupTxt("rep_robj", $row['create_type'],
+					ilObjectPlugin::lookupTxtById($row['create_type'],
 						$this->getTemplateType()."_".$row['name']));
 			}
 			else if ($row["create_type"] == "" && $objDefinition->isPlugin($this->getTemplateType()))
 			{
 				$this->tpl->setVariable('TXT_PERMISSION',
-					ilPlugin::lookupTxt("rep_robj", $this->getTemplateType(),
+					ilObjectPlugin::lookupTxtById($this->getTemplateType(),
 						$this->getTemplateType()."_".$row['name']));
 			}
 			else

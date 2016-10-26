@@ -43,9 +43,9 @@ class ilObjRootDAV extends ilObjectDAV
 	*
 	* @param refid A refid to the object.
 	*/
-	function ilObjRootDAV($refid) 
+	function __construct($refid) 
 	{
-		$this->ilObjectDAV($refid);
+		parent::__construct($refid);
 	}
 	
 	/**
@@ -136,7 +136,8 @@ class ilObjRootDAV extends ilObjectDAV
 	 */
 	function read()
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$this->data = $tree->getNodeData($this->getRefId());
 	}
 }

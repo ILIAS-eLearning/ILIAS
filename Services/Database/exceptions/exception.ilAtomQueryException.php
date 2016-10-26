@@ -17,6 +17,7 @@ class ilAtomQueryException extends ilDatabaseException {
 	const DB_ATOM_LOCK_NO_TABLE = 10906;
 	const DB_ATOM_CLOSURE_NONE = 10907;
 	const DB_ATOM_CLOSURE_ALREADY_SET = 10908;
+	const DB_ATOM_IDENTICAL_TABLES = 10909;
 
 
 	/**
@@ -52,6 +53,9 @@ class ilAtomQueryException extends ilDatabaseException {
 				break;
 			case static::DB_ATOM_CLOSURE_ALREADY_SET:
 				$message = 'Only one Closure per ilAtomQuery is possible';
+				break;
+			case static::DB_ATOM_IDENTICAL_TABLES:
+				$message = 'A Table and/or alias-name can only be locked once';
 				break;
 		}
 

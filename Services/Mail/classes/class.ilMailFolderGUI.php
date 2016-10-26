@@ -982,7 +982,7 @@ class ilMailFolderGUI
 			// secure filename
 			$filename = str_replace("..", "", $filename);
 			
-			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
+			$mfile = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
 			if(!is_array($file = $mfile->getAttachmentPathByMD5Filename($filename, $_GET['mail_id'])))
 			{
 				ilUtil::sendInfo($this->lng->txt('mail_error_reading_attachment'));

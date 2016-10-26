@@ -954,6 +954,10 @@ class ilTestServiceGUI
 	 */
 	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
+        // prepare generation before contents are processed (for mathjax)
+		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+		ilPDFGeneration::prepareGeneration();
+
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
@@ -974,6 +978,7 @@ class ilTestServiceGUI
 					// check if re-instantiation is really neccessary
 					$question_gui = $this->object->createQuestionGUI("", $passes[$i]["qid"]);
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass + 1);
+					$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
 					$output .= $question_gui->getSolutionOutput(
 						$active_id,
 						$resultpass,

@@ -13,9 +13,15 @@
 	</objects>
 	<events>
 		<event type="raise" id="delete" />
+		<event type="listen" id="Services/Tree" />
 	</events>
 	<pluginslots>
 		<pluginslot id="orgutypehk" name="OrgUnitTypeHook" />
 	</pluginslots>
-
+	<pluginslots>
+		<pluginslot id="orguext" name="OrgUnitExtension" />
+	</pluginslots>
+	<crons>
+		<cron id="orgunit_paths" class="ilCronUpdateOrgUnitPaths" />
+	</crons>
 </module>

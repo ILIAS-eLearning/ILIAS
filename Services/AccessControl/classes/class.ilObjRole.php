@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject.php";
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjRole
@@ -451,12 +452,11 @@ class ilObjRole extends ilObject
 			// users with last role found?
 			if (count($last_role_user_ids) > 0)
 			{
+				$user_names = array();
 				foreach ($last_role_user_ids as $user_id)
 				{
 					// GET OBJECT TITLE
-					$tmp_obj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
-					$user_names[] = $tmp_obj->getFullname();
-					unset($tmp_obj);
+					$user_names[] = ilObjUser::_lookupLogin($user_id);
 				}
 				
 				// TODO: This check must be done in rolefolder object because if multiple
@@ -608,12 +608,12 @@ class ilObjRole extends ilObject
 			
 			// handle plugin permission texts
 			$txt = $objDefinition->isPlugin($info['type'])
-				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				? ilObjectPlugin::lookupTxtById($info['type'], $info['type']."_".$info['operation'])
 				: $lng->txt($info['type']."_".$info['operation']);
 			if (substr($info['operation'], 0, 7) == "create_" &&
 				$objDefinition->isPlugin(substr($info['operation'], 7)))
 			{
-				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+				$txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7), $info['type']."_".$info['operation']);
 			}
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],

@@ -12,31 +12,31 @@ use ILIAS\UI\Implementation\Crawler as Crawler;
 class UIComponentsTest extends PHPUnit_Framework_TestCase {
 
 
-    /**
-     * @var Crawler\FactoriesCrawler
-     */
-    protected $crawler;
+	/**
+	 * @var Crawler\FactoriesCrawler
+	 */
+	protected $crawler;
 
-    /**
-     * @var Crawler\FactoriesCrawler
-     */
-    protected $path_to_base_factory = "src/UI/Factory.php";
+	/**
+	 * @var Crawler\FactoriesCrawler
+	 */
+	protected $path_to_base_factory = "src/UI/Factory.php";
 
 
-    protected function setUp(){
-        $this->crawler = new Crawler\FactoriesCrawler();
-    }
+	protected function setUp(){
+		$this->crawler = new Crawler\FactoriesCrawler();
+	}
 
-    /**
-     * @throws Crawler\Exception\CrawlerException
-     */
-    public function testAllUIComponentsFactoriesForNotThrowingErrors() {
+	/**
+	 * @throws Crawler\Exception\CrawlerException
+	 */
+	public function testAllUIComponentsFactoriesForNotThrowingErrors() {
 
-        $this->crawler->crawlFactory($this->path_to_base_factory);
-        /**
-         * This assertion is only reached if all entries have been successfully parsed (no error was thrown)
-         */
-        $this->assertTrue(true);
-    }
+		$this->crawler->crawlFactory($this->path_to_base_factory);
+		/**
+		 * This assertion is only reached if all entries have been successfully parsed (no error was thrown)
+		 */
+		$this->assertTrue(true);
+	}
 
 }

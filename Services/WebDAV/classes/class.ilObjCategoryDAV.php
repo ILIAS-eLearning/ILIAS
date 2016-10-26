@@ -42,9 +42,9 @@ class ilObjCategoryDAV extends ilObjectDAV
 	*
 	* @param refid A refid to the object.
 	*/
-	function ilObjCategoryDAV($refid) 
+	function __construct($refid) 
 	{
-		$this->ilObjectDAV($refid);
+		parent::__construct($refid);
 	}
 	
 	/**
@@ -113,7 +113,9 @@ class ilObjCategoryDAV extends ilObjectDAV
 	*/
 	function createCollection($name)
 	{
-		global $lng, $tree;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 		$this->lng =& $lng;
 		

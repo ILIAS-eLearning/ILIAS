@@ -10,49 +10,46 @@
 		<!-- END reached_points_alert -->
 	</td>
 	<td class="std">
-		<a class="il_ContainerItemCommand" id="answ_{VAL_ID}" href="#">{VAL_TXT_ANSWER}</a>
-		<script>
+		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" href="#">{VAL_TXT_ANSWER}</a>
+		<!-- BEGIN row_js -->
+		<script type="text/javascript">
 			(function($) {
-				$("#answ_{VAL_ID}").click(function(e) {
+				$().ready(function() {
+					$(".iosAssAnswerModalTrigger").on("click", function(e) {
+						var $this = $(this),
+							modal = $this.data("modal");
 
-					il.Overlay.hideAllOverlays(e.originalEvent, true);
+						e.preventDefault();
+						e.stopPropagation();
 
-					var $this = $(this);
-					var $panel = $('#answer_container_' + $this.attr('id'));
+						if (modal == undefined) {
+							$.ajax({
+								url: $this.data("answer-href"),
+								dataType: 'html',
+								success: function(data) {
+									modal = il.Modal.dialogue({
+										show:    false,
+										header:  il.Language.txt('answer'),
+										body:    data,
+										buttons: {}
+									});
 
-					if ($panel.size() == 0) {
-						var $panel = $('<div class="ilOverlay ilRightPanel yui-module yui-overlay" style="overflow: auto; display: none;" id="answer_container_' + $this.attr('id') + '"></div>')
-								.css({
-									position: 'fixed',
-									top: '0px',
-									bottom: '0px',
-									left: '',
-									right: '0px',
-									width: '40%',
-									padding: '5px'
-								});
-						$panel.insertAfter($this);
+									$this.data("modal", modal);
 
-						$.ajax({
-							url: '{VAL_LINK_ANSWER}',
-							dataType: 'html',
-							success: function(data) {
-								$panel.html(data);
-								il.Overlay.add('answer_container_' + $this.attr('id'), {yuicfg: {}});
-								il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
+									if (typeof MathJax != "undefined") {
+										MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+									}
 
-								if (typeof MathJax != "undefined") {
-									MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+									modal.show();
 								}
-							}
-						})
-					} else {
-						il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
-					}
-					return false;
-
+							})
+						} else {
+							modal.show();
+						}
+					});
 				});
 			}(jQuery));
 		</script>
+		<!-- END row_js -->
 	</td>
 </tr>

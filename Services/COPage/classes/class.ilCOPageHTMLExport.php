@@ -180,6 +180,20 @@ class ilCOPageHTMLExport
 		copy('./Modules/TestQuestionPool/templates/default/test_javascript.css',
 			$this->css_dir.'/test_javascript.css');
 
+		// auto linking js
+		include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
+		foreach (ilLinkifyUtil::getLocalJsPaths() as $p)
+		{
+			if (is_int(strpos($p, "ExtLink")))
+			{
+				copy($p, $this->js_dir.'/ilExtLink.js');
+			}
+			if (is_int(strpos($p, "linkify")))
+			{
+				copy($p, $this->js_dir.'/linkify.js');
+			}
+		}
+
 
 //		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
 //			$this->css_dir.'/mediaelementplayer.css');
@@ -214,7 +228,8 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js");
+			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js",
+			"./js/ilExtLink.js", "./js/linkify.js");
 		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
 		$mathJaxSetting = new ilSetting("MathJax");

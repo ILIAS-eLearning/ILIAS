@@ -41,22 +41,74 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	
 	protected $existing_objects = array();
 
+	/** @var string */
+	protected $target_type;
+	/** @var string */
+	protected $reference_type;
+	/** @var ilPropertyFormGUI */
+	protected $form;
+
 	/**
 	 * Constructor
 	 * @param
-	 * @return
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng; 
 		parent::__construct($a_data, $a_id,$a_call_by_reference,$a_prepare_output);
-		
+
 		$lng->loadLanguageModule('objref');
+	}
+
+	/**
+	 * Execute command
+	 *
+	 * @access public
+	 *
+	 * @return bool|mixed
+	 * @throws ilCtrlException
+	 */
+	public function executeCommand()
+	{
+		global $ilCtrl,$ilTabs;
+
+
+		if(isset($_GET['creation_mode']) && $_GET['creation_mode'] == self::MODE_CREATE)
+		{
+			$this->setCreationMode(true);
+		}
+
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
+
+		$this->prepareOutput();
+
+		switch($next_class)
+		{
+			case "ilpropertyformgui":
+				$form = $this->initForm($this->creation_mode ? self::MODE_CREATE : self::MODE_EDIT);
+				$this->ctrl->forwardCommand($form);
+			case 'ilpermissiongui':
+				$ilTabs->setTabActive('perm_settings');
+				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				$ilCtrl->forwardCommand(new ilPermissionGUI($this));
+				break;
+
+			default:
+				if(!$cmd || $cmd == 'view')
+				{
+					$cmd = "edit";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+				break;
+		}
+		return true;
 	}
 	
 	/**
 	 * Add locator item
-	 * @global type $ilLocator
+	 * @global ilLocatorGUI $ilLocator
 	 */
 	protected function addLocatorItems()
 	{
@@ -71,7 +123,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	/**
 	 * redirect to target 
 	 * @param
-	 * @return
 	 */
 	public function redirectObject()
 	{
@@ -95,9 +146,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
-
-		$this->initTargetSelection(self::MODE_CREATE);
-		ilUtil::sendInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
+		$form = $this->initForm(self::MODE_CREATE);
+		$this->tpl->setContent($form->getHTML());
 	}
 	
 	
@@ -125,24 +175,33 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			return false;	
 		}
 		
-		parent::saveObject();		
+		parent::saveObject();
 	}
 	
 	protected function initCreateForm($a_new_type)
 	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		return $form;
-	}	
-	
+		return $this->initForm(self::MODE_CREATE);
+	}
+
+	/**
+	 * @param ilObject $a_new_object
+	 */
 	protected function afterSave(ilObject $a_new_object)
 	{		
-		$target_obj_id = ilObject::_lookupObjId((int) $_REQUEST['target_id']);
+		$target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
 		$a_new_object->setTargetId($target_obj_id);
+
+		$a_new_object->setTitleType($this->form->getInput('title_type'));
+		if($this->form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM)
+		{
+			$a_new_object->setTitle($this->form->getInput('title'));
+		}
+
 		$a_new_object->update();
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		$this->ctrl->setParameter($this,'ref_id',$a_new_object->getRefId());
+		$this->ctrl->setParameter($this,'creation_mode',0);
 		$this->ctrl->redirect($this,'firstEdit');
 	}
 	
@@ -151,32 +210,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	protected function firstEditObject()
 	{
-		$this->editObject(false);
-	}
-	
-	
-	/**
-	 * edit object
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function editObject($a_show_info_message = true)
-	{
-		global $ilUser,$ilSetting,$ilTabs;
-		
-		$ilTabs->setTabActive('edit');
-		$ilTabs->addSubTab('edit',$this->lng->txt('objref_edit_ref'),$this->ctrl->getLinkTarget($this,'edit'));
-		$ilTabs->addSubTab('editTitle',$this->lng->txt('objref_edit_title'),$this->ctrl->getLinkTarget($this,'editTitle'));
-		$ilTabs->setTabActive('edit');
-		$ilTabs->activateSubTab('edit');
-		$this->initTargetSelection(self::MODE_EDIT);
-		
-		if($a_show_info_message)
-		{
-			ilUtil::sendInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
-		}
+		$this->editObject();
 	}
 
 	public function editReferenceObject()
@@ -186,38 +220,63 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	
 	/**
 	 * edit title
+	 * 
+	 * @param ilPropertyFormGUI $form
 	 */
-	protected function editTitleObject(ilPropertyFormGUI $form = null)
+	public function editObject(ilPropertyFormGUI $form = null)
 	{
 		global $ilTabs;
-		
-		$ilTabs->addSubTab('edit',$this->lng->txt('objref_edit_ref'),$this->ctrl->getLinkTarget($this,'edit'));
-		$ilTabs->addSubTab('editTitle',$this->lng->txt('objref_edit_title'),$this->ctrl->getLinkTarget($this,'editTitle'));
-		$ilTabs->setTabActive('edit');		
-		$ilTabs->activateSubTab('editTitle');
+
+		$ilTabs->setTabActive('edit');
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
-			$form = $this->initFormTitle();
+			$form = $this->initForm();
 		}
 		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 	
 	/**
 	 * Init title form
+	 * @param int $a_mode
 	 * @return ilPropertyFormGUI 
 	 */
-	protected function initFormTitle()
+	protected function initForm($a_mode = self::MODE_EDIT)
 	{
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		include_once './Services/ContainerReference/classes/class.ilContainerReference.php';
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt('objref_title_settings'));
+
+		if ($a_mode == self::MODE_CREATE) {
+			$form->setTitle($this->lng->txt($this->getReferenceType(). '_new' ));
+
+			$this->ctrl->setParameter($this, 'creation_mode', $a_mode);
+			$this->ctrl->setParameter($this, 'new_type', $_REQUEST['new_type']);
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt('edit'));
+		}
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton('updateTitle', $this->lng->txt('save'));
-		
+		if ($a_mode == self::MODE_CREATE) {
+			$form->addCommandButton('save', $this->lng->txt('create'));
+		} else {
+			$form->addCommandButton('update', $this->lng->txt('save'));
+		}
+
+
 		// title type 
 		$ttype = new ilRadioGroupInputGUI($this->lng->txt('title'), 'title_type');
-		$ttype->setValue($this->object->getTitleType());
+		if ($a_mode == self::MODE_EDIT)
+		{
+			$ttype->setValue($this->object->getTitleType());
+		}
+		else
+		{
+			$ttype->setValue(ilContainerReference::TITLE_TYPE_REUSE);
+		}
+
 		$reuse = new ilRadioOption($this->lng->txt('objref_reuse_title'));
 		$reuse->setValue(ilContainerReference::TITLE_TYPE_REUSE);
 		$ttype->addOption($reuse);
@@ -230,22 +289,45 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$title->setSize(min(40, ilObject::TITLE_LENGTH));
 		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
-		$title->setValue($this->object->getTitle());
+
+		if($a_mode == self::MODE_EDIT)
+		{
+			$title->setValue($this->object->getTitle());
+		}
+
 		$custom->addSubItem($title);
-		
 		$ttype->addOption($custom);
-		
 		$form->addItem($ttype);
-		
+
+		include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+		$repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
+		$repo->setParent($this);
+		$repo->setRequired(true);
+		$repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));
+		$repo->getExplorerGUI()->setTypeWhiteList(array_merge(
+				array($this->getTargetType()),
+				array("root", "cat", "grp", "fold", "crs"))
+		);
+		$repo->setInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
+
+		if($a_mode == self::MODE_EDIT)
+		{
+			$repo->getExplorerGUI()->setPathOpen($this->object->getTargetRefId());
+			$repo->setValue($this->object->getTargetRefId());
+		}
+
+		$form->addItem($repo);
+		$this->form = $form;
 		return $form;
 	}
 	
 	/**
 	 * update title
 	 */
-	protected function updateTitleObject()
+	public function updateObject()
 	{
-		$form = $this->initFormTitle();
+		global $ilAccess;
+		$form = $this->initForm();
 		if($form->checkInput())
 		{
 			$this->object->setTitleType($form->getInput('title_type'));
@@ -253,127 +335,35 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			{
 				$this->object->setTitle($form->getInput('title'));
 			}
+
+			if(!$ilAccess->checkAccess('visible','',(int) $form->getInput('target_id')) ||
+				ilObject::_lookupType($form->getInput('target_id'), true) != $this->target_type)
+			{
+				ilUtil::sendFailure($this->lng->txt('permission_denied'));
+				$this->editObject();
+				return false;
+			}
+			$this->checkPermission('write');
+
+			$target_obj_id = ilObject::_lookupObjId((int) $form->getInput('target_id'));
+			$this->object->setTargetId($target_obj_id);
+
+
 			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-			$this->ctrl->redirect($this,'editTitle');
+			$this->ctrl->redirect($this,'edit');
 		}
 		$form->setValuesByPost();
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
-		$this->editTitleObject($form);
-	}
-	
-	/**
-	 * update object
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function updateObject()
-	{
-		global $ilAccess;
-		
-		if(!(int) $_REQUEST['target_id'])
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->editObject();
-			return false;	
-		}
-		if(!$ilAccess->checkAccess('visible','',(int) $_REQUEST['target_id']))
-		{
-			ilUtil::sendFailure($this->lng->txt('permission_denied'));
-			$this->editObject();
-			return false;	
-		}
-		$this->checkPermission('write');
-
-		$target_obj_id = ilObject::_lookupObjId((int) $_REQUEST['target_id']);
-		$this->object->setTargetId($target_obj_id);
-		$this->object->update();
-		
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->ctrl->redirect($this,'edit');
-	}
-	
-	
-	/**
-	 * show selection of containers
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function showSelection()
-	{
-		$this->initFormSelection();
-		$this->tpl->setContent($this->form->getHTML());
+		$this->editObject($form);
 		return true;
 	}
-	
-	/**
-	 * init form selection
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function initFormSelection()
-	{
-		if(is_object($this->form))
-		{
-			return true;
-		}
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		$this->form = new ilPropertyFormGUI();
-		$this->ctrl->setParameter($this,'new_type',$this->getReferenceType());
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		$this->form->setTitle($this->lng->txt($this->getReferenceType().'_new'));
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getReferenceType().'.svg'));
-		
-		// Show selection
-		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');
-		$select->setOptions(self::_prepareSelection($this->existing_objects,$this->getTargetType()));
-		$select->setInfo($this->lng->txt($_POST['new_type'].'_edit_info'));
-		$this->form->addItem($select);
-		
-		$this->form->addCommandButton('save',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-	}
-	
-	/**
-	 * init form selection
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function initFormEditSelection()
-	{
-		if(is_object($this->form))
-		{
-			return true;
-		}
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		$this->form->setTitle($this->lng->txt($this->getReferenceType().'_edit'));
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getReferenceType().'.svg'));
-		
-		// Show selection
-		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');
-		$select->setValue($this->object->getTargetRefId());
-		$select->setOptions(self::_prepareSelection($this->existing_objects,$this->getTargetType()));
-		$select->setInfo($this->lng->txt($this->object->getType().'_edit_info'));
-		$this->form->addItem($select);		
-		
-		$this->form->addCommandButton('update',$this->lng->txt('save'));
-		#$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-	}
-	
 
 	/**
 	 * get target type
 	 *
 	 * @access public
-	 * @param
-	 * @return
+	 * @return string
 	 */
 	public function getTargetType()
 	{
@@ -384,127 +374,20 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 * get reference type
 	 *
 	 * @access public
-	 * @param
-	 * @return
+	 * @return string
 	 */
 	public function getReferenceType()
 	{
 		return $this->reference_type;
 	}
-	
+
 	/**
-	 * Prepare selection of target objects
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param array int array of ref ids
+	 * @return int
 	 */
-	public static function _prepareSelection($a_ref_ids,$a_target_type)
+	public function getId()
 	{
-		global $ilDB,$lng;
-		
-		$query = "SELECT obj_data.title obj_title,path_data.title path_title,child FROM tree ".
-			"JOIN object_reference obj_ref ON child = obj_ref.ref_id ".
-			"JOIN object_data obj_data ON obj_ref.obj_id = obj_data.obj_id ".
-			"JOIN object_reference path_ref ON parent = path_ref.ref_id ".
-			"JOIN object_data path_data ON path_ref.obj_id = path_data.obj_id ".
-			"WHERE ".$ilDB->in('child',$a_ref_ids,false,'integer').' '.
-			"ORDER BY obj_data.title ";
-		$res = $ilDB->query($query);
-		
-		$options[0] = $lng->txt('obj_'.$a_target_type.'_select');
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			if(strlen($title = $row->obj_title) > 40)
-			{
-				$title = substr($title,0,40).'...';
-			}
-			if(strlen($path = $row->path_title) > 40)
-			{
-				$path = substr($path,0,40).'...';
-			}
-			$options[$row->child] = ($title.' ('.$lng->txt('path').': '.$path.')');
-		}
-		return $options ? $options : array();
+		return $this->obj_id;
 	}
-	
-	/**
-	 * Init copy from repository/search list commands
-	 * @return 
-	 */
-	protected function initTargetSelection($a_mode = self::MODE_CREATE)
-	{
-		global $ilCtrl, $tree;
-		
-		// empty session on init
-		$_SESSION['ref_repexpand'] = array();
-		
-		// copy opened nodes from repository explorer		
-		$_SESSION['ref_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
-		
-		// open current position
-		
-		if($a_mode == self::MODE_CREATE)
-		{
-			$target = (int) $_GET['ref_id'];
-		}
-		else
-		{
-			$target = (int) $this->object->getTargetRefId();
-		}
-		
-		$path = $tree->getPathId($target);
-		foreach((array) $path as $node_id)
-		{
-			if(!in_array($node_id, $_SESSION['ref_repexpand']))
-			{
-				$_SESSION['ref_repexpand'][] = $node_id;
-			}
-		}
-		
-		$_SESSION['ref_mode'] = $a_mode;
-		
-		$this->showTargetSelectionTreeObject();
-	}
-	
-	/**
-	 * Show target selection
-	 * @return 
-	 */
-	public function showTargetSelectionTreeObject()
-	{
-		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition;
-	
-		include_once './Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php';
-		
-		if($_SESSION['ref_mode'] == self::MODE_CREATE)
-		{
-			$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
-			$this->ctrl->setParameter($this,'new_type',$this->getReferenceType());
-			$cmd = 'save';
-		}
-		else
-		{
-			$ilTabs->setTabActive('edit');
-			$cmd = 'update';
-		}
-		$explorer = new ilContainerSelectionExplorer($this->ctrl->getLinkTarget($this,$cmd));
-		
-		if(isset($_GET['ref_repexpand']))
-		{
-			$explorer->setExpand((int) $_GET['ref_repexpand']);
-		}
-		else
-		{
-			$explorer->setExpand(ROOT_FOLDER_ID);
-		}
-		$explorer->setFrameTarget('_self');
-		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this,'showTargetSelectionTree'));
-		$explorer->setTargetGet('target_id');
-		$explorer->setTargetType($this->getTargetType());
-		$explorer->setOutput(0);
-		$this->tpl->setContent($explorer->getOutput());
-	}
+
 }
 ?>

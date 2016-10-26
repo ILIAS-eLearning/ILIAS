@@ -42,7 +42,7 @@ class Session {
 *   Konstruktor - nimmt, wenn gewuenscht einen neuen
 *   Session-Namen entgegen
 */    
-    function Session($sessionName="SESSID") {
+    function __construct($sessionName="SESSID") {
         $this->sendNoCacheHeader();
         
         // force 4 hash bits per character for session_id	// Sascha Hofmann (2005-10-19)

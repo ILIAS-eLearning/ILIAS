@@ -1,0 +1,38 @@
+ILIAS-Namespace-Deklaration
+---
+xmlns:ilias="http://www.ilias.de/Services/WorkflowEngine/2015/bpmn2extensions"
+
+CallActivity Modules Course
+---
+<bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="readLearnersFromCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+
+DataInput Text
+---
+<bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:inputproperty name="type" value="text" />
+        <ilias:inputproperty name="requirement" value="required" />
+        <ilias:inputproperty name="caption" value="ID des Vorgangs-Gegenstands" />
+        <ilias:inputproperty name="description" value="Geben Sie bitte die Ref-ID des Vorgangs-Gegenstands an." />
+    </ilias:properties>
+</bpmn2:extensionElements>
+
+DataInput RepositoryObjectSelector
+---
+<bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:inputproperty name="type" value="robjselect" />
+        <ilias:inputproperty name="allowedtype" value="crs" />
+        <ilias:inputproperty name="requirement" value="required" />
+        <ilias:inputproperty name="caption" value="Kurs" />
+        <ilias:inputproperty name="description" value="Bitte wählen Sie einen Kurs für den Prozess aus." />
+    </ilias:properties>
+</bpmn2:extensionElements>

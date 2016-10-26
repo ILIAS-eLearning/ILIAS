@@ -326,12 +326,22 @@ class ilMailSearchGroupsGUI
 		$tableData = array();
 		if (is_array($grp_ids) &&
 			count($grp_ids) > 0)
-		{				
-	
+		{
+			$num_groups_hidden_members = 0;
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			foreach($grp_ids as $grp_id) 
 			{
-				if(ilObject::_hasUntrashedReference($grp_id))
+				/**
+				 * @var $oTmpGrp ilObjGroup
+				 */
+				$oTmpGrp = ilObjectFactory::getInstanceByObjId($grp_id);
+
+				$hasUntrashedReferences = ilObject::_hasUntrashedReference($grp_id);
+				$showMemberListEnabled = (boolean)$oTmpGrp->getShowMembers();
+				$ref_ids = array_keys(ilObject::_getAllReferences($grp_id));
+				$isPrivilegedUser = $this->rbacsystem->checkAccess('write', $ref_ids[0]);
+
+				if($hasUntrashedReferences && ($showMemberListEnabled || $isPrivilegedUser))
 				{
 					$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
 					$grp_members = $oGroupParticipants->getParticipants();
@@ -346,6 +356,14 @@ class ilMailSearchGroupsGUI
 						}			
 					}
 					unset($tmp_usr);
+
+					$hiddenMembers = false;
+					if((int)$oTmpGrp->getShowMembers() == $oTmpGrp->SHOW_MEMBERS_DISABLED)
+					{
+						++$num_groups_hidden_members;
+						$hiddenMembers = true;
+					}
+					unset($oTmpGrp);
 
 					$ref_ids = ilObject::_getAllReferences($grp_id);
 					$ref_id = current($ref_ids);				
@@ -388,11 +406,18 @@ class ilMailSearchGroupsGUI
 						'CRS_NAME' => $this->cache->lookupTitle($grp_id),
 						'CRS_NO_MEMBERS' => count($grp_members),
 						'CRS_PATH' => $path,
-						'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML()
+						'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
+						"hidden_members" => $hiddenMembers
 					);
 					$counter++;
 					$tableData[] = $rowData;
 				}
+			}
+			if($num_groups_hidden_members > 0)
+			{
+				$searchTpl->setCurrentBlock('caption_block');
+				$searchTpl->setVariable('TXT_LIST_MEMBERS_NOT_AVAILABLE', $this->lng->txt('mail_crs_list_members_not_available'));
+				$searchTpl->parseCurrentBlock();
 			}
 		}
 		$table->setData($tableData);

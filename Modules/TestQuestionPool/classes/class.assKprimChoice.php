@@ -392,8 +392,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		/** @var ilDBInterface $ilDB */
+		$ilDB = $GLOBALS['DIC']['ilDB'];
 
 		if (is_null($pass))
 		{
@@ -403,26 +403,26 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 		$entered_values = 0;
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
 
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
 
-		$solutionSubmit = $this->getSolutionSubmit();
+			$solutionSubmit = $this->getSolutionSubmit();
 
-		foreach($solutionSubmit as $answerIndex => $answerValue)
-		{
-			$this->saveCurrentSolution($active_id, $pass, (int)$answerIndex, (int)$answerValue, $authorized);
-			$entered_values++;
-		}
+			foreach($solutionSubmit as $answerIndex => $answerValue)
+			{
+				$this->saveCurrentSolution($active_id, $pass, (int)$answerIndex, (int)$answerValue, $authorized);
+				$entered_values++;
+			}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -430,7 +430,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 

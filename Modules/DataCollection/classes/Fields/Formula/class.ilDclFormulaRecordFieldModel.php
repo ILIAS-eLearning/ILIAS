@@ -40,6 +40,14 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 
 	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		return;
+	}
+
+
+	/**
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	protected function loadValue() {

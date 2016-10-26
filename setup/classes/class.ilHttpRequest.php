@@ -67,7 +67,7 @@ class ilHttpRequest
 	}
 	
 	// constructor
-	function ilHttpRequest($url)
+	function __construct($url)
 	{
 		$this->_url = $url;
 		$this->_scan_url();

@@ -510,10 +510,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		if ($orig_size = $std_item->getOriginalSize())
 		{
-			if ($orig_size["width"] == $std_item->getWidth() &&
-				$orig_size["height"] == $std_item->getHeight())
+			//if ($orig_size["width"] == $std_item->getWidth() &&
+			//	$orig_size["height"] == $std_item->getHeight())
+			if ($std_item->getWidth() == "" && $std_item->getHeight() == "")
 			{
 				$values["standard_size"] = "original";
+				$values["standard_width_height"]["width"] = $orig_size["width"];
+				$values["standard_width_height"]["height"] = $orig_size["height"];
 			}
 		}
 		$values["standard_caption"] = $std_item->getCaption();
@@ -869,7 +872,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($std_item->getLocationType() == "LocalFile")
 		{
 			$file = $mob_dir."/".$std_item->getLocation();
-			$size = getimagesize($file);
+
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
+
 			$std_item->setWidth($size[0]);
 			$std_item->setHeight($size[1]);
 			$this->object->update();
@@ -889,7 +895,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($full_item->getLocationType() == "LocalFile")
 		{
 			$file = $mob_dir."/".$full_item->getLocation();
-			$size = getimagesize($file);
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
 			$full_item->setWidth($size[0]);
 			$full_item->setHeight($size[1]);
 			$this->object->update();
@@ -959,7 +966,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$std_item->setLocationType("LocalFile");
 			}
 			$this->object->setDescription($format);
-			
 			// determine width and height of known image types
 			$wh = ilObjMediaObject::_determineWidthHeight($format,
 				$_POST["standard_type"], $mob_dir."/".$location, $std_item->getLocation(),
@@ -969,7 +975,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				ilUtil::sendInfo($wh["info"], true);
 			}
-
 			$std_item->setWidth($wh["width"]);
 			$std_item->setHeight($wh["height"]);
 

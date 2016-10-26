@@ -1433,8 +1433,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'session_max_idle' => $ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE),
 				'session_max_idle_after_first_request' => $ilSetting->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST),
 
-				'passwd_auto_generate' => (bool)$ilSetting->get("passwd_auto_generate"),			
-				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0, 													
+				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0,
 				'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0, 													
 				'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
 				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
@@ -1515,8 +1514,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ilSetting->set('user_delete_own_account', (int)$this->form->getInput('user_own_account'));
 				$ilSetting->set('user_delete_own_account_email', $this->form->getInput('user_own_account_email'));
 				
-				$ilSetting->set("passwd_auto_generate", $this->form->getInput("passwd_auto_generate"));	
-				$ilSetting->set("password_assistance", $this->form->getInput("password_assistance"));	
+				$ilSetting->set("password_assistance", $this->form->getInput("password_assistance"));
 				
 				// BEGIN SESSION SETTINGS
 				$ilSetting->set('session_handling_type',
@@ -1713,12 +1711,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$pass->setTitle($this->lng->txt('ps_password_settings'));
 		$this->form->addItem($pass);
 		 
-		// password generation
-		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation_pre"), "passwd_auto_generate");
-		$cb->setChecked($ilSetting->get("passwd_auto_generate"));		
-		$cb->setInfo($this->lng->txt("passwd_generation_info"));
-		$this->form->addItem($cb);
-		
 		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_change_on_first_login_enabled'),'password_change_on_first_login_enabled');
 		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
 		$this->form->addItem($check);
@@ -1843,6 +1835,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		$lng->loadLanguageModule("administration");
 		$lng->loadLanguageModule("mail");
+		$lng->loadLanguageModule("chatroom");
 		$this->setSubTabs('settings');
 		$ilTabs->activateTab('settings');
 		$ilTabs->activateSubTab('standard_fields');
@@ -2043,6 +2036,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		$ilias->setSetting('mail_incoming_mail', (int)$_POST['select']['default_mail_incoming_mail']);
+		$ilias->setSetting('chat_osc_accept_msg', ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg']));
+		$ilias->setSetting('bs_allow_to_contact_me', ilUtil::stripSlashes($_POST['select']['default_bs_allow_to_contact_me']));
 
 		ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();
@@ -2722,6 +2717,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{			
 			$cmds["mail"] = $this->lng->txt("send_mail");
 		}
+		
+		$cmds['addToClipboard'] = $this->lng->txt('clipboard_add_btn');
 						
 		return $cmds;
 	}
@@ -2868,5 +2865,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}		
 	}
 	
+	protected function addToClipboardObject()
+	{
+		$users = (array) $_POST['id'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->redirect($this, 'view');
+		}
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
+		$this->ctrl->redirect($this, 'view');
+		
+	}
 } // END class.ilObjUserFolderGUI
 ?>

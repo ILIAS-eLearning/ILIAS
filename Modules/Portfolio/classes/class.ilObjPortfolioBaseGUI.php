@@ -759,6 +759,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	public static function renderFullscreenHeader($a_portfolio, $a_tpl, $a_user_id, $a_export = false)
 	{		
+		global $ilUser;
+		
+		if(!$a_export)
+		{			
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			ilChangeEvent::_recordReadEvent(
+				$a_portfolio->getType(), 
+				($a_portfolio->getType() == "prtt")
+					? $a_portfolio->getRefId()
+					: $a_portfolio->getId(), 
+				$a_portfolio->getId(),
+				$ilUser->getId()
+			);
+		}
+		
 		$name = ilObjUser::_lookupName($a_user_id);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		

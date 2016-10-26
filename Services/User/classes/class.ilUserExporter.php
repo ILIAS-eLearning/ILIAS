@@ -111,11 +111,17 @@ class ilUserExporter extends ilXmlExporter
 				"uses_dataset" => true,
 				"min" => "4.3.0",
 				"max" => "4.4.99"),
-			"4.5.0" => array(
-				"namespace" => "http://www.ilias.de/Services/User/usr/4_5",
-				"xsd_file" => "ilias_usr_4_5.xsd",
+			"5.1.0" => array(
+				"namespace" => "http://www.ilias.de/Services/User/usr/5_1",
+				"xsd_file" => "ilias_usr_5_1.xsd",
 				"uses_dataset" => true,
-				"min" => "4.5.0",
+				"min" => "5.1.0",
+				"max" => "5.1.99"),
+			"5.2.0" => array(
+				"namespace" => "http://www.ilias.de/Services/User/usr/5_2",
+				"xsd_file" => "ilias_usr_5_2.xsd",
+				"uses_dataset" => true,
+				"min" => "5.2.0",
 				"max" => "")
 		);
 	}

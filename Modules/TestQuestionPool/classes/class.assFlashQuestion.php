@@ -744,4 +744,17 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 	{
 		// TODO: Implement getAvailableAnswerOptions() method.
 	}
+
+// fau: testNav - new function getTestQuestionConfig()
+	/**
+	 * Get the test question configuration
+	 * @return ilTestQuestionConfig
+	 */
+	public function getTestQuestionConfig()
+	{
+		return parent::getTestQuestionConfig()
+			->setFormChangeDetectionEnabled(false)
+			->setBackgroundChangeDetectionEnabled(true);
+	}
+// fau.
 }

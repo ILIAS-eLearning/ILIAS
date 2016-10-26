@@ -684,18 +684,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this->object);
+
 		switch ($_POST["export_type"])
 		{
 			case "excel":
-				require_once './Modules/Test/classes/class.ilTestExport.php';
-				$exportObj = new ilTestExport($this->object, "results");
-				$exportObj->exportToExcel($deliver = TRUE, $filterby, $filtertext, $passedonly);
+				$expFactory->getExporter('results')->exportToExcel(
+					$deliver = TRUE, $filterby, $filtertext, $passedonly
+				);
 				break;
 
 			case "csv":
-				require_once './Modules/Test/classes/class.ilTestExport.php';
-				$exportObj = new ilTestExport($this->object, "results");
-				$exportObj->exportToCSV($deliver = TRUE, $filterby, $filtertext, $passedonly);
+				$expFactory->getExporter('results')->exportToCSV(
+					$deliver = TRUE, $filterby, $filtertext, $passedonly
+				);
 				break;
 
 			case "certificate":
@@ -719,16 +722,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function exportAggregatedResults()
 	{
+		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
+		$expFactory = new ilTestExportFactory($this->object);
+		$exportObj = $expFactory->getExporter('aggregated');
+
 		switch ($_POST["export_type"])
 		{
 			case "excel":
-				include_once "./Modules/Test/classes/class.ilTestExport.php";
-				$exportObj = new ilTestExport($this->object, "aggregated");
 				$exportObj->exportToExcel($deliver = TRUE);
 				break;
 			case "csv":
-				include_once "./Modules/Test/classes/class.ilTestExport.php";
-				$exportObj = new ilTestExport($this->object, "aggregated");
 				$exportObj->exportToCSV($deliver = TRUE);
 				break;
 		}
@@ -844,6 +847,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$ilTabs->setBackTarget(
 				$this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this, 'outParticipantsResultsOverview')
 			);
+		}
+
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
 		}
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
@@ -999,6 +1009,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
 		);
 
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
+
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$toolbar = $this->buildUserTestResultsToolbarGUI();
@@ -1031,7 +1048,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$passOverViewTableGUI->setResultPresentationEnabled(true);
 		$passOverViewTableGUI->setPassDetailsCommand('outParticipantsPassDetails');
 		$passOverViewTableGUI->init();
-		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector->getExistingPasses(), true));
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector->getExistingPasses(), true, true));
 		$passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
 		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
@@ -1143,6 +1160,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = $_GET["pass"];
+
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
+		}
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -1310,6 +1334,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( !$this->object->canShowTestResults($testSession) )
 		{
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->isPdfDeliveryRequest())
+		{
+			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+			ilPDFGeneration::prepareGeneration();
 		}
 
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
@@ -2019,7 +2050,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
 
-		$questionList->setQuestionIdsFilter($questionIds);
+		$questionList->setIncludeQuestionIdsFilter($questionIds);
 		$questionList->setQuestionInstanceTypeFilter(null);
 
 		foreach ($table_gui->getFilterItems() as $item)
@@ -2062,5 +2093,62 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		return $filteredTestResult;
+	}
+
+	public function finishTestPassForSingleUser()
+	{
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
+		$cgui->setHeaderText($this->lng->txt("finish_pass_for_user_confirmation"));
+		$cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
+		$cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForUser");
+		$this->tpl->setContent($cgui->getHTML());
+	}
+
+	public function confirmFinishTestPassForUser()
+	{
+		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
+		$active_id = (int) $_GET["active_id"];
+		$this->finishTestPass($active_id, $this->object->getId());
+		$this->redirectBackToParticipantsScreen();
+	}
+
+	public function finishAllUserPasses()
+	{
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
+		$cgui->setHeaderText($this->lng->txt("finish_pass_for_all_users"));
+		$cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
+		$cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForAllUser");
+		$this->tpl->setContent($cgui->getHTML());
+	}
+
+	public function confirmFinishTestPassForAllUser()
+	{
+		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
+		$participants = $this->object->getTestParticipants();
+		foreach($participants as $participant)
+		{
+			if(array_key_exists('unfinished_passes', $participant) && $participant['unfinished_passes'] == 1)
+			{
+				$this->finishTestPass($participant['active_id'], $this->object->getId());
+			}
+		}
+		$this->redirectBackToParticipantsScreen();
+	}
+
+	protected function finishTestPass($active_id, $obj_id)
+	{
+		$test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
+		$test_pass_finisher->performFinishTasksBeforeArchiving();
+		//Todo Archiving?
+		$test_pass_finisher->performFinishTasksAfterArchiving();
+	}
+	
+	protected function redirectBackToParticipantsScreen()
+	{
+		$this->ctrl->redirectByClass("ilobjtestgui", "participants");
 	}
 }

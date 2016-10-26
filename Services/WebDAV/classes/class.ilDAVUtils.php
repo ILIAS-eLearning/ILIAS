@@ -44,7 +44,8 @@ class ilDAVUtils
 	 */
 	public function isLocalPasswordInstructionRequired()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->pwd_instruction !== NULL)
 		{

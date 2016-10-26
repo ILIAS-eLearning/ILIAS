@@ -22,6 +22,8 @@ define ("AUTH_INACTIVE",18);
 
 define('AUTH_MULTIPLE',20);
 
+define ('AUTH_SESSION', 21);
+
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
 define('AUTH_RADIUS_NO_ILIAS_USER',-300);
@@ -63,6 +65,17 @@ class ilAuthUtils
 	const LOCAL_PWV_FULL = 1;
 	const LOCAL_PWV_NO = 2;
 	const LOCAL_PWV_USER = 3;
+	
+	
+	/**
+	 * Initialize session
+	 */
+	public static function initSession()
+	{
+		
+	}
+	
+	
 
 	
 	/**
@@ -83,10 +96,13 @@ class ilAuthUtils
 		// determine authentication method if no session is found and username & password is posted
 		// does this if statement make any sense? we enter this block nearly everytime.	
 		
-        if (empty($_SESSION) ||
+        if(
+			empty($_SESSION) ||
             (!isset($_SESSION['_authsession']['registered']) ||
-             $_SESSION['_authsession']['registered'] !== true))
+            $_SESSION['_authsession']['registered'] !== true))
         {
+			ilLoggerFactory::getLogger('auth')->debug('User is not remembered');
+			
 			// no sesssion found
 			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']) or isset($_POST['oid_username']) or isset($_GET['oid_check_status']))
 			{
@@ -109,7 +125,7 @@ class ilAuthUtils
 			else if ($_POST['auth_mode'] == AUTH_APACHE)
 			{
 				$user_auth_mode = AUTH_APACHE;
-			}
+			}			
         }
 	
 		// to do: other solution?
@@ -129,6 +145,10 @@ class ilAuthUtils
 			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_APACHE);
 			$user_auth_mode = AUTH_APACHE;
 		}
+		
+		// begin-patch auth
+		$user_auth_mode = AUTH_SESSION;
+
 
 		// BEGIN WebDAV: Share session between browser and WebDAV client.
 		// The realm is needed to support a common session between Auth_HTTP and Auth.
@@ -258,6 +278,9 @@ class ilAuthUtils
                     $ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
                 }
 				break;
+				
+			case AUTH_SESSION:
+				
 
 			default:
 				// check for plugin
@@ -298,11 +321,11 @@ class ilAuthUtils
 
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
-		$GLOBALS['ilAuth'] =& $ilAuth;
 
 		ilSessionControl::checkExpiredSession();
 
 		$ilBench->stop('Auth','initAuth');
+		ilLoggerFactory::getLogger('auth')->debug('Using auth implementation: ' . get_class($ilAuth));
 	}
 	
 	static function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
@@ -547,7 +570,7 @@ class ilAuthUtils
 	* generate free login by starting with a default string and adding
 	* postfix numbers
 	*/
-	static function _generateLogin($a_login)
+	public static function _generateLogin($a_login)
 	{
 		global $ilDB;
 		

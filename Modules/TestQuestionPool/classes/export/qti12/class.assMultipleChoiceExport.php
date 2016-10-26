@@ -111,19 +111,12 @@ class assMultipleChoiceExport extends assQuestionExport
 				$a_xml_writer->xmlEndTag("material");
 			}
 		}
-		// shuffle output
-		$attrs = array();
-		if ($this->object->getShuffle())
+		// shuffle output and max choice
+		$attrs = array('shuffle' => $this->object->getShuffle() ? 'Yes' : 'No');
+		if($this->object->getSelectionLimit())
 		{
-			$attrs = array(
-				"shuffle" => "Yes"
-			);
-		}
-		else
-		{
-			$attrs = array(
-				"shuffle" => "No"
-			);
+			$attrs['minnumber'] = '0';
+			$attrs['maxnumber'] = (string)$this->object->getSelectionLimit();
 		}
 		$a_xml_writer->xmlStartTag("render_choice", $attrs);
 		$answers =& $this->object->getAnswers();

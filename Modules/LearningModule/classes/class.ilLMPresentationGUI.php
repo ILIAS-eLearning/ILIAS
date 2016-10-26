@@ -233,12 +233,6 @@ class ilLMPresentationGUI
     */
 	function export()
 	{
-		switch($this->lm->getType())
-		{
-			case "dbk":
-				$this->lm_gui->export();
-				break;
-		}
 	}
 
 	/**
@@ -871,8 +865,7 @@ class ilLMPresentationGUI
 	{
 		global $rbacsystem;
 		
-		// no sub menu for abstract of digilib book
-		if ($this->lm->getType() == "dbk" && $this->abstract)
+		if ($this->abstract)
 		{
 			return;
 		}
@@ -997,12 +990,6 @@ class ilLMPresentationGUI
 		global $ilAccess, $ilSetting;
 		
 		
-		// no notes for abstract of digilib book
-		if ($this->lm->getType() == "dbk" && $this->abstract)
-		{
-			return;
-		}
-
 		// no notes in offline (export) mode
 		if ($this->offlineMode())
 		{
@@ -1069,7 +1056,7 @@ class ilLMPresentationGUI
 	/**
 	* locator
 	*/
-	function ilLocator()
+	function ilLocator($a_std_templ_loaded = false)
 	{
 		global $ilLocator, $tree, $ilCtrl;
 
@@ -1084,7 +1071,10 @@ class ilLMPresentationGUI
 			$a_id = $_GET["obj_id"];
 		}
 
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		if (!$a_std_templ_loaded)
+		{
+			$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		}
 		
 		if (!$this->lm->cleanFrames())
 		{
@@ -1562,7 +1552,7 @@ class ilLMPresentationGUI
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$link_xml.= $this->getLinkTargetsXML();
-//echo htmlentities($link_xml);
+
 		// get lm page object
 		$lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
@@ -1884,6 +1874,10 @@ class ilLMPresentationGUI
 							$href =
 								$this->getLink($_GET["ref_id"], "layout", $target_id, $nframe, $type,
 									"append", $anc);
+							if ($lm_id == "")
+							{
+								$href = "";
+							}
 						}
 						else
 						{
@@ -1973,8 +1967,11 @@ class ilLMPresentationGUI
 				
 				$anc_par = 'Anchor="'.$anc.'"';
 
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+				if ($href != "")
+				{
+					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+				}
 
 				// set equal link info for glossary links of target "None" and "Glossary"
 				/*
@@ -2713,8 +2710,10 @@ class ilLMPresentationGUI
 		}
 
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
+		//var_dump($GLOBALS["tpl"]); echo "<br><br>";
+		//exit;
 		$this->tpl->getStandardTemplate();
-		$this->ilLocator();
+		$this->ilLocator(true);
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", true));
@@ -2824,7 +2823,7 @@ class ilLMPresentationGUI
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$this->ilLocator();
+			$this->ilLocator(true);
 		}
 		else
 		{
@@ -2933,7 +2932,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "print", true));
 			
-		$this->ilLocator();
+		$this->ilLocator(true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
 			"tpl.lm_print_selection.html", "Modules/LearningModule");
 
@@ -3761,7 +3760,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "download", true));
 
-		$this->ilLocator();
+		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", "Modules/LearningModule");
 

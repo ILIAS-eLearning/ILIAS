@@ -1007,7 +1007,8 @@ abstract class ilParticipants
 	protected function readParticipants()
 	{
 		global $rbacreview,$ilObjDataCache,$ilLog;
-
+		
+		$GLOBALS['rbacreview']->clearCaches();
 		$this->roles = $rbacreview->getRolesOfRoleFolder($this->ref_id,false);
 
 		$users = array();
@@ -1236,9 +1237,15 @@ abstract class ilParticipants
 		}
 
 		// TODO: must be group or course member role
-		$this->add($tmp_obj->getId(),IL_CRS_MEMBER);
+		if($this instanceof ilCourseParticipants)
+		{
+			$this->add($tmp_obj->getId(),IL_CRS_MEMBER);
+		}
+		if($this instanceof ilGroupParticipants)
+		{
+			$this->add($tmp_obj->getId(),IL_GRP_MEMBER);
+		}
 		$this->deleteSubscriber($a_usr_id);
-
 		return true;
 	}
 

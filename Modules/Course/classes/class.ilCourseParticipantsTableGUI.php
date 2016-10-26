@@ -1,26 +1,6 @@
 <?php
 
-/*
-  +-----------------------------------------------------------------------------+
-  | ILIAS open source                                                           |
-  +-----------------------------------------------------------------------------+
-  | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-  |                                                                             |
-  | This program is free software; you can redistribute it and/or               |
-  | modify it under the terms of the GNU General Public License                 |
-  | as published by the Free Software Foundation; either version 2              |
-  | of the License, or (at your option) any later version.                      |
-  |                                                                             |
-  | This program is distributed in the hope that it will be useful,             |
-  | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-  | GNU General Public License for more details.                                |
-  |                                                                             |
-  | You should have received a copy of the GNU General Public License           |
-  | along with this program; if not, write to the Free Software                 |
-  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-  +-----------------------------------------------------------------------------+
- */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 /**
@@ -32,12 +12,10 @@ include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
-	protected $type = 'admin';
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
-	protected $show_edit_link = true;
+	protected $show_lp_status_sync = false;
 
-	protected $role_id = 0;
 
 	/**
 	 * Constructor
@@ -48,20 +26,23 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	 */
 	public function __construct(
 		$a_parent_obj,
-		$a_type = 'admin',
-		$show_content = true,
+		ilObject $rep_object,
 		$a_show_learning_progress = false,
 		$a_show_timings = false,
-		$a_show_edit_link= true,
-		$a_role_id = 0,
 		$a_show_lp_status_sync = false)
 	{
 		global $lng, $ilCtrl;
 
-		$this->show_learning_progress = $a_show_learning_progress;		
+		$this->show_learning_progress = $a_show_learning_progress;	
+		if($this->show_learning_progress)
+		{
+			include_once './Services/Tracking/classes/class.ilLPStatus.php';
+		}
+		
 		$this->show_timings = $a_show_timings;
-		$this->show_edit_link = $a_show_edit_link;
 		$this->show_lp_status_sync = $a_show_lp_status_sync;
+		
+		$this->rep_object = $rep_object;
 		
 		// #13208
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -74,18 +55,20 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
 		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule('mmbr');
 		
 		$this->ctrl = $ilCtrl;
 
-		$this->type = $a_type;
-		$this->setRoleId($a_role_id);
-
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$this->privacy = ilPrivacySettings::_getInstance();
+		
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		$this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
+		
 
 		// required before constructor for columns
-		$this->setId('crs_' . $a_type . '_' . $a_role_id.'_'. $a_parent_obj->object->getId());
-		parent::__construct($a_parent_obj, 'members');
+		$this->setId('crs_'. $this->getRepositoryObject()->getId());
+		parent::__construct($a_parent_obj, 'participants');
 
 		$this->initSettings();
 
@@ -93,7 +76,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->addColumn('', 'f', "1");
 		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
-
+		
 		$all_cols = $this->getSelectableColumns();
 		foreach($this->getSelectedColumns() as $col)
 		{
@@ -116,60 +99,24 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->addColumn($this->lng->txt('crs_member_passed_status_changed'), 'passed_info');
 		}
 		
-		if($this->type == 'admin')
-		{
-			$this->setSelectAllCheckbox('admins');
-			// cognos-blu-patch: begin
-			$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
-			// cognos-blu-patch: end
-			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
-			$this->addCommandButton('updateAdminStatus', $this->lng->txt('save'));
-		}
-		elseif($this->type == 'tutor')
-		{
-			$this->setSelectAllCheckbox('tutors');
-			// cognos-blu-patch: begin
-			$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
-			// cognos-blu-patch: end
-			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
-			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
-		}
-		elseif($this->type == 'member')
-		{
-			$this->setSelectAllCheckbox('members');
-			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-			$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
-		}
-		else
-		{
-			$this->setSelectAllCheckbox('roles');
-			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-			$this->addCommandButton('updateRoleStatus', $this->lng->txt('save'));
-
-		}
+		
+		$this->setSelectAllCheckbox('participants');
+		$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
+		$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
+		$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
+		
 		$this->addColumn($this->lng->txt(''), 'optional');
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
 
-		if($show_content)
-		{
-			$this->setDefaultOrderField('lastname');
-			$this->enable('sort');
-			$this->enable('header');
-			$this->enable('numinfo');
-			$this->enable('select_all');
-		}
-		else
-		{
-			$this->disable('content');
-			$this->disable('header');
-			$this->disable('footer');
-			$this->disable('numinfo');
-			$this->disable('select_all');
-		}
+		$this->setDefaultOrderField('lastname');
+		$this->enable('sort');
+		$this->enable('header');
+		$this->enable('numinfo');
+		$this->enable('select_all');
 
 		$this->setEnableNumInfo(true);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSegmentation(false);
 		
 		$this->getItems();
 		$this->setTopCommands(true);
@@ -183,30 +130,24 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->enable_certificates = ilCertificate::isActive();		
 		if($this->enable_certificates)
 		{
-			$this->enable_certificates = ilCertificate::isObjectActive($a_parent_obj->object->getId());
+			$this->enable_certificates = ilCertificate::isObjectActive($this->getRepositoryObject()->getId());
 		}
 		if($this->enable_certificates)
 		{
 			$lng->loadLanguageModule('certificate');
 		}
+		
+		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
+		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
+		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
+		$this->lng->loadLanguageModule('user');
+		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
+		
+		$this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
+		
 	}
-
-	/**
-	 * Set current role id
-	 */
-	public function setRoleId($a_role_id)
-	{
-		$this->role_id = $a_role_id;
-	}
-
-	/**
-	 * Get current role id
-	 * @return int
-	 */
-	public function getRoleId()
-	{
-		return $this->role_id;
-	}
+	
+	
 
 	public function getItems()
 	{
@@ -228,7 +169,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
 
-		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getParentObject()->object->getRefId()) and
+		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) and
 			is_array($info = $ilAccess->getInfo()))
 		{
 			$this->tpl->setCurrentBlock('access_warning');
@@ -242,7 +183,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
 			$this->tpl->parseCurrentBlock();
 		}
-
 
 		foreach($this->getSelectedColumns() as $field)
 		{
@@ -300,6 +240,29 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 					$this->tpl->setVariable('VAL_CUST',(string) $a_set['odf_info_txt']);
 					$this->tpl->parseCurrentBlock();
 					break;
+				
+				case 'roles':
+					$roles = array();
+					foreach($this->getParentObject()->getLocalRoles() as $role_id => $role_name)
+					{
+						// @todo fix performance
+						if($GLOBALS['rbacreview']->isAssigned($a_set['usr_id'], $role_id))
+						{
+							$roles[] = $role_name;
+						}
+						
+					}
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
+					$this->tpl->parseCurrentBlock();
+					break;
+					
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+					$this->tpl->parseCurrentBlock();
+					break;
 
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
@@ -315,6 +278,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 		if($this->show_learning_progress)
 		{
+			
 			$this->tpl->setCurrentBlock('lp');
 			switch($a_set['progress'])
 			{
@@ -340,46 +304,42 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		if($this->type == 'admin')
+		
+		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
+		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
+		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
+		
+		if(
+			$this->getParticipants()->isAdmin($a_set['usr_id']) || 
+			$this->getParticipants()->isTutor($a_set['usr_id'])
+		)
 		{
-			$this->tpl->setVariable('VAL_POSTNAME', 'admins');
 			// cognos-blu-patch: begin
+			$this->tpl->setCurrentBlock('with_contact');
 			$this->tpl->setVariable('VAL_CONTACT_ID',$a_set['usr_id']);
 			$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
-			// cognos-blu-patch: end
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
-		}
-		elseif($this->type == 'tutor')
-		{
-			$this->tpl->setVariable('VAL_POSTNAME', 'tutors');
-			// cognos-blu-patch: begin
-			$this->tpl->setVariable('VAL_CONTACT_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
-			// cognos-blu-patch: end
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
-		}
-		elseif($this->type == 'member')
-		{
-			$this->tpl->setCurrentBlock('blocked');
-			$this->tpl->setVariable('VAL_POSTNAME','members');
-			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
+			// cognos-blu-patch: end
+
+			$this->tpl->setCurrentBlock('with_notification');
+			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
+			$this->tpl->parseCurrentBlock();
+			
 		}
-		else
+		
+		// blocked only for real members
+		if(
+			!$this->getParticipants()->isAdmin($a_set['usr_id']) &&
+			!$this->getParticipants()->isTutor($a_set['usr_id'])
+		)
 		{
-			$this->tpl->setCurrentBlock('blocked');
+			$this->tpl->setCurrentBlock('with_blocked');
 			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
 			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setVariable('VAL_POSTNAME','roles');
 		}
 		
-		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
 				
 		if($this->show_lp_status_sync)
 		{			
@@ -404,7 +364,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
 			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
 			$this->tpl->parseCurrentBlock();
-		}		
+		}	
 	}
 
 	/**
@@ -417,7 +377,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 	{
 		global $rbacreview;
 
-		$this->determineOffsetAndOrder();
+		$this->determineOffsetAndOrder(true);
 
 		include_once './Services/User/classes/class.ilUserQuery.php';
 
@@ -428,6 +388,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields["access_until"]);
 		unset($additional_fields['consultation_hour']);
 		unset($additional_fields['prtf']);
+		unset($additional_fields['roles']);
+		unset($additional_fields['org_units']);
+		
+		$part = $this->participants->getParticipants();
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -449,33 +413,60 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$usr_data = ilUserQuery::getUserListData(
 			$this->getOrderField(),
 			$this->getOrderDirection(),
-			$this->getOffset(),
-			$this->getLimit(),
-			'',
+			0,
+			9999,
+			$this->current_filter['login'],
 			'',
 			null,
 			false,
 			false,
 			0,
-			$this->getRoleId(),
+			0,
 			null,
 			$usr_data_fields,
 			$part
 		);
+		// filter by array
+		$usr_ids = array();
 		foreach((array) $usr_data['set'] as $user)
 		{
+			if($this->current_filter['roles'])
+			{
+				if(!$GLOBALS['rbacreview']->isAssigned($user['usr_id'], $this->current_filter['roles']))
+				{
+					continue;
+				}
+			}
+			if($this->current_filter['org_units'])
+			{
+				$org_unit = $this->current_filter['org_units'];
+				
+				include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
+				$assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user['usr_id']);
+				if(!in_array($org_unit, $assigned))
+				{
+					continue;
+				}
+			}
+			
+			
 			$usr_ids[] = $user['usr_id'];
 		}
 		
 		// merge course data
-		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,
-			$this->type == 'admin',
-			$this->getSelectedColumns());
+		$course_user_data = $this->getParentObject()->readMemberData(
+			$usr_ids,
+			$this->getSelectedColumns()
+		);
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
 			$user_id = $ud['usr_id'];
 			
+			if(!in_array($user_id, $usr_ids))
+			{
+				continue;
+			}
 			// #15434 
 			if(!$this->checkAcceptance($user_id))
 			{
@@ -534,7 +525,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($odf_ids)
 		{
 			include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
-			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
+			$data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
 			foreach($data as $usr_id => $fields)
 			{
 				// #7264: as we get data for all course members filter against user data
@@ -552,7 +543,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			
 			// add last edit date
 			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info)
 			{
 				if(!isset($a_user_data[$usr_id]))
 				{
@@ -564,7 +555,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
 					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
-					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
 						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));
@@ -585,7 +576,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($this->isColumnSelected('consultation_hour'))
 		{
 			include_once './Services/Booking/classes/class.ilBookingEntry.php';
-			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getParentObject()->object->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
+			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
 			{
 				if(isset($a_user_data[$buser]))
 				{
@@ -595,7 +586,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
-		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
+		#$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
 		return $this->setData($a_user_data);
 	}
 	

@@ -1,4 +1,4 @@
-<div id="ilTopBar" class="ilTopBar ilTopFixed{TOPBAR_CLASS}">
+<div id="ilTopBar" class="ilTopBar ilTopFixed{TOPBAR_CLASS} hidden-print">
 	<div class="container-fluid ilContainerWidth">
 		<div class="row">
 			<!-- BEGIN header_top_title -->
@@ -21,6 +21,7 @@
 					<!-- BEGIN help_tt_icon -->
 						<li><a id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt="" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt="" /></a></li>
 					<!-- END help_tt_icon -->
+					{ONSCREENCHAT}
 					{AWARENESS}
 					<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
 					<!-- BEGIN help -->
@@ -79,7 +80,7 @@
 	</script><!-- END osd_enabled -->
 <!-- BEGIN osd_container --><div class="osdNotificationContainer"></div><!-- END osd_container -->
 <!-- BEGIN main_menu_bl -->
-<div class="ilMainHeader ilTopFixed">
+<div class="ilMainHeader ilTopFixed hidden-print">
 	<header class="container-fluid ilContainerWidth">
 		<div class="row">
 			<a class="navbar-brand" href="{HEADER_URL}" target="_top">
@@ -87,7 +88,7 @@
 		</div>
 	</header>
 </div>
-<div class="ilMainMenu ilTopFixed">
+<div class="ilMainMenu ilTopFixed hidden-print">
 <div class="container-fluid ilContainerWidth">
 	<div class="row">
 		<nav id="ilTopNav" class="navbar navbar-default" role="navigation">

@@ -18,14 +18,8 @@ PHP PEAR library files, licensed under PHP license:
 
 Other included libraries (regarded being compatible with GPL v3):
 
-- PEAR MDB2 (Services/PEAR) is licensed under BSD license
-- PEAR HTML_Template_IT (Services/PEAR) is licensed under modified BSD license
-- PEAR Log (Services/PEAR) is licensed under MIT license
-- PEAR HTTP_Request/2 (Services/PEAR) is licensed under BSD license
-- PEAR NET_Url/2 (Services/PEAR) is licensed under BSD license
-- PEAR XML_RPC2 (Services/PEAR) is licensed under LGPL license
+- PEAR MDB2 (Services/Database/libs) is licensed under BSD licensee
 - YUI (Services/YUI) is licensed under BSD license
-- JSON.php (Services/JSON/include) is licensed under BSD license
 - EvalMath (Services/Math/classes) is licensed under BSD license
 - mediaElement.js (Services/MediaObjects) is licensed under GPL/MIT
 - jQuery (Services/jQuery/js) is licensed under the MIT, BSD, and GPL
@@ -34,9 +28,7 @@ Other included libraries (regarded being compatible with GPL v3):
 - jQuery outside events (Services/jQuery/js) licensed under the MIT and GPL
 - TinyMCE (Services/RTE/tiny_mce) is licensed under LGPL
 - NuSOAP (Services/SOAPAuth/include) is licensed under LGPL
-- Info(Un)Zip (Services/Windows/bin32/(un)zip) is licensed under InfoZip license
   see http://www.info-zip.org/pub/infozip/license.html
-- ImageMagick convert (Services/Windows/bin32/convert) Imagemagick license
   see http://www.imagemagick.org/script/license.php
 - Aborla.net Validator (Services/XHTMLValidator) is licensed under LGPL
 - Nuvola Icon Set (templates/default/images) is licensed under LGPL

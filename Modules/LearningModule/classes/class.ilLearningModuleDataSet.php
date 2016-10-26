@@ -155,7 +155,8 @@ class ilLearningModuleDataSet extends ilDataSet
 						"StoreTries" => "integer",
 						"RestrictForwNav" => "integer",
 						"Comments" => "integer",
-						"ForTranslation" => "integer"
+						"ForTranslation" => "integer",
+						"StyleId" => "integer"
 					);
 			}
 		}
@@ -234,7 +235,7 @@ class ilLearningModuleDataSet extends ilDataSet
 					$q = "SELECT id, title, description,".
 						" default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering,".
 						" hist_user_comments, public_access_mode, header_page, footer_page, layout_per_page, rating, ".
-						" hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons".
+						" hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id".
 						" FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("id", $a_ids, false, "integer");
 
@@ -431,6 +432,7 @@ class ilLearningModuleDataSet extends ilDataSet
 				ilNote::activateComments($newObj->getId(), 0, "lm", (int) $a_rec["Comments"]);
 
 				$a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping("Modules/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);
 				$a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/MetaData", "md",
 					$a_rec["Id"].":0:lm", $newObj->getId().":0:lm");

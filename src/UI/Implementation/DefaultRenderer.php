@@ -9,6 +9,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Factory as RootFactory;
 
 /**
@@ -41,11 +42,17 @@ class DefaultRenderer implements Renderer {
 	 */
 	private $lng;
 
-	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry, \ilLanguage $lng) {
+	/**
+	 * @var	JavaScriptBinding
+	 */
+	private $js_binding;
+
+	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry, \ilLanguage $lng, JavaScriptBinding $js_binding) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->resource_registry = $resource_registry;
 		$this->lng = $lng;
+		$this->js_binding = $js_binding;
 	}
 
 	/**
@@ -90,7 +97,7 @@ class DefaultRenderer implements Renderer {
 		if (!class_exists($renderer_class)) {
 			throw new \LogicException("No rendered for '".$class."' found.");
 		}
-		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng);
+		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 	}
 
 	/**

@@ -46,6 +46,10 @@ class ilDclFieldEditGUI {
      * @var ilPropertyFormGUI
      */
     protected $form;
+	/**
+	 * @var ilDclBaseFieldModel
+	 */
+	protected $field_obj;
 
 
 	/**

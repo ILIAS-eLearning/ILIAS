@@ -140,10 +140,18 @@ class ilHelpDataSet extends ilDataSet
 				
 				// without module ID we do nothing
 				$module_id = $a_mapping->getMapping('Services/Help','help_module', 0);
+				$t = $a_mapping->getAllMappings();
 				if ($module_id)
 				{
 					$new_chap = $a_mapping->getMapping('Services/Help', 'help_chap',
 						$a_rec["Chap"]);
+
+					// new import (5.1): get chapter from learning module import mapping
+					if ($new_chap == 0)
+					{
+						$new_chap = $a_mapping->getMapping('Modules/LearningModule', 'lm_tree',
+							$a_rec["Chap"]);
+					}
 
 					if ($new_chap > 0)
 					{

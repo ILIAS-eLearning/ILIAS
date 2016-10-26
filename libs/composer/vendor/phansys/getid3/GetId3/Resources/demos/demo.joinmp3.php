@@ -12,7 +12,6 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-
 // sample usage:
 // $FilenameOut   = 'combined.mp3';
 // $FilenamesIn[] = 'file1.mp3';
@@ -25,80 +24,84 @@
 //     echo 'Failed to copy '.implode(' + ', $FilenamesIn).' to '.$FilenameOut;
 // }
 
-function CombineMultipleMP3sTo($FilenameOut, $FilenamesIn) {
+function CombineMultipleMP3sTo($FilenameOut, $FilenamesIn)
+{
+    foreach ($FilenamesIn as $nextinputfilename) {
+        if (!is_readable($nextinputfilename)) {
+            echo 'Cannot read "'.$nextinputfilename.'"<BR>';
 
-	foreach ($FilenamesIn as $nextinputfilename) {
-		if (!is_readable($nextinputfilename)) {
-			echo 'Cannot read "'.$nextinputfilename.'"<BR>';
-			return false;
-		}
-	}
-	if (!is_writeable($FilenameOut)) {
-		echo 'Cannot write "'.$FilenameOut.'"<BR>';
-		return false;
-	}
+            return false;
+        }
+    }
+    if (!is_writeable($FilenameOut)) {
+        echo 'Cannot write "'.$FilenameOut.'"<BR>';
 
-	require_once('../getid3/getid3.php');
-	ob_start();
-	if ($fp_output = fopen($FilenameOut, 'wb')) {
+        return false;
+    }
 
-		ob_end_clean();
-		// Initialize getID3 engine
-		$getID3 = new getID3;
-		foreach ($FilenamesIn as $nextinputfilename) {
+    require_once '../getid3/getid3.php';
+    ob_start();
+    if ($fp_output = fopen($FilenameOut, 'wb')) {
 
-			$CurrentFileInfo = $getID3->analyze($nextinputfilename);
-			if ($CurrentFileInfo['fileformat'] == 'mp3') {
+        ob_end_clean();
+        // Initialize getID3 engine
+        $getID3 = new getID3;
+        foreach ($FilenamesIn as $nextinputfilename) {
 
-				ob_start();
-				if ($fp_source = fopen($nextinputfilename, 'rb')) {
+            $CurrentFileInfo = $getID3->analyze($nextinputfilename);
+            if ($CurrentFileInfo['fileformat'] == 'mp3') {
 
-					ob_end_clean();
-					$CurrentOutputPosition = ftell($fp_output);
+                ob_start();
+                if ($fp_source = fopen($nextinputfilename, 'rb')) {
 
-					// copy audio data from first file
-					fseek($fp_source, $CurrentFileInfo['avdataoffset'], SEEK_SET);
-					while (!feof($fp_source) && (ftell($fp_source) < $CurrentFileInfo['avdataend'])) {
-						fwrite($fp_output, fread($fp_source, 32768));
-					}
-					fclose($fp_source);
+                    ob_end_clean();
+                    $CurrentOutputPosition = ftell($fp_output);
 
-					// trim post-audio data (if any) copied from first file that we don't need or want
-					$EndOfFileOffset = $CurrentOutputPosition + ($CurrentFileInfo['avdataend'] - $CurrentFileInfo['avdataoffset']);
-					fseek($fp_output, $EndOfFileOffset, SEEK_SET);
-					ftruncate($fp_output, $EndOfFileOffset);
+                    // copy audio data from first file
+                    fseek($fp_source, $CurrentFileInfo['avdataoffset'], SEEK_SET);
+                    while (!feof($fp_source) && (ftell($fp_source) < $CurrentFileInfo['avdataend'])) {
+                        fwrite($fp_output, fread($fp_source, 32768));
+                    }
+                    fclose($fp_source);
 
-				} else {
+                    // trim post-audio data (if any) copied from first file that we don't need or want
+                    $EndOfFileOffset = $CurrentOutputPosition + ($CurrentFileInfo['avdataend'] - $CurrentFileInfo['avdataoffset']);
+                    fseek($fp_output, $EndOfFileOffset, SEEK_SET);
+                    ftruncate($fp_output, $EndOfFileOffset);
 
-					$errormessage = ob_get_contents();
-					ob_end_clean();
-					echo 'failed to open '.$nextinputfilename.' for reading';
-					fclose($fp_output);
-					return false;
+                } else {
 
-				}
+                    $errormessage = ob_get_contents();
+                    ob_end_clean();
+                    echo 'failed to open '.$nextinputfilename.' for reading';
+                    fclose($fp_output);
 
-			} else {
+                    return false;
 
-				echo $nextinputfilename.' is not MP3 format';
-				fclose($fp_output);
-				return false;
+                }
 
-			}
+            } else {
 
-		}
+                echo $nextinputfilename.' is not MP3 format';
+                fclose($fp_output);
 
-	} else {
+                return false;
 
-		$errormessage = ob_get_contents();
-		ob_end_clean();
-		echo 'failed to open '.$FilenameOut.' for writing';
-		return false;
+            }
 
-	}
+        }
 
-	fclose($fp_output);
-	return true;
+    } else {
+
+        $errormessage = ob_get_contents();
+        ob_end_clean();
+        echo 'failed to open '.$FilenameOut.' for writing';
+
+        return false;
+
+    }
+
+    fclose($fp_output);
+
+    return true;
 }
-
-?>

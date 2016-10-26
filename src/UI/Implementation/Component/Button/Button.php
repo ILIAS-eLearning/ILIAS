@@ -7,12 +7,14 @@ namespace ILIAS\UI\Implementation\Component\Button;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Glyph\Glyph;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements commonalities between standard and primary buttons. 
  */
 abstract class Button implements C\Button\Button {
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var string

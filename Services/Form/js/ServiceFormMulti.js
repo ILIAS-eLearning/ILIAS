@@ -11,26 +11,26 @@ var ilMultiFormValues = {
 	 */
 	init: function() {		
 		// add click event to +-icons
-		$('button[id*="ilMultiAdd"]').bind('click', function(e) {
+		$('button[id*="ilMultiAdd"]').on('click', function(e) {
 			ilMultiFormValues.addEvent(e);
 		});
 		// add click event to --icons
-		$('button[id*="ilMultiRmv"]').bind('click', function(e) {
+		$('button[id*="ilMultiRmv"]').on('click', function(e) {
 			ilMultiFormValues.removeEvent(e);
 		});		
 		// add click event to down-icons
-		$('button[id*="ilMultiDwn"]').bind('click', function(e) {
+		$('button[id*="ilMultiDwn"]').on('click', function(e) {
 			ilMultiFormValues.downEvent(e);
 		});
 		// add click event to up-icons
-		$('button[id*="ilMultiUp"]').bind('click', function(e) {
+		$('button[id*="ilMultiUp"]').on('click', function(e) {
 			ilMultiFormValues.upEvent(e);
 		});				
 		// return triggers add  (BEFORE adding preset items) 
 		$('button[id*="ilMultiAdd"]').each(function() {						
 			var id = $(this).attr('id').split('~');	
 			// only text inputs are supported yet
-			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').bind('keydown', function(e) {
+			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').on('keydown', function(e) {
 				ilMultiFormValues.keyDown(e);
 			});		
 		});
@@ -130,7 +130,7 @@ var ilMultiFormValues = {
 		// binding +-icon
 		$(new_element).find('[id*="ilMultiAdd"]').each(function() {				
 			$(this).attr('id', 'ilMultiAdd~' + group_id + '~' + new_id);	
-			$(this).bind('click', function(e) {
+			$(this).on('click', function(e) {
 				ilMultiFormValues.addEvent(e);
 			});		
 		});
@@ -138,7 +138,7 @@ var ilMultiFormValues = {
 		// binding --icon
 		$(new_element).find('[id*="ilMultiRmv"]').each(function() {							
 			$(this).attr('id', 'ilMultiRmv~' + group_id + '~' + new_id);			
-			$(this).bind('click', function(e) {
+			$(this).on('click', function(e) {
 				ilMultiFormValues.removeEvent(e);
 			});			
 		});
@@ -146,7 +146,7 @@ var ilMultiFormValues = {
 		// binding down-icon
 		$(new_element).find('[id*="ilMultiDwn"]').each(function() {							
 			$(this).attr('id', 'ilMultiDwn~' + group_id + '~' + new_id);			
-			$(this).bind('click', function(e) {
+			$(this).on('click', function(e) {
 				ilMultiFormValues.downEvent(e);
 			});			
 		});
@@ -154,7 +154,7 @@ var ilMultiFormValues = {
 		// binding up-icon
 		$(new_element).find('[id*="ilMultiUp"]').each(function() {							
 			$(this).attr('id', 'ilMultiUp~' + group_id + '~' + new_id);			
-			$(this).bind('click', function(e) {
+			$(this).on('click', function(e) {
 				ilMultiFormValues.upEvent(e);
 			});			
 		});
@@ -273,7 +273,7 @@ var ilMultiFormValues = {
 		$(element).find('input:hidden[id*="hidden' + group_id + '"]').attr('value', preset);
 
 		// return triggers add					
-		$(element).find('input:text[id*="' + group_id + '"]').bind('keydown', function(e) {
+		$(element).find('input:text[id*="' + group_id + '"]').on('keydown', function(e) {
 			ilMultiFormValues.keyDown(e);
 		});				
 

@@ -76,7 +76,8 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 			'ilias_proxy'  => $form->getInput('ilias_proxy'),
 			'ilias_url'    => $form->getInput('ilias_url'),
 			'client_proxy' => $form->getInput('client_proxy'),
-			'client_url'   => $form->getInput('client_url')
+			'client_url'   => $form->getInput('client_url'),
+			'sub_directory'=> $form->getInput('sub_directory')
 		);
 
 		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());
@@ -237,6 +238,7 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 		$settings = array(
 			'name'                  => CLIENT_ID,
 			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
+			'enable_osc'            => (boolean)$form->getInput('enable_osc'),
 			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
 			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')),
 			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
@@ -250,6 +252,7 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 
 		$chatSettings = new ilSetting('chatroom');
 		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
+		$chatSettings->set('enable_osc', $settings['enable_osc']);
 		$chatSettings->set('play_invitation_sound', (boolean)$form->getInput('play_invitation_sound'));
 
 		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());

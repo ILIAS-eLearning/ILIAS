@@ -53,9 +53,16 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 
 		if($this->roleAssignmentEditable)
 		{
-			$this->setSelectAllCheckbox("user_id[]");
 			$this->addMultiCommand("deassignUser", $lng->txt("remove"));
 		}
+
+		$this->setSelectAllCheckbox("user_id[]");
+		$lng->loadLanguageModule('user');
+		$this->addMultiCommand(
+			'addToClipboard',
+			$lng->txt('clipboard_add_btn')
+		);
+		
 			
 		$this->getItems();
 

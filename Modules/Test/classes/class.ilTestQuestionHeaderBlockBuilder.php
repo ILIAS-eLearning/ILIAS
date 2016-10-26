@@ -56,6 +56,13 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 	 */
 	protected $questionRelatedObjectives;
 
+// fau: testNav - answer status variable
+	/**
+	 * @var boolean | null
+	 */
+	protected $questionAnswered;
+// fau.
+
 	function __construct(ilLanguage $lng)
 	{
 		$this->lng = $lng;
@@ -118,6 +125,15 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 		$this->questionPoints = $questionPoints;
 	}
 
+// fau: testNav - setter for question answered
+	/**
+	 * @param bool $questionAnswered
+	 */
+	public function setQuestionAnswered($questionAnswered)
+	{
+		$this->questionAnswered = $questionAnswered;
+	}
+// fau.
 	/**
 	 * @return int
 	 */
@@ -157,6 +173,16 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 	{
 		return $this->questionPostponed;
 	}
+
+// fau: testNav - get question answered status
+	/**
+	 * @return boolean | null
+	 */
+	public function isQuestionAnswered()
+	{
+		return $this->questionAnswered;
+	}
+// fau.
 
 	/**
 	 * @param boolean $questionPostponed
@@ -208,21 +234,22 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 		return sprintf($this->lng->txt("tst_position_without_total"), $this->getQuestionPosition());
 	}
 
+// fau: testNav - remove HTML from building strings (is now in tpl.tst_question_info.html)
 	protected function buildQuestionPointsString()
 	{
 		if( $this->getQuestionPoints() == 1 )
 		{
-			return " ({$this->getQuestionPoints()} {$this->lng->txt('point')})";
+			return "{$this->getQuestionPoints()} {$this->lng->txt('point')}";
 		}
 
-		return " ({$this->getQuestionPoints()} {$this->lng->txt('points')})";
+		return "{$this->getQuestionPoints()} {$this->lng->txt('points')}";
 	}
 	
 	protected function buildQuestionPostponedString()
 	{
 		if( $this->isQuestionPostponed() )
 		{
-			return " <em>(" . $this->lng->txt("postponed") . ")</em>";
+			return $this->lng->txt("postponed");
 		}
 		
 		return '';
@@ -232,8 +259,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 	{
 		if( $this->isQuestionObligatory() )
 		{
-			$obligatoryText = $this->lng->txt("tst_you_have_to_answer_this_question");
-			return '<br /><span class="obligatory" style="font-size:small">'.$obligatoryText.'</span>';
+			return $this->lng->txt("tst_you_have_to_answer_this_question");
 		}
 		
 		return '';
@@ -244,11 +270,99 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 		if( strlen($this->getQuestionRelatedObjectives()) )
 		{
 			$label = $this->lng->txt('tst_res_lo_objectives_header');
-			return '<div class="ilTestQuestionRelatedObjectivesInfo">'.$label.': '.$this->getQuestionRelatedObjectives();
+			return $label.': '.$this->getQuestionRelatedObjectives();
 		}
 		
 		return '';
 	}
+// fau.
+
+
+// fau: testNav - split generation of presentation title and question info
+
+	/**
+	 * Get the presentation title of the question
+	 * This is shown above the title line in a test run
+	 * @return	string
+	 */
+	public function getPresentationTitle()
+	{
+		switch( $this->getHeaderMode() )
+		{
+			case 2: 	// neither titles nor points => show position as title
+				return $this->buildQuestionPositionString();
+				break;
+
+			case 0:		// titles and points => show title here
+			case 1:		// only titles => show title here
+			default:
+				return $this->getQuestionTitle();
+		}
+	}
+
+
+	/**
+	 * Get the additional question info and answering status
+	 * This is shown below the title line in a test run
+	 * @return string		html code of the info block
+	 */
+	public function getQuestionInfoHTML()
+	{
+		$tpl = new ilTemplate('tpl.tst_question_info.html', true, true, 'Modules/Test');
+
+		// position and/or points
+		switch( $this->getHeaderMode() )
+		{
+			case 1: // only titles =>  show position here
+				$text = $this->buildQuestionPositionString();
+				break;
+
+			case 2: //	neither titles nor points => position is separate title, show nothing here
+				$text = '';
+				break;
+
+			case 0: //  titles and points => show position and points here
+			default:
+				$text = $this->buildQuestionPositionString() . ' (' . $this->buildQuestionPointsString() . ')';
+		}
+		if ($this->isQuestionPostponed())
+		{
+			$text .= ($text ? ', ' : '') . $this->buildQuestionPostponedString();
+		}
+
+		$tpl->setVariable('TXT_POSITION_POINTS',$text);
+
+		// obligatory
+		if ($this->isQuestionObligatory() && !$this->isQuestionAnswered())
+		{
+			$tpl->setVariable('TXT_OBLIGATORY', $this->buildQuestionObligatoryString());
+		}
+
+		// objectives
+		if (strlen($this->getQuestionRelatedObjectives()) )
+		{
+			$tpl->setVariable('TXT_OBJECTIVES', $this->buildQuestionRelatedObjectivesString());
+		}
+
+		// answer status
+		if ($this->isQuestionAnswered())
+		{
+			$tpl->setVariable('HIDDEN_NOT_ANSWERED', 'hidden');
+		}
+		else
+		{
+			$tpl->setVariable('HIDDEN_ANSWERED', 'hidden');
+		}
+
+		$tpl->setVariable('SRC_ANSWERED', ilUtil::getImagePath('answered.svg'));
+		$tpl->setVariable('SRC_NOT_ANSWERED', ilUtil::getImagePath('answered_not.svg'));
+		$tpl->setVariable('TXT_ANSWERED', $this->lng->txt('tst_answer_status_answered'));
+		$tpl->setVariable('TXT_NOT_ANSWERED', $this->lng->txt('tst_answer_status_not_answered'));
+		$tpl->setVariable('TXT_EDITING', $this->lng->txt('tst_answer_status_editing'));
+
+		return $tpl->get();
+	}
+// fau.
 
 	public function getHTML()
 	{
@@ -274,7 +388,9 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
 				$headerBlock .= " - ".$this->getQuestionTitle();
 				$headerBlock .= $this->buildQuestionPostponedString();
-				$headerBlock .= $this->buildQuestionPointsString();
+// fau: testNav - put the points in parentheses here, not in building the string
+				$headerBlock .= ' ('.$this->buildQuestionPointsString().')';
+// fau.
 				$headerBlock .= $this->buildQuestionObligatoryString();
 		}
 

@@ -20,8 +20,11 @@ abstract class ilContainerContentGUI
 	const DETAILS_ALL = 2;
 	
 	protected $details_level = self::DETAILS_DEACTIVATED;
-	
-	protected $renderer; // [ilContainerRenderer]
+
+	/**
+	 * @var ilContainerRenderer
+	 */
+	protected $renderer;
 	
 	var $container_gui;
 	var $container_obj;

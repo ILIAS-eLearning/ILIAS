@@ -302,7 +302,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));
 			
 			// #14365
-			if($ilUser->_getFeedPass($_SESSION["AccountId"]))
+			if($ilUser->_getFeedPass($GLOBALS['DIC']['ilUser']->getId()))
 			{
 				$tpl->setVariable("TXT_PRIV_INFO", $lng->txt("news_get_priv_feed_info"));
 				$tpl->setVariable("TXT_PRIV_FEED_URL", $lng->txt("news_feed_url"));			

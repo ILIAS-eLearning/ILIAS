@@ -74,8 +74,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{	
 		global $ilias, $lng ,$ilDB;
 		
-		//check for MYSQL 4.1 and json_encode,json_decode 
-		if (!function_exists('json_encode') ||  !function_exists('json_decode') || ($ilDB->getDBType() == 'mysql' && !$ilDB->isMysql4_1OrHigher())) {
+		//check for json_encode,json_decode 
+		if (!function_exists('json_encode') ||  !function_exists('json_decode') ) {
 			$ilias->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilias->error_obj->WARNING);
 		}
 

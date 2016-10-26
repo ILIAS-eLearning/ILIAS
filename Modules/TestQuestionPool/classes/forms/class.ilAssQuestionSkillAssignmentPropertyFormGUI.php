@@ -112,13 +112,13 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 		if( $this->isManipulationEnabled() )
 		{
 			$this->addCommandButton(
-				ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS,
-				$this->lng->txt('cancel')
+				ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM,
+				$this->lng->txt('save')
 			);
 
 			$this->addCommandButton(
-				ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM,
-				$this->lng->txt('save')
+				ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS,
+				$this->lng->txt('cancel')
 			);
 		}
 		else

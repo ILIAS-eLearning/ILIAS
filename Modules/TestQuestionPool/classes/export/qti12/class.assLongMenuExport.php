@@ -11,6 +11,9 @@ class assLongMenuExport extends assQuestionExport
 	{
 		global $ilias;
 
+		$correct_answers 	= $this->object->getCorrectAnswers();
+		$answers 			= $this->object->getAnswers();
+
 		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$xml = new ilXmlWriter;
 		// set xml header
@@ -44,6 +47,24 @@ class assLongMenuExport extends assQuestionExport
 		$xml->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$xml->xmlEndTag("qtimetadatafield");
 
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "minAutoCompleteLength");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getMinAutoComplete());
+		$xml->xmlEndTag("qtimetadatafield");
+
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "gapTypes");
+		$gap_types = array();
+		if(is_array($correct_answers))
+		{
+			foreach($correct_answers as $key => $value)
+			{
+				$gap_types[] = $value[2];
+			}
+		}
+		$xml->xmlElement("fieldentry", NULL, json_encode($gap_types));
+		$xml->xmlEndTag("qtimetadatafield");
+
 		// additional content editing information
 		$this->addAdditionalContentEditingModeInformation($xml);
 		$this->addGeneralMetadata($xml);
@@ -58,8 +79,7 @@ class assLongMenuExport extends assQuestionExport
 		$xml->xmlStartTag("presentation");
 		// add flow to presentation
 			$xml->xmlStartTag("flow");
-			$correct_answers 	= $this->object->getCorrectAnswers();
-			$answers 			= $this->object->getAnswers();
+
 			
 			$this->object->addQTIMaterial($xml, $this->object->getQuestion());
 			$this->object->addQTIMaterial($xml, $this->object->getLongMenuTextValue());
@@ -96,7 +116,7 @@ class assLongMenuExport extends assQuestionExport
 							{
 								$xml->xmlStartTag("respcondition", array('continue' => 'Yes'));
 								$xml->xmlStartTag("conditionvar");
-								$xml->xmlElement("varequal", array('respident' => "LongMenu_" . $real_id), $value);
+								$xml->xmlElement("varequal", array('respident' => "LongMenu_" . $real_id) ,$value);
 								$xml->xmlEndTag("conditionvar");
 	
 								if(in_array($value, $correct_answers[$key][0]))

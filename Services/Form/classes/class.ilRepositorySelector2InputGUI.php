@@ -26,21 +26,21 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		global $ilCtrl;
 
 		$this->multi_nodes = $a_multi;
-		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $a_postvar);
+		$this->postvar = $a_postvar;
 
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
-		$this->explorer_gui = new ilRepositorySelectorExplorerGUI(array("ilpropertyformgui", "ilformpropertydispatchgui", "ilrepositoryselector2inputgui"), $this->getExplHandleCmd(),
-			$this, "selectRepositoryItem", "root_id");
+		$this->explorer_gui = new ilRepositorySelectorExplorerGUI(array("ilpropertyformgui", "ilformpropertydispatchgui", "ilrepositoryselector2inputgui"),
+			$this->getExplHandleCmd(), $this, "selectRepositoryItem", "root_id", "rep_exp_sel_".$a_postvar);
 //		$this->explorer_gui->setTypeWhiteList($this->getVisibleTypes());
 //		$this->explorer_gui->setClickableTypes($this->getClickableTypes());
 		$this->explorer_gui->setSelectMode($a_postvar."_sel", $this->multi_nodes);
-
 		//$this->explorer_gui = new ilTaxonomyExplorerGUI(array("ilformpropertydispatchgui", "iltaxselectinputgui"), $this->getExplHandleCmd(), $a_taxonomy_id, "", "",
 		//	"tax_expl_".$a_postvar);
 
 		parent::__construct($a_title, $a_postvar, $this->explorer_gui, $this->multi_nodes);
 		$this->setType("rep_select");
 	}
+	
 
 	/**
 	 * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
@@ -62,6 +62,30 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		{
 //			exit;
 		}
+	}
+
+	/**
+	 * @return ilRepositorySelectorExplorerGUI
+	 */
+	function getExplorerGUI()
+	{
+		return $this->explorer_gui;
+	}
+
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
+		$html = parent::getHTML();
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
+		return $html;
 	}
 
 

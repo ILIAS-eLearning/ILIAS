@@ -62,6 +62,21 @@ class arJoinCollection extends arStatementCollection {
 
 
 	/**
+	 * @return string
+	 */
+	public function asORACLEStatement() {
+		$return = '';
+		if ($this->hasStatements()) {
+			foreach ($this->getJoins() as $join) {
+				$return .= $join->asORACLEStatement($this->getAr());
+			}
+		}
+
+		return $return;
+	}
+
+
+	/**
 	 * @return arJoin[]
 	 */
 	public function getJoins() {

@@ -842,6 +842,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$button->setCaption("blog_add_posting");
 			$button->setCommand("createPosting");
 			$ilToolbar->addStickyItem($button);
+			
+			// #18763
+			$first = array_shift((array_keys($this->items)));
+			if($first != $this->month)
+			{
+				$ilToolbar->addSeparator();
+								
+				$ilCtrl->setParameter($this, "bmn", $first);
+				$url = $ilCtrl->getLinkTarget($this, "");
+				$ilCtrl->setParameter($this, "bmn", $this->month);
+				
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("blog_show_latest");
+				$button->setUrl($url);
+				$ilToolbar->addButtonInstance($button);
+			}		
 						
 			// exercise blog?			
 			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
@@ -1132,6 +1149,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	protected function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
 	{
+		global $ilUser;
+		
+		if(!$a_export)
+		{			
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			ilChangeEvent::_recordReadEvent(
+				$this->object->getType(), 
+				$this->node_id,				
+				$this->object->getId(),
+				$ilUser->getId()
+			);
+		}
+		
 		// repository blogs are multi-author 
 		$name = null;
 		if($this->id_type != self::REPOSITORY_NODE_ID)
@@ -2156,6 +2186,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	function exportHTMLPages($a_target_directory, $a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
 	{					
+		require_once('Services/MathJax/classes/class.ilMathJax.php');
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+
 		if(!$a_link_template)
 		{
 			$a_link_template = "bl{TYPE}_{ID}.html";
@@ -3076,7 +3109,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$_GET["cmd"] = "preview";
 			if(sizeof($id) == 2)
 			{
-				$_GET["gtp"] = $id[1];
+				if(is_numeric($id[1]))
+				{
+					$_GET["gtp"] = $id[1];
+				}
+				else
+				{
+					$_REQUEST["kwd"] = $id[1];
+				}				
 			}	
 		}
 		

@@ -75,7 +75,7 @@ class _parse_proppatch
      * @param  string  path of input stream 
      * @access public
      */
-    function _parse_proppatch($path) 
+    function __construct($path) 
     {
         $this->success = true;
 

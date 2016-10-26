@@ -46,7 +46,9 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->clearChildrenCache();
 		$this->clearLPChildrenCache();
 
-		global $tree, $ilUser;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
 		$this->tree = $tree;
 		$this->ilUser = $ilUser;
 
@@ -806,7 +808,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function moveTo(ilObjStudyProgramme $a_new_parent) {
-		global $rbacadmin;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
 
 		if ($parent = $this->getParent()) {
 
@@ -1176,7 +1179,8 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 	
 	static protected function setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($a_ref_id, $a_obj_id, $a_user_id) {
-		global $tree; // TODO: replace this by a settable static for testing purpose?
+		global $DIC; // TODO: replace this by a settable static for testing purpose?
+		$tree = $DIC['tree'];
 		$node_data = $tree->getParentNodeData($a_ref_id);
 		if ($node_data["type"] !== "prg") {
 			return;
@@ -1198,7 +1202,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return int | null
 	 */
 	static protected function getParentId(ilObject $a_object) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		if (!$tree->isInTree($a_object->getRefId())) {
 			return null;
 		}
@@ -1286,7 +1291,8 @@ class ilObjStudyProgramme extends ilContainer {
 	*/
 	function saveIcons($a_custom_icon)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->createContainerDirectory();
 		$cont_dir = $this->getContainerDirectory();

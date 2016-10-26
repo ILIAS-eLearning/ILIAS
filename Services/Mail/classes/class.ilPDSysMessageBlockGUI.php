@@ -24,7 +24,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		parent::__construct();
 
 		$this->setTitle($lng->txt("show_system_messages"));
-		$this->setAvailableDetailLevels(3, 1);
+		$this->setAvailableDetailLevels(3);
 		$this->mail_mode = "system";
 		$this->allow_moving = false;
 	}
@@ -76,8 +76,8 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		global $ilUser;
 		
 		// BEGIN MAILS
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$mbox = new ilMailBox($_SESSION["AccountId"]);
+		$umail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
+		$mbox = new ilMailBox($GLOBALS['DIC']['ilUser']->getId());
 		$inbox = $mbox->getInboxFolder();
 		
 		//SHOW MAILS FOR EVERY USER

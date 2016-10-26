@@ -13,6 +13,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub
 *
 * @extends ilObjectGUI
 */
@@ -166,6 +167,12 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->checkPermission("read");
 				$this->viewObject();
 				break;
+			
+			case 'ilbackgroundtaskhub':
+				include_once './Services/BackgroundTask/classes/class.ilBackgroundTaskHub.php';
+				$bggui = new ilBackgroundTaskHub();
+				$this->ctrl->forwardCommand($bggui);
+				break;
 
 			default:
 
@@ -235,9 +242,9 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		// we cannot use $this->object->getOrderType()
 		// if set to inherit it will be translated to parent setting
-		#include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		#$sort = new ilContainerSortingSettings($this->object->getId());
-		#$a_values["sor"] = $sort->getSortMode();
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$a_values["sor"] = $sort->getSortMode();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)

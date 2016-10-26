@@ -120,6 +120,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					$this, ilTestPlayerCommands::SHOW_QUESTION, $questionGUI, $questionHintTracking
 				);
 				
+// fau: testNav - save the 'answer changed status' for viewing hint requests
+				$this->setAnswerChangedParameter($this->getAnswerChangedParameter());
+// fau.
 				$this->ctrl->forwardCommand($gui);
 				
 				break;
@@ -421,6 +424,20 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
+// fau: testNav - remember to prevent the navigation confirmation
+		$this->saveNavigationPreventConfirmation();
+// fau.
+
+// fau: testNav - handle navigation after saving
+		if ($this->getNavigationUrlParameter())
+		{
+			ilUtil::redirect($this->getNavigationUrlParameter());
+		}
+		else
+		{
+			$this->ctrl->saveParameter($this, 'sequence');
+		}
+// fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
@@ -543,20 +560,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			);
 			$questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
 
-			$presentationMode = $this->getPresentationModeParameter();
-			
-			if(!$presentationMode)
-			{
-				$presentationMode = $this->getQuestionsDefaultPresentationMode($isQuestionWorkedThrough);
-			}
-
-			$instantResponse = $this->getInstantResponseParameter();
-			
+// fau: testNav - always use edit mode, except for fixed answer
 			if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
 			{
 				$instantResponse = true;
 				$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
 			}
+			else
+			{
+				$instantResponse = $this->getInstantResponseParameter();
+				$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
+			}
+// fau.
 
 			$this->prepareTestPage($presentationMode,
 				$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
@@ -570,8 +585,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			{
 				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
-					$navigationToolbarGUI->setDisabledStateEnabled(true);
-					
+// fau: testNav - enable navigation toolbar in edit mode
+					$navigationToolbarGUI->setDisabledStateEnabled(false);
+// fau.
 					$this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 					
 					break;
@@ -591,17 +607,28 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$navigationToolbarGUI->build();
 			$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
+// fau: testNav - enable the question navigation in edit mode
 			$this->populateQuestionNavigation(
-				$this->testSession->getCurrentQuestionId(),
-				$presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
+				$this->testSession->getCurrentQuestionId(), false
 			);
+// fau.
 
 			if ($instantResponse)
 			{
+// fau: testNav - always use authorized solution for instant feedback
 				$this->populateInstantResponseBlocks(
-					$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
+					$questionGui, true
 				);
+// fau.
 			}
+
+// fau: testNav - add feedback modal
+			if (!empty($_SESSION['forced_feedback_navigation_url']))
+			{
+				$this->populateInstantResponseModal($questionGui, $_SESSION['forced_feedback_navigation_url']);
+				unset($_SESSION['forced_feedback_navigation_url']);
+			}
+// fau.
 		}
 		else
 		{
@@ -631,23 +658,20 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
+// fau: testNav - handle answer fixation and intermediate submit
+			// always save the question when feedback is requested
+			// if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
+			if (true)
 			{
 				$this->saveQuestionSolution(true);
-				
-				$this->ctrl->setParameter(
-					$this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
-				);
+				$this->removeIntermediateSolution();
+				$this->setAnswerChangedParameter(false);
 			}
 			else
 			{
-				$this->saveQuestionSolution(false);
-
-				$this->ctrl->setParameter(
-					$this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
-				);
+				$this->handleIntermediateSubmit();
 			}
-
+// fau.
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();
@@ -659,6 +683,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->setParameter($this, 'instresp', 1);
 		
+// fau: testNav - handle navigation after feedback
+		if ($this->getNavigationUrlParameter())
+		{
+			$this->saveNavigationPreventConfirmation();
+			$_SESSION['forced_feedback_navigation_url'] = $this->getNavigationUrlParameter();
+		}
+// fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
@@ -669,6 +700,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$this->saveQuestionSolution(false);
+// fau: testNav - add changed status of the question
+			$this->setAnswerChangedParameter(true);
+// fau.
 		}
 
 		$this->ctrl->setParameter(

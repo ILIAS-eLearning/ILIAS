@@ -77,6 +77,12 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		require_once 'class.ilTestEvaluationGUI.php';
 		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
 		
+        // prepare generation before contents are processed (for mathjax)
+		if ($this->object->getShowExamviewPdf())
+		{
+			ilPDFGeneration::prepareGeneration();
+		}
+
 		global $ilUser, $ilObjDataCache;
 		
 		$template = new ilTemplate("tpl.il_as_tst_submission_review.html", TRUE, TRUE, "Modules/Test");
@@ -145,10 +151,11 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 			{
 				ilUtil::makeDirParents($path);
 			}
-			$filename = $path . '/exam_N' . $inst_id . '-' . $this->testOutputGUI->object->getId() . '-' . $active . '-' . $this->testSession->getPass() . '.pdf';
+			$filename = realpath($path) . '/exam_N' . $inst_id . '-' . $this->testOutputGUI->object->getId() . '-' . $active . '-' . $this->testSession->getPass() . '.pdf';
 			require_once 'class.ilTestPDFGenerator.php';
 			ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
-			$template->setVariable("PDF_FILE_LOCATION", $filename);
+			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+			$template->setVariable("PDF_FILE_LOCATION", ilWACSignedPath::signFile($filename));
 		}
 		else
 		{

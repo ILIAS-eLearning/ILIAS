@@ -69,9 +69,9 @@ class ilDataCollectionExporter extends ilXmlExporter {
 	 * @return array
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids) {
-
+		$mep = new ilObjMediaPool();
 		foreach ($a_ids as $id) {
-			$m_ids = ilObjMediaPool::getAllMobIds($id);
+			$m_ids = $mep->getAllMobIds($id);
 			foreach ($m_ids as $m) {
 				$mob_ids[] = $m;
 			}
@@ -114,6 +114,38 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		}
 
 		return $return;
+	}
+
+
+	/**
+	 * @param $a_entity
+	 * @param $a_target_release
+	 * @param $a_ids
+	 *
+	 * @return array
+	 */
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) {
+		$page_object_ids = array();
+		foreach ($a_ids as $dcl_obj_id) {
+			// If a DCL table has a detail view, we need to export the associated page objects!
+			$sql = "SELECT page_id FROM page_object "
+				. "WHERE parent_type = " . $this->db->quote('dclf', 'text');
+			$set = $this->db->query($sql);
+			while ($rec = $this->db->fetchObject($set)) {
+				$page_object_ids[] = "dclf:" . $rec->page_id;
+			}
+		}
+		if (count($page_object_ids)) {
+			return array(
+				array(
+					'component' => 'Services/COPage',
+					'entity' => 'pg',
+					'ids' => $page_object_ids,
+				)
+			);
+		}
+
+		return array();
 	}
 	
 }

@@ -179,7 +179,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		// change event
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		$this->lng->loadLanguageModule("trac");
-		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
+		$event = new ilCheckboxInputGUI($this->lng->txt('trac_show_repository_views'), 'change_event_tracking');
+		$event->setInfo($this->lng->txt("trac_show_repository_views_info"));
 		$event->setChecked(ilChangeEvent::_isActive());		
 		$form->addItem($event);
 		
@@ -751,7 +752,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			case ilAdministrationSettingsFormHandler::FORM_LP:
 				
 				require_once 'Services/Tracking/classes/class.ilChangeEvent.php';		
-				$fields = array('trac_repository_changes' => array(ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				$fields = array('trac_show_repository_views' => array(ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
 												
 				return array(array("view", $fields));	
 				

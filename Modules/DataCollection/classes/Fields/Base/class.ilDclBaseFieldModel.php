@@ -399,6 +399,7 @@ class ilDclBaseFieldModel {
 		$this->setUnique($rec["is_unique"]);
 		$this->setLocked($rec["is_locked"]);
 		$this->loadProperties();
+		$this->loadTableFieldSetting();
 	}
 
 
@@ -506,7 +507,7 @@ class ilDclBaseFieldModel {
 	/**
 	 * Update properties of this field in Database
 	 */
-	protected function updateProperties() {
+	public function updateProperties() {
 		foreach ($this->property as $prop) {
 			$prop->store();
 		}
@@ -514,14 +515,13 @@ class ilDclBaseFieldModel {
 
 
 	/**
-	 * updateViewDefinition
+	 * update exportable and fieldorder
 	 *
-	 * @param $view int use constant VIEW_VIEW or EDIT_VIEW
 	 */
 	protected function updateTableFieldSetting() {
 		$tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
-		$tablefield_setting->setExportable($this->getExportable());
-		$tablefield_setting->setFieldOrder($this->getOrder());
+		$tablefield_setting->setExportable($this->exportable);
+		$tablefield_setting->setFieldOrder($this->order);
 		$tablefield_setting->store();
 	}
 
@@ -555,7 +555,7 @@ class ilDclBaseFieldModel {
 	 * @return int
 	 */
 	public function getOrder() {
-		if (! isset($this->order)) {
+		if ($this->order == null) {
 			$this->loadTableFieldSetting();
 		}
 
@@ -628,6 +628,7 @@ class ilDclBaseFieldModel {
 	 * @param $value
 	 */
 	public function setProperty($key, $value) {
+		$this->loadProperties();
 		if(isset($this->property[$key])) {
 			$this->property[$key]->setValue($value);
 		} else {
@@ -750,7 +751,7 @@ class ilDclBaseFieldModel {
 			}
 
 			$fieldprop_obj->setValue($value);
-			$fieldprop_obj->doCreate();
+			$fieldprop_obj->create();
 		}
 	}
 

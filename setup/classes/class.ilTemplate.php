@@ -47,7 +47,7 @@ class ilTemplate extends HTML_Template_ITX
 
 		return true;
 	}*/
-	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT")
+	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT")
 	{
 		$this->activeBlock = "__global__";
 		$this->vars = array();

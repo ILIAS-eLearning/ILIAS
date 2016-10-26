@@ -72,7 +72,10 @@ class ilRpcClient
 	{
 		//prepare xml post data
 		$method_name = str_replace('_', '.', $this->prefix . $a_method);
-		$rpc_options = array('verbosity'=>'newlines_only');
+		$rpc_options = array(
+			'verbosity'=>'newlines_only',
+			'escaping' => 'markup'
+		);
 
 		if($this->encoding)
 		{

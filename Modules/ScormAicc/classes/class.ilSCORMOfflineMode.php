@@ -291,7 +291,7 @@ class ilSCORMOfflineMode
 		}
 	}
 	
-	public function checkIfAnyoneIsInOfflineMode($obj_id) {
+	public static function checkIfAnyoneIsInOfflineMode($obj_id) {
 		global $ilDB;
 		$res = $ilDB->queryF("SELECT count(*) cnt FROM sahs_user WHERE obj_id=%s AND offline_mode = 'offline'",
 			array('integer'),
@@ -302,7 +302,7 @@ class ilSCORMOfflineMode
 		return true;
 	}
 
-	public function usersInOfflineMode($obj_id) {
+	public static function usersInOfflineMode($obj_id) {
 		global $ilDB;
 		$users = array();
 		$res = $ilDB->queryF("SELECT user_id, lastname, firstname FROM sahs_user, usr_data "
@@ -317,7 +317,7 @@ class ilSCORMOfflineMode
 		return $users;
 	}
 
-	public function stopOfflineModeForUser($obj_id,$user_id) {
+	public static function stopOfflineModeForUser($obj_id,$user_id) {
 		global $ilDB;
 		$res = $ilDB->queryF("UPDATE sahs_user SET offline_mode='online' WHERE obj_id=%s AND user_id=%s",
 			array('integer','integer'),

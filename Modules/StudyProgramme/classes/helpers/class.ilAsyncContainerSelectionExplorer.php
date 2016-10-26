@@ -32,7 +32,8 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer {
 	public function __construct($a_target) {
 		parent::__construct($a_target);
 
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$this->tpl = $tpl;
 
 		$this->addJsConf('save_explorer_url', $a_target);
@@ -43,7 +44,8 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer {
 	 * Adds the javascript to template
 	 */
 	public static function addJavascript() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 	}
@@ -107,7 +109,8 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer {
 	 * @param $content
 	 */
 	protected function addOnLoadCode($id, $content) {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		if(!isset(self::$js_on_load_added[$id])) {
 			$tpl->addOnLoadCode($content);

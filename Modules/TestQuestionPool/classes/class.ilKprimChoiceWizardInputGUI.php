@@ -188,6 +188,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 						$tpl->parseCurrentBlock();
 					}
 					$tpl->setCurrentBlock('addimage');
+					$tpl->setVariable("IMAGE_BROWSE", $this->lng->txt('select_file'));
 					$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][{$value->getPosition()}]");
 					$tpl->setVariable("IMAGE_SUBMIT", $this->lng->txt("upload"));
 					$tpl->setVariable("IMAGE_ROW_NUMBER", $value->getPosition());

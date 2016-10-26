@@ -73,9 +73,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))
 			{							
 				$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
-				$this->addColumn("", "", 1);
-				$this->has_multi = true;
-			}			
+			}
+			$this->lng->loadLanguageModule('user');
+			$this->addMultiCommand(
+				'addToClipboard',
+				$this->lng->txt('clipboard_add_btn')
+			);
+			$this->addColumn("", "", 1);
+			$this->has_multi = true;
 		}
 
 		$labels = $this->getSelectableColumns();

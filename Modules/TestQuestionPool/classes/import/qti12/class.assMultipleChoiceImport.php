@@ -27,7 +27,7 @@ class assMultipleChoiceImport extends assQuestionImport
 	* @param array $import_mapping An array containing references to included ILIAS objects
 	* @access public
 	*/
-	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+	function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
 		global $ilUser;
 		// empty session variable for imported xhtml mobs
@@ -35,6 +35,7 @@ class assMultipleChoiceImport extends assQuestionImport
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
 		$shuffle = 0;
+		$selectionLimit = null;
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 		$answers = array();
@@ -49,6 +50,10 @@ class assMultipleChoiceImport extends assQuestionImport
 					{
 						case "ilqtirenderchoice":
 							$shuffle = $rendertype->getShuffle();
+							if($rendertype->getMaxnumber())
+							{
+								$selectionLimit = $rendertype->getMaxnumber();
+							}
 							$answerorder = 0;
 							$foundimage = FALSE;
 							foreach ($rendertype->response_labels as $response_label)
@@ -246,6 +251,7 @@ class assMultipleChoiceImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setShuffle($shuffle);
+		$this->object->setSelectionLimit($selectionLimit);
 		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
 
 		foreach ($answers as $answer)

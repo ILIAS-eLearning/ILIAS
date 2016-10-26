@@ -542,6 +542,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 							}
 							include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 							$booking_entry = new ilBookingEntry($entry->getContextId());
+							if(!in_array($obj_id, $booking_entry->getTargetObjIds()))
+							{
+								continue;
+							}
+							
 							if(!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $GLOBALS['ilUser']->getId()))
 							{
 								continue;

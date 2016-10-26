@@ -19,6 +19,11 @@ include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 class ilGlossaryDefPageGUI extends ilPageObjectGUI
 {
 	/**
+	 * @var ilObjGlossary
+	 */
+	protected $glossary;
+	
+	/**
 	* Constructor
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0)
@@ -28,5 +33,47 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
 		parent::__construct("gdf", $a_id, $a_old_nr);	
 	}
 	
+	/**
+	 * Set glossary
+	 *
+	 * @param ilObjGlossary $a_val glossary	
+	 */
+	function setGlossary($a_val)
+	{
+		$this->glossary = $a_val;
+	}
+	
+	/**
+	 * Get glossary
+	 *
+	 * @return ilObjGlossary glossary
+	 */
+	function getGlossary()
+	{
+		return $this->glossary;
+	}
+
+	/**
+	 * Output metadata
+	 */
+	function postOutputProcessing($a_output)
+	{
+		if ($this->getOutputMode() == "print"  && $this->glossary instanceof ilObjGlossary)
+		{
+			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+			$term_id = ilGlossaryDefinition::_lookupTermId($this->getId());
+			include_once("./Services/Object/classes/class.ilObjectMetaDataGUI.php");
+			$mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term_id);
+			$md = $mdgui->getKeyValueList();
+			if ($md != "")
+			{
+				$a_output = str_replace("<!--COPage-PageTop-->", "<p>" . $md . "</p>", $a_output);
+			}
+		}
+
+		return $a_output;
+	}
+
+
 } 
 ?>

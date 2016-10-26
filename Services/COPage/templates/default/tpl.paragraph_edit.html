@@ -1,62 +1,47 @@
-<form action="{FORMACTION}" id="post" name="post" method="post">
+<form action="{FORMACTION}" id="post" name="post" method="post" class="form-horizontal preventDoubleSubmission" novalidate="novalidate">
 
-<input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0">
+<input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0" />
 
-<table class="fullwidth">
-<tr class="tblheader">
-	<td class="std" colspan="2">
-		{TXT_ACTION}
-	</td>
-</tr>
-<!-- BEGIN commands2 -->
-<!-- <tr>
-	<td class="submit"  colspan="2" style="text-align:right;">
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
-		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
-	</td>
-</tr> -->
-<!-- END commands2 -->
-<tr>
-	<td class="option" style="white-space:nowrap;" width="1">
-		{TXT_CHARACTERISTIC}
-	</td>
-	<td class="option_value" width="99%">{ADV_SEL_STYLE}</td>
-</tr>
-<tr class="std">
-	<td class="option_value" colspan="2">
-	{BB_MENU}
-	</td>
-</tr>
-<tr class="std">
-<td class="std" colspan="2">
-<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onfocus="initInsertions();" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%;" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
-</td>
-</tr>
-<tr>
-	<td class="option" style="white-space:nowrap;" width="1">
-		{TXT_LANGUAGE}
-	</td>
-	<td class="option_value" width="99%">
+<div class="ilFormHeader"><h3 class="ilHeader"><a name="il_form_top"></a>{TXT_ACTION}</h3></div>
+
+<div id="il_prop_cont_bbmenu" class="form-group">
+	<div class="col-sm-12">
+		{BB_MENU}
+	</div>
+</div>
+<div id="il_prop_cont_text" class="form-group">
+	<div class="col-sm-12">
+		<textarea class="form-control" id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onfocus="initInsertions();" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%;" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+	</div>
+</div>
+	<div id="il_prop_cont_characteristic" class="form-group">
+		<label class="col-sm-2 control-label">{TXT_CHARACTERISTIC}</label>
+		<div class="col-sm-10">
+			{ADV_SEL_STYLE}
+		</div>
+	</div>
+<div id="il_prop_cont_language" class="form-group">
+	<label class="col-sm-2 control-label">{TXT_LANGUAGE}</label>
+	<div class="col-sm-10">
 		{SELECT_LANGUAGE}
-	</td>
-</tr>
-<!-- BEGIN commands -->
-<tr>
-	<td class="submit"  colspan="2" style="text-align:right;">
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
-		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
-	</td>
-</tr>
-<!-- END commands -->
-<!-- BEGIN content_selection -->
-<tr>
-	<td class="submit"  colspan="2">
+	</div>
+</div>
+<div class="ilFormFooter clearfix">
+	<!-- BEGIN commands -->
+	<div class="col-sm-6 ilFormRequired">
+		&nbsp;</div>
+	<div class="col-sm-6 ilFormCmds">
+		<input class="btn btn-default btn-sm" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="btn btn-default btn-sm" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</div>
+	<!-- END commands -->
+	<!-- BEGIN content_selection -->
+	<div class="col-sm-12">
 		{SELECT_CONTENT}
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
-	</td>
-</tr>
-<!-- END content_selection -->
-</table>
+		<input class="btn btn-default btn-sm" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
+	</div>
+	<!-- END content_selection -->
+</div>
 </form>
 <!-- BEGIN help -->
 <div style="margin-top: 7px;" id="ilParagraphHelp">

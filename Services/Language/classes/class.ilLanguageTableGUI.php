@@ -32,36 +32,21 @@ class ilLanguageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("users"));
 		$this->addColumn($this->lng->txt("last_refresh"));
-		if ($ilSetting->get("lang_ext_maintenance"))
-		{
-			$this->addColumn($this->lng->txt("last_change"));
-		}
+		$this->addColumn($this->lng->txt("last_change"));
+
 		$this->setSelectAllCheckbox("id[]");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		if ($ilSetting->get("lang_ext_maintenance"))
-		{
-			$this->setRowTemplate("tpl.lang_list_row_extended.html", "Services/Language");
-		}
-		else
-		{
-			$this->setRowTemplate("tpl.lang_list_row.html", "Services/Language");
-		}
+		$this->setRowTemplate("tpl.lang_list_row_extended.html", "Services/Language");
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
-        if ($ilSetting->get("lang_ext_maintenance") == "1")
-        {
-            $this->addMultiCommand("confirmRefreshSelected", $lng->txt("refresh"));
-        }
-        else
-        {
-            $this->addMultiCommand("RefreshSelected", $lng->txt("refresh"));
-        }
+        $this->addMultiCommand("confirmRefreshSelected", $lng->txt("refresh"));
 		$this->addMultiCommand("install", $lng->txt("install"));
 		$this->addMultiCommand("installLocal", $lng->txt("install_local"));
-		$this->addMultiCommand("uninstall", $lng->txt("uninstall"));
+		$this->addMultiCommand("confirmUninstall", $lng->txt("uninstall"));
+		$this->addMultiCommand("confirmUninstallChanges", $lng->txt("lang_uninstall_changes"));
 		$this->addMultiCommand("setSystemLanguage", $lng->txt("setSystemLanguage"));
 		$this->addMultiCommand("setUserLanguage", $lng->txt("setUserLanguage"));
 		$this->getItems();
@@ -115,25 +100,10 @@ class ilLanguageTableGUI extends ilTable2GUI
 		}
 		
 		// show page translation
-		if($ilSetting->get("lang_ext_maintenance")
-		and $ilSetting->get("lang_translate_". $a_set['key'], false))
+		if($ilSetting->get("lang_translate_". $a_set['key'], false))
 		{
 			$remark .= $remark ? '<br />' : '';
 			$remark .= "<span class=\"smallgreen\"> ".$lng->txt('language_translation_enabled')."</span>";
-		}
-
-		// make language name clickable
-		if ($rbacsystem->checkAccess("write", $this->folder->getRefId()))
-		{
-			if ($ilSetting->get("lang_ext_maintenance") == "1")
-			{
-				if (substr($lang_data["description"],0,9) == "installed")
-				{
-					$ilCtrl->setParameterByClass("ilobjlanguageextgui","obj_id",$a_set["obj_id"]);
-					$url = $ilCtrl->getLinkTargetByClass("ilobjlanguageextgui","");
-					$a_set["name"] = '<a href="'.$url.'">'.$a_set["name"].'</a>';
-				}
-			}
 		}
 
 		if ($a_set["desc"] != "not_installed")
@@ -141,12 +111,9 @@ class ilLanguageTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("LAST_REFRESH",
 				ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"],IL_CAL_DATETIME)));
 
-			if ($ilSetting->get("lang_ext_maintenance"))
-			{
-				$last_change = ilObjLanguage::_getLastLocalChange($a_set['key']);
-				$this->tpl->setVariable("LAST_CHANGE",
-					ilDatePresentation::formatDate(new ilDateTime($last_change,IL_CAL_DATETIME)));
-			}
+			$last_change = ilObjLanguage::_getLastLocalChange($a_set['key']);
+			$this->tpl->setVariable("LAST_CHANGE",
+				ilDatePresentation::formatDate(new ilDateTime($last_change,IL_CAL_DATETIME)));
 		}
 
 		$this->tpl->setVariable("NR_OF_USERS", ilObjLanguage::countUsers($a_set["key"]));
@@ -154,15 +121,12 @@ class ilLanguageTableGUI extends ilTable2GUI
 		// make language name clickable
 		if ($rbacsystem->checkAccess("write",$this->folder->getRefId()))
 		{
-			if ($ilSetting->get("lang_ext_maintenance") == "1")
-			{
 				if (substr($a_set["description"],0,9) == "installed")
 				{
 					$ilCtrl->setParameterByClass("ilobjlanguageextgui", "obj_id", $a_set["obj_id"]);
 					$url = $ilCtrl->getLinkTargetByClass("ilobjlanguageextgui", "");
 					$a_set["name"] = '<a href="'.$url.'">'.$a_set["name"].'</a>';
 				}
-			}
 		}
 
 		$this->tpl->setVariable("VAL_LANGUAGE", $a_set["name"].$status);

@@ -33,6 +33,7 @@
 *
 * @package webdav
 */
+
 class ilObjectDAV 
 {
 	/**
@@ -56,7 +57,7 @@ class ilObjectDAV
 	*
 	* @param int A refId to the object.
 	*/
-	function ilObjectDAV($refId, $obj = null) 
+	function __construct($refId, $obj = null) 
 	{
 		if (is_object($obj))
 		{
@@ -115,7 +116,8 @@ class ilObjectDAV
 	 */
 	function read()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		
 		if (is_null($this->obj))
 		{
@@ -329,21 +331,23 @@ class ilObjectDAV
 				}
 			}
 		
-			global $rbacsystem;
+			global $DIC;
+			$rbacsystem = $DIC['rbacsystem'];
 			return $rbacsystem->checkAccess($operations, $this->getRefId(), $type);
 		}
 		else 		// this one fixes bug #5367
 		{
-			$GLOBALS['ilLog']->write('Checking permission for ref_id: '.$this->getRefId());
-			$GLOBALS['ilLog']->write("Operations: ".print_r($operations,true));
+			$GLOBALS['DIC']['ilLog']->write('Checking permission for ref_id: '.$this->getRefId());
+			$GLOBALS['DIC']['ilLog']->write("Operations: ".print_r($operations,true));
 			
-			global $ilAccess;
+			global $DIC;
+			$ilAccess = $DIC['ilAccess'];
 			$operations = explode(",",$operations."");
 			foreach ($operations as $operation)
 			{
 				if (!$ilAccess->checkAccess($operation, '', $this->getRefId(), $type))
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Permission denied for user '.$GLOBALS['ilUser']->getId());
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Permission denied for user '.$GLOBALS['DIC']['ilUser']->getId());
 					return false;
 				}
 			}
@@ -360,8 +364,8 @@ class ilObjectDAV
 		{
 			return $this->obj->getType();
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': Invalid object given, class='.get_class($this->obj));
-		$GLOBALS['ilLog']->logStack();
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Invalid object given, class='.get_class($this->obj));
+		$GLOBALS['DIC']['ilLog']->logStack();
 	}
 	/**
 	 * Returns the ilias type for collections that can be created as children of this object.
@@ -394,7 +398,8 @@ class ilObjectDAV
 	*/
 	function createCollection($name)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		// create and insert Folder in tree
 		require_once 'Modules/Folder/classes/class.ilObjFolder.php';
@@ -418,7 +423,8 @@ class ilObjectDAV
 	*/
 	function createFile($name)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		// create and insert Folder in tree
 		require_once 'Modules/File/classes/class.ilObjFile.php';
@@ -454,7 +460,8 @@ class ilObjectDAV
 	*/
 	function createFileFromNull($name, &$nullDAV)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		// create and insert Folder in tree
 		require_once 'Modules/File/classes/class.ilObjFile.php';
@@ -471,7 +478,8 @@ class ilObjectDAV
 	*/
 	function createNull($name)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		// create and insert Folder in tree
 		require_once './Services/Object/classes/class.ilObject.php';
@@ -498,7 +506,9 @@ class ilObjectDAV
 	*/
 	function remove($objDAV)
 	{
-		global $tree, $rbacadmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$rbacadmin = $DIC['rbacadmin'];
 		
 		$subnodes = $tree->getSubTree($tree->getNodeData($objDAV->getRefId()));
 		foreach ($subnodes as $node)
@@ -520,11 +530,13 @@ class ilObjectDAV
 	function addCopy(&$objDAV, $newName = null)
 	{
 		$this->writelog("addCopy($objDAV,$newName) ....");
-		global $rbacadmin, $tree;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		$tree = $DIC['tree'];
 		$revIdMapping = array(); 
 		$newRef = $this->cloneNodes($objDAV->getRefId(),$this->getRefId(),$revIdMapping, $newName);
 		//$rbacadmin->adjustMovedObjectPermissions($newRef, $tree->getParentId($objDAV->getRefId()));
-		return $this->createObject($newRef, $objDAV->getILIASType());
+		return self::createObject($newRef, $objDAV->getILIASType());
 		$this->writelog('... addCopy done.');
 	}
 
@@ -541,8 +553,10 @@ class ilObjectDAV
 	function cloneNodes($srcRef,$dstRef,&$mapping, $newName=null)
 	{
 		$this->writelog("cloneNodes($srcRef,$dstRef,$mapping,$newName)");
-		global $tree;
-		global $ilias;
+		global $DIC;
+		$tree = $DIC['tree'];
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		
 		// clone the source node
 		$srcObj =& $ilias->obj_factory->getInstanceByRefId($srcRef);
@@ -556,7 +570,7 @@ class ilObjectDAV
 		$this->writelog("cloneNodes newname not null? ".(! is_null($newName)));
 		if (! is_null($newName))
 		{
-			$newObjDAV = $this->createObject($newRef, $srcObj->getType()); 
+			$newObjDAV = self::createObject($newRef, $srcObj->getType()); 
 			$newObjDAV->setResourceName($newName);
 			$newObjDAV->write();
 		}
@@ -594,10 +608,14 @@ class ilObjectDAV
 	*/
 	function addMove(&$objDAV, $newName = null)
 	{
-		global $tree;
-		global $rbacadmin;
-		global $ilias;
-		global $log;
+		global $DIC;
+		$tree = $DIC['tree'];
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		global $DIC;
+		$log = $DIC['log'];
 	
 		$this->writelog('addMove('.$objDAV->getRefId().' to '.$this->getRefId().', newName='.$newName.')');
 		
@@ -677,7 +695,11 @@ class ilObjectDAV
 	*/
 	function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects = true)
 	{
-		global $ilDB, $log, $ilias, $tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$log = $DIC['log'];
+		$ilias = $DIC['ilias'];
+		$tree = $DIC['tree'];
 		
 		$query = "SELECT tree FROM tree WHERE parent = ? AND tree < 0 ";
 		$sta = $ilDB->prepare($query,array('integer','integer'));
@@ -737,7 +759,8 @@ class ilObjectDAV
 		//        id to determine this. This is based on the assumption, that new objects
 		//        have higher object id's then older objects.
 		
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		
 		$childrenDAV = array();
 		// Performance optimization. We sort the children using PHP instead of using the database.
@@ -745,7 +768,7 @@ class ilObjectDAV
 		$childrenData =& $tree->getChilds($this->getRefId(),'');
 		foreach ($childrenData as $data)
 		{
-			$childDAV =& $this->createObject($data['ref_id'],$data['type']);
+			$childDAV =& self::createObject($data['ref_id'],$data['type']);
 			if (! is_null($childDAV))
 			{
 				// Note: We must not assign with =& here, because this will cause trouble
@@ -790,9 +813,10 @@ class ilObjectDAV
 	 * @return ilObjectDAV. Returns null, if no DAV object can be constructed for
 	 * the specified type.
 	 */
-	function createObject($refId, $type)
+	public static function createObject($refId, $type)
 	{
 		$newObj = null;
+		
 		switch ($type)
 		{
 			case 'mountPoint' :
@@ -846,7 +870,9 @@ class ilObjectDAV
 	{
 		if ($this->isDebug)
 		{
-			global $log, $ilias;
+			global $DIC;
+			$log = $DIC['log'];
+			$ilias = $DIC['ilias'];
 			$log->write(
 				$ilias->account->getLogin()
 				.' DAV .'.get_class($this).' '.str_replace("\n",";",$message)

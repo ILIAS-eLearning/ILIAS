@@ -28,10 +28,10 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel {
 		return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
 	}
 
-//	/**
-//	 * @return bool
-//	 */
-//	public function allowFilterInListView() {
-//		return false;
-//	}
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
+	}
 }

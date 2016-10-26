@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjRoleTemplateGUI
@@ -313,12 +314,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 											    "type"		=> $info['type']);
 			
 			$txt = $objDefinition->isPlugin($info['type'])
-				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				? ilObjectPlugin::lookupTxtById($info['type'], $info['type']."_".$info['operation'])
 				: $this->lng->txt($info['type']."_".$info['operation']);
 			if (substr($info['operation'], 0, 7) == "create_" &&
 				$objDefinition->isPlugin(substr($info['operation'], 7)))
 			{
-				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+				$txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7), $info['type']."_".$info['operation']);
 			}
 			elseif(substr($info['operation'],0,6) == 'create')
 			{
@@ -342,7 +343,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			if ($objDefinition->isPlugin($obj_data["type"]))
 			{
-				$rbac_objects[$key]["name"] = ilPlugin::lookupTxt("rep_robj", $obj_data["type"],
+				$rbac_objects[$key]["name"] = ilObjectPlugin::lookupTxtById($obj_data["type"],
 						"obj_".$obj_data["type"]);
 			}
 			else

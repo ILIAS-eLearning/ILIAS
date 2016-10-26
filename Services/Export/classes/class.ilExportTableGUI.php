@@ -133,7 +133,8 @@ class ilExportTableGUI extends ilTable2GUI
 		foreach($this->getCustomColumns() as $c)
 		{
 			$this->tpl->setCurrentBlock('custom');
-			$this->tpl->setVariable('VAL_CUSTOM', $c['obj']->$c['func']($a_set['type'], $a_set['file']).' ');
+			$f = $c['func'];
+			$this->tpl->setVariable('VAL_CUSTOM', $c['obj']->$f($a_set['type'], $a_set['file']).' ');
 			$this->tpl->parseCurrentBlock();
 		}
 		

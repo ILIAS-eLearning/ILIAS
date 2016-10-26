@@ -1,38 +1,224 @@
 <script language="JavaScript" type="text/javascript">
-<!--
-
-var help_line = {
-		s: '{TXT_STR} [str]text[/str] (alt+s)',
-		e: '{TXT_EMP} [emp]text[/emp]  (alt+e)',
-		c: '{TXT_COM} [com]text[/com]  (alt+c)',
-		f: '{TXT_FN} [fn]text[/fn]  (alt+f)',
-		q: '{TXT_QUOT} [quot]text[/quot]  (alt+q)',
-		d: '{TXT_CODE} [code]code[/code]  (alt+d)',
-		i: '{TXT_ILN} [iln page=\"page_id\"]text[/iln]  (alt+i)',
-		w: '{TXT_WLN} [[{TXT_WLN}]]  (alt+w)',
-		x: '{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)',
-		n: '{TXT_ANC} [anc name="..."]text[/anc]  (alt+n)',
-		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)',
-		m: '{TXT_IMP} [imp]text[/imp]  (alt+m)',
-		a: '{TXT_ACC} [acc]text[/acc]  (alt+a)',
-		k: '{TXT_KW} [kw]text[/kw]  (alt+k)',
-		p: '{TXT_SUP} [sup]text[/sup]  (alt+p)',
-		b: '{TXT_SUB} [sub]text[/sub]  (alt+b)'
-}
-
-function myhelpline(help)
-{
-	var h = document.getElementById("helpbox");
-	if (h)
-	{
-		h.innerHTML = help_line[help];
+ilCOPage = {
+	setCharacterClass: function (v) {
+		var b = il.COPageBB;
+		console.log(v);
+		switch (v.hid_val) {
+			case "Quotation":
+				b.applyCommand("quot");
+				break;
+			case "Accent":
+				b.applyCommand("acc");
+				break;
+			case "Code":
+				b.applyCommand("code");
+				break;
+			case "Comment":
+				b.applyCommand("com");
+				break;
+			default:
+				b.insertBBTabs('[marked class="' + v.hid_val + '"]', '[/marked]');
+				break;
+		}
 	}
-}
+};
+il.COPageBB = {
+	initCommands: function () {
+		t = il.COPageBB;
+		t.commands = {
+			str: {
+				short: "s"
+			},
+			emp: {
+				short: "e"
+			},
+			com: {
+				short: "c"
+			},
+			fn: {
+				short: "f"
+			},
+			quot: {
+				short: "q"
+			},
+			code: {
+				short: "d"
+			},
+			iln: {
+				short: "i",
+				start: "[iln page=\"\"]"
+			},
+			wlink: {
+				short: "w",
+				start: "[[",
+				tag_text: il.Language.txt("wiki_wiki_page"),
+				end: "]]",
+				fill: ""
+			},
+			xln: {
+				short: "x",
+				start: "[xln url=\"http://\"]"
+			},
+			anc: {
+				short: "n",
+				start: '[anc name=""]',
+				tag_text: il.Language.txt("cont_anchor")
+			},
+			tex: {
+				short: "t"
+			},
+			imp: {
+				short: "m"
+			},
+			acc: {
+				short: "a"
+			},
+			kw: {
+				short: "k"
+			},
+			sup: {
+				short: "p"
+			},
+			sub: {
+				short: "b"
+			}
+		}
+	},
+
+	init: function () {
+		var t = il.COPageBB;
+		t.initCommands();
+		$("a.btn-sm:not([accesskey=''])").on("mouseover", function() {
+			var t = il.COPageBB;
+			t.showHelp(this);
+		}).on("click", function () {
+			var t = il.COPageBB;
+			t.handleButtonClick(this);
+		})
+	},
+
+	findCommandForKey: function (k) {
+		var t = il.COPageBB;
+		for (var c in t.commands) {
+			if (t.commands[c].short == k) {
+				return c;
+			}
+		}
+	},
+
+	showHelp: function (e) {
+		var text, com, start, end, fill, hkey, tag_text,
+				t = il.COPageBB,
+				k = $(e).attr("accesskey");
+
+		// workaround to get lang vars at this time
+		t.initCommands();
+
+		com = t.findCommandForKey(k);
+		if (typeof com == "undefined") {
+			return;
+		}
+
+		start = (t.commands[com].start)
+				? t.commands[com].start
+				: "[" + com + "]";
+		end = (t.commands[com].end)
+				? t.commands[com].end
+				: "[/" + com + "]";
+		fill = (t.commands[com].fill)
+				? t.commands[com].fill
+				: "text";
+		tag_text = (t.commands[com].tag_text)
+				? t.commands[com].tag_text
+				: il.Language.txt("cont_text_" + com);
+		hkey = "alt";
+		text = tag_text + " " + start + fill + end + " (" + hkey + "+" + k + ")";
+		$("#helpbox").html(text);
+	},
+
+	handleButtonClick: function (e) {
+		var t = il.COPageBB,
+				k = $(e).attr("accesskey"),
+				com = t.findCommandForKey(k);
+		t.applyCommand(com);
+	},
+
+	applyCommand: function (com) {
+		var bbopen, bbclose,
+				t = il.COPageBB;
+		if (typeof com == "undefined") {
+			return;
+		}
+		bbopen = (t.commands[com].start)
+				? t.commands[com].start
+				: "[" + com + "]";
+		bbclose = (t.commands[com].end)
+				? t.commands[com].end
+				: "[/" + com + "]";
+		t.insertBBTabs(bbopen, bbclose);
+	},
+
+	insertBBTabs: function (bbopen, bbclose) {
+
+		theSelection = false;
+
+		var textarea = document.forms[form_name].elements[text_name];
+
+		textarea.focus();
+
+		if (document.selection) {
+			// Get text selection
+			theSelection = document.selection.createRange().text;
+
+			if (theSelection) {
+				// Add tags around selection
+				document.selection.createRange().text = bbopen + theSelection + bbclose;
+				document.forms[form_name].elements[text_name].focus();
+				theSelection = '';
+				return;
+			}
+		}
+		else if (document.forms[form_name].elements[text_name].selectionEnd && (document.forms[form_name].elements[text_name].selectionEnd - document.forms[form_name].elements[text_name].selectionStart > 0))
+		{
+			mozWrap(document.forms[form_name].elements[text_name], bbopen, bbclose);
+			document.forms[form_name].elements[text_name].focus();
+			theSelection = '';
+			return;
+		}
+
+		//The new position for the cursor after adding the bbcode
+		var caret_pos = getCaretPosition(textarea).start;
+		var new_pos = caret_pos + bbopen.length;
+
+		// Open tag
+		insert_text(bbopen + bbclose);
+
+		// Center the cursor when we don't have a selection
+		// Gecko and proper browsers
+		if (!isNaN(textarea.selectionStart))
+		{
+			textarea.selectionStart = new_pos;
+			textarea.selectionEnd = new_pos;
+		}
+		// IE
+		else if (document.selection)
+		{
+			var range = textarea.createTextRange();
+			range.move("character", new_pos);
+			range.select();
+			storeCaret(textarea);
+		}
+
+		textarea.focus();
+	}
+
+};
+
+$(function () {
+	il.COPageBB.init();
+});
 
 // Define the bbCode tags
-var bbcode = new Array();
-var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]',
-	'[url]','[/url]', '[tex]','[/tex]','[[',']]','[anc name=""]','[/anc]','[acc]','[/acc]','[imp]','[/imp]','[kw]','[/kw]','[sup]','[/sup]','[sub]','[/sub]');
 imageTag = false;
 
 var form_name = 'post';
@@ -40,62 +226,49 @@ var text_name = '{PAR_TA_NAME}';
 var load_draft = false;
 var upload = false;
 
-//-->
 </script>
 
-<div id="bbcodebuttons" style="visibility:visible;">
+<div id="bbcodebuttons">
 <div id="helpbox" class="ilEditHelpline">{TXT_BB_TIP}</div>
-<!-- <input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0); return true;" onMouseOver="myhelpline('s')" /> -->
 <!-- BEGIN bb_str_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="s" name="addbbcode0" onClick="bbstyle(0); return true;" onMouseOver="myhelpline('s')" ><span class="ilc_text_inline_Strong">&nbsp;str&nbsp;</span></a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="s"><span class="ilc_text_inline_Strong">&nbsp;str&nbsp;</span></a>
 <!-- END bb_str_button -->
 <!-- BEGIN bb_emp_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="e" name="addbbcode2" onClick="bbstyle(2)" onMouseOver="myhelpline('e')" ><span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span></a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="e"><span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span></a>
 <!-- END bb_emp_button -->
-	<!-- BEGIN bb_imp_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="m" name="addbbcode26" onClick="bbstyle(26)" onMouseOver="myhelpline('m')" ><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>&nbsp;
-	<!-- END bb_imp_button -->
-	<!-- BEGIN bb_sup_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="p" name="addbbcode30" onClick="bbstyle(30)" onMouseOver="myhelpline('p')" >&nbsp;x<sup class="ilc_sub_Sup">2</sup>&nbsp;</a>&nbsp;
-	<!-- END bb_sup_button -->
-	<!-- BEGIN bb_sub_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="b" name="addbbcode32" onClick="bbstyle(32)" onMouseOver="myhelpline('b')" >&nbsp;x<sub class="ilc_sub_Sub">2</sub>&nbsp;</a>&nbsp;
-	<!-- END bb_sub_button -->
-<!-- BEGIN bb_com_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="c" name="addbbcode4" onClick="bbstyle(4)" onMouseOver="myhelpline('c')" ><span class="ilc_text_inline_Comment">&nbsp;com&nbsp;</span></a>&nbsp;
-<!-- END bb_com_button -->
-<!-- BEGIN bb_quot_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="q" name="addbbcode6" onClick="bbstyle(6)" onMouseOver="myhelpline('q')" ><span class="ilc_text_inline_Quotation">&nbsp;quot&nbsp;</span></a>&nbsp;
-<!-- END bb_quot_button -->
-<!-- BEGIN bb_acc_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="a" name="addbbcode24" onClick="bbstyle(24)" onMouseOver="myhelpline('a')" ><span class="ilc_text_inline_Accent">&nbsp;acc&nbsp;</span></a>&nbsp;
-<!-- END bb_acc_button -->
+<!-- BEGIN bb_imp_button -->
+<a class="btn btn-sm btn-default" href="#" accesskey="m"><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>
+<!-- END bb_imp_button -->
+<!-- BEGIN bb_sup_button -->
+<a class="btn btn-sm btn-default" href="#" accesskey="p">&nbsp;x<sup class="ilc_sub_Sup">2</sup>&nbsp;</a>
+<!-- END bb_sup_button -->
+<!-- BEGIN bb_sub_button -->
+<a class="btn btn-sm btn-default" href="#" accesskey="b">&nbsp;x<sub class="ilc_sub_Sub">2</sub>&nbsp;</a>
+<!-- END bb_sub_button -->
+{CHAR_STYLE_SELECT}
 <!-- BEGIN bb_kw_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="k" name="addbbcode28" onClick="bbstyle(28)" onMouseOver="myhelpline('k')" >&nbsp;kw&nbsp;</a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="k">&nbsp;kw&nbsp;</a>
 <!-- END bb_kw_button -->
-<!-- BEGIN bb_code_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" name="addbbcode8" onClick="bbstyle(8)" onMouseOver="myhelpline('d')" ><code>&nbsp;code&nbsp;</code></a>&nbsp;
-<!-- END bb_code_button -->
 <!-- BEGIN bb_tex_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="t" name="addbbcode18" onClick="bbstyle(18)" onMouseOver="myhelpline('t')" ><span>&nbsp;tex&nbsp;</span></a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="t"><span>&nbsp;tex&nbsp;</span></a>
 <!-- END bb_tex_button -->
 <!-- BEGIN bb_fn_button -->
-<a class="ilEditSubmit" href="#" accesskey="f" name="addbbcode10" onClick="bbstyle(10)" onMouseOver="myhelpline('f')" >&nbsp;fn&nbsp;</a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="f">&nbsp;fn&nbsp;</a>
 <!-- END bb_fn_button -->
 <!-- BEGIN bb_anc_button -->
-<a class="ilEditSubmit" href="#" accesskey="n" name="addbbcode22" onClick="bbstyle(22)" onMouseOver="myhelpline('n')" >&nbsp;anc&nbsp;</a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="n">&nbsp;anc&nbsp;</a>
 <!-- END bb_anc_button -->
 <!-- BEGIN bb_xln_button -->
-<a class="ilEditSubmit" href="#" accesskey="x" name="addbbcode14" onClick="bbstyle(14)" onMouseOver="myhelpline('x')" >&nbsp;xln&nbsp;</a>&nbsp;
+<a class="btn btn-sm btn-default" href="#" accesskey="x">&nbsp;xln&nbsp;</a>
 <!-- END bb_xln_button -->
 <!-- BEGIN bb_ilink_button -->
-<a id="iosEditInternalLinkTrigger" class="ilEditSubmit" xhref="{BB_LINK_ILINK}" accesskey="i" xtarget="tree" onMouseOver="myhelpline('i')">&nbsp;iln&nbsp;</a>
+<a id="iosEditInternalLinkTrigger" class="btn btn-sm btn-default" xhref="{BB_LINK_ILINK}" accesskey="i" xtarget="tree">&nbsp;iln&nbsp;</a>
 <!-- END bb_ilink_button -->
 	<!-- BEGIN bb_wikilink_button2 -->
-	<a class="ilEditSubmit" href="#" onClick="il.Wiki.Edit.openLinkDialog('{WIKI_BUTTON2_URL}');" >&nbsp;{TXT_WIKI_BUTTON2}&nbsp;</a>&nbsp;
+	<a class="btn btn-sm btn-default" href="#" onClick="il.Wiki.Edit.openLinkDialog('{WIKI_BUTTON2_URL}');" >&nbsp;{TXT_WIKI_BUTTON2}&nbsp;</a>
 	<!-- END bb_wikilink_button2 -->
 	<!-- BEGIN bb_wikilink_button -->
-	<a class="ilEditSubmit" href="#" accesskey="w" name="addbbcode14" onClick="bbstyle(20)" onMouseOver="myhelpline('w')" >&nbsp;[[{TXT_WLN2}]]&nbsp;</a>&nbsp;
+	<a class="btn btn-sm btn-default" href="#" accesskey="w">&nbsp;[[{TXT_WLN2}]]&nbsp;</a>
 	<!-- END bb_wikilink_button -->
 </div>
 <!-- BEGIN int_link_prep -->

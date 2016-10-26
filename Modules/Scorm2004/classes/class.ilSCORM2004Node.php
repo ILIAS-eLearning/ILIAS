@@ -658,7 +658,7 @@ class ilSCORM2004Node
 	/**
 	* Cut and copy a set of chapters/pages into the clipboard
 	*/
-	function clipboardCut($a_slm_obj_id, $a_ids)
+	static function clipboardCut($a_slm_obj_id, $a_ids)
 	{
 		$tree = ilSCORM2004Node::getTree($a_slm_obj_id);
 		
@@ -846,7 +846,7 @@ class ilSCORM2004Node
 	/**
 	* Insert Chapter from clipboard
 	*/
-	function insertChapterClip($a_slm_obj, $a_as_sub = false)
+	static function insertChapterClip($a_slm_obj, $a_as_sub = false)
 	{
 		global $ilUser, $ilCtrl, $ilLog;
 		

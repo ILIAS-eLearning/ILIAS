@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
+require_once('./Services/Database/classes/Atom/class.ilTableLock.php');
 
 /**
  * Class ilAtomQuery
@@ -54,7 +55,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 */
 	protected $isolation_level = ilAtomQuery::ISOLATION_SERIALIZABLE;
 	/**
-	 * @var array
+	 * @var ilTableLock[]
 	 */
 	protected $tables = array();
 	/**
@@ -91,21 +92,22 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 
 
 	/**
-	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables. Lock
+	 * Add table-names which are influenced by your queries, MyISAm has to lock those tables.
+	 * You get an ilTableLockInterface with further possibilities, e.g.:
 	 *
-	 * @param string $table_name
-	 * @param bool $lock_sequence_too
-	 * @throws \ilAtomQueryException
+	 * $ilAtomQuery->addTableLock('my_table')->lockSequence(true)->aliasName('my_alias');
+	 *
+	 * the lock-level is determined by ilAtomQuery
+	 *
+	 * @param $table_name
+	 * @return \ilTableLockInterface
 	 */
-	public function lockTable($table_name, $lock_sequence_too = false) {
-		if (!$table_name || !$this->ilDBInstance->tableExists($table_name)) {
-			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_TABLE_NONEXISTING);
-		}
-		$lock_level = $this->getDeterminedLockLevel();
-		if (!in_array($lock_level, array( ilAtomQuery::LOCK_READ, ilAtomQuery::LOCK_WRITE ))) {
-			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_WRONG_LEVEL);
-		}
-		$this->tables[] = array( $table_name, $lock_level, $lock_sequence_too );
+	public function addTableLock($table_name) {
+		$ilTableLock = new ilTableLock($table_name, $this->ilDBInstance);
+		$ilTableLock->setLockLevel($this->getDeterminedLockLevel());
+		$this->tables[] = $ilTableLock;
+
+		return $ilTableLock;
 	}
 
 
@@ -303,18 +305,17 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 */
 	protected function hasWriteLocks() {
 		$has_write_locks = false;
+		/**
+		 * @var $table ilTableLock
+		 */
 		foreach ($this->tables as $table) {
-			$lock_level = $table[1];
-			if ($lock_level == ilAtomQuery::LOCK_WRITE) {
+			if ($table->getLockLevel() == ilAtomQuery::LOCK_WRITE) {
 				$has_write_locks = true;
 			}
 		}
 
 		return $has_write_locks;
 	}
-
-
-	
 
 
 	/**

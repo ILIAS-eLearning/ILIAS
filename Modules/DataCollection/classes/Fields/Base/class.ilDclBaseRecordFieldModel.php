@@ -294,6 +294,14 @@ class ilDclBaseRecordFieldModel {
 		return $this->parseSortingValue($this->getValue(), $this, $link);
 	}
 
+
+	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {;
+		$confirmation->addHiddenItem('field_'.$this->field->getId(), $this->getValue());
+	}
+
 	/**
 	 * Returns sortable value for the specific field-types
 	 *

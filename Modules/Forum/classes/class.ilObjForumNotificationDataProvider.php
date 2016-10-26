@@ -277,9 +277,13 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
 		$filesOfPost   = $fileDataForum->getFilesOfPost();
 
+		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
+		$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
+
 		foreach($filesOfPost as $attachment)
 		{
-			$this->attachments[] = $attachment['name'];
+			$this->attachments[$attachment['path']] = $attachment['name'];
+			$fileDataMail->copyAttachmentFile($attachment['path'], $attachment['name']);
 		}
 	}
 
@@ -331,7 +335,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			WHERE thread_id = %s
 			AND user_id <> %s',
 			array('integer', 'integer'),
-			array($this->getThreadId(), $_SESSION['AccountId']));
+			array($this->getThreadId(), $GLOBALS['DIC']['ilUser']->getId()));
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());

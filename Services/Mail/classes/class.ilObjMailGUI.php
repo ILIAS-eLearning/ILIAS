@@ -380,7 +380,7 @@ class ilObjMailGUI extends ilObjectGUI
 		global $ilAccess, $ilErr, $lng, $rbacsystem;
 
 		require_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 		if($rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()))
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI");

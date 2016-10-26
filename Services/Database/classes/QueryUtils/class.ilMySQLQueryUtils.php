@@ -4,6 +4,7 @@ require_once('./Services/Database/classes/QueryUtils/class.ilQueryUtils.php');
 /**
  * Class ilMySQLQueryUtils
  *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMySQLQueryUtils extends ilQueryUtils {
 

@@ -30,7 +30,7 @@ abstract class ilDBPdoFieldDefinition {
 	/**
 	 * @var array
 	 */
-	public $allowed_attributes = array(
+	public $allowed_attributes_old = array(
 		self::T_TEXT      => array( 'length', 'notnull', 'default', 'fixed' ),
 		self::T_INTEGER   => array( 'length', 'notnull', 'default', 'unsigned' ),
 		self::T_FLOAT     => array( 'notnull', 'default' ),
@@ -39,6 +39,19 @@ abstract class ilDBPdoFieldDefinition {
 		self::T_TIMESTAMP => array( 'notnull', 'default' ),
 		self::T_CLOB      => array( 'notnull', 'default' ),
 		self::T_BLOB      => array( 'notnull', 'default' ),
+	);
+	/**
+	 * @var array
+	 */
+	public $allowed_attributes = array(
+		"text"      => array( "length", "notnull", "default", "fixed" ),
+		"integer"   => array( "length", "notnull", "default", "unsigned" ),
+		"float"     => array( "notnull", "default" ),
+		"date"      => array( "notnull", "default" ),
+		"time"      => array( "notnull", "default" ),
+		"timestamp" => array( "notnull", "default" ),
+		"clob"      => array( "length", "notnull", "default" ),
+		"blob"      => array( "length", "notnull", "default" ),
 	);
 	/**
 	 * @var ilDBInterface
@@ -67,7 +80,7 @@ abstract class ilDBPdoFieldDefinition {
 	/**
 	 * @var array
 	 */
-	protected $reserved = array(
+	protected $reserved_mysql = array(
 		"ACCESSIBLE",
 		"ADD",
 		"ALL",
@@ -293,6 +306,220 @@ abstract class ilDBPdoFieldDefinition {
 		"ZEROFILL",
 	);
 	/**
+	 * @var array
+	 */
+	protected $reserved_postgres = array(
+		"ALL",
+		"ANALYSE",
+		"ANALYZE",
+		"AND",
+		"ANY",
+		"ARRAY",
+		"AS",
+		"ASC",
+		"ASYMMETRIC",
+		"AUTHORIZATION",
+		"BETWEEN",
+		"BINARY",
+		"BOTH",
+		"CASE",
+		"CAST",
+		"CHECK",
+		"COLLATE",
+		"COLUMN",
+		"CONSTRAINT",
+		"CREATE",
+		"CROSS",
+		"CURRENT_DATE",
+		"CURRENT_ROLE",
+		"CURRENT_TIME",
+		"CURRENT_TIMESTAMP",
+		"CURRENT_USER",
+		"DEFAULT",
+		"DEFERRABLE",
+		"DESC",
+		"DISTINCT",
+		"DO",
+		"ELSE",
+		"END",
+		"EXCEPT",
+		"FALSE",
+		"FOR",
+		"FOREIGN",
+		"FREEZE",
+		"FROM",
+		"FULL",
+		"GRANT",
+		"GROUP",
+		"HAVING",
+		"ILIKE",
+		"IN",
+		"INITIALLY",
+		"INNER",
+		"INTERSECT",
+		"INTO",
+		"IS",
+		"ISNULL",
+		"JOIN",
+		"LEADING",
+		"LEFT",
+		"LIKE",
+		"LIMIT",
+		"LOCALTIME",
+		"LOCALTIMESTAMP",
+		"NATURAL",
+		"NEW",
+		"NOT",
+		"NOTNULL",
+		"NULL",
+		"OFF",
+		"OFFSET",
+		"OLD",
+		"ON",
+		"ONLY",
+		"OR",
+		"ORDER",
+		"OUTER",
+		"OVERLAPS",
+		"PLACING",
+		"PRIMARY",
+		"REFERENCES",
+		"RETURNING",
+		"RIGHT",
+		"SELECT",
+		"SESSION_USER",
+		"SIMILAR",
+		"SOME",
+		"SYMMETRIC",
+		"TABLE",
+		"THEN",
+		"TO",
+		"TRAILING",
+		"TRUE",
+		"UNION",
+		"UNIQUE",
+		"USER",
+		"USING",
+		"VERBOSE",
+		"WHEN",
+		"WHERE",
+		"WITH",
+	);
+	/**
+	 * @var array
+	 */
+	protected $reserved_oracle = array(
+		"ACCESS",
+		"ADD",
+		"ALL",
+		"ALTER",
+		"AND",
+		"ANY",
+		"AS",
+		"ASC",
+		"AUDIT",
+		"BETWEEN",
+		"BY",
+		"CHAR",
+		"CHECK",
+		"CLUSTER",
+		"COLUMN",
+		"COMMENT",
+		"COMPRESS",
+		"CONNECT",
+		"CREATE",
+		"CURRENT",
+		"DATE",
+		"DECIMAL",
+		"DEFAULT",
+		"DELETE",
+		"DESC",
+		"DISTINCT",
+		"DROP",
+		"ELSE",
+		"EXCLUSIVE",
+		"EXISTS",
+		"FILE",
+		"FLOAT",
+		"FOR",
+		"FROM",
+		"GRANT",
+		"GROUP",
+		"HAVING",
+		"IDENTIFIED",
+		"IMMEDIATE",
+		"IN",
+		"INCREMENT",
+		"INDEX",
+		"INITIAL",
+		"INSERT",
+		"INTEGER",
+		"INTERSECT",
+		"INTO",
+		"IS",
+		"LEVEL",
+		"LIKE",
+		"LOCK",
+		"LONG",
+		"MAXEXTENTS",
+		"MINUS",
+		"MLSLABEL",
+		"MODE",
+		"MODIFY",
+		"NOAUDIT",
+		"NOCOMPRESS",
+		"NOT",
+		"NOWAIT",
+		"NULL",
+		"NUMBER",
+		"OF",
+		"OFFLINE",
+		"ON",
+		"ONLINE",
+		"OPTION",
+		"OR",
+		"ORDER",
+		"PCTFREE",
+		"PRIOR",
+		"PRIVILEGES",
+		"PUBLIC",
+		"RAW",
+		"RENAME",
+		"RESOURCE",
+		"REVOKE",
+		"ROW",
+		"ROWID",
+		"ROWNUM",
+		"ROWS",
+		"SELECT",
+		"SESSION",
+		"SET",
+		"SHARE",
+		"SIZE",
+		"SMALLINT",
+		"START",
+		"SUCCESSFUL",
+		"SYNONYM",
+		"SYSDATE",
+		"TABLE",
+		"THEN",
+		"TO",
+		"TRIGGER",
+		"UID",
+		"UNION",
+		"UNIQUE",
+		"UPDATE",
+		"USER",
+		"VALIDATE",
+		"VALUES",
+		"VARCHAR",
+		"VARCHAR2",
+		"VIEW",
+		"WHENEVER",
+		"WHERE",
+		"WITH",
+	);
+	/**
 	 * @var
 	 */
 	protected $query_utils;
@@ -368,23 +595,63 @@ abstract class ilDBPdoFieldDefinition {
 	 * @return bool
 	 */
 	public function isReserved($table_name) {
-		return in_array(strtoupper($table_name), $this->getReserved());
+		return in_array(strtoupper($table_name), $this->getAllReserved());
 	}
 
 
 	/**
 	 * @return array
 	 */
-	public function getReserved() {
-		return $this->reserved;
+	public function getAllReserved() {
+		return array_merge($this->getReservedMysql(), $this->getReservedOracle(), $this->getReservedPostgres());
 	}
 
 
 	/**
-	 * @param array $reserved
+	 * @return array
 	 */
-	public function setReserved($reserved) {
-		$this->reserved = $reserved;
+	public function getReservedMysql() {
+		return $this->reserved_mysql;
+	}
+
+
+	/**
+	 * @param array $reserved_mysql
+	 */
+	public function setReservedMysql($reserved_mysql) {
+		$this->reserved_mysql = $reserved_mysql;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getReservedPostgres() {
+		return $this->reserved_postgres;
+	}
+
+
+	/**
+	 * @param array $reserved_postgres
+	 */
+	public function setReservedPostgres($reserved_postgres) {
+		$this->reserved_postgres = $reserved_postgres;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getReservedOracle() {
+		return $this->reserved_oracle;
+	}
+
+
+	/**
+	 * @param array $reserved_oracle
+	 */
+	public function setReservedOracle($reserved_oracle) {
+		$this->reserved_oracle = $reserved_oracle;
 	}
 
 
@@ -1187,6 +1454,7 @@ abstract class ilDBPdoFieldDefinition {
 	 */
 	public function quote($value, $type = null, $quote = true, $escape_wildcards = false) {
 		$db = $this->getDBInstance();
+
 		return $db->quote($value, $type);
 
 		if (is_null($value)

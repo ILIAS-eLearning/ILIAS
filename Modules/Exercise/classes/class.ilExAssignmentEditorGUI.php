@@ -1183,9 +1183,13 @@ class ilExAssignmentEditorGUI
 	{					
 		$a_ass->setPeerReviewMin($a_input["peer_min"]);
 		$a_ass->setPeerReviewDeadline($a_input["peer_dl"]);			
-		$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);
-		$a_ass->setPeerReviewValid($a_input["peer_valid"]);						
+		$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);		
 		$a_ass->setPeerReviewPersonalized($a_input["peer_prsl"]);	
+		
+		// #18964
+		$a_ass->setPeerReviewValid($a_input["peer_valid"] 
+			? ilExAssignment::PEER_REVIEW_VALID_NONE
+			: $a_input["peer_valid"]);
 		
 		$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
 		$a_ass->setPeerReviewChars($a_input["peer_char"]);

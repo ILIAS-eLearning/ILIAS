@@ -30,9 +30,19 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
 			ilCalendarCategories::_getInstance($this->user_id)->getCategoriesInfo());
 	}
 	
-	public function isValidEvent(ilCalendarEntry $a_event)
-	{		
-		return (!$this->hidden_cat->isAppointmentVisible($a_event->getEntryId()));				
+	public function modifyEvent(ilCalendarEntry $a_event)
+	{
+		// the not is ok since isAppointmentVisible return false for visible appointments
+		if(!$this->hidden_cat->isAppointmentVisible($a_event->getEntryId()))
+		{
+			return $a_event;
+		}
+		return false;
+	}
+
+	public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories)
+	{
+		
 	}
 }
 

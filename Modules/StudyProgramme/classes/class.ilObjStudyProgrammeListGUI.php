@@ -21,7 +21,9 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 
 
 	function __construct() {
-		global $tpl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		parent::__construct();
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -62,7 +64,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 	/**
 	 * no social commands needed in program.
 	 */
-	public function insertCommonSocialCommands() {
+	public function insertCommonSocialCommands($a_header_actions = false) {
 		return;
 	}
 

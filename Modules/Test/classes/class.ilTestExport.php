@@ -8,12 +8,13 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author Maximilian Becker <mbecker@databay.de>
+ * @author Björn Heyser <bheyser@databay.de>
  * 
  * @version $Id$
  *
  * @ingroup ModulesTest
  */
-class ilTestExport
+abstract class ilTestExport
 {
 	/** @var  ilErrorHandling $err */
 	var $err;			// error object
@@ -1006,6 +1007,10 @@ class ilTestExport
 		}
 	}
 
+	abstract protected function initXmlExport();
+	
+	abstract protected function getQuestionIds();
+
 	/**
 	* build xml export file
 	*/
@@ -1014,6 +1019,8 @@ class ilTestExport
 		global $ilBench;
 
 		$ilBench->start("TestExport", "buildExportFile");
+
+		$this->initXmlExport();
 
 		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$this->xml = new ilXmlWriter;
@@ -1027,6 +1034,8 @@ class ilTestExport
 
 		// set xml header
 		$this->xml->xmlHeader();
+
+		$this->xml->xmlStartTag("ContentObject", array('Type' => 'Test'));
 
 		// create directories
 		$this->test_obj->createExportDirectory();
@@ -1044,7 +1053,7 @@ class ilTestExport
 
 		// write qti file
 		$qti_file = fopen($this->export_dir."/".$this->subdir."/".$this->qti_filename, "w");
-		fwrite($qti_file, $this->test_obj->toXML());
+		fwrite($qti_file, $this->getQtiXml());
 		fclose($qti_file);
 
 		// get xml content
@@ -1052,6 +1061,14 @@ class ilTestExport
 		$this->test_obj->exportPagesXML($this->xml, $this->inst_id,
 			$this->export_dir."/".$this->subdir, $expLog);
 		$ilBench->stop("TestExport", "buildExportFile_getXML");
+		
+		$this->populateQuestionSetConfigXml($this->xml);
+		
+		$assignmentList = $this->buildQuestionSkillAssignmentList();
+		$this->populateQuestionSkillAssignmentsXml($this->xml, $assignmentList, $this->getQuestionIds());
+		$this->populateSkillLevelThresholdsXml($this->xml, $assignmentList);
+
+		$this->xml->xmlEndTag("ContentObject");
 
 		// dump xml document to screen (only for debugging reasons)
 		/*
@@ -1071,6 +1088,7 @@ class ilTestExport
 			// dump results xml document to file
 			include_once "./Modules/Test/classes/class.ilTestResultsToXML.php";
 			$resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->test_obj->getAnonymity());
+			$resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
 			$ilBench->start("TestExport", "buildExportFile_results");
 			$resultwriter->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->resultsfile, false);
 			$ilBench->stop("TestExport", "buildExportFile_results");
@@ -1094,6 +1112,40 @@ class ilTestExport
 		$ilBench->stop("TestExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
+	}
+	
+	abstract protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter);
+	
+	protected function getQtiXml()
+	{
+		$tstQtiXml = $this->test_obj->toXML();
+		$qstQtiXml = $this->getQuestionsQtiXml();
+		
+		if (strpos($tstQtiXml, "</section>") !== false)
+		{
+			$qtiXml = str_replace("</section>", "$qstQtiXml</section>", $tstQtiXml);
+		}
+		else
+		{
+			$qtiXml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n$qstQtiXml</section>", $tstQtiXml);
+		}
+		
+		return $qtiXml;
+	}
+	
+	abstract protected function getQuestionsQtiXml();
+	
+	protected function getQuestionQtiXml($questionId)
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$questionOBJ = assQuestion::_instantiateQuestion($questionId);
+		$xml = $questionOBJ->toXML(false);
+
+		// still neccessary? there is an include header flag!?
+		$xml = preg_replace("/<questestinterop>/", "", $xml);
+		$xml = preg_replace("/<\/questestinterop>/", "", $xml);
+		
+		return $xml;
 	}
 
 	function exportXHTMLMediaObjects($a_export_dir)
@@ -1124,7 +1176,53 @@ class ilTestExport
 			}
 		}
 	}
-
+	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 * @param $questions
+	 */
+	protected function populateQuestionSkillAssignmentsXml(ilXmlWriter $a_xml_writer, ilAssQuestionSkillAssignmentList $assignmentList, $questions)
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
+		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
+		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
+		$skillQuestionAssignmentExporter->setQuestionIds($questions);
+		$skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
+		$skillQuestionAssignmentExporter->export();
+	}
+	
+	protected function populateSkillLevelThresholdsXml(ilXmlWriter $a_xml_writer, ilAssQuestionSkillAssignmentList $assignmentList)
+	{
+		global $ilDB;
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
+		$thresholdList = new ilTestSkillLevelThresholdList($ilDB);
+		$thresholdList->setTestId($this->test_obj->getTestId());
+		$thresholdList->loadFromDb();
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdExporter.php';
+		$skillLevelThresholdExporter = new ilTestSkillLevelThresholdExporter();
+		$skillLevelThresholdExporter->setXmlWriter($a_xml_writer);
+		$skillLevelThresholdExporter->setAssignmentList($assignmentList);
+		$skillLevelThresholdExporter->setThresholdList($thresholdList);
+		$skillLevelThresholdExporter->export();
+	}
+	
+	/**
+	 * @return ilAssQuestionSkillAssignmentList
+	 */
+	protected function buildQuestionSkillAssignmentList()
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($this->test_obj->getId());
+		$assignmentList->loadFromDb();
+		$assignmentList->loadAdditionalSkillData();
+		
+		return $assignmentList;
+	}
 }
 
 ?>

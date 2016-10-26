@@ -12,6 +12,8 @@ require_once './Services/Http/exceptions/class.ilProxyException.php';
  */
 class ilProxySettings
 {
+	const CONNECTION_CHECK_TIMEOUT = 10;
+
 	/**
 	 * 
 	 * Unique instance
@@ -223,17 +225,38 @@ class ilProxySettings
 	 */
 	public function checkConnection()
 	{
-		require_once 'Services/PEAR/lib/Net/Socket.php';
-		
-		$socket = new Net_Socket();
-		$socket->setErrorHandling(PEAR_ERROR_RETURN);
-		$response = $socket->connect($this->getHost(), $this->getPort());
-		if(!is_bool($response))
+		global $DIC;
+
+		$errno  = null;
+		$errstr = null;
+
+		set_error_handler(function ($severity, $message, $file, $line)
 		{
-			global $lng;			
-			throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));	
-		}	
-		
+			throw new ErrorException($message, $severity, $severity, $file, $line);
+		});
+
+		try
+		{
+			$host = $this->getHost();
+			if(strspn($host, '.0123456789') != strlen($host) && strstr($host, '/') === false)
+			{
+				$host = gethostbyname($host);
+			}
+			$port =   $this->getPort() % 65536;
+
+			if(!fsockopen($host, $port, $errno, $errstr, self::CONNECTION_CHECK_TIMEOUT))
+			{
+				restore_error_handler();
+				throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
+			}
+			restore_error_handler();
+		}
+		catch(Exception $e)
+		{
+			restore_error_handler();
+			throw new ilProxyException(strlen($errstr) ? $errstr : $DIC->language()->txt('proxy_not_connectable'));
+		}
+
 		return $this;
 	}
 }

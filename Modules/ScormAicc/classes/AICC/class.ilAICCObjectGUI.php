@@ -57,7 +57,8 @@ class ilAICCObjectGUI
 	*
 	* static
 	*/
-	function &getInstance($a_id)
+
+	static function getInstance($a_id)
 	{
 		$object = new ilAICCObject($a_id);
 		switch($object->getType())

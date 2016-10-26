@@ -341,6 +341,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_use_scoring_system'), 1, ''));
 		$opt->setInfo($this->lng->txt('tst_score_mcmr_use_scoring_system_desc'));
 		$mc_scoring->setValue($this->testOBJ->getMCScoring());
+// fau: testNav - set the deprecated mc scoring option to disabled
+		$mc_scoring->setDisabled(true);
+// fau.
 		$form->addItem($mc_scoring);
 
 		// score cutting

@@ -188,14 +188,14 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		
 		$t_arr = explode("_", $a_target);
 
-		if (($t_arr[0] != "lm" &&  $t_arr[0] != "dbk" &&  $t_arr[0] != "st"
+		if (($t_arr[0] != "lm" &&  $t_arr[0] != "st"
 			&&  $t_arr[0] != "pg")
 			|| ((int) $t_arr[1]) <= 0)
 		{
 			return false;
 		}
 
-		if ($t_arr[0] == "lm" || $t_arr[0] == "dbk")
+		if ($t_arr[0] == "lm")
 		{
 			if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
 				$ilAccess->checkAccess("visible", "", $t_arr[1]))

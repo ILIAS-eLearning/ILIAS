@@ -488,13 +488,19 @@ class ilObjForum extends ilObject
 	 * update forum data
 	 * @access    public
 	 */
-	function update()
+	function update($a_update_user_id = 0)
 	{
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
+		if(!$a_update_user_id)
+		{
+			$a_update_user_id = $GLOBALS['DIC']['ilUser']->getId();
+		}
+		
+		
 		if(parent::update())
 		{
 
@@ -510,7 +516,7 @@ class ilObjForum extends ilObject
 					$this->getTitle(),
 					$this->getDescription(),
 					date("Y-m-d H:i:s"),
-					(int)$_SESSION["AccountId"],
+					(int) $a_update_user_id,
 					(int)$this->getId()
 				));
 
@@ -671,54 +677,77 @@ class ilObjForum extends ilObject
 		$threads = $this->Forum->getAllThreads($topData['top_pk']);
 		foreach($threads['items'] as $thread)
 		{
-			$data = array($thread->getId());
-
-			// delete tree
-			$statement = $ilDB->manipulateF('
-				DELETE FROM frm_posts_tree WHERE thr_fk = %s',
-				array('integer'), $data);
-
-			// delete posts
-			$statement = $ilDB->manipulateF('
-				DELETE FROM frm_posts WHERE pos_thr_fk = %s',
-				array('integer'), $data);
-
-			// delete threads
-			$statement = $ilDB->manipulateF('
-				DELETE FROM frm_threads WHERE thr_pk = %s',
-				array('integer'), $data);
-
+			$thread_ids_to_delete[$thread->getId()] = $thread->getId();
 		}
-
-		$data = array($this->getId());
+		
+		// delete tree
+		$ilDB->manipulate('DELETE FROM frm_posts_tree WHERE '. $ilDB->in('thr_fk', $thread_ids_to_delete, false, 'integer'));
+		
+		// delete posts
+		$ilDB->manipulate('DELETE FROM frm_posts WHERE '. $ilDB->in('pos_thr_fk', $thread_ids_to_delete, false, 'integer'));
+	
+		// delete threads
+		$ilDB->manipulate('DELETE FROM frm_threads WHERE '. $ilDB->in('thr_pk', $thread_ids_to_delete, false, 'integer'));
+		
+		$obj_id = array($this->getId());
 		// delete forum
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_data WHERE top_frm_fk = %s',
-			array('integer'), $data);
+		$ilDB->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s',
+			array('integer'), $obj_id);
 
 		// delete settings
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_settings WHERE obj_id = %s',
-			array('integer'), $data);
+		$ilDB->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s',
+			array('integer'), $obj_id);
 
 		// delete read infos
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_user_read WHERE obj_id = %s',
-			array('integer'), $data);
+		$ilDB->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s',
+			array('integer'), $obj_id);
 
 		// delete thread access entries
-		$statement = $ilDB->manipulateF('
-			DELETE FROM frm_thread_access WHERE obj_id = %s',
-			array('integer'), $data);
+		$ilDB->manipulateF('DELETE FROM frm_thread_access WHERE obj_id = %s',
+			array('integer'), $obj_id);
 
-		//delete notifications
-		$ilDB->manipulateF('
-				DELETE FROM frm_notification WHERE frm_id = %s',
-			array('integer'), $data);
-
+		//delete thread notifications
+		$ilDB->manipulate('DELETE FROM frm_notification WHERE '. $ilDB->in('thread_id', $thread_ids_to_delete, false, 'integer'));
+		
+		//delete forum notifications
+		$ilDB->manipulateF('DELETE FROM frm_notification WHERE  frm_id = %s', array('integer'), $obj_id);
+		
+		// delete posts_deleted entries 
+		$ilDB->manipulateF('DELETE FROM frm_posts_deleted WHERE obj_id = %s', array('integer'), $obj_id);
+		
+		//delete drafts 
+		$this->deleteDraftsByForumId((int)$topData['top_pk']);
+			
 		return true;
 	}
 
+	/**
+	 * @param int $forum_id
+	 */
+	private function deleteDraftsByForumId($forum_id)
+	{
+		global $ilDB;
+		$res = $ilDB->queryF('SELECT draft_id FROM frm_posts_drafts WHERE forum_id = %s',
+			array('integer'), array((int)$forum_id));
+		
+		$draft_ids = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$draft_ids[] = $row['draft_id'];
+		}
+
+		if(count($draft_ids) > 0)
+		{
+			require_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
+			$historyObj = new ilForumDraftsHistory();
+			$historyObj->deleteHistoryByDraftIds($draft_ids);
+			
+			require_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
+			$draftObj = new ilForumPostDraft();
+			$draftObj->deleteDraftsByDraftIds($draft_ids);
+		}
+	}
+	
 	/**
 	 * init default roles settings
 	 * @access    public

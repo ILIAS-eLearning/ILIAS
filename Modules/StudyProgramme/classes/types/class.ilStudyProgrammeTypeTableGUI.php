@@ -33,7 +33,10 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
 	 * @param string $parent_cmd
 	 */
     public function __construct($parent_obj, $parent_cmd) {
-        global $ilCtrl, $ilTabs, $lng;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $ilTabs = $DIC['ilTabs'];
+        $lng = $DIC['lng'];
         $this->ctrl = $ilCtrl;
         $this->tabs = $ilTabs;
         $this->lng = $lng;

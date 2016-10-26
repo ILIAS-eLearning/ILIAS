@@ -11,17 +11,26 @@
  */
 class ilAwarenessGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 
 	/**
 	 * Constructor
 	 */
 	function __construct()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$this->ui = $DIC->ui();
 
 		$this->ref_id = (int) $_GET["ref_id"];
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 	}
 
 	/**
@@ -97,6 +106,7 @@ class ilAwarenessGUI
 
 		if ($hcnt > 0 || $cnt > 0)
 		{
+			/*
 			$tpl->setCurrentBlock("status_text");
 			$tpl->setVariable("STATUS_TXT", $cnt);
 			if ($cnt == 0)
@@ -111,7 +121,24 @@ class ilAwarenessGUI
 				$tpl->setVariable("H_HIDDEN", "ilAwrnBadgeHidden");
 			}
 			$tpl->parseCurrentBlock();
-			$tpl->setVariable("HSP", "&nbsp;");
+			$tpl->setVariable("HSP", "&nbsp;");*/
+
+			$f = $this->ui->factory();
+			$renderer = $this->ui->renderer();
+
+			$glyph = $f->glyph()->user("#");
+			if ($cnt > 0)
+			{
+				$glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
+			}
+			if ($hcnt > 0)
+			{
+				$glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
+			}
+			$glyph_html = $renderer->render($glyph);
+			$tpl->setVariable("GLYPH", $glyph_html);
+
+
 
 			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 
@@ -171,7 +198,7 @@ class ilAwarenessGUI
 			$ucnt++;
 
 			$fcnt = 0;
-			foreach ($u->features as $f)
+			foreach ($u->actions as $act)
 			{
 				$fcnt++;
 				if ($fcnt == 1)
@@ -180,9 +207,9 @@ class ilAwarenessGUI
 					//$tpl->setCurrentBlock("arrow");
 					//$tpl->parseCurrentBlock();
 				}
-				if (is_array($f->data) && count($f->data) > 0)
+				if (is_array($act->data) && count($act->data) > 0)
 				{
-					foreach ($f->data as $k => $v)
+					foreach ($act->data as $k => $v)
 					{
 						$tpl->setCurrentBlock("f_data");
 						$tpl->setVariable("DATA_KEY", $k);
@@ -191,8 +218,8 @@ class ilAwarenessGUI
 					}
 				}
 				$tpl->setCurrentBlock("feature");
-				$tpl->setVariable("FEATURE_HREF", $f->href);
-				$tpl->setVariable("FEATURE_TEXT", $f->text);
+				$tpl->setVariable("FEATURE_HREF", $act->href);
+				$tpl->setVariable("FEATURE_TEXT", $act->text);
 				$tpl->parseCurrentBlock();
 			}
 

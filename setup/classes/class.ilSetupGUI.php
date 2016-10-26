@@ -851,6 +851,19 @@ echo "<br>+".$client_id;
 		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
 		$this->form->addItem($ne);
 
+		// system styles
+		$ne = new ilNonEditableValueGUI($lng->txt("enable_system_styles_management"), "enable_system_styles_management");
+		$p = $this->setup->ini->readVariable("tools","enable_system_styles_management");
+		$ne->setValue($p ? $this->lng->txt("enabled") : $this->lng->txt("not_enabled"));
+		$this->form->addItem($ne);
+
+		// lessc command
+		$ne = new ilNonEditableValueGUI($lng->txt("lessc"), "lessc");
+		$p = $this->setup->ini->readVariable("tools","lessc");
+		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
+		$this->form->addItem($ne);
+
+
 		$this->form->setFormAction("setup.php?cmd=gateway");
 	}
 
@@ -1047,6 +1060,11 @@ echo "<br>+".$client_id;
 		$cb = new ilCheckboxInputGUI($lng->txt("disable_logging"), "chk_log_status");
 		$this->form->addItem($cb);
 
+		// path to error log dir
+		$ti = new ilTextInputGUI($lng->txt("error_log_path"), "error_log_path");
+		$ti->setInfo($lng->txt("error_log_path_comment".$lvext));
+		$this->form->addItem($ti);
+
 		// server settings
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("server_settings"));
@@ -1117,11 +1135,6 @@ echo "<br>+".$client_id;
 		$ti->setInfo($lng->txt("ghostscript_path_comment".$lvext));
 		$this->form->addItem($ti);
 
-		// java path
-		$ti = new ilTextInputGUI($lng->txt("java_path"), "java_path");
-		$ti->setInfo($lng->txt("java_path_comment".$lvext));
-		$this->form->addItem($ti);
-
 		// ffmpeg path
 		$ti = new ilTextInputGUI($lng->txt("ffmpeg_path"), "ffmpeg_path");
 		$ti->setInfo($lng->txt("ffmpeg_path_comment"));
@@ -1150,6 +1163,19 @@ echo "<br>+".$client_id;
 		// clean command
 		$ti = new ilTextInputGUI($lng->txt("clean_command"), "clean_command");
 		$this->form->addItem($ti);
+
+		// enabled system styles mangesment
+		$check = new ilCheckboxInputGUI($lng->txt('enable_system_styles_management'),'enable_system_styles_management');
+		$check->setInfo($lng->txt('enable_system_styles_management_info'));
+		$check->setValue(1);
+
+		// lessc command
+		$lessc = new ilTextInputGUI($lng->txt("lessc_path"), "lessc_path");
+		$lessc->setInfo($lng->txt("lessc_path_comment"));
+		$check->addSubItem($lessc);
+
+		$this->form->addItem($check);
+
 
 		if ($a_install)
 		{
@@ -1199,7 +1225,6 @@ echo "<br>+".$client_id;
 		$values["zip_path"] = $this->setup->ini->readVariable("tools","zip");
 		$values["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
 		$values["ghostscript_path"] = $this->setup->ini->readVariable("tools","ghostscript");
-		$values["java_path"] = $this->setup->ini->readVariable("tools","java");
 		//$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
 		$values["ffmpeg_path"] = $this->setup->ini->readVariable("tools","ffmpeg");
 		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
@@ -1207,11 +1232,14 @@ echo "<br>+".$client_id;
 		$values["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
 		$values["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
 		$values["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
+		$values["enable_system_styles_management"] = $this->setup->ini->readVariable("tools", "enable_system_styles_management");
+		$values["lessc_path"] = $this->setup->ini->readVariable("tools", "lessc");
 		$values["log_path"] = $this->setup->ini->readVariable("log","path")."/".
 			$this->setup->ini->readVariable("log","file");
 		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
+		$values["error_log_path"] = $this->setup->ini->readVariable("log","error_path");
 		$values["time_zone"] = $this->setup->ini->readVariable("server", "timezone");
-		
+
 		// https settings
 		$values["auto_https_detect_enabled"] = $this->setup->ini->readVariable("https", "auto_https_detect_enabled");
 		$values["auto_https_detect_header_name"] = $this->setup->ini->readVariable("https", "auto_https_detect_header_name");
@@ -1235,13 +1263,12 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
 				}
 			}
-
 			$_POST["setup_pass"] = $_POST["password"];
 			$_POST["setup_pass2"] = $_POST["password_retype"];
 			if (!$this->setup->checkDataDirSetup($_POST))
@@ -1253,6 +1280,11 @@ echo "<br>+".$client_id;
 			else if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if(!$this->setup->checkErrorLogSetup($_POST["error_log_path"])) {
+				$i = $this->form->getItemByPostVar("error_log_path");
 				$i->setAlert($this->lng->txt($this->setup->getError()));
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
 			}
@@ -1289,7 +1321,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1299,6 +1331,11 @@ echo "<br>+".$client_id;
 			if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if (!$this->setup->checkErrorLogSetup($_POST["error_log_path"])) {
+				$i = $this->form->getItemByPostVar("error_log_path");
 				$i->setAlert($this->lng->txt($this->setup->getError()));
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
 			}
@@ -1528,16 +1565,14 @@ echo "<br>+".$client_id;
 		{
 			$tools = array("convert" => "convert",
 				"zip" => "zip", "unzip" => "unzip", "ghostscript" => "gs",
-				"java" => "java", "ffmpeg" => "ffmpeg");
+				"java" => "java", "ffmpeg" => "ffmpeg", "lessc"=>"lessc");
 			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		}
 		else
 		{
 			$tools = array("convert" => "convert.exe",
 				"zip" => "zip.exe", "unzip" => "unzip.exe");
-			$dirs = array($cwd."/Services/Windows/bin32/zip",
-				$cwd."/Services/Windows/bin32/unzip",
-				$cwd."/Services/Windows/bin32/convert");
+			$dirs = array();
 		}
 		foreach($tools as $k => $tool)
 		{
@@ -1599,7 +1634,7 @@ echo "<br>+".$client_id;
 		$this->form = new ilPropertyFormGUI();
 
 		// db type
-		$options = ilDBConstants::getAvailableTypes();
+		$options = ilDBConstants::getAvailableTypes(true);
 		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
 		$si->setOptions($options);
 		$si->setInfo($lng->txt(""));
@@ -2082,14 +2117,12 @@ echo "<br>+".$client_id;
 
 		$this->checkDisplayMode("setup_database");
 
-		//$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
-
 		// database is intalled
 		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled())
 		{
 			$this->setDbSubTabs("db");
 
-			$ilDB = $this->setup->getClient()->db;
+			$ilDB = $this->setup->getClient()->getDB();
 			$this->lng->setDbHandler($ilDB);
 			include_once "./Services/Database/classes/class.ilDBUpdate.php";
 			$dbupdate = new ilDBUpdate($ilDB);
@@ -2476,9 +2509,12 @@ echo "<br>+".$client_id;
 		$this->form->addItem($ne);
 
 		// version
-		if ($this->setup->getClient()->getDBType() == "mysql" ||
-			$this->setup->getClient()->getDBType() == "innodb")
-		{
+		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled()
+		    && in_array($this->setup->getClient()->getDbType(), array(
+				ilDBConstants::TYPE_MYSQL,
+				ilDBConstants::TYPE_INNODB,
+			))
+		) {
 			$ne = new ilNonEditableValueGUI($lng->txt("version"), "db_version");
 			$ilDB = $this->setup->getClient()->db;
 			$ne->setValue($ilDB->getDBVersion());
@@ -2662,15 +2698,12 @@ echo "<br>+".$client_id;
 	*/
 	public function getClientDbFormValues($dbupdate = null)
 	{
-		global $lng;
-
 		$values = array();
-
 		$values["db_host"] = $this->setup->getClient()->getDbHost();
 		$values["db_name"] = $this->setup->getClient()->getDbName();
 		$values["db_user"] = $this->setup->getClient()->getDbUser();
 		$values["db_port"] = $this->setup->getClient()->getDbPort();
-		$values["db_type"] = $lng->txt("db_".$this->setup->getClient()->getDbType());
+		$values["db_type"] = ilDBConstants::describe($this->setup->getClient()->getDbType());
 		if (is_object($dbupdate))
 		{
 			$values["update_break"] = $dbupdate->fileVersion;

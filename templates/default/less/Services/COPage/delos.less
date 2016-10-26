@@ -73,6 +73,7 @@ div.il_editarea_nojs {
 
 div.il_editarea {
 	border: 1px solid transparent;
+	min-height: 20px;
 }
 
 div.ilc_page_Page > div.il_editarea_disabled {
@@ -81,23 +82,28 @@ div.ilc_page_Page > div.il_editarea_disabled {
 
 div.il_editarea_disabled {
 	border: 2px dotted @brand-warning;
+	min-height: 20px;
 }
 
 div.il_editarea_active {
 	border: 1px solid #909090;
+	min-height: 20px;
 }
 
 div.il_editarea_selected {
 	border: 2px solid @brand-secondary;
+	min-height: 20px;
 }
 
 div.il_editarea_disabled_selected
 {
 	border: 2px solid @brand-warning;
+	min-height: 20px;
 }
 
 div.il_editarea_active_selected {
 	border: 2px solid #000;
+	min-height: 20px;
 }
 
 .il_editmenu {
@@ -282,7 +288,7 @@ td.ilc_PageDisabled {
 }
 
 div.ilc_DefinitionHeader {
-	margin: 10px 0;
+	margin: 20px 0 10px 0;
 	padding: 5px 0;
 	border: 1px solid #000;
 	border-width: 1px 0;
@@ -461,4 +467,8 @@ ul#ilAdvSelListTable_style_selection {
 a.ilCOPageSection {
 	color: inherit;
 	text-decoration: inherit;
+}
+
+#ilAdvSelListAnchorText_char_style_selection > span {
+	min-width: auto;
 }

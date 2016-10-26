@@ -56,4 +56,11 @@ interface ilContextTemplate
 	 * @return bool
 	 */
 	public static function doAuthentication();
+	
+	
+	/**
+	 * Check if persistent sessions are supported
+	 * false for context cli 
+	 */
+	public static function supportsPersistentSessions();
 }

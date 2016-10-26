@@ -329,7 +329,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 			}
 			$tpl->setVariable("SELECT_MONTHS",
 				ilUtil::formSelect($this->getMonths(), $this->getPostVar()."[MM]",
-				$val, false, true));
+				$val, false, true, 0, '', '', $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowDays())
@@ -343,7 +343,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 			}
 			$tpl->setVariable("SELECT_DAYS",
 				ilUtil::formSelect($this->getDays(), $this->getPostVar()."[dd]",
-				$val, false, true));
+				$val, false, true, 0, '', '', $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowHours())
@@ -357,7 +357,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 			}
 			$tpl->setVariable("SELECT_HOURS",
 				ilUtil::formSelect($this->getHours(), $this->getPostVar()."[hh]",
-				$val, false, true));
+				$val, false, true, 0, '', '', $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowMinutes())
@@ -371,7 +371,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 			}
 			$tpl->setVariable("SELECT_MINUTES",
 				ilUtil::formSelect($this->getMinutes(), $this->getPostVar()."[mm]",
-				$val, false, true));
+				$val, false, true, 0, '', '', $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowSeconds())
@@ -385,7 +385,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 			}
 			$tpl->setVariable("SELECT_SECONDS",
 				ilUtil::formSelect($this->getSeconds(), $this->getPostVar()."[ss]",
-				$val, false, true));
+				$val, false, true, 0, '', '', $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		

@@ -31,7 +31,7 @@ abstract class assQuestionGUI
 	*
 	* A reference to the matching question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -75,6 +75,7 @@ abstract class assQuestionGUI
 
 	const OUTPUT_MODE_SCREEN = 'outModeScreen';
 	const OUTPUT_MODE_PDF = 'outModePdf';
+	const OUTPUT_MODE_USERINPUT = 'outModeUsrInp';
 	
 	/**
 	 * @var string
@@ -186,6 +187,11 @@ abstract class assQuestionGUI
 	{
 		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
 	}
+
+	public function isUserInputOutputMode()
+	{
+		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
+	}
 	
 	/**
 	 * @return ilTestQuestionNavigationGUI
@@ -235,6 +241,16 @@ abstract class assQuestionGUI
 	{
 		$this->questionHeaderBlockBuilder = $questionHeaderBlockBuilder;
 	}
+
+// fau: testNav - get the question header block bulder (for tweaking)
+	/**
+	 * @return \ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder
+	 */
+	public function getQuestionHeaderBlockBuilder()
+	{
+		return $this->questionHeaderBlockBuilder;
+	}
+// fau.
 
 	public function setQuestionActionCmd($questionActionCmd)
 	{
@@ -356,6 +372,11 @@ abstract class assQuestionGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
+	
+	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	{
+		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+	}
 
 	/**
 	* get question template
@@ -401,34 +422,50 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+// fau: testNav - add the "use unchanged answer checkbox"
+		if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		{
+			$html .= $this->getUseUnchangedAnswerCheckboxHtml();
+		}
+// fau.
+
 		$this->lng->loadLanguageModule("content");
 
-		if( $this->getNavigationGUI() )
-		{
-			$html = $this->getNavigationGUI()->getHTML().$html;
-		}
-		
-		$postponed = "";
-		if ($a_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
-
+// fau: testNav - add question buttons below question, add actions menu
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setOutputMode("presentation");
 		$page_gui->setTemplateTargetVar($a_temp_var);
+
+		if( $this->getNavigationGUI() )
+		{
+			$html .= $this->getNavigationGUI()->getHTML();
+			$page_gui->setQuestionActionsHTML($this->getNavigationGUI()->getActionsHTML());
+		}
+// fau.
 
 		if( strlen($html) )
 		{
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
 
-		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getHTML());
+// fau: testNav - fill the header with subtitle blocks for question info an actions
+		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getPresentationTitle());
+		$page_gui->setQuestionInfoHTML($this->questionHeaderBlockBuilder->getQuestionInfoHTML());
+// fau.
 
 		return $page_gui->presentation();
 	}
 	
+// fau: testNav - get the html of the "use unchanged answer checkbox"
+	private function getUseUnchangedAnswerCheckboxHtml()
+	{
+		$tpl = new ilTemplate("tpl.tst_question_use_unchanged_answer.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->object->getTestQuestionConfig()->getUseUnchangedAnswerLabel());
+		return $tpl->get();
+	}
+// fau.
+
 	/**
 	* cancel action
 	*/
@@ -1286,10 +1323,14 @@ abstract class assQuestionGUI
 		} 
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
+			$oldOutputMode = $this->getOutputMode();
+			$this->setOutputMode(self::OUTPUT_MODE_USERINPUT);
+			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
+			$this->setOutputMode($oldOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{
@@ -1389,8 +1430,11 @@ abstract class assQuestionGUI
 			}
 			else if (strcmp($solution_array["type"], "text") == 0)
 			{
+				$solutionContent = $solution_array['value'];
+				$solutionContent = $this->object->fixSvgToPng($solutionContent);
+				$solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
 				$question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-				$question->setValue($this->object->prepareTextareaOutput($solution_array["value"]));
+				$question->setValue($this->object->prepareTextareaOutput($solutionContent));
 				$question->setRequired(TRUE);
 				$question->setRows(10);
 				$question->setCols(80);
@@ -1957,7 +2001,7 @@ abstract class assQuestionGUI
 			array('ilAssQuestionPreviewGUI')
 		);
 	}
-	
+
 	abstract public function getSolutionOutput(
 		$active_id,
 		$pass = NULL,

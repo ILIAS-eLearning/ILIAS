@@ -452,7 +452,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	/**
 	 * should be avoided; store value to increase performance for further requests
 	 */
-	function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write=false)
+	static function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write=false)
 	{
 		global $ilDB, $ilLog;
 		$scos = array();

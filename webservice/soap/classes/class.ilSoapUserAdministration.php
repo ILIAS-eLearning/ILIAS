@@ -35,36 +35,73 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 class ilSoapUserAdministration extends ilSoapAdministration
 {
 
-	// Service methods
-	function login($client,$username,$password)
+	/**
+	 * Soap login 
+	 * @global type $ilUser
+	 * @param type $client
+	 * @param type $username
+	 * @param type $password
+	 * @return type
+	 */
+	public function login($client,$username,$password)
 	{
 		/**
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilUser;
 
-		$_COOKIE['ilClientId'] = $client;
-		$_POST['username'] = $username;
-		$_POST['password'] = $password;
 		unset($_COOKIE['PHPSESSID']);
-		
+		$_COOKIE['ilClientId'] = $client;
+
 		try
 		{
-			include_once './include/inc.header.php';
+			$this->initIlias();
 		}
 		catch(Exception $e)
 		{
 			return $this->__raiseError($e->getMessage(), 'Server');
 		}
 		
-		ilUtil::setCookie('ilClientId',$client);
-
-		if($ilUser->hasToAcceptTermsOfService())
+		// now try authentication
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
+		$credentials = new ilAuthFrontendCredentials();
+		$credentials->setUsername($username);
+		$credentials->setPassword($password);
+		
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$providers = $provider_factory->getProviders($credentials);
+			
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+			
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_CLI);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			$providers
+		);
+			
+		$frontend->authenticate();
+			
+		switch($status->getStatus())
 		{
-			return $this->__raiseError('User agreement not accepted', 'Server');
-		}
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful.');
+				return $GLOBALS['DIC']['ilAuthSession']->getId().'::'.$client;
+				
 
-		return (session_id().'::'.$client);
+			default:
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				return $this->raiseError(
+						$GLOBALS['DIC']['lng']->txt($status->getReason()),
+						'Server'
+				);
+		}				
+		return true;
 	}
 
 	// Service methods
@@ -89,12 +126,25 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	}
 
 		// Service methods
-	function loginLDAP($client, $username, $password)
+	/**
+	 * Not required anymode. This method is a simple alias for login()
+	 * @param type $client
+	 * @param type $username
+	 * @param type $password
+	 * @return type
+	 * @deprecated since version 5.2
+	 */
+	public function loginLDAP($client, $username, $password)
 	{
 		return $this->login($client, $username, $password);
 	}
 
-	function logout($sid)
+	/**
+	 * Logout user destroy session
+	 * @param string $sid
+	 * @return type
+	 */
+	public function logout($sid)
 	{
 		$this->initAuth($sid);
 		$this->initIlias();
@@ -104,19 +154,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		
-		global $ilAuth;
-		$ilAuth->logout();
-		session_destroy();
+		include_once './Services/Authentication/classes/class.ilSession.php';
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		return true;
-
-		/*
-		if(!$this->sauth->logout())
-		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}
-		
-		return true;
-		*/
 	}
 
 	function lookupUser($sid,$user_name)
@@ -175,180 +216,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return $this->__raiseError('User does not exist','Client');
 	}
 
-	/**
-	 * @deprecated
-	 */
-	function updateUser($sid,$user_data)
-	{
-		/**
-		 * @var $user_obj ilObjUser
-		 */
-		$this->initAuth($sid);
-		$this->initIlias();
-
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-
-		global $rbacsystem, $ilUser, $log;
-
-		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
-		{
-			return $this->__raiseError('Check access failed.','Server');
-		}
-
-		if(!$user_obj =& ilObjectFactory::getInstanceByObjId($user_data['usr_id'],false))
-		{
-			return $this->__raiseError('User with id '.$user_data['usr_id'].' does not exist.','Client');
-		}
-
-		$user_old = $this->__readUserData($user_obj);
-		$user_new = $this->__substituteUserData($user_old,$user_data);
-
-		if(!$this->__validateUserData($user_new,false))
-		{
-			return $this->__raiseError($this->__getMessage(),'Client');
-		}
-
-		if(strlen($user_data['passwd']) != 32)
-		{
-			$user_new['passwd_type'] = IL_PASSWD_PLAIN;
-		}
-		else
-		{
-			$user_new['passwd_type'] = IL_PASSWD_CRYPTED;
-		}
-		$this->__setUserData($user_obj,$user_new);
-
-		$log->write('SOAP: updateUser()');
-		$user_obj->update();
-
-		if($user_data['accepted_agreement'] && $user_obj->hasToAcceptTermsOfService())
-		{
-			$user_obj->writeAccepted();
-		}
-
-		return true;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	function updatePassword($sid,$user_id,$new_password)
-	{
-		$this->initAuth($sid);
-		$this->initIlias();
-
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
-		{
-			return $this->__raiseError('Check access failed.','Server');
-		}
-
-		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
-		{
-			return $this->__raiseError('No valid user_id given.','Client');
-		}
-
-		$tmp_user->replacePassword($new_password);
-
-		return true;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	function addUser($sid,$user_data,$global_role_id)
-	{
-		$this->initAuth($sid);
-		$this->initIlias();
-
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-
-		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting;
-
-		if(!$rbacsystem->checkAccess('create_usr',USER_FOLDER_ID))
-		{
-			return $this->__raiseError('Check access failed.','Server');
-		}
-
-		// Validate user_data
-		if(!$this->__validateUserData($user_data))
-		{
-			return $this->__raiseError($this->__getMessage(),'Client');
-		}
-		// Validate global role
-		if(!$global_role_id)
-		{
-			return $this->__raiseError('No role id given','Client');
-		}
-
-		// Validate global role
-
-		$global_roles = $rbacreview->getGlobalRoles();
-
-		if(!in_array($global_role_id,$global_roles))
-		{
-			return $this->__raiseError('Role with id: '.$global_role_id.' is not a valid global role','Client');
-		}
-
-		$new_user = new ilObjUser();
-
-		if(strlen($user_data['passwd']) != 32)
-		{
-			$user_data['passwd_type'] = IL_PASSWD_PLAIN;
-		}
-		else
-		{
-			$user_data['passwd_type'] = IL_PASSWD_CRYPTED;
-		}
-        $this->__setUserData($new_user,$user_data);
-
-		$ilLog->write('SOAP: addUser()');
-
-		// Need this for entry in object_data
-		$new_user->setTitle($new_user->getFullname());
-		$new_user->setDescription($new_user->getEmail());
-
-		if ($user_data["import_id"] != "")
-		{
-			$new_user->setImportId($user_data["import_id"]);
-		}
-
-		$new_user->create();
-
-
-		$new_user->saveAsNew();
-
-		// If agreement is given. Set user agreement accepted.
-		if($user_data['accepted_agreement'])
-		{
-			$new_user->writeAccepted();
-		}
-
-		// Assign role
-		$rbacadmin->assignUser($global_role_id,$new_user->getId());
-
-		// Assign user prefs
-		$new_user->setLanguage($user_data['user_language']);
-		$new_user->setPref('style',$user_data['user_style']);
-		$new_user->setPref('skin',$user_data['user_skin']);
-		$new_user->setPref('hits_per_page',$ilSetting->get('hits_per_page'));
-		$new_user->setPref('show_users_online',$ilSetting->get('show_users_online'));
-		$new_user->writePrefs();
-
-		return $new_user->getId();
-	}
 
 	/**
 	 * @deprecated
@@ -395,195 +262,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return true;
 	}
 
-
-
-
-	// PRIVATE
-	function __validateUserData(&$user_data,$check_complete = true)
-	{
-		global $lng,$styleDefinition,$ilLog;
-
-		$this->__setMessage('');
-		
-		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-		$allow_empty_password = ilAuthUtils::_needsExternalAccountByAuthMode(
-			ilAuthUtils::_getAuthMode($user_data['auth_mode']));
-
-		if($check_complete)
-		{
-			if(!isset($user_data['login']))
-			{
-				$this->__appendMessage('No login given.');
-			}
-			if(!isset($user_data['passwd']) and !$allow_empty_password)
-			{
-				$this->__appendMessage('No password given.');
-			}
-			if(!isset($user_data['email']))
-			{
-				$this->__appendMessage('No email given');
-			}
-			if(!isset($user_data['user_language']))
-			{
-				$user_data['user_language'] = $lng->getDefaultLanguage();
-			}
-		}
-		foreach($user_data as $field => $value)
-		{
-			switch($field)
-			{
-				case 'login':
-					if (!ilUtil::isLogin($value))
-					{
-						$this->__appendMessage('Login invalid.');
-					}
-
-					// check loginname
-					if($check_complete)
-					{
-						if (ilObjUser::_loginExists($value))
-						{
-							$this->__appendMessage('Login already exists.');
-						}
-					}
-					break;
-
-				case 'passwd':
-					if(!strlen($value) and $allow_empty_password)
-					{
-						break;
-					}
-					if (!ilUtil::isPassword($value))
-					{
-						$this->__appendMessage('Password invalid.');
-					}
-					break;
-
-				case 'email':
-					if(!ilUtil::is_email($value))
-					{
-						$this->__appendMessage('Email invalid.');
-					}
-					break;
-
-				case 'time_limit_unlimited':
-					if($value != 1)
-					{
-						if($user_data['time_limit_from'] >= $user_data['time_limit_until'])
-						{
-							$this->__appendMessage('Time limit invalid');
-						}
-					}
-					break;
-
-				case 'user_language':
-					$lang_inst = $lng->getInstalledLanguages();
-
-					if(!in_array($user_data['user_language'],$lang_inst))
-					{
-						$this->__appendMessage('Language: '.$user_data['user_language'].' is not installed');
-					}
-					break;
-
-
-				case 'user_skin':
-				case 'user_style':
-					if(($user_data['user_skin'] and !$user_data['user_style']) or
-					   (!$user_data['user_skin'] and $user_data['user_style']))
-					{
-						$this->__appendMessage('user_skin, user_style not valid.');
-					}
-					elseif($user_data['user_skin'] and $user_data['user_style'])
-					{
-						$ok = false;
-						$templates = $styleDefinition->getAllTemplates();
-						if (count($templates) > 0 && is_array($templates))
-						{
-							foreach($templates as $template)
-							{
-								$styleDef = new ilStyleDefinition($template["id"]);
-								$styleDef->startParsing();
-								$styles = $styleDef->getStyles();
-								foreach ($styles as $style)
-								{
-									if ($user_data['user_skin'] == $template["id"] &&
-										$user_data['user_style'] == $style["id"])
-									{
-										$ok = true;
-									}
-								}
-							}
-							if(!$ok)
-							{
-								$this->__appendMessage('user_skin, user_style not valid.');
-							}
-						}
-					}
-					break;
-
-				case 'time_limit_owner':
-					$type = ilObject::_lookupType($user_data['time_limit_owner'],true);
-					if($type != 'cat' and $type != 'usrf')
-					{
-						$this->__appendMessage('time_limit_owner must be ref_id of category or user folder'.$type);
-					}
-					break;
-
-
-
-				default:
-					continue;
-			}
-		}
-		return strlen($this->__getMessage()) ? false : true;
-	}
-
-	function __setUserData(&$user_obj,&$user_data)
-	{
-		// Default to unlimited if no access period is given
-		if(!$user_data['time_limit_from'] and
-		   !$user_data['time_limit_until'] and
-		   !$user_data['time_limit_unlimited'])
-		{
-			$user_data['time_limit_unlimited'] = 1;
-		}
-		if(!$user_data['time_limit_owner'])
-		{
-			$user_data['time_limit_owner'] = USER_FOLDER_ID;
-		}
-
-
-		// not supported fields by update/addUser
-		$user_data['im_icq'] = $user_obj->getInstantMessengerId('icq');
-		$user_data['im_yahoo'] = $user_obj->getInstantMessengerId('yahoo');
-		$user_data['im_msn'] = $user_obj->getInstantMessengerId('msn');
-		$user_data['im_aim'] = $user_obj->getInstantMessengerId('aim');
-		$user_data['im_skype'] = $user_obj->getInstantMessengerId('skype');
-		$user_data['im_jabber'] = $user_obj->getInstantMessengerId('jabber');
-		$user_data['im_voip'] = $user_obj->getInstantMessengerId('voip');
-		
-		$user_data['delicious'] = $user_obj->getDelicious();
-		$user_data['latitude'] = $user_obj->getLatitude();
-		$user_data['longitude'] = $user_obj->getLongitude();
-		$user_data['loc_zoom'] = $user_obj->getLocationZoom();
-		
-		
-		$user_data['auth_mode'] = $user_obj->getAuthMode();
-		$user_data['ext_account'] = $user_obj->getExternalAccount();
- 		$user_obj->assignData($user_data);
-
-		if(isset($user_data['user_language']))
-		{
-			$user_obj->setLanguage($user_data['user_language']);
-		}
-		if(isset($user_data['user_skin']) and isset($user_data['user_style']))
-		{
-			$user_obj->setPref('skin',$user_data['user_skin']);
-			$user_obj->setPref('style',$user_data['user_style']);
-		}
-		return true;
-	}
-
 	function __readUserData(&$usr_obj)
 	{
 		$usr_data['usr_id'] = $usr_obj->getId();
@@ -626,15 +304,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['import_id'] = $usr_obj->getImportId();
 		
 		return $usr_data;
-	}
-
-	function __substituteUserData($user_old,$user_new)
-	{
-		foreach($user_new as $key => $value)
-		{
-			$user_old[$key] = $value;
-		}
-		return $user_old ? $user_old : array();
 	}
 
 	/**
@@ -978,7 +647,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 				foreach($roles as $role_id)
 				{
-					$data = array_merge($rbacreview->assignedUsers($role_id, array()),$data);
+					$data = array_merge($rbacreview->assignedUsers($role_id),$data);
 				}
 
 				break;

@@ -15,12 +15,12 @@
 class ilObjSCORMInitData
 {
 
-	function encodeURIComponent($str) {
+	static function encodeURIComponent($str) {
 		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')', '%7E'=>'~');
 		return strtr(rawurlencode($str), $revert);
 	}
 
-	function getIliasScormVars($slm_obj) {
+	static function getIliasScormVars($slm_obj) {
 		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
 //		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
@@ -142,7 +142,7 @@ class ilObjSCORMInitData
 		return $s_out;
 	}
 	
-	function getIliasScormData($a_packageId) {
+	static function getIliasScormData($a_packageId) {
 		global $ilias, $ilUser, $ilDB;
 		$b_readInteractions='false';
 		$a_out=array();
@@ -161,7 +161,7 @@ class ilObjSCORMInitData
 		return json_encode($a_out);
 	}
 	
-	function getIliasScormResources($a_packageId) {
+	static function getIliasScormResources($a_packageId) {
 		global $ilias, $ilDB;
 //		$s_out="";
 		$a_out=array();
@@ -201,7 +201,7 @@ class ilObjSCORMInitData
 		return json_encode($a_out);
 	}
 	
-	function getIliasScormTree($a_packageId) {
+	static function getIliasScormTree($a_packageId) {
 		global $ilias, $ilDB;
 		$a_out=array();
 		$tquery="SELECT scorm_tree.child, scorm_tree.depth-3 depth, scorm_object.title, scorm_object.c_type
@@ -220,7 +220,7 @@ class ilObjSCORMInitData
 		return json_encode($a_out);
 	}
 
-	function getStatus($a_packageId,$a_user_id,$auto_last_visited,$scormType="1.2") {
+	static function getStatus($a_packageId,$a_user_id,$auto_last_visited,$scormType="1.2") {
 		global $ilDB;
 		include_once './Services/Tracking/classes/class.ilLPStatus.php';
 		$oldStatus = ilLPStatus::_lookupStatus($a_packageId, $a_user_id);
@@ -264,7 +264,7 @@ class ilObjSCORMInitData
 		return $status;
 	}
 	// hash for storing data without session
-	private function setHash($a_packageId,$a_user_id) {
+	private static function setHash($a_packageId,$a_user_id) {
 		global $ilDB;
 		$hash = mt_rand(1000000000,9999999999);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
@@ -302,7 +302,7 @@ class ilObjSCORMInitData
 	/**
 	* Get max. number of attempts allowed for this package
 	*/
-	function get_max_attempts($a_packageId)
+	static function get_max_attempts($a_packageId)
 	{
 		//erased in 5.1
 		return 0;

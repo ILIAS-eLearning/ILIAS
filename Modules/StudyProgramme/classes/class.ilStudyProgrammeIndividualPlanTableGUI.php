@@ -20,7 +20,10 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass) {
 		parent::__construct($a_parent_obj);
 
-		global $ilCtrl, $lng, $ilDB;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->db = $ilDB;

@@ -67,7 +67,8 @@ class ilAsyncOutputHandler {
 	 * @return string
 	 */
 	public static function encodeAsyncResponse(array $data = array()) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$data['cmd'] = $ilCtrl->getCmd();
 
@@ -84,7 +85,9 @@ class ilAsyncOutputHandler {
 	 * @return null
 	 */
 	public static function handleAsyncOutput($normal_content, $async_content = null, $apply_to_tpl = true) {
-		global $ilCtrl, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		$content = ($ilCtrl->isAsynch() && $async_content != null)? $async_content : $normal_content;
 

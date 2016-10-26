@@ -118,7 +118,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		$props = parent::getProperties();
 		// END WebDAV get parent properties
 		
-		include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
+		include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
 		$info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
 //var_dump($info);
 		if($info['reg_info_list_prop'])

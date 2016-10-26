@@ -28,6 +28,9 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
+	<crons>
+		<cron id="finish_unfinished_passes" class="ilCronFinishUnfinishedTestPasses" />
+	</crons>
 	<pluginslots>
 		<pluginslot id="texp" name="Export" />
 		<pluginslot id="tsig" name="Signature" />

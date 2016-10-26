@@ -59,7 +59,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		{
 			// check if current user may send mails
 			include_once "Services/Mail/classes/class.ilMail.php";
-			$mail = new ilMail($_SESSION["AccountId"]);
+			$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 			$this->mailing_allowed = $DIC->rbac()->system()->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 

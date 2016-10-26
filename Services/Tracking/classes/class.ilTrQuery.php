@@ -187,7 +187,14 @@ class ilTrQuery
 		return $items;
 	}
 	
-	function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
+	/**
+	 * Get subitems status
+	 * @param type $a_user_id
+	 * @param type $a_parent_obj_id
+	 * @param array $a_item_ids
+	 * @return type
+	 */
+	public static function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		
@@ -870,7 +877,16 @@ class ilTrQuery
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
 				return $member_obj->getMembers();
-			
+
+			/* Mantis 19296: Individual Assessment can be subtype of crs.
+		 	 * But for LP view only his own members should be displayed.
+		 	 * We need to return the members without checking the parent path. */
+			case "mass":
+				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
+				$mass = new ilObjManualAssessment($obj_id, false);
+				return $mass->loadMembers()->membersIds();
+				break;
+
 			default:				
 				// walk path to find course or group object and use members of that object
 				$path = $tree->getPathId($a_ref_id);
@@ -941,7 +957,6 @@ class ilTrQuery
 				$prg = new ilObjStudyProgramme($obj_id, false);
 				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
 				break;
-			
 			default:
 				// no sensible data: return null
 				break;
@@ -1192,6 +1207,9 @@ class ilTrQuery
 
 					switch($field)
 					{
+						case 'org_units':
+							break;
+						
 						case "language":
 							if($function)
 							{
@@ -1713,6 +1731,7 @@ class ilTrQuery
 		// re-use add new item selection (folder is not that important)
 		$types = array_keys($objDefinition->getCreatableSubObjects("root", ilObjectDefinition::MODE_REPOSITORY));
 		
+		// repository
 		include_once "Services/Tree/classes/class.ilTree.php";
 		$tree = new ilTree(1);
 		$sql = "SELECT ".$tree->table_obj_data.".obj_id,".$tree->table_obj_data.".type,".
@@ -1736,8 +1755,74 @@ class ilTrQuery
 		foreach($res as $type => $values)
 		{
 			$res[$type]["objects"] = sizeof(array_unique($values["objects"]));
+		}		
+		
+		// portfolios (not part of repository)
+		foreach(self::getPortfolios() as $obj_id)
+		{
+			$res["prtf"]["type"] = "prtf";
+			$res["prtf"]["references"]++;
+			$res["prtf"]["objects"]++;
 		}
 		
+		foreach(self::getWorkspaceBlogs() as $obj_id)
+		{
+			$res["blog"]["type"] = "blog";
+			$res["blog"]["references"]++;
+			$res["blog"]["objects"]++;
+		}
+		
+		return $res;
+	}
+	
+	static public function getWorkspaceBlogs($a_title = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		// blogs in workspace?
+		$sql = "SELECT od.obj_id,oref.wsp_id,od.type".		
+			" FROM tree_workspace wst".
+			" JOIN object_reference_ws oref ON (oref.wsp_id = wst.child)".
+			" JOIN object_data od ON (oref.obj_id = od.obj_id)".
+			" WHERE od.type = ".$ilDB->quote("blog", "text");
+		
+		if($a_title)
+		{
+			$sql .= " AND ".$ilDB->like("od.title", "text", "%".$a_title."%");
+		}
+		
+		$set = $ilDB->query($sql);		
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}
+				
+		return $res;
+	}
+	
+	static public function getPortfolios($a_title = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT od.obj_id".
+			" FROM usr_portfolio prtf".
+			" JOIN object_data od ON (od.obj_id = prtf.id)";
+		
+		if($a_title)
+		{
+			$sql .= " WHERE ".$ilDB->like("od.title", "text", "%".$a_title."%");
+		}
+		
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}
+				
 		return $res;
 	}
 
@@ -1823,7 +1908,7 @@ class ilTrQuery
 		
 		if($a_type == "lres")
 		{
-			$a_type = array('lm','sahs','htlm','dbk');
+			$a_type = array('lm','sahs','htlm');
 		}
 		
 		$sql = "SELECT r.ref_id,r.obj_id".

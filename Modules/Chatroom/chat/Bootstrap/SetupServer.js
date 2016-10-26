@@ -3,6 +3,7 @@ var constants = require('constants');
 var SocketIO = require('socket.io');
 var async = require('async');
 var SocketHandler = require('../Handler/SocketHandler');
+var IMSocketHandler = require('../Handler/IMSocketHandler');
 var FileHandler	= require('../Handler/FileHandler');
 
 module.exports = function SetupServer(callback) {
@@ -10,19 +11,33 @@ module.exports = function SetupServer(callback) {
 	var options = _generateOptions(serverConfig);
 	var protocol = require(serverConfig.protocol);
 	var server = null;
+	var path = '/socket.io';
+
+	if(serverConfig.hasOwnProperty('sub_directory')) {
+		path = serverConfig.sub_directory + path;
+	}
 
 	if(serverConfig.protocol == 'https') {
 		server = protocol.createServer(options, Container.getApi());
 	} else {
 		server = protocol.createServer(Container.getApi());
 	}
-	var io = SocketIO(server);
+	var io = SocketIO(server, {path: path});
 
 	Container.setServer(server);
 
 	async.eachSeries(Container.getNamespaces(), function(namespace, next){
 		namespace.setIO(io.of(namespace.getName()));
-		namespace.getIO().on('connect', SocketHandler);
+
+		var handler = SocketHandler;
+
+		if(namespace.isIM())
+		{
+			handler = IMSocketHandler;
+			Container.getLogger().info('IMSocketHandler used');
+		}
+
+		namespace.getIO().on('connect', handler);
 
 		next();
 	}, function(err) {

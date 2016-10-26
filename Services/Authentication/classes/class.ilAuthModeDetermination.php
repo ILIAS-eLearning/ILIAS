@@ -68,6 +68,7 @@ class ilAuthModeDetermination
 	 * @access public
 	 * @static
 	 *
+	 * @return ilAuthModeDetermination
 	 */
 	public static function _getInstance()
 	{
@@ -128,8 +129,6 @@ class ilAuthModeDetermination
 		}
 		$sorted = array();
 		
-		ilLoggerFactory::getLogger('auth')->dump($this->position, ilLogLevel::DEBUG);
-		
 		foreach($this->position as $auth_key)
 		{
 			include_once './Services/LDAP/classes/class.ilLDAPServer.php';
@@ -154,8 +153,6 @@ class ilAuthModeDetermination
 			}
 			$sorted[] = $auth_key;
 		}
-		
-		ilLoggerFactory::getLogger('auth')->dump($this->position, ilLogLevel::DEBUG);
 		
 		return (array) $sorted;
 	}

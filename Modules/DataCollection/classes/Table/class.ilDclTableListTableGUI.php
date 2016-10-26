@@ -42,8 +42,8 @@ class ilDclTableListTableGUI extends ilTable2GUI{
 		$this->addColumn('', '', '1', true);
 		$this->addColumn($lng->txt('dcl_order'), NULL, '30px');
 		$this->addColumn($lng->txt('title'), NULL, 'auto');
-		$this->addColumn($lng->txt('dcl_visible'), NULL, '200px', false, '', $this->lng->txt('dcl_visible_tooltip'));
-		$this->addColumn($lng->txt('dcl_comments'), NULL, '100px', false, '', $this->lng->txt('dcl_public_comments'));
+		$this->addColumn($lng->txt('dcl_visible'), NULL, '250px', false, '', $this->lng->txt('dcl_visible_desc'));
+		$this->addColumn($lng->txt('dcl_comments'), NULL, '200px', false, '', $this->lng->txt('dcl_public_comments_desc'));
 		$this->addColumn($lng->txt('actions'), NULL, '30px');
 
 		$this->setSelectAllCheckbox('dcl_table_ids[]');
@@ -84,6 +84,10 @@ class ilDclTableListTableGUI extends ilTable2GUI{
 		$this->tpl->setVariable("ORDER_NAME", "order[{$a_set->getId()}]");
 		$this->tpl->setVariable("ORDER_VALUE", $a_set->getOrder());
 		$this->tpl->setVariable("TITLE", $a_set->getTitle());
+
+		$this->ctrl->setParameterByClass('ildclfieldlistgui', 'table_id', $a_set->getId());
+		$this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ildclfieldlistgui'));
+
 		$this->tpl->setVariable("CHECKBOX_NAME_VISIBLE", 'visible[' . $a_set->getId() . ']');
 		if ($a_set->getIsVisible()) {
 			$this->tpl->setVariable("CHECKBOX_CHECKED_VISIBLE", 'checked');

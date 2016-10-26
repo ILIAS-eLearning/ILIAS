@@ -97,7 +97,7 @@ class ilLanguage
 	 * @param    string      languagecode (two characters), e.g. "de", "en", "in"
 	 * @return   boolean     false if reading failed
 	 */
-	function ilLanguage($a_lang_key)
+	function __construct($a_lang_key)
 	{
 		$this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
 		$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";

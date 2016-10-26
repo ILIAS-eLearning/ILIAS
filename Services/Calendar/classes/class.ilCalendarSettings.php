@@ -585,7 +585,7 @@ class ilCalendarSettings
 		$set = $this->db->query($query);
 		$row = $this->db->fetchAssoc($set);
 		
-		$this->cal_settings_id = $row[0];
+		$this->cal_settings_id = $row["ref_id"];
 		return true;
 	}
 	

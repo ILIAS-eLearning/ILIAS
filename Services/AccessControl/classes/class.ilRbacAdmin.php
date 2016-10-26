@@ -202,30 +202,38 @@ class ilRbacAdmin
 	public function assignUserLimited($a_role_id, $a_usr_id, $a_limit, $a_limited_roles = array())
 	{
 		global $ilDB;
-		
-		$GLOBALS['ilDB']->lockTables(
-				array(
-					0 => array('name' => 'rbac_ua', 'type' => ilDBConstants::LOCK_WRITE)
-				)
-		);
-		
-		$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
-				'WHERE '.$GLOBALS['ilDB']->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
-		$res = $GLOBALS['ilDB']->query($limit_query);
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		if($row->num >= $a_limit)
+
+		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock('rbac_ua');
+
+		$ilAtomQuery->addQueryCallable(
+			function(ilDBInterface $ilDB) use(&$ret, $a_role_id, $a_usr_id,$a_limit, $a_limited_roles)
 		{
-			$GLOBALS['ilDB']->unlockTables();
-			return FALSE;
-		}
-		
-		$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
-			"VALUES (".
+			$ret = true;
+			$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
+				'WHERE '.$ilDB->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
+			$res = $ilDB->query($limit_query);
+			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+			if($row->num >= $a_limit)
+			{
+				$ret = false;
+				return;
+			}
+
+			$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
+				"VALUES (".
 				$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_role_id,'integer').
-			")";
+				")";
 			$res = $ilDB->manipulate($query);
-		
-		$GLOBALS['ilDB']->unlockTables();
+		});
+
+		$ilAtomQuery->run();
+
+		if(!$ret)
+		{
+			return false;
+		}
+
 		$GLOBALS['rbacreview']->setAssignedCacheEntry($a_role_id,$a_usr_id,TRUE);
 		
 		$this->addDesktopItem($a_role_id,$a_usr_id);
@@ -737,6 +745,7 @@ class ilRbacAdmin
 		// exclude system role from rbac
 		if ($a_dest_id == SYSTEM_ROLE_ID)
 		{
+			ilLoggerFactory::getLogger('ac')->debug('Ignoring system role.');
 			return true;
 		}
 		
@@ -754,6 +763,9 @@ class ilRbacAdmin
                         "AND s2.parent = ".$ilDB->quote($a_source2_parent,'integer')." ".
                         "AND s1.type = s2.type ".
                         "AND s1.ops_id = s2.ops_id";
+		
+		ilLoggerFactory::getLogger('ac')->dump($query);
+		
 		$res = $ilDB->query($query);
 		$operations = array();
 		$rowNum = 0;
@@ -764,7 +776,7 @@ class ilRbacAdmin
 
 			$rowNum++;
 		}
-
+		
 		// Delete template permissions of target
 		$query = 'DELETE FROM rbac_templates WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
 			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
@@ -1022,9 +1034,18 @@ class ilRbacAdmin
 		{
 			$a_assign = "n";
 		}
-		
-		ilLoggerFactory::getLogger('ac')->debug('Assign role to folder: ' . $a_rol_id.' '. $a_parent);
 
+		// check if already assigned
+		$query = 'SELECT rol_id FROM rbac_fa '.
+			'WHERE rol_id = '.$ilDB->quote($a_rol_id,'integer'). ' '.
+			'AND parent = '. $ilDB->quote($a_parent,'integer');
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			ilLoggerFactory::getLogger('ac')->info('Role already assigned to object');
+			return false;
+		}
+		
 		$query = sprintf('INSERT INTO rbac_fa (rol_id, parent, assign, protected) '.
 			'VALUES (%s,%s,%s,%s)',
 			$ilDB->quote($a_rol_id,'integer'),
@@ -1193,6 +1214,7 @@ class ilRbacAdmin
 		}
 		if(!$a_template_id)
 		{
+			ilLoggerFactory::getLogger('ac')->info('No template id given. Aborting.');
 			return;
 		}
 		// create template permission intersection
@@ -1218,7 +1240,10 @@ class ilRbacAdmin
 			ilObject::_lookupType($a_ref_id, true),
 			$a_ref_id
 		);
-
+		
+		// revoke existing permissions 
+		$this->revokePermission($a_ref_id, $a_role_id);
+		
 		// set new permissions for object
 		$this->grantPermission(
 			$a_role_id,

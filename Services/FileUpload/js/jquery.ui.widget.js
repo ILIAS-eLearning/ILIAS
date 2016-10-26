@@ -48,7 +48,8 @@ $.widget = function( name, base, prototype ) {
 	}
 
 	// create selector for plugin
-	$.expr[ ":" ][ fullName.toLowerCase() ] = function( elem ) {
+	// PATCH
+	$.expr.pseudos[ fullName.toLowerCase() ] = function( elem ) {
 		return !!$.data( elem, fullName );
 	};
 
@@ -275,7 +276,7 @@ $.Widget.prototype = {
 		// we can probably remove the unbind calls in 2.0
 		// all event bindings should go through this._on()
 		this.element
-			.unbind( this.eventNamespace )
+			.off( this.eventNamespace )
 			// 1.9 BC for #7810
 			// TODO remove dual storage
 			.removeData( this.widgetName )
@@ -284,14 +285,14 @@ $.Widget.prototype = {
 			// http://bugs.jquery.com/ticket/9413
 			.removeData( $.camelCase( this.widgetFullName ) );
 		this.widget()
-			.unbind( this.eventNamespace )
+			.off( this.eventNamespace )
 			.removeAttr( "aria-disabled" )
 			.removeClass(
 				this.widgetFullName + "-disabled " +
 				"ui-state-disabled" );
 
 		// clean up events and states
-		this.bindings.unbind( this.eventNamespace );
+		this.bindings.off( this.eventNamespace );
 		this.hoverable.removeClass( "ui-state-hover" );
 		this.focusable.removeClass( "ui-state-focus" );
 	},
@@ -418,14 +419,14 @@ $.Widget.prototype = {
 			if ( selector ) {
 				delegateElement.delegate( selector, eventName, handlerProxy );
 			} else {
-				element.bind( eventName, handlerProxy );
+				element.on( eventName, handlerProxy );
 			}
 		});
 	},
 
 	_off: function( element, eventName ) {
 		eventName = (eventName || "").split( " " ).join( this.eventNamespace + " " ) + this.eventNamespace;
-		element.unbind( eventName ).undelegate( eventName );
+		element.off( eventName ).undelegate( eventName );
 	},
 
 	_delay: function( handler, delay ) {

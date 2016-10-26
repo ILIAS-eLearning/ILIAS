@@ -46,49 +46,23 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 * @inheritdoc
 	 */
 	public function checkValidity($value, $record_id = NULL) {
+		$has_url_properties = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
+		if ($has_url_properties) {
+			return $this->checkValidityOfURLField($value, $record_id);
+		}
+
 		//Don't check empty values
 		if ($value == NULL) {
 			return true;
 		}
 
-		$regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
-		if (substr($regex, 0, 1) != "/") {
-			$regex = "/" . $regex;
-		}
-		if (substr($regex, - 1) != "/") {
-			$regex .= "/";
-		}
-
-		if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < mb_strlen($value, 'UTF-8') && is_numeric($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH))) {
-			throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
-		}
-
-		if (! ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) == NULL || preg_match($regex, $value) === false)) {
-			throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
-		}
-
-		//email or url
-		$has_url_properties = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
-		if ($has_url_properties) {
-			if ($json = json_decode($value) && json_decode($value) instanceof stdClass) {
-				$value = $json->link;
-			}
-			if (substr($value, 0, 3) === 'www') {
-				$value = 'http://' . $value;
-			}
-			if (! filter_var($value, FILTER_VALIDATE_URL) && ! filter_var($value, FILTER_VALIDATE_EMAIL)) {
-				throw new ilDclInputException(ilDclInputException::NOT_URL);
-			}
-		}
+		$this->checkRegexAndLength($value);
 
 		if ($this->isUnique()) {
 			$table = ilDclCache::getTableCache($this->getTableId());
 			foreach ($table->getRecords() as $record) {
 				//for text it has to be case insensitive.
 				$record_value = $record->getRecordFieldValue($this->getId());
-				if ($has_url_properties) {
-					$record_value = $record_value['link'];
-				}
 
 				if (strtolower($this->normalizeValue($record_value)) == strtolower($this->normalizeValue($value))
 					&& ($record->getId() != $record_id
@@ -100,6 +74,47 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 		}
 	}
 
+
+	/**
+	 * @param $value
+	 * @param $record_id
+	 *
+	 * @return bool
+	 * @throws ilDclInputException
+	 */
+	protected function checkValidityOfURLField($value, $record_id) {
+		// TODO: value should always be an array with url fields, can we remove the check & json_decode?
+		if (!is_array($value)) {
+			$value = array( 'link' => $value, 'title' => '');
+		}
+
+		//Don't check empty values
+		if (!$value['link']) {
+			return true;
+		}
+
+		$this->checkRegexAndLength($value['link']);
+
+		//check url/email
+		$link = (substr($value['link'], 0, 3) === 'www') ? 'http://' . $value['link'] : $value['link'];
+		if (! filter_var($link, FILTER_VALIDATE_URL) && ! filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
+			throw new ilDclInputException(ilDclInputException::NOT_URL);
+		}
+
+		if ($this->isUnique()) {
+			$table = ilDclCache::getTableCache($this->getTableId());
+			foreach ($table->getRecords() as $record) {
+				$record_value = $record->getRecordFieldValue($this->getId());
+
+				if ($record_value == $value
+					&& ($record->getId() != $record_id
+						|| $record_id == 0)
+				) {
+					throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+				}
+			}
+		}
+	}
 
 	/**
 	 * @inheritDoc
@@ -125,5 +140,56 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 */
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_LENGTH, ilDclBaseFieldModel::PROP_REGEX, ilDclBaseFieldModel::PROP_URL, ilDclBaseFieldModel::PROP_TEXTAREA, ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
+	}
+
+
+	/**
+	 * @param $value
+	 *
+	 * @throws ilDclInputException
+	 */
+	protected function checkRegexAndLength($value) {
+		$regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
+		if (substr($regex, 0, 1) != "/") {
+			$regex = "/" . $regex;
+		}
+		if (substr($regex, - 1) != "/") {
+			$regex .= "/";
+		}
+
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value, 'UTF-8')
+			&& is_numeric($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH))
+		) {
+			throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
+		}
+
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != NULL) {
+			try {
+				$preg_match = preg_match($regex, $value);
+			} catch (ErrorException $e) {
+				throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
+			}
+
+			if ($preg_match == false) {
+				throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
+			}
+		}
+	}
+
+
+	/**
+	 * @param $value
+	 * @param string $encoding
+	 * @return int
+	 */
+	public function strlen($value, $encoding = 'UTF-8') {
+		switch (true) {
+			case function_exists('mb_strlen'):
+				return mb_strlen($value, $encoding);
+			case function_exists('iconv_strlen'):
+				return iconv_strlen($value, $encoding);
+			default:
+				return strlen($value);
+		}
 	}
 }

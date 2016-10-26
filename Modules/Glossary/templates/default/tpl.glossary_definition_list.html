@@ -1,8 +1,16 @@
 <div id="ilGloContent" class="ilc_page_cont_PageContainer">
 <h1 class="ilc_page_title_PageTitle">{TXT_TERM}</h1>
+	<!-- BEGIN toc -->
+	<div class="ilc_page_toc_PageTOC">
+		<!-- BEGIN toc_item -->
+		<p><a class="ilc_page_toc_PageTOCLink" href="#ilPageTocDef{TOC_DEF_NR}">{TOC_DEF} {TOC_DEF_NR}</a></p>
+		<!-- END toc_item -->
+	</div>
+	<div class="ilClearFloat"></div>
+	<!-- END toc -->
 <!-- BEGIN definition -->
 <!-- BEGIN definition_header -->
-<div class="ilc_DefinitionHeader">{TXT_DEFINITION}</div>
+<div class="ilc_DefinitionHeader"><a name="ilPageTocDef{DEF_NR}"></a>{TXT_DEFINITION}</div>
 <!-- END definition_header -->
 <!-- BEGIN submit_btns -->
 <div class="il_ContainerItemCommands ilRight" style="margin: 0 0 10px 10px;">

@@ -7,9 +7,11 @@ namespace ILIAS\UI\Implementation\Component\Glyph;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Glyph implements C\Glyph\Glyph {
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var	string

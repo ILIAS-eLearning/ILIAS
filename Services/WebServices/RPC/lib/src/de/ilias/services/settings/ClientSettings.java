@@ -297,10 +297,25 @@ public class ClientSettings {
 	 */
 	public String getDbType() {
 
-		// handle innodb as mysql
 		if(dbType.equalsIgnoreCase("innodb")) {
 			return "mysql";
 		}
+		if(dbType.equalsIgnoreCase("mysql")) {
+			return "mysql";
+		}
+		if(dbType.equalsIgnoreCase("mysqli")) {
+			return "mysql";
+		}
+		if(dbType.equalsIgnoreCase("pdo-mysql-myisam")) {
+			return "mysql";
+		}
+		if(dbType.equalsIgnoreCase("pdo-mysql-innodb")) {
+			return "mysql";
+		}
+		if(dbType.equalsIgnoreCase("pdo-mysql-galera")) {
+			return "mysql";
+		}
+
 		return dbType;
 	}
 

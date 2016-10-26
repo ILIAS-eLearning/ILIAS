@@ -95,6 +95,19 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		return $this->getQuestionAmountConfigurationMode() == self::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
 	}
 	
+	public function isValidQuestionAmountConfigurationMode($amountMode)
+	{
+		switch($amountMode)
+		{
+			case self::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL:
+			case self::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
+				
+				return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * @param integer $questionAmountPerTest
 	 */

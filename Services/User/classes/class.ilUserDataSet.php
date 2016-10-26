@@ -24,7 +24,7 @@ class ilUserDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", "4.5.0");
+		return array("4.3.0", "4.5.0", "5.1.0", "5.2.0");
 	}
 	
 	/**
@@ -53,6 +53,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"Id" => "integer",
 						"Username" => "text",
@@ -76,7 +77,6 @@ class ilUserDataSet extends ilDataSet
 						"Hobby" => "text",
 						"ReferralComment" => "text",
 						"Matriculation" => "text",
-						"Delicious" => "text",
 						"Latitude" => "text",
 						"Longitude" => "text",
 						"Picture" => "directory"
@@ -90,6 +90,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"UserId" => "integer",
 						"Keyword" => "text",
@@ -104,6 +105,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"Id" => "integer"
 					);
@@ -115,6 +117,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.5.0":
+				case "5.1.0":
 					return array(
 						"UserId" => "integer",
 						"FieldId" => "text",
@@ -190,6 +193,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					$this->data = array();
 					foreach ($a_ids as $id)
 					{
@@ -205,10 +209,21 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
 						" delicious, latitude, longitude".
+						" FROM usr_data u ".
+						"WHERE ".
+						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
+					break;
+
+				case "5.2.0":
+					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
+						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
+						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
+						" latitude, longitude".
 						" FROM usr_data u ".
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
@@ -223,15 +238,28 @@ class ilUserDataSet extends ilDataSet
 				case "4.3.0":
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					// for all user ids get data from usr_pref and mail options, create records user_id/name/value
-					$prefs = array("date_format", "day_end", "day_start", "bs_allow_to_contact_me", "hide_own_online_status", "hits_per_page", "language",
+					$prefs = array("date_format", "day_end", "day_start", "bs_allow_to_contact_me", "chat_osc_accept_msg", "hide_own_online_status", "hits_per_page", "language",
 						"public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email",
 						"public_fax", "public_gender", "public_hobby", "public_im_aim", "public_im_icq", "public_im_jabber",
 						"public_im_msn", "public_im_skype", "public_im_voip", "public_im_yahoo", "public_institution", "public_location",
-						"public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office", "public_profile",
-						"public_sel_country", "public_street", "public_title", "public_upload", "public_zipcode",
+						"public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office",
+						"public_profile", "public_sel_country", "public_street", "public_title", "public_upload", "public_zipcode",
 						"screen_reader_optimization", "show_users_online",
-						"store_last_visited", "time_format", "user_tz", "weekstart");
+						"store_last_visited", "time_format", "user_tz", "weekstart",
+						"session_reminder_enabled", "session_reminder_lead_time", "usr_starting_point",
+						"char_selector_availability", "char_selector_definition");
+
+					if(version_compare($a_version, '5.2.0', '>='))
+					{
+						unset(
+							$prefs['public_im_aim'], $prefs['public_im_icq'], $prefs['public_im_jabber'],
+							$prefs['public_im_msn'], $prefs['public_im_skype'], $prefs['public_im_voip'],
+							$prefs['public_im_yahoo'], $prefs['public_delicious']
+						);
+					}
+
 					$this->data = array();
 					$set = $ilDB->query("SELECT * FROM usr_pref ".
 						" WHERE ".$ilDB->in("keyword", $prefs, false, "text").
@@ -240,18 +268,6 @@ class ilUserDataSet extends ilDataSet
 					{
 						$this->data[] = array("UserId" => $rec["usr_id"], "Keyword" => $rec["keyword"], "Value" => $rec["value"]);
 					}
-					
-					/*
-					require_once 'Services/Mail/classes/class.ilMailOptions.php';
-					$mailOptions = new ilMailOptions($ilUser->getId());
-
-					/*$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
-						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
-						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
-						" delicious, latitude, longitude".
-						" FROM usr_data u ".
-						"WHERE ".
-						$ilDB->in("u.usr_id", $a_ids, false, "integer"));*/
 					break;
 			}
 		}
@@ -260,7 +276,8 @@ class ilUserDataSet extends ilDataSet
 		{			
 			switch ($a_version)
 			{
-				case "4.5.0":					
+				case "4.5.0":
+				case "5.1.0":
 					$this->data = array();
 					$set = $ilDB->query("SELECT * FROM usr_data_multi".
 						" WHERE ".$ilDB->in("usr_id", $a_ids, false, "integer"));

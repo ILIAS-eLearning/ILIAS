@@ -147,7 +147,7 @@
             // file can be uploaded?
             if (this.canUpload)
             {
-                $html.find(".ilFileUploadEntryHeader").bind("click", onToggleOptions);
+                $html.find(".ilFileUploadEntryHeader").on("click", onToggleOptions);
             }
             else // set error
             {
@@ -158,7 +158,7 @@
             if (this.canExtract)
             {
                 $html.find(".ilFileUploadEntryKeepStructure").hide();
-                $html.find("#extract_" + this.id).bind("click", onExtractChanged);
+                $html.find("#extract_" + this.id).on("click", onExtractChanged);
 				
 				$options.show();
                 $html.addClass("ilFileUploadEntryExpanded");
@@ -166,7 +166,7 @@
 
             // add click handler
             $cancelButton = $html.find("#cancel_" + this.id);
-            $cancelButton.bind("click", onCancelClicked);
+            $cancelButton.on("click", onCancelClicked);
 
             return $html;
         };
@@ -569,15 +569,15 @@
 
             // hide the "hide all details" options
             $hideOptions.hide();
-            $hideOptions.bind("click", function () { expandAll(false); });
-            $showOptions.bind("click", function () { expandAll(true); });
+            $hideOptions.on("click", function () { expandAll(false); });
+            $showOptions.on("click", function () { expandAll(true); });
 
             // subscribe to submit and cancel buttons
-            $cancelButton.bind("click", cancelAllCallback);
-            $uploadButton.bind("click", startUploadsCallback);
+            $cancelButton.on("click", cancelAllCallback);
+            $uploadButton.on("click", startUploadsCallback);
 
             // attach to unload event
-            $(window).bind("beforeunload", pageUnloadingCallback);
+            $(window).on("beforeunload", pageUnloadingCallback);
 
             isInitialized = true;
         }
@@ -932,16 +932,16 @@
                 $hideOptions = $fileList.find(".ilFileUploadHideOptions");
 
                 // upload button event
-                $submitButton.bind("click", uploadFiles);
-                $cancelButton.bind("click", cancelAllFiles);
+                $submitButton.on("click", uploadFiles);
+                $cancelButton.on("click", cancelAllFiles);
 
                 // attach to unload event
-                $(window).bind("beforeunload", pageUnloading);
+                $(window).on("beforeunload", pageUnloading);
 
                 // hide the "hide all details" options
                 $hideOptions.hide();
-                $hideOptions.bind("click", function () { self.expandAll(false); });
-                $showOptions.bind("click", function () { self.expandAll(true); });
+                $hideOptions.on("click", function () { self.expandAll(false); });
+                $showOptions.on("click", function () { self.expandAll(true); });
             }
             else
             {
@@ -969,7 +969,7 @@
                 else
                     $overlay = $dropZone;
 
-                $overlay.bind("dragleave", dropZoneDragLeave);
+                $overlay.on("dragleave", dropZoneDragLeave);
 
                 // mark drop zone and add overlay
                 $dropZone.addClass("ilFileDropTarget");
@@ -1354,7 +1354,7 @@
             if (allUploadsSuccessful())
             {
                 // lets go back to the previous page
-                if ($cancelButton.size() > 0)
+                if ($cancelButton.length > 0)
                     $cancelButton.click();
             }
         }
@@ -1453,7 +1453,7 @@
             var count = files.length;
             if (count > 0)
             {
-                var validCount = count - $fileList.find(".ilFileUploadError").size();
+                var validCount = count - $fileList.find(".ilFileUploadError").length;
 
                 $fileList.show();
                 $submitButton.prop("disabled", validCount == 0);
@@ -1672,7 +1672,7 @@
     }
 
     // global drag and drop events
-    $(document).bind({
+    $(document).on({
         dragenter: function (e)
         {
             if (!isFileDragEvent(e))

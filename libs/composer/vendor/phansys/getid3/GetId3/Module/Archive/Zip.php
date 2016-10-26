@@ -1,5 +1,10 @@
 <?php
 
+namespace GetId3\Module\Archive;
+
+use GetId3\Handler\BaseHandler;
+use GetId3\Lib\Helper;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -21,14 +26,13 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
+class Zip extends BaseHandler
 {
-
     /**
      *
      * @return boolean
      */
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
@@ -40,8 +44,9 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
         $info['zip']['uncompressed_size'] = 0;
         $info['zip']['entries_count'] = 0;
 
-        if (!GetId3_Lib_Helper::intValueSupported($info['filesize'])) {
+        if (!Helper::intValueSupported($info['filesize'])) {
             $info['error'][] = 'File is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB, not supported by PHP';
+
             return false;
         } else {
             $EOCDsearchData = '';
@@ -69,8 +74,8 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
                         $info['zip']['uncompressed_size'] += $centraldirectoryentry['uncompressed_size'];
 
                         if ($centraldirectoryentry['uncompressed_size'] > 0) {
-                            $info['zip']['files'] = GetId3_Lib_Helper::array_merge_clobber($info['zip']['files'],
-                                                                                           GetId3_Lib_Helper::CreateDeepArray($centraldirectoryentry['filename'],
+                            $info['zip']['files'] = Helper::array_merge_clobber($info['zip']['files'],
+                                                                                           Helper::CreateDeepArray($centraldirectoryentry['filename'],
                                                                                                                               '/',
                                                                                                                               $centraldirectoryentry['uncompressed_size']));
                         }
@@ -78,6 +83,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
                     if ($info['zip']['entries_count'] == 0) {
                         $info['error'][] = 'No Central Directory entries found (truncated file?)';
+
                         return false;
                     }
 
@@ -111,12 +117,14 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
             foreach ($info['zip']['entries'] as $key => $valuearray) {
                 $info['zip']['files'][$valuearray['filename']] = $valuearray['uncompressed_size'];
             }
+
             return true;
         } else {
 
             unset($info['zip']);
             $info['fileformat'] = '';
             $info['error'][] = 'Cannot find End Of Central Directory (truncated file?)';
+
             return false;
         }
     }
@@ -142,6 +150,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
         }
         if ($info['zip']['entries_count'] == 0) {
             $info['error'][] = 'No Local File Header entries found';
+
             return false;
         }
 
@@ -154,6 +163,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
         }
         if ($info['zip']['entries_count'] == 0) {
             $info['error'][] = 'No Central Directory entries found (truncated file?)';
+
             return false;
         }
 
@@ -161,6 +171,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
             $info['zip']['end_central_directory'] = $EOCD;
         } else {
             $info['error'][] = 'No End Of Central Directory entry found (truncated file?)';
+
             return false;
         }
 
@@ -192,6 +203,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
         }
         if ($info['zip']['entries_count'] == 0) {
             $info['error'][] = 'No Local File Header entries found';
+
             return false;
         }
 
@@ -208,42 +220,43 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
         $ZIPlocalFileHeader = fread($this->getid3->fp, 30);
 
-        $LocalFileHeader['raw']['signature'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['signature'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                           0,
                                                                                           4));
         if ($LocalFileHeader['raw']['signature'] != 0x04034B50) {
             // invalid Local File Header Signature
             fseek($this->getid3->fp, $LocalFileHeader['offset'], SEEK_SET); // seek back to where filepointer originally was so it can be handled properly
+
             return false;
         }
-        $LocalFileHeader['raw']['extract_version'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['extract_version'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                 4,
                                                                                                 2));
-        $LocalFileHeader['raw']['general_flags'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['general_flags'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                               6,
                                                                                               2));
-        $LocalFileHeader['raw']['compression_method'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['compression_method'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                    8,
                                                                                                    2));
-        $LocalFileHeader['raw']['last_mod_file_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['last_mod_file_time'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                    10,
                                                                                                    2));
-        $LocalFileHeader['raw']['last_mod_file_date'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['last_mod_file_date'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                    12,
                                                                                                    2));
-        $LocalFileHeader['raw']['crc_32'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['crc_32'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                        14,
                                                                                        4));
-        $LocalFileHeader['raw']['compressed_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['compressed_size'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                 18,
                                                                                                 4));
-        $LocalFileHeader['raw']['uncompressed_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['uncompressed_size'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                   22,
                                                                                                   4));
-        $LocalFileHeader['raw']['filename_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['filename_length'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                 26,
                                                                                                 2));
-        $LocalFileHeader['raw']['extra_field_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
+        $LocalFileHeader['raw']['extra_field_length'] = Helper::LittleEndian2Int(substr($ZIPlocalFileHeader,
                                                                                                    28,
                                                                                                    2));
 
@@ -281,13 +294,13 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
         if ($LocalFileHeader['flags']['data_descriptor_used']) {
             $DataDescriptor = fread($this->getid3->fp, 12);
-            $LocalFileHeader['data_descriptor']['crc_32'] = GetId3_Lib_Helper::LittleEndian2Int(substr($DataDescriptor,
+            $LocalFileHeader['data_descriptor']['crc_32'] = Helper::LittleEndian2Int(substr($DataDescriptor,
                                                                                                        0,
                                                                                                        4));
-            $LocalFileHeader['data_descriptor']['compressed_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($DataDescriptor,
+            $LocalFileHeader['data_descriptor']['compressed_size'] = Helper::LittleEndian2Int(substr($DataDescriptor,
                                                                                                                 4,
                                                                                                                 4));
-            $LocalFileHeader['data_descriptor']['uncompressed_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($DataDescriptor,
+            $LocalFileHeader['data_descriptor']['uncompressed_size'] = Helper::LittleEndian2Int(substr($DataDescriptor,
                                                                                                                   8,
                                                                                                                   4));
         }
@@ -305,60 +318,61 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
         $ZIPcentralDirectory = fread($this->getid3->fp, 46);
 
-        $CentralDirectory['raw']['signature'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['signature'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                            0,
                                                                                            4));
         if ($CentralDirectory['raw']['signature'] != 0x02014B50) {
             // invalid Central Directory Signature
             fseek($this->getid3->fp, $CentralDirectory['offset'], SEEK_SET); // seek back to where filepointer originally was so it can be handled properly
+
             return false;
         }
-        $CentralDirectory['raw']['create_version'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['create_version'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                 4,
                                                                                                 2));
-        $CentralDirectory['raw']['extract_version'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['extract_version'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                  6,
                                                                                                  2));
-        $CentralDirectory['raw']['general_flags'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['general_flags'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                8,
                                                                                                2));
-        $CentralDirectory['raw']['compression_method'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['compression_method'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                     10,
                                                                                                     2));
-        $CentralDirectory['raw']['last_mod_file_time'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['last_mod_file_time'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                     12,
                                                                                                     2));
-        $CentralDirectory['raw']['last_mod_file_date'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['last_mod_file_date'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                     14,
                                                                                                     2));
-        $CentralDirectory['raw']['crc_32'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['crc_32'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                         16,
                                                                                         4));
-        $CentralDirectory['raw']['compressed_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['compressed_size'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                  20,
                                                                                                  4));
-        $CentralDirectory['raw']['uncompressed_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['uncompressed_size'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                    24,
                                                                                                    4));
-        $CentralDirectory['raw']['filename_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['filename_length'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                  28,
                                                                                                  2));
-        $CentralDirectory['raw']['extra_field_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['extra_field_length'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                     30,
                                                                                                     2));
-        $CentralDirectory['raw']['file_comment_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['file_comment_length'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                      32,
                                                                                                      2));
-        $CentralDirectory['raw']['disk_number_start'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['disk_number_start'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                    34,
                                                                                                    2));
-        $CentralDirectory['raw']['internal_file_attrib'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['internal_file_attrib'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                       36,
                                                                                                       2));
-        $CentralDirectory['raw']['external_file_attrib'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['external_file_attrib'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                       38,
                                                                                                       4));
-        $CentralDirectory['raw']['local_header_offset'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
+        $CentralDirectory['raw']['local_header_offset'] = Helper::LittleEndian2Int(substr($ZIPcentralDirectory,
                                                                                                      42,
                                                                                                      4));
 
@@ -411,33 +425,34 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
         $ZIPendOfCentralDirectory = fread($this->getid3->fp, 22);
 
-        $EndOfCentralDirectory['signature'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['signature'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                          0,
                                                                                          4));
         if ($EndOfCentralDirectory['signature'] != 0x06054B50) {
             // invalid End Of Central Directory Signature
             fseek($this->getid3->fp, $EndOfCentralDirectory['offset'], SEEK_SET); // seek back to where filepointer originally was so it can be handled properly
+
             return false;
         }
-        $EndOfCentralDirectory['disk_number_current'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['disk_number_current'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                                    4,
                                                                                                    2));
-        $EndOfCentralDirectory['disk_number_start_directory'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['disk_number_start_directory'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                                            6,
                                                                                                            2));
-        $EndOfCentralDirectory['directory_entries_this_disk'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['directory_entries_this_disk'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                                            8,
                                                                                                            2));
-        $EndOfCentralDirectory['directory_entries_total'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['directory_entries_total'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                                        10,
                                                                                                        2));
-        $EndOfCentralDirectory['directory_size'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['directory_size'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                               12,
                                                                                               4));
-        $EndOfCentralDirectory['directory_offset'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['directory_offset'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                                 16,
                                                                                                 4));
-        $EndOfCentralDirectory['comment_length'] = GetId3_Lib_Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
+        $EndOfCentralDirectory['comment_length'] = Helper::LittleEndian2Int(substr($ZIPendOfCentralDirectory,
                                                                                               20,
                                                                                               2));
 
@@ -451,8 +466,8 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $flagbytes
-     * @param type $compressionmethod
+     * @param  type $flagbytes
+     * @param  type $compressionmethod
      * @return type
      */
     public static function ZIPparseGeneralPurposeFlags($flagbytes,
@@ -492,7 +507,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
     /**
      *
      * @staticvar array $ZIPversionOSLookup
-     * @param type $index
+     * @param  type $index
      * @return type
      */
     public static function ZIPversionOSLookup($index)
@@ -524,7 +539,7 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
     /**
      *
      * @staticvar array $ZIPcompressionMethodLookup
-     * @param type $index
+     * @param  type $index
      * @return type
      */
     public static function ZIPcompressionMethodLookup($index)
@@ -548,8 +563,8 @@ class GetId3_Module_Archive_Zip extends GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $DOSdate
-     * @param type $DOStime
+     * @param  type $DOSdate
+     * @param  type $DOStime
      * @return type
      */
     public static function DOStime2UNIXtime($DOSdate, $DOStime)

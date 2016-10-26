@@ -26,8 +26,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	{
 		global $ilNavigationHistory;
 				
-		$this->tpl->getStandardTemplate();
-
 		// add entry to navigation history
 		if(!$this->getCreationMode() &&
 			$this->getAccessHandler()->checkAccess("read", "", $this->node_id))

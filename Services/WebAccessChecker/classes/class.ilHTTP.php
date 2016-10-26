@@ -66,7 +66,7 @@ class ilHTTP {
 		506 => 'Variant Also Negotiates',
 		507 => 'Insufficient Storage',
 		509 => 'Bandwidth Limit Exceeded',
-		510 => 'Not Extended'
+		510 => 'Not Extended',
 	);
 	const PREFIX = 'HTTP/1.1';
 
@@ -77,11 +77,25 @@ class ilHTTP {
 	 * @throws ilException
 	 */
 	public static function status($status) {
-		if (! array_key_exists($status, self::$http_codes)) {
+		if (!array_key_exists($status, self::$http_codes)) {
 			throw new ilException('Wrong HTTP-Status Code');
 		}
-		header(self::PREFIX . ' ' . $status . ' ' . self::$http_codes[$status], true, $status);
+		if (function_exists('http_response_code')) {
+			http_response_code($status);
+		} else {
+			self::httpResponseCode($status);
+		}
+	}
+
+
+	/**
+	 * @param $status
+	 */
+	private static function httpResponseCode($status) {
+		$protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : self::PREFIX);
+		$string = $protocol . ' ' . $status . ' ' . self::$http_codes[$status];
+		$GLOBALS['http_response_code'] = $status;
+
+		header($string, true, $status);
 	}
 }
-
-?>

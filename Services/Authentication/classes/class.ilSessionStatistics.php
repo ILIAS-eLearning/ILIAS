@@ -230,26 +230,30 @@ class ilSessionStatistics
 	protected static function createNewAggregationSlot($a_now)
 	{
 		global $ilDB;
-		
-		// get exclusive lock
-		$ilDB->lockTables(array(array("name"=>"usr_session_stats", "type"=>ilDBConstants::LOCK_WRITE)));
-		
-		// if we had to wait for the lock, no current slot should be returned here
-		$slot = self::getCurrentSlot($a_now);		
-		if(!is_array($slot))
-		{
-			$ilDB->unlockTables();
-			return false;
-		}
-		
-		// save slot to mark as taken
-		$fields = array(
-			"slot_begin" => array("integer", $slot[0]),
-			"slot_end" => array("integer", $slot[1]),
-		);		
-		$ilDB->insert("usr_session_stats", $fields);		
-		
-		$ilDB->unlockTables();
+
+		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery->addTableLock("usr_session_stats");
+
+		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($a_now, &$slot){
+
+			// if we had to wait for the lock, no current slot should be returned here
+			$slot = self::getCurrentSlot($a_now);
+			if(!is_array($slot))
+			{
+				$slot = false;
+				return;
+			}
+
+			// save slot to mark as taken
+			$fields = array(
+				"slot_begin" => array("integer", $slot[0]),
+				"slot_end" => array("integer", $slot[1]),
+			);
+			$ilDB->insert("usr_session_stats", $fields);
+
+		});
+
+		$ilAtomQuery->run();
 		
 		return $slot;
 	}

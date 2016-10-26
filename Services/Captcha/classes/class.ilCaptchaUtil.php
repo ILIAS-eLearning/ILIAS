@@ -28,8 +28,10 @@ class ilCaptchaUtil
 	{
 		if(function_exists('imageftbbox'))
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Function imageftbox is available.');
 			return true;
 		}
+		ilLoggerFactory::getLogger('auth')->debug('Function imageftbox is not available.');
 		return false;
 	}
 

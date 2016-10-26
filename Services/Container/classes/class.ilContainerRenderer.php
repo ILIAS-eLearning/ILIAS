@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilContainerRenderer
@@ -579,7 +580,8 @@ class ilContainerRenderer
 			else
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$title = ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+				$pl = ilObjectPlugin::getRepoPluginObjectByType($a_type);
+				$title= $pl->txt("objs_".$a_type);
 			}
 		}
 		else

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
  * Class ilObjSystemFolderGUI
@@ -271,7 +272,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				{
 					if ($objDefinition->isPlugin($t))
 					{
-						$ts[$t] = ilPlugin::lookupTxt("rep_robj", $t, "obj_".$t);
+						$pl = ilObjectPlugin::getRepoPluginObjectByType($t);
+						$ts[$t] = $pl->txt("obj_".$t);
 					}
 					else
 					{
@@ -1987,7 +1989,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				'<img src="'.ilUtil::getImagePath('icon_not_ok.svg').'" /> '.
 				$this->lng->txt('proxy_not_connectable')
 			);
-			ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+			ilUtil::sendFailure(sprintf($this->lng->txt('proxy_socket_error'), $e->getMessage()));
 		}
 	}
 	

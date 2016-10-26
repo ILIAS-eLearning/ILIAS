@@ -22,6 +22,7 @@
 */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
  * Presentation of search results
@@ -62,8 +63,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 		else
 		{
 			include_once "Services/Component/classes/class.ilPlugin.php";
-			$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
-					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->type));
+			$plugin = ilObjectPlugin::getRepoPluginObjectByType($this->type);
 			$title = $plugin->txt('obj_'.$this->type.'_duplicate');
 		}		
 		

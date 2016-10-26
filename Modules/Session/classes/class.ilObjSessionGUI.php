@@ -12,13 +12,17 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
 * @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI
 *
 * @ingroup ModulesSession 
 */
 class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger = null;
 
 
 	public $lng;
@@ -53,6 +57,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
+		
+		$this->logger = $GLOBALS['DIC']->logger()->sess();
 	}
 	
 	
@@ -110,8 +116,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			case 'ilmembershipgui':				
 				$this->ctrl->setReturn($this,'members');
-				include_once './Services/Membership/classes/class.ilMembershipGUI.php';
-				$mem = new ilMembershipGUI($this);
+				include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
+				$mem = new ilMembershipMailGUI($this);
 				$this->ctrl->forwardCommand($mem);
 				break;
 			
@@ -160,7 +166,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * @see ilObjectGUI::prepareOutput()
      */
-    protected function prepareOutput($a_show_subobjects = true)
+    public function prepareOutput($a_show_subobjects = true)
     {
         parent::prepareOutput($a_show_subobjects);
 		
@@ -578,12 +584,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->saveObject(false);
 		
-		/*
 		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
-		$target = $this->ctrl->getLinkTarget($this,'materials');
-		$target = str_replace('new_type=','nt=',$target);
-		*/
-		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
+		$this->ctrl->setParameter($this,'new_type', '');
 		$this->ctrl->redirect($this,'materials');
 	}
 		
@@ -604,7 +606,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->initForm('create');
 		$ilErr->setMessage('');
-		if(!$this->form->checkInput())		{
+		if(!$this->form->checkInput())
+		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
 		
@@ -616,7 +619,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendFailure($ilErr->getMessage());			
+			ilUtil::sendFailure($ilErr->getMessage());
+			$this->form->setValuesByPost();
 			$this->createObject();
 			return false;
 		}
@@ -1103,7 +1107,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
 			if($ilUser->getPref('grp_subscriber_hide'))
 			{
-				$table_gui = new ilSubscriberTableGUI($this,false, false);
+				$table_gui = new ilSubscriberTableGUI($this,$this->object, false, false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1111,7 +1115,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$table_gui = new ilSubscriberTableGUI($this,true, false);
+				$table_gui = new ilSubscriberTableGUI($this,$this->object, true, false);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));
@@ -1848,12 +1852,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 				
 			case 3:
-				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
-				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
-				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
-				
+				$frequence = $this->form->getItemByPostVar('frequence');
+				$end = $frequence->getRecurrence()->getFrequenceUntilDate();
 				$this->rec->setFrequenceUntilCount(0);
-				$this->rec->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+				$this->rec->setFrequenceUntilDate($end);
 				break;
 		}
 	}
@@ -1980,8 +1982,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$GLOBALS['ilCtrl']->setReturn($this,'members');
 		$GLOBALS['ilCtrl']->setCmdClass('ilmembershipgui');
-		include_once './Services/Membership/classes/class.ilMembershipGUI.php';
-		$mem = new ilMembershipGUI($this);
+		include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
+		$mem = new ilMembershipMailGUI($this);
 		$GLOBALS['ilCtrl']->forwardCommand($mem);
 	}
 	
@@ -2325,12 +2327,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
-	 function cancelEditObject()
-	 {
-		 global $ilCtrl, $tree;
-		 $parent_id = $tree->getParentId($this->object->getRefId());
-		 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
-		 $ilCtrl->redirectByClass("ilrepositorygui", "");
-	 }
+
+	/**
+	 * Cancel editigin
+	 * @global type $ilCtrl
+	 * @global type $tree
+	 */
+	protected function cancelEditObject()
+	{
+		global $ilCtrl, $tree;
+		
+		$parent_id = $tree->getParentId((int) $_REQUEST['ref_id']);
+		
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
+
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
+	}
+
 }
 ?>

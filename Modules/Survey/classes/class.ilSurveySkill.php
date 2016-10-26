@@ -294,20 +294,22 @@ class ilSurveySkill
 				{
 					$cnt = 0;
 					$sum = 0;
-					foreach ($results[$q_id] as $r)
+					foreach ($results[$q_id] as $users)
 					{
-						// this is a workaround, since we only get arrays from
-						// getUserSpecificResults() 
-						$r = explode(" - ", $r);
-						$sum+= (int) $r[0];
-						$cnt++;
+						foreach($users as $user_answers)
+						{							
+							// sc-questions supported only, is answer-array anyway
+							$user_answers = array_keys($user_answers); // scale values				
+							$sum += array_sum($user_answers);													
+							$cnt += sizeof($user_answers); // nr of answers
+						}						
 					}
 					if ($cnt > 0)
 					{
 						$qmean = $sum/$cnt;
 					}
 				}
-				$mean_sum+= $qmean;
+				$mean_sum += $qmean;
 			}
 			$skills[$k]["mean_sum"] = $mean_sum;
 			

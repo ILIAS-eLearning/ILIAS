@@ -30,7 +30,11 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI {
 	 */
 	public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array(), $a_sticky = false)
 	{
-		global $ilToolbar, $lng, $ilCtrl, $tree;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tree = $DIC['tree'];
 
 		if(!$toolbar instanceof ilToolbarGUI)
 		{

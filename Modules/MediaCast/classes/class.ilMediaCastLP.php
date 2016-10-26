@@ -10,6 +10,13 @@ require_once 'Services/Object/classes/class.ilObjectLP.php';
  */
 class ilMediaCastLP extends ilObjectLP
 {
+	public static function getDefaultModes($a_lp_active)
+	{		
+		return array(
+			ilLPObjSettings::LP_MODE_DEACTIVATED
+		);		
+	}
+	
 	/**
 	 * @return int
 	 */

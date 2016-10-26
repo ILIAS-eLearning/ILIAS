@@ -428,7 +428,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$context_ref = $news["ref_id"];
 			}
 			
-			$lang_type = in_array($type, array("sahs", "lm", "dbk", "htlm"))
+			$lang_type = in_array($type, array("sahs", "lm", "htlm"))
 				? "lres"
 				: "obj_".$type;
 
@@ -547,7 +547,9 @@ if (empty(self::$st_data))
 		}
 		else								// no aggregation, simple news item
 		{
-			$news_list[] = array("ref_id" => $_GET["news_context"],
+			$news_list[] = array(
+				"id" => $news->getId(),
+				"ref_id" => $_GET["news_context"],
 				"user_id" => $news->getUserId(),
 				"content_type" => $news->getContentType(),
 				"mob_id" => $news->getMobId(),
@@ -653,14 +655,14 @@ if (empty(self::$st_data))
 			}
 
 			// content
+			include_once("./Services/News/classes/class.ilNewsRendererFactory.php");
+			$renderer = ilNewsRendererFactory::getRenderer($item["context_obj_type"]);
 			if (trim($item["content"]) != "")		// content
 			{
+				$it = new ilNewsItem($item["id"]);
+				$renderer->setNewsItem($it, $item["ref_id"]);
 				$tpl->setCurrentBlock("content");
-				$tpl->setVariable("VAL_CONTENT",
-					nl2br($this->makeClickable(
-					ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
-					)));
-//$tpl->setVariable("VAL_CONTENT", nl2br($item["content"]));
+				$tpl->setVariable("VAL_CONTENT", $renderer->getDetailContent());
 				$tpl->parseCurrentBlock();
 			}
 			if (trim($item["content_long"]) != "")	// long content
@@ -744,7 +746,7 @@ if (empty(self::$st_data))
 					$obj_type."_".$item["ref_id"].$add;
 
 				// lm page hack, not nice
-				if (in_array($obj_type, array("dbk", "lm")) && $item["context_sub_obj_type"] == "pg"
+				if (in_array($obj_type, array("lm")) && $item["context_sub_obj_type"] == "pg"
 					&& $item["context_sub_obj_id"] > 0)
 				{
 					$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
@@ -1048,6 +1050,7 @@ if (empty(self::$st_data))
 			
 				$dt_prop = new ilDateTimeInputGUI($lng->txt("news_hide_news_date"),
 					"hide_news_date");
+				$dt_prop->setRequired(true);
 				if ($hide_news_date != "")
 				{
 					$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
@@ -1162,9 +1165,8 @@ if (empty(self::$st_data))
 					0, $this->block_id);
 
 				// hide date
-				$hd = $this->settings_form->getInput("hide_news_date");
-				$hide_date = new ilDateTime($hd["date"]." ".
-					$hd["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
+				$hd = $this->settings_form->getItemByPostVar("hide_news_date");				
+				$hide_date = $hd->getDate();
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
 					$hide_date->get(IL_CAL_DATETIME),
 					0, $this->block_id);

@@ -7,6 +7,8 @@ define ("IL_PASSWD_CRYPTED", "crypted");
 
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once './Services/User/exceptions/class.ilUserException.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
 
 /**
 * @defgroup ServicesUser Services/User
@@ -95,15 +97,6 @@ class ilObjUser extends ilObject
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
 
-	var $im_icq;
-	var $im_yahoo;
-	var $im_msn;
-	var $im_aim;
-	var $im_skype;
-	var $im_jabber;
-	var $im_voip;
-
-	var $delicious;
 	var $latitude;
 	var $longitude;
 	var $loc_zoom;
@@ -162,6 +155,12 @@ class ilObjUser extends ilObject
 	 * @var bool
 	 */
 	private $is_self_registered = false;
+
+	/**
+	 * ids of assigned org-units, comma seperated
+	 * @var string
+	 */
+	protected $org_units;
 	
 	protected $interests_general; // [array]
 	protected $interests_help_offered; // [array]
@@ -258,7 +257,7 @@ class ilObjUser extends ilObject
 			//check skin-setting
 			include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 			if ($this->prefs["skin"] == "" ||
-				!ilStyleDefinition::skinExists($this->prefs["skin"]))
+					!ilStyleDefinition::skinExists($this->prefs["skin"]))
 			{
 				$this->prefs["skin"] = $this->oldPrefs["skin"];
 			}
@@ -267,7 +266,7 @@ class ilObjUser extends ilObject
 
 			//check style-setting (skins could have more than one stylesheet
 			if ($this->prefs["style"] == "" ||
-				!ilStyleDefinition::skinExists($this->skin, $this->prefs["style"]))
+					(!ilStyleDefinition::skinExists($this->skin) && ilStyleDefinition::styleExistsForSkinId($this->skin,$this->prefs["style"])))
 			{
 				//load default (css)
 		 		$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
@@ -277,7 +276,6 @@ class ilObjUser extends ilObject
 			{
 				$this->prefs["hits_per_page"] = 10;
 			}
-
 		}
 		else
 		{
@@ -379,17 +377,7 @@ class ilObjUser extends ilObject
 		$this->setPasswordEncodingType($a_data['passwd_enc_type']);
 		$this->setPasswordSalt($a_data['passwd_salt']);
 
-		// instant messenger data
-		$this->setInstantMessengerId('icq',$a_data["im_icq"]);
-		$this->setInstantMessengerId('yahoo',$a_data["im_yahoo"]);
-		$this->setInstantMessengerId('msn',$a_data["im_msn"]);
-		$this->setInstantMessengerId('aim',$a_data["im_aim"]);
-		$this->setInstantMessengerId('skype',$a_data["im_skype"]);
-		$this->setInstantMessengerId('jabber',$a_data["im_jabber"]);
-		$this->setInstantMessengerId('voip',$a_data["im_voip"]);
-
 		// other data
-		$this->setDelicious($a_data["delicious"]);
 		$this->setLatitude($a_data["latitude"]);
 		$this->setLongitude($a_data["longitude"]);
 		$this->setLocationZoom($a_data["loc_zoom"]);
@@ -512,23 +500,15 @@ class ilObjUser extends ilObject
 			"auth_mode" => array("text", $this->getAuthMode()),
 			"ext_account" => array("text", $this->getExternalAccount()),
 			"profile_incomplete" => array("integer", $this->getProfileIncomplete()),
-			"im_icq" => array("text", $this->im_icq),
-			"im_yahoo" => array("text", $this->im_yahoo),
-			"im_msn" => array("text", $this->im_msn),
-			"im_aim" => array("text", $this->im_aim),
-			"im_skype" => array("text", $this->im_skype),
-			"delicious" => array("text", $this->delicious),
 			"latitude" => array("text", $this->latitude),
 			"longitude" => array("text", $this->longitude),
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
-			"im_jabber" => array("text", $this->im_jabber),
-			"im_voip" => array("text", $this->im_voip),
 			'inactivation_date' => array('timestamp', $this->inactivation_date),
-			'is_self_registered' => array('integer', (int)$this->is_self_registered)
+			'is_self_registered' => array('integer', (int)$this->is_self_registered),
 			);
 		$ilDB->insert("usr_data", $insert_array);
-		
+
 		$this->updateMultiTextFields(true);
 
 		// add new entry in usr_defined_data
@@ -610,18 +590,10 @@ class ilObjUser extends ilObject
 			"profile_incomplete" => array("integer", $this->getProfileIncomplete()),
 			"auth_mode" => array("text", $this->getAuthMode()),
 			"ext_account" => array("text", $this->getExternalAccount()),
-			"im_icq" => array("text", $this->im_icq),
-			"im_yahoo" => array("text", $this->im_yahoo),
-			"im_msn" => array("text", $this->im_msn),
-			"im_aim" => array("text", $this->im_aim),
-			"im_skype" => array("text", $this->im_skype),
-			"delicious" => array("text", $this->delicious),
 			"latitude" => array("text", $this->latitude),
 			"longitude" => array("text", $this->longitude),
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", $this->last_password_change_ts),
-			"im_jabber" => array("text", $this->im_jabber),
-			"im_voip" => array("text", $this->im_voip),
 			"last_update" => array("timestamp", ilUtil::now()),
 			'inactivation_date' => array('timestamp', $this->inactivation_date)
 			);
@@ -732,16 +704,7 @@ class ilObjUser extends ilObject
 		}
 		return $fullname;
 	}
-	
-	/**
-	* Lookup IM
-	*/
-	static function _lookupIm($a_user_id, $a_type)
-	{
-		return ilObjUser::_lookup($a_user_id, "im_".$a_type);
-	}
-	
-	
+
 	/**
 	* Lookup email
 	*/
@@ -870,31 +833,6 @@ class ilObjUser extends ilObject
 			 array("integer"), array($this->id));
 	}
 
-	/**
-	 * Replaces the user password with a new md5 hash. This method is currently used by the ILIAS webservice.
-	 * @param   string $md5_encoded_password Password as md5
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function replacePassword($md5_encoded_password)
-	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
-
-		$this->setPasswd($md5_encoded_password, IL_PASSWD_CRYPTED);
-		$this->setPasswordEncodingType('md5');
-
-		$ilDB->manipulateF(
-			'UPDATE usr_data
-			SET passwd = %s, passwd_enc_type = %s
-			WHERE usr_id = %s',
-			array('text', 'text', 'integer'),
-			array($this->getPasswd(), $this->getPasswordEncodingType(), $this->getId())
-		);
-
-		return true;
-	}
 
 	/**
 	 * Resets the user password
@@ -1409,6 +1347,10 @@ class ilObjUser extends ilObject
 		// remove reminder entries
 		require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
 		ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
+		
+		// badges
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		ilBadgeAssignment::deleteByUserId($this->getId());
 		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
@@ -2541,26 +2483,46 @@ class ilObjUser extends ilObject
 	/**
 	 * Gets the username from $ilAuth, and converts it into an ILIAS login name.
 	 */
-	private static function getLoginFromAuth() {
+	private static function getLoginFromAuth()
+	{
 		global $ilAuth;
-                
+
+		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
+		$login = ilObjUser::_lookupLogin($uid);
+
 		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
+		if(ilDAVActivationChecker::_isActive())
 		{
-			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-			require_once ('Services/Database/classes/class.ilAuthContainerMDB2.php');
-			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($ilAuth->getUsername());
+			$login = self::toUsernameWithoutDomain($login);
 		}
-		else
-		{
-			$login =$ilAuth->getUsername();
-		}
-                
 		return $login;
-        }
+	}
+	
+	/**
+ 	 * Static function removes Microsoft domain name from username
+	 * webdav related
+	 * @param string $a_login
+	 * @return string
+	 */
+	public static function toUsernameWithoutDomain($a_login)
+	{
+		// Remove all characters including the last slash or the last backslash
+		// in the username
+		$pos = strrpos($a_login, '/');
+		$pos2 = strrpos($a_login, '\\');
+		if ($pos === false || $pos < $pos2) 
+		{
+			$pos = $pos2;
+		}
+		if ($pos !== false)
+		{
+			$a_login = substr($a_login, $pos + 1);
+		}
+		return $a_login;
+	}
 
-    /*
+	/*
      * check to see if current user has been made active
      * @access  public
      * @return  true if active, otherwise false
@@ -3585,6 +3547,26 @@ class ilObjUser extends ilObject
 		}
 		return $id ? $id : 0;
 	}
+	
+	/**
+	 * lokup org unit representation
+	 * @param int $a_usr_id
+	 * @return string
+	 */
+	public static function lookupOrgUnitsRepresentation($a_usr_id)
+	{
+		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
+		return ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_usr_id);
+	}
+
+
+	/**
+	 * @return String
+	 */
+	public function getOrgUnitsRepresentation() {
+		return self::lookupOrgUnitsRepresentation($this->getId());
+	}
+
 
 	/**
     * set auth mode
@@ -3754,7 +3736,7 @@ class ilObjUser extends ilObject
 
 		// For compatibility, check for login (no ext_account entry given)
 		$res = $ilDB->queryF("SELECT login FROM usr_data ".
-			"WHERE login = %s AND auth_mode = %s",
+			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
 			array("text", "text"),
 			array($a_account, $a_auth));
 		if($usr = $ilDB->fetchAssoc($res))
@@ -4326,28 +4308,6 @@ class ilObjUser extends ilObject
 		}
 
 		return $body;
-	}
-
-	function setInstantMessengerId($a_im_type, $a_im_id)
-	{
-		$var = "im_".$a_im_type;
-		$this->$var = $a_im_id;
-	}
-
-	function getInstantMessengerId($a_im_type)
-	{
-		$var = "im_".$a_im_type;
-		return $this->$var;
-	}
-
-	function setDelicious($a_delicious)
-	{
-		$this->delicious = $a_delicious;
-	}
-
-	function getDelicious()
-	{
-		return $this->delicious;
 	}
 
 	/**
@@ -5258,7 +5218,7 @@ class ilObjUser extends ilObject
 		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
 		ilUtil::delDir($dir, true);
 		$title = $this->getLastname().", ".$this->getLastname()." [".$this->getLogin()."]";
-		$exp->exportEntity("personal_data", $this->getId(), "4.5.0",
+		$exp->exportEntity("personal_data", $this->getId(), "",
 			"Services/User", $title, $dir);
 	}
 	

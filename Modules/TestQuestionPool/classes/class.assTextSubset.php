@@ -600,31 +600,31 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		$entered_values = 0;
 
+		$entered_values = 0;
 		$solutionSubmit = $this->getSolutionSubmit();
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $solutionSubmit, $active_id, $pass, $authorized) {
 
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
-		
-		foreach($solutionSubmit as $value)
-		{
-			if (strlen($value))
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			foreach($solutionSubmit as $value)
 			{
-				$this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
-				$entered_values++;
+				if(strlen($value))
+				{
+					$this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
+					$entered_values++;
+				}
 			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -632,7 +632,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		

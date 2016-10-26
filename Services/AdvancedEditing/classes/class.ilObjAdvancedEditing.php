@@ -221,7 +221,7 @@ class ilObjAdvancedEditing extends ilObject
 	*
 	* @param boolean $a_js_editor A boolean indicating if the JS editor should be used or not
 	*/
-	function _setRichTextEditor($a_js_editor)
+	function setRichTextEditor($a_js_editor)
 	{
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$setting = new ilSetting("advanced_editing");
@@ -238,7 +238,7 @@ class ilObjAdvancedEditing extends ilObject
 	* @throws ilAdvancedEditingRequiredTagsException
 	* 
 	*/
-	function _setUsedHTMLTags($a_html_tags, $a_module)
+	function setUsedHTMLTags($a_html_tags, $a_module)
 	{
 		global $lng;		
 		
@@ -427,27 +427,10 @@ class ilObjAdvancedEditing extends ilObject
 			"rb",
 			"rt",
 			"rp"
-			);
-			return $tags;
-		}
-		/**
-		* Returns a string of all HTML tags
-		*
-		* Returns a string of all HTML tags
-		*
-		* @return string Used HTML tags
-		*/
-		function _getAllHTMLTagsAsString()
-		{
-			$result = "";
-			$tags =& ilObjAdvancedEditing::_getAllHTMLTags();
-			foreach ($tags as $tag)
-			{
-				$result .= "<$tag>";
-			}
-			return $result;
-		}
-	
+		);
+		return $tags;
+	}
+
 	/**
 	* Sets the state of the rich text editor visibility for the current user
 	*

@@ -3,7 +3,6 @@
 
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
-require_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
 /** @defgroup ModulesIliasLearningModule Modules/IliasLearningModule
  */
@@ -623,11 +622,6 @@ class ilObjContentObject extends ilObject
 
 		// delete meta data of content object
 		$this->deleteMetaData();
-
-		// delete bibitem data
-		$nested = new ilNestedSetXML();
-		$nested->init($this->getId(), "bib");
-		$nested->deleteAllDBData();
 
 
 		// delete learning module tree
@@ -1578,10 +1572,6 @@ class ilObjContentObject extends ilObject
 			case "lm":
 				$attrs["Type"] = "LearningModule";
 				break;
-
-			case "dbk":
-				$attrs["Type"] = "LibObject";
-				break;
 		}
 		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
 
@@ -1623,7 +1613,7 @@ class ilObjContentObject extends ilObject
 			$qti_file = fopen($a_target_dir."/qti.xml", "w");
 			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 			$pool = new ilObjQuestionPool();
-			fwrite($qti_file, $pool->toXML($this->q_ids));
+			fwrite($qti_file, $pool->questionsToXML($this->q_ids));
 			fclose($qti_file);
 		}
 		
@@ -2082,6 +2072,10 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($content_style_img_dir);
 		$GLOBALS["teximgcnt"] = 0;
 
+        // init the mathjax rendering for HTML export
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
 		$style_name = $ilUser->prefs["style"].".css";
@@ -2246,7 +2240,7 @@ class ilObjContentObject extends ilObject
 		if ($this->isActiveTOC())
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
-			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$lm_gui->tpl = $tpl;
 			$content = $lm_gui->showTableOfContents();
 			$file = $a_target_dir."/table_of_contents.html";
 				
@@ -2437,7 +2431,25 @@ class ilObjContentObject extends ilObject
 				"target" => $mathJaxSetting->get("path_to_mathjax"),
 				"type" => "js");
 		}
-		
+
+		// auto linking js
+		include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
+		foreach (ilLinkifyUtil::getLocalJsPaths() as $p)
+		{
+			if (is_int(strpos($p, "ExtLink")))
+			{
+				$scripts[] = array("source" => $p,
+					"target" => $a_target_dir.'/js/ilExtLink.js',
+					"type" => "js");
+			}
+			if (is_int(strpos($p, "linkify")))
+			{
+				$scripts[] = array("source" => $p,
+					"target" => $a_target_dir.'/js/linkify.js',
+					"type" => "js");
+			}
+		}
+
 		return $scripts;
 
 	}
@@ -3145,33 +3157,6 @@ class ilObjContentObject extends ilObject
 		$mess =  $this->importFromDirectory(
 			$this->getImportDirectory()."/".$subdir, $a_validate);
 
-		// this should only be true for help modules
-		if ($a_import_into_help_module > 0)
-		{
-			// search the zip file
-			$dir = $this->getImportDirectory()."/".$subdir;
-			$files = ilUtil::getDir($dir);
-			foreach ($files as $file)
-			{
-				if (is_int(strpos($file["entry"], "__help_")) && 
-					is_int(strpos($file["entry"], ".zip")))
-				{
-					include_once("./Services/Export/classes/class.ilImport.php");
-					$imp = new ilImport();
-					$imp->getMapping()->addMapping('Services/Help', 'help_module', 0, $a_import_into_help_module);
-					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-					$chaps = ilLMObject::getObjectList($this->getId(), "st");
-					foreach ($chaps as $chap)
-					{
-						$chap_arr = explode("_", $chap["import_id"]);
-						$imp->getMapping()->addMapping('Services/Help', 'help_chap',
-							$chap_arr[count($chap_arr) - 1], $chap["obj_id"]);
-					}
-					$imp->importEntity($dir."/".$file["entry"], $file["entry"],
-						"help", "Services/Help", true);
-				}
-			}
-		}
 		
 		// delete import directory
 		ilUtil::delDir($this->getImportDirectory());

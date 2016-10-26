@@ -1,3 +1,4 @@
+/* fau: testNav - this script is not included anymore and can be deleted. */
 (function($){
 
 	var show = function(e)

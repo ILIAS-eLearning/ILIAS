@@ -138,6 +138,11 @@ class ilObjSurvey extends ilObject
 	var $mailparticipantdata;
 	var $template_id;
 	var $pool_usage;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 	
 	protected $activation_visibility;
 	protected $activation_starting_time;
@@ -162,12 +167,16 @@ class ilObjSurvey extends ilObject
 	protected $reminder_frequency; // [int]
 	protected $reminder_target; // [int]
 	protected $reminder_last_sent; // [bool]
+	protected $reminder_tmpl; // [int]
 	protected $tutor_ntf_status; // [bool]
 	protected $tutor_ntf_recipients; // [array]
 	protected $tutor_ntf_target; // [int]
 	
 	protected $view_own_results; // [bool]
 	protected $mail_own_results; // [bool]
+	protected $mail_confirmation; // [bool]
+	
+	protected $anon_user_list; // [bool]
 	
 	const NOTIFICATION_PARENT_COURSE = 1;
 	const NOTIFICATION_INVITED_USERS = 2;
@@ -198,7 +207,8 @@ class ilObjSurvey extends ilObject
 		$this->surveyCodeSecurity = TRUE;
 		$this->template_id = NULL;
 		$this->pool_usage = true;
-		
+		$this->log = ilLoggerFactory::getLogger("svy");
+
 		parent::__construct($a_id,$a_call_by_reference);
 	}
 
@@ -241,7 +251,7 @@ class ilObjSurvey extends ilObject
 		}
 
 		// put here object specific stuff
-
+		
 		return true;
 	}
 
@@ -260,6 +270,17 @@ class ilObjSurvey extends ilObject
 	{
 		parent::read();
 		$this->loadFromDb();
+	}
+	
+	/**
+	* Adds a question to the survey (used in importer!)
+	*
+	* @param	integer	$question_id The question id of the question
+	* @access	public
+	*/
+	function addQuestion($question_id)
+	{
+		array_push($this->questions, $question_id);
 	}
 	
 	/**
@@ -439,7 +460,7 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	function &getSurveyParticipants($finished_ids = null)
+	function &getSurveyParticipants($finished_ids = null, $force_non_anonymous = false)
 	{
 		global $ilDB;
 		
@@ -456,7 +477,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$userdata = $this->getUserDataFromActiveId($row["finished_id"]);
+				$userdata = $this->getUserDataFromActiveId($row["finished_id"], $force_non_anonymous);
 				$userdata["finished"] = (bool)$row["state"];
 				$userdata["finished_tstamp"] = $row["tstamp"];
 				$participants[$userdata["sortname"] . $userdata["active_id"]] = $userdata;
@@ -700,11 +721,14 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
 				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
 				"own_results_view" => array("integer", $this->hasViewOwnResults()),
-				"own_results_mail" => array("integer", $this->hasMailOwnResults())
+				"own_results_mail" => array("integer", $this->hasMailOwnResults()),
+				"confirmation_mail" => array("integer", $this->hasMailConfirmation()),				
+				"anon_user_list" => array("integer", $this->hasAnonymousUserList())
  			));
 			$this->setSurveyId($next_id);
 		}
@@ -743,11 +767,14 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", $this->getReminderFrequency()),
 				"reminder_target" => array("integer", $this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
 				"tutor_ntf_status" => array("integer", $this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", $this->getTutorNotificationTarget()),
 				"own_results_view" => array("integer", $this->hasViewOwnResults()),
-				"own_results_mail" => array("integer", $this->hasMailOwnResults())
+				"own_results_mail" => array("integer", $this->hasMailOwnResults()),
+				"confirmation_mail" => array("integer", $this->hasMailConfirmation()),				
+				"anon_user_list" => array("integer", $this->hasAnonymousUserList())				
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
 			));
@@ -1036,12 +1063,16 @@ class ilObjSurvey extends ilObject
 			$this->setReminderFrequency($data["reminder_frequency"]);
 			$this->setReminderTarget($data["reminder_target"]);
 			$this->setReminderLastSent($data["reminder_last_sent"]);
+			$this->setReminderTemplate($data["reminder_tmpl"]);
 			$this->setTutorNotificationStatus($data["tutor_ntf_status"]);
 			$this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"]));
 			$this->setTutorNotificationTarget($data["tutor_ntf_target"]);
 			
 			$this->setViewOwnResults($data["own_results_view"]);
 			$this->setMailOwnResults($data["own_results_mail"]);
+			$this->setMailConfirmation($data["confirmation_mail"]);
+			
+			$this->setAnonymousUserList($data["anon_user_list"]);			
 		}
 		
 		// moved activation to ilObjectActivation
@@ -1408,7 +1439,7 @@ class ilObjSurvey extends ilObject
 		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartDate(), $matches))
 		{			
 			$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);		
-			$now = mktime();
+			$now = time();
 			if ($now < $epoch_time) 
 			{		
 				array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
@@ -1421,7 +1452,7 @@ class ilObjSurvey extends ilObject
 		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndDate(), $matches))
 		{
 			$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			$now = mktime();
+			$now = time();
 			if ($now > $epoch_time) 
 			{
 				array_push($messages,$this->lng->txt('end_date_reached').' ('.
@@ -3105,28 +3136,37 @@ class ilObjSurvey extends ilObject
 		return $users;
 	}
 	
-/**
-* Calculates the evaluation data for the user specific results
-*
-* @return array An array containing the user specific results
-* @access public
-*/
-	function &getUserSpecificResults($finished_ids)
-	{
-		global $ilDB;
-		
+	/**
+	* Calculates the evaluation data for the user specific results
+	*
+	* @return array An array containing the user specific results
+	* @access public
+	*/
+	function getUserSpecificResults($finished_ids)
+	{		
 		$evaluation = array();
-		$questions =& $this->getSurveyQuestions();
-		foreach ($questions as $question_id => $question_data)
+		
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		foreach (array_keys($this->getSurveyQuestions()) as $question_id)
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			// get question instance			
 			$question_type = SurveyQuestion::_getQuestionType($question_id);
 			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
-			$data =& $question->getUserAnswers($this->getSurveyId(), $finished_ids);
-			$evaluation[$question_id] = $data;
+			
+			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($question_id, $finished_ids);		
+			$q_res =  $q_eval->getResults();
+			
+			$data = array();
+			foreach($finished_ids as $user_id)
+			{
+				$data[$user_id] = $q_eval->parseUserSpecificResults($q_res, $user_id);					
+			}
+			
+			$evaluation[$question_id] = $data;			
 		}
+		
 		return $evaluation;
 	}
 	
@@ -3137,7 +3177,7 @@ class ilObjSurvey extends ilObject
 	* @return array An array containing the user data
 	* @access public
 	*/
-	function getUserDataFromActiveId($active_id)
+	function getUserDataFromActiveId($active_id, $force_non_anonymous = false)
 	{
 		global $ilDB;
 
@@ -3165,9 +3205,11 @@ class ilObjSurvey extends ilObject
 		);
 		if ($foundrows)
 		{
-			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && 				
-				!$this->hasAnonymizedResults() &&
-				!$this->get360Mode()) // 360° uses ANONYMIZE_CODE_ALL which is wrong - see ilObjSurveyGUI::afterSave()
+			if (($row["user_fi"] > 0) && 
+					(($row["user_fi"] != ANONYMOUS_USER_ID && 				
+						!$this->hasAnonymizedResults() &&
+						!$this->get360Mode()) ||  // 360° uses ANONYMIZE_CODE_ALL which is wrong - see ilObjSurveyGUI::afterSave()
+					(bool)$force_non_anonymous))
 			{
 				include_once './Services/User/classes/class.ilObjUser.php';
 				if (strlen(ilObjUser::_lookupLogin($row["user_fi"])) == 0)
@@ -3240,53 +3282,6 @@ class ilObjSurvey extends ilObject
 			sort($resultset["answers"][$key]);
 		}
 		return $resultset;
-	}
-	
-/**
-* Calculates the evaluation data for a question
-*
-* @param integer $question_id The database id of the question
-* @param integer $user_id The database id of the user
-* @return array An array containing the evaluation parameters for the question
-* @access public
-*/
-	function getCumulatedResults(&$question, $finished_ids)
-	{
-		global $ilDB;
-		
-		if(!$finished_ids)
-		{
-			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
-				array('integer'),
-				array($this->getSurveyId())
-			);
-			$nr_of_users = $result->numRows();
-		}
-		else
-		{
-			$nr_of_users = sizeof($finished_ids);
-		}
-		
-		$result_array =& $question->getCumulatedResults($this->getSurveyId(), $nr_of_users, $finished_ids);
-		return $result_array;
-	}
-
-/**
-* Returns the number of participants for a survey
-*
-* @param integer $survey_id The database ID of the survey
-* @return integer The number of participants
-* @access public
-*/
-	static function _getNrOfParticipants($survey_id)
-	{
-		global $ilDB;
-		
-		$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
-			array('integer'),
-			array($survey_id)
-		);
-		return $result->numRows();
 	}
 	
 /**
@@ -3551,6 +3546,9 @@ class ilObjSurvey extends ilObject
 		
 		$custom_properties["own_results_view"] = (int)$this->hasViewOwnResults();
 		$custom_properties["own_results_mail"] = (int)$this->hasMailOwnResults();
+		$custom_properties["confirmation_mail"] = (int)$this->hasMailConfirmation();
+		
+		$custom_properties["anon_user_list"] = (int)$this->hasAnonymousUserList();
 		
 		$custom_properties["mode_360"] = (int)$this->get360Mode();
 		$custom_properties["mode_360_self_eval"] = (int)$this->get360SelfEvaluation();
@@ -3718,19 +3716,20 @@ class ilObjSurvey extends ilObject
 		$isZip = FALSE;
 		if ((strcmp($file_info["type"], "text/xml") == 0) || (strcmp($file_info["type"], "application/xml") == 0))
 		{
+			$this->log->debug("isXML");
 			$isXml = TRUE;
 		}
 		// too many different mime-types, so we use the suffix
 		$suffix = pathinfo($file_info["name"]);
 		if (strcmp(strtolower($suffix["extension"]), "zip") == 0)
 		{
+			$this->log->debug("isZip");
 			$isZip = TRUE;
 		}
 		if (!$isXml && !$isZip)
 		{
 			$error = $this->lng->txt("import_wrong_file_type");
-			global $ilLog;
-			$ilLog->write("Survey: Import error. Filetype was \"" . $file_info["type"] ."\"");
+			$this->log->debug("Survey: Import error. Filetype was \"" . $file_info["type"] ."\"");
 		}
 		if (strlen($error) == 0)
 		{
@@ -3757,6 +3756,10 @@ class ilObjSurvey extends ilObject
 				$importfile = tempnam($import_dir, "survey_import");
 				ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
 			}
+
+			$this->log->debug("Import file = $importfile");
+			$this->log->debug("Import subdir = $import_subdir");
+
 			$fh = fopen($importfile, "r");
 			if (!$fh)
 			{
@@ -3782,12 +3785,19 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
+				$this->log->debug("survey id = ".$this->getId());
+				$this->log->debug("question pool id = ".$svy_qpl_id);
+
 				include_once("./Services/Export/classes/class.ilImport.php");
 				$imp = new ilImport();
+				$config = $imp->getConfig("Modules/Survey");
+				$config->setQuestionPoolID($svy_qpl_id);
 				$imp->getMapping()->addMapping("Modules/Survey", "svy", 0, $this->getId());
 				$imp->importFromDirectory($import_subdir, "svy", "Modules/Survey");
+				$this->log->debug("config(Modules/survey)->getQuestionPoolId =".$config->getQuestionPoolID());
 				return "";
 
+				//old code
 				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 				$import = new SurveyImportParser($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);
@@ -3891,6 +3901,8 @@ class ilObjSurvey extends ilObject
 		$newObj->setPoolUsage($this->getPoolUsage());
 		$newObj->setViewOwnResults($this->hasViewOwnResults());
 		$newObj->setMailOwnResults($this->hasMailOwnResults());
+		$newObj->setMailConfirmation($this->hasMailConfirmation());
+		$newObj->setAnonymousUserList($this->hasAnonymousUserList());
 		
 		// #12661
 		if($this->get360Mode())
@@ -3909,6 +3921,7 @@ class ilObjSurvey extends ilObject
 		$newObj->setReminderEnd($this->getReminderEnd());
 		$newObj->setReminderFrequency($this->getReminderFrequency());
 		$newObj->setReminderTarget($this->getReminderTarget());
+		$newObj->setReminderTemplate($this->getReminderTemplate());
 		// reminder_last_sent must not be copied!
 		$newObj->setTutorNotificationStatus($this->getTutorNotificationStatus());
 		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
@@ -4679,54 +4692,6 @@ class ilObjSurvey extends ilObject
 		return $code;
 	}
 	
-
-/**
-* Processes an array as a CSV row and converts the array values to correct CSV
-* values. The "converted" array is returned
-*
-* @param array $row The array containing the values for a CSV row
-* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
-* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
-* @return array The converted array ready for CSV use
-* @access public
-*/
-	function &processCSVRow($row, $quoteAll = FALSE, $separator = ";")
-	{
-		$resultarray = array();
-		foreach ($row as $rowindex => $entry)
-		{
-			if(is_array($entry))
-			{
-				$entry = implode("/", $entry);
-			}			
-			$surround = FALSE;
-			if ($quoteAll)
-			{
-				$surround = TRUE;
-			}
-			if (strpos($entry, "\"") !== FALSE)
-			{
-				$entry = str_replace("\"", "\"\"", $entry);
-				$surround = TRUE;
-			}
-			if (strpos($entry, $separator) !== FALSE)
-			{
-				$surround = TRUE;
-			}
-			// replace all CR LF with LF (for Excel for Windows compatibility
-			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
-			if ($surround)
-			{
-				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
-			}
-			else
-			{
-				$resultarray[$rowindex] = utf8_decode($entry);
-			}
-		}
-		return $resultarray;
-	}
-
 	function getLastAccess($finished_id)
 	{
 		global $ilDB;
@@ -5831,6 +5796,16 @@ class ilObjSurvey extends ilObject
 		$this->reminder_last_sent = $a_value;
 	}
 	
+	public function getReminderTemplate()
+	{
+		return $this->reminder_tmpl;
+	}
+	
+	public function setReminderTemplate($a_value)
+	{		
+		$this->reminder_tmpl = $a_value;
+	}
+	
 	public function getTutorNotificationStatus()
 	{
 		return (bool)$this->tutor_ntf_status;
@@ -6040,24 +6015,50 @@ class ilObjSurvey extends ilObject
 	protected function sentReminder(array $a_recipient_ids)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-		include_once "./Services/User/classes/class.ilUserUtil.php";		
-		include_once "./Services/Link/classes/class.ilLink.php";
-		$link = ilLink::_getStaticLink($this->getRefId(), "svy");
+			
+		// use mail template		
+		if($this->getReminderTemplate() &&
+			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
+		{
+			$prov = new ilMailTemplateDataProvider();
+			$tmpl = $prov->getTemplateById($this->getReminderTemplate());
+
+			$tmpl_params = array(				
+				"ref_id" => $this->getRefId(),
+				"ts" => time()
+			);	
+		}
+		else
+		{
+			$tmpl = null;
+			
+			include_once "./Services/Link/classes/class.ilLink.php";
+			$link = ilLink::_getStaticLink($this->getRefId(), "svy");	
+			
+			include_once "./Services/Language/classes/class.ilLanguageFactory.php";		
+		}			
 			
 		foreach($a_recipient_ids as $user_id)
 		{																
-			// use language of recipient to compose message
-			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-			$ulng->loadLanguageModule('survey');
+			if($tmpl)
+			{
+				$subject = $tmpl->getSubject();		
+				$message = $this->sentReminderPlaceholders($tmpl->getMessage(), $user_id, $tmpl_params);
+			}
+			// use lng
+			else
+			{
+				// use language of recipient to compose message
+				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+				$ulng->loadLanguageModule('survey');							
+			
+				$subject = sprintf($ulng->txt('survey_reminder_subject'), $this->getTitle());
+				$message = sprintf($ulng->txt('survey_reminder_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
 
-			$subject = sprintf($ulng->txt('survey_reminder_subject'), $this->getTitle());
-			$message = sprintf($ulng->txt('survey_reminder_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
-
-			$message .= $ulng->txt('survey_reminder_body').":\n\n";
-			$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
-			$message .= "\n".$ulng->txt('survey_reminder_link').": ".$link;				
+				$message .= $ulng->txt('survey_reminder_body').":\n\n";
+				$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
+				$message .= "\n".$ulng->txt('survey_reminder_link').": ".$link;			
+			}
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
@@ -6106,6 +6107,26 @@ class ilObjSurvey extends ilObject
 		return $this->mail_own_results;
 	}
 	
+	function setMailConfirmation($a_value)
+	{
+		$this->mail_confirmation = (bool)$a_value;
+	}
+	
+	function hasMailConfirmation()
+	{
+		return $this->mail_confirmation;
+	}
+	
+	function setAnonymousUserList($a_value)
+	{
+		$this->anon_user_list = (bool)$a_value;
+	}
+	
+	function hasAnonymousUserList()
+	{
+		return $this->anon_user_list;
+	}
+	
 	public static function getSurveySkippedValue()
 	{		
 		global $lng;
@@ -6123,6 +6144,47 @@ class ilObjSurvey extends ilObject
 			return $surveySetting->get("skipped_custom_value", "");
 		}
 	}
+	
+	public function getReminderMailTemplates()
+	{	
+		$res = array();
+		
+		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
+		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
+		$mprov = new ilMailTemplateDataProvider();
+		foreach($mprov->getTemplateByContexId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
+		{
+			$res[$tmpl->getTplId()] = $tmpl->getTitle();
+		}
+		
+		return $res;
+	}
+		
+	protected function sentReminderPlaceholders($a_message, $a_user_id, array $a_context_params)
+	{
+		// see ilMail::replacePlaceholders()
+		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
+				
+		try
+		{			
+			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
+			
+			$user = new ilObjUser($a_user_id);
+			foreach($context->getPlaceholders() as $key => $ph_definition)
+			{
+				$result    = $context->resolvePlaceholder($key, $a_context_params, $user);
+				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
+			}
+		}
+		catch(Exception $e)
+		{
+			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
+		}
+		
+		return $a_message;
+	}	
 	
 } // END class.ilObjSurvey
 

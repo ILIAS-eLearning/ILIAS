@@ -1,3 +1,4 @@
+/* fau: testNav - this script is not included anymore and can be deleted. */
 (function($){ $(document).ready( function(){
 
 	$('#tst_discard_answer_button').click(

@@ -1003,7 +1003,7 @@
 	  }
 	
 	
-	  private function lookupElement($iNode, $iElement){
+	  private static function lookupElement($iNode, $iElement){
 	  	$value = null;
 		$curNode = null;
 		$children = null;

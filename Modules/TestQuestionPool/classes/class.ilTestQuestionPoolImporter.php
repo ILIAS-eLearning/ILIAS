@@ -26,6 +26,8 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
+		/* @var ilObjQuestionPool $newObj */
+		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 		
@@ -36,6 +38,8 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$newObj->setOnline(true);
 
 			$_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
+
+			$newObj->setOnline(true);
 		}
 		else if ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool','qpl', "new_id"))
 		{
@@ -62,6 +66,11 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find qti definition: '. $qti_file);
 			return false;
 		}
+		
+		$this->poolOBJ = $newObj;
+		
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
 		
 		$newObj->fromXML($xml_file);
 
@@ -121,11 +130,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 				);
 			}
 		}
+		
+		$this->importQuestionSkillAssignments($xml_file, $a_mapping, $newObj->getId());
 
 		$a_mapping->addMapping("Modules/TestQuestionPool", "qpl", $a_id, $newObj->getId());
+
 		ilObjQuestionPool::_setImportDirectory(null);
 		
-		$this->poolOBJ = $newObj;
+		$newObj->saveToDb();
 	}
 
 	/**
@@ -197,6 +209,32 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		$dir = $this->getImportDirectory();
 		$name = basename($dir);
 		return $name;
+	}
+	
+	protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId)
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentXmlParser.php';
+		$parser = new ilAssQuestionSkillAssignmentXmlParser($xmlFile);
+		$parser->startParsing();
+
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImporter.php';
+		$importer = new ilAssQuestionSkillAssignmentImporter();
+		$importer->setTargetParentObjId($targetParentObjId);
+		$importer->setImportInstallationId($this->getInstallId());
+		$importer->setImportMappingRegistry($mappingRegistry);
+		$importer->setImportMappingComponent('Modules/TestQuestionPool');
+		$importer->setImportAssignmentList($parser->getAssignmentList());
+		
+		$importer->import();
+		
+		if( $importer->getFailedImportAssignmentList()->assignmentsExist() )
+		{
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
+			$qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
+			
+			$this->poolOBJ->setOnline(false);
+		}
 	}
 }
 

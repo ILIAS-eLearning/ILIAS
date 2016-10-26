@@ -85,6 +85,7 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 	 		}
 	 		switch($instance->getType())
 	 		{
+				case 'grpr':
 	 			case 'crsr':
 	 			case 'catr':
 	 				$instance->delete();

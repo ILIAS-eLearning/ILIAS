@@ -9,14 +9,14 @@ use ILIAS\UI\Component as C;
  * Some Random Comment
  */
 interface ProperEntry {
-    /**
-     * ---
-     * description:
-     * rules:
-     * ---
-     *
-     * @return  tests\UI\Crawler\Fixture\ComponentsTreeFixture\Component2\component21
-     */
+	/**
+	 * ---
+	 * description:
+	 * rules:
+	 * ---
+	 *
+	 * @return  tests\UI\Crawler\Fixture\ComponentsTreeFixture\Component2\component21
+	 */
 
-    public function component21();
+	public function component21();
 }

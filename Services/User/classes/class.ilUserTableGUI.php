@@ -168,8 +168,12 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			if (!isset($cols[$f]) && !$fd["lists_hide"])
 			{
+				// #18795
+				$caption = $fd["lang_var"]
+					? $fd["lang_var"]
+					: $f;
 				$cols[$f] = array(
-					"txt" => $lng->txt($f),
+					"txt" => $lng->txt($caption),
 					"default" => false);
 			}
 		}
@@ -226,6 +230,7 @@ class ilUserTableGUI extends ilTable2GUI
 		unset($additional_fields["email"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
+		unset($additional_fields['org_units']);
 
 		$query = new ilUserQuery();
 		$query->setOrderField($this->getOrderField());
@@ -255,7 +260,13 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 
 		foreach ($usr_data["set"] as $k => $user)
-		{			
+		{
+			if(in_array('org_units', $this->getSelectedColumns()))
+			{
+				$usr_data['set'][$k]['org_units'] = ilObjUser::lookupOrgUnitsRepresentation($user['usr_id']);
+			}
+
+			
 			$current_time = time();
 			if ($user['active'])
 			{
@@ -523,7 +534,6 @@ class ilUserTableGUI extends ilTable2GUI
 				$val = (trim($user[$c]) == "")
 					? " "
 					: $user[$c];
-					
 				if ($user[$c] != "")
 				{
 					switch ($c)
@@ -541,7 +551,7 @@ class ilUserTableGUI extends ilTable2GUI
 						case "approve_date":
 							// $val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
 							$val = ilDatePresentation::formatDate(new ilDate($val,IL_CAL_DATE));
-							break;	
+							break;
 					}
 				}
 				$this->tpl->setVariable("VAL_UF", $val);
