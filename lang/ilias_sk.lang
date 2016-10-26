@@ -2435,7 +2435,6 @@ certificate#:#certificate_text#:#Text certifikátu
 certificate#:#certificate_top#:#Hore
 certificate#:#certificate_unit_description#:#Vložte jednotky merítka ako hodnotu [cm|mm|in|pt|pc|px|em], napr. 10mm alebo 3in
 certificate#:#certificate_usage#:#Všimnite si prosím, že používanie certifikátov je možné len ke_ v ILIAS beží Java-server. Konfigurácia Java-servera je dostupná na hlavnej stránke správy ILIAS v _asti webové služby.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Výborne-mínus
 certificate#:#certificate_var_result_mark_short#:#1-
@@ -15411,7 +15410,6 @@ common#:#msg_link_clipboard_p#:#Now, please select the desired location, where t
 common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###20 04 2016 new variable
 common#:#user_not_found_to_delete#:#A user could not be found to delete.###20 04 2016 new variable
 common#:#objs_prg#:#Study Programmes###20 04 2016 new variable
-content#:#cont_LocalFile#:#Local File###20 04 2016 new variable
 ldap#:#ldap_group_dn_info#:#Gets prepended to ‘BaseDN’ when searching for groups.###20 04 2016 new variable
 ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose ‘Attribute Value is DN’ if the member attribute is the distinguished name of the users.###20 04 2016 new variable
 ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose ‘Sub’###20 04 2016 new variable
@@ -16221,3 +16219,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

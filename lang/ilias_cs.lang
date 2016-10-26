@@ -2131,7 +2131,6 @@ certificate#:#certificate_text#:#Text certifikátu
 certificate#:#certificate_top#:#Nahoře
 certificate#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
 certificate#:#certificate_usage#:#Povšimněte si prosím, že použití certifikátů je možné jen když v ILIAS běží Java-Server. Konfigurace Java-Serveru je dostupná na hlavní stránce správy ILIAS v části Webové služby.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Výborně-mínus
 certificate#:#certificate_var_result_mark_short#:#1-
@@ -14134,7 +14133,6 @@ wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule###26 03 2014 new variable
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.###26 03 2014 new variable
-content#:#cont_LocalFile#:#Local File###26 03 2014 new variable
 ecs#:#ecs_server_title#:#Name of ECS Configuration###26 03 2014 new variable
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.###26 03 2014 new variable
 assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.###26 03 2014 new variable
@@ -16221,3 +16219,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

@@ -8857,7 +8857,6 @@ sahs#:#sahs_questions#:#Questions###26 06 2009 new variable
 sahs#:#sahs_organization#:#Organization###26 06 2009 new variable
 sahs#:#sahs_sequencing#:#Sequencing###26 06 2009 new variable
 sahs#:#sahs_objective_alignment#:#Objectives Alignment###26 06 2009 new variable
-content#:#cont_LocalFile#:#Local File###26 06 2009 new variable
 content#:#cont_Reading#:#Reading###26 06 2009 new variable
 content#:#cont_Hint#:#Hint###26 06 2009 new variable
 content#:#cont_ed_paste#:#Paste###26 06 2009 new variable
@@ -14098,7 +14097,6 @@ content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
 content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
 payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###14 02 2014 new variable
 meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
-certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user###11 03 2014 new variable
 survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###11 03 2014 new variable
 exc#:#exc_create_portfolio_no_template#:#Do not use template###11 03 2014 new variable
@@ -16223,3 +16221,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

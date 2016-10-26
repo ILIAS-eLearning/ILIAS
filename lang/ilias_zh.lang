@@ -4545,7 +4545,6 @@ content#:#cont_lk_term_new#:#术语表中的术语（新框架）
 content#:#cont_lm_default_layout#:#学习模块的默认布局
 content#:#cont_lm_menu#:#菜单
 content#:#cont_lm_properties#:#学习模块属性
-content#:#cont_LocalFile#:#本地文件
 content#:#cont_location#:#位置
 content#:#cont_lrs_settings#:#设置 
 content#:#cont_lvalue#:#数据元素 
@@ -14095,7 +14094,6 @@ content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
 content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
 payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###14 02 2014 new variable
 meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
-certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user###11 03 2014 new variable
 survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###11 03 2014 new variable
 exc#:#exc_create_portfolio_no_template#:#Do not use template###11 03 2014 new variable
@@ -16220,3 +16218,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

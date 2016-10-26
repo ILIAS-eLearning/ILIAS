@@ -2712,7 +2712,6 @@ certificate#:#certificate_text#:#Certificaat tekst
 certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Geef meeteenheden in als WAARDE [cm|mm|in|pt|pc|px|em], vb. 10mm of 3in
 certificate#:#certificate_usage#:#Let op: het gebruik van certificaten is alleen beschikbaar als  de ILIAS Java-Server draait. De configuratie van Java-Server is beschikbaar op de hoofdpagina van ILIAS Beheer in de sectie Webservices.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Goed
 certificate#:#certificate_var_result_mark_short#:#B
@@ -6235,7 +6234,6 @@ content#:#cont_Headline2#:#Kopregel 2
 content#:#cont_Headline3#:#Kopregel 3
 content#:#cont_Hint#:#Hint
 content#:#cont_List#:#Lijst
-content#:#cont_LocalFile#:#Lokaal bestand
 content#:#cont_Media#:#Media (Standard)
 content#:#cont_Mnemonic#:#Mnemoniek
 content#:#cont_Number#:#Nummer
@@ -16221,3 +16219,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable

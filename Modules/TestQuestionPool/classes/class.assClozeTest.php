@@ -983,11 +983,14 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$clone->setTitle($title);
 		}
+
+		$clone->saveToDb();
+
 		if($this->gap_combinations_exists)
 		{
 			$this->copyGapCombination($original_id, $clone->getId());
+			$clone->saveToDb();
 		}
-		$clone->saveToDb();
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);

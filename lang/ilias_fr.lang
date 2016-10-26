@@ -6059,7 +6059,6 @@ content#:#cont_lm_comments_desc#:#Permet aux utilisateurs de partager des commen
 content#:#cont_lm_default_layout#:#Mise en Page par Défaut du Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriétés du Module
-content#:#cont_LocalFile#:#Fichier Local
 content#:#cont_localization#:#Langue
 content#:#cont_localization_info#:#Langue utilisée pour les textes prédéfinis, comme "Précédent" et "Suivant".
 content#:#cont_location#:#Localisation
@@ -14096,7 +14095,6 @@ wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
 content#:#cont_localfile#:#Local File###11 03 2014 new variable
 meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
-certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user###11 03 2014 new variable
 survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###11 03 2014 new variable
 exc#:#exc_create_portfolio_no_template#:#Do not use template###11 03 2014 new variable
@@ -16221,3 +16219,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
