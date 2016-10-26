@@ -41,7 +41,7 @@ class ilSurveyEvaluationGUI
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->object = $a_object;
-	    $this->log = ilLoggerFactory::getLogger("svy");
+		$this->log = ilLoggerFactory::getLogger("svy");
 	  	$this->array_panels = array();
 
 		if ($this->object->get360Mode())
