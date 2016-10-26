@@ -71,7 +71,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @access	public
 	*/
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
-		$plugin = false, $a_use_cache = false)
+		$plugin = false, $a_use_cache = true)
 	{
 		global $ilias;
 //echo "<br>-".$file."-";
