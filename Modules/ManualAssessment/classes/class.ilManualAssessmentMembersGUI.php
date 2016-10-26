@@ -77,12 +77,11 @@ class ilManualAssessmentMembersGUI {
 				$this->toolbar,
 				array(
 					'auto_complete_name'	=> $this->lng->txt('user'),
-					'submit_name'			=> $this->lng->txt('add')
+					'submit_name'			=> $this->lng->txt('add'),
+					'add_search'			=> true,
+					'add_from_container'		=> $this->ref_id
 				)
 			);
-			$this->toolbar->addSeparator();
-			$this->toolbar->addButton($this->lng->txt('search_user'),
-			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 		}
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
