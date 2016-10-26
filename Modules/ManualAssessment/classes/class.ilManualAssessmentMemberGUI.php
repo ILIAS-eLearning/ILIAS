@@ -198,6 +198,7 @@ class ilManualAssessmentMemberGUI {
 		$form->addItem($usr_name);
 		// record
 		$ti = new ilTextAreaInputGUI($this->lng->txt('mass_record'), 'record');
+		$ti->setInfo($this->lng->txt('mass_record_info'));
 		$ti->setCols(40);
 		$ti->setRows(5);
 		$ti->setDisabled(!$may_be_edited);
@@ -205,6 +206,7 @@ class ilManualAssessmentMemberGUI {
 
 		// description
 		$ta = new ilTextAreaInputGUI($this->lng->txt('mass_internal_note'), 'internal_note');
+		$ta->setInfo($this->lng->txt('mass_internal_note_info'));
 		$ta->setCols(40);
 		$ta->setRows(5);
 		$ta->setDisabled(!$may_be_edited);
