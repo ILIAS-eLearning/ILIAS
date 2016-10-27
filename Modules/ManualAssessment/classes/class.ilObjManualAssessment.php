@@ -175,9 +175,10 @@ class ilObjManualAssessment extends ilObject {
 	 * Starts from object with id $id.
 	 * Ends at root or when a given $type of object is found.
 	 *
-	 * @global type $DIC
-	 * @param type $id start at this id
-	 * @param array $type search for these strings
+	 * @global array $DIC
+	 * @param int $id start at this id
+	 * @param string[] $types search for these strings
+	 *
 	 * @return int the obj_id or 0 if root is reached
 	 */
 	public function getParentContainerIdByType($id, array $types) {
