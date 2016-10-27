@@ -180,16 +180,15 @@ class ilObjManualAssessment extends ilObject {
 	 * @param array $type search for these strings
 	 * @return int the obj_id or 0 if root is reached
 	 */
-	public function getParentContainerIdByType($id, array $type) {
+	public function getParentContainerIdByType($id, array $types) {
 		global $DIC;
 
 		$tree = $DIC['tree'];
 		$node = $tree->getParentNodeData($id);
 
 		while($node['type'] !== "root") {
-			foreach ($type as $obj) {
-
-				if($obj === $node['type']) {
+			foreach ($types as $type) {
+				if($type === $node['type']) {
 					return $node['ref_id'];
 				}
 			}
