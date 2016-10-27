@@ -1321,7 +1321,8 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}		
-
+		$newObj->update();
+		
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
 
