@@ -72,11 +72,9 @@ class ilManualAssessmentMembersGUI {
 	protected function view() {
 		if($this->access_handler->checkAccessToObj($this->object,'edit_members')) {
 			require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-			require_once './Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
 
-			$mass_obj = new ilObjManualAssessment();
 			$search_params = ['crs', 'grp'];
-			$container_id = $mass_obj->getParentContainerIdByType($this->ref_id, $search_params);
+			$container_id = $this->object->getParentContainerIdByType($this->ref_id, $search_params);
 			if($container_id !== 0) {
 				ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,
