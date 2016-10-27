@@ -953,7 +953,6 @@ class ilSurveyEvaluationGUI
 		global $DIC;
 
 		$ui_factory = $DIC->ui()->factory();
-
 		$a_tpl = new ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey");
 
 		$question_res = $a_results;
@@ -1108,7 +1107,7 @@ class ilSurveyEvaluationGUI
 
 					$chart = $chart[0];
 				}
-				$a_tpl->setVariable("CHART", $chart);	
+				$a_tpl->setVariable("CHART", $chart);
 			}
 		}
 		$panel = $ui_factory->panel()->sub("", $ui_factory->legacy($a_tpl->get()));
