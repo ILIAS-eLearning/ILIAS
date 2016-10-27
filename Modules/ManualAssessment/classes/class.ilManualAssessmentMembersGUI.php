@@ -75,7 +75,7 @@ class ilManualAssessmentMembersGUI {
 			require_once './Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
 
 			$mass_obj = new ilObjManualAssessment();
-			$search_params = ['crs'];
+			$search_params = ['crs', 'grp'];
 			$container_id = $mass_obj->getParentContainerIdByType($this->ref_id, $search_params);
 			if($container_id !== 0) {
 				ilRepositorySearchGUI::fillAutoCompleteToolbar(
