@@ -889,7 +889,7 @@ class ilSurveyEvaluationGUI
 			$dtmpl->setVariable("PANEL_TOC", $render_toc);
 
 			//REPORT
-			$report_title = " THIS IS THE REPORT TITLE";
+			$report_title = "";
 			$panel_report = $ui_factory->panel()->report($report_title, $this->array_panels);
 			$render_report = $ui_renderer->render($panel_report);
 			$dtmpl->setVariable("PANEL_REPORT",$render_report);
