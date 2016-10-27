@@ -43,7 +43,7 @@ class ilManualAssessmentMembersGUI {
 			case "ilrepositorysearchgui":
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->setCallback($this,"addUsers");
+				$rep_search->setCallback($this,"addUsersFromSearch");
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			case "ilmanualassessmentmembergui":
@@ -72,19 +72,45 @@ class ilManualAssessmentMembersGUI {
 	protected function view() {
 		if($this->access_handler->checkAccessToObj($this->object,'edit_members')) {
 			require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			require_once './Modules/ManualAssessment/classes/class.ilObjManualAssessment.php';
+
+			$mass_obj = new ilObjManualAssessment();
+			$search_params = ['crs'];
+			$container_id = $mass_obj->getParentContainerId($this->ref_id, $search_params);
+			if($container_id !== 0) {
+				ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,
 				$this->toolbar,
 				array(
 					'auto_complete_name'	=> $this->lng->txt('user'),
 					'submit_name'			=> $this->lng->txt('add'),
 					'add_search'			=> true,
-					'add_from_container'		=> $this->ref_id
+					'add_from_container'		=> $container_id
 				)
-			);
+				);
+			} else {
+				ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$this->toolbar,
+				array(
+					'auto_complete_name'	=> $this->lng->txt('user'),
+					'submit_name'			=> $this->lng->txt('add'),
+					'add_search'			=> true
+				)
+				);
+			}
 		}
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
+	}
+
+	public function addUsersFromSearch($user_ids) {
+		if($user_ids && is_array($user_ids) && !empty($user_ids)) {
+			$this->addUsers($user_ids);
+		}
+
+		ilUtil::sendInfo($this->lng->txt("search_no_selection"), true);
+		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
 	/**
