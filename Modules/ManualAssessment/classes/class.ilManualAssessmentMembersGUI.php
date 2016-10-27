@@ -76,7 +76,7 @@ class ilManualAssessmentMembersGUI {
 
 			$mass_obj = new ilObjManualAssessment();
 			$search_params = ['crs'];
-			$container_id = $mass_obj->getParentContainerId($this->ref_id, $search_params);
+			$container_id = $mass_obj->getParentContainerIdByType($this->ref_id, $search_params);
 			if($container_id !== 0) {
 				ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,

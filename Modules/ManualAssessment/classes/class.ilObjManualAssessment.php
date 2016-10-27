@@ -189,7 +189,7 @@ class ilObjManualAssessment extends ilObject {
 		while($node['type'] !== "root") {
 			foreach ($type as $obj) {
 
-				if($obj == $node['type']) {
+				if($obj === $node['type']) {
 					return $node['ref_id'];
 				}
 			}
