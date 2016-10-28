@@ -16245,7 +16245,7 @@ mass#:#mass_usr_edit#:#Edit user record and learning progress
 mass#:#mass_usr_view#:#User record
 mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
-mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
+mass#:#mass_internal_note#:#Internal record note
 mass#:#mass_status_completed#:#Completed
 mass#:#mass_status_failed#:#Failed
 mass#:#mass_status_pending#:#Status pending
