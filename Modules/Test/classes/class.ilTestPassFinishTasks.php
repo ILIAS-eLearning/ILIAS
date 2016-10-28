@@ -45,7 +45,7 @@ class ilTestPassFinishTasks
 		$this->testSession->setLastStartedPass($this->testSession->getPass());
 		$this->testSession->increaseTestPass();
 		$this->event_handler->raise('Modules/Test',
-				'testPassIncreased',
+				'testPassFinished',
 				array('test_session' => $this->testSession));
 		$this->updateLearningProgressAfterPassFinishedIsWritten();
 	}
