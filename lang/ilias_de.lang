@@ -8075,7 +8075,7 @@ grp#:#grp_information#:#Wichtige Informationen
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
-grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
+grp#:#grp_mail_admission_new_bod#:#sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
 grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
 grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
@@ -12685,7 +12685,7 @@ dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelö
 dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
-dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
+dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Button "Feld hinzufügen" neue Felder.
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#add_value#:#Neuen Eintrag hinzufügen
 rating#:#rating_number_votes#:#%s Bewertungen

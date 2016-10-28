@@ -1,0 +1,62 @@
+<!-- BEGIN question_panel_bl -->
+<div style="page-break-after: always; page-break-inside: avoid;">
+	<!-- BEGIN grid_bl -->
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<!-- BEGIN grid_col_header_bl -->
+			<th>{COL_HEADER}</th>
+			<!-- END grid_col_header_bl -->
+		</tr>
+		</thead>
+		<tbody>
+		<!-- BEGIN grid_row_bl -->
+		<tr>
+			<!-- BEGIN grid_col_bl -->
+			<td<!-- BEGIN grid_col_nowrap_bl --> style="white-space: nowrap;"<!-- END grid_col_nowrap_bl -->>{COL_CAPTION}</td>
+			<!-- END grid_col_bl -->
+		</tr>
+		<!-- END grid_row_bl -->
+		</tbody>
+	</table>
+
+	<!-- END grid_bl -->
+
+	<!-- BEGIN chart_bl -->
+	<br />
+	<div class="ilFloatLeft">
+		{CHART}
+	</div>
+	<!-- BEGIN legend_col_bl -->
+	<div class="ilFloatLeft" style="padding:10px">
+		<!-- BEGIN legend_bl -->
+		<p class="hidden-print">
+			<span style="background-color: {LEGEND_COLOR}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {LEGEND_CAPTION}
+		</p>
+		<p class="visible-print">
+			<svg width="20" height="20">
+				<rect width="20" height="20" style="fill:rgb({LEGEND_COLOR_SVG});" />
+			</svg>
+			{LEGEND_CAPTION}
+		</p>
+		<!-- END legend_bl -->
+	</div>
+	<!-- END legend_col_bl -->
+	<br class="ilClearFloat" />
+	<!-- END chart_bl -->
+
+
+	<!-- BEGIN texts_bl -->
+		<h4>{TEXT_HEADING}</h4>
+		{TEXT_ACC}
+		<!-- BEGIN text_direct_bl -->
+		<ul>
+		<!-- BEGIN text_direct_item_bl -->
+		<li>{TEXT_DIRECT}</li>
+		<!-- END text_direct_item_bl -->
+		</ul>
+		<!-- END text_direct_bl -->
+	<!-- END texts_bl -->
+</div>
+<!-- END question_panel_bl -->
