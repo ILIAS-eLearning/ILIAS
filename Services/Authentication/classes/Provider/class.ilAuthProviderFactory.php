@@ -71,7 +71,7 @@ class ilAuthProviderFactory
 		{
 			case AUTH_LDAP:
 				$ldap_info = explode('_', $a_authmode);
-				$this->getLogger()->debug('Using ldap authentication with credentials ' . print_r($ldap_info,true));
+				$this->getLogger()->debug('Using ldap authentication with credentials ');
 				include_once './Services/LDAP/classes/class.ilAuthProviderLDAP.php';
 				return new ilAuthProviderLDAP($credentials, $ldap_info[1]);
 			
@@ -89,6 +89,12 @@ class ilAuthProviderFactory
 				$this->getLogger()->debug('Using radius authentication.');
 				include_once './Services/Radius/classes/class.ilAuthProviderRadius.php';
 				return new ilAuthProviderRadius($credentials);
+				
+			case AUTH_SHIBBOLETH:
+				$this->getLogger()->debug('Using shibboleth authentication.');
+				include_once './Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php';
+				return new ilAuthProviderShibboleth($credentials);
+				
 		}
 		return null;
 	}
