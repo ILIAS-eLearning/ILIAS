@@ -1016,7 +1016,7 @@ class ilExAssignmentEditorGUI
 		{
 			$values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);		
 		}				
-		
+
 		$a_form->setValuesByArray($values);
 		
 		$this->handleDisabledPeerFields($a_form, true);
@@ -1024,10 +1024,10 @@ class ilExAssignmentEditorGUI
 	
 	protected function setDisabledPeerReviewFieldValues(ilPropertyFormGUI $a_form)
 	{
-		$a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());		
+		$a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());
 		$a_form->getItemByPostVar("peer_prsl")->setChecked($this->assignment->hasPeerReviewPersonalized());
 		$a_form->getItemByPostVar("peer_unlock")->setValue((int)$this->assignment->getPeerReviewSimpleUnlock());
-		
+
 		if($this->enable_peer_review_completion)
 		{
 			$a_form->getItemByPostVar("peer_valid")->setValue($this->assignment->getPeerReviewValid());
@@ -1138,9 +1138,9 @@ class ilExAssignmentEditorGUI
 			{	
 				$res = array();
 				$res["peer_dl"] = $time_peer;
-				
+
 				if($protected_peer_review_groups)
-				{									
+				{
 					$res["peer_min"] = $this->assignment->getPeerReviewMin();
 					$res["peer_unlock"] = $this->assignment->getPeerReviewSimpleUnlock();
 					$res["peer_prsl"] = $this->assignment->hasPeerReviewPersonalized();
@@ -1169,7 +1169,7 @@ class ilExAssignmentEditorGUI
 					$res["peer_char"] = $a_form->getInput("peer_char");
 					$res["crit_cat"] = $a_form->getInput("crit_cat");	
 				}
-				
+
 				return $res;
 			}
 			else
@@ -1187,9 +1187,9 @@ class ilExAssignmentEditorGUI
 		$a_ass->setPeerReviewPersonalized($a_input["peer_prsl"]);	
 		
 		// #18964
-		$a_ass->setPeerReviewValid($a_input["peer_valid"] 
-			? ilExAssignment::PEER_REVIEW_VALID_NONE
-			: $a_input["peer_valid"]);
+		$a_ass->setPeerReviewValid($a_input["peer_valid"]
+			? $a_input["peer_valid"]
+			: ilExAssignment::PEER_REVIEW_VALID_NONE);
 		
 		$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
 		$a_ass->setPeerReviewChars($a_input["peer_char"]);
