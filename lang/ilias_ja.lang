@@ -16219,18 +16219,5 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
-assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
-assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
-assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
-registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
-form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
-prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
-mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
-copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
-survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
-crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
 certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
