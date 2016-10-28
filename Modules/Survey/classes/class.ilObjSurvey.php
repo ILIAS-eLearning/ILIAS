@@ -865,12 +865,39 @@ class ilObjSurvey extends ilObject
 			if(in_array($fi, $insert))
 			{
 				$next_id = $ilDB->nextId('svy_svy_qst');
+
+				$this->log->debug("INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp) VALUES ($next_id, ".$this->getSurveyId().", ".$fi.", NULL, $seq, time()))");
+
 				$ilDB->manipulateF("INSERT INTO svy_svy_qst".
 					" (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp)".
 					" VALUES (%s, %s, %s, %s, %s, %s)",
 					array('integer','integer','integer','text','integer','integer'),
 					array($next_id, $this->getSurveyId(), $fi, NULL, $seq, time())
 				);
+
+				#19469
+				$this->log->debug("SELECT obj_fi FROM svy_svy WHERE survey_id = ".$this->getSurveyId()." LIMIT 1");
+
+				$result = $ilDB->queryF("SELECT obj_fi FROM svy_svy WHERE survey_id = %s LIMIT 1",
+					array('integer'),
+					array($this->getSurveyId())
+				);
+
+				if ($ilDB->numRows($result))
+				{
+					while ($row = $ilDB->fetchAssoc($result))
+					{
+						$survey_object_id = $row['obj_fi'];
+					}
+					if($survey_object_id > 0)
+					{
+						$this->log->debug("UPDATE svy_question SET obj_fi= $survey_object_id WHERE question_id = $fi");
+						$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
+							array('integer', 'integer'),
+							array($survey_object_id, $fi)
+						);
+					}
+				}
 			}
 			else if(array_key_exists($fi, $update))
 			{
@@ -3785,8 +3812,9 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
-				$this->log->debug("survey id = ".$this->getId());
-				$this->log->debug("question pool id = ".$svy_qpl_id);
+				$this->log->debug("OBJECT survey id = ".$this->getId());
+				$this->log->debug("OBJECT  pool id = ".$svy_qpl_id);
+
 
 				include_once("./Services/Export/classes/class.ilImport.php");
 				$imp = new ilImport();
