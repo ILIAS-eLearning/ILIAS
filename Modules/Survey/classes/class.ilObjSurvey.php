@@ -6455,8 +6455,8 @@ class ilObjSurvey extends ilObject
 			}			
 		}
 	}
-	
-	protected function getNotificationTargetUserIds($a_use_invited)
+
+	public function getNotificationTargetUserIds($a_use_invited)
 	{
 		global $tree;
 		
