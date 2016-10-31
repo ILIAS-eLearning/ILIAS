@@ -5544,7 +5544,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$tbl = new ilForumTopicTableGUI($this, 'mergeThreads', '', (int)$_GET['ref_id'], $topicData, $this->is_moderator, $this->forum_overview_setting);
 				$tbl->setSelectedThread($selected_thread_obj);
 				$tbl->setMapper($frm)->fetchData();
-				$tbl->populate();
+				$tbl->init();
 				$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
 			}
 			else
