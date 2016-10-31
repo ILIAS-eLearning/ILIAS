@@ -189,27 +189,11 @@ class ilSurveyPageGUI
 		);
 
 		#19469
-		$result = $ilDB->queryF("SELECT obj_fi FROM svy_svy WHERE survey_id = %s LIMIT 1",
-			array('integer'),
-			array($this->object->getSurveyId())
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
+			array('integer', 'integer'),
+			array($this->object->getId(), $survey_question_id)
 		);
-		$this->log->debug("SELECT obj_fi FROM svy_svy WHERE survey_id = ".$this->object->getSurveyId()." LIMIT 1");
-
-		if ($ilDB->numRows($result))
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$survey_object_id = $row['obj_fi'];
-			}
-			if($survey_object_id > 0)
-			{
-				$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
-					array('integer', 'integer'),
-					array($survey_object_id, $survey_question_id)
-				);
-				$this->log->debug("UPDATE svy_question SET obj_fi= ".$survey_object_id." WHERE question_id = ".$survey_question_id);
-			}
-		}
+		$this->log->debug("UPDATE svy_question SET obj_fi= ".$survey_object_id." WHERE question_id = ".$survey_question_id);
 
 		return $survey_question_id;
 	}
