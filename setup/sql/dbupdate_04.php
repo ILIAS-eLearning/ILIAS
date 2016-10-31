@@ -17865,3 +17865,21 @@ else
 
 	ilDBUpdateNewObjectType::updateOperationOrder("edit_members", 2400);
 ?>
+
+<#5051>
+<?php
+
+	$ilDB->renameTable('mass_info_settings', 'iass_info_settings');
+
+	$ilDB->renameTable('mass_settings', 'iass_settings');
+
+	$ilDB->renameTable('mass_members', 'iass_members');
+
+	$ilDB->manipulate('UPDATE object_data SET type = '.$ilDB->quote('iass','text')
+						.'	WHERE type = '.$ilDB->quote('mass','text'));
+
+	$ilDB->manipulate('UPDATE rbac_templates SET type = '.$ilDB->quote('iass','text')
+						.'	WHERE type = '.$ilDB->quote('mass','text'));
+
+	$ilCtrlStructureReader->getStructure();
+?>

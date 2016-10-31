@@ -63,13 +63,13 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$ilPermissionGUI = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
-			case 'ilIndividualassessmentsettingsgui':
+			case 'ilindividualassessmentsettingsgui':
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php';
 				$gui = new ilIndividualAssessmentSettingsGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case 'ilIndividualassessmentmembersgui':
+			case 'ilindividualassessmentmembersgui':
 				$this->membersObject();
 				break;
 			case 'ilinfoscreengui':
@@ -243,13 +243,13 @@ public function getTabs() {
 
 	protected function getLinkTarget($a_cmd) {
 		if ($a_cmd == 'settings') {
-			return $this->ctrl->getLinkTargetByClass('ilIndividualassessmentsettingsgui', 'edit');
+			return $this->ctrl->getLinkTargetByClass('ilindividualassessmentsettingsgui', 'edit');
 		}
 		if ($a_cmd == 'info') {
 			return $this->ctrl->getLinkTarget($this,'view');
 		}
 		if ($a_cmd == 'members') {
-			return $this->ctrl->getLinkTargetByClass('ilIndividualassessmentmembersgui', 'view');
+			return $this->ctrl->getLinkTargetByClass('ilindividualassessmentmembersgui', 'view');
 		}
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
 	}
