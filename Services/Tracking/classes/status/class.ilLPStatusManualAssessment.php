@@ -2,18 +2,18 @@
 
 
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
-require_once 'Modules/ManualAssessment/classes/LearningProgress/class.ilManualAssessmentLPInterface.php';
-require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembers.php';
+require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
+require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembers.php';
 
-class ilLPStatusManualAssessment extends ilLPStatus {
+class ilLPStatusIndividualAssessment extends ilLPStatus {
 
 	static function _getCountInProgress($a_obj_id) {
 		return count(self::_getInProgress($a_obj_id));
 	}
 
 	static function _getInProgress($a_obj_id) {
-		return ilManualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
-			ilManualAssessmentMembers::LP_IN_PROGRESS);
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
+			ilIndividualAssessmentMembers::LP_IN_PROGRESS);
 	}
 
 	static function _getCountCompleted($a_obj_id) {
@@ -21,8 +21,8 @@ class ilLPStatusManualAssessment extends ilLPStatus {
 	}
 
 	static function _getCompleted($a_obj_id) {
-		return ilManualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
-			ilManualAssessmentMembers::LP_COMPLETED);
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
+			ilIndividualAssessmentMembers::LP_COMPLETED);
 	}
 
 	static function _getCountFailed() {
@@ -30,17 +30,17 @@ class ilLPStatusManualAssessment extends ilLPStatus {
 	}
 
 	static function _getFailed($a_obj_id) {
-		return ilManualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
-			ilManualAssessmentMembers::LP_FAILED);
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
+			ilIndividualAssessmentMembers::LP_FAILED);
 	}
 
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null) {
-		switch ((string)ilManualAssessmentLPInterface::determineStatusOfMember($a_obj_id,$a_user_id)) {
-			case (string)ilManualAssessmentMembers::LP_IN_PROGRESS:
+		switch ((string)ilIndividualAssessmentLPInterface::determineStatusOfMember($a_obj_id,$a_user_id)) {
+			case (string)ilIndividualAssessmentMembers::LP_IN_PROGRESS:
 				return self::LP_STATUS_IN_PROGRESS_NUM;
-			case (string)ilManualAssessmentMembers::LP_FAILED: 
+			case (string)ilIndividualAssessmentMembers::LP_FAILED:
 				return self::LP_STATUS_FAILED_NUM;
-			case (string)ilManualAssessmentMembers::LP_COMPLETED:			
+			case (string)ilIndividualAssessmentMembers::LP_COMPLETED:
 				return self::LP_STATUS_COMPLETED_NUM;
 			default:
 				return self::LP_STATUS_NOT_ATTEMPTED_NUM;
