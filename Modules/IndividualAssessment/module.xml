@@ -5,7 +5,7 @@
 		<baseclass name="ilObjIndividualAssessmentGUI" dir="classes" />
 	</baseclasses>
 	<objectgroups>
-		<objectgroup id="mass" name="IndividualAssessment" default_pres_pos="170"/>
+		<objectgroup id="iass" name="IndividualAssessment" default_pres_pos="170"/>
 	</objectgroups>
 	<objects>
 		<object id="iass" class_name="IndividualAssessment" dir="classes" default_pos="190" default_pres_pos="190"
