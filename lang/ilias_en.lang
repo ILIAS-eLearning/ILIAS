@@ -16245,7 +16245,7 @@ mass#:#mass_usr_edit#:#Edit user record and learning progress
 mass#:#mass_usr_view#:#User record
 mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
-mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
+mass#:#mass_internal_note#:#Internal record note
 mass#:#mass_status_completed#:#Completed
 mass#:#mass_status_failed#:#Failed
 mass#:#mass_status_pending#:#Status pending
@@ -16355,3 +16355,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
+mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
