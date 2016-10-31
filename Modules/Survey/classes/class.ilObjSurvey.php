@@ -876,28 +876,12 @@ class ilObjSurvey extends ilObject
 				);
 
 				#19469
-				$this->log->debug("SELECT obj_fi FROM svy_svy WHERE survey_id = ".$this->getSurveyId()." LIMIT 1");
-
-				$result = $ilDB->queryF("SELECT obj_fi FROM svy_svy WHERE survey_id = %s LIMIT 1",
-					array('integer'),
-					array($this->getSurveyId())
+				$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
+					array('integer', 'integer'),
+					array($this->getId(), $fi)
 				);
+				$this->log->debug("UPDATE svy_question SET obj_fi= $this->getId() WHERE question_id = $fi");
 
-				if ($ilDB->numRows($result))
-				{
-					while ($row = $ilDB->fetchAssoc($result))
-					{
-						$survey_object_id = $row['obj_fi'];
-					}
-					if($survey_object_id > 0)
-					{
-						$this->log->debug("UPDATE svy_question SET obj_fi= $survey_object_id WHERE question_id = $fi");
-						$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
-							array('integer', 'integer'),
-							array($survey_object_id, $fi)
-						);
-					}
-				}
 			}
 			else if(array_key_exists($fi, $update))
 			{
