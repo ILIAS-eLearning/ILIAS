@@ -339,7 +339,7 @@ class ilDataCollectionRecordListGUI {
 
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
-						if (!is_array($value) && mb_detect_encoding($value) != 'UTF-8') {
+						if (!is_array($value) && mb_detect_encoding($value, 'UTF-8', true) != 'UTF-8') {
 							$value = utf8_encode($value);
 						}
 						$record->setRecordFieldValue($field->getId(), $value);
