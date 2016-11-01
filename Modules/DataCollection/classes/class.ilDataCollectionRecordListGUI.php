@@ -344,7 +344,10 @@ class ilDataCollectionRecordListGUI {
 					}
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
-						$record->setRecordFieldValue($field->getId(), utf8_encode($value));
+						if (mb_detect_encoding($value, 'UTF-8', true) != 'UTF-8') {
+							$value = utf8_encode($value);
+						}
+						$record->setRecordFieldValue($field->getId(), $value);
 					}
 				} catch (ilDataCollectionInputException $e) {
 					$warnings[] = "(" . $i . ", " . $this->getExcelCharForInteger($col) . ") " . $e;
