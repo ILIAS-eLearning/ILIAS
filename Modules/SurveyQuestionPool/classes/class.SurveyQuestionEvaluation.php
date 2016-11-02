@@ -13,6 +13,8 @@ abstract class SurveyQuestionEvaluation
 {
 	protected $question; // [SurveyQuestion]
 	protected $finished_ids; // [array]
+	protected $chart_width = 400;
+	protected $chart_height = 300;
 	
 	/**
 	 * Constructor
@@ -352,12 +354,12 @@ abstract class SurveyQuestionEvaluation
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());			
 		$chart->setYAxisToInteger(true);
-		
+
 		$colors = $this->getChartColors();
 		$chart->setColors($colors);
 			
 		// :TODO:
-		$chart->setsize(700, 400);
+		$chart->setsize($this->chart_width, $this->chart_height);
 					
 		$vars = $a_results->getVariables();
 		

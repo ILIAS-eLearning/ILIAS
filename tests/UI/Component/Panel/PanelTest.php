@@ -132,7 +132,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$html = $r->render($p);
 
 		$expected_html =
-				"<div class=\"panel panel-default\">".
+				"<div class=\"panel panel-primary\">".
 				"   <div class=\"panel-heading ilBlockHeader\">".
 				"       <h3 class=\"ilBlockHeader\">Title</h3>".
 				"   </div>".
@@ -163,7 +163,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 				"       <h3 class=\"ilHeader\">Title</h3>".
 				"   </div>".
 				"   <div class=\"panel-body\">".
-				"       <div class=\"panel panel-default\">".
+				"       <div class=\"panel panel-primary\">".
 				"           <div class=\"panel-heading ilBlockHeader\">".
 				"               <h3 class=\"ilBlockHeader\">Title</h3>".
 				"           </div>".

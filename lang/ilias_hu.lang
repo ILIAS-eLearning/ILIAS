@@ -232,7 +232,6 @@ assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozhat�
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Bármely megtalált kulcsszóhoz a vonatkozó pontok automatikusan megadásra kerülnek.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Az ÖSSZES kulcsszó megtalálásán alapuló automatikus pontozás
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#A pontok automatikusan megadásra kerülnek, ha minden kulcsszó megtalálható.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#EGY kulcsszó megtalálásán alapuló automatikus pontozás
@@ -5250,7 +5249,6 @@ content#:#cont_lm_default_layout#:#Alapértelmezett elrendezés a tananyagokhoz
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Tananyag beállításai
 content#:#cont_localfile#:#Helyi fájl
-content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_location#:#Elhelyezkedés
 content#:#cont_lrs_settings#:#Beállítások
 content#:#cont_lvalue#:#Adatelem
@@ -14258,7 +14256,6 @@ poll#:#poll_result_answers#:#Szavazatok
 poll#:#poll_result_users#:#Résztvevők
 user#:#usr_id#:#User-ID
 meta#:#meta_c_XK#:#Koszovó
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Felhasználó törzskönyvi száma
 survey#:#mailparticipantdata_placeholder#:#Ezek a helyőrzők a felhasználó aktuális adatára cserélődnek, ha az 'Adatvédelem' értéke 'Nevekkel':
 poll#:#poll_notification_subscribe#:#Értesítés bekapcsolása
@@ -16174,113 +16171,6 @@ exc#:#exc_settings_feedback_file#:#Fájlként
 mem#:#mem_print_view_form#:#Nyomtatási nézet alapértelmezett beállításai
 mem#:#mem_settings_tab_print_view#:#Nyomtatási nézet beállításai
 mem#:#mem_settings_tab_settings#:#Általános beállítások
-ccmt#:#ccmt_perform_reporting_data_update#:#Jelentés adatainak frissítése
-ccmt#:#ccmt_custom_reporting_tool#:#Jelentéskészítés
-ccmt#:#ccmt_custom_reporting_tool_desc#:#Itt tekintheti meg beosztottainak tanulási haladását.<br />Kérjük, vegye figyelembe, hogy a jelentés adatai éjszakánként frissülnek.
-ccmt#:#ccmt_view_by_switch_label#:#Megjelenítés alapja:
-ccmt#:#ccmt_numbers_switch_label#:#Számok bemutatása
-ccmt#:#ccmt_filter_course_label#:#Kurzusszűrő
-ccmt#:#ccmt_filter_crstype_label#:#Kurzusszűrő mód
-ccmt#:#ccmt_filter_memtype_label#:#Tagságmód-szűrő
-ccmt#:#ccmt_filter_crsparent_label#:#Kurzustároló-szűrő
-ccmt#:#ccmt_filter_period_label#:#Időszakszűrő
-ccmt#:#ccmt_period_filter_label_use#:#Szűrő használata
-ccmt#:#ccmt_period_filter_label_not_use#:#Szűrő törlése
-ccmt#:#ccmt_filter_period_start#:#Kezdete
-ccmt#:#ccmt_filter_period_end#:#Vége
-ccmt#:#ccmt_filter_option_all#:#Összes
-ccmt#:#ccmt_viewby_option_course#:#Kurzus
-ccmt#:#ccmt_viewby_option_crsparent#:#Kurzustároló
-ccmt#:#ccmt_viewby_option_crstype#:#Kurzusmód
-ccmt#:#ccmt_viewby_option_orgunit#:#Szervezeti egység
-ccmt#:#ccmt_viewby_option_user#:#Beosztott
-ccmt#:#ccmt_numbers_option_absolute#:#Abszolút
-ccmt#:#ccmt_numbers_option_relative#:#Relatíve
-ccmt#:#ccmt_filter_crstype_option_optional#:#Választható
-ccmt#:#ccmt_filter_crstype_option_mandatory#:#Kötelező
-ccmt#:#ccmt_filter_memtype_option_auto#:#Automatikusan hozzárendelt
-ccmt#:#ccmt_filter_memtype_option_manual#:#Manuálisan hozzárendelt
-ccmt#:#ccmt_aggregation_entity_course_total#:#Összes kurzus
-ccmt#:#ccmt_aggregation_entity_crsparent_total#:#Összes kurzustároló
-ccmt#:#ccmt_aggregation_entity_crstype_total#:#Összes kurzusmód
-ccmt#:#ccmt_aggregation_entity_orgunit_total#:#Összes szervezeti egység
-ccmt#:#ccmt_table_column_course#:#Kurzus
-ccmt#:#ccmt_table_column_crsparent#:#Kurzustároló
-ccmt#:#ccmt_table_column_crstype#:#Kurzusmód
-ccmt#:#ccmt_table_column_orgunit#:#Szervezeti egység
-ccmt#:#ccmt_table_column_user#:#Beosztott
-ccmt#:#ccmt_table_column_assigned#:#Kurzus hozzárendelések
-ccmt#:#ccmt_table_column_notattempted#:#Nem próbálkozott
-ccmt#:#ccmt_table_column_not_attempted#:#Nem próbálkozott
-ccmt#:#ccmt_table_column_inprogress#:#Folyamatban
-ccmt#:#ccmt_table_column_in_progress#:#Folyamatban
-ccmt#:#ccmt_table_column_completed#:#Teljesítve
-ccmt#:#ccmt_table_column_failed#:#Befejezetlen
-ccmt#:#ccmt_table_column_lp_ratio#:#Tanulási százalék
-ccmt#:#ccmt_table_column_num_cmplcert_certificates#:#Tanúsítvány
-ccmt#:#ccmt_table_column_past_due#:#Határidőn túli
-ccmt#:#ccmt_table_column_event_days#:#Esemény napjai
-ccmt#:#ccmt_not_available#:#megnyitva
-ccmt#:#ccmt_status_table_aggregated_by_course_header#:#Tanulási haladás kurzusonként
-ccmt#:#ccmt_status_table_aggregated_by_course_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
-ccmt#:#ccmt_status_table_aggregated_by_crstype_header#:#Tanulási haladás kurzusmódonként
-ccmt#:#ccmt_status_table_aggregated_by_crstype_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_header#:#Tanulási haladás kurzustárolónként
-ccmt#:#ccmt_status_table_aggregated_by_crsparent_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_header#:#Tanulási haladás szervezeti egységenként
-ccmt#:#ccmt_status_table_aggregated_by_orgunit_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
-ccmt#:#ccmt_detailed_status_table_header#:#Tanulási haladás részletesen
-ccmt#:#ccmt_detailed_status_table_noitems#:#Egy kurzus sem felel meg a kiválasztási feltételnek.
-ccmt#:#ccmt_table_column_lp_status#:#Állapot
-ccmt#:#ccmt_table_column_deadline_date#:#Kurzus határideje
-ccmt#:#ccmt_table_column_is_mandatory#:#kötelező
-ccmt#:#ccmt_table_column_last_access#:#Utolsó hozzáférés
-ccmt#:#ccmt_table_column_cmplcert_achievement_date#:#Teljesítés dátuma
-ccmt#:#ccmt_lp_status_notattempted#:#nem próbálkozott
-ccmt#:#ccmt_lp_status_inprogress#:#folyamatban
-ccmt#:#ccmt_lp_status_completed#:#teljesítette
-ccmt#:#ccmt_lp_status_failed#:#nem teljesítette
-ccmt#:#ccmt_course_type_mandatory#:#Kötelező
-ccmt#:#ccmt_course_type_optional#:#Választható
-ccmt#:#ccmt_toolbar_submit_create_report_screen#:#Jelentés készítése
-ccmt#:#ccmt_toolbar_submit_create_report_export#:#Export készítése
-ccmt#:#ccmt_menu_item_reporting#:#Jelentéskészítése
-ccmt#:#ccmt_info_block_label_all_users#:#Összes felhasználó
-ccmt#:#ccmt_info_block_label_all_courses#:#Összes kurzus
-ccmt#:#ccmt_info_block_label_all_memberships#:#Összes tagság
-ccmt#:#ccmt_info_block_label_all_session_days#:#Összes munkamenet (napokban)
-ccmt#:#ccmt_courses_excluded_by_tracking_mode#:#Az alábbi kurzusokat nem tartalmazza a jelentés, mert nyomkövetési beállításuk nem valid:%s
-ccmt#:#ccmt_course_error_lp_mode#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését evvel nem kompatibilis módra állították be.<br />Jelenlegi mód: '%s' / Szükséges mód: '%s'
-ccmt#:#ccmt_course_error_lp_deactivated#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert a nyomkövetését kikapcsolták.
-ccmt#:#ccmt_course_error_invalid_obj#:#'%s' kurzus (id-je: '%s') állapota egy alobjektumától függ, aminek típusát a jelentéskészítés nem támogat.
-ccmt#:#ccmt_course_error_multi_obj#:#'%s' kurzus (id-je: '%s') állapota több, mint egy alobjektumától függ. Ezt a jelentéskészítés nem támogatja.
-ccmt#:#ccmt_course_error_missing_obj#:#'%s' kurzus (id-je: '%s') állapota nem állapítható meg, mert nincsenek olyan  releváns alobjektumok, melyektől a kurzus állapota függ.
-ccmt#:#ccmt_print_view#:#Összes kurzus nyomtatási képe
-ccmt#:#ccmt_print_view_mandatory_non_completed#:#Nem teljesített kurzusok nyomtatási képe
-ccmt#:#ccmt_print_window_title_orgunit_mandatory_non_completed#:#Nem teljesített kurzusok '%s' szervezeti egységben
-ccmt#:#ccmt_print_window_title_orgunit#:#Összes kurzus '%s' szervezeti egységben
-ccmt#:#ccmt_print_window_title_user_mandatory_non_completed#:#'%s' összes nem teljesített kurzusa
-ccmt#:#ccmt_print_window_title_user#:#'%s' összes kurzusa
-ccmt#:#ccmt_detailed_status_print_view_noitems_mandatory_non_compl#:#Nem létező nem teljesített kurzusösszerendelések<br />jelenleg kiválasztásnak megfelelő.
-ccmt#:#ccmt_detailed_status_print_view_noitems#:#Nem létező kurzusösszerendelések<br />jelenleg kiválasztásnak megfelelő.
-ccmt#:#ccmt_print_table_column_user#:#Beosztott
-ccmt#:#ccmt_print_table_column_course#:#Kurzus
-ccmt#:#ccmt_print_table_column_lp_status#:#Állapot
-ccmt#:#ccmt_print_table_column_is_mandatory#:#Kurzusmód
-ccmt#:#ccmt_print_table_column_cmplcert_achievement_date#:#Befejezés dátuma
-ccmt#:#ccmt_print_table_column_learning_date#:#Tanulás dátuma
-ccmt#:#ccmt_print_table_column_last_access#:#_Utolsó hozzáférés
-ccmt#:#ccmt_print_table_column_deadline_date#:#Határidő
-ccmt#:#ccmt_all_employees#:#Összes beosztott
-ccmt#:#ccmt_table_column_num_users#:#Felhasználók száma
-ccmt#:#export_all_lp#:#Tanulási haladás exportálása
-ccmt#:#export_learning_progress#:#Tanulási haladás exportálása
-ccmt#:#export_lp#:#Válasszon fájl
-ccmt#:#ccmt_table_column_cmplcert_expiration_date#:#Tanúsítvány érvényes eddig:
-ccmt#:#ccmt_print_table_column_cmplcert_expiration_date#:#Tanúsítvány érvényes eddig:
-ccmt#:#ccmt_search_no_user_found#:#Keresése nem adott eredményt.
-ccmt#:#ccmt_export_writer_Excel5#:#Excel 2003
-ccmt#:#ccmt_export_writer_Excel2007#:#Excel 2007
 didactic#:#activate_local_didactic_template#:#Alkalmazás hatásköre
 didactic#:#effective_form#:#Sablon hatályos innentől:
 didactic#:#more_translations#:#További fordítások
@@ -16454,3 +16344,14 @@ chatroom#:#chat_osc_no_sub_directory_info#:#Ha a Chatszerver egy alkönyvtáron 
 prg#:#prg_points_reachable#:#Elérhető pontszám
 mail#:#mail_members_search_continue#:#Folytatás
 copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kiválasztott elemeket?
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###25 10 2016 new variable
+dcl#:#dcl_max_digits#:#Maximum Number of Digits###25 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
+common#:#buddy_allow_to_contact_me_no#:#Doesn`t Receive Contact Requests###25 10 2016 new variable
+common#:#buddy_allow_to_contact_me_yes#:#Receives Contact Requests###25 10 2016 new variable
+buddysystem#:#buddy_use_osd#:#Popup Contact Requests###25 10 2016 new variable
+buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.###25 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable

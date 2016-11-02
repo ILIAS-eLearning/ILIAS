@@ -13,6 +13,7 @@ class ilImportMapping
 	var $mappings;
 	var $install_id;
 	var $install_url;
+	var $log;
 	
 	protected $target_id = 0;
 
@@ -25,6 +26,8 @@ class ilImportMapping
 	function __construct()
 	{
 		$this->mappings = array();
+		$this->log = ilLoggerFactory::getLogger("exp");
+		$this->log->debug("ilImportMapping Construct this->mappings = array()");
 	}
 
 	/**
@@ -72,9 +75,10 @@ class ilImportMapping
 	 * @param object $a_target_id
 	 * @return 
 	 */
-	public final function setTagetId($a_target_id)
+	public final function setTargetId($a_target_id)
 	{
 		$this->target_id = $a_target_id;
+		$this->log->debug("a_target_id=".$a_target_id);
 	}
 	
 	/**
@@ -97,6 +101,7 @@ class ilImportMapping
 	function addMapping($a_comp, $a_entity, $a_old_id, $a_new_id)
 	{
 		$this->mappings[$a_comp][$a_entity][$a_old_id] = $a_new_id;
+		$this->log->debug("ADD MAPPING this->mappings = ", $this->mappings);
 	}
 
 	/**
@@ -110,6 +115,8 @@ class ilImportMapping
 	 */
 	function getMapping($a_comp, $a_entity, $a_old_id)
 	{
+		$this->log->debug("a_comp = $a_comp, a_entity = $a_entity , a_old_id = $a_old_id");
+
 		if(!isset ($this->mappings[$a_comp]) or !isset ($this->mappings[$a_comp][$a_entity]))
 		{
 			return false;
