@@ -14,6 +14,7 @@
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentSettingsGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilManualAssessmentMembersGUI
  * @ilCtrl_Calls ilObjManualAssessmentGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjManualAssessmentGUI: ilExportGUI
  */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
@@ -27,6 +28,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 	const TAB_PERMISSION = 'perm_settings';
 	const TAB_MEMBERS = 'members';
 	const TAB_LP = 'learning_progress';
+	const TAB_EXPORT = 'export';
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
 		global $DIC;
@@ -94,6 +96,13 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+			case "ilexportgui":
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$this->tabs_gui->setTabActive(self::TAB_EXPORT);
+				$exp_gui = new ilExportGUI($this); // $this is the ilObj...GUI class of the resource
+				$exp_gui->addFormat("xml");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 			default:
 				if(!$cmd) {
@@ -231,6 +240,17 @@ public function getTabs() {
 									, $this->ctrl->getLinkTargetByClass('illearningprogressgui')
 									);
 		}
+
+		if($access_handler->checkAccessToObj($this->object,'write'))
+		{
+			$this->tabs_gui->addTarget(
+				self::TAB_EXPORT,
+				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
+				'export',
+				'ilexportgui'
+			);
+		}
+
 		if($access_handler->checkAccessToObj($this->object,'edit_permission')) {
 			$this->tabs_gui->addTarget(self::TAB_PERMISSION
 									, $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
