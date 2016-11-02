@@ -163,7 +163,7 @@ class ilTestSession
 	
 	function increaseTestPass()
 	{
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $ilAppEventHandler;
 
 		$this->increasePass();
 		$this->setLastSequence(0);
@@ -226,6 +226,7 @@ class ilTestSession
 						$this->getUserId());
 				}
 			}
+			$ilAppEventHandler->raise('Modules/Test','testPassFinished',array('test_session' => $this));
 		}
 	}
 	
