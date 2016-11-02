@@ -187,7 +187,7 @@ class ilObjManualAssessment extends ilObject {
 		$tree = $DIC['tree'];
 		$node = $tree->getParentNodeData($id);
 
-		while($node['type'] !== "root") {
+		while(!in_array("root", $node)) {
 			foreach ($types as $type) {
 				if($type === $node['type']) {
 					return $node['ref_id'];
