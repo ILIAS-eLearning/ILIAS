@@ -193,7 +193,8 @@ class ilSurveyPageGUI
 			array('integer', 'integer'),
 			array($this->object->getId(), $survey_question_id)
 		);
-		$this->log->debug("UPDATE svy_question SET obj_fi= ".$this->object->getId()." WHERE question_id = ".$survey_question_id);
+
+		$this->log->debug("UPDATE svy_question SET obj_fi= ".$survey_object_id." WHERE question_id = ".$survey_question_id);
 
 		return $survey_question_id;
 	}
