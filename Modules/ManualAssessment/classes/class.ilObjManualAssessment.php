@@ -169,4 +169,30 @@ class ilObjManualAssessment extends ilObject {
 		}
 		return $this->lp_active;
 	}
+
+	/**
+	 * Bubbles up the tree.
+	 * Starts from object with id $id.
+	 * Ends at root or when a given $type of object is found.
+	 *
+	 * @global array $DIC
+	 * @param int $id start at this id
+	 * @param string[] $types search for these strings
+	 *
+	 * @return int the obj_id or 0 if root is reached
+	 */
+	public function getParentContainerIdByType($id, array $types) {
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$node = $tree->getParentNodeData($id);
+
+		while($node['type'] !== "root") {
+			if(in_array($node['type'], $types)) {
+				return $node['ref_id'];
+			}
+			$node = $tree->getParentNodeData($node['ref_id']);
+		}
+		return 0;
+	}
 }

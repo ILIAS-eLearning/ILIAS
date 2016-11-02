@@ -43,7 +43,7 @@ class ilManualAssessmentMembersGUI {
 			case "ilrepositorysearchgui":
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->setCallback($this,"addUsers");
+				$rep_search->setCallback($this,"addUsersFromSearch");
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			case "ilmanualassessmentmembergui":
@@ -72,20 +72,43 @@ class ilManualAssessmentMembersGUI {
 	protected function view() {
 		if($this->access_handler->checkAccessToObj($this->object,'edit_members')) {
 			require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+
+			$search_params = ['crs', 'grp'];
+			$container_id = $this->object->getParentContainerIdByType($this->ref_id, $search_params);
+			if($container_id !== 0) {
+				ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,
 				$this->toolbar,
 				array(
 					'auto_complete_name'	=> $this->lng->txt('user'),
-					'submit_name'			=> $this->lng->txt('add')
+					'submit_name'			=> $this->lng->txt('add'),
+					'add_search'			=> true,
+					'add_from_container'		=> $container_id
 				)
-			);
-			$this->toolbar->addSeparator();
-			$this->toolbar->addButton($this->lng->txt('search_user'),
-			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+				);
+			} else {
+				ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$this->toolbar,
+				array(
+					'auto_complete_name'	=> $this->lng->txt('user'),
+					'submit_name'			=> $this->lng->txt('add'),
+					'add_search'			=> true
+				)
+				);
+			}
 		}
 		$table = new ilManualAssessmentMembersTableGUI($this);
 		$this->tpl->setContent($table->getHTML());
+	}
+
+	public function addUsersFromSearch($user_ids) {
+		if($user_ids && is_array($user_ids) && !empty($user_ids)) {
+			$this->addUsers($user_ids);
+		}
+
+		ilUtil::sendInfo($this->lng->txt("search_no_selection"), true);
+		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
 	/**

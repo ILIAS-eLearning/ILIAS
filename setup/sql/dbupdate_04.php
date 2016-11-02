@@ -17865,3 +17865,7 @@ else
 
 	ilDBUpdateNewObjectType::updateOperationOrder("edit_members", 2400);
 ?>
+<#5051>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
