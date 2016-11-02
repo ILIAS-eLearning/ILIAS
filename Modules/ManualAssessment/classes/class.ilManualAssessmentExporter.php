@@ -1,7 +1,13 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
 require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentDataSet.php");
 
+/**
+ * Manual Assessment exporter class
+ *
+ * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ */
 class ilManualAssessmentExporter extends ilXmlExporter {
 
 	/**

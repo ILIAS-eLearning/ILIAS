@@ -1,11 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
  * Manual Assessment dataset class
  *
- * @author  Theodor Truffer <stefan.hecken@concepts-and-training.de>
+ * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ilManualAssessmentDataSet extends ilDataSet {
 
