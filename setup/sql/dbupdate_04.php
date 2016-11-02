@@ -17865,8 +17865,12 @@ else
 
 	ilDBUpdateNewObjectType::updateOperationOrder("edit_members", 2400);
 ?>
-
 <#5051>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#5052>
 <?php
 
 	$ilDB->renameTable('mass_info_settings', 'iass_info_settings');

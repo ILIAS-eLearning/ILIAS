@@ -855,10 +855,11 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		$manager = $this->db->loadModule('Manager');
 		$r = $manager->alterTable($a_name, array("name" => $a_new_name), false);
 		
-		$query = "UPDATE abstraction_progress ".
-			"SET table_name = ".$this->db->quote($a_new_name,'text')." ".
-			"WHERE table_name = ".$this->db->quote($a_name,'text');
-		$this->db->query($query);
+        // The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
+        //		$query = "UPDATE abstraction_progress ".
+        //			"SET table_name = ".$this->db->quote($a_new_name,'text')." ".
+        //			"WHERE table_name = ".$this->db->quote($a_name,'text');
+        //		$this->db->query($query);
 
 		return $this->handleError($r, "renameTable(".$a_name.",".$a_new_name.")");
 	}
