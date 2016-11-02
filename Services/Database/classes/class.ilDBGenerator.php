@@ -49,7 +49,10 @@ class ilDBGenerator {
 		$this->allowed_attributes = $ilDB->getAllowedAttributes();
 	}
 
-
+    /**
+     * @return array
+     * @deprecated abstraction_progress is no longer used in ILIAS
+     */
 	public static function lookupAbstractedTables() {
 		global $ilDB;
 
