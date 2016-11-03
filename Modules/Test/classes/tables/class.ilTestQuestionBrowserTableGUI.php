@@ -549,12 +549,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		}
 		else if($this->fetchModeParameter() == self::MODE_BROWSE_TESTS)
 		{
-			$access = $this->access;
-
-			$parentIds = array_filter($parentIds, function($obj_id) use ($access) {
+			// TODO bheyser: Move this to another place ...
+			$parentIds = array_filter($parentIds, function($obj_id)  {
 				$refIds = ilObject::_getAllReferences($obj_id);
 				$refId  = current($refIds);
-				return $access->checkAccess('write', '', $refId);
+				return $this->access->checkAccess('write', '', $refId);
 			});
 		}
 
