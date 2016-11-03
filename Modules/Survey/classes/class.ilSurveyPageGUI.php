@@ -189,12 +189,7 @@ class ilSurveyPageGUI
 		);
 
 		#19469
-		$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
-			array('integer', 'integer'),
-			array($this->object->getId(), $survey_question_id)
-		);
-
-		$this->log->debug("UPDATE svy_question SET obj_fi= ".$survey_object_id." WHERE question_id = ".$survey_question_id);
+		SurveyQuestion::updateObjFi($this->object->getId(),$survey_question_id);
 
 		return $survey_question_id;
 	}

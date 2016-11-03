@@ -582,12 +582,7 @@ class ilObjSurvey extends ilObject
 			$this->log->debug("*INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, sequence, tstamp) VALUES ($next_id, ".$this->getSurveyId().", $duplicate_id, $sequence, time())");
 
 			#19469
-			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
-				array('integer', 'integer'),
-				array($this->getId(), $duplicate_id)
-			);
-			$this->log->debug("*UPDATE svy_question SET obj_fi= ".$this->getId()." WHERE question_id = $duplicate_id");
-
+			SurveyQuestion::updateObjFi($this->getId(),$duplicate_id);
 
 			$this->loadQuestionsFromDb();
 			return TRUE;
@@ -886,11 +881,7 @@ class ilObjSurvey extends ilObject
 				);
 
 				#19469
-				$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
-					array('integer', 'integer'),
-					array($this->getId(), $fi)
-				);
-				$this->log->debug("UPDATE svy_question SET obj_fi= $this->getId() WHERE question_id = $fi");
+				SurveyQuestion::updateObjFi($this->getId(),$fi);
 
 			}
 			else if(array_key_exists($fi, $update))
