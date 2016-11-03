@@ -33,16 +33,17 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	const CMD_INSERT_QUESTIONS = 'insertQuestions';
 	
 	protected $writeAccess = false;
-	
+
 	/**
-	 * Constructor
-	 *
-	 * @param 			$a_parent_obj
-	 * @param string 	$a_parent_cmd
-	 * @param int 		$a_ref_id
-	 * @param bool   	$a_write_access
-	 *
-	 * @return \ilTestQuestionBrowserTableGUI
+	 * ilTestQuestionBrowserTableGUI constructor.
+	 * @param ilCtrl        $ctrl
+	 * @param ilTemplate    $mainTpl
+	 * @param ilTabsGUI     $tabs
+	 * @param ilLanguage    $lng
+	 * @param ilTree        $tree
+	 * @param ilDBInterface $db
+	 * @param ilPluginAdmin $pluginAdmin
+	 * @param ilObjTest     $testOBJ
 	 */
 	public function __construct(
 		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
