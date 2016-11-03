@@ -46,6 +46,19 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 		return $list->getHTML();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function numericOrdering($a_field)
+	{
+		if(in_array($a_field, array('size', 'date')))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	/***
 	 * 
 	 */
