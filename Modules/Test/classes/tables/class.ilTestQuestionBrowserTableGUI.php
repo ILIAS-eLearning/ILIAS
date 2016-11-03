@@ -488,8 +488,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 			
 			$parentIds[ $nodeData['obj_id'] ] = $nodeData['obj_id'];
 		}
-		
-		return array_values($parentIds);
+
+		$parentIds       = array_map('intval', array_values($parentIds));
+		$available_pools = array_map('intval', array_keys(ilObjQuestionPool::_getAvailableQuestionpools(true)));
+
+		return array_intersect($parentIds, $available_pools);
 	}
 	
 	private function getQuestionParentObjectType()
