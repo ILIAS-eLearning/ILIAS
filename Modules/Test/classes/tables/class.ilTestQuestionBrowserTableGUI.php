@@ -60,7 +60,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	protected $tree;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -86,14 +86,14 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	 * @param ilTabsGUI       $tabs
 	 * @param ilLanguage      $lng
 	 * @param ilTree          $tree
-	 * @param ilDB            $db
+	 * @param ilDBInterface   $db
 	 * @param ilPluginAdmin   $pluginAdmin
 	 * @param ilObjTest       $testOBJ
 	 * @param ilAccessHandler $access
 	 */
 	public function __construct(
 		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
-		ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ,
+		ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ,
 		ilAccessHandler $access
 	)
 	{
