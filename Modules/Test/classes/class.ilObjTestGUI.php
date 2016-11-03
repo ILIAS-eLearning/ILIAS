@@ -325,7 +325,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
-				$gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->object);
+				$gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->object, $ilAccess);
 				$gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
 				$gui->init();
 				$this->ctrl->forwardCommand($gui);

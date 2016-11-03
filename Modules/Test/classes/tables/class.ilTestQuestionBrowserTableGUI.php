@@ -35,30 +35,80 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	protected $writeAccess = false;
 
 	/**
+	 * @var \ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var \ilTemplate
+	 */
+	protected $mainTpl;
+
+	/**
+	 * @var \ilTabsGUI
+	 */
+	protected $tabs;
+	
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $pluginAdmin;
+
+	/**
+	 * @var ilObjTest
+	 */
+	protected $testOBJ;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * ilTestQuestionBrowserTableGUI constructor.
-	 * @param ilCtrl        $ctrl
-	 * @param ilTemplate    $mainTpl
-	 * @param ilTabsGUI     $tabs
-	 * @param ilLanguage    $lng
-	 * @param ilTree        $tree
-	 * @param ilDBInterface $db
-	 * @param ilPluginAdmin $pluginAdmin
-	 * @param ilObjTest     $testOBJ
+	 * @param ilCtrl          $ctrl
+	 * @param ilTemplate      $mainTpl
+	 * @param ilTabsGUI       $tabs
+	 * @param ilLanguage      $lng
+	 * @param ilTree          $tree
+	 * @param ilDB            $db
+	 * @param ilPluginAdmin   $pluginAdmin
+	 * @param ilObjTest       $testOBJ
+	 * @param ilAccessHandler $access
 	 */
 	public function __construct(
 		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
-		ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+		ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ,
+		ilAccessHandler $access
 	)
 	{
-		$this->ctrl = $ctrl;
-		$this->mainTpl = $mainTpl;
-		$this->tabs = $tabs;
-		$this->lng = $lng;
-		$this->tree = $tree;
-		$this->db = $db;
+		$this->ctrl        = $ctrl;
+		$this->mainTpl     = $mainTpl;
+		$this->tabs        = $tabs;
+		$this->lng         = $lng;
+		$this->tree        = $tree;
+		$this->db          = $db;
 		$this->pluginAdmin = $pluginAdmin;
-		$this->testOBJ = $testOBJ;
-		
+		$this->testOBJ     = $testOBJ;
+		$this->access      = $access;
+
+		$this->setId('qpl_brows_tabl_' . $this->testOBJ->getId());
+
 		parent::__construct($this, self::CMD_BROWSE_QUESTIONS);
 		$this->setFilterCommand(self::CMD_APPLY_FILTER);
 		$this->setResetCommand(self::CMD_RESET_FILTER);
@@ -77,7 +127,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox('q_id');
 		$this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
 
-		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj, $this->parent_cmd));
+		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
@@ -477,9 +527,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$parents = $this->tree->getSubTree(
 			$this->tree->getNodeData($repositoryRootNode), true, $this->getQuestionParentObjectType()
 		);
-		
+
 		$parentIds = array();
-		
+
 		foreach($parents as $nodeData)
 		{
 			if( $nodeData['obj_id'] == $this->testOBJ->getId() )
@@ -491,6 +541,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		}
 
 		$parentIds = array_map('intval', array_values($parentIds));
+
 		if($this->fetchModeParameter() == self::MODE_BROWSE_POOLS)
 		{
 			$available_pools = array_map('intval', array_keys(ilObjQuestionPool::_getAvailableQuestionpools(true)));
@@ -498,13 +549,12 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		}
 		else if($this->fetchModeParameter() == self::MODE_BROWSE_TESTS)
 		{
-			/** @var $ilAccess ilAccessHandler */
-			global $ilAccess;
+			$access = $this->access;
 
-			$parentIds = array_filter($parentIds, function($obj_id) use ($ilAccess) {
+			$parentIds = array_filter($parentIds, function($obj_id) use ($access) {
 				$refIds = ilObject::_getAllReferences($obj_id);
 				$refId  = current($refIds);
-				return $ilAccess->checkAccess('write', '', $refId);
+				return $access->checkAccess('write', '', $refId);
 			});
 		}
 
