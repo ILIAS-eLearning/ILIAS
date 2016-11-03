@@ -490,10 +490,25 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 			$parentIds[ $nodeData['obj_id'] ] = $nodeData['obj_id'];
 		}
 
-		$parentIds       = array_map('intval', array_values($parentIds));
-		$available_pools = array_map('intval', array_keys(ilObjQuestionPool::_getAvailableQuestionpools(true)));
+		$parentIds = array_map('intval', array_values($parentIds));
+		if($this->fetchModeParameter() == self::MODE_BROWSE_POOLS)
+		{
+			$available_pools = array_map('intval', array_keys(ilObjQuestionPool::_getAvailableQuestionpools(true)));
+			$parentIds       = array_intersect($parentIds, $available_pools);
+		}
+		else if($this->fetchModeParameter() == self::MODE_BROWSE_TESTS)
+		{
+			/** @var $ilAccess ilAccessHandler */
+			global $ilAccess;
 
-		return array_intersect($parentIds, $available_pools);
+			$parentIds = array_filter($parentIds, function($obj_id) use ($ilAccess) {
+				$refIds = ilObject::_getAllReferences($obj_id);
+				$refId  = current($refIds);
+				return $ilAccess->checkAccess('write', '', $refId);
+			});
+		}
+
+		return $parentIds;
 	}
 	
 	private function getQuestionParentObjectType()
