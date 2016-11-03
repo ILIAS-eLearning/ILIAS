@@ -461,8 +461,12 @@ class ilLMPresentationGUI
 						break;
 					}
 				}
-				if (!$found) { echo "ilLMPresentation: No template specified for frame '".
-					$_GET["frame"]."' and object type '".$obj_type."'."; exit; }
+				if (!$found)
+				{
+					include_once("./Modules/LearningModule/exceptions/class.ilLMPresentationException.php");
+					throw new ilLMPresentationException("ilLMPresentation: No template specified for frame '".
+						$_GET["frame"]."' and object type '".$obj_type."'.");
+				}
 			}
 
 			// get template

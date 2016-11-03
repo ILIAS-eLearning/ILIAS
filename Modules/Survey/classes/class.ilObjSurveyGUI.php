@@ -1092,6 +1092,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
 			}
+			else
+			{
+				$tut_grp_crs->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"),
+					count($this->object->getNotificationTargetUserIds(false))));
+			}
 			$tut_grp->addOption($tut_grp_crs);
 
 			$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
@@ -1150,6 +1155,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if(!$has_parent)
 			{
 				$rmd_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
+			}
+			else
+			{
+				$rmd_grp_crs->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"),
+					count($this->object->getNotificationTargetUserIds(false))));
 			}
 			$rmd_grp->addOption($rmd_grp_crs);
 

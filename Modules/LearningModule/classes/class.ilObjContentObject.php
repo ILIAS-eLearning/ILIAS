@@ -2225,6 +2225,11 @@ class ilObjContentObject extends ilObject
 			}
 		}
 
+		// init collector arrays
+		$this->offline_mobs = array();
+		$this->offline_int_links = array();
+		$this->offline_files = array();
+
 		// iterate all languages
 		foreach ($langs as $lang)
 		{
@@ -2755,8 +2760,14 @@ class ilObjContentObject extends ilObject
 				$ilBench->stop("ExportHTML", "exportHTMLPage");
 			}
 		}
-		$this->offline_mobs = $mobs;
-		$this->offline_int_links = $int_links;
+		foreach ($mobs as $m)
+		{
+			$this->offline_mobs[$m] = $m;
+		}
+		foreach ($int_links as $k => $v)
+		{
+			$this->offline_int_links[$k] = $v;
+		}
 	}
 
 
