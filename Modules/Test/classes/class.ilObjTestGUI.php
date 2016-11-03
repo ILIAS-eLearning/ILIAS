@@ -344,7 +344,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
-				$gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->object);
+				$gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->object, $ilAccess);
 				$gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
 				$gui->init();
 				$this->ctrl->forwardCommand($gui);
@@ -2038,50 +2038,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "questions");
 			return;
 		}
-	}
-
-	public function filterAvailableQuestionsObject()
-	{
-		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', $this->ref_id);
-		$table_gui->resetOffset();
-		$table_gui->writeFilterToSession();
-		$this->ctrl->redirect($this, "browseForQuestions");
-	}
-	
-	public function resetfilterAvailableQuestionsObject()
-	{
-		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', $this->ref_id);
-		$table_gui->resetOffset();
-		$table_gui->resetFilter();
-		$this->ctrl->redirect($this, "browseForQuestions");
-	}
-	
-	/**
-	* Creates a form to select questions from questionpools to insert the questions into the test 
-	*
-	* @access	public
-	*/
-	function questionBrowser()
-	{
-		global $ilAccess;
-
-		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
-
-		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', $this->ref_id, (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)));
-		$arrFilter = array();
-		foreach ($table_gui->getFilterItems() as $item)
-		{
-			if ($item->getValue() !== false)
-			{
-				$arrFilter[$item->getPostVar()] = $item->getValue();
-			}
-		}
-		$data = $this->object->getAvailableQuestions($arrFilter, 1);
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 	public function addQuestionObject()
