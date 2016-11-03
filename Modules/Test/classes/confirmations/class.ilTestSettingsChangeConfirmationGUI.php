@@ -189,54 +189,28 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
 				case 'dateduration':
 
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[start][date][y]",
-						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'Y',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[start][date][m]",
-						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'m',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[start][date][d]",
-						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'d',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[start][time][h]",
-						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'H',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[start][time][m]",
-						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'i',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[start][time][s]",
-						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'s',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[end][date][y]",
-						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'Y',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[end][date][m]",
-						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'m',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[end][date][d]",
-						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'d',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[end][time][h]",
-						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'H',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[end][time][m]",
-						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'i',$timezone)
-					);
-					$this->addHiddenItem(
-						"{$item->getPostVar()}[end][time][s]",
-						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'s',$timezone)
-					);
+					foreach(array("start", "end") as $type)
+					{
+						$postVar  = $item->getPostVar() . '[' . $type  .']';
+						$datetime = $item->{'get' . ucfirst($type)}();
+
+						if($datetime instanceof ilDateTime)
+						{
+							list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
+							if(!($date instanceof ilDate))
+							{
+								$this->addHiddenItem($postVar, $date . ' ' . $time);
+							}
+							else
+							{
+								$this->addHiddenItem($postVar, $date);
+							}
+						}
+						else
+						{
+							$this->addHiddenItem($postVar, '');
+						}
+					}
 
 					break;
 
