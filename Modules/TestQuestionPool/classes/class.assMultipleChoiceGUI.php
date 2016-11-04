@@ -92,6 +92,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
 		if ($save)
 		{
+			$form->getItemByPostVar('selection_limit')->setMaxValue(count((array)$_POST['choice']['answer']));
+
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
