@@ -223,13 +223,13 @@ class ilCertificateGUI
 	{
 		$form_fields = array(
 			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
-			"margin_body_top" => ilUtil::stripSlashes($_POST["margin_body"]["top"]),
-			"margin_body_right" => ilUtil::stripSlashes($_POST["margin_body"]["right"]),
-			"margin_body_bottom" => ilUtil::stripSlashes($_POST["margin_body"]["bottom"]),
-			"margin_body_left" => ilUtil::stripSlashes($_POST["margin_body"]["left"]),
+			"margin_body_top" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["top"])),
+			"margin_body_right" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["right"])),
+			"margin_body_bottom" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["bottom"])),
+			"margin_body_left" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["left"])),
 			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
-			"pageheight" => ilUtil::stripSlashes($_POST["pageheight"]),
-			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"]),
+			"pageheight" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["pageheight"])),
+			"pagewidth" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["pagewidth"])),
 			"active" => ilUtil::stripSlashes($_POST["active"])
 		);
 		$this->object->getAdapter()->addFormFieldsFromPOST($form_fields);
