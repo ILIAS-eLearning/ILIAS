@@ -459,22 +459,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
 			if($finishdate > 0)
 			{
-				require_once 'Modules/Test/classes/tables/class.ilTestDetailedEvaluationStatisticsTableGUI.php';
-				$table = new ilTestDetailedEvaluationStatisticsTableGUI($this, 'detailedEvaluation', ($pass + 1). '_' . $this->object->getId());
-				$table->setTitle(sprintf($this->lng->txt("tst_eval_question_points"), $pass + 1));
-
 				if(($DIC->access()->checkAccess('write', '', (int)$_GET['ref_id'])))
 				{
 					$this->ctrl->setParameter($this, 'statistics', '1');
 					$this->ctrl->setParameter($this, 'active_id', $active_id);
 					$this->ctrl->setParameter($this, 'pass', $pass);
-					$table->addCommandButton('outParticipantsPassDetails', $this->lng->txt('tst_show_answer_sheet'));
 				}
 				else
 				{
 					$this->ctrl->setParameter($this, 'statistics', '');
 					$this->ctrl->setParameter($this, 'active_id', '');
 					$this->ctrl->setParameter($this, 'pass', '');
+				}
+
+				require_once 'Modules/Test/classes/tables/class.ilTestDetailedEvaluationStatisticsTableGUI.php';
+				$table = new ilTestDetailedEvaluationStatisticsTableGUI($this, 'detailedEvaluation', ($pass + 1). '_' . $this->object->getId());
+				$table->setTitle(sprintf($this->lng->txt("tst_eval_question_points"), $pass + 1));
+				if(($DIC->access()->checkAccess('write', '', (int)$_GET['ref_id'])))
+				{
+					$table->addCommandButton('outParticipantsPassDetails', $this->lng->txt('tst_show_answer_sheet'));
 				}
 
 				$questions = $data->getParticipant($active_id)->getQuestions($pass);
