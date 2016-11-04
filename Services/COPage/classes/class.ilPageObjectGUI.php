@@ -1770,6 +1770,8 @@ return;
 		{
 			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 
+			$this->log->debug("Calling XSLT, content: ".$content);
+
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
