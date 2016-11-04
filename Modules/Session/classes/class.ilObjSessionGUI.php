@@ -274,6 +274,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function unregisterObject()
 	{
 		global $ilUser;
+		
+		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+		$part = ilSessionParticipants::getInstanceByObjId($this->object->getId());
+		if($part->isSubscriber($ilUser->getId()))
+		{
+			$part->deleteSubscriber($ilUser->getId());
+		}
 
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		ilEventParticipants::_unregister($ilUser->getId(),$this->object->getId());
