@@ -485,7 +485,7 @@ abstract class ilTestExport
 								$worksheet->setCell($row, $col, $question_data["reached"]);
 								if($this->test_obj->isRandomTest() || $this->test_obj->getShuffleQuestions())
 								{
-									$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row,  preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
+									$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . ($row - 1),  preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
 								}
 								else
 								{
