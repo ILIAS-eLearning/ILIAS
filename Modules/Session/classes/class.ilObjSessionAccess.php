@@ -74,15 +74,44 @@ class ilObjSessionAccess extends ilObjectAccess
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
 		
-		$a_user_id = $a_user_id ? $a_user_id : $ilUser->getId();
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+		$part = ilSessionParticipants::getInstanceByObjId($a_obj_id);
+		
 		switch($a_cmd)
 		{
 			case 'register':
-				if(self::_lookupRegistration($a_obj_id)&& $a_user_id != ANONYMOUS_USER_ID)
+				
+				if(!self::_lookupRegistration($a_obj_id))
 				{
-					return !self::_lookupRegistered($a_user_id,$a_obj_id);
+					//ilLoggerFactory::getLogger('sess')->debug('Lookup registration failed: register access denied.');
+					return false;
 				}
-				return false;
+				if($ilUser->isAnonymous())
+				{
+					//ilLoggerFactory::getLogger('sess')->debug('User is anoynmous: register access denied.');
+					return false;
+				}
+				if($part->isAssigned($a_user_id))
+				{
+					//ilLoggerFactory::getLogger('sess')->debug('User is assigned: register access denied.');
+					return false;
+				}
+				if($part->isSubscriber($a_user_id))
+				{
+					//ilLoggerFactory::getLogger('sess')->debug('User is subscriber: register access denied.');
+					return false;
+				}
+				include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
+				if(ilSessionWaitingList::_isOnList($a_user_id, $a_obj_id))
+				{
+					//ilLoggerFactory::getLogger('sess')->debug('User is on waiting list: register access denied.');
+					return false;
+				}
+				break;
 				
 			case 'unregister':
 				if(self::_lookupRegistration($a_obj_id) && $a_user_id != ANONYMOUS_USER_ID)
