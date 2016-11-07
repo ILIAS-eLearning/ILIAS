@@ -221,6 +221,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL:
 				case ilDBConstants::TYPE_INNODB:
+				case ilDBConstants::TYPE_GALERA:
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();
