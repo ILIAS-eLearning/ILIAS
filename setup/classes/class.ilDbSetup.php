@@ -95,6 +95,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL:
+				case ilDBConstants::TYPE_GALERA:
 				case ilDBConstants::TYPE_INNODB:
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 					$clientIniFile = $this->client->ini;
