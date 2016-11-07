@@ -178,14 +178,15 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		switch($nextClass)
 		{
-			case 'ilTestRandomQuestionSetPoolDefinitionFormGUI':
-				
-				$formGUI = new ilTestRandomQuestionSetPoolDefinitionFormGUI(
-						$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
-				);
-				
-				$this->ctrl->forwardCommand($formGUI);
-				
+			case 'iltestrandomquestionsetpooldefinitionformgui':
+				$this->questionSetConfig->loadFromDb();
+				$poolId = $this->fetchQuestionPoolIdParameter();
+				$sourcePoolDefinition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($poolId);
+				$availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+				$form = $this->buildCreateSourcePoolDefinitionFormGUI();
+				$form->build($sourcePoolDefinition, $availableTaxonomyIds);
+
+				$this->ctrl->forwardCommand($form);
 				break;
 				
 			default:

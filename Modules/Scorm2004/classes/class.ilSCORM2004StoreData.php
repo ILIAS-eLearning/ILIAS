@@ -347,7 +347,7 @@ class ilSCORM2004StoreData
 	// }
 
 
-	private function setGlobalObjectives($userId, $packageId, $data) {
+	protected static function setGlobalObjectives($userId, $packageId, $data) {
 		global $ilLog;
 		$changed_seq_utilities=$data->changed_seq_utilities;
 		$ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
@@ -394,7 +394,7 @@ class ilSCORM2004StoreData
 
 	//saves global_objectives to database
 	//$dowrite only if changed adl_seq_utilities
-	public function writeGObjective($g_data, $user, $package)
+	public static function writeGObjective($g_data, $user, $package)
 	{
 		global $ilDB, $ilLog;
 		$ilLog->write("SCORM2004 writeGObjective");

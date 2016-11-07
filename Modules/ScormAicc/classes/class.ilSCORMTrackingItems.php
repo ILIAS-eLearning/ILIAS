@@ -133,9 +133,9 @@ class ilSCORMTrackingItems
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$query = 'SELECT user_id, st.obj_id, sco_id, identifierref, c_timestamp, lvalue, rvalue '
 			. 'FROM scorm_tracking st '
@@ -187,9 +187,9 @@ class ilSCORMTrackingItems
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		//data-arrays to fill for all users 
 		$a_empty = array();
@@ -285,9 +285,9 @@ class ilSCORMTrackingItems
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$dbdata = array();
 
@@ -397,9 +397,9 @@ class ilSCORMTrackingItems
 
 		$returnData = array();
 
-		$scoTitles = self::scoTitlesForExportSelected();
+		$scoTitles = self::scoTitlesForExportSelected($obj_id);
 
-		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 		$dbdata = array();
 

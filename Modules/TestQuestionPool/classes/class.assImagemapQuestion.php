@@ -687,7 +687,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		return $this->calculateReachedPointsForSolution(array_values($previewSession->getParticipantsSolution()));
+		$solutionData = $previewSession->getParticipantsSolution();
+		return $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
 	}
 
 	public function isAutosaveable()

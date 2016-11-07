@@ -111,7 +111,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 * @param
 	 * @return
 	 */
-	function initEditCustomForm($a_form)
+	function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		$a_form->removeItemByPostVar("desc");
 
