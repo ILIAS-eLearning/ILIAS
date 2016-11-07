@@ -265,7 +265,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
 		$this->position += 10;
 		$field = "<input type=\"text\" name=\"order[q_".$data["question_id"].
-			"]\" value=\"".$this->position."\" maxlength=\"3\" style=\"width:30px\" />";
+			"]\" value=\"".$this->position."\" maxlength=\"3\" size=\"3\" />";
 		$this->tpl->setVariable("QUESTION_POSITION", $field);
 	}
 	
