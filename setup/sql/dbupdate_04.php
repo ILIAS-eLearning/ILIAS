@@ -17869,3 +17869,7 @@ else
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5052>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
