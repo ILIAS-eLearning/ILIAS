@@ -1170,9 +1170,9 @@ abstract class assQuestionGUI
 				$taxSelect->setTitle($label);
 
 				require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-				$taxNodeAssignments = new ilTaxNodeAssignment('qpl', $this->object->getObjId(), 'quest', $taxonomyId);
+				$taxNodeAssignments = new ilTaxNodeAssignment(ilObject::_lookupType($this->object->getObjId()), $this->object->getObjId(), 'quest', $taxonomyId);
 				$assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->object->getId());
-;
+
 				$taxSelect->setValue(array_map(function($assignedNode) {
 					return $assignedNode['node_id'];
 				}, $assignedNodes));
