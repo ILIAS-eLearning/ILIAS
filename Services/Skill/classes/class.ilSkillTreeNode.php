@@ -522,7 +522,7 @@ class ilSkillTreeNode
 	/**
 	 * Cut and copy a set of skills/skill categories into the clipboard
 	 */
-	function clipboardCut($a_tree_id, $a_ids)
+	static function clipboardCut($a_tree_id, $a_ids)
 	{
 		self::clearClipboard();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");

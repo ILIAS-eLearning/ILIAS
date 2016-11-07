@@ -16357,3 +16357,4 @@ crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
 mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
 mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
+common#:#sahs_export_file#:#ILIAS exported SCORM archive file

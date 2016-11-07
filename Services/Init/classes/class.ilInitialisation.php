@@ -1471,7 +1471,7 @@ class ilInitialisation
 	 * @param string $a_message_id
 	 * @param array $a_message_details
 	 */
-	protected static function redirect($a_target, $a_message_id = '', $a_message_static = '')
+	protected static function redirect($a_target, $a_message_id = '', array $a_message_static = null)
 	{		
 		// #12739
 		if(defined("ILIAS_HTTP_PATH") &&
