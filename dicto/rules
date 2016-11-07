@@ -44,7 +44,7 @@ WholeIliasCodebase cannot invoke triggerError
  * user receives a white page and has no idea whats going on. The
  * implemented exception handling does not work if you use exit or die.
  *
- * If you want to send a file consider using: Services/FilesDelivery.
+ * If you want to send a file consider using: Services/FileDelivery.
  *
  * Exception: Currently if you want to output json you most likely have
  * to use exit() at the moment.
