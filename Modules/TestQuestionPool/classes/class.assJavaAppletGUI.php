@@ -18,7 +18,8 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version	$Id$
  * 
  * @ingroup ModulesTestQuestionPool
-*/
+ * @ilCtrl_Calls assJavaAppletGUI: ilFormPropertyDispatchGUI
+ */
 class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	/**
@@ -121,6 +122,8 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(true);

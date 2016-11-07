@@ -18,6 +18,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoring
  * @version		$Id$
  * 
  * @ingroup 	ModulesTestQuestionPool
+ * @ilCtrl_Calls assClozeTestGUI: ilFormPropertyDispatchGUI          
  */
 class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -244,6 +245,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);

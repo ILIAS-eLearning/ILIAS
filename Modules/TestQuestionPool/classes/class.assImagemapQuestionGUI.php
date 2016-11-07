@@ -18,8 +18,8 @@ require_once  'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
  * @author		Maximilian Becker <mbecker@databay.de>
  * 
  * @version	$Id$
- * @ilCtrl_Calls assImagemapQuestionGUI: ilPropertyFormGUI
  * @ingroup ModulesTestQuestionPool
+ * @ilCtrl_Calls assImagemapQuestionGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
 class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -153,7 +153,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	/**
 	 * @return ilPropertyFormGUI
 	 */
-	private function buildEditForm()
+	protected function buildEditForm()
 	{
 		$form = $this->buildBasicEditFormObject();
 

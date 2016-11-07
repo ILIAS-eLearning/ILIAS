@@ -317,7 +317,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	 * @param bool $checkonly
 	 * @return bool
 	 */
-	function editQuestion($checkonly = FALSE)
+	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
 		
@@ -325,6 +325,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);
