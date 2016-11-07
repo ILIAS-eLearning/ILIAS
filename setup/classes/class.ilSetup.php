@@ -226,33 +226,8 @@ class ilSetup
 			return false;
 		}
 
-	return $this->client->getDBSetup()->createDatabase($a_collation);
-
-
-//
-//
-//		//create database
-//		$db = $this->client->getDB();
-//		if (MDB2::isError($db))
-//		{
-//			$this->error = "connection_failed";
-//			return false;
-//		}
-//
-//		$r = $db->createDatabase($this->client->getdbName(),
-//			"utf8", $a_collation);
-//
-//		if (MDB2::isError($r))
-//		{
-//			$this->error = "create_database_failed";
-//			return false;
-//		}
-//
-//		//database is created, now disconnect and reconnect
-//		$db->disconnect();
-//
-//		$this->client->db_exists = true;
-//		return true;
+		$db_setup = $this->client->getDBSetup();
+		return $db_setup->createDatabase($a_collation);
 	}
 
 	/**
