@@ -1572,9 +1572,7 @@ echo "<br>+".$client_id;
 		{
 			$tools = array("convert" => "convert.exe",
 				"zip" => "zip.exe", "unzip" => "unzip.exe");
-			$dirs = array($cwd."/Services/Windows/bin32/zip",
-				$cwd."/Services/Windows/bin32/unzip",
-				$cwd."/Services/Windows/bin32/convert");
+			$dirs = array();
 		}
 		foreach($tools as $k => $tool)
 		{

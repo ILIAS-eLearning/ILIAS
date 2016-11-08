@@ -5218,7 +5218,7 @@ class ilObjUser extends ilObject
 		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
 		ilUtil::delDir($dir, true);
 		$title = $this->getLastname().", ".$this->getLastname()." [".$this->getLogin()."]";
-		$exp->exportEntity("personal_data", $this->getId(), "4.5.0",
+		$exp->exportEntity("personal_data", $this->getId(), "",
 			"Services/User", $title, $dir);
 	}
 	

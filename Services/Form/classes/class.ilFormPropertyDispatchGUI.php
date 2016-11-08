@@ -41,10 +41,10 @@ class ilFormPropertyDispatchGUI
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-		
+
 		if (strtolower(get_class($this->getItem())) != $next_class)
 		{
-			die("ilFormPropertyDispatch: Forward Error.");
+			die("ilFormPropertyDispatch: Forward Error. (".get_class($this->getItem())."-".$next_class.")");
 		}
 		
 		return $ilCtrl->forwardCommand($this->getItem());

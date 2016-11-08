@@ -17,6 +17,10 @@ class ilPageContentGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
 	var $ctrl;
 	var $pg_obj;
 	var $hier_id;

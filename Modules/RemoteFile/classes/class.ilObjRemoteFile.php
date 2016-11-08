@@ -124,19 +124,6 @@ class ilObjRemoteFile extends ilRemoteObjectBase
 		return $res;
 	}
 	
-	// 
-	// no late static binding yet
-	//
-	
-	public static function _lookupMID($a_obj_id)
-	{
-		return ilRemoteObjectBase::_lookupMID($a_obj_id);
-	}
-	
-	public static function _lookupOrganization($a_obj_id)
-	{
-		return ilRemoteObjectBase::_lookupOrganization($a_obj_id);
-	}
 }
 
 ?>

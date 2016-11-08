@@ -2050,7 +2050,7 @@ abstract class assQuestion
 	*
 	* @param	int		$a_q_id		question id
 	*/
-	function _getTitle($a_q_id)
+	static function _getTitle($a_q_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT title FROM qpl_questions WHERE question_id = %s",
@@ -2231,7 +2231,7 @@ abstract class assQuestion
 	public function fixUnavailableSkinImageSources($html)
 	{
 		$matches = null;
-		if( preg_match_all('/src="(.*?)"/m', $html, $matches) )
+		if(! is_array($html) && preg_match_all('/src="(.*?)"/m', $html, $matches) )
 		{
 			$sources = $matches[1];
 			

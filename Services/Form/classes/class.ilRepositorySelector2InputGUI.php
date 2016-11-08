@@ -26,11 +26,11 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		global $ilCtrl;
 
 		$this->multi_nodes = $a_multi;
-		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $a_postvar);
+		$this->postvar = $a_postvar;
 
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
-		$this->explorer_gui = new ilRepositorySelectorExplorerGUI(array("ilpropertyformgui", "ilformpropertydispatchgui", "ilrepositoryselector2inputgui"), $this->getExplHandleCmd(),
-			$this, "selectRepositoryItem", "root_id");
+		$this->explorer_gui = new ilRepositorySelectorExplorerGUI(array("ilpropertyformgui", "ilformpropertydispatchgui", "ilrepositoryselector2inputgui"),
+			$this->getExplHandleCmd(), $this, "selectRepositoryItem", "root_id", "rep_exp_sel_".$a_postvar);
 //		$this->explorer_gui->setTypeWhiteList($this->getVisibleTypes());
 //		$this->explorer_gui->setClickableTypes($this->getClickableTypes());
 		$this->explorer_gui->setSelectMode($a_postvar."_sel", $this->multi_nodes);
@@ -72,6 +72,21 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		return $this->explorer_gui;
 	}
 
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
+		$html = parent::getHTML();
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
+		return $html;
+	}
 
 
 }

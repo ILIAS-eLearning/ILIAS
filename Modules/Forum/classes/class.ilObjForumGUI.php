@@ -3034,7 +3034,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		else
 		{
-			$orderField = 'frm_posts_tree.fpt_date';
+			$orderField = 'frm_posts.pos_date';
 			$this->objCurrentTopic->setOrderDirection(
 				in_array($this->objProperties->getDefaultView(), array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_TREE))
 				? 'ASC' : 'DESC'

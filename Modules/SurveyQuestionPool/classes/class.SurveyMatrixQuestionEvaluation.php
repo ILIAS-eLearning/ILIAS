@@ -139,7 +139,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		$chart->setColors($colors);
 
 		// :TODO:
-		$chart->setsize(700, 400);
+		$chart->setsize($this->chart_width, $this->chart_height);
 					
 		$data = $labels = $legend = array();
 		

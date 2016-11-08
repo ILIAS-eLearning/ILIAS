@@ -811,7 +811,7 @@ class SurveyQuestion
 				"tstamp" => array("integer", time())
 			));
 
-			$this->log->debug("INSERT: svy_question id=".$next_id." questiontype_fi=".$this->getQuestionTypeID()." obj_fi".$this->getObjId()." title=".$this->getTitle()." ...");
+			//$this->log->debug("INSERT: svy_question id=".$next_id." questiontype_fi=".$this->getQuestionTypeID()." obj_fi".$this->getObjId()." title=".$this->getTitle()." ...");
 
 			$this->setId($next_id);
 		} 
@@ -2255,6 +2255,25 @@ class SurveyQuestion
 			);
 		$rec = $ilDB->fetchAssoc($set);
 		return $rec["obj_fi"];
+	}
+
+	/**
+	 * #19469
+	 * Change the Object id after import question.
+	 * change the "obj_fi" from pool object id, to survey object id.
+	 *
+	 * @param int $a_obj_fi  survey object id
+	 * @param int $a_svy_qst_id question id
+	 */
+	static function updateObjFi($a_obj_fi, $a_svy_qst_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulateF("UPDATE svy_question SET obj_fi= %s WHERE question_id = %s ",
+			array('integer', 'integer'),
+			array($a_obj_fi, $a_svy_qst_id)
+		);
+
 	}
 
 }

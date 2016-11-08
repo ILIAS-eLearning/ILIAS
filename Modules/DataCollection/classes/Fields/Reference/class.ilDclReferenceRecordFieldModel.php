@@ -51,7 +51,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 						$ref_rec = ilDclCache::getRecordCache($val);
 						$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 						if($ref_record_field) {
-							$names[] = $ref_record_field->getExportValue();
+							$exp_value = $ref_record_field->getExportValue();
+							$names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
 						}
 
 					}
@@ -66,7 +67,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 					$exp_value = $ref_record_field->getExportValue();
 				}
 
-				return $exp_value;
+				return (is_array($exp_value) ? array_shift($exp_value) : $exp_value);
 			}
 		} else {
 			return "";
@@ -139,7 +140,12 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$table = ilDclCache::getTableCache($field->getTableId());
 		$record_id = 0;
 		foreach ($table->getRecords() as $record) {
-			if ($record->getRecordField($field->getId())->getValue() == $value) {
+			$record_value = $record->getRecordField($field->getId())->getValue();
+			// in case of a url-field
+			if (is_array($record_value) && !is_array($value)) {
+				$record_value = array_shift($record_value);
+			}
+			if ($record_value == $value) {
 				$record_id = $record->getId();
 			}
 		}

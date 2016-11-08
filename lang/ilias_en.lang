@@ -5250,7 +5250,6 @@ content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Settings
 content#:#cont_localfile#:#Local File
-content#:#cont_LocalFile#:#Local File
 content#:#cont_location#:#Location
 content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
@@ -12310,7 +12309,7 @@ dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fields’.
+dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
@@ -14260,7 +14259,7 @@ poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
 user#:#usr_id#:#User ID
 meta#:#meta_c_XK#:#Kosovo
-certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_var_user_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
 survey#:#mailparticipantdata_placeholder#:#These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:
 poll#:#poll_notification_subscribe#:#Activate Notification
@@ -16246,7 +16245,7 @@ mass#:#mass_usr_edit#:#Edit user record and learning progress
 mass#:#mass_usr_view#:#User record
 mass#:#mass_edit_record#:#User record
 mass#:#mass_record#:#Record note
-mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)
+mass#:#mass_internal_note#:#Internal record note
 mass#:#mass_status_completed#:#Completed
 mass#:#mass_status_failed#:#Failed
 mass#:#mass_status_pending#:#Status pending
@@ -16356,3 +16355,5 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
+mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
