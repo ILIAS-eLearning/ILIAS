@@ -111,7 +111,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 * @param
 	 * @return
 	 */
-	function initEditCustomForm($a_form)
+	function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		$a_form->removeItemByPostVar("desc");
 
@@ -120,6 +120,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		$ta->setRows(2);
 		$ta->setInfo($this->lng->txt("itgr_desc_info"));
 		$a_form->addItem($ta);
+
+		// hide title
+		$cb = new ilCheckboxInputGUI($this->lng->txt("itgr_hide_title"), "hide_title");
+		$cb->setInfo($this->lng->txt("itgr_hide_title_info"));
+		$a_form->addItem($cb);
+
 	}
 
 
@@ -291,19 +297,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		$items = new ilItemGroupItems($this->object->getRefId());
 		$items->addItem($a_obj->getRefId());
 		$items->update();
-	}
-
-	/**
-	 * Init object edit form
-	 *
-	 * @param ilPropertyFormGUI $a_form form
-	 */
-	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
-	{
-		// hide title
-		$cb = new ilCheckboxInputGUI($this->lng->txt("itgr_hide_title"), "hide_title");
-		$cb->setInfo($this->lng->txt("itgr_hide_title_info"));
-		$a_form->addItem($cb);
 	}
 
 	/**

@@ -154,7 +154,9 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 				$taxRadioOption = new ilRadioOption($label, $taxId);
 				
 				$taxRadio->addOption($taxRadioOption);
-				
+
+				$this->ctrl->setParameterByClass('iltaxselectinputgui', 'src_pool_def_id', $sourcePool->getId());
+				$this->ctrl->setParameterByClass('iltaxselectinputgui', 'quest_pool_id', $sourcePool->getPoolId());
 				$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
 				$taxSelect->setRequired(true);
 				$taxRadioOption->addSubItem($taxSelect);

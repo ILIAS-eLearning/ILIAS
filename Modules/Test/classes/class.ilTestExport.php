@@ -351,7 +351,6 @@ abstract class ilTestExport
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_participant'));
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_median'));
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_total_participants'));
-		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('ects_grade'));
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_median'));
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('scored_pass'));
 		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('pass'));
@@ -486,7 +485,7 @@ abstract class ilTestExport
 								$worksheet->setCell($row, $col, $question_data["reached"]);
 								if($this->test_obj->isRandomTest() || $this->test_obj->getShuffleQuestions())
 								{
-									$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row-1,  preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
+									$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . ($row - 1),  preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
 								}
 								else
 								{

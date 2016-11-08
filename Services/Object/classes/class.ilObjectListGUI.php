@@ -3215,6 +3215,7 @@ class ilObjectListGUI
 			$om = $sahs_obj->getOpenMode();
 			$width = $sahs_obj->getWidth();
 			$height = $sahs_obj->getHeight();
+			if ($om == 5 && $width > 0 && $height > 0) 	$om = 6;
 			if ($om != 0 && !ilBrowser::isMobile())
 			{
 				$this->default_command["frame"]="";

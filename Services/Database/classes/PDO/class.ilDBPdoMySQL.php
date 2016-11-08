@@ -65,5 +65,31 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 
 		return $errors;
 	}
+
+
+	/**
+	 * @param string $table_name
+	 * @return int
+	 */
+	public function nextId($table_name) {
+		$sequence_name = $this->quoteIdentifier($this->getSequenceName($table_name), true);
+		$seqcol_name = 'sequence';
+		$query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
+		try {
+			$this->pdo->exec($query);
+		} catch (PDOException $e) {
+			// no such table check
+		}
+
+		$result = $this->query('SELECT LAST_INSERT_ID() AS next');
+		$value = $result->fetchObject()->next;
+
+		if (is_numeric($value)) {
+			$query = "DELETE FROM $sequence_name WHERE $seqcol_name < $value";
+			$this->pdo->exec($query);
+		}
+
+		return $value;
+	}
 }
 

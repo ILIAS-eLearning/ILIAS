@@ -11482,9 +11482,6 @@ div.ilPCMyCoursesPath {
 .ilAwarenessDropDown .media-left {
   width: 45px;
 }
-#awareness-list {
-  overflow: hidden;
-}
 .ilAwarenessDropDown .media-body {
   /* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
   background-repeat: no-repeat;
@@ -12639,27 +12636,26 @@ table.mceToolbar td {
 }
 /* print css */
 @media print {
+  #ilTopBar,
+  .osdNotificationContainer,
+  .ilMainHeader,
+  .ilMainMenu,
+  .ilTreeView,
+  .btn,
+  #ilTab,
+  #ilSubTab,
+  #minheight,
+  #ilFooter {
+    display: none;
+  }
+  #mainspacekeeper {
+    padding: 0;
+  }
+  .ilLeftNavSpace {
+    margin-left: 0 !important;
+  }
   div.ilTabContentOuter {
     border: none;
-    box-shadow: none;
-  }
-  div.ilTabsTable {
-    display: block;
-    width: auto;
-  }
-  div.ilTabsTableRow {
-    display: block;
-  }
-  div.ilTabsTableCell {
-    display: block;
-  }
-  div.ilContentFixed {
-    left: 0;
-    position: static;
-  }
-  [dir="rtl"] div.ilContentFixed {
-    left: auto;
-    right: 0;
   }
   div.ilFileDropTargetOverlay {
     display: none;

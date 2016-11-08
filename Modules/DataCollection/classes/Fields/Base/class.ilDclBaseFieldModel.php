@@ -628,6 +628,7 @@ class ilDclBaseFieldModel {
 	 * @param $value
 	 */
 	public function setProperty($key, $value) {
+		$this->loadProperties();
 		if(isset($this->property[$key])) {
 			$this->property[$key]->setValue($value);
 		} else {
@@ -667,6 +668,14 @@ class ilDclBaseFieldModel {
 	}
 
 
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @param null              $record_id
+	 */
+	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = NULL) {
+		$value = $form->getInput('field_' . $this->getId());
+		$this->checkValidity($value);
+	}
 	/**
 	 * Check if input is valid
 	 * @param      $value

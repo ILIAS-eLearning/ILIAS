@@ -120,7 +120,7 @@ class ilLPObjSettings
 			'trac_mode_study_programme', '')
 
 		,self::LP_MODE_MANUAL_ASSESSMENT => array('ilLPStatusManualAssessment',
-			'trac_mode_manual_assessment', '')
+			'trac_mode_manual_assessment', 'trac_mode_manual_assessment_info')
 	);
 
 	function __construct($a_obj_id)

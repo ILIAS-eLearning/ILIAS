@@ -84,8 +84,6 @@ administration#:#adm_services#:#Teenused
 administration#:#adm_settings_templates#:#Sätete mallid
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
-administration#:#adm_social_bm_create#:#Create Social Bookmark
-administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 administration#:#adm_sql#:#SQL
 administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
 administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View
@@ -642,11 +640,9 @@ assessment#:#errors_section#:#Vea andmed
 assessment#:#errortext#:#Vigane tekst
 assessment#:#errortext_info#:#Palun sisesta veatekst.
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
-assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
@@ -1233,7 +1229,6 @@ assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
 assessment#:#tst_beginning_ending_information#:#Info testi alguse ja lõpu kohta
 assessment#:#tst_best_solution_is#:#Parim lahendus on
-assessment#:#tst_browse_for_questions#:#Otsi küsimusi
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool
 assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
@@ -2427,7 +2422,6 @@ certificate#:#certificate_text#:#Tunnistuse tekst
 certificate#:#certificate_top#:#Päis
 certificate#:#certificate_unit_description#:#Sisesta mõõduühikud kui VÄÄRTUS[cm|mm|in|pt|pc|px|em], NT. 10mm või 3in
 certificate#:#certificate_usage#:#Pane tähele, et sertifikaatide kasutamine on võimalik ainult siis, kui ILIASe Java-server töötab. Java-serveri konfigureerimine on võimalik ILIASe administreerimise pealehel veebiteenuste sektsioonis.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Hea
 certificate#:#certificate_var_result_mark_short#:#B
@@ -2948,8 +2942,6 @@ common#:#associated_user#:#seotud kasutaja
 common#:#associated_users#:#seotud kasutajad
 common#:#at_least_one_style#:#Vähemalt üks kujunduslaad peab olema aktiivne.
 common#:#at_location#:#asukohas
-common#:#attach_sr_invoice#:#An Email anhängen
-common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
 common#:#attachment#:#Manus
 common#:#attachments#:#Manused:
 common#:#attempts#:#Üritusi
@@ -3061,8 +3053,6 @@ common#:#block#:#Plokk
 common#:#block_management#:#Plokkide haldus
 common#:#bm#:#Veebiaadress
 common#:#bm_add_to_ilias#:#Lisa ILIASe järjehoidjatesse
-common#:#bm_add_to_social_bookmarks#:#Lisa sotsiaalsetesse järjehoidjatesse
-common#:#bm_manage_social_bm#:#Halda sotsiaalseid järjehoidjaid
 common#:#bmf#:#Veebilehtede kaust
 common#:#bold#:#Rasvane
 common#:#bookings#:#Broneeringud
@@ -3286,7 +3276,6 @@ common#:#crs_add#:#Lisa kursus
 common#:#crs_added#:#Kursus on lisatud
 common#:#crs_all_questions_answered_successfully#:#Sa vastasid edukalst kõikidele küsimustele.
 common#:#crs_archives#:#Arhiiv
-common#:#crs_at_least_one_admin#:#Kursusel peab olema vähemalt üks administraator..
 common#:#crs_available#:#Olemasolevad kursused
 common#:#crs_cancel_waiting_list#:#Kas soovid tõesti ennast eemaldada kursuse "%s" ootejärjekorrast?
 common#:#crs_container_link_not_allowed#:#Konteinerobjekte pole võimalik linkida
@@ -3390,7 +3379,6 @@ common#:#deleted#:#Kustutatud
 common#:#deleted_user#:#Kasutaja on kustutatud
 common#:#deleted_user_account#:#Kasutajakonto kustutatud
 common#:#deleted_users#:#Kustutatud kasutajad
-common#:#delicious#:#del.icio.us konto
 common#:#deliver#:#Saada ülesande vastus
 common#:#department#:#Osakond/rühm
 common#:#desc#:#Kirjeldus
@@ -3974,20 +3962,6 @@ common#:#il_grp_status_open#:#Grupp avatud
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
 common#:#ilias_username#:#ILIASe kasutajanimi
 common#:#ilias_version#:#ILIASe versioon
-common#:#im_aim#:#AIM
-common#:#im_aim_icon#:#AIM logo
-common#:#im_icq#:#ICQ
-common#:#im_icq_icon#:#ICQ Logo
-common#:#im_jabber#:#Jabber
-common#:#im_jabber_icon#:#Jabber Logo
-common#:#im_msn#:#MSN
-common#:#im_msn_icon#:#MSN logo
-common#:#im_skype#:#Skype
-common#:#im_skype_icon#:#Skype Logo
-common#:#im_voip#:#VoIP
-common#:#im_voip_icon#:#VoIP Logo
-common#:#im_yahoo#:#Yahoo
-common#:#im_yahoo_icon#:#Yahoo Logo
 common#:#image#:#Pilt
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#import#:#Impordi
@@ -4281,8 +4255,6 @@ common#:#mail_sent#:#Kiri saadetud!
 common#:#mail_settings#:#E-posti seaded
 common#:#mail_system#:#Süsteemisisene sõnum
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
-common#:#mail_use_pear_mail#:#Use Pear Mail
-common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_z_local#:#Kasutajate kaustad
 common#:#mails#:#Postkast
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
@@ -4335,7 +4307,6 @@ common#:#message_content#:#Teate sisu
 common#:#message_no_delivered_files#:#Sa ei ole faili saatnud!
 common#:#message_to#:#Sõnum (kellele):
 common#:#meta_data#:#Metaandmed
-common#:#mgs_objects_linked_to_the_following_folders#:#Objekt(id) lingiti järgmisse kausta: %s
 common#:#migrate#:#Siirda
 common#:#min_time#:#Vähim aeg
 common#:#minute#:#minut
@@ -4412,7 +4383,6 @@ common#:#msg_input_is_required#:#Selle välja täitmine on kohustuslik. Palun t�
 common#:#msg_invalid_filetype#:#Vigane failitüüp
 common#:#msg_is_last_role#:#Sa eemaldasid järgmistelt kasutajatelt viimase üldise rolli
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard#:#Valitud objekt(id) on paigutatud puhvrisse (Action: link)
 common#:#msg_linked#:#Valitud objekt(id) on lingitud.
 common#:#msg_may_not_contain#:#Selles objektis ei saa olla järgmist tüüpi olemeid:
 common#:#msg_min_one_active_role#:#Igal kasutajal peab olema vähemalt üks üldine roll!
@@ -4469,7 +4439,6 @@ common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain
 common#:#msg_obj_modified#:#Muudatused on salvestatud
 common#:#msg_obj_no_download#:#cannot be downloaded.
 common#:#msg_obj_no_link#:#pole lubatud linkida
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
 common#:#msg_obj_perm_download#:#You do not have sufficient rights to download the following objects:
 common#:#msg_paste_object_not_in_itself#:#Objekti %s pole võimalik iseenese sisse kleepida
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
@@ -4699,8 +4668,6 @@ common#:#obj_objf_desc#:#Halda ILIASe objektitüüpe ja objektide õigusi. (ainu
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_owner#:#Objekti omanik on
 common#:#obj_page#:#Leht
-common#:#obj_pays#:#Maksmise seaded
-common#:#obj_pays_desc#:#Konfigureeri maksmise seaded ja müüjad
 common#:#obj_pdts#:#Isikliku töölaua seaded
 common#:#obj_pdts_desc#:#Konfigureeri töölaud
 common#:#obj_pg#:#Leht
@@ -4911,7 +4878,6 @@ common#:#parse#:#Liigenda
 common#:#passed#:#Läbitud
 common#:#passwd#:#Salasõna
 common#:#passwd_generation#:#Salasõna genereerimine
-common#:#passwd_generation_info#:#Kui võimaldatud, saab salasõnu valida üksnes esitatud nimestikust.
 common#:#passwd_invalid#:#Uus salasõna ei sobi! Lubatud on vaid järgmised sümbolid ja tähemärgid (minimaalselt 6 tähemärki): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#Salasõnade nimestik
 common#:#passwd_not_match#:#Sinu sisestused uue salasõna osas ei kattu! Palun sisesta oma uus salasõna uesti.
@@ -4946,19 +4912,6 @@ common#:#path_to_java#:#Path to Java
 common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Kohad
-common#:#pay_methods#:#Pay methods
-common#:#payment_buyable#:#Buyable
-common#:#payment_demo#:#Demo
-common#:#payment_in_sc#:#Already in shopping cart
-common#:#payment_notification#:#Send Payment Notification
-common#:#payment_notification_days#:#Number of days
-common#:#payment_notification_days_desc#:#Please enter the number days, to define when users should be notified about the limited access time to bought objects
-common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects
-common#:#payment_payed_access#:#Payed/Access
-common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.
-common#:#payment_system#:#Payment System
-common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
-common#:#pays_edit#:#Muuda maksmise seadeid
 common#:#pd_enable_chatviewer#:#Võimalda jututoa vaade
 common#:#pd_enable_contacts#:#Võimalda kontaktid
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
@@ -5050,7 +5003,6 @@ common#:#proxy_connectable#:#Ühendus loodud.
 common#:#proxy_host#:#Host
 common#:#proxy_host_info#:#Please enter a host.
 common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
 common#:#proxy_port#:#Port
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
@@ -5104,7 +5056,6 @@ common#:#reg_account_confirmation_successful#:#Sinu kasutajakonto on aktiveeritu
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#Parooli saamiseks antud kasutajanimele kasutage keskkonna logimislehel funktsiooni « Parooli abi ».
 common#:#reg_mail_body_salutation#:#Austatud
 common#:#reg_mail_body_text1#:#teretulemast e-õppe keskkonda ILIAS!
@@ -5404,9 +5355,6 @@ common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
 common#:#shib_visible#:#Shibboleth settings are visible
 common#:#shib_write#:#Muuda Shibboleth seadeid
 common#:#shib_zipcode#:#Attribute for zipcode
-common#:#shop#:#Shop
-common#:#shop_actions#:#Tegevus
-common#:#shoppingcart#:#Shoppingcart
 common#:#short_inst_name#:#Lühinimetus
 common#:#short_inst_name_info#:#See pealkiri ilmub brauseri päiseribale. Kui sisestus puudub, on vaikepealkirjaks 'ILIAS'.
 common#:#show#:#Näita
@@ -5420,8 +5368,6 @@ common#:#show_members#:#Näita kasutajaid
 common#:#show_owner#:#Näita omanikku
 common#:#show_private_notes#:#Näita privaatseid märkmeid
 common#:#show_profile#:#Näita profiili
-common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen
-common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart
 common#:#show_structure#:#Võimalda struktureeritud vaadet
 common#:#show_system_messages#:#Süsteemisõnumid
 common#:#show_users_online#:#Näita aktiivseid kasutajaid
@@ -5438,11 +5384,6 @@ common#:#soap_user_administration#:#External user administration (SOAP)
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.
 common#:#soap_wsdl_path#:#WSDL teekond
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
-common#:#socialbm_disable#:#Eemalda
-common#:#socialbm_enable#:#Võimalda
-common#:#socialbm_extt_social_bookmarks#:#Sotsiaalne järjehoidja
-common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
-common#:#socialbm_sure_delete_entry#:#Kas soovite kustutada valitud sotsiaalsed järjehoidjad?
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Sordi selle veeru järgi
 common#:#sort_inherit_prefix#:#Vaikimisi
@@ -5482,7 +5423,6 @@ common#:#statistic#:#Statistika
 common#:#statistics#:#Statistika
 common#:#status#:#Staatus
 common#:#status_no_permission#:#Õigused puuduvad
-common#:#statutory_regulations#:#Statutory Regulations
 common#:#step#:#Aste
 common#:#stop_inheritance#:#edasi ei pärandu
 common#:#stop_moving_blocks#:#Peata plokid
@@ -6283,7 +6223,6 @@ content#:#cont_glo_detach#:#Eemalda sõnastik
 content#:#cont_glo_menu#:#Menüü
 content#:#cont_glo_properties#:#Sõnastiku seaded
 content#:#cont_glossaries#:#Glossaries
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
 content#:#cont_header#:#Päis
 content#:#cont_Headline1#:#Pealkiri 1
 content#:#cont_Headline2#:#Pealkiri 2
@@ -6421,7 +6360,6 @@ content#:#cont_lm_default_layout#:#Vaikimisi paigutus õppemoodulile
 content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
 content#:#cont_lm_menu#:#Menüü
 content#:#cont_lm_properties#:#Õpimooduli omadused
-content#:#cont_LocalFile#:#Local File
 content#:#cont_localization#:#Lokaliseerimine
 content#:#cont_localization_info#:#Kasutajaliidese keel, nagu näiteks. "Eelmine" and "Järgmine".
 content#:#cont_location#:#Asukoht
@@ -7753,7 +7691,6 @@ crs#:#event_location#:#Koht
 crs#:#event_materials#:#Sessiooni materjalid
 crs#:#event_not_participated#:#Pole osalenud
 crs#:#event_overview#:#Osalemine kohtumistel
-crs#:#event_participant_selection#:#Osaleja valik
 crs#:#event_participated#:#Osales
 crs#:#event_participation#:#Osavõtt
 crs#:#event_register#:#Registreeri
@@ -8362,7 +8299,6 @@ dcl#:#dcl_add_perm#:#Permission Add Entry
 dcl#:#dcl_any#:#Any
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_boolean#:#Boolean
-dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it is the default table of this Data Collection. It's content and structure got removed instead.
 dcl#:#dcl_change_notification_dcl_delete_record#:#the following record page was deleted
 dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created
 dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated
@@ -8372,7 +8308,6 @@ dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because y
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
-dcl#:#dcl_comments_description#:#Displays the number of comments for a record.
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
 dcl#:#dcl_confirm_delete_record#:#Delete this record?
@@ -8428,7 +8363,6 @@ dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
-dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XSL file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLS file.
 dcl#:#dcl_filter#:#Filter
@@ -8437,14 +8371,11 @@ dcl#:#dcl_height#:#Height
 dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
-dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
-dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
 dcl#:#dcl_import#:#Import Data Collection
 dcl#:#dcl_import_records .xls#:#Import .xls
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_in_export#:#In Export
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.
-dcl#:#dcl_integer#:#Integer
 dcl#:#dcl_last_edited_by#:#Last edited by
 dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 dcl#:#dcl_last_update#:#Last Edited
@@ -8529,7 +8460,6 @@ dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_text_area#:#Textarea
-dcl#:#dcl_title#:#Field Title
 dcl#:#dcl_unique#:#Unique
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
@@ -8544,11 +8474,6 @@ dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specificat
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
-delic#:#delic_add_info_links#:#Lisa infoväljadele del.icio.us lingid
-delic#:#delic_add_to_delicious#:#Lisa saidile del.icio.us
-delic#:#delic_extt_delicious#:#del.icio.us
-delic#:#delic_settings#:#del.icio.us seaded
-delic#:#delic_user_profile#:#Võimalda del.icio.us konto seaded kasutaja profiilis
 didactic#:#didactic_activated_msg#:#Didaktilised mallid aktiveeritud
 didactic#:#didactic_adm_tab#:#Didaktilised mallid
 didactic#:#didactic_applicable_for#:#Rakendatav
@@ -9834,8 +9759,6 @@ mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_sure_delete_entry#:#Kas oled kindel, et soovid järgmised kontaktid kustutada
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 mail#:#mail_to#:#To
 mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
 mail#:#placeholders_advise#:#Kohahoidjad on lahendatud ainult saajatele `Kellele` väljal.%sSaajad väljadel `Koopia` ja `Pimekoopia`saavad lahendamata kohahoidjad.
@@ -10859,528 +10782,6 @@ orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s
 orgu#:#users_successfuly_added#:#The user has been added successfully.
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#view_learning_progress_rec#:#View Learning Progress Recursivly
-payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.
-payment#:#activate_placeholders#:#Aktivate Placeholders
-payment#:#advanced_search#:#Täiustatud otsing
-payment#:#amount#:#Amount
-payment#:#billing_mail#:#Billing-Email
-payment#:#buy_extension#:#Buy Extension
-payment#:#check_shop_activation#:#Check Shop Settings for activation
-payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button
-payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.
-payment#:#coupon_type#:#Coupon-Type
-payment#:#credit#:#Credit
-payment#:#currency#:#Currency
-payment#:#currency_cent#:#Cent
-payment#:#currency_euro#:#Euro
-payment#:#current_timestamp#:#Current Unix Timestamp
-payment#:#day_of_service_provision#:#Day of service provision
-payment#:#delete_addresses_bill#:#Delete Billing addresses
-payment#:#delete_addresses_bmf#:#Delete BMF addresses
-payment#:#delete_addresses_paypal#:#Delete Paypal addresses
-payment#:#documents#:#Documents
-payment#:#duration#:#Duration
-payment#:#duration_date#:#Access duration
-payment#:#duration_month#:#Access duration in months
-payment#:#edit_topic#:#Edit Topic
-payment#:#enable_ean#:#Enable EAN
-payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
-payment#:#enable_topics#:#Enable Topics
-payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. 
-payment#:#excel_export#:#Exceli eksport
-payment#:#extension_price#:#Extension Price
-payment#:#external_bill_no#:#%s Billing-No.
-payment#:#filter_by#:#by
-payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
-payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
-payment#:#ilias_invoice_number#:#ILIAS invoice number
-payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.
-payment#:#incremental_current_value#:#current incremental number
-payment#:#incremental_number#:#Incrementing Number
-payment#:#incremental_start_value#:#Incremental Number
-payment#:#incremental_start_value_info#:#This start value will be used as first incremental number for the next period.
-payment#:#info#:#Information about the pay method
-payment#:#invoice_number_text#:#invoice number definition
-payment#:#new_topic#:#uus teema
-payment#:#no_topics_yet#:#No topics created yet
-payment#:#no_vendor_selected#:#No vendor selected.
-payment#:#object_deleted#:#Objekt on kustutatud
-payment#:#pay_abstract#:#Lühikokkuvõte
-payment#:#pay_add_to_shopping_cart#:#Add to shopping cart
-payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.
-payment#:#pay_all#:#All
-payment#:#pay_article#:#Article
-payment#:#pay_bank_data#:#Bank data
-payment#:#pay_bill_no#:#Incoice no.
-payment#:#pay_bmf_account_holder#:#Account holder
-payment#:#pay_bmf_account_number#:#Account number
-payment#:#pay_bmf_back#:#tagasi
-payment#:#pay_bmf_bank_code#:#Bank code
-payment#:#pay_bmf_card_holder#:#Card holder
-payment#:#pay_bmf_card_number#:#Card number
-payment#:#pay_bmf_check_number#:#Check number
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.
-payment#:#pay_bmf_credit_card#:#Credit card
-payment#:#pay_bmf_credit_card_data#:#Credit card
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
-payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
-payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
-payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_optional#:#optional
-payment#:#pay_bmf_or#:#or
-payment#:#pay_bmf_password_not_valid#:#Sinu salasõna ei olnud kehtiv.
-payment#:#pay_bmf_payment_type#:#Kind of paying
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.
-payment#:#pay_bmf_personal_data#:#Your personal data
-payment#:#pay_bmf_personal_data_not_valid#:#Sinu isiklikud andmed ei ole kehtivad. Palun kontrolli, kas kõik väljad on täidetud korrektselt.
-payment#:#pay_bmf_please_select#:#Please select
-payment#:#pay_bmf_po_box#:#PO Box
-payment#:#pay_bmf_server_error_code#:#Payment server returns error code
-payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.
-payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
-payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
-payment#:#pay_bmf_subtotal_amount#:#Subtotal amount
-payment#:#pay_bmf_terms_conditions#:#General terms and conditions
-payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.
-payment#:#pay_bmf_terms_conditions_show#:#show
-payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
-payment#:#pay_bmf_total_amount#:#Total amount
-payment#:#pay_bmf_validity#:#valid until
-payment#:#pay_bmf_vat_included#:#VAT included
-payment#:#pay_bmf_your_order#:#Your order
-payment#:#pay_change_price#:#Change price/duration combination
-payment#:#pay_click_to_buy#:#Buy now
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.
-payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.
-payment#:#pay_customer_no#:#Customer no.
-payment#:#pay_deleted_booking#:#The entry has been deleted.
-payment#:#pay_deleted_items#:#Valitud objektid on kustutatud.
-payment#:#pay_edit_abstract#:#Edit Abstract
-payment#:#pay_enable_shop#:#Enable Webshop
-payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
-payment#:#pay_ending#:#ends with
-payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for
-payment#:#pay_epay_canceled#:#The payment was canceled.
-payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.
-payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.
-payment#:#pay_filter#:#Filter
-payment#:#pay_goto_buyed_objects#:#Goto your buyed objects
-payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
-payment#:#pay_header#:#Payment
-payment#:#pay_hide_advanced_search#:#Hide Advanced Search
-payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
-payment#:#pay_hide_coupons#:#Hide coupons
-payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
-payment#:#pay_hide_filtering#:#Hide Filtering
-payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.
-payment#:#pay_hide_news#:#Hide news
-payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
-payment#:#pay_hide_shop_info#:#Hide Shop-Information
-payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information
-payment#:#pay_hint_epay#:#Tip to ePay
-payment#:#pay_hint_paypal#:#Hint for PayPal
-payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
-payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.
-payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
-payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
-payment#:#pay_item_already_in_sc_choose_another#:#This object was already taken up in your shopping cart. Select if necessary a new price/duration combination.
-payment#:#pay_locator#:#Payment
-payment#:#pay_manual_sorting_of_topics#:#Teemade käsitsi sorteerimine
-payment#:#pay_max_hits#:#Max hits
-payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.
-payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.
-payment#:#pay_message_hello#:#Dear
-payment#:#pay_message_regards#:#Yours sincerely
-payment#:#pay_message_subject#:#Your ILIAS order
-payment#:#pay_message_thanks#:#Thank you for your ILIAS order.
-payment#:#pay_no_vendors_created#:#No vendors created
-payment#:#pay_not_buyed_any_object#:#You have not bought any object.
-payment#:#pay_order_date_from#:#Order date from
-payment#:#pay_order_date_til#:#Order date til
-payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.
-payment#:#pay_order_paid_subject#:#Your invoice
-payment#:#pay_payed_bill#:#Rechnung bezahlt
-payment#:#pay_payed_credit_card#:#The order was paid by credit card.
-payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.
-payment#:#pay_payed_paypal#:#The order was paid by PayPal.
-payment#:#pay_paypal_error_fails#:#PayPal reports errors that occured during the transaction.
-payment#:#pay_paypal_error_info#:#Kui vajalik, kontakteeru selle installatsiooni administraatoriga.
-payment#:#pay_paypal_error_not_completed#:#The transaction isn't totally completed yet.
-payment#:#pay_paypal_error_prev_trans_id#:#The transaction id given by PayPal was already used before.
-payment#:#pay_paypal_error_wrong_customer#:#Checking this transaction resulted in no match of the customer.
-payment#:#pay_paypal_error_wrong_items#:#Checking this transaction resulted in no match of the sold items.
-payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in no match of the vendor.
-payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!
-payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.
-payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.
-payment#:#pay_personal_settings#:#Personal Settings
-payment#:#pay_reset_filter#:#Taasta filter
-payment#:#pay_save_sorting#:#Salvesta sorteerimine
-payment#:#pay_select_one_item#:#Please select one item.
-payment#:#pay_select_price#:#Please select a price/duration combination.
-payment#:#pay_send_order#:#Send order
-payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.
-payment#:#pay_sorting_value#:#Järjestamise väärtus
-payment#:#pay_starting#:#starts with
-payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data
-payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment
-payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order
-payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order
-payment#:#pay_thumbnail#:#Pisipilt
-payment#:#pay_topics_allow_custom_sorting#:#Teema kaupa järjestamine
-payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.
-payment#:#pay_topics_default_sorting_direction#:#Vaikimisi teema kaupa järjestamine
-payment#:#pay_topics_default_sorting_type#:#Vaikimisi teemade kaupa järjestamistüüp
-payment#:#pay_topics_sort_by_date#:#By Date
-payment#:#pay_topics_sort_by_title#:#By Title
-payment#:#pay_topics_sort_manually#:#Manually
-payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.
-payment#:#pay_update_view#:#Uuenda vaadet
-payment#:#paya_access#:#Ligipääs
-payment#:#paya_add_customer#:#Add Selling Process
-payment#:#paya_add_price#:#Add new price
-payment#:#paya_add_price_title#:#uus hind
-payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.
-payment#:#paya_added_new_price#:#Created new price
-payment#:#paya_added_trustee#:#Created new trustee.
-payment#:#paya_bill_history#:#Bill History
-payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.
-payment#:#paya_buyable#:#Buyable
-payment#:#paya_buyed_objects#:#Ostetud olemid
-payment#:#paya_count_purchaser#:#Number of purchasers
-payment#:#paya_coupon_codes_import_successful#:#Import successful.
-payment#:#paya_coupons_add#:#Add Coupon
-payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.
-payment#:#paya_coupons_assigned_objects#:#Määratud olemid
-payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code
-payment#:#paya_coupons_code#:#Code
-payment#:#paya_coupons_code_chars#:#Chars
-payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully
-payment#:#paya_coupons_code_generation#:#Code Generation
-payment#:#paya_coupons_code_length#:#Code Length
-payment#:#paya_coupons_codes#:#Codes
-payment#:#paya_coupons_codes_import#:#Import Codes
-payment#:#paya_coupons_codes_not_available#:#No codes created yet.
-payment#:#paya_coupons_coupon#:#Coupon
-payment#:#paya_coupons_coupon_added#:#Coupon added.
-payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.
-payment#:#paya_coupons_coupons#:#Coupons
-payment#:#paya_coupons_description#:#Description
-payment#:#paya_coupons_edit#:#Edit Coupon
-payment#:#paya_coupons_edit_codes#:#Edit Codes
-payment#:#paya_coupons_edit_objects#:#Muuda objekte
-payment#:#paya_coupons_fix#:#fix
-payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects
-payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects
-payment#:#paya_coupons_from#:#kehtiv alates
-payment#:#paya_coupons_generate_codes#:#Generate Codes
-payment#:#paya_coupons_import_codes#:#Import Codes
-payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!
-payment#:#paya_coupons_no_codes_generated#:#No codes generated.
-payment#:#paya_coupons_no_codes_selected#:#Sa ei valinud ühtegi koodi
-payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.
-payment#:#paya_coupons_not_available#:#No coupons created yet.
-payment#:#paya_coupons_not_found#:#No coupons found.
-payment#:#paya_coupons_not_valid#:#The coupon is not valid.
-payment#:#paya_coupons_number_of_codes#:#Number of Codes
-payment#:#paya_coupons_objects#:#Olemid
-payment#:#paya_coupons_percentaged#:#percentaged
-payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects
-payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects
-payment#:#paya_coupons_sure_delete_all_codes#:#Kas oled kindel, et soovid kõik koodid kustutada?
-payment#:#paya_coupons_sure_delete_selected_codes#:#Kas oled kindel, et soovid valitud koodid kustutada?
-payment#:#paya_coupons_till#:#Valid Till
-payment#:#paya_coupons_title#:#Title
-payment#:#paya_coupons_type#:#Coupon Type
-payment#:#paya_coupons_type_auto#:#Automatically
-payment#:#paya_coupons_type_self#:#Manually
-payment#:#paya_coupons_unassigned_objects#:#Mittemääratud olemid
-payment#:#paya_coupons_usage_of_codes#:#Usage of Codes
-payment#:#paya_coupons_value#:#Value
-payment#:#paya_customer#:#Customer
-payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.
-payment#:#paya_delete_price#:#Delete price
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
-payment#:#paya_deleted_last_price#:#The last price has been deleted.
-payment#:#paya_deleted_object#:#Stopped payment for the selected object.
-payment#:#paya_deleted_selected_prices#:#Price(s) deleted
-payment#:#paya_details_updated#:#Details updated.
-payment#:#paya_disabled#:#Disabled
-payment#:#paya_edit_details#:#Edit Details
-payment#:#paya_edit_pay_method#:#Edit Pay Method
-payment#:#paya_edit_prices#:#Edit Prices
-payment#:#paya_edit_prices_first#:#Please edit the prices first.
-payment#:#paya_enabled#:#Võimaldatud
-payment#:#paya_enter_login#:#Please enter an user name.
-payment#:#paya_err_adding_object#:#Objekti lisamisel tekkis viga
-payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.
-payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
-payment#:#paya_error_no_object_id_given#:#Please choose an object.
-payment#:#paya_error_update_booking#:#Error saving statistic data.
-payment#:#paya_expires#:#Expire payment
-payment#:#paya_filter_reseted#:#Filter taastatud.
-payment#:#paya_header#:#Payment Administration
-payment#:#paya_insert_only_numbers#:#Please insert only integers.
-payment#:#paya_insert_vats#:#Insert Vat-Rate
-payment#:#paya_locator#:#Payment Administration
-payment#:#paya_months#:#Month(s)
-payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given
-payment#:#paya_no_bookings#:#No statistic available.
-payment#:#paya_no_object_selected#:#Please select one object.
-payment#:#paya_no_objects_assigned#:#There are no sellable objects.
-payment#:#paya_no_price_available#:#No prices available
-payment#:#paya_no_prices_selected#:#Please select one price
-payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method
-payment#:#paya_no_trustees#:#No trustees created.
-payment#:#paya_no_valid_login#:#This user name is not valid.
-payment#:#paya_no_vat_id_given#:#There is no vat-id given
-payment#:#paya_no_vats_assigned#:#No vats assigned
-payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.
-payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
-payment#:#paya_not_buyable#:#Not buyable
-payment#:#paya_object#:#Olemid
-payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.
-payment#:#paya_order_date#:#Order date
-payment#:#paya_pay_method#:#Pay method
-payment#:#paya_pay_method_not_specified#:#Not specified
-payment#:#paya_payed#:#Payed
-payment#:#paya_payed_access#:#Payed/Access
-payment#:#paya_perm_coupons#:#Edit coupons
-payment#:#paya_perm_obj#:#Muuda objekte
-payment#:#paya_perm_stat#:#Muuda statistika
-payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers
-payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.
-payment#:#paya_select_pay_method_first#:#Please select one pay method first.
-payment#:#paya_sell_object#:#Sell object
-payment#:#paya_shopping_cart#:#Shopping Cart
-payment#:#paya_statistic#:#Statistic
-payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.
-payment#:#paya_sure_delete_selected_prices#:#Kas oled kindel, et soovid valitud hinnad kustutada?
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?
-payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?
-payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?
-payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?
-payment#:#paya_transaction#:#Transaction
-payment#:#paya_trustee_table#:#Trustees
-payment#:#paya_trustees#:#Trustees
-payment#:#paya_update_price#:#Update prices
-payment#:#paya_updated_booking#:#Updated statistic.
-payment#:#paya_updated_price#:#The price was saved.
-payment#:#paya_updated_prices#:#Updated prices
-payment#:#paya_updated_trustees#:#Updated permissions.
-payment#:#paya_user_already_assigned#:#User already assigned.
-payment#:#paya_vat_already_exists#:#This vat rate already exists
-payment#:#paya_vat_not_deleted#:#This vat rate is not deleted
-payment#:#paya_vat_not_valid#:#This vat is not valid
-payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %
-payment#:#paya_vendor#:#Vendor
-payment#:#payment_add_vat#:#Create VAT
-payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.
-payment#:#payment_back_to_shop#:#Back to Shop
-payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.
-payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.
-payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.
-payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.
-payment#:#payment_edit_vat#:#Edit VAT
-payment#:#payment_login_to_buy_object#:#Please login for putting the object into the shopping cart.
-payment#:#payment_news#:#Shop News
-payment#:#payment_news_add_news#:#Add Shop News
-payment#:#payment_news_archive_period#:#Archive-Period
-payment#:#payment_news_archive_period_info#:#Ajaperiood, mille järel uudised liiguvad arhiivi
-payment#:#payment_news_created#:#Shop news added
-payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?
-payment#:#payment_news_deleted#:#Shop news deleted
-payment#:#payment_news_no_news_items#:#Uudiseid pole
-payment#:#payment_news_settings#:#Shop News Settings
-payment#:#payment_news_settings_saved#:#The settings have been saved
-payment#:#payment_news_updated#:#The news have been saved
-payment#:#payment_no_price_selected#:#No price selected.
-payment#:#payment_no_price_type_selected#:#Please select a type for the price.
-payment#:#payment_no_topic#:#No Topic
-payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.
-payment#:#payment_price_invalid_price#:#Please enter a valid price.
-payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
-payment#:#payment_tax_rates#:#Tax Rates
-payment#:#payment_vat_administration#:#Administration
-payment#:#payment_vat_already_created#:#A VAT with this rate is already created.
-payment#:#payment_vat_deleted_successfully#:#Den/de valgte satser blev slettet.
-payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
-payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.
-payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.
-payment#:#payment_vat_title_info#:#Palun sisesta silt/nimetus käibemaksu jaoks.
-payment#:#pays_active_bookings#:#There active bookings for the selected vendor(s). Please delete them first.
-payment#:#pays_add_info#:#Additional information for bill (optional)
-payment#:#pays_add_vendor#:#Add vendor
-payment#:#pays_added_vendor#:#Added new vendor
-payment#:#pays_address#:#Address for bill
-payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
-payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
-payment#:#pays_auth_token#:#Unique Token Given by PayPal
-payment#:#pays_bank_data#:#Bank data for bill
-payment#:#pays_bill#:#Bill
-payment#:#pays_bmf#:#BMF
-payment#:#pays_bmf_bewirtschafter_nr#:#Operator No.
-payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate
-payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate
-payment#:#pays_bmf_client_id#:#Cliend Id
-payment#:#pays_bmf_epayment_server#:#ePayment-Server
-payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle
-payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Dunning Procedure Id
-payment#:#pays_bmf_object_id#:#Object Id
-payment#:#pays_bmf_settings#:#Settings for BMF
-payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.
-payment#:#pays_bmf_timeout#:#Timeout
-payment#:#pays_bmf_waehrungskennzeichen#:#Currency (e.g. EUR)
-payment#:#pays_cost_center#:#Cost center
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.
-payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)
-payment#:#pays_currency_unit#:#Currency (e.g. EUR)
-payment#:#pays_delete_vendor#:#Deassign user
-payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
-payment#:#pays_eco_agreement#:#Agreement Number
-payment#:#pays_eco_cur_handle_code#:#Currency Code
-payment#:#pays_eco_layout#:#Invoice Layout
-payment#:#pays_eco_payment_terms#:#Payment Terms
-payment#:#pays_eco_product_number#:#Product Number
-payment#:#pays_edit_vendor#:#Edit user
-payment#:#pays_email_vendor#:#Mail Address of the Vendor
-payment#:#pays_epay#:#ePay
-payment#:#pays_epay_auth_email#:#Email Notification
-payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
-payment#:#pays_epay_auth_token#:#Authentication Token
-payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
-payment#:#pays_epay_instant_capture#:#Instant Capture
-payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
-payment#:#pays_epay_merchant_number#:#Merchant id
-payment#:#pays_epay_server_host#:#Server host
-payment#:#pays_epay_server_path#:#Server path
-payment#:#pays_epay_settings#:#ePay configuration
-payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.
-payment#:#pays_erp#:#ERP
-payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.
-payment#:#pays_erp_connection_established#:#Connection established with %s successfully.
-payment#:#pays_erp_error#:#Error interacting with %s!
-payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.
-payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.
-payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices
-payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:
-payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted
-payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice
-payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.
-payment#:#pays_erp_invoice_preview#:#View test invoice in new window
-payment#:#pays_erp_settings#:#ERP seaded
-payment#:#pays_erp_system#:#ERP System
-payment#:#pays_erp_tst_billed#:#billed for
-payment#:#pays_erp_tst_existing#:#Existing Debtor
-payment#:#pays_erp_tst_new#:#New Debtor
-payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.
-payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.
-payment#:#pays_general#:#General
-payment#:#pays_general_settings#:#Üldised seaded
-payment#:#pays_general_settings_not_valid#:#Sinu üldised seaded ei ole kehtivad. Palun kontrolli, kas kõik väljad on täidetud korrektselt.
-payment#:#pays_header_select_vendor#:#Vendor selection
-payment#:#pays_invoice#:#Invoice
-payment#:#pays_no_username_given#:#No username given
-payment#:#pays_no_valid_username_given#:#No valid username given
-payment#:#pays_no_vendor_selected#:#No vendor selected
-payment#:#pays_number_bookings#:#Active bookings
-payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_offline#:#Offline
-payment#:#pays_online#:#Võrgus
-payment#:#pays_page_style#:#Lehe stiil
-payment#:#pays_pay_methods#:#Pay methods
-payment#:#pays_paypal#:#PayPal
-payment#:#pays_paypal_settings#:#Settings for PayPal
-payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.
-payment#:#pays_pdf_path#:#Path for generating bill as PDF file
-payment#:#pays_server_host#:#Server Host (e.g. www.paypal.com)
-payment#:#pays_server_path#:#Path to the Scripts (e.g. /cgi-bin/webscr)
-payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
-payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.
-payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.
-payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
-payment#:#pays_updated_general_settings#:#Your general settings were updated.
-payment#:#pays_updated_pay_method#:#Changed pay method.
-payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.
-payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
-payment#:#pays_vat_rate#:#VAT rate in % (optional)
-payment#:#pays_vendor#:#Vendor
-payment#:#period_of_service_provision#:#Period of service provision
-payment#:#placeholders#:#Placeholders
-payment#:#please_activate_one_paymethod#:#Please activate at least one pay method
-payment#:#please_choose_category#:#Please choose a category
-payment#:#please_create_vendor#:#Please create at least one vendor
-payment#:#please_enter_address#:#Please enter an address
-payment#:#please_enter_bank_data#:#Please enter the bank details
-payment#:#please_enter_bmf_data#:#Please enter your BMF data
-payment#:#please_enter_currency#:#Please enter a currency
-payment#:#please_enter_epay_data#:#Please enter your EPay data
-payment#:#please_enter_paypal_data#:#Please enter your Paypal data
-payment#:#please_enter_pdf_path#:#Please enter a path for generating bill as PDF file
-payment#:#please_enter_vats#:#Please create at least one vat
-payment#:#please_use_account#:#For further purchases please login with use your account.
-payment#:#plus_vat#:#Plus VAT
-payment#:#position#:#Pos.
-payment#:#price_a#:#Price
-payment#:#price_from#:#from
-payment#:#prices#:#Prices
-payment#:#reset_filter#:#Taasta filter
-payment#:#search_in_title#:#Otsi pealkirja järgi
-payment#:#select_one_topic#:#Please select at least one topic.
-payment#:#select_subtype#:#Suboption
-payment#:#set_filter#:#Set Filter
-payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.
-payment#:#shop_bought_objects_url#:#Link to bought objects
-payment#:#shop_info#:#Shop Information
-payment#:#shop_url#:#Link to shop
-payment#:#show_general_filter#:#Show general filter
-payment#:#show_general_filter_info#:#Let users find buyable objects with this general search filter
-payment#:#show_shop_explorer#:#Show shop explorer
-payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop
-payment#:#show_topics_filter#:#Show topics filter
-payment#:#show_topics_filter_info#:#Let users find buyable objects with this topics filter
-payment#:#sort#:#Sort
-payment#:#sort_asc#:#sort ascending
-payment#:#sort_by#:#Sort Objects by
-payment#:#sort_desc#:#sort descending
-payment#:#sort_topics_by#:#Sort Topics by
-payment#:#sort_topics_by_date#:#Date
-payment#:#sort_topics_by_title#:#Title
-payment#:#sort_topics_manually#:#Manually
-payment#:#special#:#Special-Offer
-payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.
-payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.
-payment#:#sure_delete_topics#:#Kas oled kindel, et soovid valitud teemad kustutada??
-payment#:#terms_conditions#:#GTC
-payment#:#topic#:#Topic
-payment#:#topic_edited#:#The topic was edited successfully
-payment#:#topic_saved#:#The topic was saved successfully
-payment#:#topic_title#:#Title
-payment#:#topics#:#Topics
-payment#:#topics_deleted#:#The chosen topics were deleted successfully
-payment#:#topics_settings#:#Topics Settings
-payment#:#total_netprice#:#Total netprice (ohne USt)
-payment#:#unit_price#:#Unit price
-payment#:#unlimited_duration#:#Unlimited duration
-payment#:#update#:#Update
-payment#:#use_shop_specials#:#Use Shop Specials
-payment#:#use_shop_specials_info#:#If enabled, it is possible to mark payment objects as a "special"-offer. These objects will be shown on the entire shop site.
-payment#:#user_deleted#:#Kasutaja kustutati
-payment#:#user_id#:#User ID
-payment#:#userdefined_invoice_number#:#Userdefined invoice number
-payment#:#vat_rate#:#Vat-Rate
-payment#:#vat_title#:#Vat-Title
-payment#:#vat_unit#:#Vat-Unit
-payment#:#vats#:#Vats
 pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
@@ -11425,8 +10826,6 @@ pd#:#pd_my_memberships_intro#:#Teretulemast oma liikmelisuse lehele
 pd#:#pd_my_memberships_intro2#:#See on sinu isiklik ruum kõikide kursuste ja gruppide jaoks, milles osaled.
 pd#:#pd_my_offers#:#Valitud üksused
 pd#:#pd_notes#:#Personal Desktop Notes
-pd#:#pd_osi_host#:#OSI Host
-pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:
 pd#:#pd_personal_items_default_view#:#Vaikimisi vaade
 pd#:#pd_personal_items_default_view_info#:#Vali isiklike üksuste eelistatud vaade.
 pd#:#pd_personal_workspace#:#Personal Workspace
@@ -12082,10 +11481,6 @@ rbac#:#otpl_edit_permission#:#Muuda õiguste seadeid
 rbac#:#otpl_read#:#Read Access to Object Template Settings
 rbac#:#otpl_visible#:#Object Template Settings are visible
 rbac#:#otpl_write#:#Edit Object Template Settings
-rbac#:#pays_edit_permission#:#Change permission settings
-rbac#:#pays_read#:#Access payment settings
-rbac#:#pays_visible#:#Payment settings are visible
-rbac#:#pays_write#:#Edit payment settings
 rbac#:#pdts_edit_permission#:#Muuda õiguste seadeid
 rbac#:#pdts_read#:#Lugemisõigused to personal desktop settings
 rbac#:#pdts_visible#:#Personal desktop settings are visible
@@ -14842,7 +14237,6 @@ user#:#interests#:#Interests
 user#:#interests_general#:#General Interests
 user#:#interests_help_looking#:#Looking For Help
 user#:#interests_help_offered#:#Offering Help
-user#:#passwd_generation_pre#:#Pre-defined Passwords
 user#:#restrict_user_access#:#Juurdepääs kasutajate kontodele piiratud
 user#:#restrict_user_access_info#:#Kui võimaldatud, on ligipääs kasutajakontole kinni. Ligipääs sõltub õigusest "Kohaliku kasutaja konto lugemisõigused" asukohas "Kasutajad" ja "Kategooriad".
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
@@ -15402,13 +14796,10 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value###30 08 20
 file#:#file_import#:#Import File###30 08 2015 new variable
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"###30 08 2015 new variable
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen###30 08 2015 new variable
-dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.###30 08 2015 new variable
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender###30 08 2015 new variable
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s###30 08 2015 new variable
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können###30 08 2015 new variable
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden###30 08 2015 new variable
 dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld###30 08 2015 new variable
-dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken###30 08 2015 new variable
 dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.###30 08 2015 new variable
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.###30 08 2015 new variable
 dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.###30 08 2015 new variable
@@ -16151,3 +15542,816 @@ rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is o
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###23 12 2015 new variable
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
+forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.###25 10 2016 new variable
+forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?###25 10 2016 new variable
+forum#:#restore#:#Restore###25 10 2016 new variable
+forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
+forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
+forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
+forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
+common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
+common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
+pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
+forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
+forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
+forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
+forum#:#delete_draft_successfully#:#The draft was deleted successfully.###25 10 2016 new variable
+forum#:#forums_edit_draft#:#Edit draft###25 10 2016 new variable
+forum#:#publish#:#Publish###25 10 2016 new variable
+forum#:#frm_my_posting_drafts#:#My Posting Drafts###25 10 2016 new variable
+forum#:#frm_posting_draft#:#Draft###25 10 2016 new variable
+forum#:#frm_posting_drafts#:#Drafts###25 10 2016 new variable
+forum#:#enable_send_attachments#:#Send attachments with forum notifications###25 10 2016 new variable
+forum#:#enable_send_attachments_desc#:#Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space.###25 10 2016 new variable
+forum#:#adm_save_drafts#:#Save drafts   ###25 10 2016 new variable
+forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save forum postings as draft.    ###25 10 2016 new variable
+forum#:#adm_autosave_drafts#:#Automatically save drafts###25 10 2016 new variable
+forum#:#adm_autosave_ival#:#Interval###25 10 2016 new variable
+forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.###25 10 2016 new variable
+assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s###25 10 2016 new variable
+assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes###25 10 2016 new variable
+assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.###25 10 2016 new variable
+assessment#:#tst_pass_waiting_time#:#Waiting Time###25 10 2016 new variable
+assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!###25 10 2016 new variable
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!###25 10 2016 new variable
+assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation###25 10 2016 new variable
+assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.###25 10 2016 new variable
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###25 10 2016 new variable
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###25 10 2016 new variable
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 10 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###25 10 2016 new variable
+assessment#:#min_auto_complete#:#Autocomplete###25 10 2016 new variable
+assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###25 10 2016 new variable
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###25 10 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###25 10 2016 new variable
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###25 10 2016 new variable
+assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code###25 10 2016 new variable
+assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.###25 10 2016 new variable
+assessment#:#new_test_created#:#New Test###25 10 2016 new variable
+assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools###25 10 2016 new variable
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###25 10 2016 new variable
+assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.###25 10 2016 new variable
+assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
+assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
+assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
+assessment#:#tst_non_available_pool_newly_derived#:#The new question pool(s) has been derived successfully.###25 10 2016 new variable
+assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.###25 10 2016 new variable
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s###25 10 2016 new variable
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###25 10 2016 new variable
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###25 10 2016 new variable
+assessment#:#unfinished_passes#:#Unfinished Passes###25 10 2016 new variable
+assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass?###25 10 2016 new variable
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?###25 10 2016 new variable
+assessment#:#finish_all_user_passes#:#Finish all test Passes###25 10 2016 new variable
+assessment#:#finish_unfinished_passes#:#Finish open Passes###25 10 2016 new variable
+assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job. ###25 10 2016 new variable
+assessment#:#new_test_online#:#The Test was set online.###25 10 2016 new variable
+crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
+grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.###25 10 2016 new variable
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?###25 10 2016 new variable
+common#:#lang_uninstall_changes#:#Uninstall Local Changes###25 10 2016 new variable
+common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?###25 10 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###25 10 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###25 10 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###25 10 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###25 10 2016 new variable
+common#:#obj_wfe#:#Workflow Engine###25 10 2016 new variable
+common#:#proxy_socket_error#:#Socket Error: %s###25 10 2016 new variable
+grp#:#grp_header_delete_members#:#Would you like to remove the following members from this group?###25 10 2016 new variable
+mathjax#:#mathjax_home_link#:# » MathJax###25 10 2016 new variable
+mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser###25 10 2016 new variable
+mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server###25 10 2016 new variable
+mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.###25 10 2016 new variable
+mathjax#:#mathjax_server_installation#:# » Installation###25 10 2016 new variable
+mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
+mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
+mathjax#:#mathjax_server_timeout#:#Timeout###25 10 2016 new variable
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds###25 10 2016 new variable
+mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation###25 10 2016 new variable
+mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.###25 10 2016 new variable
+mathjax#:#mathjax_server_for_browser#:#Use for Browser###25 10 2016 new variable
+mathjax#:#mathjax_server_for_browser_info#:#TeX will be shown as SVG graphics. Enabling MathJax in the browser is unneccessary.###25 10 2016 new variable
+mathjax#:#mathjax_server_for_export#:#Use for HTML Export###25 10 2016 new variable
+mathjax#:#mathjax_server_for_export_info#:#TeX will be exported as SVG graphic for learning module exports to HTML.###25 10 2016 new variable
+mathjax#:#mathjax_server_cached#:#Cache Graphics###25 10 2016 new variable
+mathjax#:#mathjax_server_cached_info#:#Cache all rendered graphics in the ILIAS web directory.###25 10 2016 new variable
+mathjax#:#mathjax_server_clear_cache#:# » Clear Cache###25 10 2016 new variable
+mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
+mathjax#:#mathjax_server_cache_size#:#Cache Size###25 10 2016 new variable
+mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.###25 10 2016 new variable
+mathjax#:#mathjax_test_expression#:#Test Expression###25 10 2016 new variable
+mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.###25 10 2016 new variable
+mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016 new variable
+mail#:#mail_send_html#:#HTML Frame for External Emails###25 10 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###25 10 2016 new variable
+trac#:#trac_show_repository_views_info#:#Show tracking information for repository objects on info page.###25 10 2016 new variable
+user#:#clipboard_add_btn#:#Add to Clipboard###25 10 2016 new variable
+user#:#clipboard_user_added#:#Added selected users to clipboard.###25 10 2016 new variable
+user#:#clipboard_table_title#:#Clipboard (User Accounts)###25 10 2016 new variable
+user#:#clipboard_remove_btn#:#Remove from Clipboard###25 10 2016 new variable
+user#:#clipboard_empty_btn#:#Empty Clipboard###25 10 2016 new variable
+common#:#update_orgunits#:#Update assigned organisational units###25 10 2016 new variable
+common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.###25 10 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###25 10 2016 new variable
+chatroom#:#kicked#:#You have been kicked from this chat room###25 10 2016 new variable
+chatroom#:#left_private_room#:#Left private room###25 10 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###25 10 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###25 10 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###25 10 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###25 10 2016 new variable
+dcl#:#dcl_tables#:#Tables###25 10 2016 new variable
+dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings to solve the problem.###25 10 2016 new variable
+dcl#:#dcl_add_new_view#:#Add New View###25 10 2016 new variable
+dcl#:#dcl_table_list_tables#:#Available Tables###25 10 2016 new variable
+dcl#:#dcl_number#:#Integer###25 10 2016 new variable
+dcl#:#dcl_fileupload#:#Fileupload###25 10 2016 new variable
+dcl#:#dcl_max_digits#:#Maximum Number of Digits###25 10 2016 new variable
+dcl#:#dcl_create_view#:#Create View###25 10 2016 new variable
+dcl#:#dcl_select#:#Select for Presentation###25 10 2016 new variable
+dcl#:#dcl_tableviews#:#Views###25 10 2016 new variable
+dcl#:#dcl_tableviews_table#:#Views of Selected Table###25 10 2016 new variable
+dcl#:#dcl_tableview#:#View###25 10 2016 new variable
+dcl#:#dcl_tableorder#:#Tableorder###25 10 2016 new variable
+dcl#:#dcl_detailed_view#:#Detailed View###25 10 2016 new variable
+dcl#:#dcl_tableview_add#:#Add New View###25 10 2016 new variable
+dcl#:#dcl_delete_views#:#Delete Views###25 10 2016 new variable
+dcl#:#dcl_delete_tables#:#Delete Tables###25 10 2016 new variable
+dcl#:#dcl_msg_tableview_updated#:#View updated###25 10 2016 new variable
+dcl#:#dcl_msg_tableview_created#:#Views created###25 10 2016 new variable
+dcl#:#dcl_msg_tableview_deleted#:#View deleted###25 10 2016 new variable
+dcl#:#dcl_msg_tableviews_deleted#:#Views deleted###25 10 2016 new variable
+dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist###25 10 2016 new variable
+dcl#:#dcl_msg_tables_delete_all#:#Could not delete: At least one Table must exist###25 10 2016 new variable
+dcl#:#dcl_msg_tables_deleted#:#Tables deleted###25 10 2016 new variable
+dcl#:#dcl_tables_confirm_delete#:#Do you really want to delete the following Tables?###25 10 2016 new variable
+dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated###25 10 2016 new variable
+dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.###25 10 2016 new variable
+dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?###25 10 2016 new variable
+dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?###25 10 2016 new variable
+dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings###25 10 2016 new variable
+dcl#:#dcl_std_filter#:#Standardfilter###25 10 2016 new variable
+dcl#:#dcl_field_visible#:#Visible###25 10 2016 new variable
+dcl#:#dcl_filter_changeable#:#Filter changeable###25 10 2016 new variable
+pd#:#block_show_pdsysmess#:#Show System Messages###25 10 2016 new variable
+dcl#:#dcl_fieldtitle#:#Field Title###25 10 2016 new variable
+dcl#:#dcl_save_order#:#Save Order###25 10 2016 new variable
+dcl#:#dcl_create_table#:#Create Table###25 10 2016 new variable
+dcl#:#dcl_ilias_reference#:#Link to an ILIAS module###25 10 2016 new variable
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###25 10 2016 new variable
+dcl#:#dcl_ilias_reference_link#:#Show as link in table view###25 10 2016 new variable
+dcl#:#dcl_cant_delete_last_table#:#You can't completely remove this table as it is the only table of this Data Collection. It's content and structure got removed instead.###25 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
+dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.###25 10 2016 new variable
+dcl#:#dcl_create_date#:#Creation Date###25 10 2016 new variable
+dcl#:#dcl_last_edit_by#:#Last edited by###25 10 2016 new variable
+dcl#:#dcl_display_record_alt#:#Display this entry###25 10 2016 new variable
+dcl#:#dcl_plugin#:#Plugin###25 10 2016 new variable
+dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins###25 10 2016 new variable
+dcl#:#dcl_plugin_hooks#:#Available Plugins###25 10 2016 new variable
+dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found###25 10 2016 new variable
+dcl#:#dcl_save_confirmation#:#Save confirmation###25 10 2016 new variable
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry.###25 10 2016 new variable
+dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.###25 10 2016 new variable
+dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.###25 10 2016 new variable
+dcl#:#dcl_save_record#:#Save Entry###25 10 2016 new variable
+dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export###25 10 2016 new variable
+dcl#:#dcl_export_started#:#Asynchronous Export started###25 10 2016 new variable
+dcl#:#dcl_export_finished#:#Export finished###25 10 2016 new variable
+dcl#:#dcl_supported_filetypes#:#Allowed file-extensions###25 10 2016 new variable
+dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx###25 10 2016 new variable
+dcl#:#dcl_no_export_data_available#:#No data or fields available for export.###25 10 2016 new variable
+rbac#:#dcl_edit_content#:#Edit entries###25 10 2016 new variable
+common#:#org_units#:#Organisational Units###25 10 2016 new variable
+cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?###25 10 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###25 10 2016 new variable
+certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
+crs#:#crs_mem_tbl_header#:#Course Participants###25 10 2016 new variable
+grp#:#grp_mem_tbl_header#:#Group Participants###25 10 2016 new variable
+administration#:#language_save_dist#:#Backup the standard language file###25 10 2016 new variable
+administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.###25 10 2016 new variable
+administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.###25 10 2016 new variable
+administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.###25 10 2016 new variable
+dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
+dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.###25 10 2016 new variable
+dcl#:#dcl_ilias_reference_desc#:#Searchfield to select an ILIAS object.###25 10 2016 new variable
+dcl#:#dcl_import_enabled#:#Allow import function for all users###25 10 2016 new variable
+dcl#:#dcl_import_enabled_desc#:#All users can import data to tables, as long as they have the required write access.###25 10 2016 new variable
+buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.###25 10 2016 new variable
+buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.###25 10 2016 new variable
+buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.###25 10 2016 new variable
+buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.###25 10 2016 new variable
+common#:#buddy_allow_to_contact_me_no#:#Doesn`t Receive Contact Requests###25 10 2016 new variable
+common#:#buddy_allow_to_contact_me_yes#:#Receives Contact Requests###25 10 2016 new variable
+buddysystem#:#buddy_use_osd#:#Popup Contact Requests###25 10 2016 new variable
+buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.###25 10 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###25 10 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###25 10 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###25 10 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###25 10 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###25 10 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###25 10 2016 new variable
+crs#:#event_tbl_member#:#Member###25 10 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###25 10 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###25 10 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###25 10 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###25 10 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###25 10 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###25 10 2016 new variable
+content#:#cont_error#:#An Error Occured###25 10 2016 new variable
+prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible by shared users.###25 10 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###25 10 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###25 10 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###25 10 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###25 10 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###25 10 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###25 10 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###25 10 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###25 10 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###25 10 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###25 10 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###25 10 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###25 10 2016 new variable
+wiki#:#wiki_page_list_mode#:#Type of List###25 10 2016 new variable
+wiki#:#wiki_page_list_mode_unordered#:#Not numbered###25 10 2016 new variable
+wiki#:#wiki_page_list_mode_ordered#:#Numbered###25 10 2016 new variable
+blog#:#blog_news_title#:#%1$s by %2$s###25 10 2016 new variable
+blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s. ###25 10 2016 new variable
+blog#:#blog_news_posting_published#:#A blog posting has been published by %s.###25 10 2016 new variable
+blog#:#blog_news_posting_authors#:#Contributing authors: %s###25 10 2016 new variable
+book#:#book_reservation_filter_period#:#Period for the reservation list###25 10 2016 new variable
+book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.###25 10 2016 new variable
+book#:#book_filter_past_reservations#:#Show past reservations###25 10 2016 new variable
+book#:#book_deadline_options#:#Booking deadline###25 10 2016 new variable
+book#:#book_deadline_hours#:#X hours prior to booking period###25 10 2016 new variable
+book#:#book_deadline_slot_end#:#Until end of booking period###25 10 2016 new variable
+book#:#book_deadline_slot_start#:#Until begin of booking period###25 10 2016 new variable
+chatroom#:#chatroom_auth#:#Authentication###25 10 2016 new variable
+chatroom#:#chatroom_auth_key#:#Authentication-Key###25 10 2016 new variable
+chatroom#:#chatroom_auth_secret#:#Authentication-Secret###25 10 2016 new variable
+chatroom#:#chatroom_auth_btn_txt#:#Generate Keys###25 10 2016 new variable
+chatroom#:#key#:#Key###25 10 2016 new variable
+chatroom#:#dhparam#:#Diffie-Hellman Parameter###25 10 2016 new variable
+chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection###25 10 2016 new variable
+chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.###25 10 2016 new variable
+chatroom#:#client_chatserver_connection#:#Client to Server Connection###25 10 2016 new variable
+chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.###25 10 2016 new variable
+chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.###25 10 2016 new variable
+chatroom#:#log#:#Chatserver Log###25 10 2016 new variable
+chatroom#:#error_log#:#Chatserver Error-Log###25 10 2016 new variable
+chatroom#:#delete_private_room_question#:#Confirm delete private room?###25 10 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###25 10 2016 new variable
+sess#:#sess_list_reg_limit_places#:#Free places###25 10 2016 new variable
+sess#:#sess_accept_request#:#Accept Participation###25 10 2016 new variable
+sess#:#sess_new_registrations#:#Join Request###25 10 2016 new variable
+mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s###25 10 2016 new variable
+mail#:#mail_recipient_not_found#:#%1$s (could not find a valid recipient)###25 10 2016 new variable
+mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)###25 10 2016 new variable
+mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s###25 10 2016 new variable
+rbac#:#mep_copy#:#User can copy media pool###25 10 2016 new variable
+crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###25 10 2016 new variable
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.###25 10 2016 new variable
+form#:#form_date_duration_start#:#Start###25 10 2016 new variable
+form#:#form_date_duration_end#:#End###25 10 2016 new variable
+auth#:#auth_ldap_server_ds#:#LDAP-Server###25 10 2016 new variable
+content#:#cont_permission_object#:#Permission Object###25 10 2016 new variable
+auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.###25 10 2016 new variable
+auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
+auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).###25 10 2016 new variable
+assessment#:#ass_location#:#Location###25 10 2016 new variable
+assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###25 10 2016 new variable
+assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.###25 10 2016 new variable
+assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.###25 10 2016 new variable
+rbac#:#sty_write_content#:#Edit Content Styles###25 10 2016 new variable
+rbac#:#stys_sty_write_custom#:#Edit Content Styles###25 10 2016 new variable
+rbac#:#sty_write_system#:#Edit System Styles###25 10 2016 new variable
+rbac#:#stys_sty_write_system#:#Edit System Styles###25 10 2016 new variable
+rbac#:#sty_write_page_layout#:#Edit Page Layouts###25 10 2016 new variable
+rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts###25 10 2016 new variable
+skmg#:#skmg_import_skills#:#Import###25 10 2016 new variable
+skmg#:#skmg_input_file#:#Import File###25 10 2016 new variable
+skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.###25 10 2016 new variable
+form#:#form_no_link#:#No Link###25 10 2016 new variable
+copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
+pd#:#pd_enable_mail_pdsysmess#:#Enable System Messages Block###25 10 2016 new variable
+pd#:#pd_pdmail_include_sysnmess#:#System Messages in Mail Block###25 10 2016 new variable
+pd#:#pd_pdmail_include_sysnmess_info#:#If enabled, system messages are included in the mail block.###25 10 2016 new variable
+pd#:#pd_sys_msg_own_block#:#Show system messages in an own block###25 10 2016 new variable
+pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block###25 10 2016 new variable
+pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop###25 10 2016 new variable
+logging#:#log_error_message#:#Error %s occurred.###25 10 2016 new variable
+logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>###25 10 2016 new variable
+logging#:#log_error_folder#:#Path###25 10 2016 new variable
+logging#:#log_error_mail#:#Mail recipient###25 10 2016 new variable
+logging#:#log_error_settings#:#Error logging settings###25 10 2016 new variable
+logging#:#error_settings_saved#:#Saved settings###25 10 2016 new variable
+logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files###25 10 2016 new variable
+logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.###25 10 2016 new variable
+logging#:#frm_clear_older_then#:#Deletes files older then###25 10 2016 new variable
+logging#:#frm_clear_older_then_info#:#Please enter duration in days.###25 10 2016 new variable
+blog#:#blog_show_latest#:#Show latest postings/drafts###25 10 2016 new variable
+common#:#objs_prtf#:#Portfolios###25 10 2016 new variable
+grp#:#grp_member_administration#:#Edit Participants###25 10 2016 new variable
+survey#:#svy_results_mail_confirm#:#Participants can request participation confirmation###25 10 2016 new variable
+survey#:#svy_results_mail_confirm_info#:#Participants can request a mail with a confirmation of participation at the end of the survey.###25 10 2016 new variable
+survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation###25 10 2016 new variable
+survey#:#svy_mail_confirmation_subject#:#Survey "%s" - Your participation confirmation###25 10 2016 new variable
+survey#:#svy_anonymous_participants#:#List of Participants###25 10 2016 new variable
+survey#:#svy_anonymous_participants_info#:#If activated a list of participants can be enabled in anonymous surveys.###25 10 2016 new variable
+survey#:#svy_anonymous_participants_min#:#Minimum Number of Participants###25 10 2016 new variable
+survey#:#svy_anonymous_participants_min_info#:#The list will only be available if there are at least the minimum number of participants.###25 10 2016 new variable
+survey#:#svy_anonymous_participants_svy#:#List of Participants###25 10 2016 new variable
+survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participants is available after the end date.###25 10 2016 new variable
+survey#:#survey_results_started#:#Survey started###25 10 2016 new variable
+survey#:#survey_results_not_started#:#Survey not started###25 10 2016 new variable
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###25 10 2016 new variable
+common#:#grpr_edit_info#:#Please choose one group, for creating a new reference.###25 10 2016 new variable
+common#:#grpr_edit#:#Edit Group Reference###25 10 2016 new variable
+common#:#grpr_new#:#Create Group Reference###25 10 2016 new variable
+common#:#grpr#:#Group Reference###25 10 2016 new variable
+common#:#obj_grpr#:#Group Reference###25 10 2016 new variable
+common#:#objs_grpr#:#Group References###25 10 2016 new variable
+rbac#:#grpr_copy#:#User can copy group reference###25 10 2016 new variable
+rbac#:#grpr_delete#:#User can move or delete group reference###25 10 2016 new variable
+rbac#:#grpr_edit_permission#:#User can change permission settings###25 10 2016 new variable
+rbac#:#grpr_read#:#Read access to Group Reference###25 10 2016 new variable
+rbac#:#grpr_visible#:#Group reference is visible###25 10 2016 new variable
+rbac#:#grpr_write#:#User can edit settings of group reference###25 10 2016 new variable
+rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
+common#:#obj_bdga#:#Badges###25 10 2016 new variable
+common#:#obj_bdga_desc#:#Administrate types, image templates and activity badges###25 10 2016 new variable
+rbac#:#bdga_visible#:#Badge administration is visible###25 10 2016 new variable
+rbac#:#bdga_read#:#User can read badge administration content###25 10 2016 new variable
+rbac#:#bdga_write#:#User can edit badge administration settings###25 10 2016 new variable
+rbac#:#bdga_edit_permission#:#User can change permission settings###25 10 2016 new variable
+badge#:#badge_settings#:#Badge Settings###25 10 2016 new variable
+badge#:#badge_service_activate#:#Activate Service###25 10 2016 new variable
+badge#:#badge_service_activate_info#:#Activate the service to make badges available###25 10 2016 new variable
+badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure###25 10 2016 new variable
+badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications. ###25 10 2016 new variable
+badge#:#badge_obi_organisation#:#Organisation###25 10 2016 new variable
+badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.###25 10 2016 new variable
+badge#:#badge_obi_contact#:#Contact Email###25 10 2016 new variable
+badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge. ###25 10 2016 new variable
+badge#:#badge_obi_salt#:#Salt###25 10 2016 new variable
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards. ###25 10 2016 new variable
+badge#:#badge_types#:#Types###25 10 2016 new variable
+badge#:#badge_image_templates#:#Image Templates###25 10 2016 new variable
+badge#:#badge_activity_badges#:#Activity Badges###25 10 2016 new variable
+badge#:#badge_crs_merit#:#Merit###25 10 2016 new variable
+badge#:#badge_manual#:#Manual Awarding###25 10 2016 new variable
+badge#:#badge_user_profile#:#User Profil###25 10 2016 new variable
+badge#:#badge_badge#:#Badge###25 10 2016 new variable
+obj#:#obj_tool_setting_badges#:#Badges###25 10 2016 new variable
+obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.###25 10 2016 new variable
+badge#:#badge_add_template#:#Add Template###25 10 2016 new variable
+badge#:#badge_image_template_form#:#Image Template###25 10 2016 new variable
+badge#:#badge_image_from_upload#:#Upload Image###25 10 2016 new variable
+badge#:#badge_image_from_template#:#Use Template###25 10 2016 new variable
+badge#:#badge_award_badge#:#Award Badge###25 10 2016 new variable
+badge#:#badge_remove_badge#:#Revoke Badge###25 10 2016 new variable
+badge#:#badge_template_deletion_confirmation#:#Are you sure you want to delete the following image templates?###25 10 2016 new variable
+badge#:#badge_assignment_deletion_confirmation#:#Are you sure you want to revoke the following badge assignments for "%s"?###25 10 2016 new variable
+badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments? ###25 10 2016 new variable
+badge#:#badge_template_types#:#Valid Types###25 10 2016 new variable
+badge#:#badge_template_types_all#:#All###25 10 2016 new variable
+badge#:#badge_template_types_specific#:#Specific###25 10 2016 new variable
+badge#:#badge_valid#:#Valid until###25 10 2016 new variable
+badge#:#badge_object_badges#:#Object Badges###25 10 2016 new variable
+badge#:#badge_backpack_connect_failed#:#The Mozilla Backpack could not be requested for %s.###25 10 2016 new variable
+badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.###25 10 2016 new variable
+badge#:#badge_backpack_list#:#My Backpack###25 10 2016 new variable
+badge#:#badge_personal_badges#:#My Badges###25 10 2016 new variable
+badge#:#badge_issued_on#:#Issued On###25 10 2016 new variable
+badge#:#badge_add_to_backpack#:#Add to Backpack###25 10 2016 new variable
+badge#:#badge_add_to_backpack_multi#:#Trying to add %s to Backpack###25 10 2016 new variable
+badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)###25 10 2016 new variable
+badge#:#badge_notification_subject#:#Badges received###25 10 2016 new variable
+badge#:#badge_notification_body#:#you just received new badges.###25 10 2016 new variable
+badge#:#badge_notification_osd#:#You just received new badges: [BADGE_LIST]###25 10 2016 new variable
+badge#:#badge_notification_badges#:#New Badges###25 10 2016 new variable
+badge#:#badge_notification_badges_goto#:#To your badges###25 10 2016 new variable
+badge#:#badge_notification_parent_goto#:#To repository###25 10 2016 new variable
+badge#:#badge_notification_reason#:#You are receiving this message to be able to add the badges to your profile.###25 10 2016 new variable
+badge#:#badge_in_profile#:#In Profile###25 10 2016 new variable
+badge#:#badge_add_to_profile#:#Add to Profile###25 10 2016 new variable
+badge#:#badge_remove_from_profile#:#Remove from Profile###25 10 2016 new variable
+badge#:#badge_criteria#:#Criteria###25 10 2016 new variable
+badge#:#badge_edit_with_published#:#%s users have already added this badge to their backpack. Because of this changing badge attributes will lead to inconsistencies. Creating a new badge might be a better solution.###25 10 2016 new variable
+badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.###25 10 2016 new variable
+badge#:#badge_course_lp#:#Course LP###25 10 2016 new variable
+badge#:#badge_profile_more#:#Show all###25 10 2016 new variable
+badge#:#badge_profile_less#:#Show less###25 10 2016 new variable
+badge#:#badge_backpack_gallery_info#:#These are your published badge collections in your Mozilla Backpack.###25 10 2016 new variable
+badge#:#badge_profile_view#:#View###25 10 2016 new variable
+badge#:#badge_profile_manage#:#Manage###25 10 2016 new variable
+badge#:#badge_subtype_manual#:#manual###25 10 2016 new variable
+badge#:#badge_subtype_auto#:#automatic###25 10 2016 new variable
+badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.###25 10 2016 new variable
+trac#:#trac_defaults#:#Completion Status###25 10 2016 new variable
+trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types.###25 10 2016 new variable
+trac#:#trac_defaults_inactive#:#Inactive###25 10 2016 new variable
+copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
+assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
+assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
+assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
+assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
+assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
+assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
+assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
+assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
+assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
+assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
+assessment#:#postpone_question#:#Move Question to the End###fau: testNav
+assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
+assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
+adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
+adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+wfe#:#dashboard#:#Dashboard###25 10 2016 new variable
+wfe#:#definitions#:#Process Definitions###25 10 2016 new variable
+wfe#:#instances#:#Process Instances###25 10 2016 new variable
+wfe#:#obj_wfe_desc#:#Process Automation###25 10 2016 new variable
+wfe#:#upload_process#:#Upload Process Definition###25 10 2016 new variable
+wfe#:#process_definition_file#:#Process Definition File###25 10 2016 new variable
+wfe#:#process_definition_file_info#:#BPMN2-Models###25 10 2016 new variable
+wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.###25 10 2016 new variable
+wfe#:#definition_table_title#:#Process Definitions###25 10 2016 new variable
+wfe#:#start_process#:#Start Process###25 10 2016 new variable
+wfe#:#process_started#:#Process started###25 10 2016 new variable
+wfe#:#input_variables_required#:#Input required###25 10 2016 new variable
+wfe#:#input_variables_desc#:#The process requires the following data to start:###25 10 2016 new variable
+wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:###25 10 2016 new variable
+wfe#:#delete_definition#:#Delete Definition###25 10 2016 new variable
+wfe#:#definition_deleted#:#Workflow-Definition deleted.###25 10 2016 new variable
+wfe#:#subject_type#:#Subject Type###25 10 2016 new variable
+wfe#:#subject_id#:#Subject ID###25 10 2016 new variable
+wfe#:#subject_by_id#:#Subject By ID###25 10 2016 new variable
+wfe#:#subject_by_mask#:#Masked Subject###25 10 2016 new variable
+wfe#:#context_type#:#Context Type###25 10 2016 new variable
+wfe#:#context_id#:#Context ID###25 10 2016 new variable
+wfe#:#context_by_id#:#Context By ID###25 10 2016 new variable
+wfe#:#context_by_mask#:#Masked Context###25 10 2016 new variable
+wfe#:#start_listening#:#Activate Listener###25 10 2016 new variable
+wfe#:#stop_listening#:#Deactivate Listener###25 10 2016 new variable
+wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow###25 10 2016 new variable
+wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows###25 10 2016 new variable
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?###25 10 2016 new variable
+glo#:#glo_add_from_other#:#Collect Terms###25 10 2016 new variable
+glo#:#glo_select_terms#:#Select Terms###25 10 2016 new variable
+glo#:#glo_copy_terms#:#Copy Terms###25 10 2016 new variable
+glo#:#glo_reference_terms#:#Reference Terms###25 10 2016 new variable
+glo#:#glo_select_source_glo#:#Please select a source glossary.###25 10 2016 new variable
+glo#:#glo_referenced_term#:#Referenced Term###25 10 2016 new variable
+glo#:#glo_term_reference#:#Term Reference###25 10 2016 new variable
+glo#:#glo_reference#:#Reference###25 10 2016 new variable
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".###25 10 2016 new variable
+prg#:#prg_assign_date#:#Assignment date###25 10 2016 new variable
+prg#:#prg_assigned_by#:#Assigned by###25 10 2016 new variable
+survey#:#svy_mail_context_reminder_title#:#Survey Reminder###25 10 2016 new variable
+survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey###25 10 2016 new variable
+survey#:#svy_mail_context_reminder_survey_title#:#Survey Title###25 10 2016 new variable
+survey#:#svy_reminder_mail_template#:#Mail Template###25 10 2016 new variable
+survey#:#svy_reminder_mail_template_none#:#Do not use mail template###25 10 2016 new variable
+survey#:#svy_eval_view#:#View###25 10 2016 new variable
+survey#:#svy_eval_view_tables_charts#:#Table and chart###25 10 2016 new variable
+survey#:#svy_eval_view_tables#:#Table###25 10 2016 new variable
+survey#:#svy_eval_view_charts#:#Chart###25 10 2016 new variable
+survey#:#svy_eval_captions#:#Figures###25 10 2016 new variable
+survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage###25 10 2016 new variable
+survey#:#svy_eval_captions_abs#:#Absolute###25 10 2016 new variable
+survey#:#svy_eval_captions_perc#:#Percentage###25 10 2016 new variable
+style#:#add_system_style#:#Add System Style###25 10 2016 new variable
+style#:#add_substyle#:#Add Sub Style###25 10 2016 new variable
+style#:#skin_id#:#Skin ID###25 10 2016 new variable
+style#:#skin_name#:#Skin Name###25 10 2016 new variable
+style#:#skin#:#Skin###25 10 2016 new variable
+style#:#style_id#:#Style ID###25 10 2016 new variable
+style#:#Style#:#Style###25 10 2016 new variable
+style#:#style_name#:#Style Name###25 10 2016 new variable
+style#:#image_dir#:#Image Directory###25 10 2016 new variable
+style#:#font_dir#:#Font Directory###25 10 2016 new variable
+style#:#sound_dir#:#Sound Directory###25 10 2016 new variable
+style#:#system_style_activation#:#System Style Activated###25 10 2016 new variable
+style#:#personal#:#Personal###25 10 2016 new variable
+style#:#system_styel_activation#:#Activate System Style###25 10 2016 new variable
+style#:#less#:#Less###25 10 2016 new variable
+style#:#icons#:#Icons###25 10 2016 new variable
+style#:#documentation#:#Documentation###25 10 2016 new variable
+style#:#less_can_not_be_modified#:#Less cannot be modified###25 10 2016 new variable
+style#:#no_less_path_set#:#No Less Path set###25 10 2016 new variable
+style#:#less_less_installation_detected#:#Less installation detected at:###25 10 2016 new variable
+style#:#grey_colors#:#Gray Colors###25 10 2016 new variable
+style#:#grey_color#:#Gray Color###25 10 2016 new variable
+style#:#grey_colors_description#:#Gray Color Description###25 10 2016 new variable
+style#:#red_colors#:#Red Colors###25 10 2016 new variable
+style#:#red_color#:#Red Color###25 10 2016 new variable
+style#:#red_colors_description#:#Red Color Description###25 10 2016 new variable
+style#:#green_colors#:#Green Colors###25 10 2016 new variable
+style#:#green_color#:#Green Color###25 10 2016 new variable
+style#:#green_colors_description#:#Green Color Description###25 10 2016 new variable
+style#:#blue_colors#:#Blue Colors###25 10 2016 new variable
+style#:#blue_color#:#Blue Color###25 10 2016 new variable
+style#:#blue_colors_description#:#Blue Color Description###25 10 2016 new variable
+style#:#reset_icons#:#Reset Icons###25 10 2016 new variable
+style#:#update_colors#:#Update Colors###25 10 2016 new variable
+style#:#style_not_deleted#:#The style could not be deleted for the following reasons:###25 10 2016 new variable
+style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:###25 10 2016 new variable
+style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.###25 10 2016 new variable
+style#:#style_deleted#:#Deleted Style:###25 10 2016 new variable
+style#:#dir_preserved_linked#:#Preserved Link:###25 10 2016 new variable
+style#:#file_deleted#:#Following file has been deleted:###25 10 2016 new variable
+style#:#skin_deleted#:#Following skin has been deleted:###25 10 2016 new variable
+style#:#msg_sys_style_update#:#System Styles have been updated###25 10 2016 new variable
+common#:#set_style_does_not_exist#:#Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:###25 10 2016 new variable
+common#:#set_skin_does_not_exist#:#Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:###25 10 2016 new variable
+style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.###25 10 2016 new variable
+style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.###25 10 2016 new variable
+style#:#default_style_set_to#:#The default system style has been set to:###25 10 2016 new variable
+style#:#personal_style_set_to#:#Your personal style has been set to:###25 10 2016 new variable
+style#:#refresh_entries#:#Refresh Entries###25 10 2016 new variable
+style#:#entries_reloaded#:#All entries have been reloaded###25 10 2016 new variable
+style#:#msg_sub_style_created#:#The sub style has been created.###25 10 2016 new variable
+style#:#style#:#Style###25 10 2016 new variable
+style#:#sub_style_settings#:#Sub Style Assignment###25 10 2016 new variable
+style#:#parent#:#Parent Style###25 10 2016 new variable
+style#:#sty_substyle_of#:#Sub Style of###25 10 2016 new variable
+style#:#assignment#:#Assignment###25 10 2016 new variable
+style#:#remove_assignment#:#Remove Assignment###25 10 2016 new variable
+style#:#reset_variables#:#Reset Variables###25 10 2016 new variable
+style#:#update_variables#:#Update Variables###25 10 2016 new variable
+style#:#less_file_updated#:#The less variables have been updated.###25 10 2016 new variable
+style#:#settings_of_substyle#:#Manage sub style###25 10 2016 new variable
+style#:#settings_of_style#:#Manage style###25 10 2016 new variable
+style#:#of_parent#:#of parent:###25 10 2016 new variable
+style#:#from_skin#:#of skin:###25 10 2016 new variable
+style#:#dir_copied_from#:#The directory has been copied to from:###25 10 2016 new variable
+style#:#to#:#to:###25 10 2016 new variable
+style#:#dir_deleted#:#The following directory has been deleted:###25 10 2016 new variable
+style#:#sty_create_new_system_style#:#Create a new system style.###25 10 2016 new variable
+style#:#sty_create_new_system_sub_style#:#Create a new system sub style.###25 10 2016 new variable
+style#:#sty_import_system_style#:#Import an existing system style as zip.###25 10 2016 new variable
+style#:#sty_copy_other_system_style#:#Clone an existing system style.###25 10 2016 new variable
+style#:#sub_style_id#:#Sub Style ID###25 10 2016 new variable
+style#:#sub_style_name#:#Sub Style Name###25 10 2016 new variable
+style#:#less_variables_file_not_included#:#The less variables file:###25 10 2016 new variable
+style#:#in_main_less_file#:#is not imported inside the system styles main less file:###25 10 2016 new variable
+style#:#can_not_read_less_file#:#Cannot read less file. Path:###25 10 2016 new variable
+style#:#msg_sys_style_created#:#The new system style has successfully been created.###25 10 2016 new variable
+style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.###25 10 2016 new variable
+style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.###25 10 2016 new variable
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.###25 10 2016 new variable
+style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.###25 10 2016 new variable
+style#:#sub_style#:#Sub Style###25 10 2016 new variable
+style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.###25 10 2016 new variable
+style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.###25 10 2016 new variable
+style#:#sound_dir_description#:#Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.###25 10 2016 new variable
+style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.###25 10 2016 new variable
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.###25 10 2016 new variable
+style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.###25 10 2016 new variable
+style#:#system_style_activation_description#:#Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).###25 10 2016 new variable
+style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.###25 10 2016 new variable
+style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.###25 10 2016 new variable
+style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:###25 10 2016 new variable
+style#:#zip_export_failed#:#The ZIP export failed. The following error occured:###25 10 2016 new variable
+style#:#no_style_selected#:#No sub style has been selected.###25 10 2016 new variable
+style#:#adapt_less#:#Adapt Less###25 10 2016 new variable
+style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.###25 10 2016 new variable
+style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.###25 10 2016 new variable
+style#:#adapt_icons#:#Adapt Icon Colors###25 10 2016 new variable
+style#:#invalid_less_path#:#The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.###25 10 2016 new variable
+style#:#provided_less_path#:#Provided lessc path:###25 10 2016 new variable
+style#:#used_colors#:#Used Colors:###25 10 2016 new variable
+style#:#style_imported#:#Style has been successfully imported into:###25 10 2016 new variable
+style#:#style_copied#:#Style has been successfully copied.###25 10 2016 new variable
+style#:#directory_created#:#Directory created:###25 10 2016 new variable
+style#:#color_changed_from#:#Color changed from:###25 10 2016 new variable
+style#:#color_changed_to#:#to:###25 10 2016 new variable
+style#:#edit_by_color#:#Edit by Color###25 10 2016 new variable
+style#:#edit_by_icon#:#Edit by Icon###25 10 2016 new variable
+style#:#update_icon#:#Update Icon###25 10 2016 new variable
+style#:#select_icon#:#Select Icon###25 10 2016 new variable
+style#:#change_icon#:#Change Icon###25 10 2016 new variable
+style#:#color#:#Color###25 10 2016 new variable
+style#:#adapt_icon#:#Adapt Icon###25 10 2016 new variable
+style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.###25 10 2016 new variable
+style#:#preview#:#Preview###25 10 2016 new variable
+style#:#icons_gallery#:#Icons Gallery###25 10 2016 new variable
+style#:#cant_delete_style_with_substyles#:#Styles with sub styles cannot be deleted.###25 10 2016 new variable
+style#:#style_assignments_deleted#:#Style assignments of the following Sub Style have been deleted:###25 10 2016 new variable
+style#:#skin_id_exists#:#There exists already a skin with this ID.###25 10 2016 new variable
+style#:#usages#:#Usages:###25 10 2016 new variable
+exc#:#exc_individual_deadline#:#Individual Deadline###25 10 2016 new variable
+exc#:#exc_individual_deadline_action#:#Set Individual Deadline###25 10 2016 new variable
+exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.###25 10 2016 new variable
+exc#:#exc_tbl_submission_date#:#Submitted on###25 10 2016 new variable
+exc#:#exc_tbl_status#:#Grade###25 10 2016 new variable
+exc#:#exc_tbl_status_time#:#Graded on###25 10 2016 new variable
+exc#:#exc_tbl_mark#:#Mark###25 10 2016 new variable
+exc#:#exc_tbl_comment#:#Text Feedback###25 10 2016 new variable
+exc#:#exc_tbl_notice#:#Note for Tutors###25 10 2016 new variable
+exc#:#exc_tbl_feedback_time#:#Feedback on###25 10 2016 new variable
+exc#:#exc_tbl_sent_time#:#Assignment sent on###25 10 2016 new variable
+exc#:#exc_tbl_team#:#Team###25 10 2016 new variable
+exc#:#exc_tbl_individual_deadline#:#Individual Deadline###25 10 2016 new variable
+exc#:#exc_tbl_action_download_files#:#Download Submissions###25 10 2016 new variable
+exc#:#exc_tbl_action_download_all_files#:#Download All Submissions###25 10 2016 new variable
+exc#:#exc_tbl_action_download_new_files#:#Download New Submissions###25 10 2016 new variable
+exc#:#exc_tbl_action_text_assignment_show#:#Show Submission###25 10 2016 new variable
+exc#:#exc_tbl_action_feedback_text#:#Give Feedback As Text###25 10 2016 new variable
+exc#:#exc_tbl_action_feedback_mail#:#Give Feedback As Mail###25 10 2016 new variable
+exc#:#exc_tbl_action_feedback_file#:#Give Feedback As File###25 10 2016 new variable
+exc#:#exc_tbl_action_team_log#:#Show Team Log###25 10 2016 new variable
+exc#:#exc_tbl_action_peer_review_given#:#Show Given Peer Feedback###25 10 2016 new variable
+exc#:#exc_tbl_action_peer_review_received#:#Show Received Peer Feedback###25 10 2016 new variable
+exc#:#exc_feedback#:#Feedback###25 10 2016 new variable
+exc#:#exc_settings_feedback#:#Tutor Feedback###25 10 2016 new variable
+exc#:#exc_settings_feedback_text#:#Textinput###25 10 2016 new variable
+exc#:#exc_settings_feedback_mail#:#By Mail###25 10 2016 new variable
+exc#:#exc_settings_feedback_file#:#By File###25 10 2016 new variable
+mem#:#mem_print_view_form#:#Default Settings for Print View###25 10 2016 new variable
+mem#:#mem_settings_tab_print_view#:#Print View Settings###25 10 2016 new variable
+mem#:#mem_settings_tab_settings#:#General Settings###25 10 2016 new variable
+didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable
+didactic#:#effective_form#:#Template Effective From###25 10 2016 new variable
+didactic#:#more_translations#:#More Translations###25 10 2016 new variable
+didactic#:#didactic_template_update_import#:#Update Didactic Template###25 10 2016 new variable
+didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.###25 10 2016 new variable
+grp#:#grp_show_members_info#:#If activated, group members can access the members gallery.###25 10 2016 new variable
+grp#:#grp_show_members#:#Show Members###25 10 2016 new variable
+didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.###25 10 2016 new variable
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.###25 10 2016 new variable
+didactic#:#didactic_auto_generated#:#Automatic Generated###25 10 2016 new variable
+didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
+didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.###25 10 2016 new variable
+didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
+didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.###25 10 2016 new variable
+cont#:#cont_news_timeline#:#News Timeline###25 10 2016 new variable
+cont#:#cont_news_timeline_info#:#Activates News Timeline Tab###25 10 2016 new variable
+cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries###25 10 2016 new variable
+cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.###25 10 2016 new variable
+rbac#:#news_add_news#:#Add News###25 10 2016 new variable
+rbac#:#grp_news_add_news#:#Add and edit own news entries in group###25 10 2016 new variable
+news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.###25 10 2016 new variable
+obj#:#obj_tool_setting_use_news#:#News###25 10 2016 new variable
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.###25 10 2016 new variable
+obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings###25 10 2016 new variable
+cont#:#cont_news_settings#:#News Settings###25 10 2016 new variable
+cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
+cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
+cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
+cont#:#cont_news_edited#:#Bearbeitet###25 10 2016 new variable
+news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable
+rbac#:#crs_news_add_news#:#Add and edit own news entries in course###25 10 2016 new variable
+cont#:#cont_news_add_news#:#Add News###25 10 2016 new variable
+bgtask#:#bgtask_failure#:#Error###25 10 2016 new variable
+bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.###25 10 2016 new variable
+bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.###25 10 2016 new variable
+bgtask#:#bgtask_blocked#:#Concurrent download###25 10 2016 new variable
+bgtask#:#bgtask_blocked_info#:#There is already a download processed for you.###25 10 2016 new variable
+bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download ###25 10 2016 new variable
+bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download###25 10 2016 new variable
+bgtask#:#bgtask_processing#:#Creating download###25 10 2016 new variable
+bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.###25 10 2016 new variable
+bgtask#:#bgtask_setting#:#«Background download» enabled###25 10 2016 new variable
+bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.###25 10 2016 new variable
+bgtask#:#bgtask_setting_limit#:#Global Limit###25 10 2016 new variable
+bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.###25 10 2016 new variable
+bgtask#:#bgtask_setting_threshold_count#:#Minimum Number###25 10 2016 new variable
+bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.###25 10 2016 new variable
+bgtask#:#bgtask_setting_threshold_size#:#Minimum Size###25 10 2016 new variable
+bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.###25 10 2016 new variable
+bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection###25 10 2016 new variable
+bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.###25 10 2016 new variable
+style#:#enable_system_styles_management_no_write_perm#:#System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.###25 10 2016 new variable
+awrn#:#awrn_use_osd#:#Popup Online Users###25 10 2016 new variable
+awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.###25 10 2016 new variable
+exc#:#exc_tbl_filter_submission#:#Submission###25 10 2016 new variable
+exc#:#exc_tbl_filter_has_submission#:#Has submitted###25 10 2016 new variable
+exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet###25 10 2016 new variable
+mass#:#general#:#General Information###25 10 2016 new variable
+mass#:#mass_content#:#Assessment content description###25 10 2016 new variable
+mass#:#mass_record_template#:#Record template###25 10 2016 new variable
+mass#:#mass_graded_by#:#Graded by###25 10 2016 new variable
+mass#:#mass_usr_remove#:#Remove user from object###25 10 2016 new variable
+mass#:#mass_usr_edit#:#Edit user record and learning progress###25 10 2016 new variable
+mass#:#mass_usr_view#:#User record###25 10 2016 new variable
+mass#:#mass_edit_record#:#User record###25 10 2016 new variable
+mass#:#mass_record#:#Record note###25 10 2016 new variable
+mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)###25 10 2016 new variable
+mass#:#mass_status_completed#:#Completed###25 10 2016 new variable
+mass#:#mass_status_failed#:#Failed###25 10 2016 new variable
+mass#:#mass_status_pending#:#Status pending###25 10 2016 new variable
+mass#:#mass_notify#:#Notify user after finalization###25 10 2016 new variable
+mass#:#mass_finalize#:#Finalize###25 10 2016 new variable
+mass#:#il_mass_member#:#Individual Assessment examinee###25 10 2016 new variable
+mass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+mass#:#mass_edit_members#:#Edit examinees###25 10 2016 new variable
+mass#:#mass_visible#:#Visible###25 10 2016 new variable
+mass#:#mass_read#:#Read###25 10 2016 new variable
+mass#:#mass_copy#:#Copy###25 10 2016 new variable
+mass#:#mass_write#:#Edit Settings###25 10 2016 new variable
+mass#:#mass_delete#:#Delete###25 10 2016 new variable
+mass#:#mass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+mass#:#mass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+mass#:#mass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
+mass#:#mass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
+mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
+mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
+trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:#obj_mass#:#Individual Assessment###25 10 2016 new variable
+common#:#objs_mass#:#Individual Assessments###25 10 2016 new variable
+common#:#obj_mass_duplicate#:#Copy Manual Assessment###25 10 2016 new variable
+common#:#obj_mass_select#:#-- Please select one manual assessment --###25 10 2016 new variable
+trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.###25 10 2016 new variable
+common#:#il_mass_member#:#Manual Assessment Examinee###25 10 2016 new variable
+common#:#mass_new#:#Create Manual Assessment###25 10 2016 new variable
+common#:#mass_import#:#Import Manual Assessment###25 10 2016 new variable
+rbac#:#mass_visible#:#Manual Assessment is visible###25 10 2016 new variable
+rbac#:#mass_read#:#Read content of a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_copy#:#Copy a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_write#:#Edit a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_delete#:#Delete a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_edit_members#:#Edit members of a Manual Assessment###25 10 2016 new variable
+rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment###25 10 2016 new variable
+mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
+mass#:#mass_edit#:#Settings###25 10 2016 new variable
+mass#:#mass_add#:#Create Individual Assessment###25 10 2016 new variable
+mass#:#mass_membership_finalized#:#Record finalised###25 10 2016 new variable
+mass#:#mass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
+mass#:#mass_return#:#Back to overview###25 10 2016 new variable
+mass#:#mass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
+mass#:#mass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
+mass#:#mass_settings_saved#:#Settings saved.###25 10 2016 new variable
+mass#:#mass_add_user_failure#:#One or more user could not be added.###25 10 2016 new variable
+mass#:#mass_add_user_success#:#User added as examinee.###25 10 2016 new variable
+mass#:#grading#:#Grading###25 10 2016 new variable
+mass#:#grading_info#:#Grading info###25 10 2016 new variable
+mass#:#grading_record#:#Grading record###25 10 2016 new variable
+mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.###25 10 2016 new variable
+mass#:#mass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.###25 10 2016 new variable
+mass#:#mass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.###25 10 2016 new variable
+mass#:#mass_contact#:#Name###25 10 2016 new variable
+mass#:#mass_responsibility#:#Responsibility###25 10 2016 new variable
+mass#:#mass_phone#:#Phone###25 10 2016 new variable
+mass#:#mass_mails#:#Mails###25 10 2016 new variable
+mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.###25 10 2016 new variable
+mass#:#mass_consultation_hours#:#Consultation Hours###25 10 2016 new variable
+mass#:#mass_edit_info#:#Info Settings###25 10 2016 new variable
+mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:###25 10 2016 new variable
+mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:###25 10 2016 new variable
+mass#:#mass_contact_info#:#Contact information###25 10 2016 new variable
+mass#:#mass_added#:#Individual Assessment added###25 10 2016 new variable
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###25 10 2016 new variable
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.###25 10 2016 new variable
+chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).###25 10 2016 new variable
+chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).###25 10 2016 new variable
+chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).###25 10 2016 new variable
+chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory. ###25 10 2016 new variable
+chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.###25 10 2016 new variable
+chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat###25 10 2016 new variable
+chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.###25 10 2016 new variable
+chatroom#:#chat_osc_start_conversation#:#Start Conversation###25 10 2016 new variable
+chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations###25 10 2016 new variable
+chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.###25 10 2016 new variable
+chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages###25 10 2016 new variable
+chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages###25 10 2016 new variable
+chatroom#:#chat_osc_conversations#:#Conversations###25 10 2016 new variable
+chatroom#:#chat_osc_send#:#Send###25 10 2016 new variable
+chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation###25 10 2016 new variable
+chatroom#:#chat_osc_add_user#:#Add Further Users###25 10 2016 new variable
+chatroom#:#chat_osc_user#:#User###25 10 2016 new variable
+chatroom#:#chat_osc_write_a_msg#:#Write a Message ...###25 10 2016 new variable
+chatroom#:#chat_osc_emoticons#:#Emoticons###25 10 2016 new variable
+chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.###25 10 2016 new variable
+chatroom#:#chat_osc_section_head_other_rooms#:#Public Chatroom###25 10 2016 new variable
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?###25 10 2016 new variable
+chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation###25 10 2016 new variable
+chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.###25 10 2016 new variable
+chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.###25 10 2016 new variable
+chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible###25 10 2016 new variable
+usr#:#user_actions#:#User Actions###25 10 2016 new variable
+usr#:#user_action#:#User Action###25 10 2016 new variable
+buddysystem#:#buddy_handle_contact_request#:#Contact Request###25 10 2016 new variable
+usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).###25 10 2016 new variable
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom###25 10 2016 new variable
+chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat###25 10 2016 new variable
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###25 10 2016 new variable
+chatroom#:#chat_osc_no_conv#:#No conversations.###25 10 2016 new variable
+chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory###25 10 2016 new variable
+chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.###25 10 2016 new variable
+prg#:#prg_points_reachable#:#Points Obtainable###25 10 2016 new variable
+mail#:#mail_members_search_continue#:#Continue###25 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###25 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable

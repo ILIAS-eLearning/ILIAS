@@ -356,19 +356,143 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
 
 	/**
+	 * Reset skill level status. This is currently only used for self evaluations with a "no competence" level.
+	 * It has to be discussed, how this should be provided for non-self-evaluations.
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_skill_id skill id
+	 * @param int $a_tref_id skill tref id
+	 * @param int $a_trigger_ref_id triggering repository object ref id
+	 * @param bool $a_self_eval currently needs to be set to true
+	 *
+	 * @throws ilSkillException
+	 */
+	static function resetUserSkillLevelStatus($a_user_id, $a_skill_id, $a_tref_id = 0, $a_trigger_ref_id = 0, $a_self_eval = false)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if (!$a_self_eval)
+		{
+			include_once("./Services/Skill/exceptions/class.ilSkillException.php");
+			throw new ilSkillException("resetUserSkillLevelStatus currently only provided for self evaluations.");
+		}
+
+		$trigger_obj_id = ($a_trigger_ref_id > 0)
+			? ilObject::_lookupObjId($a_trigger_ref_id)
+			: 0;
+
+		$update = false;
+		$status_date = self::hasRecentSelfEvaluation($a_user_id, $a_skill_id, $a_tref_id, $a_trigger_ref_id);
+		if ($status_date != "")
+		{
+			$update = true;
+		}
+
+		if ($update)
+		{
+			// this will only be set in self eval case, means this will always have a $rec
+			$now = ilUtil::now();
+			$db->manipulate("UPDATE skl_user_skill_level SET ".
+				" level_id = ".$db->quote(0, "integer").",".
+				" status_date = ".$db->quote($now, "timestamp").
+				" WHERE user_id = ".$db->quote($a_user_id, "integer").
+				" AND status_date = ".$db->quote($status_date, "timestamp").
+				" AND skill_id = ".$db->quote($a_skill_id, "integer").
+				" AND status = ".$db->quote(self::ACHIEVED, "integer").
+				" AND trigger_obj_id = ".$db->quote($trigger_obj_id, "integer").
+				" AND tref_id = ".$db->quote((int) $a_tref_id, "integer").
+				" AND self_eval = ".$db->quote($a_self_eval, "integer")
+			);
+		}
+		else
+		{
+			$now = ilUtil::now();
+			$db->manipulate("INSERT INTO skl_user_skill_level ".
+				"(level_id, user_id, tref_id, status_date, skill_id, status, valid, trigger_ref_id,".
+				"trigger_obj_id, trigger_obj_type, trigger_title, self_eval, unique_identifier) VALUES (".
+				$db->quote(0, "integer").",".
+				$db->quote($a_user_id, "integer").",".
+				$db->quote((int) $a_tref_id, "integer").",".
+				$db->quote($now, "timestamp").",".
+				$db->quote($a_skill_id, "integer").",".
+				$db->quote(self::ACHIEVED, "integer").",".
+				$db->quote(1, "integer").",".
+				$db->quote($a_trigger_ref_id, "integer").",".
+				$db->quote($trigger_obj_id, "integer").",".
+				$db->quote("", "text").",".
+				$db->quote("", "text").",".
+				$db->quote($a_self_eval, "integer").",".
+				$db->quote("", "text").
+				")");
+		}
+
+		$db->manipulate("DELETE FROM skl_user_has_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+			." AND skill_id = ".$db->quote($a_skill_id, "integer")
+			." AND tref_id = ".$db->quote((int) $a_tref_id, "integer")
+			." AND trigger_obj_id = ".$db->quote($trigger_obj_id, "integer")
+			." AND self_eval = ".$db->quote($a_self_eval, "integer")
+		);
+
+	}
+
+	/**
+	 * Has recent self evaluation. Check if self evaluation for user/object has been done on the same day
+	 * already
+	 *
+	 * @param
+	 * @return
+	 */
+	protected static function hasRecentSelfEvaluation($a_user_id, $a_skill_id, $a_tref_id = 0, $a_trigger_ref_id = 0)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$trigger_obj_id = ($a_trigger_ref_id > 0)
+			? ilObject::_lookupObjId($a_trigger_ref_id)
+			: 0;
+
+		$recent = "";
+
+		$db->setLimit(1);
+		$set = $db->query("SELECT * FROM skl_user_skill_level WHERE ".
+			"skill_id = ".$db->quote($a_skill_id, "integer")." AND ".
+			"user_id = ".$db->quote($a_user_id, "integer")." AND ".
+			"tref_id = ".$db->quote((int) $a_tref_id, "integer")." AND ".
+			"trigger_obj_id = ".$db->quote($trigger_obj_id, "integer")." AND ".
+			"self_eval = ".$db->quote(1, "integer").
+			" ORDER BY status_date DESC"
+		);
+		$rec = $db->fetchAssoc($set);
+		$status_day = substr($rec["status_date"], 0, 10);
+		$today = substr(ilUtil::now(), 0, 10);
+		if ($rec["valid"] && $rec["status"] == ilBasicSkill::ACHIEVED && $status_day == $today)
+		{
+			$recent = $rec["status_date"];
+		}
+
+		return $recent;
+	}
+	
+
+	/**
 	 * Write skill level status
 	 *
-	 * @param	int		skill level id
-	 * @param	int		user id
-	 * @param	int		status
-	 * @param	string	any unique identifier set from the outside, if records for
-	 *                  skill_id-tref_id-user_id-trigger_ref_id-self_eval-unique_identifier already exist
-	 *                  the are removed from the history and the new entry is added
-	 * 					The unique identifier is "unique per trigger object" not globally.
+	 * @param int $a_level_id skill level id
+	 * @param int $a_user_id user id
+	 * @param int $a_trigger_ref_id trigger repository object ref id
+	 * @param int $a_tref_id skill tref id
+	 * @param int $a_status DEPRECATED, always use ilBasicSkill::ACHIEVED
+	 * @param bool $a_force DEPRECATED
+	 * @param bool $a_self_eval self evaluation
+	 * @param string $a_unique_identifier a  unique identifier (should be used with trigger_ref_id > 0)
 	 */
 	static function writeUserSkillLevelStatus($a_level_id, $a_user_id,
 		$a_trigger_ref_id, $a_tref_id = 0, $a_status = ilBasicSkill::ACHIEVED, $a_force = false,
-		$a_self_eval = 0, $a_unique_identifier = "")
+		$a_self_eval = false, $a_unique_identifier = "")
 	{
 		global $ilDB;
 
@@ -380,38 +504,11 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
 		$update = false;
 
-			// check whether current skill user level is identical
-			// to the one that should be set (-> no change required)
-/*			$ilDB->setLimit(1);
-			$set = $ilDB->query("SELECT status, valid FROM skl_user_skill_level WHERE ".
-				"level_id = ".$ilDB->quote($a_level_id, "integer")." AND ".
-				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
-				"tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")." AND ".
-				"trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")." AND ".
-				"self_eval = ".$ilDB->quote($a_self_eval, "integer").
-				" ORDER BY status_date DESC"
-			);
-			$rec = $ilDB->fetchAssoc($set);
-			if (!$rec["valid"] || $rec["status"] != $a_status)
-			{
-				$save = true;
-			}*/
-
-		if ($a_self_eval)
+		// self evaluations will update, if the last self evaluation is on the same day
+		if ($a_self_eval && self::hasRecentSelfEvaluation($a_user_id, $skill_id, $a_tref_id, $trigger_ref_id))
 		{
-			$ilDB->setLimit(1);
-			$set = $ilDB->query("SELECT * FROM skl_user_skill_level WHERE ".
-				"skill_id = ".$ilDB->quote($skill_id, "integer")." AND ".
-				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
-				"tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")." AND ".
-				"trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")." AND ".
-				"self_eval = ".$ilDB->quote($a_self_eval, "integer").
-				" ORDER BY status_date DESC"
-			);
-			$rec = $ilDB->fetchAssoc($set);
-			$status_day = substr($rec["status_date"], 0, 10);
-			$today = substr(ilUtil::now(), 0, 10);
-			if ($rec["valid"] && $rec["status"] == $a_status && $status_day == $today)
+			$status_date = self::hasRecentSelfEvaluation($a_user_id, $skill_id, $a_tref_id, $trigger_ref_id);
+			if ($status_date != "")
 			{
 				$update = true;
 			}
@@ -419,13 +516,14 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
 		if ($update)
 		{
+			// this will only be set in self eval case, means this will always have a $rec
 			$now = ilUtil::now();
 			$ilDB->manipulate("UPDATE skl_user_skill_level SET ".
 				" level_id = ".$ilDB->quote($a_level_id, "integer").",".
 				" status_date = ".$ilDB->quote($now, "timestamp").
 				" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-				" AND status_date = ".$ilDB->quote($rec["status_date"], "timestamp").
-				" AND skill_id = ".$ilDB->quote($rec["skill_id"], "integer").
+				" AND status_date = ".$ilDB->quote($status_date, "timestamp").
+				" AND skill_id = ".$ilDB->quote($skill_id, "integer").
 				" AND status = ".$ilDB->quote($a_status, "integer").
 				" AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer").
 				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").

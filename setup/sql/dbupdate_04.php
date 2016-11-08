@@ -2094,7 +2094,7 @@ if($wiki_type_id)
 		array(
 			"type" => "text",
 			"length" => 100,
-			"notnull" => false,
+			"notnull" => true,
 			'fixed' => false
 		)
 	);
@@ -2107,7 +2107,7 @@ if($wiki_type_id)
 		array(
 			"type" => "text",
 			"length" => 100,
-			"notnull" => false,
+			"notnull" => true,
 			'fixed' => false
 		)
 	);
@@ -6013,7 +6013,19 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 					SELECT login FROM usr_data GROUP BY login HAVING COUNT(*) > 1
 				) tmp ON tmp.login = ud.login
 
-				Please manipulate the affected records by choosing different login names.
+				Please manipulate the affected records by choosing different login names or use the following statement
+				to change the duplicate login name to unique name like [usr_id]_[login]_duplicate. The further changes on
+				user data (e.g. deletion of duplicates) could then be easily done in ILIAS administration.
+
+				UPDATE usr_data ud
+				INNER JOIN (
+					SELECT udinner.login, udinner.usr_id
+					FROM usr_data udinner
+					GROUP BY udinner.login
+					HAVING COUNT(udinner.login) > 1
+				) dup ON ud.login = dup.login
+				SET ud.login = CONCAT(CONCAT(CONCAT(ud.usr_id, '_'), CONCAT(ud.login, '_')), 'duplicate')
+
 				If you try to rerun the update process, this warning will apear again if the issue is still not solved.
 
 				Best regards,
@@ -15473,8 +15485,8 @@ $table_query = $ilDB->query('SELECT id, ref_id FROM il_dcl_table
 
 $mapping = array();
 while ($rec = $ilDB->fetchAssoc($table_query)) {
-	$sql = $ilDB->query('SELECT * FROM il_dcl_tableview WHERE table_id = ' . $ilDB->quote($rec['id']));
-	if ($ilDB->numRows($sql)) {
+	$temp_sql = $ilDB->query('SELECT * FROM il_dcl_tableview WHERE table_id = ' . $ilDB->quote($rec['id']));
+	if ($ilDB->numRows($temp_sql)) {
 		continue;
 	}
 	$query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote($rec['ref_id'], 'integer') . " AND assign='y'");
@@ -15536,11 +15548,11 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 
 	//set editability/exportability
 	while ($rec = $ilDB->fetchAssoc($view_query)) {
-		$sql = $ilDB->query('SELECT * FROM il_dcl_tfield_set 
+		$temp_sql = $ilDB->query('SELECT * FROM il_dcl_tfield_set 
 								WHERE table_id = ' . $ilDB->quote($rec['table_id'], 'integer') . '
 								AND field = ' . $ilDB->quote($rec['field'], 'text'));
 
-		if (!$ilDB->numRows($sql)) {
+		if (!$ilDB->numRows($temp_sql)) {
 			$next_id = $ilDB->nextId('il_dcl_tfield_set');
 			$ilDB->query('INSERT INTO il_dcl_tfield_set (id, table_id, field, field_order, exportable) VALUES ('
 				. $ilDB->quote($next_id, 'integer') . ', '
@@ -15564,11 +15576,11 @@ if ($ilDB->tableExists('il_dcl_view') && $ilDB->tableExists('il_dcl_viewdefiniti
 			continue;
 		}
 
-		$sql = $ilDB->query('SELECT * FROM page_object 
+		$temp_sql = $ilDB->query('SELECT * FROM page_object 
 						WHERE page_id = ' . $ilDB->quote($mapping[$rec['table_id']], 'integer') . ' 
 						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
 
-		if ($ilDB->numRows($sql)) {
+		if ($ilDB->numRows($temp_sql)) {
 			$ilDB->query('DELETE FROM page_object 
 						WHERE page_id = ' . $ilDB->quote($rec['id'], 'integer') . ' 
 						AND parent_type = ' . $ilDB->quote('dclf', 'text'));
@@ -17844,6 +17856,20 @@ else
 }
 ?>
 <#5049>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5050>
+<?php
+	require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+	ilDBUpdateNewObjectType::updateOperationOrder("edit_members", 2400);
+?>
+<#5051>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5052>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>

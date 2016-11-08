@@ -15,10 +15,10 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Maximilian Becker <mbecker@databay.de>
- *
  * @version	$Id$
  *          
  * @ingroup ModulesTestQuestionPool
+ * @ilCtrl_Calls assMultipleChoiceGUI: ilFormPropertyDispatchGUI
  */
 class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -92,6 +92,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
 		if ($save)
 		{
+			$form->getItemByPostVar('selection_limit')->setMaxValue(count((array)$_POST['choice']['answer']));
+
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes

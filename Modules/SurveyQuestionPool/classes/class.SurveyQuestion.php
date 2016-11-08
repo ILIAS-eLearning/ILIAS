@@ -811,7 +811,7 @@ class SurveyQuestion
 				"tstamp" => array("integer", time())
 			));
 
-			$this->log->debug("INSERT: svy_question id=".$next_id." questiontype_fi=".$this->getQuestionTypeID()." obj_fi".$this->getObjId()." title=".$this->getTitle()." ...");
+			//$this->log->debug("INSERT: svy_question id=".$next_id." questiontype_fi=".$this->getQuestionTypeID()." obj_fi".$this->getObjId()." title=".$this->getTitle()." ...");
 
 			$this->setId($next_id);
 		} 

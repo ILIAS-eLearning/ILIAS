@@ -862,8 +862,13 @@ class ilTemplate extends HTML_Template_ITX
 		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting, $lng;
 		
 		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
-		
-		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+
+		$php = "";
+		if (DEVMODE)
+		{
+			$php = ", PHP ".phpversion();
+		}
+		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version").$php);
 		
 		$link_items = array();
 		

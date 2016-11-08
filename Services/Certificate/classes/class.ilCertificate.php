@@ -95,6 +95,15 @@ class ilCertificate
 
 		$this->adapter = $adapter;
 	}
+
+	/**
+	 * @param string $a_number
+	 * @return float
+	 */
+	public function formatNumberString($a_number)
+	{
+		return str_replace(',', '.', $a_number);
+	}
 	
 	/**
 	* Returns the filesystem path of the background image

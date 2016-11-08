@@ -126,7 +126,7 @@ class ilDclBaseRecordRepresentation {
 
 	/**
 	 * Getter shortcut for record
-	 * @return ilDclBaseFieldModel
+	 * @return ilDclBaseRecordModel
 	 */
 	public function getRecord() {
 		return $this->record_field->getRecord();

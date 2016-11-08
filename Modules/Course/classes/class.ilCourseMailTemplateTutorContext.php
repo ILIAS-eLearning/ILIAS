@@ -132,6 +132,9 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		$tracking = new ilObjUserTracking();
 		
+		$this->getLanguage()->loadLanguageModule('trac');
+		$this->getLanguage()->loadLanguageModule('crs');
+		
 		switch($placeholder_id)
 		{
 			case 'crs_title':

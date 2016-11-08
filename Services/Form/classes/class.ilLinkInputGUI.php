@@ -337,7 +337,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
 			$link = array(get_class($this->getParent()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
 			$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
-			$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+			$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
 								
 			$no_disp_class = (strpos($this->getValue(), "|"))
 				? ""

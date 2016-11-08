@@ -44,7 +44,6 @@ class ilManualAssessmentMemberGUI {
 		if(!$read_permission && !$edit_permission) {
 			$a_parent_gui->handleAccessViolation();
 		}
-		$this->maybeShowWarningLPInactive();
 		$cmd = $this->ctrl->getCmd();
 		switch($cmd) {
 			case 'edit':
@@ -66,12 +65,6 @@ class ilManualAssessmentMemberGUI {
 				$a_parent_gui->handleAccessViolation();
 		}
 		$this->$cmd();
-	}
-
-	protected function maybeShowWarningLPInactive() {
-		if(!$this->object->isActiveLP()) {
-			ilUtil::sendInfo($this->lng->txt('lp_inactive'));
-		}
 	}
 
 	protected function setTabs(ilTabsGUI $tabs) {
@@ -205,6 +198,7 @@ class ilManualAssessmentMemberGUI {
 		$form->addItem($usr_name);
 		// record
 		$ti = new ilTextAreaInputGUI($this->lng->txt('mass_record'), 'record');
+		$ti->setInfo($this->lng->txt('mass_record_info'));
 		$ti->setCols(40);
 		$ti->setRows(5);
 		$ti->setDisabled(!$may_be_edited);
@@ -212,6 +206,7 @@ class ilManualAssessmentMemberGUI {
 
 		// description
 		$ta = new ilTextAreaInputGUI($this->lng->txt('mass_internal_note'), 'internal_note');
+		$ta->setInfo($this->lng->txt('mass_internal_note_info'));
 		$ta->setCols(40);
 		$ta->setRows(5);
 		$ta->setDisabled(!$may_be_edited);
