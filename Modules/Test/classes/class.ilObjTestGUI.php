@@ -5035,7 +5035,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$orders = $obligations = array();
 		
-		foreach($_REQUEST['order'] as $qId => $order)
+		foreach((array)$_REQUEST['order'] as $qId => $order)
 		{
 			$id = (int)str_replace('q_', '', $qId);
 
