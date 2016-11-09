@@ -69,9 +69,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		
 		$this->poolOBJ = $newObj;
 		
-		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
-		
 		$newObj->fromXML($xml_file);
 
 		// set another question pool name (if possible)
