@@ -162,9 +162,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			// obligatory icon
 			if( $data["obligatory"] )
 			{
-				$OBLIGATORY = "<img src=\"".ilUtil::getImagePath("obligatory.gif", "Modules/Test").
-					"\" alt=\"".$this->lng->txt("question_obligatory").
-					"\" title=\"".$this->lng->txt("question_obligatory")."\" />";
+				require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+				$OBLIGATORY = ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
 			}
 			else $OBLIGATORY = '';
 			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
