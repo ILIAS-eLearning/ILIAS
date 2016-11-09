@@ -73,7 +73,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("tst_qst_order"),'order', '');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		
-		if( false && $this->isShowObligationsEnabled() )
+		if( $this->isShowObligationsEnabled() )
 		{
 			$this->addColumn($this->lng->txt("obligatory"), 'obligatory', '');
 		}
@@ -147,18 +147,21 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('marker');
 			}
 		}
-		if( false && $this->isShowObligationsEnabled() )
+		if( $this->isShowObligationsEnabled() )
 		{
 			// obligatory answer status
-			$value = '&nbsp;';
-			if( $data['isAnswered'] )
+			if(false)
 			{
-				$value = $this->lng->txt("yes");
+				$value = '&nbsp;';
+				if($data['isAnswered'])
+				{
+					$value = $this->lng->txt("yes");
+				}
+				$this->tpl->setCurrentBlock('answered_col');
+				$this->tpl->setVariable('ANSWERED', $value);
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock('answered_col');
-			$this->tpl->setVariable('ANSWERED', $value);
-			$this->tpl->parseCurrentBlock();
-			
+
 			// obligatory icon
 			if( $data["obligatory"] )
 			{
