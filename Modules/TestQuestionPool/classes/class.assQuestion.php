@@ -1292,31 +1292,30 @@ abstract class assQuestion
 			if( $obligationsEnabled )
 			{
 				$query = '
-					SELECT		count(*) cnt,
-								min( answered ) answ
+					SELECT		answered answ
 					FROM		tst_test_question
-					INNER JOIN	tst_active
-					ON			active_id = %s
-					AND			tst_test_question.test_fi = tst_active.test_fi
+					  INNER JOIN	tst_active
+						ON			active_id = %s
+						AND			tst_test_question.test_fi = tst_active.test_fi
 					LEFT JOIN	tst_test_result
-					ON			tst_test_result.active_fi = %s
-					AND			tst_test_result.pass = %s
-					AND			tst_test_question.question_fi = tst_test_result.question_fi
+						ON			tst_test_result.active_fi = %s
+						AND			tst_test_result.pass = %s
+						AND			tst_test_question.question_fi = tst_test_result.question_fi
 					WHERE		obligatory = 1';
 
 				$result_obligatory = $ilDB->queryF(
 					$query, array('integer','integer','integer'), array($active_id, $active_id, $pass)
 				);
 
-				$row_obligatory = $ilDB->fetchAssoc($result_obligatory);
+				$obligations_answered = 1;
 
-				if ($row_obligatory['cnt'] == 0)
+				while($row_obligatory = $ilDB->fetchAssoc($result_obligatory))
 				{
-					$obligations_answered = 1;
-				}
-				else
-				{
-					$obligations_answered = (int) $row_obligatory['answ'];
+					if(!(int)$row_obligatory['answ'])
+					{
+						$obligations_answered = 0;
+						break;
+					}
 				}
 			}
 			else
