@@ -2402,6 +2402,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			if ($this->object->isMembershipLimited()) 
 			{
+				include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
+				$reg_info = ilObjGroupAccess::lookupRegistrationInfo($this->object->getId());
+				
+				$info->addProperty(
+					$this->lng->txt('mem_free_places'),
+					$reg_info['reg_info_free_places']
+				);
+				
+				
 				$info->addProperty($this->lng->txt("mem_free_places"),
 								   max(0,$this->object->getMaxMembers() - $this->object->members_obj->getCountMembers()));
 				

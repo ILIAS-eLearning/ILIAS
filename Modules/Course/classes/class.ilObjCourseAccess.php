@@ -457,19 +457,26 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		
 		if($info['reg_info_mem_limit'] && $registration_possible)
 		{
-			// Check if users are on waiting list
-			// @todo
-			
-			
 			// Check for free places
+			include_once './Modules/Course/classes/class.ilCourseParticipant.php';
 			$part = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $ilUser->getId());
-			if($part->getNumberOfMembers() <= $info['reg_info_max_members'])
+
+			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+			$info['reg_info_list_size'] = ilCourseWaitingList::lookupListSize($a_obj_id);
+			$GLOBALS['ilLog']->write(__METHOD__.' list_size: ' . $info['reg_info_list_size']);
+			if($info['reg_info_list_size'])
+			{
+				$info['reg_info_free_places'] = 0;
+			}
+			else
+			{
+				$info['reg_info_free_places'] = max(0,$info['reg_info_max_members'] - $part->getNumberOfMembers());
+			}
+			
+			if($info['reg_info_free_places'])
 			{
 				$info['reg_info_list_prop_limit']['property'] = $lng->txt('crs_list_reg_limit_places');
-				$info['reg_info_list_prop_limit']['value'] = max(
-						0,
-						$info['reg_info_max_members'] - $part->getNumberOfMembers()
-					);
+				$info['reg_info_list_prop_limit']['value'] = $info['reg_info_free_places'];
 			}
 			else
 			{

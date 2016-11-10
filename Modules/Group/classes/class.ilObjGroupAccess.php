@@ -316,20 +316,25 @@ class ilObjGroupAccess extends ilObjectAccess
 		
 		if($info['reg_info_mem_limit'] && $registration_possible)
 		{
-			// Check if users are on waiting list
-			// @todo
-			
-			
 			// Check for free places
 			include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 			$part = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
-			if($part->getCountMembers() <= $info['reg_info_max_members'])
+
+			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+			$info['reg_info_list_size'] = ilCourseWaitingList::lookupListSize($a_obj_id);
+			if($info['reg_info_list_size'])
+			{
+				$info['reg_info_free_places'] = 0;
+			}
+			else
+			{
+				$info['reg_info_free_places'] = max(0,$info['reg_info_max_members'] - $part->getCountMembers());
+			}
+
+			if($info['reg_info_free_places'])
 			{
 				$info['reg_info_list_prop_limit']['property'] = $lng->txt('grp_list_reg_limit_places');
-				$info['reg_info_list_prop_limit']['value'] = max(
-						0,
-						$info['reg_info_max_members'] - $part->getCountMembers()
-					);
+				$info['reg_info_list_prop_limit']['value'] = $info['reg_info_free_places'];
 			}
 			else
 			{

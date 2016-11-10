@@ -472,12 +472,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			if ($this->object->isSubscriptionMembershipLimited()) 
 			{
-				include_once './Services/Membership/classes/class.ilParticipants.php';
+				include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
+				$reg_info = ilObjCourseAccess::lookupRegistrationInfo($this->object->getId());
+				
 				$info->addProperty(
-					$this->lng->txt("mem_free_places"),
-					max(
-						0,
-						$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
+					$this->lng->txt('mem_free_places'),
+					$reg_info['reg_info_free_places']
 				);
 			}
 		}
