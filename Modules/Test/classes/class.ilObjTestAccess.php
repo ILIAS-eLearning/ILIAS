@@ -817,4 +817,25 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
 		return $testOBJ->canShowTestResults($testSession);
 	}
+	
+	public static function hasVisibleCertificate($testObjId, $userId)
+	{
+		$testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
+		
+		if( !($testOBJ instanceof ilObjTest) || !$userId )
+		{
+			return false;
+		}
+		
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$testSessionFactory = new ilTestSessionFactory($testOBJ);
+		$testSession = $testSessionFactory->getSessionByUserId($userId);
+		
+		if( !$testSession->getActiveId() )
+		{
+			return false;
+		}
+		
+		return $testOBJ->canShowCertificate($testSession, $testSession->getUserId(), $testSession->getActiveId());
+	}
 }
