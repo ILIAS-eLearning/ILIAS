@@ -818,6 +818,13 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		return $testOBJ->canShowTestResults($testSession);
 	}
 	
+	/**
+	 * @ideaof Andre Michels <amichels@databay.de>
+	 * 
+	 * @param $testObjId
+	 * @param $userId
+	 * @return bool
+	 */
 	public static function hasVisibleCertificate($testObjId, $userId)
 	{
 		$testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
