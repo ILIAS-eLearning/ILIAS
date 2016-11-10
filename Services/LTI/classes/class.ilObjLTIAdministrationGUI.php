@@ -39,7 +39,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			default:
 				if (!$cmd || $cmd == 'view')
 				{
-					$cmd = "showSettingsForm";
+					$cmd = "initSettingsForm";
 				}
 				$this->$cmd();
 				break;
@@ -70,7 +70,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		{
 			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "showSettingsForm"));
+				$this->ctrl->getLinkTarget($this, "initSettingsForm"));
 
 			$this->tabs_gui->addTab("consumers",
 				$this->lng->txt("consumers"),
@@ -86,15 +86,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	}
 
-	public function showSettingsForm(ilPropertyFormGUI $form = null)
+	public function initSettingsForm(ilPropertyFormGUI $form = null)
 	{
-		//$this->checkPermission('read');
-
 		if(!($form instanceof ilPropertyFormGUI))
 		{
 			$form = $this->getSettingsForm();
 		}
-
 		$this->tabs_gui->activateTab("settings");
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -105,6 +102,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'saveSettingsForm'));
+		$form->setTitle($this->lng->txt("lti_settings"));
 
 		// object types
 		$cb_obj_types = new ilCheckboxGroupInputGUI($this->lng->txt("act_lti_for_obj_type"), 'types');
@@ -118,11 +116,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$form->addItem($cb_obj_types);
 
 		// test roles
-		// TODO get roles from db, but which roles?
-		$roles = array(
-			'1' => 'users',
-			'2' => 'groups'
-		);
+		$roles = $this->object->getLTIRoles();
 		foreach($roles as $role_id => $role_name)
 		{
 			$options[$role_id] = $role_name;
@@ -139,17 +133,51 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	}
 
+	protected function saveSettingsForm()
+	{
+		global $ilCtrl;
+
+		$this->checkPermission("write");
+
+		$form = $this->getSettingsForm();
+		if($form->checkInput())
+		{
+			$obj_types = $form->getInput('types');
+
+			$role = $form->getInput('roles');
+
+			$this->object->saveData($obj_types, $role);
+
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
+		}
+
+		$form->setValuesByPost();
+		$this->initSettingsForm($form);
+	}
+
 	protected function listConsumers()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilToolbar;
 
-		$this->assertActive();
-		$this->tabs_gui->setTabActive("types");
+		$this->ctrl->setParameter($this,'new_consumer','consumer');
+		$ilToolbar->addButton(
+			$this->lng->txt('consf_create_consumer'),
+			$this->ctrl->getLinkTarget($this,'create')
+		);
 
+		$this->tabs_gui->setTabActive("consumers");
+
+		include_once "Services/LTI/classes/Consumer/class.ilConsumerTableGUI.php";
+		$tbl = new ilObjectConsumerTableGUI($this, "listConsumers",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$this->tpl->setContent($tbl->getHTML());
+
+		/*
 		include_once "Services/Badge/classes/class.ilBadgeTypesTableGUI.php";
 		$tbl = new ilBadgeTypesTableGUI($this, "listTypes",
 			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
 		$this->tpl->setContent($tbl->getHTML());
+		*/
 	}
 
 }

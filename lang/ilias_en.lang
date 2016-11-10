@@ -16363,3 +16363,9 @@ common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 common#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
 common#:#consumers#:#Consumers
+common#:#prefix#:#Prefix
+common#:#consumer_key#:#Consumer Key
+common#:#user_lng#:#User Languague
+common#:#consf_create_consumer#:#Create Consumer
+common#:#lti_object_consumer#:#LTI Consumers
+common#:#lti_settings#:#LTI Settings

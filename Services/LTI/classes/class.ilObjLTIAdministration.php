@@ -19,32 +19,76 @@ class ilObjLTIAdministration extends ilObject
 
 	public function getLTIObjectTypes()
 	{
-		//Values I've found in the table object_data
+		// TODO We need to call getLTIObjectTypesIds and then get the names of this object types
 		$validLTIObjectTypes = array(
 			'crs' => 'course',
 			'sahs' => 'scorm',
 			'svy' => "survey",
 			'tst' => "test"
 		);
-		//check if this elements of the $validLTIObjectTypes are repository objects
+
 		/*
 		$obj_def = new ilObjectDefinition();
 		$repository_objects = $obj_def->getCreatableSubObjects("root");
-		$rep_obj_filtered = array();
-		foreach ($repository_objects as $key => $value)
-		{
-			array_push($rep_obj_filtered,$key);
-		}
 		var_dump($repository_objects);
-		print_r("<br><br>");
-		var_dump($rep_obj_filtered);
 		exit();
 		*/
-		//$obj_def->isAllowedInRepository()
+
 		return $validLTIObjectTypes;
 
 	}
 
+	public function getLTIObjectTypesIds()
+	{
+		return array('crs', 'sahs', 'svy', 'tst');
+	}
 
+	public function getLTIRoles()
+	{
+		global $rbacreview;
 
+		require_once ("Services/AccessControl/classes/class.ilObjRole.php");
+
+		$global_roles =  $rbacreview->getGlobalRoles();
+
+		$filtered_roles = array_diff($global_roles, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID));
+
+		$roles = array();
+		foreach ($filtered_roles as $role)
+		{
+			$obj_role = new ilObjRole($role);
+			$roles[$role] = $obj_role->getTitle();
+		}
+
+		return $roles;
+	}
+
+	/**
+	 * @param array $obj_types
+	 * @param int $role
+	 */
+	public function saveData(array $a_obj_types, $a_role = 0)
+	{
+		global $ilDB;
+
+		$ilDB->query("DELETE FROM lti_lti");
+
+		$lti_obj_types = $this->getLTIObjectTypesIds();
+
+		$obj_actives = array_intersect($lti_obj_types, $a_obj_types);
+		$obj_inactives = array_diff($lti_obj_types, $a_obj_types);
+
+		$query = "INSERT INTO lti_lti (obj_type_id,globalrole_id,active) VALUES (%s, %s, %s)";
+		$types = array("text", "integer", "text");
+		foreach ($obj_actives as $ot)
+		{
+			$values = array($ot, $a_role, '1');
+			$ilDB->manipulateF($query,$types,$values);
+		}
+		foreach ($obj_inactives as $ot)
+		{
+			$values = array($ot, $a_role, '0');
+			$ilDB->manipulateF($query,$types,$values);
+		}
+	}
 }
