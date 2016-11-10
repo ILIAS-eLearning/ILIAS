@@ -1145,6 +1145,24 @@ abstract class assQuestionGUI
 		return $tags;
 	}
 	
+	/**
+	 * fetches solutions from database and prefers intermediate solutions,
+	 * but falls back to authorized solutions. without any solution null is returned.
+	 * 
+	 * @return bool|null
+	 */
+	private function isLastSolutionSubmitAuthorized($active_id, $pass)
+	{
+		$userSolution = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+		
+		if( count($userSolution) )
+		{
+			$solutionRow = current($userSolution);
+			return (bool)$solutionRow['authorized'];
+		}
+		 
+		return null;
+	}
 	
 	/**
 	* Returns the answer generic feedback depending on the results of the question
@@ -1182,7 +1200,8 @@ abstract class assQuestionGUI
 		$incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
 		if (strlen($correct_feedback.$incorrect_feedback))
 		{
-			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
+			$useAuthorizedSolution = $this->isLastSolutionSubmitAuthorized($active_id, $pass);
+			$reached_points = $this->object->calculateReachedPoints($active_id, $pass, (bool)$useAuthorizedSolution);
 			$max_points = $this->object->getMaximumPoints();
 			if ($reached_points == $max_points)
 			{
