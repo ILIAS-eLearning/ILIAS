@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObject2GUI.php';
+require_once 'Services/Object/classes/class.ilObjectGUI.php';
 
 /**
  * Class ilObjLTIAdministrationGUI
@@ -9,12 +9,16 @@ require_once 'Services/Object/classes/class.ilObject2GUI.php';
  *
  * @ilCtrl_Calls      ilObjLTIAdministrationGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjLTIAdministrationGUI: ilAdministrationGUI
+ *
+ * @ingroup ServicesLTI
  */
-class ilObjLTIAdministrationGUI extends ilObject2GUI
+class ilObjLTIAdministrationGUI extends ilObjectGUI
 {
-	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+		$this->type = "ltis";
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 	}
 
@@ -33,11 +37,11 @@ class ilObjLTIAdministrationGUI extends ilObject2GUI
 				break;
 
 			default:
-				if($cmd == '' || $cmd == 'view')
+				if (!$cmd || $cmd == 'view')
 				{
 					$cmd = "showSettingsForm";
 				}
-				$this->cmd();
+				$this->$cmd();
 				break;
 		}
 	}
@@ -49,20 +53,42 @@ class ilObjLTIAdministrationGUI extends ilObject2GUI
 
 	public function getAdminTabs()
 	{
-		if($this->checkPermissionBool('read'))
+
+		/** I need info about this controls after print tabs
+		 *  sometimes we use:
+		 *    global $rbacsystem;
+		 *    if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		 *    .....
+		 * and sometimes:
+		 * 	if($this->checkPermissionBool('read'))
+		 *
+		 */
+
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), array('', 'view', 'showConfigurationForm', 'saveConfigurationForm'), __CLASS__);
+			$this->tabs_gui->addTab("settings",
+				$this->lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "showSettingsForm"));
+
+			$this->tabs_gui->addTab("consumers",
+				$this->lng->txt("consumers"),
+				$this->ctrl->getLinkTarget($this, "listConsumers"));
 		}
 
-		if($this->checkPermissionBool('edit_permission'))
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
+			$this->tabs_gui->addTab("perm_settings",
+				$this->lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"));
 		}
+
 	}
 
 	public function showSettingsForm(ilPropertyFormGUI $form = null)
 	{
-		$this->checkPermission('read');
+		//$this->checkPermission('read');
 
 		if(!($form instanceof ilPropertyFormGUI))
 		{
@@ -70,19 +96,60 @@ class ilObjLTIAdministrationGUI extends ilObject2GUI
 		}
 
 		$this->tabs_gui->activateTab("settings");
-		$this->tpl->setContent("<p>Hi</p>");
+		$this->tpl->setContent($form->getHTML());
 	}
 
-	public function getSettingsForm()
+	protected function getSettingsForm()
 	{
 		require_once ("Services/Form/classes/class.ilPropertyFormGui.php");
+
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt('settings'));
 		$form->setFormAction($this->ctrl->getFormAction($this,'saveSettingsForm'));
 
-		$obj_types = new ilCheckboxGroupInputGUI($this->lng->txt("act_lti_for_obj_type"), 'types')
+		// object types
+		$cb_obj_types = new ilCheckboxGroupInputGUI($this->lng->txt("act_lti_for_obj_type"), 'types');
 
-		//Radiobuttons with objects which are allowed to LTI
-		//we need function to store this array plus query to compare with real objects in db
+		$valid_obj_types = $this->object->getLTIObjectTypes();
+
+		foreach($valid_obj_types as $obj_type_id => $obj_name)
+		{
+			$cb_obj_types->addOption(new ilCheckboxOption($obj_name, $obj_type_id));
+		}
+		$form->addItem($cb_obj_types);
+
+		// test roles
+		// TODO get roles from db, but which roles?
+		$roles = array(
+			'1' => 'users',
+			'2' => 'groups'
+		);
+		foreach($roles as $role_id => $role_name)
+		{
+			$options[$role_id] = $role_name;
+		}
+
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si_roles = new ilSelectInputGUI($this->lng->txt("gbl_roles_to_users"), 'roles');
+		$si_roles->setOptions($options);
+		$form->addItem($si_roles);
+
+		$form->addCommandButton("saveSettingsForm", $this->lng->txt("save"));
+
+		return $form;
+
 	}
+
+	protected function listConsumers()
+	{
+		global $ilAccess;
+
+		$this->assertActive();
+		$this->tabs_gui->setTabActive("types");
+
+		include_once "Services/Badge/classes/class.ilBadgeTypesTableGUI.php";
+		$tbl = new ilBadgeTypesTableGUI($this, "listTypes",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$this->tpl->setContent($tbl->getHTML());
+	}
+
 }
