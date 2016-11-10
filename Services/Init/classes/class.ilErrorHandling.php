@@ -381,10 +381,17 @@ class ilErrorHandling extends PEAR
 			// so we do not check for ini_get("display_errors"), but for headers_sent()
 			if (!headers_sent())
 			{
-				ilInitialisation::initHTML();
-				global $tpl, $lng, $tree;
-				include("error.php");				// redirect will not display fatal error messages, since writing to session (sendFailure) will not work at this point
-				// ilUtil::redirect("error.php");
+				// #0019268, when not in setup
+				if (class_exists("ilInitialisation"))
+				{
+					ilInitialisation::initHTML();
+					global $tpl, $lng, $tree;
+					include("error.php");                // redirect will not display fatal error messages, since writing to session (sendFailure) will not work at this point
+				}
+				else	// when in setup...
+				{
+					ilUtil::redirect("error.php");
+				}
 			}
 		});
 	}
@@ -427,9 +434,10 @@ class ilErrorHandling extends PEAR
 			global $ilLog;
 
 			$log_message = $self->logMessageFor($exception, (bool)LOG_ERROR_TRACE);
-
-			if(is_object($ilLog) && $ilLog->enabled) {
-				$ilLog->write($log_message);
+			if(is_object($ilLog)) {
+				// ak: default log level of write() is INFO, which is not appropriate -> set this to warning
+				include_once './Services/Logging/classes/public/class.ilLogLevel.php';
+				$ilLog->write($log_message, ilLogLevel::WARNING);
 			}
 
 			// Send to system logger
