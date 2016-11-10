@@ -57,6 +57,24 @@ abstract class ilWaitingList
 	}
 	
 	/**
+	 * Lookup waiting lit size
+	 * @param int $a_obj_id
+	 */
+	public static function lookupListSize($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT count(usr_id) num from crs_waiting_list WHERE obj_id = '. $ilDB->quote($a_obj_id, 'integer');
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (int) $row->num;
+		}
+		return 0;
+	}
+	
+	/**
 	 * delete all
 	 *
 	 * @access public
