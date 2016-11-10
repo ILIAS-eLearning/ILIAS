@@ -12485,7 +12485,7 @@ content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 dcl#:#dcl_actions#:#Actions
-dcl#:#dcl_export_table_excel#:#Export .xlsx
+dcl#:#dcl_export_table_excel#:#Excel Export
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
@@ -12963,7 +12963,7 @@ dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
-dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
@@ -15174,10 +15174,10 @@ forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
-search#:#search_show_inactive_user#:#Show Inactive Users
-search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.
-search#:#search_show_limited_user#:#Show Limited Users
-search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.
+search#:#search_show_inactive_user#:#Show inactive users
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
+search#:#search_show_limited_user#:#Show users with limited access
+search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access and outside their allowed time period.
 trac#:#trac_mode_visited_pages#:#Visiting All Pages
 trac#:#trac_mode_visited_pages_info#:#The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module.
 exc#:#exc_peer_review_given#:#Show Given Feedback
