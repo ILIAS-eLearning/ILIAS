@@ -533,8 +533,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return "ilportfoliopagegui";
 	}
 	
-	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
+	protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form)
 	{
+
+		$a_tgt = new ilRadioGroupInputGUI($this->lng->txt("target"), "target");
+		$a_tgt->setRequired(true);
+		$a_form->addItem($a_tgt);
+
 		$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
 		$a_tgt->addOption($old);
 

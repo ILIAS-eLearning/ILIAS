@@ -1426,16 +1426,34 @@ class ilMail
 	}
 
 	/**
-	 * Explode recipient string, allowed seperators are ',' ';' ' '
+	 * Explode recipient string, allowed separators are ',' ';' ' '
 	 * Returns an array with recipient ilMailAddress instances
-	 * @param string $a_addresses
+	 * @param string $addresses
 	 * @return ilMailAddress[] An array with objects of type ilMailAddress
 	 */
-	protected function parseAddresses($a_addresses)
+	protected function parseAddresses($addresses)
 	{
+		if(strlen($addresses) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Started parsing of recipient string: %s", $addresses
+			));
+		}
+
 		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-		$parser = ilMailRfc822AddressParserFactory::getParser($a_addresses);
-		return $parser->parse();
+		$parser = ilMailRfc822AddressParserFactory::getParser($addresses);
+		$parsedAddresses = $parser->parse();
+
+		if(strlen($addresses) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Parsed addresses: %s", implode(',', array_map(function(ilMailAddress $address) {
+					return $address->getMailbox() . '@' . $address->getHost();
+				}, $parsedAddresses))
+			));
+		}
+
+		return $parsedAddresses;
 	}
 
 	/**

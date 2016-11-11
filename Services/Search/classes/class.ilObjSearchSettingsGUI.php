@@ -375,12 +375,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	protected function luceneSettingsObject()
+	protected function luceneSettingsObject(ilPropertyFormGUI $form = null)
 	{
 		$this->initSubTabs('lucene');
 		$this->tabs_gui->setTabActive('lucene_settings_tab');
 		
-		$this->initFormLuceneSettings();
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$this->initFormLuceneSettings();
+		}
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
@@ -537,7 +540,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('err_check_input'));
-		$this->luceneSettingsObject();
+		$this->form->setValuesByPost();
+		$this->luceneSettingsObject($this->form);
 		return false;
 	}
 	

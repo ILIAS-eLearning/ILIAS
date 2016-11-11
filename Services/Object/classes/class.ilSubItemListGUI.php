@@ -233,22 +233,20 @@ abstract class ilSubItemListGUI
 	protected function parseRelevance($sub_item)
 	{
 		if(!ilSearchSettings::getInstance()->isSubRelevanceVisible() ||
-			!ilSearchSettings::enabledLucene())
+			!ilSearchSettings::getInstance()->enabledLucene())
 		{
 			return '';
 		}
 		
 		$relevance = $this->getHighlighter()->getRelevance($this->getObjId(),$sub_item);		
 		
-		$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
+		//$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
 		
 		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
 		$pbar = ilProgressBar::getInstance();
 		$pbar->setCurrent($relevance); 
 		
-		$this->tpl->setCurrentBlock('relevance');
 		$this->tpl->setVariable('REL_PBAR', $pbar->render());		
-		$this->tpl->parseCurrentBlock();		
 	}
 	// end-patch mime_filter
 	
