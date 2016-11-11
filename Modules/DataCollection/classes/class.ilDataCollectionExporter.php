@@ -69,9 +69,9 @@ class ilDataCollectionExporter extends ilXmlExporter {
 	 * @return array
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids) {
-		$mep = new ilObjMediaPool();
+
 		foreach ($a_ids as $id) {
-			$m_ids = $mep->getAllMobIds($id);
+			$m_ids = ilObjMediaPool::getAllMobIds($id);
 			foreach ($m_ids as $m) {
 				$mob_ids[] = $m;
 			}

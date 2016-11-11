@@ -381,7 +381,7 @@ class ilObjMediaPool extends ilObject
 	/**
 	 * Get all media object ids
 	 */
-	function getAllMobIds($a_id)
+	static function getAllMobIds($a_id)
 	{
 		global $ilDB;
 
