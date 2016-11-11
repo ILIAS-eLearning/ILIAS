@@ -74,18 +74,18 @@ class ilLTIExternalConsumer extends ActiveRecord
 	protected $user_language = '';
 
 	/**
-	 * @var bool
+	 * @var integer
 	 *
 	 * @con_has_field true
-	 * @con_fieldtype bool
+	 * @con_fieldtype integer
 	 */
-	protected $active = FALSE;
+	protected $active = 0;
 
 	/**
 	 * @return string
 	 */
 	static function returnDbTableName() {
-		return "lit_ext_consumer";
+		return "lti_ext_consumer";
 	}
 
 	/**
@@ -184,7 +184,7 @@ class ilLTIExternalConsumer extends ActiveRecord
 	}
 
 	/**
-	 * @param bool $value
+	 * @param integer $value
 	 */
 	public function setActive($value)
 	{
@@ -192,11 +192,16 @@ class ilLTIExternalConsumer extends ActiveRecord
 	}
 
 	/**
-	 * @return bool
+	 * @return integer
 	 */
 	public function getActive()
 	{
 		return $this->active;
 	}
+
+	public static function getAll() {
+		return self::get();
+	}
+
 
 }

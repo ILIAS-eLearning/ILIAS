@@ -91,4 +91,35 @@ class ilObjLTIAdministration extends ilObject
 			$ilDB->manipulateF($query,$types,$values);
 		}
 	}
+
+	/**
+	 * @return array of active objects
+	 */
+	public function getActiveObjectTypes()
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$result = $ilDB->query("SELECT obj_type_id FROM lti_lti WHERE active = 1");
+
+		$obj_ids = array();
+		while ($record = $ilDB->fetchAssoc($result))
+		{
+			array_push($obj_ids, $record['obj_type_id']);
+		}
+
+		return $obj_ids;
+	}
+
+	public function getCurrentRole()
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$result = $ilDB->query("SELECT globalrole_id FROM lti_lti LIMIT 1");
+		$record = $ilDB->fetchAssoc($result);
+
+		return $record['globalrole_id'];
+
+	}
 }
