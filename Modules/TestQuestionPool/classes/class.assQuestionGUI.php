@@ -1185,7 +1185,7 @@ abstract class assQuestionGUI
 	 * Get tags allowed in question tags in self assessment mode
 	 * @return array array of tags
 	 */
-	function getSelfAssessmentTags()
+	static function getSelfAssessmentTags()
 	{
 		// set tags we allow in self assessment mode
 		$st = ilUtil::getSecureTags();
