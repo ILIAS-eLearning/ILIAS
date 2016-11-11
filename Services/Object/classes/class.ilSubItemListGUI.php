@@ -246,9 +246,7 @@ abstract class ilSubItemListGUI
 		$pbar = ilProgressBar::getInstance();
 		$pbar->setCurrent($relevance); 
 		
-		$this->tpl->setCurrentBlock('relevance');
 		$this->tpl->setVariable('REL_PBAR', $pbar->render());		
-		$this->tpl->parseCurrentBlock();		
 	}
 	// end-patch mime_filter
 	
