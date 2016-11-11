@@ -240,7 +240,7 @@ abstract class ilSubItemListGUI
 		
 		$relevance = $this->getHighlighter()->getRelevance($this->getObjId(),$sub_item);		
 		
-		$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
+		//$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
 		
 		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
 		$pbar = ilProgressBar::getInstance();
