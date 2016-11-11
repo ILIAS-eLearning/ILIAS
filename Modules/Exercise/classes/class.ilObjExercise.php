@@ -202,7 +202,7 @@ class ilObjExercise extends ilObject
 			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
 			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled()),
 			"certificate_visibility" => array("integer", (int)$this->getCertificateVisibility()),
-			"tfeedback" => array("integer", $this->getTutorFeedback())
+			"tfeedback" => array("integer", (int)$this->getTutorFeedback())
 			));
 		return true;
 	}
