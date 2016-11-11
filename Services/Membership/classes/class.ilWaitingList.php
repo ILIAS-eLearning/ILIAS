@@ -67,7 +67,7 @@ abstract class ilWaitingList
 		$query = 'SELECT count(usr_id) num from crs_waiting_list WHERE obj_id = '. $ilDB->quote($a_obj_id, 'integer');
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (int) $row->num;
 		}
