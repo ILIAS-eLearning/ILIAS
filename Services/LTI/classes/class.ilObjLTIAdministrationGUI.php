@@ -90,11 +90,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$this->tpl->setContent($form->getHTML());
 	}
 
+
 	protected function getSettingsForm()
 	{
 		require_once ("Services/Form/classes/class.ilPropertyFormGui.php");
 
 		$form = new ilPropertyFormGUI();
+		/*
 		$form->setFormAction($this->ctrl->getFormAction($this,'saveSettingsForm'));
 		$form->setTitle($this->lng->txt("lti_settings"));
 
@@ -122,11 +124,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$form->addItem($si_roles);
 
 		$form->addCommandButton("saveSettingsForm", $this->lng->txt("save"));
-
+		*/
 		return $form;
 
 	}
 
+	/*
 	protected function saveSettingsForm()
 	{
 		global $ilCtrl;
@@ -138,7 +141,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		{
 			$obj_types = $form->getInput('types');
 
-			$role = $form->getInput('roles');
+			$role = $form->getInput('role');
 
 			$this->object->saveData($obj_types, $role);
 
@@ -148,6 +151,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$form->setValuesByPost();
 		$this->initSettingsForm($form);
 	}
+	*/
 
 	// consumers
 
@@ -187,6 +191,26 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$form->addItem($si_language);
 		$form->addItem($cb_active);
 
+		// object types
+		$cb_obj_types = new ilCheckboxGroupInputGUI($this->lng->txt("act_lti_for_obj_type"), 'types');
+
+		$valid_obj_types = $this->object->getLTIObjectTypes();
+		foreach($valid_obj_types as $obj_type_id => $obj_name)
+		{
+			$cb_obj_types->addOption(new ilCheckboxOption($obj_name, $obj_type_id));
+		}
+		$form->addItem($cb_obj_types);
+
+		// test roles
+		$roles = $this->object->getLTIRoles();
+		foreach($roles as $role_id => $role_name)
+		{
+			$options[$role_id] = $role_name;
+		}
+		$si_roles = new ilSelectInputGUI($this->lng->txt("gbl_roles_to_users"), 'role');
+		$si_roles->setOptions($options);
+		$form->addItem($si_roles);
+
 		$form->addCommandButton("createLTIConsumer", $this->lng->txt("save"));
 
 		return $form;
@@ -208,11 +232,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$consumer->setTitle($form->getInput('title'));
 			$consumer->setDescription($form->getInput('description'));
 			$consumer->setPrefix($form->getInput('prefix'));
-			$consumer->setConsumerKey($form->getInput('key'));
-			$consumer->setConsumerSecret($form->getInput('secret'));
+			$consumer->setKey($form->getInput('key'));
+			$consumer->setSecret($form->getInput('secret'));
 			$consumer->setLanguage($form->getInput('language'));
 			$consumer->setActive($form->getInput('active'));
+			$consumer->setRole($form->getInput('role'));
 			$consumer->create();
+
+			$this->object->saveConsumerObjectTypes($consumer->getId(), $form->getInput('types'));
 
 			ilUtil::sendSuccess($this->lng->txt("lti_consumer_created"),true);
 		}

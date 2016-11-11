@@ -63,63 +63,41 @@ class ilObjLTIAdministration extends ilObject
 		return $roles;
 	}
 
-	/**
-	 * @param array $obj_types
-	 * @param int $role
-	 */
-	public function saveData(array $a_obj_types, $a_role = 0)
+	public function saveConsumerObjectTypes($a_consumer_id, array $a_obj_types)
 	{
 		global $ilDB;
 
-		$ilDB->query("DELETE FROM lti_lti");
+		$ilDB->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = ".$ilDB->quote($a_consumer_id, "integer"));
 
 		$lti_obj_types = $this->getLTIObjectTypesIds();
 
 		$obj_actives = array_intersect($lti_obj_types, $a_obj_types);
-		$obj_inactives = array_diff($lti_obj_types, $a_obj_types);
 
-		$query = "INSERT INTO lti_lti (obj_type_id,globalrole_id,active) VALUES (%s, %s, %s)";
-		$types = array("text", "integer", "text");
+		$query = "INSERT INTO lti_ext_consumer_otype (consumer_id, object_type) VALUES (%s, %s)";
+		$types = array("integer", "text");
 		foreach ($obj_actives as $ot)
 		{
-			$values = array($ot, $a_role, '1');
-			$ilDB->manipulateF($query,$types,$values);
-		}
-		foreach ($obj_inactives as $ot)
-		{
-			$values = array($ot, $a_role, '0');
+			$values = array($a_consumer_id, $ot);
 			$ilDB->manipulateF($query,$types,$values);
 		}
 	}
 
 	/**
-	 * @return array of active objects
+	 * @param integer $a_consumer_id
+	 * @return array consumer active objects
 	 */
-	public function getActiveObjectTypes()
+	public function getActiveObjectTypes($a_consumer_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$result = $ilDB->query("SELECT obj_type_id FROM lti_lti WHERE active = 1");
+		$result = $ilDB->query("SELECT object_type FROM lti_ext_consumer_otype WHERE consumer_id = ".$ilDB->quote($a_consumer_id, "integer"));
 
 		$obj_ids = array();
 		while ($record = $ilDB->fetchAssoc($result))
 		{
-			array_push($obj_ids, $record['obj_type_id']);
+			array_push($obj_ids, $record['object_type']);
 		}
-
 		return $obj_ids;
-	}
-
-	public function getCurrentRole()
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-
-		$result = $ilDB->query("SELECT globalrole_id FROM lti_lti LIMIT 1");
-		$record = $ilDB->fetchAssoc($result);
-
-		return $record['globalrole_id'];
-
 	}
 }

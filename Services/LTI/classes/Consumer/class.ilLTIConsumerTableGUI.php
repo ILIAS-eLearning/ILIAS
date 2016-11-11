@@ -33,6 +33,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("lti_consumer_secret"), "secret");
 		$this->addColumn($lng->txt("in_use"), "language");
 		$this->addColumn($lng->txt("objects"), "objects");
+		$this->addColumn($lng->txt("role"), "role");
 		$this->addColumn($lng->txt("active"), "active");
 		$this->addColumn($lng->txt("actions"), "");
 
@@ -52,13 +53,15 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$result = array();
 		foreach ($consumer_data as $cons) {
 			$result[] = array(
+				"id" => $cons->getId(),
 				"title" => $cons->gettitle(),
 				"description" => $cons->getDescription(),
 				"prefix" => $cons->getPrefix(),
 				"key" => $cons->getKey(),
 				"secret" => $cons->getSecret(),
 				"language" => $cons->getLanguage(),
-				"active" => $cons->getActive(),
+				"role" => $cons->getRole(),
+				"active" => $cons->getActive()
 			);
 		}
 
@@ -78,13 +81,30 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_KEY", $a_set["key"]);
 		$this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
 		$this->tpl->setVariable("TXT_LANGUAGE", $a_set["language"]);
-		if($a_set["title"])
+		$obj_types = $this->parent_obj->object->getActiveObjectTypes($a_set["id"]);
+		if($obj_types)
 		{
-			$this->tpl->setVariable("CB_ACTIVE", $lng->txt('active'));
+			foreach($obj_types as $line)
+			{
+				$this->tpl->setCurrentBlock("objects");
+				$this->tpl->setVariable("OBJECTS", $line);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		else
 		{
-			$this->tpl->setVariable("CB_ACTIVE", $lng->txt('inactive'));
+			$this->tpl->setVariable("NO_OBJECTS", "-");
+		}
+
+		$this->tpl->setVariable("TXT_ROLE", $a_set["role"]);
+
+		if($a_set["active"])
+		{
+			$this->tpl->setVariable("TXT_ACTIVE", $lng->txt('active'));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_ACTIVE", $lng->txt('inactive'));
 		}
 
 	}

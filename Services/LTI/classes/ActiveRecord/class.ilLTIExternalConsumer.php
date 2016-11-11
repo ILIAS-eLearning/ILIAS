@@ -82,11 +82,29 @@ class ilLTIExternalConsumer extends ActiveRecord
 	protected $active = 0;
 
 	/**
+	 * @var int
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     11
+	 */
+	protected $role = 0;
+
+	/**
 	 * @return string
 	 */
 	static function returnDbTableName() {
 		return "lti_ext_consumer";
 	}
+
+	/**
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
 
 	/**
 	 * @param string $title
@@ -116,7 +134,7 @@ class ilLTIExternalConsumer extends ActiveRecord
 	 */
 	public function getDescription()
 	{
-		return $this->description();
+		return $this->description;
 	}
 
 	/**
@@ -138,7 +156,7 @@ class ilLTIExternalConsumer extends ActiveRecord
 	/**
 	 * @param string $key
 	 */
-	public function setConsumerKey($key)
+	public function setKey($key)
 	{
 		$this->consumer_key = $key;
 	}
@@ -146,7 +164,7 @@ class ilLTIExternalConsumer extends ActiveRecord
 	/**
 	 * @return string
 	 */
-	public function getConsumerKey()
+	public function getKey()
 	{
 		return $this->consumer_key;
 	}
@@ -154,7 +172,7 @@ class ilLTIExternalConsumer extends ActiveRecord
 	/**
 	 * @param string $secret
 	 */
-	public function setConsumerSecret($secret)
+	public function setSecret($secret)
 	{
 		$this->consumer_secret = $secret;
 	}
@@ -162,7 +180,7 @@ class ilLTIExternalConsumer extends ActiveRecord
 	/**
 	 * @return string
 	 */
-	public function getConsumerSecret()
+	public function getSecret()
 	{
 		return $this->consumer_secret;
 	}
@@ -197,6 +215,22 @@ class ilLTIExternalConsumer extends ActiveRecord
 	public function getActive()
 	{
 		return $this->active;
+	}
+
+	/**
+	 * @param integer $role_id
+	 */
+	public function setRole($role_id)
+	{
+		$this->role = $role_id;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getRole()
+	{
+		return $this->role;
 	}
 
 	public static function getAll() {
