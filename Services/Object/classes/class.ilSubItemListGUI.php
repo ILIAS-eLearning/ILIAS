@@ -233,7 +233,7 @@ abstract class ilSubItemListGUI
 	protected function parseRelevance($sub_item)
 	{
 		if(!ilSearchSettings::getInstance()->isSubRelevanceVisible() ||
-			!ilSearchSettings::enabledLucene())
+			!ilSearchSettings::getInstance()->enabledLucene())
 		{
 			return '';
 		}
