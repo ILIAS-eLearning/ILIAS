@@ -88,7 +88,7 @@ class ilTrQuery
 		}
 	}
 
-	function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
+	public static function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
 		global $ilDB;
 						
