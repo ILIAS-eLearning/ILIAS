@@ -49,8 +49,6 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{
-		global $ilCtrl;
-
 		$consumer_data = ilLTIExternalConsumer::getAll();
 		$result = array();
 		foreach ($consumer_data as $cons) {
@@ -118,7 +116,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->getParentObject(), "cid", $a_set["id"]);
 		$edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "editConsumer");
 		$delete_url = $ilCtrl->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
-		$ilCtrl->setParameter($this->getParentObject(), "consumer_id", "");
+		$ilCtrl->setParameter($this->getParentObject(), "cid", "");
 		$list->addItem($lng->txt("edit"), "", $edit_url);
 		$list->addItem($lng->txt("delete"), "", $delete_url);
 

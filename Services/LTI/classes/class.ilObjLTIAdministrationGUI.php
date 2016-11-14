@@ -159,13 +159,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	{
 		if(!($form instanceof ilPropertyFormGUI))
 		{
-			$form = $this->getConsumerForm('create');
+			$form = $this->getConsumerForm();
 		}
 		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
-	 * @param string $a_mode
+	 * @param string $consumer_id
 	 * @return ilPropertyFormGUI
 	 */
 	public function getConsumerForm($a_mode = '')
@@ -215,16 +215,46 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$si_roles->setOptions($options);
 		$form->addItem($si_roles);
 
-		if($a_mode == 'edit')
+		if($a_mode = 'edit')
 		{
 			$form->addCommandButton("updateLTIConsumer", $this->lng->txt("edit"));
 		}
 		else
 		{
-			$form->addCommandButton("createLTIConsumer", $this->lng->txt("create"));
+			$form->addCommandButton("createLTIConsumer", $this->lng->txt("save"));
 		}
 
 		return $form;
+	}
+
+	public function editConsumer(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilCtrl, $tpl;
+		$consumer_id = $_REQUEST["cid"];
+		$ilCtrl->setParameter($this, "cid", $consumer_id);
+
+		if(!$consumer_id)
+		{
+			$ilCtrl->redirect($this, "listConsumers");
+		}
+		$consumer = new ilLTIExternalConsumer($consumer_id);
+
+		if(!$a_form)
+		{
+			$a_form = $this->getConsumerForm('edit');
+			$a_form->getItemByPostVar("title")->setValue($consumer->getTitle());
+			$a_form->getItemByPostVar("description")->setValue($consumer->getDescription());
+			$a_form->getItemByPostVar("prefix")->setValue($consumer->getPrefix());
+			$a_form->getItemByPostVar("key")->setValue($consumer->getKey());
+			$a_form->getItemByPostVar("secret")->setValue($consumer->getSecret());
+			$a_form->getItemByPostVar("language")->setValue($consumer->getLanguage());
+			$a_form->getItemByPostVar("active")->setChecked($consumer->getActive());
+			$a_form->getItemByPostVar("role")->setValue($consumer->getRole());
+			$a_form->getItemByPostVar("types")->setValue($this->object->getActiveObjectTypes($consumer_id));
+		}
+
+		$tpl->setContent($a_form->getHTML());
+
 	}
 
 	public function createLTIConsumer()
@@ -315,6 +345,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 		$this->listConsumers();
 	}
+
 
 	protected function listConsumers()
 	{
