@@ -24,16 +24,13 @@ var ilWizardInput = {
 		// clone row
 		var source = this.getRowFromEvent(e);				
 		var target = $(source).clone();		
-		
+                
 		// add events
 		this.initEvents(target);
 		
-		// empty inputs
+                // empty inputs
 		this.cleanRow(target);
 
-		// empty inputs with jquery val() not attr()
-		//this.cleanValuesRow(target);
-		
 		$(source).after(target);	
 					
 		this.reindexRows(this.getContainerFromEvent(e));		
