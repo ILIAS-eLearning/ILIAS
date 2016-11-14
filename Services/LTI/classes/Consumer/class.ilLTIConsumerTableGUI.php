@@ -75,6 +75,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
+		$ilCtrl->setParameter($this->getParentObject(), "cid", $a_set["id"]);
+
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
 		$this->tpl->setVariable("TXT_PREFIX", $a_set["prefix"]);
@@ -103,10 +105,12 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		if($a_set["active"])
 		{
 			$this->tpl->setVariable("TXT_ACTIVE", $lng->txt('active'));
+			$label_status = $lng->txt("deactivate");
 		}
 		else
 		{
 			$this->tpl->setVariable("TXT_ACTIVE", $lng->txt('inactive'));
+			$label_status = $lng->txt("activate");
 		}
 
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
@@ -115,12 +119,13 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$list->setId($a_set["id"]);
 		$list->setListTitle($lng->txt("actions"));
 
-		$ilCtrl->setParameter($this->getParentObject(), "cid", $a_set["id"]);
 		$edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "editConsumer");
 		$delete_url = $ilCtrl->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
-		$ilCtrl->setParameter($this->getParentObject(), "cid", "");
+		$status_url = $ilCtrl->getLinkTarget($this->getParentObject(), "changeStatusLTIConsumer");
+		//$ilCtrl->setParameter($this->getParentObject(), "cid", "");
 		$list->addItem($lng->txt("edit"), "", $edit_url);
 		$list->addItem($lng->txt("delete"), "", $delete_url);
+		$list->addItem($label_status, "", $status_url);
 
 		$this->tpl->setVariable("ACTION", $list->getHTML());
 	}

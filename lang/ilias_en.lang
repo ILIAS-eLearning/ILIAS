@@ -16373,3 +16373,5 @@ common#:#lti_settings#:#LTI Settings
 common#:#lti_consumer_created#:#Consumer created
 common#:#lti_consumer_updated#:#Consumer updated
 common#:#lti_consumer_deleted#:#Consumer deleted
+common#:#lti_consumer_set_active#:#Consumer activated
+common#:#lti_consumer_set_inactive#:#Consumer deactivated

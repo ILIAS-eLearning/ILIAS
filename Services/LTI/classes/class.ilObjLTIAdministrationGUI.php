@@ -383,4 +383,33 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	}
 
+	protected function changeStatusLTIConsumer()
+	{
+		global $ilCtrl;
+
+		$consumer_id = $_REQUEST["cid"];
+
+		if (!$consumer_id)
+		{
+			$ilCtrl->redirect($this, "listConsumers");
+		}
+
+		$consumer = new ilLTIExternalConsumer($consumer_id);
+		if($consumer->getActive())
+		{
+			$consumer->setActive(0);
+			$msg = "lti_consumer_set_inactive";
+		}
+		else
+		{
+			$consumer->setActive(1);
+			$msg = "lti_consumer_set_active";
+		}
+		$consumer->update();
+		
+		ilUtil::sendSuccess($this->lng->txt($msg),true);
+
+		$this->listConsumers();
+	}
+
 }
