@@ -80,7 +80,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	}
 
-	public function initSettingsForm(ilPropertyFormGUI $form = null)
+	protected function initSettingsForm(ilPropertyFormGUI $form = null)
 	{
 		if(!($form instanceof ilPropertyFormGUI))
 		{
@@ -155,7 +155,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	// consumers
 
-	public function initConsumerForm(ilPropertyFormGUI $form = null)
+	protected function initConsumerForm(ilPropertyFormGUI $form = null)
 	{
 		if(!($form instanceof ilPropertyFormGUI))
 		{
@@ -168,7 +168,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	 * @param string $consumer_id
 	 * @return ilPropertyFormGUI
 	 */
-	public function getConsumerForm($a_mode = '')
+	protected function getConsumerForm($a_mode = '')
 	{
 		$this->tabs_gui->activateTab("consumers");
 
@@ -179,10 +179,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt("lti_create_consumer"));
 
 		$ti_title = new ilTextInputGUI($this->lng->txt("title"), 'title');
+		$ti_title->setRequired(true);
 		$ti_description = new ilTextInputGUI($this->lng->txt("description"), 'description');
 		$ti_prefix = new ilTextInputGUI($this->lng->txt("prefix"), 'prefix');
+		$ti_prefix->setRequired(true);
 		$ti_key = new ilTextInputGUI($this->lng->txt("lti_consumer_key"), 'key');
+		$ti_key->setRequired(true);
 		$ti_secret = new ilTextInputGUI($this->lng->txt("lti_consumer_secret"), 'secret');
+		$ti_secret->setRequired(true);
 
 		$languages = $this->lng->getInstalledLanguages();
 		$array_lang = array();
@@ -236,7 +240,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		return $form;
 	}
 
-	public function editConsumer(ilPropertyFormGUI $a_form = null)
+	protected function editConsumer(ilPropertyFormGUI $a_form = null)
 	{
 		global $ilCtrl, $tpl;
 		$consumer_id = $_REQUEST["cid"];
@@ -266,7 +270,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	}
 
-	public function createLTIConsumer()
+	protected function createLTIConsumer()
 	{
 		global $DIC;
 
@@ -302,6 +306,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	protected function updateLTIConsumer()
 	{
 		global $ilCtrl;
+
+		$this->checkPermission("write");
 
 		$consumer_id = $_REQUEST["cid"];
 		if (!$consumer_id)
