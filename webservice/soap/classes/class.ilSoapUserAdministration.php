@@ -101,6 +101,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	/**
 	 * login as user for studip mode
+	 * @deprecated
 	 * @param string $sid
 	 * @param int $user_id
 	 * @return string $sid
