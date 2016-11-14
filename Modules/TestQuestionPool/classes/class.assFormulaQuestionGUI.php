@@ -17,6 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoring
  * @author            Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version           $Id: class.assFormulaQuestionGUI.php 1235 2010-02-15 15:21:18Z hschottm $
  * @ingroup           ModulesTestQuestionPool
+ * @ilCtrl_Calls assFormulaQuestionGUI: ilFormPropertyDispatchGUI
  */
 class assFormulaQuestionGUI extends assQuestionGUI
 {
