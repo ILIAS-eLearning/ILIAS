@@ -403,22 +403,26 @@ class ilPCSection extends ilPageContent
 			$from = $res->nodeset[$i]->get_attribute("ActiveFrom");
 			if ($from != "")
 			{
-				$ilDB->manipulate("INSERT INTO copg_section_timings ".
-					"(page_id, parent_type, unix_ts) VALUES (".
-					$ilDB->quote($a_page->getId(), "integer").",".
-					$ilDB->quote($a_page->getParentType(), "text").",".
-					$ilDB->quote($from, "text").
-					")");
+				$ilDB->replace("copg_section_timings",
+					array(
+						"page_id" => array("integer", $a_page->getId()),
+						"parent_type" => array("text", $a_page->getParentType()),
+						"unix_ts" => array("integer", $from)
+						),
+					array()
+					);
 			}
 			$to = $res->nodeset[$i]->get_attribute("ActiveTo");
 			if ($to != "")
 			{
-				$ilDB->manipulate("INSERT INTO copg_section_timings ".
-					"(page_id, parent_type, unix_ts) VALUES (".
-					$ilDB->quote($a_page->getId(), "integer").",".
-					$ilDB->quote($a_page->getParentType(), "text").",".
-					$ilDB->quote($to, "text").
-					")");
+				$ilDB->replace("copg_section_timings",
+					array(
+						"page_id" => array("integer", $a_page->getId()),
+						"parent_type" => array("text", $a_page->getParentType()),
+						"unix_ts" => array("integer", $to)
+					),
+					array()
+				);
 			}
 		}
 	}
