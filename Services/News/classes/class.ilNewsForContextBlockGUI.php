@@ -1167,9 +1167,18 @@ if (empty(self::$st_data))
 				// hide date
 				$hd = $this->settings_form->getItemByPostVar("hide_news_date");				
 				$hide_date = $hd->getDate();
-				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
-					$hide_date->get(IL_CAL_DATETIME),
-					0, $this->block_id);
+				if ($_POST["hide_news_per_date"] && $hide_date != null)
+				{
+					ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
+						$hide_date->get(IL_CAL_DATETIME),
+						0, $this->block_id);
+				}
+				else
+				{
+					ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
+						"",
+						0, $this->block_id);
+				}
 			}
 			
 			include_once("./Services/News/classes/class.ilNewsCache.php");

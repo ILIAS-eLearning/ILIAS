@@ -223,13 +223,13 @@ class ilCertificateGUI
 	{
 		$form_fields = array(
 			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
-			"margin_body_top" => ilUtil::stripSlashes($_POST["margin_body"]["top"]),
-			"margin_body_right" => ilUtil::stripSlashes($_POST["margin_body"]["right"]),
-			"margin_body_bottom" => ilUtil::stripSlashes($_POST["margin_body"]["bottom"]),
-			"margin_body_left" => ilUtil::stripSlashes($_POST["margin_body"]["left"]),
+			"margin_body_top" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["top"])),
+			"margin_body_right" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["right"])),
+			"margin_body_bottom" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["bottom"])),
+			"margin_body_left" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["margin_body"]["left"])),
 			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
-			"pageheight" => ilUtil::stripSlashes($_POST["pageheight"]),
-			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"]),
+			"pageheight" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["pageheight"])),
+			"pagewidth" => $this->object->formatNumberString(ilUtil::stripSlashes($_POST["pagewidth"])),
 			"active" => ilUtil::stripSlashes($_POST["active"])
 		);
 		$this->object->getAdapter()->addFormFieldsFromPOST($form_fields);
@@ -305,7 +305,7 @@ class ilCertificateGUI
 				$pageheight = new ilTextInputGUI($this->lng->txt("certificate_pageheight"), "pageheight");
 				$pageheight->setValue($form_fields["pageheight"]);
 				$pageheight->setSize(6);
-				$pageheight->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
+				$pageheight->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
 				$pageheight->setInfo($this->lng->txt("certificate_unit_description"));
 				$pageheight->setRequired(true);
 				$option->addSubitem($pageheight);
@@ -313,7 +313,7 @@ class ilCertificateGUI
 				$pagewidth = new ilTextInputGUI($this->lng->txt("certificate_pagewidth"), "pagewidth");
 				$pagewidth->setValue($form_fields["pagewidth"]);
 				$pagewidth->setSize(6);
-				$pagewidth->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
+				$pagewidth->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
 				$pagewidth->setInfo($this->lng->txt("certificate_unit_description"));
 				$pagewidth->setRequired(true);
 				$option->addSubitem($pagewidth);

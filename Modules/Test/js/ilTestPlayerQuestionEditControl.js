@@ -351,9 +351,17 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     function checkNavigation() {
 
-        // hrt id and href of the clicked link
+        // attributes of the clicked link
         var id = $(this).attr('id');
         var href = $(this).attr('href');
+        var target = $(this).attr('target');
+
+        // keep default behavior for links that open in another window
+        // (fullscreen view of media objects)
+        if (target && target != '_self' && target != '_parent' && target != '_top')
+        {
+           return true;
+        }
 
         // check explictly again at navigation
        detectFormChange();

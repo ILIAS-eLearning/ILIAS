@@ -17869,8 +17869,11 @@ else
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
 <#5052>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5053>
 <?php
 
 	$ilDB->renameTable('mass_info_settings', 'iass_info_settings');

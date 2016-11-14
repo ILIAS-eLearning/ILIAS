@@ -1108,13 +1108,12 @@ class ilMediaItem
 			else
 			{
 				$xml .= "<ExtLink Href=\"".str_replace("&", "&amp;",$area->getHref())."\" Title=\"".
-					$area->getExtTitle()."\">";
-				$xml .= $area->getTitle();
+					str_replace("&", "&amp;",$area->getExtTitle())."\">";
+				$xml .= str_replace("&", "&amp;", $area->getTitle());
 				$xml .="</ExtLink>";
 			}
 			$xml .= "</MapArea>";
 		}
-
 		return $xml;
 	}
 

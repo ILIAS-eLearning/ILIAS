@@ -259,14 +259,17 @@ class ilInternalLink
 		{
 			case "PageObject":
 			case "StructureObject":
+				include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 				return ilLMObject::_exists($a_target);
 				break;
 
 			case "GlossaryItem":
+				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				return ilGlossaryTerm::_exists($a_target);
 				break;
 
 			case "MediaObject":
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 				return ilObjMediaObject::_exists($a_target);
 				break;
 				

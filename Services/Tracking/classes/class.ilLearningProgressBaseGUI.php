@@ -535,7 +535,7 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
-	function __readStatus($a_obj_id,$user_id)
+	static function __readStatus($a_obj_id,$user_id)
 	{
 		include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 		$status = ilLPStatus::_lookupStatus($a_obj_id, $user_id);

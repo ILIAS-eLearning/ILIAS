@@ -68,7 +68,7 @@ class ilLoggerFactory
 	 */
 	public static function newInstance(ilLoggingSettings $settings)
 	{
-		return new self($settings);
+		return static::$instance = new self($settings);
 	}
 			
 	

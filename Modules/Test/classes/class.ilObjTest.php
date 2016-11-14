@@ -8075,17 +8075,12 @@ function getAnswerFeedbackPoints()
 			return $max;
 		}
 
-/**
-* Retrieves the best pass of a given user for a given test
-*
- * @global ilLog $ilLog
- * @global ILIAS $ilias
-* @param integer $user_id The user id
-* @param integer $test_id The test id
-* @return integer The best pass of the user for the given test
-* @access public
-*/
-	function _getBestPass($active_id)
+	/**
+	 * Retrieves the best pass of a given user for a given test
+	 * @param int $active_id
+	 * @return int|mixed
+	 */
+	public static function _getBestPass($active_id)
 	{
 		global $ilDB;
 		

@@ -274,6 +274,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function unregisterObject()
 	{
 		global $ilUser;
+		
+		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+		$part = ilSessionParticipants::getInstanceByObjId($this->object->getId());
+		if($part->isSubscriber($ilUser->getId()))
+		{
+			$part->deleteSubscriber($ilUser->getId());
+		}
 
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		ilEventParticipants::_unregister($ilUser->getId(),$this->object->getId());
@@ -1079,7 +1086,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once('./Services/Membership/classes/class.ilWaitingListTableGUI.php');
 			if($ilUser->getPref('sess_wait_hide'))
 			{
-				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,false);
+				$table_gui = new ilWaitingListTableGUI($this,$this->object, $waiting_list,false);
 				$this->ctrl->setParameter($this,'wait_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'));
@@ -1087,7 +1094,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,true);
+				$table_gui = new ilWaitingListTableGUI($this,$this->object, $waiting_list,true);
 				$this->ctrl->setParameter($this,'wait_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'));
@@ -1981,7 +1988,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	protected function sendMailToSelectedUsersObject()
 	{
 		$GLOBALS['ilCtrl']->setReturn($this,'members');
-		$GLOBALS['ilCtrl']->setCmdClass('ilmembershipgui');
+		$GLOBALS['ilCtrl']->setCmdClass('ilmembershipmailgui');
 		include_once './Services/Membership/classes/class.ilMembershipMailGUI.php';
 		$mem = new ilMembershipMailGUI($this);
 		$GLOBALS['ilCtrl']->forwardCommand($mem);

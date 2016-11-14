@@ -231,7 +231,9 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 							$tmp[] = '<a href="'.$prtf_url.'">'.$prtf_txt.'</a>';							
 						}
 					}
-					$this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;					
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', (string) implode('<br />', $tmp)) ;					
+					$this->tpl->parseCurrentBlock();
 					break;
 					
 					
