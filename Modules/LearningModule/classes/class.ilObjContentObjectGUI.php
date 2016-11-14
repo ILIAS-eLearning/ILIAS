@@ -217,6 +217,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 			
 			case "ilexportgui":
+				ilUtil::sendInfo($this->lng->txt("lm_only_one_download_per_type"));
 				$this->addHeaderAction();
 				$this->addLocations(true);
 				$this->setTabs("export");
@@ -1865,8 +1866,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$add = "<br />".$lng->txt("cont_download_no_download")." ".$changelink;
 		}
 
-		
-		if ($this->object->getPublicExportFile($a_type) == $a_file)
+		$basetype = explode("_", $a_type);
+		$basetype = $basetype[0];
+
+		if ($this->object->getPublicExportFile($basetype) == $a_file)
 		{
 			return $lng->txt("yes").$add;
 		}
@@ -1892,6 +1895,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			foreach ($a_files as $f)
 			{
 				$file = explode(":", $f);
+				if (is_int(strpos($file[0], "_")))
+				{
+					$file[0] = explode("_", $file[0])[0];
+				}
 				$export_dir = $this->object->getExportDirectory($file[0]);
 		
 				if ($this->object->getPublicExportFile($file[0]) ==
