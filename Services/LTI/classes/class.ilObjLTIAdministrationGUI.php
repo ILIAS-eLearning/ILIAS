@@ -175,8 +175,6 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		require_once ("Services/Form/classes/class.ilPropertyFormGui.php");
 
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this,'createLTIConsumer'));
-		$form->setTitle($this->lng->txt("lti_create_consumer"));
 
 		$ti_title = new ilTextInputGUI($this->lng->txt("title"), 'title');
 		$ti_title->setRequired(true);
@@ -230,10 +228,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 		if($a_mode == 'edit')
 		{
+			$form->setFormAction($this->ctrl->getFormAction($this,'editLTIConsumer'));
+			$form->setTitle($this->lng->txt("lti_edit_consumer"));
 			$form->addCommandButton("updateLTIConsumer", $this->lng->txt("edit"));
 		}
 		else
 		{
+			$form->setFormAction($this->ctrl->getFormAction($this,'createLTIConsumer'));
+			$form->setTitle($this->lng->txt("lti_create_consumer"));
 			$form->addCommandButton("createLTIConsumer", $this->lng->txt("save"));
 		}
 
