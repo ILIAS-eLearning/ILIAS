@@ -13,9 +13,10 @@ var ilFileWizardInputTemplate = {
 	},
 			
 	cleanRow: function(row) {
-		$(row).find('input:file').attr('value', '');
-		$(row).find('input[type=hidden]').remove();
-		$(row).find('img').remove();
+            
+            $(row).find('input:file').val('');
+            $(row).find('input[type=hidden]').remove();
+            $(row).find('img').remove();
 	},
 		
 	reindexRows: function(rootel) {					
