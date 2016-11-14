@@ -165,7 +165,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	}
 
 	/**
-	 * @param string $consumer_id
+	 * @param string $a_mode
 	 * @return ilPropertyFormGUI
 	 */
 	protected function getConsumerForm($a_mode = '')

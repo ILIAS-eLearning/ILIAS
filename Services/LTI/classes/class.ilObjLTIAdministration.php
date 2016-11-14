@@ -11,38 +11,59 @@ require_once './Services/Object/classes/class.ilObject.php';
  */
 class ilObjLTIAdministration extends ilObject
 {
+	/**
+	 * @var array
+	 */
+	protected $obj_types_available;
+
 	public function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "ltis";
+
+		$this->obj_types_available = array(
+			'crs',
+			'sahs',
+			'svy',
+			'tst'
+		);
 		parent::__construct($a_id,$a_call_by_reference);
 	}
 
+	/**
+	 * @return array object type id => object type class name
+	 */
 	public function getLTIObjectTypes()
 	{
-		// TODO We need to call getLTIObjectTypesIds and then get the names of this object types
-		$validLTIObjectTypes = array(
-			'crs' => 'course',
-			'sahs' => 'scorm',
-			'svy' => "survey",
-			'tst' => "test"
-		);
-
-		/*
 		$obj_def = new ilObjectDefinition();
 		$repository_objects = $obj_def->getCreatableSubObjects("root");
-		var_dump($repository_objects);
-		exit();
-		*/
+		$id_types = array();
+		foreach ($repository_objects as $key => $value)
+		{
+			array_push($id_types, $key);
+		}
+		$match_array = array_intersect($id_types, $this->obj_types_available);
+
+		$validLTIObjectTypes = array();
+		foreach ($match_array as $obj_type)
+		{
+			$validLTIObjectTypes[$obj_type] = $obj_def->getClassName($obj_type);
+		}
 
 		return $validLTIObjectTypes;
 
 	}
 
+	/**
+	 * @return array object type ids available for LTI
+	 */
 	public function getLTIObjectTypesIds()
 	{
-		return array('crs', 'sahs', 'svy', 'tst');
+		return $this->obj_types_available;
 	}
 
+	/**
+	 * @return array available roles for LTI
+	 */
 	public function getLTIRoles()
 	{
 		global $rbacreview;
@@ -63,6 +84,10 @@ class ilObjLTIAdministration extends ilObject
 		return $roles;
 	}
 
+	/**
+	 * @param integer $a_consumer_id
+	 * @param array $a_obj_types
+	 */
 	public function saveConsumerObjectTypes($a_consumer_id, $a_obj_types)
 	{
 		global $ilDB;
