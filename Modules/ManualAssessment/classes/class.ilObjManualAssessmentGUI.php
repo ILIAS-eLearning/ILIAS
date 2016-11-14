@@ -226,7 +226,7 @@ public function getTabs() {
 			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
 			|| $access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
-									, $this->lng->txt('members')
+									, $this->lng->txt('il_mass_members')
 									, $this->getLinkTarget('members')
 									);
 		}
