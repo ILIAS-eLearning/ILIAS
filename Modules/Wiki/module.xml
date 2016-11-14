@@ -27,4 +27,5 @@
 		<pageobject parent_type="wpg" class_name="ilWikiPage" directory="classes"/>
 		<pagecontent pc_type="amdpl" name="AMDPageList" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
 	</copage>
+	<logging />
 </module>

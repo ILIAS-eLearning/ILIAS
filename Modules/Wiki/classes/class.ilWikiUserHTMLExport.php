@@ -20,9 +20,26 @@ class ilWikiUserHTMLExport
 	const RUNNING = 1;
 
 	protected $data;
+
+	/**
+	 * @var ilDBInterface
+	 */
 	protected $db;
+
+	/**
+	 * @var ilObjWiki
+	 */
 	protected $wiki;
+
+	/**
+	 * @var ilObjUser
+	 */
 	protected $user;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
 	/**
 	 * Construct
@@ -36,6 +53,7 @@ class ilWikiUserHTMLExport
 		$this->wiki = $a_wiki;
 		$this->user = $a_user;
 		$this->read();
+		$this->log = ilLoggerFactory::getLogger('wiki');
 	}
 
 	/**
@@ -63,6 +81,7 @@ class ilWikiUserHTMLExport
 	 */
 	protected function getProcess()
 	{
+		$this->log->debug("getProcess");
 		$last_change = ilPageObject::getLastChangeByParent("wpg", $this->wiki->getId());
 
 		$this->db->lockTables(
@@ -183,10 +202,12 @@ class ilWikiUserHTMLExport
 	 */
 	function deliverFile()
 	{
+		$this->log->debug("deliver");
 		include_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
 		$exp = new ilWikiHTMLExport($this->wiki);
 		$exp->setMode(ilWikiHTMLExport::MODE_USER);
 		$file = $exp->getUserExportFile();
+		$this->log->debug("file: ".$file);
 		ilUtil::deliverFile($file, pathinfo($file, PATHINFO_BASENAME));
 	}
 
