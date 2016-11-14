@@ -16359,3 +16359,4 @@ itgr#:#itgr_desc_info#:#The description will not be a part of the item group's p
 mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
 mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
 common#:#sahs_export_file#:#ILIAS exported SCORM archive file
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
