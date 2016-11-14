@@ -1401,7 +1401,7 @@ assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
+assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points

@@ -1583,7 +1583,7 @@ assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken mein
 assessment#:#tst_suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#tst_test_output#:#Testdurchführung
 assessment#:#tst_text_count_system#:#Bewertungssystem
-assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s.
+assessment#:#tst_time_already_spent#:#Sie haben den Test gestartet: %s. Ihre maximale Bearbeitungsdauer beträgt %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
