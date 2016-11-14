@@ -183,8 +183,17 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$ti_prefix = new ilTextInputGUI($this->lng->txt("prefix"), 'prefix');
 		$ti_key = new ilTextInputGUI($this->lng->txt("lti_consumer_key"), 'key');
 		$ti_secret = new ilTextInputGUI($this->lng->txt("lti_consumer_secret"), 'secret');
-		$si_language = new ilSelectInputGUI($this->lng->txt("language"), 'language');
-		$si_language->setOptions($this->lng->getInstalledLanguages());
+
+		$languages = $this->lng->getInstalledLanguages();
+		$array_lang = array();
+		foreach($languages as $lang_key)
+		{
+			$array_lang[$lang_key] = ilLanguage::_lookupEntry($lang_key,"meta", "meta_l_".$lang_key);
+		}
+
+		$si_language = new ilSelectInputGUI($this->lng->txt("language"), "language");
+		$si_language->setOptions($array_lang);
+		
 		$cb_active = new ilCheckboxInputGUI($this->lng->txt('active'), 'active');
 
 		$form->addItem($ti_title);
@@ -215,7 +224,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$si_roles->setOptions($options);
 		$form->addItem($si_roles);
 
-		if($a_mode = 'edit')
+		if($a_mode == 'edit')
 		{
 			$form->addCommandButton("updateLTIConsumer", $this->lng->txt("edit"));
 		}

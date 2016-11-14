@@ -95,8 +95,10 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("NO_OBJECTS", "-");
 		}
+		require_once ("Services/AccessControl/classes/class.ilObjRole.php");
 
-		$this->tpl->setVariable("TXT_ROLE", $a_set["role"]);
+		$obj_role = new ilObjRole($a_set["role"]);
+		$this->tpl->setVariable("TXT_ROLE", $obj_role->getTitle());
 
 		if($a_set["active"])
 		{
