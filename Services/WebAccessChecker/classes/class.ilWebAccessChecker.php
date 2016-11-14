@@ -197,13 +197,9 @@ class ilWebAccessChecker {
 				throw  $e;
 			}
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
-				$_REQUEST["baseClass"] = "ilStartUpGUI";
-				// @todo authentication: fix request show login
-				$_REQUEST["cmd"] = "showLogin";
-
-				$_POST['username'] = 'anonymous';
-				$_POST['password'] = 'anonymous';
-				ilWACLog::getInstance()->write('reinit ILIAS');
+				include_once './Services/Context/classes/class.ilContext.php';
+				ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
+				require_once("Services/Init/classes/class.ilInitialisation.php");
 				ilInitialisation::reinitILIAS();
 				$this->checkPublicSection();
 				$this->checkUser();
