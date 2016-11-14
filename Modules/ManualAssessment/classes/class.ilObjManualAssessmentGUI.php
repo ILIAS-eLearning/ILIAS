@@ -157,7 +157,7 @@ class ilObjManualAssessmentGUI extends ilObjectGUI {
 			$info->addProperty($this->lng->txt('grading'),$this->getEntryForStatus($member->LPStatus()));
 		}
 		if($member->notify() && $member->finalized()) {
-			$info->addProperty($this->lng->txt('grading_record'),$member->record());
+			$info->addProperty($this->lng->txt('grading_record'), nl2br($member->record()));
 		}
 		return $info;
 	}
