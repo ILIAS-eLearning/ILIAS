@@ -159,12 +159,16 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	{
 		if(!($form instanceof ilPropertyFormGUI))
 		{
-			$form = $this->getConsumerForm();
+			$form = $this->getConsumerForm('create');
 		}
 		$this->tpl->setContent($form->getHTML());
 	}
 
-	public function getConsumerForm()
+	/**
+	 * @param string $a_mode
+	 * @return ilPropertyFormGUI
+	 */
+	public function getConsumerForm($a_mode = '')
 	{
 		$this->tabs_gui->activateTab("consumers");
 
@@ -211,7 +215,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$si_roles->setOptions($options);
 		$form->addItem($si_roles);
 
-		$form->addCommandButton("createLTIConsumer", $this->lng->txt("save"));
+		if($a_mode == 'edit')
+		{
+			$form->addCommandButton("updateLTIConsumer", $this->lng->txt("edit"));
+		}
+		else
+		{
+			$form->addCommandButton("createLTIConsumer", $this->lng->txt("create"));
+		}
 
 		return $form;
 	}
@@ -249,6 +260,61 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	}
 
+	protected function updateLTIConsumer()
+	{
+		global $ilCtrl;
+
+		$consumer_id = $_REQUEST["cid"];
+		if (!$consumer_id)
+		{
+			$ilCtrl->redirect($this, "listConsumers");
+		}
+
+		$ilCtrl->setParameter($this, "cid", $consumer_id);
+
+		$consumer = new ilLTIExternalConsumer($consumer_id);
+
+		$form = $this->getConsumerForm($consumer_id);
+
+		if($form->checkInput())
+		{
+			$consumer->setTitle($form->getInput('title'));
+			$consumer->setDescription($form->getInput('description'));
+			$consumer->setPrefix($form->getInput('prefix'));
+			$consumer->setKey($form->getInput('key'));
+			$consumer->setSecret($form->getInput('secret'));
+			$consumer->setLanguage($form->getInput('language'));
+			$consumer->setActive($form->getInput('active'));
+			$consumer->setRole($form->getInput('role'));
+
+			$consumer->update();
+
+			$this->object->saveConsumerObjectTypes($consumer_id, $form->getInput('types'));
+
+			ilUtil::sendSuccess($this->lng->txt("lti_consumer_updated"),true);
+		}
+		$this->listConsumers();
+
+	}
+
+	protected function deleteLTIConsumer()
+	{
+		global $ilCtrl;
+
+		$consumer_id = $_REQUEST['cid'];
+
+		if (!$consumer_id)
+		{
+			$ilCtrl->redirect($this, "listConsumers");
+		}
+		$consumer = new ilLTIExternalConsumer($consumer_id);
+
+		$consumer->delete();
+
+		ilUtil::sendSuccess($this->lng->txt("lti_consumer_deleted"),true);
+
+		$this->listConsumers();
+	}
 
 	protected function listConsumers()
 	{

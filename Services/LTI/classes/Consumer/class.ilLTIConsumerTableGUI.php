@@ -49,6 +49,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{
+		global $ilCtrl;
+
 		$consumer_data = ilLTIExternalConsumer::getAll();
 		$result = array();
 		foreach ($consumer_data as $cons) {
@@ -107,5 +109,19 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_ACTIVE", $lng->txt('inactive'));
 		}
 
+		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setId($a_set["id"]);
+		$list->setListTitle($lng->txt("actions"));
+
+		$ilCtrl->setParameter($this->getParentObject(), "cid", $a_set["id"]);
+		$edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "editConsumer");
+		$delete_url = $ilCtrl->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
+		$ilCtrl->setParameter($this->getParentObject(), "consumer_id", "");
+		$list->addItem($lng->txt("edit"), "", $edit_url);
+		$list->addItem($lng->txt("delete"), "", $delete_url);
+
+		$this->tpl->setVariable("ACTION", $list->getHTML());
 	}
 }

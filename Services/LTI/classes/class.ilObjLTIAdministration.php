@@ -63,22 +63,25 @@ class ilObjLTIAdministration extends ilObject
 		return $roles;
 	}
 
-	public function saveConsumerObjectTypes($a_consumer_id, array $a_obj_types)
+	public function saveConsumerObjectTypes($a_consumer_id, $a_obj_types)
 	{
 		global $ilDB;
 
 		$ilDB->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = ".$ilDB->quote($a_consumer_id, "integer"));
 
-		$lti_obj_types = $this->getLTIObjectTypesIds();
-
-		$obj_actives = array_intersect($lti_obj_types, $a_obj_types);
-
-		$query = "INSERT INTO lti_ext_consumer_otype (consumer_id, object_type) VALUES (%s, %s)";
-		$types = array("integer", "text");
-		foreach ($obj_actives as $ot)
+		if($a_obj_types)
 		{
-			$values = array($a_consumer_id, $ot);
-			$ilDB->manipulateF($query,$types,$values);
+			$lti_obj_types = $this->getLTIObjectTypesIds();
+
+			$obj_actives = array_intersect($lti_obj_types, $a_obj_types);
+
+			$query = "INSERT INTO lti_ext_consumer_otype (consumer_id, object_type) VALUES (%s, %s)";
+			$types = array("integer", "text");
+			foreach ($obj_actives as $ot)
+			{
+				$values = array($a_consumer_id, $ot);
+				$ilDB->manipulateF($query,$types,$values);
+			}
 		}
 	}
 
