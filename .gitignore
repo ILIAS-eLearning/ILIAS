@@ -19,7 +19,7 @@
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php
-#/setup/sql/dbupdate_custom.php
+/setup/sql/dbupdate_custom.php
 
 # Directories
 /data
