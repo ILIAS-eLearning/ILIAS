@@ -157,7 +157,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#loginStudipUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS login function for Stud.IP-Connection');
+								'ILIAS login function for Stud.IP-Connection. DEPRECATED: this method will be removed in ILIAS 5.3.');
 
 
 								// logout()
