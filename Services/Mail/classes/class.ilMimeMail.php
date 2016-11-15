@@ -455,8 +455,8 @@ class ilMimeMail
 			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
 			" | From: " . $this->xheaders['From'] .
 			" | To: " . implode(', ', $this->sendto) .
-			" | CC: " . implode(', ', $this->abcc) .
-			" | BCC: " . implode(', ', $this->acc) .
+			" | CC: " . implode(', ', $this->acc) .
+			" | BCC: " . implode(', ', $this->abcc) .
 			" | Subject: " .$mail->Subject
 		));
 
