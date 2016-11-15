@@ -172,7 +172,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	{
 		$this->tabs_gui->activateTab("consumers");
 
-		require_once ("Services/Form/classes/class.ilPropertyFormGui.php");
+		require_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$form = new ilPropertyFormGUI();
 
