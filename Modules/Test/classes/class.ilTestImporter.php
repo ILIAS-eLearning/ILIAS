@@ -160,11 +160,8 @@ class ilTestImporter extends ilXmlImporter
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();
 
-		foreach ($qtiParser->getImportMapping() as $k => $v)
+		foreach($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId)
 		{
-			$oldQuestionId = substr($k, strpos($k, 'qst_')+strlen('qst_'));
-			$newQuestionId = $v['test']; // yes, this is the new question id ^^
-
 			$a_mapping->addMapping(
 				"Services/Taxonomy", "tax_item", "tst:quest:$oldQuestionId", $newQuestionId
 			);
