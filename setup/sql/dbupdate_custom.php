@@ -42,7 +42,7 @@ if (!$ilDB->tableExists('lti_ext_consumer'))
 			'length' => 255,
 			'notnull' => true,
 		),
-		'globalrole_id' => array(
+		'role' => array(
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => true,

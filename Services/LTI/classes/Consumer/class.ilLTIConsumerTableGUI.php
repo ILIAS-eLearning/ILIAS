@@ -122,7 +122,6 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "editConsumer");
 		$delete_url = $ilCtrl->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
 		$status_url = $ilCtrl->getLinkTarget($this->getParentObject(), "changeStatusLTIConsumer");
-		//$ilCtrl->setParameter($this->getParentObject(), "cid", "");
 		$list->addItem($lng->txt("edit"), "", $edit_url);
 		$list->addItem($lng->txt("delete"), "", $delete_url);
 		$list->addItem($label_status, "", $status_url);

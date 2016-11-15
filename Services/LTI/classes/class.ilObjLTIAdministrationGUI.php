@@ -406,7 +406,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$msg = "lti_consumer_set_active";
 		}
 		$consumer->update();
-		
+
 		ilUtil::sendSuccess($this->lng->txt($msg),true);
 
 		$this->listConsumers();
