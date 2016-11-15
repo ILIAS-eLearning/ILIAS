@@ -69,14 +69,6 @@ class ilDataCollectionExporter extends ilXmlExporter {
 	 * @return array
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids) {
-		$mep = new ilObjMediaPool();
-		foreach ($a_ids as $id) {
-			$m_ids = $mep->getAllMobIds($id);
-			foreach ($m_ids as $m) {
-				$mob_ids[] = $m;
-			}
-		}
-
 		$dependencies = array(
 			ilDclDatatype::INPUTFORMAT_FILE => array(
 				'component' => 'Modules/File',
@@ -91,7 +83,6 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		);
 
 		// Direct SQL query is faster than looping over objects
-		$page_object_ids = array();
 		foreach ($a_ids as $dcl_obj_id) {
 			$sql = "SELECT stloc2.value AS ext_id, f.`datatype_id` FROM il_dcl_stloc2_value AS stloc2 "
 				. "INNER JOIN il_dcl_record_field AS rf ON (rf.`id` = stloc2.`record_field_id`) "

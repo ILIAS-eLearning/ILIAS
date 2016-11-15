@@ -243,15 +243,6 @@ class ilObjMediaPool extends ilObject
 						$mob->delete();
 					}
 					break;
-
-/*				case "fold":
-					if  (ilObject::_lookupType($fid) == "fold")
-					{
-						include_once("./Modules/Folder/classes/class.ilObjFolder.php");
-						$fold = new ilObjFolder($fid, false);
-						$fold->delete();
-					}
-					break;*/
 			}
 		}
 		
@@ -300,8 +291,6 @@ class ilObjMediaPool extends ilObject
 	*/
 	function getChildsExceptFolders($obj_id = "")
 	{
-		$objs = array();
-		$mobs = array();
 		if ($obj_id == "")
 		{
 			$obj_id = $this->tree->getRootId();
@@ -378,10 +367,12 @@ class ilObjMediaPool extends ilObject
 		return $objs;
 	}
 
+
 	/**
-	 * Get all media object ids
+	 * @param int $a_id of the media pool
+	 * @return array of obj_id's (int) of media objects
 	 */
-	function getAllMobIds($a_id)
+	public static function getAllMobIds($a_id)
 	{
 		global $ilDB;
 
@@ -473,10 +464,6 @@ class ilObjMediaPool extends ilObject
 	 */
 	function deleteChild($obj_id)
 	{
-		$fid = ilMediaPoolItem::lookupForeignId($obj_id);
-		$type = ilMediaPoolItem::lookupType($obj_id);
-		$title = ilMediaPoolItem::lookupTitle($obj_id);
-		
 		$node_data = $this->tree->getNodeData($obj_id);
 		$subtree = $this->tree->getSubtree($node_data);
 
@@ -595,8 +582,6 @@ class ilObjMediaPool extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	
 		$new_obj->setTitle($this->getTitle());
@@ -651,9 +636,6 @@ class ilObjMediaPool extends ilObject
 					
 					// copy page
 					$page->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);
-					//$new_page->setXMLContent($page->copyXMLContent(true));
-					//$new_page->buildDom();
-					//$new_page->update();
 					break;
 					
 				case "fold":

@@ -95,6 +95,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL:
+				case ilDBConstants::TYPE_GALERA:
 				case ilDBConstants::TYPE_INNODB:
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 					$clientIniFile = $this->client->ini;
@@ -217,9 +218,7 @@ class ilDbSetup {
 			$this->provideGlobalDB();
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
-				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL:
-				case ilDBConstants::TYPE_INNODB:
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();
@@ -229,6 +228,9 @@ class ilDbSetup {
 					return true;
 
 					break;
+				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
+				case ilDBConstants::TYPE_INNODB:
+				case ilDBConstants::TYPE_GALERA:
 				case ilDBConstants::TYPE_PDO_POSTGRE:
 				case ilDBConstants::TYPE_POSTGRES:
 				case ilDBConstants::TYPE_ORACLE:

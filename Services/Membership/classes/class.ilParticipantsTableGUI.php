@@ -100,8 +100,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
 		self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
 		
-		if ($this->type == 'member' &&
-			$ilSetting->get('user_portfolios'))
+		if($ilSetting->get('user_portfolios'))
 		{
 			self::$all_columns['prtf'] = array(
 				'txt' => $this->lng->txt('obj_prtf'),

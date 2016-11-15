@@ -17,7 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScori
  * @ingroup ModulesTestQuestionPool
  *
  * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
- * 
+ * @ilCtrl_Calls assFileUploadGUI: ilFormPropertyDispatchGUI
  */
 class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
@@ -78,6 +78,8 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(false);

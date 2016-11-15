@@ -15,10 +15,10 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Maximilian Becker <mbecker@databay.de>
- * 
  * @version	$Id$
  * 
  * @ingroup ModulesTestQuestionPool
+ * @ilCtrl_Calls assMatchingQuestionGUI: ilFormPropertyDispatchGUI
  */
 class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -27,6 +27,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
 	 *
+	 * @param integer $id The database id of a image map question object
 	 * @param integer $id The database id of a image map question object
 	 * 
 	 * @return \assMatchingQuestionGUI
@@ -231,6 +232,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(true);

@@ -17,6 +17,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ingroup ModulesTestQuestionPool
  *          
  * @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
+ * @ilCtrl_Calls assOrderingHorizontalGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
 class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
@@ -74,6 +75,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);

@@ -15,10 +15,10 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Maximilian Becker <mbecker@databay.de>
- *
  * @version	$Id$
  *          
  * @ingroup ModulesTestQuestionPool
+ * @ilCtrl_Calls assMultipleChoiceGUI: ilFormPropertyDispatchGUI
  */
 class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {

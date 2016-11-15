@@ -397,9 +397,25 @@ class ilRbacSystem
 	{
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
 		$settings = ilMemberViewSettings::getInstance();
-		if($settings->isEnabled() and isset($_GET['mv']))
+		
+		if(!isset($_GET['mv']))
 		{
-			$settings->toggleActivation((int) $_GET['ref_id'], (int) $_GET['mv']);
+			// nothing to do
+			return true;
+		}
+		
+		// disable member view
+		if(!$_GET['mv'])
+		{
+			// force deactivation
+			$settings->toggleActivation((int) $_GET['ref_id'], false);
+		}
+		else
+		{
+			if($this->checkAccess('write', (int) $_GET['ref_id']))
+			{
+				$settings->toggleActivation((int) $_GET['ref_id'], true);
+			}
 		}
 		
 		if(!$settings->isActive())
