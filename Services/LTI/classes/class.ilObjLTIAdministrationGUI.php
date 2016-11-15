@@ -93,7 +93,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	protected function getSettingsForm()
 	{
-		require_once ("Services/Form/classes/class.ilPropertyFormGui.php");
+		require_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$form = new ilPropertyFormGUI();
 		/*
