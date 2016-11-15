@@ -124,10 +124,10 @@ class ilAuthContainerSOAP extends Auth_Container
 			$this->server_nms,
 			$soapAction);
 //echo "<br>== Request ==";
-//echo '<br><pre>' . htmlspecialchars($this->soap_client->request, ENT_QUOTES) . '</pre><br>';
+//echo '<br><pre>' . htmlspecialchars($this->client->request, ENT_QUOTES) . '</pre><br>';
 //echo "<br>== Response ==";
 //echo "<br>Valid: -".$valid["valid"]."-";
-//echo '<br><pre>' . htmlspecialchars($this->soap_client->response, ENT_QUOTES) . '</pre>';
+//echo '<br><pre>' . htmlspecialchars($this->client->response, ENT_QUOTES) . '</pre>';
 		
 		if (trim($valid["valid"]) == "false")
 		{
