@@ -119,7 +119,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		{
 			$user_ids = ilBadgeHandler::getInstance()->getUserIds($a_parent_ref_id, $a_parent_obj_id);		
 		}		
-		
+
 		$obj_ids = array($a_parent_obj_id);
 		
 		// add sub-items 
@@ -168,15 +168,19 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 
 		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
 		include_once "Services/User/classes/class.ilUserQuery.php";
-		$uquery = new ilUserQuery();
-		$uquery->setUserFilter($user_ids);
-		
-		if($this->filter["name"])
+		$tmp["set"] = array();
+		if (count($user_ids) > 0)
 		{
-			$uquery->setTextFilter($this->filter["name"]);
+			$uquery = new ilUserQuery();
+			$uquery->setUserFilter($user_ids);
+
+			if ($this->filter["name"])
+			{
+				$uquery->setTextFilter($this->filter["name"]);
+			}
+
+			$tmp = $uquery->query();
 		}
-		
-		$tmp = $uquery->query();
 		foreach($tmp["set"] as $user)
 		{			
 			// add 1 entry for each badge
