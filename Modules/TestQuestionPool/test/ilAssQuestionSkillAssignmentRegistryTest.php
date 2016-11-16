@@ -112,7 +112,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCas
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
 		$assignmentList = new \ilAssQuestionSkillAssignmentImportList();
 
-		for($i = 0; $i < 50; $i++)
+		for($i = 0; $i < 5; $i++)
 		{
 			$assignment = new \ilAssQuestionSkillAssignmentImport();
 			$assignment->setEvalMode(\ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION);
@@ -129,7 +129,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCas
 		$rawData = array(
 			array("This is a Test", 2),
 			array(array("üäöÖÜÄÖß"), 2),
-			array("This is a Test with a huge chunk size", PHP_INT_MAX),
+			array("This is a Test with a huge chunk size", 10000),
 			array($assignmentList, 7)
 		);
 
