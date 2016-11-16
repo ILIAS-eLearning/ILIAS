@@ -166,7 +166,7 @@ class ilDclBaseRecordFieldModel {
 
 
 	/**
-	 * @return string
+	 * @return string|array
 	 */
 	public function getValue() {
 		$this->loadValue();
@@ -299,7 +299,13 @@ class ilDclBaseRecordFieldModel {
 	 * @param ilConfirmationGUI $confirmation
 	 */
 	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {;
-		$confirmation->addHiddenItem('field_'.$this->field->getId(), $this->getValue());
+		if (!is_array($this->getValue())) {
+			$confirmation->addHiddenItem('field_'.$this->field->getId(), $this->getValue());
+		} else {
+			foreach ($this->getValue() as $key => $value) {
+				$confirmation->addHiddenItem('field_'.$this->field->getId() . "[$key]", $value);
+			}
+		}
 	}
 
 	/**
