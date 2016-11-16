@@ -606,7 +606,7 @@ class SurveyQuestion
 	*
 	* @access public
 	*/
-	function duplicate($for_survey = true, $title = "", $author = "", $owner = "")
+	function duplicate($for_survey = true, $title = "", $author = "", $owner = "", $a_survey_id = 0)
 	{
 		if ($this->getId() <= 0)
 		{
@@ -617,6 +617,10 @@ class SurveyQuestion
 		$clone = $this;
 		$original_id = $this->getId();
 		$clone->setId(-1);
+		if ($a_survey_id > 0)
+		{
+			$clone->setObjId($a_survey_id);
+		}
 		if ($title)
 		{
 			$clone->setTitle($title);
