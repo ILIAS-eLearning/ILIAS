@@ -32,11 +32,12 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("title"), "title");			
 		$this->addColumn($lng->txt("object"), "parent_title");			
 		$this->addColumn($lng->txt("badge_issued_on"), "issued_on");	
-		$this->addColumn($lng->txt("badge_in_profile"), "active");	
-		
+		$this->addColumn($lng->txt("badge_in_profile"), "active");
+		$this->addColumn($lng->txt("actions"), "");
+
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
-			$this->addColumn($lng->txt("actions"), "");	
+
 			
 			// :TODO: use local copy instead?
 			$tpl->addJavascript("https://backpack.openbadges.org/issuer.js", false);	
@@ -178,7 +179,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setListTitle($lng->txt("actions"));
+		$actions->setListTitle("");
 
 		$ilCtrl->setParameter($this->getParentObject(), "badge_id", $a_set["id"]);		
 		$url = $ilCtrl->getLinkTarget($this->getParentObject(), $a_set["active"]
