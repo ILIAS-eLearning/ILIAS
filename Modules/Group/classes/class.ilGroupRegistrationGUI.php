@@ -191,14 +191,21 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		$tpl->setVariable('NUM_MAX',$this->container->getMaxMembers());
 		
 		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places').":");
-		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
+		
+		include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
+		$reg_info = ilObjGroupAccess::lookupRegistrationInfo($this->getContainer()->getId());
+		$free = $reg_info['reg_info_free_places'];
+
 		
 		if($free)
+		{
 			$tpl->setVariable('NUM_FREE',$free);
+		}
 		else
+		{
 			$tpl->setVariable('WARN_FREE',$free);
+		}
 			
-
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$waiting_list = new ilGroupWaitingList($this->container->getId());
 		
