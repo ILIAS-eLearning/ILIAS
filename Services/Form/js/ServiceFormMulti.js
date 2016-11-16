@@ -262,12 +262,13 @@ var ilMultiFormValues = {
 		// try to set value 
 		if(preset != '') {
 			$(element).find('select[id*="' + group_id + '"] option[value="' + preset + '"]').attr('selected', true);
+			$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
 		}
 		else {
 			$(element).find('select[id*="' + group_id + '"] option:selected').removeAttr('selected');
+			$(element).find('input:text[id*="' + group_id + '"]').val('');
 		}
-		$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
-		
+
 		// non-editable value
 		$(element).find('span[id*="' + group_id + '"]').html(preset);
 		$(element).find('input:hidden[id*="hidden' + group_id + '"]').attr('value', preset);

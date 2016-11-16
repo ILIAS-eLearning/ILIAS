@@ -27,8 +27,10 @@ var ilWizardInput = {
                 
 		// add events
 		this.initEvents(target);
-		
-                // empty inputs
+
+		// empty inputs
+		//#19596
+		$(target).find('input:text').val('');
 		this.cleanRow(target);
 
 		$(source).after(target);	
