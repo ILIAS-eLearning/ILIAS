@@ -548,6 +548,14 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				// first part fix #19469
+				$set = $ilDB->query("SELECT question_fi FROM svy_svy_qst  ".
+					" WHERE question_fi = ".$ilDB->quote($row["question_id"], "integer")
+					);
+				if ($temp = $ilDB->fetchAssoc($set))
+				{
+					continue;
+				}
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
