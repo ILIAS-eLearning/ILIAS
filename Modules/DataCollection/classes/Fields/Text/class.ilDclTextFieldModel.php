@@ -54,6 +54,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 				'title' => $form->getInput("field_" . $this->getId() . "_title")
 			);
 			$this->checkValidityOfURLField($values, $record_id);
+		} else {
+			parent::checkValidityFromForm($form, $record_id);
 		}
 	}
 
