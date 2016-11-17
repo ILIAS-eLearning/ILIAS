@@ -18,7 +18,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	/**
 	 * @var callable
 	 */
-	protected $title_modifier = NULL;
+	protected $title_modifier = null;
 
 	/**
 	 * Constructor
@@ -54,6 +54,16 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	function setTitleModifier(callable $a_val)
 	{
 		$this->title_modifier = $a_val;
+		if ($a_val != null)
+		{
+			$this->explorer_gui->setNodeContentModifier(function ($a_node) use ($a_val) {
+				return $a_val($a_node["child"]);
+			});
+		}
+		else
+		{
+			$this->explorer_gui->setNodeContentModifier(null);
+		}
 	}
 
 	/**
