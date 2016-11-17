@@ -925,17 +925,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($endingtime);
 							
 		// anonymization
-		if(!$this->object->get360Mode())
-		{			
-			$codes = new ilCheckboxInputGUI($this->lng->txt("survey_access_codes"), "acc_codes");
-			$codes->setInfo($this->lng->txt("survey_access_codes_info"));
-			$codes->setChecked(!$this->object->isAccessibleWithoutCode());
-			$form->addItem($codes);
-				
-			if (ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
-			{
-				$codes->setDisabled(true);				
-			}			
+		#19733
+		$codes = new ilCheckboxInputGUI($this->lng->txt("survey_access_codes"), "acc_codes");
+		$codes->setInfo($this->lng->txt("survey_access_codes_info"));
+		$codes->setChecked(!$this->object->isAccessibleWithoutCode());
+		$form->addItem($codes);
+
+		if (ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
+		{
+			$codes->setDisabled(true);
 		}
 		
 		
