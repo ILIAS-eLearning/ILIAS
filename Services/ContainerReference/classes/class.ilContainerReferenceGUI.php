@@ -229,7 +229,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	{
 		global $ilTabs;
 
-		$ilTabs->setTabActive('edit');
+		$ilTabs->setTabActive('settings');
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
@@ -261,12 +261,15 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		}
 
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		if ($a_mode == self::MODE_CREATE) {
+		if ($a_mode == self::MODE_CREATE) 
+		{
 			$form->addCommandButton('save', $this->lng->txt('create'));
-		} else {
+			$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		} 
+		else 
+		{
 			$form->addCommandButton('update', $this->lng->txt('save'));
 		}
-
 
 		// title type 
 		$ttype = new ilRadioGroupInputGUI($this->lng->txt('title'), 'title_type');
