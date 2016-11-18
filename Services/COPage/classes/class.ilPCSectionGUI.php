@@ -238,6 +238,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		{
 			include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
 			$rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id");
+			$rs->setParent($this);
 			$form->addItem($rs);
 
 			// permission
