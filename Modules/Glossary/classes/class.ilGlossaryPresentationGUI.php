@@ -1338,7 +1338,7 @@ class ilGlossaryPresentationGUI
 						// download links
 						if ($this->glossary->isActiveDownloads())
 						{
-							$tabs_gui->addTab("download",
+							$this->tabs_gui->addTab("download",
 								$lng->txt("download"),
 								$ilCtrl->getLinkTarget($this, "showDownloadList"));
 						}
