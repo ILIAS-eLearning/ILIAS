@@ -1841,7 +1841,12 @@ class ilSurveyParticipantsGUI
 		include_once "Modules/Survey/classes/tables/class.ilSurveyParticipantsTableGUI.php";
 		$tbl = new ilSurveyParticipantsTableGUI($this, "listParticipants", $this->object);
 		$this->tpl->setContent($tbl->getHTML());
-   } 
+   }
+
+	public function getObject()
+	{
+		return $this->object;
+	}
 }
 
 ?>
