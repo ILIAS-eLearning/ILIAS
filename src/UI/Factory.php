@@ -292,4 +292,20 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Factory
 	 */
 	public function panel();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Charts are usee to graphically represent data in various forms such as maps, graphs or diagrams.
+	 *   composition: >
+	 *      Charts are composed of various graphical and textual elements representing the raw data.
+	 *
+	 * rules:
+	 *   style:
+	 *      1: Charts SHOULD not rely on colors to convey information.
+	 * ---
+	 * @return \ILIAS\UI\Component\Chart\Factory
+	 */
+	public function chart();
 }
