@@ -120,12 +120,20 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	function getHTML()
 	{
 		global $ilCtrl;
-
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
 		$html = parent::getHTML();
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
 		return $html;
 	}
 
-
+	/**
+	 * Render item
+	 */
+	function render($a_mode = "property_form")
+	{
+		global $ilCtrl;
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
+		return parent::render($a_mode);
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
+	}
 }

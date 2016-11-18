@@ -86,7 +86,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-			
+
 		switch($next_class)
 		{
 			case 'ilformpropertydispatchgui':

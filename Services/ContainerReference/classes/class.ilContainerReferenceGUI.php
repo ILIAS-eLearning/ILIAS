@@ -88,6 +88,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			case "ilpropertyformgui":
 				$form = $this->initForm($this->creation_mode ? self::MODE_CREATE : self::MODE_EDIT);
 				$this->ctrl->forwardCommand($form);
+				break;
+
 			case 'ilpermissiongui':
 				$ilTabs->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -301,7 +303,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
 		include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
 		$repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
-		$repo->setParent($this);
+		//$repo->setParent($this);
 		$repo->setRequired(true);
 		$repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));
 		$repo->getExplorerGUI()->setTypeWhiteList(array_merge(

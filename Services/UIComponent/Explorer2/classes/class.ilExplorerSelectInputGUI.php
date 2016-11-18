@@ -149,7 +149,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	 */
 	function render($a_mode = "property_form")
 	{
-		global $lng, $ilCtrl, $ilObjDataCache, $tree;
+		global $lng;
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();
