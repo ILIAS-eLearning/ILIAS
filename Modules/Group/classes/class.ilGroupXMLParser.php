@@ -40,6 +40,11 @@ class ilGroupXMLParser extends ilSaxParser
 {
 	public static $CREATE = 1;
 	public static $UPDATE = 2;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 	
 	private $participants = null;
 	private $current_container_setting;
@@ -70,6 +75,8 @@ class ilGroupXMLParser extends ilSaxParser
 
 		$this->mode =  ilGroupXMLParser::$CREATE;
 		$this->grp = null;
+		
+		$this->log = $GLOBALS['DIC']->logger()->grp();
 
 		$this->setXMLContent($a_xml);
 
@@ -130,17 +137,11 @@ class ilGroupXMLParser extends ilSaxParser
 	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
 		global $ilErr;
-
+		
 		switch($a_name)
 		{
 			// GROUP DATA
 			case "group":
-				#if($a_attribs["exportVersion"] < EXPORT_VERSION)
-				#{
-				#	$ilErr->raiseError("!!! This export Version isn't supported, update your ILIAS 2 installation"
-				#					   ,$ilErr->WARNING);
-				#}
-				// DEFAULT
 				$this->group_data["admin"] = array();
 				$this->group_data["member"] = array();
 
@@ -214,7 +215,8 @@ class ilGroupXMLParser extends ilSaxParser
 			
 			case 'WaitingListAutoFill':
 			case 'CancellationEnd':
-			case 'MinMembers':
+			case 'minMembers':
+			case 'mailMembersType':
 				break;		
 		}
 	}
@@ -287,12 +289,17 @@ class ilGroupXMLParser extends ilSaxParser
 				}
 				break;
 				
-			case 'MinMembers':
+			case 'minMembers':
 				if((int)$this->cdata)
 				{
 					$this->group_data['min_members'] = (int)$this->cdata;								
 				}
-				break;				
+				break;	
+			
+			case 'mailMembersType':
+				$this->group_data['mail_members_type'] = (int) $this->cdata;
+				break;
+				
 		}
 		$this->cdata = '';
 	}
@@ -329,6 +336,7 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->setImportId($this->group_data["id"]);
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
+		$this->group_obj->setInformation((string) $this->group_data['information']);
 		
 		$ownerChanged = false;
 		if (isset($this->group_data["owner"])) 
@@ -426,6 +434,8 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
 		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
 		$this->group_obj->setMinMembers($this->group_data['min_members']);		
+		
+		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
 		
 		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
