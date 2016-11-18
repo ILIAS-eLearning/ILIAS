@@ -309,16 +309,16 @@ class ilLOTestAssignments
 	{
 		global $ilDB;
 		
-		$res = array();
+		$objectives = array();
 		
 		$query = 'SELECT objective_id FROM loc_tst_assignments '.
 				'WHERE tst_ref_id = '.$ilDB->quote($a_test_ref_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$res[] =  $row->objective_id;
+			$objectives[] =  $row->objective_id;
 		}
-		return $res;
+		return $objectives;
 	}
 }
 ?>
