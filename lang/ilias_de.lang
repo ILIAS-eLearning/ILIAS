@@ -15858,9 +15858,9 @@ skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
 copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
-pd#:#pd_enable_mail_pdsysmess#:#Block Systemnachrichten aktivieren
+pd#:#pd_enable_mail_pdsysmess#:#Block 'Systemnachrichten' aktivieren
 pd#:#pd_pdmail_include_sysnmess#:#Systemnachrichten im Block Mail
-pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systmenachrichten im Block "Mail" dargestellt.
+pd#:#pd_pdmail_include_sysnmess_info#:#Wenn aktiviert, werden auch Systemnachrichten im Block "Mail" dargestellt.
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
 pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
@@ -15870,7 +15870,7 @@ logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#E-Mail-Empfänger
 logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
 logging#:#error_settings_saved#:#Einstellungen gespeichert
-logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog Dateien
+logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
@@ -15959,53 +15959,53 @@ badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
 badge#:#badge_notification_osd#:#Sie haben gerade neue Badges erhalten: [BADGE_LIST]
 badge#:#badge_notification_badges#:#Neue Badges
 badge#:#badge_notification_badges_goto#:#Zu den Badges
-badge#:#badge_notification_parent_goto#:#Zum Repository
+badge#:#badge_notification_parent_goto#:#Zum Magazin
 badge#:#badge_notification_reason#:#Sie erhalten diese Nachricht, um die neuen Badges in Ihr Profil einbinden zu können.
 badge#:#badge_in_profile#:#Im Profil
 badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
 badge#:#badge_remove_from_profile#:#Aus Profil entfernen
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
-badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Keine neuen Badges können erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
+badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Es können keine neuen Badges erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_less#:#Weniger zeigen
-badge#:#badge_backpack_gallery_info#:#Dies sind deine veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
 badge#:#badge_profile_view#:#Anzeigen
 badge#:#badge_profile_manage#:#Verwalten
 badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
-badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützen LP-Modus: %s.
+badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
 trac#:#trac_defaults#:#Bestanden-Status
 trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
-assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen###fau: testNav
-assessment#:#save_on_navigation#:#Navigation mit Speichern###fau: testNav
-assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.###fau: testNav
-assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert und festgeschrieben.###fau: testNav
-assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Diese Nachfrage nicht mehr anzeigen###fau: testNav
-assessment#:#tst_answer_status_editing#:#(in Bearbeitung ... )###fau: testNav
-assessment#:#tst_answer_status_answered#:#Beantwortet###fau: testNav
-assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet###fau: testNav
-assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt###fau: testNav
-assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt###fau: testNav
-assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten###fau: testNav
-assessment#:#postpone_question#:#Frage ans Ende verschieben###fau: testNav
-assessment#:#tst_question_not_marked#:#Die Frage ist nicht markiert###fau: testNav
-assessment#:#tst_save_and_proceed#:#Speichern und weiter###fau: testNav
-adve#:#char_selector_menu_open#:#Sonderzeichen-Auswahl anzeigen###fau: testNav
-adve#:#char_selector_menu_close#:#Sonderzeichen-Auswahl verbergen###fau: testNav
-glo#:#glo_add_from_other#:#Collect Terms
-glo#:#glo_select_terms#:#Select Terms
-glo#:#glo_copy_terms#:#Copy Terms
-glo#:#glo_reference_terms#:#Reference Terms
-glo#:#glo_select_source_glo#:#Please select a source glossary.
-glo#:#glo_referenced_term#:#Referenced Term
-glo#:#glo_term_reference#:#Term Reference
-glo#:#glo_reference#:#Reference
-glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
+assessment#:#save_on_navigation#:#Navigation mit Speichern
+assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.
+assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert und festgeschrieben.
+assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
+assessment#:#save_on_navigation_prevent_confirmation#:#Diese Nachfrage nicht mehr anzeigen.
+assessment#:#tst_answer_status_editing#:#(in Bearbeitung ... )
+assessment#:#tst_answer_status_answered#:#Beantwortet
+assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet
+assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
+assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt.
+assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
+assessment#:#postpone_question#:#Frage ans Ende verschieben
+assessment#:#tst_question_not_marked#:#Die Frage ist nicht markiert.
+assessment#:#tst_save_and_proceed#:#Speichern und weiter
+adve#:#char_selector_menu_open#:#Sonderzeichen-Auswahl anzeigen
+adve#:#char_selector_menu_close#:#Sonderzeichen-Auswahl verbergen
+glo#:#glo_add_from_other#:#Begriffe sammeln
+glo#:#glo_select_terms#:#Begriffe auswählen
+glo#:#glo_copy_terms#:#Begriffe kopieren
+glo#:#glo_reference_terms#:#Begriffe verlinken
+glo#:#glo_select_source_glo#:#Bitte wählen Sie das Ausgangsglossar aus.
+glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_term_reference#:#Begriffslink
+glo#:#glo_reference#:#Link
+glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 prg#:#prg_assign_date#:#Hinzugefügt am
 prg#:#prg_assigned_by#:#Hinzugefügt von
 survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
