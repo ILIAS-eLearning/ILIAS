@@ -13993,7 +13993,7 @@ blog#:#blog_edit_posting#:#Beitrag bearbeiten
 common#:#offline_mode#:#Offline-Modus
 sop#:#sop_check_system_requirements#:#Systemvoraussetzungen werden überprüft
 sop#:#sop_already_exported#:#Das Lernmodul befindet sich schon im Offline-Modus. Bitte rufen Sie diese Seite mit Ihrem Firefox-Browser auf, in dem das SCORM-Offline-Player-Addon installiert ist.
-sop#:#sop_firefox_required#:#Für den Offline-Modus wird ein aktueller Mozilla-Firefox Browser (> 20) benötigt.<br /><a href='http://www.mozilla.org/de/firefox/new' target='_new'>Download Firefox</a>
+sop#:#sop_firefox_required#:#Für den Offline-Modus wird ein Mozilla-Firefox Browser der Version 38 benötigt.
 sop#:#sop_xpi_install#:#Bitte installieren Sie zunächst folgendes Firefox-Addon: %s<br />Nach der erfolgreichen Installation müssen Sie diese Seite mit dem Button 'Seite aktualisieren' erneut laden.<br />Danach können Sie das SCORM-Lernmodul für die Offline-Nutzung exportieren und jederzeit auch ohne Internetverbindung bearbeiten
 sop#:#sop_reload_page#:#Seite aktualisieren
 sop#:#sop_text_export#:#SCORM-Lernmodul für die Offline-Bearbeitung exportieren

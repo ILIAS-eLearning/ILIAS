@@ -14037,7 +14037,7 @@ common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
-sop#:#sop_firefox_required#:#Using a SCORM module offline requires an up-to-date Mozilla Firefox Browser (> v. 20)<br /><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Download Firefox</a>
+sop#:#sop_firefox_required#:#Using a SCORM module offline requires Mozilla Firefox Browser Version 38.
 sop#:#sop_xpi_install#:#Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the ‘Reload page’ button. Afterwards the SCORM Learning Module can be used in offline mode.
 sop#:#sop_reload_page#:#Reload page
 sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
