@@ -17,7 +17,7 @@ interface Pick {
 	public function withItems(array $items);
 
 	/**
-	 * Gets the key value pair as items for the list. Key is used as title and value as content.
+	 * Gets the key value pair as array. Key is used as title and value is a boolean marking highlighted values.
 	 * @return array $items string => boolean
 	 */
 	public function getItems();
