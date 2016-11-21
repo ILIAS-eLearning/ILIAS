@@ -22,10 +22,14 @@ class ilManualAssessmentLPInterface {
 		$members = $mass->loadMembers($mass);
 		$usr =  new ilObjUser($usr_id);
 		if($members->userAllreadyMember($usr)) {
-			return self::$members_storage->loadMember($mass ,$usr)->LPStatus();
-		} else {
-			return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+			$member = self::$members_storage->loadMember($mass ,$usr);
+			if($member->finalized()) {
+				return $member->LPStatus();
+			} elseif(in_array($member->LPStatus(),array(ilManualAssessmentMembers::LP_FAILED, ilManualAssessmentMembers::LP_COMPLETED))) {
+				return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+			}
 		}
+		return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 
 	protected static function getMembersStorage() {

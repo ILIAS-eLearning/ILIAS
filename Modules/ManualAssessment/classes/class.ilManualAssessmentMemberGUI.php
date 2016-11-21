@@ -170,6 +170,9 @@ class ilManualAssessmentMemberGUI {
 				$this->member = $this->updateDataInMemberByArray($this->member,$_POST);
 				$this->object->membersStorage()->updateMember($this->member);
 				ilUtil::sendSuccess($this->lng->txt('mass_membership_saved'));
+				if($this->object->isActiveLP()) {
+					ilManualAssessmentLPInterface::updateLPStatusOfMember($this->member);
+				}
 			}
 			$this->renderForm($form);
 		} else {
