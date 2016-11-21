@@ -9,7 +9,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\NotImplementedException;
 
 /**
- * Class Descriptive
+ * Class Pick
  * @package ILIAS\UI\Implementation\Component\Listing\Descriptive
  */
 class Pick implements C\Chart\Pick {
