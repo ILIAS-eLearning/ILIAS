@@ -297,7 +297,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Charts are usee to graphically represent data in various forms such as maps, graphs or diagrams.
+	 *     Charts are used to graphically represent data in various forms such as maps, graphs or diagrams.
 	 *   composition: >
 	 *      Charts are composed of various graphical and textual elements representing the raw data.
 	 *
