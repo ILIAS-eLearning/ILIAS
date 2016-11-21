@@ -494,7 +494,7 @@ class ilUserProfile
 						{
 							$val->setValue($a_user->getLogin());
 						}
-						$val->setMaxLength(32);
+						$val->setMaxLength(64);
 						$val->setSize(40);
 						$val->setRequired(true);
 					}
