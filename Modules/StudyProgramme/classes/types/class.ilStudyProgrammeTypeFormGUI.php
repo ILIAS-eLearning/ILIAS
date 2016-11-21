@@ -83,10 +83,13 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         foreach ($languages as $lang_code) {
             $options[$lang_code] = $this->lng->txt("meta_l_{$lang_code}");
         }
-        $type_default = $this->type->getDefaultLang();
-        $type_default_valid = in_array($type_default, $languages);
         $item->setOptions($options);
-        $item->setValue($type_default_valid ? $type_default : $this->lng->getDefaultLanguage());
+        $type_default = $this->type->getDefaultLang();
+        if(in_array($type_default, $languages)) {
+            $item->setValue($type_default);
+        } else {
+            $item->setValue($this->lng->getDefaultLanguage());
+        }
         $item->setRequired(true);
         $this->addItem($item);
 
