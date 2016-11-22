@@ -3916,5 +3916,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return $exp;
 		}
 	}
+
+	/**
+	 * Set return point for side column actions
+	 */
+	function setSideColumnReturn()
+	{
+		$this->ctrl->setReturn($this, "");
+	}
+
 }
 ?>

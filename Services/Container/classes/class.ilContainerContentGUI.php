@@ -185,7 +185,7 @@ abstract class ilContainerContentGUI
 		switch ($ilCtrl->getNextClass())
 		{	
 			case "ilcolumngui":
-				$ilCtrl->setReturn($this->container_gui, "");
+				$this->container_gui->setSideColumnReturn();
 				$html = $this->__forwardToColumnGUI();
 				break;
 				

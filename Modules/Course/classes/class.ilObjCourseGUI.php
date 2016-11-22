@@ -3701,6 +3701,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
 	}
 
+	/**
+	 * Set return point for side column actions
+	 */
+	function setSideColumnReturn()
+	{
+		$this->ctrl->setReturn($this, "view");
+	}
 
 
 } // END class.ilObjCourseGUI
