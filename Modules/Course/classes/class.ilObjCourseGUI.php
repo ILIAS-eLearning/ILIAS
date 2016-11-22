@@ -3469,7 +3469,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilUser, $ilAccess;
 	
 		$user_id = null;
-		if ($ilAccess->checkAccess('write','',$this->ref_id))
+		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
 		{		
 			$user_id = $_REQUEST["member_id"];
 		}
