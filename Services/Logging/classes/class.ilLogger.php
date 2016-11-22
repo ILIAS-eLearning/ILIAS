@@ -26,6 +26,16 @@ abstract class ilLogger
 		$this->logger = $logger;
 	}
 	
+	/**
+	 * Check whether current logger is handling a log level
+	 * @param int $a_level
+	 * @return bool
+	 */
+	public function isHandling($a_level)
+	{
+		return $this->getLogger()->isHandling($a_level);
+	}
+	
 	public function log($a_message, $a_level = ilLogLevel::INFO)
 	{
 		return $this->getLogger()->log($a_level, $a_message);
