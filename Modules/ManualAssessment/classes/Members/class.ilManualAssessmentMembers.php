@@ -28,6 +28,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 	const FIELD_FINALIZED = 'finalized';
 	const FIELD_NOTIFICATION_TS = 'notification_ts';
 
+	const LP_NOT_ATTEMPTED = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 	const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 	const LP_COMPLETED = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 	const LP_FAILED = ilLPStatus::LP_STATUS_FAILED_NUM;
@@ -91,7 +92,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 			}
 		}
 		if(!in_array($record[self::FIELD_LEARNING_PROGRESS],
-			array(self::LP_FAILED, self::LP_COMPLETED, self::LP_IN_PROGRESS))) {
+			array(self::LP_NOT_ATTEMPTED, self::LP_FAILED, self::LP_COMPLETED, self::LP_IN_PROGRESS))) {
 			return false;
 		}
 		return true;
@@ -161,7 +162,7 @@ class ilManualAssessmentMembers implements Iterator, Countable {
 			, self::FIELD_FIRSTNAME				=> $usr->getFirstname()
 			, self::FIELD_LASTNAME				=> $usr->getLastname()
 			, self::FIELD_LOGIN					=> $usr->getLogin()
-			, self::FIELD_LEARNING_PROGRESS		=> self::LP_IN_PROGRESS
+			, self::FIELD_LEARNING_PROGRESS		=> self::LP_NOT_ATTEMPTED
 			, self::FIELD_EXAMINER_ID			=> null
 			, self::FIELD_EXAMINER_FIRSTNAME	=> null
 			, self::FIELD_EXAMINER_LASTNAME		=> null

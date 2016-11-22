@@ -232,5 +232,14 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	{
 		return $this->getParentGUI()->object->getDefaultMemberRole();
 	}
+	
+	/**
+	 * Deliver certificate for an user on the member list
+	 * @return type
+	 */
+	protected function deliverCertificate()
+	{
+		return $this->getParentGUI()->deliverCertificateObject($user_id);
+	}
 }
 ?>

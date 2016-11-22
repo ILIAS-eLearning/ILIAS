@@ -124,8 +124,8 @@ The interface to the main factory is \ILIAS\UI\Factory.
     * SHOULD contain a field `description` that is a dictionary containing one or
       more than one of the following text fields:
         * `purpose` - describes the usage scenario of the component
-        * `composition` - describes how the component is composed with other
-          components
+        * `composition` - describes how the component is composed from and with
+           other components
         * `effect` - describes visual effects that relate to the item
         * `rival` - describes other components fulfilling a similar function
     * MAY contain a text field `background` that gives academic information

@@ -118,7 +118,7 @@ class ilTrQuery
 		return $result;
 	}
 	
-	function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
+	static function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		

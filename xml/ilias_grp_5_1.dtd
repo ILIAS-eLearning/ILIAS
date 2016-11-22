@@ -44,7 +44,7 @@
 	
 
 <!-- Registration settings -->
-<!ELEMENT registration (password?,(temporarilyAvailable | expiration)?,maxMembers?)>
+<!ELEMENT registration (password?,(temporarilyAvailable | expiration)?,maxMembers?, minMembers?, mailMembersType?)>
 
 <!-- 
 
@@ -81,6 +81,9 @@
 <!-- Number of user -->
 <!ELEMENT maxMembers (#PCDATA)>
 
+<!ELEMENT minMembers (#PCDATA)>
+
+<!ELEMENT mailMembersType (#PCDATA)>
 
 <!-- FILE stored in objects directory with filename "id" -->
 <!ELEMENT file EMPTY>

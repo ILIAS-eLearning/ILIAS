@@ -838,7 +838,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function import()
 	{
-		$form = $this->initImportForm();
+		$form = $this->initImportForm("");
 		if($form->checkInput())
 		{
 			$source = $form->getInput('csv');
@@ -870,7 +870,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'showTrackingItems'));
 
-		$form = $this->initImportForm();
+		$form = $this->initImportForm("");
 		$this->tpl->setContent($form->getHTML());
 	}
 

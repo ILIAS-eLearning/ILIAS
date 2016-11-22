@@ -18,11 +18,22 @@ var ilClient = '{CLIENT_ID}',
 	msg_result = "{MESSAGE_RESULT}",
 	msg_already_exported = "{ALREADY_EXPORTED}",
 	msg_firefox_required = "{FIREFOX_REQUIRED}",
+	msg_your_browser = "{MSG_YOUR_BROWSER}", 
+	msg_firefox_not_portable = "{MSG_FIREFOX_NOT_PORTABLE}",
+	msg_firefox_version_not_supported = "{MSG_FIREFOX_VERSION_NOT_SUPPORTED}",
+	msg_firefox_download_win = "{MSG_FIREFOX_DOWNLOAD_WIN}",
+	msg_firefox_download_linux = "{MSG_FIREFOX_DOWNLOAD_LINUX}",
+	msg_firefox_download_mac = "{MSG_FIREFOX_DOWNLOAD_MAC}",
+	msg_firefox_after_download = "{MSG_FIREFOX_AFTER_DOWNLOAD}",
+	msg_firefox_config = "{MSG_FIREFOX_CONFIG}",
+	msg_firefox_html5 = "{MSG_FIREFOX_HTML5}",
 	msg_xpi_install = "{XPI_INSTALL}",
 	msg_export_content = "{MSG_EXPORT_CONTENT}",
 	msg_export_tracking = "{MSG_EXPORT_TRACKING}",
 	msg_push_tracking = "{MSG_PUSH_TRACKING}",
-	msg_push_tracking_ok = "{MSG_PUSH_TRACKING_OK}";
+	msg_push_tracking_ok = "{MSG_PUSH_TRACKING_OK}",
+	regFirefoxVersion = /(firefox|fennec)\/([\d\.]+)/i,
+	maxFirefoxVersion = 39;						
 
 function checkCallback(success) {
 	mode = (mode=="") ? "online" : mode;
@@ -43,7 +54,35 @@ function checkCallback(success) {
 	}
 	else {
 		var isFirefox = ((navigator.userAgent.toLowerCase().indexOf('firefox') != -1) || (navigator.userAgent.toLowerCase().indexOf('fennec') != -1));
+		var vers = navigator.userAgent.match(regFirefoxVersion);
+		var os = navigator.platform.toLowerCase();
+		var not_supported_intro = (isFirefox) ? msg_firefox_version_not_supported : msg_firefox_required+"<br/>";
+		var not_supported = not_supported_intro;
+		if (os.indexOf('win') != -1) {
+			not_supported += msg_firefox_download_win;
+		}
+		if (os.indexOf('mac') != -1) {
+			not_supported += msg_firefox_download_mac;
+		}
+		if (os.indexOf('linux') != -1) {
+			not_supported += msg_firefox_download_linux;
+		}
+		not_supported += msg_firefox_after_download;
+		not_supported += msg_firefox_config;
+		not_supported += msg_firefox_html5;
 		if (isFirefox) {
+			print(msg_your_browser + navigator.userAgent);
+			if (vers && vers.length == 3) { // Version found
+				vers = parseFloat(vers[2]);
+				if (vers >= maxFirefoxVersion) {
+					print(not_supported,true);
+					return;
+				}
+			}
+			else {
+				// ToDo:
+			}
+			
 			if (mode=="offline") {
 				print(msg_already_exported,true);
 			}
@@ -56,7 +95,8 @@ function checkCallback(success) {
 				print(msg_already_exported,true);
 			}
 			else {
-				print(msg_firefox_required,true);
+				print(not_supported,true);
+				return;
 			}
 		}
 	}
@@ -115,7 +155,6 @@ function getOfflineUrl(id) {
 
 function openLm() {
 	var url = getOfflineUrl(id);
-//	var url = getOfflineUrl("client0_205");
 	open(url,"SCORM Offline Player");
 }
 
