@@ -84,7 +84,7 @@ class ilSkillExporter extends ilXmlExporter
 				"xsd_file" => "ilias_skll_5_1.xsd",
 				"uses_dataset" => true,
 				"min" => "5.1.0",
-				"max" => "5.1.99")
+				"max" => "")
 		);
 	}
 

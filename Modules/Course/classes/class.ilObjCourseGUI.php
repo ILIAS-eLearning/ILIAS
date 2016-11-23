@@ -446,12 +446,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				}		
 				if($this->object->getSubscriptionMaxMembers())
 				{
-					include_once './Services/Membership/classes/class.ilParticipants.php';
+					include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
+					$reg_info = ilObjCourseAccess::lookupRegistrationInfo($this->object->getId());
+
 					$info->addProperty(
-						$this->lng->txt("mem_free_places"),
-						max(
-							0,
-							$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
+						$this->lng->txt('mem_free_places'),
+						$reg_info['reg_info_free_places']
 					);
 				}
 			}
@@ -3469,7 +3469,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilUser, $ilAccess;
 	
 		$user_id = null;
-		if ($ilAccess->checkAccess('write','',$this->ref_id))
+		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
 		{		
 			$user_id = $_REQUEST["member_id"];
 		}
@@ -3701,6 +3701,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
 	}
 
+	/**
+	 * Set return point for side column actions
+	 */
+	function setSideColumnReturn()
+	{
+		$this->ctrl->setReturn($this, "view");
+	}
 
 
 } // END class.ilObjCourseGUI

@@ -88,6 +88,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			case "ilpropertyformgui":
 				$form = $this->initForm($this->creation_mode ? self::MODE_CREATE : self::MODE_EDIT);
 				$this->ctrl->forwardCommand($form);
+				break;
+
 			case 'ilpermissiongui':
 				$ilTabs->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -227,7 +229,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	{
 		global $ilTabs;
 
-		$ilTabs->setTabActive('edit');
+		$ilTabs->setTabActive('settings');
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
@@ -259,12 +261,15 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		}
 
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		if ($a_mode == self::MODE_CREATE) {
+		if ($a_mode == self::MODE_CREATE) 
+		{
 			$form->addCommandButton('save', $this->lng->txt('create'));
-		} else {
+			$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		} 
+		else 
+		{
 			$form->addCommandButton('update', $this->lng->txt('save'));
 		}
-
 
 		// title type 
 		$ttype = new ilRadioGroupInputGUI($this->lng->txt('title'), 'title_type');
@@ -301,7 +306,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
 		include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
 		$repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
-		$repo->setParent($this);
+		//$repo->setParent($this);
 		$repo->setRequired(true);
 		$repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));
 		$repo->getExplorerGUI()->setTypeWhiteList(array_merge(

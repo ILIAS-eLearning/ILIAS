@@ -33,6 +33,7 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 			array("permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true),
 			array("permission" => "write", "cmd" => "render", "lang_var" => "edit"),
 			array("permission" => "contribute", "cmd" => "render", "lang_var" => "edit"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
 			array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
 		);
 		

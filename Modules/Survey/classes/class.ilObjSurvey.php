@@ -547,7 +547,7 @@ class ilObjSurvey extends ilObject
 			return $question_id;
 		}
 
-		$duplicate_id = $question_gui->object->duplicate(true);
+		$duplicate_id = $question_gui->object->duplicate(true, "", "", "", $this->getId());
 		return $duplicate_id;
 	}
 

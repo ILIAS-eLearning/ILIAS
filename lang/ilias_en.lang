@@ -1401,7 +1401,7 @@ assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
+assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
@@ -2430,7 +2430,7 @@ common#:#create#:#Create
 common#:#created#:#Creation Date
 common#:#cron_forum_notification_cron#:#regularly per cron job
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
-common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting.
+common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted posting.
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
 common#:#cron_forum_notification#:#Send Forum Notifications
@@ -12485,7 +12485,7 @@ content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 dcl#:#dcl_actions#:#Actions
-dcl#:#dcl_export_table_excel#:#Export .xlsx
+dcl#:#dcl_export_table_excel#:#Excel Export
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
@@ -12963,7 +12963,7 @@ dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
-dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
@@ -14037,7 +14037,7 @@ common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
-sop#:#sop_firefox_required#:#Using a SCORM module offline requires an up-to-date Mozilla Firefox Browser (> v. 20)<br /><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Download Firefox</a>
+sop#:#sop_firefox_required#:#Using a SCORM module offline requires Mozilla Firefox Browser Version 38.
 sop#:#sop_xpi_install#:#Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the ‘Reload page’ button. Afterwards the SCORM Learning Module can be used in offline mode.
 sop#:#sop_reload_page#:#Reload page
 sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
@@ -15174,10 +15174,10 @@ forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
-search#:#search_show_inactive_user#:#Show Inactive Users
-search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.
-search#:#search_show_limited_user#:#Show Limited Users
-search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.
+search#:#search_show_inactive_user#:#Show inactive users
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
+search#:#search_show_limited_user#:#Show users with limited access
+search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access and outside their allowed time period.
 trac#:#trac_mode_visited_pages#:#Visiting All Pages
 trac#:#trac_mode_visited_pages_info#:#The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module.
 exc#:#exc_peer_review_given#:#Show Given Feedback
@@ -16240,18 +16240,19 @@ mass#:#general#:#General Information
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
 mass#:#mass_graded_by#:#Graded by
-mass#:#mass_usr_remove#:#Remove user from object
-mass#:#mass_usr_edit#:#Edit user record and learning progress
-mass#:#mass_usr_view#:#User record
-mass#:#mass_edit_record#:#User record
+mass#:#mass_usr_remove#:#Remove Participant from Assessment
+mass#:#mass_usr_edit#:#Edit Participant Record and Learning Progress
+mass#:#mass_usr_view#:#Participant Record
+mass#:#mass_edit_record#:#Participant Record
 mass#:#mass_record#:#Record note
 mass#:#mass_internal_note#:#Internal record note
 mass#:#mass_status_completed#:#Completed
 mass#:#mass_status_failed#:#Failed
 mass#:#mass_status_pending#:#Status pending
-mass#:#mass_notify#:#Notify user after finalization
+mass#:#mass_notify#:#Notify participant after finalization
 mass#:#mass_finalize#:#Finalize
-mass#:#il_mass_member#:#Individual Assessment examinee
+mass#:#il_mass_member#:#Participant
+mass#:#il_mass_members#:#Participants
 mass#:#edit_members#:#Edit examinees
 mass#:#mass_edit_members#:#Edit examinees
 mass#:#mass_visible#:#Visible
@@ -16375,3 +16376,4 @@ common#:#lti_consumer_updated#:#Consumer updated
 common#:#lti_consumer_deleted#:#Consumer deleted
 common#:#lti_consumer_set_active#:#Consumer activated
 common#:#lti_consumer_set_inactive#:#Consumer deactivated
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.

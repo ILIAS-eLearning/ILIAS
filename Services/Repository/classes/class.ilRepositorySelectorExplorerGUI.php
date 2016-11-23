@@ -26,6 +26,11 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	protected $clickable_types = array();
 
 	/**
+	 * @var callable
+	 */
+	protected $nc_modifier = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param object $a_parent_obj parent gui object
@@ -74,6 +79,26 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	}
 
 	/**
+	 * Set node content modifier
+	 *
+	 * @param callable $a_val
+	 */
+	function setNodeContentModifier(callable $a_val)
+	{
+		$this->nc_modifier = $a_val;
+	}
+
+	/**
+	 * Get node content modifier
+	 *
+	 * @return callable
+	 */
+	function getNodeContentModifier()
+	{
+		return $this->nc_modifier;
+	}
+
+	/**
 	 * Get node content
 	 *
 	 * @param array $a_node node data
@@ -82,6 +107,12 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	function getNodeContent($a_node)
 	{
 		global $lng;
+
+		$c = $this->getNodeContentModifier();
+		if (is_callable($c))
+		{
+			return $c($a_node);
+		}
 
 		$title = $a_node["title"];
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))

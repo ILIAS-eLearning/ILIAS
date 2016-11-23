@@ -10,7 +10,7 @@
 class ilAssQuestionSkillAssignmentImportFails
 {
 	/**
-	 * @var ilSeting
+	 * @var ilAssQuestionSkillAssignmentRegistry
 	 */
 	protected $settings;
 	
@@ -29,16 +29,17 @@ class ilAssQuestionSkillAssignmentImportFails
 	}
 	
 	/**
-	 * @return ilSeting|ilSetting
+	 * @return ilAssQuestionSkillAssignmentRegistry
 	 */
 	protected function getSettings()
 	{
 		if( $this->settings === null )
 		{
 			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
-			$this->settings = new ilSetting('assimportfails');
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentRegistry.php';
+			$this->settings = new ilAssQuestionSkillAssignmentRegistry(new ilSetting('assimportfails'));
 		}
-		
+
 		return $this->settings;
 	}
 	
@@ -63,13 +64,13 @@ class ilAssQuestionSkillAssignmentImportFails
 	 */
 	public function getFailedImports()
 	{
-		$value = $this->getSettings()->get($this->buildSettingsKey(), null);
-		
+		$value = $this->getSettings()->getStringifiedImports($this->buildSettingsKey(), null);
+
 		if( $value !== null )
 		{
 			return unserialize($value);
 		}
-		
+
 		return null;
 	}
 	
@@ -78,14 +79,14 @@ class ilAssQuestionSkillAssignmentImportFails
 	 */
 	public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList)
 	{
-		$this->getSettings()->set($this->buildSettingsKey(), serialize($assignmentList));
+		$this->getSettings()->setStringifiedImports($this->buildSettingsKey(), serialize($assignmentList));
 	}
 	
 	/**
 	 */
 	public function deleteRegisteredImportFails()
 	{
-		$this->getSettings()->delete($this->buildSettingsKey());
+		$this->getSettings()->deleteStringifiedImports($this->buildSettingsKey());
 	}
 	
 	/**

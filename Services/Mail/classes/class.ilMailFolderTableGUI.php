@@ -400,7 +400,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				if($mail['sender_id'] == ANONYMOUS_USER_ID)
 				{
 					$mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
-					$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = ilMail::_getIliasMailerName();
+					$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
 				}
 				else
 				{
@@ -408,7 +408,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 					if($user)
 					{
 						$mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
-						$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = $user->getPublicName();
+						$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
 					}
 					else
 					{

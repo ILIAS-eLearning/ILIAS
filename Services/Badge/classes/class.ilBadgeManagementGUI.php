@@ -372,8 +372,11 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listBadges");
 		}
 		
-		$form = $this->initBadgeForm("create", $type, $type_id);		
-		if($form->checkInput())
+		$form = $this->initBadgeForm("create", $type, $type_id);
+		$custom = $type->getConfigGUIInstance();
+
+		if($form->checkInput() &&
+			(!$custom || $custom->validateForm($form)))
 		{
 			include_once "Services/Badge/classes/class.ilBadge.php";
 			$badge = new ilBadge();
@@ -384,8 +387,7 @@ class ilBadgeManagementGUI
 			$badge->setDescription($form->getInput("desc"));
 			$badge->setCriteria($form->getInput("crit"));
 			$badge->setValid($form->getInput("valid"));
-				
-			$custom = $type->getConfigGUIInstance();
+
 			if($custom &&
 				$custom instanceof ilBadgeTypeGUI)
 			{

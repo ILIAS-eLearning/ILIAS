@@ -1222,7 +1222,6 @@ class ilObjContentObject extends ilObject
 			" for_translation = ".$ilDB->quote($this->getForTranslation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
-		
 		// #14661
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		ilNote::activateComments($this->getId(), 0, $this->getType(), $this->publicNotes());		
@@ -3583,6 +3582,54 @@ class ilObjContentObject extends ilObject
 		return true;
 	}
 	
-	
+	/**
+	 * Get public export files
+	 *
+	 * @return array array of arrays with keys "type" (html, scorm or xml), "file" (filename) and "size" in bytes, "dir_type" detailed directoy type, e.g. html_de
+	 */
+	function getPublicExportFiles()
+	{
+		$dirs = array("xml", "scorm");
+		$export_files = array();
+
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = ilObjectTranslation::getInstance($this->getId());
+		if ($ot->getContentActivated())
+		{
+			$langs = $ot->getLanguages();
+			foreach ($langs as $l => $ldata)
+			{
+				$dirs[] = "html_".$l;
+			}
+			$dirs[] = "html_all";
+		}
+		else
+		{
+			$dirs[] = "html";
+		}
+
+		foreach($dirs as $dir)
+		{
+			$type = explode("_", $dir);
+			$type = $type[0];
+			if ($this->getPublicExportFile($type) != "")
+			{
+				if (is_file($this->getExportDirectory($dir)."/".
+					$this->getPublicExportFile($type)))
+				{
+					$size = filesize($this->getExportDirectory($dir)."/".
+						$this->getPublicExportFile($type));
+					$export_files[] = array("type" => $type,
+						"dir_type" => $dir,
+						"file" => $this->getPublicExportFile($type),
+						"size" => $size);
+				}
+			}
+		}
+
+		return $export_files;
+	}
+
+
 }
 ?>

@@ -304,6 +304,8 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		
+		$GLOBALS['ilTabs']->activateTab('info_short');
 
 		$info->enablePrivateNotes();
 		

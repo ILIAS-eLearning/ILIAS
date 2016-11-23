@@ -17873,3 +17873,44 @@ else
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5053>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5054>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5055>
+<?php
+// 1. Select all the questions of surveys
+$q = "SELECT svy_question.question_id, svy_svy_qst.survey_fi FROM svy_question, svy_svy_qst WHERE svy_question.question_id = svy_svy_qst.question_fi";
+$res = $ilDB->query($q);
+
+while ($svy_data = $res->fetchAssoc())
+{
+	$question_id = $svy_data['question_id'];
+	$svy_id = $svy_data['survey_fi'];
+
+	$q = "SELECT obj_fi FROM svy_svy WHERE survey_id = ".$ilDB->quote($svy_id, "integer");
+	$res2 = $ilDB->query($q);
+	$row = $res2->fetchAssoc();
+	$obj_id  = $row['obj_fi'];
+
+	$u = "UPDATE svy_question SET obj_fi = ".$ilDB->quote($obj_id, "integer")." WHERE question_id = ".$ilDB->quote($question_id, "integer");
+	$ilDB->query($u);
+}
+?>
+<#5056>
+<?php
+$ilDB->update(
+	'il_dcl_datatype',
+	array(
+		"ildb_type" => array("text", "text"),
+		"storage_location" => array("integer", 1)
+	),
+	array(
+		"title" => array("text", "reference")
+	)
+);
+?>

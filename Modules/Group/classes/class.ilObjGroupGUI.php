@@ -43,7 +43,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl, $ilToolbar;
+		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilToolbar;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -1199,8 +1199,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				}
 				if($this->object->getMaxMembers())
 				{
-					$info->addProperty($this->lng->txt("mem_free_places"),
-									   max(0,$this->object->getMaxMembers() - $this->object->members_obj->getCountMembers()));
+					include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
+					 $reg_info = ilObjGroupAccess::lookupRegistrationInfo($this->object->getId());
+
+					 $info->addProperty(
+						 $this->lng->txt('mem_free_places'),
+						 $reg_info['reg_info_free_places']
+					 );
 				}				
 			}
 			
@@ -2032,5 +2037,14 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
 	}
+
+	/**
+	 * Set return point for side column actions
+	 */
+	function setSideColumnReturn()
+	{
+		$this->ctrl->setReturn($this, "view");
+	}
+
 } // END class.ilObjGroupGUI
 ?>

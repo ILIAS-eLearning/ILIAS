@@ -848,9 +848,10 @@ abstract class assQuestion
 					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
-					$output = $this->fixSvgToPng($output);
-					$output = $this->fixUnavailableSkinImageSources($output);
-					array_push($output, $this->prepareTextareaOutput($solution["value"], true));
+					$solutionValue = $solution["value"];
+					$solutionValue = $this->fixSvgToPng($solutionValue);
+					$solutionValue = $this->fixUnavailableSkinImageSources($solutionValue);
+					$output[] = $this->prepareTextareaOutput($solutionValue, true);
 					break;
 			}
 		}
@@ -1292,31 +1293,30 @@ abstract class assQuestion
 			if( $obligationsEnabled )
 			{
 				$query = '
-					SELECT		count(*) cnt,
-								min( answered ) answ
+					SELECT		answered answ
 					FROM		tst_test_question
-					INNER JOIN	tst_active
-					ON			active_id = %s
-					AND			tst_test_question.test_fi = tst_active.test_fi
+					  INNER JOIN	tst_active
+						ON			active_id = %s
+						AND			tst_test_question.test_fi = tst_active.test_fi
 					LEFT JOIN	tst_test_result
-					ON			tst_test_result.active_fi = %s
-					AND			tst_test_result.pass = %s
-					AND			tst_test_question.question_fi = tst_test_result.question_fi
+						ON			tst_test_result.active_fi = %s
+						AND			tst_test_result.pass = %s
+						AND			tst_test_question.question_fi = tst_test_result.question_fi
 					WHERE		obligatory = 1';
 
 				$result_obligatory = $ilDB->queryF(
 					$query, array('integer','integer','integer'), array($active_id, $active_id, $pass)
 				);
 
-				$row_obligatory = $ilDB->fetchAssoc($result_obligatory);
+				$obligations_answered = 1;
 
-				if ($row_obligatory['cnt'] == 0)
+				while($row_obligatory = $ilDB->fetchAssoc($result_obligatory))
 				{
-					$obligations_answered = 1;
-				}
-				else
-				{
-					$obligations_answered = (int) $row_obligatory['answ'];
+					if(!(int)$row_obligatory['answ'])
+					{
+						$obligations_answered = 0;
+						break;
+					}
 				}
 			}
 			else
@@ -2231,7 +2231,7 @@ abstract class assQuestion
 	public function fixUnavailableSkinImageSources($html)
 	{
 		$matches = null;
-		if(! is_array($html) && preg_match_all('/src="(.*?)"/m', $html, $matches) )
+		if( preg_match_all('/src="(.*?)"/m', $html, $matches) )
 		{
 			$sources = $matches[1];
 			
@@ -2786,7 +2786,7 @@ abstract class assQuestion
 		);
 		if ($affectedRows == 1)
 		{
-			$this->suggested_solutions["subquestion_index"] = array(
+			$this->suggested_solutions[$subquestion_index] = array(
 				"type" => $type,
 				"value" => $value,
 				"internal_link" => $solution_id,

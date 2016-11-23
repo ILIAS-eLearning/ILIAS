@@ -109,6 +109,7 @@ class ilLuceneHighlighterResultParser
 		{
 			return false;
 		}
+		ilLoggerFactory::getLogger('src')->debug($this->getResultString());
 		$root = new SimpleXMLElement($this->getResultString());
 		
 		// begin-patch mime_filter

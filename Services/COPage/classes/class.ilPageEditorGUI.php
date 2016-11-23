@@ -261,6 +261,7 @@ exit;
 				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "") &&
 				$cmd != "activateSelected" && $cmd != "assignCharacteristicForm" &&
 				$cmd != "assignCharacteristic" &&
+				$cmdClass != "ilrepositoryselector2inputgui" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui")))
@@ -272,7 +273,8 @@ exit;
 					$cont_obj = $this->page->getContentObject($hier_id, $pc_id);
 					if (!is_object($cont_obj))
 					{
-						$this->log->debug("ilPageEditorGUI: ...returnToParent");
+						$this->log->debug("ilPageEditorGUI: ...returnToParent (cmdClass: $cmdClass, nextClass: $next_class".
+							", hier_id: ".$hier_id.", pc_id: ".$pc_id.")");
 						$ilCtrl->returnToParent($this);
 					}
 					$ctype = $cont_obj->getType();

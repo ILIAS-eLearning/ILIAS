@@ -1107,6 +1107,7 @@ class ilLOEditorGUI
 		$form->setValuesByPost();
 		$GLOBALS['ilTabs']->activateSubTab('objectives');
 		$this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
+		$this->showObjectiveCreation($form);
 	}
 	
 	/**
