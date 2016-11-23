@@ -2061,15 +2061,15 @@ class ilUtil
 		$img = '<img src="'.$a_src.'"';
 		if ($a_alt != "")
 		{
-			$img.= ' alt="'.$a_alt.'" title="'.$a_alt.'"';
+			$img.= ' alt="'.htmlspecialchars($a_alt).'" title="'.htmlspecialchars($a_alt).'"';
 		}
 		if ($a_width != "")
 		{
-			$img.= ' width="'.$a_width.'"';
+			$img.= ' width="'.htmlspecialchars($a_width).'"';
 		}
 		if ($a_height != "")
 		{
-			$img.= ' height="'.$a_height.'"';
+			$img.= ' height="'.htmlspecialchars($a_height).'"';
 		}
 		if ($a_class != "")
 		{
