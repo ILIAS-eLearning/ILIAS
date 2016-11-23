@@ -165,7 +165,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
 				$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-				$this->tpl->setVariable('ALT_SENDER', $user->getPublicName());
+				$this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
 			}
 			else if(!$user)
 			{
@@ -179,7 +179,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
 				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
-				$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
+				$this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
 			}
 
 			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
