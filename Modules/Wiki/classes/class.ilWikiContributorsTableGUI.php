@@ -114,7 +114,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 			$img = ilObjUser::_getPersonalPicturePath($a_set["user_id"], "xsmall");
 			$this->tpl->setVariable("IMG_USER", $img);
 			$this->tpl->setVariable("TXT_NAME",
-				$a_set["lastname"].", ".$a_set["firstname"]);
+				htmlspecialchars($a_set["lastname"].", ".$a_set["firstname"]));
 			$this->tpl->setVariable("USER_ID", $a_set["user_id"]);
 				
 			// comment for learner
