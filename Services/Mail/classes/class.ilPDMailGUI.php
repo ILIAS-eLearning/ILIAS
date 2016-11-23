@@ -62,7 +62,7 @@ class ilPDMailGUI
 		{
 			$tpl->setCurrentBlock('pers_image');
 			$tpl->setVariable('IMG_SENDER', $sender->getPersonalPicturePath('xsmall'));
-			$tpl->setVariable('ALT_SENDER', $sender->getPublicName());
+			$tpl->setVariable('ALT_SENDER', htmlspecialchars($sender->getPublicName()));
 			$tpl->parseCurrentBlock();
 
 			$tpl->setVariable('PUBLIC_NAME', $sender->getPublicName());
@@ -75,7 +75,7 @@ class ilPDMailGUI
 		{
 			$tpl->setCurrentBlock('pers_image');
 			$tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
-			$tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
+			$tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
 			$tpl->parseCurrentBlock();
 			$tpl->setVariable('PUBLIC_NAME', ilMail::_getIliasMailerName());
 		}
