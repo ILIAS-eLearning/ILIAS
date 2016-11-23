@@ -247,6 +247,8 @@ class ilSurveySkill
 	{
 		$skills = array();
 
+		$log = ilLoggerFactory::getRootLogger("svy");
+
 		// get all skills
 		$opts = $this->getAllAssignedSkillsAsOptions();
 		foreach ($opts as $k => $title)
@@ -289,6 +291,9 @@ class ilSurveySkill
 			$mean_sum = 0;
 			foreach ($q_ids as $q_id)
 			{
+				$log->debug("q_id = ".$q_id);
+				$log->debug("results[q_id] = ", $results[$q_id]);
+
 				$qmean = 0;
 				if (is_array($results[$q_id]))
 				{
@@ -296,11 +301,13 @@ class ilSurveySkill
 					$sum = 0;
 					foreach ($results[$q_id] as $users)
 					{
-						foreach($users as $user_answers)
-						{							
+						foreach($users as $key => $user_answers)
+						{
 							// sc-questions supported only, is answer-array anyway
-							$user_answers = array_keys($user_answers); // scale values				
-							$sum += array_sum($user_answers);													
+							//$user_answers = array_keys($user_answers); // scale values
+							//$sum += array_sum($user_answers);
+							#19658
+							$sum += $key;
 							$cnt += sizeof($user_answers); // nr of answers
 						}						
 					}
