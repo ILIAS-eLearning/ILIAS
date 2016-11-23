@@ -17901,3 +17901,16 @@ while ($svy_data = $res->fetchAssoc())
 	$ilDB->query($u);
 }
 ?>
+<#5056>
+<?php
+$ilDB->update(
+	'il_dcl_datatype',
+	array(
+		"ildb_type" => array("text", "text"),
+		"storage_location" => array("integer", 1)
+	),
+	array(
+		"title" => array("text", "reference")
+	)
+);
+?>
