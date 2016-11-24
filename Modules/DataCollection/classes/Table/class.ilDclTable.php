@@ -793,7 +793,8 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
-		return ($this->getDeletePerm() || ilObjDataCollectionAccess::hasWriteAccess($ref_id));
+		return ((ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) && $this->getDeletePerm())
+			|| ilObjDataCollectionAccess::hasWriteAccess($ref_id));
 	}
 
 
