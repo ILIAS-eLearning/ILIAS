@@ -16,6 +16,11 @@ class ilWikiHTMLExport
 	protected $mode = self::MODE_DEFAULT;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * Constructor
 	 *
 	 * @param
@@ -24,6 +29,7 @@ class ilWikiHTMLExport
 	function __construct($a_wiki)
 	{
 		$this->wiki = $a_wiki;
+		$this->log = ilLoggerFactory::getLogger('wiki');
 	}
 	
 	/**
@@ -54,6 +60,8 @@ class ilWikiHTMLExport
 	 */
 	function buildExportFile()
 	{
+		$this->log->debug("buildExportFile...");
+
 		if ($this->getMode() == self::MODE_USER)
 		{
 			global $ilDB, $ilUser;
@@ -87,7 +95,9 @@ class ilWikiHTMLExport
 		// initialize temporary target directory
 		ilUtil::delDir($this->export_dir);
 		ilUtil::makeDir($this->export_dir);
-		
+
+		$this->log->debug("export directory: ".$this->export_dir);
+
 		// system style html exporter
 		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
@@ -104,6 +114,7 @@ class ilWikiHTMLExport
 		$this->co_page_html_export->exportSupportScripts();
 
 		// export pages
+		$this->log->debug("export pages");
 		$this->exportHTMLPages();
 
 		$date = time();
@@ -117,6 +128,7 @@ class ilWikiHTMLExport
 			// zip it all
 			$zip_file = ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki").
 				"/".$zip_file_name;
+			$this->log->debug("zip: ".$zip_file);
 			ilUtil::zip($this->export_dir, $zip_file);
 			ilUtil::delDir($this->export_dir);
 		}
@@ -136,15 +148,19 @@ class ilWikiHTMLExport
 		$cnt = 0;
 		foreach ($pages as $page)
 		{
+			$this->log->debug("page: ".$page["id"]);
 			if (ilWikiPage::_exists("wpg", $page["id"]))
 			{
+				$this->log->debug("export page");
 				$this->exportPageHTML($page["id"]);
+				$this->log->debug("collect page elements");
 				$this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);
 			}
 //sleep(2);
 			if ($this->getMode() == self::MODE_USER)
 			{
 				$cnt++;
+				$this->log->debug("update status: ".$cnt);
 				$this->user_html_exp->updateStatus((int) (50 / count($pages) * $cnt) ,ilWikiUserHTMLExport::RUNNING);
 			}
 
@@ -182,16 +198,19 @@ class ilWikiHTMLExport
 		// return if file is already existing
 		if (@is_file($file))
 		{
+			$this->log->debug("file already exists");
 			return;
 		}
 
 		// page
+		$this->log->debug("init page gui");
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpg_gui = new ilWikiPageGUI($a_page_id);
 		$wpg_gui->setOutputMode("offline");
 		$page_content = $wpg_gui->showPage();
 
 		// export template: page content
+		$this->log->debug("init page gui");
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
 			"Modules/Wiki");
 		$ep_tpl->setVariable("PAGE_CONTENT", $page_content);
@@ -205,6 +224,7 @@ class ilWikiHTMLExport
 //		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
 		$this->tpl->setVariable("MAINMENU", "");
 
+		$this->log->debug("set title");
 		$this->tpl->setTitle($this->wiki->getTitle());
 		$this->tpl->setTitleIcon("./images/icon_wiki.svg",
 			$lng->txt("obj_wiki"));
@@ -216,13 +236,16 @@ class ilWikiHTMLExport
 
 //echo htmlentities($content); exit;
 		// open file
+		$this->log->debug("write file: ".$file);
 		if (!($fp = @fopen($file,"w+")))
 		{
-			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+			$this->log->error("Could not open ".$file." for writing.");
+			include_once("./Modules/Wiki/exceptions/class.ilWikiExportException.php");
+			throw new ilWikiExportException("Could not open \"".$file."\" for writing.");
 		}
 
 		// set file permissions
+		$this->log->debug("set permissions");
 		chmod($file, 0770);
 
 		// write xml data into the file
@@ -248,11 +271,13 @@ class ilWikiHTMLExport
 		include_once("./Services/Export/classes/class.ilExport.php");
 		$exp_dir =
 			ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
-
+		$this->log->debug("dir: ".$exp_dir);
 		foreach (new DirectoryIterator($exp_dir) as $fileInfo)
 		{
+			$this->log->debug("file: ".$fileInfo->getFilename());
 			if (pathinfo($fileInfo->getFilename(),PATHINFO_EXTENSION) == "zip")
 			{
+				$this->log->debug("return: ".$exp_dir."/".$fileInfo->getFilename());
 				return $exp_dir."/".$fileInfo->getFilename();
 			}
 		}
