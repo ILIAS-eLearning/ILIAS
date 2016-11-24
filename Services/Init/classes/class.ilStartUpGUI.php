@@ -674,7 +674,7 @@ class ilStartUpGUI
 		
 		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
 		$provider_factory = new ilAuthProviderFactory();
-		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_SHIBBOLETH);
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LTI_PROVIDER);
 		
 		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
 		$status = ilAuthStatus::getInstance();

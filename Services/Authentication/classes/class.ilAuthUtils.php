@@ -24,6 +24,8 @@ define('AUTH_MULTIPLE',20);
 
 define ('AUTH_SESSION', 21);
 
+define('AUTH_PROVIDER_LTI', 22);
+
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
 define('AUTH_RADIUS_NO_ILIAS_USER',-300);

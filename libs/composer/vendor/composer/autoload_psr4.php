@@ -13,6 +13,7 @@ return array(
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'IMSGlobal\\LTI\\' => array($vendorDir . '/imsglobal/lti/src'),
     'ILIAS\\' => array($baseDir . '/../../src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
 );

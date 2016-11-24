@@ -36,6 +36,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         ),
         'I' => 
         array (
+            'IMSGlobal\\LTI\\' => 14,
             'ILIAS\\' => 6,
         ),
         'D' => 
@@ -74,6 +75,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'IMSGlobal\\LTI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/imsglobal/lti/src',
         ),
         'ILIAS\\' => 
         array (

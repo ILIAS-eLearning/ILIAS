@@ -95,6 +95,11 @@ class ilAuthProviderFactory
 				include_once './Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php';
 				return new ilAuthProviderShibboleth($credentials);
 				
+			case AUTH_LTI_PROVIDER:
+				$this->getLogger()->debug('Using lti provider authentication.');
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				return new ilAuthProviderLTI($credentials);
+				
 		}
 		return null;
 	}
