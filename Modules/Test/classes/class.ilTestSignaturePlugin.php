@@ -150,12 +150,9 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	 */
 	protected function handInFileForArchiving($active_fi, $pass, $filename, $filepath)
 	{
-		if ( $this->getGUIObject()->getTest()->getEnableArchiving() )
-		{
-			require_once './Modules/Test/classes/class.ilTestArchiver.php';
-			$archiver = new ilTestArchiver($this->getGUIObject()->getTest()->getId());
-			$archiver->handInParticipantMisc($active_fi, $pass, $filename, $filepath);
-		}
+		require_once './Modules/Test/classes/class.ilTestArchiver.php';
+		$archiver = new ilTestArchiver($this->getGUIObject()->getTest()->getId());
+		$archiver->handInParticipantMisc($active_fi, $pass, $filename, $filepath);
 	}
 
 	protected function redirectToTest($success)

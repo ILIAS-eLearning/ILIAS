@@ -1016,11 +1016,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
 			$this->testSession->saveToDb();
 		}
-
-		if( $this->object->getEnableArchiving() )
-		{
-			$this->archiveParticipantSubmission($this->testSession->getActiveId(), $finishedPass);
-		}
 	}
 
 	protected function afterTestPassFinishedCmd()

@@ -342,18 +342,6 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setPoolUsage($form->getItemByPostVar('use_pool')->getChecked());
 		}
 		
-		// Archiving
-		if($form->getItemByPostVar('anonymity')->getValue() == '1' 
-			&& $form->getItemByPostVar('enable_archiving')->getChecked() == true)
-		{
-			$this->testOBJ->setEnableArchiving(false);
-			ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
-		}
-		else 
-		{
-			$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
-		}
-		
 		// Examview
 		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
 		$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html')->getChecked());
@@ -686,12 +674,6 @@ class ilObjTestSettingsGeneralGUI
 		$pool_usage->setValue(1);
 		$pool_usage->setChecked($this->testOBJ->getPoolUsage());
 		$form->addItem($pool_usage);
-
-		// enable_archiving
-		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
-		$enable_archiving->setValue(1);
-		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
-		$form->addItem($enable_archiving);
 		
 		// activation/availability  (no template support yet)
 		
