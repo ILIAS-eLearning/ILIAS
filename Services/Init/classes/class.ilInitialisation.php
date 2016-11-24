@@ -1334,6 +1334,11 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for shibboleth request.');
 			return true;
 		}
+		if(ilContext::getType() == ilContext::CONTEXT_LTI_PROVIDER)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for lti provider requests.');
+			return true;
+		}
 		
 		if(
 			$a_current_script == "register.php" || 
