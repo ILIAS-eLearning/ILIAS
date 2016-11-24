@@ -667,10 +667,9 @@ class ilStartUpGUI
 	{
 		$this->getLogger()->debug('Trying lti authentication');
 		
+		include_once './Services/LTI/classes/InternalProvider/class.ilAuthFrontendCredentialsLTI.php';
 		
-		
-		include_once './Services/AuthShibboleth/classes/class.ilAuthFrontendCredentialsShibboleth.php';
-		$credentials = new ilAuthFrontendCredentialsShibboleth();
+		$credentials = new ilAuthFrontendCredentialsLTI();
 		$credentials->initFromRequest();
 		
 		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
