@@ -50,7 +50,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	
 		if($internal_account)
 		{
-			// update
+			$this->updateUser($internal_account);
 		}
 		else
 		{
@@ -205,6 +205,37 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$this->getLogger()->info('Created new lti user with uid: ' . $userObj->getId(). ' and login: ' . $userObj->getLogin());
 		return $userObj->getId();
 	}
+	
+	/**
+	 * update existing user
+	 *
+	 * @access protected
+	 */
+	protected function updateUser($a_local_user_id)
+	{
+		global $ilClientIniFile,$ilLog,$rbacadmin;
+		
+		$user_obj = new ilObjUser($a_local_user_id);
+		$user_obj->setFirstname($_POST['lis_person_name_given']);
+		$user_obj->setLastname($_POST['lis_person_name_family']);
+		$user_obj->setEmail($_POST['lis_person_contact_email_primary']);
+		$user_obj->setActive(true);
+		
+		$until = $user_obj->getTimeLimitUntil();
+
+		if($until < (time() + $ilClientIniFile->readVariable('session','expire')))
+		{		
+			$user_obj->setTimeLimitFrom(time() - 60);
+			$user_obj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session","expire"));
+		}
+		$user_obj->update();
+		$user_obj->refreshLogin();
+		
+
+		$this->getLogger()->info('Update of lti user with uid: ' . $user_obj->getId(). ' and login: ' . $user_obj->getLogin());
+		return $user_obj->getId();
+	}
+	
 	
 
 }
