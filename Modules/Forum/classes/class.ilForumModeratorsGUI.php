@@ -243,6 +243,10 @@ class ilForumModeratorsGUI
 			{
 				$result[$i]['check'] = ilUtil::formCheckbox(false, 'usr_id[]', $user->getId());
 			}
+			else
+			{
+				$result[$i]['check'] = '';
+			}
 			$result[$i]['login']     = $user->getLogin();
 			$result[$i]['firstname'] = $user->getFirstname();
 			$result[$i]['lastname']  = $user->getLastname();
