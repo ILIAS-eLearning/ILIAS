@@ -150,6 +150,16 @@ il.MediaObjects = {
 				il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 			}
 		}
+	},
+
+	autoInitPlayers: function () {
+		$("video, audio").each(function () {
+			var id = $(this).attr("id");
+			if ($(this).attr("id") != "") {
+				new MediaElementPlayer('#' + id);
+			}
+
+		});
 	}
 }
 il.Util.addOnLoad(il.MediaObjects.init);

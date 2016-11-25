@@ -257,7 +257,8 @@ class ilObjFileAccessSettings extends ilObject
 	*/
 	private function write()
 	{
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 
 		// Clear any old error messages
 		$ilClientIniFile->error(null);
@@ -272,7 +273,8 @@ class ilObjFileAccessSettings extends ilObject
 		$ilClientIniFile->write();
 		
         if ($ilClientIniFile->getError()) {
-            global $ilErr;
+            global $DIC;
+            $ilErr = $DIC['ilErr'];
 			$ilErr->raiseError($ilClientIniFile->getError(),$ilErr->WARNING);
         }
 
@@ -289,7 +291,8 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		parent::read();
 
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
 		$this->webdavActionsVisible = $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
 		$this->downloadWithUploadedFilename = $ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') == '1';

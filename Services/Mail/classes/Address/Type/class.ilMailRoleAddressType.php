@@ -110,12 +110,39 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		$usr_ids = array();
 
 		$role_ids = self::getRoleIdsByAddress($this->address);
-		foreach($role_ids as $role_id)
+
+		if(count($role_ids) > 0)
 		{
-			foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following role ids for address '%s': %s", $this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($role_ids))
+			));
+
+			foreach($role_ids as $role_id)
 			{
-				$usr_ids[] = $usr_id;
+				foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+				{
+					$usr_ids[] = $usr_id;
+				}
 			}
+
+			if(count($usr_ids) > 0)
+			{
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					"Found the following user ids for roles determined by address '%s': %s", $this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($usr_ids))
+				));
+			}
+			else
+			{
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					"Did not find any assigned users for roles determined by '%s'", $this->address->getMailbox() . '@' . $this->address->getHost()
+				));
+			}
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Did not find any role (and user ids) for address '%s'", $this->address->getMailbox() . '@' . $this->address->getHost()
+			));
 		}
 
 		return array_unique($usr_ids);

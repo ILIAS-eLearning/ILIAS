@@ -83,7 +83,6 @@ class ilBibliographicDetailsGUI {
 						$is_standard_field = ilRis::isStandardField($arrKey[2]);
 						break;
 				}
-				//				var_dump($is_standard_field); // FSX
 				if ($is_standard_field) {
 					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
 				} else {
@@ -98,7 +97,7 @@ class ilBibliographicDetailsGUI {
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
 			$ci = new ilCustomInputGUI($key);
-			$ci->setHtml($attribute);
+			$ci->setHTML(self::prepareLatex($attribute));
 			$form->addItem($ci);
 		}
 		// generate/render links to libraries
@@ -114,6 +113,28 @@ class ilBibliographicDetailsGUI {
 		return $form->getHTML();
 		//Permanent Link
 	}
-}
 
-?>
+
+	/**
+	 * This feature has to be discussed by JF first
+	 *
+	 * @param $string
+	 * @return string
+	 */
+	public static function prepareLatex($string) {
+		return $string;
+		static $init;
+		require_once('./Services/MathJax/classes/class.ilMathJax.php');
+		$ilMathJax = ilMathJax::getInstance();
+		if (!$init) {
+			require_once('./Services/MathJax/classes/class.ilMathJax.php');
+			$ilMathJax->init();
+			$init = true;
+		}
+
+		//		$string = preg_replace('/\\$\\\\(.*)\\$/u', '[tex]$1[/tex]', $string);
+		$string = preg_replace('/\\$(.*)\\$/u', '[tex]$1[/tex]', $string);
+
+		return $ilMathJax->insertLatexImages($string);
+	}
+}

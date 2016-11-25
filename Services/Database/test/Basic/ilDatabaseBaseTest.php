@@ -57,8 +57,6 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 		PHPUnit_Framework_Error_Notice::$enabled = false;
 		PHPUnit_Framework_Error_Deprecated::$enabled = false;
 
-		set_include_path("./Services/PEAR/lib" . PATH_SEPARATOR . ini_get('include_path'));
-
 		require_once('./libs/composer/vendor/autoload.php');
 		if (!defined('DEVMODE')) {
 			define('DEVMODE', true);

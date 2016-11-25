@@ -4,6 +4,7 @@
 require_once('./Services/Object/classes/class.ilObject2.php');
 require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
 
 /**
  * Class ilObjDataCollection
@@ -82,7 +83,7 @@ class ilObjDataCollection extends ilObject2 {
 		$ilDB = $DIC['ilDB'];
 
 		foreach ($this->getTables() as $table) {
-			$table->doDelete(true);
+			$table->doDelete();
 		}
 
 		$query = "DELETE FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer");
@@ -199,15 +200,32 @@ class ilObjDataCollection extends ilObject2 {
 	}
 	
 	/**
+	 * for users with write access, return id of table with the lowest sorting
+	 * for users with no write access, return id of table with the lowest sorting, which is visible
+	 *
 	 * @return mixed
 	 */
-	public function getMainTableId() {
+	public function getFirstVisibleTableId() {
 		global $DIC;
+		/** @var ilDB $ilDB */
 		$ilDB = $DIC['ilDB'];
+		$ilDB->setLimit(1);
+		$only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
 		$result = $ilDB->query('SELECT id 
 									FROM il_dcl_table 
-									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' 
-									ORDER BY -table_order DESC LIMIT 1'); //"-table_order DESC" is ASC with NULL last
+									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
+									$only_visible . '
+									ORDER BY -table_order DESC '); //"-table_order DESC" is ASC with NULL last
+
+		// if there's no visible table, fetch first one not visible
+		// this is to avoid confusion, since the default of a table after creation is not visible
+		if (!$result->numRows() && $only_visible) {
+			$ilDB->setLimit(1);
+			$result = $ilDB->query('SELECT id 
+									FROM il_dcl_table 
+									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . '
+									ORDER BY -table_order DESC ');
+		}
 		return $ilDB->fetchObject($result)->id;	
 	}
 
@@ -299,7 +317,7 @@ class ilObjDataCollection extends ilObject2 {
 
 		// delete old tables.
 		foreach ($this->getTables() as $table) {
-			$table->doDelete(true);
+			$table->doDelete();
 		}
 
 		// add new tables.
@@ -311,22 +329,27 @@ class ilObjDataCollection extends ilObject2 {
 
 		// Set new field-ID of referenced fields
 		foreach ($original->getTables() as $origTable) {
-			foreach ($origTable->getRecordFields() as $origField) {
+			foreach ($origTable->getCustomFields() as $origField) {
 				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
-					$newRefId = NULL;
 					$origFieldRefObj = $origField->getFieldRef();
 					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
 					// Lookup the new ID of the referenced field in the actual DC
-					$tableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
-					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origFieldRefObj->getTitle(), $tableId);
-					$field = ilDclCache::getFieldCache($fieldId);
-					$newRefId = $field->getId();
+					$newRefTableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
+					$newRefFieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origFieldRefObj->getTitle(), $newRefTableId);
 					// Set the new refID in the actual DC
-					$tableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
-					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $tableId);
-					$field = ilDclCache::getFieldCache($fieldId);
-					$field->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $newRefId);
-					$field->doUpdate();
+					$newTableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
+					$newFieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $newTableId);
+					$newField = ilDclCache::getFieldCache($newFieldId);
+					$newField->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $newRefFieldId);
+					$newField->updateProperties();
+
+					// get the reference-values by the values we set previously set
+					foreach (ilDclCache::getTableCache($newTableId)->getRecords() as $record) {
+						/** @var ilDclReferenceRecordFieldModel $record_field */
+						$record_field = ilDclCache::getRecordFieldCache($record, $newField);
+						$record_field->setValue($record_field->getReferenceFromValue($record_field->getValue()));
+						$record_field->doUpdate();
+					}
 				}
 			}
 		}

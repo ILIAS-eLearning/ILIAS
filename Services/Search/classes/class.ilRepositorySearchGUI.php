@@ -148,6 +148,10 @@ class ilRepositorySearchGUI
 		{
 			$a_options['submit_name'] = $lng->txt('btn_add');
 		}
+		if(!isset($a_options['user_type_default']))
+		{
+			$a_options['user_type_default'] = null;
+		}
 		
 		$ajax_url = $ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 
 			'doUserAutoComplete', '', true,false);
@@ -170,6 +174,7 @@ class ilRepositorySearchGUI
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$si = new ilSelectInputGUI("", "user_type");
 			$si->setOptions($a_options['user_type']);
+			$si->setValue($a_options['user_type_default']);
 			if(!$a_sticky)
 			{
 				$toolbar->addInputItem($si);
@@ -180,19 +185,46 @@ class ilRepositorySearchGUI
 			}
 		}
 		
-		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-		$button = ilSubmitButton::getInstance();
-		$button->setCaption($a_options['submit_name'], false);
-		$button->setCommand('addUserFromAutoComplete');
-		if(!$a_sticky)
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		if($clip->hasContent())
 		{
-			$toolbar->addButtonInstance($button);
+			include_once './Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
+			$action_button = ilSplitButtonGUI::getInstance();
+
+			include_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$add_button = ilSubmitButton::getInstance();
+			$add_button->setCaption($a_options['submit_name'], false);
+			$add_button->setCommand('addUserFromAutoComplete');
+
+			$action_button->setDefaultButton($add_button);
+
+			include_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$clip_button = ilSubmitButton::getInstance();
+			$clip_button->addCSSClass('btn btndefault');
+			$clip_button->setCaption('Add from clipboard', false);
+			$clip_button->setCommand('showClipboard');
+
+			$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($clip_button));
+
+			$toolbar->addButtonInstance($action_button);
 		}
 		else
 		{
-			$toolbar->addStickyItem($button);
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption($a_options['submit_name'], false);
+			$button->setCommand('addUserFromAutoComplete');
+			if(!$a_sticky)
+			{
+				$toolbar->addButtonInstance($button);
+			}
+			else
+			{
+				$toolbar->addStickyItem($button);
+			}
 		}
-
+		
 		if((bool)$a_options['add_search'] || 
 			is_numeric($a_options['add_from_container']))
 		{		
@@ -386,12 +418,91 @@ class ilRepositorySearchGUI
 			}
 		}
 
-		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+		$user_type = isset($_REQUEST['user_type']) ? $_REQUEST['user_type'] : 0;
 
 		if(!$class->$method($user_ids,$user_type))
 		{
 			$GLOBALS['ilCtrl']->returnToParent($this);
 		}
+	}
+	
+	protected function showClipboard()
+	{
+		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		
+		ilLoggerFactory::getLogger('crs')->dump($_REQUEST);
+		
+		$GLOBALS['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->setBackTarget(
+			$GLOBALS['lng']->txt('back'),
+			$GLOBALS['ilCtrl']->getParentReturn($this)
+		);
+		
+		include_once './Services/User/classes/class.ilUserClipboardTableGUI.php';
+		$clip = new ilUserClipboardTableGUI($this, 'showClipboard', $GLOBALS['ilUser']->getId());
+		$clip->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$clip->init();
+		$clip->parse();
+		
+		$GLOBALS['tpl']->setContent($clip->getHTML());
+	}
+	
+	/**
+	 * add users from clipboard
+	 */
+	protected function addFromClipboard()
+	{
+		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$users = (array) $_POST['uids'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'), true);
+			$GLOBALS['ilCtrl']->redirect($this, 'showClipboard');
+		}
+		$class = $this->callback['class'];
+		$method = $this->callback['method'];
+		$user_type = isset($_REQUEST['user_type']) ? $_REQUEST['user_type'] : 0;
+
+		if(!$class->$method($users,$user_type))
+		{
+			$GLOBALS['ilCtrl']->returnToParent($this);
+		}
+	}
+
+	/**
+	 * Remove from clipboard
+	 */
+	protected function removeFromClipboard()
+	{
+		$GLOBALS['ilCtrl']->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+		$users = (array) $_POST['uids'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'), true);
+			$GLOBALS['ilCtrl']->redirect($this, 'showClipboard');
+		}
+
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->delete($users);
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, 'showClipboard');
+	}
+
+	/**
+	 * Remove from clipboard
+	 */
+	protected function emptyClipboard()
+	{
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->clear();
+		$clip->save();
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**

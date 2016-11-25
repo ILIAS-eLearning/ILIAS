@@ -629,6 +629,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'ImportantInformation':
 				$this->course_obj->setImportantInformation(trim($this->cdata));
 				break;
+			
+			case 'ViewMode':
+				$this->course_obj->setViewMode(trim($this->cdata));
+				break;
 
 			case 'Name':
 				$this->course_obj->setContactName(trim($this->cdata));

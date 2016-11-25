@@ -102,7 +102,8 @@ class ilAssQuestionPreviewGUI
 
 		$this->questionGUI->setQuestionTabs();
 		$this->questionGUI->outAdditionalOutput();
-
+		
+		$this->questionGUI->populateJavascriptFilesRequiredForWorkForm($this->tpl);
 		$this->questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
 			
 		$this->questionGUI->setTargetGui($this);

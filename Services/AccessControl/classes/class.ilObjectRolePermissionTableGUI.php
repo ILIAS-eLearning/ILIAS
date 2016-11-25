@@ -234,7 +234,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setVariable('BLOCK_CHECKED','checked="checked"');
 				}
-				ilLoggerFactory::getLogger('ac')->debug(print_r($role_info,TRUE));
 				if(
 					($role_info['protected'] == 'y') || 
 					($role_info['assign'] == 'y' and ($role_info['parent'] == $this->getRefId()))

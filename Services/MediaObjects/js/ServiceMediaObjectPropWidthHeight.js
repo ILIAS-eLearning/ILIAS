@@ -12,15 +12,15 @@ function ilPropWidthHeightSync(id)
 	var constr_el = document.getElementById(post_var + "_constr");
 	if (constr_el && constr_el.checked == true && prop_width_height[post_var] > 0)
 	{
-		if (changed == "width" && width_el && height_el)
+		if (changed == "width" && width_el && height_el && width_el.value > 0)
 		{
 			height_el.value = Math.round(width_el.value / parseFloat(prop_width_height[post_var]));
 		}
-		if (changed == "height" && width_el && height_el)
+		if (changed == "height" && width_el && height_el && height_el.value > 0)
 		{
 			width_el.value = Math.round(height_el.value * parseFloat(prop_width_height[post_var]));
 		}
-		if (changed == "constr" && width_el && height_el)
+		if (changed == "constr" && width_el && height_el && width_el.value > 0)
 		{
 			height_el.value = Math.round(width_el.value / parseFloat(prop_width_height[post_var]));
 		}

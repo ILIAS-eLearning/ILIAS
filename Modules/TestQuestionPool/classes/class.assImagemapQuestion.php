@@ -687,7 +687,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		return $this->calculateReachedPointsForSolution(array_values($previewSession->getParticipantsSolution()));
+		$solutionData = $previewSession->getParticipantsSolution();
+		return $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
 	}
 
 	public function isAutosaveable()
@@ -791,11 +792,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			if( $imageWasSelected )
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 			else
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 

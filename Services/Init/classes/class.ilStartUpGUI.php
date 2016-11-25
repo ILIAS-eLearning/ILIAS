@@ -609,6 +609,59 @@ class ilStartUpGUI
 	}
 	
 	/**
+	 * Trying shibboleth authentication
+	 */
+	protected function doShibbolethAuthentication()
+	{
+		$this->getLogger()->debug('Trying shibboleth authentication');
+		
+		include_once './Services/AuthShibboleth/classes/class.ilAuthFrontendCredentialsShibboleth.php';
+		$credentials = new ilAuthFrontendCredentialsShibboleth();
+		$credentials->initFromRequest();
+		
+		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_SHIBBOLETH);
+		
+		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+		
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+			
+		$frontend->authenticate();
+		
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				include_once './Services/Init/classes/class.ilInitialisation.php';
+				ilInitialisation::redirectToStartingPage();
+				return;
+					
+			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+		return false;
+	}
+	
+	
+	/**
 	 * Try apache auth
 	 */
 	protected function doApacheAuthentication()
@@ -1031,27 +1084,22 @@ class ilStartUpGUI
 		 */
 		global $lng;
 
-		
-		try
+
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
 		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-			if(ilTermsOfServiceHelper::isEnabled() && ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng))
-			{
-				$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
-				$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
-				$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
-	
-				return $this->substituteLoginPageElements(
-					$GLOBALS['tpl'],
-					$page_editor_html,
-					$utpl->get(),
-					'[list-user-agreement]',
-					'USER_AGREEMENT'
-				);
-			}
-		}
-		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
-		{
+			$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
+			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
+			$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
+
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$utpl->get(),
+				'[list-user-agreement]',
+				'USER_AGREEMENT'
+			);
 		}
 
 		return $this->substituteLoginPageElements(
@@ -1268,7 +1316,7 @@ class ilStartUpGUI
 				}
 				else
 				{
-					ilUti::sendFailure($this->lng->txt('err_wrong_login'));
+					ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 					$this->ctrl->redirect($this, 'showAccountMigration');
 				}
 				break;
@@ -1555,9 +1603,8 @@ class ilStartUpGUI
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setAddFooter(false); // no client yet
 
-		// to do: get standard style
 		$tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
-		$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
+        $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		// load client list template
 		self::initStartUpTemplate("tpl.client_list.html");	
@@ -1704,11 +1751,10 @@ class ilStartUpGUI
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
 
-		try
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+		if($document->exists())
 		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-			$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-
 			if('getAcceptance' == $this->ctrl->getCmd())
 			{
 				if(isset($_POST['status']) && 'accepted' == $_POST['status'])
@@ -1736,7 +1782,7 @@ class ilStartUpGUI
 
 			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
 		}
-		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+		else
 		{
 			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
 			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));

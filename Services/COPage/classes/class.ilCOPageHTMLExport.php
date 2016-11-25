@@ -17,10 +17,18 @@ class ilCOPageHTMLExport
 	private $content_style_id = 0;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * Initialisation
 	 */
 	function __construct($a_exp_dir)
 	{
+
+		$this->log = ilLoggerFactory::getLogger('copg');
+
 		$this->exp_dir = $a_exp_dir;
 		$this->mobs_dir = $a_exp_dir."/mobs";
 		$this->files_dir = $a_exp_dir."/files";
@@ -92,6 +100,9 @@ class ilCOPageHTMLExport
 	 */
 	function exportStyles()
 	{
+
+		$this->log->debug("export styles");
+
 		include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
 		
 		// export content style sheet
@@ -131,7 +142,8 @@ class ilCOPageHTMLExport
 	 */
 	function exportSupportScripts()
 	{
-		
+		$this->log->debug("export scripts");
+
 		// basic js
 		copy('./Services/JavaScript/js/Basic.js', $this->js_dir.'/Basic.js');
 		
@@ -180,6 +192,20 @@ class ilCOPageHTMLExport
 		copy('./Modules/TestQuestionPool/templates/default/test_javascript.css',
 			$this->css_dir.'/test_javascript.css');
 
+		// auto linking js
+		include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
+		foreach (ilLinkifyUtil::getLocalJsPaths() as $p)
+		{
+			if (is_int(strpos($p, "ExtLink")))
+			{
+				copy($p, $this->js_dir.'/ilExtLink.js');
+			}
+			if (is_int(strpos($p, "linkify")))
+			{
+				copy($p, $this->js_dir.'/linkify.js');
+			}
+		}
+
 
 //		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
 //			$this->css_dir.'/mediaelementplayer.css');
@@ -196,6 +222,8 @@ class ilCOPageHTMLExport
 	function getPreparedMainTemplate($a_tpl = "")
 	{
 		global $ilUser;
+
+		$this->log->debug("get main template");
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
@@ -214,7 +242,8 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js");
+			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js",
+			"./js/ilExtLink.js", "./js/linkify.js");
 		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
 		$mathJaxSetting = new ilSetting("MathJax");
@@ -255,6 +284,8 @@ class ilCOPageHTMLExport
 	 */
 	function collectPageElements($a_type, $a_id)
 	{
+		$this->log->debug("collect page elements");
+
 		// collect media objects
 		$pg_mobs = ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
 		foreach($pg_mobs as $pg_mob)
@@ -392,6 +423,8 @@ class ilCOPageHTMLExport
 	 */
 	function exportPageElements($a_update_callback = null)
 	{
+		$this->log->debug("export page elements");
+
 		$total = count($this->mobs) + count($this->files) + count($this->files_direct);
 		$cnt = 0;
 
@@ -447,6 +480,8 @@ class ilCOPageHTMLExport
 	function exportHTMLMOB($a_mob_id, &$a_linked_mobs)
 	{
 		global $tpl;
+
+		$this->log->debug("export html mobs");
 
 		$source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 		if (@is_dir($source_dir))

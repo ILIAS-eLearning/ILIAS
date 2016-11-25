@@ -1989,7 +1989,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				'<img src="'.ilUtil::getImagePath('icon_not_ok.svg').'" /> '.
 				$this->lng->txt('proxy_not_connectable')
 			);
-			ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+			ilUtil::sendFailure(sprintf($this->lng->txt('proxy_socket_error'), $e->getMessage()));
 		}
 	}
 	

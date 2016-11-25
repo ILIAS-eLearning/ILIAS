@@ -156,7 +156,7 @@ class ilHistory
 				"title" => $hist_rec["title"]);
 		}
 
-		if ($a_obj_type == "lm" || $a_obj_type == "dbk")
+		if ($a_obj_type == "lm")
 		{
 			$query = "SELECT h.*, l.title as title FROM history h, lm_data l WHERE ".
 				" l.lm_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".

@@ -12,6 +12,7 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 	public function getInputField(ilPropertyFormGUI $form, $record_id = 0) {
 		$input = new ilDclCheckboxInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+		$this->setupInputField($input, $this->getField());
 
 		return $input;
 	}

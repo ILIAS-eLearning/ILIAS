@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Factory;
 
 /**
@@ -31,12 +32,18 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private $lng;
 
 	/**
+	 * @var	JavaScriptBinding
+	 */
+	private $js_binding;
+
+	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
-	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng) {
+	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->lng = $lng;
+		$this->js_binding = $js_binding;
 	}
 
 	/**
@@ -83,6 +90,32 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		$path = "src/UI/templates/default/$component/$name";
 		return $this->tpl_factory->getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
 	}
+
+	/**
+	 * Bind the component to JavaScript.
+	 *
+	 * ATTENTION: If this returns an id, the returned id has to be included as id-attribute
+	 * into the HTML of your component.
+	 *
+	 * @param	JavaScriptBindable	$component
+	 * @return	string|null
+	 */
+	final protected function bindJavaScript(JavaScriptBindable $component) {
+		$binder = $component->getOnLoadCode();
+		if ($binder === null) {
+			return null;
+		}
+		$id = $this->js_binding->createId();
+		$on_load_code = $binder($id);
+		if (!is_string($on_load_code)) {
+			throw new \LogicException(
+				"Expected JavaScript binder to return string".
+				" (used component: ".get_class($component).")");
+		}
+		$this->js_binding->addOnLoadCode($on_load_code);
+		return $id;
+	}
+
 
 	/**
 	 * Check if a given component fits this renderer and throw \LogicError if that is not

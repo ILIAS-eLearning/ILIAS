@@ -149,7 +149,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	 */
 	function render($a_mode = "property_form")
 	{
-		global $lng, $ilCtrl, $ilObjDataCache, $tree;
+		global $lng;
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();
@@ -157,6 +157,10 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 		
 		$tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "Services/UIComponent/Explorer2");
 
+		if ($a_mode != "property_form")
+		{
+			$tpl->touchBlock("tiny_presentation");
+		}
 
 		// set values		
 		$val = $this->getValue();

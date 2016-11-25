@@ -85,6 +85,14 @@ class ilTermsOfServiceFileSystemDocument implements ilTermsOfServiceSignableDocu
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function exists()
+	{
+		return true;
+	}
+
+	/**
 	 *
 	 */
 	protected function initSourceFiles()

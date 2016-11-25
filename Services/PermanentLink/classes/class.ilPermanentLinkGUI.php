@@ -222,8 +222,34 @@ class ilPermanentLinkGUI
 			$tpl->setVariable("TARGET", 'target="'.$this->getTarget().'"');
 		}
 
+		$bm_html = self::getBookmarksSelectionList($title, $href);
+		if($bm_html)
+		{
+			$tpl->setVariable('SELECTION_LIST', $bm_html);
+		}
+
 		return $tpl->get();
 	}
-}
+	
+	/**
+	 * @return string
+	 */
+	protected static function getBookmarksSelectionList($title, $href)
+	{
+		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
-?>
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setId('socialbm_actions_' . md5(uniqid(rand(), true)));
+
+		$html = '';
+
+		if(!$GLOBALS['DIC']['ilUser']->isAnonymous() && !$GLOBALS['DIC']['ilSetting']->get('disable_bookmarks'))
+		{
+			$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title=' . urlencode(urlencode($title)) . '&param_bm_link=' . urlencode(urlencode($href)) . "&param_return_to_url=" . urlencode(urlencode($_SERVER['REQUEST_URI']));
+			$current_selection_list->addItem($GLOBALS['DIC']['lng']->txt("bm_add_to_ilias"), '', $linktpl, '' , $GLOBALS['DIC']['lng']->txt('bm_add_to_ilias'), '_top');
+			$html = $current_selection_list->getHTML();
+		}
+
+		return $html;
+	}
+}

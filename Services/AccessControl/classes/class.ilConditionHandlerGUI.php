@@ -289,8 +289,9 @@ class ilConditionHandlerGUI
 			)
 		);
 
-		$this->tpl->setVariable('TABLE_CONDITIONS',$table->getHTML());
-		$this->tpl->setContent($table->getHTML());
+		$h = $table->getHTML();
+		$this->tpl->setVariable('TABLE_CONDITIONS',$h);
+		//$this->tpl->setContent($h);
 	}
 
 	/**

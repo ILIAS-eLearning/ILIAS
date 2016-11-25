@@ -144,7 +144,7 @@ class ilSCORM2004DeleteData
 		}
 	}
 	
-	public function removeCMIDataForNodes($cmi_node_values)
+	public static function removeCMIDataForNodes($cmi_node_values)
 	{
 		global $ilDB;
 		
@@ -191,7 +191,7 @@ class ilSCORM2004DeleteData
 
 	}
 	
-	public function getGlobalToSystemObjectiveIdStringForPackage($packageId) {
+	public static function getGlobalToSystemObjectiveIdStringForPackage($packageId) {
 		global $ilDB;
 		
 		$existing_key_template = "";

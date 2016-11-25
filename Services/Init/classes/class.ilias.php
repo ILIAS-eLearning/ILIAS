@@ -122,20 +122,6 @@ class ILIAS
 		$this->obj_factory = new ilObjectFactory();
 	}
 
-	/**
-	* Destructor
-	* @access	private
-	* @return	boolean
-	*/
-	function _ILIAS()
-	{
-		if ($this->ini->readVariable("db", "type") != "")
-		{
-			$this->db->disconnect();
-		}
-		
-		return true;
-	}
 	
 	
 	/**

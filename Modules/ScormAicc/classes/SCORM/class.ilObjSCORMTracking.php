@@ -157,7 +157,7 @@ class ilObjSCORMTracking
 		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
 	}
 	
-	function storeJsApi($obj_id=0) {
+	public static function storeJsApi($obj_id=0) {
 		// global $ilLog, $ilUser;
 
 		// if (is_object($ilUser)) {
@@ -182,7 +182,7 @@ class ilObjSCORMTracking
 		if($rval==true) print("ok");
 	}
 
-	static function storeJsApiCmi($user_id, $obj_id, $data) {
+	public static function storeJsApiCmi($user_id, $obj_id, $data) {
 		global $ilLog, $ilDB;
 		
 		$b_updateStatus=false;
@@ -321,7 +321,7 @@ class ilObjSCORMTracking
 	 * @param
 	 * @return
 	 */
-	static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
+	public static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilLog;
 		//TODO: use sahs_user in future!! Especially for learningTime!
@@ -360,7 +360,7 @@ class ilObjSCORMTracking
 		ilChangeEvent::_recordReadEvent($a_type, $a_ref_id, $a_obj_id, $a_user_id, false, $attempts, $time);
 	}
 
-	static function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
+	public static function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
 	{
 		global $ilDB, $ilUser;
 
@@ -576,7 +576,7 @@ class ilObjSCORMTracking
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	static function _getTrackedUsers($a_obj_id)
+	public static function _getTrackedUsers($a_obj_id)
 	{
 		global $ilDB, $ilLog;
 
@@ -600,7 +600,7 @@ class ilObjSCORMTracking
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	static function _getFailed($scorm_item_id,$a_obj_id)
+	public static function _getFailed($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -713,7 +713,7 @@ class ilObjSCORMTracking
 		return $info;
 	}
 
-	function scorm12PlayerUnload()
+	public static function scorm12PlayerUnload()
 	{
 		global $ilUser, $ilDB;
 
@@ -741,7 +741,7 @@ class ilObjSCORMTracking
 		print("");
 	}
 	
-	function checkIfAllowed($packageId,$userId,$hash){
+	public static function checkIfAllowed($packageId,$userId,$hash){
 		global $ilDB;
 		$res = $ilDB->queryF('select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
 			array('integer','integer','timestamp'),

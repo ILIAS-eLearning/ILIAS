@@ -183,7 +183,7 @@ class ilDclRecordListGUI {
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
 
 		if ($desc = $this->table_obj->getDescription()) {
-			$desc = "<div class='ilDclTableDescription'>{$desc}</div>";
+			$desc = "<div class='ilDclTableDescription'>".nl2br($desc)."</div>";
 		}
 		$tpl->setContent($desc . $list->getHTML());
 	}
@@ -508,6 +508,7 @@ class ilDclRecordListGUI {
 
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
+		$list->determineOffsetAndOrder();
 
 		$limit = $list->getLimit();
 		$offset = $list->getOffset();
@@ -580,7 +581,8 @@ class ilDclRecordListGUI {
 	 */
 	protected function checkAccess()
 	{
-		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id);
+		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) ||
+		(ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) && ilObjDataCollectionAccess::hasAccessToTable($this->table_id));
 	}
 
 }

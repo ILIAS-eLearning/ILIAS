@@ -1267,6 +1267,11 @@ return;
 						", ".ilUtil::getStyleSheetLocation().
 						", ./Services/COPage/css/tiny_extra.css".
 						"')");
+					include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+					foreach (ilPCParagraphGUI::_getTextCharacteristics($this->getStyleId()) as $c)
+					{
+						$GLOBALS["tpl"]->addOnloadCode("ilCOPage.addTextFormat('".$c."');");
+					}
 
 					//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
@@ -1494,16 +1499,8 @@ return;
 			if ($_GET["reloadTree"] == "y")
 			{
 				$tpl->setCurrentBlock("reload_tree");
-				if ($this->obj->getParentType() == "dbk")
-				{
-					$tpl->setVariable("LINK_TREE",
-						$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer", "", false, false));
-				}
-				else
-				{
-					$tpl->setVariable("LINK_TREE",
-						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false));
-				}
+				$tpl->setVariable("LINK_TREE",
+					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false));
 				$tpl->parseCurrentBlock();
 			}
 //		}
@@ -1657,15 +1654,13 @@ return;
 
 		// page splitting only for learning modules and
 		// digital books
-		$enable_split_new = ($this->obj->getParentType() == "lm" ||
-			$this->obj->getParentType() == "dbk")
+		$enable_split_new = ($this->obj->getParentType() == "lm")
 			? "y"
 			: "n";
 
 		// page splitting to next page only for learning modules and
 		// digital books if next page exists in tree
-		if (($this->obj->getParentType() == "lm" ||
-			$this->obj->getParentType() == "dbk") &&
+		if (($this->obj->getParentType() == "lm") &&
 			ilObjContentObject::hasSuccessorPage($this->obj->getParentId(),
 				$this->obj->getId()))
 		{
@@ -1800,6 +1795,11 @@ return;
 		{
 			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 
+			$this->log->debug("Calling XSLT, content: ".$content);
+			//echo $content; exit;
+			//$content = '<dummy><PageObject></PageObject><MediaObject Id="il__mob_350071"><MediaItem Purpose="Standard"><Location Type="LocalFile">01_Course_Kick_off500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /><MapArea Shape="WholePicture" Coords="" ><ExtLink Href="" Title="">https://lms.skyguide.corp/goto.php?target=fold_323629&client_id=skyguide</ExtLink></MapArea></MediaItem></MediaObject><MediaObject Id="il__mob_350072"><MediaItem Purpose="Standard"><Location Type="LocalFile">02_Feasibility500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350073"><MediaItem Purpose="Standard"><Location Type="LocalFile">03_Preparation500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350074"><MediaItem Purpose="Standard"><Location Type="LocalFile">05_Planning500pix.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350076"><MediaItem Purpose="Standard"><Location Type="LocalFile">06_SIM_Kick_off500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350077"><MediaItem Purpose="Standard"><Location Type="LocalFile">07_TVAL500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="70" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350078"><MediaItem Purpose="Standard"><Location Type="LocalFile">08_PVAL500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="70" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350079"><MediaItem Purpose="Standard"><Location Type="LocalFile">09_OVAL500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350080"><MediaItem Purpose="Standard"><Location Type="LocalFile">10_Course500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350081"><MediaItem Purpose="Standard"><Location Type="LocalFile">11_Evaluation500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="71" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350082"><MediaItem Purpose="Standard"><Location Type="LocalFile">100_Accountable500pix_100_0.png</Location><Format>image/png</Format><Layout Width="100" Height="69" HorizontalAlign="Left" /></MediaItem></MediaObject><MediaObject Id="il__mob_350241"><MediaItem Purpose="Standard"><Location Type="LocalFile">Picture30LINK_450_0.PNG</Location><Format>image/png</Format><Layout Width="450" Height="24" HorizontalAlign="Left" /><MapArea Shape="WholePicture" Coords="" ><ExtLink Href="http://lms.skyguide.corp/goto.php?target=file_323721_download&amp;client_id=skyguide" Title=""></ExtLink></MapArea></MediaItem></MediaObject></dummy>';
+
+
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
@@ -1831,7 +1831,8 @@ return;
 		}
 		$output = str_replace("&amp;", "&", $output);
 		
-		$output = ilUtil::insertLatexImages($output);
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		$output = ilMathJax::getInstance()->insertLatexImages($output);
 
 		// insert page snippets
 		//$output = $this->insertContentIncludes($output);
@@ -2413,7 +2414,8 @@ return;
 		$btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
 		
 		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type));
+
+		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
 		ilTooltipGUI::addTooltip("ilAdvSelListAnchorElement_char_style_selection",
 			$lng->txt("cont_more_character_styles"), "iltinymenu_bd");
 
@@ -2473,6 +2475,10 @@ return;
 						{
 							$href = "./goto.php?target=st_".$target_id;
 						}
+						if ($lm_id == "")
+						{
+							$href = "";
+						}
 						break;
 
 					case "GlossaryItem":
@@ -2522,9 +2528,12 @@ return;
 						break;
 
 				}
-				$anc_par = 'Anchor="'.$anc.'"';
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".$anc_par." ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
+				if ($href != "")
+				{
+					$anc_par = 'Anchor="' . $anc . '"';
+					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " . $anc_par . " " .
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
+				}
 			}
 		}
 		$link_info.= "</IntLinkInfos>";

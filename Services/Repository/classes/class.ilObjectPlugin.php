@@ -39,7 +39,7 @@ abstract class ilObjectPlugin extends ilObject2
 	 * Return either a repoObject plugin or a orgunit extension plugin or null if the type is not a plugin.
 	 *
 	 * @param $type
-	 * @return null|ilPlugin
+	 * @return null|ilRepositoryObjectPlugin
 	 */
 	public static function getRepoPluginObjectByType($type) {
 		if (!self::$plugin_by_type[$type]) {

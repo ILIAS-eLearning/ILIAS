@@ -50,7 +50,8 @@ class ilDAVProperties
 	public function put($objDAV, $namespace, $name, $value)
 	{
 		//$this->writelog('put ns='.$namespace.' name='.$name.' value='.$value);
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$objId = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
@@ -101,7 +102,8 @@ class ilDAVProperties
 	 */
 	public function get($objDAV, $namespace, $name, $value)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$objId = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
@@ -130,7 +132,8 @@ class ilDAVProperties
 	 */
 	public function getAll($objDAV)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$objId = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
@@ -158,7 +161,8 @@ class ilDAVProperties
 	 * /
 	public function move($fromObjDAV, $toObjDAV)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$fromObjId = $fromObjDAV->getObjectId();
 		$fromNodeId = $fromObjDAV->getNodeId();
@@ -178,7 +182,8 @@ class ilDAVProperties
 	 */
 	public function copy($fromObjDAV, $toObjDAV)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$fromObjId = $fromObjDAV->getObjectId();
 		$fromNodeId = $fromObjDAV->getNodeId();
@@ -215,7 +220,9 @@ class ilDAVProperties
 	 */
 	protected function writelog($message) 
 	{
-		global $log, $ilias;
+		global $DIC;
+		$log = $DIC['log'];
+		$ilias = $DIC['ilias'];
 		$log->write(
 			$ilias->account->getLogin()
 			.' DAV ilDAVProperties.'.str_replace("\n",";",$message)

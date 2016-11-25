@@ -176,7 +176,11 @@ il.Overlay = {
 		if (cl && $(el).closest(cl).length) {
 			cl_reg = il.Util.getRegion(cl);
 		}
-		
+
+		// see bug 17227
+		if (el.style.position == "fixed") {
+			return;
+		}
 		
 		// make it smaller, if window height is not sufficient
 		if (cl_reg.height < el_reg.height + 40) {

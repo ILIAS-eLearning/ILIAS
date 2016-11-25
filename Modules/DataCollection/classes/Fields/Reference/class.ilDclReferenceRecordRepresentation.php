@@ -20,30 +20,37 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 			return "";
 		}
 
-		$ref_record = ilDclCache::getRecordCache($value);
-		$html = "";
-		if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
-			//the referenced record_field does not seem to exist.
-			$record_field->setValue(NULL);
-			$record_field->doUpdate();
-		} else {
-			$field = $this->getRecordField()->getField();
-			if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
-				global $DIC;
-				$ilDB = $DIC['ilDB'];
-				/** @var ilDB $ilDB */
-				$ref_record = ilDclCache::getRecordCache($value);
-				$ref_table = $ref_record->getTable();
-
-				if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
-					$html = $this->getLinkHTML(NULL, $value);
-				} else {
-					$html = $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-				}
-			} else {
-				$html = $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-			}
+		if (!is_array($value)) {
+			$value = array($value);
 		}
+
+		$html = "";
+
+		foreach ($value as $v) {
+			$ref_record = ilDclCache::getRecordCache($v);
+			if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
+				//the referenced record_field does not seem to exist.
+				$record_field->setValue(NULL);
+				$record_field->doUpdate();
+			} else {
+				$field = $this->getRecordField()->getField();
+				if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
+					$ref_record = ilDclCache::getRecordCache($v);
+					$ref_table = $ref_record->getTable();
+
+					if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
+						$html .= $this->getLinkHTML(NULL, $v);
+					} else {
+						$html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+					}
+				} else {
+					$html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+				}
+			}
+			$html .= '<br>';
+		}
+
+		$html = rtrim($html, '<br>');
 
 		return $html;
 	}

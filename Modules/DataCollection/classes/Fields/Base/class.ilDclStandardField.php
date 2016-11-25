@@ -86,7 +86,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 			array("id"=>"last_update", "title" => $lng->txt("dcl_last_update"), "description" => $lng->txt("dcl_last_update_description"), "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME, "required" => true),
 			array("id"=>"owner", "title" => $lng->txt("dcl_owner"), "description" => $lng->txt("dcl_owner_description"), "datatype_id" => ilDclDatatype::INPUTFORMAT_TEXT, "required" => true),
 			array("id"=>"last_edit_by", "title" => $lng->txt("dcl_last_edited_by"), "description" => $lng->txt("dcl_last_edited_by_description"), "datatype_id" => ilDclDatatype::INPUTFORMAT_TEXT, "required" => true),
-		    array('id' => 'comments', 'title' => $lng->txt('dcl_comments'), 'description' => $lng->txt('dcl_comments_description'), 'datatype_id' => ilDclDatatype::INPUTFORMAT_NONE, 'required' => false),
+		    array('id' => 'comments', 'title' => $lng->txt('dcl_comments'), 'description' => $lng->txt('dcl_comments_desc'), 'datatype_id' => ilDclDatatype::INPUTFORMAT_NONE, 'required' => false),
         );
 		return $stdfields;
 	}
@@ -107,6 +107,25 @@ class ilDclStandardField extends ilDclBaseFieldModel
 		}
 		return $stdFields;
 	}
+
+	/**
+	 * @return array all possible standardfield titles, in all languages (used for excel-import);
+	 */
+	static function _getAllStandardFieldTitles() {
+		global $ilDB;
+		$identifiers = '';
+		foreach (array('dcl_id', 'dcl_creation_date', 'dcl_last_update', 'dcl_owner', 'dcl_last_edited_by', 'dcl_comments') as $id) {
+			$identifiers .= $ilDB->quote($id, 'text') . ',';
+		}
+		$identifiers = rtrim($identifiers, ',');
+		$sql = $ilDB->query('SELECT value FROM lng_data WHERE identifier IN (' . $identifiers . ')');
+		$titles = array();
+		while ($rec = $ilDB->fetchAssoc($sql)) {
+			$titles[] = $rec['value'];
+		}
+		return $titles;
+	}
+
 
 	/*
 	 * _isStandardField

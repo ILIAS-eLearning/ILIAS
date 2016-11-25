@@ -46,7 +46,7 @@ class ilRpcClient
 	 * @param string $a_encoding Character encoding
 	 * @throws ilRpcClientException
 	 */
-	function __construct ($a_url, $a_prefix = '', $a_timeout = 0, $a_encoding = 'UTF-8')
+	function __construct ($a_url, $a_prefix = '', $a_timeout = 0, $a_encoding = 'utf-8')
 	{
 		if(!extension_loaded('xmlrpc'))
 		{
@@ -72,7 +72,10 @@ class ilRpcClient
 	{
 		//prepare xml post data
 		$method_name = str_replace('_', '.', $this->prefix . $a_method);
-		$rpc_options = array('verbosity'=>'newlines_only');
+		$rpc_options = array(
+			'verbosity'=>'newlines_only',
+			'escaping' => 'markup'
+		);
 
 		if($this->encoding)
 		{
@@ -106,7 +109,7 @@ class ilRpcClient
 		}
 
 		//prepare output, throw exception if rpc fault is detected
-		$resp = xmlrpc_decode($xml_resp);
+		$resp = xmlrpc_decode($xml_resp,$this->encoding);
 
 		//xmlrpc_is_fault can just handle arrays as response
 		if(is_array($resp)&& xmlrpc_is_fault($resp))

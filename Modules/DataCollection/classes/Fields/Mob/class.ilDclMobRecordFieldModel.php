@@ -93,7 +93,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$mob->update();
 			$return = $mob->getId();
 			// handover for save-confirmation
-		} else if(is_array($media) && isset($media['tmp_name'])) {
+		} else if(is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
 			$return = $media;
 		}else {
 			$return = $this->getValue();
@@ -119,6 +119,17 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			return $mob_name;
 		}
 		return $file;
+	}
+
+	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		if (is_array($this->getValue())) {
+			foreach($this->getValue() as $key=>$value) {
+				$confirmation->addHiddenItem('field_'.$this->field->getId().'['.$key.']', $value);
+			}
+		}
 	}
 
 

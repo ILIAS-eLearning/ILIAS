@@ -41,14 +41,22 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					$options[$record->getId()] = $media_obj->getTitle();
 					break;
 				case ilDclDatatype::INPUTFORMAT_DATETIME:
-					$options[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
+					$options[$record->getId()] = strtotime($record->getRecordFieldSingleHTML($fieldref));
+					// TT #0019091: options2 are the actual values, options the timestamp for sorting
+					$options2[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
 					break;
 				case ilDclDatatype::INPUTFORMAT_TEXT:
 					$value = $record->getRecordFieldValue($fieldref);
-					$json = json_decode($value);
-					if ($json instanceof stdClass) {
-						$value = $json->title ? $json->title : $json->link;
+					if ($record->getRecordField($fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+						if (!is_array($value)) {
+							throw new ilDclException('Value of URL-Field should always be an array');
+						}
+						$value = $value['title'] ? $value['title'] : $value['link'];
 					}
+//					$json = json_decode($value);
+//					if ($json instanceof stdClass) {
+//						$value = $json->title ? $json->title : $json->link;
+//					}
 					$options[$record->getId()] = $value;
 					break;
 				default:
@@ -57,6 +65,17 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 			}
 		}
 		asort($options);
+
+		// TT #0019091: restore the actual values after sorting with timestamp
+		if ($reffield->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
+			foreach ($options as $key => $opt) {
+				$options[$key] = $options2[$key];
+			}
+			// the option 'please select' messes with the order, therefore we reset it
+			unset($options[""]);
+			$options = array("" => $this->lng->txt('dcl_please_select')) + $options;
+		}
+
 		$input->setOptions($options);
 
 		if ($reftable->hasPermissionToAddRecord($_GET['ref_id'])) {

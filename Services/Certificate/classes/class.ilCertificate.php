@@ -95,6 +95,15 @@ class ilCertificate
 
 		$this->adapter = $adapter;
 	}
+
+	/**
+	 * @param string $a_number
+	 * @return float
+	 */
+	public function formatNumberString($a_number)
+	{
+		return str_replace(',', '.', $a_number);
+	}
 	
 	/**
 	* Returns the filesystem path of the background image
@@ -479,6 +488,13 @@ class ilCertificate
 
 		$xslfo = file_get_contents($this->getXSLPath());
 
+        // render tex as fo graphics
+		require_once('Services/MathJax/classes/class.ilMathJax.php');
+		$xslfo = ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_PDF)
+			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+			->insertLatexImages($xslfo);
+
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
@@ -512,6 +528,13 @@ class ilCertificate
 		ilDatePresentation::setUseRelativeDates(false);
 
 		$xslfo = file_get_contents($this->getXSLPath());
+
+        // render tex as fo graphics
+		require_once('Services/MathJax/classes/class.ilMathJax.php');
+		$xslfo = ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_PDF)
+			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+			->insertLatexImages($xslfo);
 
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try

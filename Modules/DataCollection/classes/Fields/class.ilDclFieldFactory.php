@@ -177,7 +177,7 @@ class ilDclFieldFactory {
 	 *
 	 * @param ilDclBaseRecordFieldModel $record_field
 	 *
-	 * @return null
+	 * @return ilDclBaseRecordRepresentation
 	 * @throws ilDclException
 	 */
 	public static function getRecordRepresentationInstance(ilDclBaseRecordFieldModel $record_field) {

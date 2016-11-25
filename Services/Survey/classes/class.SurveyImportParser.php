@@ -82,7 +82,7 @@ class SurveyImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function __construct($a_spl_id, $a_xml_file = '', $spl_exists = FALSE, $a_mapping)
+	function __construct($a_spl_id, $a_xml_file = '', $spl_exists = FALSE, $a_mapping = null)
 	{
 		parent::__construct($a_xml_file);
 		$this->spl_id = $a_spl_id;
@@ -568,7 +568,7 @@ class SurveyImportParser extends ilSaxParser
 					if (is_object($this->survey) && 
 						$this->spl_id > 0)
 					{						
-						$question_id = $this->activequestion->duplicate(TRUE);										
+						$question_id = $this->activequestion->duplicate(TRUE, "", "", "", $this->survey->getId());
 					}
 					else
 					{
@@ -579,7 +579,10 @@ class SurveyImportParser extends ilSaxParser
 						$this->survey->addQuestion($question_id);		
 					}	
 					$this->questions[$this->original_question_id] = $question_id;
-					$this->mapping->addMapping("Modules/Survey", "svy_q", $this->original_question_id, $question_id);
+					if($this->mapping)
+					{
+						$this->mapping->addMapping("Modules/Survey", "svy_q", $this->original_question_id, $question_id);
+					}
 					$this->activequestion = NULL;
 				}
 				$this->textblock = "";

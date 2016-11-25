@@ -23,9 +23,11 @@ class iljQueryUtil
 	{
 		global $tpl;
 	
+		/*
 		self::$ver = DEVMODE 
 			? "3_1_0"
-			: "2_2_4";
+			: "2_2_4";		 
+		*/
 		self::$min = DEVMODE
 			? ""
 			: "-min";
@@ -37,17 +39,16 @@ class iljQueryUtil
 
 		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
 		
-		if(DEVMODE)
+		/*
+		// adding jquery-migrate for >= 1.9.x
+		$major = explode("_", self::$ver);
+		$major = $major[0]*100+$major[1];
+		if($major >= 109)
 		{
-			// adding jquery-migrate for >= 1.9.x
-			$major = explode("_", self::$ver);
-			$major = $major[0]*100+$major[1];
-			if($major >= 109)
-			{
-				$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());			
-				$a_tpl->addJavaScript($path, true, 1);
-			}
+			$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());			
+			$a_tpl->addJavaScript($path, true, 1);
 		}
+		*/
 	}
 	
 	/**

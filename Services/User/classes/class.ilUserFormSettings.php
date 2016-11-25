@@ -33,6 +33,7 @@ class ilUserFormSettings
 	protected $user_id;
 	protected $id;
 	protected $settings = array();
+	private $has_stored_entry = false;
 	
 	/**
 	 * Constructor
@@ -54,6 +55,15 @@ class ilUserFormSettings
 		}
 	 	
 	 	$this->read();
+	}
+	
+	/**
+	 * Check if entry exist
+	 * @return type
+	 */
+	public function hasStoredEntry()
+	{
+		return $this->has_stored_entry;
 	}
 	
 	/**
@@ -164,6 +174,11 @@ class ilUserFormSettings
 			" AND id = ".$this->db->quote($this->id,'text');
 	 	$res = $this->db->query($query);
 		
+		if($res->numRows())
+		{
+			$this->has_stored_entry = true;
+		}
+		
 		$this->reset();
 	 	if($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
@@ -199,6 +214,18 @@ class ilUserFormSettings
 		$query = "DELETE FROM usr_form_settings".
 			" WHERE user_id = ".$ilDB->quote($a_user_id,'integer');
 		$ilDB->manipulate($query);
+	}
+	
+	/**
+	 * Delete for id
+	 * @param string $a_id
+	 */
+	public static function deleteAllForId($a_id)
+	{
+		$query = "DELETE FROM usr_form_settings".
+			" WHERE id = ".$GLOBALS['ilDB']->quote($a_id,'text');
+		$GLOBALS['ilDB']->manipulate($query);
+		
 	}
 	
 	/**

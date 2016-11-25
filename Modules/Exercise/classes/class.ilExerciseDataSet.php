@@ -20,7 +20,7 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0", "4.4.0", "5.0.0", "5.1.0");
+		return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0");
 	}
 	
 	/**
@@ -67,6 +67,18 @@ class ilExerciseDataSet extends ilDataSet
 						"PassNr" => "integer",
 						"ShowSubmissions" => "integer",
 						"ComplBySubmission" => "integer"
+					);
+					
+				case "5.2.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"PassMode" => "text",
+						"PassNr" => "integer",
+						"ShowSubmissions" => "integer",
+						"ComplBySubmission" => "integer",
+						"Tfeedback" => "integer"
 					);
 			}
 		}
@@ -133,6 +145,7 @@ class ilExerciseDataSet extends ilDataSet
 					);
 					
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"Id" => "integer",
 						"ExerciseId" => "integer",
@@ -172,6 +185,7 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"Id" => "integer"
 						,"Parent" => "integer"
@@ -186,6 +200,7 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"Id" => "integer"
 						,"Parent" => "integer"
@@ -234,6 +249,13 @@ class ilExerciseDataSet extends ilDataSet
 						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
 					break;
+				
+				case "5.2.0":
+					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description,".
+						" pass_mode, pass_nr, show_submissions, compl_by_submission, tfeedback".
+						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
+					break;
 			}
 		}
 
@@ -265,6 +287,7 @@ class ilExerciseDataSet extends ilDataSet
 					break;
 				
 				case "5.1.0":
+				case "5.2.0":
 					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2,".
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
@@ -280,6 +303,7 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.2.0":
 					$this->getDirectDataFromQuery("SELECT id, parent, title, pos".
 						" FROM exc_crit_cat".
 						" WHERE ".$ilDB->in("parent", $a_ids, false, "integer"));
@@ -292,6 +316,7 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.2.0":
 					$this->getDirectDataFromQuery("SELECT id, parent, type, title".
 						", descr, pos, required, def".
 						" FROM exc_crit".
@@ -397,6 +422,7 @@ class ilExerciseDataSet extends ilDataSet
 				$newObj->setPassNr($a_rec["PassNr"]);
 				$newObj->setShowSubmissions($a_rec["ShowSubmissions"]);
 				$newObj->setCompletionBySubmission($a_rec["ComplBySubmission"]);
+				$newObj->setTutorFeedback($a_rec["Tfeedback"]);
 				$newObj->update();
 				$newObj->saveData();
 				$this->current_exc = $newObj;

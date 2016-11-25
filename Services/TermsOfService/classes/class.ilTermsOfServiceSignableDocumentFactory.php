@@ -4,20 +4,27 @@
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
- * @abstract
  */
 class ilTermsOfServiceSignableDocumentFactory
 {
 	/**
 	 * @param ilLanguage $lng
 	 * @return ilTermsOfServiceSignableDocument
-	 * @throws ilTermsOfServiceNoSignableDocumentFoundException
 	 */
 	public static function getByLanguageObject(ilLanguage $lng)
 	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceFileSystemDocument.php';
-		$document = new ilTermsOfServiceFileSystemDocument($lng);
-		$document->determine();
+		try
+		{
+			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceFileSystemDocument.php';
+			$document = new ilTermsOfServiceFileSystemDocument($lng);
+			$document->determine();
+		}
+		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+		{
+			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceNullDocument.php';
+			$document = new ilTermsOfServiceNullDocument();
+		}
+
 		return $document;
 	}
 }

@@ -577,7 +577,8 @@ a.il_question_answer_list_back_anchor
     margin-top: 0;
 }
 
-p.ilAssKprimInstruction
+p.ilAssKprimInstruction,
+p.ilAdditionalAssQuestionInstruction
 {
     font-style: italic;
     font-size: 0.9em;

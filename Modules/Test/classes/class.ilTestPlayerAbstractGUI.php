@@ -2391,15 +2391,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function getQuestionGuiInstance($questionId, $fromCache = true)
 	{
+		global $tpl;
+		
 		if( !$fromCache || !isset($this->cachedQuestionGuis[$questionId]) )
 		{
 			$questionGui = $this->object->createQuestionGUI("", $questionId);
 			$questionGui->setTargetGui($this);
 			$questionGui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
 			$questionGui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
+			$questionGui->populateJavascriptFilesRequiredForWorkForm($tpl);
 			$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
 			$questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));
-
+			
 			$this->cachedQuestionGuis[$questionId] = $questionGui;
 		}
 		

@@ -63,6 +63,7 @@ class ilDclFieldListGUI
         $ilToolbar = $DIC['ilToolbar'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
+		$locator = $DIC['ilLocator'];
 
 		$table_id = $_GET['table_id'];
 
@@ -74,6 +75,11 @@ class ilDclFieldListGUI
         $this->tpl = $tpl;
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
+
+		$this->ctrl->saveParameter('ilDclTableEditGUI', 'table_id');
+		$locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+		$this->tpl->setLocator();
+
         if ( ! $this->checkAccess()) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');

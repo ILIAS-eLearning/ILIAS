@@ -121,8 +121,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		$res = $this->db->queryF(
 			$query, array('integer', 'integer'), array($this->getTestId(), $this->getPoolId())
 		);
-
-		//vd($this->db->db->last_query);
+		
+		//echo sprintf($query, $this->getTestId(), $this->getPoolId());exit;
 		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
@@ -256,5 +256,16 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	public function valid()
 	{
 		return key($this->questions) !== null;
+	}
+	
+	public static function updateSourceQuestionPoolId($testId, $oldPoolId, $newPoolId)
+	{
+		$db = $GLOBALS['DIC']['ilDB'];
+		
+		$query = "UPDATE tst_rnd_cpy SET qpl_fi = %s WHERE tst_fi = %s AND qpl_fi = %s";
+		
+		$db->manipulateF(
+			$query, array('integer', 'integer', 'integer'), array($newPoolId, $testId, $oldPoolId)
+		);
 	}
 }

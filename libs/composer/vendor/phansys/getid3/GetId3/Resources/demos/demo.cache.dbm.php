@@ -14,8 +14,7 @@
 
 die('Due to a security issue, this demo has been disabled. It can be enabled by removing line '.__LINE__.' in '.$_SERVER['PHP_SELF']);
 
-
-require_once('../getid3/getid3.php');
+require_once '../getid3/getid3.php';
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'extension.cache.dbm.php', __FILE__, true);
 
 $getID3 = new GetId3_Extension_Cache_Dbm('db3', '/zimweb/test/test.dbm', '/zimweb/test/test.lock');
@@ -28,5 +27,3 @@ echo '</pre>';
 
 // uncomment to clear cache
 // $getID3->clear_cache();
-
-?>

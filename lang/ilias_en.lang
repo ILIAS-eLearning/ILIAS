@@ -101,17 +101,17 @@ administration#:#language_compare#:#Compare
 administration#:#language_default_entries#:# (default entries)
 administration#:#language_delete_local_changes#:#Delete all local changes in the database
 administration#:#language_error_clear_local#:#The local changed could not be cleared in the database!
-administration#:#language_error_read_local#:#The local language file does not exist or cannot be read!
-administration#:#language_error_write_local#:#The local language file cannot be written!
+administration#:#language_error_read_local#:#The custom language file does not exist or cannot be read!
+administration#:#language_error_write_local#:#The custom language file cannot be written!
 administration#:#language_export_file#:#Export Language File
 administration#:#language_file_imported#:#The language file %s was imported.
 administration#:#language_file_scope#:#Language file scope
-administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the ‘Maintain’ tab.
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the path mentioned above. Before the next update you can do this with the option 'Backup the standard language file' on the maintenance tab.
 administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file.
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.
 administration#:#language_import_file#:#Import Language File
-administration#:#language_load_local_changes#:#Load local language file into the database
-administration#:#language_loaded_local#:#The local language file was loaded into the database.
+administration#:#language_load_local_changes#:#Load custom language file into the database
+administration#:#language_loaded_local#:#The custom language file was loaded into the database.
 administration#:#language_maintain_local_changes#:#Maintain local changes
 administration#:#language_maintain#:#Maintain
 administration#:#language_maintenance#:#Language Maintenance
@@ -120,11 +120,11 @@ administration#:#language_mode_existing_keepall#:#Keep all existing entries
 administration#:#language_mode_existing_keepnew#:#Keep all local changes
 administration#:#language_mode_existing_replace#:#Replace existing entries
 administration#:#language_mode_existing#:#Existing Entries
-administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you do not have write permissions to the customized language files, you may export the local changes and re-import them if needed.
+administration#:#language_note_save_local#:#Please save your changes to the custom language file regularly. If you do not have write permissions to the customized language files, you may export the local changes and re-import them if needed.
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs read and write permission on the language folder.
 administration#:#language_process_maintenance#:#Process Maintenance
-administration#:#language_save_local_changes#:#Save all changes to the local language file
-administration#:#language_saved_local#:#All changes were saved to the local language file.
+administration#:#language_save_local_changes#:#Save all changes to the custom language file
+administration#:#language_saved_local#:#All changes were saved to the custom language file.
 administration#:#language_scope_commented#:#Shows only entries with comments in language file
 administration#:#language_scope_conflicts#:#Local and update changes
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database
@@ -225,11 +225,14 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
-assessment#:#essay_scoring_mode#:#Scoring Mode
+assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
+assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
+assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
@@ -355,7 +358,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#circle#:#Circle
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and click the button ‘Insert Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
@@ -677,6 +680,8 @@ assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current ques
 assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
+assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
 assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
@@ -760,14 +765,23 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Q
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
+assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
+assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
+assessment#:#tst_derive_new_pool#:#Derive New Question Pool
+assessment#:#tst_derive_new_pools#:#Derive New Question Pools
+assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
+assessment#:#tst_non_available_pool_newly_derived#:#The new question pool(s) has been derived successfully.
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -1065,7 +1079,8 @@ assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
-assessment#:#tst_browse_for_questions#:#Add from Pool
+assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
+assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_change_points_for_question#:#Points for the Answer
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were removed. You have successfully reset the test!
 assessment#:#tst_confirm_delete_results#:#You are about to remove all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
@@ -1386,7 +1401,7 @@ assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
+assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
@@ -2209,7 +2224,7 @@ common#:#bkm_import#:#Import Bookmarks
 common#:#bkm_sendmail#:#Send as attachment
 common#:#block_management#:#Block Management
 common#:#block#:#Block
-common#:#bm_add_to_ilias#:#ILIAS Bookmarks
+common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Folder
 common#:#bold#:#Bold
@@ -2415,7 +2430,7 @@ common#:#create#:#Create
 common#:#created#:#Creation Date
 common#:#cron_forum_notification_cron#:#regularly per cron job
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
-common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting.
+common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted posting.
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
 common#:#cron_forum_notification#:#Send Forum Notifications
@@ -2433,7 +2448,8 @@ common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.
 common#:#crs_archives#:#Archives
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
+crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
+grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 common#:#crs_available#:#Available Courses
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
@@ -3133,7 +3149,7 @@ common#:#in_use#:#User Language
 common#:#in#:#in
 common#:#inactive#:#Inactive
 common#:#inbox#:#Inbox
-common#:#include_local#:#include local language file when updating language
+common#:#include_local#:#include custom language file when updating language
 common#:#info_access_and_status_info#:#Access- and status information
 common#:#info_access_permissions#:#Access Permissions
 common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?
@@ -3173,9 +3189,9 @@ common#:#insert#:#Insert
 common#:#inst_id#:#Installation ID
 common#:#inst_info#:#Installation Info
 common#:#inst_name#:#Installation Name
-common#:#install_local#:#Install With Local
+common#:#install_local#:#Install With Custom File
 common#:#install#:#Install
-common#:#installed_local#:#Installed With Local
+common#:#installed_local#:#Installed With Custom file
 common#:#installed#:#Installed
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
@@ -3199,9 +3215,12 @@ common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Language Path
-common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local language file will overwrite all manual changes that are older than the saving date of the local language file.
+common#:#lang_refresh_confirm_info#:#ILIAS found changed language variables. Refreshing a language will read the standard language file and probably a custom language file to the database. A standard file will not affect your changes. A custom file will overwrite your changes that are older than the file date.
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
+common#:#lang_uninstall_changes#:#Uninstall Local Changes
+common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_size_bytes#:#bytes
@@ -3323,9 +3342,9 @@ common#:#lo_no_content#:#No Learning Resources Available
 common#:#lo_other_langs#:#LOs in Other Languages
 common#:#lo_overview#:#LO Overview
 common#:#lo#:#Learning Object
-common#:#local_language_file#:#local language file
-common#:#local_language_files#:#local language files
-common#:#local_languages_already_installed#:#Selected local language file(s) are already installed
+common#:#local_language_file#:#custom language file
+common#:#local_language_files#:#custom language files
+common#:#local_languages_already_installed#:#Selected custom language file(s) are already installed
 common#:#local#:#Local
 common#:#location#:#Location
 common#:#locator#:#Location:
@@ -3726,6 +3745,7 @@ common#:#obj_catr#:#Category Reference
 common#:#obj_cen#:#Centra Event
 common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chac#:#Chat Server
 common#:#obj_chap#:#Chapter
@@ -4040,7 +4060,7 @@ common#:#proxy_connectable#:#Connection established.
 common#:#proxy_host_info#:#Please enter a host.
 common#:#proxy_host#:#Host
 common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
+common#:#proxy_socket_error#:#Socket Error: %s
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_port#:#Port
@@ -4095,7 +4115,6 @@ common#:#refuse#:#Refuse
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
@@ -5231,7 +5250,6 @@ content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Settings
 content#:#cont_localfile#:#Local File
-content#:#cont_LocalFile#:#Local File
 content#:#cont_location#:#Location
 content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
@@ -5603,7 +5621,7 @@ content#:#scplayer_exit#:#Exit
 content#:#scplayer_exitall#:#Exit All
 content#:#scplayer_expandtree#:#Expand All
 content#:#scplayer_hidetree#:#Hide Tree
-content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE
+content#:#scplayer_phpmysqlcheck#:#You need enabled JSON-support to use the JavaScript-RTE
 content#:#scplayer_previous#:#Previous
 content#:#scplayer_next#:#Next
 content#:#scplayer_showtree#:#Show Tree
@@ -5757,6 +5775,7 @@ crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course Archives
 crs#:#crs_header_delete_members#:#Would you like to remove the following members from this course?
+grp#:#grp_header_delete_members#:#Would you like to remove the following members from this group?
 crs#:#crs_header_delete_subscribers#:#Delete subscribers
 crs#:#crs_header_edit_members#:#Edit Members
 crs#:#crs_header_members#:#Course members
@@ -6925,8 +6944,8 @@ grp#:#grp_admins#:#Administrators
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Change Group Type
-grp#:#grp_closed_info#:#Group is not visible for non-members.
-grp#:#grp_closed#:#Closed Group
+didactic#:#grp_closed_info#:#Group is not visible for non-members.
+didactic#:#grp_closed#:#Closed Group
 grp#:#grp_delete_member#:#Delete
 grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_edit_members#:#Edit Participants
@@ -7091,6 +7110,29 @@ mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
+mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
+mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
+mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.
+mathjax#:#mathjax_server_installation#:# » Installation
+mathjax#:#mathjax_server_address#:#Server Address
+mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
+mathjax#:#mathjax_server_timeout#:#Timeout
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds
+mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
+mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
+mathjax#:#mathjax_server_for_browser#:#Use for Browser
+mathjax#:#mathjax_server_for_browser_info#:#TeX will be shown as SVG graphics. Enabling MathJax in the browser is unneccessary.
+mathjax#:#mathjax_server_for_export#:#Use for HTML Export
+mathjax#:#mathjax_server_for_export_info#:#TeX will be exported as SVG graphic for learning module exports to HTML.
+mathjax#:#mathjax_server_cached#:#Cache Graphics
+mathjax#:#mathjax_server_cached_info#:#Cache all rendered graphics in the ILIAS web directory.
+mathjax#:#mathjax_server_clear_cache#:# » Clear Cache
+mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
+mathjax#:#mathjax_server_cache_size#:#Cache Size
+mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
+mathjax#:#mathjax_test_expression#:#Test Expression
+mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -9655,7 +9697,8 @@ trac#:#trac_reached_points#:#Achieved Score
 trac#:#trac_reached_visits#:#Required Visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
-trac#:#trac_repository_changes#:#Changes in the repository
+trac#:#trac_show_repository_views#:#Show Tracking Information
+trac#:#trac_show_repository_views_info#:#Show tracking information for repository objects on info page.
 trac#:#trac_required_visits#:#Number of Required Visits
 trac#:#trac_sahs_relevant_items#:#Content Items
 trac#:#trac_select_area#:#Select Area
@@ -9684,6 +9727,11 @@ trac#:#view_mode#:#View Mode
 trac#:#vm_access_of_users#:#Access of Users
 trac#:#vm_days_of_period#:#Days of Period
 trac#:#vm_times_of_day#:#Times of Days
+user#:#clipboard_add_btn#:#Add to Clipboard
+user#:#clipboard_user_added#:#Added selected users to clipboard.
+user#:#clipboard_table_title#:#Clipboard (User Accounts)
+user#:#clipboard_remove_btn#:#Remove from Clipboard
+user#:#clipboard_empty_btn#:#Empty Clipboard
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
 user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.
@@ -9830,6 +9878,8 @@ common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without l
 common#:#delete_inactive_user_accounts_include_roles#:#Included roles
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
 common#:#delete_inactive_user_accounts_interval#:#Frequency
+common#:#update_orgunits#:#Update assigned organisational units
+common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
 common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
@@ -10342,7 +10392,7 @@ ps#:#ps_export_excel#:#Start Excel Export
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
-trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.
+trac#:#trac_mode_deactivated_info_new#:#The learning progress status is not displayed and does not influence parent objects.
 common#:#cronjob_last_start#:#Last Start of the Cron Job
 common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
 common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
@@ -10371,21 +10421,21 @@ mail#:#mail_select_recipients#:#Please select mail recipients:
 grp#:#grp_import#:#Import Group
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
-administration#:#language_scope_merged#:#Local changes merged into the global language file
+administration#:#language_scope_merged#:#Local changes merged into the standard language file
 administration#:#language_scope_added#:#Local additions only
-administration#:#language_merge_local_changes#:#Merge local changes into the global language file
+administration#:#language_merge_local_changes#:#Merge local changes into the standard language file
 administration#:#language_delete_local_additions#:#Delete local additions in the database
-administration#:#language_error_write_global#:#The global language file can't be written!
-administration#:#language_error_local_missed#:#The local language file does not exist!
-administration#:#language_error_delete_local#:#The local language file can't be deleted!
-administration#:#language_local_file_deleted#:#The local language file was deleted.
-administration#:#language_remove_local_file#:#Delete the local language file
+administration#:#language_error_write_global#:#The standard language file can't be written!
+administration#:#language_error_local_missed#:#The custom language file does not exist!
+administration#:#language_error_delete_local#:#The custom language file can't be deleted!
+administration#:#language_local_file_deleted#:#The custom language file was deleted.
+administration#:#language_remove_local_file#:#Delete the custom language file
 rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
-administration#:#language_merged_global#:#The local changes were merged into the global language file.
+administration#:#language_merged_global#:#The local changes were merged into the standard language file.
 content#:#cont_submit_answers#:#Submit
 content#:#cont_wrong_answers#:#Incorrect Items
 content#:#cont_tries_remaining#:#Tries Remaining
@@ -11522,8 +11572,8 @@ chatroom#:#unkown_private_room#:#Unknown private room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
-blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
-prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
+blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
+prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -12066,6 +12116,7 @@ dcl#:#dcl_edit#:#Edit Data Collection
 dcl#:#dcl_import#:#Import Data Collection
 dcl#:#dcl_in_export#:#In Export
 dcl#:#dcl_tables#:#Tables
+dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings to solve the problem.
 rbac#:#dcl_visible#:#Data Collection is visible
 rbac#:#dcl_read#:#Read access to Data Collection
 rbac#:#dcl_copy#:#User can copy data collection
@@ -12244,6 +12295,7 @@ dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
 dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
@@ -12257,7 +12309,7 @@ dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fields’.
+dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
@@ -12277,6 +12329,8 @@ dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
 dcl#:#dcl_msg_tables_delete_all#:#Could not delete: At least one Table must exist
+dcl#:#dcl_msg_tables_deleted#:#Tables deleted
+dcl#:#dcl_tables_confirm_delete#:#Do you really want to delete the following Tables?
 dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
 dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
@@ -12359,6 +12413,7 @@ registration#:#reg_allowed_domains#:#Allowed Email Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
+pd#:#block_show_pdsysmess#:#Show System Messages
 pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdusers#:#Show Active Users
@@ -12430,7 +12485,7 @@ content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 dcl#:#dcl_actions#:#Actions
-dcl#:#dcl_export_table_excel#:#Export .xlsx
+dcl#:#dcl_export_table_excel#:#Excel Export
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
@@ -12907,7 +12962,8 @@ dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to up
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
-dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
+dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
@@ -12953,6 +13009,7 @@ dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
 dcl#:#dcl_plugin_hooks#:#Available Plugins
+dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_save_confirmation#:#Save confirmation
 dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry.
 dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
@@ -13527,6 +13584,7 @@ cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Units
+common#:#org_units#:#Organisational Units
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#il_orgu_superior#:#Superior
@@ -13979,7 +14037,7 @@ common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
-sop#:#sop_firefox_required#:#Using a SCORM module offline requires an up-to-date Mozilla Firefox Browser (> v. 20)<br /><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Download Firefox</a>
+sop#:#sop_firefox_required#:#Using a SCORM module offline requires Mozilla Firefox Browser Version 38.
 sop#:#sop_xpi_install#:#Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the ‘Reload page’ button. Afterwards the SCORM Learning Module can be used in offline mode.
 sop#:#sop_reload_page#:#Reload page
 sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
@@ -14201,7 +14259,7 @@ poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
 user#:#usr_id#:#User ID
 meta#:#meta_c_XK#:#Kosovo
-certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_var_user_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
 survey#:#mailparticipantdata_placeholder#:#These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:
 poll#:#poll_notification_subscribe#:#Activate Notification
@@ -14530,6 +14588,8 @@ wiki#:#wiki_link_text#:#Link Text
 wiki#:#wiki_target_page#:#Target Page
 mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
+crs#:#crs_mem_tbl_header#:#Course Participants
+grp#:#grp_mem_tbl_header#:#Group Participants
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
@@ -14789,16 +14849,20 @@ administration#:#language_mode_existing_keepall_info#:#Import only new entries t
 administration#:#language_mode_existing_keepnew_info#:#Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database.
 administration#:#language_mode_existing_replace_info#:#Import new entries and replace all existing entries with the new values defined in the import file.
 administration#:#language_scope_global_info#:#Export all database entries of this language. This can be used for backup purposes.
-administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab ‘Maintain’.
+administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database.
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab ‘Maintain’.
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to ‘Local changes only’. Both together are a complete backup of the current language in the database.
-administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.
+administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the standard language file on the ILIAS git repository.
 administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
 administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
+administration#:#language_save_dist#:#Backup the standard language file
+administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.
+administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.
+administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the initial test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
 crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
 crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.
@@ -14948,7 +15012,7 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
-dcl#:#dcl_number_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
 dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
@@ -15110,10 +15174,10 @@ forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
-search#:#search_show_inactive_user#:#Show Inactive Users
-search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.
-search#:#search_show_limited_user#:#Show Limited Users
-search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.
+search#:#search_show_inactive_user#:#Show inactive users
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
+search#:#search_show_limited_user#:#Show users with limited access
+search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access and outside their allowed time period.
 trac#:#trac_mode_visited_pages#:#Visiting All Pages
 trac#:#trac_mode_visited_pages_info#:#The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module.
 exc#:#exc_peer_review_given#:#Show Given Feedback
@@ -15374,6 +15438,10 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
 buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+common#:#buddy_allow_to_contact_me_no#:#Doesn`t Receive Contact Requests
+common#:#buddy_allow_to_contact_me_yes#:#Receives Contact Requests
+buddysystem#:#buddy_use_osd#:#Popup Contact Requests
+buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -15714,7 +15782,7 @@ book#:#book_reservation_filter_period#:#Period for the reservation list
 book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
 book#:#book_filter_past_reservations#:#Show past reservations
 book#:#book_deadline_options#:#Booking deadline
-book#:#book_deadline_hours#:#X hours prior to booking priod
+book#:#book_deadline_hours#:#X hours prior to booking period
 book#:#book_deadline_slot_end#:#Until end of booking period
 book#:#book_deadline_slot_start#:#Until begin of booking period
 chatroom#:#chatroom_auth#:#Authentication
@@ -15727,7 +15795,7 @@ chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
 chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
-chatroom#:#connection_url_info#:#Please insert an URL without using the Protocol-Definition
+chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
 chatroom#:#log#:#Chatserver Log
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
@@ -15751,7 +15819,7 @@ form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 content#:#cont_permission_object#:#Permission Object
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
-auth#:#auth_err_expired#:#You session has deactivated due to inactivity.
+auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
 assessment#:#ass_location#:#Location
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
@@ -15774,8 +15842,19 @@ pd#:#pd_pdmail_include_sysnmess_info#:#If enabled, system messages are included 
 pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
 pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
 pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
+logging#:#log_error_message#:#Error %s occurred.
+logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
+logging#:#log_error_folder#:#Path
+logging#:#log_error_mail#:#Mail recipient
+logging#:#log_error_settings#:#Error logging settings
+logging#:#error_settings_saved#:#Saved settings
+logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
+logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
+logging#:#frm_clear_older_then#:#Deletes files older then
+logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 blog#:#blog_show_latest#:#Show latest postings/drafts
 common#:#objs_prtf#:#Portfolios
+grp#:#grp_member_administration#:#Edit Participants
 survey#:#svy_results_mail_confirm#:#Participants can request participation confirmation
 survey#:#svy_results_mail_confirm_info#:#Participants can request a mail with a confirmation of participation at the end of the survey.
 survey#:#svy_results_mail_own#:#Include given answers
@@ -15815,13 +15894,13 @@ badge#:#badge_settings#:#Badge Settings
 badge#:#badge_service_activate#:#Activate Service
 badge#:#badge_service_activate_info#:#Activate the service to make badges available
 badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
-badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications. 
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
 badge#:#badge_obi_contact#:#Contact Email
-badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge. 
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards. 
 badge#:#badge_types#:#Types
 badge#:#badge_image_templates#:#Image Templates
 badge#:#badge_activity_badges#:#Activity Badges
@@ -15876,7 +15955,7 @@ badge#:#badge_subtype_manual#:#manual
 badge#:#badge_subtype_auto#:#automatic
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
 trac#:#trac_defaults#:#Completion Status
-trac#:#trac_defaults_info#:#Set the completion status determination mode for each object type. Used by certain badge types.
+trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
@@ -15896,3 +15975,389 @@ assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
 adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+wfe#:#dashboard#:#Dashboard
+wfe#:#definitions#:#Process Definitions
+wfe#:#instances#:#Process Instances
+wfe#:#obj_wfe_desc#:#Process Automation
+wfe#:#upload_process#:#Upload Process Definition
+wfe#:#process_definition_file#:#Process Definition File
+wfe#:#process_definition_file_info#:#BPMN2-Models
+wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
+wfe#:#definition_table_title#:#Process Definitions
+wfe#:#start_process#:#Start Process
+wfe#:#process_started#:#Process started
+wfe#:#input_variables_required#:#Input required
+wfe#:#input_variables_desc#:#The process requires the following data to start:
+wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
+wfe#:#delete_definition#:#Delete Definition
+wfe#:#definition_deleted#:#Workflow-Definition deleted.
+wfe#:#subject_type#:#Subject Type
+wfe#:#subject_id#:#Subject ID
+wfe#:#subject_by_id#:#Subject By ID
+wfe#:#subject_by_mask#:#Masked Subject
+wfe#:#context_type#:#Context Type
+wfe#:#context_id#:#Context ID
+wfe#:#context_by_id#:#Context By ID
+wfe#:#context_by_mask#:#Masked Context
+wfe#:#start_listening#:#Activate Listener
+wfe#:#stop_listening#:#Deactivate Listener
+wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
+wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
+glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_reference_terms#:#Reference Terms
+glo#:#glo_select_source_glo#:#Please select a source glossary.
+glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_term_reference#:#Term Reference
+glo#:#glo_reference#:#Reference
+glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+prg#:#prg_assign_date#:#Assignment date
+prg#:#prg_assigned_by#:#Assigned by
+survey#:#svy_mail_context_reminder_title#:#Survey Reminder
+survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
+survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
+survey#:#svy_reminder_mail_template#:#Mail Template
+survey#:#svy_reminder_mail_template_none#:#Do not use mail template
+survey#:#svy_eval_view#:#View
+survey#:#svy_eval_view_tables_charts#:#Table and chart
+survey#:#svy_eval_view_tables#:#Table
+survey#:#svy_eval_view_charts#:#Chart
+survey#:#svy_eval_captions#:#Figures
+survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
+survey#:#svy_eval_captions_abs#:#Absolute
+survey#:#svy_eval_captions_perc#:#Percentage
+style#:#add_system_style#:#Add System Style
+style#:#add_substyle#:#Add Sub Style
+style#:#skin_id#:#Skin ID
+style#:#skin_name#:#Skin Name
+style#:#skin#:#Skin
+style#:#style_id#:#Style ID
+style#:#Style#:#Style
+style#:#style_name#:#Style Name
+style#:#image_dir#:#Image Directory
+style#:#font_dir#:#Font Directory
+style#:#sound_dir#:#Sound Directory
+style#:#system_style_activation#:#System Style Activated
+style#:#personal#:#Personal
+style#:#system_styel_activation#:#Activate System Style
+style#:#less#:#Less
+style#:#icons#:#Icons
+style#:#documentation#:#Documentation
+style#:#less_can_not_be_modified#:#Less cannot be modified
+style#:#no_less_path_set#:#No Less Path set
+style#:#less_less_installation_detected#:#Less installation detected at:
+style#:#grey_colors#:#Gray Colors
+style#:#grey_color#:#Gray Color
+style#:#grey_colors_description#:#Gray Color Description
+style#:#red_colors#:#Red Colors
+style#:#red_color#:#Red Color
+style#:#red_colors_description#:#Red Color Description
+style#:#green_colors#:#Green Colors
+style#:#green_color#:#Green Color
+style#:#green_colors_description#:#Green Color Description
+style#:#blue_colors#:#Blue Colors
+style#:#blue_color#:#Blue Color
+style#:#blue_colors_description#:#Blue Color Description
+style#:#reset_icons#:#Reset Icons
+style#:#update_colors#:#Update Colors
+style#:#style_not_deleted#:#The style could not be deleted for the following reasons:
+style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:
+style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.
+style#:#style_deleted#:#Deleted Style:
+style#:#dir_preserved_linked#:#Preserved Link:
+style#:#file_deleted#:#Following file has been deleted:
+style#:#skin_deleted#:#Following skin has been deleted:
+style#:#msg_sys_style_update#:#System Styles have been updated
+common#:#set_style_does_not_exist#:#Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:
+common#:#set_skin_does_not_exist#:#Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:
+style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.
+style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.
+style#:#default_style_set_to#:#The default system style has been set to:
+style#:#personal_style_set_to#:#Your personal style has been set to:
+style#:#refresh_entries#:#Refresh Entries
+style#:#entries_reloaded#:#All entries have been reloaded
+style#:#msg_sub_style_created#:#The sub style has been created.
+style#:#style#:#Style
+style#:#sub_style_settings#:#Sub Style Assignment
+style#:#parent#:#Parent Style
+style#:#sty_substyle_of#:#Sub Style of
+style#:#assignment#:#Assignment
+style#:#remove_assignment#:#Remove Assignment
+style#:#reset_variables#:#Reset Variables
+style#:#update_variables#:#Update Variables
+style#:#less_file_updated#:#The less variables have been updated.
+style#:#settings_of_substyle#:#Manage sub style
+style#:#settings_of_style#:#Manage style
+style#:#of_parent#:#of parent:
+style#:#from_skin#:#of skin:
+style#:#dir_copied_from#:#The directory has been copied to from:
+style#:#to#:#to:
+style#:#dir_deleted#:#The following directory has been deleted:
+style#:#sty_create_new_system_style#:#Create a new system style.
+style#:#sty_create_new_system_sub_style#:#Create a new system sub style.
+style#:#sty_import_system_style#:#Import an existing system style as zip.
+style#:#sty_copy_other_system_style#:#Clone an existing system style.
+style#:#sub_style_id#:#Sub Style ID
+style#:#sub_style_name#:#Sub Style Name
+style#:#less_variables_file_not_included#:#The less variables file:
+style#:#in_main_less_file#:#is not imported inside the system styles main less file:
+style#:#can_not_read_less_file#:#Cannot read less file. Path:
+style#:#msg_sys_style_created#:#The new system style has successfully been created.
+style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
+style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
+style#:#sub_style#:#Sub Style
+style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#sound_dir_description#:#Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#system_style_activation_description#:#Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).
+style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
+style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
+style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
+style#:#no_style_selected#:#No sub style has been selected.
+style#:#adapt_less#:#Adapt Less
+style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
+style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
+style#:#adapt_icons#:#Adapt Icon Colors
+style#:#invalid_less_path#:#The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.
+style#:#provided_less_path#:#Provided lessc path:
+style#:#used_colors#:#Used Colors:
+style#:#style_imported#:#Style has been successfully imported into:
+style#:#style_copied#:#Style has been successfully copied.
+style#:#directory_created#:#Directory created:
+style#:#color_changed_from#:#Color changed from:
+style#:#color_changed_to#:#to:
+style#:#edit_by_color#:#Edit by Color
+style#:#edit_by_icon#:#Edit by Icon
+style#:#update_icon#:#Update Icon
+style#:#select_icon#:#Select Icon
+style#:#change_icon#:#Change Icon
+style#:#color#:#Color
+style#:#adapt_icon#:#Adapt Icon
+style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
+style#:#preview#:#Preview
+style#:#icons_gallery#:#Icons Gallery
+style#:#cant_delete_style_with_substyles#:#Styles with sub styles cannot be deleted.
+style#:#style_assignments_deleted#:#Style assignments of the following Sub Style have been deleted:
+style#:#skin_id_exists#:#There exists already a skin with this ID.
+style#:#usages#:#Usages:
+exc#:#exc_individual_deadline#:#Individual Deadline
+exc#:#exc_individual_deadline_action#:#Set Individual Deadline
+exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.
+exc#:#exc_tbl_submission_date#:#Submitted on
+exc#:#exc_tbl_status#:#Grade
+exc#:#exc_tbl_status_time#:#Graded on
+exc#:#exc_tbl_mark#:#Mark
+exc#:#exc_tbl_comment#:#Text Feedback
+exc#:#exc_tbl_notice#:#Note for Tutors
+exc#:#exc_tbl_feedback_time#:#Feedback on
+exc#:#exc_tbl_sent_time#:#Assignment sent on
+exc#:#exc_tbl_team#:#Team
+exc#:#exc_tbl_individual_deadline#:#Individual Deadline
+exc#:#exc_tbl_action_download_files#:#Download Submissions
+exc#:#exc_tbl_action_download_all_files#:#Download All Submissions
+exc#:#exc_tbl_action_download_new_files#:#Download New Submissions
+exc#:#exc_tbl_action_text_assignment_show#:#Show Submission
+exc#:#exc_tbl_action_feedback_text#:#Give Feedback As Text
+exc#:#exc_tbl_action_feedback_mail#:#Give Feedback As Mail
+exc#:#exc_tbl_action_feedback_file#:#Give Feedback As File
+exc#:#exc_tbl_action_team_log#:#Show Team Log
+exc#:#exc_tbl_action_peer_review_given#:#Show Given Peer Feedback
+exc#:#exc_tbl_action_peer_review_received#:#Show Received Peer Feedback
+exc#:#exc_feedback#:#Feedback
+exc#:#exc_settings_feedback#:#Tutor Feedback
+exc#:#exc_settings_feedback_text#:#Textinput
+exc#:#exc_settings_feedback_mail#:#By Mail
+exc#:#exc_settings_feedback_file#:#By File
+mem#:#mem_print_view_form#:#Default Settings for Print View
+mem#:#mem_settings_tab_print_view#:#Print View Settings
+mem#:#mem_settings_tab_settings#:#General Settings
+didactic#:#activate_local_didactic_template#:#Scope of Application
+didactic#:#effective_form#:#Template Effective From
+didactic#:#more_translations#:#More Translations
+didactic#:#didactic_template_update_import#:#Update Didactic Template
+didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.
+grp#:#grp_show_members_info#:#If activated, group members can access the members gallery.
+grp#:#grp_show_members#:#Show Members
+didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#At least one of the selected didactic templates is automatic generated and cannot be deleted.
+didactic#:#didactic_auto_generated#:#Automatic Generated
+didactic#:#activate_exclusive_template#:#Grey Out Default
+didactic#:#activate_local_didactic_template_info#:#Usage of this didactical template will be limited to these sub-areas.
+didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
+didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.
+cont#:#cont_news_timeline#:#News Timeline
+cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
+cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
+cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
+rbac#:#news_add_news#:#Add News
+rbac#:#grp_news_add_news#:#Add and edit own news entries in group
+news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
+obj#:#obj_tool_setting_use_news#:#News
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
+cont#:#cont_news_settings#:#News Settings
+cont#:#cont_news_timeline_landing_page#:#Landing Page
+cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
+cont#:#cont_news_timeline_tab#:#Timeline
+cont#:#cont_news_edited#:#Bearbeitet
+news#:#news_really_delete_news#:#Do you really want to delete this news item?
+rbac#:#crs_news_add_news#:#Add and edit own news entries in course
+cont#:#cont_news_add_news#:#Add News
+bgtask#:#bgtask_failure#:#Error
+bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.
+bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.
+bgtask#:#bgtask_blocked#:#Concurrent download
+bgtask#:#bgtask_blocked_info#:#There is already a download processed for you.
+bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download 
+bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
+bgtask#:#bgtask_processing#:#Creating download
+bgtask#:#bgtask_download_long#:#The processing of the download with %1$s files (%2$s) might take a while.
+bgtask#:#bgtask_setting#:#«Background download» enabled
+bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.
+bgtask#:#bgtask_setting_limit#:#Global Limit
+bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.
+bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
+bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
+bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
+bgtask#:#bgtask_setting_threshold_size_info#:#If the file sizes exceed this value the download will be asynchronously.
+bgtask#:#bgtask_cron_gc_title#:#Background Task Garbage Collection
+bgtask#:#bgtask_cron_gc_desc#:#Deletes obsolete files which were created by background tasks.
+style#:#enable_system_styles_management_no_write_perm#:#System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.
+awrn#:#awrn_use_osd#:#Popup Online Users
+awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
+exc#:#exc_tbl_filter_submission#:#Submission
+exc#:#exc_tbl_filter_has_submission#:#Has submitted
+exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+mass#:#general#:#General Information
+mass#:#mass_content#:#Assessment content description
+mass#:#mass_record_template#:#Record template
+mass#:#mass_graded_by#:#Graded by
+mass#:#mass_usr_remove#:#Remove Participant from Assessment
+mass#:#mass_usr_edit#:#Edit Participant Record and Learning Progress
+mass#:#mass_usr_view#:#Participant Record
+mass#:#mass_edit_record#:#Participant Record
+mass#:#mass_record#:#Record note
+mass#:#mass_internal_note#:#Internal record note
+mass#:#mass_status_completed#:#Completed
+mass#:#mass_status_failed#:#Failed
+mass#:#mass_status_pending#:#Status pending
+mass#:#mass_notify#:#Notify participant after finalization
+mass#:#mass_finalize#:#Finalize
+mass#:#il_mass_member#:#Participant
+mass#:#il_mass_members#:#Participants
+mass#:#edit_members#:#Edit examinees
+mass#:#mass_edit_members#:#Edit examinees
+mass#:#mass_visible#:#Visible
+mass#:#mass_read#:#Read
+mass#:#mass_copy#:#Copy
+mass#:#mass_write#:#Edit Settings
+mass#:#mass_delete#:#Delete
+mass#:#mass_read_learning_progress#:#View learning progress of other users
+mass#:#mass_edit_permissions#:#Change Permissions
+mass#:#mass_edit_learning_progress#:#Edit learning progress
+mass#:#mass_may_not_finalize#:#Examinee may not be finalised.
+mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.
+mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.
+trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer
+common#:#obj_mass#:#Individual Assessment
+common#:#objs_mass#:#Individual Assessments
+common#:#obj_mass_duplicate#:#Copy Manual Assessment
+common#:#obj_mass_select#:#-- Please select one manual assessment --
+trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
+common#:#il_mass_member#:#Manual Assessment Examinee
+common#:#mass_new#:#Create Manual Assessment
+common#:#mass_import#:#Import Manual Assessment
+rbac#:#mass_visible#:#Manual Assessment is visible
+rbac#:#mass_read#:#Read content of a Manual Assessment
+rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment
+rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment
+rbac#:#mass_copy#:#Copy a Manual Assessment
+rbac#:#mass_write#:#Edit a Manual Assessment
+rbac#:#mass_delete#:#Delete a Manual Assessment
+rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
+rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
+mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
+mass#:#mass_edit#:#Settings
+mass#:#mass_add#:#Create Individual Assessment
+mass#:#mass_membership_finalized#:#Record finalised
+mass#:#mass_membership_saved#:#Record saved, not yet finalised
+mass#:#mass_return#:#Back to overview
+mass#:#mass_remove_user_qst#:#Should the examinee really be removed?
+mass#:#mass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
+mass#:#mass_settings_saved#:#Settings saved.
+mass#:#mass_add_user_failure#:#One or more user could not be added.
+mass#:#mass_add_user_success#:#User added as examinee.
+mass#:#grading#:#Grading
+mass#:#grading_info#:#Grading info
+mass#:#grading_record#:#Grading record
+mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
+mass#:#mass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
+mass#:#mass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
+mass#:#mass_contact#:#Name
+mass#:#mass_responsibility#:#Responsibility
+mass#:#mass_phone#:#Phone
+mass#:#mass_mails#:#Mails
+mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.
+mass#:#mass_consultation_hours#:#Consultation Hours
+mass#:#mass_edit_info#:#Info Settings
+mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
+mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+mass#:#mass_contact_info#:#Contact information
+mass#:#mass_added#:#Individual Assessment added
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
+chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
+chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
+chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory. 
+chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
+chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
+chatroom#:#chat_osc_start_conversation#:#Start Conversation
+chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
+chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
+chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
+chatroom#:#chat_osc_conversations#:#Conversations
+chatroom#:#chat_osc_send#:#Send
+chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
+chatroom#:#chat_osc_add_user#:#Add Further Users
+chatroom#:#chat_osc_user#:#User
+chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
+chatroom#:#chat_osc_emoticons#:#Emoticons
+chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
+chatroom#:#chat_osc_section_head_other_rooms#:#Public Chatroom
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
+chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
+chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
+chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
+chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
+usr#:#user_actions#:#User Actions
+usr#:#user_action#:#User Action
+buddysystem#:#buddy_handle_contact_request#:#Contact Request
+usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
+form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.
+chatroom#:#chat_osc_no_conv#:#No conversations.
+chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
+chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.
+prg#:#prg_points_reachable#:#Points Obtainable
+mail#:#mail_members_search_continue#:#Continue
+copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
+survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
+crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
+itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
+mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
+common#:#sahs_export_file#:#ILIAS exported SCORM archive file
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>

@@ -52,8 +52,9 @@ class ilGoogleMapGUI extends ilMapGUI
 		
 		$this->tpl = new ilTemplate("tpl.google_map.html",
 			true, true, "Services/Maps");
-		
-		$tpl->addJavaScript("//maps.google.com/maps/api/js?sensor=false", false);
+
+		require_once("Services/Maps/classes/class.ilMapUtil.php");
+		$tpl->addJavaScript("//maps.google.com/maps/api/js?key=".ilMapUtil::getApiKey(), false);
 		$tpl->addJavaScript("Services/Maps/js/ServiceGoogleMaps.js");
 
 		// add user markers

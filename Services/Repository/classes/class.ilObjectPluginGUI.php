@@ -231,10 +231,18 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		{
 			$forms[self::CFORM_IMPORT] = $this->initImportForm($a_new_type);
 		}		
-			
-		$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
+		if($this->supportsCloning()) {
+			$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
+		}
 
 		return $forms;
+	}
+
+	/**
+	 * @return bool returns true iff this plugin object supports cloning
+	 */
+	protected function supportsCloning() {
+		return true;
 	}
 	
 	/**

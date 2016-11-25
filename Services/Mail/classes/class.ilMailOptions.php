@@ -139,7 +139,7 @@ class ilMailOptions
 		);
 		if($ilSetting->get('mail_notification'))
 		{
-			$data['cronjob_notification']  = array('integer', $this->incoming_type);
+			$data['cronjob_notification']  = array('integer', $this->cronjob_notification);
 		}
 		else
 		{

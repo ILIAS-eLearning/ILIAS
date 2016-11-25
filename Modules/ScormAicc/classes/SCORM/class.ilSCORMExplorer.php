@@ -80,7 +80,7 @@ class ilSCORMExplorer extends ilExplorer
 	* @param	integer obj_id
 	* @param	integer array options
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 
@@ -102,7 +102,7 @@ class ilSCORMExplorer extends ilExplorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_child)
+	function createTarget($a_type,$a_child, $a_highlighted_subtree = false, $a_append_anch = true)
 	{
 		// SET expand parameter:
 		//     positive if object is expanded
@@ -118,7 +118,7 @@ class ilSCORMExplorer extends ilExplorer
 	 * possible output array is set
 	 * @param int 	$parent_id
 	 */
-	public function setOutput($parent_id) {
+	public function setOutput ($parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) {
 		$this->format_options = $this->createOutputArray($parent_id);
 	}
 

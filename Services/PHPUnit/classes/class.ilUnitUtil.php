@@ -32,6 +32,7 @@ class ilUnitUtil
 
 		include_once('Services/Init/classes/class.ilInitialisation.php');
 		ilInitialisation::reinitILIAS();
+		$GLOBALS['DIC']['ilAuthSession']->setUserId($_SESSION["AccountId"]);
 		ilInitialisation::initUserAccount();
 
 		$ilUnitUtil = new self();

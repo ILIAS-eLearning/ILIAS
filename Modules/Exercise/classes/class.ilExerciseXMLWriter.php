@@ -233,6 +233,12 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 		if (count ( $members )) {
 			foreach ( $members as $member_id ) {
 				$this->xmlStartTag ( "Member", array ("usr_id" => "il_" . IL_INST_ID . "_usr_" . $member_id  ) );
+				
+				$name = ilObjUser::_lookupName($member_id);
+				
+				$this->xmlElement("Firstname", array(), $name['firstname']);
+				$this->xmlElement("Lastname", array(), $name['lastname']);
+				$this->xmlElement("Login", array(), $name['login']);
 				$this->attachMarking ( $member_id, $assignment_id);
 				$this->xmlEndTag ( "Member" );
 			}

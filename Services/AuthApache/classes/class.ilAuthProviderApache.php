@@ -14,6 +14,10 @@ include_once './Services/Authentication/interfaces/interface.ilAuthProviderAccou
  */
 class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
 {
+	const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
+	const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
+	const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
+	
 	private $settings = null;
 	
 	private $migration_account = '';

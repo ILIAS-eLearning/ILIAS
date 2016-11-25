@@ -9,8 +9,6 @@ require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 *
 * The assQuestionGUI class encapsulates basic GUI functions for assessment questions.
 *
-* @ilCtrl_Calls assQuestionGUI: ilAssQuestionPageGUI
-*
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @author		Björn Heyser <bheyser@databay.de>
 * @version		$Id$
@@ -31,7 +29,7 @@ abstract class assQuestionGUI
 	*
 	* A reference to the matching question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -75,12 +73,18 @@ abstract class assQuestionGUI
 
 	const OUTPUT_MODE_SCREEN = 'outModeScreen';
 	const OUTPUT_MODE_PDF = 'outModePdf';
+	const OUTPUT_MODE_USERINPUT = 'outModeUsrInp';
 	
 	/**
 	 * @var string
 	 */
 	private $outputMode = self::OUTPUT_MODE_SCREEN;
-	
+
+	/**
+	 * @var \ilPropertyFormGUI
+	 */
+	protected $editForm;
+
 	/**
 	* assQuestionGUI constructor
 	*/
@@ -125,6 +129,15 @@ abstract class assQuestionGUI
 
 		switch($next_class)
 		{
+			case 'ilformpropertydispatchgui':
+				$form = $this->buildEditForm();
+
+				require_once 'Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
+				$form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($_GET['postvar'])));
+				return $this->ctrl->forwardCommand($form_prop_dispatch);
+				break;
+
 			default:
 				$ret = $this->$cmd();
 				break;
@@ -185,6 +198,11 @@ abstract class assQuestionGUI
 	public function isPdfOutputMode()
 	{
 		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
+	}
+
+	public function isUserInputOutputMode()
+	{
+		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
 	}
 	
 	/**
@@ -365,6 +383,11 @@ abstract class assQuestionGUI
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
+	}
+	
+	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	{
+		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
 	}
 
 	/**
@@ -1134,19 +1157,26 @@ abstract class assQuestionGUI
 			$sectHeader = new ilFormSectionHeaderGUI();
 			$sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
 			$form->addItem($sectHeader);
-			
-			require_once 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
-			
+
+			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+
 			foreach($this->getTaxonomyIds() as $taxonomyId)
 			{
 				$taxonomy = new ilObjTaxonomy($taxonomyId);
 				$label = sprintf($this->lng->txt('qpl_qst_edit_form_taxonomy'), $taxonomy->getTitle());
 				$postvar = "tax_node_assign_$taxonomyId";
 
-				$taxNodeAssign = new ilTaxAssignInputGUI($taxonomy->getId(), true, $label, $postvar);
-				// TODO: determine tst/qpl when tax assigns become maintainable within tests
-				$taxNodeAssign->setCurrentValues('qpl', $this->object->getObjId(), 'quest', $this->object->getId());
-				$form->addItem($taxNodeAssign);
+				$taxSelect = new ilTaxSelectInputGUI($taxonomy->getId(), $postvar, true);
+				$taxSelect->setTitle($label);
+
+				require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+				$taxNodeAssignments = new ilTaxNodeAssignment(ilObject::_lookupType($this->object->getObjId()), $this->object->getObjId(), 'quest', $taxonomyId);
+				$assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->object->getId());
+
+				$taxSelect->setValue(array_map(function($assignedNode) {
+					return $assignedNode['node_id'];
+				}, $assignedNodes));
+				$form->addItem($taxSelect);
 			}
 		}
 	}
@@ -1155,7 +1185,7 @@ abstract class assQuestionGUI
 	 * Get tags allowed in question tags in self assessment mode
 	 * @return array array of tags
 	 */
-	function getSelfAssessmentTags()
+	static function getSelfAssessmentTags()
 	{
 		// set tags we allow in self assessment mode
 		$st = ilUtil::getSecureTags();
@@ -1312,10 +1342,14 @@ abstract class assQuestionGUI
 		} 
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
+			$oldOutputMode = $this->getOutputMode();
+			$this->setOutputMode(self::OUTPUT_MODE_USERINPUT);
+			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
+			$this->setOutputMode($oldOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{
@@ -1415,8 +1449,11 @@ abstract class assQuestionGUI
 			}
 			else if (strcmp($solution_array["type"], "text") == 0)
 			{
+				$solutionContent = $solution_array['value'];
+				$solutionContent = $this->object->fixSvgToPng($solutionContent);
+				$solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
 				$question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-				$question->setValue($this->object->prepareTextareaOutput($solution_array["value"]));
+				$question->setValue($this->object->prepareTextareaOutput($solutionContent));
 				$question->setRequired(TRUE);
 				$question->setRows(10);
 				$question->setCols(80);
@@ -1983,7 +2020,7 @@ abstract class assQuestionGUI
 			array('ilAssQuestionPreviewGUI')
 		);
 	}
-	
+
 	abstract public function getSolutionOutput(
 		$active_id,
 		$pass = NULL,
@@ -2163,5 +2200,14 @@ abstract class assQuestionGUI
 	{
 		global $ilCtrl;
 		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-	}	
+	}
+
+	/**
+	 * 
+	 */
+	protected function buildEditForm()
+	{
+		$errors = $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
+		return $this->editForm;
+	}
 }

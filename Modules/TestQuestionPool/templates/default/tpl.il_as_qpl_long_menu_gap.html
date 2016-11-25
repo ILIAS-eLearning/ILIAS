@@ -91,7 +91,14 @@
 		</div>
 	</div>
 	<div id="layout_dummy_upload">
-		<input class="upload" type="file" name="file" size="20" />
+		<div class="input-group">
+			<span class="input-group-btn">
+				<span class="btn btn-default btn-file">
+					{TXT_BROWSE}<input class="upload" type="file" name="file" size="30" />
+				</span>
+			</span>
+			<input type="text" class="form-control" readonly="readonly">
+		</div>
 		<div class="help-block">{INFO_TEXT_UPLOAD}</div>
 	</div>
 	<div class="form-group" id="layout_dummy_buttons">

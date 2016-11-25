@@ -80,15 +80,8 @@ class ilTooltipGUI
 		if (self::$library_initialized)
 			return;
 
-		//			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		//			ilYuiUtil::initTooltip();
-		$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_3_0_3/jquery.qtip.min.css");
-		
-		// unminified version patched to work with jQuery 3.0
-		$min = DEVMODE
-			? ""
-			: ".min";
-		$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_3_0_3/jquery.qtip".$min.".js");
+		$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_3_0_3/jquery.qtip.min.css");		
+		$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_3_0_3/jquery.qtip.min.js");
 		
 		self::$library_initialized = true;
 	}

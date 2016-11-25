@@ -74,7 +74,12 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		$tpl = $this->getTemplate("tpl.sub.html", true, true);
 
-		$tpl->setVariable("TITLE",  $component->getTitle());
+		if ($component->getTitle() != "")
+		{
+			$tpl->setCurrentBlock("title");
+			$tpl->setVariable("TITLE", $component->getTitle());
+			$tpl->parseCurrentBlock();
+		}
 
 		if($component->getCard()){
 			$tpl->setCurrentBlock("with_card");

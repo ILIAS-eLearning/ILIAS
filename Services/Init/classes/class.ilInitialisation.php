@@ -55,12 +55,7 @@ class ilInitialisation
 	 * get common include code files
 	 */
 	protected static function requireCommonIncludes()
-	{			
-		// pear
-		require_once("include/inc.get_pear.php");
-		require_once("include/inc.check_pear.php");
-		require_once "PEAR.php";
-		
+	{
 		// ilTemplate
 		if(ilContext::usesTemplate())
 		{
@@ -128,6 +123,7 @@ class ilInitialisation
 		define ("PATH_TO_JAVA",$ilIliasIniFile->readVariable("tools","java"));
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
+		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
 
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
@@ -543,8 +539,6 @@ class ilInitialisation
 			$gui_class = $ui_plugin->getUIClassInstance();
 			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $styleDefinition));
 		}
-
-		$styleDefinition->startParsing();
 	}
 
 	/**
@@ -1195,6 +1189,7 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["ui.resource_registry"]
 							, $c["lng"]
+							, $c["ui.javascript_binding"]
 							);
 		};
 		$c["ui.template_factory"] = function($c) {
@@ -1204,6 +1199,9 @@ class ilInitialisation
 		};
 		$c["ui.resource_registry"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);
+		};
+		$c["ui.javascript_binding"] = function($c) {
+			return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
 		};
 	}
 	
@@ -1324,6 +1322,16 @@ class ilInitialisation
 		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
+			return true;
+		}
+		if(ilContext::getType() == ilContext::CONTEXT_WEBDAV)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for webdav request');
+			return true;
+		}
+		if(ilContext::getType() == ilContext::CONTEXT_SHIBBOLETH)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for shibboleth request.');
 			return true;
 		}
 		
@@ -1463,7 +1471,7 @@ class ilInitialisation
 	 * @param string $a_message_id
 	 * @param array $a_message_details
 	 */
-	protected static function redirect($a_target, $a_message_id = '', $a_message_static = '')
+	protected static function redirect($a_target, $a_message_id = '', array $a_message_static = null)
 	{		
 		// #12739
 		if(defined("ILIAS_HTTP_PATH") &&

@@ -57,6 +57,7 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 
 		include_once("./Services/Membership/classes/class.ilParticipants.php");
 		$groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), array("grp", "crs"));
+		$this->log->debug("user: ".$this->getUserId().", courses and groups: ".implode(",", $groups_and_courses_of_user));
 
 		$set = $ilDB->query("SELECT DISTINCT usr_id FROM obj_members ".
 			" WHERE ".$ilDB->in("obj_id", $groups_and_courses_of_user, false, "integer"));

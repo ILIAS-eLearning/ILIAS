@@ -76,6 +76,17 @@ class ilLPTableBaseGUI extends ilTable2GUI
 						$this->sendMail($_POST["uid"], $this->parent_obj, $this->parent_cmd);												
 					}
 					break;
+					
+				case 'addToClipboard':
+					if(!sizeof($_POST['uid']))
+					{
+						ilUtil::sendFailure($lng->txt('no_checkbox'), true);
+					}
+					else
+					{
+						$this->addToClipboard();
+					}
+					break;
 				
 				// page selector
 				default:
@@ -194,7 +205,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		if($filter["type"] == "lres")
 		{
-			$filter["type"] = array('lm','sahs','htlm','dbk');
+			$filter["type"] = array('lm','sahs','htlm');
 		}
 		else
 		{
@@ -300,7 +311,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$options = array();
 			if($type == 'lres')
 			{
-				$type = array('lm','sahs','htlm','dbk');
+				$type = array('lm','sahs','htlm');
 			}
 			else
 			{
@@ -407,11 +418,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$options['lm'] = $lng->txt('objs_lm');
 			$options['sahs'] = $lng->txt('objs_sahs');
 			$options['htlm'] = $lng->txt('objs_htlm');
-			
-			if($a_include_digilib)
-			{
-				$options['dbk'] = $lng->txt('objs_dbk');
-			}
 		}
 		else
 		{
@@ -426,6 +432,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$options['svy'] = $lng->txt('objs_svy');		
 		$options['tst'] = $lng->txt('objs_tst');		
 		$options['prg'] = $lng->txt('objs_prg');
+		$options['mass'] = $lng->txt('objs_mass');
 		
 		if($a_allow_undefined_lp)
 		{			
@@ -1063,6 +1070,22 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		return array($cols, $privacy_fields);		
+	}
+	
+	/**
+	 * Add selected users to clipboard
+	 */
+	protected function addToClipboard()
+	{
+		$users = (array) $_POST['uid'];
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+		
+		$GLOBALS['lng']->loadLanguageModule('user');
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
+		
 	}
 }
 

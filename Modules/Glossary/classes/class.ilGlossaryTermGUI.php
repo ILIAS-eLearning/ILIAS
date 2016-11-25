@@ -25,6 +25,11 @@ class ilGlossaryTermGUI
 	var $link_xml;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -39,9 +44,13 @@ class ilGlossaryTermGUI
 		$this->ctrl->saveParameter($this, array("term_id"));
 		$this->tabs_gui	= $ilTabs;
 
+		$this->log = ilLoggerFactory::getLogger('glo');
+
 		if($a_id != 0)
 		{
 			$this->term = new ilGlossaryTerm($a_id);
+			require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+			$this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($a_id), false);
 		}
 	}
 
@@ -54,6 +63,8 @@ class ilGlossaryTermGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		$this->log->debug("glossary term, next class ".$next_class.", cmd: ".$cmd);
 
 		switch ($next_class)
 		{
@@ -108,6 +119,10 @@ class ilGlossaryTermGUI
 	function setGlossary($a_glossary)
 	{
 		$this->glossary = $a_glossary;
+		if (!is_object($this->term_glossary))
+		{
+			$this->term_glossary = $a_glossary;
+		}
 	}
 
 	function setLinkXML($a_link_xml)
@@ -189,13 +204,13 @@ class ilGlossaryTermGUI
 		$form->addItem($lang);
 		
 		// taxonomy
-		if ($this->glossary->getTaxonomyId() > 0)
+		if ($this->term_glossary->getTaxonomyId() > 0)
 		{
 			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
-			$tax_node_assign = new ilTaxSelectInputGUI($this->glossary->getTaxonomyId(), "tax_node", true);
+			$tax_node_assign = new ilTaxSelectInputGUI($this->term_glossary->getTaxonomyId(), "tax_node", true);
 			
 			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-			$ta = new ilTaxNodeAssignment("glo", $this->glossary->getId(), "term", $this->glossary->getTaxonomyId());
+			$ta = new ilTaxNodeAssignment("glo", $this->term_glossary->getId(), "term", $this->term_glossary->getTaxonomyId());
 			$assgnmts = $ta->getAssignmentsOfItem($this->term->getId());
 			$node_ids = array();
 			foreach ($assgnmts as $a)
@@ -210,7 +225,7 @@ class ilGlossaryTermGUI
 
 		// advanced metadata
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->glossary->getId(),'term',
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->term_glossary->getId(),'term',
 			$this->term->getId());
 		$this->record_gui->setPropertyForm($form);		
 		$this->record_gui->parse();
@@ -237,10 +252,10 @@ class ilGlossaryTermGUI
 			$this->term->update();
 
 			// update taxonomy assignment
-			if ($this->glossary->getTaxonomyId() > 0)
+			if ($this->term_glossary->getTaxonomyId() > 0)
 			{
 				include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-				$ta = new ilTaxNodeAssignment("glo", $this->glossary->getId(), "term", $this->glossary->getTaxonomyId());
+				$ta = new ilTaxNodeAssignment("glo", $this->term_glossary->getId(), "term", $this->term_glossary->getTaxonomyId());
 				$ta->deleteAssignmentsOfItem($this->term->getId());
 				if (is_array($_POST["tax_node"]))
 				{
@@ -365,7 +380,8 @@ class ilGlossaryTermGUI
 				$tpl->parseCurrentBlock();
 			}
 
-			ilUtil::includeMathjax($tpl);
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			ilMathJax::getInstance()->includeMathJax($tpl);
 
 			$tpl->setCurrentBlock("definition");
 			$tpl->setVariable("PAGE_CONTENT", $output);
@@ -415,7 +431,7 @@ class ilGlossaryTermGUI
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
+			ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -450,7 +466,7 @@ class ilGlossaryTermGUI
 		{
 			$def = $defs[$j];
 			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
-			$page_gui->setStyleId($this->glossary->getStyleSheetId());
+			$page_gui->setStyleId($this->term_glossary->getStyleSheetId());
 			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->preview();
@@ -519,7 +535,7 @@ class ilGlossaryTermGUI
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
+			ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -540,7 +556,7 @@ class ilGlossaryTermGUI
 		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$page_gui = new ilGlossaryDefPageGUI($definition->getId());
 		$page_gui->setTemplateOutput(false);
-		$page_gui->setStyleId($this->glossary->getStyleSheetId());
+		$page_gui->setStyleId($this->term_glossary->getStyleSheetId());
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);

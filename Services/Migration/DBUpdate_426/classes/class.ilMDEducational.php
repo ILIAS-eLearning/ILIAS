@@ -282,7 +282,7 @@ class ilMDEducational extends ilMDBase
 	{
 		if($this->db->autoExecute('il_meta_educational',
 								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
 		{
 			$this->setMetaId($this->db->getLastInsertId());
 
@@ -300,7 +300,7 @@ class ilMDEducational extends ilMDBase
 		{
 			if($this->db->autoExecute('il_meta_educational',
 									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
+									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
 									  "meta_educational_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;

@@ -59,7 +59,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 
 		global $ilClientIniFile;
-		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
 

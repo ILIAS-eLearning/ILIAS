@@ -107,6 +107,7 @@
 		</h1>
 	</xsl:if>
 	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
+	<xsl:comment>COPage-PageTop</xsl:comment>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
 			<div class="il_droparea">
@@ -1254,7 +1255,13 @@
 	<span class="ilc_text_inline_{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
 
-<!-- Code -->
+<!-- Marked -->
+<xsl:template match="Marked">
+	<xsl:variable name="Class" select="@Class"/>
+	<span class="ilc_text_inline_{$Class}"><xsl:apply-templates/></span>
+</xsl:template>
+
+	<!-- Code -->
 <xsl:template match="Code">
 	<code><xsl:apply-templates/></code>
 </xsl:template>
@@ -1308,6 +1315,9 @@
 
 <!-- IntLink -->
 <xsl:template match="IntLink">
+	<xsl:variable name="target" select="@Target"/>
+	<xsl:variable name="type" select="@Type"/>
+	<xsl:variable name="anchor" select="@Anchor"/>
 	<xsl:variable name="targetframe">
 		<xsl:choose>
 			<xsl:when test="@TargetFrame">
@@ -1325,16 +1335,13 @@
 		</xsl:when>
 		<!-- initial opened content -->
 		<xsl:when test="name(..) = 'InitOpenedContent'">
-			<xsl:variable name="target" select="@Target"/>
-			<xsl:variable name="type" select="@Type"/>
-			<xsl:variable name="anchor" select="@Anchor"/>
 			<xsl:variable name="link_href">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
 			<xsl:variable name="link_target">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
 			</xsl:variable>
-			<xsl:if test="$mode != 'edit'">
+			<xsl:if test="$mode != 'edit' and $mode != 'preview'">
 			<script type="text/javascript">
 				il.Util.addOnLoad(function() {il.LearningModule.initContentFrame('<xsl:value-of select='$link_href'/>', '<xsl:value-of select='$link_target'/>');});
 			</script>
@@ -1343,16 +1350,24 @@
 		<!-- all internal links except inline mob vris -->
 		<xsl:when test="((@Type != 'MediaObject' or @TargetFrame) and @Type != 'User')">
 			<xsl:if test="$mode != 'print'">
-				<a class="ilc_link_IntLink">
-					<xsl:call-template name="SetIntLinkAttributes"><xsl:with-param name="targetframe"><xsl:value-of select="$targetframe"/></xsl:with-param></xsl:call-template>
-					<xsl:if test="@Type = 'File'">
-						<xsl:attribute name="class">ilc_link_FileLink</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@Type = 'GlossaryItem'">
-						<xsl:attribute name="class">ilc_link_GlossaryLink</xsl:attribute>
-					</xsl:if>
-					<xsl:apply-templates/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref">
+						<a class="ilc_link_IntLink">
+							<xsl:call-template name="SetIntLinkAttributes"><xsl:with-param name="targetframe"><xsl:value-of select="$targetframe"/></xsl:with-param></xsl:call-template>
+							<xsl:if test="@Type = 'File'">
+								<xsl:attribute name="class">ilc_link_FileLink</xsl:attribute>
+							</xsl:if>
+							<xsl:if test="@Type = 'GlossaryItem'">
+								<xsl:attribute name="class">ilc_link_GlossaryLink</xsl:attribute>
+							</xsl:if>
+							<xsl:apply-templates/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="$mode = 'edit'">[Link Target Not Found] </xsl:if>
+						<xsl:apply-templates/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:if>
 			<xsl:if test="$mode = 'print'">
 				<span class="ilc_Print_IntLink">
@@ -1371,7 +1386,7 @@
 			</xsl:variable>
 
 			<!-- determine format (mime type) -->
-			<xsl:variable name="type">
+			<xsl:variable name="mtype">
 				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/>
 			</xsl:variable>
 
@@ -1400,7 +1415,7 @@
 
 			<xsl:call-template name="MOBTag">
 				<xsl:with-param name="data" select="$data" />
-				<xsl:with-param name="type" select="$type" />
+				<xsl:with-param name="type" select="$mtype" />
 				<xsl:with-param name="width" select="$width" />
 				<xsl:with-param name="height" select="$height" />
 				<xsl:with-param name="curPurpose" >Standard</xsl:with-param>
@@ -1414,7 +1429,6 @@
 
 		<!-- user -->
 		<xsl:when test="@Type = 'User'">
-			<xsl:variable name="target" select="@Target"/>
 			<xsl:variable name="href" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkHref"/>
 			<xsl:if test="$href != ''">
 				<a class="ilc_link_IntLink">
@@ -2243,31 +2257,34 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table>
+	<figure>
 		<xsl:if test="@Class">
 			<xsl:attribute name="class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="not(@Class)">
 			<xsl:attribute name="class">ilc_media_cont_MediaContainer</xsl:attribute>
 		</xsl:if>
+
+		<xsl:attribute name="style">display:table;</xsl:attribute>
+
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style"><xsl:if test="$mode != 'edit'">float:left; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-left: 0px;</xsl:if></xsl:attribute>
+			<xsl:attribute name="style">display:table;<xsl:if test="$mode != 'edit'">float:left; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-left: 0px;</xsl:if></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style"><xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
+			<xsl:attribute name="style">display:table;<xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
 		</xsl:if>
 
 		<!-- make object fit to left/right border -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
 			and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
+			<xsl:attribute name="style">display:table; margin-left: 0px;</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
 			and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
+			<xsl:attribute name="style">display:table; margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
 		<!-- determine purpose -->
@@ -2277,7 +2294,7 @@
 		</xsl:choose></xsl:variable>
 
 		<!-- build object tag -->
-		<tr><td class="ilc_Mob">
+		<div class="ilc_Mob">
 			<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
 
 				<!-- data / Location -->
@@ -2358,7 +2375,9 @@
 				</xsl:variable>
 				
 				<!-- set width of td, see bug #10911 -->
-				<xsl:attribute name="width"><xsl:value-of select="$width" /></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width" /></xsl:attribute>
+				</xsl:if>
 
 				<!-- determine height -->
 				<xsl:variable name="height">
@@ -2389,40 +2408,40 @@
 					</param>
 				</xsl:for-each>-->
 
-			</xsl:for-each></td></tr>
-
+			</xsl:for-each>
+		</div>
 		<!-- mob caption -->
 		<xsl:choose>			<!-- derive -->
 			<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-				<tr><td><div class="ilc_media_caption_MediaCaption">
+				<figcaption style="display: table-caption; caption-side: bottom;"><div class="ilc_media_caption_MediaCaption">
 				<xsl:call-template name="FullscreenLink">
 					<xsl:with-param name="cmobid" select="$cmobid"/>
 				</xsl:call-template>
 				<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
-				</div></td></tr>
+				</div></figcaption>
 			</xsl:when>
 			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-				<tr><td><div class="ilc_media_caption_MediaCaption">
+				<figcaption style="display: table-caption; caption-side: bottom;"><div class="ilc_media_caption_MediaCaption">
 				<xsl:call-template name="FullscreenLink">
 					<xsl:with-param name="cmobid" select="$cmobid"/>
 				</xsl:call-template>
 				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]"/>
-				</div></td></tr>
+				</div></figcaption>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1">
-					<tr><td><div class="ilc_media_caption_MediaCaption">
+					<figcaption style="display: table-caption; caption-side: bottom;"><div class="ilc_media_caption_MediaCaption">
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
-					</div></td></tr>
+					</div></figcaption>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 
 		<!-- command selectbox -->
 		<xsl:if test="$mode = 'edit' and $javascript='disable'">
-			<tr><td>
+			<div>
 				<!-- <xsl:value-of select="../../@HierId"/> -->
 				<input type="checkbox" name="target[]">
 					<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>
@@ -2439,9 +2458,9 @@
 					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>]</xsl:attribute>
 				</input>
-			</td></tr>
+			</div>
 		</xsl:if>
-	</table>
+	</figure>
 	<!-- menu -->
 	<xsl:if test="$mode = 'edit' and $javascript='enable'">
 		<div class="ilOverlay il_editmenu ilNoDisplay">
@@ -2508,7 +2527,7 @@
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
 
-	<img border="0">
+	<img border="0" style="width:100%">
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 		</xsl:if>
@@ -2516,10 +2535,10 @@
 			<xsl:attribute name="src"><xsl:value-of select="$image_map_link"/>&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="$width != ''">
-		<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+			<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="$height != ''">
-		<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+			<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[@Shape != 'WholePicture'][1] and not(./MapArea[1]))
 			or ./MapArea[@Shape != 'WholePicture'][1]">
@@ -2639,8 +2658,12 @@
 				<xsl:attribute name="classid">clsid:D27CDB6E-AE6D-11cf-96B8-444553540000</xsl:attribute>
 				<xsl:attribute name="codebase">http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0</xsl:attribute>
 				<xsl:attribute name="ID"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<param>
 					<xsl:attribute name = "name">wmode</xsl:attribute>
 					<xsl:attribute name = "value">opaque</xsl:attribute>
@@ -2660,8 +2683,12 @@
 				</xsl:call-template>
 				<embed>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
 					<xsl:attribute name="type">application/x-shockwave-flash</xsl:attribute>
 					<xsl:attribute name="pluginspage">http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
 					<xsl:attribute name="base"><xsl:value-of select="$base"/></xsl:attribute>
@@ -2783,8 +2810,12 @@
 		<xsl:when test="$type = 'text/html'">
 			<iframe frameborder="0">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">attributes</xsl:with-param>
@@ -2798,8 +2829,12 @@
 		<xsl:when test="$type = 'application/pdf'">
 			<iframe frameborder="0">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">attributes</xsl:with-param>
@@ -2814,16 +2849,24 @@
 		<!-- YouTube -->
 		<xsl:when test = "substring-after($data,'youtube.com') != ''">
 			<object>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<param name="movie">
 					<xsl:attribute name="value"><xsl:value-of select="$httpprefix"/>//www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
 				</param>
 				<param name="allowFullScreen" value="true"></param>
 				<embed type="application/x-shockwave-flash"
 					allowfullscreen="true">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
 					<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
 					<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 				</embed>
@@ -2836,8 +2879,12 @@
 			<xsl:variable name="flickr_sets"><xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='sets']/@Value != ''">&amp;set_id=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='sets']/@Value"/></xsl:if></xsl:variable>
 			<xsl:variable name="flickr_user_id">user_id=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='user_id']/@Value"/></xsl:variable>
 			<iframe frameBorder="0" scrolling="no">
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.flickr.com/slideShow/index.gne?<xsl:value-of select="$flickr_user_id" /><xsl:value-of select="$flickr_tags" /><xsl:value-of select="$flickr_sets" /></xsl:attribute>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
@@ -2847,8 +2894,12 @@
 		<xsl:when test = "substring-after($data,'video.google') != ''">
 			<embed id="VideoPlayback" allowFullScreen="true"  type="application/x-shockwave-flash">
 				<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//video.google.com/googleplayer.swf?docid=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='docid']/@Value" />&amp;fs=true</xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 			</embed>
 		</xsl:when>
@@ -2858,8 +2909,12 @@
 			<xsl:variable name="googledoc_action"><xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='type']/@Value = 'Presentation'">EmbedSlideshow</xsl:if><xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='type']/@Value = 'Document'">View</xsl:if></xsl:variable>
 			<iframe frameborder='0'>
 				<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//docs.google.com/<xsl:value-of select="$googledoc_action"/>?docid=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='docid']/@Value" /></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
@@ -2868,7 +2923,9 @@
 		<xsl:when test = "$type='audio/mpeg' and (substring-before($data,'.mp3') != '' or substring-before($data,'.MP3') != '')">
 			<audio class="ilPageAudio" height="30">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
@@ -2883,8 +2940,12 @@
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
 			<video class="ilPageVideo" controls="controls" preload="none">
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
@@ -2919,8 +2980,12 @@
 					</track>
 				</xsl:for-each>
 				<object type="application/x-shockwave-flash">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
 					<xsl:attribute name="data"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
 					<param name="movie">
 						<xsl:attribute name="value"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
@@ -2955,8 +3020,12 @@
 				<embed>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
 					<xsl:call-template name="MOBParams">
 						<xsl:with-param name="curPurpose" select="$curPurpose" />
 						<xsl:with-param name="mode">attributes</xsl:with-param>

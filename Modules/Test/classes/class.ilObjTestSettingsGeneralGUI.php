@@ -839,17 +839,20 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 */
 	private function saveTestAccessProperties(ilPropertyFormGUI $form)
 	{
-		// starting time
-		$starting_time = $form->getItemByPostVar('starting_time')->getDate();
-		if($starting_time instanceof ilDateTime)
+		if( !$this->testOBJ->participantDataExist() )
 		{
-			$this->testOBJ->setStartingTime($starting_time->getUnixtime());
-			$this->testOBJ->setStartingTimeEnabled(true);
-		}
-		else
-		{
-			$this->testOBJ->setStartingTime(null);
-			$this->testOBJ->setStartingTimeEnabled(false);
+			// starting time
+			$starting_time = $form->getItemByPostVar('starting_time')->getDate();
+			if($starting_time instanceof ilDateTime)
+			{
+				$this->testOBJ->setStartingTime($starting_time->getUnixtime());
+				$this->testOBJ->setStartingTimeEnabled(true);
+			}
+			else
+			{
+				$this->testOBJ->setStartingTime(null);
+				$this->testOBJ->setStartingTimeEnabled(false);
+			}
 		}
 
 		// ending time

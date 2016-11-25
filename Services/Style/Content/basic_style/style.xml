@@ -67,19 +67,32 @@
 </Style>
 
 <!-- Media Container -->
-<Style Tag="table" Type="media_cont" Class="MediaContainer">
+<Style Tag="figure" Type="media_cont" Class="MediaContainer">
 	<StyleParameter Name="margin" Value="10px"/>
 	<StyleParameter Name="padding" Value="0px"/>
 	<StyleParameter Name="background-color" Value="#F5F5F5"/>
-	<StyleParameter Name="border-width" Value="1px"/>
-	<StyleParameter Name="border-color" Value="#B0B0B0"/>
-	<StyleParameter Name="border-style" Value="solid"/>
 </Style>
 
-<!-- Media Caption -->
+<Style Tag="figure" Type="media_cont" Class="MediaContainerMax50">
+	<StyleParameter Name="margin" Value="10px"/>
+	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="background-color" Value="#F5F5F5"/>
+	<StyleParameter Name="max-width" Value="50%" Custom="1"/>
+</Style>
+
+<Style Tag="figure" Type="media_cont" Class="MediaContainerFull100">
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="background-color" Value="#F5F5F5"/>
+	<StyleParameter Name="width" Value="100%"/>
+</Style>
+
+	<!-- Media Caption -->
 <Style Tag="div" Type="media_caption" Class="MediaCaption">
 	<StyleParameter Name="padding" Value="5px"/>
 	<StyleParameter Name="font-size" Value="90%"/>
+	<StyleParameter Name="background-color" Value="#F5F5F5"/>
 </Style>
 
 <!-- Content popup for interactive images -->

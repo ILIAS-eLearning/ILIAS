@@ -43,6 +43,8 @@ class ilQTIRenderChoice
 	function __construct()
 	{
 		$this->shuffle = SHUFFLE_NO;
+		$this->minnumber = null;
+		$this->maxnumber = null;
 		$this->response_labels = array();
 		$this->material = array();
 	}

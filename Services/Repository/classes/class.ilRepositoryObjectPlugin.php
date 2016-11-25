@@ -226,5 +226,15 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 		$par_types = array("root", "cat", "crs", "grp", "fold");
 		return $par_types;
 	}
+
+	/**
+	 * decides if this repository plugin can be copied
+	 *
+	 * @return bool
+	 */
+	public function allowCopy()
+	{
+		return false;
+	}
 }
 ?>

@@ -33,15 +33,21 @@ include_once "Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
 
 class SurveyCategories
 {
-/**
-* Category container
-*
-* An array containing the categories of a nominal or
-* ordinal question object
-*
-* @var array
-*/
-  var $categories;
+
+	/**
+	* @var ilLogger
+	*/
+	protected $log;
+
+	/**
+	* Category container
+	*
+	* An array containing the categories of a nominal or
+	* ordinal question object
+	*
+	* @var array
+	*/
+	var $categories;
 
 	/**
 	* Constructor
@@ -50,6 +56,7 @@ class SurveyCategories
 	function __construct()
 	{
 		$this->categories = array();
+		$this->log = ilLoggerFactory::getLogger("svy");
 	}
 
 /**
@@ -285,11 +292,13 @@ class SurveyCategories
 		$obj = $this->categories[$index];
 		if (is_object($obj) && $obj->scale > 0)
 		{
+			$this->log->debug("getScale has scale =". $obj->scale);
 			return $obj->scale;
 		}
 		else
 		{
 			$obj->scale = $this->getNewScale();
+			$this->log->debug("getScale needed new scale, scale =". $obj->scale);
 			return $obj->scale;
 		}
 	}

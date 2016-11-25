@@ -875,6 +875,61 @@ class ilAdvancedMDRecord
 
 		return $new_obj;
 	}
+		
+	/**
+	 * Get shared records
+	 * 
+	 * @param int $a_obj1_id
+	 * @param int $a_obj2_id
+	 * @param string $a_sub_type
+	 * @return array
+	 */
+	public static function getSharedRecords($a_obj1_id, $a_obj2_id, $a_sub_type = "-")
+	{
+		$obj_type = ilObject::_lookupType($a_obj1_id);
+		$sel = array_intersect(
+			ilAdvancedMDRecord::getObjRecSelection($a_obj1_id, $a_sub_type),
+			ilAdvancedMDRecord::getObjRecSelection($a_obj2_id, $a_sub_type)
+		);
+		
+		$res = array();
+		
+		foreach(self::_getRecords() as $record)
+		{	
+			// local records cannot be shared
+			if($record->getParentObject())
+			{
+				continue;
+			}
+			
+			// :TODO: inactive records can be ignored?
+			if(!$record->isActive())
+			{
+				continue;
+			}
+			
+			// parse assigned types
+			foreach($record->getAssignedObjectTypes() as $item)
+			{
+				if($item["obj_type"] == $obj_type &&
+					$item["sub_type"] == $a_sub_type)
+				{				
+					// mandatory
+					if(!$item["optional"])
+					{
+						$res[] = $record->getRecordId();
+					}
+					// optional
+					else if(in_array($record->getRecordId(), $sel))
+					{
+						$res[] = $record->getRecordId();
+					}
+				}
+			}					
+		}
+		
+		return $res;
+	}
 }
 
 ?>

@@ -38,9 +38,7 @@ $ilCtrl->callBaseClass();
 
 
 
-exit;
-
-
+/*
 
 include_once './Services/Authentication/classes/class.ilAuthUtils.php';
 
@@ -105,3 +103,4 @@ if ((defined('APACHE_ERRORCODE') && APACHE_ERRORCODE) || (!$ilUser || $ilUser->g
 
 
 header('Location: ' . $redirect);
+ */

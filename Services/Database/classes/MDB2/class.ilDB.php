@@ -855,10 +855,11 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		$manager = $this->db->loadModule('Manager');
 		$r = $manager->alterTable($a_name, array("name" => $a_new_name), false);
 		
-		$query = "UPDATE abstraction_progress ".
-			"SET table_name = ".$this->db->quote($a_new_name,'text')." ".
-			"WHERE table_name = ".$this->db->quote($a_name,'text');
-		$this->db->query($query);
+        // The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
+        //		$query = "UPDATE abstraction_progress ".
+        //			"SET table_name = ".$this->db->quote($a_new_name,'text')." ".
+        //			"WHERE table_name = ".$this->db->quote($a_name,'text');
+        //		$this->db->query($query);
 
 		return $this->handleError($r, "renameTable(".$a_name.",".$a_new_name.")");
 	}
@@ -1390,28 +1391,13 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* Checks whether a word is a reserved word in one
 	* of the supported databases
 	*/
-	static function isReservedWord($a_word)
+	public static function isReservedWord($a_word)
 	{
-		include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
-		$mysql_reserved_words = ilDBMySQL::getReservedWords();
-		if (in_array(strtoupper($a_word), $mysql_reserved_words))
-		{
-			return true;
-		}
-		/* :TODO: not working with current error level
-		include_once("./Services/Database/classes/MDB2/class.ilDBOracle.php");
-		$oracle_reserved_words = ilDBOracle::getReservedWords();
-		if (in_array(strtoupper($a_word), $oracle_reserved_words))
-		{
-			return true;
-		}
-		include_once("./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php");
-		$postgres_reserved_words = ilDBPostgreSQL::getReservedWords();
-		if (in_array(strtoupper($a_word), $postgres_reserved_words))
-		{
-			return true;
-		}		 
-		*/
+		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
+		global $DIC;
+		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC['ilDB']);
+
+		return $ilDBPdoMySQLFieldDefinition->isReserved($a_word);
 	}
 	
 	//
@@ -2223,7 +2209,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @param array $a_fields array of field names (strings)
 	 * @return bool false if no unique constraint with the given fields exists
 	 */
-	function uniqueConstraintExists($a_table, $a_fields)
+	public function uniqueConstraintExists($a_table, array $a_fields)
 	{
 		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
 		{
@@ -2537,7 +2523,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @param string $engine
 	 * @return array
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
 		return array();
 	}
 

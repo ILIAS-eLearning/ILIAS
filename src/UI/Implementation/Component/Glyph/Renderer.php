@@ -30,16 +30,31 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
 
-
 		$tpl->touchBlock($component->getType());
 
+		$id = $this->bindJavaScript($component);
+		if ($id !== null) {
+			$tpl->setCurrentBlock("with_id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+		}
+
+		$largest_counter = 0;
 		foreach ($component->getCounters() as $counter) {
+			if($largest_counter < $counter->getNumber()){
+				$largest_counter = $counter->getNumber();
+			}
 			$n = "counter_".$counter->getType();
 			$tpl->setCurrentBlock($n);
 			$tpl->setVariable(strtoupper($n), $default_renderer->render($counter));
 			$tpl->parseCurrentBlock();
 		}
 
+		if($largest_counter){
+			$tpl->setCurrentBlock("counter_spacer");
+			$tpl->setVariable("COUNTER_SPACER",$largest_counter);
+			$tpl->parseCurrentBlock();
+		}
 		return $tpl->get();
 	}
 

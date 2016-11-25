@@ -391,10 +391,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		return "ilportfoliotemplatepagegui";
 	}
 	
-	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
-	{						
-		$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
-		$a_tgt->addOption($old);
+	protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form)
+	{
+		// always existing prtft
+		$hi = new ilHiddenInputGUI("target");
+		$hi->setValue("old");
+		$a_form->addItem($hi);
 
 		$options = array();
 		$all = ilObjPortfolioTemplate::getAvailablePortfolioTemplates("write");
@@ -405,10 +407,8 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		$prtf = new ilSelectInputGUI($this->lng->txt("obj_prtt"), "prtf");
 		$prtf->setRequired(true);
 		$prtf->setOptions($options);
-		$old->addSubItem($prtf);		
+		$a_form->addItem($prtf);
 		
-		// no option to create new template here
-		$a_tgt->setValue("old");
 	}
 	
 	

@@ -42,9 +42,9 @@ class ilObjFolderDAV extends ilObjectDAV
 	*
 	* @param refid A refid to the object.
 	*/
-	function ilObjFolderDAV($refid) 
+	function __construct($refid) 
 	{
-		$this->ilObjectDAV($refid);
+		parent::__construct($refid);
 	}
 	
 	/**

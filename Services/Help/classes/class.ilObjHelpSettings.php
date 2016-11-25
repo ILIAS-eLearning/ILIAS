@@ -178,7 +178,7 @@ class ilObjHelpSettings extends ilObject2
 	 * @param
 	 * @return
 	 */
-	function lookupModuleTitle($a_id)
+	static function lookupModuleTitle($a_id)
 	{
 		global $ilDB;
 		
@@ -199,7 +199,7 @@ class ilObjHelpSettings extends ilObject2
 	 * @param
 	 * @return
 	 */
-	function lookupModuleLmId($a_id)
+	static function lookupModuleLmId($a_id)
 	{
 		global $ilDB;
 		

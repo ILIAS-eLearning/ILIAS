@@ -20,8 +20,8 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation 
 		$value = $this->getRecordField()->getValue();
 
 		// the file is only temporary uploaded. Still need to be confirmed before stored
-		if(is_array($value) && isset($_SESSION['record_form_values']['ilfilehash'])) {
-			$this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_SESSION['record_form_values']['ilfilehash']);
+		if(is_array($value) && $_POST['ilfilehash']) {
+			$this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_POST['ilfilehash']);
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id", $this->getRecordField()->getField()->getId());
 			return '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "sendFile") . '">' . $value['name'] . '</a>';
 		} else if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {

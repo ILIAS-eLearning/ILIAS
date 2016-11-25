@@ -619,7 +619,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			else
 			{
 				$back = $this->ctrl->getLinkTarget($this, "view");
-				$back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
+				if($this->getType() == "prtf")
+				{
+					$back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
+				}
+				else
+				{
+					// #19316
+					$this->lng->loadLanguageModule("prtt");
+					$back_caption = $this->lng->txt("prtt_edit");
+				}
 			}
 		}
 		
@@ -896,7 +905,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->copyPageForm($form);
 	}
 	
-	abstract protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt);
+	abstract protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form);
 	
 	function initCopyPageForm()
 	{		
@@ -904,12 +913,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));		
 		$form->setTitle($this->lng->txt("prtf_copy_page"));			
-
-		$tgt = new ilRadioGroupInputGUI($this->lng->txt("target"), "target");
-		$tgt->setRequired(true);
-		$form->addItem($tgt);
 		
-		$this->initCopyPageFormOptions($tgt);
+		$this->initCopyPageFormOptions($form);
 
 		$form->addCommandButton("copyPage", $this->lng->txt("save"));
 		$form->addCommandButton("view", $this->lng->txt("cancel"));

@@ -436,10 +436,10 @@ class ilObjectTranslationGUI
 	 */
 	function saveLanguages()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tpl;
 
-		$form = $this->getMultiLangForm();
-		if ($form->checkInput())
+		$form = $this->getMultiLangForm(true);
+		if($form->checkInput())
 		{
 			$ad = $form->getInput("additional_langs");
 			if (is_array($ad))
@@ -453,10 +453,14 @@ class ilObjectTranslationGUI
 					}
 				}
 			}
+			$this->obj_trans->save();
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "listTranslations");
 		}
-		$this->obj_trans->save();
-		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "listTranslations");
+		
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHTML());
 	}
 
 	/**

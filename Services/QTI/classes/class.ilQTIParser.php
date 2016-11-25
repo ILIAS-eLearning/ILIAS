@@ -93,6 +93,11 @@ class ilQTIParser extends ilSaxParser
 	var $verifyfieldentrytext = "";
 
 	/**
+	 * @var int
+	 */
+	protected $numImportedItems = 0;
+
+	/**
 	 * @var ilQTIPresentationMaterial
 	 */
 	protected $prensentation_material;
@@ -121,6 +126,8 @@ class ilQTIParser extends ilSaxParser
 	{
 		$this->ignoreItemsEnabled = $ignoreItemsEnabled;
 	}
+	
+	protected $questionSetType = null;
 	
 	/**
 	* Constructor
@@ -186,6 +193,22 @@ class ilQTIParser extends ilSaxParser
 		$this->in_assessment = FALSE;
 		$this->characterbuffer = "";
 		$this->metadata = array("label" => "", "entry" => "");
+	}
+
+	/**
+	 * @return null
+	 */
+	public function getQuestionSetType()
+	{
+		return $this->questionSetType;
+	}
+
+	/**
+	 * @param null $questionSetType
+	 */
+	public function setQuestionSetType($questionSetType)
+	{
+		$this->questionSetType = $questionSetType;
 	}
 	
 	function setTestObject(&$a_tst_object)
@@ -848,6 +871,12 @@ class ilQTIParser extends ilSaxParser
 							case "shuffle":
 								$this->render_type->setShuffle($value);
 								break;
+							case 'minnumber':
+								$this->render_type->setMinnumber($value);
+								break;
+							case 'maxnumber':
+								$this->render_type->setMaxnumber($value);
+								break;
 						}
 					}
 				}
@@ -1298,6 +1327,7 @@ class ilQTIParser extends ilSaxParser
 						$question, $GLOBALS['ilCtrl'], $GLOBALS['ilDB'], $GLOBALS['lng']
 				);
 				$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
+				$this->numImportedItems++;
 				break;
 			case "material":
 				if ($this->material)
@@ -1525,12 +1555,35 @@ class ilQTIParser extends ilSaxParser
 	*/
 	function handlerVerifyBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
+		$this->qti_element = $a_name;
+		
 		switch (strtolower($a_name))
 		{
+			case "assessment":
+				include_once ("./Services/QTI/classes/class.ilQTIAssessment.php");
+				$this->assessment =& $this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
+				$this->in_assessment = TRUE;
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "title":
+								$this->assessment->setTitle($value);
+								break;
+							case "ident":
+								$this->assessment->setIdent($value);
+								break;
+						}
+					}
+				}
+				break;
 			case "questestinterop":
 				$this->verifyroot = true;
 				break;
 			case "qtimetadatafield":
+				$this->metadata = array("label" => "", "entry" => "");
 				$this->verifymetadatafield = 1;
 				break;
 			case "fieldlabel":
@@ -1660,6 +1713,17 @@ class ilQTIParser extends ilSaxParser
 	{
 		switch (strtolower($a_name))
 		{
+			case "assessment":
+				foreach($this->assessment->qtimetadata as $metaField)
+				{
+					if( $metaField['label'] == 'question_set_type' )
+					{
+						$this->setQuestionSetType($metaField['entry']);
+						break;
+					}
+				}
+				$this->in_assessment = FALSE;
+				break;
 			case "qticomment":
 				// check for "old" ILIAS qti format (not well formed)
 				$this->verifyqticomment = 0;
@@ -1670,6 +1734,11 @@ class ilQTIParser extends ilSaxParser
 				{
 					$this->founditems[count($this->founditems)-1]["type"] = $this->verifyfieldentrytext;
 				}
+				if ($this->in_assessment)
+				{
+					$this->assessment->addQtiMetadata($this->metadata);
+				}
+				$this->metadata = array("label" => "", "entry" => "");
 				break;
 			case "fieldlabel":
 				$this->verifyfieldlabel = 0;
@@ -1703,6 +1772,16 @@ class ilQTIParser extends ilSaxParser
 		{
 			$this->verifyfieldentrytext = $a_data;
 		}
+		
+		switch($this->qti_element)
+		{
+			case "fieldlabel":
+				$this->metadata["label"] = $a_data;
+				break;
+			case "fieldentry":
+				$this->metadata["entry"] = $a_data;
+				break;
+		}
 	}
 	
 	function &getFoundItems()
@@ -1724,6 +1803,24 @@ class ilQTIParser extends ilSaxParser
 		{
 			return $this->import_mapping;
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getQuestionIdMapping()
+	{
+		$questionIdMapping = array();
+
+		foreach((array)$this->getImportMapping() as $k => $v)
+		{
+			$oldQuestionId = substr($k, strpos($k, 'qst_')+strlen('qst_'));
+			$newQuestionId = $v['test']; // yes, this is the new question id ^^
+
+			$questionIdMapping[$oldQuestionId] = $newQuestionId;
+		}
+
+		return $questionIdMapping;
 	}
 
 	function setXMLContent($a_xml_content)
@@ -1800,6 +1897,14 @@ class ilQTIParser extends ilSaxParser
 		$xmlContent = preg_replace($reg, '', $xmlContent);
 		
 		return $xmlContent;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getNumImportedItems()
+	{
+		return $this->numImportedItems;
 	}
 }
 ?>

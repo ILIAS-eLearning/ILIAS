@@ -69,14 +69,6 @@ class ilDataCollectionExporter extends ilXmlExporter {
 	 * @return array
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids) {
-
-		foreach ($a_ids as $id) {
-			$m_ids = ilObjMediaPool::getAllMobIds($id);
-			foreach ($m_ids as $m) {
-				$mob_ids[] = $m;
-			}
-		}
-
 		$dependencies = array(
 			ilDclDatatype::INPUTFORMAT_FILE => array(
 				'component' => 'Modules/File',
@@ -91,7 +83,6 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		);
 
 		// Direct SQL query is faster than looping over objects
-		$page_object_ids = array();
 		foreach ($a_ids as $dcl_obj_id) {
 			$sql = "SELECT stloc2.value AS ext_id, f.`datatype_id` FROM il_dcl_stloc2_value AS stloc2 "
 				. "INNER JOIN il_dcl_record_field AS rf ON (rf.`id` = stloc2.`record_field_id`) "
@@ -114,6 +105,38 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		}
 
 		return $return;
+	}
+
+
+	/**
+	 * @param $a_entity
+	 * @param $a_target_release
+	 * @param $a_ids
+	 *
+	 * @return array
+	 */
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) {
+		$page_object_ids = array();
+		foreach ($a_ids as $dcl_obj_id) {
+			// If a DCL table has a detail view, we need to export the associated page objects!
+			$sql = "SELECT page_id FROM page_object "
+				. "WHERE parent_type = " . $this->db->quote('dclf', 'text');
+			$set = $this->db->query($sql);
+			while ($rec = $this->db->fetchObject($set)) {
+				$page_object_ids[] = "dclf:" . $rec->page_id;
+			}
+		}
+		if (count($page_object_ids)) {
+			return array(
+				array(
+					'component' => 'Services/COPage',
+					'entity' => 'pg',
+					'ids' => $page_object_ids,
+				)
+			);
+		}
+
+		return array();
 	}
 	
 }

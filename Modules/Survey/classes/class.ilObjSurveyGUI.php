@@ -21,7 +21,12 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ingroup ModulesSurvey
 */
 class ilObjSurveyGUI extends ilObjectGUI
-{		
+{
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	public function __construct()
 	{
 		global $lng, $ilCtrl;
@@ -30,7 +35,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$lng->loadLanguageModule("survey");
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
-	
+
+		$this->log = ilLoggerFactory::getLogger("svy");
+
 		parent::__construct("", (int)$_GET["ref_id"], true, false);
 	}
 	
@@ -87,6 +94,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
 		$this->prepareOutput();
 
+		$this->log->debug("next_class= $next_class");
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -215,6 +223,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			default:
 				$this->addHeaderAction();
 				$cmd.= "Object";
+
+				$this->log->debug("Default cmd= $cmd");
+
 				$this->$cmd();
 				break;
 		}
@@ -494,28 +505,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					if($form->getInput("rmd"))
 					{
-						$rmd_start = $form->getInput("rmd_start");
-						$rmd_start = $rmd_start["date"];
-						$rmd_end = null;
-						if($form->getInput("rmd_end_tgl"))
+						$rmd_start = $form->getItemByPostVar("rmd_start")->getDate();
+						$rmd_end = $form->getItemByPostVar("rmd_end")->getDate();
+						if($rmd_end)
 						{
-							$rmd_end = $form->getInput("rmd_end");
-							$rmd_end = $rmd_end["date"];
-							if($rmd_start > $rmd_end)
+							if($rmd_start->get(IL_CAL_UNIX) > $rmd_end->get(IL_CAL_UNIX))
 							{
 								$tmp = $rmd_start;
 								$rmd_start = $rmd_end;
 								$rmd_end = $tmp;
-							}
-							$rmd_end = new ilDate($rmd_end, IL_CAL_DATE);
-						}
-						$rmd_start = new ilDate($rmd_start, IL_CAL_DATE);
-
+							}							
+						}						
 						$this->object->setReminderStatus(true);
 						$this->object->setReminderStart($rmd_start);
 						$this->object->setReminderEnd($rmd_end);
 						$this->object->setReminderFrequency($form->getInput("rmd_freq"));
-						$this->object->setReminderTarget($form->getInput("rmd_grp"));
+						$this->object->setReminderTarget($form->getInput("rmd_grp"));						
+						$this->object->setReminderTemplate(($form->getInput("rmdt") > 0)
+							? $form->getInput("rmdt")
+							: null);
 					}		
 					else
 					{
@@ -1069,6 +1077,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
 			}
+			else
+			{
+				$tut_grp_crs->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"),
+					count($this->object->getNotificationTargetUserIds(false))));
+			}
 			$tut_grp->addOption($tut_grp_crs);
 
 			$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
@@ -1090,7 +1103,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
 			$rmd->setChecked($this->object->getReminderStatus());
 			$form->addItem($rmd);
-
+			
 			$rmd_start = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_start"), "rmd_start");
 			$rmd_start->setRequired(true);
 			$start = $this->object->getReminderStart();
@@ -1127,13 +1140,35 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$rmd_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
 			}
+			else
+			{
+				$rmd_grp_crs->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"),
+					count($this->object->getNotificationTargetUserIds(false))));
+			}
 			$rmd_grp->addOption($rmd_grp_crs);
 
 			$rmd_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
 				ilObjSurvey::NOTIFICATION_INVITED_USERS);
 			$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
 			$rmd_grp->addOption($rmd_grp_inv);
-		}		
+						
+			$mtmpl = $this->object->getReminderMailTemplates();
+			if($mtmpl)
+			{
+				$rmdt = new ilRadioGroupInputGUI($this->lng->txt("svy_reminder_mail_template"), "rmdt");
+				$rmdt->setRequired(true);
+				$rmdt->addOption(new ilRadioOption($this->lng->txt("svy_reminder_mail_template_none"), -1));				
+				foreach($mtmpl as $mtmpl_id => $mtmpl_caption)
+				{
+					$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);			
+					$rmdt->addOption($option);
+				}
+				$rmdt->setValue($this->object->getReminderTemplate()
+					? $this->object->getReminderTemplate()
+					: -1);
+				$rmd->addSubItem($rmdt);
+			}
+		}			
 		
 		
 		// results
@@ -1405,6 +1440,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->putObjectInTree($newObj);
 
 			// copy uploaded file to import directory
+
+			$this->log->debug("form->getInput(spl) = ".$form->getInput("spl"));
+
 			$error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
 			if (strlen($error))
 			{
@@ -1889,7 +1927,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 				break;
 		default:
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 						
 				// this has to be done here because ilSurveyEditorGUI is called after finalizing the locator
 				if ((int)$_GET["q_id"] && !(int)$_REQUEST["new_for_survey"])

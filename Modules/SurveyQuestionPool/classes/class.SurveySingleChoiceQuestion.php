@@ -36,24 +36,24 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 */
 class SurveySingleChoiceQuestion extends SurveyQuestion 
 {
-/**
-* Categories contained in this question
-*
-* @var array
-*/
-  var $categories;
+	/**
+	* Categories contained in this question
+	*
+	* @var array
+	*/
+	var $categories;
 
-/**
-* SurveySingleChoiceQuestion constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestion object.
-*
-* @param string $title A title string to describe the question
-* @param string $description A description string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @access public
-*/
+	/**
+	* SurveySingleChoiceQuestion constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestion object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $description A description string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @access public
+	*/
 	function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $orientation = 1)
 	{
 		parent::__construct($title, $description, $author, $questiontext, $owner);
@@ -63,13 +63,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$this->categories = new SurveyCategories();
 	}
 	
-/**
-* Gets the available categories for a given phrase
-*
-* @param integer $phrase_id The database id of the given phrase
-* @result array All available categories
-* @access public
-*/
+	/**
+	* Gets the available categories for a given phrase
+	*
+	* @param integer $phrase_id The database id of the given phrase
+	* @result array All available categories
+	* @access public
+	*/
 	function &getCategoriesForPhrase($phrase_id)
 	{
 		global $ilDB;
@@ -92,12 +92,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		return $categories;
 	}
 	
-/**
-* Adds a phrase to the question
-*
-* @param integer $phrase_id The database id of the given phrase
-* @access public
-*/
+	/**
+	* Adds a phrase to the question
+	*
+	* @param integer $phrase_id The database id of the given phrase
+	* @access public
+	*/
 	function addPhrase($phrase_id)
 	{
 		global $ilUser;
@@ -146,12 +146,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 	
-/**
-* Loads a SurveySingleChoiceQuestion object from the database
-*
-* @param integer $id The database id of the single choice survey question
-* @access public
-*/
+	/**
+	* Loads a SurveySingleChoiceQuestion object from the database
+	*
+	* @param integer $id The database id of the single choice survey question
+	* @access public
+	*/
 	function loadFromDb($id) 
 	{
 		global $ilDB;
@@ -193,12 +193,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		parent::loadFromDb($id);
 	}
 
-/**
-* Returns true if the question is complete for use
-*
-* @result boolean True if the question is complete for use, otherwise false
-* @access public
-*/
+	/**
+	* Returns true if the question is complete for use
+	*
+	* @result boolean True if the question is complete for use, otherwise false
+	* @access public
+	*/
 	function isComplete()
 	{
 		if (
@@ -216,11 +216,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 	
-/**
-* Saves a SurveySingleChoiceQuestion object to a database
-*
-* @access public
-*/
+	/**
+	* Saves a SurveySingleChoiceQuestion object to a database
+	*
+	* @access public
+	*/
 	function saveToDb($original_id = "")
 	{
 		global $ilDB;
@@ -228,6 +228,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
 		{
+			$this->log->debug("Before save Category-> DELETE from svy_qst_sc WHERE question_fi = ".$this->getId()." AND INSERT again the same id and orientation in svy_qst_sc");
 			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 				array('integer'),
 				array($this->getId())
@@ -248,7 +249,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	function saveCategoriesToDb()
 	{
 		global $ilDB;
-		
+
+		$this->log->debug("DELETE from svy_variable before the INSERT into svy_variable. if scale > 0  we get scale value else we get null");
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
@@ -263,6 +266,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				array('integer','integer','integer','float','integer','integer', 'integer','integer'),
 				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, ($cat->scale > 0) ? $cat->scale : null, time())
 			);
+
+			$debug_scale = ($cat->scale > 0) ? $cat->scale : null;
+			$this->log->debug("INSERT INTO svy_variable category_fi= ".$category_id." question_fi= ".$this->getId()." value1= ".($i + 1)." other= ".$cat->other." sequence= ".$i." scale =".$debug_scale);
 		}
 		$this->saveCompletionStatus();
 	}
@@ -389,13 +395,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 
-/**
-* Adds standard numbers as categories
-*
-* @param integer $lower_limit The lower limit
-* @param integer $upper_limit The upper limit
-* @access public
-*/
+	/**
+	* Adds standard numbers as categories
+	*
+	* @param integer $lower_limit The lower limit
+	* @param integer $upper_limit The upper limit
+	* @access public
+	*/
 	function addStandardNumbers($lower_limit, $upper_limit)
 	{
 		for ($i = $lower_limit; $i <= $upper_limit; $i++)
@@ -404,13 +410,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 	}
 
-/**
-* Saves a set of categories to a default phrase
-*
-* @param array $phrases The database ids of the seleted phrases
-* @param string $title The title of the default phrase
-* @access public
-*/
+	/**
+	* Saves a set of categories to a default phrase
+	*
+	* @param array $phrases The database ids of the seleted phrases
+	* @param string $title The title of the default phrase
+	* @access public
+	*/
 	function savePhrase($title)
 	{
 		global $ilUser;
@@ -424,7 +430,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$phrase_id = $next_id;
 				
 		$counter = 1;
-	  foreach ($_SESSION['save_phrase_data'] as $data) 
+		foreach ($_SESSION['save_phrase_data'] as $data) 
 		{
 			$next_id = $ilDB->nextId('svy_category');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -506,6 +512,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_value"];
+
+		$this->log->debug("Entered value = ".$entered_value);
 		
 		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
@@ -554,318 +562,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			array('integer','integer','integer','float','text','integer'),
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
 		);
-	}
-	
-	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
-	{
-		global $ilDB;
-		
-		$question_id = $this->getId();
-		
-		$result_array = array();
-		$cumulated = array();
-		
-		$sql = "SELECT svy_answer.* FROM svy_answer".
-			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
-			" WHERE svy_answer.question_fi = ".$ilDB->quote($question_id, "integer").
-			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
-		if($finished_ids)
-		{
-			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
-		}
 
-		$result = $ilDB->query($sql);		
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$cumulated[$row["value"]]++;
-			
-			// add text value to result array
-			if ($row["textanswer"])
-			{
-				$result_array["textanswers"][$row["value"]][] = $row["textanswer"];
-			}
-		}
-		// sort textanswers by value
-		if (is_array($result_array["textanswers"]))
-		{
-			ksort($result_array["textanswers"], SORT_NUMERIC);
-		}
-		asort($cumulated, SORT_NUMERIC);
-		end($cumulated);
-		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $result->numRows();
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
-
-		if(sizeof($cumulated))
-		{
-			$prefix = "";
-			if (strcmp(key($cumulated), "") != 0)
-			{
-				$prefix = (key($cumulated)+1) . " - ";
-			}
-			$category = $this->categories->getCategoryForScale(key($cumulated)+1);
-			$result_array["MODE"] =  $prefix . $category->title;
-			$result_array["MODE_VALUE"] =  key($cumulated)+1;
-			$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-		}
-		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
-		{
-			$cat = $this->categories->getCategory($key);
-			$percentage = 0;
-			if ($numrows > 0)
-			{
-				$percentage = (float)((int)$cumulated[$cat->scale-1]/$numrows);
-			}
-			if ($cat->other)
-			{
-				$result_array["variables"][$key] = array("title" => (strlen($cat->title)) ? $cat->title : $this->lng->txt('other_answer'), "selected" => (int)$cumulated[$cat->scale-1], "percentage" => $percentage);
-			}
-			else
-			{
-				$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$cat->scale-1], "percentage" => $percentage);
-			}
-		}
-		ksort($cumulated, SORT_NUMERIC);
-		$median = array();
-		$total = 0;
-		foreach ($cumulated as $value => $key)
-		{
-			$total += $key;
-			for ($i = 0; $i < $key; $i++)
-			{
-				array_push($median, $value+1);
-			}
-		}
-		if ($total > 0)
-		{
-			if (($total % 2) == 0)
-			{				
-				$lower = $median[($total/2)-1];
-				$upper = $median[($total/2)];
-				$median_value = 0.5 * ($lower + $upper);
-				if (round($median_value) != $median_value)
-				{
-					$median_value = $median_value . "<br />" . 
-						"(" . $this->lng->txt("median_between") . " " . $lower . "-" . 
-						$this->categories->getCategoryForScale($lower)->title . 
-						" " . $this->lng->txt("and") . " " . $upper . "-" . 						
-						$this->categories->getCategoryForScale($upper)->title . ")";
-				}
-			}
-			else
-			{
-				$median_value = $median[(($total+1)/2)-1];
-			}
-		}
-		else
-		{
-			$median_value = "";
-		}
-		$result_array["ARITHMETIC_MEAN"] = "";
-		$result_array["MEDIAN"] = $median_value;
-		$result_array["QUESTION_TYPE"] = "SurveySingleChoiceQuestion";
-		return $result_array;
-	}
-	
-	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
-	{
-		$row = 1;						
-		switch($a_export_label)
-		{
-			case 'label_only':				
-				$a_excel->setCell($row, 0, $this->lng->txt("label"));
-				$a_excel->setCell($row++, 1, $this->label);			
-				break;
-			
-			case 'title_only':
-				$a_excel->setCell($row, 0, $this->lng->txt("title"));
-				$a_excel->setCell($row++, 1, $this->getTitle());							
-				break;
-			
-			default:
-				$a_excel->setCell($row, 0, $this->lng->txt("title"));
-				$a_excel->setCell($row++, 1, $this->getTitle());		
-				$a_excel->setCell($row, 0, $this->lng->txt("title"));
-				$a_excel->setCell($row++, 1, $this->getTitle());		
-				break;
-		}
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("question"));
-		$a_excel->setCell($row++, 1, $this->getQuestiontext());
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("question_type"));
-		$a_excel->setCell($row++, 1, $this->lng->txt($this->getQuestionType()));
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("users_answered"));
-		$a_excel->setCell($row++, 1, (int)$a_eval_data["USERS_ANSWERED"]);
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("users_skipped"));
-		$a_excel->setCell($row++, 1, (int)$a_eval_data["USERS_SKIPPED"]);
-		
-		preg_match("/(.*?)\s+-\s+(.*)/", $a_eval_data["MODE"], $matches);
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("mode"));
-		$a_excel->setCell($row++, 1, $matches[1]);
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("mode_text"));
-		$a_excel->setCell($row++, 1, $matches[2]);
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("mode_nr_of_selections"));
-		$a_excel->setCell($row++, 1, (int)$a_eval_data["MODE_NR_OF_SELECTIONS"]);
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("median"));
-		$a_excel->setCell($row++, 1, str_replace("<br />", " ", $a_eval_data["MEDIAN"]));
-		
-		$a_excel->setCell($row, 0, $this->lng->txt("arithmetic_mean"));
-		$a_excel->setCell($row++, 1, $a_eval_data["ARITHMETIC_MEAN"]);
-	
-		// "subtitles"
-		$a_excel->setColors("B".$row.":E".$row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
-		$a_excel->setCell($row, 0, $this->lng->txt("categories"));
-		$a_excel->setCell($row, 1, $this->lng->txt("title"));
-		$a_excel->setCell($row, 2, $this->lng->txt("value"));
-		$a_excel->setCell($row, 3, $this->lng->txt("category_nr_selected"));
-		$a_excel->setCell($row++, 4, $this->lng->txt("svy_fraction_of_selections"));
-
-		foreach($a_eval_data["variables"] as $key => $value)
-		{		
-			$category = $this->categories->getCategory($key);
-			
-			$a_excel->setCell($row, 1, $value["title"]);
-			$a_excel->setCell($row, 2, (int)$category->scale);
-			$a_excel->setCell($row, 3, (int)$value["selected"]);
-			$a_excel->setCell($row++, 4, ($value["percentage"]*100)."%");
-		}
-		
-		// add text answers to detailed results
-		if(is_array($a_eval_data["textanswers"]))
-		{
-			$a_excel->setColors("B".$row.":C".$row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
-			$a_excel->setCell($row, 0, $this->lng->txt("freetext_answers"));
-			$a_excel->setCell($row, 1, $this->lng->txt("title"));
-			$a_excel->setCell($row++, 2, $this->lng->txt("answer"));
-			
-			foreach($a_eval_data["textanswers"] as $key => $answers)
-			{
-				$title = $a_eval_data["variables"][$key]["title"];
-				foreach($answers as $answer)
-				{
-					$a_excel->setCell($row, 1, $title);
-					$a_excel->setCell($row++, 2, $answer);
-				}
-			}
-		}		
-		
-		return $row;
-	}
-	
-	/**
-	* overwritten addUserSpecificResultsExportTitles
-	* 
-	* Adds the entries for the title row of the user specific results
-	*
-	* @param array $a_array An array which is used to append the title row entries
-	* @access public
-	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
-	{
-		$title = parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
-
-		// optionally add header for text answer
-		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
-		{
-			$cat = $this->categories->getCategory($i);
-			if ($cat->other)
-			{
-				if(!$a_use_label || $a_substitute)
-				{
-					array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
-				}
-				else
-				{
-					array_push($a_array, "");
-				}
-				break;	
-			}
-		}
-	}
-
-	/**
-	* Adds the values for the user specific results export for a given user
-	*
-	* @param array $a_array An array which is used to append the values
-	* @param array $resultset The evaluation data for a given user
-	* @access public
-	*/
-	function addUserSpecificResultsData(&$a_array, &$resultset)
-	{
-		// check if text answer column is needed
-		$other = false;
-		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
-		{
-			$cat = $this->categories->getCategory($i);
-			if ($cat->other)
-			{
-				$other = true;	
-				break;	
-			}
-		}
-		
-		if (count($resultset["answers"][$this->getId()]))
-		{
-			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
-			{
-				array_push($a_array, $answer["value"]+1);
-				
-				// add the text answer from the selected option
-				if ($other)
-				{
-					array_push($a_array, $answer["textanswer"]);
-				}
-			}
-		}
-		else
-		{
-			array_push($a_array, $this->getSkippedValue());
-			
-			if ($other)
-			{
-				array_push($a_array, "");
-			}
-		}
-	}
-
-	/**
-	* Returns an array containing all answers to this question in a given survey
-	*
-	* @param integer $survey_id The database ID of the survey
-	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
-	* @access public
-	*/
-	function &getUserAnswers($survey_id, $finished_ids)
-	{
-		global $ilDB;
-		
-		$answers = array();
-		
-		$sql = "SELECT svy_answer.* FROM svy_answer".
-			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
-			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
-			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
-		if($finished_ids)
-		{
-			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
-		}
-		
-		$result = $ilDB->query($sql);		
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$category = $this->categories->getCategoryForScale($row["value"]+1);
-			$title = $row["value"] + 1 . " - " . $category->title;
-			if ($category->other) $title .= ": " . $row["textanswer"];
-			$answers[$row["active_fi"]] = $title;
-		}
-		return $answers;
+		$debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
+		$debug_answer = ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : "NULL";
+		$this->log->debug("INSERT svy_answer answer_id=".$next_id." question_fi=".$this->getId()." active_fi=".$active_id." value=".$debug_value. " textanswer=".$debug_answer);
 	}
 
 	/**

@@ -17,6 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoring
  * @author            Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version           $Id: class.assFormulaQuestionGUI.php 1235 2010-02-15 15:21:18Z hschottm $
  * @ingroup           ModulesTestQuestionPool
+ * @ilCtrl_Calls assFormulaQuestionGUI: ilFormPropertyDispatchGUI
  */
 class assFormulaQuestionGUI extends assQuestionGUI
 {
@@ -317,7 +318,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	 * @param bool $checkonly
 	 * @return bool
 	 */
-	function editQuestion($checkonly = FALSE)
+	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
 		
@@ -325,6 +326,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);

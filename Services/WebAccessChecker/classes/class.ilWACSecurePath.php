@@ -117,9 +117,8 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @return string
 	 */
 	public function getComponentDirectory() {
-		preg_match("/\\/(Services|Modules|Customizing)\\/.*/u", $this->component_directory, $matches);
+		preg_match("/[\\\|\\/](Services|Modules|Customizing)[\\\|\\/].*/u", $this->component_directory, $matches);
 
-		// return $this->component_directory;
 		return '.' . $matches[0];
 	}
 

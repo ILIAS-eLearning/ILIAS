@@ -46,7 +46,7 @@ class ilDAVLocks
 	/** Set this to true, to get debug output in the ILIAS log. */
 	private $isDebug = false;
 	
-	public function ilDAVLocks()
+	public function __construct()
 	{
 	}
 	
@@ -76,7 +76,9 @@ class ilDAVLocks
 	public function lockRef($refId, $iliasUserId, $davUser, $token, $expires, $depth, $scope)
 	{
 		$this->writelog('lockRef('.$refId.','.$iliasUserId.','.$davUser.','.$token.','.$expires.','.$depth.','.$scope.')');
-		global $tree, $txt;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$txt = $DIC['txt'];
 
 		$result = true;
 		$data = $tree->getNodeData($refId);
@@ -192,7 +194,8 @@ class ilDAVLocks
 	 */
 	public function lockWithoutCheckingObj($objId, $nodeId, $iliasUserId, $davUser, $token, $expires, $depth, $scope)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		switch ($depth)
 		{
@@ -241,7 +244,8 @@ class ilDAVLocks
 	 */
 	public function updateLockWithoutCheckingDAV(&$objDAV, $token, $expires)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$objId  = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
 
@@ -260,7 +264,8 @@ class ilDAVLocks
 	 */
 	public function updateLockWithoutCheckingObj($objId, $nodeId, $token, $expires)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$q = 'UPDATE '.$this->table
 				.' SET expires = '.$ilDB->quote($expires,'integer')
@@ -284,7 +289,8 @@ class ilDAVLocks
 	 */
 	public function unlockWithoutCheckingDAV(&$objDAV, $token)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->writelog('unlock('.$objDAV.','.$token.')');
 		
 		$objId  = $objDAV->getObjectId();
@@ -327,7 +333,8 @@ class ilDAVLocks
 	 */
 	public function getLockDAV(&$objDAV,$token)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->writelog('getLocks('.$objDAV.')');
 		$objId  = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
@@ -390,7 +397,8 @@ class ilDAVLocks
 	 */
 	public function getLocksOnObjectObj($objId, $nodeId = 0)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->writelog('getLocks('.$objDAV.')');
 		$nodeId = 0;
 		$q = 'SELECT ilias_owner, dav_owner, token, expires, depth, scope'
@@ -428,7 +436,8 @@ class ilDAVLocks
 	 */
 	public function getLocksOnPathDAV(&$pathDAV)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->writelog('getLocksOnPathDAV');
 		
 		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
@@ -481,7 +490,9 @@ class ilDAVLocks
 	 */
 	public function getLocksOnPathRef($refId)
 	{
-		global $ilDB, $tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 		$this->writelog('getLocksOnPathRef('.$refId.')');
 
 		$pathFull = $tree->getPathFull($refId);
@@ -525,7 +536,9 @@ class ilDAVLocks
 	 */
 	public function cleanUp()
 	{
-		global $ilDB, $tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 
 		// 1. Get rid of locks that have expired over an hour ago
 		$old = time() - 3600;
@@ -574,7 +587,9 @@ class ilDAVLocks
 	 */
 	protected function writelog($message) 
 	{
-		global $log, $ilias;
+		global $DIC;
+		$log = $DIC['log'];
+		$ilias = $DIC['ilias'];
 		if ($this->isDebug)
 		{
 			$log->write(

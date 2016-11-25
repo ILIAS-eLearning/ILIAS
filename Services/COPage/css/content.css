@@ -446,20 +446,35 @@ div.ilc_section_AdvancedKnowledge, a.ilc_section_AdvancedKnowledge
 
 
 /* Media */
-table.ilc_media_cont_MediaContainer
+figure.ilc_media_cont_MediaContainer
 {
 	background-color: #F5F5F5;
 	padding: 0px;
 	margin: 10px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #B0B0B0;
+}
+
+figure.ilc_media_cont_MediaContainerMax50
+{
+	background-color: #F5F5F5;
+	padding: 0px;
+	margin: 10px;
+	max-width: 50%;
+}
+
+figure.ilc_media_cont_MediaContainerFull100
+{
+	background-color: #F5F5F5;
+	padding: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 100%;
 }
 
 div.ilc_media_caption_MediaCaption
 {
 	padding: 5px;
 	font-size: 90%;
+	background-color: #F5F5F5;
 }
 
 /* Question */

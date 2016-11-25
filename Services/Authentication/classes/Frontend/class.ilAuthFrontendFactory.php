@@ -22,6 +22,9 @@ class ilAuthFrontendFactory
 	// Rest soap context
 	const CONTEXT_WS = 4;
 	
+	// http auth
+	const CONTEXT_HTTP = 5;
+	
 	
 	private $context = self::CONTEXT_UNDEFINED;
 	private $credentials = null;
@@ -96,6 +99,17 @@ class ilAuthFrontendFactory
 				$this->getLogger()->debug('Init auth frontend with standard auth context');
 				include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
 				$frontend = new ilAuthStandardFormFrontend(
+					$session,
+					$status,
+					$credentials,
+					$providers
+				);
+				return $frontend;
+				
+			case self::CONTEXT_HTTP:
+				$this->getLogger()->debug('Init auth frontend with http basic auth context');
+				include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendHTTP.php';
+				$frontend = new ilAuthFrontendHTTP(
 					$session,
 					$status,
 					$credentials,

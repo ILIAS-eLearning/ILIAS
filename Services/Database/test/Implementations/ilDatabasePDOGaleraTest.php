@@ -34,11 +34,13 @@ require_once('ilDatabaseImplementationBaseTest.php');
 class ilDatabasePDOGaleraTest extends ilDatabaseImplementationBaseTest {
 
 	/**
-	 * @return \ilDBPdoMySQLInnoDB
+	 * @return \ilDBPdoMySQLGalera
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_GALERA);
+		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLGalera.php');
+
+		return new ilDBPdoMySQLGalera();
 	}
 
 

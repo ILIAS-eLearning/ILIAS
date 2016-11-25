@@ -15,10 +15,11 @@ class ilMailRfc822AddressParserFactory
 	{
 		switch(true)
 		{
-			case function_exists('imap_rfc822_parse_adrlist'):
-				require_once 'Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php';
-				return new ilMailImapRfc822AddressParser($a_address);
-				break;
+			// imap_rfc822_parse_adrlist currently not used because we cannot determine which of the addresses in the recipient string is faulty
+//			case function_exists('imap_rfc822_parse_adrlist'):
+//				require_once 'Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php';
+//				return new ilMailImapRfc822AddressParser($a_address);
+//				break;
 
 			default:
 				require_once 'Services/Mail/classes/Address/Parser/class.ilMailPearRfc822WrapperAddressParser.php';

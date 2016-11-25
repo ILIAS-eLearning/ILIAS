@@ -88,7 +88,7 @@ class ilTrQuery
 		}
 	}
 
-	function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
+	public static function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
 		global $ilDB;
 						
@@ -118,7 +118,7 @@ class ilTrQuery
 		return $result;
 	}
 	
-	function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
+	static function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		
@@ -187,7 +187,14 @@ class ilTrQuery
 		return $items;
 	}
 	
-	function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
+	/**
+	 * Get subitems status
+	 * @param type $a_user_id
+	 * @param type $a_parent_obj_id
+	 * @param array $a_item_ids
+	 * @return type
+	 */
+	public static function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		
@@ -870,7 +877,16 @@ class ilTrQuery
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
 				return $member_obj->getMembers();
-			
+
+			/* Mantis 19296: Individual Assessment can be subtype of crs.
+		 	 * But for LP view only his own members should be displayed.
+		 	 * We need to return the members without checking the parent path. */
+			case "mass":
+				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
+				$mass = new ilObjManualAssessment($obj_id, false);
+				return $mass->loadMembers()->membersIds();
+				break;
+
 			default:				
 				// walk path to find course or group object and use members of that object
 				$path = $tree->getPathId($a_ref_id);
@@ -941,7 +957,6 @@ class ilTrQuery
 				$prg = new ilObjStudyProgramme($obj_id, false);
 				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
 				break;
-			
 			default:
 				// no sensible data: return null
 				break;
@@ -1192,6 +1207,9 @@ class ilTrQuery
 
 					switch($field)
 					{
+						case 'org_units':
+							break;
+						
 						case "language":
 							if($function)
 							{
@@ -1890,7 +1908,7 @@ class ilTrQuery
 		
 		if($a_type == "lres")
 		{
-			$a_type = array('lm','sahs','htlm','dbk');
+			$a_type = array('lm','sahs','htlm');
 		}
 		
 		$sql = "SELECT r.ref_id,r.obj_id".

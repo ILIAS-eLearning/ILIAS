@@ -22,6 +22,12 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	/**
 	* Constructor
 	* @access public
@@ -31,6 +37,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilCtrl, $lng;
 		
 		$this->type = "wiki";
+
+		$this->log = ilLoggerFactory::getLogger('wiki');
 		
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("obj");
@@ -1344,7 +1352,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $tpl, $lng, $ilAccess, $ilCtrl;
 
 		$tpl->addJavaScript("./Modules/Wiki/js/WikiPres.js");
-		$tpl->addOnLoadCode("il.Wiki.Pres.init('".$ilCtrl->getLinkTargetByClass("ilobjwikigui", "", "", true, false)."');");
+
+		// setting asynch to false fixes #0019457, since otherwise ilBlockGUI would act on asynch and output html when side blocks
+		// being processed during the export. This is a flaw in ilCtrl and/or ilBlockGUI.
+		$tpl->addOnLoadCode("il.Wiki.Pres.init('".$ilCtrl->getLinkTargetByClass("ilobjwikigui", "", "", false, false)."');");
 
 		if ($a_wpg_id > 0 && !$a_wp)
 		{
@@ -1490,6 +1501,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		foreach ($page_ids as $p_id)
 		{
 			$page_gui = new ilWikiPageGUI($p_id);
+			$page_gui->setWiki($this->object);
 			$page_gui->setOutputMode("print");
 			$page_content.= $page_gui->showPage();
 			
@@ -1527,7 +1539,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	
 	public function pdfExportObject()
 	{
-		$html = $this->printViewObject(true);	
+
+        // prepare generation before contents are processed (for mathjax)
+		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+		ilPDFGeneration::prepareGeneration();
+
+		$html = $this->printViewObject(true);
 		
 		// :TODO: fixing css dummy parameters
 		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
@@ -2082,6 +2099,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function initUserHTMLExportObject()
 	{
+		$this->log->debug("init");
 		$this->checkPermission("wiki_html_export");
 		$this->object->initUserHTMLExport();
 	}
@@ -2091,6 +2109,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function startUserHTMLExportObject()
 	{
+		$this->log->debug("start");
 		$this->checkPermission("wiki_html_export");
 		$this->object->startUserHTMLExport();
 	}
@@ -2100,6 +2119,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function getUserHTMLExportProgressObject()
 	{
+		$this->log->debug("get progress");
 		$this->checkPermission("wiki_html_export");
 		$p =  $this->object->getUserHTMLExportProgress();
 
@@ -2111,6 +2131,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$r->progressBar = $pb->render();
 		$r->status = $p["status"];
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+		$this->log->debug("status: ".$r->status);
 		echo (ilJsonUtil::encode($r));
 		exit;
 	}
@@ -2120,6 +2141,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function downloadUserHTMLExportObject()
 	{
+		$this->log->debug("download");
 		$this->checkPermission("wiki_html_export");
 		$this->object->deliverUserHTMLExport();
 	}

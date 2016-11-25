@@ -608,18 +608,34 @@ class ilSurveyParticipantsGUI
 		{
 			$this->ctrl->redirect($this, 'codes');
 		}
-		
+
+		$errors = array();
+		$error_message = "";
 		foreach($_POST["chb_code"] as $id)
 		{
-			$this->object->updateCode($id, 
+			if(!$this->object->updateCode($id,
 				$_POST["chb_mail"][$id],
 				$_POST["chb_lname"][$id],
 				$_POST["chb_fname"][$id],
-				$_POST["chb_sent"][$id]					
-			);						
-		}		
-		
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+				$_POST["chb_sent"][$id]
+			))
+			{
+				array_push($errors, array($_POST["chb_mail"][$id], $_POST["chb_lname"][$id], $_POST["chb_fname"][$id]));
+			};
+		}
+		if(empty($errors))
+		{
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		}
+		else
+		{
+			foreach ($errors as $error)
+			{
+				$error_message .= sprintf($this->lng->txt("error_save_code"), $error[0],$error[1],$error[2]);
+			}
+			ilUtil::sendFailure($error_message, true);
+		}
+
 		$this->ctrl->redirect($this, 'codes');
 	}
 	
@@ -917,7 +933,7 @@ class ilSurveyParticipantsGUI
 				{
 					$lang = $this->lng->getDefaultLanguage();
 				}			
-				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message'],$lang);
+				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], nl2br($_POST['m_message']),$lang);
 				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
 				$this->ctrl->redirect($this, 'mailCodes');
 			}

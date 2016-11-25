@@ -26,7 +26,7 @@ require_once('ilDatabaseImplementationBaseTest.php');
 /**
  * TestCase for the ilDatabasePDOMyISAMTest
  *
- * @group needsInstalledILIAS
+ * @group   needsInstalledILIAS
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
@@ -40,11 +40,13 @@ class ilDatabasePDOPostgresTest extends ilDatabaseImplementationBaseTest {
 
 
 	/**
-	 * @return \ilDBPdoMySQLInnoDB
+	 * @return \ilDBPdoPostgreSQL
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_POSTGRE);
+		require_once('./Services/Database/classes/PDO/class.ilDBPdoPostgreSQL.php');
+
+		return new ilDBPdoPostgreSQL();
 	}
 
 

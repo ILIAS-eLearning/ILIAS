@@ -6,7 +6,7 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 
 	$block = $f->panel()->standard("Panel Title",
-			$f->panel()->sub("Sub Panel Title",$f->generic("Some Content"))
+			$f->panel()->sub("Sub Panel Title",$f->legacy("Some Content"))
 	);
 
 	return $renderer->render($block);

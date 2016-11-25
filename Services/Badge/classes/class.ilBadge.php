@@ -109,16 +109,14 @@ class ilBadge
 		if($this->getId())
 		{
 			$img = $this->getImagePath();	
-
+			
 			$this->setId(null);		
 			$this->create();
 
 			if($img)
 			{
-				// see uploadImage()
-				$path = $this->getFilePath($this->getId());
-				$tgt = $path."img".$this->getId();
-				copy($img, $tgt);
+				// see uploadImage()			
+				copy($img, $this->getImagePath());
 			}			
 		}		
 	}

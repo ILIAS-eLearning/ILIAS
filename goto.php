@@ -138,7 +138,6 @@ switch($target_type)
 				
 	// please migrate to default branch implementation
 	case "lm":
-	case "dbk":
 		require_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 		ilObjContentObjectGUI::_goto($target_id);
 		break;

@@ -205,19 +205,8 @@ class ilLMPageObject extends ilLMObject
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
 		$type = ilObject::_lookupType($lm_id, false);
-		switch ($type)
-		{
-			case "lm":
-				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-				$cont_obj = new ilObjLearningModule($lm_id, false);
-				break;
-
-			case "dbk":
-				include_once ("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-				$cont_obj = new ilObjDlBook($lm_id, false);
-				break;
-		}
-
+		include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+		$cont_obj = new ilObjLearningModule($lm_id, false);
 		$source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
 
 		// create new page
@@ -279,18 +268,8 @@ class ilLMPageObject extends ilLMObject
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
 		$type = ilObject::_lookupType($lm_id, false);
-		switch ($type)
-		{
-			case "lm":
-				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-				$cont_obj = new ilObjLearningModule($lm_id, false);
-				break;
-
-			case "dbk":
-				include_once ("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-				$cont_obj = new ilObjDlBook($lm_id, false);
-				break;
-		}
+		include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+		$cont_obj = new ilObjLearningModule($lm_id, false);
 		$tree = new ilTree($cont_obj->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");

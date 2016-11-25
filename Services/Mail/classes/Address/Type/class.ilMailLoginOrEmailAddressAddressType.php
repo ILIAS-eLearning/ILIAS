@@ -49,11 +49,29 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 	{
 		if($this->address->getHost() == ilMail::ILIAS_HOST)
 		{
-			return array_filter(array(ilObjUser::getUserIdByLogin($this->address->getMailbox())));
+			$address = $this->address->getMailbox();
+			
 		}
 		else
 		{
-			return array_filter(array(ilObjUser::getUserIdByLogin($this->address->getMailbox() . '@'. $this->address->getHost())));
+			$address = $this->address->getMailbox() . '@'. $this->address->getHost();
 		}
+
+		$usr_ids = array_filter(array(ilObjUser::getUserIdByLogin($address)));
+
+		if(count($usr_ids) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following user ids for address (login) '%s': %s", $address, implode(', ', array_unique($usr_ids))
+			));
+		}
+		else if(strlen($address) > 0)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Did not find any user account for address (login) '%s'", $address
+			));
+		}
+
+		return $usr_ids;
 	}
 }

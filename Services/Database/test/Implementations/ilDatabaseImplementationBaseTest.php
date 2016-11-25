@@ -81,29 +81,25 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		PHPUnit_Framework_Error_Notice::$enabled = false;
 		PHPUnit_Framework_Error_Deprecated::$enabled = false;
 
-		set_include_path("./Services/PEAR/lib" . PATH_SEPARATOR . ini_get('include_path'));
-
 		require_once('./libs/composer/vendor/autoload.php');
 		if (!defined('DEVMODE')) {
 			define('DEVMODE', true);
 		}
 		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 		$this->db = $this->getDBInstance();
+		global $DIC, $ilDB;
+		$DIC['ilDB'] = $this->db;
+		$ilDB = $this->db;
 		$this->connect($this->db);
 
 		switch ($this->type) {
-			case ilDBConstants::TYPE_MYSQL_LEGACY:
-			case ilDBConstants::TYPE_PDO_MYSQL_GALERA:
-			case ilDBConstants::TYPE_INNODB_LEGACY:
-			case ilDBConstants::TYPE_MYSQLI_LEGACY:
-			case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-			case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
+			default:
 				require_once('./Services/Database/test/Implementations/data/MySQL/class.ilDatabaseMySQLTestMockData.php');
 				require_once('./Services/Database/test/Implementations/data/MySQL/class.ilDatabaseMySQLTestsDataOutputs.php');
 				$this->mock = new ilDatabaseMySQLTestMockData();
 				$this->outputs = new ilDatabaseMySQLTestsDataOutputs();
 				break;
-			case ilDBConstants::TYPE_POSTGRES_LEGACY:
+			case ilDBConstants::TYPE_POSTGRES:
 			case ilDBConstants::TYPE_PDO_POSTGRE:
 				require_once('./Services/Database/test/Implementations/data/Postgres/class.ilDatabasePostgresTestMockData.php');
 				require_once('./Services/Database/test/Implementations/data/Postgres/class.ilDatabasePostgresTestsDataOutputs.php');
@@ -204,7 +200,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		$this->db->addPrimaryKey($this->getTableName(), array( 'id' ));
 		$this->assertTrue($this->db->tableExists($this->getTableName()));
 
-		if (in_array($this->type, array( ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES_LEGACY ))) {
+		if (in_array($this->type, array( ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES ))) {
 			return; // SHOW CREATE TABLE CURRENTLY NOT SUPPORTED IN POSTGRES
 		}
 
@@ -369,8 +365,8 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 			$this->db->dropSequence($this->getTableName());
 		}
 		$this->db->createSequence($this->getTableName(), 10);
-		$this->assertTrue($this->db->nextId($this->getTableName()) == 10);
-		$this->assertTrue($this->db->nextId($this->getTableName()) == 11);
+		$this->assertEquals(10, $this->db->nextId($this->getTableName()));
+		$this->assertEquals(11, $this->db->nextId($this->getTableName()));
 	}
 
 
@@ -477,6 +473,11 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 	}
 
 
+	public function testConstraints() {
+
+	}
+
+
 	/**
 	 * @depends testConnection
 	 */
@@ -495,7 +496,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		$this->changeGlobal($this->db);
 
 		$this->db->renameTableColumn($this->getTableName(), 'comment_mob_id', 'comment_mob_id_altered');
-		if (in_array($this->type, array( ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES_LEGACY ))) {
+		if (in_array($this->type, array( ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES ))) {
 			return; // SHOW CREATE TABLE CURRENTLY NOT SUPPORTED IN POSTGRES
 		}
 		$res = $this->db->query('SHOW CREATE TABLE ' . $this->getTableName());
@@ -522,7 +523,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		$this->changeGlobal($this->db);
 
 		$this->db->modifyTableColumn($this->getTableName(), 'comment_mob_id_altered', $changes);
-		if (in_array($this->type, array( ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES_LEGACY ))) {
+		if (in_array($this->type, array( ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES ))) {
 			return; // SHOW CREATE TABLE CURRENTLY NOT SUPPORTED IN POSTGRES
 		}
 		$res = $this->db->query('SHOW CREATE TABLE ' . $this->getTableName());

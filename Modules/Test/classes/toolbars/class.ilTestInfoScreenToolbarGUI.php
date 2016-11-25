@@ -598,9 +598,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 			{
 				if ($this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId()))
 				{
-					$btn = ilSubmitButton::getInstance();
+					$btn = ilLinkButton::getInstance();
 					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setCommand('outUserListOfAnswerPasses');
+					$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserListOfAnswerPasses'));
 					$btn->setPrimary(false);
 					$this->addButtonInstance($btn);
 				}
@@ -637,8 +637,34 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 			$this->addInfoMessage($message);
 		}
-
-		if( $this->getTestOBJ()->isSkillServiceToBeConsidered() && $this->areSkillLevelThresholdsMissing() )
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->testOBJ->getId());
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
+		$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
+		
+		if( $qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered() )
+		{
+			$importFailsMsg = array();
+			
+			if( $qsaImportFails->failedImportsRegistered() )
+			{
+				$importFailsMsg[] = $qsaImportFails->getFailedImportsMessage($this->lng);
+			}
+			
+			if( $sltImportFails->failedImportsRegistered() )
+			{
+				$importFailsMsg[] = $sltImportFails->getFailedImportsMessage($this->lng);
+			}
+			
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+			$button->setCaption('ass_skl_import_fails_remove_btn');
+			$importFailsMsg[] = $button->render();
+			
+			ilUtil::sendFailure(implode('<br />', $importFailsMsg));
+		}
+		elseif( $this->getTestOBJ()->isSkillServiceToBeConsidered() && $this->areSkillLevelThresholdsMissing() )
 		{
 			$this->addFailureMessage($this->getSkillLevelThresholdsMissingInfo());
 		}

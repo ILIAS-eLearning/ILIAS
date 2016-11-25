@@ -36,6 +36,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "", "lang_var" => "show",
 				"default" => true),
+			array("permission" => "read", "cmd" => "exportHTML", "lang_var" => "export_html"),
 			array("permission" => "write", "cmd" => "editLinks", "lang_var" => "edit_content"),
 			array("permission" => "write", "cmd" => "settings", "lang_var" => "settings")
 		);

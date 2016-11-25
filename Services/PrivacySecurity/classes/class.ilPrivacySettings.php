@@ -112,11 +112,11 @@ class ilPrivacySettings
 		
 		if(ilObject::_lookupType($a_ref_id, true) == 'crs')
 		{
-			return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id,'write','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
+			return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id,'manage_members','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
 		}
 		else
 		{
-			return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser($user_id,'write','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
+			return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser($user_id,'manage_members','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
 		}		
 	}
 

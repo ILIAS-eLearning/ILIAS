@@ -33,7 +33,8 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
 				 * @var $user ilObjUser
 				 */
 				$user = $additional_information['usr'];
-
+				$this->getLanguage()->loadLanguageModule("registration");
+				
 				foreach($this->getRecipients() as $rcp)
 				{
 					try
@@ -51,7 +52,7 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
 
 					$this->setBody($this->getLanguage()->txt('reg_mail_body_salutation') . ' ' . $user->getFullname() . ',');
 					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguage()->txt('reg_mail_body_confirmation'));
+					$this->appendBody($this->getLanguage()->txt('reg_mail_body_activation'));
 					$this->appendBody("\n");
 					$this->appendBody(ILIAS_HTTP_PATH . '/confirmReg.php?client_id=' . CLIENT_ID . '&rh=' . ilObjUser::_generateRegistrationHash($user->getId()));
 					$this->appendBody("\n\n");

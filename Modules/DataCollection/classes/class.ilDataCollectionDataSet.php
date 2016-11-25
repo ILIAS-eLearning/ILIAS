@@ -148,7 +148,15 @@ class ilDataCollectionDataSet extends ilDataSet {
 	public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) {
 		switch ($a_entity) {
 			case 'dcl':
-				$new_obj = new ilObjDataCollection();
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['id']))
+				{
+					$new_obj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$new_obj = new ilObjDataCollection();
+					$new_obj->create(true);
+				}
 				$new_obj->setTitle($a_rec['title']);
 				$new_obj->setDescription($a_rec['description']);
 				$new_obj->setApproval($a_rec['approval']);
@@ -157,7 +165,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$new_obj->setPublicNotes($a_rec['public_notes']);
 				$new_obj->setOnline(false);
 				$new_obj->setRating($a_rec['rating']);
-				$new_obj->create(true); //clone mode, so no table will be created
+				$new_obj->update(); //clone mode, so no table will be created
 				$this->import_dc_object = $new_obj;
 				$a_mapping->addMapping('Modules/DataCollection', 'dcl', $a_rec['id'], $new_obj->getId());
 				break;
@@ -193,13 +201,14 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$tableview->setTitle($a_rec['title']);
 					$tableview->setTableId($new_table_id);
 					$tableview->setDescription($a_rec['description']);
-					$tableview->setTableviewOrder($a_rec['tableview_id']);
+					$tableview->setTableviewOrder($a_rec['tableview_order']);
 					if(!is_array($a_rec['roles']))
 						$a_rec['roles'] = json_decode($a_rec['roles']);
 					$tableview->setRoles($a_rec['roles']);
 					$tableview->create(false);	//do not create default setting as they are imported too
 				}
 				$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_tableview', $a_rec['id'], $tableview->getId());
+				$a_mapping->addMapping('Services/COPage', 'pg', 'dclf:'.$a_rec['id'], 'dclf:'.$tableview->getId());
 				break;
 			case 'il_dcl_field':
 				$new_table_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_table', $a_rec['table_id']);
@@ -226,12 +235,10 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$new_table_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_table', $a_rec['table_id']);
 				$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['field']);
 				if ($new_table_id) {
-					$setting = new ilDclTableFieldSetting();
-					$setting->setTableId($new_table_id);
+					$setting = ilDclTableFieldSetting::getInstance($new_table_id, $new_field_id ? $new_field_id : $a_rec['field']);
 					$setting->setFieldOrder($a_rec['field_order']);
-					$setting->setField($new_field_id ? $new_field_id : $a_rec['field']);
 					$setting->setExportable($a_rec['exportable']);
-					$setting->create();
+					$setting->store();
 				}
 				break;
 			case 'il_dcl_tview_set':
@@ -243,7 +250,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$setting->setVisible($a_rec['visible']);
 					$setting->setField($new_field_id ? $new_field_id : $a_rec['field']);
 					$setting->setInFilter($a_rec['in_filter']);
-					$setting->setFilterValue($a_rec['filter_value']);
+					$setting->setFilterValue($a_rec['filter_value'] ? $a_rec['filter_value'] : null);
 					$setting->setFilterChangeable($a_rec['filter_changeable']);
 					$setting->create();
 				}
@@ -338,11 +345,14 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$value = $a_rec['value'];
 					$refs = array( ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE );
 					$fix_refs = false;
+
 					if (in_array($prop->getName(), $refs)) {
 						$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['value']);
 						if ($new_field_id === false) {
 							$value = NULL;
 							$fix_refs = true;
+						} else {
+							$value = $new_field_id;
 						}
 					}
 					$prop->setValue($value);

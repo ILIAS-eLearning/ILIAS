@@ -40,15 +40,11 @@ class ilAuthProviderFactory
 		if(strlen($credentials->getAuthMode()))
 		{
 			$this->getLogger()->debug('Returning fixed provider for auth mode: ' . $credentials->getAuthMode());
-			if($this->getProvidersByAuthMode($credentials))
-			{
-				return array(
-					$this->getProvidersByAuthMode($credentials, $credentials->getAuthMode())
-				);
-			}
+			return array(
+				$this->getProviderByAuthMode($credentials, $credentials->getAuthMode())
+			);
 		}
 		
-		// check for dynamic provider selection
 		include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
 		$auth_determination = ilAuthModeDetermination::_getInstance();
 		$sequence = $auth_determination->getAuthModeSequence($credentials->getUsername());
@@ -75,7 +71,7 @@ class ilAuthProviderFactory
 		{
 			case AUTH_LDAP:
 				$ldap_info = explode('_', $a_authmode);
-				$this->getLogger()->debug('Using ldap authentication with credentials ' . print_r($ldap_info,true));
+				$this->getLogger()->debug('Using ldap authentication with credentials ');
 				include_once './Services/LDAP/classes/class.ilAuthProviderLDAP.php';
 				return new ilAuthProviderLDAP($credentials, $ldap_info[1]);
 			
@@ -93,6 +89,12 @@ class ilAuthProviderFactory
 				$this->getLogger()->debug('Using radius authentication.');
 				include_once './Services/Radius/classes/class.ilAuthProviderRadius.php';
 				return new ilAuthProviderRadius($credentials);
+				
+			case AUTH_SHIBBOLETH:
+				$this->getLogger()->debug('Using shibboleth authentication.');
+				include_once './Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php';
+				return new ilAuthProviderShibboleth($credentials);
+				
 		}
 		return null;
 	}

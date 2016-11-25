@@ -95,7 +95,7 @@ class assClozeTestImport extends assQuestionImport
 											"answers" => array(), 
 											"minnumber" => $response->getRenderType()->getMinnumber(), 
 											"maxnumber" => $response->getRenderType()->getMaxnumber(),
-											'gap_size' => $response->getRenderType()->getColumns()
+											'gap_size' => $response->getRenderType()->getMaxchars()
 										)
 									);
 									break;
@@ -105,7 +105,7 @@ class assClozeTestImport extends assQuestionImport
 										array("ident" => $response->getIdent(), 
 											  "type" => CLOZE_TEXT, 
 											  "answers" => array(),
-											  'gap_size' => $response->getRenderType()->getColumns()
+											  'gap_size' => $response->getRenderType()->getMaxchars()
 										));
 									break;
 							}

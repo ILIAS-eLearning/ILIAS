@@ -26,6 +26,8 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 	 * @source https://en.wikipedia.org/wiki/RIS_(file_format)
 	 */
 	protected static $standard_fields = array(
+		'A1',
+		// First Author
 		'A2',
 		// Secondary Author (each author on its own line preceded by the tag)
 		'A3',
@@ -40,6 +42,10 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		// Accession Number
 		'AU',
 		// Author (each author on its own line preceded by the tag)
+		'AV',
+		// Location in Archives
+		'BT',
+		// This field can contain alphanumeric characters; There is no practical limit to the length of this field.
 		'C1',
 		// Custom 1
 		'C2',
@@ -60,6 +66,10 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		// Caption
 		'CN',
 		// Call Number
+		'CP',
+		// This field can contain alphanumeric characters; There is no practical limit to the length of this field.
+		'CT',
+		// Title of unpublished reference
 		'CY',
 		// Place Published
 		'DA',
@@ -70,38 +80,62 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		// DOI
 		'DP',
 		// Database Provider
+		'ED',
+		// Editor
 		'EP',
 		// End Page
 		'ET',
 		// Edition
+		'ID',
+		// Reference ID
 		'IS',
-		// Number
+		// Issue number
+		'J1',
+		// Periodical name: user abbreviation 1. This is an alphanumeric field of up to 255 characters.
 		'J2',
-		// Alternate Title (this field is used for the abbreviated title of a book or journal name)
+		// Alternate Title (this field is used for the abbreviated title of a book or journal name, the latter mapped to T2)
+		'JA',
+		// Periodical name: standard abbreviation. This is the periodical in which the article was (or is to be, in the case of in-press references) published. This is an alphanumeric field of up to 255 characters.
+		'JF',
+		// Journal/Periodical name: full format. This is an alphanumeric field of up to 255 characters.
+		'JO',
+		// Journal/Periodical name: full format. This is an alphanumeric field of up to 255 characters.
 		'KW',
 		// Keywords (keywords should be entered each on its own line preceded by the tag)
 		'L1',
-		// File Attachments (this is a link to a local file on the users system not a URL link)
+		// Link to PDF. There is no practical limit to the length of this field. URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line using a semi-colon as a separator.
+		'L2',
+		// Link to Full-text. There is no practical limit to the length of this field. URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line using a semi-colon as a separator.
+		'L3',
+		// Related Records. There is no practical limit to the length of this field.
 		'L4',
-		// Figure (this is also meant to be a link to a local file on the users's system and not a URL link)
+		// Image(s). There is no practical limit to the length of this field.
 		'LA',
 		// Language
 		'LB',
 		// Label
+		'LK',
+		// Website Link
 		'M1',
 		// Number
+		'M2',
+		// Miscellaneous 2. This is an alphanumeric field and there is no practical limit to the length of this field.
 		'M3',
 		// Type of Work
 		'N1',
 		// Notes
+		'N2',
+		// Abstract. This is a free text field and can contain alphanumeric characters; there is no practical length limit to this field.
 		'NV',
 		// Number of Volumes
 		'OP',
 		// Original Publication
 		'PB',
 		// Publisher
+		'PP',
+		// Publishing Place
 		'PY',
-		// Year
+		// Publication year (YYYY/MM/DD)
 		'RI',
 		// Reviewed Item
 		'RN',
@@ -119,7 +153,7 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		'T1',
 		// Primary Title
 		'T2',
-		// Secondary Title
+		// Secondary Title (journal title, if applicable)
 		'T3',
 		// Tertiary Title
 		'TA',
@@ -128,14 +162,26 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		// Title
 		'TT',
 		// Translated Title
+		'U1',
+		// User definable 1. This is an alphanumeric field and there is no practical limit to the length of this field.
+		'U2',
+		// User definable 2. This is an alphanumeric field and there is no practical limit to the length of this field.
+		'U3',
+		// User definable 3. This is an alphanumeric field and there is no practical limit to the length of this field.
+		'U4',
+		// User definable 4. This is an alphanumeric field and there is no practical limit to the length of this field.
+		'U5',
+		// User definable 5. This is an alphanumeric field and there is no practical limit to the length of this field.
 		'UR',
 		// URL
 		'VL',
-		// Volume
+		// Volume number
+		'VO',
+		// Published Standard number
+		'Y1',
+		// Primary Date
 		'Y2',
 		// Access Date
-		'JA',
-		'L3',
 	);
 	/**
 	 * @var array
@@ -198,5 +244,3 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		return in_array(strtoupper($entry_ype), self::$entry_types);
 	}
 }
-
-?>

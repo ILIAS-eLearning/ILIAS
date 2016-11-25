@@ -1150,6 +1150,8 @@ class ilObjectDefinition// extends ilSaxParser
 			if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
 				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 				$loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
+				// The plugin_id is the same as the type_id in repository object plugins.
+				$pl = ilObjectPlugin::getRepoPluginObjectByType($pl_id);
 
 				$this->obj_data[$pl_id] = array(
 					"name" => $pl_id,
@@ -1162,7 +1164,7 @@ class ilObjectDefinition// extends ilSaxParser
 					"translate" => "0",
 					"devmode" => "0",
 					"allow_link" => "1",
-					"allow_copy" => "0",
+					"allow_copy" => $pl->allowCopy() ? '1' : '0',
 					"rbac" => "1",
 					"group" => NULL,
 					"system" => "0",
@@ -1172,8 +1174,6 @@ class ilObjectDefinition// extends ilSaxParser
 					'administration' => $isInAdministration?'1':'0',
 					"sideblock" => "0"
 				);
-				// The plugin_id is the same as the type_id in repository object plugins.
-				$pl = ilObjectPlugin::getRepoPluginObjectByType($pl_id);
 				$parent_types = $pl->getParentTypes();
 				foreach($parent_types as $parent_type) {
 					$this->obj_data[$parent_type]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);

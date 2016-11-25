@@ -37,7 +37,7 @@ class ilTestMailNotification extends ilMailNotification
 		
 		$this->appendBody($this->language->txt('title').': '. $title);
 		$this->appendBody("\n");
-		$this->appendBody($this->language->txt('username').': '. $usr_data);
+		$this->appendBody($this->language->txt('tst_participant').': '. $usr_data);
 		$this->appendBody("\n");
 		
 		ilDatePresentation::setUseRelativeDates(false);
@@ -72,7 +72,7 @@ class ilTestMailNotification extends ilMailNotification
 
 		$this->appendBody($this->language->txt('title').': '. $title);
 		$this->appendBody("\n");
-		$this->appendBody($this->language->txt('username').': '. $usr_data);
+		$this->appendBody($this->language->txt('tst_participant').': '. $usr_data);
 		$this->appendBody("\n");
 
 		ilDatePresentation::setUseRelativeDates(false);

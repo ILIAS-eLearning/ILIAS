@@ -50,7 +50,7 @@ class ilPageContentUsage
 	/**
 	* Get usages
 	*/
-	function getUsages($a_pc_type, $a_pc_id, $a_incl_hist = true)
+	static function getUsages($a_pc_type, $a_pc_id, $a_incl_hist = true)
 	{
 		global $ilDB;
 		

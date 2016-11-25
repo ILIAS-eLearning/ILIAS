@@ -118,7 +118,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		}							
 	}
 
-	protected function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+	protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
 		global $lng, $ilCtrl;
 						

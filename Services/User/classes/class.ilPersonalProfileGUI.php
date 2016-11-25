@@ -474,7 +474,6 @@ class ilPersonalProfileGUI
 				// feedback
 				ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);	
 				$this->ctrl->redirect($this, "");
-				//$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 			}
 			else
 			{
@@ -1112,6 +1111,7 @@ class ilPersonalProfileGUI
 			"interests_general" => $ilUser->getGeneralInterestsAsText(),
 			"interests_help_offered" => $ilUser->getOfferingHelpAsText(),
 			"interests_help_looking" => $ilUser->getLookingForHelpAsText(),
+			"org_units" => $ilUser->getOrgUnitsRepresentation(),
 			"institution" => $ilUser->getInstitution(),
 			"department" => $ilUser->getDepartment(),			
 			"street" => $ilUser->getStreet(),
@@ -1124,9 +1124,9 @@ class ilPersonalProfileGUI
 			"phone_mobile" => $ilUser->getPhoneMobile(),
 			"fax" => $ilUser->getFax(),
 			"email" => $ilUser->getEmail(),
-			"hobby" => $ilUser->getHobby(),			
+			"hobby" => $ilUser->getHobby(),
 			"matriculation" => $ilUser->getMatriculation()
-			);
+		);
 		
 		// location
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
@@ -1262,9 +1262,9 @@ class ilPersonalProfileGUI
 			}
 
 			// if check on Institute
-			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",
-				"zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
-				"fax", "email", "hobby", "matriculation", "location", 
+			$val_array = array("title", "birthday", "gender", "org_units", "institution", "department", "upload",
+				"street", "zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
+				"fax", "email", "hobby", "matriculation", "location",
 				"interests_general", "interests_help_offered", "interests_help_looking");
 	
 			// set public profile preferences

@@ -40,9 +40,13 @@ class ilImportContainer extends ilImport
 		include_once("./Services/Export/classes/class.ilManifestParser.php");
 		$parser = new ilManifestParser($manifest_file);		
 		
-		// Handling single containers without subitems
 		
 		// begin-patch optes_lok_export
+
+		// Handling single containers without subitems
+		
+		// @todo: check if this is required
+		// all container have container export sets
 		$all_importers = array();
 		
 		if(!$parser->getExportSets())
@@ -90,7 +94,7 @@ class ilImportContainer extends ilImport
 
 		$class_name = "ilObj".$objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
-
+		
 		include_once($location."/class.".$class_name.".php");
 		$new = new $class_name();
 		$new->setTitle('Import');

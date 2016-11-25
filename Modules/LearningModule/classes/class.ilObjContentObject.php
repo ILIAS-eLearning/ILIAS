@@ -3,7 +3,6 @@
 
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
-require_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
 /** @defgroup ModulesIliasLearningModule Modules/IliasLearningModule
  */
@@ -624,11 +623,6 @@ class ilObjContentObject extends ilObject
 		// delete meta data of content object
 		$this->deleteMetaData();
 
-		// delete bibitem data
-		$nested = new ilNestedSetXML();
-		$nested->init($this->getId(), "bib");
-		$nested->deleteAllDBData();
-
 
 		// delete learning module tree
 		$this->lm_tree->removeTree($this->lm_tree->getTreeId());
@@ -1228,7 +1222,6 @@ class ilObjContentObject extends ilObject
 			" for_translation = ".$ilDB->quote($this->getForTranslation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
-		
 		// #14661
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		ilNote::activateComments($this->getId(), 0, $this->getType(), $this->publicNotes());		
@@ -1578,10 +1571,6 @@ class ilObjContentObject extends ilObject
 			case "lm":
 				$attrs["Type"] = "LearningModule";
 				break;
-
-			case "dbk":
-				$attrs["Type"] = "LibObject";
-				break;
 		}
 		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
 
@@ -1623,7 +1612,7 @@ class ilObjContentObject extends ilObject
 			$qti_file = fopen($a_target_dir."/qti.xml", "w");
 			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 			$pool = new ilObjQuestionPool();
-			fwrite($qti_file, $pool->toXML($this->q_ids));
+			fwrite($qti_file, $pool->questionsToXML($this->q_ids));
 			fclose($qti_file);
 		}
 		
@@ -2082,6 +2071,10 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($content_style_img_dir);
 		$GLOBALS["teximgcnt"] = 0;
 
+        // init the mathjax rendering for HTML export
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
 		$style_name = $ilUser->prefs["style"].".css";
@@ -2158,6 +2151,11 @@ class ilObjContentObject extends ilObject
 				$langs[] = $otl["lang_code"];
 			}
 		}
+
+		// init collector arrays
+		$this->offline_mobs = array();
+		$this->offline_int_links = array();
+		$this->offline_files = array();
 
 		// iterate all languages
 		foreach ($langs as $lang)
@@ -2246,7 +2244,7 @@ class ilObjContentObject extends ilObject
 		if ($this->isActiveTOC())
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
-			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$lm_gui->tpl = $tpl;
 			$content = $lm_gui->showTableOfContents();
 			$file = $a_target_dir."/table_of_contents.html";
 				
@@ -2437,7 +2435,25 @@ class ilObjContentObject extends ilObject
 				"target" => $mathJaxSetting->get("path_to_mathjax"),
 				"type" => "js");
 		}
-		
+
+		// auto linking js
+		include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
+		foreach (ilLinkifyUtil::getLocalJsPaths() as $p)
+		{
+			if (is_int(strpos($p, "ExtLink")))
+			{
+				$scripts[] = array("source" => $p,
+					"target" => $a_target_dir.'/js/ilExtLink.js',
+					"type" => "js");
+			}
+			if (is_int(strpos($p, "linkify")))
+			{
+				$scripts[] = array("source" => $p,
+					"target" => $a_target_dir.'/js/linkify.js',
+					"type" => "js");
+			}
+		}
+
 		return $scripts;
 
 	}
@@ -2671,8 +2687,14 @@ class ilObjContentObject extends ilObject
 				$ilBench->stop("ExportHTML", "exportHTMLPage");
 			}
 		}
-		$this->offline_mobs = $mobs;
-		$this->offline_int_links = $int_links;
+		foreach ($mobs as $m)
+		{
+			$this->offline_mobs[$m] = $m;
+		}
+		foreach ($int_links as $k => $v)
+		{
+			$this->offline_int_links[$k] = $v;
+		}
 	}
 
 
@@ -3560,6 +3582,54 @@ class ilObjContentObject extends ilObject
 		return true;
 	}
 	
-	
+	/**
+	 * Get public export files
+	 *
+	 * @return array array of arrays with keys "type" (html, scorm or xml), "file" (filename) and "size" in bytes, "dir_type" detailed directoy type, e.g. html_de
+	 */
+	function getPublicExportFiles()
+	{
+		$dirs = array("xml", "scorm");
+		$export_files = array();
+
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = ilObjectTranslation::getInstance($this->getId());
+		if ($ot->getContentActivated())
+		{
+			$langs = $ot->getLanguages();
+			foreach ($langs as $l => $ldata)
+			{
+				$dirs[] = "html_".$l;
+			}
+			$dirs[] = "html_all";
+		}
+		else
+		{
+			$dirs[] = "html";
+		}
+
+		foreach($dirs as $dir)
+		{
+			$type = explode("_", $dir);
+			$type = $type[0];
+			if ($this->getPublicExportFile($type) != "")
+			{
+				if (is_file($this->getExportDirectory($dir)."/".
+					$this->getPublicExportFile($type)))
+				{
+					$size = filesize($this->getExportDirectory($dir)."/".
+						$this->getPublicExportFile($type));
+					$export_files[] = array("type" => $type,
+						"dir_type" => $dir,
+						"file" => $this->getPublicExportFile($type),
+						"size" => $size);
+				}
+			}
+		}
+
+		return $export_files;
+	}
+
+
 }
 ?>

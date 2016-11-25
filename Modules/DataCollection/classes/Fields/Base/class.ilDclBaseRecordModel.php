@@ -77,22 +77,38 @@ class ilDclBaseRecordModel {
 
 
 	/**
+	 * @param $value
+	 * @return string
+	 */
+	private function fixDate($value) {
+		global $DIC;
+		if ($DIC['ilDB']->getDBType() != ilDBConstants::TYPE_ORACLE) {
+			return $value;
+		}
+
+		$date = explode(' ', $value);
+
+		return $date[0];
+	}
+
+
+	/**
 	 * doUpdate
 	 */
-	public function doUpdate() {
+	public function doUpdate($omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$ilDB->update("il_dcl_record", array(
-			"table_id" => array(
+		$values = array(
+			"table_id"     => array(
 				"integer",
 				$this->getTableId()
 			),
-			"last_update" => array(
+			"last_update"  => array(
 				"date",
-				$this->getLastUpdate()
+				$this->fixDate($this->getLastUpdate())
 			),
-			"owner" => array(
+			"owner"        => array(
 				"text",
 				$this->getOwner()
 			),
@@ -100,7 +116,8 @@ class ilDclBaseRecordModel {
 				"text",
 				$this->getLastEditBy()
 			)
-		), array(
+		);
+		$ilDB->update("il_dcl_record", $values, array(
 			"id" => array(
 				"integer",
 				$this->id
@@ -112,7 +129,9 @@ class ilDclBaseRecordModel {
 		}
 
 		//TODO: add event raise
-		ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+		if (!$omit_notification) {
+			ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+		}
 	}
 
 
@@ -359,19 +378,6 @@ class ilDclBaseRecordModel {
 
 		return $return;
 	}
-
-	public function getRecordFieldValuesForConfirmation() {
-		$this->loadRecordFields();
-		$return = array();
-		foreach ($this->recordfields as $id => $record_field) {
-			$value = $record_field->getConfirmationValue();
-			if($value !== null)
-				$return[$id] = $record_field->getConfirmationValue();
-		}
-
-		return $return;
-	}
-
 
 	/**
 	 * Get Field Value
@@ -698,7 +704,18 @@ class ilDclBaseRecordModel {
 		$this->doCreate();
 		foreach($new_fields as $old => $new){
 			$old_rec_field = $original->getRecordField($old);
-			$new_rec_field = new ilDclBaseRecordFieldModel($this, $new);
+			$new_rec_field = ilDclCache::getRecordFieldCache($this, $new);
+			if ($new->getDatatypeTitle() == "reference") {
+				if (!$old_rec_field->getValue()) {
+					continue;
+				}
+				$old_ref_rec = ilDclCache::getRecordCache($old_rec_field->getValue());
+				$old_ref_rec_field = $old_ref_rec->getRecordField(ilDclCache::getFieldCache($old)->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+				// set the referenced records value instead of id, so we can later get the new referenced record by its value
+				$new_rec_field->setValue($old_ref_rec_field->getValue());
+				$new_rec_field->doUpdate();
+				continue;
+			}
 			$new_rec_field->setValue($old_rec_field->getValue());
 			$new_rec_field->doUpdate();
 			$this->recordfields[] = $new_rec_field;

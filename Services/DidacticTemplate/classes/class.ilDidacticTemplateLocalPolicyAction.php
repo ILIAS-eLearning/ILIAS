@@ -371,20 +371,41 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		// Add local policy
 		if(!$rbacreview->isRoleAssignedToObject($role['obj_id'],$source->getRefId()))
 		{
-			$rbacadmin->assignRoleToFolder($role['obj_id'],$source->getRefId(),'n');
+			$GLOBALS['DIC']->rbac()->admin()->assignRoleToFolder(
+				$role['obj_id'],
+				$source->getRefId(),
+				'n'
+			);
+		}
+		
+		// do nothing if role is protected in higher context
+		if(
+			$GLOBALS['DIC']->rbac()->review()->isProtected($source->getRefId(),$role['obj_id'])
+		)
+		{
+			$GLOBALS['DIC']->logger()->otpl()->info('Ignoring protected role: ' . $role['title']);
+			return true;
 		}
 
+		$role_data = array();
+		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role)
+		{
+			if($role_id == $role['obj_id'])
+			{
+				$role_data = $tmp_role;
+			}
+		}
 		switch($this->getRoleTemplateType())
 		{
 			case self::TPL_ACTION_UNION:
 
 				ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionUnion()');
 				$rbacadmin->copyRolePermissionUnion(
-					$role['obj_id'],
-					$role['parent'],
+					$role_data['obj_id'],
+					$role_data['parent'],
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
-					$role['obj_id'],
+					$role_data['obj_id'],
 					$source->getRefId()
 				);
 				break;
@@ -396,21 +417,21 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
 					$source->getRefId(),
-					$role['obj_id'],
+					$role_data['obj_id'],
 					true
 				);
 				break;
 
 			case self::TPL_ACTION_INTERSECT:
 
-				ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionIntersection()');
+				ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionIntersection()'. $this->getRoleTemplateId());
 				$rbacadmin->copyRolePermissionIntersection(
-					$role['obj_id'],
-					$role['parent'],
+					$role_data['obj_id'],
+					$role_data['parent'],
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
 					$source->getRefId(),
-					$role['obj_id']
+					$role_data['obj_id']
 				);
 				break;
 
@@ -418,10 +439,10 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 		// Change existing object
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role_obj = new ilObjRole($role['obj_id']);
+		$role_obj = new ilObjRole($role_data['obj_id']);
 		$role_obj->changeExistingObjects(
 			$source->getRefId(),
-			$role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+			$role_data['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
 			array('all')
 		);
 

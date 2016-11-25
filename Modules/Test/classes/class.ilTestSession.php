@@ -309,6 +309,10 @@ class ilTestSession
 				array($user_id, $test_id)
 			);
 		}
+
+		// TODO bheyser: Refactor
+		$this->user_id = $user_id;
+
 		if ($result->numRows())
 		{
 			$row = $ilDB->fetchAssoc($result);

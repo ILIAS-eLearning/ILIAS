@@ -15,7 +15,7 @@
 class ilObjSCORMInitData
 {
 
-	function encodeURIComponent($str) {
+	static function encodeURIComponent($str) {
 		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')', '%7E'=>'~');
 		return strtr(rawurlencode($str), $revert);
 	}
@@ -264,7 +264,7 @@ class ilObjSCORMInitData
 		return $status;
 	}
 	// hash for storing data without session
-	private function setHash($a_packageId,$a_user_id) {
+	private static function setHash($a_packageId,$a_user_id) {
 		global $ilDB;
 		$hash = mt_rand(1000000000,9999999999);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));

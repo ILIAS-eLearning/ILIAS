@@ -364,28 +364,36 @@ class ilTestSkillEvaluation
 
 		//mail('bheyser@databay.de', "trigger skill level $skillLevelId for user {$this->getUserId()}", '');
 	}
-
-	public function getReachedSkillLevelsForPersonalSkillGUI()
+	
+	public function getSkillsMatchingNumAnswersBarrier()
 	{
-		$reachedLevels = array();
-
-		foreach($this->getReachedSkillLevels() as $reachedLevel)
+		$skillsMatchingNumAnswersBarrier = array();
+		
+		foreach($this->skillPointAccounts as $skillKey => $skillPointAccount)
 		{
-			$reachedLevels[$reachedLevel['sklBaseId']] = array(
-				$reachedLevel['sklTrefId'] => $reachedLevel['sklLevelId']
-			);
+			if( $this->doesNumBookingsExceedRequiredBookingsBarrier($skillPointAccount) )
+			{
+				list($skillBaseId, $skillTrefId) = explode(':', $skillKey);
+				
+				$skillsMatchingNumAnswersBarrier[$skillKey] = array(
+					'base_skill_id' => (int)$skillBaseId,
+					'tref_id' => (int)$skillTrefId
+				);
+			}
 		}
-
-		return $reachedLevels;
+		
+		return $skillsMatchingNumAnswersBarrier;
 	}
 
-	public function getUniqueAssignedSkillsForPersonalSkillGUI()
+	public function getSkillsInvolvedByAssignment()
 	{
 		$uniqueSkills = array();
-
+		
 		foreach($this->skillQuestionAssignmentList->getUniqueAssignedSkills() as $skill)
 		{
-			$uniqueSkills[] = array(
+			$skillKey = $skill['skill_base_id'].':'.$skill['skill_tref_id'];
+			
+			$uniqueSkills[$skillKey] = array(
 				'base_skill_id' => (int)$skill['skill_base_id'],
 				'tref_id' => (int)$skill['skill_tref_id']
 			);

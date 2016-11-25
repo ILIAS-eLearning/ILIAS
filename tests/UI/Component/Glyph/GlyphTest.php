@@ -285,6 +285,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-$type\">42</span>".
+					"<span class=\"il-counter-spacer\">42</span>".
 					"</a>";
 		$this->assertEquals($expected, $html);
 	}
@@ -305,12 +306,13 @@ class GlyphTest extends ILIAS_UI_TestBase {
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>".
+					"<span class=\"il-counter-spacer\">42</span>".
 					"</a>";
 		$this->assertEquals($expected, $html);
 	}
 
 	public function test_dont_render_counter() {
-		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage());
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage(), $this->getJavaScriptBinding());
 		$f = $this->getCounterFactory();
 
 		try {
@@ -318,5 +320,30 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			$this->assertFalse("This should not happen!");
 		}
 		catch (\LogicException $e) {}
+	}
+
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_render_with_on_load_code($type) {
+		$f = $this->getGlyphFactory();
+		$r = $this->getDefaultRenderer();
+		$ids = array();
+		$c = $f->$type("http://www.ilias.de")
+				->withOnLoadCode(function($id) use (&$ids) {
+					$ids[] = $id;
+					return "";
+				});
+
+		$html = $this->normalizeHTML($r->render($c));
+
+		$this->assertCount(1, $ids);
+
+		$css_classes = self::$canonical_css_classes[$type];
+		$aria_label = self::$aria_labels[$type];
+
+		$id = $ids[0];
+		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+		$this->assertEquals($expected, $html);
 	}
 }

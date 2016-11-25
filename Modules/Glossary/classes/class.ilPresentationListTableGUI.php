@@ -14,6 +14,15 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {
+
+	/**
+	 * @var ilObjGlossary
+	 */
+	protected $glossary;
+
+	/**
+	 * @var array
+	 */
 	protected $adv_cols_order = array();
 
 	/**
@@ -95,7 +104,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
-				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements()));
+				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements(), false, true));
 //		$this->setData(array());	
 	}
 	
@@ -184,8 +193,27 @@ class ilPresentationListTableGUI extends ilTable2GUI
 					$def = $defs[$j];
 					if (count($defs) > 1)
 					{
+						if (!$this->offline)
+						{
+							if (!empty ($filter))
+							{
+								$ilCtrl->setParameter($this->parent_obj, "term", $filter);
+								$ilCtrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
+							}
+							$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+							$ilCtrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+							$def_href = $ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions");
+							$ilCtrl->clearParameters($this->parent_obj);
+						}
+						else
+						{
+							$def_href = "term_".$term["id"].".html";
+						}
+						$this->tpl->parseCurrentBlock();
+
 						$this->tpl->setCurrentBlock("definition");
 						$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
+						$this->tpl->setVariable("HREF_DEF", $def_href."#ilPageTocDef".($j + 1));
 						$this->tpl->parseCurrentBlock();
 					}
 
@@ -215,15 +243,18 @@ class ilPresentationListTableGUI extends ilTable2GUI
 						$ltexe = strpos($short_str, "[/tex]", $ltexs);
 						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 					}
+
+					include_once './Services/MathJax/classes/class.ilMathJax.php';
 					if (!$this->offline)
 					{
-						$short_str = ilUtil::insertLatexImages($short_str);
+						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
 					}
 					else
 					{
-						$short_str = ilUtil::buildLatexImages($short_str,
-							$this->parent_obj->getOfflineDirectory());
+						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str, '[tex]', '[/tex]',
+							$this->parent_obj->getOfflineDirectory().'/teximg','./teximg');
 					}
+
 					$short_str = ilPCParagraph::xml2output($short_str);
 
 					$this->tpl->setVariable("DEF_SHORT", $short_str);

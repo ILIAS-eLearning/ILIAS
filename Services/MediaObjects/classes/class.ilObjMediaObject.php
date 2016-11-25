@@ -1395,7 +1395,6 @@ class ilObjMediaObject extends ilObject
 						break;
 						
 					case "lm":
-					case "dbk":
 						// learning modules
 						include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 						$obj_id = ilLMObject::_lookupContObjID($id);
@@ -1530,13 +1529,14 @@ class ilObjMediaObject extends ilObject
 		
 		if (ilUtil::deducibleSize($a_format))
 		{
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
 			if ($a_type == "File")
 			{
-				$size = @getimagesize($a_file);
+				$size = ilMediaImageUtil::getImageSize($a_file);
 			}
 			else
 			{
-				$size = @getimagesize($a_reference);
+				$size = ilMediaImageUtil::getImageSize($a_reference);
 			}
 		}
 
@@ -1544,8 +1544,10 @@ class ilObjMediaObject extends ilObject
 		{
 			if ($size[0] > 0 && $size[1] > 0)
 			{
-				$width = $size[0];
-				$height = $size[1];
+				//$width = $size[0];
+				//$height = $size[1];
+				$width = "";
+				$height = "";
 			}
 			else
 			{
@@ -1584,6 +1586,16 @@ class ilObjMediaObject extends ilObject
 //echo "<br>D-$width-$height-";
 		}
 //echo "<br>E-$width-$height-";
+
+		if ($width == 0 && $a_user_width === "")
+		{
+			$width = "";
+		}
+		if ($height == 0 && $a_user_height === "")
+		{
+			$height = "";
+		}
+
 		return array("width" => $width, "height" => $height, "info" => $info);
 	}
 
@@ -1666,7 +1678,8 @@ class ilObjMediaObject extends ilObject
 
 		if (ilUtil::deducibleSize($format))
 		{
-			$size = getimagesize($file);
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
 			$media_item->setWidth($size[0]);
 			$media_item->setHeight($size[1]);
 		}

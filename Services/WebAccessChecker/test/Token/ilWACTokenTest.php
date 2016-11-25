@@ -51,6 +51,14 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var vfs\vfsStreamFile
 	 */
+	protected $file_one_subfolder;
+	/**
+	 * @var vfs\vfsStreamFile
+	 */
+	protected $file_one_subfolder_two;
+	/**
+	 * @var vfs\vfsStreamFile
+	 */
 	protected $file_two;
 	/**
 	 * @var vfs\vfsStreamFile
@@ -78,6 +86,9 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		require_once('./libs/composer/vendor/autoload.php');
 		$this->root = vfs\vfsStream::setup('ilias.de');
 		$this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')->at($this->root)->setContent('dummy');
+		$this->file_one_subfolder = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/dummy.jpg')->at($this->root)->setContent('dummy');
+		$this->file_one_subfolder_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/device/dummy.jpg')->at($this->root)
+		                                             ->setContent('dummy');
 		$this->file_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy2.jpg')->at($this->root)->setContent('dummy2');
 		$this->file_three = vfs\vfsStream::newFile('data/client_name/mobs/mm_124/dummy.jpg')->at($this->root)->setContent('dummy');
 		$this->file_four = vfs\vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')->at($this->root)->setContent('dummy');
@@ -102,7 +113,7 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('dummy.jpg', $ilWACSignedPath->getPathObject()->getFileName());
 		$this->assertEquals($query, $ilWACSignedPath->getPathObject()->getQuery());
-		$this->assertEquals('./data/' . self::CLIENT_NAME . '/sec/ilBlog/', $ilWACSignedPath->getPathObject()->getSecurePath());
+		$this->assertEquals('./data/' . self::CLIENT_NAME . '/sec/ilBlog/mm_124/', $ilWACSignedPath->getPathObject()->getSecurePath());
 		$this->assertEquals('ilBlog', $ilWACSignedPath->getPathObject()->getSecurePathId());
 		$this->assertFalse($ilWACSignedPath->getPathObject()->isStreamable());
 
@@ -114,34 +125,24 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testTokenGeneration() {
-		ilWebAccessChecker::setDEBUG(true);
-		$ilWACToken = new ilWACToken($this->file_four->url(), self::CLIENT_NAME, 123456, 20);
+		ilWebAccessChecker::setDEBUG(false);
+		$ilWacPath = new ilWacPath($this->file_four->url());
+		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
 		$ilWACToken->setIp('127.0.0.1');
 		$ilWACToken->generateToken();
-		$this->assertEquals('SALT-127.0.0.1-client_name-123456-20', $ilWACToken->getToken());
-		$this->assertEquals('/data/client_name/sec/ilBlog/mm_124/dummy.jpg', $ilWACToken->getId());
+		$this->assertEquals('SALT-127.0.0.1-client_name-123456-20', $ilWACToken->getRawToken());
+		$this->assertEquals('./data/client_name/sec/ilBlog/mm_124/dummy.jpg', $ilWACToken->getId());
 
 		ilWebAccessChecker::setDEBUG(false);
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$this->assertEquals(self::SALT, ilWACToken::getSALT());
-		$ilWACToken = new ilWACToken($this->file_four->url(), self::CLIENT_NAME, 123456, 20);
+		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
 		$this->assertEquals('cd5a43304b232c785ef4f9796053b8bf5d6d829a', $ilWACToken->getToken());
-		$this->assertEquals('3ebcc01c4d77508c685c55849e00cea6', $ilWACToken->getId());
+		$this->assertEquals('e45b98f267dc891c8206c844f7df29ea', $ilWACToken->getHashedId());
 	}
 
 
 	public function testCookieGeneration() {
-		ilWebAccessChecker::setDEBUG(true);
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$ilWACCookieInterface = new ilWACDummyCookie();
-		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), $ilWACCookieInterface);
-		$expected_cookies = array(
-			'./data/client_name/mobs/mm_123',
-			'./data/client_name/mobs/mm_123ts',
-			'./data/client_name/mobs/mm_123ttl',
-		);
-		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
-
 		ilWebAccessChecker::setDEBUG(false);
 		ilWACDummyCookie::clear();
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
@@ -152,6 +153,18 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 			'3a469ab7011fc500453d83dac14f3bfcts',
 			'3a469ab7011fc500453d83dac14f3bfcttl',
 		);
+		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
+		// in subfolder
+		ilWACDummyCookie::clear();
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		$ilWACCookieInterface = new ilWACDummyCookie();
+		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url(), $ilWACCookieInterface);
+		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
+		// in sub-subfolder
+		ilWACDummyCookie::clear();
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		$ilWACCookieInterface = new ilWACDummyCookie();
+		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url(), $ilWACCookieInterface);
 		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
 	}
 
