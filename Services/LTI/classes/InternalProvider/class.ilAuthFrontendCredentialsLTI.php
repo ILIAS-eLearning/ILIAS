@@ -31,7 +31,7 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
 		$this->getLogger()->debug('New lti authentication request...');
 		$this->getLogger()->dump($_REQUEST, ilLogLevel::DEBUG);
 		
-		$this->setUsername('root');
+		$this->setUsername($_POST['user_id']);
 	}
 }
 ?>
