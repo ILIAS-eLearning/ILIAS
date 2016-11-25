@@ -13889,6 +13889,8 @@ if ($ilDB->tableExists('page_style_usage') && $ilDB->tableExists('page_style_usa
 		FROM page_style_usage_old
 	");
 
+	$ilDB->manipulate("DELETE FROM page_style_usage");
+
 	while($row = $ilDB->fetchAssoc($res))
 	{
 		$id = $ilDB->nextId('page_style_usage');
@@ -13904,12 +13906,6 @@ if ($ilDB->tableExists('page_style_usage') && $ilDB->tableExists('page_style_usa
 						  $ilDB->quote($row['stype'], "text").",".
 						  $ilDB->quote($row['sname'], "text").
 						  ")");
-
-		$ilDB->manipulateF(
-			"DELETE FROM page_style_usage_old WHERE page_id = %s AND page_type = %s AND page_lang = %s AND page_nr = %s AND template = %s AND stype = %s AND sname = %s",
-			array('integer', 'text', 'text', 'integer', 'integer', 'text', 'text'),
-			array($row['page_id'], $row['page_type'], $row['page_lang'], $row['page_nr'], $row['template'], $row['stype'], $row['sname'])
-		);
 	}
 }
 ?>
