@@ -47,7 +47,15 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		$prefix = $this->findAuthPrefix($lti_id);
 		$internal_account = $this->findUserId($this->getCredentials()->getUsername(), $lti_id, $prefix);
-		
+	
+		if($internal_account)
+		{
+			// update
+		}
+		else
+		{
+			$internal_account = $this->createUser($lti_id,$prefix);
+		}
 		
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		$status->setAuthenticatedUserId($internal_account);
@@ -99,6 +107,27 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	}
 	
 	/**
+	 * find global role of consumer
+	 */
+	protected function findGlobalRole($a_lti_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT role from lti_ext_consumer where id = '.$ilDB->quote($a_lti_id,'integer');
+		$this->getLogger()->debug($query);
+		$res = $ilDB->query($query);
+		
+		$role = '';
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$role = $row->role;
+		}
+		$this->getLogger()->debug('LTI role: ' . $role);
+		return $role;
+		
+	}
+	
+	/**
 	 * Find user by auth mode and lti id
 	 * @param type $a_oauth_user
 	 * @param type $a_oauth_id
@@ -109,7 +138,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			self::AUTH_MODE_PREFIX.'_'.$a_oauth_id,
 			$a_user_prefix.'_'.$a_oauth_user
 		);
-		$useR_id = 0;
+		$user_id = 0;
 		if($user_name)
 		{
 			$user_id = ilObjUser::_lookupId($user_name);
@@ -117,6 +146,66 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$this->getLogger()->debug('Found user with auth mode lti_'.$a_oauth_id. ' with user_id: ' . $user_id);
 		return $user_id;
 	}
+	
+	/**
+	 * create new user
+	 *
+	 * @access protected
+	 */
+	protected function createUser($a_lti_id, $a_prefix)
+	{
+		global $ilClientIniFile, $ilSetting, $rbacadmin;
+
+		$userObj = new ilObjUser();
+
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+		$local_user = ilAuthUtils::_generateLogin($a_prefix . '_' . $this->getCredentials()->getUsername());
+
+		$newUser["login"] = $local_user;
+		$newUser["firstname"] = $_POST['lis_person_name_given'];
+		$newUser["lastname"] = $_POST['lis_person_name_family'];
+		$newUser['email'] = $_POST['lis_person_contact_email_primary'];
+
+		// set "plain md5" password (= no valid password)
+		$newUser["passwd"] = "";
+		$newUser["passwd_type"] = IL_PASSWD_CRYPTED;
+
+		$newUser["auth_mode"] = 'lti_'.$a_lti_id;
+		$newUser["profile_incomplete"] = 0;
+
+		// system data
+		$userObj->assignData($newUser);
+		$userObj->setTitle($userObj->getFullname());
+		$userObj->setDescription($userObj->getEmail());
+
+		// set user language to system language
+		$userObj->setLanguage($ilSetting->get("language"));
+
+		// Time limit
+		$userObj->setTimeLimitOwner(7);
+		$userObj->setTimeLimitUnlimited(0);
+		$userObj->setTimeLimitFrom(time() - 5);
+		$userObj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session", "expire"));
+
+
+		// Create user in DB
+		$userObj->setOwner(6);
+		$userObj->create();
+		$userObj->setActive(1);
+		$userObj->updateOwner();
+		$userObj->saveAsNew();
+		$userObj->writePrefs();
+
+		
+		if($global_role = $this->findGlobalRole($a_lti_id))
+		{
+			$rbacadmin->assignUser($global_role, $userObj->getId(), true);
+		}
+
+		$this->getLogger()->info('Created new lti user with uid: ' . $userObj->getId(). ' and login: ' . $userObj->getLogin());
+		return $userObj->getId();
+	}
+	
 
 }
 ?>
