@@ -101,7 +101,7 @@ class ilSCORM2004StoreData
 		}
 	}
 
-	function checkIfAllowed($packageId,$userId,$hash){
+	public static function checkIfAllowed($packageId,$userId,$hash){
 		global $ilDB;
 		$res = $ilDB->queryF('select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
 			array('integer','integer','timestamp'),
