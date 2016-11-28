@@ -22,6 +22,11 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+	/**
+	 * @var assOrderingQuestion
+	 */
+	public $object;
+	
 	private $uploadAlert = null;
 
 	public $old_ordering_depth = array();
@@ -77,9 +82,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
-
-		$this->object->setOrderingType(OQ_PICTURES);
+		
 		$this->writePostData(true);
+		$this->object->setOrderingType(OQ_PICTURES);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -91,9 +96,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
-
-		$this->object->setOrderingType(OQ_TERMS);
+		
 		$this->writePostData(true);
+		$this->object->setOrderingType(OQ_TERMS);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -105,9 +110,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
-
-		$this->object->setOrderingType(OQ_NESTED_TERMS);
+		
 		$this->writePostData(true);
+		$this->object->setOrderingType(OQ_NESTED_TERMS);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -115,8 +120,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function orderNestedPictures()
 	{
-		$this->object->setOrderingType(OQ_NESTED_PICTURES);
 		$this->writePostData(true);
+		$this->object->setOrderingType(OQ_NESTED_PICTURES);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -125,25 +130,24 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function addanswers()
 	{
 		$this->writePostData(true);
-		$position = key($_POST["cmd"]["addanswers"]);
-		$this->object->addAnswer("", $position+1);
+		$newRandomId = $this->object->getRandomID($this->object->getRandomIdsUsedByAnswers());
+		$this->object->addAnswer($newRandomId, '', 0);
 		$this->editQuestion();
 	}
 
 	public function removeimageanswers()
 	{
 		$this->writePostData(true);
-		$position = key($_POST['cmd']['removeimageanswers']);
-		$filename = $_POST['answers']['imagename'][$position];
-		$this->object->removeAnswerImage($position);
+		$randomId = key($_POST['cmd']['removeimageanswers']);
+		$this->object->removeAnswerImage($randomId);
 		$this->editQuestion();
 	}
 
 	public function removeanswers()
 	{
 		$this->writePostData(true);
-		$position = key($_POST["cmd"]["removeanswers"]);
-		$this->object->deleteAnswer($position);
+		$randomId = key($_POST["cmd"]["removeanswers"]);
+		$this->object->deleteAnswer($randomId);
 		$this->editQuestion();
 	}
 
@@ -168,8 +172,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	private function getAnswerImageFileUploadWizardFormProperty()
 	{
-		include_once "./Modules/TestQuestionPool/classes/class.ilImageWizardInputGUI.php";
-		$answers = new ilImageWizardInputGUI($this->lng->txt("answers"), "answers");
+		require_once 'Services/Form/classes/class.ilMultipleImagesInputGUI.php';
+		$answers = new ilMultipleImagesInputGUI($this->lng->txt("answers"), "answers");
 		$answers->setRequired(TRUE);
 		$answers->setQuestionObject($this->object);
 		$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
@@ -177,7 +181,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$answervalues = array();
 		foreach ($this->object->getAnswers() as $index => $answervalue)
 		{
-			$answervalues[$index] = $answervalue->getAnswertext();
+			$answervalues[$answervalue->getRandomID()] = $answervalue->getAnswertext();
 		}
 		$answers->setValues($answervalues);
 		return $answers;
@@ -206,11 +210,19 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		//$this->object->setOrderingType( $_POST["ordering_type"] );
 		$this->object->setPoints($_POST["points"]);
 	}
+	
+	const FIRST_NEW_ANSWER_POST_KEY = -1;
+	
+	protected function isNewAnswerPostKey($key)
+	{
+		return $key <= self::FIRST_NEW_ANSWER_POST_KEY;
+	}
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$ordering_type = $this->object->getOrderingType();
 		// Delete all existing answers and create new answers from the form data
+		$this->object->parkAnswersRecyclable();
 		$this->object->flushAnswers();
 		$saved = false;
 
@@ -240,75 +252,61 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 				$counter = 0;
 				
-				if(is_array($answers['imagename']))
+				foreach($answers as $randomId => $answer)
 				{
-					foreach($answers['imagename'] as $index => $answer)
+					if( $this->isNewAnswerPostKey($randomId) )
 					{
-						if($this->isClearAnswersOnWritingPostDataEnabled())
-						{
-							$answer = "";
-						}
-						$this->object->addAnswer($answer, -1, $this->leveled_ordering[$counter]);
-						$counter++;
+						$randomId = $this->object->getRandomID( $this->object->getExistingRandomIds() );
 					}
-				}
-				else
-				{
-					foreach($answers as $index => $answer)
+					
+					if($this->isClearAnswersOnWritingPostDataEnabled())
 					{
-						if($this->isClearAnswersOnWritingPostDataEnabled())
-						{
-							$answer = "";
-						}
-						$this->object->addAnswer($answer, -1, $this->leveled_ordering[$counter]);
-						$counter++;
+						$answer = "";
 					}
+					
+					$this->object->addAnswer($randomId, $answer, $this->leveled_ordering[$counter]);
+					$counter++;
 				}
 			}
 		}
-		else
+		elseif( $ordering_type == OQ_PICTURES )
 		{
-			if (is_array( $_POST['answers']['count'] ))
+			foreach( array_keys($_POST['answers']) as $randomId)
 			{
-				foreach (array_keys( $_POST['answers']['count'] ) as $index)
+				if( $this->isNewAnswerPostKey($randomId) )
 				{
-					if( $this->isClearAnswersOnWritingPostDataEnabled() )
-					{
-						$this->object->addAnswer( "" );
-						continue;
-					}
+					$randomId = $this->object->getRandomID( $this->object->getExistingRandomIds() );
+				}
+				
+				if( $this->isClearAnswersOnWritingPostDataEnabled() )
+				{
+					$this->object->addAnswer($randomId, '', 0);
+					continue;
+				}
 
-					$picturefile    = $_POST['answers']['imagename'][$index];
-					$file_org_name  = $_FILES['answers']['name']['image'][$index];
-					$file_temp_name = $_FILES['answers']['tmp_name']['image'][$index];
+				$picturefile    = $_POST['answers'][$randomId];
+				$file_org_name  = $_FILES['answers']['name']['image'][$randomId];
+				$file_temp_name = $_FILES['answers']['tmp_name']['image'][$randomId];
 
-					// new file
-					if (strlen( $file_temp_name ))
+				// new file
+				if (strlen( $file_temp_name ))
+				{
+					// check suffix						
+					$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
+					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
 					{
-						// check suffix						
-						$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
-						if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
+						// upload image
+						$filename = $this->object->createNewImageFileName( $file_org_name );
+						$filename = $this->object->getEncryptedFilename( $filename );
+						if ($this->object->setImageFile( $file_temp_name, $filename, $picturefile ))
 						{
-							// upload image
-							$filename = $this->object->createNewImageFileName( $file_org_name );
-							$filename = $this->object->getEncryptedFilename( $filename );
-							if ($this->object->setImageFile( $file_temp_name, $filename, $picturefile ))
-							{
-								$picturefile = $filename;
-							}
+							$picturefile = $filename;
 						}
 					}
-
-					$this->object->addAnswer( $picturefile );
 				}
+
+				$this->object->addAnswer($randomId, $picturefile, 0);
 			}
-			else if(is_array($_POST['answers']))
-			{
-				foreach($_POST['answers'] as $random_id => $text_value)
-				{
-					$this->object->addAnswer( $text_value );
-				}	
-			}	
 		}
 	}
 
@@ -318,7 +316,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if (count($this->object->getAnswers()) == 0)
 		{
-			$this->object->addAnswer();
+			$this->object->addAnswer(self::FIRST_NEW_ANSWER_POST_KEY, '', 0);
 		}
 
 		$header = new ilFormSectionHeaderGUI();
@@ -352,13 +350,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			$answers      = new ilTextWizardInputGUI($this->lng->txt( "answers" ), "answers");
+			require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
+			$answers      = new ilMultipleTextsInputGUI($this->lng->txt( "answers" ), "answers");
 			$answervalues = array();
-			foreach ($this->object->getAnswers() as $index => $answervalue)
+			foreach ($this->object->getAnswers() as $orderIndex=> $answervalue)
 			{
-				$answervalues[$index] = $answervalue->getAnswertext();
+				$answervalues[$answervalue->getRandomID()] = $answervalue->getAnswertext();
 			}
-			ksort( $answervalues );
 			$answers->setValues( $answervalues );
 			$answers->setAllowMove( TRUE );
 			$answers->setRequired( TRUE );
@@ -427,6 +425,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	protected function writePostData($always = false)
 	{
+		if( $always && !$this->isSaveCommand() )
+		{
+			$this->editQuestion(true);
+			$this->editForm->setValuesByPost();
+			$this->editForm->checkInput();
+			$this->editForm->setValuesByPost();
+		}
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
