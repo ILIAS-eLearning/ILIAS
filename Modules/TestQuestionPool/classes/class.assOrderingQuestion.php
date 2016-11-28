@@ -182,7 +182,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			{
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
-				$this->answers[] = new ASS_AnswerOrdering($data["answertext"], $data["random_id"], $data['depth'] ? $data['depth'] : 0);
+				$element = new ASS_AnswerOrdering($data["answertext"], $data["random_id"], $data['depth'] ? $data['depth'] : 0);
+				$element->setOrder($data['solution_order']);
+				$this->answers[] = $element;
 			}
 		}
 		parent::loadFromDb($question_id);
@@ -418,11 +420,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @see $answers
 	* @see ASS_AnswerOrdering
 	*/
-	function addAnswer($randomId, $answertext, $depth)
+	function addAnswer($elementKey, $answertext, $depth)
 	{
-		if( $this->isRecyclableAnswer($randomId) )
+		if( $this->isRecyclableAnswer($elementKey) )
 		{
-			$answer = $this->getRecyclableAnswer($randomId);
+			$answer = $this->getRecyclableAnswer($elementKey);
 			$answer->setAnswertext($answertext);
 			$answer->setOrderingDepth($depth);
 		}
@@ -573,26 +575,27 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		foreach($this->answers as $orderIndex => $answer)
 		{
-			$this->answersRecyclable[$answer->getRandomID()] = $answer;
+			/* @var ASS_AnswerOrdering $answer */
+			$this->answersRecyclable[$answer->getElementKey()] = $answer;
 		}
 	}
 	
 	/**
-	 * @param int $randomId
+	 * @param string $elementKey
 	 * @return bool
 	 */
-	protected function isRecyclableAnswer($randomId)
+	protected function isRecyclableAnswer($elementKey)
 	{
-		return isset($this->answersRecyclable[$randomId]);
+		return isset($this->answersRecyclable[$elementKey]);
 	}
 	
 	/**
-	 * @param $randomId
+	 * @param $elementKey
 	 * @return ASS_AnswerOrdering
 	 */
-	protected function getRecyclableAnswer($randomId)
+	protected function getRecyclableAnswer($elementKey)
 	{
-		return $this->answersRecyclable[$randomId];	
+		return $this->answersRecyclable[$elementKey];	
 	}
 	
 	/**

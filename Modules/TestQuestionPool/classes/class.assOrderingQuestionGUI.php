@@ -181,7 +181,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$answervalues = array();
 		foreach ($this->object->getAnswers() as $index => $answervalue)
 		{
-			$answervalues[$answervalue->getRandomID()] = $answervalue->getAnswertext();
+			/* @var ASS_AnswerOrdering $answervalue */
+			$answervalues[$answervalue->getElementKey()] = $answervalue->getAnswertext();
 		}
 		$answers->setValues($answervalues);
 		return $answers;
@@ -254,19 +255,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 				$counter = 0;
 				
-				foreach($answers as $randomId => $answer)
+				foreach($answers as $elementKey => $answer)
 				{
-					if( $this->isNewAnswerPostKey($randomId) )
-					{
-						$randomId = $this->object->getRandomID( $this->object->getExistingRandomIds() );
-					}
-					
 					if($this->isClearAnswersOnWritingPostDataEnabled())
 					{
 						$answer = "";
 					}
 					
-					$this->object->addAnswer($randomId, $answer, $this->leveled_ordering[$counter]);
+					$this->object->addAnswer($elementKey, $answer, $this->leveled_ordering[$counter]);
 					$counter++;
 				}
 			}
@@ -359,7 +355,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$answervalues = array();
 			foreach ($this->object->getAnswers() as $orderIndex=> $answervalue)
 			{
-				$answervalues[$answervalue->getRandomID()] = $answervalue->getAnswertext();
+				/* @var ASS_AnswerOrdering $answervalue */
+				$answervalues[$answervalue->getElementKey()] = $answervalue->getAnswertext();
 			}
 			$answers->setValues( $answervalues );
 			$answers->setAllowMove( TRUE );
