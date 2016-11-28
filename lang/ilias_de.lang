@@ -16268,15 +16268,15 @@ trac#:#trac_mode_manual_assessment_info#:#Der Eintrag des Benutzers muss finalis
 common#:#il_mass_member#:#Teilnehmer einer Individuellen Bewertung
 common#:#mass_new#:#Neue Individuelle Bewertung anlegen
 common#:#mass_import#:#Individuelle Bewertung importieren
-rbac#:#mass_visible#:#Manuele Bewertung sichtbar
+rbac#:#mass_visible#:#Individuelle Bewertung ist sichtbar
 rbac#:#mass_read#:#Lesezugriff auf Individuelle Bewertung
-rbac#:#mass_read_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung einsehen
-rbac#:#mass_edit_learning_progress#:#Den Lernfortschritt einer Individuellen Bewertung bearbeiten
+rbac#:#mass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung einsehen
+rbac#:#mass_edit_learning_progress#:#Lernfortschritt in Individuellen Bewertung bearbeiten
 rbac#:#mass_copy#:#Individuelle Bewertung kopieren
-rbac#:#mass_write#:#Individuelle Bewertung bearbeiten
+rbac#:#mass_write#:#Einstellungen der Individuelle Bewertung bearbeiten
 rbac#:#mass_delete#:#Individuelle Bewertung löschen
 rbac#:#mass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
-rbac#:#mass_edit_permission#:#Rechte einer Individuellen Bewertung bearbeiten
+rbac#:#mass_edit_permission#:#Rechteeinstellungen ändern
 mass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 mass#:#mass_edit#:#Einstellungen
 mass#:#mass_add#:#Individuelle Bewertung anlegen
