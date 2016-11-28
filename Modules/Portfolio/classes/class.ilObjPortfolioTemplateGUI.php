@@ -70,6 +70,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 				break;
 			
 			case "ilobjectcopygui":
+				$this->prepareOutput();
 				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("prtt");

@@ -182,7 +182,7 @@ class ilSharedResourceGUI
 		if(!$a_is_portfolio)
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
-			$shared = ilWorkspaceAccessHandler::getPermissions($a_node_id);
+			$shared = ilWorkspaceAccessHandler::_getPermissions($a_node_id);
 		}
 		else
 		{
@@ -201,7 +201,7 @@ class ilSharedResourceGUI
 			}
 						
 			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);						
+			$shared = ilPortfolioAccessHandler::_getPermissions($a_node_id);
 		}
 		
 		// object is "public"

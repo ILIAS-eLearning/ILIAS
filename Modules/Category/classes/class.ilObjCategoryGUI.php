@@ -370,6 +370,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	}
 
+	function viewObject()
+	{
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			parent::viewObject();
+			return true;
+		}
+		return $this->renderObject();
+	}
+
 	protected function initCreationForms($a_new_type)
 	{
 		$forms = parent::initCreationForms($a_new_type);
