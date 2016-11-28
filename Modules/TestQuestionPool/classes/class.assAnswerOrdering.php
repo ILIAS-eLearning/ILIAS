@@ -25,6 +25,11 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 	public $answer_id = 0;
 	public $ordering_depth = 0;
 	
+	/**
+	 * @var string
+	 */
+	protected $elementKey = null;
+	
 /**
 * ASS_AnswerOrdering constructor
 * 
@@ -99,6 +104,22 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 	public function getOrderingDepth()
 	{
 		return $this->ordering_depth;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getElementKey()
+	{
+		return $this->elementKey;
+	}
+	
+	/**
+	 * @param string $elementKey
+	 */
+	public function setElementKey($elementKey)
+	{
+		$this->elementKey = $elementKey;
 	}
 }
 ?>
