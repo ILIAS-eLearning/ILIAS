@@ -230,6 +230,22 @@ abstract class assQuestionGUI
 	}
 	
 	/**
+	 * @param bool $isAuthoringEditContext
+	 */
+	public function isAuthoringEditContext()
+	{
+		return $this->getEditContext() == self::EDIT_CONTEXT_AUTHORING;
+	}
+	
+	/**
+	 * @param bool $isAdjustmentEditContext
+	 */
+	public function isAdjustmentEditContext()
+	{
+		return $this->getEditContext() == self::EDIT_CONTEXT_ADJUSTMENT;
+	}
+	
+	/**
 	 * @return ilTestQuestionNavigationGUI
 	 */
 	public function getNavigationGUI()
