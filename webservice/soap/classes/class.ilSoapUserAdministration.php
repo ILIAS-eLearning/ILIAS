@@ -141,18 +141,19 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	/**
 	 * login as user from Stud.IP
+	 * @deprecated
 	 * @param string $sid
 	 * @param int $user_id
 	 * @return string $sid
 	 */
-	public function loginAsUser($sid, $user_id)
+	public function loginStudipUser($sid, $user_id)
 	{
-		global $rbacsystem, $ilUser, $ilIliasIniFile;
+		global $rbacreview, $ilUser, $ilIliasIniFile;
 
 		$this->initAuth($sid);
 		$this->initIlias();
 		list($admin_sid,$client) = $this->__explodeSid($sid);
-
+	     
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
@@ -163,16 +164,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('Stud.IP mode not active.','Server');
 		}
 
-		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
+		if(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
 		{
 			return $this->__raiseError('No permission to initialize user session.','Server');
 		}
-	    
+
 		if($ilUser->getLoginByUserId($user_id))
 		{
         		// logout admin
-			include_once './Services/Authentication/classes/class.ilSession.php';
-			ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+	    		include_once './Services/Authentication/classes/class.ilSession.php';
+        		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
 			$GLOBALS['DIC']['ilAuthSession']->logout();
 			unset($_COOKIE['PHPSESSID']);
 
