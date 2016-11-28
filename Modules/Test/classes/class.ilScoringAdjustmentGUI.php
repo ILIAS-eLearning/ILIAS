@@ -247,6 +247,7 @@ class ilScoringAdjustmentGUI
 
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable|ilGuiAnswerScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
+		$question->setEditContext(assQuestionGUI::EDIT_CONTEXT_ADJUSTMENT);
 		$form->setTitle( $question->object->getTitle() . '<br /><small>(' . $question->outQuestionType() . ')</small>' );
 
 		$hidden_question_id = new ilHiddenInputGUI('q_id');
@@ -350,6 +351,7 @@ class ilScoringAdjustmentGUI
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
+		$question->setEditContext(assQuestionGUI::EDIT_CONTEXT_ADJUSTMENT);
 
 		if ($question instanceof ilGuiQuestionScoringAdjustable)
 		{
