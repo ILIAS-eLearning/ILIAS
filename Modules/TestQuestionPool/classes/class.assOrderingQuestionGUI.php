@@ -181,7 +181,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$answervalues = array();
 		foreach ($this->object->getAnswers() as $index => $answervalue)
 		{
-			$answervalues[$answervalue->getRandomID()] = $answervalue->getAnswertext();
+			/* @var ASS_AnswerOrdering $answervalue */
+			$answervalues[$answervalue->getElementKey()] = $answervalue->getAnswertext();
 		}
 		$answers->setValues($answervalues);
 		return $answers;
@@ -220,6 +221,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
+		$this->initAnswerElementKeys();
+		
 		$ordering_type = $this->object->getOrderingType();
 		// Delete all existing answers and create new answers from the form data
 		$this->object->parkAnswersRecyclable();
@@ -252,19 +255,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 				$counter = 0;
 				
-				foreach($answers as $randomId => $answer)
+				foreach($answers as $elementKey => $answer)
 				{
-					if( $this->isNewAnswerPostKey($randomId) )
-					{
-						$randomId = $this->object->getRandomID( $this->object->getExistingRandomIds() );
-					}
-					
 					if($this->isClearAnswersOnWritingPostDataEnabled())
 					{
 						$answer = "";
 					}
 					
-					$this->object->addAnswer($randomId, $answer, $this->leveled_ordering[$counter]);
+					$this->object->addAnswer($elementKey, $answer, $this->leveled_ordering[$counter]);
 					$counter++;
 				}
 			}
@@ -312,6 +310,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
 	{
+		$this->initAnswerElementKeys();
+		
 		$orderingtype = $this->object->getOrderingType();
 
 		if (count($this->object->getAnswers()) == 0)
@@ -355,7 +355,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$answervalues = array();
 			foreach ($this->object->getAnswers() as $orderIndex=> $answervalue)
 			{
-				$answervalues[$answervalue->getRandomID()] = $answervalue->getAnswertext();
+				/* @var ASS_AnswerOrdering $answervalue */
+				$answervalues[$answervalue->getElementKey()] = $answervalue->getAnswertext();
 			}
 			$answers->setValues( $answervalues );
 			$answers->setAllowMove( TRUE );
@@ -1510,5 +1511,41 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;
+	}
+	
+	protected function initAnswerElementKeys()
+	{
+		switch( $this->getEditContext() )
+		{
+			case self::EDIT_CONTEXT_ADJUSTMENT:
+				
+				$this->object->initPositionElementKeys();
+				break;
+			
+			case self::EDIT_CONTEXT_AUTHORING:
+			default:
+				
+				$this->object->initRandomIdElementKeys();
+				break;
+		}
+	}
+	
+	protected function buildNewElementKey()
+	{
+		switch( $this->getEditContext() )
+		{
+			case self::EDIT_CONTEXT_ADJUSTMENT:
+				
+				$elementKey = $this->object->getNextSolutionOrder();
+				break;
+			
+			case self::EDIT_CONTEXT_AUTHORING:
+			default:
+			
+			$elementKey = $this->object->getRandomID( $this->object->getExistingRandomIds() );
+				break;
+		}
+		
+		return $elementKey;
 	}
 }
