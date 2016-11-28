@@ -80,6 +80,14 @@ abstract class assQuestionGUI
 	 */
 	private $outputMode = self::OUTPUT_MODE_SCREEN;
 
+	const EDIT_CONTEXT_AUTHORING = 'authoring';
+	const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
+	
+	/**
+	 * @var string
+	 */
+	private $editContext = self::EDIT_CONTEXT_AUTHORING;
+	
 	/**
 	 * @var \ilPropertyFormGUI
 	 */
@@ -203,6 +211,22 @@ abstract class assQuestionGUI
 	public function isUserInputOutputMode()
 	{
 		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getEditContext()
+	{
+		return $this->editContext;
+	}
+	
+	/**
+	 * @param string $editContext
+	 */
+	public function setEditContext($editContext)
+	{
+		$this->editContext = $editContext;
 	}
 	
 	/**
