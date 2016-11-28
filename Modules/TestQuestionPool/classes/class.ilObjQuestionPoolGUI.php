@@ -346,6 +346,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
 				$q_gui->object->setObjId($this->object->getId());
 				if($this->object->getType() == 'qpl')
 				{
