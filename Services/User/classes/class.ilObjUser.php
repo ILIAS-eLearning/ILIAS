@@ -3917,7 +3917,7 @@ class ilObjUser extends ilObject
 		{
 			$webspace_dir = ('.'.$webspace_dir);
 		}
-		$webspace_dir .= ('./'.ilUtil::getWebspaceDir());
+		$webspace_dir .= ('./'.ltrim(ilUtil::getWebspaceDir(), "./"));
 
 		$image_dir = $webspace_dir."/usr_images";
 		// BEGIN DiskQuota: Support 'big' user images
