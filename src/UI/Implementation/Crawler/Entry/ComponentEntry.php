@@ -306,7 +306,12 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 	 */
 	public function getRulesAsArray()
 	{
-		return $this->rules->getRules();
+		if($this->rules){
+			return $this->rules->getRules();
+		}
+		else{
+			return [];
+		}
 	}
 
 	/**
