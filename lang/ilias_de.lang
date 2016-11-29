@@ -16370,3 +16370,4 @@ sop#:#sop_msg_firefox_after_download#:#Nachdem Sie den Browser heruntergeladen u
 sop#:#sop_msg_firefox_config#:#Um das automatische Update des Browsers zu verhindern, geben Sie in der Adressleiste 'about:config' ein und ändern Sie folgende Einstellungen:<br/><br/><i>app.update.enabled = false</i><br/><i>app.update.auto = false</i><br/><i>app.update.mode = 0</i><br/><i>app.update.service.enabled = 0</i><br/><br/>
 sop#:#sop_msg_firefox_html5#:#Voraussichtlich schon ab ILIAS Version 5.3 werden Sie die Möglichkeit haben mit den gängigen aktuellen Browsern die Offline-Funktion zu nutzen.
 content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewählt wird, wird der Block nur Benutzern mit dem gewählten Recht am Berechtigungsobjekt angezeigt.
+grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
