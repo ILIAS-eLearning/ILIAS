@@ -20,7 +20,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 	public function __construct($a_user_id)
 	{
 		$this->user_id = $a_user_id;
-		$this->logger = ilLoggerFactory::getLogger('crs');
+		$this->logger = ilLoggerFactory::getLogger('exc');
 	}
 	
 	public function getLogger()
@@ -35,6 +35,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 	
 	public function modifyEvent(ilCalendarEntry $a_event)
 	{
+		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 		$cal_cat = $this->isExerciseCategory(ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId()));
 		if($cal_cat)
 		{			
