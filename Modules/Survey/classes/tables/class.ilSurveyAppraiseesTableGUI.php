@@ -127,10 +127,18 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		if(!$this->raters_mode)
 		{
 			$this->tpl->setVariable("FINISHED", $data['finished']);
-			$this->tpl->setVariable("CLOSED", $data['closed'] ?
-				ilDatePresentation::formatDate(new ilDateTime($data['closed'], IL_CAL_UNIX))
-				: "");
-			
+
+			if($data['closed'])
+			{
+				$this->tpl->setVariable('DISABLED', "disabled");
+				$this->tpl->setVariable("CLOSED",ilDatePresentation::formatDate(new ilDateTime($data['closed'], IL_CAL_UNIX)));
+			}
+			else
+			{
+				$this->tpl->setVariable('DISABLED', "");
+				$this->tpl->setVariable("CLOSED","");
+			}
+
 			$this->ctrl->setParameter($this->getParentObject(), "appr_id", $data["user_id"]);
 			$this->tpl->setVariable("URL", $lng->txt("survey_360_edit_raters"));
 			$this->tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this->getParentObject(), "editRaters"));
