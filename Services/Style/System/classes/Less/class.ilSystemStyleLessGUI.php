@@ -239,9 +239,9 @@ class ilSystemStyleLessGUI
 		}
 
 		if($modify){
-			$form->addCommandButton("reset", $this->lng->txt("reset_variables"));
 			$form->addCommandButton("update", $this->lng->txt("update_variables"));
-			$form->addCommandButton("edit", $this->lng->txt("cancel"));
+			$form->addCommandButton("reset", $this->lng->txt("reset_variables"));
+			$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		}
 
 

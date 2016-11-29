@@ -200,11 +200,16 @@ class  ilSystemStyleIconsGUI
 			}
 		}
 
-		$form->addCommandButton("reset", $this->lng->txt("reset_icons"));
-		if($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0){
+		$has_icons = $this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0;
+
+		if($has_icons){
 			$form->addCommandButton("update", $this->lng->txt("update_colors"));
+		}
+		$form->addCommandButton("reset", $this->lng->txt("reset_icons"));
+		if($has_icons){
 			$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		}
+
 
 
 
