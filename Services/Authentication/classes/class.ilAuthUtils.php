@@ -500,7 +500,8 @@ class ilAuthUtils
 		
 		$modes = array(
 						'default'	=> $ilSetting->get("auth_mode"),
-						'local'		=> AUTH_LOCAL
+						'local'		=> AUTH_LOCAL,
+						'lti'		=> AUTH_PROVIDER_LTI
 						);
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		// begin-patch ldap_multiple

@@ -177,6 +177,14 @@ class ilUserTableGUI extends ilTable2GUI
 					"default" => false);
 			}
 		}
+
+		/**
+		 * LTI, showing depending by mode user?
+		 */
+		$cols["auth_mode"] = array(
+			"txt" => $lng->txt("auth_mode"),
+			"default" => false);
+
 		
 		// fields that are always shown
 		unset($cols["username"]);
@@ -248,6 +256,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setAdditionalFields($additional_fields);
 		$query->setUserFolder($user_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		$query->setAuthenticationFilter($this->filter['authentication']);
 		
 		$usr_data = $query->query();
 		
@@ -326,6 +335,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setLimit(self::getAllCommandLimit());
 		$query->setTextFilter($this->filter['query']);
 		$query->setActionFilter($this->filter['activation']);
+		$query->setAuthenticationFilter($this->filter['authentication']);
 		$query->setLastLogin($this->filter['last_login']);
 		$query->setLimitedAccessFilter($this->filter['limited_access']);
 		$query->setNoCourseFilter($this->filter['no_courses']);
@@ -498,6 +508,23 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		$this->filter["global_role"] = $si->getValue();
+
+		// authentication mode
+		//include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+		$auth_methods = ilAuthUtils::_getActiveAuthModes();
+		$options = array(
+			"" => $lng->txt("user_any"),
+		);
+		var_dump($auth_methods);
+		foreach ($auth_methods as $method => $value)
+		{
+			$options[$value] = $method;
+		}
+		$si = new ilSelectInputGUI($this->lng->txt("auth_mode"), "authentication_method");
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		$this->filter["authentication"] = $si->getValue();
 	}
 	
 	/**

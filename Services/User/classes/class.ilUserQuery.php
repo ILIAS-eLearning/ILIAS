@@ -28,6 +28,7 @@ class ilUserQuery
 	private $users = array();
 	private $first_letter = '';
 	private $has_access = false;
+	private $authentication_method = '';
 
 	private $default_fields = array(
 		"usr_id", 
@@ -210,6 +211,17 @@ class ilUserQuery
 	public function setAccessFilter($a_access)
 	{
 		$this->has_access = (bool) $a_access;
+	}
+
+	/**
+	 * Set authentication filter
+	 * 'default', 'local' or 'lti'
+	 * @param string $a_authentication
+	 */
+	public function setAuthenticationFilter($a_authentication)
+	{
+		$this->authentication_method = $a_authentication;
+
 	}
 	
 	/**
@@ -402,6 +414,14 @@ class ilUserQuery
 			$where = " AND";
 		}
 
+		if ($this->authentication_method != "")		// authentication
+		{
+			$add = $where." usr_data.auth_mode = ".$ilDB->quote($this->authentication_method, "text")." ";
+			$query.= $add;
+			$count_query.= $add;
+			$where = " AND";
+		}
+
 		// order by
 		switch($this->order_field)
 		{
@@ -508,7 +528,7 @@ class ilUserQuery
 		$a_string_filter = "", $a_activation_filter = "", $a_last_login_filter = null,
 		$a_limited_access_filter = false, $a_no_courses_filter = false,
 		$a_course_group_filter = 0, $a_role_filter = 0, $a_user_folder_filter = null,
-		$a_additional_fields = '', $a_user_filter = null, $a_first_letter = "")
+		$a_additional_fields = '', $a_user_filter = null, $a_first_letter = "", $a_authentication_filter = null)
 	{
 	
 		$query = new ilUserQuery();
@@ -527,6 +547,7 @@ class ilUserQuery
 		$query->setAdditionalFields($a_additional_fields);
 		$query->setUserFilter($a_user_filter);
 		$query->setFirstLetterLastname($a_first_letter);
+		$query->setAuthenticationFilter($a_authentication_filter);
 		return $query->query();
 	}
 }
