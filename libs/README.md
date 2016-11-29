@@ -27,3 +27,7 @@
 - Add a new library using composer, e.g. "composer require --dev phpunit/phpunit" 
 - Ignore all directories which are added by installation (uncomment existing)
 - commit changes in autoload.php etc.
+
+## Update a single depencie
+- Search the name of depencie you like to update
+- Update by using "composer update <DEPENDENCIE_NAME>"
