@@ -236,7 +236,7 @@ class ilAuthFrontend
 		{
 			$this->getLogger()->info('Authentication failed (time limit restriction) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 
-			if($GLOBALS['ilSettings']->get('user_reactivate_code'))
+			if($GLOBALS['ilSetting']->get('user_reactivate_code'))
 			{
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED);
 			}
