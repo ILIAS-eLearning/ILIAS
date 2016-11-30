@@ -510,15 +510,13 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->filter["global_role"] = $si->getValue();
 
 		// authentication mode
-		//include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$auth_methods = ilAuthUtils::_getActiveAuthModes();
 		$options = array(
 			"" => $lng->txt("user_any"),
 		);
-		var_dump($auth_methods);
 		foreach ($auth_methods as $method => $value)
 		{
-			$options[$value] = $method;
+			$options[$method] = ilAuthUtils::getAuthModeTranslation($value);
 		}
 		$si = new ilSelectInputGUI($this->lng->txt("auth_mode"), "authentication_method");
 		$si->setOptions($options);
