@@ -1276,7 +1276,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
 
 		// Handle selection of "no questionpool" as qpl_id = -1 -> use test object id instead.
-		if (!isset($_POST["qpl"]) || "-1" !== (string)$_POST["qpl"])
+		if (!isset($_POST["qpl"]) || "-1" === (string)$_POST["qpl"])
 		{
 			$qpl_id = $newObj->getId();
 		} 

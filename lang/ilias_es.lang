@@ -53,7 +53,7 @@ administration#:#adm_edit_settings_template#:#Editar plantilla
 administration#:#adm_hide#:#Oculto
 administration#:#adm_hide_tabs#:#Ocultar pestañas
 administration#:#adm_imprint#:#Información
-administration#:#adm_imprint_inactive#:#La impresión está desactivada y a los usuarios no se les permite acceso.
+administration#:#adm_imprint_inactive#:#La información está desactivada y a los usuarios no se les permite acceso.
 administration#:#adm_item_cmd_asynch#:#Cargar lista de acciones asíncronamente
 administration#:#adm_item_cmd_asynch_info#:#Comandos de acción, ej., en el repositorio, se cargan de forma asincrónica. Esto aumenta el rendimiento en general, pero ralentiza un poco la carga de listas de comandos de acción.
 administration#:#adm_locale_info#:#Influencias de configuración regional ej., clasificación en las listas. Ejemplos de ello son nl_NL o de_DE. Múltiples localizaciones pueden ser separadas por comas. La primera válida será la utilizada.
@@ -778,7 +778,7 @@ assessment#:#range_lower_limit#:#Límite inferior
 assessment#:#range#:#Rango
 assessment#:#range_upper_limit#:#Límite superior
 assessment#:#rectangle_click_br_corner#:#Por favor haga click en la esquina inferior derecha del área deseada.
-assessment#:#rectangle_click_tl_corner#:#Por favor haga click en la esquina superior izquierda del área deseada.
+assessment#:#rectangle_click_tl_corner#:#Por favor, haga click en la esquina superior izquierda del área deseada.
 assessment#:#rectangle#:#Rectángulo
 assessment#:#redirectAfterSave#:#Su tiempo ha pasado y su ultima pregunta ha sido guardada automáticamente. En algunos segundos será redireccionado...
 assessment#:#region#:#Región
@@ -798,10 +798,10 @@ assessment#:#save_before_upload_imagemap#:#Debe aplicar los cambios antes de pod
 assessment#:#save_before_upload_javaapplet#:#Debe aplicar los cambios antes de poder enviar un applet java!
 assessment#:#save_edit#:#Grabar y editar contenido
 assessment#:#finish_test#:#Grabar y finalizar el test
-assessment#:#next_question#:#Grabar y pasar a la pregunta siguiente
+assessment#:#next_question#:#Pregunta siguiente
 assessment#:#saveOrderAndObligations#:#Guardar ordenación y elementos obligatorios
 assessment#:#saveOrder#:#Guardar orden
-assessment#:#previous_question#:#Grabar y pasar a la pregunta anterior
+assessment#:#previous_question#:#Pregunta anterior
 assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
 assessment#:#scored_pass#:#Puntuación alcanzada
 assessment#:#scoring#:#Puntuación
@@ -918,6 +918,8 @@ assessment#:#tst_availability_limitless_info#:#Seleccione este modo para hacer e
 assessment#:#tst_availability_until_info#:#Seleccione este modo para hacer el test disponible y accesible a los usuarios durante un periodo prefijado de tiempo (dependiendo del las restricciones de los participantes más abajo).
 assessment#:#tst_beginning_ending_information#:#Información al inicio y final del test
 assessment#:#tst_best_solution_is#:#La mejor solución es
+assessment#:#tst_browse_for_qpl_questions#:#Añadir desde banco de preguntas
+assessment#:#tst_browse_for_tst_questions#:#Añadir desde otro test
 assessment#:#tst_change_points_for_question#:#Modificar la puntuación para la respuesta
 assessment#:#tst_confirm_delete_results_info#:#Los resultados de preguntas anteriormente completadas han sido eliminados. Se ha reiniciado satisfactoriamente el test!
 assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?
@@ -1495,7 +1497,7 @@ blog#:#blog_edit#:#Editar blog
 blog#:#blog_edit_keywords#:#Editar Palabras Clave
 blog#:#blog_enable_approval#:#Aprobación
 blog#:#blog_enable_approval_info#:#Todas las publicaciones necesitan ser aprobadas por un administrador antes de ser publicadas.
-blog#:#blog_enable_notes#:#Comentarios públicas
+blog#:#blog_enable_notes#:#Comentarios públicos
 blog#:#blog_enable_rss#:#Activar RSS
 blog#:#blog_enable_rss_info#:#El feed RSS es público independientemente de los permisos para compartir el blog o de los permisos del usuario.
 blog#:#blog_exercise_info#:#Este blog es parte de la tarea "%s" del ejercicio "%s"
@@ -1725,6 +1727,7 @@ certificate#:#certificate_var_user_fullname#:#Dr. Pedro García
 certificate#:#certificate_var_user_institution#:#ILIAS Open Source
 certificate#:#certificate_var_user_lastname#:#García
 certificate#:#certificate_var_user_login#:#pgarcia
+certificate#:#certificate_var_user_matriculation#:#12345
 certificate#:#certificate_var_user_salutation#:#Sr.
 certificate#:#certificate_var_user_street#:#Calle sin nombre, s/n
 certificate#:#certificate_var_user_title#:#Dr.
@@ -3128,12 +3131,12 @@ common#:#il_chat_moderator_read#:#Acceso de lectura a la sala del chat
 common#:#il_chat_moderator_visible#:#La sala del chat esta visible
 common#:#il_chat_moderator_write#:#Editar configuraciones de la sala del chat
 common#:#il_crs_admin#:#Administrador del curso
-common#:#il_crs_member#:#Alumno del curso
+common#:#il_crs_member#:#Estudiante del curso
 common#:#il_crs_non_member#:#Usuario que no es del curso
 common#:#il_crs_tutor#:#Tutor del curso
 common#:#il_frm_moderator#:#Moderador
-common#:#il_grp_admin#:#Administrador
-common#:#il_grp_member#:#Miembro
+common#:#il_grp_admin#:#Administrador del grupo
+common#:#il_grp_member#:#Miembro del grupo
 common#:#il_grp_status_closed#:#Grupo cerrado
 common#:#il_grp_status_open#:#Grupo abierto
 common#:#ilias_and_webfolder_username#:#Nombre de usuario para ILIAS y Carpetas Web
@@ -3174,7 +3177,7 @@ common#:#import_svy#:#Importar Encuesta
 common#:#import_tst#:#Importar Test
 common#:#import_users#:#Importar Usuarios
 common#:#import_warning_log#:#Importar log de 'warnings'
-common#:#imprint#:#Impresión
+common#:#imprint#:#Información
 common#:#im_skype_icon#:#Logo de Skype
 common#:#im_skype#:#Skype
 common#:#im_voip_icon#:#Logo de VoIP
@@ -4392,15 +4395,15 @@ common#:#selected_items#:#Mis Items
 common#:#selected_languages_updated#:#El idioma seleccionado ha sido actualizado (si está instalado):
 common#:#selected#:#Seleccionado
 common#:#select_file#:#Seleccionar archivo
-common#:#select_max_one_item#:#Por favor seleccione únicamente un item
+common#:#select_max_one_item#:#Ud. Añadió la funcionalidad de exportar curso para uno o más campos. Por favor, confirme los cambios.
 common#:#select_mode#:#Seleccionar modo
-common#:#select_object_to_copy#:#Por favor seleccione el objeto que quiere copiar
-common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
-common#:#select_one#:#Por favor seleccione uno.
+common#:#select_object_to_copy#:#Por favor, seleccione al menos un objeto.
+common#:#select_object_to_link#:#Por favor, seleccione el objeto que quiere enlazar
+common#:#select_one#:#Por favor, seleccione el objeto que quiere enlazar
 common#:#select_page#:#Seleccionar Página
 common#:#select_password#:#Seleccione una nueva contraseña
 common#:#select_questionpool#:#Banco de preguntas para Test
-common#:#select_questionpool_option#:#Por favor seleccione un banco de preguntas
+common#:#select_questionpool_option#:#Por favor, seleccione el objeto que quiere enlazar
 common#:#select#:#Seleccionar
 common#:#send#:#Enviar
 common#:#sender#:#De
@@ -4478,7 +4481,7 @@ common#:#shib_phone_home#:#Atributo para número de teléfono de casa
 common#:#shib_phone_mobile#:#Atributo para número de teléfono móvil
 common#:#shib_phone_office#:#Atributo para número de teléfono oficina
 common#:#shib_read#:#Acceso de Lectura a configuración Shibboleth
-common#:#shib_select_home_organization#:#Para autenticarse vía %s, por favor seleccione su organización de la lista desplegable.
+common#:#shib_select_home_organization#:#Por favor, escoja una organización válida
 common#:#shib_settings_saved#:#La configuración Shibboleth fue grabada
 common#:#shib#:#Shibboleth
 common#:#shib_street#:#Atributo para calle
@@ -4711,7 +4714,7 @@ common#:#udf_delete_sure#:#¿Está seguro de querer eliminar este campo y todos 
 common#:#udf_duplicate_entries#:#Los valores tienen que ser únicos.
 common#:#udf_field_deleted#:#Campo eliminado
 common#:#udf_name_already_exists#:#Este nombre de campo ya existe. Por favor elija un nombre diferente
-common#:#udf_no_entries#:#Por favor introduzca al menos un valor.
+common#:#udf_no_entries#:#Por favor, introduzca un período de tiempo para los usuarios seleccionados.
 common#:#udf_no_name_given#:#Por favor introduzca un nombre de campo
 common#:#udf_required_requires_visib_reg#:#Cuando el campo está en "requerido", debe ser ajustado a "visible en el registro"
 common#:#udf_type_date#:#Campo Fecha
@@ -5059,13 +5062,13 @@ content#:#cont_Citation#:#Cita
 content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición
 content#:#cont_citations#:#Citas
 content#:#cont_citation_selection_not_valid#:#Su selección no es válida
-content#:#cont_click_br_corner#:#Por favor haga click en la esquina inferior derecha del área deseada
-content#:#cont_click_center#:#Por favor haga click en el centro del área deseada.
-content#:#cont_click_circle#:#Por favor haga click en un punto de la circunferencia del área deseada
-content#:#cont_click_next_or_save#:#Por favor haga click en el siguiente punto del polígono o guarde el área. (¡No es necesario hacer click de nuevo en el punto de comienzo de este polígono!)
-content#:#cont_click_next_point#:#Por favor haga click en el siguiente punto del polígono.
-content#:#cont_click_starting_point#:#Por favor haga click en el punto de comienzo del polígono.
-content#:#cont_click_tl_corner#:#Por favor haga click en la izquierda superior izquierda del área deseada.
+content#:#cont_click_br_corner#:#Por favor, haga click en la esquina inferior derecha del área deseada
+content#:#cont_click_center#:#Por favor, haga click en el centro del área deseada.
+content#:#cont_click_circle#:#Por favor, haga click en un punto de la circunferencia del área deseada
+content#:#cont_click_next_or_save#:#Por favor, haga click en el siguiente punto del polígono o guarde el área. (¡No es necesario hacer click de nuevo en el punto de comienzo de este polígono!)
+content#:#cont_click_next_point#:#Por favor, haga click en el siguiente punto del polígono.
+content#:#cont_click_starting_point#:#Por favor, haga click en el punto de comienzo del polígono.
+content#:#cont_click_tl_corner#:#Por favor, haga click en la esquina inferior derecha del área deseada.
 content#:#cont_Code#:#Código
 content#:#cont_colspan#:#Col. Span
 content#:#cont_comments#:#Permitir el almacenamiento de los comentarios
@@ -5186,7 +5189,7 @@ content#:#cont_ed_insert_code#:#Insertar código fuente
 content#:#cont_ed_insert_dtable#:#Insertar tabla de datos
 content#:#cont_ed_insert_filelist#:#Insertar lista de archivos
 content#:#cont_ed_insert_iim#:#Insertar imagen interactiva
-content#:#cont_ed_insert_incl#:#Insertar objeto de contenido
+content#:#cont_ed_insert_incl#:#Insertar fragmento de contenido
 content#:#cont_ed_insert_list#:#Insertar lista avanzada
 content#:#cont_ed_insert_login_page_element#:#Insertar elementos en página de Login
 content#:#cont_ed_insert_map#:#Insertar mapa
@@ -6487,7 +6490,7 @@ crs#:#crs_wiz_next#:#Guardar
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Tu posición en la lista de espera
 crs#:#edit_timings_list#:#Editar Planificación Temporal
-crs#:#event_add_new_event#:#Añadir nueva sesión
+crs#:#event_add_new_event#:#Nueva sesión añadida
 crs#:#event_assign_materials#:#Asignar Materiales
 crs#:#event_assign_materials_info#:#Los materiales del curso asignados se mostrarán directamente debajo de la sesión
 crs#:#event_assign_materials_table#:#Asignación de materiales del curso
@@ -6565,7 +6568,7 @@ crs#:#sess_gen_attendance_list#:#Generar lista de asistencia
 crs#:#sess_gen_comment#:#Crear columna para comentarios
 crs#:#sess_gen_mark_title#:#Crear columna para notas
 crs#:#sess_gen_signature#:#Crear columna para firmas
-crs#:#sess_join_info#:#Por favor, haga click en el botón "Entrar" si quieres comenzar sesión.
+crs#:#sess_join_info#:#Por favor, haz click en el botón "Apuntarse" si quieres participar sesión.
 crs#:#sess_limit_info#:#Elija esta opción para limitar el numero de sesiones visibles
 crs#:#sess_limit#:#Número Límite de sesiones
 crs#:#sess_num_next#:#Número de sesiones futuras.
@@ -7829,7 +7832,7 @@ grp#:#grp_mail_notification_reg_sub#:#Usuario registrado en el grupo "%s"
 grp#:#grp_mail_notification_unsub_bod2#:#Podría haber otros miembros en lista de espera para el grupo.\nPara ver los miembros de tu grupo, click aquí:
 grp#:#grp_mail_notification_unsub_bod#:#%s ha cancelado su pertenencia al grupo "%s".
 grp#:#grp_mail_notification_unsub_sub#:#El usuario dejó el grupo "%s"
-grp#:#grp_mail_permanent_link#:#Click en el siguiente enlace para encontrar toda la información que necesitas sobre el grupo:
+grp#:#grp_mail_permanent_link#:#Haz click en el siguiente enlace para encontrar toda la información que necesitas sobre el grupo:
 grp#:#grp_mail_status_bod#:#tu estado en el grupo "%s" ha cambiado.
 grp#:#grp_mail_status_sub#:#Cambiado el estado en el grupo "%s"
 grp#:#grp_mail_sub_acc_bod#:#estamos encantados de confirmar tu registro para el grupo "%s".
@@ -8375,7 +8378,7 @@ mep#:#mep_clone#:#Duplicar un Banco Multimedia existente
 mep#:#mep_content_snippet_in_use#:#Parte del contenido '%s' está en uso y no puede ser eliminado.
 mep#:#mep_content_snippet_used_in_older_versions#:#Este fragmento está en uso en versiones antiguas de alguna páginas. Si estas páginas deshacen los cambios a versiones anteriores que lo incluyan, el fragmento ya no aparecerá en ellas
 mep#:#mep_copy_to_mep#:#Copias a repositorio multimedia
-mep#:#mep_create_content_snippet#:#Crear fragmento de contenido.
+mep#:#mep_create_content_snippet#:#Crear fragmento de contenido
 mep#:#mep_create#:#Crear un nuevo Banco Multimedia
 mep#:#mep_create_folder#:#Crear carpeta
 mep#:#mep_create_from_upload_dir#:#Crear objetos multimedia desde una carpeta del servidor
@@ -9685,7 +9688,7 @@ pd#:#pd_enable_comments#:#Activar Comentarios
 pd#:#pd_enable_global_profiles#:#Habilitar Perfiles Globales
 pd#:#pd_enable_global_profiles_info#:#Si está activada, los usuarios pueden hacer su perfil visible a Internet.
 pd#:#pd_enable_my_memberships#:#Activar "Matriculados"
-pd#:#pd_enable_my_memberships_info#:#Matriculados' contiene los grupos y corsos en los que el usuario está matriculado
+pd#:#pd_enable_my_memberships_info#:#Matriculados' contiene los grupos y cursos en los que el usuario está matriculado
 pd#:#pd_enable_my_offers#:#Habilitar 'Elementos seleccionados'
 pd#:#pd_enable_my_offers_info#:#La vista 'Objetos Seleccionados" contiene todos los objetos colocados en el escritorio personal
 pd#:#pd_enable_notes#:#Habilitar anotaciones
@@ -10297,11 +10300,11 @@ rbac#:#rbac_create_lm#:#Crear Módulo de Aprendizaje ILIAS
 rbac#:#rbac_create_mcst#:#Crear Mediacast
 rbac#:#rbac_create_mep#:#Crear Banco de Media
 rbac#:#rbac_create_poll#:#Crear Votación
-rbac#:#rbac_create_qpl#:#Crear Test de Banco de Preguntas
+rbac#:#rbac_create_qpl#:#Crear Banco de Preguntas de Test
 rbac#:#rbac_create_rcrs#:#Crear Curso-Enlace
 rbac#:#rbac_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
 rbac#:#rbac_create_sess#:#Crear sesión
-rbac#:#rbac_create_spl#:#Crear Encuesta con Banco de Preguntas
+rbac#:#rbac_create_spl#:#Crear Banco de Preguntas de Encuesta
 rbac#:#rbac_create_svy#:#Crear Encuesta
 rbac#:#rbac_create_tst#:#Crear Test
 rbac#:#rbac_create_webr#:#Crear Enlace Web
@@ -13370,7 +13373,7 @@ common#:#renderer_supported_repo_types#:#elementos ILIAS compatibles###24 10 201
 common#:#renderer_supported_file_types#:#Tipos de archivo admitidos###24 10 2013 new variable
 common#:#ghostscript_not_configured#:#Ghostscript no está configurado. Por favor, abra <a href="setup/setup.php?cmd=mastersettings" target="_blank"> </ a> para configurarlo.###24 10 2013 new variable
 exc#:#exc_peer_review_show_not_rated_yet#:#Usted debe dar su opinión antes de que pueda ver los comentarios que recibió.###24 10 2013 new variable
-exc#:#exc_peer_review_show#:#Mostrar revisión de pares recibida###24 10 2013 new variable
+exc#:#exc_peer_review_show#:#Después de hacer al menos una revisión por pares válida.###24 10 2013 new variable
 exc#:#exc_needs_deadline#:#Esta característica sólo funciona con un plazo de asignación.###24 10 2013 new variable
 exc#:#exc_team_upload_not_supported#:#Esta característica no es compatible con las tareas de carga de equipo.###24 10 2013 new variable
 exc#:#exc_global_feedback_file#:#Fichero de revisión/solución común para todos los estudiantes###24 10 2013 new variable
@@ -13918,7 +13921,7 @@ rep#:#rep_add_new_def_grp_templates#:#Plantillas###30 12 2013 new variable
 cmps#:#cmps_repository_object_types#:#Repositorio de Tipos de elemento###30 12 2013 new variable
 rep#:#rep_new_item_menu#:#Añadir un Nuevo Elemento Menú###30 12 2013 new variable
 exc#:#exc_team_member_remove_sure#:#¿Está seguro que desea eliminar los siguientes miembros de su equipo? Tenga en cuenta que todos los archivos enviados por ellos también se eliminarán del equipo.###30 12 2013 new variable
-exc#:#exc_create_team#:#Crear Equipo###30 12 2013 new variable
+exc#:#exc_create_team#:#Crear equipo###30 12 2013 new variable
 exc#:#exc_create_team_times_up_warning#:#No se puede crear más equipos - por favor, contacte con su tutor.###30 12 2013 new variable
 exc#:#exc_instruction_files#:#Archivos de instrucciones###30 12 2013 new variable
 registration#:#reg_mail_new_user_confirmation#:#Solicitud para confirmar la cuenta###30 12 2013 new variable
@@ -14885,7 +14888,7 @@ assessment#:#tst_show_solution_feedback_desc#:#Si se marca muestra junto a cada 
 assessment#:#tst_show_solution_answers_only_desc#:#Si se marca no se muestra el contenido ILIAS que se puede crear con la pestaña "Editar Página" antes y después de la pregunta cuando se edita. Permite ahorrar papel.###07 11 2014 new variable
 assessment#:#tst_show_solution_signature_desc#:#Si se marca muestra un apartado específico en el informe de resultados para la firma del participante.###07 11 2014 new variable
 assessment#:#tst_show_solution_suggested_desc#:#Si se marca muestra las soluciones recomendadas que hayan sido definidas por el profesor para cada pregunta.###07 11 2014 new variable
-assessment#:#answered#:#Answered###07 11 2014 new variable
+assessment#:#answered#:#Contestada###07 11 2014 new variable
 assessment#:#tst_highscore_mode#:#Modo###07 11 2014 new variable
 assessment#:#tst_highscore_all_tables#:#Todas las puntuaciones###07 11 2014 new variable
 assessment#:#tst_highscore_all_tables_description#:#Si se selecciona, el test ofrece ambas tablas de puntuación.###07 11 2014 new variable
@@ -15057,7 +15060,7 @@ ecs#:#ecs_deprecated_token#:#Soporte de Token Obsoleto de Autenticación###27 01
 ecs#:#ecs_deprecated_token_info#:#Ofrece soporte para instalaciones (e.g instalaciones ILIAS versión 4.x) que usan un mecanismo de identificación obseleto basada en código de acceso.###27 01 2015 new variable
 exc#:#exc_peer_reviews_invalid_warning#:#Revisión por Pares Invalidado###27 01 2015 new variable
 exc#:#exc_peer_review_overview#:#Mostrar Revisión por Pares###27 01 2015 new variable
-exc#:#exc_peer_review_overview_invalid_users#:#Usuaarios Invalidados###27 01 2015 new variable
+exc#:#exc_peer_review_overview_invalid_users#:#Usuarios Invalidados###27 01 2015 new variable
 exc#:#exc_peer_review_missing_users#:#Usuarios con entregas que no participan de la revisión por pares###27 01 2015 new variable
 exc#:#exc_peer_review_not_returned_users#:#Usuarios sin entregas que no participan de la revisión por pares###27 01 2015 new variable
 exc#:#exc_peer_review_invalid_peer_ids#:#Receptores de revisiones por pares que no son participantes del ejercicio o no han realizado un entrega###27 01 2015 new variable
@@ -15165,7 +15168,7 @@ rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Su
 rbac#:#orgu_copy#:#Copiar unidad organizativa###27 01 2015 new variable
 exc#:#exc_no_team_yet_notice#:#No has sido asignado aún a un equipo!###27 01 2015 new variable
 prtf#:#prtf_edit_embedded_blog#:#Editar el Blog "%s"###27 01 2015 new variable
-exc#:#exc_manage_team#:#Mantener el Equipo###27 01 2015 new variable
+exc#:#exc_manage_team#:#Administración del Equipo###27 01 2015 new variable
 assessment#:#user_has_finished_a_test#:#Un participante ha finalizado el test###27 01 2015 new variable
 assessment#:#tst_attached_xls_file#:#Puede encontrar el resultado del test para este participante en el fichero Excel adjunto###27 01 2015 new variable
 assessment#:#tst_notification_explanation_admin#:#Has recibido este correo de ILIAS porque has activado la notificación###27 01 2015 new variable
@@ -15206,6 +15209,8 @@ assessment#:#tst_pass_details_header_lo_qualifying#:#Calificación de resultados
 assessment#:#tst_virtual_pass_header_lo_qualifying#:#Calificación de resultados de test para los objetivos de aprendizaje<br />%s###30 08 2015 new variable
 assessment#:#assLongMenu#:#Menu largo###30 08 2015 new variable
 assessment#:#answers_text_box#:#Texto###30 08 2015 new variable
+assessment#:#min_auto_complete#:#Autocompletado
+assessment#:#autocomplete_error#:#Tu número de autocompletado es demasiado largo. Tienes respuestas con menos caracteres, por lo que nunca serían mostradas.
 assessment#:#answers_select#:#Selección###30 08 2015 new variable
 assessment#:#info_text_upload#:#Escoge un fichero de respuestas para cargar###30 08 2015 new variable
 assessment#:#manual_editing#:#Edición manual###30 08 2015 new variable
@@ -15317,14 +15322,14 @@ assessment#:#tst_tab_results_objective_oriented#:#Resultados por objetivos de ap
 assessment#:#tst_attempt#:#Intento###30 08 2015 new variable
 assessment#:#tst_back_to_virtual_pass#:#Volver a resumen de pregunta###30 08 2015 new variable
 assessment#:#question_summary_btn#:#Estado de procesamiento###30 08 2015 new variable
-assessment#:#submit_answer#:#Enviar respuesta###30 08 2015 new variable
+assessment#:#submit_answer#:#Graba respuesta y pasa a siguiente###30 08 2015 new variable
 assessment#:#discard_answer#:#Descartar respuesta###30 08 2015 new variable
 assessment#:#discard_answer_confirmation#:#Tu respuesta será descartada. La pregunta constará como no contestada hasta que envíes otra respuesta.<br /><br />Realmente quieres descartar la respuesta?###30 08 2015 new variable
 assessment#:#edit_answer#:#Editar respuesta###30 08 2015 new variable
 assessment#:#answer_question#:#Responder pregunta###30 08 2015 new variable
 assessment#:#back_to_objective_container#:#Ir al curso###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling#:#Gestión de comentarios instantáneos###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_none#:#No gestionar ningún comentario instantáneo###30 08 2015 new variable
 assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc###30 08 2015 new variable
 assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze###30 08 2015 new variable
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc###30 08 2015 new variable
@@ -15436,7 +15441,7 @@ mail#:#mail_orphaned_mails#:#Borrar correos antiguos o huérfanos###30 08 2015 n
 mail#:#mail_threshold#:#Límite###30 08 2015 new variable
 mail#:#mail_threshold_info#:#Los mensajes internos más antiguos que el límite definidido serán borradas (incluidos sus adjuntos).<br> Por favor, tenga en cuenta que en la primera ejecución de esta tarea de cron se borrarán muchos mensajes y, por lal motivo, no es posible enviar mensajes de advertencia.###30 08 2015 new variable
 mail#:#mail_orphaned_mails_desc#:#Borrar correos antiguos o huérfanos###30 08 2015 new variable
-mail#:#only_inbox_trash#:#Consderar solo bandeja de entrada y papelera###30 08 2015 new variable
+mail#:#only_inbox_trash#:#ConsIderar solo bandeja de entrada y papelera###30 08 2015 new variable
 mail#:#only_inbox_trash_info#:#Si se activa, los correos electrónicos solo se borran si están en la bandeja de entrada o en la papelera de cada usuario. En otro caso, todos los mensajes son borrados independientemente de la carpeta donde se encuentren.###30 08 2015 new variable
 mail#:#mail_notify_orphaned#:#Correo de aviso###30 08 2015 new variable
 mail#:#mail_notify_orphaned_info#:#Si introduces un valor aquí igual o mayor que 1, ILIAS enviará un correo al usuario antes de que sea borrado un correo interno. Por favor, comprueba que es posible la recepción de correos externos.###30 08 2015 new variable
@@ -15553,23 +15558,23 @@ search#:#search_show_limited_user#:#Mostrar usuarios limitados###30 08 2015 new 
 search#:#search_show_limited_user_info#:#Si se activa, la búsqueda del usuario mostrará usuarios con acceso limitado y fuera de su periodo permitido.###30 08 2015 new variable
 trac#:#trac_mode_visited_pages#:#Páginas visitadas###30 08 2015 new variable
 trac#:#trac_mode_visited_pages_info#:#Usuarios que visiten todas las páginas obtendrán el estado de 'Completado'.###30 08 2015 new variable
-exc#:#exc_peer_review_given#:#Mostrar la revisión de pares recibida###30 08 2015 new variable
-exc#:#exc_peer_review_show_received_none#:#No has recibido ninguna revisión de pares###30 08 2015 new variable
+exc#:#exc_peer_review_given#:#Mostrar revisión por pares realizada###30 08 2015 new variable
+exc#:#exc_peer_review_show_received_none#:#No has recibido ninguna revisión por pares###30 08 2015 new variable
 exc#:#exc_peer_review_min_chars_tgl#:#Longitud mínima###30 08 2015 new variable
 exc#:#exc_peer_review_min_chars#:#Número mínimo de caracteres###30 08 2015 new variable
-exc#:#exc_peer_review_min_chars_info#:#Número de caracteres necesario para que la revisión de pares sea válida###30 08 2015 new variable
-exc#:#exc_peer_review_chars_invalid#:#Al menos uno de tus revisiones de pares no alcanza el número mínimo de caracteres: %s.###30 08 2015 new variable
-exc#:#exc_peer_review_show_missing#:#No puedes ver las revisiones de pares recibidas porque no hiciste las suficientes revisiones de pares.###30 08 2015 new variable
-exc#:#exc_peer_review_simple_unlock#:#Acceder a las revisiones de pares recibidas ###30 08 2015 new variable
-exc#:#exc_peer_review_simple_unlock_active#:#Después de hacer al menos una revisión de pares válida.###30 08 2015 new variable
+exc#:#exc_peer_review_min_chars_info#:#Número de caracteres necesario para que la revisión por pares sea válida###30 08 2015 new variable
+exc#:#exc_peer_review_chars_invalid#:#Al menos uno de tus revisiones por pares no alcanza el número mínimo de caracteres: %s.###30 08 2015 new variable
+exc#:#exc_peer_review_show_missing#:#No puedes ver las revisiones por pares recibidas porque no hiciste las suficientes revisiones de pares.###30 08 2015 new variable
+exc#:#exc_peer_review_simple_unlock#:#Acceder a las revisiones por pares recibidas ###30 08 2015 new variable
+exc#:#exc_peer_review_simple_unlock_active#:#Después de hacer al menos una revisión por pares válida.###30 08 2015 new variable
 exc#:#exc_peer_review_simple_unlock_inactive#:#Después de hacer todas las revisiones de pares requeridas.###30 08 2015 new variable
 exc#:#exc_peer_review_completion#:#Determinación del estado "Superado"###30 08 2015 new variable
-exc#:#exc_peer_review_completion_none#:#La revisión de pares es opcional###30 08 2015 new variable
+exc#:#exc_peer_review_completion_none#:#La revisión por pares es opcional###30 08 2015 new variable
 exc#:#exc_peer_review_completion_none_info#:#Se asignará automáticamente el estado "Superado" después de realizar el envío independientemente de la realización o no de revisiones de pares.###30 08 2015 new variable
-exc#:#exc_peer_review_completion_one#:#Al menos una revisión de pares###30 08 2015 new variable
-exc#:#exc_peer_review_completion_one_info#:#Se asignará automáticamente el estado "Superado" solamente después enviar una solución y realizar al menos una revisión de pares.###30 08 2015 new variable
-exc#:#exc_peer_review_completion_all#:#Todas las revisiones de pares necesarias###30 08 2015 new variable
-exc#:#exc_peer_review_completion_all_info#:#Se asignará automáticamente el estado "Superado" solamente después enviar una solución y realizar todas las revisiones de pares requeridas.###30 08 2015 new variable
+exc#:#exc_peer_review_completion_one#:#Al menos una revisión por pares###30 08 2015 new variable
+exc#:#exc_peer_review_completion_one_info#:#Se asignará automáticamente el estado "Superado" solamente después enviar una solución y realizar al menos una revisión por pares.###30 08 2015 new variable
+exc#:#exc_peer_review_completion_all#:#Todas las revisiones por pares necesarias###30 08 2015 new variable
+exc#:#exc_peer_review_completion_all_info#:#Se asignará automáticamente el estado "Superado" solamente después enviar una solución y realizar todas las revisiones por pares requeridas.###30 08 2015 new variable
 exc#:#exc_team_multi_create#:#Crear Equipo###30 08 2015 new variable
 exc#:#exc_team_multi_dissolve#:#Eliminar equipo(s)###30 08 2015 new variable
 exc#:#exc_team_management_tutor#:#Administración de Equipos por tutores###30 08 2015 new variable
@@ -15589,12 +15594,12 @@ exc#:#exc_adopt_group_teams_conflict#:#El usuario "%1$s" ya ha sido seleccionado
 exc#:#exc_adopt_group_teams_added#:#%s usuarios fueron añadidos.###30 08 2015 new variable
 exc#:#exc_adopt_group_teams_blocked#:#El usuario %s ya fue asignado.###30 08 2015 new variable
 exc#:#exc_deadline_ext_mismatch#:#El periodo de gracia debe acabar después de la fecha límite de entrega###30 08 2015 new variable
-exc#:#exc_criteria_catalogues#:#Catálogos de criterio###30 08 2015 new variable
-exc#:#exc_add_criteria_catalogue#:#Añadir catálogo###30 08 2015 new variable
+exc#:#exc_criteria_catalogues#:#Rúbricas###30 08 2015 new variable
+exc#:#exc_add_criteria_catalogue#:#Añadir rúbrica###30 08 2015 new variable
 exc#:#exc_criterias#:#Criterios###30 08 2015 new variable
-exc#:#exc_criteria_catalogue_create_form#:#Añadir nuevo catálogo de criterios###30 08 2015 new variable
-exc#:#exc_criteria_catalogue_update_form#:#Editar Catálogo de criterios###30 08 2015 new variable
-exc#:#exc_criteria_catalogue_deletion_confirmation#:#¿Estás seguro de querer eliminar el siguiente catálogo de criterios?###30 08 2015 new variable
+exc#:#exc_criteria_catalogue_create_form#:#Añadir nueva rúbrica###30 08 2015 new variable
+exc#:#exc_criteria_catalogue_update_form#:#Editar rúbrica###30 08 2015 new variable
+exc#:#exc_criteria_catalogue_deletion_confirmation#:#¿Estás seguro de querer eliminar la siguiente rúbrica?###30 08 2015 new variable
 exc#:#exc_edit_criterias#:#Editar criterios###30 08 2015 new variable
 exc#:#exc_add_criteria#:#Añadir criterio###30 08 2015 new variable
 exc#:#exc_criteria_create_form#:#Añadir nuevo criterio###30 08 2015 new variable
@@ -15604,10 +15609,10 @@ exc#:#exc_criteria_type_bool#:#Cumplimentado Sí/No###30 08 2015 new variable
 exc#:#exc_criteria_type_rating#:#Valoración 5 estrellas###30 08 2015 new variable
 exc#:#exc_criteria_type_text#:#Texto###30 08 2015 new variable
 exc#:#exc_criteria_type_file#:#Subir fichero###30 08 2015 new variable
-exc#:#exc_criteria_catalogue_default#:#No Catálogo###30 08 2015 new variable
+exc#:#exc_criteria_catalogue_default#:#Sin rúbrica###30 08 2015 new variable
 exc#:#exc_peer_review_text#:#Entrada de Texto###30 08 2015 new variable
-exc#:#exc_crit_cat_protected_assignment#:#Revisión de pares Activa###30 08 2015 new variable
-exc#:#exc_crit_cat_protected_assignment_info#:#Los catálogos de criterios de asignaciones con revisiones de pares activas ya no pueden ser editados.###30 08 2015 new variable
+exc#:#exc_crit_cat_protected_assignment#:#Revisión por pares Activa###30 08 2015 new variable
+exc#:#exc_crit_cat_protected_assignment_info#:#Las rúbricas de tareas con revisiones por pares activas ya no pueden ser editadas.###30 08 2015 new variable
 survey#:#svy_print_title_only#:#Mostrar sólo títulos###30 08 2015 new variable
 survey#:#svy_print_label_only#:#Mostrar sólo etiquetas###30 08 2015 new variable
 survey#:#svy_print_title_label#:#Mostrar títulos y etiquetas###30 08 2015 new variable
@@ -15615,9 +15620,9 @@ content#:#cont_mycourses_sortorder#:#Ordenación por defecto###30 08 2015 new va
 content#:#cont_mycourses_sortorder_alphabetical#:#Alfabética###30 08 2015 new variable
 content#:#cont_mycourses_sortorder_location#:#Por localización###30 08 2015 new variable
 content#:#cont_mycourses_sortorder_info#:#Esto es una configuración por defecto. Cada usuario puede elegir una ordenación personal que afecta a todos los elementos "Mis cursos" de cualquier portfolio.###30 08 2015 new variable
-rbac#:#redact#:#Redactar###30 08 2015 new variable
+rbac#:#redact#:#Corregir###30 08 2015 new variable
 common#:#il_blog_editor#:#Editor-Blog###30 08 2015 new variable
-rbac#:#blog_redact#:#Los usuarios pueden editar todos los envíos (los posts)###30 08 2015 new variable
+rbac#:#blog_redact#:#Los usuarios pueden modificar todos los envíos del blog###30 08 2015 new variable
 meta#:#meta_obj_type_inactive#:#No utilizado###30 08 2015 new variable
 meta#:#meta_obj_type_mandatory#:#Obligatorio###30 08 2015 new variable
 meta#:#meta_obj_type_optional#:#Opcional###30 08 2015 new variable
@@ -15635,7 +15640,7 @@ content#:#cont_assign_to_parent#:#Asignar al padre###30 08 2015 new variable
 content#:#cont_type_not_allowed#:#Tipo de contenido no permitido en este sitio###30 08 2015 new variable
 content#:#sahs_insert_st_from_clip#:#Importar Capítulos de un Módulo de Aprendizaje ILIAS###30 08 2015 new variable
 content#:#sahs_insert_st_from_clip_inside_chap#:#Importar Capítulos de un Módulo de Aprendizaje ILIAS (capítulo interior)###30 08 2015 new variable
-content#:#sahs_insert_pg_from_clip#:#Importar Páginasde un Módulo de Aprendizaje ILIAS###30 08 2015 new variable
+content#:#sahs_insert_pg_from_clip#:#Importar Páginas de un Módulo de Aprendizaje ILIAS###30 08 2015 new variable
 content#:#cont_active_from#:#Comenzar Activación###30 08 2015 new variable
 content#:#cont_active_to#:#Detener Activación###30 08 2015 new variable
 pd#:#pd_comments_notification#:#Notificación General sobre todos los comentarios###30 08 2015 new variable
@@ -15692,26 +15697,26 @@ crs#:#crs_period_info#:#Fechas de comienzo y finalización del curso###30 08 201
 meta#:#md_adv_deleted_fields#:#Los campos han sido borrados.###30 08 2015 new variable
 cntr#:#tab_back_to_repository#:#Volver al repositorio###30 08 2015 new variable
 obj#:#obj_target_location#:#Ubicación del destino###30 08 2015 new variable
-obj#:#obj_copy_progress#:#Propreso de copia###30 08 2015 new variable
+obj#:#obj_copy_progress#:#Progreso de copia###30 08 2015 new variable
 cntr#:#cntr_copy_repo_tree#:#Árbol de repositorio###30 08 2015 new variable
 cntr#:#cntr_copy_crs_grp#:#Mis cursos y grupos###30 08 2015 new variable
 crs#:#crs_mail_context_tutor_title#:#Tutor del curso###30 08 2015 new variable
 crs#:#crs_mail_context_member_title#:#Miembro del curso###30 08 2015 new variable
 sahs#:#sahs_mail_context_lp#:#Progreso de aprendizaje SCORM###30 08 2015 new variable
-mail#:#mail_templates#:#Plantillas de texto###30 08 2015 new variable
-mail#:#mail_new_template#:#Nueva plantilla de texto###30 08 2015 new variable
+mail#:#mail_templates#:#Plantillas de mensajes###30 08 2015 new variable
+mail#:#mail_new_template#:#Nueva plantilla de mensaje###30 08 2015 new variable
 mail#:#mail_template_title#:#Nombre###30 08 2015 new variable
 mail#:#mail_template_context#:#Contexto###30 08 2015 new variable
-mail#:#mail_template_no_context_available#:#El servicio o módulo de ILIAS no proporciona un contexto. Por lo tanto, no es posible crear o editar una plantilla de texto.###30 08 2015 new variable
+mail#:#mail_template_no_context_available#:#El servicio o módulo de ILIAS no proporciona un contexto. Por lo tanto, no es posible crear o editar una plantilla de mensaje.###30 08 2015 new variable
 mail#:#mail_template_orphaned_context#:#Contexto huérfano###30 08 2015 new variable
-mail#:#mail_create_tpl#:#Crear plantillas de texto###30 08 2015 new variable
+mail#:#mail_create_tpl#:#Crear plantillas de mensaje###30 08 2015 new variable
 mail#:#mail_edit_tpl#:#Editar plantillas de texto###30 08 2015 new variable
-mail#:#mail_tpl_deleted_p#:#Las plantillas de texto fueron borradas.###30 08 2015 new variable
-mail#:#mail_tpl_deleted_s#:#La plantilla de texto ha sido borrada.###30 08 2015 new variable
-mail#:#mail_template_missing_id#:#No se puede ejecutar la acción porque falta el id de plantilla de texto.###30 08 2015 new variable
+mail#:#mail_tpl_deleted_p#:#Las plantillas de mensaje fueron borradas.###30 08 2015 new variable
+mail#:#mail_tpl_deleted_s#:#La plantilla de mensaje ha sido borrada.###30 08 2015 new variable
+mail#:#mail_template_missing_id#:#No se puede ejecutar la acción porque falta el id de plantilla de mensaje.###30 08 2015 new variable
 mail#:#mail_template_no_valid_context#:#El contexto proporcionado no es válido.###30 08 2015 new variable
-mail#:#mail_template_client#:#Plantilla de texto###30 08 2015 new variable
-mail#:#mail_template_client_info#:#Escoja una de las plantillas de texto disponibles y haga uso de sus campos. Si escoge una plantilla de texto, contenido y asunto de este formulario (si está definido en la plantilla de texto) será reemplazada.###30 08 2015 new variable
+mail#:#mail_template_client#:#Plantilla de mensaje###30 08 2015 new variable
+mail#:#mail_template_client_info#:#Escoja una de las plantillas de mensaje disponibles y haga uso de sus campos. Si escoge una plantilla de mensaje, el contenido y asunto de este formulario (si está definido en la plantilla de mensaje) será reemplazado.###30 08 2015 new variable
 itgr#:#itgr_hide_title#:#Ocultar título###30 08 2015 new variable
 itgr#:#itgr_hide_title_info#:#Ocultar título de agrupación de elementos en la presentación del estudiante.###30 08 2015 new variable
 content#:#cont_all_languages#:#Todos los idiomas###30 08 2015 new variable
@@ -15805,7 +15810,7 @@ contact#:#contact_awrn_ap_contacts#:#Contactos aprobados###30 08 2015 new variab
 contact#:#contact_awrn_ap_contacts_info#:#Se muestran todos los contactos aprobados por el usuario.###30 08 2015 new variable
 contact#:#contact_awrn_req_contacts#:#Solicitudes de contactos###30 08 2015 new variable
 contact#:#contact_awrn_req_contacts_info#:#Se muestran todas las solicitudes de contactos.###30 08 2015 new variable
-common#:#my_contacts#:#Mi contacto###30 08 2015 new variable
+common#:#my_contacts#:#Mis contactos###30 08 2015 new variable
 buddysystem#:#buddy_view_gallery#:#Galería###30 08 2015 new variable
 buddysystem#:#buddy_view_table#:#Lista###30 08 2015 new variable
 buddysystem#:#buddy_tbl_title_relations#:#Relaciones con otros usuarios###30 08 2015 new variable
@@ -15817,7 +15822,7 @@ buddysystem#:#buddy_notification_contact_request_link_osd#:#Aprobar solicitud:##
 buddysystem#:#buddy_notification_contact_request_ignore#:#Ignorar solicitud:###30 08 2015 new variable
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignorar solicitud###30 08 2015 new variable
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]el usuario "[REQUESTING_USER]" quiere añadirte a su lista de amigos.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]###30 08 2015 new variable
-buddysystem#:#buddy_request_approved#:#Has autorizado satisfactoriament el contacto.###30 08 2015 new variable
+buddysystem#:#buddy_request_approved#:#Has autorizado satisfactoriamente al contacto.###30 08 2015 new variable
 buddysystem#:#buddy_request_ignored#:#Has ignorado al usuario.###30 08 2015 new variable
 common#:#no_gallery_users_available#:#Actualmente no hay usuarios en la galería.###30 08 2015 new variable
 crs#:#crs_mem_contact#:#Contacto para ayuda###30 08 2015 new variable
@@ -15891,8 +15896,8 @@ log#:#log_level_alert#:#ALERT###30 08 2015 new variable
 log#:#log_cache_#:#Caching###30 08 2015 new variable
 log#:#log_cache_level#:#Caching-Level###30 08 2015 new variable
 log#:#log_memory#:#Registrar uso de memoria###30 08 2015 new variable
-log#:#log_browser#:#Navegador de registro de consola###30 08 2015 new variable
-log#:#log_browser_users#:#Nombres de usuarios utilizando la consola de registros###30 08 2015 new variable
+log#:#log_browser#:#Consola de registro en navegador###30 08 2015 new variable
+log#:#log_browser_users#:#Nombres de usuarios que podrán utilizar la consola de registro en el navegador###30 08 2015 new variable
 log#:#log_component_col_component#:#Componente###30 08 2015 new variable
 log#:#log_component_col_level#:#Nivel de registro###30 08 2015 new variable
 log#:#log_component_btn_reset#:#Reiniciar ajustes###30 08 2015 new variable
@@ -15927,7 +15932,7 @@ prg#:#prg_custom_plan#:#Plan personalizado###30 08 2015 new variable
 prg#:#prg_belongs_to#:#Pertenece a###30 08 2015 new variable
 prg#:#prg_show_individual_plan#:#Mostrar plan individual###30 08 2015 new variable
 prg#:#prg_remove_user#:#Eliminar usuario###30 08 2015 new variable
-prg#:#prg_mark_accredited#:#Marcar acreditadado###30 08 2015 new variable
+prg#:#prg_mark_accredited#:#Marcar acreditado###30 08 2015 new variable
 prg#:#prg_unmark_accredited#:#Desmarcar acreditado###30 08 2015 new variable
 prg#:#prg_mark_accredited_success#:#Nodo de programa para el usuario acreditado correctamente.###30 08 2015 new variable
 prg#:#prg_unmark_accredited_success#:#Nodo de programa para el usuario no acreditado correctamente.###30 08 2015 new variable
@@ -16114,8 +16119,8 @@ administration#:#adm_user_starting_point_inherit_info#:#Se utilizarán los ajust
 survey#:#svy_export_format#:#Exportar datos de encuesta como###23 12 2015 new variable
 survey#:#svy_fraction_of_selections#:#Fracción de selecciones###23 12 2015 new variable
 prg#:#prg_show_programmes_on_pd_always#:#Los programas de estudio están siempre visibles en el escritorio personal.###23 12 2015 new variable
-prg#:#prg_show_programmes_on_pd_only_read#:#Los programas de estudio estánsolo visibles en escritorios personales con permisos de 'lectura'.###23 12 2015 new variable
-prg#:#prg_more_objects_without_read_permission#:#El programa de estudio contiene más objetos que no puedes ver porque no tienes permisos suficientes.###23 12 2015 new variable
+prg#:#prg_show_programmes_on_pd_only_read#:#Los programas de estudio están solo visibles en escritorios personales con permisos de 'lectura'.###23 12 2015 new variable
+prg#:#prg_more_objects_without_read_permission#:#El programa de estudio contiene más objetos que no puedes ver por que no tienes permisos suficientes.###23 12 2015 new variable
 cmps#:#cmps_uninstall_inactive_confirm#:#El plugin "%1$s" actualmente no puede desinstalarse completamente ("%2$s"). En este estado, los plugins no pueden ser desinstalados corectamente. Ya que sólo la integración con el núcleo está revertida, los datos específicos del plugin pueden permanecer. Desea continuar con la desinstalación parcial?###23 12 2015 new variable
 pd#:#pd_enable_comments_del_tutor_info#:#Un usuario con permiso para "Editar configuración" de un objeto puede borrar cualquier comentario realizado en dicho objeto.###23 12 2015 new variable
 log#:#log_cache_info#:#Solo si un mensaje alcanza o supera el nivel de caché, todos los mensajes que tienen al menos el nivel de registro serán añadidos al registro para la petición actual.###23 12 2015 new variable
@@ -16164,7 +16169,7 @@ common#:#msg_link_clipboard_s#:#Ahora, por favor, seleccione la ubicación desea
 wsp#:#wsp_permission_all_pw_info#:#Cuando se proporciona la clave, este objeto estará visible para cualquier persona en internet.###26 01 2016 new variable
 crs#:#crs_mail_context_member_info#:#Para los correos electrónicos de contacto en la pantalla de información de un curso###26 01 2016 new variable
 crs#:#crs_mail_context_tutor_info#:#Para los correos electrónicos de participantes en las pantallas de miembros y progreso de aprendizaje de un curso###26 01 2016 new variable
-sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#Para los correos electrónicos de participantes en la ventada de progreso de aprendizaje de un módulo SCORM###26 01 2016 new variable
 style#:#sty_type_ha_iheada#:#Cabecera desplegable Hor. (activa)###01 03 2016 new variable
 style#:#sty_type_ha_ihcap#:#Texto desplegable Hor.###01 03 2016 new variable
 style#:#sty_type_va_iheada#:#Cabecera desplegable Vert. (activa)###01 03 2016 new variable
@@ -16199,7 +16204,7 @@ buddysystem#:#buddy_bs_action_already_unlinked#:#El estado de contacto para el u
 sess#:#sess_list_reg_limit_places#:#Plazas vacantes###19 05 2016 new variable
 sess#:#sess_accept_request#:#Aceptar participación###19 05 2016 new variable
 sess#:#sess_new_registrations#:#Solicitud de registro###19 05 2016 new variable
-mail#:#mail_serial_letter_placeholders#:#Marcadores de plantilla de correo###06 07 2016 new variable
+mail#:#mail_serial_letter_placeholders#:#Etiquetas personalizables###06 07 2016 new variable
 rbac#:#mep_copy#:#El usuario puede copiar un repositorio multimedia###06 07 2016 new variable
 crs#:#crs_cannot_find_role#:#No se puede encontrar este rol.###06 07 2016 new variable
 grp#:#grp_admission_link_failure_invalid_code#:#No se puede registrar: el enlace no es válido.###06 07 2016 new variable
@@ -16207,19 +16212,14 @@ crs#:#crs_admission_link_failure_invalid_code#:#No se puede registrar: el enlace
 auth#:#auth_ldap_server_ds#:#Sevidor LDAP###03 08 2016 new variable
 assessment#:#ass_location#:#Localización###03 08 2016 new variable
 assessment#:#ass_imap_hint#:#Sugerencia que se mostrará como ayuda###03 08 2016 new variable
-assessment#:#min_auto_complete#:#Autocomplete###12 10 2016 new variable
-assessment#:#autocomplete_error#:#Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed.###12 10 2016 new variable
-assessment#:#tst_browse_for_qpl_questions#:#Add from Pool###12 10 2016 new variable
-assessment#:#tst_browse_for_tst_questions#:#Add from Other Test###12 10 2016 new variable
-blog#:#blog_show_latest#:#Show latest postings/drafts###12 10 2016 new variable
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.###12 10 2016 new variable
-registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###12 10 2016 new variable
-form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###12 10 2016 new variable
-prg#:#prg_points_reachable#:#Points Obtainable###12 10 2016 new variable
-mail#:#mail_members_search_continue#:#Continue###12 10 2016 new variable
-copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?###12 10 2016 new variable
-survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
-crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new variable
-itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
-dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
-certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
+blog#:#blog_show_latest#:#Mostrar últimos envíos/borradores
+assessment#:#ass_competence_respect_level_ordering#:#Por favor, ten en cuenta que los umbrales de competencia deben definirse en orden ascendente de acuerdo con los niveles disponibles.
+registration#:#reg_mail_body_activation#:#para activar tu cuenta y confirmar que éste es tu correo, pulsa el enlace más abajo:
+form#:#err_invalid_input#:#Se ha enviado un valor inválido. Por favor, comprueba tu entrada.
+prg#:#prg_points_reachable#:#Puntos alcanzables
+mail#:#mail_members_search_continue#:#Continuar###12 10 2016 new variable
+copg#:#copg_confirm_el_deletion#:#¿Está seguro de que quiere borrar los elementos seleccionados?###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Por favor, introduzca sólo valores positivos para la escala###12 10 2016 new variable
+crs#:#crs_loc_err_stat_tst_offline#:#Algunos tests no están on-line###12 10 2016 new variable
+itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de objetos en este contenedor###12 10 2016 new variable
+dcl#:#dcl_std_field_not_importable#:# - Los campos estándar no se pueden importar###25 10 2016 new variable
