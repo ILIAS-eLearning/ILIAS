@@ -210,6 +210,9 @@ class ilAuthFrontend
 		$factory = new ilObjectFactory();
 		$user = $factory->getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(),false);
 		
+		// reset expired status
+		$this->getAuthSession()->setExpired(false);
+		
 		if(!$user instanceof ilObjUser)
 		{
 			$this->getLogger()->error('Cannot instatiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
@@ -383,7 +386,7 @@ class ilAuthFrontend
 		$this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins'));
 		if(
 			$GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins') &&
-			ilObjUser::hasActiveSession($user->getId())
+			ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
 		)
 		{
 			return false;
