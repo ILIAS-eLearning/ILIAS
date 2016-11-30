@@ -238,13 +238,15 @@ class ilAuthFrontend
 
 			if($GLOBALS['ilSetting']->get('user_reactivate_code'))
 			{
+				$this->getLogger()->debug('Accout reactivation codes are active');
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED);
 			}
 			else
 			{
+				$this->getLogger()->debug('Accout reactivation codes are inactive');
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+				$this->getStatus()->setAuthenticatedUserId(0);
 			}
-			$this->getStatus()->setAuthenticatedUserId(0);
 			$this->getStatus()->setReason('time_limit_reached');
 			return false;
 		}

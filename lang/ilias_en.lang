@@ -16363,3 +16363,4 @@ content#:#lm_only_one_download_per_type#:#Please note that you can only make one
 survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>
 content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.
 grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
