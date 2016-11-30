@@ -4751,7 +4751,7 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebende E-Mail-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichneten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
