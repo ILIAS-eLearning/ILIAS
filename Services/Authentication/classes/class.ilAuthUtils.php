@@ -488,6 +488,10 @@ class ilAuthUtils
 			case AUTH_APACHE:
 				return 'apache';
 
+			case AUTH_PROVIDER_LTI:
+				return "lti";
+				break;
+
 			default:
 				return "default";
 				break;	

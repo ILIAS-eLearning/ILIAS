@@ -516,7 +516,14 @@ class ilUserTableGUI extends ilTable2GUI
 		);
 		foreach ($auth_methods as $method => $value)
 		{
-			$options[$method] = ilAuthUtils::getAuthModeTranslation($value);
+			if ($method == 'default')
+			{
+				$options[$method] = $this->lng->txt('auth_'.$method)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($value)).")";
+			}
+			else
+			{
+				$options[$method] = ilAuthUtils::getAuthModeTranslation($value);
+			}
 		}
 		$si = new ilSelectInputGUI($this->lng->txt("auth_mode"), "authentication_method");
 		$si->setOptions($options);

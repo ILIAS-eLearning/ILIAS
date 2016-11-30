@@ -16378,3 +16378,4 @@ common#:#lti_consumer_set_active#:#Consumer activated
 common#:#lti_consumer_set_inactive#:#Consumer deactivated
 content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
+common#:#auth_lti#:#LTI Auth
