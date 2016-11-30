@@ -140,9 +140,13 @@ class ilWACPath {
 		$this->setPrefix($result['prefix']);
 		$this->setClient($result['client']);
 		$this->setAppendix($result['appendix']);
-		$this->setModuleIdentifier(rtrim($result['module_identifier'], "/"));
+		$this->setModuleIdentifier(strstr($result['module_identifier'], "/", true));
 		$this->setModuleType($result['module_type']);
-		$this->setModulePath('.' . $result['module_path']);
+		if ($this->getModuleIdentifier()) {
+			$this->setModulePath('.' . strstr($result['module_path'], $this->getModuleIdentifier(), true));
+		}else {
+			$this->setModulePath('.' . $result['module_path']);
+		}
 		$this->setInSecFolder($result['sec'] == 'sec/');
 		$this->setPathWithoutQuery('.' . $result['path_without_query']);
 		$this->setPath('.' . $result['path']);
