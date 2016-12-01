@@ -9,7 +9,7 @@
 	</complexType>
 
 
-	<!-- Mob -->
+	<!-- Wiki -->
 	<element name='Wiki'>
 		<complexType>
 		<sequence>
@@ -25,6 +25,8 @@
 			<element ref='t:RatingSide' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:RatingNew' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:RatingExt' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:RatingOverall' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:LinkMdValues' minOccurs='1' maxOccurs='1'/>
 		</sequence>
 		</complexType>
 	</element>
@@ -41,6 +43,8 @@
 	<element name='RatingSide' type='t:Data' />
 	<element name='RatingNew' type='t:Data' />
 	<element name='RatingExt' type='t:Data' />
+	<element name='RatingOverall' type='t:Data' />
+	<element name='LinkMdValues' type='t:Data' />
 
 	<!-- Wpg -->
 	<element name='Wpg'>
