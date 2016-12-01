@@ -11287,12 +11287,9 @@ img[src$="icon_checked.svg"] {
 }
 div.ilNewObjectSelector {
   display: inline-block;
-  float: right;
   margin-bottom: 8px;
   padding: 0 10px;
-}
-div.ilNewObjectSelector ~ div {
-  clear: right;
+  width: 100%;
 }
 div.ilNewObjectSelector > .btn-group {
   display: block;
@@ -11303,9 +11300,6 @@ div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
 }
 div.ilNewObjectSelector > .btn-group .dropdown-menu.pull-right {
   top: 30px;
-}
-[dir="rtl"] div.ilNewObjectSelector {
-  float: left;
 }
 [dir="rtl"] div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
   float: left;

@@ -1679,15 +1679,11 @@ img[src$="icon_checked.svg"] {
 	text-align: center;
 }
 
-//mantis #0017943
 div.ilNewObjectSelector {
 	display: inline-block;
-    float: right;
     margin-bottom: 8px;
     padding: 0 10px;
-    ~ div {
-        clear: right;
-    }
+    width: 100%;
     > .btn-group {
         display: block;
         width: 100%;
@@ -1701,7 +1697,6 @@ div.ilNewObjectSelector {
 }
 
 [dir="rtl"] div.ilNewObjectSelector {
-	float: left;
     > .btn-group {
         #ilAdvSelListAnchorText_asl {
             float: left;
