@@ -229,3 +229,7 @@ else
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#18>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
