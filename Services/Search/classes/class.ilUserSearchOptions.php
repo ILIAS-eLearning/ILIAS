@@ -136,10 +136,7 @@ class ilUserSearchOptions
 					
 				case 'org_units':
 					$fields[$counter]['type'] = FIELD_TYPE_SELECT;
-					$fields[$counter]['values'] = array(
-						0 => $lng->txt('please_choose')
-					);
-					
+
 					include_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
 					$root = ilObjOrgUnit::getRootOrgRefId();
 					include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
