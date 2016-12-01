@@ -17910,3 +17910,15 @@ $ilDB->update(
 	)
 );
 ?>
+<#5057>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_type', 'plugin_name'))
+{
+	$ilDB->addTableColumn('qpl_qst_type', 'plugin_name', array(
+		'type'    => 'text',
+		'length'  => 40,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
