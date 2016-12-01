@@ -15,6 +15,12 @@ class ilWikiExporter extends ilXmlExporter
 	private $ds;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $wiki_log;
+
+
+	/**
 	 * Initialisation
 	 */
 	function init()
@@ -23,6 +29,8 @@ class ilWikiExporter extends ilXmlExporter
 		$this->ds = new ilWikiDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
+
+		$this->wiki_log = ilLoggerFactory::getLogger('wiki');
 	}
 
 
@@ -66,6 +74,7 @@ class ilWikiExporter extends ilXmlExporter
 		foreach($a_ids as $id)
 		{
 			$rec_ids = $this->getActiveAdvMDRecords($id);
+			$this->wiki_log->debug("advmd rec ids: wiki id:".$id.", adv rec ids".print_r($rec_ids, true));
 			if(sizeof($rec_ids))
 			{
 				foreach($rec_ids as $rec_id)
@@ -74,6 +83,9 @@ class ilWikiExporter extends ilXmlExporter
 				}
 			}				
 		}
+
+		$this->wiki_log->debug("advmd ids: ".print_r($advmd_ids, true));
+
 		if(sizeof($advmd_ids))
 		{
 			$deps[] = array(
@@ -93,18 +105,34 @@ class ilWikiExporter extends ilXmlExporter
 			"ids" => $obj_ids
 		);
 
+		// service settings
+		$deps[] = array(
+			"component" => "Services/Object",
+			"entity" => "service_settings",
+			"ids" => $a_ids);
+
 		return $deps;
 	}
 	
 	protected function getActiveAdvMDRecords($a_id)
 	{			
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		$active = array();		
+		$active = array();
+		// selected globals
+		$sel_globals = ilAdvancedMDRecord::getObjRecSelection($a_id, "wpg");
+
 		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("wiki", "wpg") as $record_obj)
 		{
-			$active[] = $record_obj->getRecordId();
-		}		
-		return array_intersect($active, ilAdvancedMDRecord::getObjRecSelection($a_id, "wpg"));						
+			// local ones and globally activated for the object
+			if ($record_obj->getParentObject() == $a_id || in_array($record_obj->getRecordId(), $sel_globals))
+			{
+				$active[] = $record_obj->getRecordId();
+			}
+		}
+
+		$this->wiki_log->debug("active md rec: ".print_r($active, true));
+
+		return $active;
 	}
 
 	/**
@@ -141,6 +169,18 @@ class ilWikiExporter extends ilXmlExporter
 				"xsd_file" => "ilias_wiki_4_3.xsd",
 				"uses_dataset" => true,
 				"min" => "4.3.0",
+				"max" => "4.3.99"),
+			"4.4.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Wiki/wiki/4_4",
+				"xsd_file" => "ilias_wiki_4_4.xsd",
+				"uses_dataset" => true,
+				"min" => "4.4.0",
+				"max" => "5.0.99"),
+			"5.1.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Wiki/wiki/5_1",
+				"xsd_file" => "ilias_wiki_5_1.xsd",
+				"uses_dataset" => true,
+				"min" => "5.1.0",
 				"max" => "")
 		);
 	}
