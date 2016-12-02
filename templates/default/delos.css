@@ -11793,6 +11793,7 @@ div.ilPCMyCoursesPath {
   white-space: normal !important;
   padding-left: 4px !important;
   padding-bottom: 4px !important;
+  font-size: 12px;
 }
 .ilOnScreenChatMenuItem .media-body.info a {
   color: #557196 !important;
