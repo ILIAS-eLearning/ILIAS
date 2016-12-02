@@ -17937,3 +17937,10 @@ if( !$ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_order', 'solution_keyvalue');
 }
 ?>
+<#5059>
+<?php
+if( $ilDB->tableColumnExists('qpl_a_ordering', 'solution_keyvalue') )
+{
+	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_keyvalue', 'solution_key');
+}
+?>
