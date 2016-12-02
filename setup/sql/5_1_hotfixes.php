@@ -225,3 +225,11 @@ else
 	$ilDB->createSequence('mail_obj_data', $start);
 }
 ?>
+<#17>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#18>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

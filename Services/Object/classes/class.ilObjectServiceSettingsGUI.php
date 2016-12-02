@@ -13,6 +13,11 @@
  */
 class ilObjectServiceSettingsGUI 
 {
+	// unfortunately the following constants are not stored
+	// in a non-GUI class, other classes are currently directly
+	// accessing these, see ilObjectDataSet (changes should be
+	// made there accordingly)
+
 	const CALENDAR_VISIBILITY = 'cont_show_calendar';
 	const NEWS_VISIBILITY = 'cont_show_news';
 	const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
@@ -168,7 +173,7 @@ class ilObjectServiceSettingsGUI
 						false
 				));
 			$form->addItem($tax);			
-		}				
+		}
 		
 		// auto rating
 		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))

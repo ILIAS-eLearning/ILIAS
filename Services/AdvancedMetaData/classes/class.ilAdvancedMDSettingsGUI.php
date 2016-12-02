@@ -539,7 +539,7 @@ class ilAdvancedMDSettingsGUI
 	{
 		$selected_global = array();
 		foreach($this->getParsedRecordObjects() as $item)
-		{			
+		{
 			$perm = $this->getPermissions()->hasPermissions(
 				ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
 				$item['id'],
@@ -582,7 +582,7 @@ class ilAdvancedMDSettingsGUI
 				$record_obj->update();
 			}
 			else if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])			
-			{		
+			{
 				// global, optional record
 				if($item['readonly'] &&
 					$item['optional'] &&
@@ -598,12 +598,12 @@ class ilAdvancedMDSettingsGUI
 				}
 			}			
 		}
-		
+
 		if($this->obj_type)
 		{
 			ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $selected_global);	
 		}
-		
+
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 	 	$this->ctrl->redirect($this, "showRecords");
 	}

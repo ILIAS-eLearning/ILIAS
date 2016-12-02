@@ -12663,10 +12663,6 @@ $indices = array(
 		'datatype_id',
 		'table_id'
 	),
-	'il_dcl_field_prop' => array(
-		'field_id',
-		'datatype_prop_id'
-	),
 	'il_dcl_viewdefinition' => array( 'view_id' ),
 	'il_dcl_view' => array(
 		'table_id',

@@ -179,10 +179,8 @@ class ilWebAccessChecker {
 			$this->checkPublicSection();
 			$this->checkUser();
 		} catch (Exception $e) {
-			if ($e instanceof ilWACException) {
-				throw  $e;
-			}
-			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
+			if (($e instanceof ilWACException && $e->getCode() == ilWACException::ACCESS_DENIED_NO_LOGIN)
+				|| ($e instanceof Exception && $e->getMessage() == 'Authentication failed.')) {
 				$_REQUEST["baseClass"] = "ilStartUpGUI";
 				// @todo authentication: fix request show login
 				$_REQUEST["cmd"] = "showLogin";
@@ -193,6 +191,8 @@ class ilWebAccessChecker {
 				ilInitialisation::reinitILIAS();
 				$this->checkPublicSection();
 				$this->checkUser();
+			} elseif ($e instanceof ilWACException) {
+				throw  $e;
 			}
 		}
 		$this->setInitialized(true);

@@ -34,6 +34,7 @@ class ilWACException extends ilException {
 		self::INITIALISATION_FAILED  => 'An error occured during your request. Please reload the page.',
 		self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
 		self::MAX_LIFETIME           => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
+		self::ACCESS_DENIED_NO_LOGIN => 'ACCESS DENIED: No login.',
 	);
 
 
