@@ -245,7 +245,7 @@ class ilObjRepositorySettings extends ilObject
 			"breaker1" => null,
 			"content" => array("file", "webr", "feed", "wiki", "blog", "lm", "htlm", "sahs", "glo", "dcl", "bibl", "mcst", "mep"), 
 			"breaker2" => null,			
-			"assessment" => array("exc", "tst", "qpl","iass"),
+			"assessment" => array("exc", "tst", "qpl", "iass"),
 			"feedback" => array("poll", "svy", "spl"),
 			"templates" => array("prtt")
 		);
