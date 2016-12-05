@@ -21,8 +21,6 @@ class ilTestPassFinishTasks
 	 */
 	public function __construct($active_id, $obj_id)
 	{
-		global $DIC;
-		$this->event_handler = $DIC['ilAppEventHandler'];
 		$this->testSession = new ilTestSession();
 		$this->testSession->loadFromDb($active_id);
 		$this->obj_id		= $obj_id;
@@ -44,9 +42,7 @@ class ilTestPassFinishTasks
 		$this->testSession->setLastFinishedPass($this->testSession->getPass());
 		$this->testSession->setLastStartedPass($this->testSession->getPass());
 		$this->testSession->increaseTestPass();
-		$this->event_handler->raise('Modules/Test',
-				'testPassFinished',
-				array('test_session' => $this->testSession));
+
 		$this->updateLearningProgressAfterPassFinishedIsWritten();
 	}
 
