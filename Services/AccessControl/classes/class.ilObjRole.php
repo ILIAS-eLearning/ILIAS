@@ -508,24 +508,28 @@ class ilObjRole extends ilObject
 	static function _getTranslation($a_role_title)
 	{
 		global $lng;
-		
-		$test_str = explode('_',$a_role_title);
 
-		if ($test_str[0] == 'il') 
+		$test_str = self::_removeObjectId($a_role_title);
+
+		if (preg_match("/^il_./", $test_str))
 		{
-			$test2 = (int) $test_str[3];
-			if ($test2 > 0)
-			{
-				unset($test_str[3]);
-			}
-
-			return $lng->txt(implode('_',$test_str));
+			return $lng->txt($test_str);
 		}
 		
 		return $a_role_title;
 	}
 	
-	
+	public static function _removeObjectId($a_role_title) {
+		$test_str = explode('_',$a_role_title);
+
+		$test2 = (int) $test_str[3];
+		if ($test2 > 0)
+		{
+			unset($test_str[3]);
+		}
+
+		return implode('_',$test_str);
+	}
 	
 	static function _updateAuthMode($a_roles)
 	{

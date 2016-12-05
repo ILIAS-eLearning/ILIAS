@@ -656,23 +656,30 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function createTitle($role)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $objDefinition;
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role['title'] = ilObjRole::_getTranslation($role['title']);
+		$role_title = ilObjRole::_getTranslation($role['title']);
 		
 		// No local policies
 		if($role['parent'] != $this->getRefId())
 		{
-			return $role['title'];
-		} 
+			return $role_title;
+		}
+
+		$type = ilObject::_lookupType($this->getRefId(), true);
+		if($objDefinition->isPlugin($type))
+		{
+			$role_title = ilPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
+		}
+
 		if($role['blocked'])
 		{
-			return $role['title'];
+			return $role_title;
 		}
 		$ilCtrl->setParameterByClass('ilobjrolegui', 'obj_id', $role['obj_id']);
 		
-		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role['title'].'</a>';
+		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role_title.'</a>';
 	}
 }
 ?>
