@@ -1,11 +1,11 @@
 <?php
 
 require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-require_once 'Modules/ManualAssessment/classes/Members/class.ilManualAssessmentMembersStorageDB.php';
-class ilManualAssessmentLPInterface {
+require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
+class ilIndividualAssessmentLPInterface {
 	protected static $members_storage = null;
 
-	public static function updateLPStatusOfMember(ilManualAssessmentMember $member) {
+	public static function updateLPStatusOfMember(ilIndividualAssessmentMember $member) {
 		ilLPStatusWrapper::_refreshStatus($member->assessmentId(), array($member->id()));
 	}
 
@@ -18,14 +18,14 @@ class ilManualAssessmentLPInterface {
 		if(self::$members_storage  === null) {
 			self::$members_storage = self::getMembersStorage();
 		}
-		$mass = new ilObjManualAssessment($mass_id,false);
+		$mass = new ilObjIndividualAssessment($mass_id,false);
 		$members = $mass->loadMembers($mass);
 		$usr =  new ilObjUser($usr_id);
 		if($members->userAllreadyMember($usr)) {
 			$member = self::$members_storage->loadMember($mass ,$usr);
 			if($member->finalized()) {
 				return $member->LPStatus();
-			} elseif(in_array($member->LPStatus(),array(ilManualAssessmentMembers::LP_FAILED, ilManualAssessmentMembers::LP_COMPLETED))) {
+			} elseif(in_array($member->LPStatus(),array(ilIndividualAssessmentMembers::LP_FAILED, ilIndividualAssessmentMembers::LP_COMPLETED))) {
 				return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 			}
 		}
@@ -34,17 +34,17 @@ class ilManualAssessmentLPInterface {
 
 	protected static function getMembersStorage() {
 		global $DIC;
-		return new ilManualAssessmentMembersStorageDB($DIC['ilDB']);
+		return new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
 	}
 
 	public static function getMembersHavingStatusIn($mass_id, $status) {
 		if(self::$members_storage  === null) {
 			self::$members_storage = self::getMembersStorage();
 		}
-		$members = self::$members_storage->loadMembers(new ilObjManualAssessment($mass_id,false));
+		$members = self::$members_storage->loadMembers(new ilObjIndividualAssessment($mass_id,false));
 		$return = array();
 		foreach($members as $usr_id => $record) {
-			if((string)$record[ilManualAssessmentMembers::FIELD_LEARNING_PROGRESS] === (string)$status) {
+			if((string)$record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] === (string)$status) {
 				$return[] = $usr_id;
 			}
 		}
@@ -52,7 +52,7 @@ class ilManualAssessmentLPInterface {
 	}
 
 	public static function isActiveLP($a_object_id) {
-		require_once 'Modules/ManualAssessment/classes/class.ilManualAssessmentLP.php';
-		return ilManualAssessmentLP::getInstance($a_object_id)->isActive();
+		require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php';
+		return ilIndividualAssessmentLP::getInstance($a_object_id)->isActive();
 	}
 }
