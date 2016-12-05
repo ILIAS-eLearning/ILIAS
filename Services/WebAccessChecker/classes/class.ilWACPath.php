@@ -13,7 +13,7 @@ class ilWACPath {
 	/**
 	 * Copy this without to regex101.com and test with some URL of files
 	 */
-	const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*?))\/)(?<appendix>[^\?\n]*)).*)";
+	const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*\/|)))(?<appendix>[^\?\n]*)).*)";
 	/**
 	 * @var array
 	 */
@@ -140,9 +140,13 @@ class ilWACPath {
 		$this->setPrefix($result['prefix']);
 		$this->setClient($result['client']);
 		$this->setAppendix($result['appendix']);
-		$this->setModuleIdentifier($result['module_identifier']);
+		$this->setModuleIdentifier(strstr($result['module_identifier'], "/", true));
 		$this->setModuleType($result['module_type']);
-		$this->setModulePath('.' . $result['module_path']);
+		if ($this->getModuleIdentifier()) {
+			$this->setModulePath('.' . strstr($result['module_path'], $this->getModuleIdentifier(), true));
+		}else {
+			$this->setModulePath('.' . $result['module_path']);
+		}
 		$this->setInSecFolder($result['sec'] == 'sec/');
 		$this->setPathWithoutQuery('.' . $result['path_without_query']);
 		$this->setPath('.' . $result['path']);

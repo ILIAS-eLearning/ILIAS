@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Taxonomy/interfaces/interface.ilTaxAssignedItemInfo.php';
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
 
 /**
  * Handles a list of questions
@@ -527,6 +528,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			'qpl_questions.*',
 			'qpl_qst_type.type_tag',
 			'qpl_qst_type.plugin',
+			'qpl_qst_type.plugin_name',
 			'qpl_questions.points max_points',
 			'object_data.title parent_title'
 		);
@@ -595,6 +597,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
+			$row = ilAssQuestionType::conmpleteMissingPluginName($row);
+			
 			if( !$this->isActiveQuestionType($row) )
 			{
 				continue;
@@ -653,7 +657,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			return true;
 		}
 		
-		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['type_tag']);
+		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
 	}
 
 	public function getDataArrayForQuestionId($questionId)

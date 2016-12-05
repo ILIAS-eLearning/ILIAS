@@ -779,7 +779,7 @@ abstract class ilAdvancedMDFieldDefinition
 	 * @param int $a_field_id
 	 * @return string
 	 */
-	protected function generateImportId($a_field_id)
+	public function generateImportId($a_field_id)
 	{
 		return 'il_'.IL_INST_ID.'_adv_md_field_'.$a_field_id;
 	}

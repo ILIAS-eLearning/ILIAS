@@ -285,7 +285,7 @@ class ilSystemStyleOverviewGUI
 				if (ilObjUser::_getNumberOfUsersForStyle($st["template_id"], $st["style_id"]) > 0)
 				{
 					$passed = false;
-					$message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("cant_deactivate_if_users_assigned"),ilSystemStyleMessage::TYPE_ERROR));
+					$message_stack->addMessage(new ilSystemStyleMessage($st["style_name"].": ".$this->lng->txt("cant_deactivate_if_users_assigned"),ilSystemStyleMessage::TYPE_ERROR));
 				}
 			}
 		}

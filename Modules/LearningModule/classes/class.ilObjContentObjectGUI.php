@@ -2899,15 +2899,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function refreshLinkCheck()
 	{
 		$this->__initLinkChecker();
-
-		if(!$this->link_checker_obj->checkPear())
-		{
-			ilUtil::sendFailure($this->lng->txt('missing_pear_library'));
-			$this->linkChecker();
-
-			return false;
-		}
-
 		$this->link_checker_obj->checkLinks();
 		ilUtil::sendSuccess($this->lng->txt('link_checker_refreshed'));
 

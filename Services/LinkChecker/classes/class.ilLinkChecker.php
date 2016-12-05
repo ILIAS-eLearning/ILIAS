@@ -215,16 +215,6 @@ class ilLinkChecker
 		return $this->getInvalidLinks();
 	}
 
-	function checkPear()
-	{
-		if(!@include_once('HTTP/Request.php'))
-		{
-			return false;
-		}
-		return true;
-	}
-		
-
 	// PRIVATE
 	function __txt($language,$key,$module = 'common')
 	{

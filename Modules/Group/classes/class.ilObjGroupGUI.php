@@ -1662,7 +1662,17 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
+
 		$reg = $a_form->getItemByPostVar("reg");
+		if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
+		{
+			$this->object->enableUnlimitedRegistration(false);
+		}
+		else
+		{
+			$this->object->enableUnlimitedRegistration(true);
+		}
+		
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
 		

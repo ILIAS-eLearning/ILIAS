@@ -352,5 +352,15 @@ class ilObjectSearchFactory
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDLikeSearch.php');
 		return new ilAdvancedMDLikeSearch($query_parser);
 	}
+	
+	/**
+	 * get orgunit search instance
+	 * @param type $query_parser
+	 */
+	public static function getUserOrgUnitAssignmentInstance($query_parser)
+	{
+		include_once './Services/Search/classes/Like/class.ilLikeUserOrgUnitSearch.php';
+		return new ilLikeUserOrgUnitSearch($query_parser);
+	}
 }
 ?>

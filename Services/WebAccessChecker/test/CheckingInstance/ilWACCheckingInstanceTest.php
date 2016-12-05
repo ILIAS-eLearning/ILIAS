@@ -136,6 +136,7 @@ class ilWACCheckingInstanceTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testNonCheckingInstanceNoSec() {
+		ilWebAccessChecker::setDEBUG(false);
 		$file = vfs\vfsStream::newFile('data/trunk/dummy/mm_123/dummy.jpg')->at($this->root)->setContent('dummy');
 		$ilWebAccessChecker = new ilWebAccessChecker($file->url(), new ilWACDummyCookie());
 		$check = false;

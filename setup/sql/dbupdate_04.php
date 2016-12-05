@@ -17910,3 +17910,37 @@ $ilDB->update(
 	)
 );
 ?>
+<#5057>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_type', 'plugin_name'))
+{
+	$ilDB->addTableColumn('qpl_qst_type', 'plugin_name', array(
+		'type'    => 'text',
+		'length'  => 40,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#5058>
+<?php
+if( !$ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
+{
+	$ilDB->addTableColumn('qpl_a_ordering', 'order_position', array(
+		'type'    => 'integer',
+		'length'  => 3,
+		'notnull' => false,
+		'default' => null
+	));
+	
+	$ilDB->manipulate("UPDATE qpl_a_ordering SET order_position = solution_order");
+	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_order', 'solution_keyvalue');
+}
+?>
+<#5059>
+<?php
+if( $ilDB->tableColumnExists('qpl_a_ordering', 'solution_keyvalue') )
+{
+	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_keyvalue', 'solution_key');
+}
+?>

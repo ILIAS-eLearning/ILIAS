@@ -4751,7 +4751,7 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebende E-Mail-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichneten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
@@ -13096,7 +13096,7 @@ common#:#file_version_rollback#:#Rollback von Version %s durch %s
 common#:#file_rollback#:#Zur aktuellen Version machen
 obj#:#edit_questions#:#Fragen bearbeiten
 common#:#frm_import#:#Forum importieren
-user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitten authentifizieren Sie sich, um den Vorgang fortzusetzen.
+user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
 user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.
 rbac#:#edit_userassignment#:#Benutzerzuweisung ändern
@@ -16370,3 +16370,5 @@ sop#:#sop_msg_firefox_after_download#:#Nachdem Sie den Browser heruntergeladen u
 sop#:#sop_msg_firefox_config#:#Um das automatische Update des Browsers zu verhindern, geben Sie in der Adressleiste 'about:config' ein und ändern Sie folgende Einstellungen:<br/><br/><i>app.update.enabled = false</i><br/><i>app.update.auto = false</i><br/><i>app.update.mode = 0</i><br/><i>app.update.service.enabled = 0</i><br/><br/>
 sop#:#sop_msg_firefox_html5#:#Voraussichtlich schon ab ILIAS Version 5.3 werden Sie die Möglichkeit haben mit den gängigen aktuellen Browsern die Offline-Funktion zu nutzen.
 content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewählt wird, wird der Block nur Benutzern mit dem gewählten Recht am Berechtigungsobjekt angezeigt.
+grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
+auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können sich nun einloggen.
