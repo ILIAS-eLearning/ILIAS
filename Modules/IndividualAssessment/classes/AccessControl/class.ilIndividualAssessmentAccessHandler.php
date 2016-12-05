@@ -11,7 +11,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	protected $admin;
 	protected $review;
 
-	const DEFAULT_ROLE = 'il_mass_member';
+	const DEFAULT_ROLE = 'il_iass_member';
 
 	public function __construct(ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr) {
 		$this->handler = $handler;
