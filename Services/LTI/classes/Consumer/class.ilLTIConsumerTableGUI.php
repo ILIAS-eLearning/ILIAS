@@ -49,12 +49,15 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{
-		$consumer_data = ilLTIExternalConsumer::getAll();
+		// $consumer_data = ilLTIExternalConsumer::getAll();
+		require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
+		$dataConnector = new ilLTIDataConnector();
+		$consumer_data = $dataConnector->getToolConsumers();
 		$result = array();
 		foreach ($consumer_data as $cons) {
 			$result[] = array(
 				"id" => $cons->getId(),
-				"title" => $cons->gettitle(),
+				"title" => $cons->getTitle(),
 				"description" => $cons->getDescription(),
 				"prefix" => $cons->getPrefix(),
 				"key" => $cons->getKey(),

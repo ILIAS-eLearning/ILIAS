@@ -6,17 +6,20 @@ use IMSGlobal\LTI\ToolProvider;
 
 include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
 include_once './Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
-include_once './Services/LTI/classes/InternalProvider/class.ilLTIProvider.php';
-
+include_once './Services/LTI/classes/InternalProvider/class.ilLTIToolProvider.php';
+require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
 /**
  * OAuth based lti authentication
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de> 
+ * @author Stefan Schneider
  *
  */
 class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterface
 {
 	const AUTH_MODE_PREFIX = 'lti';
+	private $dataConnector = null;
 	
 	/**
 	 * Do authentication
@@ -24,19 +27,27 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	 */
 	public function doAuthentication(\ilAuthStatus $status)
 	{
-		// only memory based consumer
-		$dummy_connector = ToolProvider\DataConnector\DataConnector::getDataConnector();
-		
-		
-		$consumer = new ToolProvider\ToolConsumer('key', $dummy_connector);
-		$consumer->name = 'ILIAS';
-		$consumer->secret = 'secre';
-		$consumer->enabled = false;
-		$consumer->save();
+		$this->dataConnector = new ilLTIDataConnector();
+		require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
+		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
+		$lti_provider = new ilLTIToolProvider($this->dataConnector);
+		$lti_provider->handleRequest();
 
-		// due to segmentation fault, currently disabled
-		#$lti_provider = new ilLTIProvider($dummy_connector);
-		#$lti_provider->handleRequest();
+		//Bsp.: crs_67
+		if (isset($_GET['target'])) {
+			$context_ar = explode('_',$_GET['target']);
+			if (count($context_ar) == 2) {
+				$_SESSION['lti_context_id'] = $context_ar[1];
+			}
+		}
+		if (isset($_POST['launch_presentation_css_url'])) {
+			$_SESSION['lti_launch_css_url'] = $_POST['launch_presentation_css_url'];
+			//Bsp.: 'http://192.168.0.74/lti_custom.css';
+		}
+		if (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)) {
+			$_SESSION['lti_launch_presentation_return_url'] = $_POST['launch_presentation_return_url'];
+			// Bsp.: 'http://192.168.0.74/ilias51/ilias.php?ref_id=128&cmd=viewEmbed&cmdClass=ilobjexternalcontentgui&cmdNode=hx:gc&baseClass=ilObjPluginDispatchGUI';
+		}
 		
 		$lti_id = $this->findAuthKeyId($_POST['oauth_consumer_key']);
 		if(!$lti_id)
@@ -59,8 +70,25 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		$status->setAuthenticatedUserId($internal_account);
+
+		$lti_lis_person_name_full = "";
+		if (isset($_POST['lis_person_name_given'])) {
+			$_SESSION['lti_lis_person_name_given'] = $_POST['lis_person_name_given'];
+			$lti_lis_person_name_full = $_POST['lis_person_name_given'] . ' ';
+		}
+		if (isset($_POST['lis_person_name_family'])) {
+			$_SESSION['lti_lis_person_name_family'] = $_POST['lis_person_name_family'];
+			$lti_lis_person_name_full .= $_POST['lis_person_name_family'];
+		}
+		if (isset($_POST['lis_person_name_full']) && (strlen(trim($_POST['lis_person_name_full'])) > 0)) {
+			$_SESSION['lti_lis_person_name_full'] = $_POST['lis_person_name_full'];
+		} else {
+			$_SESSION['lti_lis_person_name_full'] = $lti_lis_person_name_full;
+		}
+
 		return true;
 	}
+
 	
 	/**
 	 * find consumer key id
@@ -72,14 +100,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	{
 		global $ilDB;
 		
-		$query = 'SELECT id from lti_ext_consumer where consumer_key = '.$ilDB->quote($a_oauth_consumer_key,'text');
+		$query = 'SELECT consumer_pk from lti2_consumer where consumer_key256 = '.$ilDB->quote($a_oauth_consumer_key,'text');
+		// $query = 'SELECT id from lti_ext_consumer where consumer_key = '.$ilDB->quote($a_oauth_consumer_key,'text');
 		$this->getLogger()->debug($query);
 		$res = $ilDB->query($query);
 		
 		$lti_id = 0;
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$lti_id = $row->id;
+			$lti_id = $row->consumer_pk;
+			// $lti_id = $row->id;
 		}
 		$this->getLogger()->debug('External consumer key is: ' . (int) $lti_id);
 		return $lti_id;
@@ -97,6 +127,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$this->getLogger()->debug($query);
 		$res = $ilDB->query($query);
 		
+		// $prefix = 'lti'.$a_lti_id.'_';
 		$prefix = '';
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{

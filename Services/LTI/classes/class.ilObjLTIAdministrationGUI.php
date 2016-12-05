@@ -2,7 +2,10 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
-require_once 'Services/LTI/classes/ActiveRecord/class.ilLTIExternalConsumer.php';
+// require_once 'Services/LTI/classes/ActiveRecord/class.ilLTIExternalConsumer.php';
+require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
+require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
+
 
 /**
  * Class ilObjLTIAdministrationGUI
@@ -15,12 +18,18 @@ require_once 'Services/LTI/classes/ActiveRecord/class.ilLTIExternalConsumer.php'
  */
 class ilObjLTIAdministrationGUI extends ilObjectGUI
 {
-
+	/**
+	 * Data connector object or string.
+	 *
+	 * @var mixed $dataConnector
+	 */
+    private $dataConnector = null;
+	
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "ltis";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-
+		$this->dataConnector = new ilLTIDataConnector();
 	}
 
 	public function executeCommand()
@@ -182,7 +191,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$ti_prefix = new ilTextInputGUI($this->lng->txt("prefix"), 'prefix');
 		$ti_prefix->setRequired(true);
 		$ti_key = new ilTextInputGUI($this->lng->txt("lti_consumer_key"), 'key');
-		$ti_key->setRequired(true);
+		// $ti_key->setRequired(true);
 		$ti_secret = new ilTextInputGUI($this->lng->txt("lti_consumer_secret"), 'secret');
 		$ti_secret->setRequired(true);
 
@@ -252,7 +261,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirect($this, "listConsumers");
 		}
-		$consumer = new ilLTIExternalConsumer($consumer_id);
+		// $consumer = new ilLTIExternalConsumer($consumer_id);
+		$consumer = ilLTIToolConsumer::fromRecordId($consumer_id,$this->dataConnector);
 
 		if(!$a_form)
 		{
@@ -274,28 +284,31 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	protected function createLTIConsumer()
 	{
-		global $DIC;
+		// global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		// $ilDB = $DIC['ilDB'];
 
 		$this->checkPermission("write");
 
 		$form = $this->getConsumerForm();
+		
 		if($form->checkInput())
 		{
-			$consumer = new ilLTIExternalConsumer();
-			$consumer->setId($ilDB->nextId('lti_ext_consumer'));
+			// $consumer = new ilLTIExternalConsumer();
+			// $dataConnector = new ilLTIDataConnector();
+			$consumer = new ilLTIToolConsumer(null,$this->dataConnector);
+			// $consumer->setRecordId($ilDB->nextId('lti_ext_consumer'));
 			$consumer->setTitle($form->getInput('title'));
 			$consumer->setDescription($form->getInput('description'));
 			$consumer->setPrefix($form->getInput('prefix'));
-			$consumer->setKey($form->getInput('key'));
+			// $consumer->setKey($form->getInput('key'));
 			$consumer->setSecret($form->getInput('secret'));
 			$consumer->setLanguage($form->getInput('language'));
 			$consumer->setActive($form->getInput('active'));
 			$consumer->setRole($form->getInput('role'));
-			$consumer->create();
-
-			$this->object->saveConsumerObjectTypes($consumer->getId(), $form->getInput('types'));
+			// $consumer->create();
+			$consumer->save();
+			$this->object->saveConsumerObjectTypes($consumer->getRecordId(), $form->getInput('types'));
 
 			ilUtil::sendSuccess($this->lng->txt("lti_consumer_created"),true);
 		}
@@ -319,9 +332,11 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 		$ilCtrl->setParameter($this, "cid", $consumer_id);
 
-		$consumer = new ilLTIExternalConsumer($consumer_id);
+		// $consumer = new ilLTIExternalConsumer($consumer_id);
+		$consumer = ilLTIToolConsumer::fromRecordId($consumer_id,$this->dataConnector);
+		// $consumer = new ilLTIToolConsumer($consumer_id,$this->dataConnector);
 
-		$form = $this->getConsumerForm($consumer_id);
+		$form = $this->getConsumerForm('edit');
 
 		if($form->checkInput())
 		{
@@ -334,8 +349,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$consumer->setActive($form->getInput('active'));
 			$consumer->setRole($form->getInput('role'));
 
-			$consumer->update();
-
+			// $consumer->update();
+			$consumer->save();
 			$this->object->saveConsumerObjectTypes($consumer_id, $form->getInput('types'));
 
 			ilUtil::sendSuccess($this->lng->txt("lti_consumer_updated"),true);
@@ -354,7 +369,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirect($this, "listConsumers");
 		}
-		$consumer = new ilLTIExternalConsumer($consumer_id);
+		// $consumer = new ilLTIExternalConsumer($consumer_id);
+		// $consumer = new ilLTIToolConsumer(null,$this->dataConnector);
+		$consumer = ilLTIToolConsumer::fromRecordId($consumer_id,$this->dataConnector);
 
 		$consumer->delete();
 
@@ -394,7 +411,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, "listConsumers");
 		}
 
-		$consumer = new ilLTIExternalConsumer($consumer_id);
+		// $consumer = new ilLTIExternalConsumer($consumer_id);
+		// $consumer = new ilLTIToolConsumer();
+		$consumer = ilLTIToolConsumer::fromRecordId($consumer_id,$this->dataConnector);
 		if($consumer->getActive())
 		{
 			$consumer->setActive(0);
@@ -405,7 +424,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$consumer->setActive(1);
 			$msg = "lti_consumer_set_active";
 		}
-		$consumer->update();
+		//ID?
+		// $consumer->update();
+		$consumer->save();
 
 		ilUtil::sendSuccess($this->lng->txt($msg),true);
 
