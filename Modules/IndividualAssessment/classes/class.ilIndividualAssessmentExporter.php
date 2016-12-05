@@ -1,21 +1,21 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
-require_once("Modules/ManualAssessment/classes/class.ilManualAssessmentDataSet.php");
+require_once("Modules/ManualAssessment/classes/class.ilIndividualAssessmentDataSet.php");
 
 /**
  * Manual Assessment exporter class
  *
  * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilManualAssessmentExporter extends ilXmlExporter {
+class ilindividualAssessmentExporter extends ilXmlExporter {
 
 	/**
 	 * initialize the exporter
 	 */
 	public function init() {
 		global $DIC;
-		$this->ds = new ilManualAssessmentDataSet();
+		$this->ds = new ilIndividualAssessmentDataSet();
 	}
 
 	/**
@@ -34,7 +34,7 @@ class ilManualAssessmentExporter extends ilXmlExporter {
 	public function getValidSchemaVersions($a_entity) {
 		return array (
 			"5.2.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/ManualAssessment/mass/5_2",
+				"namespace" => "http://www.ilias.de/Modules/IndividualAssessment/iass/5_2",
 				"xsd_file" => "ilias_exc_5_2.xsd",
 				"uses_dataset" => true,
 				"min" => "5.2.0",

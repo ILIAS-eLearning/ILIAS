@@ -3,11 +3,11 @@
 require_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
- * Manual Assessment dataset class
+ * Individual Assessment dataset class
  *
  * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilManualAssessmentDataSet extends ilDataSet {
+class ilIndividualAssessmentDataSet extends ilDataSet {
 
 	/**
 	 * @return array
@@ -24,7 +24,7 @@ class ilManualAssessmentDataSet extends ilDataSet {
 	 * @return string
 	 */
 	public function getXmlNamespace($a_entity, $a_schema_version) {
-		return 'http://www.ilias.de/xml/Modules/ManualAssessment/'.$a_entity;
+		return 'http://www.ilias.de/xml/Modules/IndividualAssessment/'.$a_entity;
 	}
 
 	/**
@@ -37,7 +37,7 @@ class ilManualAssessmentDataSet extends ilDataSet {
 	 */
 	protected function getTypes($a_entity, $a_version) {
 		switch ($a_entity) {
-			case 'mass':
+			case 'iass':
 				return array(
 					"id" => "integer",
 					"title" => "text",
@@ -80,17 +80,17 @@ class ilManualAssessmentDataSet extends ilDataSet {
 	}
 
 	/**
-	 * Build data array, data is read from cache except mass object itself
+	 * Build data array, data is read from cache except iass object itself
 	 *
 	 * @param string $a_entity
 	 * @param array  $a_ids
 	 */
 	protected function _readData($a_entity, $a_ids) {
 		switch ($a_entity) {
-			case 'mass':
-				foreach ($a_ids as $mass_id) {
-					if (ilObject::_lookupType($mass_id) == 'mass') {
-						$obj = new ilObjManualAssessment($mass_id, false);
+			case 'iass':
+				foreach ($a_ids as $iass_id) {
+					if (ilObject::_lookupType($iass_id) == 'iass') {
+						$obj = new ilObjIndividualAssessment($iass_id, false);
 						$data = array(
 							'id' => $bibl_id,
 							'title' => $obj->getTitle(),
