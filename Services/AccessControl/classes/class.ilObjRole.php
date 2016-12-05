@@ -509,26 +509,26 @@ class ilObjRole extends ilObject
 	{
 		global $lng;
 
-		$test_str = self::_removeObjectId($a_role_title);
+		$role_title = self::_removeObjectId($a_role_title);
 
-		if (preg_match("/^il_./", $test_str))
+		if (preg_match("/^il_./", $role_title))
 		{
-			return $lng->txt($test_str);
+			return $lng->txt($role_title);
 		}
 		
 		return $a_role_title;
 	}
 	
 	public static function _removeObjectId($a_role_title) {
-		$test_str = explode('_',$a_role_title);
+		$role_title_parts = explode('_',$a_role_title);
 
-		$test2 = (int) $test_str[3];
+		$test2 = (int) $role_title_parts[3];
 		if ($test2 > 0)
 		{
-			unset($test_str[3]);
+			unset($role_title_parts[3]);
 		}
 
-		return implode('_',$test_str);
+		return implode('_',$role_title_parts);
 	}
 	
 	static function _updateAuthMode($a_roles)
