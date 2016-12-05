@@ -210,6 +210,9 @@ class ilAuthFrontend
 		$factory = new ilObjectFactory();
 		$user = $factory->getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(),false);
 		
+		// reset expired status
+		$this->getAuthSession()->setExpired(false);
+		
 		if(!$user instanceof ilObjUser)
 		{
 			$this->getLogger()->error('Cannot instatiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
@@ -233,15 +236,17 @@ class ilAuthFrontend
 		{
 			$this->getLogger()->info('Authentication failed (time limit restriction) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 
-			if($GLOBALS['ilSettings']->get('user_reactivate_code'))
+			if($GLOBALS['ilSetting']->get('user_reactivate_code'))
 			{
+				$this->getLogger()->debug('Accout reactivation codes are active');
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED);
 			}
 			else
 			{
+				$this->getLogger()->debug('Accout reactivation codes are inactive');
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+				$this->getStatus()->setAuthenticatedUserId(0);
 			}
-			$this->getStatus()->setAuthenticatedUserId(0);
 			$this->getStatus()->setReason('time_limit_reached');
 			return false;
 		}
@@ -257,6 +262,7 @@ class ilAuthFrontend
 		}
 		
 		// check simultaneos logins
+		$this->getLogger()->debug('Check simutaneous login');
 		if(!$this->checkSimultaneousLogins($user))
 		{
 			$this->getLogger()->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
@@ -379,9 +385,10 @@ class ilAuthFrontend
 	 */
 	protected function checkSimultaneousLogins(ilObjUser $user)
 	{
+		$this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins'));
 		if(
-			$GLOBALS['ilSetting']->get('ps_prevent_simutanous_logins') &&
-			ilObjUser::hasActiveSession($user->getId())
+			$GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins') &&
+			ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
 		)
 		{
 			return false;

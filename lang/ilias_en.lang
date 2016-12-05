@@ -1401,7 +1401,7 @@ assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
+assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
@@ -14037,7 +14037,7 @@ common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
-sop#:#sop_firefox_required#:#Using a SCORM module offline requires an up-to-date Mozilla Firefox Browser (> v. 20)<br /><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Download Firefox</a>
+sop#:#sop_firefox_required#:#Using a SCORM module offline requires Mozilla Firefox Browser Version 38.
 sop#:#sop_xpi_install#:#Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the ‘Reload page’ button. Afterwards the SCORM Learning Module can be used in offline mode.
 sop#:#sop_reload_page#:#Reload page
 sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
@@ -16240,18 +16240,19 @@ mass#:#general#:#General Information
 mass#:#mass_content#:#Assessment content description
 mass#:#mass_record_template#:#Record template
 mass#:#mass_graded_by#:#Graded by
-mass#:#mass_usr_remove#:#Remove user from object
-mass#:#mass_usr_edit#:#Edit user record and learning progress
-mass#:#mass_usr_view#:#User record
-mass#:#mass_edit_record#:#User record
+mass#:#mass_usr_remove#:#Remove Participant from Assessment
+mass#:#mass_usr_edit#:#Edit Participant Record and Learning Progress
+mass#:#mass_usr_view#:#Participant Record
+mass#:#mass_edit_record#:#Participant Record
 mass#:#mass_record#:#Record note
 mass#:#mass_internal_note#:#Internal record note
 mass#:#mass_status_completed#:#Completed
 mass#:#mass_status_failed#:#Failed
 mass#:#mass_status_pending#:#Status pending
-mass#:#mass_notify#:#Notify user after finalization
+mass#:#mass_notify#:#Notify participant after finalization
 mass#:#mass_finalize#:#Finalize
-mass#:#il_mass_member#:#Individual Assessment examinee
+mass#:#il_mass_member#:#Participant
+mass#:#il_mass_members#:#Participants
 mass#:#edit_members#:#Edit examinees
 mass#:#mass_edit_members#:#Edit examinees
 mass#:#mass_visible#:#Visible
@@ -16358,3 +16359,8 @@ itgr#:#itgr_desc_info#:#The description will not be a part of the item group's p
 mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
 mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
 common#:#sahs_export_file#:#ILIAS exported SCORM archive file
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>
+content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.
+grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.

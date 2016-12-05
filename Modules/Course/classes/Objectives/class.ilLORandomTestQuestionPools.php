@@ -257,7 +257,7 @@ class ilLORandomTestQuestionPools
 		$query = 'SELECT * FROM loc_rnd_qpl '.
 			'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
 			$writer->xmlElement(

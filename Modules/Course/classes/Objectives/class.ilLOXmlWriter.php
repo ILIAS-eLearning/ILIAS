@@ -20,6 +20,11 @@ class ilLOXmlWriter
 	private $writer = null;
 	
 	/**
+	 * @var ilLogger
+	 */
+	protected $log = null;
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct($a_ref_id)
@@ -29,6 +34,8 @@ class ilLOXmlWriter
 		
 		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$this->writer = new ilXmlWriter();
+		
+		$this->log = $GLOBALS['DIC']->logger()->crs();
 	}
 	
 	/**
@@ -58,13 +65,16 @@ class ilLOXmlWriter
 		$course = $factory->getInstanceByRefId($this->ref_id,false);
 		if(!$course instanceof ilObjCourse)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Cannot create course instance');
+			$this->log->warning('Cannot create course instance for ref_id: ' . $this->ref_id);
 			return;
 		}
 		
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
+		
+		$this->log->debug('Writing objective xml');
 		foreach(ilCourseObjective::_getObjectiveIds($this->obj_id) as $objective_id)
 		{
+			$this->log->debug('Handling objective_id: ' . $objective_id);
 			$objective = new ilCourseObjective($course, $objective_id);
 			$objective->toXml($this->getWriter());
 		}

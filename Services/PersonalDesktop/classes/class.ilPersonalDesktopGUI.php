@@ -140,7 +140,7 @@ class ilPersonalDesktopGUI
 			
 				// pd notes
 			case "ilpdnotesgui":
-				if ($ilSetting->get('disable_notes'))
+				if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments'))
 				{
 					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
@@ -662,6 +662,21 @@ class ilPersonalDesktopGUI
 		}		
 		
 		$this->ctrl->redirectByClass("ilpdnotesgui");			
+	}
+
+	/**
+	 * workaround for menu in calendar only
+	 */
+	function jumpToComments()
+	{
+		if ($this->ilias->getSetting('disable_comments'))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			return;
+		}
+
+		$this->ctrl->redirectByClass("ilpdnotesgui", "showPublicComments");
 	}
 
 	/**

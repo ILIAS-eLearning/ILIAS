@@ -230,7 +230,18 @@ class ilWorkspaceAccessHandler
 	 * @param int $a_node_id
 	 * @return array
 	 */
-	public static function getPermissions($a_node_id)
+	public function getPermissions($a_node_id)
+	{
+		return self::_getPermissions($a_node_id);
+	}
+	
+	/**
+	 * Get all permissions to node
+	 *
+	 * @param int $a_node_id
+	 * @return array
+	 */
+	public static function _getPermissions($a_node_id)
 	{
 		global $ilDB, $ilSetting;
 		

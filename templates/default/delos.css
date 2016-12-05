@@ -2456,14 +2456,14 @@ output {
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(129, 152, 183, 0.6);
 }
 .form-control::-moz-placeholder {
-  color: #777777;
+  color: #c4c4c4;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #777777;
+  color: #c4c4c4;
 }
 .form-control::-webkit-input-placeholder {
-  color: #777777;
+  color: #c4c4c4;
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -7826,6 +7826,9 @@ input:invalid {
 .il_non_editable_value {
   padding-top: 4px;
 }
+.bootstrap-datetimepicker-widget {
+  z-index: 2000;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
@@ -10249,15 +10252,15 @@ div#right_area {
   bottom: 0;
   width: 50%;
   right: 0px;
-  top: 85px;
+  top: 117px;
   position: fixed;
-  padding: 5px;
+  /* padding: 5px; */
   background-color: #F5F5F5;
   border-left: 3px solid #E9E9E9;
-  box-shadow: inset 0px 2px 2px #D0D0D0;
+  /* box-shadow: inset 0px 2px 2px #D0D0D0; */
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
-  overflow: auto;
+  overflow: hidden;
   /* Bug 11209 */
 }
 div#right_area iframe {
@@ -11793,6 +11796,7 @@ div.ilPCMyCoursesPath {
   white-space: normal !important;
   padding-left: 4px !important;
   padding-bottom: 4px !important;
+  font-size: 12px;
 }
 .ilOnScreenChatMenuItem .media-body.info a {
   color: #557196 !important;
@@ -11852,6 +11856,10 @@ div.ilBadgeBackpackPanelContent {
 }
 div.ilBadgeBackpackPanelContent img {
   margin: auto;
+}
+span.ilProfileBadge {
+  display: inline-block;
+  padding: 5px;
 }
 /*!
  * Datetimepicker for Bootstrap 3
@@ -12254,12 +12262,9 @@ img[src$="icon_checked.svg"] {
 }
 div.ilNewObjectSelector {
   display: inline-block;
-  float: right;
   margin-bottom: 8px;
   padding: 0 10px;
-}
-div.ilNewObjectSelector ~ div {
-  clear: right;
+  width: 100%;
 }
 div.ilNewObjectSelector > .btn-group {
   display: block;
@@ -12270,9 +12275,6 @@ div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
 }
 div.ilNewObjectSelector > .btn-group .dropdown-menu.pull-right {
   top: 30px;
-}
-[dir="rtl"] div.ilNewObjectSelector {
-  float: left;
 }
 [dir="rtl"] div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
   float: left;

@@ -214,25 +214,30 @@ class ilTermListTableGUI extends ilTable2GUI
 
 		if ($this->term_perm->checkPermission("write", $term["id"]))
 		{
-			$list = new ilAdvancedSelectionListGUI();
-			$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-			if (count($defs) > 1)
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+			if (ilGlossaryTerm::_lookGlossaryID($term["id"]) == $this->glossary->getId() ||
+				ilGlossaryTermReferences::isReferenced($this->glossary->getId(), $term["id"]))
 			{
-				$list->addItem($lng->txt("cont_edit_definitions"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
-			}
-			else if (count($defs) == 1)
-			{
-				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
-				$list->addItem($lng->txt("cont_edit_definition"), "", $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
-					"iltermdefinitioneditorgui",
-					"ilglossarydefpagegui"), "edit"));
-			}
-			$list->addItem($lng->txt("cont_add_definition"), "", $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
-			$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", "");
+				$list = new ilAdvancedSelectionListGUI();
+				$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
+				if (count($defs) > 1)
+				{
+					$list->addItem($lng->txt("cont_edit_definitions"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
+				} else if (count($defs) == 1)
+				{
+					$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
+					$list->addItem($lng->txt("cont_edit_definition"), "", $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
+						"iltermdefinitioneditorgui",
+						"ilglossarydefpagegui"), "edit"));
+				}
+				$list->addItem($lng->txt("cont_add_definition"), "", $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
+				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", "");
 
-			$list->setId("act_term_".$term["id"]);
-			$list->setListTitle($lng->txt("actions"));
-			$this->tpl->setVariable("ACTIONS", $list->getHTML());
+				$list->setId("act_term_" . $term["id"]);
+				$list->setListTitle($lng->txt("actions"));
+				$this->tpl->setVariable("ACTIONS", $list->getHTML());
+			}
 		}
 
 

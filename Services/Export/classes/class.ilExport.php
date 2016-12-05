@@ -12,6 +12,11 @@
 */
 class ilExport
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	public static $new_file_structure = array('cat','exc','crs','sess','file','grp','frm', 'usr', 'catr', 'crsr', 'grpr');
 	
 	// this should be part of module.xml and be parsed in the future
@@ -25,6 +30,7 @@ class ilExport
 	 */
 	public function __construct()
 	{
+		$this->log = ilLoggerFactory::getLogger('exp');
 	}
 
 	/**
@@ -314,13 +320,14 @@ class ilExport
 	 */
 	function exportObject($a_type, $a_id, $a_target_release = "")
 	{
-		global $objDefinition, $tpl;
+		$this->log->debug("export type: $a_type, id: $a_id, target_release: ".$a_target_release);
 
 		// if no target release specified, use latest major release number
 		if ($a_target_release == "")
 		{
 			$v = explode(".", ILIAS_VERSION_NUMERIC);
 			$a_target_release = $v[0].".".$v[1].".0";
+			$this->log->debug("target_release set to: ".$a_target_release);
 		}
 		
 		// manifest writer
@@ -347,6 +354,7 @@ class ilExport
 		
 		$this->export_run_dir = $export_dir."/".$sub_dir;
 		ilUtil::makeDirParents($this->export_run_dir);
+		$this->log->debug("export dir: ".$this->export_run_dir);
 
 		$this->cnt = array();
 				
@@ -361,6 +369,7 @@ class ilExport
 		$this->manifest_writer->xmlDumpFile($this->export_run_dir."/manifest.xml", false);
 
 		// zip the file
+		$this->log->debug("zip: ".$export_dir."/".$new_file);
 		ilUtil::zip($this->export_run_dir, $export_dir."/".$new_file);
 		ilUtil::delDir($this->export_run_dir);
 
@@ -459,12 +468,20 @@ class ilExport
 	/**
 	 * Process exporter
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_comp e.g. "Modules/Forum"
+	 * @param string $a_class
+	 * @param string $a_entity e.g. "frm"
+	 * @param string $a_target_release e.g. "5.1.0"
+	 * @param string $a_id id of entity (e.g. object id)
+	 * @return bool success true/false
+	 * @throws ilExportException
 	 */
 	function processExporter($a_comp, $a_class, $a_entity, $a_target_release, $a_id)
 	{
 		$success = true;
+
+		$this->log->debug("process exporter, comp: ".$a_comp.", class: ".$a_class.", entity: ".$a_entity.
+			", target release ".$a_target_release.", id: ".$a_id);
 
 		if (!is_array($a_id))
 		{
@@ -500,9 +517,13 @@ class ilExport
 		$set_dir_relative = $a_comp."/set_".$this->cnt[$a_comp];
 		$set_dir_absolute = $this->export_run_dir."/".$set_dir_relative;
 		ilUtil::makeDirParents($set_dir_absolute);
+		$this->log->debug("dir: ".$set_dir_absolute);
+
+		$this->log->debug("init exporter");
 		$exp->init();
 
 		// process head dependencies
+		$this->log->debug("process head dependencies for ".$a_entity);
 		$sequence = $exp->getXmlExportHeadDependencies($a_entity, $a_target_release, $a_id);
 		foreach ($sequence as $s)
 		{
@@ -521,6 +542,9 @@ class ilExport
 		$export_writer->xmlHeader();
 
 		$sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
+		$this->log->debug("schema version for entity: $a_entity, target release: $a_target_release");
+		$this->log->debug("...is: ".$sv["schema_version"].", namespace: ".$sv["namespace"].
+			", xsd file: ".$sv["xsd_file"].", uses_dataset: ".((int)$sv["uses_dataset"]));
 
 		$attribs = array("InstallationId" => IL_INST_ID,
 			"InstallationUrl" => ILIAS_HTTP_PATH,
@@ -565,6 +589,7 @@ class ilExport
 			array("Component" => $a_comp, "Path" => $set_dir_relative."/export.xml"));
 
 		// process tail dependencies
+		$this->log->debug("process tail dependencies of ".$a_entity);
 		$sequence = $exp->getXmlExportTailDependencies($a_entity, $a_target_release, $a_id);
 		foreach ($sequence as $s)
 		{
@@ -578,6 +603,7 @@ class ilExport
 			}
 		}
 
+		$this->log->debug("returning ".((int) $success)." for ".$a_entity);
 		return $success;
 	}
 }

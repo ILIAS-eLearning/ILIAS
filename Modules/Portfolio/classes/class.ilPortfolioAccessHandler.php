@@ -84,7 +84,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 		if($a_permission == "read" || $a_permission == "visible")
 		{
 			// get all objects with explicit permission
-			$objects = $this->getPermissions($a_node_id);
+			$objects = self::_getPermissions($a_node_id);
 			if($objects)
 			{
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
@@ -226,6 +226,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 	 * @return array
 	 */
 	public function getPermissions($a_node_id)
+	{
+		return self::_getPermissions($a_node_id);
+	}
+
+	/**
+	 * Get all permissions to node
+	 *
+	 * @param int $a_node_id
+	 * @return array
+	 */
+	public static function _getPermissions($a_node_id)
 	{
 		global $ilDB;
 

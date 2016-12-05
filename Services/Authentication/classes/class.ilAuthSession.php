@@ -158,6 +158,7 @@ class ilAuthSession
 	}
 	
 	
+	
 	/**
 	 * Set authenticated user id
 	 * @param type $a_id

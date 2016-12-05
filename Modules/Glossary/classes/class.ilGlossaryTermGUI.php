@@ -25,6 +25,11 @@ class ilGlossaryTermGUI
 	var $link_xml;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -38,6 +43,8 @@ class ilGlossaryTermGUI
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("term_id"));
 		$this->tabs_gui	= $ilTabs;
+
+		$this->log = ilLoggerFactory::getLogger('glo');
 
 		if($a_id != 0)
 		{
@@ -56,6 +63,8 @@ class ilGlossaryTermGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		$this->log->debug("glossary term, next class ".$next_class.", cmd: ".$cmd);
 
 		switch ($next_class)
 		{

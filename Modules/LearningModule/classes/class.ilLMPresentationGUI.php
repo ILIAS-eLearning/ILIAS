@@ -3798,105 +3798,10 @@ class ilLMPresentationGUI
 			}
 		}
 
-		// create table
-		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
 
-		// load files templates
-		$this->tpl->addBlockfile("DOWNLOAD_TABLE", "download_table", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", "Modules/LearningModule");
-
-		$export_files = array();
-		$types = array("xml", "html", "scorm");
-		foreach($types as $type)
-		{
-			if ($this->lm->getPublicExportFile($type) != "")
-			{
-				if (is_file($this->lm->getExportDirectory($type)."/".
-					$this->lm->getPublicExportFile($type)))
-				{
-					$dir = $this->lm->getExportDirectory($type);
-					$size = filesize($this->lm->getExportDirectory($type)."/".
-						$this->lm->getPublicExportFile($type));
-					$export_files[] = array("type" => $type,
-						"file" => $this->lm->getPublicExportFile($type),
-						"size" => $size);
-				}
-			}
-		}
-		
-		$num = 0;
-		
-		$tbl->setTitle($this->lng->txt("download"));
-
-		$tbl->setHeaderNames(array($this->lng->txt("cont_format"),
-			$this->lng->txt("cont_file"),
-			$this->lng->txt("size"), $this->lng->txt("date"),
-			""));
-
-		$cols = array("format", "file", "size", "date", "download");
-		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "showDownloadList", "cmdClass" => strtolower(get_class($this)));
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("10%", "30%", "20%", "20%","20%"));
-		$tbl->disable("sort");
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-
-		//$this->tpl->setVariable("COLUMN_COUNTS", 5);
-
-		// footer
-		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-
-		if(count($export_files) > 0)
-		{
-			$tbl->render();
-			$i=0;
-			foreach($export_files as $exp_file)
-			{
-				if (!$exp_file["size"] > 0)
-				{
-					continue;
-				}
-				
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", ilUtil::formatSize($exp_file["size"]));
-				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
-
-				$file_arr = explode("__", $exp_file["file"]);
-				ilDatePresentation::setUseRelativeDates(false);
-				$this->tpl->setVariable("TXT_DATE", ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)));
-
-				$this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
-				$this->ctrl->setParameter($this, "type", $exp_file["type"]);
-				$this->tpl->setVariable("LINK_DOWNLOAD",
-					$this->ctrl->getLinkTarget($this, "downloadExportFile"));
-
-				$this->tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("lm_no_download_files"));
-		}
-
+		include_once("./Modules/LearningModule/classes/class.ilLMDownloadTableGUI.php");
+		$download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);
+		$this->tpl->setVariable("DOWNLOAD_TABLE", $download_table->getHTML());
 		$this->tpl->show();
 	}
 
@@ -3911,8 +3816,10 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		$file = $this->lm->getPublicExportFile($_GET["type"]);
-		if ($this->lm->getPublicExportFile($_GET["type"]) != "")
+		$base_type = explode("_", $_GET["type"]);
+		$base_type = $base_type[0];
+		$file = $this->lm->getPublicExportFile($base_type);
+		if ($this->lm->getPublicExportFile($base_type) != "")
 		{
 			$dir = $this->lm->getExportDirectory($_GET["type"]);
 			if (is_file($dir."/".$file))

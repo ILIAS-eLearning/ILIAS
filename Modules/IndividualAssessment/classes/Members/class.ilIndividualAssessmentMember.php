@@ -198,7 +198,8 @@ class ilIndividualAssessmentMember {
 	}
 
 	protected function LPStatusValid($lp_status) {
-		return (string)$lp_status === (string)ilIndividualAssessmentMembers::LP_IN_PROGRESS
+		return (string)$lp_status === (string)ilIndividualAssessmentMembers::LP_NOT_ATTEMPTED
+				||(string)$lp_status === (string)ilIndividualAssessmentMembers::LP_IN_PROGRESS
 				||(string)$lp_status === (string)ilIndividualAssessmentMembers::LP_COMPLETED
 				||(string)$lp_status === (string)ilIndividualAssessmentMembers::LP_FAILED;
 	}

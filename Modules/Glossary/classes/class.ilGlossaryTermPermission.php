@@ -32,6 +32,11 @@ class ilGlossaryTermPermission
 	protected $permission = array();
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * ilGlossaryTermPermission constructor.
 	 */
 	private function __construct()
@@ -40,6 +45,8 @@ class ilGlossaryTermPermission
 
 		$this->user = $DIC->user();
 		$this->access = $DIC->access();
+
+		$this->log = ilLoggerFactory::getLogger('glo');
 	}
 
 	/**
@@ -60,12 +67,15 @@ class ilGlossaryTermPermission
 	 */
 	public function checkPermission($a_perm, $a_term_id)
 	{
+		$this->log->debug("check permission ".$a_perm." for ".$a_term_id.".");
 		$glo_id = $this->getGlossaryIdForTerm($a_term_id);
 		if (!isset($this->permission[$a_perm][$glo_id]))
 		{
 			$this->permission[$a_perm][$glo_id] = false;
+			$this->log->debug("...checking references");
 			foreach (ilObject::_getAllReferences($glo_id) as $ref_id)
 			{
+				$this->log->debug("...".$ref_id);
 				if ($this->permission[$a_perm][$glo_id] == true)
 				{
 					continue;
@@ -76,6 +86,7 @@ class ilGlossaryTermPermission
 				}
 			}
 		}
+		$this->log->debug("...return ".((int) $this->permission[$a_perm][$glo_id]));
 		return $this->permission[$a_perm][$glo_id];
 	}
 

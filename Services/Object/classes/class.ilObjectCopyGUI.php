@@ -75,7 +75,6 @@ class ilObjectCopyGUI
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-		
 
 		switch($next_class)
 		{
@@ -750,7 +749,6 @@ class ilObjectCopyGUI
 			ilUtil::sendFailure($this->lng->txt('search_no_match'),true);
 			$ilCtrl->returnToParent($this);
 		}
-		
 		
 	
 		include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';

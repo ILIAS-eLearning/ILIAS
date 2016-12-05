@@ -95,7 +95,7 @@ class ilDclBaseRecordModel {
 	/**
 	 * doUpdate
 	 */
-	public function doUpdate() {
+	public function doUpdate($omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -129,7 +129,9 @@ class ilDclBaseRecordModel {
 		}
 
 		//TODO: add event raise
-		ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+		if (!$omit_notification) {
+			ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+		}
 	}
 
 

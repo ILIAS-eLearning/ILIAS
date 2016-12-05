@@ -43,7 +43,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl, $ilToolbar;
+		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilToolbar;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -1662,7 +1662,17 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
+
 		$reg = $a_form->getItemByPostVar("reg");
+		if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
+		{
+			$this->object->enableUnlimitedRegistration(false);
+		}
+		else
+		{
+			$this->object->enableUnlimitedRegistration(true);
+		}
+		
 		$this->object->setRegistrationStart($reg->getStart());
 		$this->object->setRegistrationEnd($reg->getEnd());
 		
@@ -2037,5 +2047,14 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
 	}
+
+	/**
+	 * Set return point for side column actions
+	 */
+	function setSideColumnReturn()
+	{
+		$this->ctrl->setReturn($this, "view");
+	}
+
 } // END class.ilObjGroupGUI
 ?>

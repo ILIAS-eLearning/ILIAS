@@ -1,45 +1,53 @@
 /**
- * A documentation for writing dicto rules could be found at:
+ * A documentation for writing dicto rules and executing this file could be found at:
  *
  * http://scg.unibe.ch/dicto/examples.php
+ * https://github.com/lechimp-p/dicto.php
  *
  */
 
-ilClasses = PhpClass with name:"il*"
-assClasses = PhpClass with name:"ass*"
+ilClasses = Classes with name:"il.*"
+assClasses = Classes with name:"ass.*"
 WholeIliasCodebase = {ilClasses, assClasses}
-GUIClasses = PhpClass with name:"*GUI*"
-triggerError = PhpFunction with name:"trigger_error"
-raiseError = PhpFunction with name:"raiseError"
-exitOrDie = PhpFunction with name:"exit/die"
-eval = PhpFunction with name:"eval"
-ilTopLevelException = PhpClass with name:"ilException"
-ilExceptions = PhpClass with name:"il*Exception*"
+_GUIClasses = Classes with name:".*GUI.*"
+GUIClasses = {_GUIClasses, Methods in: _GUIClasses}
+triggerError = Functions with name:"trigger_error"
+raiseError = Functions with name:"raiseError"
+exitOrDie = {Exit, Die}
+ilTopLevelException = Classes with name:"ilException"
+ilExceptions = Classes with name:"il.*Exception*"
 ilExceptionsWithoutTopLevelException = {ilExceptions} except {ilTopLevelException} 
-SuppressErrors = PhpDependency with name:"@"
-ilDBClass = PhpClass with name:"ilDB"
-ilDBGlobal = PhpGlobal with name:"ilDB"
-ilTemplateClass = PhpClass with name:"ilTemplate"
-ilTemplateGlobal = PhpGlobal with name:"tpl"
-ilTabsClass = PhpClass with name:"ilTabsGUI"
-ilTabsGlobal = PhpGlobal with name:"ilTabs"
-SetErrorHandler = PhpFunction with name:"set_error_handler"
-SetExceptionHandler = PhpFunction with name:"set_exception_handler"
+ilDBClass = Classes with name:"ilDB"
+ilDBGlobal = Globals with name:"ilDB"
+ilDB = {ilDBClass, ilDBGlobal}
+ilTemplateClass = Classes with name:"ilTemplate"
+ilTemplateGlobal = Globals with name:"tpl"
+ilTemplate = {ilTemplateClass, ilTemplateGlobal}
+ilTabsClass = Classes with name:"ilTabsGUI"
+ilTabsGlobal = Globals with name:"ilTabs"
+ilTabs = {ilTabsClass, ilTabsGlobal}
+SetErrorHandler = Functions with name:"set_error_handler"
+SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
-IliasTemplateFile = File with file:"*/tpl.*.html"
+IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
 
 
 /**
- * The global php function trigger_error is a procedural concept. Please ommit this php function and use an ILIAS exception instead.
+ * The global php function trigger_error is a procedural concept. Please 
+ * ommit this php function and use an ILIAS exception instead.
  */
 WholeIliasCodebase cannot invoke triggerError
 
 /**
- * Exit and die are a bad idea in both development and production: In development you have no idea what went wrong and in production the user receives a white page and has no idea whats going on. The implemented exception handling does not work if you use exit or die. 
+ * Exit and die are a bad idea in both development and production: In
+ * development you have no idea what went wrong and in production the
+ * user receives a white page and has no idea whats going on. The
+ * implemented exception handling does not work if you use exit or die.
  *
  * If you want to send a file consider using: Services/FileDelivery.
  *
- * Exception: Currently if you want to output json you most likely have to use exit() at the moment.
+ * Exception: Currently if you want to output json you most likely have
+ * to use exit() at the moment.
  */
 WholeIliasCodebase cannot invoke exitOrDie
 
@@ -49,70 +57,62 @@ WholeIliasCodebase cannot invoke exitOrDie
 WholeIliasCodebase cannot invoke SetErrorOrExceptionHandler
 
 /**
- * The php function eval() is not good practice. Its use often comes with a high security risk, because it is generally not a trivial task to make sure that a paramater of eval() can be fully trusted. And if it is, then eval() is usually not neccessary. It is also tricky to debug, because it obfuscates control flow. Last but not least, it does not work with HHVM in the special "RepoAuthoritative" mode, which makes PHP run extra-fast.
+ * The php function Eval() is not good practice. Its use often comes with
+ * a high security risk, because it is generally not a trivial task to
+ * make sure that a paramater of eval() can be fully trusted. And if it is,
+ * then eval() is usually not neccessary. It is also tricky to debug, because
+ * it obfuscates control flow. Last but not least, it does not work with HHVM
+ * in the special "RepoAuthoritative" mode, which makes PHP run extra-fast.
  */
-WholeIliasCodebase cannot invoke eval
+WholeIliasCodebase cannot invoke Eval
 
 
 /**
- * Silencing errors with the @ operator is bad practice. It makes code uneccessarily harder to debug if the currently suppressed error changes into a real show-stopper bug. Try to handle the possible warnings and errors.
+ * Silencing errors with the @ operator is bad practice. It makes code
+ * uneccessarily harder to debug if the currently suppressed error changes
+ * into a real show-stopper bug. Try to handle the possible warnings and errors.
  */
-WholeIliasCodebase cannot depend on SuppressErrors
+WholeIliasCodebase cannot depend on ErrorSuppressor
 
 /**
- * All ILIAS Exceptions must be in a Hierarchy and finally extend ilException Every module/service should define its own top level Exception e.g. ilCourseException where all other exceptions from that module/service extend this service/module Exception.
- *
- * See: http://www.ilias.de/docu/goto_docu_pg_42740_42.html
+ * The GUI-Layer should not itself interact with the database. Try to build
+ * reusable Model classes, adding a layer of abstraction instead of accessing
+ * the database.
  */
-//temporary disabled.
-//ilExceptionsWithoutTopLevelException must depend on any ilExceptions
+GUIClasses cannot depend on ilDB
 
 /**
- * The GUI-Layer should not itself interact with the database. Try to build reusable Model classes, adding a layer of abstraction instead of accessing the database.
+ * Only the GUI-Layer should use the global variable ilTabs and the class
+ * ilTabsGUI. If you use them in a Model the model cannot be used for e.g.
+ * SOAP requests without unnecessary overhead.
  */
-GUIClasses cannot depend on ilDBClass
+only GUIClasses can depend on ilTabs
 
 /**
- * The GUI-Layer should not itself interact with the database. Try to build reusable Model classes, adding a layer of abstraction instead of accessing the database.
+ * Only the GUI-Layer should use the global variable ilTemplate and the
+ * class ilTemplate itself. If you use ilTemplate in the model it cannot be
+ * used by calls that do not initiate global ilTemplate for example SOAP.
  */
-GUIClasses cannot depend on ilDBGlobal
+only GUIClasses can depend on ilTemplate
 
 /**
- * Only the GUI-Layer should use the global variable ilTabs and the class ilTabsGUI. If you use them in a Model the model cannot be used for e.g. SOAP requests without unnecessary overhead.
- */
-only GUIClasses can depend on ilTabsClass
-
-/**
- * Only the GUI-Layer should use the global variable ilTabs and the class ilTabsGUI. If you use them in a Model the model cannot be used for e.g. SOAP requests without unnecessary overhead.
- */
-only GUIClasses can depend on ilTabsGlobal
-
-/**
- * Only the GUI-Layer should use the global variable ilTemplate and the class ilTemplate itself. If you use ilTemplate in the model it cannot be used by calls that do not initiate global ilTemplate for example SOAP. 
- */
-only GUIClasses can depend on ilTemplateClass
-
-/**
- * Only the GUI-Layer should use the global variable ilTemplate and the class ilTemplate itself. If you use ilTemplate in the model it cannot be used by calls that do not initiate global ilTemplate for example SOAP. 
- */
-only GUIClasses can depend on ilTemplateGlobal
-
-/**
- * ILIAS should not rely on PEAR::raiseError. We would like to introduce exceptions instead. 
+ * ILIAS should not rely on PEAR::raiseError. We would like to introduce
+ * exceptions instead.
  */
 WholeIliasCodebase cannot invoke raiseError
 
-**
- * Used to detect HTML <script>-Tags 
+/**
+ * Used to detect HTML <script>-Tags.
  */
-IliasTemplateFile cannot contain text "<script*>"
+IliasTemplateFiles cannot contain text "<script"
 
 /**
- * Used to detect JavaScript in e.g. HTML attributes, e.g. <a href="javascript:void(0);">x</a>
+ * Used to detect JavaScript in e.g. HTML attributes, e.g.
+ * <a href="javascript:void(0);">x</a>
  */
-IliasTemplateFile cannot contain text "javascript*:"
+IliasTemplateFiles cannot contain text "javascript\s*:"
 
 /**
  * Used to detect inline JavaScript events, e.g. <a onclick="alert('HelloWorld');">x</a>
  */
-IliasTemplateFile cannot contain text "on(blur|change|click|dblclick|focus|keydown|keypress|keyup|load|mousemove|mouseup|mousedown|mouseenter|mouseleave|mouseout|mouseover|mousewheel|resize|select|submit|unload|wheel|scroll)"
+IliasTemplateFiles cannot contain text "on(blur|change|click|dblclick|focus|keydown|keypress|keyup|load|mousemove|mouseup|mousedown|mouseenter|mouseleave|mouseout|mouseover|mousewheel|resize|select|submit|unload|wheel|scroll)"

@@ -83,7 +83,7 @@ class ilTestQuestionRelatedObjectivesList
 	{
 		$titles = array();
 		
-		foreach($this->objectivesByQuestion[$questionId] as $objectiveId)
+		foreach((array) $this->objectivesByQuestion[$questionId] as $objectiveId)
 		{
 			$titles[] = $this->objectivesTitles[$objectiveId];
 		}

@@ -93,6 +93,11 @@ class ilQTIParser extends ilSaxParser
 	var $verifyfieldentrytext = "";
 
 	/**
+	 * @var int
+	 */
+	protected $numImportedItems = 0;
+
+	/**
 	 * @var ilQTIPresentationMaterial
 	 */
 	protected $prensentation_material;
@@ -1322,6 +1327,7 @@ class ilQTIParser extends ilSaxParser
 						$question, $GLOBALS['ilCtrl'], $GLOBALS['ilDB'], $GLOBALS['lng']
 				);
 				$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
+				$this->numImportedItems++;
 				break;
 			case "material":
 				if ($this->material)
@@ -1799,6 +1805,24 @@ class ilQTIParser extends ilSaxParser
 		}
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getQuestionIdMapping()
+	{
+		$questionIdMapping = array();
+
+		foreach((array)$this->getImportMapping() as $k => $v)
+		{
+			$oldQuestionId = substr($k, strpos($k, 'qst_')+strlen('qst_'));
+			$newQuestionId = $v['test']; // yes, this is the new question id ^^
+
+			$questionIdMapping[$oldQuestionId] = $newQuestionId;
+		}
+
+		return $questionIdMapping;
+	}
+
 	function setXMLContent($a_xml_content)
 	{
 		$a_xml_content = $this->cleanInvalidXmlChars($a_xml_content);
@@ -1873,6 +1897,14 @@ class ilQTIParser extends ilSaxParser
 		$xmlContent = preg_replace($reg, '', $xmlContent);
 		
 		return $xmlContent;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getNumImportedItems()
+	{
+		return $this->numImportedItems;
 	}
 }
 ?>

@@ -20,6 +20,8 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 		global $lng;
 		
 		$this->parent_ref_id = (int)$a_parent_ref_id;
+
+		$lng->loadLanguageModule("trac");
 	
 		include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
 		$subitems = new ilRepositorySelector2InputGUI($lng->txt("objects"), "subitems", true);
@@ -27,7 +29,18 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 		$exp = $subitems->getExplorerGUI();		
 		$exp->setSkipRootNode(true);
 		$exp->setRootId($this->parent_ref_id);		
-		$exp->setTypeWhiteList($this->getLPTypes($this->parent_ref_id));	
+		$exp->setTypeWhiteList($this->getLPTypes($this->parent_ref_id));
+		$subitems->setTitleModifier(function ($a_id) {
+			$obj_id = ilObject::_lookupObjId($a_id);
+			$olp = ilObjectLP::getInstance($obj_id);
+			$invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
+			$mode = $olp->getModeText($olp->getCurrentMode());
+			if(in_array($olp->getCurrentMode(), $invalid_modes))
+			{
+				$mode = "<strong>$mode</strong>";
+			}
+			return ilObject::_lookupTitle(ilObject::_lookupObjId($a_id))." (".$mode.")";
+		});
 		
 		$subitems->setRequired(true);
 		$a_form->addItem($subitems);		
@@ -107,36 +120,38 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 	{		
 		return array("subitems" => $a_form->getInput("subitems"));
 	}
-	
-	public function validateForm(ilPropertyFormGUI $a_form)
-	{		
-		global $lng;
-		
-		$invalid = array();
-		
+
+	/**
+	 * Get invalid lp modes
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getInvalidLPModes()
+	{
 		include_once "Services/Object/classes/class.ilObjectLP.php";
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 		include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
-		
+
 		/* supported modes
 			LP_MODE_TLT
 			LP_MODE_OBJECTIVES
 			LP_MODE_TEST_FINISHED
 			LP_MODE_TEST_PASSED
-			LP_MODE_EXERCISE_RETURNED 
+			LP_MODE_EXERCISE_RETURNED
 			LP_MODE_EVENT
-			LP_MODE_SCORM_PACKAGE 
-			LP_MODE_PLUGIN 
-			LP_MODE_QUESTIONS 
-			LP_MODE_SURVEY_FINISHED 
+			LP_MODE_SCORM_PACKAGE
+			LP_MODE_PLUGIN
+			LP_MODE_QUESTIONS
+			LP_MODE_SURVEY_FINISHED
 			LP_MODE_VISITED_PAGES
-			LP_MODE_DOWNLOADED 
+			LP_MODE_DOWNLOADED
 			LP_MODE_STUDY_PROGRAMME ?!
 		 */
-		
-		$invalid_modes = array(ilLPObjSettings::LP_MODE_DEACTIVATED,	
+
+		$invalid_modes = array(ilLPObjSettings::LP_MODE_DEACTIVATED,
 			ilLPObjSettings::LP_MODE_UNDEFINED);
-		
+
 		// without active LP the following modes cannot be supported
 		if(!ilObjUserTracking::_enabledLearningProgress())
 		{
@@ -144,7 +159,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL;
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_COLLECTION_MANUAL;
-			
+
 			// mode cannot be configured without active LP
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_COLLECTION;
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_COLLECTION_MOBS;
@@ -152,6 +167,20 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_SCORM;
 			$invalid_modes[] = ilLPObjSettings::LP_MODE_VISITS; // ?
 		}
+		return $invalid_modes;
+	}
+
+
+	public function validateForm(ilPropertyFormGUI $a_form)
+	{		
+		global $lng;
+		$invalid = array();
+		
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+		include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
+
+		$invalid_modes = self::getInvalidLPModes();
 		
 		foreach($a_form->getInput("subitems") as $ref_id)
 		{			

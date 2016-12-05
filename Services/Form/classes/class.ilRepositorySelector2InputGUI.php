@@ -16,6 +16,11 @@ include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 {
 	/**
+	 * @var callable
+	 */
+	protected $title_modifier = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param	string	$a_title	Title
@@ -40,7 +45,36 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		parent::__construct($a_title, $a_postvar, $this->explorer_gui, $this->multi_nodes);
 		$this->setType("rep_select");
 	}
-	
+
+	/**
+	 * Set title modifier
+	 *
+	 * @param callable $a_val
+	 */
+	function setTitleModifier(callable $a_val)
+	{
+		$this->title_modifier = $a_val;
+		if ($a_val != null)
+		{
+			$this->explorer_gui->setNodeContentModifier(function ($a_node) use ($a_val) {
+				return $a_val($a_node["child"]);
+			});
+		}
+		else
+		{
+			$this->explorer_gui->setNodeContentModifier(null);
+		}
+	}
+
+	/**
+	 * Get title modifier
+	 *
+	 * @return callable
+	 */
+	function getTitleModifier()
+	{
+		return $this->title_modifier;
+	}
 
 	/**
 	 * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
@@ -50,6 +84,11 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	 */
 	function getTitleForNodeId($a_id)
 	{
+		$c = $this->getTitleModifier();
+		if (is_callable($c))
+		{
+			return $c($a_id);
+		}
 		return ilObject::_lookupTitle(ilObject::_lookupObjId($a_id));
 	}
 
@@ -81,12 +120,20 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	function getHTML()
 	{
 		global $ilCtrl;
-
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
 		$html = parent::getHTML();
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
 		return $html;
 	}
 
-
+	/**
+	 * Render item
+	 */
+	function render($a_mode = "property_form")
+	{
+		global $ilCtrl;
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
+		return parent::render($a_mode);
+		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
+	}
 }

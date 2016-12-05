@@ -565,7 +565,7 @@ class ilDclRecordEditGUI {
 				$dispatchEventData['prev_record'] = $unchanged_obj;
 			}
 
-			$record_obj->doUpdate();
+			$record_obj->doUpdate($create_mode);
 
 			$ilAppEventHandler->raise('Modules/DataCollection',
 				$dispatchEvent.'Record',

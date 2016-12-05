@@ -490,7 +490,7 @@ class ilCourseObjectiveResult
 		return true;
 	}
 
-	function __isFullfilled($question_points,$objective_data)
+	public static function __isFullfilled($question_points,$objective_data)
 	{
 		if(!is_array($objective_data['questions']))
 		{

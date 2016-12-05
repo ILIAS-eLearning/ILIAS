@@ -137,8 +137,6 @@ class ilSoapClient
 				$this->uri = ilUtil::_getHttpPath().'/webservice/soap/server.php?wsdl';
 			}
 		}
-		if(strlen)
-		
 		try {
 			
 			$this->log->debug('Using wsdl: ' . $this->getServer());

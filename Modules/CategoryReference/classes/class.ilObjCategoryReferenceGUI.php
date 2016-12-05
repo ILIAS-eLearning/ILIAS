@@ -72,7 +72,7 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("edit",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array(),
 				"");

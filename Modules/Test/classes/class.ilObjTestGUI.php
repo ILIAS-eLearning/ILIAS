@@ -1309,19 +1309,21 @@ class ilObjTestGUI extends ilObjectGUI
 			$contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
 			$contParser->setQuestionMapping($qtiParser->getImportMapping());
 			$contParser->startParsing();
-			
-			if( isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getFoundItems() )
+
+			if( isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getNumImportedItems() )
 			{
 				// import test results
 				if(@file_exists($_SESSION["tst_import_results_file"]))
 				{
 					include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
 					$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+					$results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
 					$results->startParsing();
 				}
 			}
+			$newObj->update();
 		}		
-		$newObj->update();
+		
 		
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());

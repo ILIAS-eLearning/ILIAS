@@ -60,6 +60,7 @@ class ilTestLP extends ilObjectLP
 				$lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);		
 				
 				require_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
+				include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 				ilLOUserResults::deleteResultsFromLP(
 					$course_obj_id, 
 					$a_user_ids, 

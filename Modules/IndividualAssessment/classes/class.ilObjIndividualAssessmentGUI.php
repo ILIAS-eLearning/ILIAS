@@ -157,7 +157,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 			$info->addProperty($this->lng->txt('grading'),$this->getEntryForStatus($member->LPStatus()));
 		}
 		if($member->notify() && $member->finalized()) {
-			$info->addProperty($this->lng->txt('grading_record'),$member->record());
+			$info->addProperty($this->lng->txt('grading_record'), nl2br($member->record()));
 		}
 		return $info;
 	}
@@ -226,7 +226,7 @@ public function getTabs() {
 			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
 			|| $access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
-									, $this->lng->txt('members')
+									, $this->lng->txt('il_mass_members')
 									, $this->getLinkTarget('members')
 									);
 		}

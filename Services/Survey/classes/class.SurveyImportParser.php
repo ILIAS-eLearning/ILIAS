@@ -568,7 +568,7 @@ class SurveyImportParser extends ilSaxParser
 					if (is_object($this->survey) && 
 						$this->spl_id > 0)
 					{						
-						$question_id = $this->activequestion->duplicate(TRUE);										
+						$question_id = $this->activequestion->duplicate(TRUE, "", "", "", $this->survey->getId());
 					}
 					else
 					{

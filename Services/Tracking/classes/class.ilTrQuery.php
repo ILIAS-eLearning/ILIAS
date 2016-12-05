@@ -88,7 +88,7 @@ class ilTrQuery
 		}
 	}
 
-	function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
+	public static function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
 		global $ilDB;
 						
@@ -118,7 +118,7 @@ class ilTrQuery
 		return $result;
 	}
 	
-	function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
+	static function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		
