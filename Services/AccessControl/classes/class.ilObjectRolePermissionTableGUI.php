@@ -670,7 +670,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		$type = ilObject::_lookupType($this->getRefId(), true);
 		if($objDefinition->isPlugin($type))
 		{
-			$role_title = ilPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
+			if (preg_match("/^il_./", $role["title"]))
+			{
+				$role_title = ilPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
+			}
 		}
 
 		if($role['blocked'])
