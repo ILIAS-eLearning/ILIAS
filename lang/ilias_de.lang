@@ -16259,7 +16259,7 @@ iass#:#iass_edit_learning_progress#:#Lernfortschritt bearbeiten
 iass#:#iass_may_not_finalize#:#Status kann nicht finalisiert werden.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
-trac#:#trac_mode_manual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
+trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
 common#:#obj_iass#:#Individuelle Bewertung
 common#:#objs_iass#:#Individuelle Bewertungen
 common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren

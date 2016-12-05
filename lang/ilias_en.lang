@@ -16266,7 +16266,7 @@ iass#:#iass_edit_learning_progress#:#Edit learning progress
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
-trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer
+trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
 common#:#obj_iass#:#Individual Assessment
 common#:#objs_iass#:#Individual Assessments
 common#:#obj_iass_duplicate#:#Copy Individual Assessment
