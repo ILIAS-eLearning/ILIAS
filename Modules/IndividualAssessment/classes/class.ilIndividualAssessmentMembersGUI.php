@@ -46,7 +46,7 @@ class ilIndividualAssessmentMembersGUI {
 				$rep_search->setCallback($this,"addUsersFromSearch");
 				$this->ctrl->forwardCommand($rep_search);
 				break;
-			case "ilIndividualassessmentmembergui":
+			case "ilindividualassessmentmembergui":
 				require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php';
 				$member = new ilIndividualAssessmentMemberGUI($this, $this->parent_gui, $this->ref_id);
 				$this->ctrl->forwardCommand($member);
