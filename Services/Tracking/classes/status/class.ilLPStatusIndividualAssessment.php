@@ -8,7 +8,7 @@ require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAss
 class ilLPStatusIndividualAssessment extends ilLPStatus {
 
 	static function _getNotAttempted($a_obj_id) {
-		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
 			ilIndividualAssessmentMembers::LP_NOT_ATTEMPTED);
 	}
 
@@ -21,7 +21,7 @@ class ilLPStatusIndividualAssessment extends ilLPStatus {
 	}
 
 	static function _getInProgress($a_obj_id) {
-		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
 			ilIndividualAssessmentMembers::LP_IN_PROGRESS);
 	}
 
@@ -30,7 +30,7 @@ class ilLPStatusIndividualAssessment extends ilLPStatus {
 	}
 
 	static function _getCompleted($a_obj_id) {
-		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
 			ilIndividualAssessmentMembers::LP_COMPLETED);
 	}
 
@@ -39,9 +39,10 @@ class ilLPStatusIndividualAssessment extends ilLPStatus {
 	}
 
 	static function _getFailed($a_obj_id) {
-		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id, 
+		return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn($a_obj_id,
 			ilIndividualAssessmentMembers::LP_FAILED);
 	}
+
 
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null) {
 		switch ((string)ilIndividualAssessmentLPInterface::determineStatusOfMember($a_obj_id,$a_user_id)) {
