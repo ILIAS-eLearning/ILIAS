@@ -10,19 +10,19 @@ class ilIndividualAssessmentLPInterface {
 	}
 
 
-	public static function updateLPStatusByIds($mass_id, array $usr_ids) {
-		ilLPStatusWrapper::_refreshStatus($mass_id, $usr_ids);
+	public static function updateLPStatusByIds($iass_id, array $usr_ids) {
+		ilLPStatusWrapper::_refreshStatus($iass_id, $usr_ids);
 	}
 
-	public static function determineStatusOfMember($mass_id, $usr_id) {
+	public static function determineStatusOfMember($iass_id, $usr_id) {
 		if(self::$members_storage  === null) {
 			self::$members_storage = self::getMembersStorage();
 		}
-		$mass = new ilObjIndividualAssessment($mass_id,false);
-		$members = $mass->loadMembers($mass);
+		$iass = new ilObjIndividualAssessment($iass_id,false);
+		$members = $iass->loadMembers($iass);
 		$usr =  new ilObjUser($usr_id);
 		if($members->userAllreadyMember($usr)) {
-			$member = self::$members_storage->loadMember($mass ,$usr);
+			$member = self::$members_storage->loadMember($iass ,$usr);
 			if($member->finalized()) {
 				return $member->LPStatus();
 			} elseif(in_array($member->LPStatus(),array(ilIndividualAssessmentMembers::LP_FAILED, ilIndividualAssessmentMembers::LP_COMPLETED))) {
@@ -37,14 +37,14 @@ class ilIndividualAssessmentLPInterface {
 		return new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
 	}
 
-	public static function getMembersHavingStatusIn($mass_id, $status) {
+	public static function getMembersHavingStatusIn($iass_id, $status) {
 		if(self::$members_storage  === null) {
 			self::$members_storage = self::getMembersStorage();
 		}
-		$members = self::$members_storage->loadMembers(new ilObjIndividualAssessment($mass_id,false));
+		$members = self::$members_storage->loadMembers(new ilObjIndividualAssessment($iass_id,false));
 		$return = array();
 		foreach($members as $usr_id => $record) {
-			if((string)$record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] === (string)$status) {
+			if((string)self::determineStatusOfMember($iass_id,$usr_id) === (string)$status) {
 				$return[] = $usr_id;
 			}
 		}
