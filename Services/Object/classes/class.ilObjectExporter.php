@@ -68,7 +68,14 @@ class ilObjectExporter extends ilXmlExporter
 				"xsd_file" => "ilias_obj_4_4.xsd",
 				"uses_dataset" => true,
 				"min" => "4.4.0",
+				"max" => "5.0.99"),
+			"5.1.0" => array(
+				"namespace" => "http://www.ilias.de/Services/Object/obj/5_1",
+				"xsd_file" => "ilias_obj_5_1.xsd",
+				"uses_dataset" => true,
+				"min" => "5.1.0",
 				"max" => "")
+
 		);
 	}
 

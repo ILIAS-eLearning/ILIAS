@@ -7827,6 +7827,9 @@ input:invalid {
 .il_non_editable_value {
   padding-top: 4px;
 }
+.bootstrap-datetimepicker-widget {
+  z-index: 2000;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
@@ -11795,6 +11798,7 @@ div.ilPCMyCoursesPath {
   white-space: normal !important;
   padding-left: 4px !important;
   padding-bottom: 4px !important;
+  font-size: 12px;
 }
 .ilOnScreenChatMenuItem .media-body.info a {
   color: #557196 !important;
@@ -12260,12 +12264,9 @@ img[src$="icon_checked.svg"] {
 }
 div.ilNewObjectSelector {
   display: inline-block;
-  float: right;
   margin-bottom: 8px;
   padding: 0 10px;
-}
-div.ilNewObjectSelector ~ div {
-  clear: right;
+  width: 100%;
 }
 div.ilNewObjectSelector > .btn-group {
   display: block;
@@ -12276,9 +12277,6 @@ div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
 }
 div.ilNewObjectSelector > .btn-group .dropdown-menu.pull-right {
   top: 30px;
-}
-[dir="rtl"] div.ilNewObjectSelector {
-  float: left;
 }
 [dir="rtl"] div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
   float: left;

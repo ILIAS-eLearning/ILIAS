@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
+
 /**
  * Handles a list of questions
  *
@@ -102,7 +104,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		$query = "
 			SELECT		qpl_questions.question_id,
 						qpl_qst_type.type_tag,
-						qpl_qst_type.plugin
+						qpl_qst_type.plugin,
+						qpl_qst_type.plugin_name
 
 			FROM		tst_rnd_cpy
 
@@ -126,6 +129,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
+			$row = ilAssQuestionType::conmpleteMissingPluginName($row);
+			
 			if( !$this->isActiveQuestionType($row) )
 			{
 				continue;
@@ -197,7 +202,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 			return true;
 		}
 		
-		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['type_tag']);
+		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
 	}
 
 	public function resetQuestionList()

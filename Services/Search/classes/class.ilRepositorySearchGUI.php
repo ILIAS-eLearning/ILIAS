@@ -728,6 +728,9 @@ class ilRepositorySearchGUI
 			default:
 				echo 'not defined';
 		}
+		
+		$GLOBALS['DIC']->logger()->src()->dump($this->result_obj->getEntries());
+		
 		$this->result_obj->setRequiredPermission('read');
 		$this->result_obj->addObserver($this, 'searchResultFilterListener');
 		$this->result_obj->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
@@ -805,6 +808,15 @@ class ilRepositorySearchGUI
 					break;
 
 				case FIELD_TYPE_SELECT:
+					
+					if($info['db'] == 'org_units')
+					{
+						$user_search = ilObjectSearchFactory::getUserOrgUnitAssignmentInstance($query_parser);
+						$result_obj = $user_search->performSearch();
+						$this->__storeEntries($result_obj);
+						break;
+					}
+					
 					// Do a phrase query for select fields
 					$query_parser = $this->__parseQueryString('"'.$query_string.'"', true, true);
 
@@ -823,6 +835,7 @@ class ilRepositorySearchGUI
 					$result_obj = $multi_search->performSearch();
 					$this->__storeEntries($result_obj);
 					break;
+				
 			}
 		}
 	}

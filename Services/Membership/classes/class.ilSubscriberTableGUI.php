@@ -201,7 +201,13 @@ class ilSubscriberTableGUI extends ilTable2GUI
 				case 'odf_last_update':
 					$this->tpl->setVariable('VAL_CUST',(string) $a_set['odf_info_txt']);
 					break;
-				
+
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+					$this->tpl->parseCurrentBlock();
+					break;
 
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
@@ -301,6 +307,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
+		unset($additional_fields['org_units']);
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)

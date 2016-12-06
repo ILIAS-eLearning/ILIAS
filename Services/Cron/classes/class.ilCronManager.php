@@ -127,7 +127,7 @@ class ilCronManager
 
 				$result = new ilCronJobResult();
 				$result->setStatus(ilCronJobResult::STATUS_CRASHED);
-				$result->setCode("job_auto_deactivation_time_limit");
+				$result->setCode(ilCronJobResult::CODE_SUPPOSED_CRASH);
 				$result->setMessage("Cron job deactivated because it has been inactive for 3 hours");
 
 				if(!$a_manual)
@@ -160,7 +160,7 @@ class ilCronManager
 			{
 				$result = new ilCronJobResult();
 				$result->setStatus(ilCronJobResult::STATUS_CRASHED);
-				$result->setCode("job_no_result");
+				$result->setCode(ilCronJobResult::CODE_NO_RESULT);
 				$result->setMessage("Cron job did not return a proper result");
 
 				if(!$a_manual)
@@ -555,7 +555,7 @@ class ilCronManager
 		include_once "Services/Cron/classes/class.ilCronJobResult.php";
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_RESET);
-		$result->setCode("job_manual_reset");
+		$result->setCode(ilCronJobResult::CODE_MANUAL_RESET);
 		$result->setMessage("Cron job re-activated by admin");		
 		self::updateJobResult($a_job, $result, true);
 				

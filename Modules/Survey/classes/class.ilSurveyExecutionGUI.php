@@ -908,7 +908,9 @@ class ilSurveyExecutionGUI
 	}
 	
 	function mailUserResults()
-	{		
+	{
+		global $ilUser;
+
 		if(!$this->object->hasMailConfirmation())
 		{
 			$this->backToRepository();

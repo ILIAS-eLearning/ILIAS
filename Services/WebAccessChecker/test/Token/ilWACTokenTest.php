@@ -149,9 +149,9 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$ilWACCookieInterface = new ilWACDummyCookie();
 		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), $ilWACCookieInterface);
 		$expected_cookies = array(
-			'3a469ab7011fc500453d83dac14f3bfc',
-			'3a469ab7011fc500453d83dac14f3bfcts',
-			'3a469ab7011fc500453d83dac14f3bfcttl',
+			'19ab58dae37d8d8cf931727c35514642',
+			'19ab58dae37d8d8cf931727c35514642ts',
+			'19ab58dae37d8d8cf931727c35514642ttl',
 		);
 		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
 		// in subfolder
@@ -230,8 +230,8 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 
 		// Check other file
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), new ilWACDummyCookie());
-		$this->assertFalse($ilWACSignedPath->isFolderSigned());
-		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
+		$this->assertTrue($ilWACSignedPath->isFolderSigned());
+		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 	}
 
 
@@ -239,17 +239,18 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getCookieMaxLifetimeInSeconds();
 		// Sign File One
-		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), new ilWACDummyCookie());
+		$ilWACCookieInterface = new ilWACDummyCookie();
+		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), $ilWACCookieInterface);
 		// Check File Two
 		$file_two = $this->file_two->url();
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), $ilWACCookieInterface);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Request after lifetime
-		ilWACSignedPath::signFolderOfStartFile($file_two, new ilWACDummyCookie());
+		ilWACSignedPath::signFolderOfStartFile($file_two, $ilWACCookieInterface);
 		sleep($lifetime + self::ADDITIONAL_TIME);
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), $ilWACCookieInterface);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 
@@ -259,9 +260,9 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Check other file
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), new ilWACDummyCookie());
-		$this->assertFalse($ilWACSignedPath->isFolderSigned());
-		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), $ilWACCookieInterface);
+		$this->assertTrue($ilWACSignedPath->isFolderSigned());
+		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 	}
 
 

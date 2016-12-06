@@ -178,7 +178,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 							$tmp[] = '<a href="'.$prtf_url.'">'.$prtf_txt.'</a>';							
 						}
 					}
-					$this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;					
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', (string) implode('<br />', $tmp)) ;					
+					$this->tpl->parseCurrentBlock();
 					break;
 					
 				case 'odf_last_update':
@@ -188,18 +190,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					break;
 				
 				case 'roles':
-					$roles = array();
-					foreach($this->getParentObject()->getLocalRoles() as $role_id => $role_name)
-					{
-						// @todo fix performance
-						if($GLOBALS['rbacreview']->isAssigned($a_set['usr_id'], $role_id))
-						{
-							$roles[] = $role_name;
-						}
-						
-					}
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
+					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
 					$this->tpl->parseCurrentBlock();
 					break;
 					
@@ -334,7 +326,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         );
 		
 		$a_user_data = array();
-		$filtered_user_ids = array();
+		$filtered_user_ids = array();		
+		$local_roles = $this->getParentObject()->getLocalRoles();
 		foreach((array) $usr_data['set'] as $ud)
 		{
 			$user_id = $ud['usr_id'];
@@ -358,6 +351,17 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 			
 			$filtered_user_ids[] = $user_id;
 			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
+
+			$roles = array();			
+			foreach($local_roles as $role_id => $role_name)
+			{
+				// @todo fix performance
+				if($GLOBALS['rbacreview']->isAssigned($user_id, $role_id))
+				{
+					$roles[] = $role_name;
+				}
+			}
+			$a_user_data[$user_id]['roles'] = implode('<br />', $roles);
 		}
 
 		// Custom user data fields
@@ -443,7 +447,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
-
+		
         return $this->setData($a_user_data);
     }
 }

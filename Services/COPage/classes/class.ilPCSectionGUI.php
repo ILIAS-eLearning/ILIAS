@@ -248,6 +248,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 				"visible" => $lng->txt("visible"),
 			);
 			$si = new ilSelectInputGUI($lng->txt("permission"), "permission");
+			$si->setInfo($lng->txt("cont_permission_object_desc"));
 			$si->setOptions($options);
 			$form->addItem($si);
 

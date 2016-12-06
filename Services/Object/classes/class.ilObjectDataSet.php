@@ -24,7 +24,7 @@ class ilObjectDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.4.0");
+		return array("4.4.0", "5.1.0");
 	}
 	
 	/**
@@ -51,6 +51,7 @@ class ilObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.4.0":
+				case "5.1.0":
 					return array(
 						"ObjId" => "integer",
 						"Title" => "text",
@@ -64,9 +65,21 @@ class ilObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.4.0":
+				case "5.1.0":
 					return array(
 						"ObjId" => "integer",
 						"MasterLang" => "text");
+			}
+		}
+		if ($a_entity == "service_settings")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					return array(
+						"ObjId" => "integer",
+						"Setting" => "text",
+						"Value" => "text");
 			}
 		}
 	}
@@ -91,6 +104,7 @@ class ilObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.4.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT obj_id, title, description,".
 						" lang_code, lang_default".
 						" FROM object_translation".
@@ -104,9 +118,48 @@ class ilObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.4.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT obj_id, master_lang".
 						" FROM obj_content_master_lng".
 						" WHERE ".$ilDB->in("obj_id", $a_ids, false, "integer"));
+					break;
+			}
+		}
+
+		if ($a_entity == "service_settings")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+					include_once("./Services/Container/classes/class.ilContainer.php");
+
+					$this->data = array();
+					foreach ($a_ids as $id)
+					{
+						// info, news, custom metadata, tags, taxonomies, auto rating (all stored in container settings)
+						$settings = array(
+							ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+							ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+							ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+							ilObjectServiceSettingsGUI::TAG_CLOUD,
+							ilObjectServiceSettingsGUI::TAXONOMIES,
+							ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+							ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+						);
+						foreach ($settings as $s)
+						{
+							$val = ilContainer::_lookupContainerSetting($id, $s);
+							if ($val)
+							{
+								$this->data[] = array(
+									"ObjId" => $id,
+									"Setting" => $s,
+									"Value" => $val
+								);
+							}
+						}
+					}
 					break;
 			}
 		}
@@ -168,6 +221,34 @@ class ilObjectDataSet extends ilDataSet
 					$transl->setMasterLanguage($a_rec["MasterLang"]);
 					$transl->save();
 				}
+				break;
+
+			case "service_settings":
+				include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+				include_once("./Services/Container/classes/class.ilContainer.php");
+
+				// info, news, custom metadata, tags, taxonomies, auto rating (all stored in container settings)
+				$settings = array(
+					ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
+					ilObjectServiceSettingsGUI::TAXONOMIES,
+					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+				);
+
+				$new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['ObjId']);
+				if (!$new_id)
+				{
+					$new_id = $a_mapping->getMapping('Services/Object','obj',$a_rec['ObjId']);
+				}
+				if ($new_id > 0)
+				{
+					if (in_array($a_rec["Setting"], $settings))
+					{
+						ilContainer::_writeContainerSetting($new_id, $a_rec["Setting"], $a_rec["Value"]);
+					}}
 				break;
 		}
 	}

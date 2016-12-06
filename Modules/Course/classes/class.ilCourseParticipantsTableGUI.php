@@ -244,18 +244,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 					break;
 				
 				case 'roles':
-					$roles = array();
-					foreach($this->getParentObject()->getLocalRoles() as $role_id => $role_name)
-					{
-						// @todo fix performance
-						if($GLOBALS['rbacreview']->isAssigned($a_set['usr_id'], $role_id))
-						{
-							$roles[] = $role_name;
-						}
-						
-					}
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST', implode("<br />", $roles));
+					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
 					$this->tpl->parseCurrentBlock();
 					break;
 					
@@ -430,6 +420,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		);
 		// filter by array
 		$usr_ids = array();
+		$local_roles = $this->getParentObject()->getLocalRoles();
 		foreach((array) $usr_data['set'] as $user)
 		{
 			if($this->current_filter['roles'])
@@ -475,7 +466,18 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				$ud = array();
 			}
 			
+
+			$roles = array();			
+			foreach($local_roles as $role_id => $role_name)
+			{
+				// @todo fix performance
+				if($GLOBALS['rbacreview']->isAssigned($user_id, $role_id))
+				{
+					$roles[] = $role_name;
+				}
+			}
 			$a_user_data[$user_id] = array_merge($ud,$course_user_data[$user_id]);
+			$a_user_data[$user_id]['roles'] = implode('<br />', $roles);
 			
 			if($this->show_lp_status_sync)
 			{								
