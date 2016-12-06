@@ -23,7 +23,9 @@
 
 # Directories
 /data
-/Customizing/global
+/Customizing/global/agreement
+/Customizing/global/skin
+/Customizing/global/plugins
 /setup/sql/ilDBTemplate
 virtual-data
 

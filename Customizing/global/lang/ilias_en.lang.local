@@ -1,0 +1,21 @@
+lti#:#obj_ltis#:#LTI
+lti#:#obj_ltis_desc#:#Learning Tools Interoperability
+lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
+lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
+lti#:#consumers#:#Consumers
+lti#:#prefix#:#Prefix
+lti#:#lti_consumer_key#:#Consumer Key
+lti#:#lti_consumer_secret#:#Consumer Secret
+lti#:#user_lng#:#User Languague
+lti#:#lti_create_consumer#:#Create Consumer
+lti#:#lti_object_consumer#:#LTI Consumers
+lti#:#lti_settings#:#LTI Settings
+lti#:#lti_consumer_created#:#Consumer created
+lti#:#lti_consumer_updated#:#Consumer updated
+lti#:#lti_consumer_deleted#:#Consumer deleted
+lti#:#lti_consumer_set_active#:#Consumer activated
+lti#:#lti_consumer_set_inactive#:#Consumer deactivated
+lti#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
+lti#:#auth_lti#:#LTI Auth
+lti#:#lti_edit_consumer#:#Edit LTI Consumer

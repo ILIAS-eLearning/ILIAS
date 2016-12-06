@@ -230,7 +230,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		{
 			$form->setFormAction($this->ctrl->getFormAction($this,'editLTIConsumer'));
 			$form->setTitle($this->lng->txt("lti_edit_consumer"));
-			$form->addCommandButton("updateLTIConsumer", $this->lng->txt("edit"));
+			$form->addCommandButton("updateLTIConsumer", $this->lng->txt("save"));
 		}
 		else
 		{

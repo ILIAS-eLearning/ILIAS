@@ -16359,23 +16359,3 @@ itgr#:#itgr_desc_info#:#The description will not be a part of the item group's p
 mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
 mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
 common#:#sahs_export_file#:#ILIAS exported SCORM archive file
-common#:#obj_ltis#:#LTI
-common#:#obj_ltis_desc#:#Learning Tools Interoperability
-common#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
-common#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
-common#:#consumers#:#Consumers
-common#:#prefix#:#Prefix
-common#:#lti_consumer_key#:#Consumer Key
-common#:#lti_consumer_secret#:#Consumer Secret
-common#:#user_lng#:#User Languague
-common#:#lti_create_consumer#:#Create Consumer
-common#:#lti_object_consumer#:#LTI Consumers
-common#:#lti_settings#:#LTI Settings
-common#:#lti_consumer_created#:#Consumer created
-common#:#lti_consumer_updated#:#Consumer updated
-common#:#lti_consumer_deleted#:#Consumer deleted
-common#:#lti_consumer_set_active#:#Consumer activated
-common#:#lti_consumer_set_inactive#:#Consumer deactivated
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
-lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
-common#:#auth_lti#:#LTI Auth
