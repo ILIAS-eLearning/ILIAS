@@ -703,6 +703,48 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		return true;
 	}
 
+	// fau: testNav - overridden function lookupForExistingSolutions (specific for long menu question: ignore unselected values)
+	/**
+	 * Lookup if an authorized or intermediate solution exists
+	 * @param 	int 		$activeId
+	 * @param 	int 		$pass
+	 * @return 	array		['authorized' => bool, 'intermediate' => bool]
+	 */
+	public function lookupForExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$return = array(
+			'authorized' => false,
+			'intermediate' => false
+		);
+
+		$query = "
+			SELECT authorized, COUNT(*) cnt
+			FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value2 <> '-1'
+			GROUP BY authorized
+		";
+		$result = $ilDB->query($query);
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row['authorized']) {
+				$return['authorized'] = $row['cnt'] > 0;
+			}
+			else
+			{
+				$return['intermediate'] = $row['cnt'] > 0;
+			}
+		}
+		return $return;
+	}
+// fau.
+
+
 	public function getSolutionSubmit()
 	{
 		$solutionSubmit = array();
