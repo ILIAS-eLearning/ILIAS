@@ -28,7 +28,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	/**
 	 * @var ilAssOrderingElementList
 	 */
-	protected $orderElementList;
+	protected $orderingElementList;
 	
 	/**
 	* Type of ordering question
@@ -385,6 +385,16 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		return $this->ordering_type;
 	}
 	
+	public function isOrderingTypeNested()
+	{
+		return in_array($this->getOrderingType(), array(OQ_NESTED_TERMS, OQ_NESTED_PICTURES));
+	}
+	
+	public function hasOrderingTypeUploadSupport()
+	{
+		return $this->getOrderingType() == OQ_PICTURES;
+	}
+	
 	/**
 	 * @param $position
 	 *
@@ -415,9 +425,20 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 	}
 	
+	/**
+	 * @return ilAssOrderingElementList
+	 */
 	public function getOrderingElementList()
 	{
 		return $this->orderingElementList;
+	}
+	
+	/**
+	 * @param ilAssOrderingElementList $orderingElementList
+	 */
+	public function setOrderingElementList($orderingElementList)
+	{
+		$this->orderingElementList = $orderingElementList;
 	}
 
 	/**
@@ -474,54 +495,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Deletes all answers
-	*
-	* @access public
-	* @see $answers
-	*/
-	public function flushAnswers()
-	{
-		$this->orderElements = array();
-	}
-	
-	public function parkAnswersRecyclable()
-	{
-		$this->elementsRecyclable = array();
-		
-		foreach( $this->orderElements as $orderIndex => $answer)
-		{
-			/* @var ASS_AnswerOrdering $answer */
-			$this->elementsRecyclable[$answer->getElementKey()] = $answer;
-		}
-	}
-	
-	/**
-	 * @param string $elementKey
-	 * @return bool
-	 */
-	protected function isRecyclableAnswer($randomId)
-	{
-		return isset($this->elementsRecyclable[$randomId]);
-	}
-	
-	/**
-	 * @param $elementKey
-	 * @return ASS_AnswerOrdering
-	 */
-	protected function getRecyclableAnswer($elementKey)
-	{
-		return $this->elementsRecyclable[$elementKey];	
-	}
-	
-	/**
-	 * @return array[ASS_AnswerOrdering]
-	 */
-	protected function getRecyclableAnswers()
-	{
-		return $this->elementsRecyclable;	
-	}
-
-	/**
 	* Returns the number of answers
 	*
 	* @return integer The number of answers of the ordering question
@@ -530,7 +503,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	function getAnswerCount()
 	{
-		return count($this->orderElements);
+		return $this->getOrderingElementList()->countElements();
 	}
 
 	/**
@@ -1558,12 +1531,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		if($index !== null)
 		{
-			return $this->getAnswer($index);
+			return $this->getOrderingElementList()->getElementByPosition($index);
 		}
-		else
-		{
-			return $this->getOrderElements();
-		}
+
+		return $this->getOrderingElementList()->getElements();
 	}
 
 	/**

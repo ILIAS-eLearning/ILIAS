@@ -206,99 +206,80 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		//$this->object->setOrderingType( $_POST["ordering_type"] );
 		$this->object->setPoints($_POST["points"]);
 	}
-	
-	const FIRST_NEW_ANSWER_POST_KEY = -1;
-	
-	protected function isNewAnswerPostKey($key)
-	{
-		return $key <= self::FIRST_NEW_ANSWER_POST_KEY;
-	}
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
-		$ordering_type = $this->object->getOrderingType();
-		// Delete all existing answers and create new answers from the form data
-		$this->object->parkAnswersRecyclable();
-		$this->object->flushAnswers();
-		$saved = false;
+		$currentElementList = $this->object->getOrderingElementList();
+		$replacementElementList = new ilAssOrderingElementList();
+		$replacementElementList->setQuestionId($this->object->getId());
+		
+		/*
+		$answers_ordering = $_POST['answers_ordering__default']; // __default is added by js
+		$new_hierarchy    = json_decode( $answers_ordering );
 
-		// add answers
-		if ($ordering_type == OQ_TERMS
-			|| $ordering_type == OQ_NESTED_TERMS
-			|| $ordering_type == OQ_NESTED_PICTURES
-		)
+		$this->getOldLeveledOrdering();
+
+		if (!is_array( $new_hierarchy ))
 		{
-			$answers = $_POST["answers"];
-			if (is_array( $answers ))
+			$this->leveled_ordering = $this->old_ordering_depth;
+		}
+		else
+		{
+			$this->setLeveledOrdering( $new_hierarchy );
+		}
+		*/
+
+		foreach((array)$_POST["answers"] as $submittedElement)
+		{
+			/* @var ilAssOrderingElement $submittedElement */
+			
+			if( $currentElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier()) )
 			{
-				//// get leveled ordering
-				$answers_ordering = $_POST['answers_ordering__default']; // __default is added by js
-				$new_hierarchy    = json_decode( $answers_ordering );
-
-				$this->getOldLeveledOrdering();
-
-				if (!is_array( $new_hierarchy ))
-				{
-					$this->leveled_ordering = $this->old_ordering_depth;
-				}
-				else
-				{
-					$this->setLeveledOrdering( $new_hierarchy );
-				}
-
-				$counter = 0;
+				$storedElement = $currentElementList->getElementByRandomIdentifier(
+					$submittedElement->getRandomIdentifier()
+				);
 				
-				foreach($answers as $elementKey => $answer)
+				$submittedElement->setSolutionIdentifier($storedElement->getSolutionIdentifier());
+				
+				if( !$this->object->isOrderingTypeNested() )
 				{
-					if($this->isClearAnswersOnWritingPostDataEnabled())
-					{
-						$answer = "";
-					}
-					
-					$this->object->addAnswer($elementKey, $answer, $this->leveled_ordering[$counter]);
-					$counter++;
+					$submittedElement->setIndentation($storedElement->getIndentation());
 				}
 			}
-		}
-		elseif( $ordering_type == OQ_PICTURES )
-		{
-			foreach( array_keys($_POST['answers']) as $randomId)
+			
+			if( $this->object->hasOrderingTypeUploadSupport() )
 			{
-				if( $this->isNewAnswerPostKey($randomId) )
-				{
-					$randomId = ASS_AnswerOrdering::generateRandomId($this->object->getExistingRandomIds());
-				}
+				$picturefile = $_POST['answers'][$submittedElement->getRandomIdentifier()];
+				$file_org_name = $_FILES['answers']['name']['image'][$submittedElement->getRandomIdentifier()];
+				$file_temp_name = $_FILES['answers']['tmp_name']['image'][$submittedElement->getRandomIdentifier()];
 				
-				if( $this->isClearAnswersOnWritingPostDataEnabled() )
-				{
-					$this->object->addAnswer($randomId, '', 0);
-					continue;
-				}
-
-				$picturefile    = $_POST['answers'][$randomId];
-				$file_org_name  = $_FILES['answers']['name']['image'][$randomId];
-				$file_temp_name = $_FILES['answers']['tmp_name']['image'][$randomId];
-
 				// new file
-				if (strlen( $file_temp_name ))
+				if( strlen($file_temp_name) )
 				{
 					// check suffix						
-					$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
-					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
+					$suffix = strtolower(array_pop(explode(".", $file_org_name)));
+					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
 					{
 						// upload image
-						$filename = $this->object->createNewImageFileName( $file_org_name );
-						$filename = $this->object->getEncryptedFilename( $filename );
-						if ($this->object->setImageFile( $file_temp_name, $filename, $picturefile ))
+						$filename = $this->object->createNewImageFileName($file_org_name);
+						$filename = $this->object->getEncryptedFilename($filename);
+						if( $this->object->setImageFile($file_temp_name, $filename, $picturefile) )
 						{
-							$picturefile = $filename;
+							$submittedElement->setContent($filename);
 						}
 					}
 				}
-
-				$this->object->addAnswer($randomId, $picturefile, 0);
 			}
+			
+			$replacementElementList->addElement($submittedElement);
 		}
+		
+		if( $this->isClearAnswersOnWritingPostDataEnabled() )
+		{
+			$replacementElementList->clearElementContents();
+		}
+		
+		$this->object->setOrderingElementList($replacementElementList);
 	}
 
 	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
@@ -343,7 +324,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
 			$answers = new ilAssOrderingTextsInputGUI($this->lng->txt( "answers" ), "answers");
-			$answers->setValues( $this->object->getOrderingElementList()->getElements() );
+			$answers->setValues($this->object->getOrderingElementList()->getElements());
 			$answers->setAllowMove( TRUE );
 			$answers->setRequired( TRUE );
 

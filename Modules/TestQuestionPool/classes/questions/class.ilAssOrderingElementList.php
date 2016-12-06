@@ -116,6 +116,22 @@ class ilAssOrderingElementList implements Iterator
 	}
 	
 	/**
+	 * clears the contents of all elements
+	 */
+	public function clearElementContents()
+	{
+		foreach($this as $orderingElement)
+		{
+			$orderingElement->setContent('');
+		}
+	}
+	
+	public function countElements()
+	{
+		return count($this->elements);
+	}
+	
+	/**
 	 * resets elements
 	 */
 	public function resetElements()
@@ -184,7 +200,30 @@ class ilAssOrderingElementList implements Iterator
 	
 	/**
 	 * @param $randomIdentifier
-	 * @return array
+	 * @return ilAssOrderingElement
+	 */
+	public function getElementByPosition($position)
+	{
+		if( isset($this->elements[$position]) )
+		{
+			return $this->elements[$position];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @param $position
+	 * @return bool
+	 */
+	public function elementExistByPosition($position)
+	{
+		return ( $this->getElementByPosition($position) !== null );
+	}
+	
+	/**
+	 * @param $randomIdentifier
+	 * @return ilAssOrderingElement
 	 */
 	public function getElementByRandomIdentifier($randomIdentifier)
 	{
@@ -203,7 +242,16 @@ class ilAssOrderingElementList implements Iterator
 	
 	/**
 	 * @param $randomIdentifier
-	 * @return array
+	 * @return bool
+	 */
+	public function elementExistByRandomIdentifier($randomIdentifier)
+	{
+		return ( $this->getElementByRandomIdentifier($randomIdentifier) !== null );
+	}
+	
+	/**
+	 * @param $randomIdentifier
+	 * @return ilAssOrderingElement
 	 */
 	public function getElementBySolutionIdentifier($solutionIdentifier)
 	{
@@ -217,6 +265,15 @@ class ilAssOrderingElementList implements Iterator
 			return $element;
 		}
 		return null;
+	}
+	
+	/**
+	 * @param $solutionIdentifier
+	 * @return bool
+	 */
+	public function elementExistBySolutionIdentifier($solutionIdentifier)
+	{
+		return ( $this->getElementBySolutionIdentifier($solutionIdentifier) !== null );
 	}
 	
 	/**
