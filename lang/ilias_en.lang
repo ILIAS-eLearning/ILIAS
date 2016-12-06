@@ -16270,7 +16270,7 @@ trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
 common#:#obj_iass#:#Individual Assessment
 common#:#objs_iass#:#Individual Assessments
 common#:#obj_iass_duplicate#:#Copy Individual Assessment
-common#:#obj_iass_select#:#-- Please select one manual assessment --
+common#:#obj_iass_select#:#-- Please select one individual assessment --
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.
 common#:#il_iass_member#:#Individual Assessment Examinee
 common#:#iass_new#:#Create Individual Assessment

@@ -16236,82 +16236,82 @@ awrn#:#awrn_use_osd_info#:#'Ki van online' felsorolásában új felhasználók e
 exc#:#exc_tbl_filter_submission#:#Beadás
 exc#:#exc_tbl_filter_has_submission#:#Beadták
 exc#:#exc_tbl_filter_has_no_submission#:#Még adták be
-mass#:#general#:#Általános információ
-mass#:#mass_content#:#Értékelés tartalmának leírása
-mass#:#mass_record_template#:#Bejegyzéssablon
-mass#:#mass_graded_by#:#Értékelést adta
-mass#:#mass_usr_remove#:#Résztvevő eltávolítása a hozzárendelésből
-mass#:#mass_usr_edit#:#Résztvevői bejegyzés és tanulási haladás módosítása
-mass#:#mass_usr_view#:#Résztvevői bejegyzés
-mass#:#mass_edit_record#:#Felhasználói bejegyzés
-mass#:#mass_record#:#Bejegyzés megjegyzése
-mass#:#mass_internal_note#:#Belső bejegyzés megjegyzése
-mass#:#mass_status_completed#:#Befejezve
-mass#:#mass_status_failed#:#Sikertelen
-mass#:#mass_status_pending#:#Állapot függőben
-mass#:#mass_notify#:#Véglegesítés után a résztvevő értesítése
-mass#:#mass_finalize#:#Véglegesítés
-mass#:#il_mass_member#:#Résztvevő
-mass#:#il_mass_members#:#Résztvevők
-mass#:#edit_members#:#Vizsgázók módosítása
-mass#:#mass_edit_members#:#Vizsgázók módosítása
-mass#:#mass_visible#:#Látható
-mass#:#mass_read#:#Olvasható
-mass#:#mass_copy#:#Másolás
-mass#:#mass_write#:#Beállítások módosítása
-mass#:#mass_delete#:#Törlése
-mass#:#mass_read_learning_progress#:#Többi felhasználó tanulási haladásának megjelenítése
-mass#:#mass_edit_permissions#:#Jogosultságok módosítása
-mass#:#mass_edit_learning_progress#:#Tanulási haladás módosítása
-mass#:#mass_may_not_finalize#:#Vizsgázó még nincs véglegesítve.
-mass#:#mass_subj_notification_completed#:#%s: Egyéni értékelése: sikeresen teljesítette.
-mass#:#mass_subj_notification_failed#:#%s: Egyéni értékelése: sikertelen.
-trac#:#trac_mode_manual_assessment#:#Tutor vagy trainer manuálisan értékelte
-common#:#obj_mass#:#Egyéni értékelés
-common#:#objs_mass#:#Egyéni értékelések
-common#:#obj_mass_duplicate#:#Manuális értékelés másolása
-common#:#obj_mass_select#:#-- Válasszon egy manuális értékelést --
-trac#:#trac_mode_manual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a manuális értékelést.
-common#:#il_mass_member#:#Manuális értékelés vizsgázó
-common#:#mass_new#:#Manuális értékelés létrehozása
-common#:#mass_import#:#Manuális értékelés importálása
-rbac#:#mass_visible#:#Manuális értékelés látható
-rbac#:#mass_read#:#Manuális értékelés tartalmának olvasása
-rbac#:#mass_read_learning_progress#:#Manuális értékelés tanulási haladási információjának megjelenítése
-rbac#:#mass_edit_learning_progress#:#Manuális értékelés tanulási haladási információjának módosítása
-rbac#:#mass_copy#:#Manuális értékelés másolása
-rbac#:#mass_write#:#Manuális értékelés módosítása
-rbac#:#mass_delete#:#Manuális értékelés törlése
-rbac#:#mass_edit_members#:#Manuális értékelés tagjainak módosítása
-rbac#:#mass_edit_permission#:#Manuális értékelés jogosultságainak módosítása
-mass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
-mass#:#mass_edit#:#Beállítások
-mass#:#mass_add#:#Egyéni értékelés létrehozása
-mass#:#mass_membership_finalized#:#Felvétel véglegesítve
-mass#:#mass_membership_saved#:#Felvétel mente, de nincs véglegesítve
-mass#:#mass_return#:#Vissza az áttekintéshez
-mass#:#mass_remove_user_qst#:#Biztos, hogy eltávolítja a vizsgázót?
-mass#:#mass_finalize_user_qst#:#Biztos, hogy véglegesíti a vizsgázó állapotát? Után annak módosítása már nem lehetséges.
-mass#:#mass_settings_saved#:#Beállításokat sikeresen mentette.
-mass#:#mass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
-mass#:#mass_add_user_success#:#Felhasználót vizsgázónak sikeresen hozzáadta.
-mass#:#grading#:#Értékelés
-mass#:#grading_info#:#Értékelés info
-mass#:#grading_record#:#Értékelés feljegyzése
-mass#:#mass_content_explanation#:#Értékelés tartalma, például releváns témák.###Topikok
-mass#:#mass_record_template_explanation#:#Eredményrögzítési sablon vizsgázókhoz. Automatikusan alkalmazzuk új vizsgázóra.
-mass#:#mass_notify_explanation#:#A véglegesítésről levélben értesítjük a vizsgázót, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
-mass#:#mass_contact#:#Név
-mass#:#mass_responsibility#:#Felelősségi kör
-mass#:#mass_phone#:#Telefon
-mass#:#mass_mails#:#Levelek
-mass#:#mass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
-mass#:#mass_consultation_hours#:#Fogadóórák
-mass#:#mass_edit_info#:#Info beállításai
-mass#:#mass_mess_notification_completed#:#Sikeresen teljesített %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
-mass#:#mass_mess_notification_failed#:#Nem sikerült teljesítenie %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
-mass#:#mass_contact_info#:#Kapcsolat
-mass#:#mass_added#:#Egyéni hozzárendelést sikeresen elvégezte
+iass#:#general#:#Általános információ
+iass#:#iass_content#:#Értékelés tartalmának leírása
+iass#:#iass_record_template#:#Bejegyzéssablon
+iass#:#iass_graded_by#:#Értékelést adta
+iass#:#iass_usr_remove#:#Résztvevő eltávolítása a hozzárendelésből
+iass#:#iass_usr_edit#:#Résztvevői bejegyzés és tanulási haladás módosítása
+iass#:#iass_usr_view#:#Résztvevői bejegyzés
+iass#:#iass_edit_record#:#Felhasználói bejegyzés
+iass#:#iass_record#:#Bejegyzés megjegyzése
+iass#:#iass_internal_note#:#Belső bejegyzés megjegyzése
+iass#:#iass_status_completed#:#Befejezve
+iass#:#iass_status_failed#:#Sikertelen
+iass#:#iass_status_pending#:#Állapot függőben
+iass#:#iass_notify#:#Véglegesítés után a résztvevő értesítése
+iass#:#iass_finalize#:#Véglegesítés
+iass#:#il_iass_member#:#Résztvevő
+iass#:#il_iass_members#:#Résztvevők
+iass#:#edit_members#:#Vizsgázók módosítása
+iass#:#iass_edit_members#:#Vizsgázók módosítása
+iass#:#iass_visible#:#Látható
+iass#:#iass_read#:#Olvasható
+iass#:#iass_copy#:#Másolás
+iass#:#iass_write#:#Beállítások módosítása
+iass#:#iass_delete#:#Törlése
+iass#:#iass_read_learning_progress#:#Többi felhasználó tanulási haladásának megjelenítése
+iass#:#iass_edit_permissions#:#Jogosultságok módosítása
+iass#:#iass_edit_learning_progress#:#Tanulási haladás módosítása
+iass#:#iass_may_not_finalize#:#Vizsgázó még nincs véglegesítve.
+iass#:#iass_subj_notification_completed#:#%s: Egyéni értékelése: sikeresen teljesítette.
+iass#:#iass_subj_notification_failed#:#%s: Egyéni értékelése: sikertelen.
+trac#:#trac_mode_individual_assessment#:#Tutor vagy trainer manuálisan értékelte
+common#:##obj_iass#:#Egyéni értékelés
+common#:##objs_iass#:#Egyéni értékelések
+common#:##obj_iass_duplicate#:#Manuális értékelés másolása
+common#:##obj_iass_select#:#-- Válasszon egy manuális értékelést --
+trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a manuális értékelést.
+common#:#il_iass_member#:#Manuális értékelés vizsgázó
+common#:#iass_new#:#Manuális értékelés létrehozása
+common#:#iass_import#:#Manuális értékelés importálása
+rbac#:#iass_visible#:#Manuális értékelés látható
+rbac#:#iass_read#:#Manuális értékelés tartalmának olvasása
+rbac#:#iass_read_learning_progress#:#Manuális értékelés tanulási haladási információjának megjelenítése
+rbac#:#iass_edit_learning_progress#:#Manuális értékelés tanulási haladási információjának módosítása
+rbac#:#iass_copy#:#Manuális értékelés másolása
+rbac#:#iass_write#:#Manuális értékelés módosítása
+rbac#:#iass_delete#:#Manuális értékelés törlése
+rbac#:#iass_edit_members#:#Manuális értékelés tagjainak módosítása
+rbac#:#iass_edit_permission#:#Manuális értékelés jogosultságainak módosítása
+iass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
+iass#:#iass_edit#:#Beállítások
+iass#:#iass_add#:#Egyéni értékelés létrehozása
+iass#:#iass_membership_finalized#:#Felvétel véglegesítve
+iass#:#iass_membership_saved#:#Felvétel mente, de nincs véglegesítve
+iass#:#iass_return#:#Vissza az áttekintéshez
+iass#:#iass_remove_user_qst#:#Biztos, hogy eltávolítja a vizsgázót?
+iass#:#iass_finalize_user_qst#:#Biztos, hogy véglegesíti a vizsgázó állapotát? Után annak módosítása már nem lehetséges.
+iass#:#iass_settings_saved#:#Beállításokat sikeresen mentette.
+iass#:#iass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
+iass#:#iass_add_user_success#:#Felhasználót vizsgázónak sikeresen hozzáadta.
+iass#:#grading#:#Értékelés
+iass#:#grading_info#:#Értékelés info
+iass#:#grading_record#:#Értékelés feljegyzése
+iass#:#iass_content_explanation#:#Értékelés tartalma, például releváns témák.###Topikok
+iass#:#iass_record_template_explanation#:#Eredményrögzítési sablon vizsgázókhoz. Automatikusan alkalmazzuk új vizsgázóra.
+iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük a vizsgázót, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
+iass#:#iass_contact#:#Név
+iass#:#iass_responsibility#:#Felelősségi kör
+iass#:#iass_phone#:#Telefon
+iass#:#iass_mails#:#Levelek
+iass#:#iass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
+iass#:#iass_consultation_hours#:#Fogadóórák
+iass#:#iass_edit_info#:#Info beállításai
+iass#:#iass_mess_notification_completed#:#Sikeresen teljesített %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_mess_notification_failed#:#Nem sikerült teljesítenie %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_contact_info#:#Kapcsolat
+iass#:#iass_added#:#Egyéni hozzárendelést sikeresen elvégezte
 registration#:#reg_mail_body_activation#:#ILIAS-fiókja aktiváláshoz és e-mail címének igazolásához kattintson ide:###XXX
 chatroom#:#chat_auth_token_info#:#Kérem, egyedi stringeket hozzon létre. Ezeket a stringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a stringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliens id-nek <b>egyedinek</b> kell lennie.
 chatroom#:#chat_https_cert_info#:#Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem).
@@ -16356,8 +16356,8 @@ copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kijelölt elemeket?
 survey#:#msg_input_only_positive_numbers#:#Pozitív számokat adjon meg a skálaértékekhez.
 crs#:#crs_loc_err_stat_tst_offline#:#Nem az összes teszt online.
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
-mass#:#mass_record_info#:#A vizsgázók a végső jegyük megkapása után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést a vizsgázónak e-mailben is kiküldjük.
-mass#:#mass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de a vizsgázók nem.
+iass#:#iass_record_info#:#A vizsgázók a végső jegyük megkapása után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést a vizsgázónak e-mailben is kiküldjük.
+iass#:#iass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de a vizsgázók nem.
 common#:#sahs_export_file#:#ILIAS exportált SCORM archív fájl
 content#:#lm_only_one_download_per_type#:#Kérjük, vegye figyelembe, hogy típusonként (XML, HTML, SCORM) csak egy fájlt tehet nyilvánosan elérhetővé.
 survey#:#error_save_code#:#Az értéket nem sikerült megfelelően menteni. <b>'%s' e-mail cím nem valós</b>. Családnév: '%s', utónév: '%s'.<br>
