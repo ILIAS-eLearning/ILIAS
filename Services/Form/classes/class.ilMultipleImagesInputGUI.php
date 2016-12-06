@@ -25,9 +25,15 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
+		
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setSize('25');
 		$this->validationRegexp = "";
+		
+		require_once 'Services/Form/classes/class.ilMultiFilesPositionIndexRemover.php';
+		$manipulator = new ilMultiFilesPositionIndexRemover();
+		$manipulator->setPostVar($this->getPostVar());
+		$this->addFormSubmitManipulator($manipulator);
 	}
 	
 	/**
@@ -99,102 +105,6 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	{
 		$keys = array_keys($this->getValues());
 		return $keys[$positionIndex];
-	}
-	
-	/**
-	 * @param array $values
-	 * @return array $actualValues
-	 */
-	protected function fetchFilenamesFromSubmitValues($values)
-	{
-		$actualValues = $values;
-		
-		if( is_array($values) && isset($values['count']) && is_array($values['count']) )
-		{
-			$actualValues = array();
-			
-			foreach($values['count'] as $index => $value)
-			{
-				$actualValues[$index] = $values['imagename'][$index];
-			}
-		}
-		
-		return $actualValues;
-	}
-	
-	/**
-	 * @param $filesSubmit
-	 * @return mixed
-	 */
-	protected function prepareMultiFilesSubmit($filesSubmit)
-	{
-		foreach($filesSubmit as $phpUploadField => $fileUploadInfo)
-		{
-			$fileUploadInfo['image'] = $this->ensureNonPositionIndexedMultiValues(
-				$fileUploadInfo['image']
-			);
-			
-			$filesSubmit[$phpUploadField] = $fileUploadInfo;
-		}
-		
-		return $filesSubmit;
-	}
-	
-	/**
-	 * 
-	 */
-	protected function prepareFileSubmit()
-	{
-		$_FILES[$this->getPostVar()] = $this->prepareMultiFilesSubmit(
-			$_FILES[$this->getPostVar()]
-		);
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function isFileSubmitAvailable()
-	{
-		if( !isset($_FILES[$this->getPostVar()]) )
-		{
-			return false;
-		}
-		
-		if( !is_array($_FILES[$this->getPostVar()]) )
-		{
-			return false;
-		}
-		
-		if( !in_array('tmp_name', array_keys($_FILES[$this->getPostVar()])) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function isMultiFileSubmitAvailable()
-	{
-		return isset($_FILES[$this->getPostVar()]) && is_array($_FILES[$this->getPostVar()]);
-	}
-	
-	/**
-	 * @param array $values
-	 * @return array $preparedValues
-	 */
-	protected function prepareMultiValuesSubmit($values)
-	{
-		if( $this->isFileSubmitAvailable() )
-		{
-			$this->prepareFileSubmit();
-		}
-		
-		$values = $this->fetchFilenamesFromSubmitValues($values);
-		
-		return parent::prepareMultiValuesSubmit($values);
 	}
 	
 	/**

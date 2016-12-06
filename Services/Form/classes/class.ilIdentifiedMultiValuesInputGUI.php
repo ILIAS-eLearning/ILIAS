@@ -3,7 +3,6 @@
 
 require_once 'Services/Form/classes/class.ilTextInputGUI.php';
 require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
-require_once 'Services/Form/interfaces/interface.ilFormSubmitManipulator.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -11,16 +10,16 @@ require_once 'Services/Form/interfaces/interface.ilFormSubmitManipulator.php';
  *
  * @package		Services/Form
  */
-abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem, ilFormSubmitManipulator
+abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
 {
-	
 	protected $formSubmitManipulationChain = array();
 	
 	public function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
 		
-		$this->addFormSubmitManipulator($this);
+		require_once 'Services/Form/classes/class.ilMultiValuesPositionIndexRemover.php';
+		$this->addFormSubmitManipulator(new ilMultiValuesPositionIndexRemover());
 		
 		//$this->setMulti(true); // this is another planet, do not enable (!)
 	}
@@ -129,7 +128,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	abstract public function onCheckInput();
 	
-	protected function prepareMultiValuesSubmit($values)
+	final protected function prepareMultiValuesSubmit($values)
 	{
 		foreach($this->getFormSubmitManipulators() as $manipulator)
 		{
@@ -148,47 +147,5 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	protected function addFormSubmitManipulator(ilFormSubmitManipulator $manipulator)
 	{
 		$this->formSubmitManipulationChain[] = $manipulator;
-	}
-	
-	public function manipulateFormSubmitValues($values)
-	{
-		return $this->ensureNonPositionIndexedMultiValues($values);
-	}
-	
-	protected function ensureNonPositionIndexedMultiValues($positionIndexedValues)
-	{
-		$keyIdentifiedValues = array();
-		
-		foreach($positionIndexedValues as $valueKey => $value)
-		{
-			if( $this->isPositionIndexedValue($value) )
-			{
-				$value = $this->removeMultiValuePositionIndex($value);
-			}
-			
-			$keyIdentifiedValues[$valueKey] = $value;
-		}
-		
-		return $keyIdentifiedValues;
-	}
-	
-	protected function isPositionIndexedValue($value)
-	{
-		switch(true)
-		{
-			case !is_array($value):
-			case count($value) != 1:
-			case !is_integer(key($value)):
-			case !is_scalar(current($value)) && !is_object(current($value)):
-				
-				return false;
-		}
-		
-		return true;
-	}
-	
-	protected function removeMultiValuePositionIndex($value)
-	{
-		return current($value);
 	}
 }
