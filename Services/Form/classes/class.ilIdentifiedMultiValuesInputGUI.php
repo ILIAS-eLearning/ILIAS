@@ -3,6 +3,7 @@
 
 require_once 'Services/Form/classes/class.ilTextInputGUI.php';
 require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
+require_once 'Services/Form/interfaces/interface.ilFormSubmitManipulator.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -10,7 +11,7 @@ require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
  *
  * @package		Services/Form
  */
-abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
+abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem, ilFormSubmitManipulator
 {
 	
 	protected $formSubmitManipulationChain = array();
@@ -18,6 +19,9 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	public function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
+		
+		$this->addFormSubmitManipulator($this);
+		
 		//$this->setMulti(true); // this is another planet, do not enable (!)
 	}
 	
@@ -86,9 +90,71 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	/**
 	 * TODO: implement as chain item, when post data manipulation chain is available
 	 * 
-	 * @param $positionIndexedValues
 	 * @return array
 	 */
+	protected function deriveObjectsFromPostData($postDataValues)
+	{
+		$keyIdentifiedValues = array();
+		
+		foreach($positionIndexedValues as $valueKey => $value)
+		{
+			if( $this->isPositionIndexedValue($value) )
+			{
+				$value = $this->removeMultiValuePositionIndex($value);
+			}
+			
+			$keyIdentifiedValues[$valueKey] = $value;
+		}
+		
+		return $keyIdentifiedValues;
+	}
+	
+	final public function setValueByArray($a_values)
+	{
+		$a_values[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
+			$a_values[$this->getPostVar()]
+		);
+		
+		parent::setValueByArray($a_values);
+	}
+	
+	final public function checkInput()
+	{
+		$_POST[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
+			$_POST[$this->getPostVar()]
+		);
+		
+		return $this->onCheckInput();
+	}
+	
+	abstract public function onCheckInput();
+	
+	protected function prepareMultiValuesSubmit($values)
+	{
+		foreach($this->getFormSubmitManipulators() as $manipulator)
+		{
+			/* @var ilFormSubmitManipulator $manipulator */
+			$values = $manipulator->manipulateFormSubmitValues($values);
+		}
+		
+		return $values;
+	}
+	
+	protected function getFormSubmitManipulators()
+	{
+		$this->formSubmitManipulationChain;
+	}
+	
+	protected function addFormSubmitManipulator(ilFormSubmitManipulator $manipulator)
+	{
+		$this->formSubmitManipulationChain[] = $manipulator;
+	}
+	
+	public function manipulateFormSubmitValues($values)
+	{
+		return $this->ensureNonPositionIndexedMultiValues($values);
+	}
+	
 	protected function ensureNonPositionIndexedMultiValues($positionIndexedValues)
 	{
 		$keyIdentifiedValues = array();
@@ -124,71 +190,5 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	protected function removeMultiValuePositionIndex($value)
 	{
 		return current($value);
-	}
-	
-	/**
-	 * TODO: implement as chain item, when post data manipulation chain is available
-	 * 
-	 * @return array
-	 */
-	protected function deriveObjectsFromPostData($postDataValues)
-	{
-		$keyIdentifiedValues = array();
-		
-		foreach($positionIndexedValues as $valueKey => $value)
-		{
-			if( $this->isPositionIndexedValue($value) )
-			{
-				$value = $this->removeMultiValuePositionIndex($value);
-			}
-			
-			$keyIdentifiedValues[$valueKey] = $value;
-		}
-		
-		return $keyIdentifiedValues;
-	}
-	
-	/**
-	 * TODO: implement as post data manipulation chain, so we can flexibly invoke any manipulation as chain item
-	 * 
-	 * @param $values
-	 * @return array
-	 */
-	protected function prepareMultiValuesSubmit($values)
-	{
-		$values = $this->ensureNonPositionIndexedMultiValues($values);
-		$values = $this->deriveObjectsFromPostData($values);
-		
-		return $values;
-	}
-	
-	final public function setValueByArray($a_values)
-	{
-		$a_values[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
-			$a_values[$this->getPostVar()]
-		);
-		
-		parent::setValueByArray($a_values);
-	}
-	
-	final public function checkInput()
-	{
-		$_POST[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
-			$_POST[$this->getPostVar()]
-		);
-		
-		return $this->onCheckInput();
-	}
-	
-	abstract public function onCheckInput();
-	
-	protected function getFormSubmitManipulators()
-	{
-		$this->formSubmitManipulationChain;
-	}
-	
-	protected function addFormSubmitManipulator(ilFormSubmitManipulator $manipulator)
-	{
-		$this->formSubmitManipulationChain[] = $manipulator;
 	}
 }
