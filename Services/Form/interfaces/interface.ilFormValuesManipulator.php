@@ -7,7 +7,7 @@
  *
  * @package        Services/Form
  */
-interface ilFormSubmitManipulator
+interface ilFormValuesManipulator
 {
 	/**
 	 * @param array $values
