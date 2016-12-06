@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/interfaces/interface.ilFormSubmitManipulator.php';
+require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -9,11 +9,16 @@ require_once 'Services/Form/interfaces/interface.ilFormSubmitManipulator.php';
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilMultiValuesPositionIndexRemover implements ilFormSubmitManipulator
+class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
 {
-	public function manipulateFormSubmitValues($values)
+	public function manipulateFormInputValues($inputValues)
 	{
-		return $this->ensureNonPositionIndexedMultiValues($values);
+		return $inputValues;
+	}
+	
+	public function manipulateFormSubmitValues($submitValues)
+	{
+		return $this->ensureNonPositionIndexedMultiValues($submitValues);
 	}
 	
 	protected function ensureNonPositionIndexedMultiValues($positionIndexedValues)

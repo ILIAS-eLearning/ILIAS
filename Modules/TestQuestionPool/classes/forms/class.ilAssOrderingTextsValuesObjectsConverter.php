@@ -9,11 +9,18 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilAssOrderingTextsValuesObjectDeriver implements ilFormValuesManipulator
+class ilAssOrderingTextsValuesObjectsConverter implements ilFormValuesManipulator
 {
 	public function manipulateFormInputValues($objects)
 	{
-		$values = $objects;
+		$values = array();
+		
+		foreach($objects as $orderingElement)
+		{
+			/* @var ilAssOrderingElement $orderingElement */
+			
+			$values[ $orderingElement->getRandomIdentifier() ] = $orderingElement->getContent();
+		}
 		
 		return $values;
 	}
@@ -27,11 +34,12 @@ class ilAssOrderingTextsValuesObjectDeriver implements ilFormValuesManipulator
 		{
 			$element = new ilAssOrderingElement();
 			
+			$element->setId(null);
+			$element->setSolutionIdentifier(null);
 			$element->setRandomIdentifier($identifier);
-			//$element->setSolutionIdentifier(null);
 			
 			$element->setPosition($position++);
-			//$element->setIndentation($position++);
+			//$element->setIndentation($depth /* ??? */ );
 			
 			$element->setContent($value);
 			

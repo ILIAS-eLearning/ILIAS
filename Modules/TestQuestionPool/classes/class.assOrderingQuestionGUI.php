@@ -341,9 +341,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
-			$answers = new ilMultipleTextsInputGUI($this->lng->txt( "answers" ), "answers");
-			$answers->setValues( $this->object->getOrderingElementList()->getRandomIdentifierIndexedElements() );
+			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
+			$answers = new ilAssOrderingTextsInputGUI($this->lng->txt( "answers" ), "answers");
+			$answers->setValues( $this->object->getOrderingElementList()->getElements() );
 			$answers->setAllowMove( TRUE );
 			$answers->setRequired( TRUE );
 

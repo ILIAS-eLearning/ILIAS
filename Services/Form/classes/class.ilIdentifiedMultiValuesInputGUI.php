@@ -13,6 +13,7 @@ require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
 abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
 {
 	protected $formSubmitManipulationChain = array();
+	protected $formInputManipulationChain = array();
 	
 	public function __construct($a_title = "", $a_postvar = "")
 	{
@@ -44,9 +45,9 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		return $this->getMultiValues();
 	}
 	
-	public function setMultiValues(array $a_values)
+	final public function setMultiValues(array $values)
 	{
-		$this->multi_values = $a_values;
+		$this->multi_values = $this->prepareMultiValuesInput($values);
 	}
 	
 	protected function buildMultiValueFieldId($positionIndex, $subFieldIndex = '')
@@ -86,28 +87,6 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	abstract protected function getMultiValueKeyByPosition($positionIndex);
 	
-	/**
-	 * TODO: implement as chain item, when post data manipulation chain is available
-	 * 
-	 * @return array
-	 */
-	protected function deriveObjectsFromPostData($postDataValues)
-	{
-		$keyIdentifiedValues = array();
-		
-		foreach($positionIndexedValues as $valueKey => $value)
-		{
-			if( $this->isPositionIndexedValue($value) )
-			{
-				$value = $this->removeMultiValuePositionIndex($value);
-			}
-			
-			$keyIdentifiedValues[$valueKey] = $value;
-		}
-		
-		return $keyIdentifiedValues;
-	}
-	
 	final public function setValueByArray($a_values)
 	{
 		$a_values[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
@@ -128,23 +107,44 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	abstract public function onCheckInput();
 	
+	final protected function prepareMultiValuesInput($values)
+	{
+		foreach($this->getFormInputManipulators() as $manipulator)
+		{
+			/* @var ilFormValuesManipulator $manipulator */
+			$values = $manipulator->manipulateFormInputValues($values);
+		}
+		
+		return $values;
+	}
+	
 	final protected function prepareMultiValuesSubmit($values)
 	{
 		foreach($this->getFormSubmitManipulators() as $manipulator)
 		{
-			/* @var ilFormSubmitManipulator $manipulator */
+			/* @var ilFormValuesManipulator $manipulator */
 			$values = $manipulator->manipulateFormSubmitValues($values);
 		}
 		
 		return $values;
 	}
 	
-	protected function getFormSubmitManipulators()
+	protected function getFormInputManipulators()
 	{
-		$this->formSubmitManipulationChain;
+		return $this->formInputManipulationChain;
 	}
 	
-	protected function addFormSubmitManipulator(ilFormSubmitManipulator $manipulator)
+	protected function addFormInputManipulator(ilFormValuesManipulator $manipulator)
+	{
+		$this->formInputManipulationChain[] = $manipulator;
+	}
+	
+	protected function getFormSubmitManipulators()
+	{
+		return $this->formSubmitManipulationChain;
+	}
+	
+	protected function addFormSubmitManipulator(ilFormValuesManipulator $manipulator)
 	{
 		$this->formSubmitManipulationChain[] = $manipulator;
 	}
