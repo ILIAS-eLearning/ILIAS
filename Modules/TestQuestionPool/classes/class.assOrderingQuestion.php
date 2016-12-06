@@ -165,7 +165,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			}
 		}
 
-		$result = $ilDB->queryF("SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_order ASC",
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC",
 			array('integer'),
 			array($question_id)
 		);
@@ -406,21 +406,21 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @param string $answertext The answer text
 	* @param double $points The points for selecting the answer (even negative points can be used)
 	* @param integer $order A possible display order of the answer
-	* @param integer $solution_order An unique integer value representing the correct
+	* @param integer $solution_key An unique integer value representing the correct
 	* order of that answer in the solution of a question
 	* @param integer	$depth 		represents the depth of that answer
 	* @access public
 	* @see $answers
 	* @see ASS_AnswerOrdering
 	*/
-	function addAnswer($answertext = "", $solution_order = -1 ,$depth = 0)
+	function addAnswer($answertext = "", $solution_key = -1 ,$depth = 0)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
 		$answer = new ASS_AnswerOrdering($answertext, $this->getRandomID(), $depth);
-		if (($solution_order >= 0) && ($solution_order < count($this->answers)))
+		if (($solution_key >= 0) && ($solution_key < count($this->answers)))
 		{
-			$part1 = array_slice($this->answers, 0, $solution_order);
-			$part2 = array_slice($this->answers, $solution_order);
+			$part1 = array_slice($this->answers, 0, $solution_key);
+			$part2 = array_slice($this->answers, $solution_key);
 			$this->answers = array_merge($part1, array($answer), $part2);
 		}
 		else
@@ -917,9 +917,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 						   array(
 							   'answer_id'      => array( 'integer', $next_id ),
 							   'question_fi'    => array( 'integer', $this->getId() ),
-//							   'answertext'     => array( 'text', ilRTE::_replaceMediaObjectImageSrc( $answer_obj->getAnswertext(), 0 ) ),
 							   'answertext'     => array( 'text', $answer_obj->getAnswertext()),
-							   'solution_order' => array( 'integer', $key ),
+							   'solution_key' => array( 'integer', $key ),
 							   'random_id'      => array( 'integer', $answer_obj->getRandomID() ),
 							   'tstamp'         => array( 'integer', time() ),
 							   'depth'          => array( 'integer', $answer_obj->getOrderingDepth() )
@@ -1405,7 +1404,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_order ASC',
+		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC',
 			array('integer'), array($this->getId()));
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -1422,11 +1421,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		global $ilDB;
 		
-		$res = $ilDB->queryF('SELECT solution_order FROM qpl_a_ordering WHERE random_id = %s',
+		$res = $ilDB->queryF('SELECT solution_key FROM qpl_a_ordering WHERE random_id = %s',
 		array('integer'), array($a_random_id));
 		$row = $ilDB->fetchAssoc($res);
 		
-		return $row['solution_order'];
+		return $row['solution_key'];
 	}
 	
 	/***
@@ -1450,7 +1449,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		global $ilDB;
 		
 		$ilDB->update('qpl_a_ordering',
-		array('solution_order'=> array('integer', $a_index),
+		array('solution_key'=> array('integer', $a_index),
 			  'depth'		=> array('integer', $a_depth)),
 		array('answertext' 	=> array('text', $a_answer_text)));
 		
