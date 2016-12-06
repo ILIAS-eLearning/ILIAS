@@ -1385,7 +1385,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_order ASC',
+		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC',
 			array('integer'), array($this->object->getId()));
 		while($row = $ilDB->fetchAssoc($res))
 		{
