@@ -130,7 +130,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function addanswers()
 	{
 		$this->writePostData(true);
-		$newRandomId = $this->object->getRandomID($this->object->getRandomIdsUsedByAnswers());
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
+		$newRandomId = ASS_AnswerOrdering::generateRandomId($this->object->getRandomIdsUsedByAnswers());
 		$this->object->addAnswer($newRandomId, '', 0);
 		$this->editQuestion();
 	}
@@ -178,13 +179,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$answers->setQuestionObject($this->object);
 		$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
 		$answers->setAllowMove(TRUE);
-		$answervalues = array();
-		foreach ($this->object->getAnswers() as $index => $answervalue)
-		{
-			/* @var ASS_AnswerOrdering $answervalue */
-			$answervalues[$answervalue->getElementKey()] = $answervalue->getAnswertext();
-		}
-		$answers->setValues($answervalues);
+		$answers->setValues($this->object->getOrderingElementList()->getRandomIdentifierIndexedElements());
 		return $answers;
 	}
 
@@ -221,8 +216,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
-		$this->initAnswerElementKeys();
-		
 		$ordering_type = $this->object->getOrderingType();
 		// Delete all existing answers and create new answers from the form data
 		$this->object->parkAnswersRecyclable();
@@ -273,7 +266,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				if( $this->isNewAnswerPostKey($randomId) )
 				{
-					$randomId = $this->object->getRandomID( $this->object->getExistingRandomIds() );
+					$randomId = ASS_AnswerOrdering::generateRandomId($this->object->getExistingRandomIds());
 				}
 				
 				if( $this->isClearAnswersOnWritingPostDataEnabled() )
@@ -310,14 +303,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
 	{
-		$this->initAnswerElementKeys();
-		
 		$orderingtype = $this->object->getOrderingType();
 
-		if (count($this->object->getAnswers()) == 0)
+		/*if( !$this->object->getOrderingElementList()->hasElements() )
 		{
-			$this->object->addAnswer(self::FIRST_NEW_ANSWER_POST_KEY, '', 0);
-		}
+			$this->object->getOrderingElementList()->addElement(self::FIRST_NEW_ANSWER_POST_KEY, '', 0);
+		}*/
 
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt('oq_header_ordering_elements'));
@@ -337,7 +328,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			require_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
 			$answers = new ilNestedOrderingGUI($this->lng->txt( "answers" ), "answers");
 			$answers->setOrderingType( $orderingtype );
-			$answers->setObjAnswersArray( $this->object->getAnswers() );
+			$answers->setObjAnswersArray( $this->object->getOrderingElementList()->getRandomIdentifierIndexedElements() );
 
 			if ($orderingtype == OQ_NESTED_PICTURES)
 			{
@@ -351,14 +342,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		else
 		{
 			require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
-			$answers      = new ilMultipleTextsInputGUI($this->lng->txt( "answers" ), "answers");
-			$answervalues = array();
-			foreach ($this->object->getAnswers() as $orderIndex=> $answervalue)
-			{
-				/* @var ASS_AnswerOrdering $answervalue */
-				$answervalues[$answervalue->getElementKey()] = $answervalue->getAnswertext();
-			}
-			$answers->setValues( $answervalues );
+			$answers = new ilMultipleTextsInputGUI($this->lng->txt( "answers" ), "answers");
+			$answers->setValues( $this->object->getOrderingElementList()->getRandomIdentifierIndexedElements() );
 			$answers->setAllowMove( TRUE );
 			$answers->setRequired( TRUE );
 
@@ -581,7 +566,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				if( count($user_order) )
 				{
-					foreach($this->object->answers as $k => $a)
+					foreach( $this->object->orderElements as $k => $a)
 					{
 						$ok = FALSE;
 						if($k == $user_order[$k]['index'] && $a->getOrderingDepth() == $user_order[$k]['depth'] && $a->getAnswerText() == $user_order[$k]['answertext'])
@@ -597,7 +582,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				else
 				{
 					$expected_solution = array();
-					foreach ($this->object->answers as $index => $answer)
+					foreach ( $this->object->orderElements as $index => $answer)
 					{
 						$expected_solution[$index]['index'] = $index;
 						$expected_solution[$index]['random_id'] = $answer->getRandomId();
@@ -617,7 +602,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			else
 			{
-				foreach ($this->object->answers as $index => $answer)
+				foreach ( $this->object->orderElements as $index => $answer)
 				{
 		
 					$expected_solution[$index]['index'] = $index;
@@ -697,7 +682,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{	
-			$keys = array_keys($this->object->answers);
+			$keys = array_keys($this->object->orderElements);
 	
 			// generate the question output
 			include_once "./Services/UICore/classes/class.ilTemplate.php";
@@ -712,7 +697,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				
 				if( !count($solutions) )
 				{
-					foreach ($this->object->answers as $index => $answer)
+					foreach ( $this->object->orderElements as $index => $answer)
 					{
 						array_push($solutions, array("value1" => $index, "value2" => $index+1));
 					}
@@ -722,7 +707,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			else
 			{
-				foreach ($this->object->answers as $index => $answer)
+				foreach ( $this->object->orderElements as $index => $answer)
 				{
 					array_push($solutions, array("value1" => $index, "value2" => $index+1));
 				}
@@ -735,13 +720,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					{
 						if($item['value2'] == $idx+1)
 						{
-							$answer = $this->object->answers[$item['value1']];
+							$answer = $this->object->orderElements[$item['value1']];
 						}
 					}
 				}
 				else
 				{
-					$answer = $this->object->answers[$idx];
+					$answer = $this->object->orderElements[$idx];
 				}
 				if (!$answer)
 				{
@@ -759,7 +744,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						asort($sol);
 						$sol = array_keys($sol);
 						$ans = array();
-						foreach ($this->object->answers as $k => $a)
+						foreach ( $this->object->orderElements as $k => $a)
 						{
 							$ans[$k] = $k;
 						}
@@ -815,7 +800,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setCurrentBlock("ordering_row_standard");
 				if ($result_output)
 				{
-					$answer = $this->object->answers[$idx];
+					$answer = $this->object->orderElements[$idx];
 					$points = $answer->getPoints();
 					$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 					$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
@@ -892,7 +877,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			$answerArray = $this->object->answers;
+			$answerArray = $this->object->orderElements;
 			$shuffleAnswers = true;
 		}
 		 
@@ -900,7 +885,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		global $ilUser;
 		
 		// shuffle output
-		$keys = array_keys($this->object->answers);
+		$keys = array_keys($this->object->orderElements);
 		if($shuffleAnswers)
 		{
 			$keys = $this->object->getShuffler()->shuffle($keys);
@@ -964,7 +949,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 			foreach ($keys as $idx)
 			{
-				$answer = $this->object->answers[$idx];
+				$answer = $this->object->orderElements[$idx];
 				if ($this->object->getOrderingType() == OQ_PICTURES)
 				{
 					$template->setCurrentBlock("ordering_row_javascript_pictures");
@@ -1015,7 +1000,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$randomIdToAnswerMap = array();
 
-		foreach($this->object->answers as $answer)
+		foreach( $this->object->orderElements as $answer)
 		{
 			$randomIdToAnswerMap[$answer->getRandomId()] = $answer;
 		}
@@ -1042,7 +1027,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			$keys = array_keys($this->object->answers);
+			$keys = array_keys($this->object->orderElements);
 			$keys = $this->object->getShuffler()->shuffle($keys);
 		}
 		$_SESSION["ordering_keys"] = $keys;
@@ -1070,13 +1055,16 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$with_random_id = true;
 				$this->object->setLeveledOrdering($user_solution_hierarchy, $with_random_id);
 
+				$newOrderingElementList = new ilAssOrderingElementList();
+				$newOrderingElementList->setQuestionId($this->object->getId());
+				
 				foreach($this->object->leveled_ordering as $randomId => $depth)
 				{
-					$answ = new ASS_AnswerOrdering(
-						$answerMap[$randomId]->getAnswertext(), $randomId, $depth
-					);
-
-					$answerArray[] = $answ;
+					$element = $this->object->getOrderingElementList()->getElementByRandomIdentifier($randomId);
+					$element->setPosition($newOrderingElementList->getNextPosition());
+					$element->setIndentation($depth);
+					
+					$newOrderingElementList->addElement($element);
 				}
 			}
 			else
@@ -1105,7 +1093,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				else
 				{
-					$answerArray = $this->object->answers;
+					$answerArray = $this->object->orderElements;
 					$shuffleAnswers = true;
 				}
 			}
@@ -1152,7 +1140,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					{
 						if (preg_match("/order_(\d+)/", $key, $matches))
 						{
-							foreach ($this->object->getAnswers() as $answeridx => $answer)
+							foreach ( $this->object->getOrderElements() as $answeridx => $answer)
 							{
 								if ($answer->getRandomID() == $matches[1])
 								{
@@ -1197,7 +1185,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 			foreach ($keys as $idx)
 			{
-				$answer = $this->object->answers[$idx];
+				$answer = $this->object->orderElements[$idx];
 				if ($this->object->getOrderingType() == OQ_PICTURES)
 				{
 					$template->setCurrentBlock("ordering_row_javascript_pictures");
@@ -1325,14 +1313,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getAnswers()) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getOrderElements()) )
 		{
 			return '';
 		}
 
 		$output = '<table class="test_specific_feedback"><tbody>';
 
-		foreach($this->object->getAnswers() as $idx => $answer)
+		foreach( $this->object->getOrderElements() as $idx => $answer)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 				$this->object->getId(), $idx
@@ -1433,7 +1421,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function getAggregatedAnswersView($relevant_answers)
 	{
 		return  $this->renderAggregateView(
-					$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
+					$this->aggregateAnswers( $relevant_answers, $this->object->getOrderElements() ) )->get();
 	}
 
 	public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
@@ -1511,41 +1499,5 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;
-	}
-	
-	protected function initAnswerElementKeys()
-	{
-		switch( $this->getEditContext() )
-		{
-			case self::EDIT_CONTEXT_ADJUSTMENT:
-				
-				$this->object->initPositionElementKeys();
-				break;
-			
-			case self::EDIT_CONTEXT_AUTHORING:
-			default:
-				
-				$this->object->initRandomIdElementKeys();
-				break;
-		}
-	}
-	
-	protected function buildNewElementKey()
-	{
-		switch( $this->getEditContext() )
-		{
-			case self::EDIT_CONTEXT_ADJUSTMENT:
-				
-				$elementKey = $this->object->getNextSolutionOrder();
-				break;
-			
-			case self::EDIT_CONTEXT_AUTHORING:
-			default:
-			
-			$elementKey = $this->object->getRandomID( $this->object->getExistingRandomIds() );
-				break;
-		}
-		
-		return $elementKey;
 	}
 }

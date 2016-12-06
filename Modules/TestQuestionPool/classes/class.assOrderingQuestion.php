@@ -8,6 +8,8 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
+
 /**
  * Class for ordering questions
  *
@@ -24,19 +26,10 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
 class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
 	/**
-	* The possible answers of the ordering question
-	*
-	* $answers is an array of the predefined answers of the ordering question
-	*
-	* @var array
-	*/
-	var $answers;
-	
-	/**
-	 * @var array
+	 * @var ilAssOrderingElementList
 	 */
-	var $answersRecyclable;
-
+	protected $orderElementList;
+	
 	/**
 	* Type of ordering question
 	*
@@ -86,7 +79,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->answers = array();
+		$this->orderingElementList = new ilAssOrderingElementList();
 		$this->ordering_type = $ordering_type;
 	}
 
@@ -101,7 +94,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			strlen($this->title) && 
 			$this->author && 
 			$this->question && 
-			count($this->answers) && 
+			count($this->orderElements) && 
 			$this->getMaximumPoints() > 0
 		)
 		{
@@ -169,24 +162,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			{
 			}
 		}
-
-		$result = $ilDB->queryF("SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC",
-			array('integer'),
-			array($question_id)
-		);
-
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
-		if ($result->numRows() > 0)
-		{
-			while ($data = $ilDB->fetchAssoc($result))
-			{
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
-				$element = new ASS_AnswerOrdering($data["answertext"], $data["random_id"], $data['depth'] ? $data['depth'] : 0);
-				$element->setOrder($data['solution_key']);
-				$this->answers[] = $element;
-			}
-		}
+		
+		$this->orderingElementList->setQuestionId($this->getId());
+		$this->orderingElementList->loadFromDb();
+		
 		parent::loadFromDb($question_id);
 	}
 	
@@ -335,7 +314,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
-			foreach ($this->answers as $answer)
+			foreach ( $this->orderElements as $answer)
 			{
 				$filename = $answer->getAnswertext();
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
@@ -364,7 +343,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
-			foreach ($this->answers as $answer)
+			foreach ( $this->orderElements as $answer)
 			{
 				$filename = $answer->getAnswertext();
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
@@ -405,104 +384,40 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		return $this->ordering_type;
 	}
-
-	/**
-	* Adds an answer for an ordering choice question. The students have to fill in an order for the answer.
-	* The answer is an ASS_AnswerOrdering object that will be created and assigned to the array $this->answers.
-	*
-	* @param string $answertext The answer text
-	* @param double $points The points for selecting the answer (even negative points can be used)
-	* @param integer $order A possible display order of the answer
-	* @param integer $solution_key An unique integer value representing the correct
-	* order of that answer in the solution of a question
-	* @param integer	$depth 		represents the depth of that answer
-	* @access public
-	* @see $answers
-	* @see ASS_AnswerOrdering
-	*/
-	function addAnswer($elementKey, $answertext, $depth)
-	{
-		if( $this->isRecyclableAnswer($elementKey) )
-		{
-			$answer = $this->getRecyclableAnswer($elementKey);
-			$answer->setAnswertext($answertext);
-			$answer->setOrderingDepth($depth);
-		}
-		else
-		{
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
-			$answer = new ASS_AnswerOrdering($answertext, $this->getRandomID(), $depth);
-		}
-		
-		$this->answers[] = $answer;
-	}
 	
 	/**
-	 * @param ASS_AnswerOrdering $answer
+	 * @param $position
+	 *
+	 * TODO: rescue the intention out of this code
 	 */
-	public function addAnswerObject(ASS_AnswerOrdering $answer)
-	{
-		$this->answers[] = $answer;
-	}
-	
 	public function moveAnswerUp($position)
 	{
 		if ($position > 0)
 		{
-			$temp = $this->answers[$position-1];
-			$this->answers[$position-1] = $this->answers[$position];
-			$this->answers[$position] = $temp;
+			$temp = $this->orderElements[$position-1];
+			$this->orderElements[$position-1] = $this->orderElements[$position];
+			$this->orderElements[$position] = $temp;
 		}
 	}
 	
+	/**
+	 * @param $position
+	 * 
+	 * TODO: rescue the intention out of this code
+	 */
 	public function moveAnswerDown($position)
 	{
-		if ($position < count($this->answers)-1)
+		if ($position < count($this->orderElements)-1)
 		{
-			$temp = $this->answers[$position+1];
-			$this->answers[$position+1] = $this->answers[$position];
-			$this->answers[$position] = $temp;
+			$temp = $this->orderElements[$position+1];
+			$this->orderElements[$position+1] = $this->orderElements[$position];
+			$this->orderElements[$position] = $temp;
 		}
 	}
 	
-	const RANDOM_ID_RANGE_LOWER_BOUND = 1;
-	const RANDOM_ID_RANGE_UPPER_BOUND = 100000;
-
-	public function getRandomID($excludeRandomIds = array())
+	public function getOrderingElementList()
 	{
-		do
-		{
-			$randomId = mt_rand(
-				self::RANDOM_ID_RANGE_LOWER_BOUND, self::RANDOM_ID_RANGE_UPPER_BOUND
-			);
-		}
-		while( in_array($randomId, $excludeRandomIds) );
-		
-		return $randomId;
-	}
-	
-	public function getExistingRandomIds()
-	{
-		return array_unique( array_merge(
-			$this->getRandomIdsUsedByAnswers(), $this->getRandomIdsParkedForRecycling()
-		));
-	}
-	
-	public function getRandomIdsUsedByAnswers()
-	{
-		$randomIds = array();
-		
-		foreach($this->getAnswers() as $answer)
-		{
-			$randomIds[] = $answer->getRandomID();
-		}
-		
-		return $randomIds;
-	}
-	
-	public function getRandomIdsParkedForRecycling()
-	{
-		return array_keys( $this->getRecyclableAnswers() );
+		return $this->orderingElementList;
 	}
 
 	/**
@@ -517,9 +432,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function getAnswer($index = 0)
 	{
 		if ($index < 0) return NULL;
-		if (count($this->answers) < 1) return NULL;
-		if ($index >= count($this->answers)) return NULL;
-		return $this->answers[$index];
+		if (count($this->orderElements) < 1) return NULL;
+		if ($index >= count($this->orderElements)) return NULL;
+		return $this->orderElements[$index];
 	}
 
 	/**
@@ -566,17 +481,17 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function flushAnswers()
 	{
-		$this->answers = array();
+		$this->orderElements = array();
 	}
 	
 	public function parkAnswersRecyclable()
 	{
-		$this->answersRecyclable = array();
+		$this->elementsRecyclable = array();
 		
-		foreach($this->answers as $orderIndex => $answer)
+		foreach( $this->orderElements as $orderIndex => $answer)
 		{
 			/* @var ASS_AnswerOrdering $answer */
-			$this->answersRecyclable[$answer->getElementKey()] = $answer;
+			$this->elementsRecyclable[$answer->getElementKey()] = $answer;
 		}
 	}
 	
@@ -584,9 +499,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param string $elementKey
 	 * @return bool
 	 */
-	protected function isRecyclableAnswer($elementKey)
+	protected function isRecyclableAnswer($randomId)
 	{
-		return isset($this->answersRecyclable[$elementKey]);
+		return isset($this->elementsRecyclable[$randomId]);
 	}
 	
 	/**
@@ -595,7 +510,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	protected function getRecyclableAnswer($elementKey)
 	{
-		return $this->answersRecyclable[$elementKey];	
+		return $this->elementsRecyclable[$elementKey];	
 	}
 	
 	/**
@@ -603,7 +518,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	protected function getRecyclableAnswers()
 	{
-		return $this->answersRecyclable;	
+		return $this->elementsRecyclable;	
 	}
 
 	/**
@@ -615,7 +530,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	function getAnswerCount()
 	{
-		return count($this->answers);
+		return count($this->orderElements);
 	}
 
 	/**
@@ -626,15 +541,15 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	function getMaxSolutionOrder()
 	{
-		if (count($this->answers) == 0)
+		if (count($this->orderElements) == 0)
 		{
 			$max = 0;
 		}
 		else
 		{
-			$max = $this->answers[0]->getSolutionOrder();
+			$max = $this->orderElements[0]->getSolutionOrder();
 		}
-		foreach ($this->answers as $key => $value)
+		foreach ( $this->orderElements as $key => $value)
 		{
 			if ($value->getSolutionOrder() > $max)
 			{
@@ -775,7 +690,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					if (strcmp($f['type'], 'file') == 0)
 					{
 						$found = false;
-						foreach ($this->getAnswers() as $answer)
+						foreach ( $this->getOrderElements() as $answer)
 						{
 							if (strcmp($f['entry'], $answer->getAnswertext()) == 0) $found = true;
 							if (strcmp($f['entry'], $this->getThumbPrefix() . $answer->getAnswertext()) == 0) $found = true;
@@ -983,31 +898,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDBInterface $ilDB */
-		global $ilDB;
-
-		$ilDB->manipulateF( "DELETE FROM qpl_a_ordering WHERE question_fi = %s",
-							array( 'integer' ),
-							array( $this->getId() )
-		);
-
-		foreach ($this->answers as $orderIndex => $answer_obj)
-		{
-			$next_id    = $ilDB->nextId( 'qpl_a_ordering' );
-			$ilDB->insert( 'qpl_a_ordering',
-						   array(
-							   'answer_id'      => array( 'integer', $next_id ),
-							   'question_fi'    => array( 'integer', $this->getId() ),
-//							   'answertext'     => array( 'text', ilRTE::_replaceMediaObjectImageSrc( $answer_obj->getAnswertext(), 0 ) ),
-							   'answertext'     => array( 'text', $answer_obj->getAnswertext()),
-							   'solution_key' => array( 'integer', $orderIndex ),
-							   'random_id'      => array( 'integer', $answer_obj->getRandomID() ),
-							   'tstamp'         => array( 'integer', time() ),
-							   'depth'          => array( 'integer', $answer_obj->getOrderingDepth() )
-						   )
-			);
-		}
-
+		$this->orderingElementList->saveToDb();
+		
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$this->rebuildThumbnails();
@@ -1063,38 +955,21 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function getRTETextWithMediaObjects()
 	{
 		$text = parent::getRTETextWithMediaObjects();
-		foreach ($this->answers as $index => $answer)
+		foreach ( $this->orderElements as $index => $answer)
 		{
-			$answer_obj = $this->answers[$index];
+			$answer_obj = $this->orderElements[$index];
 			$text .= $answer_obj->getAnswertext();
 		}
 		return $text;
 	}
 	
 	/**
-	* Returns the answers array
-	*/
-	function &getAnswers()
+	 * Returns the answers array
+	 * @deprecated seriously, stop looking for this kind data at this point (!) look where it comes from and learn (!)
+	 */
+	function getOrderElements()
 	{
-		return $this->answers;
-	}
-	
-	public function initPositionElementKeys()
-	{
-		foreach($this->getAnswers() as $position => $element)
-		{
-			/* @var ASS_AnswerOrdering $element */
-			$element->setElementKey($position);
-		}
-	}
-	
-	public function initRandomIdElementKeys()
-	{
-		foreach($this->getAnswers() as $position => $element)
-		{
-			/* @var ASS_AnswerOrdering $element */
-			$element->setElementKey($element->getRandomID());
-		}
+		return $this->getOrderingElementList()->getRandomIdentifierIndexedElements();
 	}
 
 	/**
@@ -1130,7 +1005,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$sol = array_keys($sol);
 
 		$i = 1;
-		$answers = $this->getAnswers();
+		$answers = $this->getOrderElements();
 		foreach ($sol as $idx)
 		{
 			foreach ($solutions as $solution)
@@ -1196,7 +1071,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES)
 		{
-			foreach ($this->getAnswers() as $answer)
+			foreach ( $this->getOrderElements() as $answer)
 			{
 				$this->generateThumbForFile($this->getImagePath(), $answer->getAnswertext());
 			}
@@ -1257,7 +1132,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		$counter = 1;
 		$answers = array();
-		foreach ($this->getAnswers() as $answer_obj)
+		foreach ( $this->getOrderElements() as $answer_obj)
 		{
 			$answers[$counter] = $answer_obj->getAnswertext();
 			$counter++;
@@ -1281,7 +1156,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function removeAnswerImage($randomId)
 	{
-		foreach($this->getAnswers() as $answer)
+		foreach( $this->getOrderElements() as $answer)
 		{
 			if( !($answer instanceof ASS_AnswerOrdering) )
 			{
@@ -1318,7 +1193,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					if(preg_match("/id_(\\d+)/", $index, $idmatch))
 					{
 						$randomid = $idmatch[1];
-						foreach($this->getAnswers() as $answeridx => $answer)
+						foreach( $this->getOrderElements() as $answeridx => $answer)
 						{
 							if($answer->getRandomID() == $randomid)
 							{
@@ -1356,7 +1231,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					{
 						if(strlen($value))
 						{
-							foreach($this->getAnswers() as $answeridx => $answer)
+							foreach( $this->getOrderElements() as $answeridx => $answer)
 							{
 								if($answer->getRandomID() == $matches[1])
 								{
@@ -1388,7 +1263,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$points = 0;
 		$correctcount = 0;
 
-		foreach($this->answers as $index => $answer)
+		foreach( $this->orderElements as $index => $answer)
 		{
 			if($nested_solution == true)
 			{
@@ -1407,7 +1282,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			}
 		}
 
-		if($correctcount == count($this->answers))
+		if($correctcount == count($this->orderElements))
 		{
 			$points = $this->getPoints();
 			return $points;
@@ -1634,7 +1509,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 			$newKey = explode(":", $row["value2"]);
 
-			foreach($this->getAnswers() as $key => $answer)
+			foreach( $this->getOrderElements() as $key => $answer)
 			{
 				// Images nut supported
 				if($this->getOrderingType() == OQ_TERMS)
@@ -1687,7 +1562,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		else
 		{
-			return $this->getAnswers();
+			return $this->getOrderElements();
 		}
 	}
 

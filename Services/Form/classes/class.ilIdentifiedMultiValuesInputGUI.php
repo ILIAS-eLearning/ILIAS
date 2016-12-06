@@ -12,10 +12,13 @@ require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
  */
 abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
 {
+	
+	protected $formSubmitManipulationChain = array();
+	
 	public function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		//$this->setMulti(true);
+		//$this->setMulti(true); // this is another planet, do not enable (!)
 	}
 	
 	public function setValue($value)
@@ -80,6 +83,12 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	abstract protected function getMultiValueKeyByPosition($positionIndex);
 	
+	/**
+	 * TODO: implement as chain item, when post data manipulation chain is available
+	 * 
+	 * @param $positionIndexedValues
+	 * @return array
+	 */
 	protected function ensureNonPositionIndexedMultiValues($positionIndexedValues)
 	{
 		$keyIdentifiedValues = array();
@@ -117,9 +126,40 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		return current($value);
 	}
 	
+	/**
+	 * TODO: implement as chain item, when post data manipulation chain is available
+	 * 
+	 * @return array
+	 */
+	protected function deriveObjectsFromPostData($postDataValues)
+	{
+		$keyIdentifiedValues = array();
+		
+		foreach($positionIndexedValues as $valueKey => $value)
+		{
+			if( $this->isPositionIndexedValue($value) )
+			{
+				$value = $this->removeMultiValuePositionIndex($value);
+			}
+			
+			$keyIdentifiedValues[$valueKey] = $value;
+		}
+		
+		return $keyIdentifiedValues;
+	}
+	
+	/**
+	 * TODO: implement as post data manipulation chain, so we can flexibly invoke any manipulation as chain item
+	 * 
+	 * @param $values
+	 * @return array
+	 */
 	protected function prepareMultiValuesSubmit($values)
 	{
-		return $this->ensureNonPositionIndexedMultiValues($values);
+		$values = $this->ensureNonPositionIndexedMultiValues($values);
+		$values = $this->deriveObjectsFromPostData($values);
+		
+		return $values;
 	}
 	
 	final public function setValueByArray($a_values)
@@ -141,4 +181,14 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	}
 	
 	abstract public function onCheckInput();
+	
+	protected function getFormSubmitManipulators()
+	{
+		$this->formSubmitManipulationChain;
+	}
+	
+	protected function addFormSubmitManipulator(ilFormSubmitManipulator $manipulator)
+	{
+		$this->formSubmitManipulationChain[] = $manipulator;
+	}
 }
