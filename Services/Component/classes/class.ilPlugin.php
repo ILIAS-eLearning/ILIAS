@@ -504,6 +504,23 @@ abstract class ilPlugin
 		return $lng->txt($prefix."_".$a_lang_var, $prefix);
 	}
 
+	/**
+	 * Is searched lang var available in plugin lang files
+	 * 
+	 * @param int 		$pluginId
+	 * @param string 	$langVar
+	 *
+	 * @return bool
+	 */
+	static function langExitsById($pluginId, $langVar) {
+		global $lng;
+
+		$pl = ilPlugin::getRepoPluginObjectByType($pluginId);
+		$pl->loadLanguageModule();
+
+		return $lng->exists($pl->getPrefix()."_".$langVar);
+	}
+
 
 	/**
 	 * Get template from plugin
