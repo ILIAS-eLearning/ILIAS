@@ -17,10 +17,24 @@ class ilCronJobResult
 	const STATUS_RESET = 5;
 	const STATUS_FAIL = 6;
 	
+	const CODE_NO_RESULT      = 'job_no_result';
+	const CODE_MANUAL_RESET   = 'job_manual_reset';
+	const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
+	
 	protected $status; // [int]
 	protected $message; // [string]
 	protected $code; // [string]
 	protected $duration; // [float]
+
+	/**
+	 * @return array
+	 */
+	public static function getCoreCodes()
+	{
+		return array(
+			self::CODE_NO_RESULT, self::CODE_MANUAL_RESET, self::CODE_SUPPOSED_CRASH
+		);
+	}
 	
 	public function getStatus()
 	{

@@ -8281,7 +8281,7 @@ ldap#:#ldap_group_user_filter#:#Benutzerfilter
 ldap#:#ldap_ilias_role#:#ILIAS-Rollenname
 ldap#:#ldap_ilias_role_short#:#Rolle:
 ldap#:#ldap_info_text#:#Informationstext
-ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Infoseite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Persönlichen Schreibtisch eingeblendet werden.
+ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Info-Seite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Persönlichen Schreibtisch eingeblendet werden.
 ldap#:#ldap_info_text_short#:#Infotext:
 ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
@@ -11298,7 +11298,7 @@ survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Si
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf der Infoseite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf der Info-Seite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
@@ -12969,6 +12969,9 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
+cron#:#cro_job_rc_job_no_result#:#KEIN ERGEBNIS
+cron#:#cro_job_rc_job_manual_reset#:#MANUELL ZURÜCKGESETZT
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#WAHRSCHEINLICH ABGESTÜRZT
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -15340,7 +15343,7 @@ obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
-crs#:#crs_mail_context_member_title#:#Infoseite Kurs
+crs#:#crs_mail_context_member_title#:#Info-Seite Kurs
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
@@ -15778,7 +15781,7 @@ prg#:#prg_show_programmes#:#Anzeigen
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
 content#:#cont_error#:#Es ist leider ein Fehler aufgetreten
 prtf#:#prtf_shared_offline_info#:#Ein Portfolio muss online sein, um für freigebene Nutzer verfügbar zu sein.
-crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Infoseite eines Kurses
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-E-Mails auf den Lernfortschrittsansichten eines SCORM-Moduls
 style#:#sty_type_ha_iheada#:#Hor. Akkordeonelement Kopf (aktiv)
@@ -15976,8 +15979,8 @@ badge#:#badge_profile_manage#:#Verwalten
 badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
-trac#:#trac_defaults#:#Bestanden-Status
-trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bestanden-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults#:#Bearbeitet-Status
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
@@ -16198,7 +16201,7 @@ obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
 cont#:#cont_news_settings#:#Neuigkeiten
 cont#:#cont_news_timeline_landing_page#:#Startseite
-cont#:#cont_news_timeline_landing_page_info#:#Timeline wird Startseite
+cont#:#cont_news_timeline_landing_page_info#:#Timeline als Startseite
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
@@ -16348,27 +16351,27 @@ mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###25 10 2016 new variable
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Für jedes gefundede Keyword werden die entsprechenden Punkte automatisch vergeben.
 common#:#object_purchased_date#:#Kaufdatum
 dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert
 dcl#:#dcl_create_table#:#Tabelle erstellen
 dcl#:#dcl_ilias_reference_link#:#Als Link in der Tabellenansicht anzeigen
 dcl#:#dcl_comments_desc#:#Zeigt die Zahl der Kommentare pro Eintrag an.
 glo#:#glo_link_glo_in_glo#:#Sollen jetzt alle Glossarbegriffe aus dem Zielglossar in das bestehende Glossar verlinkt werden?
-survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie Zahlen größer 0 als Skalenwerte ein.
+survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie natürliche Zahlen als Skalenwerte ein.
 mass#:#mass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Teilnehmer eingesehen werden. Ist unten die Benachrichtigung aktiviert, erhält der Teilnehmer die Prüfungsnotiz auch per E-Mail.
 mass#:#mass_internal_note_info#:#Diese Notiz ist nur für Tutoren sichtbar, die Prüfungsdaten von Teilnehmern einsehen können. Die Teilnehmer selbst sehen die Prüfungsnotiz nicht.
 common#:#sahs_export_file#:#aus ILIAS exportierte SCORM-Archiv-Datei
 content#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) öffentlich freigeschaltet werden.
 sop#:#sop_msg_your_browser#:#Browser:&nbsp;
 sop#:#sop_msg_firefox_not_portable#:#Da dies allerdings keine speziellen portablen Versionen sind, sollten sie auch nur per Skript mit einem eigenen Profil-Ordner aufgerufen werden, damit das Profil eines parallel installierten aktuelleren Firefox Browsers nicht überschrieben wird.
-sop#:#sop_msg_firefox_version_not_supported#:#Sie verwenden einen Firefox Browser mit einer Version größer 38.</br>Leider unterstützt Mozilla in neueren Firefox Browsern für den Betrieb des SCORM-Offline-Players notwendige Kernfunktionen nicht mehr.<br/>
+sop#:#sop_msg_firefox_version_not_supported#:#Sie verwenden einen Firefox-Browser mit einer Version größer 38.</br>Leider unterstützt Mozilla in neueren Firefox Browsern für den Betrieb des SCORM-Offline-Players notwendige Kernfunktionen nicht mehr.<br/>
 sop#:#sop_msg_firefox_download_win#:#Sie haben die Möglichkeit die Offline-Funktionen des SCORM Lernmoduls mit einem passenden portablen Firefox zu nutzen:<br/>Download: <a href='https://sourceforge.net/projects/portableapps/files/Mozilla%20Firefox,%20Portable%20Ed./Mozilla%20Firefox,%20Portable%20Edition%2038.0.5/' target='_blank'>Firefox Portable 38.0.5/</a><br/>
 sop#:#sop_msg_firefox_download_linux#:#Für Linux lässt sich die Firefox Version 38.0 unter folgender Adresse herunterladen:<br/>64Bit: <a href='http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-x86_64/' target='_blank'>http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-x86_64/</a><br/>32Bit: <a href='http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-x86_64/' target='_blank'>http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-i686/</a><br/><a href='./Modules/ScormAicc/sop/firefox_linux_installation.txt' target='_blank'>Installationsanleitung</a><br/>
 sop#:#sop_msg_firefox_download_mac#:#Für Mac OSX lässt sich die Firefox Version 38.0 unter folgender Adresse herunterladen:<br/><a href='http://ftp.mozilla.org/pub/firefox/releases/38.0esr/mac/' target='_blank'>http://ftp.mozilla.org/pub/firefox/releases/38.0esr/mac/</a><br/><a href='./Modules/ScormAicc/sop/firefox_osx_installation.txt' target='_blank'>Installationsanleitung</a><br/>
 sop#:#sop_msg_firefox_after_download#:#Nachdem Sie den Browser heruntergeladen und installiert haben, rufen Sie diese Seite in ILIAS mit dem neuen Browser wiederholt auf.<br/>
 sop#:#sop_msg_firefox_config#:#Um das automatische Update des Browsers zu verhindern, geben Sie in der Adressleiste 'about:config' ein und ändern Sie folgende Einstellungen:<br/><br/><i>app.update.enabled = false</i><br/><i>app.update.auto = false</i><br/><i>app.update.mode = 0</i><br/><i>app.update.service.enabled = 0</i><br/><br/>
-sop#:#sop_msg_firefox_html5#:#Voraussichtlich schon ab ILIAS Version 5.3 werden Sie die Möglichkeit haben mit den gängigen aktuellen Browsern die Offline-Funktion zu nutzen.
+sop#:#sop_msg_firefox_html5#:#Voraussichtlich schon ab ILIAS Version 5.3 werden Sie die Möglichkeit haben, mit den gängigen aktuellen Browsern die Offline-Funktion zu nutzen.
 content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewählt wird, wird der Block nur Benutzern mit dem gewählten Recht am Berechtigungsobjekt angezeigt.
 grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können sich nun einloggen.
