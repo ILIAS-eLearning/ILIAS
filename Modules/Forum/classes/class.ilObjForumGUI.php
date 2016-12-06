@@ -2265,7 +2265,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			if(!$this->isTopLevelReplyCommand() 
 				&& !$ilUser->isAnonymous() 
-				&& $_GET['action'] == 'editdraft' || $_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply'
+				&& ($_GET['action'] == 'editdraft' || $_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 				&& ilForumPostDraft::isSavePostDraftAllowed()
 			)
 			{
@@ -2277,7 +2277,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				if($_GET['action'] == 'editdraft')
 				{
 					$this->replyEditForm->addCommandButton('updateDraft', $this->lng->txt('save_message'));
-		}
+				}
 				else
 				{
 					$this->replyEditForm->addCommandButton('saveAsDraft', $this->lng->txt('save_message'));	
@@ -2629,7 +2629,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->object->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
 
 				// copy temporary media objects (frm~)
-				ilForumUtil::moveMediaObjects($oReplyEditForm->getInput('message'), 'frm~:html', $ilUser->getId(), 'frm~:html', $ilUser->getId());
+				ilForumUtil::moveMediaObjects($oReplyEditForm->getInput('message'), 'frm~:html', $ilUser->getId(), 'frm:html', $ilUser->getId());
 
 				if($this->objProperties->isFileUploadAllowed())
 				{

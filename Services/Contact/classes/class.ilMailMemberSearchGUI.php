@@ -343,6 +343,9 @@ class ilMailMemberSearchGUI
 		$mail_roles = $this->getMailRoles();
 
 		$radio_grp   = new ilRadioGroupInputGUI('', 'mail_member_type');
+
+		$radio_sel_users = new ilRadioOption($this->lng->txt('mail_sel_users'), 'mail_sel_users');
+
 		$radio_roles = new ilRadioOption($this->objMailMemberRoles->getRadioOptionTitle(), 'mail_member_roles');
 		foreach($mail_roles as $role)
 		{
@@ -352,11 +355,10 @@ class ilMailMemberSearchGUI
 			$radio_roles->addSubItem($chk_role);
 		}
 
-		$radio_sel_users = new ilRadioOption($this->lng->txt('mail_sel_users'), 'mail_sel_users');
-
 		$radio_grp->setValue('mail_member_roles');
-		$radio_grp->addOption($radio_roles);
+
 		$radio_grp->addOption($radio_sel_users);
+		$radio_grp->addOption($radio_roles);
 
 		return $radio_grp;
 	}

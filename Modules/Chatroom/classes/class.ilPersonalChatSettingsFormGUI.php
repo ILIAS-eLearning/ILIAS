@@ -113,8 +113,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	{
 		return (
 			$this->chatSettings->get('enable_osc', false) &&
-			!(bool)$this->settings->get('usr_settings_hide_chat_osc_accept_msg', false) &&
-			!(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)
+			!(bool)$this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
 		);
 	}
 
@@ -138,6 +137,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		{
 			$chb = new ilCheckboxInputGUI($this->lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
 			$chb->setInfo($this->lng->txt('chat_osc_accept_msg_info'));
+			$chb->setDisabled((bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false));
 			$this->addItem($chb);
 		}
 
@@ -184,10 +184,11 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 			$this->user->setPref('chat_play_invitation_sound', (int)$this->getInput('play_invitation_sound'));
 		}
 
-		if($this->shouldShowOnScreenChatOptions())
+		if($this->shouldShowOnScreenChatOptions() && !(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false))
 		{
 			$this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn((bool)$this->getInput('chat_osc_accept_msg')));
 		}
+
 		$this->user->writePrefs();
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
