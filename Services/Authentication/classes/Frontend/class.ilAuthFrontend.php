@@ -317,13 +317,21 @@ class ilAuthFrontend
 		include_once './Services/Init/classes/class.ilInitialisation.php';
 		ilInitialisation::initUserAccount();
 		
+		ilSession::set('orig_request_target', '');
+		$user->hasToAcceptTermsOfServiceInSession(true);
+		
+		
+		$this->getLogger()->debug('User request target adjustment.');
+		require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
+		$request_adjuster = new ilUserRequestTargetAdjustment($user, $GLOBALS['ilCtrl']);
+		$request_adjuster->adjust();
+		
 		// --- anonymous/registered user
-		ilLoggerFactory::getLogger('auth')->info(
+		$this->getLogger()->info(
 			'logged in as '. $user->getLogin() . 
 			', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
 			', server:' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']
 		);
-
 
 		// finally raise event 
 		global $ilAppEventHandler;
