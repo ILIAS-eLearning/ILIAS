@@ -360,8 +360,6 @@ class ilMembershipCronNotifications extends ilCronJob
 		$lng = $ntf->getUserLanguage($a_user_id);
 		
 		include_once './Services/Locator/classes/class.ilLocatorGUI.php';			
-		require_once "HTML/Template/ITX.php";
-		require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 		require_once "./Services/UICore/classes/class.ilTemplate.php";
 		require_once "./Services/Link/classes/class.ilLink.php";
 			
