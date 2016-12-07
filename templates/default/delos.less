@@ -238,6 +238,7 @@ span.ilAlert {
 	width: 22px;
 	height: 22px;
 	margin: 0 3px 0 0;
+	display: @il-nav-icons;
 }
 
 // must be like dropdown-menu img
@@ -335,7 +336,7 @@ div.ilFrame {
 	border-right: 3px solid lighten(@mid-gray, 33%);
 	z-index: 100;
 	position: fixed;
-	top: @il-fixed-menu-height;
+	top: @il-header-height;
 
 	@media only screen and (max-width: 640px) {width: 100%;}
 }
@@ -581,11 +582,11 @@ div.ilFrame {
 }
 
 .ilFixedTopSpacer {
-	padding-top: @il-fixed-menu-height;
+	padding-top: @il-header-height;
 }
 
 .ilFixedTopSpacerBarOnly {
-	padding-top: @il-fixed-menu-height-bar-only;
+	padding-top: @il-top-bar-height;
 }
 
 div#mainspacekeeper {
