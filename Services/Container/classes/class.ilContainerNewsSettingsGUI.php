@@ -152,6 +152,19 @@ class ilContainerNewsSettingsGUI
 			$this->object->setNewsTimeline($form->getInput("news_timeline"));
 			$this->object->setNewsTimelineAutoEntries($form->getInput("news_timeline_auto_entries"));
 			$this->object->setNewsTimelineLandingPage($form->getInput("news_timeline_landing_page"));
+
+
+			if($this->setting->get('block_activated_news'))
+			{
+				if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp')))
+				{
+					$ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
+
+					include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+					ilMembershipNotifications::importFromForm($ref_id, $form);
+				}
+			}
+
 			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "");
