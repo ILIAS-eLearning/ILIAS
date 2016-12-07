@@ -417,5 +417,23 @@ class ilPCTabs extends ilPageContent
 		return $this->tabs_node->get_attribute("RandomStart");
 	}
 
+	/**
+	 * Get Javascript files
+	 */
+	function getJavascriptFiles($a_mode)
+	{
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+		return ilAccordionGUI::getLocalJavascriptFiles();
+	}
+
+	/**
+	 * Get Javascript files
+	 */
+	function getCssFiles($a_mode)
+	{
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+		return ilAccordionGUI::getLocalCssFiles();
+	}
+
 }
 ?>
