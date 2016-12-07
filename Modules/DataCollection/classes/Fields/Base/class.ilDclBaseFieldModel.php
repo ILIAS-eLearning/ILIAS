@@ -674,7 +674,7 @@ class ilDclBaseFieldModel {
 	 */
 	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = NULL) {
 		$value = $form->getInput('field_' . $this->getId());
-		$this->checkValidity($value);
+		$this->checkValidity($value, $record_id);
 	}
 	/**
 	 * Check if input is valid
