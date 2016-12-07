@@ -64,7 +64,7 @@ class ilAssOrderingElementList implements Iterator
 		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
 		
 		$result = $ilDB->queryF(
-			"SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC",
+			"SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY position ASC",
 			array('integer'), array($this->getQuestionId())
 		);
 		
@@ -75,7 +75,7 @@ class ilAssOrderingElementList implements Iterator
 			$element->setRandomIdentifier($row['random_id']);
 			$element->setSolutionIdentifier($row['solution_key']);
 			
-			$element->setPosition($row['order_position']);
+			$element->setPosition($row['position']);
 			$element->setIndentation($row["depth"]);
 			
 			$element->setContent($row['answertext']);
@@ -108,7 +108,7 @@ class ilAssOrderingElementList implements Iterator
 				'answertext' => array( 'text', $orderElement->getContent()),
 				'solution_key' => array( 'integer', $orderElement->getSolutionIdentifier() ),
 				'random_id' => array( 'integer', $orderElement->getRandomIdentifier() ),
-				'order_position' => array( 'integer', $orderElement->getPosition() ),
+				'position' => array( 'integer', $orderElement->getPosition() ),
 				'depth' => array( 'integer', $orderElement->getIndentation() ),
 				'tstamp' => array( 'integer', time() )
 			));
@@ -129,6 +129,48 @@ class ilAssOrderingElementList implements Iterator
 	public function countElements()
 	{
 		return count($this->elements);
+	}
+	
+	public function isFirstElementPosition($position)
+	{
+		// $element = $this->getElementByPosition(0);
+		// return $position == $element->getPosition();
+		return $position == 0;
+	}
+	
+	public function getLastElementPosition($position)
+	{
+		// $element = $this->getElementByPosition($this->countElements() - 1);
+		// return $position == $element->getPosition();
+		return $position == ($this->countElements() - 1);
+	}
+	
+	public function moveElementByPositions($currentPosition, $targetPosition)
+	{
+		$movingElement = $this->getElementByPosition($currentPosition);
+		$dodgingElement = $this->getElementByPosition($targetPosition);
+		
+		$elementList = new self();
+		$elementList->setQuestionId($this->getQuestionId());
+		
+		foreach($this as $element)
+		{
+			if( $element->getPosition() == $currentPosition )
+			{
+				$elementList->addElement($dodgingElement);
+				continue;
+			}
+			
+			if( $element->getPosition() == $targetPosition )
+			{
+				$elementList->addElement($movingElement);
+				continue;
+			}
+			
+			$elementList->addElement($element);
+		}
+		
+		$this->setElements( $elementList->getElements() );
 	}
 	
 	/**

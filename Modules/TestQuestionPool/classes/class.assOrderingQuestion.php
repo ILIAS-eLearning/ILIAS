@@ -402,28 +402,38 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function moveAnswerUp($position)
 	{
-		if ($position > 0)
+		if( !$this->getOrderingElementList()->elementExistByPosition($position) )
 		{
-			$temp = $this->orderElements[$position-1];
-			$this->orderElements[$position-1] = $this->orderElements[$position];
-			$this->orderElements[$position] = $temp;
+			return false;
 		}
+		
+		if( $this->getOrderingElementList()->isFirstElementPosition($position) )
+		{
+			return false;
+		}
+		
+		$this->getOrderingElementList()->movePosition($position, $position - 1);
 	}
 	
 	/**
 	 * @param $position
-	 * 
-	 * TODO: rescue the intention out of this code
 	 */
 	public function moveAnswerDown($position)
 	{
-		if ($position < count($this->orderElements)-1)
+		if( !$this->getOrderingElementList()->elementExistByPosition($position) )
 		{
-			$temp = $this->orderElements[$position+1];
-			$this->orderElements[$position+1] = $this->orderElements[$position];
-			$this->orderElements[$position] = $temp;
+			return false;
 		}
+		
+		if( $this->getOrderingElementList()->isLastElementPosition($position) )
+		{
+			return false;
+		}
+		
+		$this->getOrderingElementList()->movePosition($position, $position + 1);
 	}
+	
+	public function 
 	
 	/**
 	 * @return ilAssOrderingElementList

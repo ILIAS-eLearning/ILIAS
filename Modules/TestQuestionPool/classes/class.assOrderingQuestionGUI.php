@@ -155,7 +155,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function upanswers()
 	{
 		$this->writePostData(true);
-		$position = key($_POST["cmd"]["upanswers"]);
+		$position = (int)key($_POST["cmd"]["upanswers"]);
 		$this->object->moveAnswerUp($position);
 		$this->editQuestion();
 	}
@@ -163,7 +163,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function downanswers()
 	{
 		$this->writePostData(true);
-		$position = key($_POST["cmd"]["downanswers"]);
+		$position = (int)key($_POST["cmd"]["downanswers"]);
 		$this->object->moveAnswerDown($position);
 		$this->editQuestion();
 	}
@@ -390,27 +390,40 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function writePostData($always = false)
+	protected function writePostData($forceSaving = false)
 	{
-		if( $always && !$this->isSaveCommand() )
+		$savingAllowed = true; // assume saving allowed first
+		
+		if( !$forceSaving )
 		{
-			$this->editQuestion(true);
-			$this->editForm->setValuesByPost();
-			$this->editForm->checkInput();
-			$this->editForm->setValuesByPost();
+			// this case seems to be a regular save call,
+			// so we consider the return as permission to save
+			
+			$savingAllowed = !(
+				$hasErrors = $this->editQuestion($avoidOutput = true)
+			);
 		}
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
+		elseif( !$this->isSaveCommand() )
+		{
+			// in this case $this->editQuestion(true) has not executed any validation
+			
+			$this->editQuestion($avoidOutput = true); // init {this->editForm}
+			$this->editForm->setValuesByPost(); // manipulation and distribution of values 
+			$this->editForm->checkInput(); // manipulations regular style input propeties
+		}
+		
+		if ($savingAllowed)
 		{
 			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			$this->writeQuestionGenericPostData();
 			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
 			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
 			$this->saveTaxonomyAssignments();
-			return 0;
+			
+			return 0; // return 0 = all fine, was saved either forced or validated
 		}
-
-		return 1;
+		
+		return 1; // return 1 = something went wrong, no saving happened
 	}
 	
 	/**
@@ -449,7 +462,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
-			//$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
