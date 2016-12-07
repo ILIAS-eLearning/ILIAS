@@ -760,8 +760,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* show information screen
 	*/
 	function infoScreenForward()
-	{		
-		$this->checkPermission("visible");
+	{
+		if (!$this->checkPermissionBool("read"))
+		{
+			$this->checkPermission("visible");
+		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
