@@ -1,9 +1,9 @@
 /* Services/UIComponent/Tabs */
 div.il_Tab {
   margin: 0 5px 10px;
-  background-color: #F4F4F4;
-  border: 1px solid #E0E0E0;
-  padding: 2px 2px 4px 2px;
+  background-color: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  padding: 2px 2px 4px;
   clear: both;
 }
 div.il_SubTab {
@@ -18,7 +18,7 @@ a.tabinactive {
   padding: 2px 3px;
 }
 li.tabactive {
-  background-color: #FFF;
+  background-color: white;
 }
 a.tabinactive:hover {
   background: none;
@@ -33,7 +33,7 @@ div.ilTabContentInner {
 }
 div.ilTabContentOuter {
   box-shadow: none;
-  border: none;
+  border: 0 none;
   /* since the div in the main template got also a display table-cell
 	through ilTabsTableCell the width:auto shrinks the div to the size of the content.
 	We do not want that */
