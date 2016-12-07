@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
+require_once 'Services/Form/classes/class.ilMultipleImagesInputGUI.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -9,7 +9,7 @@ require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
+class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 {
 	public function __construct($a_title, $a_postvar)
 	{

@@ -106,11 +106,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function orderNestedTerms()
 	{
-		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
-		{
-			$this->setClearAnswersOnWritingPostDataEnabled(true);
-		}
-		
 		$this->writePostData(true);
 		$this->object->setOrderingType(OQ_NESTED_TERMS);
 		$this->object->saveToDb();
@@ -126,7 +121,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		$this->editQuestion();
 	}
-
+	
+	/**
+	 * TODO: check if still in use
+	 * TODO: refactor if neccessary
+	 */
 	public function addanswers()
 	{
 		$this->writePostData(true);
@@ -135,7 +134,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->object->addAnswer($newRandomId, '', 0);
 		$this->editQuestion();
 	}
-
+	
+	/**
+	 * TODO: check if still in use
+	 * TODO: refactor if neccessary
+	 */
 	public function removeimageanswers()
 	{
 		$this->writePostData(true);
@@ -143,7 +146,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->object->removeAnswerImage($randomId);
 		$this->editQuestion();
 	}
-
+	
+	/**
+	 * TODO: check if still in use
+	 * TODO: refactor if neccessary
+	 */
 	public function removeanswers()
 	{
 		$this->writePostData(true);
@@ -151,7 +158,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->object->deleteAnswer($randomId);
 		$this->editQuestion();
 	}
-
+	
+	/**
+	 * TODO: check if still in use
+	 */
 	public function upanswers()
 	{
 		$this->writePostData(true);
@@ -159,7 +169,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->object->moveAnswerUp($position);
 		$this->editQuestion();
 	}
-
+	
+	/**
+	 * TODO: check if still in use
+	 */
 	public function downanswers()
 	{
 		$this->writePostData(true);
@@ -173,8 +186,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	private function getAnswerImageFileUploadWizardFormProperty()
 	{
-		require_once 'Services/Form/classes/class.ilMultipleImagesInputGUI.php';
-		$answers = new ilMultipleImagesInputGUI($this->lng->txt("answers"), "answers");
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
+		$answers = new ilAssOrderingImagesInputGUI($this->lng->txt("answers"), "answers");
 		$answers->setRequired(TRUE);
 		$answers->setQuestionObject($this->object);
 		$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
@@ -284,18 +297,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
 	{
-		$orderingtype = $this->object->getOrderingType();
-
-		/*if( !$this->object->getOrderingElementList()->hasElements() )
-		{
-			$this->object->getOrderingElementList()->addElement(self::FIRST_NEW_ANSWER_POST_KEY, '', 0);
-		}*/
-
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt('oq_header_ordering_elements'));
 		$form->addItem($header);
 
-		if ($orderingtype == OQ_PICTURES)
+		if( $this->object->getOrderingType() == OQ_PICTURES )
 		{
 			$answerImageUpload = $this->getAnswerImageFileUploadWizardFormProperty();
 			if ($this->uploadAlert !== null)
@@ -304,31 +310,33 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			$form->addItem( $answerImageUpload );
 		}
-		else if ($orderingtype == OQ_NESTED_TERMS || $orderingtype == OQ_NESTED_PICTURES)
-		{
-			require_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
-			$answers = new ilNestedOrderingGUI($this->lng->txt( "answers" ), "answers");
-			$answers->setOrderingType( $orderingtype );
-			$answers->setObjAnswersArray( $this->object->getOrderingElementList()->getRandomIdentifierIndexedElements() );
-
-			if ($orderingtype == OQ_NESTED_PICTURES)
-			{
-				$answers->setImagePath( $this->object->getImagePath() );
-				$answers->setImagePathWeb( $this->object->getImagePathWeb() );
-				$answers->setThumbPrefix( $this->object->getThumbPrefix() );
-			}
-			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
-			$form->addItem( $answers );
-		}
-		else
+		elseif( $this->object->getOrderingType() == OQ_TERMS )
 		{
 			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
 			$answers = new ilAssOrderingTextsInputGUI($this->lng->txt( "answers" ), "answers");
 			$answers->setValues($this->object->getOrderingElementList()->getElements());
 			$answers->setAllowMove( TRUE );
 			$answers->setRequired( TRUE );
-
+			
 			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
+			$form->addItem( $answers );
+		}
+		else // OQ_NESTED_TERMS, OQ_NESTED_PICTURES
+		{
+			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
+			$answers = new ilAssNestedOrderingElementsInputGUI($this->lng->txt( "answers" ), "answers");
+			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
+
+			$answers->setOrderingType( $this->object->getOrderingType() );
+			$answers->setValues( $this->object->getOrderingElementList()->getElements() );
+
+			if( $this->object->getOrderingType() == OQ_NESTED_PICTURES )
+			{
+				$answers->setImagePath( $this->object->getImagePath() );
+				$answers->setImagePathWeb( $this->object->getImagePathWeb() );
+				$answers->setThumbPrefix( $this->object->getThumbPrefix() );
+			}
+			
 			$form->addItem( $answers );
 		}
 
@@ -616,7 +624,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
 
-			$answers_gui = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers", $graphicalOutput);
+			$answers_gui = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers", $graphicalOutput);
 		
 			$no_js_for_cmds = array('outParticipantsPassDetails', 'outCorrectSolution', 'showManScoringParticipantScreen');
 			
@@ -888,7 +896,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
-			$answers = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers");
+			$answers = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
 			$answers->setOrderingType($this->object->getOrderingType());
 			$answers->setObjAnswersArray($answerArray, $shuffleAnswers);
 
@@ -1032,7 +1040,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
-			$answerGUI = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers");
+			$answerGUI = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
 			$answerGUI->setInstanceId('participant');
 			$answerGUI->setOrderingType($this->object->getOrderingType());
 

@@ -29,11 +29,18 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setSize('25');
 		$this->validationRegexp = "";
+
+		$this->setValues(array());
 		
 		require_once 'Services/Form/classes/class.ilMultiFilesPositionIndexRemover.php';
 		$manipulator = new ilMultiFilesPositionIndexRemover();
 		$manipulator->setPostVar($this->getPostVar());
-		$this->addFormSubmitManipulator($manipulator);
+		$this->addFormValuesManipulator($manipulator);
+		
+		require_once 'Services/Form/classes/class.ilMultiFilesSubmitRecursiveSlashesStripper.php';
+		$manipulator = new ilMultiFilesSubmitRecursiveSlashesStripper();
+		$manipulator->setPostVar($this->getPostVar());
+		$this->addFormValuesManipulator($manipulator);
 	}
 	
 	/**
@@ -103,7 +110,7 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	protected function getMultiValueKeyByPosition($positionIndex)
 	{
-		$keys = array_keys($this->getValues());
+		$keys = array_keys($this->getMultiValues());
 		return $keys[$positionIndex];
 	}
 	
@@ -115,12 +122,6 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	function onCheckInput()
 	{
 		global $lng;
-		
-		if (is_array($_POST[$this->getPostVar()]))
-		{
-			$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-		}
-		
 		if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 		{
 			foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error)

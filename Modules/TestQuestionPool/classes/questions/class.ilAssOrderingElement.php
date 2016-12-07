@@ -36,7 +36,7 @@ class ilAssOrderingElement
 	 * 
 	 * @var integer
 	 */
-	protected $randomIdentifier = null;
+	protected $randomIdentifier = 0;
 	
 	/**
 	 * this identifier is used to identify elements and is stored
@@ -165,22 +165,5 @@ class ilAssOrderingElement
 	public function setContent($content)
 	{
 		$this->content = $content;
-	}
-	
-	/**
-	 * @param array $excludeRandomIds
-	 * @return int $generatedRandomId
-	 */
-	public static function generateRandomId($excludeRandomIds = array())
-	{
-		do
-		{
-			$randomId = mt_rand(
-				self::RANDOM_ID_RANGE_LOWER_BOUND, self::RANDOM_ID_RANGE_UPPER_BOUND
-			);
-		}
-		while( in_array($randomId, $excludeRandomIds) );
-		
-		return $randomId;
 	}
 }

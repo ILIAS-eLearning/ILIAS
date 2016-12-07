@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
+require_once 'Services/Form/classes/class.ilMultipleNestedOrderingElementsInputGUI.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -9,7 +9,7 @@ require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
+class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElementsInputGUI
 {
 	public function __construct($a_title, $a_postvar)
 	{
@@ -21,7 +21,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
-		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENTS);
+		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
 		$manipulator->setPostVar($this->getPostVar());
 		$this->addFormValuesManipulator($manipulator);
 	}

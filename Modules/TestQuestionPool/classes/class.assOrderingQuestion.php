@@ -433,8 +433,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$this->getOrderingElementList()->movePosition($position, $position + 1);
 	}
 	
-	public function 
-	
 	/**
 	 * @return ilAssOrderingElementList
 	 */
@@ -673,10 +671,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					if (strcmp($f['type'], 'file') == 0)
 					{
 						$found = false;
-						foreach ( $this->getOrderElements() as $answer)
+						foreach($this->getOrderingElementList() as $orderElement)
 						{
-							if (strcmp($f['entry'], $answer->getAnswertext()) == 0) $found = true;
-							if (strcmp($f['entry'], $this->getThumbPrefix() . $answer->getAnswertext()) == 0) $found = true;
+							if (strcmp($f['entry'], $orderElement->getContent()) == 0) $found = true;
+							if (strcmp($f['entry'], $this->getThumbPrefix() .  $orderElement->getContent()) == 0) $found = true;
 						}
 						if (!$found)
 						{
@@ -989,14 +987,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$sol = array_keys($sol);
 
 		$i = 1;
-		$answers = $this->getOrderElements();
 		foreach ($sol as $idx)
 		{
 			foreach ($solutions as $solution)
 			{
 				if ($solution["value1"] == $idx) $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
 			}
-			$worksheet->setCell($startrow + $i, 1, $answers[$idx]->getAnswertext());
+			$element = $this->getOrderingElementList()->getElementByPosition($idx);
+			$worksheet->setCell($startrow + $i, 1, $element->getContent());
 			$i++;
 		}
 
@@ -1055,9 +1053,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES)
 		{
-			foreach ( $this->getOrderElements() as $answer)
+			foreach ( $this->getOrderElements() as $orderingElement)
 			{
-				$this->generateThumbForFile($this->getImagePath(), $answer->getAnswertext());
+				$this->generateThumbForFile($this->getImagePath(), $orderingElement->getContent());
 			}
 		}
 	}
@@ -1279,91 +1277,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param integer 	$ordering_depth
 	 * @param bool 		$with_random_id
 	 */
-	private function getDepthRecursive($child, $ordering_depth, $with_random_id = false)
-	{
-		if($with_random_id == true)
-		{
-			// for test ouput
-			if(is_array($child->children))
-			{
-				foreach($child->children as $grand_child)
-				{
-					$ordering_depth++;
-					$this->leveled_ordering[$child->id] = $ordering_depth;
-					$this->getDepthRecursive($grand_child, $ordering_depth, true);
-				}
-			}
-			else
-			{
-				$ordering_depth++;
-				$this->leveled_ordering[$child->id] = $ordering_depth;
-			}
-		}
-		else
-		{
-			if(is_array($child->children))
-			{
-				foreach($child->children as $grand_child)
-				{
-					$ordering_depth++;
-					$this->leveled_ordering[] = $ordering_depth;
-					$this->getDepthRecursive($grand_child, $ordering_depth);
-				}
-			}
-			else
-			{
-				$ordering_depth++;
-				$this->leveled_ordering[] = $ordering_depth;
-			}		
-		}
-	}
-	
-	/***
-	 * @param array $new_hierarchy
-	 * @param bool 	$with_random_id
-	 */
-	public function setLeveledOrdering($new_hierarchy, $with_random_id = false)
-	{
-		if($with_random_id == true)
-		{
-			//for test output
-			if(is_array($new_hierarchy))
-			{
-				foreach($new_hierarchy as $id)
-				{
-					$ordering_depth                  = 0;
-					$this->leveled_ordering[$id->id] = $ordering_depth;
-
-					if(is_array($id->children))
-					{
-						foreach($id->children as $child)
-						{
-							$this->getDepthRecursive($child, $ordering_depth, true);
-						}
-					}
-				}
-			}
-		}	
-		else
-		{
-			if(is_array($new_hierarchy))
-			{
-				foreach($new_hierarchy as $id)
-				{
-					$ordering_depth           = 0;
-					$this->leveled_ordering[] = $ordering_depth;
-
-					if(is_array($id->children))
-					{
-						foreach($id->children as $child)
-						{
-							$this->getDepthRecursive($child, $ordering_depth, $with_random_id);
-						}
-					}
-				}
-			}
-		}
-	}
 	public function getLeveledOrdering()
 	{
 		return $this->leveled_ordering;
@@ -1373,7 +1286,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC',
+		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY position ASC',
 			array('integer'), array($this->getId()));
 		while($row = $ilDB->fetchAssoc($res))
 		{

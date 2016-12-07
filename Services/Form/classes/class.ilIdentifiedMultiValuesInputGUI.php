@@ -12,18 +12,17 @@ require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
  */
 abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
 {
-	protected $formSubmitManipulationChain = array();
-	protected $formInputManipulationChain = array();
+	protected $formValuesManipulationChain = array();
 	
 	public function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
 		
 		require_once 'Services/Form/classes/class.ilFormSubmitRecursiveSlashesStripper.php';
-		$this->addFormSubmitManipulator(new ilFormSubmitRecursiveSlashesStripper());
+		$this->addFormValuesManipulator(new ilFormSubmitRecursiveSlashesStripper());
 		
 		require_once 'Services/Form/classes/class.ilMultiValuesPositionIndexRemover.php';
-		$this->addFormSubmitManipulator(new ilMultiValuesPositionIndexRemover());
+		$this->addFormValuesManipulator(new ilMultiValuesPositionIndexRemover());
 		
 		//$this->setMulti(true); // this is another planet, do not enable (!)
 	}
@@ -92,6 +91,11 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	final public function setValueByArray($a_values)
 	{
+		if( !is_array($a_values[$this->getPostVar()]) )
+		{
+			$a_values[$this->getPostVar()] = array();
+		}
+		
 		$a_values[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
 			$a_values[$this->getPostVar()]
 		);
@@ -101,6 +105,11 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	final public function checkInput()
 	{
+		if( !is_array($_POST[$this->getPostVar()]) )
+		{
+			$_POST[$this->getPostVar()] = array();
+		}
+		
 		$_POST[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
 			$_POST[$this->getPostVar()]
 		);
@@ -112,7 +121,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	final protected function prepareMultiValuesInput($values)
 	{
-		foreach($this->getFormInputManipulators() as $manipulator)
+		foreach($this->getFormValuesManipulators() as $manipulator)
 		{
 			/* @var ilFormValuesManipulator $manipulator */
 			$values = $manipulator->manipulateFormInputValues($values);
@@ -123,7 +132,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	final protected function prepareMultiValuesSubmit($values)
 	{
-		foreach($this->getFormSubmitManipulators() as $manipulator)
+		foreach($this->getFormValuesManipulators() as $manipulator)
 		{
 			/* @var ilFormValuesManipulator $manipulator */
 			$values = $manipulator->manipulateFormSubmitValues($values);
@@ -132,23 +141,13 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		return $values;
 	}
 	
-	protected function getFormInputManipulators()
+	protected function getFormValuesManipulators()
 	{
-		return $this->formInputManipulationChain;
+		return $this->formValuesManipulationChain;
 	}
 	
-	protected function addFormInputManipulator(ilFormValuesManipulator $manipulator)
+	protected function addFormValuesManipulator(ilFormValuesManipulator $manipulator)
 	{
-		$this->formInputManipulationChain[] = $manipulator;
-	}
-	
-	protected function getFormSubmitManipulators()
-	{
-		return $this->formSubmitManipulationChain;
-	}
-	
-	protected function addFormSubmitManipulator(ilFormValuesManipulator $manipulator)
-	{
-		$this->formSubmitManipulationChain[] = $manipulator;
+		$this->formValuesManipulationChain[] = $manipulator;
 	}
 }
