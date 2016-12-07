@@ -2374,9 +2374,9 @@
 					</xsl:choose>
 				</xsl:variable>
 				
-				<!-- set width of td, see bug #10911 -->
+				<!-- set width of td, see bug #10911 and #19464 -->
 				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width" /></xsl:attribute>
+					<xsl:attribute name="style">width:<xsl:value-of select="$width" />px;</xsl:attribute>
 				</xsl:if>
 
 				<!-- determine height -->
