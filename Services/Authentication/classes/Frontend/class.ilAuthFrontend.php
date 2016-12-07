@@ -321,11 +321,6 @@ class ilAuthFrontend
 		$user->hasToAcceptTermsOfServiceInSession(true);
 		
 		
-		$this->getLogger()->debug('User request target adjustment.');
-		require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
-		$request_adjuster = new ilUserRequestTargetAdjustment($user, $GLOBALS['ilCtrl']);
-		$request_adjuster->adjust();
-		
 		// --- anonymous/registered user
 		$this->getLogger()->info(
 			'logged in as '. $user->getLogin() . 

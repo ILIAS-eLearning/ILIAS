@@ -1509,22 +1509,24 @@ class ilInitialisation
 		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			ilInitialisation::goToPublicSection();
-		}
-		else
-		{										
-			// for password change and incomplete profile 
-			// see ilPersonalDesktopGUI
-			if(!$_GET["target"])
-			{										
-				// Redirect here to switch back to http if desired
-				include_once './Services/User/classes/class.ilUserUtil.php';						
-				ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
-			}
-			else
-			{
-				ilUtil::redirect("goto.php?target=".$_GET["target"]);
-			}
+			return true;
 		}
 		
+		require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
+		$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['ilCtrl']);
+		$request_adjuster->adjust(); // possible redirect
+
+		// for password change and incomplete profile 
+		// see ilPersonalDesktopGUI
+		if(!$_GET["target"])
+		{										
+			// Redirect here to switch back to http if desired
+			include_once './Services/User/classes/class.ilUserUtil.php';						
+			ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+		}
+		else
+		{
+			ilUtil::redirect("goto.php?target=".$_GET["target"]);
+		}
 	}
 }
