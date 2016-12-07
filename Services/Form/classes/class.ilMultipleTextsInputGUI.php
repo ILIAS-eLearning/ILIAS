@@ -54,34 +54,32 @@ class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	{
 		global $lng;
 		
-		$foundvalues = $_POST[$this->getPostVar()];
-		if (is_array($foundvalues))
+		$submittedElements = $_POST[$this->getPostVar()];
+		
+		if( !is_array($submittedElements) && $this->getRequired() )
 		{
-			foreach ($foundvalues as $idx => $value)
+			$this->setAlert($lng->txt("msg_input_is_required"));
+			return false;
+		}
+		
+		foreach($submittedElements as $submittedElement)
+		{
+			if ($this->getRequired() && trim($submittedElement->getContent()) == "")
 			{
-				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
-				if ($this->getRequired() && trim($value) == "")
+				$this->setAlert($lng->txt('msg_input_is_required'));
+				return false;
+			}
+			
+			if( strlen($this->getValidationRegexp()) )
+			{
+				if( !preg_match($this->getValidationRegexp(), $submittedElement->getContent()) )
 				{
-					$this->setAlert($lng->txt("msg_input_is_required"));
-					
+					$this->setAlert($lng->txt('msg_wrong_format'));
 					return false;
-				}
-				else if (strlen($this->getValidationRegexp()))
-				{
-					if (!preg_match($this->getValidationRegexp(), $value))
-					{
-						$this->setAlert($lng->txt("msg_wrong_format"));
-						return FALSE;
-					}
 				}
 			}
 		}
-		else if($this->getRequired())
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-			return FALSE;
-		}
-		
+
 		return $this->checkSubItemsInput();
 	}
 	

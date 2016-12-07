@@ -106,7 +106,7 @@ class ilAssOrderingElementList implements Iterator
 				'answer_id' => array( 'integer', $ilDB->nextId('qpl_a_ordering') ),
 				'question_fi' => array( 'integer', $this->getQuestionId() ),
 				'answertext' => array( 'text', $orderElement->getContent()),
-				'solution_keyvalue' => array( 'integer', $orderElement->getSolutionIdentifier() ),
+				'solution_key' => array( 'integer', $orderElement->getSolutionIdentifier() ),
 				'random_id' => array( 'integer', $orderElement->getRandomIdentifier() ),
 				'order_position' => array( 'integer', $orderElement->getPosition() ),
 				'depth' => array( 'integer', $orderElement->getIndentation() ),
@@ -410,9 +410,8 @@ class ilAssOrderingElementList implements Iterator
 		{
 			case self::IDENTIFIER_TYPE_SOLUTION: $element->setSolutionIdentifier($identifier); break;
 			case self::IDENTIFIER_TYPE_RANDOM: $element->setRandomIdentifier($identifier); break;
+			default: $this->throwUnknownIdentifierTypeException($identifierType);
 		}
-		
-		$this->throwUnknownIdentifierTypeException($identifierType);
 	}
 	
 	/**
@@ -561,9 +560,10 @@ class ilAssOrderingElementList implements Iterator
 			$upperBound = self::RANDOM_IDENTIFIER_RANGE_UPPER_BOUND;
 			$randomIdentifier = mt_rand($lowerBound, $upperBound);
 			
-			
+			$testElement = new ilAssOrderingElement();
+			$testElement->setRandomIdentifier($randomIdentifier);
 		}
-		while( $this->isIdentifierRegistered($randomIdentifier, self::IDENTIFIER_TYPE_RANDOM)  );
+		while( $this->isIdentifierRegistered($testElement, self::IDENTIFIER_TYPE_RANDOM)  );
 		
 		return $randomIdentifier;
 	}

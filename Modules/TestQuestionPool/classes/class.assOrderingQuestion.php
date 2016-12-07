@@ -928,11 +928,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function getRTETextWithMediaObjects()
 	{
 		$text = parent::getRTETextWithMediaObjects();
-		foreach ( $this->orderElements as $index => $answer)
+		
+		foreach ( $this->getOrderingElementList() as $orderingElement)
 		{
-			$answer_obj = $this->orderElements[$index];
-			$text .= $answer_obj->getAnswertext();
+			$text .= $orderingElement->getContent();
 		}
+		
 		return $text;
 	}
 	

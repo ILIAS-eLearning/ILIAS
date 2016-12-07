@@ -36,7 +36,7 @@ class ilAssOrderingElement
 	 * 
 	 * @var integer
 	 */
-	protected $randomIdentifier;
+	protected $randomIdentifier = null;
 	
 	/**
 	 * this identifier is used to identify elements and is stored
@@ -57,7 +57,7 @@ class ilAssOrderingElement
 	 * 
 	 * @var integer
 	 */
-	protected $indentation = null;
+	protected $indentation = 0;
 	
 	/**
 	 * the correct position in the ordering sequence
