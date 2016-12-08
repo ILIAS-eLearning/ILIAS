@@ -351,12 +351,16 @@ class ilContainer extends ilObject
 			"id = ".$ilDB->quote($a_id,'integer')." ".
 			"AND keyword = ".$ilDB->quote($a_keyword,'text');
 		$res = $ilDB->manipulate($query);
-		
+
+		$log = ilLoggerFactory::getLogger("cont");
+		$log->debug("Write container setting, id: ".$a_id.", keyword: ".$a_keyword.", value: ".$a_value);
+
 		$query = "INSERT INTO container_settings (id, keyword, value) VALUES (".
 			$ilDB->quote($a_id ,'integer').", ".
 			$ilDB->quote($a_keyword ,'text').", ".
 			$ilDB->quote($a_value ,'text').
 			")";
+
 		$res = $ilDB->manipulate($query);
 	}
 	
@@ -899,6 +903,9 @@ class ilContainer extends ilObject
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
+		$log = ilLoggerFactory::getLogger("cont");
+		$log->debug("Create Container, id: ".$this->getId());
+
 		self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
 		self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
 		self::_writeContainerSetting($this->getId(), "news_timeline_landing_page", (int) $this->getNewsTimelineLandingPage());
@@ -918,6 +925,9 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+
+		$log = ilLoggerFactory::getLogger("cont");
+		$log->debug("Update Container, id: ".$this->getId());
 
 		self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
 		self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
@@ -947,6 +957,17 @@ class ilContainer extends ilObject
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
+		$this->readContainerSettings();
+	}
+
+	/**
+	 * Read container settings
+	 *
+	 * @param
+	 * @return
+	 */
+	function readContainerSettings()
+	{
 		$this->setNewsTimeline(self::_lookupContainerSetting($this->getId(), "news_timeline"));
 		$this->setNewsTimelineAutoEntries(self::_lookupContainerSetting($this->getId(), "news_timeline_incl_auto"));
 		$this->setNewsTimelineLandingPage(self::_lookupContainerSetting($this->getId(), "news_timeline_landing_page"));
@@ -954,8 +975,8 @@ class ilContainer extends ilObject
 		$this->setNewsBlockActivated(self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 			$this->setting->get('block_activated_news',true)));
 		$this->setUseNews(self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, true));
-
 	}
+
 
 	/**
 	 * overwrites description fields to long or short description in an assoc array
