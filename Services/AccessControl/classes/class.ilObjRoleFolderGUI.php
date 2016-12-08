@@ -104,23 +104,36 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
 
-		$this->ctrl->setParameter($this,'new_type','role');
-		$ilToolbar->addButton(
-			$this->lng->txt('rolf_create_role'),
-			$this->ctrl->getLinkTarget($this,'create')
-		);
 		
-		$this->ctrl->setParameter($this,'new_type','rolt');
-		$ilToolbar->addButton(
-			$this->lng->txt('rolf_create_rolt'),
-			$this->ctrl->getLinkTarget($this,'create')
-		);
-		$this->ctrl->clearParameters($this);
+		if($rbacsystem->checkAccess('create_role', $this->object->getRefId()))
+		{
+			$this->ctrl->setParameter($this,'new_type','role');
+			$ilToolbar->addButton(
+				$this->lng->txt('rolf_create_role'),
+				$this->ctrl->getLinkTarget($this,'create')
+			);
+		}
+		if($rbacsystem->checkAccess('create_rolt', $this->object->getRefId()))
+		{
 
-		$ilToolbar->addButton(
-				$this->lng->txt('rbac_import_role'),
-				$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
-		);
+			$this->ctrl->setParameter($this,'new_type','rolt');
+			$ilToolbar->addButton(
+				$this->lng->txt('rolf_create_rolt'),
+				$this->ctrl->getLinkTarget($this,'create')
+			);
+			$this->ctrl->clearParameters($this);
+		}
+
+		if(
+			$rbacsystem->checkAccess('create_rolt', $this->object->getRefId()) ||
+			$rbacsystem->checkAccess('create_rolt', $this->object->getRefId())
+		)
+		{
+			$ilToolbar->addButton(
+					$this->lng->txt('rbac_import_role'),
+					$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
+			);
+		}
 
 		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
 		$table = new ilRoleTableGUI($this,'view');

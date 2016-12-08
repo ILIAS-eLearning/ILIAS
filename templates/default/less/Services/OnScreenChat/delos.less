@@ -1,5 +1,5 @@
 [data-onscreenchat-inact-userid] {
-	opacity: 0.3 !important;
+	opacity: .3 !important;
 }
 
 #onscreenchat-container {
@@ -105,12 +105,12 @@
 		.iosOnScreenChatMessagePlaceholder {
 			position: absolute;
 			z-index: 0;
-			border: none !important;
-			opacity: 0.5;
+			border: 0 none !important;
+			opacity: .5;
 		}
 
 		.iosOnScreenChatMessage {
-			background-color: rgba(255, 255, 255, 0);
+			background-color: transparent;
 			position: relative;
 			z-index: 1;
 
@@ -135,26 +135,26 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			display:inline-block;
+			display: inline-block;
 		}
 		.text-muted-left{
-			width:160px;
+			width: 160px;
 			margin-top: -4px;
-			text-align:right;
+			text-align: right;
 		}
 		.text-muted-right{
-			width:160px;
+			width: 160px;
 			margin-top: -4px;
-			text-align:left;
+			text-align: left;
 		}
 		.osc_truncate_username_left{
 			width: 160px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			display:inline-block;
-			margin-bottom:-5px;
-			text-align:right;
+			display: inline-block;
+			margin-bottom: -5px;
+			text-align: right;
 		}
 
 		.osc_truncate_username_right{
@@ -162,7 +162,7 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			display:inline-block;
+			display: inline-block;
 		}
 
 		.chat {
@@ -172,17 +172,17 @@
 			li {
 				margin-bottom: 10px;
 				padding-bottom: 5px;
-				border-bottom: 1px dotted #B3A9A9;
+				border-bottom: 1px dotted #b3a9a9;
 
 				.chat-body {
 					.header strong {
-						font-size: 0.8em;
+						font-size: .8em;
 					}
 
 					p {
 						margin: 0;
-						color: #777777;
-						font-size: 0.9em;
+						color: #777;
+						font-size: .9em;
 					}
 				}
 			}
@@ -235,7 +235,7 @@
 
 .ilOnScreenChatMenuDropDown {
 	.iosOnScreenChatDropDownTriggerInactive {
-		opacity: 0.3;
+		opacity: .3;
 	}
 
 	.iosOnScreenChatHidden {
@@ -263,7 +263,7 @@
 		padding: 3px 10px;
 		font-size: 12px;
 		line-height: 1.5;
-		color: #777777 !important;
+		color: #777 !important;
 		white-space: nowrap;
 		background-color: #f3f3f3;
 	}
@@ -275,8 +275,8 @@
 
 .ilOnScreenChatMenuItem {
 	position: relative;
-	border-bottom: 1px solid #E9E9E9;
-	color: #000;
+	border-bottom: 1px solid #e9e9e9;
+	color: black;
 
 	.media {
 		overflow: visible;
@@ -321,6 +321,7 @@
 			white-space: normal !important;
 			padding-left: 4px !important;
 			padding-bottom: 4px !important;
+			font-size: 12px;
 			a {
 				color: @link-color !important;
 			}
@@ -348,7 +349,7 @@
 		}
 
 		p {
-			color: #A0A0A0;
+			color: #a0a0a0;
 
 			&.lastMessage {
 				padding: 3px 3px 3px 0;

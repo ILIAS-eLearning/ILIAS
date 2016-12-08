@@ -1264,16 +1264,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	function refreshLinkCheck()
 	{
 		$this->__initLinkChecker();
-
-		if(!$this->link_checker_obj->checkPear())
-		{
-			ilUtil::sendFailure($this->lng->txt('missing_pear_library'));
-			$this->linkChecker();
-
-			return false;
-		}
-
-
 		$this->object->initLinkResourceItemsObject();
 
 		// Set all link to valid. After check invalid links will be set to invalid
@@ -1403,12 +1393,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		if ($this->checkPermissionBool('write'))
 		{
 			// Check if pear library is available
-			if(@include_once('HTTP/Request.php'))
-			{
-				$ilTabs->addTab("id_link_check",
-					$lng->txt("link_check"),
-					$this->ctrl->getLinkTarget($this, "linkChecker"));
-			}
+			$ilTabs->addTab("id_link_check",
+				$lng->txt("link_check"),
+				$this->ctrl->getLinkTarget($this, "linkChecker"));
 		}
 
 		if ($this->checkPermissionBool('write'))

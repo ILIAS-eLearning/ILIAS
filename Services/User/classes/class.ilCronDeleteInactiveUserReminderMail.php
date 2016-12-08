@@ -28,7 +28,7 @@ class ilCronDeleteInactiveUserReminderMail
 		);
 	}
 
-	private function sendReminder(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
+	private static function sendReminder(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
 	{
 		include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMailNotification.php';
 		$mail = new ilCronDeleteInactiveUserReminderMailNotification();

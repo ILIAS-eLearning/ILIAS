@@ -12955,6 +12955,9 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
+cron#:#cro_job_rc_job_no_result#:#NO RESULT
+cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -16359,3 +16362,8 @@ itgr#:#itgr_desc_info#:#The description will not be a part of the item group's p
 mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
 mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
 common#:#sahs_export_file#:#ILIAS exported SCORM archive file
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>
+content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.
+grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.

@@ -20,7 +20,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
 		global $ilCtrl, $objDefinition;
-
+		
 		$this->setId("trsmy");
 
 		$this->ref_id = $a_ref_id;
@@ -67,12 +67,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("action"));
 		}
 		
-		$this->initFilter();
-
+		
 		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
+		$this->initFilter();
 		
 		$this->getItems($a_parent_obj->getObjId(), $a_ref_id);
 	}
@@ -205,7 +205,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		
 		if($this->is_root)
 		{
-			return parent::initFilter(true, false);
+			return parent::initBaseFilter(true, false);
 		}
 		
 		// show only if extended data was activated in lp settings
@@ -333,7 +333,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	function getItems($a_object_id, $a_ref_id)
 	{
 		global $lng, $rbacsystem;
-
+		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
 		$preselected_obj_ids = $filter = NULL;
@@ -348,7 +348,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			// using summary filters
 			$filter = $this->getCurrentFilter();
 		}
-
+		
 		$data = ilTrQuery::getObjectsSummaryForObject(
 				$a_object_id,
 				$a_ref_id,

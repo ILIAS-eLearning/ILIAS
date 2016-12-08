@@ -5136,11 +5136,11 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$a_email = trim($a_email);
-		
+
 		// :TODO:
-		if($a_email && !ilUtil::is_email($a_email))
+		if(($a_email && !ilUtil::is_email($a_email)) || $a_email == "")
 		{
-			return;
+			return false;
 		}
 		
 		$data = array("email" => $a_email,
@@ -5153,7 +5153,9 @@ class ilObjSurvey extends ilObject
 		);
 		
 		$ilDB->update("svy_anonymous", $fields,
-			array("anonymous_id" => array("integer", $a_id)));							
+			array("anonymous_id" => array("integer", $a_id)));
+
+		return true;
 	}
 	
 	

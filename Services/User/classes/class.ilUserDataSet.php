@@ -54,6 +54,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.3.0":
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"Id" => "integer",
 						"Username" => "text",
@@ -91,6 +92,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.3.0":
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"UserId" => "integer",
 						"Keyword" => "text",
@@ -106,6 +108,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.3.0":
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"Id" => "integer"
 					);
@@ -118,6 +121,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"UserId" => "integer",
 						"FieldId" => "text",
@@ -194,6 +198,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.3.0":
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					$this->data = array();
 					foreach ($a_ids as $id)
 					{
@@ -278,6 +283,7 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.5.0":
 				case "5.1.0":
+				case "5.2.0":
 					$this->data = array();
 					$set = $ilDB->query("SELECT * FROM usr_data_multi".
 						" WHERE ".$ilDB->in("usr_id", $a_ids, false, "integer"));

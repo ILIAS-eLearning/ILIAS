@@ -573,9 +573,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 						if ($this->getTestOBJ()->getHighscoreEnabled())
 						{
 							// Can also compare results then
-							$btn = ilSubmitButton::getInstance();
+							$btn = ilLinkButton::getInstance();
 							$btn->setCaption('tst_show_toplist');
-							$btn->setCommand('outResultsToplist');
+							$btn->setUrl($this->buildLinkTarget('ilTestToplistGUI', 'outResultsToplist'));
 							$btn->setPrimary(false);
 							$this->addButtonInstance($btn);
 						}

@@ -1522,7 +1522,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if (!$this->external_rater_360)
 		{
-			$this->checkPermission("visible");
+			if (!$this->checkPermissionBool("read"))
+			{
+				$this->checkPermission("visible");
+			}
 		}
 		
 		$ilTabs->activateTab("info_short");

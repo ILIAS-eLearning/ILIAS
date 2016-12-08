@@ -6,15 +6,13 @@
 .ui-tooltip-tipsy .ui-tooltip-content,
 .ui-tooltip-youtube,
 .ui-tooltip-youtube .ui-tooltip-content{
+    -webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 	border-radius: 4px;
 }
 
-.ui-tooltip-shadow{
-	-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+.ui-tooltip-shadow {
+	.box-shadow(1px 1px 3px 1px rgba(0, 0, 0, 0.15));
 }
 
 .qtip-default {
@@ -31,11 +29,11 @@
 .qtip-default {
 	background-color: darken(@brand-secondary, 10%);
 	border-color: darken(@brand-secondary, 10%);
-	color: #ffffff;
+	color: white;
 }*/
 
 .qtip-default {
 	background-color: lighten(@brand-primary, 10%);
 	border-color: lighten(@brand-primary, 10%);
-	color: #ffffff;
+	color: white;
 }

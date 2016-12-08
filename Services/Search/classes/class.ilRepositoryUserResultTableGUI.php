@@ -261,6 +261,14 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					$this->tpl->setVariable('VAL_CUST', implode(', ', (array) $a_set[$field]));
 					$this->tpl->parseCurrentBlock();
 					break;
+				
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+					$this->tpl->parseCurrentBlock();
+					break;
+				
 
 				case 'login':
 					if($this->admin_mode)
@@ -326,6 +334,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
 		{
+			if($field == 'org_units')
+			{
+				continue;
+			}
 			if(substr($field, 0, 3) == 'udf')
 			{
 				$udf_ids[] = substr($field,4);
@@ -334,22 +346,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 			$usr_data_fields[] = $field;
 		}
 		include_once './Services/User/classes/class.ilUserQuery.php';
-	/*	$usr_data = ilUserQuery::getUserListData(
-				'login',
-				'ASC',
-				0,
-				999999,
-				'',
-				'',
-				null,
-				false,
-				false,
-				0,
-				0,
-				null,
-				$usr_data_fields,
-				$a_user_ids
-		);*/
 
 		$u_query = new ilUserQuery();
 		$u_query->setOrderField('login');

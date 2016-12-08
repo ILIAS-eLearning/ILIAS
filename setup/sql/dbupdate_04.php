@@ -13889,6 +13889,8 @@ if ($ilDB->tableExists('page_style_usage') && $ilDB->tableExists('page_style_usa
 		FROM page_style_usage_old
 	");
 
+	$ilDB->manipulate("DELETE FROM page_style_usage");
+
 	while($row = $ilDB->fetchAssoc($res))
 	{
 		$id = $ilDB->nextId('page_style_usage');
@@ -13904,12 +13906,6 @@ if ($ilDB->tableExists('page_style_usage') && $ilDB->tableExists('page_style_usa
 						  $ilDB->quote($row['stype'], "text").",".
 						  $ilDB->quote($row['sname'], "text").
 						  ")");
-
-		$ilDB->manipulateF(
-			"DELETE FROM page_style_usage_old WHERE page_id = %s AND page_type = %s AND page_lang = %s AND page_nr = %s AND template = %s AND stype = %s AND sname = %s",
-			array('integer', 'text', 'text', 'integer', 'integer', 'text', 'text'),
-			array($row['page_id'], $row['page_type'], $row['page_lang'], $row['page_nr'], $row['template'], $row['stype'], $row['sname'])
-		);
 	}
 }
 ?>
@@ -17913,4 +17909,45 @@ $ilDB->update(
 		"title" => array("text", "reference")
 	)
 );
+?>
+<#5057>
+<?php
+if(!$ilDB->tableColumnExists('qpl_qst_type', 'plugin_name'))
+{
+	$ilDB->addTableColumn('qpl_qst_type', 'plugin_name', array(
+		'type'    => 'text',
+		'length'  => 40,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#5058>
+<?php
+if( !$ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
+{
+	$ilDB->addTableColumn('qpl_a_ordering', 'order_position', array(
+		'type'    => 'integer',
+		'length'  => 3,
+		'notnull' => false,
+		'default' => null
+	));
+	
+	$ilDB->manipulate("UPDATE qpl_a_ordering SET order_position = solution_order");
+	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_order', 'solution_keyvalue');
+}
+?>
+<#5059>
+<?php
+if( $ilDB->tableColumnExists('qpl_a_ordering', 'solution_keyvalue') )
+{
+	$ilDB->renameTableColumn('qpl_a_ordering', 'solution_keyvalue', 'solution_key');
+}
+?>
+<#5060>
+<?php
+if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
+{
+	$ilDB->renameTableColumn('qpl_a_ordering', 'order_position', 'position');
+}
 ?>

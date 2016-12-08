@@ -4883,7 +4883,7 @@ a.list-group-item-success:focus {
 a.list-group-item-success.active,
 a.list-group-item-success.active:hover,
 a.list-group-item-success.active:focus {
-  color: #fff;
+  color: white;
   background-color: #3c763d;
   border-color: #3c763d;
 }
@@ -4905,7 +4905,7 @@ a.list-group-item-info:focus {
 a.list-group-item-info.active,
 a.list-group-item-info.active:hover,
 a.list-group-item-info.active:focus {
-  color: #fff;
+  color: white;
   background-color: #31708f;
   border-color: #31708f;
 }
@@ -4927,7 +4927,7 @@ a.list-group-item-warning:focus {
 a.list-group-item-warning.active,
 a.list-group-item-warning.active:hover,
 a.list-group-item-warning.active:focus {
-  color: #fff;
+  color: white;
   background-color: #8a6d3b;
   border-color: #8a6d3b;
 }
@@ -4949,7 +4949,7 @@ a.list-group-item-danger:focus {
 a.list-group-item-danger.active,
 a.list-group-item-danger.active:hover,
 a.list-group-item-danger.active:focus {
-  color: #fff;
+  color: white;
   background-color: #a94442;
   border-color: #a94442;
 }

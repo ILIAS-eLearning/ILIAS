@@ -556,9 +556,21 @@ class ilMainMenuGUI
 			}
 			
 			// private notes
-			if (!$this->ilias->getSetting("disable_notes"))
+			if (!$this->ilias->getSetting("disable_notes") || !$ilSetting->get("disable_comments"))
 			{
-				$gl->addEntry($lng->txt("notes_and_comments"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
+				$lng->loadLanguageModule("notes");
+				$t = $lng->txt("notes");
+				$c = "jumpToNotes";
+				if (!$this->ilias->getSetting("disable_notes") && !$ilSetting->get("disable_comments"))
+				{
+					$t = $lng->txt("notes_and_comments");
+				}
+				if ($this->ilias->getSetting("disable_notes"))
+				{
+					$t = $lng->txt("notes_comments");
+					$c = "jumpToComments";
+				}
+				$gl->addEntry($t, "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=".$c,
 					"_top", "", "", "mm_pd_notes", ilHelp::getMainMenuTooltip("mm_pd_notes"),
 					"left center", "right center", false);
 			}

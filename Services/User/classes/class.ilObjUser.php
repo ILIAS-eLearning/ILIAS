@@ -2311,7 +2311,9 @@ class ilObjUser extends ilObject
     {
 		//error_reporting(E_ALL);
 		if( $this->id == ANONYMOUS_USER_ID || $this->id == SYSTEM_USER_ID )
+		{
 			return false;
+		}
 
     	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
     	$security = ilSecuritySettings::_getInstance();
@@ -2450,15 +2452,15 @@ class ilObjUser extends ilObject
 	 * 
 	 * @return bool 
 	 */
-	static function hasActiveSession($a_user_id)
+	static function hasActiveSession($a_user_id, $a_session_id)
 	{
 		global $ilDB;
 	
 		$set = $ilDB->queryf('
 			SELECT COUNT(*) session_count
-			FROM usr_session WHERE user_id = %s AND expires > %s',
-			array('integer', 'integer'),
-			array($a_user_id, time()));	
+			FROM usr_session WHERE user_id = %s AND expires > %s AND session_id != %s ',
+			array('integer', 'integer', 'text'),
+			array($a_user_id, time(), $a_session_id));	
 		$row = $ilDB->fetchAssoc($set);
 		return (bool)$row['session_count'];		
 	}
@@ -3917,7 +3919,7 @@ class ilObjUser extends ilObject
 		{
 			$webspace_dir = ('.'.$webspace_dir);
 		}
-		$webspace_dir .= ('./'.ilUtil::getWebspaceDir());
+		$webspace_dir .= ('./'.ltrim(ilUtil::getWebspaceDir(), "./"));
 
 		$image_dir = $webspace_dir."/usr_images";
 		// BEGIN DiskQuota: Support 'big' user images

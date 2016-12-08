@@ -450,6 +450,13 @@ class ilStartUpGUI
 		return $form;
 	}
 	
+	/**
+	 * @todo has to be refactored.
+	 * @global ilLanguage $lng
+	 * @global type $ilAuth
+	 * @global type $ilCtrl
+	 * @return boolean
+	 */
 	protected function processCode()
 	{
 		global $lng, $ilAuth, $ilCtrl;
@@ -516,8 +523,10 @@ class ilStartUpGUI
 					ilAccountCode::applyAccessLimits($user, $code);
 
 					$user->update();
-
+					
 					$ilCtrl->setParameter($this, "cu", 1);
+					$GLOBALS['DIC']->language()->loadLanguageModule('auth');
+					ilUtil::sendSuccess($GLOBALS['DIC']->language()->txt('auth_activation_code_success'),true);
 					$ilCtrl->redirect($this, "showLoginPage");		
 				}
 			}
@@ -822,6 +831,9 @@ class ilStartUpGUI
 					ilInitialisation::redirectToStartingPage();
 					return;
 					
+				case ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED:
+					return $this->showCodeForm(ilObjUser::_lookupLogin($status->getAuthenticatedUserId()));
+
 				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
 					return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 

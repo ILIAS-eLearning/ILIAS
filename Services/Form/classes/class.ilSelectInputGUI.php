@@ -100,7 +100,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	function checkInput()
 	{
 		global $lng;
-		
+
 		$valid = true;
 		if(!$this->getMulti())
 		{
@@ -120,7 +120,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 			foreach($_POST[$this->getPostVar()] as $idx => $value)
 			{
 				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
-				if(!array_key_exists($_POST[$this->getPostVar()][$idx], (array) $this->getOptions()))
+				if(!array_key_exists($value, (array) $this->getOptions()))
 				{
 					$this->setAlert($lng->txt('msg_invalid_post_input'));
 					return false;
