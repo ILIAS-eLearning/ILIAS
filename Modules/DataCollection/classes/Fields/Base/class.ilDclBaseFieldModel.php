@@ -875,4 +875,17 @@ class ilDclBaseFieldModel {
 		$worksheet->setCell($row, $col, $this->getTitle());
 		$col++;
 	}
+
+
+	/**
+	 * @param array $titles
+	 * @param array $import_fields
+	 */
+	public function checkTitlesForImport(array &$titles, array &$import_fields) {
+		foreach ($titles as $k => $title) {
+			if ($title == $this->getTitle()) {
+				$import_fields[$k] = $this;
+			}
+		}
+	}
 }
