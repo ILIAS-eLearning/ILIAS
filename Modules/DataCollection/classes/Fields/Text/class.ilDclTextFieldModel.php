@@ -210,4 +210,12 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 				return strlen($value);
 		}
 	}
+
+	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
+		parent::fillHeaderExcel($worksheet, $row, $col);
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+			$worksheet->setCell($row, $col, $this->getTitle() . '_title');
+			$col++;
+		}
+	}
 }

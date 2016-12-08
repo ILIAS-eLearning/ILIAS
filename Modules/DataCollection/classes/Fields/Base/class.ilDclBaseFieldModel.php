@@ -864,4 +864,15 @@ class ilDclBaseFieldModel {
 	public function setStorageLocationOverride($storage_location_override) {
 		$this->storage_location_override = $storage_location_override;
 	}
+
+
+	/**
+	 * @param ilExcel $worksheet
+	 * @param         $row
+	 * @param         $col
+	 */
+	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
+		$worksheet->setCell($row, $col, $this->getTitle());
+		$col++;
+	}
 }
