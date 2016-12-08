@@ -124,15 +124,7 @@ class ilDclContentExporter
 
 		foreach ($table->getFields() as $field) {
 			if ($field->getExportable()) {
-				$worksheet->setCell($row, $col, $field->getTitle());
-				$col++;
-
-				if ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_TEXT) {
-					if ($field->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-						$worksheet->setCell($row, $col, $field->getTitle() . '_title');
-						$col++;
-					}
-				}
+				$field->fillHeaderExcel($worksheet, $row, $col);
 			}
 		}
 	}

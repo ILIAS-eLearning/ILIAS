@@ -864,4 +864,28 @@ class ilDclBaseFieldModel {
 	public function setStorageLocationOverride($storage_location_override) {
 		$this->storage_location_override = $storage_location_override;
 	}
+
+
+	/**
+	 * @param ilExcel $worksheet
+	 * @param         $row
+	 * @param         $col
+	 */
+	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
+		$worksheet->setCell($row, $col, $this->getTitle());
+		$col++;
+	}
+
+
+	/**
+	 * @param array $titles
+	 * @param array $import_fields
+	 */
+	public function checkTitlesForImport(array &$titles, array &$import_fields) {
+		foreach ($titles as $k => $title) {
+			if ($title == $this->getTitle()) {
+				$import_fields[$k] = $this;
+			}
+		}
+	}
 }

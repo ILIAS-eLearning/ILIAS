@@ -210,4 +210,28 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 				return strlen($value);
 		}
 	}
+
+	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
+		parent::fillHeaderExcel($worksheet, $row, $col);
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+			$worksheet->setCell($row, $col, $this->getTitle() . '_title');
+			$col++;
+		}
+	}
+
+	/**
+	 * @param array $titles
+	 * @param array $import_fields
+	 */
+	public function checkTitlesForImport(array &$titles, array &$import_fields) {
+		foreach ($titles as $k => $title) {
+			if ($title == $this->getTitle()) {
+				$import_fields[$k] = $this;
+				if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL) && $titles[$k+1] == $this->getTitle().'_title') {
+					unset($titles[$k+1]);
+				}
+			}
+		}
+
+	}
 }
