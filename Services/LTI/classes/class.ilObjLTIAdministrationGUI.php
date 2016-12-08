@@ -36,11 +36,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd        = $this->ctrl->getCmd();
+		
 		$this->prepareOutput();
 
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
+				$GLOBALS['ilTabs']->activateTab('perm_settings');
 				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
