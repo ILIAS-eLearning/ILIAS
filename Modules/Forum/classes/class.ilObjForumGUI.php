@@ -2461,6 +2461,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$oFDForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draft_obj->getDraftId());
 				
 				$oFDForumDrafts->moveFilesOfDraft($oFDForum->getForumPath(), $newPost);
+				$oFDForumDrafts->delete();
 			}
 			
 			if(ilForumPostDraft::isSavePostDraftAllowed())
