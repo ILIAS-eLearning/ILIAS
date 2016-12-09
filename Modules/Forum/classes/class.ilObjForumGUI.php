@@ -215,7 +215,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		return in_array(
 			strtolower($this->ctrl->getCmd()),
-			array_map('strtolower', array('createToLevelPost', 'quoteTopLevelPost', 'saveTopLevelPost'))
+			array_map('strtolower', array('createTopLevelPost', 'quoteTopLevelPost', 'saveTopLevelPost'))
 		);
 	}
 
@@ -239,7 +239,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'performPostActivation', 
 			'askForPostActivation', 'askForPostDeactivation',
 			'toggleThreadNotification', 'toggleThreadNotificationTab',
-			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createToLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch',
+			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createTopLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch',
 			'autosaveDraftAsync', 'autosaveThreadDraftAsync',
 			'saveAsDraft', 'editDraft', 'updateDraft', 'deliverDraftZipFile', 'deliverZipFile', 'cancelDraft',
 			'publishThreadDraft', 'deleteThreadDrafts'
@@ -2263,8 +2263,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			
-			if(!$this->isTopLevelReplyCommand() 
-				&& !$ilUser->isAnonymous() 
+			if(!$ilUser->isAnonymous() 
 				&& ($_GET['action'] == 'editdraft' || $_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 				&& ilForumPostDraft::isSavePostDraftAllowed()
 			)
@@ -2306,7 +2305,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	/**
 	 * 
 	 */
-	public function createToLevelPostObject()
+	public function createTopLevelPostObject()
 	{
 		global $ilUser;
 		
@@ -3190,7 +3189,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->setParameter($this, 'offset', (int)$_GET['offset']);
 				$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
 
-				$reply_button->setUrl($this->ctrl->getLinkTarget($this, 'createToLevelPost', 'frm_page_bottom'));
+				$reply_button->setUrl($this->ctrl->getLinkTarget($this, 'createTopLevelPost', 'frm_page_bottom'));
 
 				$this->ctrl->clearParameters($this);
 				array_unshift($bottom_toolbar_split_button_items, $reply_button);
@@ -3470,7 +3469,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			if(
 				$first_node instanceof ilForumPost &&
-				in_array($this->ctrl->getCmd(), array('createToLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
+				in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
 				!$this->objCurrentTopic->isClosed() &&
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']))
 			{
