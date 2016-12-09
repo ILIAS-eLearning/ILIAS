@@ -4,7 +4,7 @@
 *
 * @module			language file German
 * @modulegroup		language
-* @author			Matthias Kunkel <mkunkel@me.com>
+* @author			Matthias Kunkel <kunkel@ilias.de>
 * @version			$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -8276,7 +8276,7 @@ ldap#:#ldap_group_user_filter#:#Benutzerfilter
 ldap#:#ldap_ilias_role#:#ILIAS-Rollenname
 ldap#:#ldap_ilias_role_short#:#Rolle:
 ldap#:#ldap_info_text#:#Informationstext
-ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Infoseite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Persönlichen Schreibtisch eingeblendet werden.
+ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Info-Seite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Persönlichen Schreibtisch eingeblendet werden.
 ldap#:#ldap_info_text_short#:#Infotext:
 ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
@@ -11807,7 +11807,7 @@ survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Si
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf der Infoseite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf der Info-Seite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
@@ -15749,7 +15749,7 @@ obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
-crs#:#crs_mail_context_member_title#:#Infoseite Kurs
+crs#:#crs_mail_context_member_title#:#Info-Seite Kurs
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
@@ -16107,7 +16107,7 @@ content#:#cont_sc_score_was_higher_message#:#erreichter Punktestand war höher
 meta#:#md_adv_field_filter_warning#:#Die Feldtypen %s werden aktuell nicht als Tabellenfilter unterstützt.
 grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
-crs#:#mem_cron_min_members_reason#:#Sie erhalten diese Email, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
+crs#:#mem_cron_min_members_reason#:#Sie erhalten diese E-Mail, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
 crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichung der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
 common#:#prg_copy_threads_info#:#Bitte wählen Sie aus, welche Elemente des Studienprogramms kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#prg_wizard_page#:#Studienprogramm kopieren (Schritt 2/2)
@@ -16182,9 +16182,9 @@ note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 prg#:#prg_show_programmes#:#Anzeigen
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
 content#:#cont_error#:#Es ist leider ein Fehler aufgetreten
-crs#:#crs_mail_context_member_info#:#Für die Kontakt-Emails auf der Infoseite eines Kurses 
-crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-Emails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
-sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-Emails auf den Lernfortschrittsansichten eines SCORM-Moduls
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
+crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
+sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-E-Mails auf den Lernfortschrittsansichten eines SCORM-Moduls
 style#:#sty_type_ha_iheada#:#Hor. Akkordeonelement Kopf (aktiv)
 style#:#sty_type_ha_ihcap#:#Hor. Akkordeonelement Überschrift
 style#:#sty_type_va_iheada#:#Vert. Akkordeonelement Kopf (aktiv)
@@ -16218,6 +16218,6 @@ form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte übe
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
-crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
+crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
-survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###12 10 2016 new variable
+survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie natürliche Zahlen als Skalenwerte ein.
