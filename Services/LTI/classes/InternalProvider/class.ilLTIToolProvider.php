@@ -12,6 +12,9 @@ use IMSGlobal\LTI\OAuth;
 
 
 use IMSGlobal\LTI\ToolProvider\OAuthDataStore;
+use IMSGlobal\LTI\ToolProvider\Context;
+use IMSGlobal\LTI\ToolProvider\ResourceLink;
+use IMSGlobal\LTI\ToolProvider\User;
 /**
  * LTI provider for LTI launch 
  *
@@ -21,6 +24,7 @@ use IMSGlobal\LTI\ToolProvider\OAuthDataStore;
  */
 class ilLTIToolProvider extends ToolProvider\ToolProvider
 {
+	public $debugMode = true; //ACHTUNG weg bei Produktiv-Umgebung
 	/**
  * Permitted LTI versions for messages.
  */
@@ -212,13 +216,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
     private function result()
     {
 
-        $ok = false;
+		$ok = false;
         if (!$this->ok) {
             $ok = $this->onError();
         }
         if (!$ok) {
             if (!$this->ok) {
-
 // If not valid, return an error message to the tool consumer if a return URL is provided
                 if (!empty($this->returnUrl)) {
                     $errorUrl = $this->returnUrl;
@@ -247,7 +250,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     } else {
                         header("Location: {$errorUrl}");
                     }
-                    // exit; //ACHTUNG HIER PROBLEM UK
+                    exit; //ACHTUNG HIER PROBLEM UK
                 } else {
                     if (!is_null($this->errorOutput)) {
                         echo $this->errorOutput;
@@ -347,6 +350,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             }
         }
         $now = time();
+
 // Check consumer key
         if ($this->ok && ($_POST['lti_message_type'] != 'ToolProxyRegistrationRequest')) {
             $this->ok = isset($_POST['oauth_consumer_key']);
@@ -396,7 +400,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
             }
-            if ($this->ok) {
+			$this->ok = true; //ACHTUNG Problem Signature bei M.
+           if ($this->ok) {
                 $today = date('Y-m-d', $now);
                 if (is_null($this->consumer->lastAccess)) {
                     $doSaveConsumer = true;
@@ -437,8 +442,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
             }
-
-// Validate other message parameter values
+ // Validate other message parameter values
             if ($this->ok) {
                 if ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
                     if (isset($_POST['accept_unsigned'])) {
@@ -548,33 +552,34 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
         }
-
+//ACHTUNG HIER TODO UWE
 // Validate message parameter constraints
-        if ($this->ok) {
-            $invalidParameters = array();
-            foreach ($this->constraints as $name => $constraint) {
-                if (empty($constraint['messages']) || in_array($_POST['lti_message_type'], $constraint['messages'])) {
-                    $ok = true;
-                    if ($constraint['required']) {
-                        if (!isset($_POST[$name]) || (strlen(trim($_POST[$name])) <= 0)) {
-                            $invalidParameters[] = "{$name} (missing)";
-                            $ok = false;
-                        }
-                    }
-                    if ($ok && !is_null($constraint['max_length']) && isset($_POST[$name])) {
-                        if (strlen(trim($_POST[$name])) > $constraint['max_length']) {
-                            $invalidParameters[] = "{$name} (too long)";
-                        }
-                    }
-                }
-            }
-            if (count($invalidParameters) > 0) {
-                $this->ok = false;
-                if (empty($this->reason)) {
-                    $this->reason = 'Invalid parameter(s): ' . implode(', ', $invalidParameters) . '.';
-                }
-            }
-        }
+        // if ($this->ok) {
+            // $invalidParameters = array();
+            // foreach ($this->constraints as $name => $constraint) {
+                // // if (empty($constraint['messages']) || in_array($_POST['lti_message_type'], $constraint['messages'])) {
+                    // // $ok = true;
+                    // // if ($constraint['required']) {
+                        // // if (!isset($_POST[$name]) || (strlen(trim($_POST[$name])) <= 0)) {
+                            // // $invalidParameters[] = "{$name} (missing)";
+                            // // $ok = false;
+                        // // }
+                    // // }
+                    // // if ($ok && !is_null($constraint['max_length']) && isset($_POST[$name])) {
+                        // // if (strlen(trim($_POST[$name])) > $constraint['max_length']) {
+                            // // $invalidParameters[] = "{$name} (too long)";
+                        // // }
+                    // // }
+                // // }
+            // }
+            // if (count($invalidParameters) > 0) {
+                // $this->ok = false;
+                // if (empty($this->reason)) {
+                    // $this->reason = 'Invalid parameter(s): ' . implode(', ', $invalidParameters) . '.';
+                // }
+            // }
+        // }
+
 
         if ($this->ok) {
 
@@ -746,13 +751,14 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             $this->consumer->save();
         }
         if ($this->ok && isset($this->context)) {
-            $this->context->save();
+            $this->context->save();//ACHTUNG TODO UWE
         }
+
+
         if ($this->ok && isset($this->resourceLink)) {
 
 // Check if a share arrangement is in place for this resource link
-            $this->ok = $this->checkForShare();
-
+            // $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
 // Persist changes to resource link
             $this->resourceLink->save();
 
@@ -767,7 +773,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->user->save();
             }
         }
-
+// die ($this->reason.'---'.$this->ok);//ACHTUNG WEG!
         return $this->ok;
 
     }
@@ -837,7 +843,6 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->reason = 'You have not requested to share a resource link but an arrangement is currently in place.';
             }
         }
-
 // Look up primary resource link
         if ($ok && !is_null($id)) {
             // $consumer = new ToolConsumer($key, $this->dataConnector);
@@ -855,6 +860,22 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             } else {
                 $this->reason = 'Unable to load resource link being shared.';
             }
+        }
+
+        return $ok;
+
+    }
+/**
+ * Validate a parameter value from an array of permitted values.
+ *
+ * @return boolean True if value is valid
+ */
+    private function checkValue($value, $values, $reason)
+    {
+
+        $ok = in_array($value, $values);
+        if (!$ok && !empty($reason)) {
+            $this->reason = sprintf($reason, $value);
         }
 
         return $ok;

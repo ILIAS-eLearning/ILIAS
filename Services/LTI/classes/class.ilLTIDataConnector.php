@@ -123,11 +123,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                     $consumer->created = strtotime($row->created);
                     $consumer->updated = strtotime($row->updated);
 					//ILIAS specific
-					$consumer->setTitle($row->title);
-					$consumer->setDescription($row->description);
-					$consumer->setPrefix($row->prefix);
-					$consumer->setLanguage($row->user_language);
-					$consumer->setRole($row->role);
+					if ($consumer->setTitle) $consumer->setTitle($row->title);
+					if ($consumer->setDescription) $consumer->setDescription($row->description);
+					if ($consumer->setPrefix) $consumer->setPrefix($row->prefix);
+					if ($consumer->setPrefix) $consumer->setLanguage($row->user_language);
+					if ($consumer->setPrefix) $consumer->setRole($row->role);
 					// local_role_always_member
 					// default_skin
 
@@ -194,7 +194,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
 						'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
 						'enable_from, enable_until, last_access, created, updated, consumer_pk) ' .
-						'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, %s, %s, %s, %s, %s, %s)';
+						'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
 			$types = array("text", "text", "text", 
 						"text", "text", "text", "text", "text", "text", "text", "text", "integer", "integer", 
 						"timestamp", "timestamp", "timestamp", "timestamp", "timestamp", "integer");
@@ -224,7 +224,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$query = 'UPDATE lti2_consumer SET ' .
                            'consumer_key256 = %s, consumer_key = %s, name = %s, ' .
                            'secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
-                           'profile = %s, tool_proxy = %s, settings = %s, protected = %d, enabled = %d, ' .
+                           'profile = %s, tool_proxy = %s, settings = %s, protected = %s, enabled = %s, ' .
                            'enable_from = %s, enable_until = %s, last_access = %s, updated = %s ' .
                            'WHERE consumer_pk = %s';
 			$types = array("text", "text", "text", 
@@ -584,7 +584,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
             $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' (context_pk, consumer_pk, lti_context_id, ' .
                            'settings, created, updated) ' .
-                           'VALUES (%s, %s, %s, %s, %s)';
+                           'VALUES (%s, %s, %s, %s, %s, %s)';
 			$types = array("integer","integer","text","text","timestamp","timestamp");
 			$values = array($id, $consumer_pk, $context->ltiContextId, $settingsValue, $now, $now);
         } else {
@@ -689,7 +689,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                            'WHERE (resource_link_pk = %s)';
 		$types = array("integer");
 		$values = array($resourceLink->getRecordId());
-		$ilDB->manipulateF($query,$types,$values);
                            
         } else if (!empty($resourceLink->getContext())) {
             $query = 'SELECT resource_link_pk, context_pk, consumer_pk, lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated ' .
@@ -697,7 +696,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                            'WHERE (context_pk = %s) AND (lti_resource_link_id = %s)';
 			$types = array("integer","text");
 			$values = array($resourceLink->getContext()->getRecordId(), $resourceLink->getId());
-			$ilDB->manipulateF($query,$types,$values);
                            
         } else {
             $query = 'SELECT r.resource_link_pk, r.context_pk, r.consumer_pk, r.lti_resource_link_id, r.settings, r.primary_resource_link_pk, r.share_approved, r.created, r.updated ' .
@@ -706,8 +704,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                            ' WHERE ((r.consumer_pk = %s) OR (c.consumer_pk = %s)) AND (lti_resource_link_id = %s)';
 			$types = array("integer","integer","text");
 			$values = array($resourceLink->getConsumer()->getRecordId(), $resourceLink->getConsumer()->getRecordId(), $resourceLink->getId());
-			$ilDB->manipulateF($query,$types,$values);
-
                            
         }
         $rsContext = $ilDB->queryF($query,$types,$values);
@@ -790,7 +786,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$resourceLink->created = $time;
             $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' (resource_link_pk, consumer_pk, context_pk, ' .
                            'lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated) ' .
-                           'VALUES (%s, %s, %s, %s, %s, %s, %s, %s)';
+                           'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)';
 			$types = array("integer","integer","integer","text","text","integer","integer","timestamp","timestamp");
 			$values = array($id, $consumerId, $contextId, $resourceLink->getId(), $settingsValue, $primaryResourceLinkId, $approved, $now, $now);
         } else if ($contextId !== 'NULL') {
@@ -943,7 +939,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         $query = 'SELECT consumer_pk, resource_link_pk, share_approved ' .
                        "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
-                       'WHERE (primary_resource_link_pk = %d) ' .
+                       'WHERE (primary_resource_link_pk = %s) ' .
                        'ORDER BY consumer_pk';
 		$types = array("integer");
 		$values = array($resourceLink->getRecordId());		
@@ -982,19 +978,18 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
 // Delete any expired nonce values
         $now = date("{$this->dateFormat} {$this->timeFormat}", time());//PRÜFEN UK
-        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . " WHERE expires <= '%s'";
+        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . " WHERE expires <= %s";
 		$types = array("timestamp");
 		$values = array($now);
        $ilDB->manipulateF($query,$types,$values);
-
 // Load the nonce
-        $query = "SELECT value AS T FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . ' WHERE (consumer_pk = %d) AND (value = %s)';
+        $query = "SELECT value AS T FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . ' WHERE (consumer_pk = %s) AND (value = %s)';
 		$types = array("integer","text");
 		$values = array($nonce->getConsumer()->getRecordId(), $nonce->getValue());
         $rs_nonce = $ilDB->queryF($query,$types,$values);
         if ($rs_nonce) {
             $row = $ilDB->fetchObject($rs_nonce);
-            if ($row === false) {
+            if (!$row) {
                 $ok = false;
             }
         }

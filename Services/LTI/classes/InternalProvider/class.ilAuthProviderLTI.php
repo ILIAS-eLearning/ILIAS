@@ -27,12 +27,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	 */
 	public function doAuthentication(\ilAuthStatus $status)
 	{
+		//fix for Ilias Consumer
+		if (isset($_POST['launch_presentation_document_target']) && $_POST['launch_presentation_document_target'] == 'blank') {
+			$_POST['launch_presentation_document_target'] = 'window';
+		}
 		$this->dataConnector = new ilLTIDataConnector();
 		require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
 		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
 		$lti_provider = new ilLTIToolProvider($this->dataConnector);
 		$lti_provider->handleRequest();
-
+		// die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
 		//Bsp.: crs_67
 		if (isset($_GET['target'])) {
 			$context_ar = explode('_',$_GET['target']);
