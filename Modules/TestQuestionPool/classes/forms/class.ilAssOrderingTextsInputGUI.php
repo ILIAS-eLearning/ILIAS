@@ -25,4 +25,9 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 		$manipulator->setPostVar($this->getPostVar());
 		$this->addFormValuesManipulator($manipulator);
 	}
+	
+	protected function fetchContentFromValue($value)
+	{
+		return $value->getContent();
+	}
 }

@@ -118,14 +118,14 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 		return $js_include_tpl->get();
 	}
 
-	public function renderListItem($cur_answer, $orderElementId)
+	public function renderListItem($element, $identifier)
 	{
 		$js_include_tpl = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_html.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$js_include_tpl->touchBlock('begin_list_item');
 
 		$js_include_tpl->setCurrentBlock('item_value');
-		$js_include_tpl->setVariable('LIST_ITEM_VALUE', $this->renderAnswerOutput($cur_answer['answertext'], $orderElementId));
-		$js_include_tpl->setVariable('LIST_ITEM_ID', $orderElementId);
+		$js_include_tpl->setVariable('LIST_ITEM_VALUE', $this->renderAnswerOutput($element['answertext'], $identifier));
+		$js_include_tpl->setVariable('LIST_ITEM_ID', $identifier);
 
 		if(isset($cur_answer['ok']) && $this->getGraphicalOutput() == true)
 		{
@@ -176,39 +176,38 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 	}
 
 	/**
-	 * @param string $text_value
+	 * @param string $content
 	 * @param integer $i
 	 * @return string
 	 */
-	public function renderAnswerOutput($text_value, $orderElementId)	
+	public function renderAnswerOutput($content, $identifier)	
 	{
 		global $lng;
 		$input_tpl = new ilTemplate("tpl.prop_nestable_value.html", true, true, "Modules/TestQuestionPool");
 		
-		if(strlen($text_value))
+		if(strlen($content))
 		{
 			if($this->getOrderingType() == OQ_NESTED_TERMS)
 			{
 				$input_tpl->setCurrentBlock('nested_terms');
-				$input_tpl->setVariable("VALUE", ilUtil::prepareFormOutput($text_value));
-				$input_tpl->setVariable("INPUT_POST_VAR", $this->getPostVar() . "[$orderElementId]");
-				$input_tpl->setVariable("NON_EDITABLE_ID", $this->getPostVar() . "[$orderElementId]");
-				$input_tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($text_value));
+				$input_tpl->setVariable("VALUE", ilUtil::prepareFormOutput($content));
+				$input_tpl->setVariable("NON_EDITABLE_ID", $this->getPostVar() . "[$identifier]");
+				$input_tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($content));
 
-				$input_tpl->setVariable("ID", $this->getFieldId() . "[$orderElementId]");
+				$input_tpl->setVariable("ID", $this->getFieldId() . "[$identifier]");
 			}
 			else if($this->getOrderingType() == OQ_NESTED_PICTURES)
 			{
 				$input_tpl->setCurrentBlock('nested_pictures');
 				
-				$thumbweb = $this->getImagePathWeb() . $this->getThumbPrefix() .$text_value;
+				$thumbweb = $this->getImagePathWeb() . $this->getThumbPrefix() .$content;
 				
 				$input_tpl->setVariable("PICTURE_HREF",$thumbweb);
 				$input_tpl->setVariable("THUMB_ALT", $lng->txt("thumbnail"));
 				$input_tpl->setVariable("THUMB_TITLE", $lng->txt("thumbnail"));
-				$input_tpl->setVariable("NON_EDITABLE_ID", $this->getPostVar() . "[$orderElementId]");
-				$input_tpl->setVariable("HVALUE", $text_value);
-				$input_tpl->setVariable("ID", $this->getFieldId() . "[$orderElementId]");
+				$input_tpl->setVariable("NON_EDITABLE_ID", $this->getPostVar() . "[$identifier]");
+				$input_tpl->setVariable("HVALUE", $content);
+				$input_tpl->setVariable("ID", $this->getFieldId() . "[$identifier]");
 			}
 		}
 
@@ -220,7 +219,14 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 	 
 	public function render($shuffle_depth = 0)
 	{
-		$this->answers = $this->getMultiValues();
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD BELOW
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD BELOW
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD BELOW
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD BELOW
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD BELOW
+		
+		$values = array_values($this->getMultiValues());
+		$keys = array_keys($this->getMultiValues());
 		
 		$html_output = '';
 		$html_output .= $this->renderBeginSortableContainer();
@@ -231,28 +237,22 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 		if($shuffle_depth == 1)
 		{
 			// this is for output in test
-			foreach($this->answers as $elementKey => $cur_answer)
+			foreach($values as $counter => $element)
 			{
-				$html_output .= $this->renderListItem($cur_answer, $elementKey);
+				$html_output .= $this->renderListItem($element, $i);
 				$html_output .= $this->renderEndListItem();
 			}
 		}
 		else
-		{	
+		{
 			$previous_depth 	= 0;
-	
-			$tmp_array = $this->answers;
-			$tmp_array[count($tmp_array)]['ordering_depth'] = 'END_OF_LIST';
-	
-			foreach($this->answers as $elementKey => $cur_answer)
+			
+			foreach($values as $counter => $element)
 			{
-				$current_depth 	= $cur_answer['ordering_depth'];
-				$next_depth 	= $tmp_array[$i+1]['ordering_depth'];
-	
-				if($next_depth == 'END_OF_LIST')
-				{
-					$next_depth = 0;
-				}
+				$identifier = $keys[$counter];
+				
+				$current_depth 	= $this->getCurrentDepth($values, $counter);
+				$next_depth 	= $this->getNextDepth($values, $counter);
 	
 				if($previous_depth == $current_depth)
 				{
@@ -262,7 +262,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (1) pcn: 000
 //						echo"(1)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($element, $identifier);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
@@ -273,7 +273,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 							
 							// (8) pcn: 110 
 //							echo"(8)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($element, $identifier);
 							$html_output .= $this->renderEndListItem();
 							$html_output .= $this->renderEndSubList();
 							$html_output .= $this->renderEndListItem();
@@ -282,7 +282,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (12) pcn: 220 
 //							echo"(12)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($element, $identifier);
 	
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
@@ -296,7 +296,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (2) pcn: 001
 //						echo"(2)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($element, $identifier);
 						$html_output .= $this->renderBeginSubList();
 					}
 				}
@@ -306,14 +306,14 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (6) pcn: 100  
 //						echo"(6)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($element, $identifier);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
 					{
 						// (11) pcn: 210
 //						echo"(11)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($element, $identifier);
 						$html_output .= $this->renderEndListItem();
 						$html_output .= $this->renderEndSubList();
 					}
@@ -323,14 +323,14 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (7) pcn: 101
 //							echo"(7)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($element, $identifier);
 							$html_output .= $this->renderBeginSubList();
 						}
 						else if($previous_depth > $next_depth)
 						{
 							// (10) pcn: 201 
 //							echo"(10)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($element, $identifier);
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
 								$html_output .= $this->renderEndSubList();
@@ -345,7 +345,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (4) pcn: 011  
 //						echo"(4)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($element, $identifier);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
@@ -354,7 +354,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (3) pcn: 010, 
 //							echo"(3)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($element, $identifier);
 							$html_output .= $this->renderEndListItem();
 							$html_output .= $this->renderEndSubList();
 							$html_output .= $this->renderEndListItem();
@@ -364,7 +364,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (9) pcn: 120 
 //							echo"(9)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($element, $identifier);
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
 								$html_output .= $this->renderEndListItem();
@@ -376,7 +376,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (5) pcn: 012 
 //						echo"(5)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($element, $identifier);
 						$html_output .= $this->renderBeginSubList();
 					}
 				}
@@ -415,6 +415,12 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 	 */
 	public function getSolutionHTML($a_solution_array)
 	{
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD ABOVE
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD ABOVE
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD ABOVE
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD ABOVE
+		// CORE DEVELOPER HINT: Anybody who start to touch this method: REFACTOR IT - OMG - SEE METHOD ABOVE
+		
 		$html_output = '';
 		$html_output .= $this->renderBeginSortableContainer();
 		$html_output .= $this->renderBeginSubList();
@@ -442,7 +448,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (1) pcn: 000
 						//					echo"(1)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($cur_answer, $i);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
@@ -451,7 +457,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (8) pcn: 110 
 							//						echo"(8)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($cur_answer, $i);
 							$html_output .= $this->renderEndListItem();
 							$html_output .= $this->renderEndSubList();
 							$html_output .= $this->renderEndListItem();
@@ -460,7 +466,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (12) pcn: 220 
 							//						echo"(12)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($cur_answer, $i);
 
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
@@ -474,7 +480,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (2) pcn: 001
 						//					echo"(2)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($cur_answer, $i);
 						$html_output .= $this->renderBeginSubList();
 				
 					}
@@ -485,14 +491,14 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (6) pcn: 100  
 						//					echo"(6)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($cur_answer, $i);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
 					{
 						// (11) pcn: 210
 						//					echo"(11)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($cur_answer, $i);
 						$html_output .= $this->renderEndListItem();
 						$html_output .= $this->renderEndSubList();
 					}
@@ -502,14 +508,14 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (7) pcn: 101
 							//						echo"(7)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($cur_answer, $i);
 							$html_output .= $this->renderBeginSubList();
 						}
 						else if($previous_depth > $next_depth)
 						{
 							// (10) pcn: 201 
 							//						echo"(10)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($cur_answer, $i);
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
 								$html_output .= $this->renderEndSubList();
@@ -524,7 +530,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (4) pcn: 011  
 						//					echo"(4)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($cur_answer, $i);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
@@ -533,7 +539,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (3) pcn: 010, 
 							//						echo"(3)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($cur_answer, $i);
 							$html_output .= $this->renderEndListItem();
 							$html_output .= $this->renderEndSubList();
 							$html_output .= $this->renderEndListItem();
@@ -543,7 +549,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 						{
 							// (9) pcn: 120 
 							//						echo"(9)";
-							$html_output .= $this->renderListItem($cur_answer, $elementKey);
+							$html_output .= $this->renderListItem($cur_answer, $i);
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
 								$html_output .= $this->renderEndListItem();
@@ -555,7 +561,7 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 					{
 						// (5) pcn: 012 
 						//					echo"(5)";
-						$html_output .= $this->renderListItem($cur_answer, $elementKey);
+						$html_output .= $this->renderListItem($cur_answer, $i);
 						$html_output .= $this->renderBeginSubList();
 					}
 				}
@@ -612,5 +618,35 @@ class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesIn
 	public function onCheckInput()
 	{
 		return true;
+	}
+	
+	/**
+	 * @param array $elementValues
+	 * @param integer $elementCounter
+	 * @return integer $currentDepth
+	 */
+	protected function getCurrentDepth($elementValues, $elementCounter)
+	{
+		if( !isset($elementValues[$elementCounter]) )
+		{
+			return 0;
+		}
+		
+		return $elementValues[$elementCounter]['ordering_depth'];
+	}
+	
+	/**
+	 * @param array $elementValues
+	 * @param integer $elementCounter
+	 * @return integer $nextDepth
+	 */
+	protected function getNextDepth($elementValues, $elementCounter)
+	{
+		if( !isset($elementValues[$elementCounter + 1]) )
+		{
+			return 0;
+		}
+		
+		return $elementValues[$elementCounter + 1]['ordering_depth'];
 	}
 }

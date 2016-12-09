@@ -211,9 +211,25 @@ class ilAssOrderingElementList implements Iterator
 	/**
 	 * @return array
 	 */
+	public function getRandomIdentifierIndex()
+	{
+		return array_keys($this->getRandomIdentifierIndexedElements());
+	}
+	
+	/**
+	 * @return array
+	 */
 	public function getSolutionIdentifierIndexedElements()
 	{
 		return $this->getIndexedElements(self::IDENTIFIER_TYPE_SOLUTION);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getSolutionIdentifierIndex()
+	{
+		return array_keys($this->getSolutionIdentifierIndexedElements());
 	}
 	
 	/**

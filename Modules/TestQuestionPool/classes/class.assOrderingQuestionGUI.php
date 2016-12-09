@@ -226,22 +226,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$replacementElementList = new ilAssOrderingElementList();
 		$replacementElementList->setQuestionId($this->object->getId());
 		
-		/*
-		$answers_ordering = $_POST['answers_ordering__default']; // __default is added by js
-		$new_hierarchy    = json_decode( $answers_ordering );
-
-		$this->getOldLeveledOrdering();
-
-		if (!is_array( $new_hierarchy ))
-		{
-			$this->leveled_ordering = $this->old_ordering_depth;
-		}
-		else
-		{
-			$this->setLeveledOrdering( $new_hierarchy );
-		}
-		*/
-
 		foreach((array)$_POST["answers"] as $submittedElement)
 		{
 			/* @var ilAssOrderingElement $submittedElement */
@@ -555,27 +539,35 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				{
 					if(strchr( $solution['value2'],':') == true)
 					{
-						$current_solution = explode(':', $solution['value2']);
-
-						$user_order[$solution["value1"]]['index'] =  $solution["value1"];
-						$user_order[$solution["value1"]]['random_id'] = $current_solution[0];
-						$user_order[$solution["value1"]]['depth'] = $current_solution[1];
+						$solution['value2'] = explode(':', $solution['value2']);
+						
+						$selectedOrderPosition = $solution['value1'];
+						$randomIdentifier = $solution['value2'][0];
+						$indentation = $solution['value2'][1];
+						
+						$user_order[$selectedOrderPosition]['index'] =  $selectedOrderPosition;
+						$user_order[$selectedOrderPosition]['random_id'] = $randomIdentifier;
+						$user_order[$selectedOrderPosition]['depth'] = $indentation;
+						
 						// needed for graphical output
-						$answer_text = $this->object->lookupAnswerTextByRandomId($current_solution[0], $this->object->getId());
-						$user_order[$solution["value1"]]['answertext'] =  $answer_text;
+						
+						$element = $this->object->getOrderingElementList()->getElementByRandomIdentifier(
+							$randomIdentifier
+						);
+						
+						$user_order[$selectedOrderPosition]['answertext'] =  $element->getContent();
 					}
 				}
 				if( count($user_order) )
 				{
-					foreach( $this->object->orderElements as $k => $a)
+					foreach( $this->object->getOrderingElementList() as $i => $a)
 					{
-						$ok = FALSE;
-						if($k == $user_order[$k]['index'] && $a->getOrderingDepth() == $user_order[$k]['depth'] && $a->getAnswerText() == $user_order[$k]['answertext'])
+						$user_order[$i]['ok'] = false;
+						
+						if($a->getPosition() == $user_order[$i]['index'] && $a->getIndentation() == $user_order[$i]['depth'] && $a->getContent() == $user_order[$i]['answertext'])
 						{
-							$ok = TRUE;
-
+							$user_order[$i]['ok'] = true;
 						}
-						$user_order[$k]['ok'] = $ok;
 					}
 
 					$solution_output = $user_order;
@@ -583,40 +575,27 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				else
 				{
 					$expected_solution = array();
-					foreach ( $this->object->orderElements as $index => $answer)
+					foreach( $this->object->getOrderingElementList() as $index => $answer )
 					{
 						$expected_solution[$index]['index'] = $index;
-						$expected_solution[$index]['random_id'] = $answer->getRandomId();
+						$expected_solution[$index]['random_id'] = $answer->getRandomIdentifier();
 						$expected_solution[$index]['depth'] = 0;
-						if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
-						{
-							$expected_solution[$index]['answertext'] = $answer->getAnswertext();
-						}
-						else
-						{
-							$expected_solution[$index]['answertext'] = $answer->getAnswertext();
-						}
+						$expected_solution[$index]['answertext'] = $answer->getContent();
 					}
-					shuffle($expected_solution);
-					$solution_output = $expected_solution;
+					
+					require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+					$shuffler = new ilArrayElementShuffler();
+					$solution_output = $shuffler->shuffle($expected_solution);
 				}
 			}
 			else
 			{
-				foreach ( $this->object->orderElements as $index => $answer)
+				foreach( $this->object->getOrderingElementList() as $index => $answer)
 				{
-		
 					$expected_solution[$index]['index'] = $index;
-					$expected_solution[$index]['random_id'] = $answer->getRandomId();
-					$expected_solution[$index]['depth'] = $answer->getOrderingDepth();
-					if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
-					{
-						$expected_solution[$index]['answertext'] = $answer->getAnswertext();
-					}
-					else
-					{
-						$expected_solution[$index]['answertext'] = $answer->getAnswertext();
-					}
+					$expected_solution[$index]['random_id'] = $answer->getRandomIdentifier();
+					$expected_solution[$index]['depth'] = $answer->getIndentation();
+					$expected_solution[$index]['answertext'] = $answer->getContent();
 				}
 				$solution_output = $expected_solution;
 			}
@@ -625,6 +604,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
 
 			$answers_gui = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers", $graphicalOutput);
+			$answers_gui->setInstanceId($this->object->getId());
 		
 			$no_js_for_cmds = array('outParticipantsPassDetails', 'outCorrectSolution', 'showManScoringParticipantScreen');
 			
@@ -683,7 +663,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{	
-			$keys = array_keys($this->object->orderElements);
+			$keys = $this->object->getOrderingElementList()->getSolutionIdentifierIndex();
 	
 			// generate the question output
 			include_once "./Services/UICore/classes/class.ilTemplate.php";
@@ -698,9 +678,16 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				
 				if( !count($solutions) )
 				{
-					foreach ( $this->object->orderElements as $index => $answer)
+					foreach ($this->object->getOrderingElementList() as $element)
 					{
-						array_push($solutions, array("value1" => $index, "value2" => $index+1));
+						$solutionPositionSolutionIdentifier = $element->getSolutionIdentifier();
+						$
+						
+						$solutions[] = array(
+							'value1' => $referenceSolutionIdentifier,
+							'value2' => $element->getSolutionIdentifier() + 1
+						);
+						array_push($solutions, );
 					}
 					
 					shuffle($keys);

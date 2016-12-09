@@ -9,7 +9,7 @@ require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php';
  *
  * @package		Services/Form
  */
-class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
+abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
 	protected $allowMove = false;
 	
@@ -46,6 +46,12 @@ class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	}
 	
 	/**
+	 * @param mixed $value
+	 * @return string $content
+	 */
+	abstract protected function fetchContentFromValue($value);
+	
+	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
 	 *
 	 * @return	boolean		Input ok, true/false
@@ -62,9 +68,11 @@ class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			return false;
 		}
 		
-		foreach($submittedElements as $submittedElement)
+		foreach($submittedElements as $submittedValue)
 		{
-			if ($this->getRequired() && trim($submittedElement->getContent()) == "")
+			$submittedContent = $this->fetchContentFromValue($submittedValue);
+			
+			if ($this->getRequired() && trim($submittedContent) == "")
 			{
 				$this->setAlert($lng->txt('msg_input_is_required'));
 				return false;
@@ -72,7 +80,7 @@ class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			
 			if( strlen($this->getValidationRegexp()) )
 			{
-				if( !preg_match($this->getValidationRegexp(), $submittedElement->getContent()) )
+				if( !preg_match($this->getValidationRegexp(), $submittedValue->getContent()) )
 				{
 					$this->setAlert($lng->txt('msg_wrong_format'));
 					return false;

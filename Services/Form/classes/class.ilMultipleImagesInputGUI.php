@@ -10,7 +10,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
+abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
 	protected $allowMove = false;
 	protected $qstObject = null;
@@ -115,6 +115,12 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	}
 	
 	/**
+	 * @param mixed $value
+	 * @return string $content
+	 */
+	abstract protected function fetchContentFromValue($value);
+	
+	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
 	 *
 	 * @return	boolean	$validationSuccess
@@ -149,7 +155,8 @@ class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 						case UPLOAD_ERR_NO_FILE:
 							if ($this->getRequired())
 							{
-								if (!strlen($_POST[$this->getPostVar()][$index]))
+								$submittedFilename = $this->fetchContentFromValue($_POST[$this->getPostVar()][$index]);
+								if (!strlen($submittedFilename))
 								{
 									$this->setAlert($lng->txt("form_msg_file_no_upload"));
 									return false;

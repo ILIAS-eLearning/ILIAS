@@ -90,7 +90,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function populateHierarchyValues(ilAssOrderingElement $element, $values)
 	{
-		$values[ $element->getRandomIdentifier() ] = array(
+		$values[ $element->getRandomIdentifier()] = array(
 			'answer_id' => $element->getId(),
 			'random_id' => $element->getRandomIdentifier(),
 			'answertext' => (string)$element->getContent(),
@@ -105,10 +105,17 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	{
 		if( $this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY )
 		{
+			//$values = $this->handleReversedHierarchySubmit($values);
+			
 			$this->initHierarchySubmitValues();
 		}
 		
 		return $this->convertObjectsFromValues($values);
+	}
+	
+	protected function handleReversedHierarchySubmit($values)
+	{
+		return array_reverse($values, true);
 	}
 	
 	protected function initHierarchySubmitValues()
@@ -116,13 +123,18 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		if( isset($_POST[$this->getIndentationsPostVar()]) )
 		{
 			$stdClassObj = json_decode($_POST[$this->getIndentationsPostVar()], false);
-			//$this->parseJsHierarchy($stdClassObj, true);
-			$this->getDepthRecursive($stdClassObj, 0, true);
+			$this->parseJsHierarchy($stdClassObj, true);
+			//$this->getDepthRecursive($stdClassObj, 0, true);
 		}
 	}
 		
 	public function convertObjectsFromValues($values)
 	{
+		if( !$this->objectConversionRequired($values) )
+		{
+			return $values;
+		}
+		
 		$objects = array();
 		$position = 0;
 		
@@ -136,7 +148,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
 			if( $this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY )
 			{
-				$element->setPosition(
+				$element->setIndentation(
 					$this->getIndentationByRandomIdentifier($element->getRandomIdentifier())
 				);
 			}
@@ -145,6 +157,21 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		}
 		
 		return $objects;
+	}
+	
+	protected function objectConversionRequired($values)
+	{
+		if( !count($values) )
+		{
+			return false;
+		}
+		
+		if( is_object(current($values)) )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	private function getIndentationByRandomIdentifier($randomIdentifier)
@@ -159,40 +186,20 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	private function getDepthRecursive($child, $ordering_depth, $with_random_id = false)
 	{
-		if($with_random_id == true)
+		// for test ouput
+		if(is_array($child->children))
 		{
-			// for test ouput
-			if(is_array($child->children))
-			{
-				foreach($child->children as $grand_child)
-				{
-					$ordering_depth++;
-					$this->randomIdentifierToIndentationMap[$child->id] = $ordering_depth;
-					$this->getDepthRecursive($grand_child, $ordering_depth, true);
-				}
-			}
-			else
+			foreach($child->children as $grand_child)
 			{
 				$ordering_depth++;
 				$this->randomIdentifierToIndentationMap[$child->id] = $ordering_depth;
+				$this->getDepthRecursive($grand_child, $ordering_depth, true);
 			}
 		}
 		else
 		{
-			if(is_array($child->children))
-			{
-				foreach($child->children as $grand_child)
-				{
-					$ordering_depth++;
-					$this->randomIdentifierToIndentationMap[] = $ordering_depth;
-					$this->getDepthRecursive($grand_child, $ordering_depth);
-				}
-			}
-			else
-			{
-				$ordering_depth++;
-				$this->randomIdentifierToIndentationMap[] = $ordering_depth;
-			}
+			$ordering_depth++;
+			$this->randomIdentifierToIndentationMap[$child->id] = $ordering_depth;
 		}
 	}
 	

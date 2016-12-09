@@ -25,4 +25,9 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 		$manipulator->setPostVar($this->getPostVar());
 		$this->addFormValuesManipulator($manipulator);
 	}
+	
+	protected function fetchContentFromValue($value)
+	{
+		return $value->getContent();
+	}
 }
