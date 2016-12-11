@@ -235,11 +235,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 						$from, $until, $last, $now, $id);
 			$ilDB->manipulateF($query,$types,$values);
 
-			$query = 'UPDATE lti_ext_consumer SET title = %s, description = %s, prefix = %s, user_language = %s, role = %s WHERE id = %s';
-			$types = array("text", "text", "text", "text", "integer", "integer");
-			$values = array($consumer->getTitle(),$consumer->getDescription(),$consumer->getPrefix(),$consumer->getLanguage(),$consumer->getRole(),$id);
-			$ilDB->manipulateF($query,$types,$values);
-			
+			if ($consumer->getPrefix()) {
+				$query = 'UPDATE lti_ext_consumer SET title = %s, description = %s, prefix = %s, user_language = %s, role = %s WHERE id = %s';
+				$types = array("text", "text", "text", "text", "integer", "integer");
+				$values = array($consumer->getTitle(),$consumer->getDescription(),$consumer->getPrefix(),$consumer->getLanguage(),$consumer->getRole(),$id);
+				$ilDB->manipulateF($query,$types,$values);
+			}
             // $sql = sprintf("UPDATE {$this->dbTableNamePrefix}" . DataConnector::CONSUMER_TABLE_NAME . ' SET ' .
                            // 'consumer_key256 = %s, consumer_key = %s, ' .
                            // 'name = %s, secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
