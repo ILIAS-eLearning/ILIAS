@@ -2077,7 +2077,7 @@ class ilObjectGUI
 	 */
 	static function _gotoRepositoryRoot($a_raise_error = false)
 	{
-		global $ilAccess, $ilErr;
+		global $ilAccess, $ilErr, $lng;
 		
 		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
