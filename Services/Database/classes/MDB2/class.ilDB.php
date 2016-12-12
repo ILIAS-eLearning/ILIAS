@@ -1413,7 +1413,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* For multiple similar queries/manipulations you may use prepare() and execute().
 	*
 	* @param string
-	* @return object DB
+	* @return ilPDOStatement DB
 	*/
 	function query($sql, $a_handle_error = true)
 	{
