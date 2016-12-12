@@ -51,6 +51,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
 		$this->dataConnector = new ilLTIDataConnector();
 		require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
+		// sm: this does only load the standard lti date connector, not the ilLTIToolConsumer with extended data, like prefix.
 		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
 		// $consumer = new ToolProvider\ToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
 
@@ -63,7 +64,13 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		// if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
 
-		$lti_id = $consumer->getId();
+		$consumer = ilLTIToolConsumer::fromRecordId(
+			$consumer->getRecordId(),
+			$this->dataConnector
+		);
+		
+
+		$lti_id = $consumer->getRecordId();
 		// $lti_id = $this->findAuthKeyId($_POST['oauth_consumer_key']);
 		if(!$lti_id)
 		{
@@ -71,9 +78,10 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			return false;
 		}
-		$prefix = $consumer->getPrefix();
-		// $prefix = $this->findAuthPrefix($lti_id);
-		$internal_account = $this->findUserId($this->getCredentials()->getUsername(), $lti_id, $prefix);
+		
+		$this->getLogger()->debug('Using prefix:' . $consumer->getPrefix());
+		
+		$internal_account = $this->findUserId($this->getCredentials()->getUsername(), $lti_id, $consumer->getPrefix());
 	
 		if($internal_account)
 		{
@@ -81,7 +89,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		else
 		{
-			$internal_account = $this->createUser($lti_id,$prefix);
+			$internal_account = $this->createUser($lti_id,$consumer->getPrefix());
 		}
 		
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
@@ -185,7 +193,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	{
 		$user_name = ilObjUser::_checkExternalAuthAccount(
 			self::AUTH_MODE_PREFIX.'_'.$a_oauth_id,
-			$a_user_prefix.'_'.$a_oauth_user
+			$a_oauth_user
 		);
 		$user_id = 0;
 		if($user_name)
@@ -214,12 +222,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$newUser["firstname"] = $_POST['lis_person_name_given'];
 		$newUser["lastname"] = $_POST['lis_person_name_family'];
 		$newUser['email'] = $_POST['lis_person_contact_email_primary'];
+		
 
 		// set "plain md5" password (= no valid password)
 		$newUser["passwd"] = "";
 		$newUser["passwd_type"] = IL_PASSWD_CRYPTED;
 
 		$newUser["auth_mode"] = 'lti_'.$a_lti_id;
+		$newUser['ext_account'] = $this->getCredentials()->getUsername();
 		$newUser["profile_incomplete"] = 0;
 
 		// system data
