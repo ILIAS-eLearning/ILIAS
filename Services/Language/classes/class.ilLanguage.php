@@ -675,12 +675,20 @@ class ilLanguage
 
 		$db = $DIC->database();
 		$data = "";
-		$set = $db->query("SELECT d.module, d.identifier FROM lng_data d LEFT JOIN lng_log l ON (d.lang_key = ".$db->quote("en", "text")." AND d.module = l.module AND d.identifier = l.identifier) ".
-			" WHERE d.lang_key = ".$db->quote("en", "text")." AND l.identifier IS NULL ORDER BY d.module, d.identifier"
-			);
+
+		$log = array();
+		$set = $db->query("SELECT module, identifier FROM lng_log ");
 		while ($rec = $db->fetchAssoc($set))
 		{
-			$data.= $rec["module"].";".$rec["identifier"]."\n";
+			$log[$rec["module"].":".$rec["identifier"]] = 1;
+		}
+		$set = $db->query("SELECT module, identifier FROM lng_data WHERE lang_key = ".$db->quote("en", "text")." ORDER BY module, identifier");
+		while ($rec = $db->fetchAssoc($set))
+		{
+			if (!isset($log[$rec["module"].":".$rec["identifier"]]))
+			{
+				$data .= $rec["module"] . ";" . $rec["identifier"] . "\n";
+			}
 		}
 		ilUtil::deliverData($data, "lang_deprecated.csv");
 	}
