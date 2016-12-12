@@ -295,6 +295,104 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		return $user_obj->getId();
 	}
 	
+	/**
+	 * Get auth mode by key
+	 * @param string $a_auth_mode
+	 * @return int auth_mode
+	 */
+	public static function getAuthModeByKey($a_auth_key)
+	{
+		$auth_arr = explode('_', $a_auth_key);
+		if(count((array) $auth_arr) > 1)
+		{
+			return 'lti_'.$auth_arr[1];
+		}
+		return 'lti';
+	}
+	
+	/**
+	 * Get auth id by auth mode
+	 * @param string $a_auth_mode
+	 * @return int auth_mode
+	 */
+	public static function getKeyByAuthMode($a_auth_mode)
+	{
+		$auth_arr = explode('_', $a_auth_mode);
+		if(count((array) $auth_arr) > 1)
+		{
+			return AUTH_PROVIDER_LTI.'_'.$auth_arr[1];
+		}
+		return AUTH_PROVIDER_LTI;
+	}
+	
+	
+	/**
+	 * get all active authmode server ids
+	 */
+	public static function getActiveAuthModes()
+	{
+		global $ilDB;
+		
+		// move to connector
+		$query = 'SELECT consumer_pk from lti2_consumer where enabled = '.$ilDB->quote(1,'integer');
+		$res = $ilDB->query($query);
+		
+		$sids = array();
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$sids[] = $row->consumer_pk;
+		}
+		return $sids;
+	}
+	
+	/**
+	 * Lookup consumer title
+	 * @param type $a_sid
+	 * @return type
+	 */
+	public static function lookupConsumer($a_sid)
+	{
+		include_once './Services/LTI/classes/class.ilLTIDataConnector.php';
+		$connector = new ilLTIDataConnector();
+		include_once './Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
+		$consumer = ilLTIToolConsumer::fromRecordId($a_sid,$connector);
+		return $consumer->getTitle();
+		
+	}
+
+	/**
+	 * Get auth id by auth mode
+	 * @param type $a_auth_mode
+	 * @return null
+	 */
+	public static function getServerIdByAuthMode($a_auth_mode)
+	{
+		if(self::isAuthModeLTI($a_auth_mode))
+		{
+			$auth_arr = explode('_', $a_auth_mode);
+			return $auth_arr[1];
+		}
+		return NULL;
+	}
+	
+	/**
+	 * Check if user auth mode is LDAP
+	 * @param type $a_auth_mode
+	 */
+	public static function isAuthModeLTI($a_auth_mode)
+	{
+		if(!$a_auth_mode)
+		{
+			$this->getLogger()->warning('No auth mode given');
+			return false;
+		}
+		$auth_arr = explode('_', $a_auth_mode);
+		return ($auth_arr[0] == AUTH_PROVIDER_LTI) and $auth_arr[1];
+	}
+	
+	
+	
+	
 	
 
 }
