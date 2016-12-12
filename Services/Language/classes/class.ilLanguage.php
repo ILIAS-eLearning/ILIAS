@@ -662,5 +662,29 @@ class ilLanguage
 			}
 		}
 	}
+
+	/**
+	 * Send deprecated lang entries
+	 *
+	 * @param
+	 * @return
+	 */
+	function sendDeprecated()
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$data = "";
+		$set = $db->query("SELECT d.module, d.identifier FROM lng_data d LEFT JOIN lng_log l ON (d.module = l.module AND d.identifier = l.identifier) ".
+			" WHERE l.identifier IS NULL ORDER BY d.module, d.identifier"
+			);
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$data.= $rec["module"].";".$rec["identifier"]."\n";
+		}
+		ilUtil::deliverData($data, "lang_deprecated.csv");
+	}
+
+
 } // END class.Language
 ?>
