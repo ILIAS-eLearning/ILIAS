@@ -643,7 +643,7 @@ class ilInitialisation
 		
 		// if target given, try to go there
 		if(strlen($_GET["target"]))
-		{	
+		{
 			// when we are already "inside" goto.php no redirect is needed
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);	
 			if($current_script == "goto.php")
@@ -1524,13 +1524,15 @@ class ilInitialisation
 		// for password change and incomplete profile 
 		// see ilPersonalDesktopGUI
 		if(!$_GET["target"])
-		{										
+		{	
+			ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
 			// Redirect here to switch back to http if desired
 			include_once './Services/User/classes/class.ilUserUtil.php';						
 			ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
 		}
 		else
 		{
+			ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $_GET['target']);
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);
 		}
 	}
