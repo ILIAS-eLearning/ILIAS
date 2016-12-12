@@ -675,7 +675,7 @@ class ilLanguage
 
 		$db = $DIC->database();
 		$data = "";
-		$set = $db->query("SELECT d.module, d.identifier FROM lng_data d LEFT JOIN lng_log l ON (d.module = l.module AND d.identifier = l.identifier) ".
+		$set = $db->query("SELECT d.module, d.identifier FROM lng_data d LEFT JOIN lng_log l ON (d.lang_key = ".$db->quote("en", "text")." AND d.module = l.module AND d.identifier = l.identifier) ".
 			" WHERE d.lang_key = ".$db->quote("en", "text")." AND l.identifier IS NULL ORDER BY d.module, d.identifier"
 			);
 		while ($rec = $db->fetchAssoc($set))
