@@ -11,7 +11,7 @@ interface Standard extends Split {
 	/**
 	 * Get the array containing the actions and labels of the split button
 	 *
-	 * @return	string
+	 * @return	array (string|string)[]. Array containing keys as label and values as actions.
 	 */
 	public function getActionsAndLabels();
 }
