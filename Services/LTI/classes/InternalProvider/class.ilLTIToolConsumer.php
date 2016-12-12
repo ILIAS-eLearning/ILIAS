@@ -178,11 +178,22 @@ class ilLTIToolConsumer extends ToolProvider\ToolConsumer
 
         $toolConsumer->initialize();
         $toolConsumer->setRecordId($id);
-        if (!$dataConnector->loadToolConsumer($toolConsumer)) {
+        if (!$dataConnector->loadToolConsumerILIAS($toolConsumer)) {
             $toolConsumer->initialize();
         }
         return $toolConsumer;
 
+    }
+
+/**
+ * Save the tool consumer to the database with ILIAS extension.
+ *
+ * @return boolean True if the object was successfully saved
+ */
+    public function saveLTI($dataConnector)
+    {
+        $ok = $dataConnector->saveToolConsumerILIAS($this);
+        return $ok;
     }
 
 //AB HIER WEG	
@@ -213,22 +224,6 @@ class ilLTIToolConsumer extends ToolProvider\ToolConsumer
 
     // }
 
-	/**
- * Save the tool consumer to the database.
- *
- * @return boolean True if the object was successfully saved
- */
-    // public function save()
-    // {
-
-        // $ok = $this->dataConnector->saveToolConsumer($this);
-        // if ($ok) {
-            // $this->settingsChanged = false;
-        // }
-
-        // return $ok;
-
-    // }
 	
 	// public static function getAllConsumers() {
 		// return self::get();

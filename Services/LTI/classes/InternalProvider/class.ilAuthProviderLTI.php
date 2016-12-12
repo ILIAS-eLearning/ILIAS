@@ -31,12 +31,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		if (isset($_POST['launch_presentation_document_target']) && $_POST['launch_presentation_document_target'] == 'blank') {
 			$_POST['launch_presentation_document_target'] = 'window';
 		}
-		$this->dataConnector = new ilLTIDataConnector();
-		require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
-		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
-		$lti_provider = new ilLTIToolProvider($this->dataConnector);
-		$lti_provider->handleRequest();
-		// die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
+
 		//Bsp.: crs_67
 		if (isset($_GET['target'])) {
 			$context_ar = explode('_',$_GET['target']);
@@ -52,15 +47,32 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$_SESSION['lti_launch_presentation_return_url'] = $_POST['launch_presentation_return_url'];
 			// Bsp.: 'http://192.168.0.74/ilias51/ilias.php?ref_id=128&cmd=viewEmbed&cmdClass=ilobjexternalcontentgui&cmdNode=hx:gc&baseClass=ilObjPluginDispatchGUI';
 		}
-		
-		$lti_id = $this->findAuthKeyId($_POST['oauth_consumer_key']);
+
+
+		$this->dataConnector = new ilLTIDataConnector();
+		require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
+		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
+		// $consumer = new ToolProvider\ToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
+
+		$lti_provider = new ilLTIToolProvider($this->dataConnector);
+		// $lti_provider = new ToolProvider\ToolProvider($this->dataConnector);
+		$ok = $lti_provider->handleRequest();
+		if ($ok && $lti_provider->reason != ""){
+			$status->setReason($lti_provider->reason);
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+		}
+		// if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
+
+		$lti_id = $consumer->getId();
+		// $lti_id = $this->findAuthKeyId($_POST['oauth_consumer_key']);
 		if(!$lti_id)
 		{
 			$status->setReason('lti_auth_failed_invalid_key');
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			return false;
 		}
-		$prefix = $this->findAuthPrefix($lti_id);
+		$prefix = $consumer->getPrefix();
+		// $prefix = $this->findAuthPrefix($lti_id);
 		$internal_account = $this->findUserId($this->getCredentials()->getUsername(), $lti_id, $prefix);
 	
 		if($internal_account)
@@ -74,7 +86,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		$status->setAuthenticatedUserId($internal_account);
-
+		
 		$lti_lis_person_name_full = "";
 		if (isset($_POST['lis_person_name_given'])) {
 			$_SESSION['lti_lis_person_name_given'] = $_POST['lis_person_name_given'];
@@ -89,6 +101,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		} else {
 			$_SESSION['lti_lis_person_name_full'] = $lti_lis_person_name_full;
 		}
+
+
 
 		return true;
 	}

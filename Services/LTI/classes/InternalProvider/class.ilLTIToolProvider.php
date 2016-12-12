@@ -400,7 +400,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
             }
-			$this->ok = true; //ACHTUNG Problem Signature bei M.
+			// $this->ok = true; //ACHTUNG Problem Signature bei M.
            if ($this->ok) {
                 $today = date('Y-m-d', $now);
                 if (is_null($this->consumer->lastAccess)) {

@@ -309,7 +309,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$consumer->setActive($form->getInput('active'));
 			$consumer->setRole($form->getInput('role'));
 			// $consumer->create();
-			$consumer->save();
+			$consumer->saveLTI($this->dataConnector);
 			$this->object->saveConsumerObjectTypes($consumer->getRecordId(), $form->getInput('types'));
 
 			ilUtil::sendSuccess($this->lng->txt("lti_consumer_created"),true);
@@ -352,7 +352,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$consumer->setRole($form->getInput('role'));
 
 			// $consumer->update();
-			$consumer->save();
+			$consumer->saveLTI($this->dataConnector);
 			$this->object->saveConsumerObjectTypes($consumer_id, $form->getInput('types'));
 
 			ilUtil::sendSuccess($this->lng->txt("lti_consumer_updated"),true);
@@ -428,7 +428,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		}
 		//ID?
 		// $consumer->update();
-		$consumer->save();
+		$consumer->saveLTI($this->dataConnector);
 
 		ilUtil::sendSuccess($this->lng->txt($msg),true);
 

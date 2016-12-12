@@ -56,34 +56,21 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 		$query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
 					   'consumer_name, consumer_version, consumer_guid, ' .
 					   'profile, tool_proxy, settings, protected, enabled, ' .
-					   'enable_from, enable_until, last_access, created, updated, ' .
-					   'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
-					   'FROM lti2_consumer, lti_ext_consumer ' .
-					   'WHERE lti_ext_consumer.id = consumer_pk AND ';
+					   'enable_from, enable_until, last_access, created, updated ' .
+					   // 'enable_from, enable_until, last_access, created, updated, ' .
+					   // 'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
+					   'FROM lti2_consumer WHERE ';
+					   // 'FROM lti2_consumer, lti_ext_consumer ' .
+					   // 'WHERE lti_ext_consumer.id = consumer_pk AND ';
         if (!empty($consumer->getRecordId())) {
 			$query .= 'consumer_pk = %s';
 			$types = array('integer');
 			$values = array($consumer->getRecordId());
-
-            // $sql = sprintf('SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
-                           // 'consumer_name, consumer_version, consumer_guid, ' .
-                           // 'profile, tool_proxy, settings, protected, enabled, ' .
-                           // 'enable_from, enable_until, last_access, created, updated ' .
-                           // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONSUMER_TABLE_NAME . ' ' .
-                           // "WHERE consumer_pk = %d",
-                           // $consumer->getRecordId());
         } else {
 			$query .= 'consumer_key256 = %s';
 			$types = array('text');
             $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($consumer->getKey());
 			$values = array($key256);
-            // $sql = sprintf('SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
-                           // 'consumer_name, consumer_version, consumer_guid, ' .
-                           // 'profile, tool_proxy, settings, protected, enabled, ' .
-                           // 'enable_from, enable_until, last_access, created, updated ' .
-                           // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONSUMER_TABLE_NAME . ' ' .
-                           // "WHERE consumer_key256 = %s",
-                           // ToolProvider\DataConnector\DataConnector::quoted($key256));
         }
         // $rsConsumer = mysql_query($sql);
 		$res = $ilDB->queryF($query,$types,$values);
@@ -123,11 +110,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                     $consumer->created = strtotime($row->created);
                     $consumer->updated = strtotime($row->updated);
 					//ILIAS specific
-					if ($consumer->setTitle) $consumer->setTitle($row->title);
-					if ($consumer->setDescription) $consumer->setDescription($row->description);
-					if ($consumer->setPrefix) $consumer->setPrefix($row->prefix);
-					if ($consumer->setPrefix) $consumer->setLanguage($row->user_language);
-					if ($consumer->setPrefix) $consumer->setRole($row->role);
+					// if ($consumer->setTitle) $consumer->setTitle($row->title);
+					// if ($consumer->setDescription) $consumer->setDescription($row->description);
+					// if ($consumer->setPrefix) $consumer->setPrefix($row->prefix);
+					// if ($consumer->setPrefix) $consumer->setLanguage($row->user_language);
+					// if ($consumer->setPrefix) $consumer->setRole($row->role);
 					// local_role_always_member
 					// default_skin
 
@@ -142,6 +129,92 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     }
 
+/**
+ * Load extended tool consumer object with ILIAS extension.
+ *
+ * @param ToolConsumer $consumer ToolConsumer object
+ *
+ * @return boolean True if the tool consumer object was successfully loaded
+ */
+    public function loadToolConsumerILIAS($consumer)
+    {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+        $ok = false;
+		$query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
+					   'consumer_name, consumer_version, consumer_guid, ' .
+					   'profile, tool_proxy, settings, protected, enabled, ' .
+					   'enable_from, enable_until, last_access, created, updated, ' .
+					   'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
+					   'FROM lti2_consumer, lti_ext_consumer ' .
+					   'WHERE lti_ext_consumer.id = consumer_pk AND ';
+        if (!empty($consumer->getRecordId())) {
+			$query .= 'consumer_pk = %s';
+			$types = array('integer');
+			$values = array($consumer->getRecordId());
+        } else {
+			$query .= 'consumer_key256 = %s';
+			$types = array('text');
+            $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($consumer->getKey());
+			$values = array($key256);
+        }
+        // $rsConsumer = mysql_query($sql);
+		$res = $ilDB->queryF($query,$types,$values);
+        // if ($rsConsumer) {
+			while($row = $ilDB->fetchObject($res)) {
+			// while ($row = mysql_fetch_object($rsConsumer)) {
+                if (empty($key256) || empty($row->consumer_key) || ($consumer->getKey() === $row->consumer_key)) {
+                    $consumer->setRecordId(intval($row->consumer_pk));
+                    $consumer->name = $row->name;
+                    $consumer->setkey(empty($row->consumer_key) ? $row->consumer_key256 : $row->consumer_key);
+                    $consumer->secret = $row->secret;
+                    $consumer->ltiVersion = $row->lti_version;
+                    $consumer->consumerName = $row->consumer_name;
+                    $consumer->consumerVersion = $row->consumer_version;
+                    $consumer->consumerGuid = $row->consumer_guid;
+                    $consumer->profile = json_decode($row->profile);
+                    $consumer->toolProxy = $row->tool_proxy;
+                    $settings = unserialize($row->settings);
+                    if (!is_array($settings)) {
+                        $settings = array();
+                    }
+                    $consumer->setSettings($settings);
+                    $consumer->protected = (intval($row->protected) === 1);
+                    $consumer->enabled = (intval($row->enabled) === 1);
+                    $consumer->enableFrom = null;
+                    if (!is_null($row->enable_from)) {
+                        $consumer->enableFrom = strtotime($row->enable_from);
+                    }
+                    $consumer->enableUntil = null;
+                    if (!is_null($row->enable_until)) {
+                        $consumer->enableUntil = strtotime($row->enable_until);
+                    }
+                    $consumer->lastAccess = null;
+                    if (!is_null($row->last_access)) {
+                        $consumer->lastAccess = strtotime($row->last_access);
+                    }
+                    $consumer->created = strtotime($row->created);
+                    $consumer->updated = strtotime($row->updated);
+					//ILIAS specific
+					$consumer->setTitle($row->title);
+					$consumer->setDescription($row->description);
+					$consumer->setPrefix($row->prefix);
+					$consumer->setLanguage($row->user_language);
+					$consumer->setRole($row->role);
+					// local_role_always_member
+					// default_skin
+
+                    $ok = true;
+                    break;
+                }
+            // }
+            // mysql_free_result($rsConsumer);
+        }
+
+        return $ok;
+
+    }
 	
 /**
  * Save tool consumer object.
@@ -181,6 +254,85 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $last = date($this->dateFormat, $consumer->lastAccess);
         }
 		
+        if (empty($id)) {
+			$consumer->setRecordId( $ilDB->nextId('lti_ext_consumer') );
+			$id = $consumer->getRecordId();
+			$consumer->created = $time;
+			$consumer->updated = $time;
+			if ($key256 == null) $key256 = $id.ToolProvider\DataConnector\DataConnector::getRandomString(10);
+
+			// $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
+			$query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
+						'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
+						'enable_from, enable_until, last_access, created, updated, consumer_pk) ' .
+						'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
+			$types = array("text", "text", "text", 
+						"text", "text", "text", "text", "text", "text", "text", "text", "integer", "integer", 
+						"timestamp", "timestamp", "timestamp", "timestamp", "timestamp", "integer");
+			$values = array($key256, $key, $consumer->name, 
+						$consumer->secret, $consumer->ltiVersion, $consumer->consumerName, $consumer->consumerVersion, $consumer->consumerGuid, $profile, $consumer->toolProxy, $settingsValue, $protected, $enabled,
+						$from, $until, $last, $now, $now, $id);
+			$ilDB->manipulateF($query,$types,$values);
+			
+        } else {
+			$consumer->updated = $time;
+			
+			$query = 'UPDATE lti2_consumer SET ' .
+                           'consumer_key256 = %s, consumer_key = %s, name = %s, ' .
+                           'secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
+                           'profile = %s, tool_proxy = %s, settings = %s, protected = %s, enabled = %s, ' .
+                           'enable_from = %s, enable_until = %s, last_access = %s, updated = %s ' .
+                           'WHERE consumer_pk = %s';
+			$types = array("text", "text", "text", 
+						"text", "text", "text", "text", "text", "text", "text", "text", "integer", "integer", 
+						"timestamp", "timestamp", "timestamp", "timestamp", "integer");
+			$values = array($key256, $key, $consumer->name, 
+						$consumer->secret, $consumer->ltiVersion, $consumer->consumerName, $consumer->consumerVersion, $consumer->consumerGuid, $profile, $consumer->toolProxy, $settingsValue, $protected, $enabled,
+						$from, $until, $last, $now, $id);
+			$ilDB->manipulateF($query,$types,$values);
+
+        }
+		return $true;
+    }
+
+/**
+ * Save extended tool consumer object with ILIAS extensions.
+ *
+ * @param ToolConsumer $consumer Consumer object
+ *
+ * @return boolean True if the tool consumer object was successfully saved
+ */
+    public function saveToolConsumerILIAS($consumer)
+    {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+        $id = $consumer->getRecordId();
+        $key = $consumer->getKey();
+        $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($key);
+        // $key256 = $this->getConsumerKey($key);
+        if ($key === $key256) {
+            $key = null;
+        }
+        $protected = ($consumer->protected) ? 1 : 0;
+        $enabled = ($consumer->enabled)? 1 : 0;
+        $profile = (!empty($consumer->profile)) ? json_encode($consumer->profile) : null;
+        $settingsValue = serialize($consumer->getSettings());
+        $time = time();
+        $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
+        $from = null;
+        if (!is_null($consumer->enableFrom)) {
+            $from = date("{$this->dateFormat} {$this->timeFormat}", $consumer->enableFrom);
+        }
+        $until = null;
+        if (!is_null($consumer->enableUntil)) {
+            $until = date("{$this->dateFormat} {$this->timeFormat}", $consumer->enableUntil);
+        }
+        $last = null;
+        if (!is_null($consumer->lastAccess)) {
+            $last = date($this->dateFormat, $consumer->lastAccess);
+        }
+		
 		$consumer->name = $consumer->getTitle();//50UK
         if (empty($id)) {
 			$consumer->setRecordId( $ilDB->nextId('lti_ext_consumer') );
@@ -189,7 +341,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$consumer->updated = $time;
 			if ($key256 == null) $key256 = $id.ToolProvider\DataConnector\DataConnector::getRandomString(10);
 
-			
 			// $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
 			$query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
 						'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
@@ -208,16 +359,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$types = array("text", "text", "text", "text", "integer", "integer");
 			$values = array($consumer->getTitle(),$consumer->getDescription(),$consumer->getPrefix(),$consumer->getLanguage(),$consumer->getRole(),$id);
 			$ilDB->manipulateF($query,$types,$values);
-            // $sql = sprintf("INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
-                           // 'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
-                           // 'enable_from, enable_until, last_access, created, updated) ' .
-                           // 'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, %s, %s, %s, %s, %s)',
-                           // DataConnector::quoted($key256), DataConnector::quoted($key), DataConnector::quoted($consumer->name),
-                           // DataConnector::quoted($consumer->secret), DataConnector::quoted($consumer->ltiVersion),
-                           // DataConnector::quoted($consumer->consumerName), DataConnector::quoted($consumer->consumerVersion), DataConnector::quoted($consumer->consumerGuid),
-                           // DataConnector::quoted($profile), DataConnector::quoted($consumer->toolProxy), DataConnector::quoted($settingsValue),
-                           // $protected, $enabled, DataConnector::quoted($from), DataConnector::quoted($until), DataConnector::quoted($last),
-                           // DataConnector::quoted($now), DataConnector::quoted($now));
         } else {
 			$consumer->updated = $time;
 			
@@ -241,33 +382,9 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 				$values = array($consumer->getTitle(),$consumer->getDescription(),$consumer->getPrefix(),$consumer->getLanguage(),$consumer->getRole(),$id);
 				$ilDB->manipulateF($query,$types,$values);
 			}
-            // $sql = sprintf("UPDATE {$this->dbTableNamePrefix}" . DataConnector::CONSUMER_TABLE_NAME . ' SET ' .
-                           // 'consumer_key256 = %s, consumer_key = %s, ' .
-                           // 'name = %s, secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
-                           // 'profile = %s, tool_proxy = %s, settings = %s, ' .
-                           // 'protected = %d, enabled = %d, enable_from = %s, enable_until = %s, last_access = %s, updated = %s ' .
-                           // 'WHERE consumer_pk = %d',
-                           // DataConnector::quoted($key256), DataConnector::quoted($key),
-                           // DataConnector::quoted($consumer->name),
-                           // DataConnector::quoted($consumer->secret), DataConnector::quoted($consumer->ltiVersion),
-                           // DataConnector::quoted($consumer->consumerName), DataConnector::quoted($consumer->consumerVersion), DataConnector::quoted($consumer->consumerGuid),
-                           // DataConnector::quoted($profile), DataConnector::quoted($consumer->toolProxy), DataConnector::quoted($settingsValue),
-                           // $protected, $enabled,
-                           // DataConnector::quoted($from), DataConnector::quoted($until), DataConnector::quoted($last),
-                           // DataConnector::quoted($now), $consumer->getRecordId());
         }
-        // $ok = mysql_query($sql);
-        // if ($ok) {
-            // if (empty($id)) {
-                // $consumer->setRecordId(mysql_insert_id());
-                // $consumer->created = $time;
-            // }
-            // $consumer->updated = $time;
-        // }
 		
 		return $true;
-        // return $ok;
-
     }
 
 /**
