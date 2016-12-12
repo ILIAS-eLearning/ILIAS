@@ -17951,3 +17951,7 @@ if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 	$ilDB->renameTableColumn('qpl_a_ordering', 'order_position', 'position');
 }
 ?>
+<#5061>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

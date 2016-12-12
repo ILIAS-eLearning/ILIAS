@@ -4,4 +4,5 @@
 	<copage>
 		<pageobject parent_type="sahs" class_name="ilSCORM2004Page" directory="classes"/>
 	</copage>
+	<logging/>
 </module>
