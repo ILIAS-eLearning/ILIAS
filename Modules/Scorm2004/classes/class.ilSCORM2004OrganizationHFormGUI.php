@@ -460,4 +460,17 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 		return $commands;
 	}
 
+	/**
+	 * Get icon alt text for an item.
+	 *
+	 * @param	array		item array
+	 * @return	string		icon alt text
+	 */
+	function getChildIconAlt($a_item)
+	{
+		global $lng;
+
+		return $lng->txt("icon")." ".$lng->txt("obj_".$a_item["type"]);
+	}
+
 }
