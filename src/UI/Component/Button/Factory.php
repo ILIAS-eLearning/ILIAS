@@ -112,4 +112,29 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Button\Close
 	 */
 	public function close();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Split Button is used to group related actions if space is scarce while offering the most prominent as
+	 *       visible default.
+	 *   composition: >
+	 *       The Split Button is composed of a Standard Button offering the default action along with a dropdown containing all further options.
+	 *   effect: >
+	 *       Clicking the default directly fires the contained action. Clicking on the caret hinting the dropdown, opens it,
+	 *       displaying all further options and possibilities to select one of those.
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *           The options in the split MUST be related. They SHOULD be highly related, offering "more of the same"
+	 *           if possible (e.g. reply, reply all, forward etc.)
+	 *   accessibility:
+	 *       1: >
+	 *           All options offered in the dropdown MUST be accessible by keyboard.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Button\Split\Factory
+	 */
+	public function split();
 }
