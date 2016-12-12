@@ -24,7 +24,7 @@ interface Factory
 	 *       1: >
 	 *          Selecting one of the actions in the dropdown of the Split Button MUST directly fire this action.
 	 * ---
-	 * @param    array $actions Set of $labelled_actions (string|string)[]. The label of the action is used as key, the action itself as value.
+	 * @param    array $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.
 	 *          The first of the actions will be used as default action, directly visible.
 	 *
 	 * @return  \ILIAS\UI\Component\Button\Split\Standard
