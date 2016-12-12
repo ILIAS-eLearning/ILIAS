@@ -51,7 +51,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			default:
 				if (!$cmd || $cmd == 'view')
 				{
-					$cmd = "initSettingsForm";
+					$cmd = 'listConsumers';
 				}
 				elseif ($cmd == 'createconsumer')
 				{
@@ -73,9 +73,10 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTab("settings",
-				$this->lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "initSettingsForm"));
+			// currently no general settings.
+//			$this->tabs_gui->addTab("settings",
+//				$this->lng->txt("settings"),
+//				$this->ctrl->getLinkTarget($this, "initSettingsForm"));
 
 			$this->tabs_gui->addTab("consumers",
 				$this->lng->txt("consumers"),
@@ -248,6 +249,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			$form->setFormAction($this->ctrl->getFormAction($this,'createLTIConsumer'));
 			$form->setTitle($this->lng->txt("lti_create_consumer"));
 			$form->addCommandButton("createLTIConsumer", $this->lng->txt("save"));
+			$form->addCommandButton('listConsumers', $this->lng->txt('cancel'));
 		}
 
 		return $form;
