@@ -1838,7 +1838,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	/**
 	* Fetch row as associative array from result set
 	*
-	* @param	object	result set
+	* @param	mixed	result set
 	*/
 	function fetchAssoc($a_set)
 	{
