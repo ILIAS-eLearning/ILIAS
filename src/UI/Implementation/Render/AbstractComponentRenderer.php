@@ -37,6 +37,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private $js_binding;
 
 	/**
+     * @var array
+     */
+    private static $cache = array();
+
+	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
 	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
@@ -101,7 +106,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
-		$binder = $component->getOnLoadCode();
+        $hash = spl_object_hash($component);
+        if (isset(self::$cache[$hash])) {
+            return self::$cache[$hash];
+        }
+        $binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
 		}
@@ -113,7 +122,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				" (used component: ".get_class($component).")");
 		}
 		$this->js_binding->addOnLoadCode($on_load_code);
-		return $id;
+		self::$cache[$hash] = $id;
+
+        return $id;
 	}
 
 
