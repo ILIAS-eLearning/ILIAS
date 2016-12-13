@@ -1,0 +1,28 @@
+<!-- BEGIN nested_ordering_init -->
+<script language="JavaScript" type="text/javascript">
+(function($) { $(document).ready(function () {
+
+    var updateOutput__{INSTANCE_ID} = function (e)
+    {
+        var list = e.length ? e : $(e.target),
+        output = list.data('output');
+        
+        if( window.JSON )
+        {
+            output.val(window.JSON.stringify(list.nestable('serialize')));
+        } 
+    };
+    
+    // activate Nestable for list 
+    $('#nestable__{INSTANCE_ID}').nestable({
+        group:1,
+        expandBtnHTML:'',
+        collapseBtnHTML:''
+    }).on('change', updateOutput__{INSTANCE_ID});
+    
+    // output initial serialized data
+    updateOutput__{INSTANCE_ID}($('#nestable__{INSTANCE_ID}').data('output', $('#answers_ordering__{INSTANCE_ID}')));
+    
+}); })(jQuery);
+</script>
+<!-- END nested_ordering_init -->

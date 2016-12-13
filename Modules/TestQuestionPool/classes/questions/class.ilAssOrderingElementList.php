@@ -133,15 +133,11 @@ class ilAssOrderingElementList implements Iterator
 	
 	public function isFirstElementPosition($position)
 	{
-		// $element = $this->getElementByPosition(0);
-		// return $position == $element->getPosition();
 		return $position == 0;
 	}
 	
-	public function getLastElementPosition($position)
+	public function isLastElementPosition($position)
 	{
-		// $element = $this->getElementByPosition($this->countElements() - 1);
-		// return $position == $element->getPosition();
 		return $position == ($this->countElements() - 1);
 	}
 	
@@ -169,6 +165,9 @@ class ilAssOrderingElementList implements Iterator
 			
 			$elementList->addElement($element);
 		}
+		
+		$dodgingElement->setPosition($currentPosition);
+		$movingElement->setPosition($targetPosition);
 		
 		$this->setElements( $elementList->getElements() );
 	}
@@ -625,7 +624,96 @@ class ilAssOrderingElementList implements Iterator
 		
 		return $randomIdentifier;
 	}
-
+	
+	/**
+	 * @param ilAssOrderingElementList $otherList
+	 * @return bool $hasSameElements
+	 */
+	public function hasSameElementSet(self $otherList)
+	{
+		$otherListRandomIdentifierIndex = $otherList->getRandomIdentifierIndex();
+		
+		foreach($this as $orderingElement)
+		{
+			if( !in_array($orderingElement->getRandomIdentifier(), $otherListRandomIdentifierIndex) )
+			{
+				return false;
+			}
+			
+			$randomIdentifierIndexMatchingsCount = count( array_keys(
+				$otherListRandomIdentifierIndex, $orderingElement->getRandomIdentifier(), false
+			));
+			
+			if( $randomIdentifierIndexMatchingsCount != 1 )
+			{
+				return false;
+			}
+		}
+		
+		return $this->countElements() == $otherList->countElements();
+	}
+	
+	public function getParityTrueElementList(self $otherList)
+	{
+		if( !$this->hasSameElementSet($otherList) )
+		{
+			throw new ilTestQuestionPoolException('cannot compare lists having different element sets');
+		}
+		
+		$parityTrueElementList = new self();
+		$parityTrueElementList->setQuestionId($this->getQuestionId());
+		
+		foreach($this as $thisElement)
+		{
+			$otherElement = $otherList->getElementByRandomIdentifier(
+				$thisElement->getRandomIdentifier()
+			);
+			
+			if( $otherElement->getPosition() != $thisElement->getPosition() )
+			{
+				continue;
+			}
+			
+			if( $otherElement->getIndentation() != $thisElement->getIndentation() )
+			{
+				continue;
+			}
+			
+			$parityTrueElementList->addElement($thisElement);
+		}
+		
+		return $parityTrueElementList;
+	}
+	
+	/**
+	 * @param $randomIdentifiers
+	 * @return ilAssOrderingElementList
+	 * @throws ilTestQuestionPoolException
+	 */
+	public function deriveElementListReorderedByRandomIdentifiers($randomIdentifiers)
+	{
+		$reorderedElementList = new self();
+		$reorderedElementList->setQuestionId($this->getQuestionId());
+		
+		$position = 0;
+		
+		foreach($randomIdentifiers as $randomIdentifier)
+		{
+			if( !$this->elementExistByRandomIdentifier($randomIdentifier) )
+			{
+				throw new ilTestQuestionPoolException('cannot reorder element for unknown identifier');
+			}
+			
+			$clonedElement = clone $this->getElementByRandomIdentifier($randomIdentifier);
+			
+			$clonedElement->setPosition($position++);
+			
+			$reorderedElementList->addElement($clonedElement);
+		}
+		
+		return $reorderedElementList;
+	}
+	
 	/**
 	 * @return ilAssOrderingElement
 	 */

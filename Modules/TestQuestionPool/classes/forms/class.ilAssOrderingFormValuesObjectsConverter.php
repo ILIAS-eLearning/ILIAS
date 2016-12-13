@@ -93,9 +93,9 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		$values[ $element->getRandomIdentifier()] = array(
 			'answer_id' => $element->getId(),
 			'random_id' => $element->getRandomIdentifier(),
-			'answertext' => (string)$element->getContent(),
+			'content' => (string)$element->getContent(),
 			'ordering_position' => $element->getPosition(),
-			'ordering_depth' => $element->getIndentation()
+			'ordering_indentation' => $element->getIndentation()
 		);
 		
 		return $values;
@@ -105,8 +105,6 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	{
 		if( $this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY )
 		{
-			//$values = $this->handleReversedHierarchySubmit($values);
-			
 			$this->initHierarchySubmitValues();
 		}
 		
@@ -130,16 +128,15 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		
 	public function convertObjectsFromValues($values)
 	{
-		if( !$this->objectConversionRequired($values) )
-		{
-			return $values;
-		}
-		
-		$objects = array();
 		$position = 0;
 		
 		foreach($values as $identifier => $value)
 		{
+			if( $value instanceof ilAssOrderingElement )
+			{
+				continue;
+			}
+			
 			$element = new ilAssOrderingElement();
 			$element->setRandomIdentifier($identifier);
 			$element->setContent($value);
@@ -153,25 +150,10 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 				);
 			}
 			
-			$objects[] = $element;
+			$values[$identifier] = $element;
 		}
 		
-		return $objects;
-	}
-	
-	protected function objectConversionRequired($values)
-	{
-		if( !count($values) )
-		{
-			return false;
-		}
-		
-		if( is_object(current($values)) )
-		{
-			return false;
-		}
-		
-		return true;
+		return $values;
 	}
 	
 	private function getIndentationByRandomIdentifier($randomIdentifier)

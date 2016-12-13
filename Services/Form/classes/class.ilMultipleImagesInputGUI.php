@@ -105,20 +105,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	}
 	
 	/**
-	 * @param $positionIndex
-	 * @return mixed
-	 */
-	protected function getMultiValueKeyByPosition($positionIndex)
-	{
-		$keys = array_keys($this->getMultiValues());
-		return $keys[$positionIndex];
-	}
-	
-	/**
 	 * @param mixed $value
-	 * @return string $content
+	 * @return bool
 	 */
-	abstract protected function fetchContentFromValue($value);
+	abstract protected function isValidFilenameInput($filenameInput);
 	
 	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
@@ -153,14 +143,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 							break;
 						
 						case UPLOAD_ERR_NO_FILE:
-							if ($this->getRequired())
+							$filenameInput = $_POST[$this->getPostVar()][$index];
+							if( $this->getRequired() && !$this->isValidFilenameInput($filenameInput) )
 							{
-								$submittedFilename = $this->fetchContentFromValue($_POST[$this->getPostVar()][$index]);
-								if (!strlen($submittedFilename))
-								{
-									$this->setAlert($lng->txt("form_msg_file_no_upload"));
-									return false;
-								}
+								$this->setAlert($lng->txt("form_msg_file_no_upload"));
+								return false;
 							}
 							break;
 						
@@ -246,7 +233,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		$tpl = new ilTemplate("tpl.prop_multi_image_inp.html", true, true, "Services/Form");
 		$i = 0;
-		foreach ($this->getMultiValues() as $value)
+		foreach ($this->getMultiValues() as $identifier => $value)
 		{
 			if (strlen($value))
 			{
@@ -262,34 +249,34 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable('SRC_IMAGE', $imagename);
 				$tpl->setVariable('IMAGE_NAME', $value);
 				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value));
-				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($i, 'removeimage'));
+				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'removeimage'));
 				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
-				$tpl->setVariable("IMAGE_POST_VAR", $this->buildMultiValuePostVar($i, 'imagename'));
+				$tpl->setVariable("IMAGE_POST_VAR", $this->buildMultiValuePostVar($identifier, $i, 'imagename'));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock('addimage');
 			$tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
-			$tpl->setVariable("IMAGE_ID", $this->buildMultiValueFieldId($i, 'image'));
+			$tpl->setVariable("IMAGE_ID", $this->buildMultiValueFieldId($identifier, $i, 'image'));
 			$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
-			$tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($i, 'upload'));
-			$tpl->setVariable("IMAGE_POST_VAR", $this->buildMultiValuePostVar($i, 'image'));
-			$tpl->setVariable("COUNT_POST_VAR", $this->buildMultiValuePostVar($i, 'count'));
+			$tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($identifier, $i, 'upload'));
+			$tpl->setVariable("IMAGE_POST_VAR", $this->buildMultiValuePostVar($identifier, $i, 'image'));
+			$tpl->setVariable("COUNT_POST_VAR", $this->buildMultiValuePostVar($identifier, $i, 'count'));
 			
 			$tpl->parseCurrentBlock();
 			
 			if ($this->getAllowMove())
 			{
 				$tpl->setCurrentBlock("move");
-				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($i, 'up'));
-				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($i, 'down'));
+				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
+				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
 				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
 				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
 				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($i, 'add'));
-			$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($i, 'remove'));
+			$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
+			$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
 			$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
 			$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->parseCurrentBlock();

@@ -246,7 +246,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			
 			if( $this->object->hasOrderingTypeUploadSupport() )
 			{
-				$picturefile = $_POST['answers'][$submittedElement->getRandomIdentifier()];
 				$file_org_name = $_FILES['answers']['name']['image'][$submittedElement->getRandomIdentifier()];
 				$file_temp_name = $_FILES['answers']['tmp_name']['image'][$submittedElement->getRandomIdentifier()];
 				
@@ -260,9 +259,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						// upload image
 						$filename = $this->object->createNewImageFileName($file_org_name);
 						$filename = $this->object->getEncryptedFilename($filename);
-						if( $this->object->setImageFile($file_temp_name, $filename, $picturefile) )
+						// WTF: should we md5 the name a third time? perhaps we should than readd
+						// the extension as well. a prefix "pony" would make the filename namespaced ^^
+						
+						if( !$this->object->setImageFile($file_temp_name, $filename, $submittedElement->getContent()) )
 						{
-							$submittedElement->setContent($filename);
+							// reset filename, the file was NOT moved to target dir sucessfully
+							$submittedElement->setContent('');
 						}
 					}
 				}
@@ -310,16 +313,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
 			$answers = new ilAssNestedOrderingElementsInputGUI($this->lng->txt( "answers" ), "answers");
 			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
-
+			$answers->setStylingDisabled($this->isPdfOutputMode());
+			$answers->setElementImagePath( $this->object->getImagePathWeb() );
+			$answers->setThumbPrefix($this->object->getThumbPrefix());
 			$answers->setOrderingType( $this->object->getOrderingType() );
 			$answers->setValues( $this->object->getOrderingElementList()->getElements() );
-
-			if( $this->object->getOrderingType() == OQ_NESTED_PICTURES )
-			{
-				$answers->setImagePath( $this->object->getImagePath() );
-				$answers->setImagePathWeb( $this->object->getImagePathWeb() );
-				$answers->setThumbPrefix( $this->object->getThumbPrefix() );
-			}
 			
 			$form->addItem( $answers );
 		}
@@ -490,6 +488,23 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				break;
 		}
 	}
+	
+	protected function getOrderingElementListForSolutionOutput($forceCorrectSolution, $activeId, $passIndex)
+	{
+		if( $forceCorrectSolution || !$activeId || !$passIndex )
+		{
+			return $this->object->getOrderingElementList();
+		}
+		
+		$solutionValues = $this->object->getSolutionValues($activeId, $passIndex);
+		
+		if( !count($solutionValues) )
+		{
+			return $this->object->getShuffledOrderingElementList();
+		}
+		
+		return $this->object->getSolutionOrderingElementList($solutionValues);
+	}
 
 	/**
 	 * Get the question solution output
@@ -518,470 +533,110 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$show_question_text = TRUE
 	)
 	{
-		if($this->object->getOrderingType() == OQ_NESTED_TERMS
-			|| $this->object->getOrderingType() == OQ_NESTED_PICTURES)
+		$solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput();
+		
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
+		$answers_gui = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
+		$answers_gui->setInstanceId($this->object->getId());
+		$answers_gui->setOrderingType($this->object->getOrderingType());
+		$answers_gui->setElementImagePath($this->object->getImagePathWeb());
+		$answers_gui->setThumbPrefix($this->object->getThumbPrefix());
+		
+		$answers_gui->setInteractionEnabled(false);
+		
+		$answers_gui->setMultiValues(
+			$solutionOrderingList->getRandomIdentifierIndexedElements()
+		);
+		
+		$answers_gui->setCorrectnessTrueElementList(
+			$solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
+		);
+		
+		$solution_html = $answers_gui->getHTML();
+	
+		$template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$template->setVariable('SOLUTION_OUTPUT', $solution_html);
+		if ($show_question_text==true)
 		{
-
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-			$template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		
-			$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-
-			// get the solution of the user for the active pass or from the last pass if allowed
-			$solutions = array();
-
-			if (($active_id > 0) && (!$show_correct_solution))
-			{
-				$solutions = $this->object->getSolutionValues($active_id, $pass);
-				$user_order = array();
-				foreach ($solutions as $solution)
-				{
-					if(strchr( $solution['value2'],':') == true)
-					{
-						$solution['value2'] = explode(':', $solution['value2']);
-						
-						$selectedOrderPosition = $solution['value1'];
-						$randomIdentifier = $solution['value2'][0];
-						$indentation = $solution['value2'][1];
-						
-						$user_order[$selectedOrderPosition]['index'] =  $selectedOrderPosition;
-						$user_order[$selectedOrderPosition]['random_id'] = $randomIdentifier;
-						$user_order[$selectedOrderPosition]['depth'] = $indentation;
-						
-						// needed for graphical output
-						
-						$element = $this->object->getOrderingElementList()->getElementByRandomIdentifier(
-							$randomIdentifier
-						);
-						
-						$user_order[$selectedOrderPosition]['answertext'] =  $element->getContent();
-					}
-				}
-				if( count($user_order) )
-				{
-					foreach( $this->object->getOrderingElementList() as $i => $a)
-					{
-						$user_order[$i]['ok'] = false;
-						
-						if($a->getPosition() == $user_order[$i]['index'] && $a->getIndentation() == $user_order[$i]['depth'] && $a->getContent() == $user_order[$i]['answertext'])
-						{
-							$user_order[$i]['ok'] = true;
-						}
-					}
-
-					$solution_output = $user_order;
-				}
-				else
-				{
-					$expected_solution = array();
-					foreach( $this->object->getOrderingElementList() as $index => $answer )
-					{
-						$expected_solution[$index]['index'] = $index;
-						$expected_solution[$index]['random_id'] = $answer->getRandomIdentifier();
-						$expected_solution[$index]['depth'] = 0;
-						$expected_solution[$index]['answertext'] = $answer->getContent();
-					}
-					
-					require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-					$shuffler = new ilArrayElementShuffler();
-					$solution_output = $shuffler->shuffle($expected_solution);
-				}
-			}
-			else
-			{
-				foreach( $this->object->getOrderingElementList() as $index => $answer)
-				{
-					$expected_solution[$index]['index'] = $index;
-					$expected_solution[$index]['random_id'] = $answer->getRandomIdentifier();
-					$expected_solution[$index]['depth'] = $answer->getIndentation();
-					$expected_solution[$index]['answertext'] = $answer->getContent();
-				}
-				$solution_output = $expected_solution;
-			}
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		}
+		$questionoutput = $template->get();
 	
-			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
+		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
-			$answers_gui = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers", $graphicalOutput);
-			$answers_gui->setInstanceId($this->object->getId());
-		
-			$no_js_for_cmds = array('outParticipantsPassDetails', 'outCorrectSolution', 'showManScoringParticipantScreen');
-			
-			//PERFORM_JAVASCRIPT
-			if(in_array($this->ctrl->getCmd(), $no_js_for_cmds))
-			{
-				$answers_gui->setPerformJavascript(false);	
-			}
-			else
-			{
-				$answers_gui->setPerformJavascript(true);
-			}
-			
-			$answers_gui->setOrderingType($this->object->getOrderingType());
-
-			if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
-			{
-				$answers_gui->setImagePath($this->object->getImagePath());
-				$answers_gui->setImagePathWeb($this->object->getImagePathWeb());
-				$answers_gui->setThumbPrefix($this->object->getThumbPrefix());
-			}
-			
-			$solution_html = $answers_gui->getSolutionHTML($solution_output);
-
-			$template->setVariable('SOLUTION_OUTPUT', $solution_html);
-		
-			$questiontext = $this->object->getQuestion();
-			if ($show_question_text==true)
-			{
-				$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-			}
-			$questionoutput = $template->get();
-
+		if($show_feedback)
+		{
 			$feedback = '';
-			if($show_feedback)
+			
+			if( !$this->isTestPresentationContext() )
 			{
-				if( !$this->isTestPresentationContext() )
-				{
-					$fb = $this->getGenericFeedbackOutput($active_id, $pass);
-					$feedback .= strlen($fb) ? $fb : '';
-				}
-				
-				$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
-				$feedback .=  strlen($fb) ? $fb : '';
+				$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+				$feedback .= strlen($fb) ? $fb : '';
 			}
-			if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
-
-			$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
-
-			$solutionoutput = $solutiontemplate->get();
-			if (!$show_question_only)
+			
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+			
+			if (strlen($feedback))
 			{
-				// get page object output
-				$solutionoutput = $this->getILIASPage($solutionoutput);
-			}
-		}
-		else
-		{	
-			$keys = $this->object->getOrderingElementList()->getSolutionIdentifierIndex();
-	
-			// generate the question output
-			include_once "./Services/UICore/classes/class.ilTemplate.php";
-			$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-			$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-	
-			// get the solution of the user for the active pass or from the last pass if allowed
-			$solutions = array();
-			if (($active_id > 0) && (!$show_correct_solution))
-			{
-				$solutions = $this->object->getSolutionValues($active_id, $pass);
-				
-				if( !count($solutions) )
-				{
-					foreach ($this->object->getOrderingElementList() as $element)
-					{
-						$solutionPositionSolutionIdentifier = $element->getSolutionIdentifier();
-						$
-						
-						$solutions[] = array(
-							'value1' => $referenceSolutionIdentifier,
-							'value2' => $element->getSolutionIdentifier() + 1
-						);
-						array_push($solutions, );
-					}
-					
-					shuffle($keys);
-				}
-			}
-			else
-			{
-				foreach ( $this->object->orderElements as $index => $answer)
-				{
-					array_push($solutions, array("value1" => $index, "value2" => $index+1));
-				}
-			}
-			foreach ($keys as $idx)
-			{
-				if (!$show_correct_solution)
-				{
-					foreach($solutions as $index => $item)
-					{
-						if($item['value2'] == $idx+1)
-						{
-							$answer = $this->object->orderElements[$item['value1']];
-						}
-					}
-				}
-				else
-				{
-					$answer = $this->object->orderElements[$idx];
-				}
-				if (!$answer)
-				{
-					continue;
-				}
-				if (($active_id > 0) && (!$show_correct_solution))
-				{
-					if ($graphicalOutput)
-					{
-						$sol = array();
-						foreach ($solutions as $solution)
-						{
-							$sol[$solution["value1"]] = $solution["value2"];
-						}
-						asort($sol);
-						$sol = array_keys($sol);
-						$ans = array();
-						foreach ( $this->object->orderElements as $k => $a)
-						{
-							$ans[$k] = $k;
-						}
-						asort($ans);
-						$ans = array_keys($ans);
-						$ok = FALSE;
-						foreach ($ans as $arr_idx => $ans_idx)
-						{
-							if ($ans_idx == $idx)
-							{
-								if ($ans_idx == $sol[$arr_idx])
-								{
-									$ok = TRUE;
-								}
-							}
-						}
-						// output of ok/not ok icons for user entered solutions
-						if ($ok)
-						{
-							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-							$template->parseCurrentBlock();
-						}
-						else
-						{
-							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-							$template->parseCurrentBlock();
-						}
-					}
-				}
-				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$template->setCurrentBlock("ordering_row_standard_pictures");
-					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-					$template->setVariable("THUMB_HREF", $thumbweb);
-					list($width, $height, $type, $attr) = getimagesize($thumb);
-					$template->setVariable("ATTR", $attr);
-					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
-					$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("ordering_row_standard_text");
-					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					$template->parseCurrentBlock();
-				}
-				$template->setCurrentBlock("ordering_row_standard");
-				if ($result_output)
-				{
-					$answer = $this->object->orderElements[$idx];
-					$points = $answer->getPoints();
-					$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
-					$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
-				}
-				foreach ($solutions as $solution)
-				{
-					if (strcmp($solution["value1"], $idx) == 0)
-					{
-						$template->setVariable("ANSWER_ORDER", $solution["value2"]);
-					}
-				}
-				$template->parseCurrentBlock();
-			}
-			$questiontext = $this->object->getQuestion();
-			if ($show_question_text==true)
-			{
-				$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-			}
-			$questionoutput = $template->get();
-			$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-			if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
-			$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
-	
-			$solutionoutput = $solutiontemplate->get(); 
-			if (!$show_question_only)
-			{
-				// get page object output
-				$solutionoutput = $this->getILIASPage($solutionoutput);
+				$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
 			}
 		}
 
-		return $solutionoutput;
+		if( $show_question_only )
+		{
+			return $solutiontemplate->get();
+		}
+	
+		return $this->getILIASPage( $solutiontemplate->get() );
+		
+		// is this template still in use? it is not used at this point any longer!
+		// $template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+	}
+	
+	/**
+	 * @return ilAssOrderingElementList
+	 * @throws ilTestQuestionPoolException
+	 */
+	protected function getOrderingElementListForPreviewOutput()
+	{
+		if( !$this->getPreviewSession() || !$this->getPreviewSession()->hasParticipantSolution() )
+		{
+			return $this->object->getShuffledOrderingElementList();
+		}
+		
+		return $this->object->getSolutionOrderingElementList($this->getPreviewSession()->getParticipantSolution());
 	}
 	
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		global $tpl;
-
-		$this->object->setOutputType(OUTPUT_JAVASCRIPT);
-		$tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
-
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
+		$solutionOrderingElementList = $this->getOrderingElementListForPreviewOutput();
+		
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
+		$answers = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
+		$answers->setInteractionEnabled($this->isUserInputOutputMode());
+		$answers->setOrderingType($this->object->getOrderingType());
+		$answers->setElementImagePath($this->object->getImagePathWeb());
+		$answers->setThumbPrefix($this->object->getThumbPrefix());
+		$answers->setMultiValues($solutionOrderingElementList->getRandomIdentifierIndexedElements());
+		
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
-
-		if( is_object($this->getPreviewSession()) && count((array)$this->getPreviewSession()->getParticipantsSolution()) )
-		{
-			if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
-			{
-				$answerMap = $this->getRandomIdToAnswerMap();
-	
-				$answerArray = array();
-				$shuffleAnswers = false;
-				
-				foreach((array)$this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2)
-				{
-					list($randomId, $depth) = explode(':', $val2);
-	
-					$answ = new ASS_AnswerOrdering(
-						$answerMap[$randomId]->getAnswertext(), $randomId, $depth
-					);
-	
-					$answerArray[] = $answ;
-	
-					$jssolutions[$val2] = $val1;
-				}
-			}
-			else
-			{
-				foreach((array)$this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2)
-				{
-					$jssolutions[$val2] = $val1;
-				}
-			}
-		}
-		else
-		{
-			$answerArray = $this->object->orderElements;
-			$shuffleAnswers = true;
-		}
-		 
 		
-		global $ilUser;
+		$template->setCurrentBlock('nested_ordering_output');
+		$template->setVariable('NESTED_ORDERING', $answers->getHTML());
+		$template->parseCurrentBlock();
 		
-		// shuffle output
-		$keys = array_keys($this->object->orderElements);
-		if($shuffleAnswers)
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+		
+		if( $show_question_only )
 		{
-			$keys = $this->object->getShuffler()->shuffle($keys);
+			return $template->get();
 		}
-
-		if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
-		{
-			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
-			$answers = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
-			$answers->setOrderingType($this->object->getOrderingType());
-			$answers->setObjAnswersArray($answerArray, $shuffleAnswers);
-
-			if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
-			{
-				$answers->setImagePath($this->object->getImagePath());
-				$answers->setImagePathWeb($this->object->getImagePathWeb());
-				$answers->setThumbPrefix($this->object->getThumbPrefix());
-			}
-			
-			$template->setCurrentBlock('nested_ordering_output');
-			$template->setVariable('NESTED_ORDERING',$answers->getHtml());
-			$template->parseCurrentBlock();
-			$questiontext = $this->object->getQuestion();
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-			$questionoutput = $template->get();
-			if (!$show_question_only)
-			{
-				// get page object output
-				$questionoutput = $this->getILIASPage($questionoutput);
-			}
-			return $questionoutput;
-
-		}
-		else
-		{
-			$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
-
-			$template->setCurrentBlock('form_submit_register');
-			$template->touchBlock('form_submit_register');
-			$template->parseCurrentBlock();
-
-			if(count($jssolutions))
-			{
-				ksort($jssolutions);
-				$initial_order = array();
-				foreach($jssolutions as $key => $value)
-				{
-					if(is_object($this->object->getAnswer($value)))
-					{
-						$initial_order[] = 'id_' . $this->object->getAnswer($value)->getRandomID();
-					}
-				}
-
-				$template->setVariable('INITIAL_ORDER', json_encode($initial_order));
-			}
-			else
-			{
-				$template->setVariable('INITIAL_ORDER', json_encode(array()));
-			}
-
-			foreach ($keys as $idx)
-			{
-				$answer = $this->object->orderElements[$idx];
-				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$template->setCurrentBlock("ordering_row_javascript_pictures");
-					$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
-					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-					$template->setVariable("THUMB_HREF", $thumbweb);
-					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
-					$template->setVariable("THUMB_TITLE", $this->lng->txt("thumbnail"));
-					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.svg", FALSE));
-					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
-					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
-					$template->setVariable("ANSWER_ID", $answer->getRandomID());
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("ordering_row_javascript_text");
-					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					$template->setVariable("ANSWER_ID", $answer->getRandomID());
-					$template->parseCurrentBlock();
-				}
-			}
-			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_pictures"));
-			}
-			else
-			{
-				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_definitions"));
-			}
-
-			$questiontext = $this->object->getQuestion();
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-			$template->setVariable("QUESTION_ID", $this->object->getId());
-			$questionoutput = $template->get();
-			if (!$show_question_only)
-			{
-				// get page object output
-				$questionoutput = $this->getILIASPage($questionoutput);
-			}
-			return $questionoutput;
-		}
+		
+		return $this->getILIASPage($template->get());
+		
+		//$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
 	}
 
 	private function getRandomIdToAnswerMap()
@@ -1025,11 +680,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		|| $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 	
-			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
-			$answerGUI = new ilMultipleNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
+			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
+			$answerGUI = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
 			$answerGUI->setInstanceId('participant');
 			$answerGUI->setOrderingType($this->object->getOrderingType());
+			$answerGUI->setElementImagePath($this->object->getImagePathWeb());
+			$answerGUI->setThumbPrefix($this->object->getThumbPrefix());
 
 			$answerMap = $this->getRandomIdToAnswerMap();
 
@@ -1087,13 +743,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 
 			$answerGUI->setObjAnswersArray($answerArray, $shuffleAnswers);
-
-			if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
-			{
-				$answerGUI->setImagePath($this->object->getImagePath());
-				$answerGUI->setImagePathWeb($this->object->getImagePathWeb());
-				$answerGUI->setThumbPrefix($this->object->getThumbPrefix());
-			}
 
 			$template->setCurrentBlock('nested_ordering_output');
 			$template->setVariable('NESTED_ORDERING',$answerGUI->getHtml($shuffleAnswers));

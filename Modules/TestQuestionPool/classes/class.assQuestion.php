@@ -1515,11 +1515,13 @@ abstract class assQuestion
 	}
 
 	/**
-	* Returns the web image path for web accessable images of a question.
-	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
-	*
-	* @access public
-	*/
+	 * Returns the web image path for web accessable images of a question.
+	 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
+	 *
+	 * @access public
+	 * 
+	 * TODO: in use? refactor and ask for a supported path in all cases, not for THE dynamic highlander path ^^
+	 */
 	function getImagePathWeb()
 	{
 		if(!$this->export_image_path)

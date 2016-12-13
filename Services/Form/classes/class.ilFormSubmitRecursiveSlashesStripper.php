@@ -26,46 +26,19 @@ class ilFormSubmitRecursiveSlashesStripper implements ilFormValuesManipulator
 	 * @throws ilFormException
 	 */
 	public function manipulateFormSubmitValues($submitValues)
-	{
-		$this->checkForNonObjectsOnly($submitValues);
-		return ilUtil::stripSlashesRecursive($submitValues);
-	}
-	
-	/**
-	 * @param $submitValues
-	 * @throws ilFormException
-	 */
-	protected function checkForNonObjectsOnly($submitValues)
-	{
-		if( !$this->hasNonObjectsOnlyRecursive($submitValues) )
+	{		
+		foreach($submitValues as $identifier => $value)
 		{
-			require_once 'Services/Form/exceptions/class.ilFormException.php';
-			throw new ilFormException(__METHOD__.' -> objects not supported');
-		}
-	}
-	
-	/**
-	 * @param $mixed
-	 * @return bool
-	 */
-	protected function hasNonObjectsOnlyRecursive($mixed)
-	{
-		if( is_object($mixed) )
-		{
-			return false;
-		}
-		
-		if( is_array($mixed) )
-		{
-			foreach($mixed as $mixing => $mixer)
+			if( is_object($value) )
 			{
-				if( !$this->hasNonObjectsOnlyRecursive($mixer) )
-				{
-					return false;
-				}
+				// post submit does not support objects, so when
+				// object building happened, sanitizing did also
+				continue;
 			}
+			
+			$submitValues[$identifier] = ilUtil::stripSlashesRecursive($value);
 		}
 		
-		return true;
+		return $submitValues;
 	}
 }

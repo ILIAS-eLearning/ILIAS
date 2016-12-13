@@ -52,10 +52,10 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		$this->multi_values = $this->prepareMultiValuesInput($values);
 	}
 	
-	protected function buildMultiValueFieldId($positionIndex, $subFieldIndex = '')
+	protected function buildMultiValueFieldId($identifier, $positionIndex = null, $subFieldIndex = '')
 	{
 		$basicPostVar = $this->getPostVar();
-		$this->setPostVar($this->buildMultiValuePostVar($positionIndex, $subFieldIndex));
+		$this->setPostVar($this->buildMultiValuePostVar($identifier, $positionIndex, $subFieldIndex));
 		
 		// uses getPostVar() internally, our postvar does not have the counter included
 		$multiValueFieldId = $this->getFieldId();
@@ -65,29 +65,32 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		return $multiValueFieldId;
 	}
 	
-	protected function buildMultiValuePostVar($positionIndex, $subFieldIndex = '')
+	protected function buildMultiValuePostVar($identifier, $positionIndex = null, $subFieldIndex = null)
 	{
 		$elemPostVar = $this->getPostVar();
 		
-		if( strlen($subFieldIndex) )
+		if( $subFieldIndex !== null )
 		{
 			$elemPostVar .= "[$subFieldIndex]";
 		}
 		
-		$elemPostVar .= "[{$this->getMultiValueKeyByPosition($positionIndex)}][$positionIndex]";
+		$elemPostVar .= "[$identifier]";
+		
+		if( $positionIndex !== null )
+		{
+			$elemPostVar .= "[$positionIndex]";
+		}
 		
 		return $elemPostVar;
 	}
 	
-	protected function buildMultiValueSubmitVar($positionIndex, $submitCommand)
+	protected function buildMultiValueSubmitVar($identifier, $positionIndex, $submitCommand)
 	{
 		$elemSubmitVar = "cmd[{$submitCommand}{$this->getFieldId()}]";
-		$elemSubmitVar .= "[{$this->getMultiValueKeyByPosition($positionIndex)}][{$positionIndex}]";
+		$elemSubmitVar .= "[$identifier][$positionIndex]";
 		
 		return $elemSubmitVar;
 	}
-	
-	abstract protected function getMultiValueKeyByPosition($positionIndex);
 	
 	final public function setValueByArray($a_values)
 	{

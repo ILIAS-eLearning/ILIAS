@@ -396,41 +396,100 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
-	 * @param $position
-	 *
-	 * TODO: rescue the intention out of this code
+	 * @param string $value1
+	 * @param string $value2
+	 * @return ilAssOrderingElement
 	 */
-	public function moveAnswerUp($position)
+	protected function getSolutionValuePairBrandedOrderingElementByRandomIdentifier($value1, $value2)
 	{
-		if( !$this->getOrderingElementList()->elementExistByPosition($position) )
-		{
-			return false;
-		}
+		$value2 = explode(':', $value2);
 		
-		if( $this->getOrderingElementList()->isFirstElementPosition($position) )
-		{
-			return false;
-		}
+		$randomIdentifier = $value2[0];
+		$selectedPosition = $value1;
+		$selectedIndentation = $value2[1];
 		
-		$this->getOrderingElementList()->movePosition($position, $position - 1);
+		$element = $this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier);
+		
+		$element->setPosition($selectedPosition);
+		$element->setIndentation($selectedIndentation);
+		
+		return $element;
 	}
 	
 	/**
-	 * @param $position
+	 * @param string $value1
+	 * @param string $value2
+	 * @return ilAssOrderingElement
 	 */
-	public function moveAnswerDown($position)
+	protected function getSolutionValuePairBrandedOrderingElementBySolutionIdentifier($value1, $value2)
 	{
-		if( !$this->getOrderingElementList()->elementExistByPosition($position) )
+		$solutionIdentifier = $value1;
+		$selectedPosition = ($value2 - 1);
+		$selectedIndentation = 0;
+		
+		$element = $this->getOrderingElementList()->getElementBySolutionIdentifier($solutionIdentifier);
+		
+		$element->setPosition($selectedPosition);
+		$element->setIndentation($selectedIndentation);
+		
+		return $element;
+	}
+	
+	/**
+	 * @param array $valuePairs
+	 * @return ilAssOrderingElementList
+	 * @throws ilTestQuestionPoolException
+	 */
+	public function getSolutionOrderingElementList($valuePairs)
+	{		
+		$solutionOrderingList = new ilAssOrderingElementList();
+		$solutionOrderingList->setQuestionId($this->getId());
+		
+		foreach($valuePairs as $pair)
 		{
-			return false;
+			if( $this->isOrderingTypeNested() )
+			{
+				$element = $this->getSolutionValuePairBrandedOrderingElementByRandomIdentifier(
+					$pair['value1'], $pair['value2']
+				);
+			}
+			else
+			{
+				$element = $this->getSolutionValuePairBrandedOrderingElementBySolutionIdentifier(
+					$pair['value1'], $pair['value2']
+				);
+			}
+			
+			$solutionOrderingList->addElement($element);
 		}
 		
-		if( $this->getOrderingElementList()->isLastElementPosition($position) )
+		if( !$this->getOrderingElementList()->hasSameElementSet($solutionOrderingList) )
 		{
-			return false;
+			throw new ilTestQuestionPoolException('inconsistent solution values found in database');
 		}
 		
-		$this->getOrderingElementList()->movePosition($position, $position + 1);
+		return $solutionOrderingList;
+	}
+	
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return ilAssOrderingElementList
+	 */
+	public function getShuffledOrderingElementList()
+	{
+		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$shuffler = new ilArrayElementShuffler();
+		
+		$shuffledRandomIdentifiers = $shuffler->shuffle(
+			$this->getOrderingElementList()->getRandomIdentifierIndex()
+		);
+		
+		$shuffledElementList = $this->getOrderingElementList()->deriveElementListReorderedByRandomIdentifiers(
+			$shuffledRandomIdentifiers
+		);
+		
+		return $shuffledElementList;
 	}
 	
 	/**
@@ -447,6 +506,46 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function setOrderingElementList($orderingElementList)
 	{
 		$this->orderingElementList = $orderingElementList;
+	}
+	
+	/**
+	 * @param $position
+	 *
+	 * TODO: still in use? should not since element moving is js supported!?
+	 */
+	public function moveAnswerUp($position)
+	{
+		if( !$this->getOrderingElementList()->elementExistByPosition($position) )
+		{
+			return false;
+		}
+		
+		if( $this->getOrderingElementList()->isFirstElementPosition($position) )
+		{
+			return false;
+		}
+		
+		$this->getOrderingElementList()->moveElementByPositions($position, $position - 1);
+	}
+	
+	/**
+	 * @param $position
+	 *
+	 * TODO: still in use? should not since element moving is js supported!?
+	 */
+	public function moveAnswerDown($position)
+	{
+		if( !$this->getOrderingElementList()->elementExistByPosition($position) )
+		{
+			return false;
+		}
+		
+		if( $this->getOrderingElementList()->isLastElementPosition($position) )
+		{
+			return false;
+		}
+		
+		$this->getOrderingElementList()->moveElementByPositions($position, $position + 1);
 	}
 
 	/**

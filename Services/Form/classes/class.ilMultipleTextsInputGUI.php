@@ -98,7 +98,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	{
 		$tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
 		$i = 0;
-		foreach ($this->getMultiValues() as $value)
+		foreach ($this->getMultiValues() as $identifier => $value)
 		{
 			if (strlen($value))
 			{
@@ -109,17 +109,17 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			if ($this->getAllowMove())
 			{
 				$tpl->setCurrentBlock("move");
-				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($i, 'up'));
-				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($i, 'down'));
-				$tpl->setVariable("ID", $this->buildMultiValueFieldId($i));
+				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
+				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
+				$tpl->setVariable("ID", $this->buildMultiValueFieldId($identifier, $i));
 				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
 				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("POST_VAR", $this->buildMultiValuePostVar($i));
-			$tpl->setVariable("ID", $this->buildMultiValueFieldId($i));
+			$tpl->setVariable("POST_VAR", $this->buildMultiValuePostVar($identifier, $i));
+			$tpl->setVariable("ID", $this->buildMultiValueFieldId($identifier, $i));
 			$tpl->setVariable("SIZE", $this->getSize());
 			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 			
@@ -130,8 +130,8 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			}
 			else
 			{
-				$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($i, 'add'));
-				$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($i, 'remove'));
+				$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
+				$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
 				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
 				$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
@@ -151,11 +151,5 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 		}
 		
 		return $tpl->get();
-	}
-	
-	protected function getMultiValueKeyByPosition($positionIndex)
-	{
-		$keys = array_keys($this->getMultiValues());
-		return $keys[$positionIndex];
 	}
 }
