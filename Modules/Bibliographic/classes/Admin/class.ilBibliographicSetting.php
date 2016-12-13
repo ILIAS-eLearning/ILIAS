@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-if (class_exists('ActiveRecord') != true) {
-	require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-}
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class ilBibliographicSetting
@@ -101,27 +99,38 @@ class ilBibliographicSetting extends ActiveRecord {
 			case 'bib':
 				$prefix = "bib_default_";
 				if (!empty($attributes[$prefix . "isbn"])) {
-					$attr = Array( "isbn" );
+					$attr = array( "isbn" );
+				} elseif (!empty($attributes[$prefix . "pmid"])) {
+					$attr = array( "pmid" );
+				} elseif (!empty($attributes[$prefix . "doi"])) {
+					$attr = array( "doi" );
 				} elseif (!empty($attributes[$prefix . "issn"])) {
-					$attr = Array( "issn" );
+					$attr = array( "issn" );
 				} else {
-					$attr = Array( "title", "author", "year", "number", "volume" );
+					$attr = array( "title", "author", "year", "number", "volume" );
 				}
 				break;
 			case 'ris':
 				$prefix = "ris_" . strtolower($entry->getType()) . "_";
 				if (!empty($attributes[$prefix . "sn"])) {
-					$attr = Array( "sn" );
+					$attr = array( "sn" );
+				} elseif (!empty($attributes[$prefix . "do"])) {
+					$attr = array( "do" );
 				} else {
-					$attr = Array( "ti", "t1", "au", "py", "is", "vl" );
+					$attr = array( "ti", "t1", "au", "py", "is", "vl" );
 				}
 				break;
 		}
 
 		$url_params = "?";
 		if (sizeof($attr) == 1) {
-			$url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $attr[0]]);
-		} else {
+			if (($attr[0] == "doi") || ($attr[0] == "pmid")) {
+				$url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "%3A" . $attributes[$prefix . $attr[0]];
+			} elseif ($attr[0] == "do") {
+				$url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "i%3A" . $attributes[$prefix . $attr[0]];
+			}  else {
+				$url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $attr[0]]);
+			}} else {
 			foreach ($attr as $a) {
 				if (array_key_exists($prefix . $a, $attributes)) {
 					if (strlen($url_params) > 1) {
@@ -147,15 +156,15 @@ class ilBibliographicSetting extends ActiveRecord {
 	 */
 	public function getButton(ilObjBibliographic $bibl_obj, ilBibliographicEntry $entry) {
 		if ($this->getImg()) {
-            require_once('./Services/UIComponent/Button/classes/class.ilImageLinkButton.php');
-            $button = ilImageLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
-            $button->setImage($this->getImg(), false);
-            $button->setTarget('_blank');
-            return $button->render();
+			require_once('./Services/UIComponent/Button/classes/class.ilImageLinkButton.php');
+			$button = ilImageLinkButton::getInstance();
+			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
+			$button->setImage($this->getImg(), false);
+			$button->setTarget('_blank');
+			return $button->render();
 		} else {
-            require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-            $button = ilLinkButton::getInstance();
+			require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
+			$button = ilLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
 			$button->setTarget('_blank');
 			$button->setCaption('bibl_link_online');
@@ -168,7 +177,7 @@ class ilBibliographicSetting extends ActiveRecord {
 	/**
 	 * @param String $a
 	 * @param String $type
-	 * @param Array  $attributes
+	 * @param array  $attributes
 	 * @param String $prefix
 	 *
 	 * @return String
@@ -204,10 +213,10 @@ class ilBibliographicSetting extends ActiveRecord {
 			}
 		} elseif ($type = 'bib') {
 			switch ($a) {
-				case "number":
+				case 'number':
 					$a = "issue";
 					break;
-				case "year":
+				case 'year':
 					$a = "date";
 					break;
 			}
@@ -296,5 +305,3 @@ class ilBibliographicSetting extends ActiveRecord {
 		$this->url = $url;
 	}
 }
-
-?>
