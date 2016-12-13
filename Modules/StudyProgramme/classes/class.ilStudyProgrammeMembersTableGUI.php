@@ -121,7 +121,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , prgrs.status"
 				   ."     , blngs.title belongs_to"
 				   ."     , cmpl_usr.login accredited_by"
-				   ."     , cmpl_obj.title completion_by"
+				   ."     , IF(cmpl_obj.type = 'crsr', parent_crs.title, cmpl_obj.title) completion_by"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , ass.root_prg_id root_prg_id"
 				   // for sorting
@@ -191,7 +191,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 						 ." ON ass.id = prgrs.assignment_id"
 				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
 				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by";
+				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
+				."  LEFT JOIN container_reference con_ref ON con_ref.obj_id = prgrs.completion_by"
+				."  LEFT JOIN object_data parent_crs ON parent_crs.obj_id = con_ref.target_obj_id";
 	}
 
 	protected function getWhere($a_prg_id) {
