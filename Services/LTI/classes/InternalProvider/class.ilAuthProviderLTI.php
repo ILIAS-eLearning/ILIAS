@@ -59,15 +59,28 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		// $lti_provider = new ToolProvider\ToolProvider($this->dataConnector);
 		$ok = $lti_provider->handleRequest();
 		if ($ok && $lti_provider->reason != ""){
+			$this->getLogger()->info('LTI reports: '. $lti_provider->reason);
 			$status->setReason($lti_provider->reason);
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+			return false;
 		}
 		// if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
 
+		/**
+		 * @var ilLTIToolConsumer
+		 */
 		$consumer = ilLTIToolConsumer::fromRecordId(
 			$consumer->getRecordId(),
 			$this->dataConnector
 		);
+		
+		if(!$consumer->enabled)
+		{
+			$this->getLogger()->info('Consumer is not enabled');
+			$status->setReason('lti_consumer_inactive');
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+			return false;
+		}
 		
 
 		$lti_id = $consumer->getRecordId();

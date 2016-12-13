@@ -25,3 +25,4 @@ lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider.
 lti#:#lti_admin#:#Administrator
 lti#:#lti_tutor#:#Tutor
 lti#:#lti_member#:#Member
+auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
