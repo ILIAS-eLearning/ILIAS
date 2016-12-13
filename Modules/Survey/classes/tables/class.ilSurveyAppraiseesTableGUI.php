@@ -130,7 +130,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 
 			if($data['closed'])
 			{
-				$this->tpl->setVariable('DISABLED', "disabled");
+				$this->tpl->setVariable('DISABLED', "style='display:none' disabled");
 				$this->tpl->setVariable("CLOSED",ilDatePresentation::formatDate(new ilDateTime($data['closed'], IL_CAL_UNIX)));
 			}
 			else
