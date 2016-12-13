@@ -980,7 +980,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-					ilObjectServiceSettingsGUI::BADGES
+					ilObjectServiceSettingsGUI::BADGES,
+					ilObjectServiceSettingsGUI::LTI_RELEASE
 				)
 			);
 			
@@ -1410,7 +1411,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-					ilObjectServiceSettingsGUI::BADGES
+					ilObjectServiceSettingsGUI::BADGES,
 				)
 			);
 
@@ -1460,6 +1461,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);		
 		$ecs->addSettingsToForm($form, 'crs');
+		
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm(
+				$this->object->getId(),
+				$form,
+				array(
+					ilObjectServiceSettingsGUI::LTI_RELEASE
+				)
+			);
+		
 
 		return $form;
 	}

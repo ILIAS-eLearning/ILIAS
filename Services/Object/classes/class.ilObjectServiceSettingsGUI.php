@@ -27,6 +27,7 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
+	const LTI_RELEASE = 'obj_lti_settings';
 	
 	private $gui = null;
 	private $modes = array();
@@ -231,7 +232,49 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($bdg);		
 			}
-		}		
+		}
+		if(in_array(self::LTI_RELEASE, $services))
+		{
+			include_once './Services/LTI/classes/class.ilObjLTIAdministration.php';
+			if(ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($a_obj_id)))
+			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('lti');
+				
+				foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($a_obj_id)) as $consumer)
+				{
+					$section = new ilFormSectionHeaderGUI();
+					$section->setTitle($consumer->getTitle());
+					$section->setInfo($consumer->getDescription());
+					$form->addItem($section);
+					
+					include_once './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php';
+					$consumer_settings = new illTIProviderObjectSetting($a_obj_id, $consumer->getId());
+					
+					$active = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_obj_active'), 'lti_active_'.$consumer->getId());
+					$active->setInfo($GLOBALS['lng']->txt('lti_obj_active_info'));
+					$active->setValue(1);
+					$active->setChecked($consumer_settings->isEnabled());
+					$form->addItem($active);
+					
+					$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_admin'),'lti_admin_'.$consumer->getId());
+					$admin->setValue(1);
+					$admin->setChecked($consumer_settings->isAdminAssignmentEnabled());
+					$active->addSubItem($admin);
+					
+					$tutor = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_tutor'),'lti_tutor_'.$consumer->getId());
+					$tutor->setValue(1);
+					$tutor->setChecked($consumer_settings->isTutorAssignmentEnabled());
+					$active->addSubItem($tutor);
+					
+					$member = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_member'),'lti_member_'.$consumer->getId());
+					$member->setValue(1);
+					$member->setChecked($consumer_settings->isMemberAssignmentEnabled());
+					$active->addSubItem($member);
+				}
+			}
+		}
+		
+		
 		
 		return $form;
 	}
@@ -318,6 +361,28 @@ class ilObjectServiceSettingsGUI
 			{
 				include_once './Services/Container/classes/class.ilContainer.php';
 				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
+			}
+		}
+		// lti
+		if(in_array(self::LTI_RELEASE, $services))
+		{
+			ilLoggerFactory::getLogger('lti')->dump($_POST);
+			
+			include_once './Services/LTI/classes/class.ilObjLTIAdministration.php';
+			if(ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($a_obj_id)))
+			{
+				foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($a_obj_id)) as $consumer)
+				{
+					ilLoggerFactory::getLogger('lti')->debug($form->getInput('lti_active['.$consumer->getId().']'));
+					
+					include_once './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php';
+					$consumer_settings = new illTIProviderObjectSetting($a_obj_id, $consumer->getId());
+					$consumer_settings->setEnabled($form->getInput('lti_active_'.$consumer->getId()));
+					$consumer_settings->enableAdminAssignment($form->getInput('lti_admin_'.$consumer->getId()));
+					$consumer_settings->enableTutorAssignment($form->getInput('lti_tutor_'.$consumer->getId()));
+					$consumer_settings->enableMemberAssignment($form->getInput('lti_member_'.$consumer->getId()));
+					$consumer_settings->save();
+				}
 			}
 		}
 		

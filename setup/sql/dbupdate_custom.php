@@ -453,3 +453,45 @@ if($ilDB->tableColumnExists('lti_ext_consumer', 'active'))
 	$ilDB->dropTableColumn('lti_ext_consumer', 'active');
 }
 ?>
+
+<#12>
+<?php
+if (!$ilDB->tableExists('lti_int_provider_obj'))
+{
+	$ilDB->createTable('lti_int_provider_obj', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'consumer_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		
+		'enabled' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+		'admin' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+		'tutor' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+		'member' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('lti_int_provider_obj',array('obj_id','consumer_id'));
+}
+?>
+

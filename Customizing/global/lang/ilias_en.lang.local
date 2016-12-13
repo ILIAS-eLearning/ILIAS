@@ -1,3 +1,4 @@
+<!-- language file start -->
 lti#:#obj_ltis#:#LTI
 lti#:#obj_ltis_desc#:#Learning Tools Interoperability
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
@@ -19,3 +20,8 @@ lti#:#lm_only_one_download_per_type#:#Please note that you can only make one fil
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
 lti#:#auth_lti#:#LTI Auth
 lti#:#lti_edit_consumer#:#Edit LTI Consumer
+lti#:#lti_obj_active#:#LTI-Tool Provider
+lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles. If you choose none of them new users have to register to the course.
+lti#:#lti_admin#:#Administrator
+lti#:#lti_tutor#:#Tutor
+lti#:#lti_member#:#Member
