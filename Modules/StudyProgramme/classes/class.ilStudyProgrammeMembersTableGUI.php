@@ -147,7 +147,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , prgrs.status"
 				   ."     , blngs.title belongs_to"
 				   ."     , cmpl_usr.login accredited_by"
-				   ."     , IF(cmpl_obj.type = 'crsr', parent_crs.title, cmpl_obj.title) completion_by"
+				   ."     , cmpl_obj.title completion_by"
+				   ."     , cmpl_obj.type completion_by_type"
+				   ."     , parent_crs.title completion_by_crs"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , ass.root_prg_id root_prg_id"
 				   ."     , ass.last_change assign_date"
@@ -180,6 +182,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$rec['points_current'] = number_format($rec['points_current']);
 			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+				//If the status completet is set by crs reference
+				//use crs title
+				if($rec["completion_by_type"] == "crsr") {
+					$rec["completion_by"] = $rec["completion_by_crs"];
+				}
+
 				// If the status completed and there is a non-null completion_by field
 				// in the set, this means the completion was achieved by some leaf in
 				// the program tree.
