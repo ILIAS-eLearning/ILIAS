@@ -30,6 +30,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$this->type = "ltis";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->dataConnector = new ilLTIDataConnector();
+		
+		$GLOBALS['DIC']->language()->loadLanguageModule('lti');
 	}
 
 	public function executeCommand()

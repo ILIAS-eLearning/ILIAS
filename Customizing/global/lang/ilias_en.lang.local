@@ -1,6 +1,6 @@
 <!-- language file start -->
-lti#:#obj_ltis#:#LTI
-lti#:#obj_ltis_desc#:#Learning Tools Interoperability
+common#:#obj_ltis#:#LTI
+common#:#obj_ltis_desc#:#Learning Tools Interoperability
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
 lti#:#consumers#:#Consumers

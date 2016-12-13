@@ -92,6 +92,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$internal_account = $this->createUser($lti_id,$consumer->getPrefix());
 		}
 		
+		$this->handleLocalRoleAssignments($internal_account, $consumer);
+		
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		$status->setAuthenticatedUserId($internal_account);
 		
@@ -260,7 +262,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		{
 			$rbacadmin->assignUser($global_role, $userObj->getId(), true);
 		}
-
+		
 		$this->getLogger()->info('Created new lti user with uid: ' . $userObj->getId(). ' and login: ' . $userObj->getLogin());
 		return $userObj->getId();
 	}
@@ -290,9 +292,89 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$user_obj->update();
 		$user_obj->refreshLogin();
 		
-
+		
 		$this->getLogger()->info('Update of lti user with uid: ' . $user_obj->getId(). ' and login: ' . $user_obj->getLogin());
 		return $user_obj->getId();
+	}
+	
+	protected function handleLocalRoleAssignments($user_id, ilLTIToolConsumer $consumer)
+	{
+		$target_ref_id = $_SESSION['lti_context_id'];
+		if(!$target_ref_id)
+		{
+			$this->getLogger()->debug('No target id given');
+			return false;
+		}
+		$target_obj_id = ilObject::_lookupObjId($target_ref_id);
+		
+		include_once './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php';
+		$obj_settings = new illTIProviderObjectSetting($target_obj_id, $consumer->getId());
+		
+		// @todo read from lti data
+		$roles = $_POST['roles'];
+		if(!strlen($roles))
+		{
+			$this->getLogger()->debug('No role information given');
+			return false;
+		}
+		$role_arr = explode(',', $roles);
+		
+		foreach($role_arr as $role_name)
+		{
+			$role_name = trim($role_name);
+			switch($role_name)
+			{
+				
+				case 'Administrator':
+					
+					$this->getLogger()->debug('Administrator role handling');
+					if($obj_settings->isAdminAssignmentEnabled())
+					{
+						include_once './Services/Object/classes/class.ilObjectFactory.php';
+						$factory = new ilObjectFactory();
+						$course = $factory->getInstanceByRefId($target_ref_id,false);
+						if($course instanceof ilObjCourse)
+						{
+							$role = $course->getDefaultAdminRole();
+							$GLOBALS['rbacadmin']->assignUser($role, $user_id);
+						}
+						
+					}
+					break;
+
+				case 'Instructor':
+					
+					$this->getLogger()->debug('Instructor role handling');
+					if($obj_settings->isTutorAssignmentEnabled())
+					{
+						include_once './Services/Object/classes/class.ilObjectFactory.php';
+						$factory = new ilObjectFactory();
+						$course = $factory->getInstanceByRefId($target_ref_id,false);
+						if($course instanceof ilObjCourse)
+						{
+							$role = $course->getDefaultTutorRole();
+							$GLOBALS['rbacadmin']->assignUser($role, $user_id);
+						}
+					}
+					break;
+
+				case 'Member':
+					
+					$this->getLogger()->debug('Member role handling');
+					if($obj_settings->isMemberAssignmentEnabled())
+					{
+						include_once './Services/Object/classes/class.ilObjectFactory.php';
+						$factory = new ilObjectFactory();
+						$course = $factory->getInstanceByRefId($target_ref_id,false);
+						if($course instanceof ilObjCourse)
+						{
+							$role = $course->getDefaultMemberRole();
+							$GLOBALS['rbacadmin']->assignUser($role, $user_id);
+						}
+					}
+					break;
+			}
+		}
 	}
 	
 	/**
