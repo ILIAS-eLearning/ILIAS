@@ -14,4 +14,11 @@ interface Split extends \ILIAS\UI\Component\Component {
 	 * @return 	bool
 	 */
 	public function isActive();
+	
+	/**
+	 * Get the Label that is shown as visible as default on the button on the left.
+	 *
+	 * @return string Label shown as default
+	 */
+	public function getDefault();
 }
