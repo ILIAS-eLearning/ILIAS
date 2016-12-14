@@ -39,7 +39,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function viewObject()
 	{
-		global $rbacsystem, $ilSetting, $tpl, $ilToolbar, $lng;
+		global $rbacsystem, $ilSetting, $tpl, $ilToolbar, $lng, $ilClientIniFile;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -65,6 +65,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			{
 				$ilToolbar->addButton($lng->txt('lng_disable_language_detection'),	$this->ctrl->getLinkTarget($this, 'disableLanguageDetection'));
 			}
+		}
+
+		if($ilClientIniFile->variableExists('system', 'LANGUAGE_LOG'))
+		{
+			$ilToolbar->addButton($lng->txt('lng_download_deprecated'),	$this->ctrl->getLinkTarget($this, 'downloadDeprecated'));
 		}
 
 		include_once("./Services/Language/classes/class.ilLanguageTableGUI.php");
@@ -669,5 +674,17 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->viewObject();
 	}
+
+	/**
+	 * Download deprecated lang entries
+	 */
+	function downloadDeprecatedObject()
+	{
+		global $lng;
+
+		$lng->sendDeprecated();
+	}
+
+
 } // END class.ilObjLanguageFolderGUI
 ?>

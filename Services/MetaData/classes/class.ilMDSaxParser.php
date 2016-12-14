@@ -57,6 +57,10 @@ class ilMDSaxParser extends ilSaxParser
 	 */
 	var $md_gen;
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $meta_log;
 
 	/**
 	* Constructor
@@ -66,6 +70,8 @@ class ilMDSaxParser extends ilSaxParser
 	function __construct($a_xml_file = '')
 	{
 		global $lng, $tree;
+
+		$this->meta_log = ilLoggerFactory::getLogger("meta");
 
 
 		// Enable parsing. E.g qpl' s will set this value to false
@@ -458,6 +464,7 @@ class ilMDSaxParser extends ilSaxParser
 			case 'Keyword':
 				$par =& $this->__getParent();
 				$par->setKeyword($this->__getCharacterData());
+				$this->meta_log->debug("Keyword: ".$this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;

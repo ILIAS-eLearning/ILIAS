@@ -44,11 +44,14 @@ class ilObjFileBasedLM extends ilObject
 	* @access	public
 	* @return	boolean
 	*/
-	function update()
+	function update($a_skip_meta = false)
 	{
 		global $ilDB;
-		
-		$this->updateMetaData();
+
+		if (!$a_skip_meta)
+		{
+			$this->updateMetaData();
+		}
 		parent::update();
 
 		$ilDB->manipulate($q = "UPDATE file_based_lm SET ".
@@ -79,7 +82,7 @@ class ilObjFileBasedLM extends ilObject
 	/**
 	* create file based lm
 	*/
-	function create()
+	function create($a_skip_meta = false)
 	{
 		global $ilDB;
 
@@ -90,8 +93,10 @@ class ilObjFileBasedLM extends ilObject
 			" (".$ilDB->quote($this->getID(), "integer").",".
 			$ilDB->quote("n", "text").",".
 			$ilDB->quote($this->getStartfile(), "text").")");
-
-		$this->createMetaData();
+		if (!$a_skip_meta)
+		{
+			$this->createMetaData();
+		}
 	}
 
 	function getDataDirectory($mode = "filesystem")
