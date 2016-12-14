@@ -122,6 +122,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , blngs.title belongs_to"
 				   ."     , cmpl_usr.login accredited_by"
 				   ."     , cmpl_obj.title completion_by"
+				   ."     , cmpl_obj.type completion_by_type"
+				   ."     , parent_crs.title completion_by_crs"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , ass.root_prg_id root_prg_id"
 				   // for sorting
@@ -152,6 +154,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$rec['points_current'] = number_format($rec['points_current']);
 			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+				//If the status completet is set by crs reference
+				//use crs title
+				if($rec["completion_by_type"] == "crsr") {
+					$rec["completion_by"] = $rec["completion_by_crs"];
+				}
+
 				// If the status completed and there is a non-null completion_by field
 				// in the set, this means the completion was achieved by some leaf in
 				// the program tree.
@@ -191,7 +199,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 						 ." ON ass.id = prgrs.assignment_id"
 				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
 				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by";
+				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
+				."  LEFT JOIN container_reference con_ref ON con_ref.obj_id = prgrs.completion_by"
+				."  LEFT JOIN object_data parent_crs ON parent_crs.obj_id = con_ref.target_obj_id";
 	}
 
 	protected function getWhere($a_prg_id) {
