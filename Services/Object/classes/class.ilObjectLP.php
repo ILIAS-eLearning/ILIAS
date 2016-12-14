@@ -115,9 +115,9 @@ class ilObjectLP
 					include_once "Modules/StudyProgramme/classes/class.ilStudyProgrammeLP.php";
 					return "ilStudyProgrammeLP";
 
-				case "mass":
-					include_once "Modules/ManualAssessment/classes/class.ilManualAssessmentLP.php";
-					return "ilManualAssessmentLP";	
+				case "iass":
+					include_once "Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php";
+					return "ilIndividualAssessmentLP";	
 
 				// plugin
 				case $objDefinition->isPluginTypeName($a_type):
@@ -131,7 +131,7 @@ class ilObjectLP
 	{
 		global $objDefinition;
 		
-		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg", "mass");
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg", "iass");
 		
 		if(in_array($a_type, $valid))
 		{

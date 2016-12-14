@@ -17955,3 +17955,50 @@ if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#5061>
+<?php
+	//rename tables
+	if($ilDB->tableExists('mass_info_settings') && !$ilDB->tableExists('iass_info_settings')) {
+		$ilDB->renameTable('mass_info_settings', 'iass_info_settings');
+	}
+
+	if($ilDB->tableExists('mass_settings') && !$ilDB->tableExists('iass_settings')) {
+		$ilDB->renameTable('mass_settings', 'iass_settings');
+	}
+
+	if($ilDB->tableExists('mass_members') && !$ilDB->tableExists('iass_members')) {
+		$ilDB->renameTable('mass_members', 'iass_members');
+	}
+
+	//change obj type
+	$ilDB->manipulate('UPDATE object_data SET type = '.$ilDB->quote('iass','text')
+						.'	WHERE type = '.$ilDB->quote('mass','text'));
+
+	//change name of role template for iass member
+	$ilDB->manipulate('UPDATE object_data SET title = '.$ilDB->quote('il_iass_member','text')
+						.'	WHERE type = '.$ilDB->quote('rolt','text')
+						.'		AND title ='.$ilDB->quote('il_mass_member','text'));
+
+	//change names of existing iass member roles
+	$ilDB->manipulate('UPDATE object_data SET title = REPLACE(title,'.$ilDB->quote('_mass_','text').','.$ilDB->quote('_iass_','text').')'
+						.'	WHERE type = '.$ilDB->quote('role','text')
+						.'		AND title LIKE '.$ilDB->quote('il_mass_member_%','text'));
+
+	//change typ name
+	$ilDB->manipulate('UPDATE object_data SET title = '.$ilDB->quote('iass','text')
+						.'		,description = '.$ilDB->quote('Individual Assessment','text')
+						.'	WHERE type = '.$ilDB->quote('typ','text')
+						.'		AND title = '.$ilDB->quote('mass','text'));
+
+	//adapt object declaration in rbac
+	$ilDB->manipulate('UPDATE rbac_templates SET type = '.$ilDB->quote('iass','text')
+						.'	WHERE type = '.$ilDB->quote('mass','text'));
+
+	//change op names
+	$ilDB->manipulate('UPDATE rbac_operations SET operation = '.$ilDB->quote('create_iass','text')
+						.'		,description = '.$ilDB->quote('Create Individual Assessment','text')
+						.'	WHERE operation = '.$ilDB->quote('create_mass','text'));
+
+	$ilCtrlStructureReader->getStructure();
+?>

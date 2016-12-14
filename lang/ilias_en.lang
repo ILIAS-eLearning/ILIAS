@@ -16239,82 +16239,82 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
-mass#:#general#:#General Information
-mass#:#mass_content#:#Assessment content description
-mass#:#mass_record_template#:#Record template
-mass#:#mass_graded_by#:#Graded by
-mass#:#mass_usr_remove#:#Remove Participant from Assessment
-mass#:#mass_usr_edit#:#Edit Participant Record and Learning Progress
-mass#:#mass_usr_view#:#Participant Record
-mass#:#mass_edit_record#:#Participant Record
-mass#:#mass_record#:#Record note
-mass#:#mass_internal_note#:#Internal record note
-mass#:#mass_status_completed#:#Completed
-mass#:#mass_status_failed#:#Failed
-mass#:#mass_status_pending#:#Status pending
-mass#:#mass_notify#:#Notify participant after finalization
-mass#:#mass_finalize#:#Finalize
-mass#:#il_mass_member#:#Participant
-mass#:#il_mass_members#:#Participants
-mass#:#edit_members#:#Edit examinees
-mass#:#mass_edit_members#:#Edit examinees
-mass#:#mass_visible#:#Visible
-mass#:#mass_read#:#Read
-mass#:#mass_copy#:#Copy
-mass#:#mass_write#:#Edit Settings
-mass#:#mass_delete#:#Delete
-mass#:#mass_read_learning_progress#:#View learning progress of other users
-mass#:#mass_edit_permissions#:#Change Permissions
-mass#:#mass_edit_learning_progress#:#Edit learning progress
-mass#:#mass_may_not_finalize#:#Examinee may not be finalised.
-mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.
-mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.
-trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer
-common#:#obj_mass#:#Individual Assessment
-common#:#objs_mass#:#Individual Assessments
-common#:#obj_mass_duplicate#:#Copy Manual Assessment
-common#:#obj_mass_select#:#-- Please select one manual assessment --
-trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.
-common#:#il_mass_member#:#Manual Assessment Examinee
-common#:#mass_new#:#Create Manual Assessment
-common#:#mass_import#:#Import Manual Assessment
-rbac#:#mass_visible#:#Manual Assessment is visible
-rbac#:#mass_read#:#Read content of a Manual Assessment
-rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment
-rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment
-rbac#:#mass_copy#:#Copy a Manual Assessment
-rbac#:#mass_write#:#Edit a Manual Assessment
-rbac#:#mass_delete#:#Delete a Manual Assessment
-rbac#:#mass_edit_members#:#Edit members of a Manual Assessment
-rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment
-mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
-mass#:#mass_edit#:#Settings
-mass#:#mass_add#:#Create Individual Assessment
-mass#:#mass_membership_finalized#:#Record finalised
-mass#:#mass_membership_saved#:#Record saved, not yet finalised
-mass#:#mass_return#:#Back to overview
-mass#:#mass_remove_user_qst#:#Should the examinee really be removed?
-mass#:#mass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
-mass#:#mass_settings_saved#:#Settings saved.
-mass#:#mass_add_user_failure#:#One or more user could not be added.
-mass#:#mass_add_user_success#:#User added as examinee.
-mass#:#grading#:#Grading
-mass#:#grading_info#:#Grading info
-mass#:#grading_record#:#Grading record
-mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
-mass#:#mass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
-mass#:#mass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
-mass#:#mass_contact#:#Name
-mass#:#mass_responsibility#:#Responsibility
-mass#:#mass_phone#:#Phone
-mass#:#mass_mails#:#Mails
-mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.
-mass#:#mass_consultation_hours#:#Consultation Hours
-mass#:#mass_edit_info#:#Info Settings
-mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
-mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
-mass#:#mass_contact_info#:#Contact information
-mass#:#mass_added#:#Individual Assessment added
+iass#:#general#:#General Information
+iass#:#iass_content#:#Assessment content description
+iass#:#iass_record_template#:#Record template
+iass#:#iass_graded_by#:#Graded by
+iass#:#iass_usr_remove#:#Remove Participant from Assessment
+iass#:#iass_usr_edit#:#Edit Participant Record and Learning Progress
+iass#:#iass_usr_view#:#Participant Record
+iass#:#iass_edit_record#:#Participant Record
+iass#:#iass_record#:#Record note
+iass#:#iass_internal_note#:#Internal record note
+iass#:#iass_status_completed#:#Completed
+iass#:#iass_status_failed#:#Failed
+iass#:#iass_status_pending#:#Status pending
+iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_finalize#:#Finalize
+iass#:#il_iass_member#:#Participant
+iass#:#il_iass_members#:#Participants
+iass#:#edit_members#:#Edit examinees
+iass#:#iass_edit_members#:#Edit examinees
+iass#:#iass_visible#:#Visible
+iass#:#iass_read#:#Read
+iass#:#iass_copy#:#Copy
+iass#:#iass_write#:#Edit Settings
+iass#:#iass_delete#:#Delete
+iass#:#iass_read_learning_progress#:#View learning progress of other users
+iass#:#iass_edit_permissions#:#Change Permissions
+iass#:#iass_edit_learning_progress#:#Edit learning progress
+iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
+iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
+iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
+trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
+common#:#obj_iass#:#Individual Assessment
+common#:#objs_iass#:#Individual Assessments
+common#:#obj_iass_duplicate#:#Copy Individual Assessment
+common#:#obj_iass_select#:#-- Please select one individual assessment --
+trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.
+common#:#il_iass_member#:#Individual Assessment Examinee
+common#:#iass_new#:#Create Individual Assessment
+common#:#iass_import#:#Import Individual Assessment
+rbac#:#iass_visible#:#Individual Assessment is visible
+rbac#:#iass_read#:#Read content of a Individual Assessment
+rbac#:#iass_read_learning_progress#:#View learning progress information of a Individual Assessment
+rbac#:#iass_edit_learning_progress#:#Edit learning progress information of a Individual Assessment
+rbac#:#iass_copy#:#Copy a Individual Assessment
+rbac#:#iass_write#:#Edit a Individual Assessment
+rbac#:#iass_delete#:#Delete a Individual Assessment
+rbac#:#iass_edit_members#:#Edit members of a Individual Assessment
+rbac#:#iass_edit_permission#:#Edit permissions of a Individual Assessment
+iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
+iass#:#iass_edit#:#Settings
+iass#:#iass_add#:#Create Individual Assessment
+iass#:#iass_membership_finalized#:#Record finalised
+iass#:#iass_membership_saved#:#Record saved, not yet finalised
+iass#:#iass_return#:#Back to overview
+iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
+iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
+iass#:#iass_settings_saved#:#Settings saved.
+iass#:#iass_add_user_failure#:#One or more user could not be added.
+iass#:#iass_add_user_success#:#User added as examinee.
+iass#:#grading#:#Grading
+iass#:#grading_info#:#Grading info
+iass#:#grading_record#:#Grading record
+iass#:#iass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
+iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
+iass#:#iass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
+iass#:#iass_contact#:#Name
+iass#:#iass_responsibility#:#Responsibility
+iass#:#iass_phone#:#Phone
+iass#:#iass_mails#:#Mails
+iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.
+iass#:#iass_consultation_hours#:#Consultation Hours
+iass#:#iass_edit_info#:#Info Settings
+iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
+iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+iass#:#iass_contact_info#:#Contact information
+iass#:#iass_added#:#Individual Assessment added
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
@@ -16359,8 +16359,8 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
-mass#:#mass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
-mass#:#mass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.
 common#:#sahs_export_file#:#ILIAS exported SCORM archive file
 content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
 survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>

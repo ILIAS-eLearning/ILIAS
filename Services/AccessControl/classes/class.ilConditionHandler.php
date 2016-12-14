@@ -434,7 +434,7 @@ class ilConditionHandler
 	{
 		global $objDefinition;
 		
-		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'mass');
+		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass');
 
 		foreach($objDefinition->getPlugins() as $p_type => $p_info)
 		{
