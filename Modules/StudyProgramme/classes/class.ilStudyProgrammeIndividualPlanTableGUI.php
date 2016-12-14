@@ -95,9 +95,11 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 			$completion_by_id = $progress->getCompletionBy();
 			if ($completion_by_id) {
 				$completion_by = ilObjUser::_lookupLogin($completion_by_id);
+				var_dump($completion_by);
+				die();
 				if (!$completion_by) {
-					$completion_by = ilObject::_lookupTitle($completion_by_id);
-				}	
+					$completion_by = ilContainerReference::_lookupTitle($completion_by_id);
+				}
 			}
 			$plan[] = array( "status" => $progress->getStatus()
 						   , "title" => $node->getTitle()
