@@ -18,10 +18,4 @@ use ILIAS\UI\Component\JavaScriptBindable;
  *		});
  */
 interface Month extends Split, JavaScriptBindable {
-	/**
-	 * Get the month shown as default
-	 *
-	 * @return	string
-	 */
-	public function getDefaultMonth();
 }
