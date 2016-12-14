@@ -29,6 +29,6 @@
 - commit changes in autoload.php etc.
 
 ## Update a single depencie
-- Search the name of depencie you like to update
+- Search the name of dependency you like to update.
 - Update by using "composer update --no-dev <DEPENDENCIE_NAME>"
 - Commit all changes in composer.lock and the vendor folder
