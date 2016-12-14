@@ -128,8 +128,9 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *           The options in the split MUST be related. They SHOULD be highly related, offering "more of the same"
-	 *           if possible (e.g. reply, reply all, forward etc.)
+	 *           The options in the split MUST be related. They SHOULD offer "more of the same" 
+	 *           (e.g. reply, reply all, forward etc.).
+	 *           
 	 *   accessibility:
 	 *       1: >
 	 *           All options offered in the dropdown MUST be accessible by keyboard.
