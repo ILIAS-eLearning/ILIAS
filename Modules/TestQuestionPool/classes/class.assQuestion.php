@@ -3468,23 +3468,23 @@ abstract class assQuestion
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
 	
-	function createNewImageFileName($image_filename, $unique = false)
+	function buildHashedImageFilename($plain_image_filename, $unique = false)
 	{
 		$extension = "";
 		
-		if (preg_match("/.*\.(png|jpg|gif|jpeg)$/i", $image_filename, $matches))
+		if (preg_match("/.*\.(png|jpg|gif|jpeg)$/i", $plain_image_filename, $matches))
 		{
 			$extension = "." . $matches[1];
 		}
 		
 		if($unique)
 		{
-			$image_filename = uniqid($image_filename.microtime(true));
+			$plain_image_filename = uniqid($plain_image_filename.microtime(true));
 		}
 		
-		$image_filename = md5($image_filename) . $extension;
+		$hashed_filename = md5($plain_image_filename) . $extension;
 		
-		return $image_filename;
+		return $hashed_filename;
 	}
 
 	/**

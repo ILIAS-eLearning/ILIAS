@@ -661,7 +661,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			ilUtil::makeDirParents($imagePath);
 		}
 		
-		$filename = $this->createNewImageFileName($fileData['name'], true);
+		$filename = $this->buildHashedImageFilename($fileData['name'], true);
 
 		$answer->setImageFsDir($imagePath);
 		$answer->setImageFile($filename);

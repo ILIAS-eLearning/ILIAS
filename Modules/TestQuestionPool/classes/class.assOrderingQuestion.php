@@ -798,12 +798,31 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @param string $filename Image file filename
 	* @return boolean Success
 	*/
-	public function deleteImagefile($filename)
+	public function dropImageFile($imageFilename)
 	{
-		$deletename = $$filename;
-		$result = @unlink($this->getImagePath().$deletename);
-		$result = $result & @unlink($this->getImagePath().$this->getThumbPrefix() . $deletename);
+		$result = @unlink($this->getImagePath().$imageFilename);
+		$result = $result & @unlink($this->getImagePath().$this->getThumbPrefix() . $imageFilename);
 		return $result;
+	}
+	
+	public function isImageFileStored($imageFilename)
+	{
+		return file_exists($this->getImagePath().$imageFilename);
+	}
+	
+	public function isImageReplaced(ilAssOrderingElement $newElement, ilAssOrderingElement $oldElement)
+	{
+		if( !$this->hasOrderingTypeUploadSupport() )
+		{
+			return false;
+		}
+		
+		if( !$newElement->getContent() )
+		{
+			return false;
+		}
+		
+		return $newElement->getContent() != $oldElement->getContent();
 	}
 
 	/**
@@ -814,34 +833,28 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @return integer An errorcode if the image upload fails, 0 otherwise
 	* @access public
 	*/
-	function setImageFile($image_tempfilename, $image_filename, $previous_filename)
+	function storeImageFile($uploadFile, $targetFile)
 	{
-		$result = TRUE;
-		if (strlen($image_tempfilename))
+		if( !strlen($uploadFile) )
 		{
-			$image_filename = str_replace(" ", "_", $image_filename);
-			$imagepath = $this->getImagePath();
-			if (!file_exists($imagepath))
-			{
-				ilUtil::makeDirParents($imagepath);
-			}
-			$savename = $image_filename;
-			if (!ilUtil::moveUploadedFile($image_tempfilename, $savename, $imagepath.$savename))
-			{
-				$result = FALSE;
-			}
-			else
-			{
-				// create thumbnail file
-				$thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", $this->getThumbGeometry());
-			}
-			if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename)))
-			{
-				$this->deleteImagefile($previous_filename);
-			}
+			return false;
 		}
-		return $result;
+		
+		$this->ensureImagePathExists();
+		
+		// store file with hashed name
+		
+		if( !ilUtil::moveUploadedFile($uploadFile, $targetFile, $this->getImagePath().$targetFile) )
+		{
+			return false;
+		}
+
+		// create thumbnail file
+		
+		$thumbpath = $this->getImagePath() . $this->getThumbPrefix() . $targetFile;
+		ilUtil::convertImage($this->getImagePath().$targetFile, $thumbpath, "JPEG", $this->getThumbGeometry());
+		
+		return true;
 	}
 
 	/**
@@ -1234,26 +1247,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		return json_encode($result);
 	}
-
-	public function removeAnswerImage($randomId)
-	{
-		foreach( $this->getOrderElements() as $answer)
-		{
-			if( !($answer instanceof ASS_AnswerOrdering) )
-			{
-				continue;
-			}
-			
-			if($answer->getRandomID() != $randomId)
-			{
-				continue;
-			}
-			
-			$this->deleteImagefile( $answer->getAnswertext() );
-			
-			$answer->setAnswertext('');
-		}
-	}
+	
 	/**
 	* @return array
 	*/
@@ -1564,5 +1558,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			->setIsUnchangedAnswerPossible(true)
 			->setUseUnchangedAnswerLabel($this->lng->txt('tst_unchanged_order_is_correct'));
 	}
-// fau.
+	// fau.
+	
+	protected function ensureImagePathExists()
+	{
+		if( !file_exists($this->getImagePath()) )
+		{
+			ilUtil::makeDirParents($this->getImagePath());
+		}
+	}
 }

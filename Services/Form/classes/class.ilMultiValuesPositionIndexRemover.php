@@ -11,6 +11,8 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  */
 class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
 {
+	
+	
 	public function manipulateFormInputValues($inputValues)
 	{
 		return $inputValues;
@@ -23,6 +25,8 @@ class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
 	
 	protected function ensureNonPositionIndexedMultiValues($positionIndexedValues)
 	{
+		$subLevels = $this->getPostVarSubLevels($positionIndexedValues);
+		
 		$keyIdentifiedValues = array();
 		
 		foreach($positionIndexedValues as $valueKey => $value)
@@ -55,6 +59,7 @@ class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
 	
 	protected function removeMultiValuePositionIndex($value)
 	{
+		
 		return current($value);
 	}
 }

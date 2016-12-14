@@ -36,7 +36,7 @@ class ilAssOrderingElement
 	 * 
 	 * @var integer
 	 */
-	protected $randomIdentifier = 0;
+	protected $randomIdentifier = null;
 	
 	/**
 	 * this identifier is used to identify elements and is stored
@@ -74,7 +74,12 @@ class ilAssOrderingElement
 	/**
 	 * @var string
 	 */
-	protected $upload = null;
+	protected $uploadImageName = null;
+	
+	/**
+	 * @var string
+	 */
+	protected $uploadImageFile = null;
 	
 	/**
 	 * @return int
@@ -175,16 +180,32 @@ class ilAssOrderingElement
 	/**
 	 * @return string
 	 */
-	public function getUpload()
+	public function getUploadImageFile()
 	{
-		return $this->upload;
+		return $this->uploadImageFile;
 	}
 	
 	/**
-	 * @param string $upload
+	 * @param string $uploadImageFile
 	 */
-	public function setUpload($upload)
+	public function setUploadImageFile($uploadImageFile)
 	{
-		$this->upload = $upload;
+		$this->uploadImageFile = $uploadImageFile;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getUploadImageName()
+	{
+		return $this->uploadImageName;
+	}
+	
+	/**
+	 * @param string $uploadImageName
+	 */
+	public function setUploadImageName($uploadImageName)
+	{
+		$this->uploadImageName = $uploadImageName;
 	}
 }

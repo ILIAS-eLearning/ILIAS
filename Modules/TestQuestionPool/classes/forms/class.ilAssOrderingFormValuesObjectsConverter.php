@@ -14,6 +14,8 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	const INDENTATIONS_POSTVAR_SUFFIX = '_ordering';
 	const INDENTATIONS_POSTVAR_SUFFIX_JS = '__default';
 	
+	const PRESENTED_IMAGE_POSTVAR_SUFFIX = 'name';
+	
 	const CONTEXT_MAINTAIN_ELEMENT_TEXT = 'maintainItemText';
 	const CONTEXT_MAINTAIN_ELEMENT_IMAGE = 'maintainItemImage';
 	const CONTEXT_MAINTAIN_HIERARCHY = 'maintainHierarchy';
@@ -51,6 +53,11 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		$postVar .= self::INDENTATIONS_POSTVAR_SUFFIX_JS;
 		
 		return $postVar;
+	}
+	
+	public function getPresentedImagePostVar()
+	{
+		return $this->getPostVar().self::PRESENTED_IMAGE_POSTVAR_SUFFIX;
 	}
 	
 	public function manipulateFormInputValues($objects)
@@ -142,8 +149,9 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			
 			if( $this->getContext() == self::CONTEXT_MAINTAIN_ELEMENT_IMAGE )
 			{
-				$element->setContent($this->fetchSubmittedImageFilename($identifier));
-				$element->setUpload($this->fetchSubnmittedUploadFilename($identifier));
+				$element->setContent($this->fetchPresentedImageFilename($identifier));
+				$element->setUploadImageName($this->fetchSubmittedImageFilename($identifier));
+				$element->setUploadImageFile($this->fetchSubnmittedUploadFilename($identifier));
 			}
 			else
 			{
@@ -154,6 +162,28 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		}
 		
 		return $values;
+	}
+	
+	protected function fetchPresentedImageFilename($identifier)
+	{
+		$presentedImageField = $this->fetchPresentedImageField();
+		
+		if( !isset($presentedImageField[$identifier]) )
+		{
+			return null;
+		}
+		
+		return $presentedImageField[$identifier];
+	}
+	
+	protected function fetchPresentedImageField()
+	{
+		if( !isset($_POST[$this->getPresentedImagePostVar()]) )
+		{
+			return array();
+		}
+		
+		return $_POST[$this->getPresentedImagePostVar()];
 	}
 	
 	protected function fetchSubmittedImageFilename($identifier)

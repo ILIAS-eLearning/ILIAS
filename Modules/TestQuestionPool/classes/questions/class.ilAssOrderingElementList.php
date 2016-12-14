@@ -715,6 +715,39 @@ class ilAssOrderingElementList implements Iterator
 	}
 	
 	/**
+	 * @param ilAssOrderingElementList $otherElementList
+	 * @return $differenceElementList ilAssOrderingElementList
+	 */
+	public function getDifferenceElementList(self $otherElementList)
+	{
+		$differenceRandomIdentifierIndex = $this->getDifferenceRandomIdentifierIndex($otherElementList);
+		
+		$differenceElementList = new self();
+		$differenceElementList->setQuestionId($this->getQuestionId());
+		
+		foreach($differenceRandomIdentifierIndex as $randomIdentifier)
+		{
+			$element = $this->getElementByRandomIdentifier($randomIdentifier);
+			$differenceElementList->addElement($element);
+		}
+		
+		return $differenceElementList;
+	}
+	
+	/**
+	 * @param ilAssOrderingElementList $other
+	 * @return array
+	 */
+	protected function getDifferenceRandomIdentifierIndex(self $otherElementList)
+	{
+		$differenceRandomIdentifierIndex = array_diff(
+			$this->getRandomIdentifierIndex(), $otherElementList->getRandomIdentifierIndex()
+		);
+		
+		return $differenceRandomIdentifierIndex;
+	}
+	
+	/**
 	 * @return ilAssOrderingElement
 	 */
 	public function current() { return current($this->elements); }

@@ -122,62 +122,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->editQuestion();
 	}
 	
-	/**
-	 * TODO: check if still in use
-	 * TODO: refactor if neccessary
-	 */
-	public function addanswers()
-	{
-		$this->writePostData(true);
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
-		$newRandomId = ASS_AnswerOrdering::generateRandomId($this->object->getRandomIdsUsedByAnswers());
-		$this->object->addAnswer($newRandomId, '', 0);
-		$this->editQuestion();
-	}
-	
-	/**
-	 * TODO: check if still in use
-	 * TODO: refactor if neccessary
-	 */
 	public function removeimageanswers()
 	{
 		$this->writePostData(true);
-		$randomId = key($_POST['cmd']['removeimageanswers']);
-		$this->object->removeAnswerImage($randomId);
-		$this->editQuestion();
-	}
+		
+		$randomIdentifier = key($_POST['cmd']['removeimageanswers']);
+		$orderingElement = $this->object->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier);
+		$this->object->dropImageFile($orderingElement);
 	
-	/**
-	 * TODO: check if still in use
-	 * TODO: refactor if neccessary
-	 */
-	public function removeanswers()
-	{
-		$this->writePostData(true);
-		$randomId = key($_POST["cmd"]["removeanswers"]);
-		$this->object->deleteAnswer($randomId);
-		$this->editQuestion();
-	}
-	
-	/**
-	 * TODO: check if still in use
-	 */
-	public function upanswers()
-	{
-		$this->writePostData(true);
-		$position = (int)key($_POST["cmd"]["upanswers"]);
-		$this->object->moveAnswerUp($position);
-		$this->editQuestion();
-	}
-	
-	/**
-	 * TODO: check if still in use
-	 */
-	public function downanswers()
-	{
-		$this->writePostData(true);
-		$position = (int)key($_POST["cmd"]["downanswers"]);
-		$this->object->moveAnswerDown($position);
 		$this->editQuestion();
 	}
 
@@ -230,6 +182,40 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			/* @var ilAssOrderingElement $submittedElement */
 			
+			if( $this->object->hasOrderingTypeUploadSupport() )
+			{
+				// new file
+				if( strlen($submittedElement->getUploadImageFile()) )
+				{
+					// check suffix						
+					$suffix = strtolower(array_pop(explode(".", $submittedElement->getUploadImageName())));
+					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
+					{
+						// hash the original filename
+						
+						$submittedElement->setUploadImageName( $this->object->buildHashedImageFilename(
+							$submittedElement->getUploadImageName()
+						));
+						
+						// move uploaded
+						
+						$wasImageFileStored = $this->object->storeImageFile(
+							$submittedElement->getUploadImageFile(), $submittedElement->getUploadImageName()
+						);
+						
+						if( $wasImageFileStored )
+						{
+							if( $this->object->isImageFileStored( $submittedElement->getContent() ) )
+							{
+								$this->object->dropImageFile( $submittedElement->getContent() );
+							}
+
+							$submittedElement->setContent( $submittedElement->getUploadImageName() );
+						}
+					}
+				}
+			}
+			
 			if( $currentElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier()) )
 			{
 				$storedElement = $currentElementList->getElementByRandomIdentifier(
@@ -242,40 +228,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				{
 					$submittedElement->setIndentation($storedElement->getIndentation());
 				}
-			}
-			
-			if( $this->object->hasOrderingTypeUploadSupport() )
-			{
-				// new file
-				if( strlen($submittedElement->getUpload()) )
+				
+				if( $this->object->isImageReplaced($submittedElement, $storedElement) )
 				{
-					// check suffix						
-					$suffix = strtolower(array_pop(explode(".", $submittedElement->getContent())));
-					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
-					{
-						$obsoleteImageFilename = null;
-						
-						if( $currentElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier()) )
-						{
-							$storedElement = $currentElementList->getElementByRandomIdentifier(
-								$submittedElement->getRandomIdentifier()
-							);
-							
-							$obsoleteImageFilename = $storedElement->getContent();
-						}
-							
-						$targetFilename = $this->object->getEncryptedFilename( $this->object->createNewImageFileName(
-							$submittedElement->getContent()
-						));
-						
-						// move uploaded
-						if( !$this->object->setImageFile($submittedElement->getUpload(), $targetFilename, $obsoleteImageFilename) )
-						{
-							// the file was NOT upload moved - reset filename
-							$submittedElement->setContent($obsoleteImageFilename);
-							$submittedElement->setUpload(null);
-						}
-					}
+					$this->object->dropImageFile($storedElement);
 				}
 			}
 			
@@ -285,6 +241,16 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if( $this->isClearAnswersOnWritingPostDataEnabled() )
 		{
 			$replacementElementList->clearElementContents();
+		}
+		
+		if( $this->object->hasOrderingTypeUploadSupport() )
+		{
+			$obsoleteElementList = $currentElementList->getDifferenceElementList($replacementElementList);
+			
+			foreach($obsoleteElementList as $obsoleteElement)
+			{
+				$this->object->dropImageFile($obsoleteElement->getContent());
+			}
 		}
 		
 		$this->object->setOrderingElementList($replacementElementList);
