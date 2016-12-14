@@ -114,7 +114,7 @@ interface ilDBInterface {
 	/**
 	 * @param $query string
 	 *
-	 * @return \ilDBStatement
+	 * @return \ilPDOStatement
 	 */
 	public function query($query);
 
@@ -181,7 +181,7 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilDBStatement
 	 *
 	 * @return mixed
 	 */

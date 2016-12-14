@@ -71,7 +71,8 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
 		$this->addItem($this->sendtype);
 
-		$existingdata = $this->guiclass->object->getExternalCodeRecipients();
+		$existingdata = $this->guiclass->getObject()->getExternalCodeRecipients();
+
 		$existingcolumns = array();
 		if (count($existingdata))
 		{
@@ -83,7 +84,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		}
 
 		global $ilUser;
-		$settings = $this->guiclass->object->getUserSettings($ilUser->getId(), 'savemessage');
+		$settings = $this->guiclass->getObject()->getUserSettings($ilUser->getId(), 'savemessage');
 		if (count($settings))
 		{
 			$options = array(0 => $this->lng->txt('please_select'));

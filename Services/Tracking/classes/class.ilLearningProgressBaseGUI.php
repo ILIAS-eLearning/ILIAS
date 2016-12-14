@@ -28,6 +28,13 @@ class ilLearningProgressBaseGUI
 	
 	protected $anonymized;
 	
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger;
+	
+	
+	
 	const LP_CONTEXT_PERSONAL_DESKTOP = 1;
 	const LP_CONTEXT_ADMINISTRATION = 2;
 	const LP_CONTEXT_REPOSITORY = 3;
@@ -69,6 +76,8 @@ class ilLearningProgressBaseGUI
 			$olp = ilObjectLP::getInstance($this->obj_id);
 			$this->anonymized = $olp->isAnonymized();
 		}
+		
+		$this->logger = $GLOBALS['DIC']->logger()->trac();
 	}
 
 	function isAnonymized()

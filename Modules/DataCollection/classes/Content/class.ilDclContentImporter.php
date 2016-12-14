@@ -190,14 +190,8 @@ class ilDclContentImporter
 		$import_fields = array();
 		foreach ($fields as $field) {
 			if ($this->checkImportType($field)) {
-				foreach ($titles as $key => $value) {
-					if ($value == $field->getTitle()) {
-						$import_fields[$key] = $field;
-						if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL) && $titles[$key+1] == $field->getTitle().'_title') {
-							unset($titles[$key+1]);
-						}
-					}
-				}
+				// the fields will add themselves to $import_fields if their title is in $titles
+				$field->checkTitlesForImport($titles, $import_fields);
 			}
 		}
 

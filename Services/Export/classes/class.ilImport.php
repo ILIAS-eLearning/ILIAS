@@ -198,7 +198,6 @@ class ilImport
 		
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
-		
 		return $new_id;
 	}
 

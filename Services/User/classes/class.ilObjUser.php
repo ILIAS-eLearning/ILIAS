@@ -2311,7 +2311,9 @@ class ilObjUser extends ilObject
     {
 		//error_reporting(E_ALL);
 		if( $this->id == ANONYMOUS_USER_ID || $this->id == SYSTEM_USER_ID )
+		{
 			return false;
+		}
 
     	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
     	$security = ilSecuritySettings::_getInstance();

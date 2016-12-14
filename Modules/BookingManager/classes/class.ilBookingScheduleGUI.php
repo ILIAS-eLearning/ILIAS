@@ -128,48 +128,6 @@ class ilBookingScheduleGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 
-		/*
-		$type = new ilRadioGroupInputGUI($lng->txt("book_schedule_type"), "type");
-		$type->setRequired(true);
-		$form_gui->addItem($type);
-		$fix = new ilRadioOption($lng->txt("book_schedule_type_fix"), "fix");
-		$fix->setInfo($lng->txt("book_schedule_type_fix_info"));
-		$type->addOption($fix);
-		$flex = new ilRadioOption($lng->txt("book_schedule_type_flexible"), "flexible");
-		$flex->setInfo($lng->txt("book_schedule_type_flexible_info"));
-		$type->addOption($flex);
-
-		$raster = new ilNumberInputGUI($lng->txt("book_schedule_raster"), "raster");
-		$raster->setRequired(true);
-		$raster->setInfo($lng->txt("book_schedule_raster_info"));
-		$raster->setMinValue(1);
-		$raster->setSize(3);
-		$raster->setMaxLength(3);
-		$raster->setSuffix($lng->txt("book_minutes"));
-		$flex->addSubItem($raster);
-
-		$rent_min = new ilNumberInputGUI($lng->txt("book_schedule_rent_min"), "rent_min");
-		$rent_min->setInfo($lng->txt("book_schedule_rent_info"));
-		$rent_min->setMinValue(1);
-		$rent_min->setSize(3);
-		$rent_min->setMaxLength(3);
-		$flex->addSubItem($rent_min);
-
-		$rent_max = new ilNumberInputGUI($lng->txt("book_schedule_rent_max"), "rent_max");
-		$rent_max->setInfo($lng->txt("book_schedule_rent_info"));
-		$rent_max->setMinValue(1);
-		$rent_max->setSize(3);
-		$rent_max->setMaxLength(3);
-		$flex->addSubItem($rent_max);
-
-		$break = new ilNumberInputGUI($lng->txt("book_schedule_break"), "break");
-		$break->setInfo($lng->txt("book_schedule_break_info"));
-		$break->setMinValue(1);
-		$break->setSize(3);
-		$break->setMaxLength(3);
-		$flex->addSubItem($break);
-		*/
-		
 		include_once "Modules/BookingManager/classes/class.ilScheduleInputGUI.php";
 		$definition = new ilScheduleInputGUI($lng->txt("book_schedule_days"), "days");
 		$definition->setInfo($lng->txt("book_schedule_days_info"));

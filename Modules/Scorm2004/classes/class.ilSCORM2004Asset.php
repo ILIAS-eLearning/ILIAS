@@ -46,10 +46,22 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.php");
 		parent::create($a_upload);
 		if (!$a_template) {
-			$seq_item = new ilSCORM2004Item($this->getId());
-			$seq_item->insert();
+			$this->insertDefaultSequencingItem();
 		}
 	}
+
+	/**
+	 * Insert default sequencing item
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertDefaultSequencingItem()
+	{
+		$seq_item = new ilSCORM2004Item($this->getId());
+		$seq_item->insert();
+	}
+
 
 	/**
 	 * Delete Nested Page Objects

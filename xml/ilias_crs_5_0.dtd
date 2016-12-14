@@ -67,7 +67,7 @@
 	action (Attach|Detach) #IMPLIED
 >
 <!-- Description of course settings -->
-<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,Contact?,Registration?,Archive?)>
+<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,Contact?,Registration?,Archive?, ViewMode?)>
 
 <!-- Availability -->
 <!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
@@ -148,3 +148,5 @@
 <!ELEMENT ContainerSetting (#PCDATA)>
 <!ATTLIST ContainerSetting
 		id CDATA #REQUIRED>
+
+<!ELEMENT ViewMode (#PCDATA)>

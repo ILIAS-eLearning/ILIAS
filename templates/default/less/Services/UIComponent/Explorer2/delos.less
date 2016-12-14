@@ -2,7 +2,7 @@
 
 table.ilExplorer {
 	width: 100%;
-	background-color: #F6F6F6;
+	background-color: #f6f6f6;
 }
 
 div.ilExplorerFrame {
@@ -12,7 +12,7 @@ td.ilExpH {
 }
 
 body.il_Explorer {
-	background: none #F9F9F9;
+	background: none #f9f9f9;
 }
 
 div.il_Explorer {
@@ -27,8 +27,8 @@ div.ilExpH {
 }
 
 td.ilExpBody {
-	border-top: 1px solid #E0E0E0;
-	background-color: #FAFAFA;
+	border-top: 1px solid #e0e0e0;
+	background-color: #fafafa;
 }
 
 h1.ilExplorerHead {
@@ -82,20 +82,20 @@ div.il_ExplorerItemDescription {
 
 a.ilTreeView {
 	position: fixed;
-	top: @il-fixed-menu-height;
+	top: @il-header-height;
 	@media only screen and (max-width: 768px) {top: 140px;}
 	z-index: 1020;
 	bottom: 160px;
-	background-color: #fff;
+	background-color: white;
 	border: 1px solid #e0e0e0;
 	border-left: none;
-	box-shadow: 1px 1px 2px #b9b9b9;
+    .box-shadow(1px 1px 2px #b9b9b9);
 	width: 6px;
 	> img {
 		display: inline-block;
 		margin-left: -2px;
 		max-width: inherit;
-		background-color: #fff;
+		background-color: white;
 		border-right: 2px solid #e0e0e0;
 		width: 28px;
 		height: 28px;
@@ -174,14 +174,14 @@ a.ilTreeViewRight:hover {
 }
 
 .jstree .jstree-hovered {
-	background: #E7F4F9;
-	border: 1px solid #D8F0FA;
+	background: #e7f4f9;
+	border: 1px solid #d8f0fa;
 	padding:0 2px 0 1px;
 }
 
 .jstree .jstree-clicked {
-	background: none #BEEBFF;
-	border: 1px solid #99DEFD;
+	background: none #beebff;
+	border: 1px solid #99defd;
 	padding:0 2px 0 1px;
 }
 
@@ -286,9 +286,9 @@ a.ilTreeViewRight:hover {
 
 #vakata-contextmenu.jstree-context,
 #vakata-contextmenu.jstree-context li ul {
-	background: none #F0F0F0;
+	background: none #f0f0f0;
 	border: 1px solid #979797;
-	box-shadow: 1px 1px 2px #999;
+    .box-shadow(1px 1px 2px #999);
 }
 
 #vakata-contextmenu.jstree-context li {}
@@ -300,8 +300,8 @@ a.ilTreeViewRight:hover {
 #vakata-contextmenu.jstree-context a:hover,
 #vakata-contextmenu.jstree-context .vakata-hover > a {
 	padding: 0 5px;
-	background: #E8EFF7;
-	border: 1px solid #AECFF7;
+	background: #e8eff7;
+	border: 1px solid #aecff7;
 	color: black;
 	border-radius: 2px;
 }
@@ -316,7 +316,7 @@ a.ilTreeViewRight:hover {
 
 #vakata-contextmenu.jstree-context li.vakata-separator {
 	background: white;
-	border-top: 1px solid #E0E0E0;
+	border-top: 1px solid #e0e0e0;
 	margin: 0;
 }
 

@@ -296,11 +296,14 @@ class ilMultilingualismGUI
 	/**
 	 * Add language
 	 */
-	function addLanguages()
+	function addLanguages(ilPropertyFormGUI $form = null)
 	{
 		global $tpl;
 
-		$form = $this->getMultiLangForm(true);
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->getMultiLangForm(true);
+		}
 		$tpl->setContent($form->getHTML());
 	}
 
@@ -310,11 +313,16 @@ class ilMultilingualismGUI
 	function saveLanguages()
 	{
 		global $ilCtrl, $lng;
+		
+		ilLoggerFactory::getLogger('otpl')->debug('Save languages');
 
-		$form = $this->getMultiLangForm();
-		if ($form->checkInput())
+		$form = $this->getMultiLangForm(true);
+		if($form->checkInput())
 		{
 			$ad = $form->getInput("additional_langs");
+			
+			ilLoggerFactory::getLogger('otpl')->dump($ad);
+			
 			if (is_array($ad))
 			{
 
@@ -334,10 +342,17 @@ class ilMultilingualismGUI
 					}
 				}
 			}
+			$this->obj_trans->save();
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "listTranslations");
 		}
-		$this->obj_trans->save();
-		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "listTranslations");
+		else
+		{
+			$form->setValuesByPost();
+			ilUtil::sendFailure($lng->txt('err_check_input'));
+			$this->addLanguages($form);
+		}
+		
 	}
 
 	/**
