@@ -21,7 +21,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
-		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENTS);
+		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
 		$manipulator->setPostVar($this->getPostVar());
 		$this->addFormValuesManipulator($manipulator);
 	}

@@ -72,6 +72,11 @@ class ilAssOrderingElement
 	protected $content = null;
 	
 	/**
+	 * @var string
+	 */
+	protected $upload = null;
+	
+	/**
 	 * @return int
 	 */
 	public function getId()
@@ -165,5 +170,21 @@ class ilAssOrderingElement
 	public function setContent($content)
 	{
 		$this->content = $content;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getUpload()
+	{
+		return $this->upload;
+	}
+	
+	/**
+	 * @param string $upload
+	 */
+	public function setUpload($upload)
+	{
+		$this->upload = $upload;
 	}
 }

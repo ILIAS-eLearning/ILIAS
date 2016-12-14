@@ -246,26 +246,34 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			
 			if( $this->object->hasOrderingTypeUploadSupport() )
 			{
-				$file_org_name = $_FILES['answers']['name']['image'][$submittedElement->getRandomIdentifier()];
-				$file_temp_name = $_FILES['answers']['tmp_name']['image'][$submittedElement->getRandomIdentifier()];
-				
 				// new file
-				if( strlen($file_temp_name) )
+				if( strlen($submittedElement->getUpload()) )
 				{
 					// check suffix						
-					$suffix = strtolower(array_pop(explode(".", $file_org_name)));
+					$suffix = strtolower(array_pop(explode(".", $submittedElement->getContent())));
 					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
 					{
-						// upload image
-						$filename = $this->object->createNewImageFileName($file_org_name);
-						$filename = $this->object->getEncryptedFilename($filename);
-						// WTF: should we md5 the name a third time? perhaps we should than readd
-						// the extension as well. a prefix "pony" would make the filename namespaced ^^
+						$obsoleteImageFilename = null;
 						
-						if( !$this->object->setImageFile($file_temp_name, $filename, $submittedElement->getContent()) )
+						if( $currentElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier()) )
 						{
-							// reset filename, the file was NOT moved to target dir sucessfully
-							$submittedElement->setContent('');
+							$storedElement = $currentElementList->getElementByRandomIdentifier(
+								$submittedElement->getRandomIdentifier()
+							);
+							
+							$obsoleteImageFilename = $storedElement->getContent();
+						}
+							
+						$targetFilename = $this->object->getEncryptedFilename( $this->object->createNewImageFileName(
+							$submittedElement->getContent()
+						));
+						
+						// move uploaded
+						if( !$this->object->setImageFile($submittedElement->getUpload(), $targetFilename, $obsoleteImageFilename) )
+						{
+							// the file was NOT upload moved - reset filename
+							$submittedElement->setContent($obsoleteImageFilename);
+							$submittedElement->setUpload(null);
 						}
 					}
 				}
