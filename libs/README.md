@@ -28,7 +28,7 @@
 - Ignore all directories which are added by installation (uncomment existing)
 - commit changes in autoload.php etc.
 
-## Update a single depencie
+## Update a single dependency
 - Search the name of dependency you like to update.
 - Update by using "composer update --no-dev <DEPENDENCIE_NAME>"
 - Commit all changes in composer.lock and the vendor folder
