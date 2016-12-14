@@ -17956,7 +17956,7 @@ if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 	$ilCtrlStructureReader->getStructure();
 ?>
 
-<#5061>
+<#5062>
 <?php
 	//rename tables
 	if($ilDB->tableExists('mass_info_settings') && !$ilDB->tableExists('iass_info_settings')) {
