@@ -1690,7 +1690,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_crs_non_member','text');
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		return isset($row['obj_id']) ? $row['obj_id'] : 0;
 	}

@@ -101,12 +101,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			switch($column) {
 				case "prg_assign_date":
 					$this->tpl->setCurrentBlock("assign_date");
-					$this->tpl->setVariable("ASSIGN_DATE", $a_set["assign_date"]);
+					$this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
 					$this->tpl->parseCurrentBlock("assign_date");
 					break;
 				case "prg_assigned_by":
 					$this->tpl->setCurrentBlock("assigned_by");
-					$this->tpl->setVariable("ASSIGNED_BY", $a_set["assigned_by"]);
+					$this->tpl->setVariable("ASSIGNED_BY", $a_set["prg_assigned_by"]);
 					$this->tpl->parseCurrentBlock("assigned_by");
 					break;
 			}
@@ -152,8 +152,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , parent_crs.title completion_by_crs"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , ass.root_prg_id root_prg_id"
-				   ."     , ass.last_change assign_date"
-				   ."     , ass_usr.login assigned_by"
+				   ."     , ass.last_change prg_assign_date"
+				   ."     , ass_usr.login prg_assigned_by"
 				   // for sorting
 				   ."     , CONCAT(pcp.firstname, pcp.lastname) name"
 				   ."     , (prgrs.last_change_by IS NOT NULL) custom_plan"

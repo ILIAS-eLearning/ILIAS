@@ -810,56 +810,69 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	function updateObject()
+	
+	/**
+	 * Update course settings
+	 * @global type $ilUser
+	 * @return boolean
+	 */
+	public function updateObject()
 	{
 		$form = $this->initEditForm();
-		$form->checkInput();
-		
-		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
-					
-		/*
-		$archive_start = $this->loadDate('archive_start');
-		$archive_end = $this->loadDate('archive_end');				 
-		*/
-		$period = $form->getItemByPostVar("access_period");										
-		$sub_period = $form->getItemByPostVar("subscription_period");	
-		
-		// $act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
-		
-		if($period->getStart() || $period->getEnd())
+
+		if(!$form->checkInput())
 		{
-			// if start or end is missing validation will fail, setting values for reload
+			$form->setValuesByPost();
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}
+
+		// check successful
+
+		// title/desc
+		$this->object->setTitle($form->getInput('title'));
+		$this->object->setDescription($form->getInput('desc'));
+
+		// period
+		$crs_period = $form->getItemByPostVar("period");
+		$this->object->setCourseStart($crs_period->getStart());
+		$this->object->setCourseEnd($crs_period->getEnd());
+
+		// activation/online
+		$this->object->setOfflineStatus((bool) !$form->getInput('activation_online'));
+
+		// activation period
+		$period = $form->getItemByPostVar("access_period");
+		if($period->getStart() && $period->getEnd())
+		{
 			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
-			$this->object->setActivationStart($period->getStart() ? $period->getStart()->get(IL_CAL_UNIX) : null);
-			$this->object->setActivationEnd($period->getEnd() ? $period->getEnd()->get(IL_CAL_UNIX) : null);			
-			$this->object->setActivationVisibility((int)$_POST['activation_visibility']);		
+			$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
+			$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
+			$this->object->setActivationVisibility((int) $form->getInput('activation_visibility'));
 		}
 		else
 		{
 			$this->object->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 			$this->object->setActivationStart(null);
 			$this->object->setActivationEnd(null);			
-			// $this->object->setActivationVisibility(false);		
-		}		
-		
-		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);		
-				
-		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));		
+		}
+			
+		// subscription settings
+		$this->object->setSubscriptionPassword($form->getInput('subscription_password'));
 		$this->object->setSubscriptionStart(null);
-		$this->object->setSubscriptionEnd(null);		
+		$this->object->setSubscriptionEnd(null);
+			
+		$sub_type = $form->getInput('subscription_type');
+		$sub_period = $form->getItemByPostVar('subscription_period');
 		
-		$sub_type = (int)$_POST['subscription_type'];
+		$this->object->setSubscriptionType($sub_type);
 		if($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED)
-		{		
-			$this->object->setSubscriptionType($sub_type);
-						
-			if($sub_period->getStart() &&
-				$sub_period->getEnd())
+		{
+			if($sub_period->getStart() && $sub_period->getEnd())
 			{
 				$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
 				$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
-				$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));		
+				$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
 			}
 			else
 			{
@@ -868,22 +881,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			$this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);  // see ilObjCourse::__createDefaultSettings()
+			$this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
 			$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
-		}		
+		}
 		
-		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
-		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
+		// registration code
+		$this->object->enableRegistrationAccessCode((int) $form->getInput('reg_code_enabled'));
+		$this->object->setRegistrationAccessCode($form->getInput('reg_code'));
 		
-		$this->object->setCancellationEnd($form->getItemByPostVar("cancel_end")->getDate());		
-				
-		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
-		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
-		$this->object->setSubscriptionMinMembers((int)$_POST['subscription_min']);
+		// cancellation end
+		$this->object->setCancellationEnd($form->getItemByPostVar("cancel_end")->getDate());	
 		
+		// waiting list
+		$this->object->enableSubscriptionMembershipLimitation((int) $form->getInput('subscription_membership_limitation'));
+		$this->object->setSubscriptionMaxMembers((int) $form->getInput('subscription_max'));		
+		$this->object->setSubscriptionMinMembers((int) $form->getInput('subscription_min'));
 		$old_autofill = $this->object->hasWaitingListAutoFill();
-		
-		switch((int) $_POST['waiting_list'])
+		switch((int) $form->getInput('waiting_list'))
 		{
 			case 2:
 				$this->object->enableWaitingList(true);
@@ -900,15 +914,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
-				
-		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
-					
-		$crs_period = $form->getItemByPostVar("period");				
-		$this->object->setCourseStart($crs_period->getStart());
-		$this->object->setCourseEnd($crs_period->getEnd());		
 		
-		$this->object->setViewMode((int) $_POST['view_mode']);
-
+		// view mode settings
+		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
@@ -919,93 +927,80 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->saveSortingSettings($form);
 		
-		/*
-		$this->object->setArchiveStart($archive_start->get(IL_CAL_UNIX));
-		$this->object->setArchiveEnd($archive_end->get(IL_CAL_UNIX));		
-		$this->object->setArchiveType($_POST['archive_type']);
-		 */
-		$this->object->setAboStatus((int) $_POST['abo']);
-		$this->object->setShowMembers((int) $_POST['show_members']);
-		$this->object->setMailToMembersType((int) $_POST['mail_type']);
+		$this->object->setAboStatus((int) $form->getInput('abo'));
+		$this->object->setShowMembers((int) $form->getInput('show_members'));
+		$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
 		
-		$this->object->enableSessionLimit((int) $_POST['sl']);
-		$this->object->setNumberOfPreviousSessions(is_numeric($_POST['sp']) ? (int) $_POST['sp'] : -1 );
-		$this->object->setNumberOfnextSessions(is_numeric($_POST['sn']) ? (int) $_POST['sn'] : -1 );
+		$this->object->enableSessionLimit((int) $form->getInput('sl'));
+		
+		$session_sp = $form->getInput('sp');
+		$this->object->setNumberOfPreviousSessions(is_numeric($session_sp) ? (int) $session_sp : -1 );
+		$session_sn = $form->getInput('sn');
+		$this->object->setNumberOfnextSessions(is_numeric($session_sn) ? (int) $session_sn : -1 );
+		$this->object->setAutoNotification($form->getInput('auto_notification') == 1 ? true : false);
 
-		$this->object->setAutoNotification($_POST['auto_notification'] == 1 ? true : false);
-		
-		
+		// lp sync
 		$show_lp_sync_confirmation = false;
 		
 		// could be hidden in form
 		if(isset($_POST['status_dt']))
 		{
-			if($this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP &&
-				(int)$_POST['status_dt'] == ilObjCourse::STATUS_DETERMINATION_LP)
+			if(
+				$this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP &&
+				(int)$_POST['status_dt'] == ilObjCourse::STATUS_DETERMINATION_LP
+			)
 			{
 				$show_lp_sync_confirmation = true;
 			}
 			else
 			{
-				$this->object->setStatusDetermination((int)$_POST['status_dt']);		
+				$this->object->setStatusDetermination((int) $form->getInput('status_dt'));
 			}
-		}	
+		}
+		
+		if(!$old_autofill && $this->object->hasWaitingListAutoFill())
+		{
+			$this->object->handleAutoFill();
+		}
+		$this->object->update();
+		
+		
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$form,
+			array(
+				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+				ilObjectServiceSettingsGUI::USE_NEWS,
+				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
+				ilObjectServiceSettingsGUI::TAG_CLOUD,
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+				ilObjectServiceSettingsGUI::BADGES
+			)
+		);
+		
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		global $ilUser;
+		ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+		ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 
-		if($this->object->validate())
+		// lp sync confirmation required
+		if($show_lp_sync_confirmation)
 		{
-			$this->object->update();
-			
-			// if autofill has been activated trigger process
-			if(!$old_autofill &&
-				$this->object->hasWaitingListAutoFill())
-			{
-				$this->object->handleAutoFill();
-			}
-			
-			// BEGIN ChangeEvent: Record write event
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser;
-			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
-			// END ChangeEvent: Record write event
-			
-			
-			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-				$this->object->getId(),
-				$form,
-				array(
-					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-					ilObjectServiceSettingsGUI::USE_NEWS,
-					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
-					ilObjectServiceSettingsGUI::TAG_CLOUD,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-					ilObjectServiceSettingsGUI::BADGES
-				)
-			);
-			
-			// Update ecs export settings
-			include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
-			$ecs = new ilECSCourseSettings($this->object);			
-			if(!$ecs->handleSettingsUpdate())
-			{
-				$this->editObject();
-				return false;
-			}			
-			
-			if($show_lp_sync_confirmation)
-			{
-				return $this->confirmLPSync();
-			}
-			
-			return $this->afterUpdate();
+			return $this->confirmLPSync();
 		}
-		else
+		
+		// Update ecs export settings
+		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
+		$ecs = new ilECSCourseSettings($this->object);			
+		if(!$ecs->handleSettingsUpdate())
 		{
-			ilUtil::sendFailure($this->object->getMessage());
-			$this->editObject();
-			return false;
-		}
+			$form->setValuesByPost();
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}			
+
+		return $this->afterUpdate();
 	}
 	
 	protected function confirmLPSync()
@@ -1039,12 +1034,20 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @access public
 	 * @return
 	 */
-	public function editObject()
+	public function editObject(ilPropertyFormGUI $form = null)
 	{
-		parent::editObject();
-		
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setSubTabActive('crs_settings');
+
+		if($form instanceof ilPropertyFormGUI)
+		{
+			$GLOBALS['tpl']->setContent($form->getHTML());
+			return true;
+		}
+		else
+		{
+			parent::editObject();
+		}
 	}
 	
 	/**
