@@ -512,8 +512,7 @@ class ilAuthUtils
 		
 		$modes = array(
 						'default'	=> $ilSetting->get("auth_mode"),
-						'local'		=> AUTH_LOCAL,
-						'lti'		=> AUTH_PROVIDER_LTI
+						'local'		=> AUTH_LOCAL
 						);
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		// begin-patch ldap_multiple
@@ -523,7 +522,7 @@ class ilAuthUtils
 		}
 		
 		include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
-		foreach(ilAuthProviderLTI::getActiveAuthModes() as $sid)
+		foreach(ilAuthProviderLTI::getAuthModes() as $sid)
 		{
 			$modes['lti_'.$sid] = (AUTH_PROVIDER_LTI.'_'.$sid);
 		}
@@ -577,7 +576,7 @@ class ilAuthUtils
 			if($mode = AUTH_PROVIDER_LTI)
 			{
 				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
-				foreach(ilAuthProviderLTI::getActiveAuthModes() as $sid)
+				foreach(ilAuthProviderLTI::getAuthModes() as $sid)
 				{
 					$id = AUTH_PROVIDER_LTI.'_'.$sid;
 					$ret[$id] = ilAuthUtils::_getAuthModeName($id);

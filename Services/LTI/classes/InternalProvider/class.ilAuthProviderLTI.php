@@ -74,9 +74,10 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$this->dataConnector
 		);
 		
+		
 		if(!$consumer->enabled)
 		{
-			$this->getLogger()->info('Consumer is not enabled');
+			$this->getLogger()->warning('Consumer is not enabled');
 			$status->setReason('lti_consumer_inactive');
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			return false;
@@ -430,6 +431,22 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		
 		// move to connector
 		$query = 'SELECT consumer_pk from lti2_consumer where enabled = '.$ilDB->quote(1,'integer');
+		$res = $ilDB->query($query);
+		
+		$sids = array();
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$sids[] = $row->consumer_pk;
+		}
+		return $sids;
+	}
+	
+	public static function getAuthModes()
+	{
+		global $ilDB;
+		
+		// move to connector
+		$query = 'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
 		$res = $ilDB->query($query);
 		
 		$sids = array();

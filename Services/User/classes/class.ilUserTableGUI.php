@@ -540,9 +540,9 @@ class ilUserTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 
 		$ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"]);
-
+		
 		foreach ($this->getSelectedColumns() as $c)
-		{			
+		{	
 			if ($c == "access_until")
 			{
 				$this->tpl->setCurrentBlock("access_until");
@@ -559,6 +559,12 @@ class ilUserTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock($c);
 				$this->tpl->setVariable("VAL_".strtoupper($c), (string) $user[$c]);
+			}
+			elseif($c == 'auth_mode')
+			{
+				$this->tpl->setCurrentBlock('user_field');
+				$this->tpl->setVariable('VAL_UF',  ilAuthUtils::getAuthModeTranslation(ilAuthUtils::_getAuthMode($user['auth_mode'])));
+				$this->tpl->parseCurrentBlock();
 			}
 			else	// all other fields
 			{
