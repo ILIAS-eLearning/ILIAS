@@ -687,10 +687,10 @@ class ilLanguage
 		{
 			if (!isset($log[$rec["module"].":".$rec["identifier"]]))
 			{
-				$data .= $rec["module"] . ";" . $rec["identifier"] . "\n";
+				$data .= $rec["module"] . "," . $rec["identifier"] . "\n";
 			}
 		}
-		ilUtil::deliverData($data, "lang_deprecated.csv");
+		ilUtil::deliverData($data, "lang_legacy_candidates.csv");
 	}
 
 
