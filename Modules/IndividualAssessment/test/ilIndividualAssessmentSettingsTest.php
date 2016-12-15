@@ -6,6 +6,7 @@ require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessme
 
 /**
  * @backupGlobals disabled
+ * @group needsInstalledILIAS
  */
 class ilIndividualAssessmentSettingsTest extends PHPUnit_Framework_TestCase {
 	public static $iass;
