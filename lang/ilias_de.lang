@@ -4154,7 +4154,7 @@ common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_form_save_error#:#Die Formulardaten konnten nicht gespeichert werden. Bitte überprüfen Sie die Formularfelder auf detaillierte Fehlermeldungen.
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.
-common#:#msg_input_is_required#:#Hier ist eine Angabe erforderlich. Bitte geben Sie einen Wert ein.
+common#:#msg_input_is_required#:#Dieses Feld muss ausgefüllt werden. Bitte geben Sie etwas ein.
 common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Registrierformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
@@ -13131,7 +13131,7 @@ skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen
 skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Kompetenzausprägungen
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
 skmg#:#skmg_profile#:#Profil
-skmg#:#skmg_remove_levels#:#Ausprägungen löschen
+skmg#:#skmg_remove_levels#:#Ausprägung löschen
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzausprägungen aus dem Profil entfernen?
 skmg#:#skmg_assigned_users#:#Zugeordnete Benutzer
