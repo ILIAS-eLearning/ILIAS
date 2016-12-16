@@ -3366,7 +3366,6 @@ common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Contacts
 common#:#mail_allow_smtp#:#Allow SMTP
 common#:#mail_attachment#:#Mail attachment
-common#:#mail_attachments#:#Mail attachments
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Trash
 common#:#mail_d_drafts#:#Drafts
@@ -7288,6 +7287,7 @@ mail#:#mail_files_deleted#:#The file(s) are deleted
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
 mail#:#mail_folder_exists#:#A folder already exists with this name
+mail#:#mail_folder_name_changed#:##The folder has been renamed
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
