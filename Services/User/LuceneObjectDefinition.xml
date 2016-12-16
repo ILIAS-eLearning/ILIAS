@@ -224,6 +224,17 @@
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsHelpOffered" />
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uPropertyHigh" />
 		</DataSource>
+                <DataSource type="JDBC" action="append">
+                    <Query>
+                        SELECT object_reference.ref_id FROM rbac_ua 
+                        JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id 
+                        JOIN object_reference ON rbac_fa.parent = object_reference.ref_id 
+                        JOIN object_data ON object_data.obj_id = object_reference.obj_id 
+                        WHERE rbac_ua.usr_id = ? AND object_data.type = 'orgu'
+                    </Query>
+                    <Param format="list" type="int" value="objId" />
+                    <Field store="YES" index="ANALYZED" column="ref_id" type="integer" name="orgUnit" />
+                </DataSource>
 	</Document>
 	<Document type="subItem">
 		<xi:include href="../../Services/Mail/LuceneDataSource.xml" />
