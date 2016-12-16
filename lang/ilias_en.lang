@@ -7251,8 +7251,6 @@ license#:#used_licenses#:#Consumed licenses
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
-mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
-mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
 mail#:#back_to_folder#:#Back to Folder
@@ -7265,42 +7263,23 @@ mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
-mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_send_html#:#HTML Frame for External Emails
 mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
 mail#:#mail_add_subject#:#Please enter a subject
-mail#:#mail_add_to_addressbook#:#Add to Contacts
-mail#:#mail_add_type#:#Please add the type of mail you want to send
-mail#:#mail_addr_entries#:#Entries
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
-mail#:#mail_bc_search#:#BCC search
-mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#The CC recipient is not valid
-mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
-mail#:#mail_check_your_email_addr#:#Your e-mail address is not valid
-mail#:#mail_compose#:#Compose Message
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
 mail#:#mail_deleted_entry#:#The entries are deleted
 mail#:#mail_deleted#:#The mail is deleted
-mail#:#mail_edit_entry#:#Edit Entry
-mail#:#mail_email_forbidden#:#You are not allowed to send e-mail
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
 mail#:#mail_empty_trash#:#Empty Trash
-mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
-mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
-mail#:#mail_enter_valid_login#:#Please enter a valid login name.
-mail#:#mail_entry_added#:#Added new Entry
-mail#:#mail_entry_changed#:#The entry is changed
-mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_entry_of_contacts#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
@@ -7308,15 +7287,8 @@ mail#:#mail_file_size#:#File Size
 mail#:#mail_files_deleted#:#The file(s) are deleted
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
-mail#:#mail_folder_edit#:#Edit Folder
 mail#:#mail_folder_exists#:#A folder already exists with this name
-mail#:#mail_folder_name_changed#:#The folder has been renamed
-mail#:#mail_folder_name#:#Folder name
-mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
-mail#:#mail_global_options#:#Global options
-mail#:#mail_group_members#:#Group Members
-mail#:#mail_in_addressbook#:#Already in Contacts
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
 mail#:#mail_incoming_mail#:#Incoming mail
@@ -7324,8 +7296,6 @@ mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
-mail#:#mail_intern#:#Internal
-mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
@@ -7335,7 +7305,6 @@ mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
-mail#:#mail_members_added_addressbook#:#Members added to Contacts
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
@@ -7344,7 +7313,6 @@ mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 mail#:#mail_my_courses#:#My Courses
-mail#:#mail_my_entries#:#My Address Book
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
@@ -7359,19 +7327,11 @@ mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
 mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
-mail#:#mail_new_entry#:#New Entry
-mail#:#mail_new_file#:#Add new file:
-mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
-mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
 mail#:#mail_no_valid_mailing_list#:#%1$s (no valid mailing list)
 mail#:#mail_notification_subject#:#New mail in your inbox
-mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
-mail#:#mail_received_x_new_mails#:#You received %s new mails.
-mail#:#mail_recipient_not_valid#:#The recipient is not valid
-mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Hello
@@ -7386,8 +7346,6 @@ mail#:#mail_select_course#:#Please select at least one course.
 mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
-mail#:#mail_select_only_one_entry#:#Please select only one entry.
-mail#:#mail_send_with_system_address#:#Send With System Address
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
 mail#:#mail_subject_prefix#:#Mail Subject
@@ -7396,10 +7354,7 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
-mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
 mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.
-mail#:#search_bc_recipient#:#Search BCC Recipient
-mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
@@ -10402,7 +10357,6 @@ common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the IL
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
 trac#:#trac_learning_progress_settings_info#:#Activate extended data
 fold#:#fold_import#:#Import Folder
-mail#:#mail_select_recipients#:#Please select mail recipients:
 grp#:#grp_import#:#Import Group
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
@@ -12848,9 +12802,6 @@ forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_sorting_posts#:#Posts Sorting
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
-mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
-mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cron job. Only data that was released by the User, will be updated.
-mail#:#auto_update#:#Update
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
@@ -13445,7 +13396,6 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.
 exc#:#exc_feedback_notification_link#:#Link to exercise
-mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation
 mail#:#system_notification_installation_changed_by#:#Changed By
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
