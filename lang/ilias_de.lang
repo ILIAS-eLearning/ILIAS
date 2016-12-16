@@ -3931,7 +3931,6 @@ common#:#mail_addressbook#:#Kontakte
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mail_attachment#:#Mailanhang
-common#:#mail_attachments#:#Mailanhänge
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
 common#:#mail_d_drafts#:#Entwürfe
