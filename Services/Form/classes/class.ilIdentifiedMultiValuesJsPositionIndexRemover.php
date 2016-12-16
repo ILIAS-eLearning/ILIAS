@@ -9,7 +9,7 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
+class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManipulator
 {
 	
 	
@@ -31,7 +31,7 @@ class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
 		
 		foreach($positionIndexedValues as $valueKey => $value)
 		{
-			if( $this->isPositionIndexedValue($value) )
+			if( $this->isIdentifiedPositionIndexedValue($value) )
 			{
 				$value = $this->removeMultiValuePositionIndex($value);
 			}
@@ -42,7 +42,7 @@ class ilMultiValuesPositionIndexRemover implements ilFormValuesManipulator
 		return $keyIdentifiedValues;
 	}
 	
-	protected function isPositionIndexedValue($value)
+	protected function isIdentifiedPositionIndexedValue($value)
 	{
 		switch(true)
 		{
