@@ -662,37 +662,6 @@ class ilLanguage
 			}
 		}
 	}
-
-	/**
-	 * Send deprecated lang entries
-	 *
-	 * @param
-	 * @return
-	 */
-	function sendDeprecated()
-	{
-		global $DIC;
-
-		$db = $DIC->database();
-		$data = "";
-
-		$log = array();
-		$set = $db->query("SELECT module, identifier FROM lng_log ");
-		while ($rec = $db->fetchAssoc($set))
-		{
-			$log[$rec["module"].":".$rec["identifier"]] = 1;
-		}
-		$set = $db->query("SELECT module, identifier FROM lng_data WHERE lang_key = ".$db->quote("en", "text")." ORDER BY module, identifier");
-		while ($rec = $db->fetchAssoc($set))
-		{
-			if (!isset($log[$rec["module"].":".$rec["identifier"]]))
-			{
-				$data .= $rec["module"] . "," . $rec["identifier"] . "\n";
-			}
-		}
-		ilUtil::deliverData($data, "lang_legacy_candidates.csv");
-	}
-
-
+	
 } // END class.Language
 ?>

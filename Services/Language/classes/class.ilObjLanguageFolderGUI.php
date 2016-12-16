@@ -680,9 +680,23 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function downloadDeprecatedObject()
 	{
-		global $lng;
+		global $rbacsystem, $tpl;
 
-		$lng->sendDeprecated();
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/Language/classes/class.ilLangDeprecated.php");
+
+		$d = new ilLangDeprecated();
+		$res = "";
+		foreach ($d->getDeprecatedLangVars() as $key => $mod)
+		{
+			$res.= $mod.",".$key."\n";
+		}
+
+		$tpl->setContent("<pre>".$res."</pre>");
 	}
 
 
