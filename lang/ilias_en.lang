@@ -1765,10 +1765,8 @@ certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_background_image#:#Background Image
-certificate#:#certificate_bottom#:#Bottom
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
 certificate#:#certificate_custom#:#Custom...
-certificate#:#certificate_delete#:#Delete Certificate Data
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
 certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
 certificate#:#certificate_enabled_scorm#:#Enabled
@@ -1776,12 +1774,10 @@ certificate#:#certificate_error_import#:#An error occurred during the import of 
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
 certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#failed
-certificate#:#certificate_left#:#Left
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_margin_body#:#Body Margin
 certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
-certificate#:#certificate_padding_top#:#Top Padding
 certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
 certificate#:#certificate_page_format#:#Page Format
 certificate#:#certificate_pageheight#:#Page Height
@@ -1814,16 +1810,10 @@ certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Preview
-certificate#:#certificate_right#:#Right
 certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_short_name#:#Certificate file short title
-certificate#:#certificate_show#:#Show Certificate
-certificate#:#certificate_status_complete#:#The certificate is complete and could be used
-certificate#:#certificate_status_incomplete#:#The certificate is incomplete
-certificate#:#certificate_status#:#Status
 certificate#:#certificate_text#:#Certificate Text
-certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
 certificate#:#certificate_var_max_points#:#46
@@ -1849,8 +1839,6 @@ certificate#:#certificate_visibility_introduction#:#Participants will be offered
 certificate#:#certificate_visibility_never#:#Not Visible
 certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
 certificate#:#certificate_visibility#:#Visibility
-certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
-certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#download_certificate#:#Download Certificate
 common#:#chat_chatviewer#:#Chat Viewer

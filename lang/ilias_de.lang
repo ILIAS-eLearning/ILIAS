@@ -2089,10 +2089,8 @@ certificate#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Hintergrundbild
-certificate#:#certificate_bottom#:#Unten
 certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
 certificate#:#certificate_custom#:#Eigenes Format...
-certificate#:#certificate_delete#:#Zertifikat löschen
 certificate#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
 certificate#:#certificate_enabled_scorm#:#Aktiviert
 certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer des SCORM-Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
@@ -2100,12 +2098,10 @@ certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein
 certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
 certificate#:#certificate_export#:#Exportieren
 certificate#:#certificate_failed#:#nicht bestanden
-certificate#:#certificate_left#:#Links
 certificate#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
 certificate#:#certificate_margin_body#:#Ränder des Textbereiches
 certificate#:#certificate_not_well_formed#:#Die Datei des Zertifikatstexts enthält kein gültiges XHTML. Bitte verwenden Sie gültiges XHTML!
-certificate#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
 certificate#:#certificate_page_format#:#Seitenformat
 certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seitenformat für neue Zertifikate aus.
 certificate#:#certificate_pageheight#:#Seitenhöhe
@@ -2152,16 +2148,10 @@ certificate#:#certificate_ph_title_sco#:#Titel
 certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
 certificate#:#certificate_preview#:#Vorschau
-certificate#:#certificate_right#:#Rechts
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
 certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
 certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztitel für die Dateibenennung ein. Der Kurztitel wird als Teil des Zertifikat-Dateinamens verwendet: JJMMTT_[Nachname]_[SHORT_TITLE]_Zertifikat.pdf.
-certificate#:#certificate_show#:#Zertifikat anzeigen
-certificate#:#certificate_status#:#Status
-certificate#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
-certificate#:#certificate_status_incomplete#:#Das Zertifikat ist unvollständig
 certificate#:#certificate_text#:#Text des Zertifikats
-certificate#:#certificate_top#:#Oben
 certificate#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
 certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird in der Hauptseite der Administration in der Kategorie Web-Services konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 certificate#:#certificate_var_max_points#:#46
@@ -2189,8 +2179,6 @@ certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der 
 certificate#:#certificate_visibility_never#:#Nicht sichtbar
 certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
 certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
-certificate#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
-certificate#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
 certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird bei allen Zertifikaten als Standard-Hintergrund verwendet, es sei denn, Sie geben im Zertifikat-Editor explizit ein anderes Hintergrundbild an.
 certificate#:#download_certificate#:#Zertifikat herunterladen
 common#:#chat_chatviewer#:#Chatviewer
