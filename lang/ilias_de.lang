@@ -2184,12 +2184,8 @@ certificate#:#download_certificate#:#Zertifikat herunterladen
 common#:#chat_chatviewer#:#Chatviewer
 chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
-chatroom#:#chat_message_notify_activate#:#Aktivieren
-chatroom#:#chat_new_invitation_sound_status#:#Einen Klang abspielen, wenn Benutzer eine Einladung zu einem Chat erhalten hat.
-chatroom#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
-chatroom#:#allow_private_rooms#:#Private Räume erlauben
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen
@@ -2203,24 +2199,18 @@ chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
-chatroom#:#chat_create_new_private_room#:#Neues Séparée anlegen
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
-chatroom#:#chat_delete#:#Löschen
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: [ROOM_NAME]\nEingeladen von: [INVITER_NAME]\nURL: [LINK]\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel, um den Chatraum zu betreten.
 chatroom#:#chat_invite#:#Einladen
-chatroom#:#chat_invite_users#:#Benutzer einladen
 chatroom#:#chat_join#:#Betreten
 chatroom#:#chat_kick#:#Rauswerfen
-chatroom#:#chat_leave#:#Verlassen
 chatroom#:#chat_mainroom#:#Hauptraum
 chatroom#:#chat_message#:#Nachricht
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_message_options#:#Optionen
 chatroom#:#chat_message_to_all#:#An alle
-chatroom#:#chat_private_room#:#Séparée
-chatroom#:#chat_right_box_user#:#Benutzer
 chatroom#:#chat_to_mainroom#:#Zum Hauptraum
 chatroom#:#chat_whisper#:#Flüstern
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
@@ -2231,11 +2221,9 @@ chatroom#:#chtr_moderate#:#Moderieren
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#clear_room_history#:#Nachrichtenverlauf löschen
 chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten des aktuellen Raumes löschen?
-chatroom#:#connected#:#Verbindung hergestellt
 chatroom#:#create_private_room_text#:#Name des Séparées
 chatroom#:#custom_username#:#Eigener Benutzername
 chatroom#:#delete_private_room#:#Séparée löschen
-chatroom#:#disconnected#:#Verbindung geschlossen
 chatroom#:#display_past_msgs#:#Anzahl vergangene Nachrichten
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
@@ -2252,7 +2240,6 @@ chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
 chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
 chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
-chatroom#:#hint_unique_name#:#Ein eindeutiger Name der diesen ILIAS-Mandanten beim Chat-Server identifiziert. Diese Einstellung ist vorallem bei der Nutzung von mehreren ILIAS-Mandanten auf einem Chat-Server zu beachten.
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
 chatroom#:#history_byday_title#:#Tageshistorie
@@ -2260,8 +2247,6 @@ chatroom#:#history_bysession_title#:#Sitzungshistorie
 chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch einen Moderator gelöscht.
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
 chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
-chatroom#:#ilias_url#:#Basis-URL der ILIAS-Installation
-chatroom#:#instance_name#:#Eindeutiger Name der Instanz
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
 chatroom#:#invite_username#:#Benutzername
 chatroom#:#italic#:#Kursiv
@@ -2273,7 +2258,6 @@ chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
-chatroom#:#moderate#:#Moderieren
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#obj_chtr#:#Chatroom
@@ -2286,26 +2270,18 @@ chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#t
 chatroom#:#private_rooms_enabled#:#Séparées aktivieren
 chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
-chatroom#:#remark#:#Bemerkung
-chatroom#:#restrict_history#:#Historie begrenzen
-chatroom#:#restrict_history_info#:#Keine Einträge, zu deren Zeiten man selbst nicht im Raum war
 chatroom#:#scope#:#Raum/Séparée
 chatroom#:#select_custom_username#:#Benutzernamen auswählen
 chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
-chatroom#:#settings_privacy#:#Privatsphäre
 chatroom#:#settings_title#:#Einstellungen
 chatroom#:#show_settings#:#Einstellungen anzeigen
 chatroom#:#small#:#Klein
-chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den allgemeinen Einstellungen bevor Sie den Chat aktivieren.
-chatroom#:#soap_user#:#Name des SOAP-Benutzer
-chatroom#:#soap_user_password#:#Passwort des SOAP-Benutzer
 chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
 chatroom#:#underlined#:#Unterstrichen
-chatroom#:#unkown_private_room#:#Unbekanntes Séparée
 chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
 chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
 chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
@@ -2339,24 +2315,17 @@ common#:#chta_write#:#Chatraum-Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
-chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#instance#:#Instanz
-chatroom_adm#:#keypass#:#Keypass
-chatroom_adm#:#keystore#:#Keystore
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
-chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
 chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum : Einstellungen
 chatroom_adm#:#server_settings#:#Chat-Server-Einstellungen
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
 chatroom_adm#:#smiley#:#Smilies
-chatroom_adm#:#soap_user_hint#:#Dieser Benutzer wird benötigt, um vom Chat-Server Informationen an diese ILIAS-Installation senden zu können. Es werden keine speziellen Berechtigungen benötigt.<br />Wenn Sie einen neuen Account erstellen, stellen Sie bitte sicher, dass sich der Benutzer anmelden kann (z.B. Akzeptieren der Nutzungsvereinbarung).
-chatroom_adm#:#storepass#:#Storepass
 cmps#:#cmps_activate#:#Aktivieren
 cmps#:#cmps_active#:#Aktiv
 cmps#:#cmps_add_new_rank#:#Position in der Auswahlliste für hinzuzufügende Objekte
@@ -2867,7 +2836,6 @@ common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#chown_warning#:#Achtung! Das Ändern des Besitzers eines Objektes kann dazu führen, dass diese Person alle Zugriffsrechte an dem Objekt verliert.
 common#:#chtr_copy#:#Chatraum kopieren
 rbac#:#chtr_edit_permission#:#Rechteeinstellungen für Chatraum ändern
-rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
 rbac#:#chtr_visible#:#Chatraum ist sichtbar
 rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren
