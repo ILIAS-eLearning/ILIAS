@@ -26,6 +26,15 @@
 	}
 }
 
+[dir="rtl"] .ilMainHeader {
+	> header > .row > a.navbar-brand {
+		> img {
+			left: auto;
+			right: 0;
+		}
+	}
+}
+
 #ilTopBar.ilTopBar {
 	z-index: 1030;
 }
@@ -120,10 +129,15 @@ nav#ilTopNav {
 	}
 }
 
-[dir="rtl"] #ilTopNav .navbar-nav {
-	margin-right: 0;
+[dir="rtl"] #ilTopNav {
+    .navbar-nav {
+        margin-right: 0;
+    }
+    button.navbar-toggle {
+        left: auto;
+		right: 40px;
+	}
 }
-
 div.ilTopMemberView {
 	display: none;	
 }

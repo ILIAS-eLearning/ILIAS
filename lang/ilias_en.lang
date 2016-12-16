@@ -1765,10 +1765,8 @@ certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_background_image#:#Background Image
-certificate#:#certificate_bottom#:#Bottom
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
 certificate#:#certificate_custom#:#Custom...
-certificate#:#certificate_delete#:#Delete Certificate Data
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
 certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
 certificate#:#certificate_enabled_scorm#:#Enabled
@@ -1776,12 +1774,10 @@ certificate#:#certificate_error_import#:#An error occurred during the import of 
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
 certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#failed
-certificate#:#certificate_left#:#Left
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_margin_body#:#Body Margin
 certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
-certificate#:#certificate_padding_top#:#Top Padding
 certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
 certificate#:#certificate_page_format#:#Page Format
 certificate#:#certificate_pageheight#:#Page Height
@@ -1814,16 +1810,10 @@ certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Preview
-certificate#:#certificate_right#:#Right
 certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_short_name#:#Certificate file short title
-certificate#:#certificate_show#:#Show Certificate
-certificate#:#certificate_status_complete#:#The certificate is complete and could be used
-certificate#:#certificate_status_incomplete#:#The certificate is incomplete
-certificate#:#certificate_status#:#Status
 certificate#:#certificate_text#:#Certificate Text
-certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
 certificate#:#certificate_var_max_points#:#46
@@ -1849,15 +1839,10 @@ certificate#:#certificate_visibility_introduction#:#Participants will be offered
 certificate#:#certificate_visibility_never#:#Not Visible
 certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
 certificate#:#certificate_visibility#:#Visibility
-certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
-certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#download_certificate#:#Download Certificate
 common#:#chat_chatviewer#:#Chat Viewer
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
-chatroom#:#chat_message_notify_activate#:#Chat Notifications
-chatroom#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat
-chatroom#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat
 cmps#:#cmps_activate#:#Activate
 cmps#:#cmps_active#:#Active
 cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List
@@ -7266,8 +7251,6 @@ license#:#used_licenses#:#Consumed licenses
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
-mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
-mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
 mail#:#back_to_folder#:#Back to Folder
@@ -7280,42 +7263,23 @@ mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
-mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_send_html#:#HTML Frame for External Emails
 mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
 mail#:#mail_add_subject#:#Please enter a subject
-mail#:#mail_add_to_addressbook#:#Add to Contacts
-mail#:#mail_add_type#:#Please add the type of mail you want to send
-mail#:#mail_addr_entries#:#Entries
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
-mail#:#mail_bc_search#:#BCC search
-mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#The CC recipient is not valid
-mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
-mail#:#mail_check_your_email_addr#:#Your e-mail address is not valid
-mail#:#mail_compose#:#Compose Message
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
 mail#:#mail_deleted_entry#:#The entries are deleted
 mail#:#mail_deleted#:#The mail is deleted
-mail#:#mail_edit_entry#:#Edit Entry
-mail#:#mail_email_forbidden#:#You are not allowed to send e-mail
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
 mail#:#mail_empty_trash#:#Empty Trash
-mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
-mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
-mail#:#mail_enter_valid_login#:#Please enter a valid login name.
-mail#:#mail_entry_added#:#Added new Entry
-mail#:#mail_entry_changed#:#The entry is changed
-mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_entry_of_contacts#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
@@ -7323,15 +7287,8 @@ mail#:#mail_file_size#:#File Size
 mail#:#mail_files_deleted#:#The file(s) are deleted
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
-mail#:#mail_folder_edit#:#Edit Folder
 mail#:#mail_folder_exists#:#A folder already exists with this name
-mail#:#mail_folder_name_changed#:#The folder has been renamed
-mail#:#mail_folder_name#:#Folder name
-mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
-mail#:#mail_global_options#:#Global options
-mail#:#mail_group_members#:#Group Members
-mail#:#mail_in_addressbook#:#Already in Contacts
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
 mail#:#mail_incoming_mail#:#Incoming mail
@@ -7339,8 +7296,6 @@ mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
-mail#:#mail_intern#:#Internal
-mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
@@ -7350,7 +7305,6 @@ mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
-mail#:#mail_members_added_addressbook#:#Members added to Contacts
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
@@ -7359,7 +7313,6 @@ mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 mail#:#mail_my_courses#:#My Courses
-mail#:#mail_my_entries#:#My Address Book
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
@@ -7374,19 +7327,11 @@ mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
 mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
-mail#:#mail_new_entry#:#New Entry
-mail#:#mail_new_file#:#Add new file:
-mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
-mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
 mail#:#mail_no_valid_mailing_list#:#%1$s (no valid mailing list)
 mail#:#mail_notification_subject#:#New mail in your inbox
-mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
-mail#:#mail_received_x_new_mails#:#You received %s new mails.
-mail#:#mail_recipient_not_valid#:#The recipient is not valid
-mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Hello
@@ -7401,8 +7346,6 @@ mail#:#mail_select_course#:#Please select at least one course.
 mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
-mail#:#mail_select_only_one_entry#:#Please select only one entry.
-mail#:#mail_send_with_system_address#:#Send With System Address
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
 mail#:#mail_subject_prefix#:#Mail Subject
@@ -7411,10 +7354,7 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
-mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
 mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.
-mail#:#search_bc_recipient#:#Search BCC Recipient
-mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
@@ -10417,7 +10357,6 @@ common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the IL
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
 trac#:#trac_learning_progress_settings_info#:#Activate extended data
 fold#:#fold_import#:#Import Folder
-mail#:#mail_select_recipients#:#Please select mail recipients:
 grp#:#grp_import#:#Import Group
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
@@ -11247,22 +11186,15 @@ common#:#obj_chta#:#Chat Room
 chatroom#:#history_by_day#:#Daily History
 chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#history_by_session#:#Session History
-chatroom#:#connected#:#Connection Established
 chatroom#:#period#:#Period
-chatroom#:#disconnected#:#Connection Closed
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
 chatroom#:#enable_history#:#Enable History
-chatroom#:#restrict_history#:#Restrict History
-chatroom#:#restrict_history_info#:#No entries generated during absence from chat room.
-chatroom#:#allow_private_rooms#:#Allow Private Rooms
 chatroom#:#settings_general#:#General
-chatroom#:#settings_privacy#:#Privacy
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
-chatroom#:#remark#:#Remark
 chatroom#:#session#:#Session
 chatroom#:#fontcolor#:#Font Color
 chatroom#:#fontstyle#:#Font Style
@@ -11283,9 +11215,7 @@ chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_message_options#:#Display
 chatroom#:#chat_message_display#:#Options
 chatroom#:#chat_mainroom#:#Main Room
-chatroom#:#chat_leave#:#Leave
 chatroom#:#chat_join#:#Join
-chatroom#:#chat_delete#:#Delete
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_kick#:#Kick
 chatroom#:#chat_ban#:#Ban
@@ -11293,13 +11223,8 @@ chatroom#:#chat_address#:#Address
 chatroom#:#chat_whisper#:#Whisper
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
-chatroom#:#chat_invite_users#:#Invite Users
-chatroom#:#chat_right_box_user#:#User
-chatroom#:#chat_create_new_private_room#:#Create new Private Room
-chatroom#:#chat_private_room#:#Private Room
 chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
-chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat Room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
@@ -11319,7 +11244,6 @@ chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One Keyword per Line
 chatroom_adm#:#chatroom_upload_smiley#:#Upload Smiley
 administration#:#obj_chta_desc#:#Chat Administration
 chatroom_adm#:#protocol#:#Protocol
-chatroom_adm#:#instance#:#Instance
 chatroom_adm#:#smiley#:#Smilies
 chatroom_adm#:#chatroom_edit_smiley#:#Edit Smiley
 chatroom_adm#:#chatroom_current_smiley_image_path#:#Current Smiley
@@ -11327,27 +11251,21 @@ chatroom_adm#:#chatroom_current_smiley_image#:#Current Smiley Icon
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.
 chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#General Settings
-chatroom_adm#:#priv_hosts#:#Privileged Hosts
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
-chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#general_settings_title#:#General Chat Settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
 chatroom_adm#:#chat_smilies_initialized#:#Chat smileys initialized
-chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#unban#:#Unban
-chatroom_adm#:#keystore#:#Keystore
-chatroom_adm#:#keypass#:#Keypass
-chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 common#:#obj_chtr#:#Chat Room
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
@@ -11567,8 +11485,6 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
-chatroom#:#chtr_moderate#:#User can moderate discussion in chat room
-chatroom#:#unkown_private_room#:#Unknown private room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -11670,13 +11586,8 @@ didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
-chatroom#:#instance_name#:#Unique Identifier
-chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
-chatroom#:#soap_user#:#Name of SOAP User
-chatroom#:#soap_user_password#:#Password of SOAP User
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chat server to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters ‘-’ and ‘_’.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
 chatroom#:#display_past_msgs#:#Number of Past Messages
@@ -11708,7 +11619,6 @@ notes#:#comments_feature_currently_not_activated_for_object#:#The public comment
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Show Settings
 chatroom#:#hide_settings#:#Hide Settings
-chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chat server to the ilias installation. No special permissions are required.<br/>If you create a new account, please make sure that you are able to login with this user (e.g. accept licence agreement).
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#no_further_users#:#No other users present
@@ -12892,9 +12802,6 @@ forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_sorting_posts#:#Posts Sorting
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
-mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
-mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cron job. Only data that was released by the User, will be updated.
-mail#:#auto_update#:#Update
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
@@ -13489,7 +13396,6 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.
 exc#:#exc_feedback_notification_link#:#Link to exercise
-mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation
 mail#:#system_notification_installation_changed_by#:#Changed By
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
