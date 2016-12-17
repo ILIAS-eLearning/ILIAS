@@ -24,8 +24,7 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 		{
 			$values[$this->getIndicatorBrandedIdentifier($identifier)] = $val;
 			unset($values[$identifier]);
-		}
-		
+		}		
 		return $values;
 	}
 	

@@ -129,12 +129,12 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			
 			if( $this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY )
 			{
-				$element->setIndentation(
-					$this->getIndentationByRandomIdentifier($element->getRandomIdentifier())
-				);
+				$element->setIndentation($value);
 			}
-			
-			$element->setContent($value);
+			else
+			{
+				$element->setContent($value);
+			}
 			
 			if( $this->getContext() == self::CONTEXT_MAINTAIN_ELEMENT_IMAGE )
 			{

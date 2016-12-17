@@ -13,11 +13,11 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 {
 	public function __construct($a_title, $a_postvar)
 	{
-		parent::__construct($a_title, $a_postvar);
-		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
 		$this->addFormValuesManipulator($manipulator);
+		
+		parent::__construct($a_title, $a_postvar);
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();

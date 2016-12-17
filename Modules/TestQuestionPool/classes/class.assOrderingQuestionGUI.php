@@ -230,7 +230,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				
 				$submittedElement->setSolutionIdentifier($storedElement->getSolutionIdentifier());
 				
-				if( !$this->object->isOrderingTypeNested() )
+				if( $this->object->isOrderingTypeNested() )
+				{
+					$submittedElement->setContent($storedElement->getContent());
+				}
+				else
 				{
 					$submittedElement->setIndentation($storedElement->getIndentation());
 				}

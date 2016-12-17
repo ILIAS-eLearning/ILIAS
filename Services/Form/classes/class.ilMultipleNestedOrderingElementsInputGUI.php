@@ -25,6 +25,10 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	public function __construct($a_title = '', $a_postvar = '')
 	{
 		parent::__construct($a_title, $a_postvar);
+		
+		require_once 'Services/Form/classes/class.ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover.php';
+		$manipulator = new ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover();
+		$this->addFormValuesManipulator($manipulator);
 	}
 
 	public function setInstanceId($instanceId)

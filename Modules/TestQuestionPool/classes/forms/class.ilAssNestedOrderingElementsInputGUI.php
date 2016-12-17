@@ -280,7 +280,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 		
 		$tpl->setCurrentBlock('item');
 		$tpl->setVariable("ITEM_ID", $this->buildMultiValueFieldId($identifier));
-		$tpl->setVariable("ITEM_POSTVAR", $this->buildMultiValuePostVar($identifier));
+		$tpl->setVariable("ITEM_POSTVAR", $this->buildMultiValuePostVar($identifier, null, 'content'));
 		$tpl->setVariable("ITEM_CONTENT", ilUtil::prepareFormOutput($element['content']));
 		$tpl->parseCurrentBlock();
 

@@ -39,6 +39,7 @@ var ilIdentifiedWizardInputExtend = {
 	
 	cleanRow: function(row)
 	{
+		console.log('asd');
 		this.assignNewRowKey(row);
 		this.handleRowCleanUp(row);
 	},
@@ -47,16 +48,18 @@ var ilIdentifiedWizardInputExtend = {
 	{
 		var wizard = this;
 		
-		var reg = "^(.*"+wizard.newRowKeyValuePrefix+"?)([\\-|\\w]+)((\\]|__)(\\[|__)\\d+(\\]|__))$";
+		var reg = "^(.*"+wizard.newRowKeyValuePrefix+")([\\-|\\w]+)((\\]|__)(\\[|__)\\d+(\\]|__))$";
 		var newKey = wizard.getNewRowKey();
 		
-		$(row).find('input').each(
-			function(pos, input)
-			{
-				wizard.replaceRowKey(input, 'name', reg, newKey);
-				wizard.replaceRowKey(input, 'id', reg, newKey);
-			}
-		);
+		$(wizard.getReindexSelectors()).each( function(pos, selector) {
+
+			$(row).find(selector).each( function (pos, input) {
+					console.log(input);
+					wizard.replaceRowKey(input, 'name', reg, newKey);
+					wizard.replaceRowKey(input, 'id', reg, newKey);
+			});
+
+		});
 	},
 	
 	replaceRowKey: function(input, attr, reg, newKey)
@@ -64,7 +67,7 @@ var ilIdentifiedWizardInputExtend = {
 		if( $(input).attr(attr) )
 		{
 			var regMatch = $(input).attr(attr).match(reg);
-			
+console.log(regMatch);			
 			if(regMatch)
 			{
 				$(input).attr(attr, regMatch[1] + newKey + regMatch[3]);
@@ -85,7 +88,7 @@ var ilIdentifiedWizardInputExtend = {
 
 			$(wizard.getReindexSelectors()).each(function(pos, selector) {
 				
-				$(item).find(selector).each(function() {
+				$(item).find(selector).each(function(pos, input) {
 					wizard.fixAttributeIndex(this, 'id', rowindex, wizard);
 					wizard.fixAttributeIndex(this, 'name', rowindex, wizard);
 				});
