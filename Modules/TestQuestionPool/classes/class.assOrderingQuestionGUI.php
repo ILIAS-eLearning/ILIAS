@@ -126,9 +126,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$this->writePostData(true);
 		
-		$randomIdentifier = key($_POST['cmd']['removeimageanswers']);
+		$randomIdentifier = str_replace(
+			ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX, '',
+			key($_POST['cmd']['removeimageanswers'])
+		);
+		
 		$orderingElement = $this->object->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier);
 		$this->object->dropImageFile($orderingElement->getContent());
+		$orderingElement->setContent(null);
+		$this->object->getOrderingElementList()->saveToDb();
 	
 		$this->editQuestion();
 	}
@@ -231,7 +237,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				
 				if( $this->object->isImageReplaced($submittedElement, $storedElement) )
 				{
-					$this->object->dropImageFile($storedElement);
+					$this->object->dropImageFile($storedElement->getContent());
 				}
 			}
 			

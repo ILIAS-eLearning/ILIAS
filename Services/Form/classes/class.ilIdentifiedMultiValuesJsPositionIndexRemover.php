@@ -48,7 +48,11 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 			if( $this->isValueIdentifier($key) )
 			{
 				$key = $this->removeIdentifierIndicator($key);
-				$val = $this->fetchPositionIndexedValue($val);
+				
+				if( $this->isPositionIndexLevel($val) )
+				{
+					$val = $this->fetchPositionIndexedValue($val);
+				}
 			}
 			elseif( is_array($val) )
 			{
@@ -59,6 +63,21 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 		}
 		
 		return $values;
+	}
+	
+	protected function isPositionIndexLevel($val)
+	{
+		if( !is_array($val) )
+		{
+			return false;
+		}
+		
+		if( count($val) != 1 )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	protected function isValueIdentifier($key)

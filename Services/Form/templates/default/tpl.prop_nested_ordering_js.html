@@ -1,12 +1,43 @@
 <!-- BEGIN nested_ordering_init -->
-<script language="JavaScript" type="text/javascript">
+<script language="JavaScript" type="text/javascript"> var updateOutput__{INSTANCE_ID};
 (function($) { $(document).ready(function () {
 
-    var updateOutput__{INSTANCE_ID} = function (e)
+    updateOutput__{INSTANCE_ID} = function (e)
     {
+        var containerSelector = 'div#nestable__{INSTANCE_ID}';
+        var items = [], indent = 0, selektor = containerSelector + ' ';
+
+        $(containerSelector).find('input[type=hidden]').remove();
+        
+        do
+        {
+            var found = false;
+            
+            selektor += ' > ol > li';
+            
+            $(selektor).each(
+                function(pos, item)
+                {
+                    var val = $(item).attr('data-id');
+                    console.log(item, val, indent);
+
+                    found = true;
+                   
+                    $(containerSelector).append(
+                        '<input type="hidden" class="hiddenIndentationInput" name="answers[indentation][' + val + ']" value="' + indent + '" />'
+                    );
+                }
+            );
+            
+            indent++;
+         }
+        while(found);
+
+        return;
+        
         var list = e.length ? e : $(e.target),
         output = list.data('output');
-        
+        console.log(output);return;
         if( window.JSON )
         {
             output.val(window.JSON.stringify(list.nestable('serialize')));

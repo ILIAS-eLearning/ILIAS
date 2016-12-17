@@ -14,8 +14,6 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	const INDENTATIONS_POSTVAR_SUFFIX = '_ordering';
 	const INDENTATIONS_POSTVAR_SUFFIX_JS = '__default';
 	
-	const PRESENTED_IMAGE_POSTVAR_SUBINDEX = 'imagename';
-	
 	const CONTEXT_MAINTAIN_ELEMENT_TEXT = 'maintainItemText';
 	const CONTEXT_MAINTAIN_ELEMENT_IMAGE = 'maintainItemImage';
 	const CONTEXT_MAINTAIN_HIERARCHY = 'maintainHierarchy';
@@ -136,48 +134,18 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 				);
 			}
 			
+			$element->setContent($value);
+			
 			if( $this->getContext() == self::CONTEXT_MAINTAIN_ELEMENT_IMAGE )
 			{
-				$element->setContent($this->fetchPresentedImageFilename($identifier));
 				$element->setUploadImageName($this->fetchSubmittedImageFilename($identifier));
 				$element->setUploadImageFile($this->fetchSubnmittedUploadFilename($identifier));
-			}
-			else
-			{
-				$element->setContent($value);
 			}
 			
 			$values[$identifier] = $element;
 		}
 		
 		return $values;
-	}
-	
-	protected function fetchPresentedImageFilename($identifier)
-	{
-		$presentedImageField = $this->fetchPresentedImageField();
-		
-		if( !isset($presentedImageField[$identifier]) )
-		{
-			return null;
-		}
-		
-		return $presentedImageField[$identifier];
-	}
-	
-	protected function fetchPresentedImageField()
-	{
-		if( !isset($_POST[$this->getPostVar()]) )
-		{
-			return array();
-		}
-		
-		if( !isset($_POST[$this->getPostVar()][self::PRESENTED_IMAGE_POSTVAR_SUBINDEX]) )
-		{
-			return array();
-		}
-		
-		return $_POST[$this->getPostVar()][self::PRESENTED_IMAGE_POSTVAR_SUBINDEX];
 	}
 	
 	protected function fetchSubmittedImageFilename($identifier)
