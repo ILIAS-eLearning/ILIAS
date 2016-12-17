@@ -3,11 +3,28 @@ var ilIdentifiedWizardInputExtend = {
 	tag_row: '.ilWzdRow', // css selector
 	tag_button: 'ilWzdBtn', // css classname prefix
 	
-	newRowKey: -1,
+	newRowKeySequence: null,
+	newRowKeyStartValue: -1,
+	newRowKeyValueInterval: -1,
+	newRowKeyValuePrefix: 'IDENTIFIER~',
 	
 	getNewRowKey: function()
 	{
-		return this.newRowKey--;
+		return this.getNextRowKey();
+	},
+	
+	getNextRowKey: function()
+	{
+		if( typeof this.newRowKeySequence === null )
+		{
+			this.newRowKeySequence = this.newRowKeyStartValue;
+		}
+		else
+		{
+			this.newRowKeySequence += this.newRowKeyValueInterval;
+		}
+		
+		return this.newRowKeySequence;
 	},
 	
 	getRowFromEvent: function(e)
@@ -28,36 +45,39 @@ var ilIdentifiedWizardInputExtend = {
 	
 	assignNewRowKey: function(row) // addition
 	{
-		var newKey = this.getNewRowKey();
+		var wizard = this;
+		
+		var reg = "^(.*"+wizard.newRowKeyValuePrefix+"?)([\\-|\\w]+)((\\]|__)(\\[|__)\\d+(\\]|__))$";
+		var newKey = wizard.getNewRowKey();
 		
 		$(row).find('input').each(
 			function(pos, input)
 			{
-				var oldPostVar = $(input).attr('name');
-				
-				if( !oldPostVar )
-				{
-					return;
-				}
-				
-				var regMatch = $(input).attr('name').match(
-					/^(\w+[\w|\-]*.*\[)([\-|\w]+)(\]\[\d+\])$/
-				);
-				
-				if(!regMatch)
-				{
-					return;
-				}
-				
-				$(input).attr('name', regMatch[1] + newKey + regMatch[3]);
+				wizard.replaceRowKey(input, 'name', reg, newKey);
+				wizard.replaceRowKey(input, 'id', reg, newKey);
 			}
 		);
+	},
+	
+	replaceRowKey: function(input, attr, reg, newKey)
+	{
+		if( $(input).attr(attr) )
+		{
+			var regMatch = $(input).attr(attr).match(reg);
+			
+			if(regMatch)
+			{
+				$(input).attr(attr, regMatch[1] + newKey + regMatch[3]);
+			}
+		}
 	},
 	
 	reindexRows: function(container) {
 		
 		var wizard = this;
 		var rowindex = 0;
+		
+		var that = this;
 		
 		$(container).find(wizard.tag_row).each(function() {
 			
@@ -66,22 +86,22 @@ var ilIdentifiedWizardInputExtend = {
 			$(wizard.getReindexSelectors()).each(function(pos, selector) {
 				
 				$(item).find(selector).each(function() {
-					wizard.fixAttributeIndex(this, 'id', rowindex);
-					wizard.fixAttributeIndex(this, 'name', rowindex);
+					wizard.fixAttributeIndex(this, 'id', rowindex, wizard);
+					wizard.fixAttributeIndex(this, 'name', rowindex, wizard);
 				});
 			});
 			
 			rowindex++;
 		});
 	},
-	
-	fixAttributeIndex: function(el, attr, new_idx)
+
+	fixAttributeIndex: function(el, attr, new_idx, wizard)
 	{
 		if( $(el).attr(attr) && $(el).attr(attr).length )
 		{
 			if( attr == 'id' )
 			{
-				this.handleUnderlinedId(el, attr, new_idx);
+				this.handleUnderlinedId(el, attr, new_idx, wizard);
 			}
 			else if( attr == 'name' )
 			{
@@ -90,12 +110,12 @@ var ilIdentifiedWizardInputExtend = {
 		}
 	},
 	
-	handleUnderlinedId: function(el, attr, new_idx)
+	handleUnderlinedId: function(el, attr, new_idx, wizard)
 	{
-		var regMatch = $(el).attr(attr).match(
-			/^(.*__[\-|\w]+____)(\d+)(__)$/
-		);
+		var reg = "^(.*__"+wizard.newRowKeyValuePrefix+"[\\-|\\w]+____)(\\d+)(__)$";
 		
+		var regMatch = $(el).attr(attr).match(reg);
+
 		if(regMatch)
 		{
 			$(el).attr(attr, regMatch[1] + new_idx + regMatch[3]);

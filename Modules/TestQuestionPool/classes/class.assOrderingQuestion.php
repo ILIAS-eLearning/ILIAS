@@ -800,8 +800,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function dropImageFile($imageFilename)
 	{
+		if( !strlen($imageFilename) )
+		{
+			return false;
+		}
+		
 		$result = @unlink($this->getImagePath().$imageFilename);
 		$result = $result & @unlink($this->getImagePath().$this->getThumbPrefix() . $imageFilename);
+		
 		return $result;
 	}
 	

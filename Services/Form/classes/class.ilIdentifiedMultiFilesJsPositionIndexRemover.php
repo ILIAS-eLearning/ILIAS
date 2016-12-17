@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilMultiValuesPositionIndexRemover.php';
+require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesJsPositionIndexRemover.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -9,7 +9,7 @@ require_once 'Services/Form/classes/class.ilMultiValuesPositionIndexRemover.php'
  *
  * @package        Modules/Test(QuestionPool)
  */
-class ilMultiFilesPositionIndexRemover extends ilMultiValuesPositionIndexRemover
+class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValuesJsPositionIndexRemover
 {
 	protected $postVar = null;
 	
@@ -22,6 +22,11 @@ class ilMultiFilesPositionIndexRemover extends ilMultiValuesPositionIndexRemover
 	{
 		$this->postVar = $postVar;
 	}
+	
+	public function manipulateFormInputValues($inputValues)
+	{
+		return $inputValues;
+	}
 
 	public function manipulateFormSubmitValues($values)
 	{
@@ -30,7 +35,7 @@ class ilMultiFilesPositionIndexRemover extends ilMultiValuesPositionIndexRemover
 			$this->prepareFileSubmit();
 		}
 		
-		return $this->fetchFilenamesFromSubmitValues($values);
+		return $values;
 	}
 	
 	protected function isFileSubmitAvailable()
@@ -60,15 +65,13 @@ class ilMultiFilesPositionIndexRemover extends ilMultiValuesPositionIndexRemover
 		);
 	}
 	
-	/**
-	 * @param $filesSubmit
-	 * @return mixed
-	 */
 	protected function prepareMultiFilesSubmitValues($filesSubmitValues)
 	{
+		return $this->removePositionIndexLevels($filesSubmitValues);
+		
 		foreach($filesSubmitValues as $phpUploadField => $fileUploadInfo)
 		{
-			$fileUploadInfo['image'] = $this->ensureNonPositionIndexedMultiValues(
+			$fileUploadInfo['image'] = $this->removePositionIndexLevels(
 				$fileUploadInfo['image']
 			);
 			
@@ -76,22 +79,5 @@ class ilMultiFilesPositionIndexRemover extends ilMultiValuesPositionIndexRemover
 		}
 		
 		return $filesSubmitValues;
-	}
-	
-	protected function fetchFilenamesFromSubmitValues($values)
-	{
-		$actualValues = $values;
-		
-		if( is_array($values) && isset($values['count']) && is_array($values['count']) )
-		{
-			$actualValues = array();
-			
-			foreach($values['count'] as $index => $value)
-			{
-				$actualValues[$index] = $values['imagename'][$index];
-			}
-		}
-		
-		return $actualValues;
 	}
 }

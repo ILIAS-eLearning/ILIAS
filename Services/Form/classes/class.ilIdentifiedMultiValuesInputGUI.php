@@ -21,8 +21,8 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		require_once 'Services/Form/classes/class.ilFormSubmitRecursiveSlashesStripper.php';
 		$this->addFormValuesManipulator(new ilFormSubmitRecursiveSlashesStripper());
 		
-		require_once 'Services/Form/classes/class.ilMultiValuesPositionIndexRemover.php';
-		$this->addFormValuesManipulator(new ilMultiValuesPositionIndexRemover());
+		require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesJsPositionIndexRemover.php';
+		$this->addFormValuesManipulator(new ilIdentifiedMultiValuesJsPositionIndexRemover());
 		
 		//$this->setMulti(true); // this is another planet, do not enable (!)
 	}

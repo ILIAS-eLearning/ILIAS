@@ -128,7 +128,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		$randomIdentifier = key($_POST['cmd']['removeimageanswers']);
 		$orderingElement = $this->object->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier);
-		$this->object->dropImageFile($orderingElement);
+		$this->object->dropImageFile($orderingElement->getContent());
 	
 		$this->editQuestion();
 	}

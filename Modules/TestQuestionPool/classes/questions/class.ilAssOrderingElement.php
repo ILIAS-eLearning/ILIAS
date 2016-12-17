@@ -20,12 +20,6 @@ class ilAssOrderingElement
 	 * @var integer
 	 */
 	public $id = -1;
-	
-	/**
-	 * constant boundaries for random id generations
-	 */
-	const RANDOM_ID_RANGE_LOWER_BOUND = 1;
-	const RANDOM_ID_RANGE_UPPER_BOUND = 100000;
 
 	/**
 	 * this identifier is generated randomly

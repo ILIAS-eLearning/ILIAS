@@ -32,9 +32,13 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
 		$this->setValues(array());
 		
-		require_once 'Services/Form/classes/class.ilMultiFilesPositionIndexRemover.php';
-		$manipulator = new ilMultiFilesPositionIndexRemover();
+		require_once 'Services/Form/classes/class.ilIdentifiedMultiFilesJsPositionIndexRemover.php';
+		$manipulator = new ilIdentifiedMultiFilesJsPositionIndexRemover();
 		$manipulator->setPostVar($this->getPostVar());
+		$this->addFormValuesManipulator($manipulator);
+		
+		require_once 'Services/Form/classes/class.ilMultipleImagesAdditionalIndexLevelRemover.php';
+		$manipulator = new ilMultipleImagesAdditionalIndexLevelRemover();
 		$this->addFormValuesManipulator($manipulator);
 		
 		require_once 'Services/Form/classes/class.ilMultiFilesSubmitRecursiveSlashesStripper.php';

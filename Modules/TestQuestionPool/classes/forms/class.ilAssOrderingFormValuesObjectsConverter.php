@@ -14,7 +14,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	const INDENTATIONS_POSTVAR_SUFFIX = '_ordering';
 	const INDENTATIONS_POSTVAR_SUFFIX_JS = '__default';
 	
-	const PRESENTED_IMAGE_POSTVAR_SUFFIX = 'name';
+	const PRESENTED_IMAGE_POSTVAR_SUBINDEX = 'imagename';
 	
 	const CONTEXT_MAINTAIN_ELEMENT_TEXT = 'maintainItemText';
 	const CONTEXT_MAINTAIN_ELEMENT_IMAGE = 'maintainItemImage';
@@ -55,21 +55,14 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		return $postVar;
 	}
 	
-	public function getPresentedImagePostVar()
-	{
-		return $this->getPostVar().self::PRESENTED_IMAGE_POSTVAR_SUFFIX;
-	}
-	
 	public function manipulateFormInputValues($objects)
 	{
 		return $this->collectValuesFromObjects($objects);
 	}
 	
-	protected function collectValuesFromObjects($objects)
+	protected function collectValuesFromObjects($values)
 	{
-		$values = array();
-		
-		foreach($objects as $orderingElement)
+		foreach($values as $identifier => $orderingElement)
 		{
 			/* @var ilAssOrderingElement $orderingElement */
 			
@@ -78,12 +71,12 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 				case self::CONTEXT_MAINTAIN_ELEMENT_TEXT:
 				case self::CONTEXT_MAINTAIN_ELEMENT_IMAGE:
 					
-					$values = $this->populateElementContentValueFromObject($orderingElement, $values);
+					$values[$identifier] = $this->getContentValueFromObject($orderingElement);
 					break;
 				
 				case self::CONTEXT_MAINTAIN_HIERARCHY:
 					
-					$values = $this->populateElementPropStructValueFromObject($orderingElement, $values);
+					$values[$identifier] = $this->getStructValueFromObject($orderingElement);
 					break;
 				
 				default:
@@ -94,24 +87,20 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		return $values;
 	}
 	
-	protected function populateElementContentValueFromObject(ilAssOrderingElement $element, $values)
+	protected function getContentValueFromObject(ilAssOrderingElement $element)
 	{
-		$values[ $element->getRandomIdentifier() ] = $element->getContent();
-		
-		return $values;
+		return $element->getContent();
 	}
 	
-	protected function populateElementPropStructValueFromObject(ilAssOrderingElement $element, $values)
+	protected function getStructValueFromObject(ilAssOrderingElement $element)
 	{
-		$values[ $element->getRandomIdentifier()] = array(
+		return array(
 			'answer_id' => $element->getId(),
 			'random_id' => $element->getRandomIdentifier(),
 			'content' => (string)$element->getContent(),
 			'ordering_position' => $element->getPosition(),
 			'ordering_indentation' => $element->getIndentation()
 		);
-		
-		return $values;
 	}
 	
 	public function manipulateFormSubmitValues($values)
@@ -178,12 +167,17 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function fetchPresentedImageField()
 	{
-		if( !isset($_POST[$this->getPresentedImagePostVar()]) )
+		if( !isset($_POST[$this->getPostVar()]) )
 		{
 			return array();
 		}
 		
-		return $_POST[$this->getPresentedImagePostVar()];
+		if( !isset($_POST[$this->getPostVar()][self::PRESENTED_IMAGE_POSTVAR_SUBINDEX]) )
+		{
+			return array();
+		}
+		
+		return $_POST[$this->getPostVar()][self::PRESENTED_IMAGE_POSTVAR_SUBINDEX];
 	}
 	
 	protected function fetchSubmittedImageFilename($identifier)

@@ -11,55 +11,80 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  */
 class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManipulator
 {
-	
+	const IDENTIFIER_INDICATOR_PREFIX = 'IDENTIFIER~';
 	
 	public function manipulateFormInputValues($inputValues)
 	{
-		return $inputValues;
+		return $this->brandIdentifiersWithIndicator($inputValues);
+	}
+	
+	protected function brandIdentifiersWithIndicator($values)
+	{
+		foreach($values as $identifier => $val)
+		{
+			$values[$this->getIndicatorBrandedIdentifier($identifier)] = $val;
+			unset($values[$identifier]);
+		}
+		
+		return $values;
+	}
+	
+	protected function getIndicatorBrandedIdentifier($identifier)
+	{
+		return self::IDENTIFIER_INDICATOR_PREFIX . $identifier;
 	}
 	
 	public function manipulateFormSubmitValues($submitValues)
 	{
-		return $this->ensureNonPositionIndexedMultiValues($submitValues);
+		return $this->removePositionIndexLevels($submitValues);
 	}
 	
-	protected function ensureNonPositionIndexedMultiValues($positionIndexedValues)
+	protected function removePositionIndexLevels($values)
 	{
-		$subLevels = $this->getPostVarSubLevels($positionIndexedValues);
-		
-		$keyIdentifiedValues = array();
-		
-		foreach($positionIndexedValues as $valueKey => $value)
+		foreach($values as $key => $val)
 		{
-			if( $this->isIdentifiedPositionIndexedValue($value) )
+			unset($values[$key]);
+			
+			if( $this->isValueIdentifier($key) )
 			{
-				$value = $this->removeMultiValuePositionIndex($value);
+				$key = $this->removeIdentifierIndicator($key);
+				$val = $this->fetchPositionIndexedValue($val);
+			}
+			elseif( is_array($val) )
+			{
+				$val = $this->removePositionIndexLevels($val);
 			}
 			
-			$keyIdentifiedValues[$valueKey] = $value;
+			$values[$key] = $val;
 		}
 		
-		return $keyIdentifiedValues;
+		return $values;
 	}
 	
-	protected function isIdentifiedPositionIndexedValue($value)
+	protected function isValueIdentifier($key)
 	{
-		switch(true)
+		$indicatorPrefixLength = self::IDENTIFIER_INDICATOR_PREFIX;
+		
+		if( strlen($key) <= strlen($indicatorPrefixLength) )
 		{
-			case !is_array($value):
-			case count($value) != 1:
-			case !is_integer(key($value)):
-			case !is_scalar(current($value)) && !is_object(current($value)):
-				
-				return false;
+			return false;
+		}
+		
+		if( substr($key, 0, strlen($indicatorPrefixLength)) != $indicatorPrefixLength )
+		{
+			return false;
 		}
 		
 		return true;
 	}
 	
-	protected function removeMultiValuePositionIndex($value)
+	protected function removeIdentifierIndicator($key)
 	{
-		
+		return str_replace(self::IDENTIFIER_INDICATOR_PREFIX, '', $key);
+	}
+	
+	protected function fetchPositionIndexedValue($value)
+	{
 		return current($value);
 	}
 }

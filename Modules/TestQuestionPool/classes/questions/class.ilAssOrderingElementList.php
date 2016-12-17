@@ -19,6 +19,10 @@ class ilAssOrderingElementList implements Iterator
 	const RANDOM_IDENTIFIER_RANGE_LOWER_BOUND = 1;
 	const RANDOM_IDENTIFIER_RANGE_UPPER_BOUND = 100000;
 	
+	const FALLBACK_DEFAULT_ELEMENT_RANDOM_IDENTIFIER = 0;
+	const JS_ADDED_ELEMENTS_RANDOM_IDENTIFIER_START_VALUE = -1;
+	const JS_ADDED_ELEMENTS_RANDOM_IDENTIFIER_VALUE_INTERVAL = -1;
+	
 	const IDENTIFIER_TYPE_SOLUTION = 'SolutionIds';
 	const IDENTIFIER_TYPE_RANDOM = 'RandomIds';
 	
@@ -771,4 +775,15 @@ class ilAssOrderingElementList implements Iterator
 	 * @return ilAssOrderingElement
 	 */
 	public function rewind() { return reset($this->elements); }
+	
+	/**
+	 * @return ilAssOrderingElement
+	 */
+	public static function getFallbackDefaultElement()
+	{
+		$element = new ilAssOrderingElement();
+		$element->setRandomIdentifier(self::FALLBACK_DEFAULT_ELEMENT_RANDOM_IDENTIFIER);
+
+		return $element;
+	}
 }
