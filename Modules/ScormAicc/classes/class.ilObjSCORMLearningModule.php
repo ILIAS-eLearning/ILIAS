@@ -662,7 +662,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			if ($data["Login"]) $user_id = $this->get_user_id($data["Login"]);
 			if ($data["login"]) $user_id = $this->get_user_id($data["login"]);
 			//add mail in future
-			if ($data["user"] && is_int($data["user"])) $user_id = $data["user"];
+			if ($data["user"] && is_numeric($data["user"])) $user_id = (int)$data["user"];
+
 			if ($user_id>0) {
 					
 				$last_access = ilUtil::now();
