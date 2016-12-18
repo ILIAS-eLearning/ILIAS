@@ -27,5 +27,5 @@ interface Mode extends \ILIAS\UI\Component\Component {
 	 *
 	 *@return array (string|string)[]. Array containing keys as label and values as actions.
 	 */
-	public function getActionsAndLabels();
+	public function getLabelledActions();
 }
