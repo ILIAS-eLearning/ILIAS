@@ -44,7 +44,7 @@ interface Factory {
 	 *      days/weeks/months in a calendar or entries in a blog.
 	 *   composition: >
 	 *      Section View Controls are composed of three Buttons. The Button on the left caries a Back Glyph, the Button
-	 *      in the middle is either a Default- or Split Button labeled accordingly and the Button on the right carries
+	 *      in the middle is either a Default- or Split Button labeling the data displayed below and the Button on the right carries
 	 *      a next Glyph.
 	 *   effect: >
 	 *      Clicking on the Buttons left or right changes the selection of the displayed data by a fixed interval. Clicking
