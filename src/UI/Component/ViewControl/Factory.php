@@ -15,7 +15,7 @@ interface Factory {
 	 *      Mode View Controls enable the switching between different aspects of some data. The different modes are mutually
 	 *      exclusive and can therefore not be activated at once.
 	 *   composition: >
-	 *      Button Groups are composed of Buttons switching between active and inactive states.
+	 *      Mode View Controls are composed of Buttons switching between active and inactive states.
 	 *   effect: >
 	 *      Clicking on an inactive Button turns this button active and all other inactive. Clicking on an active button
 	 *      has no effect.
@@ -25,8 +25,8 @@ interface Factory {
 	 *      1: At least one Button MUST always be active.
 	 *      2: Not more than one Button MUST be active.
 	 *   accessibility:
-	 *      1: The Button Group of the Mode View Control MUST cary the role-attribute "group".
-	 *      2: The Button Group Mode View Control MUST set an aria-label clearly describing it's functionality.
+	 *      1: The Buttons of the Mode View Control MUST cary the role-attribute "group".
+	 *      2: The Buttons of the Mode View Control MUST set an aria-label clearly describing it's functionality.
 	 *      3: The currently active Button must be labeled by setting aria-checked to "true".
 	 *
 	 * ---
