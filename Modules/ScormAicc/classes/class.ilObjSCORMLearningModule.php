@@ -789,7 +789,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				'percentage_completed'	=> array('integer', $percentage_completed),
 				'sco_total_time_sec'	=> array('integer', $sco_total_time_sec)
 			));
-		}							
+		}
+
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent("sahs", (int)$_GET["ref_id"], $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
 	}
 
 	/**
