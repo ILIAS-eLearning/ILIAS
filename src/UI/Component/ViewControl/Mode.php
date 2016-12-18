@@ -11,9 +11,9 @@ interface Mode extends \ILIAS\UI\Component\Component {
 	/**
 	 * set the currently active Button by label.
 	 *
-	 * @return string the label of the button to activate
+	 * @param string $label. The label of the button to activate
 	 */
-	public function withActive();
+	public function withActive($label);
 
 	/**
 	 * get the label of the currently active button of the mode control
