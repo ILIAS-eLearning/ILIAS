@@ -22,8 +22,7 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: At least one Button MUST always be active.
-	 *      2: Not more than one Button MUST be active.
+	 *      1: Exactly one Button MUST always be active.
 	 *   accessibility:
 	 *      1: The Buttons of the Mode View Control MUST cary the role-attribute "group".
 	 *      2: The Buttons of the Mode View Control MUST set an aria-label clearly describing it's functionality.
