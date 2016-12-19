@@ -15212,9 +15212,9 @@ buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact
 buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore Contact
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm Contact
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_action_not_possible#:#Action not possible

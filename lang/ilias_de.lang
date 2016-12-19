@@ -15334,9 +15334,9 @@ buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktanfrage
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Kontakt angefragt
 buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Anfrage ignoriert
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Kontakt aufheben
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorieren
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Kontakt ignorieren
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Anfrage zurückziehen
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Kontakt bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
