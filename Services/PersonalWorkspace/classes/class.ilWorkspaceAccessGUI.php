@@ -39,10 +39,15 @@ class ilWorkspaceAccessGUI
 	
 	function executeCommand()
 	{
-		global $ilTabs, $tpl;
+		global $ilTabs, $tpl, $ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+		}
 
 		switch($next_class)
 		{
