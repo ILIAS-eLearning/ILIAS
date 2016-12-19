@@ -1708,7 +1708,7 @@ class ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
+		global $objDefinition,$ilUser,$rbacadmin, $ilDB, $ilAppEventHandler;
 		
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
@@ -1764,7 +1764,12 @@ class ilObject
 			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
 		// END WebDAV: Clone WebDAV properties
-		
+
+		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
+			'object' => $new_obj,
+			'cloned_from_object' => $this,
+		));
+
 		return $new_obj;
 	}
 	
