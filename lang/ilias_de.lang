@@ -8429,7 +8429,7 @@ mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge g
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die ausgewählten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
 mail#:#mail_to#:#An
-mail#:#placeholders_advise#:#Platzhalter werden nur für Empfänger im «An»-Feld ersetzt.%sEmpfänger im CC- und BCC-Feld erhalten Mails ohne ersetzte Platzhalter.
+mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger im «An»-Feld ersetzt.%sBei Empfängern im CC- und BCC-Feld bleiben persönliche Platzhalter erhalten.
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen

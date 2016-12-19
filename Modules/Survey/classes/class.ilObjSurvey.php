@@ -6175,13 +6175,13 @@ class ilObjSurvey extends ilObject
 		{			
 			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
 			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
-			
+
 			$user = new ilObjUser($a_user_id);
-			foreach($context->getPlaceholders() as $key => $ph_definition)
-			{
-				$result    = $context->resolvePlaceholder($key, $a_context_params, $user);
-				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
-			}
+
+			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
+			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
+			
 		}
 		catch(Exception $e)
 		{

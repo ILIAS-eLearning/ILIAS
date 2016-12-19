@@ -696,9 +696,10 @@ class ilMail
 	/**
 	 * @param string $a_message
 	 * @param int $a_user_id
+	 * @param boolean $replace_empty
 	 * @return string
 	 */
-	protected function replacePlaceholders($a_message, $a_user_id = 0)
+	protected function replacePlaceholders($a_message, $a_user_id = 0, $replace_empty = true)
 	{
 		try
 		{
@@ -716,11 +717,10 @@ class ilMail
 			}
 
 			$user = $a_user_id > 0 ? self::getCachedUserInstance($a_user_id) : null;
-			foreach($context->getPlaceholders() as $key => $ph_definition)
-			{
-				$result    = $context->resolvePlaceholder($key, ilMailFormCall::getContextParameters(), $user);
-				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
-			}
+
+			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
+			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters(), $replace_empty);
 		}
 		catch(Exception $e)
 		{
@@ -833,7 +833,8 @@ class ilMail
 				"Parsed CC/BCC user ids from given recipients for serial letter notification: " . implode(', ', $rcp_ids_no_replace)
 			));
 
-			$as_email = array();
+			$as_email          = array();
+			$id_to_message_map = array();
 
 			foreach($rcp_ids_replace as $id)
 			{
@@ -847,6 +848,8 @@ class ilMail
 				{
 					continue;
 				}
+
+				$id_to_message_map[$tmp_user->getId()] = $this->replacePlaceholders($a_message, $id);
 
 				if($user_is_active)
 				{
@@ -867,7 +870,7 @@ class ilMail
 
 				$mail_id = $this->sendInternalMail(
 					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $a_message, $id, 1
+					'unread', $a_type, 0, $a_subject, $id_to_message_map[$tmp_user->getId()], $id, 1
 				);
 
 				if($a_attachments)
@@ -880,11 +883,13 @@ class ilMail
 			{
 				foreach($as_email as $id => $email)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
+					$this->sendMimeMail($email, '', '', $a_subject, $id_to_message_map[$id], $a_attachments);
 				}
 			}
 
 			$as_email = array();
+
+			$cc_and_bcc_message = $this->replacePlaceholders($a_message, 0, false);
 
 			foreach($rcp_ids_no_replace as $id)
 			{
@@ -918,7 +923,7 @@ class ilMail
 
 				$mail_id = $this->sendInternalMail(
 					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $a_message, $id, 0
+					'unread', $a_type, 0, $a_subject, $cc_and_bcc_message, $id, 0
 				);
 
 				if($a_attachments)
@@ -929,7 +934,7 @@ class ilMail
 
 			if(count($as_email))
 			{
-				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $a_message, $a_attachments);
+				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $cc_and_bcc_message, $a_attachments);
 			}
 		}
 
