@@ -270,7 +270,7 @@ class ilMailMemberSearchGUI
 			array(),
 			array(
 				'type' => 'new',
-				'sig'  => ''
+				'sig'  =>  $this->gui->createMailSignature()
 			),
 			$this->generateContextArray()
 		));
