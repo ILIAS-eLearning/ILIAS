@@ -1254,14 +1254,16 @@ class ilObject
 		return $objects;
 	}
 
-	/**
-	* maybe this method should be in tree object!?
-	*
-	* @todo	role/rbac stuff
-	*/
+
+    /**
+     * maybe this method should be in tree object!?
+     *
+     * @todo    role/rbac stuff
+     * @param int $a_parent_ref Ref-ID of the parent object
+     */
 	function putInTree($a_parent_ref)
 	{
-		global $tree, $log;
+		global $tree, $log, $ilAppEventHandler;
 
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
 		
@@ -1270,6 +1272,13 @@ class ilObject
 			$this->getRefId().", obj_id: ".$this->getId().", type: ".
 			$this->getType().", title: ".$this->getTitle());
 
+		$ilAppEventHandler->raise('Services/Object', 'putObjectInTree', array(
+			'object' => $this,
+			'obj_type' => $this->getType(),
+			'obj_id' => $this->getId(),
+			'parent_ref_id' => $a_parent_ref,
+			)
+        );
 	}
 
 	/**
@@ -1375,7 +1384,7 @@ class ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin, $log, $ilDB;
+		global $rbacadmin, $log, $ilDB, $ilAppEventHandler;
 
 		$remove = false;
 
@@ -1395,8 +1404,10 @@ class ilObject
 				// raise error
 				$this->ilias->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
 			}
-			
-			// delete entry in object_data
+
+            $ilAppEventHandler->raise('Services/Object', 'beforeDeletion', array('object' => $this));
+
+            // delete entry in object_data
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($q);
