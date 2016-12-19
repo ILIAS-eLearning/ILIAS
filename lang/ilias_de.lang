@@ -20,13 +20,10 @@ forum#:#restore#:#Wiederherstellen
 forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#autosave_draft_info#:#<span class="asterisk">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>
-forum#:#publishThreadDrafts#:#Themenentwurf veröffentlichen
-forum#:#deleteThreadDrafts#:#Themenentwurf löschen
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
 common#:#pd_enable_pdfrmpostdraft#:#'Meine Beitragsentwürfe' aktivieren
 common#:#pd_enable_pdfrmpostdraft_info#:#Sofern aktiviert, wird auf dem Persönlichen Schreibtisch ein Block 'Meine Beitragsentwürfe' angezeigt, in welchem die Beitragsentwürfe des Benutzers in Foren aufgelistet werden.
 pd#:#block_show_pdfrmpostdraft#:#'Meine Beitragsentwürfe' anzeigen
-forum#:#forums_thread_drafts_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht.
 forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht.
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert. 
 forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
@@ -7906,9 +7903,7 @@ forum#:#forums_all_threads_marked_read#:#Alle Themen wurden als gelesen markiert
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Datei anhängen
 forum#:#forums_censor_comment#:#Bemerkung des Zensors
-forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_count_art#:#Anzahl Beiträge
-forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
 forum#:#forums_disable_notification#:#Benachrichtigung für Thema beenden
@@ -7925,9 +7920,7 @@ forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
-forum#:#forums_notification_subject#:#Neuer Beitrag im Forum:
 forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da Sie als Moderator eingetragen sind und die Berechtigung besitzen, diesen Beitrag zu aktivieren.
-forum#:#forums_post_and_children_were_activated#:#Der Beitrag und seine Folgebeiträge wurden aktiviert.
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde eingetragen, muss aber von einem Moderator aktiviert werden.
@@ -7939,7 +7932,6 @@ forum#:#forums_print_thread#:#Thema drucken
 forum#:#forums_subject#:#Titel
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
@@ -12813,8 +12805,6 @@ rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen 
-forum#:#frm_sorting_threads#:#Themen-Sortierung
-forum#:#frm_sorting_posts#:#Beitrags-Sortierung
 forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
@@ -13677,7 +13667,6 @@ search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
-forum#:#forums_notification#:#Benachrichtigung
 bibl#:#override_entries#:#Einträge überschreiben
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
 tax#:#tax_added#:#Die Taxonomie wurde erstellt.

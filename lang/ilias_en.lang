@@ -20,13 +20,10 @@ forum#:#restore#:#Restore
 forum#:#restore_draft_from_autosave#:#Restore draft
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
-forum#:#publishThreadDrafts#:#Publish Thread Draft
-forum#:#deleteThreadDrafts#:#Delete Thread Draft
 forum#:#edit_thread_draft#:#Edit thread draft
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
 forum#:#save_draft_successfully#:#The draft was saved successfully.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
@@ -6724,8 +6721,6 @@ forum#:#forums_attachments_add#:#Add attachment
 forum#:#forums_attachments#:#Attachments
 forum#:#forums_censor_comment#:#Comment of Censor
 forum#:#forums_count_art#:#Number of Articles
-forum#:#forums_count_thr#:#Number of Threads
-forum#:#forums_count#:#Number of Forums
 forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#Delete attachment
 forum#:#forums_disable_notification#:#Disable Notification for this Thread
@@ -6742,9 +6737,6 @@ forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 forum#:#forums_notification_show_post#:#Show posting: %s
-forum#:#forums_notification_subject#:#New posting in forum
-forum#:#forums_notification#:#Notification
-forum#:#forums_post_and_children_were_activated#:#The posting and all its child postings were activated.
 forum#:#forums_post_deleted#:#Posting has been deleted
 forum#:#forums_post_modified#:#Posting has been modified
 forum#:#forums_post_needs_to_be_activated#:#A new posting has been created, but it needs to be activated by a moderator.
@@ -6755,7 +6747,6 @@ forum#:#forums_posts#:#All postings
 forum#:#forums_print_thread#:#Print Thread
 forum#:#forums_subject#:#Subject
 forum#:#forums_the_post#:#Posting
-forum#:#forums_thread_create_date#:#Created on
 forum#:#forums_thread_create_from#:#Created from
 forum#:#forums_thread_marked#:#The thread has been marked as read.
 forum#:#forums_thread_new_entry#:#New topic has been created
@@ -12687,8 +12678,6 @@ rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
-forum#:#frm_sorting_threads#:#Thread Sorting
-forum#:#frm_sorting_posts#:#Posts Sorting
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
