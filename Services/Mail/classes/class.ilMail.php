@@ -833,8 +833,7 @@ class ilMail
 				"Parsed CC/BCC user ids from given recipients for serial letter notification: " . implode(', ', $rcp_ids_no_replace)
 			));
 
-			$as_email          = array();
-			$id_to_message_map = array();
+			$as_email = array();
 
 			foreach($rcp_ids_replace as $id)
 			{
@@ -848,8 +847,6 @@ class ilMail
 				{
 					continue;
 				}
-
-				$id_to_message_map[$tmp_user->getId()] = $this->replacePlaceholders($a_message, $id);
 
 				if($user_is_active)
 				{
@@ -870,7 +867,7 @@ class ilMail
 
 				$mail_id = $this->sendInternalMail(
 					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $id_to_message_map[$tmp_user->getId()], $id, 1
+					'unread', $a_type, 0, $a_subject, $a_message, $id, 0
 				);
 
 				if($a_attachments)
@@ -883,7 +880,7 @@ class ilMail
 			{
 				foreach($as_email as $id => $email)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $id_to_message_map[$id], $a_attachments);
+					$this->sendMimeMail($email, '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
 				}
 			}
 
