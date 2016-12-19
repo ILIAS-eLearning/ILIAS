@@ -5,9 +5,9 @@
 * @author Jesús López <lopez@leifos.com>
 * @version $Id$
 *
-* @ingroup ServicesMail
+* @ingroup ServicesPersonalWorkspace
 */
-class ilMailShareElementGUI
+class ilSingleUserShareGUI
 {
 	protected $tpl;
 	protected $ctrl;
@@ -74,11 +74,6 @@ class ilMailShareElementGUI
 
 	protected function saveShare()
 	{
-		global $DIC;
-		if(!$this->wsp_access_handler->checkAccess("write", "", $this->wsp_node_id))
-		{
-			$DIC['ilErr']->raiseError($this->lng->txt('permission_denied'),$DIC['ilErr']->WARNING);
-		}
 		$form = $this->getShareForm();
 
 		if($form->checkInput())

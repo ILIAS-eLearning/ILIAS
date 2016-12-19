@@ -8,7 +8,7 @@
  * @version $Id$
  * 
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilMailShareElementGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -84,11 +84,11 @@ class ilWorkspaceAccessGUI
 				$this->setObjectTitle();
 				break;
 
-			case "ilmailshareelementgui";
+			case "ilsingleusersharegui";
 				$ilTabs->setBackTarget($this->lng->txt("back"),
 					$this->ctrl->getLinkTarget($this, "share"));
-				include_once('Services/Contact/classes/class.ilMailShareElementGUI.php');
-				$ushare = new ilMailShareElementGUI($this->access_handler, $this->node_id);
+				include_once('Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php');
+				$ushare = new ilSingleUserShareGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($ushare);
 
@@ -209,7 +209,7 @@ class ilWorkspaceAccessGUI
 				include_once './Services/User/classes/class.ilUserAccountSettings.php';
 				if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
 				{
-					$this->ctrl->redirectByClass("ilmailshareelementgui");
+					$this->ctrl->redirectByClass("ilsingleusersharegui");
 				}
 				else
 				{
