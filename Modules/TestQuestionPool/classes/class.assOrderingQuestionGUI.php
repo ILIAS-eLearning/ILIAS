@@ -180,30 +180,32 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
-		$currentElementList = $this->object->getOrderingElementList();
+		if( !is_array($_POST['answers']) )
+		{
+			throw new ilTestQuestionPoolException('form submit request missing the form submit!?');
+		}
+		
+		$submittedElementList = new ilAssOrderingElementList();
+		$submittedElementList->setQuestionId($this->object->getId());
+		$submittedElementList->setElements($_POST['answers']);
+		
 		$replacementElementList = new ilAssOrderingElementList();
 		$replacementElementList->setQuestionId($this->object->getId());
 		
-		foreach((array)$_POST["answers"] as $submittedElement)
+		$currentElementList = $this->object->getOrderingElementList();
+		
+		foreach($submittedElementList as $submittedElement)
 		{
-			/* @var ilAssOrderingElement $submittedElement */
-			
 			if( $this->object->hasOrderingTypeUploadSupport() )
 			{
-				// new file
 				if( strlen($submittedElement->getUploadImageFile()) )
 				{
-					// check suffix						
 					$suffix = strtolower(array_pop(explode(".", $submittedElement->getUploadImageName())));
 					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
 					{
-						// hash the original filename
-						
 						$submittedElement->setUploadImageName( $this->object->buildHashedImageFilename(
 							$submittedElement->getUploadImageName()
 						));
-						
-						// move uploaded
 						
 						$wasImageFileStored = $this->object->storeImageFile(
 							$submittedElement->getUploadImageFile(), $submittedElement->getUploadImageName()
@@ -285,7 +287,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
 			$answers = new ilAssOrderingTextsInputGUI($this->lng->txt( "answers" ), "answers");
-			$answers->setValues($this->object->getOrderingElementList()->getElements());
+			$answers->setValues($this->object->getOrderingElementList()->getRandomIdentifierIndexedElements());
 			$answers->setAllowMove( TRUE );
 			$answers->setRequired( TRUE );
 			
@@ -301,7 +303,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$answers->setElementImagePath( $this->object->getImagePathWeb() );
 			$answers->setThumbPrefix($this->object->getThumbPrefix());
 			$answers->setOrderingType( $this->object->getOrderingType() );
-			$answers->setValues( $this->object->getOrderingElementList()->getElements() );
+			$answers->setValues( $this->object->getOrderingElementList()->getRandomIdentifierIndexedElements() );
 			
 			$form->addItem( $answers );
 		}

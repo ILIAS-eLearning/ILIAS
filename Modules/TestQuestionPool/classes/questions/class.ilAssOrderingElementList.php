@@ -340,7 +340,7 @@ class ilAssOrderingElementList implements Iterator
 	/**
 	 * @return array
 	 */
-	protected function getRegisteredSolutionIdentiers()
+	protected function getRegisteredSolutionIdentifiers()
 	{
 		return $this->getRegisteredIdentifiers(self::IDENTIFIER_TYPE_SOLUTION);
 	}
@@ -348,7 +348,7 @@ class ilAssOrderingElementList implements Iterator
 	/**
 	 * @return array
 	 */
-	protected function getRegisteredRandomIdentiers()
+	protected function getRegisteredRandomIdentifiers()
 	{
 		return $this->getRegisteredIdentifiers(self::IDENTIFIER_TYPE_RANDOM);
 	}
@@ -514,7 +514,9 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	protected function throwUnknownIdentifierTypeException($identifierType)
 	{
-		throw new ilTestQuestionPoolException('unknown identifier type: '.$identifierType);
+		throw new ilTestQuestionPoolException(
+			"unknown identifier type given (type: $identifierType)"
+		);
 	}
 	
 	/**
@@ -523,7 +525,32 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	protected function throwCouldNotBuildRandomIdentifierException($maxTries)
 	{
-		throw new ilTestQuestionPoolException('could not build random identifier (max tries: '.$maxTries.')');
+		throw new ilTestQuestionPoolException(
+			"could not build random identifier (max tries: $maxTries)"
+		);
+	}
+	
+	/**
+	 * @param string $randomIdentifier
+	 * @throws ilTestQuestionPoolException
+	 */
+	protected function throwMissingReorderPositionException($randomIdentifier)
+	{
+		throw new ilTestQuestionPoolException(
+			"cannot reorder element due to missing position (random identifier: $randomIdentifier)"
+		);
+	}
+	
+	/**
+	 * @param array $randomIdentifiers
+	 * @throws ilTestQuestionPoolException
+	 */
+	protected function throwUnknownRandomIdentifiersException($randomIdentifiers)
+	{
+		throw new ilTestQuestionPoolException(
+			'cannot reorder element due to one or more unknown random identifiers '.
+			'(' . implode(', ', $randomIdentifiers) . ')'
+		);
 	}
 	
 	protected function isValidSolutionIdentifier($identifier)
@@ -578,7 +605,7 @@ class ilAssOrderingElementList implements Iterator
 	{
 		$lastSolutionIdentifier = null;
 		
-		foreach($this->getRegisteredSolutionIdentiers() as $registeredIdentifier)
+		foreach( $this->getRegisteredSolutionIdentifiers() as $registeredIdentifier)
 		{
 			if( $lastSolutionIdentifier > $registeredIdentifier )
 			{
@@ -627,6 +654,17 @@ class ilAssOrderingElementList implements Iterator
 		while( $this->isIdentifierRegistered($testElement, self::IDENTIFIER_TYPE_RANDOM)  );
 		
 		return $randomIdentifier;
+	}
+	
+	/**
+	 * 
+	 */
+	public function distributeNewRandomIdentifiers()
+	{
+		foreach($this as $element)
+		{
+			$element->setRandomIdentifier( $this->buildRandomIdentifier() );
+		}
 	}
 	
 	/**
@@ -694,28 +732,45 @@ class ilAssOrderingElementList implements Iterator
 	 * @return ilAssOrderingElementList
 	 * @throws ilTestQuestionPoolException
 	 */
-	public function deriveElementListReorderedByRandomIdentifiers($randomIdentifiers)
+	public function reorderByRandomIdentifiers($randomIdentifiers)
 	{
-		$reorderedElementList = new self();
-		$reorderedElementList->setQuestionId($this->getQuestionId());
+		$positionsMap = array_flip( array_values($randomIdentifiers) );
 		
-		$position = 0;
+		$orderedElements = array();
 		
-		foreach($randomIdentifiers as $randomIdentifier)
+		foreach($this as $element)
 		{
-			if( !$this->elementExistByRandomIdentifier($randomIdentifier) )
+			if( !isset($positionsMap[$element->getRandomIdentifier()]) )
 			{
-				throw new ilTestQuestionPoolException('cannot reorder element for unknown identifier');
+				$this->throwMissingReorderPositionException($element->getRandomIdentifier());
 			}
 			
-			$clonedElement = clone $this->getElementByRandomIdentifier($randomIdentifier);
+			$position = $positionsMap[$element->getRandomIdentifier()];
+			unset($positionsMap[$element->getRandomIdentifier()]);
 			
-			$clonedElement->setPosition($position++);
-			
-			$reorderedElementList->addElement($clonedElement);
+			$element->setPosition($position);
+			$orderedElements[$position] = $element;
 		}
 		
-		return $reorderedElementList;
+		if( count($positionsMap) )
+		{
+			$this->throwUnknownRandomIdentifiersException( array_keys($positionsMap) );
+		}
+		
+		ksort($orderedElements);
+		
+		$this->setElements( array_values($orderedElements) );
+	}
+	
+	/**
+	 * resets the indentation to level 0 for all elements in list
+	 */
+	public function resetElementsIndentations()
+	{
+		foreach($this as $element)
+		{
+			$element->setIndentation(0);
+		}
 	}
 	
 	/**
@@ -785,5 +840,39 @@ class ilAssOrderingElementList implements Iterator
 		$element->setRandomIdentifier(self::FALLBACK_DEFAULT_ELEMENT_RANDOM_IDENTIFIER);
 
 		return $element;
+	}
+	
+	/**
+	 * @param array $variales
+	 */
+	protected function cloneRecursive($variales)
+	{
+		foreach($variales as $name => $var)
+		{
+			if( is_object($var) )
+			{
+				$variables[$name] = clone $var;
+			}
+			else if( is_array($var) )
+			{
+				$variables[$name] = $this->cloneRecursive($var);
+			}
+		}
+	}
+	
+	/**
+	 * magic clone implementation clones recusively
+	 */
+	public function __clone()
+	{
+		$this->cloneRecursive( get_object_vars($this) );
+	}
+	
+	/**
+	 * @return ilAssOrderingElementList
+	 */
+	public function getClonedElementList()
+	{
+		return clone $this;
 	}
 }

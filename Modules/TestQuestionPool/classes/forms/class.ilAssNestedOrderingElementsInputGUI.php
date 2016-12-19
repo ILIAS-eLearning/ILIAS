@@ -292,7 +292,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	 * @param integer $elementCounter
 	 * @return integer $currentDepth
 	 */
-	protected function getCurrentDepth($elementValues, $elementCounter)
+	protected function getCurrentIndentation($elementValues, $elementCounter)
 	{
 		if( !isset($elementValues[$elementCounter]) )
 		{
@@ -307,7 +307,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	 * @param integer $elementCounter
 	 * @return integer $nextDepth
 	 */
-	protected function getNextDepth($elementValues, $elementCounter)
+	protected function getNextIndentation($elementValues, $elementCounter)
 	{
 		if( !isset($elementValues[$elementCounter + 1]) )
 		{

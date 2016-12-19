@@ -90,17 +90,32 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function isComplete()
 	{
-		if (
-			strlen($this->title) && 
-			$this->author && 
-			$this->question && 
-			count($this->orderElements) && 
-			$this->getMaximumPoints() > 0
-		)
+		if( !$this->getAuthor() )
 		{
-			return true;
+			return false;
 		}
-		return false;
+		
+		if( !$this->getTitle() )
+		{
+			return false;
+		}
+		
+		if( !$this->getQuestion() )
+		{
+			return false;
+		}
+		
+		if( !$this->getMaximumPoints() )
+		{
+			return false;
+		}
+		
+		if( !$this->getOrderingElementList()->countElements() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
@@ -215,6 +230,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$clone->saveToDb();
 		}
+		
+		$clone->duplicateOrderlingElementList();
 
 		// copy question page content
 		$clone->copyPageOfQuestion($this_id);
@@ -226,6 +243,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 		
 		return $clone->id;
+	}
+	
+	protected function duplicateOrderlingElementList()
+	{
+		$this->getOrderingElementList()->setQuestionId($this->getId());
+		$this->getOrderingElementList()->distributeNewRandomIdentifiers();
+		$this->getOrderingElementList()->saveToDb();
 	}
 
 	/**
@@ -481,13 +505,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
 		$shuffler = new ilArrayElementShuffler();
 		
-		$shuffledRandomIdentifiers = $shuffler->shuffle(
-			$this->getOrderingElementList()->getRandomIdentifierIndex()
-		);
+		$shuffledElementList = $this->getOrderingElementList()->getClonedElementList();
 		
-		$shuffledElementList = $this->getOrderingElementList()->deriveElementListReorderedByRandomIdentifiers(
-			$shuffledRandomIdentifiers
-		);
+		$shuffledElementList->reorderByRandomIdentifiers( $shuffler->shuffle(
+			$this->getOrderingElementList()->getRandomIdentifierIndex()
+		));
+		
+		$shuffledElementList->resetElementsIndentations();
 		
 		return $shuffledElementList;
 	}

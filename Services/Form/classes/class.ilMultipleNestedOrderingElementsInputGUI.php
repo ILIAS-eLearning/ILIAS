@@ -162,38 +162,37 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	 * @param integer $elementCounter
 	 * @return integer $currentDepth
 	 */
-	abstract protected function getCurrentDepth($elementValues, $elementCounter);
+	abstract protected function getCurrentIndentation($elementValues, $elementCounter);
 	
 	/**
 	 * @param array $elementValues
 	 * @param integer $elementCounter
 	 * @return integer $nextDepth
 	 */
-	abstract protected function getNextDepth($elementValues, $elementCounter);
+	abstract protected function getNextIndentation($elementValues, $elementCounter);
 	
 	protected function renderMainList()
 	{
 		$this->initListTemplate();
 		$this->renderBeginSubList();
 		
+		
 		$values = array_values($this->getMultiValues());
 		$keys = array_keys($this->getMultiValues());
-		
-		$previous_depth = 0;
-		$i = 0;
+		$prevIndent = 0;
 		
 		foreach($values as $counter => $value)
 		{
 			$identifier = $keys[$counter];
 			
-			$current_depth 	= $this->getCurrentDepth($values, $counter);
-			$next_depth 	= $this->getNextDepth($values, $counter);
+			$curIndent = $this->getCurrentIndentation($values, $counter);
+			$nextIndent = $this->getNextIndentation($values, $counter);
 			
-			if($previous_depth == $current_depth)
+			if($prevIndent == $curIndent)
 			{
 				// pcn = Previous, Current, Next -> Depth
 				// pcn:  000, 001, 110, 220 
-				if($current_depth == $next_depth)
+				if($curIndent == $nextIndent)
 				{
 					// (1) pcn: 000
 					//						echo"(1)";
@@ -201,9 +200,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					$this->renderListItem($value, $identifier, $counter);
 					$this->renderEndListItem();
 				}
-				else if($current_depth > $next_depth)
+				else if($curIndent > $nextIndent)
 				{
-					if($previous_depth == $next_depth)
+					if($prevIndent == $nextIndent)
 					{
 						// wenn prev = cur ist und cur > next, wie soll prev = next sein !?
 						
@@ -215,14 +214,14 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 						$this->renderEndSubList();
 						$this->renderEndListItem();
 					}
-					else if($previous_depth > $next_depth)
+					else if($prevIndent > $nextIndent)
 					{
 						// (12) pcn: 220 
 						//							echo"(12)";
 						$this->renderBeginListItem($identifier);
 						$this->renderListItem($value, $identifier, $counter);
 						
-						for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
+						for($openlists = $nextIndent; $openlists < $curIndent; $openlists++)
 						{
 							$this->renderEndListItem();
 							$this->renderEndSubList();
@@ -230,7 +229,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 						}
 					}
 				}
-				else if($current_depth < $next_depth)
+				else if($curIndent < $nextIndent)
 				{
 					// (2) pcn: 001
 					//						echo"(2)";
@@ -239,9 +238,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					$this->renderBeginSubList();
 				}
 			}
-			else if($previous_depth > $current_depth)
+			else if($prevIndent > $curIndent)
 			{
-				if($current_depth == $next_depth)
+				if($curIndent == $nextIndent)
 				{
 					// (6) pcn: 100  
 					//						echo"(6)";
@@ -249,7 +248,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					$this->renderListItem($value, $identifier, $counter);
 					$this->renderEndListItem();
 				}
-				else if($current_depth > $next_depth)
+				else if($curIndent > $nextIndent)
 				{
 					// (11) pcn: 210
 					//						echo"(11)";
@@ -258,9 +257,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					$this->renderEndListItem();
 					$this->renderEndSubList();
 				}
-				else if($current_depth < $next_depth)
+				else if($curIndent < $nextIndent)
 				{
-					if($previous_depth == $next_depth)
+					if($prevIndent == $nextIndent)
 					{
 						// (7) pcn: 101
 						//							echo"(7)";
@@ -268,13 +267,13 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 						$this->renderListItem($value, $identifier, $counter);
 						$this->renderBeginSubList();
 					}
-					else if($previous_depth > $next_depth)
+					else if($prevIndent > $nextIndent)
 					{
 						// (10) pcn: 201 
 						//							echo"(10)";
 						$this->renderBeginListItem($identifier);
 						$this->renderListItem($value, $identifier, $counter);
-						for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
+						for($openlists = $nextIndent; $openlists < $curIndent; $openlists++)
 						{
 							$this->renderEndSubList();
 						}
@@ -282,9 +281,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					}
 				}
 			}
-			else if($previous_depth < $current_depth)
+			else if($prevIndent < $curIndent)
 			{
-				if($current_depth == $next_depth)
+				if($curIndent == $nextIndent)
 				{
 					// (4) pcn: 011  
 					//						echo"(4)";
@@ -292,9 +291,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					$this->renderListItem($value, $identifier, $counter);
 					$this->renderEndListItem();
 				}
-				else if($current_depth > $next_depth)
+				else if($curIndent > $nextIndent)
 				{
-					if($previous_depth == $next_depth)
+					if($prevIndent == $nextIndent)
 					{
 						// (3) pcn: 010, 
 						//							echo"(3)";
@@ -305,12 +304,12 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 						$this->renderEndListItem();
 						
 					}
-					else if($previous_depth > $next_depth)
+					else if($prevIndent > $nextIndent)
 					{
 						// (9) pcn: 120 
 						//							echo"(9)";
 						$this->renderListItem($value, $identifier, $counter);
-						for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
+						for($openlists = $nextIndent; $openlists < $curIndent; $openlists++)
 						{
 							$this->renderBeginListItem($identifier);
 							$this->renderEndListItem();
@@ -318,7 +317,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 						}
 					}
 				}
-				else if($current_depth < $next_depth)
+				else if($curIndent < $nextIndent)
 				{
 					// (5) pcn: 012 
 					//						echo"(5)";
@@ -328,9 +327,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 				}
 			}
 			
-			$previous_depth = $current_depth;
-			
-			$i++;
+			$prevIndent = $curIndent;
 		}
 		
 		$this->renderEndSubList();
