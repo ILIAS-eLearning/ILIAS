@@ -248,8 +248,10 @@ class ilMailMemberSearchGUI
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 'members', 
 			array(),
-			array('type' => 'new', 
-			      'sig'  => ''),
+			array(
+				'type' => 'new',
+				'sig'  =>  $this->gui->createMailSignature()
+			),
 			$this->generateContextArray()
 		));
 		return true;
