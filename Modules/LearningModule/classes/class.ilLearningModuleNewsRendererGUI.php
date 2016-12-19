@@ -24,8 +24,8 @@ class ilLearningModuleNewsRendererGUI extends ilNewsDefaultRendererGUI
 		if ($n->getContextSubObjType() == "pg"
 			&& $n->getContextSubObjId() > 0)
 		{
-			$add = "&target=pg_".$n->getContextSubObjId()."_".$this->getNewsRefId();
-			return ilLink::_getLink($this->getNewsRefId(), "pg", array(), $add);
+			//$add = "&target=pg_".$n->getContextSubObjId()."_".$this->getNewsRefId();
+			return ilLink::_getLink($n->getContextSubObjId()."_".$this->getNewsRefId(), "pg");
 		}
 		return ilLink::_getLink($this->getNewsRefId());
 	}

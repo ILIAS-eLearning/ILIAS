@@ -7840,11 +7840,6 @@ a.ilTreeView {
   box-shadow: 1px 1px 2px #b9b9b9;
   width: 6px;
 }
-@media only screen and (max-width: 768px) {
-  a.ilTreeView {
-    top: 140px;
-  }
-}
 a.ilTreeView > img {
   display: inline-block;
   margin-left: -2px;
@@ -10675,7 +10670,7 @@ div#il_startup_logo img {
 .ilToolbar ul.dropdown-menu > li {
   border: 0 none;
 }
-@media (min-width: 768px) {
+@media only screen and (max-width: 767px) {
   .ilToolbar .container-fluid {
     padding-left: 0;
   }
@@ -12314,7 +12309,7 @@ table.mceToolbar td {
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
    
    */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   html {
     -webkit-text-size-adjust: none;
   }
@@ -12439,6 +12434,10 @@ table.mceToolbar td {
     height: 40px;
     width: 40px;
   }
+  [dir="rtl"] .ilMainHeader > header > .row > a.navbar-brand > img {
+    left: auto;
+    right: 0;
+  }
   #ilTopBar.ilTopBar {
     z-index: 1030;
   }
@@ -12520,6 +12519,10 @@ table.mceToolbar td {
   }
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
+  }
+  [dir="rtl"] #ilTopNav button.navbar-toggle {
+    left: auto;
+    right: 40px;
   }
   div.ilTopMemberView {
     display: none;

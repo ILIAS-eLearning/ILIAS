@@ -90,7 +90,7 @@ class ilContextScorm implements ilContextTemplate
 	 */
 	public static function supportsPersistentSessions()
 	{
-		return true;
+		return false;
 	}
 	
 }

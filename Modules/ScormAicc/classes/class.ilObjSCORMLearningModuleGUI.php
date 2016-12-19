@@ -151,32 +151,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$sh->setTitle($this->lng->txt("cont_presentation"));
 		$this->form->addItem($sh);
 		
-		// display mode (open)
-		// $options = array(
-			// "0" => $this->lng->txt("cont_open_normal"),
-			// "1" => $this->lng->txt("cont_open_iframe_max"),
-			// "2" => $this->lng->txt("cont_open_iframe_defined"),
-			// "5" => $this->lng->txt("cont_open_window_undefined"),
-			// "6" => $this->lng->txt("cont_open_window_defined")
-			// );
-		// $si = new ilSelectInputGUI($this->lng->txt("cont_open"), "open_mode");
-		// $si->setOptions($options);
-		// $si->setValue($this->object->getOpenMode());
-		// $this->form->addItem($si);
-		
-		// // width
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width");
-		// $ni->setMaxLength(4);
-		// $ni->setSize(4);
-		// $ni->setValue($this->object->getWidth());
-		// $this->form->addItem($ni);
-		
-		// // height
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height");
-		// $ni->setMaxLength(4);
-		// $ni->setSize(4);
-		// $ni->setValue($this->object->getHeight());
-		// $this->form->addItem($ni);
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_open"), "open_mode");
 		$op0 = new ilRadioOption($this->lng->txt("cont_open_normal"), "0");
 		$radg->addOption($op0);
@@ -184,23 +158,33 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$radg->addOption($op1);
 		$op2 = new ilRadioOption($this->lng->txt("cont_open_window"), "5");
 		$radg->addOption($op2);
-		$radg->setValue($this->object->getOpenMode()); //ACHTUNG: DATENBANK
+		$radg->setValue($this->object->getOpenMode()); 
+
 		// width
-		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width");
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_0");
 		$ni->setMaxLength(4);
 		$ni->setSize(4);
-		//ACHTUNG: DATENBANKUPDATE
 		$ni->setValue($this->object->getWidth());
 		$op1->addSubItem($ni);
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_1");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$ni->setValue($this->object->getWidth());
 		$op2->addSubItem($ni);
 		// height
-		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height");
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height_0");
 		$ni->setMaxLength(4);
 		$ni->setSize(4);
 		$ni->setValue($this->object->getHeight());
 		$ni->setInfo($this->lng->txt("cont_width_height_info"));
 		$op1->addSubItem($ni);
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height_1");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$ni->setValue($this->object->getHeight());
+		$ni->setInfo($this->lng->txt("cont_width_height_info"));
 		$op2->addSubItem($ni);
+
 		$this->form->addItem($radg);
 		
 		// auto navigation to last visited item
@@ -314,12 +298,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$cb->setChecked($this->object->getCheck_values());
 		$cb->setInfo($this->lng->txt("cont_check_values_info"));
 		$this->form->addItem($cb);
-		// api adapter name
-		// $this->tpl->setVariable("TXT_API_ADAPTER", $this->lng->txt("cont_api_adapter"));
-		// $this->tpl->setVariable("VAL_API_ADAPTER", $this->object->getAPIAdapterName());
-		// api functions prefix
-		// $this->tpl->setVariable("TXT_API_PREFIX", $this->lng->txt("cont_api_func_prefix"));
-		// $this->tpl->setVariable("VAL_API_PREFIX", $this->object->getAPIFunctionsPrefix());
 
 		//
 		// debugging
@@ -575,19 +553,26 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->object->setMasteryScore($_POST["mastery_score"]);
 			// $this->object->updateMasteryScoreValues();
 		}
+
+		$t_height = $this->object->getHeight();
+		if ($_POST["height_0"] != $this->object->getHeight()) $t_height = $_POST["height_0"];
+		if ($_POST["height_1"] != $this->object->getHeight()) $t_height = $_POST["height_1"];
+
+		$t_width = $this->object->getWidth();
+		if ($_POST["width_0"] != $this->object->getWidth()) $t_width = $_POST["width_0"];
+		if ($_POST["width_1"] != $this->object->getWidth()) $t_width = $_POST["width_1"];
+
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setOfflineMode($tmpOfflineMode);
 		$this->object->setOpenMode($_POST["open_mode"]);
-		$this->object->setWidth($_POST["width"]);
-		$this->object->setHeight($_POST["height"]);
+		$this->object->setWidth($t_width);
+		$this->object->setHeight($t_height);
 		$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
 		$this->object->setAutoContinue(ilUtil::yn2tf($_POST["auto_continue"]));
 		$this->object->setMaxAttempt($_POST["max_attempt"]);
 		$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
 		$this->object->setCreditMode($_POST["credit_mode"]);
 		$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
-//		$this->object->setAPIAdapterName($_POST["api_adapter"]);
-//		$this->object->setAPIFunctionsPrefix($_POST["api_func_prefix"]);
 		$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 		$this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
 		$this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
