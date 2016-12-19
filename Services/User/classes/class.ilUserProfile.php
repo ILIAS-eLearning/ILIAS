@@ -46,7 +46,7 @@ class ilUserProfile
 	private static $user_field = array(
 		"username" => array(
 						"input" => "login",
-						"maxlength" => 32,
+						"maxlength" => 64,
 						"size" => 40,
 						"method" => "getLogin",
 						"course_export_fix_value" => 1,
@@ -494,7 +494,7 @@ class ilUserProfile
 						{
 							$val->setValue($a_user->getLogin());
 						}
-						$val->setMaxLength(32);
+						$val->setMaxLength($p['maxlength']);
 						$val->setSize(40);
 						$val->setRequired(true);
 					}
