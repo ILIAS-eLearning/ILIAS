@@ -100,7 +100,7 @@ class ilMailShareElementGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt('search_no_match', $form->getInput('name')),true);
+				ilUtil::sendInfo($this->lng->txt('search_no_match'),true);
 			}
 		}
 		$this->ctrl->redirect($this);
