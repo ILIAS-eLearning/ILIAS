@@ -143,21 +143,23 @@ class ilCourseParticipants extends ilParticipants
 
 		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
 	}
-	
-	/**
-	 * Update passed status (static)
-	 *
-	 * @access public
-	 * @param int $obj_id
-	 * @param int $usr_id
-	 * @param bool $passed
-	 * @param bool $a_manual
-	 * @param bool $a_no_origin
-	 */
+
+
+    /**
+     * Update passed status (static)
+     *
+     * @access public
+     * @param int $a_obj_id
+     * @param int $a_usr_id
+     * @param bool $a_passed
+     * @param bool $a_manual
+     * @param bool $a_no_origin
+     * @return bool
+     */
 	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $ilDB, $ilUser, $ilAppEventHandler;
+
 		// #11600
 		$origin = -1;
 		if($a_manual)
@@ -169,6 +171,7 @@ class ilCourseParticipants extends ilParticipants
 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
+		$update_query = '';
 		if($res->numRows())
 		{
 			// #9284 - only needs updating when status has changed
@@ -205,11 +208,18 @@ class ilCourseParticipants extends ilParticipants
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote($origin,'integer').", ".
-				$ilDB->quote($origin_ts,'integer').")";					
+				$ilDB->quote($origin_ts,'integer').")";
 		}
 		if(strlen($update_query))
 		{
 			$ilDB->manipulate($update_query);
+			if ($a_passed) {
+			    $ilAppEventHandler->raise('Modules/Course', 'participantHasPassedCourse', array(
+                        'obj_id' => $a_obj_id,
+                        'usr_id' => $a_usr_id,
+                    )
+                );
+            }
 		}
 		return true;	
 	}
