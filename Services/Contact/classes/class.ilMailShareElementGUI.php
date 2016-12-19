@@ -43,7 +43,7 @@ class ilMailShareElementGUI
 		return true;
 	}
 
-	protected function initShareForm(ilPropertyFormGUI $form = null)
+	public function initShareForm(ilPropertyFormGUI $form = null)
 	{
 		if(!($form instanceof ilPropertyFormGUI))
 		{
@@ -74,8 +74,11 @@ class ilMailShareElementGUI
 
 	protected function saveShare()
 	{
-		global $ilAccess;
-
+		global $DIC;
+		if(!$this->wsp_access_handler->checkAccess("write", "", $this->wsp_node_id))
+		{
+			$DIC['ilErr']->raiseError($this->lng->txt('permission_denied'),$DIC['ilErr']->WARNING);
+		}
 		$form = $this->getShareForm();
 
 		if($form->checkInput())
