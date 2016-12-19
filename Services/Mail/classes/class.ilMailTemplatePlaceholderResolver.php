@@ -31,7 +31,7 @@ class ilMailTemplatePlaceholderResolver
 	 * @param ilObjUser|null $user
 	 * @param array          $a_context_params
 	 * @param $replace_empty boolean
-	 * @return stringi
+	 * @return string
 	 * 
 	 */
 	public function resolve(ilObjUser $user = null, $a_context_params = array(), $replace_empty = true)
