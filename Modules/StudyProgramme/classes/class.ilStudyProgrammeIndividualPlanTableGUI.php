@@ -96,8 +96,15 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 			if ($completion_by_id) {
 				$completion_by = ilObjUser::_lookupLogin($completion_by_id);
 				if (!$completion_by) {
-					$completion_by = ilObject::_lookupTitle($completion_by_id);
-				}	
+					$type = ilObject::_lookupType($completion_by_id);
+					if($type == "crsr") {
+						$completion_by = ilContainerReference::_lookupTitle($completion_by_id);
+					} else {
+						$completion_by = ilObject::_lookupTitle($completion_by_id);
+					}
+				}
+			} else {
+				$completion_by = implode(", ", $progress->getNamesOfCompletedOrAccreditedChildren());
 			}
 			$plan[] = array( "status" => $progress->getStatus()
 						   , "title" => $node->getTitle()

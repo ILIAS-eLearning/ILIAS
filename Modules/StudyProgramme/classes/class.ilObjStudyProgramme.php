@@ -519,7 +519,7 @@ class ilObjStudyProgramme extends ilContainer {
 			$this->lp_children = array();
 
 			// TODO: find a better way to get all elements except StudyProgramme-children
-			$ref_ids = $this->tree->getChilds($this->getRefId());
+			$ref_ids = $this->tree->getChildsByType($this->getRefId(), "crsr");
 
 			// apply container sorting to tree
 			$sorting = ilContainerSorting::_getInstance($this->getId());
