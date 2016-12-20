@@ -48,7 +48,7 @@ class ilMailAddressTypesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @@dataProvider addressTypes
+	 * @dataProvider addressTypes
 	 * @param ilMailAddress $address
 	 * @param string $expectedAddressType
 	 * @param callable $preRunCallback
