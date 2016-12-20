@@ -420,6 +420,29 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
+	 * @param $forceCorrectSolution
+	 * @param $activeId
+	 * @param $passIndex
+	 * @return ilAssOrderingElementList
+	 */
+	public function getOrderingElementListForSolutionOutput($forceCorrectSolution, $activeId, $passIndex)
+	{
+		if( $forceCorrectSolution || !$activeId || !$passIndex )
+		{
+			return $this->getOrderingElementList();
+		}
+		
+		$solutionValues = $this->getSolutionValues($activeId, $passIndex);
+		
+		if( !count($solutionValues) )
+		{
+			return $this->getShuffledOrderingElementList();
+		}
+		
+		return $this->getSolutionOrderingElementList( $this->fetchIndexedValuesFromValuePairs($solutionValues) );
+	}
+	
+	/**
 	 * @param string $value1
 	 * @param string $value2
 	 * @return ilAssOrderingElement
@@ -464,24 +487,20 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @return ilAssOrderingElementList
 	 * @throws ilTestQuestionPoolException
 	 */
-	public function getSolutionOrderingElementList($valuePairs)
+	public function getSolutionOrderingElementList($indexedSolutionValues)
 	{		
 		$solutionOrderingList = new ilAssOrderingElementList();
 		$solutionOrderingList->setQuestionId($this->getId());
 		
-		foreach($valuePairs as $pair)
+		foreach($indexedSolutionValues as $value1 => $value2)
 		{
 			if( $this->isOrderingTypeNested() )
 			{
-				$element = $this->getSolutionValuePairBrandedOrderingElementByRandomIdentifier(
-					$pair['value1'], $pair['value2']
-				);
+				$element = $this->getSolutionValuePairBrandedOrderingElementByRandomIdentifier($value1, $value2);
 			}
 			else
 			{
-				$element = $this->getSolutionValuePairBrandedOrderingElementBySolutionIdentifier(
-					$pair['value1'], $pair['value2']
-				);
+				$element = $this->getSolutionValuePairBrandedOrderingElementBySolutionIdentifier($value1, $value2);
 			}
 			
 			$solutionOrderingList->addElement($element);
@@ -489,7 +508,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		if( !$this->getOrderingElementList()->hasSameElementSet($solutionOrderingList) )
 		{
-			throw new ilTestQuestionPoolException('inconsistent solution values found in database');
+			throw new ilTestQuestionPoolException('inconsistent solution values given');
 		}
 		
 		return $solutionOrderingList;
@@ -502,14 +521,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function getShuffledOrderingElementList()
 	{
-		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-		$shuffler = new ilArrayElementShuffler();
-		
-		$shuffledElementList = $this->getOrderingElementList()->getClonedElementList();
-		
-		$shuffledElementList->reorderByRandomIdentifiers( $shuffler->shuffle(
-			$this->getOrderingElementList()->getRandomIdentifierIndex()
-		));
+		$shuffledElementList = $this->getOrderingElementList()->getClonedElementList()->reorderByRandomIdentifiers(
+			$this->getShuffler()->shuffle( $this->getOrderingElementList()->getRandomIdentifierIndex() )
+		);
 		
 		$shuffledElementList->resetElementsIndentations();
 		
@@ -960,7 +974,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 				$this->removeCurrentSolution($active_id, $pass, $authorized);
 
-				foreach($this->getSolutionSubmit() as $val1 => $val2)
+				foreach( $this->getSolutionSubmit() as $val1 => $val2)
 				{
 					$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2), $authorized);
 					$entered_values++;
@@ -1279,77 +1293,20 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
-	* @return array
-	*/
-	protected function getSolutionSubmit()
+	 * @return array
+	 */
+	public function getSolutionPostSubmit()
 	{
-		$solutionSubmit = array();
-		
-		if(array_key_exists("orderresult", $_POST))
-		{
-			$orderresult = $_POST["orderresult"];
-			if(strlen($orderresult))
-			{
-				$orderarray = explode(":", $orderresult);
-				$ordervalue = 1;
-				foreach($orderarray as $index)
-				{
-					$idmatch = null;
-					if(preg_match("/id_(\\d+)/", $index, $idmatch))
-					{
-						$randomid = $idmatch[1];
-						foreach( $this->getOrderElements() as $answeridx => $answer)
-						{
-							if($answer->getRandomID() == $randomid)
-							{
-								$solutionSubmit[$answeridx] = $ordervalue;
-								$ordervalue++;
-							}
-						}
-					}
-				}
-			}
-		}
-		else if($this->getOrderingType() == OQ_NESTED_TERMS || $this->getOrderingType() == OQ_NESTED_PICTURES)
-		{
-			$answers_ordering = $_POST['answers_ordering__participant'];
-			$user_solution_hierarchy = json_decode($answers_ordering);
-			$with_random_id = true;
-			$this->setLeveledOrdering($user_solution_hierarchy, $with_random_id);
+		return $this->fetchSolutionSubmit($_POST);
+	}
 	
-			$index = 0;
-			foreach($this->leveled_ordering as $random_id => $depth)
-			{
-				$value_2 = implode(':', array($random_id, $depth));
-				$solutionSubmit[$index] = $value_2;
-				$index++;
-			}
-		}
-		else
-		{
-			foreach($_POST as $key => $value)
-			{
-				$matches = null;
-				if(preg_match("/^order_(\d+)/", $key, $matches))
-				{
-					if(!(preg_match("/initial_value_\d+/", $value)))
-					{
-						if(strlen($value))
-						{
-							foreach( $this->getOrderElements() as $answeridx => $answer)
-							{
-								if($answer->getRandomID() == $matches[1])
-								{
-									$solutionSubmit[$answeridx] = $value;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return $solutionSubmit;
+	/**
+	 * @deprecated use assOrderingQuestion::getSolutionPostSubmit() instead
+	 * @return array
+	 */
+	public function getSolutionSubmit()
+	{
+		return $this->getSolutionPostSubmit();
 	}
 
 	/**
@@ -1596,5 +1553,79 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			ilUtil::makeDirParents($this->getImagePath());
 		}
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function fetchSolutionSubmit($formSubmissionDataStructure)
+	{
+		$solutionSubmit = array();
+		
+		if( array_key_exists("orderresult", $formSubmissionDataStructure) )
+		{
+			$orderresult = $formSubmissionDataStructure["orderresult"];
+			if( strlen($orderresult) )
+			{
+				$orderarray = explode(":", $orderresult);
+				$ordervalue = 1;
+				foreach( $orderarray as $index )
+				{
+					$idmatch = null;
+					if( preg_match("/id_(\\d+)/", $index, $idmatch) )
+					{
+						$randomid = $idmatch[1];
+						foreach( $this->getOrderingElementList() as $answeridx => $answer )
+						{
+							if( $answer->getRandomIdentifier() == $randomid )
+							{
+								$solutionSubmit[$answeridx] = $ordervalue;
+								$ordervalue++;
+							}
+						}
+					}
+				}
+			}
+		}
+		else if( $this->getOrderingType() == OQ_NESTED_TERMS || $this->getOrderingType() == OQ_NESTED_PICTURES )
+		{
+			$answers_ordering = $formSubmissionDataStructure['answers_ordering__participant'];
+			$user_solution_hierarchy = json_decode($answers_ordering);
+			$with_random_id = true;
+			$this->setLeveledOrdering($user_solution_hierarchy, $with_random_id);
+			
+			$index = 0;
+			foreach( $this->leveled_ordering as $random_id => $depth )
+			{
+				$value_2 = implode(':', array($random_id, $depth));
+				$solutionSubmit[$index] = $value_2;
+				$index++;
+			}
+		}
+		else
+		{
+			foreach( $formSubmissionDataStructure as $key => $value )
+			{
+				$matches = null;
+				if( preg_match("/^order_(\d+)/", $key, $matches) )
+				{
+					if( !( preg_match("/initial_value_\d+/", $value) ) )
+					{
+						if( strlen($value) )
+						{
+							foreach( $this->getOrderingElementList() as $answeridx => $answer )
+							{
+								if( $answer->getRandomIdentifier() == $matches[1] )
+								{
+									$solutionSubmit[$answeridx] = $value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return $solutionSubmit;
 	}
 }

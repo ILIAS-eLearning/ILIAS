@@ -55,8 +55,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$this->object->loadFromDb($id);
 		}
-		$this->object->setOutputType(OUTPUT_JAVASCRIPT); 
-		
 		$this->clearAnswersOnWritingPostDataEnabled = false;
 	}
 
@@ -296,13 +294,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else // OQ_NESTED_TERMS, OQ_NESTED_PICTURES
 		{
-			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
-			$answers = new ilAssNestedOrderingElementsInputGUI($this->lng->txt( "answers" ), "answers");
+			$answers = $this->buildNestedOrderinElementInputGUI();
 			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
 			$answers->setStylingDisabled($this->isPdfOutputMode());
-			$answers->setElementImagePath( $this->object->getImagePathWeb() );
-			$answers->setThumbPrefix($this->object->getThumbPrefix());
-			$answers->setOrderingType( $this->object->getOrderingType() );
 			$answers->setValues( $this->object->getOrderingElementList()->getRandomIdentifierIndexedElements() );
 			
 			$form->addItem( $answers );
@@ -357,7 +351,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return $form;
 	}
-
+	
+	/**
+	 * @return ilAssNestedOrderingElementsInputGUI
+	 */
+	protected function buildNestedOrderinElementInputGUI()
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
+		$answerGUI = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
+		$answerGUI->setOrderingType($this->object->getOrderingType());
+		$answerGUI->setElementImagePath($this->object->getImagePathWeb());
+		$answerGUI->setThumbPrefix($this->object->getThumbPrefix());
+		return $answerGUI;
+	}
+	
 	private function isUploadAnswersCommand()
 	{
 		return $this->ctrl->getCmd() == 'uploadanswers';
@@ -474,23 +481,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				break;
 		}
 	}
-	
-	protected function getOrderingElementListForSolutionOutput($forceCorrectSolution, $activeId, $passIndex)
-	{
-		if( $forceCorrectSolution || !$activeId || !$passIndex )
-		{
-			return $this->object->getOrderingElementList();
-		}
-		
-		$solutionValues = $this->object->getSolutionValues($activeId, $passIndex);
-		
-		if( !count($solutionValues) )
-		{
-			return $this->object->getShuffledOrderingElementList();
-		}
-		
-		return $this->object->getSolutionOrderingElementList($solutionValues);
-	}
 
 	/**
 	 * Get the question solution output
@@ -514,19 +504,27 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$result_output = FALSE,
 		$show_question_only = TRUE,
 		$show_feedback = FALSE,
-		$show_correct_solution = FALSE,
+		$forceCorrectSolution = FALSE,
 		$show_manual_scoring = FALSE,
 		$show_question_text = TRUE
 	)
 	{
-		$solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput();
+		$solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput(
+			$forceCorrectSolution, $active_id, $pass
+		);
+
+		$answers_gui = $this->buildNestedOrderinElementInputGUI();
 		
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
-		$answers_gui = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
-		$answers_gui->setInstanceId($this->object->getId());
-		$answers_gui->setOrderingType($this->object->getOrderingType());
-		$answers_gui->setElementImagePath($this->object->getImagePathWeb());
-		$answers_gui->setThumbPrefix($this->object->getThumbPrefix());
+		if( $forceCorrectSolution )
+		{
+			$instanceIdPrefix = ilAssNestedOrderingElementsInputGUI::INSTANCE_ID_CORRECT_SOLUTION_PRESENTATION;
+		}
+		else
+		{
+			$instanceIdPrefix = ilAssNestedOrderingElementsInputGUI::INSTANCE_ID_USER_SOLUTION_PRESENTATION;
+		}
+		
+		$answers_gui->setInstanceId($instanceIdPrefix.'_'.$this->object->getId());
 		
 		$answers_gui->setInteractionEnabled(false);
 		
@@ -581,31 +579,26 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		// $template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 	}
 	
-	/**
-	 * @return ilAssOrderingElementList
-	 * @throws ilTestQuestionPoolException
-	 */
-	protected function getOrderingElementListForPreviewOutput()
-	{
-		if( !$this->getPreviewSession() || !$this->getPreviewSession()->hasParticipantSolution() )
-		{
-			return $this->object->getShuffledOrderingElementList();
-		}
-		
-		return $this->object->getSolutionOrderingElementList($this->getPreviewSession()->getParticipantSolution());
-	}
-	
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		$solutionOrderingElementList = $this->getOrderingElementListForPreviewOutput();
+		if( $this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution() )
+		{
+			$solutionOrderingElementList = $this->object->getSolutionOrderingElementList(
+				$this->getPreviewSession()->getParticipantsSolution()
+			);
+		}
+		else
+		{
+			$solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
+		}
 		
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
-		$answers = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
+		$answers = $this->buildNestedOrderinElementInputGUI();
 		$answers->setInteractionEnabled($this->isUserInputOutputMode());
-		$answers->setOrderingType($this->object->getOrderingType());
-		$answers->setElementImagePath($this->object->getImagePathWeb());
-		$answers->setThumbPrefix($this->object->getThumbPrefix());
 		$answers->setMultiValues($solutionOrderingElementList->getRandomIdentifierIndexedElements());
+		
+		$answers->setInstanceId(
+			ilAssNestedOrderingElementsInputGUI::INSTANCE_ID_QUESTION_PREVIEW.'_'.$this->object->getId()
+		);
 		
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
@@ -624,20 +617,75 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		//$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
 	}
-
-	private function getRandomIdToAnswerMap()
+	
+	protected function fetchOrderingElementListFromUserSolutionPostUsingFormPropertyGui($userSolutionPost)
 	{
-		$randomIdToAnswerMap = array();
-
-		foreach( $this->object->orderElements as $answer)
+		$orderingGUI = $this->buildNestedOrderinElementInputGUI();
+		$orderingGUI->setValueByArray($userSolutionPost);
+		
+		if( $orderingGUI->checkInput() ) throw new ilTestException('error on validating user solution post');
+		
+		$solutionOrderingElementList = new ilAssOrderingElementList();
+		$solutionOrderingElementList->setQuestionId($this->object->getId());
+		
+		foreach($orderingGUI->getValue() as $pos => $orderingElement)
 		{
-			$randomIdToAnswerMap[$answer->getRandomId()] = $answer;
+			// $orderingElement update properties ??
+			$solutionOrderingElementList->addElement($orderingElement);
 		}
-
-		return $randomIdToAnswerMap;
+		
+		return $solutionOrderingElementList;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
+	public function getTestOutput($activeId, $pass = NULL, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
+	{
+		if( is_array($userSolutionPost) && isset($userSolutionPost['answers']) )
+		{
+			$indexedSolutionValues = $this->object->fetchSolutionSubmit($userSolutionPost);
+			$solutionOrderingElementList = $this->object->getSolutionOrderingElementList($indexedSolutionValues);
+		}
+		else
+		{
+			if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
+			// condition looks strange? yes - keep it null when previous solutions not enabled (!)
+			{
+				$pass = ilObjTest::_getPass($activeId);
+			}
+			
+			$indexedSolutionValues = $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
+			
+			if( count($indexedSolutionValues) )
+			{
+				$solutionOrderingElementList = $this->object->getSolutionOrderingElementList($indexedSolutionValues);
+			}
+			else
+			{
+				$solutionOrderingElementList = $this->object->getSolutionOrderingElementList($indexedSolutionValues);
+			}
+		}
+		
+		$template = new ilTemplate('tpl.il_as_qpl_ordering_output.html', TRUE, TRUE, 'Modules/TestQuestionPool');
+
+		$orderingGUI = $this->buildNestedOrderinElementInputGUI();
+		
+		$orderingGUI->setInstanceId(
+			ilAssNestedOrderingElementsInputGUI::INSTANCE_ID_USER_SOLUTION_SUBMISSION . '_' . $this->object->getId()
+		);
+		
+		$orderingGUI->setMultiValues( $solutionOrderingElementList->getRandomIdentifierIndexedElements() );
+		
+		$template->setCurrentBlock('nested_ordering_output');
+		$template->setVariable('NESTED_ORDERING',$orderingGUI->getHTML());
+		$template->parseCurrentBlock();
+
+		$template->setVariable('QUESTIONTEXT', $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+
+		$pageoutput = $this->outQuestionPage('', $isPostponed, $activeId, $template->get());
+
+		return $pageoutput;
+	}
+	
+	function getTestOutput_OLD_($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
 	{
 		global $tpl;
 		
@@ -647,7 +695,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$this->object->setOutputType(OUTPUT_JAVASCRIPT);
 		// shuffle output
 		$keys = array();
 		if (is_array($user_post_solution))
@@ -665,16 +712,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if ($this->object->getOrderingType() == OQ_NESTED_TERMS
 		|| $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 		{
-	
-			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
-			$answerGUI = new ilAssNestedOrderingElementsInputGUI($this->lng->txt("answers"), "answers");
-			$answerGUI->setInstanceId('participant');
-			$answerGUI->setOrderingType($this->object->getOrderingType());
-			$answerGUI->setElementImagePath($this->object->getImagePathWeb());
-			$answerGUI->setThumbPrefix($this->object->getThumbPrefix());
-
-			$answerMap = $this->getRandomIdToAnswerMap();
-
+			
+			$answerGUI = $this->buildNestedOrderinElementInputGUI();
+			
+			$answerGUI->setInstanceId(
+				ilAssNestedOrderingElementsInputGUI::INSTANCE_ID_USER_SOLUTION_SUBMISSION . '_' . $this->object->getId()
+			);
+			
 			$answerArray = array();
 			$shuffleAnswers = false;
 
@@ -705,7 +749,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				{
 					if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 				}
-
+				
 				$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 
 				if( count($solutions) )

@@ -123,7 +123,7 @@ abstract class assQuestion
 	*
 	* @var integer
 	*/
-	protected $outputType;
+	protected $outputType = OUTPUT_JAVASCRIPT;
 
 	/**
 	* Array of suggested solutions
@@ -299,7 +299,6 @@ abstract class assQuestion
 		$this->shuffle = 1;
 		$this->nr_of_tries = 0;
 		$this->setEstimatedWorkingTime(0,1,0);
-		$this->outputType = OUTPUT_JAVASCRIPT;
 		$this->arrData = array();
 		$this->setExternalId('');
 
@@ -4961,6 +4960,38 @@ abstract class assQuestion
 		$row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $questionId, $pass)));
 
 		return $row['cnt'] > 0;
+	}
+	
+	/**
+	 * @param array $indexedValues
+	 * @return array $valuePairs
+	 */
+	public function fetchValuePairsFromIndexedValues(array $indexedValues)
+	{
+		$valuePairs = array();
+		
+		foreach($indexedValues as $index => $value)
+		{
+			$valuePairs[] = array('value1' => $index, 'value2' => $value);
+		}
+		
+		return $valuePairs;1
+	}
+	
+	/**
+	 * @param array $valuePairs
+	 * @return array $indexedValues
+	 */
+	public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+	{
+		$indexedValues = array();
+		
+		foreach($indexedValues as $valuePair)
+		{
+			$indexedValues[ $valuePair['value1'] ] = $valuePair['value2'];
+		}
+		
+		return $valuePairs;
 	}
 
 	/**

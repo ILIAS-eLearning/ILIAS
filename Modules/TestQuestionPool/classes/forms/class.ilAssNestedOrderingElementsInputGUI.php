@@ -11,6 +11,11 @@ require_once 'Services/Form/classes/class.ilMultipleNestedOrderingElementsInputG
  */
 class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElementsInputGUI
 {
+	const INSTANCE_ID_QUESTION_PREVIEW = 'QuestionPreview';
+	const INSTANCE_ID_CORRECT_SOLUTION_PRESENTATION = 'CorrectSolutionPresent';
+	const INSTANCE_ID_USER_SOLUTION_PRESENTATION = 'UserSolutionPresent';
+	const INSTANCE_ID_USER_SOLUTION_SUBMISSION = 'CorrectSolutionSubmit';
+
 	/**
 	 * @var mixed
 	 */
