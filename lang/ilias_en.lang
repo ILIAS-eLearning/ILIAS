@@ -7166,7 +7166,7 @@ mail#:#mail_files_deleted#:#The file(s) are deleted
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
 mail#:#mail_folder_exists#:#A folder already exists with this name
-mail#:#mail_folder_name_changed#:##The folder has been renamed
+mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
@@ -15317,8 +15317,8 @@ rbac#:#logs_visible#:#Logging settings are visible
 rbac#:#logs_write#:#User can edit Logging settings
 logging#:#logs_settings#:#Logging Settings
 log#:#log_general_settings#:#Logging Settings
-log#:#log_components#:#Komponenten
-log#:#log_log_level#:#Log-Level
+log#:#log_components#:#Components
+log#:#log_log_level#:#Log Level
 log#:#log_level_debug#:#DEBUG
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
@@ -16062,14 +16062,14 @@ common#:#il_iass_member#:#Individual Assessment Examinee
 common#:#iass_new#:#Create Individual Assessment
 common#:#iass_import#:#Import Individual Assessment
 rbac#:#iass_visible#:#Individual Assessment is visible
-rbac#:#iass_read#:#Read content of a Individual Assessment
-rbac#:#iass_read_learning_progress#:#View learning progress information of a Individual Assessment
-rbac#:#iass_edit_learning_progress#:#Edit learning progress information of a Individual Assessment
-rbac#:#iass_copy#:#Copy a Individual Assessment
-rbac#:#iass_write#:#Edit a Individual Assessment
-rbac#:#iass_delete#:#Delete a Individual Assessment
-rbac#:#iass_edit_members#:#Edit members of a Individual Assessment
-rbac#:#iass_edit_permission#:#Edit permissions of a Individual Assessment
+rbac#:#iass_read#:#Read content of an Individual Assessment
+rbac#:#iass_read_learning_progress#:#View learning progress information of an Individual Assessment
+rbac#:#iass_edit_learning_progress#:#Edit learning progress information of an Individual Assessment
+rbac#:#iass_copy#:#Copy an Individual Assessment
+rbac#:#iass_write#:#Edit an Individual Assessment
+rbac#:#iass_delete#:#Delete an Individual Assessment
+rbac#:#iass_edit_members#:#Edit members of an Individual Assessment
+rbac#:#iass_edit_permission#:#Edit permissions of an Individual Assessment
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
 iass#:#iass_edit#:#Settings
 iass#:#iass_add#:#Create Individual Assessment
