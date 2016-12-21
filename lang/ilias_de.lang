@@ -2832,6 +2832,7 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#chown_warning#:#Achtung! Das Ändern des Besitzers eines Objektes kann dazu führen, dass diese Person alle Zugriffsrechte an dem Objekt verliert.
 common#:#chtr_copy#:#Chatraum kopieren
+rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_edit_permission#:#Rechteeinstellungen für Chatraum ändern
 rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
 rbac#:#chtr_visible#:#Chatraum ist sichtbar
