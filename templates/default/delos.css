@@ -10670,7 +10670,7 @@ div#il_startup_logo img {
 .ilToolbar ul.dropdown-menu > li {
   border: 0 none;
 }
-@media only screen and (max-width: 767px) {
+@media (min-width: 768px) {
   .ilToolbar .container-fluid {
     padding-left: 0;
   }
