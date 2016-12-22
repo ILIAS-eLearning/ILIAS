@@ -33,7 +33,7 @@ class ilLink
 		switch($a_type)
 		{
 			case 'git':
-			case 'pg':
+			//case 'pg':
 				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?client_id='.CLIENT_ID.$param_string.$append;
 			
 			default:

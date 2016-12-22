@@ -7,6 +7,7 @@ require_once 'Modules/IndividualAssessment/interfaces/AccessControl/interface.In
 require_once 'Modules/IndividualAssessment/interfaces/Notification/interface.ilIndividualAssessmentNotificator.php';
 /**
  * @backupGlobals disabled
+ * @group needsInstalledILIAS
  */
 class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 	public static $iass;

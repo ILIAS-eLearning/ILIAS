@@ -105,4 +105,16 @@ class ImageTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_render_alt_escaping() {
+		$f = $this->getImageFactory();
+		$r = $this->getDefaultRenderer();
+		$i = $f->responsive("source","\"=test;\")(blah\"");
+
+		$html = $this->normalizeHTML($r->render($i));
+
+		$expected = "<img src=\"source\" class=\"img-responsive\" alt=\"&quot;=test;&quot;)(blah&quot;\" />";
+
+		$this->assertEquals($expected, $html);
+	}
 }

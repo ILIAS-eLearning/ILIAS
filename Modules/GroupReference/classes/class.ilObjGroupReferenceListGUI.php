@@ -48,6 +48,17 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
 	}
 	
 	/**
+	 * no activation for links
+	 * @return type
+	 */
+	public function insertTimingsCommand()
+	{
+		return;
+	}
+	
+	
+	
+	/**
 	* initialisation
 	*/
 	function init()
