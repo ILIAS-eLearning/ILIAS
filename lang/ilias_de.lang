@@ -15665,6 +15665,7 @@ rbac#:#prg_copy#:#Benutzer kann das Studienprogramm kopieren
 rbac#:#prg_write#:#Benutzer kann Einstellungen bearbeiten
 rbac#:#prg_delete#:#Studienprogramm löschen
 rbac#:#prg_edit_permission#:#Rechteeinstellungen bearbeiten
+rbac#:#prg_manage_members#:#Teilnehmer eines Studienprogramms bearbeiten
 rbac#:#rbac_create_prg#:#Studienprogramm anlegen
 rbac#:#prgs_visible#:#Studienprogramm-Administration ist sichtbar
 rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
@@ -16249,16 +16250,6 @@ iass#:#iass_notify#:#Teilnehmer nach Finalisierung benachrichtigen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
-iass#:#edit_members#:#Teilnehmer bearbeiten
-iass#:#iass_edit_members#:#Teilnehmer bearbeiten
-iass#:#iass_visible#:#Anzeigen
-iass#:#iass_read#:#Lesezugriff
-iass#:#iass_copy#:#Individuelle Bewertung kopieren
-iass#:#iass_write#:#Bearbeiten
-iass#:#iass_delete#:#Löschen
-iass#:#iass_read_learning_progress#:#Lernfortschritt der Teilnehmer einsehen
-iass#:#iass_edit_permissions#:#Rechteeinstellungen ändern
-iass#:#iass_edit_learning_progress#:#Lernfortschritt bearbeiten
 iass#:#iass_may_not_finalize#:#Status kann nicht finalisiert werden.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
@@ -16376,3 +16367,4 @@ content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewähl
 grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können sich nun einloggen.
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
+rbac#:#edit_members#:#Teilnehmer bearbeiten
