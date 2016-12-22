@@ -118,26 +118,23 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 	{
 		global $lng;
 				
-		$this->tpl->setVariable('MODE', $this->raters_mode ? "rtr" : "appr");
-		$this->tpl->setVariable('ID', $data['user_id']);
-		$this->tpl->setVariable("LOGIN", $data['login']);
-		$this->tpl->setVariable("EMAIL", $data['email']);
-		$this->tpl->setVariable("NAME", $data['name']);
-								
 		if(!$this->raters_mode)
 		{
-			$this->tpl->setVariable("FINISHED", $data['finished']);
 
 			if($data['closed'])
 			{
-				$this->tpl->setVariable('DISABLED', "disabled");
 				$this->tpl->setVariable("CLOSED",ilDatePresentation::formatDate(new ilDateTime($data['closed'], IL_CAL_UNIX)));
 			}
 			else
 			{
-				$this->tpl->setVariable('DISABLED', "");
+				$this->tpl->setCurrentBlock("cb");
+				$this->tpl->setVariable('MODE', $this->raters_mode ? "rtr" : "appr");
+				$this->tpl->setVariable('ID', $data['user_id']);
+				$this->tpl->parseCurrentBlock();
 				$this->tpl->setVariable("CLOSED","");
 			}
+
+			$this->tpl->setVariable("FINISHED", $data['finished']);
 
 			$this->ctrl->setParameter($this->getParentObject(), "appr_id", $data["user_id"]);
 			$this->tpl->setVariable("URL", $lng->txt("survey_360_edit_raters"));
@@ -146,6 +143,8 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		}
 		else
 		{
+			$this->tpl->setVariable('MODE', $this->raters_mode ? "rtr" : "appr");
+			$this->tpl->setVariable('ID', $data['user_id']);
 			$this->tpl->setVariable("FINISHED", $data['finished'] ? $lng->txt("yes") : $lng->txt("no"));
 			
 			$sent = "";
@@ -171,6 +170,11 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("NO_HREF", "");
 			}
 		}
+
+		$this->tpl->setVariable("LOGIN", $data['login']);
+		$this->tpl->setVariable("EMAIL", $data['email']);
+		$this->tpl->setVariable("NAME", $data['name']);
+
 	}
 }
 ?>
