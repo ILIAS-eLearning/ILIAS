@@ -18002,3 +18002,13 @@ if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5063>
+<?php
+if($ilDB->tableExists('svy_qst_oblig'))
+{
+	$ilDB->manipulate("UPDATE svy_question".
+		" INNER JOIN svy_qst_oblig".
+		" ON svy_question.question_id = svy_qst_oblig.question_fi".
+		" SET svy_question.obligatory = svy_qst_oblig.obligatory");
+}
+?>
