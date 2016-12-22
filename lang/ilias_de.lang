@@ -16263,3 +16263,4 @@ grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und En
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können sich nun einloggen.
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 rbac#:#edit_members#:#Teilnehmer bearbeiten
+rbac#:#rbac_create_iass#:#Individuelle Bewertung anlegen
