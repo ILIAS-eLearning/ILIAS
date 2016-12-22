@@ -16220,3 +16220,5 @@ crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###12 10 2016 new 
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###12 10 2016 new variable
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25 10 2016 new variable
 certificate#:#certificate_var_user_matriculation#:#12345###25 10 2016 new variable
+rbac#:#edit_members#:#Manage members###22 12 2016 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###22 12 2016 new variable

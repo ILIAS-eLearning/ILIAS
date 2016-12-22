@@ -16223,3 +16223,5 @@ survey#:#msg_input_only_positive_numbers#:#Por favor, introduzca sólo valores p
 crs#:#crs_loc_err_stat_tst_offline#:#Algunos tests no están on-line###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de objetos en este contenedor###12 10 2016 new variable
 dcl#:#dcl_std_field_not_importable#:# - Los campos estándar no se pueden importar###25 10 2016 new variable
+rbac#:#edit_members#:#Manage members###22 12 2016 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###22 12 2016 new variable
