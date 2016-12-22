@@ -16039,16 +16039,6 @@ iass#:#iass_notify#:#Notify participant after finalization
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
-iass#:#edit_members#:#Edit examinees
-iass#:#iass_edit_members#:#Edit examinees
-iass#:#iass_visible#:#Visible
-iass#:#iass_read#:#Read
-iass#:#iass_copy#:#Copy
-iass#:#iass_write#:#Edit Settings
-iass#:#iass_delete#:#Delete
-iass#:#iass_read_learning_progress#:#View learning progress of other users
-iass#:#iass_edit_permissions#:#Change Permissions
-iass#:#iass_edit_learning_progress#:#Edit learning progress
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
@@ -16151,3 +16141,6 @@ content#:#cont_permission_object_desc#:#The section will only be presented for u
 grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 lng#:#lng_download_deprecated#:#Download Deprecated List
+rbac#:#edit_members#:#Manage members
+rbac#:#prg_manage_members#:#Manage members of Study Programme
+rbac#:#rbac_create_iass#:#Create Individual Assessment
