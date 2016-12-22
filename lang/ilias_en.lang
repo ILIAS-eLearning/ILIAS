@@ -16223,4 +16223,4 @@ crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
 rbac#:#edit_members#:#Manage members
 rbac#:#prg_manage_members#:#Manage members of Study Programme
-rbac#:#rbac_create_iass#:#Create Individual Aassessment
+rbac#:#rbac_create_iass#:#Create Individual Assessment
