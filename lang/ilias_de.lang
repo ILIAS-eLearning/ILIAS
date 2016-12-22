@@ -16221,3 +16221,5 @@ copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gel
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
 survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie natürliche Zahlen als Skalenwerte ein.
+rbac#:#prg_manage_members#:#Teilnehmer eines Studienprogramms bearbeiten
+rbac#:#edit_members#:#Teilnehmer bearbeiten
