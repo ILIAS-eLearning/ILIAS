@@ -104,6 +104,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$options = $this->getAttributes();
 			$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $options);
 			$this->initHelpers();
+			$this->initSQLMode();
 		} catch (Exception $e) {
 			$this->error_code = $e->getCode();
 			if ($return_false_for_error) {
@@ -117,6 +118,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	abstract public function initHelpers();
+
+
+	protected function initSQLMode() {
+	}
 
 
 	/**
@@ -591,7 +596,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilPDOStatement
 	 *
 	 * @return mixed|null
 	 */
@@ -701,7 +706,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilPDOStatement
 	 *
 	 * @return mixed
 	 */
@@ -1517,10 +1522,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		$this->manager->alterTable($a_name, array( "name" => $a_new_name ), false);
 
-        // The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
-        //		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
-        //		         . $this->quote($a_name, 'text');
-        //		$this->pdo->query($query);
+		// The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
+		//		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
+		//		         . $this->quote($a_name, 'text');
+		//		$this->pdo->query($query);
 
 		return true;
 	}
