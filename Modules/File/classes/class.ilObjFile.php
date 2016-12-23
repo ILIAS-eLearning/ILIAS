@@ -1,16 +1,14 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Object/classes/class.ilObject2.php";
-include_once('Modules/File/classes/class.ilFSStorageFile.php');
-
-/** @defgroup ModulesFile Modules/File
- */
+require_once("Services/Object/classes/class.ilObject2.php");
+require_once('Modules/File/classes/class.ilFSStorageFile.php');
 
 /**
  * Class ilObjFile
  *
  * @author  Sascha Hofmann <shofmann@databay.de>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id$
  *
  * @ingroup ModulesFile
@@ -28,13 +26,12 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * Constructor
+	 * ilObjFile constructor.
 	 *
-	 * @access    public
-	 * @param    integer    reference_id or object_id
-	 * @param    boolean    treat the id as reference_id (true) or object_id (false)
+	 * @param int $a_id ID of the object, ref_id or obj_id possible
+	 * @param bool $a_call_by_reference defines the $a_id a ref_id
 	 */
-	function __construct($a_id = 0, $a_call_by_reference = true) {
+	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->version = 0;
 		$this->raise_upload_error = true;
 
