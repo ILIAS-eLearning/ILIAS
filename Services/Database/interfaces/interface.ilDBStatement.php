@@ -44,4 +44,11 @@ interface ilDBStatement {
 	 * @return array
 	 */
 	public function fetchAssoc();
+
+
+	/**
+	 * @param array $a_data
+	 * @return mixed
+	 */
+	public function execute($a_data = null);
 }

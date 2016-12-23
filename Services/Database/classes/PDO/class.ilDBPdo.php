@@ -1269,10 +1269,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	/**
 	 * @param $query
 	 * @param null $types
-	 * @return \ilDBStatement
+	 * @return \ilPDOStatement
 	 */
 	public function prepareManip($query, $types = null) {
-		return $this->pdo->prepare($query);
+		return new ilPDOStatement($this->pdo->prepare($query));
 	}
 
 
@@ -1280,10 +1280,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param $query
 	 * @param null $types
 	 * @param null $result_types
-	 * @return \PDOStatement
+	 * @return \ilPDOStatement
 	 */
 	public function prepare($query, $types = null, $result_types = null) {
-		return $this->pdo->prepare($query);
+		return new ilPDOStatement($this->pdo->prepare($query));
 	}
 
 
@@ -1302,7 +1302,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function execute($stmt, $data = array()) {
 		/**
-		 * @var $stmt PDOStatement
+		 * @var $stmt ilPDOStatement
 		 */
 		return $stmt->execute($data);
 	}
@@ -1310,7 +1310,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @param $a_table
-	 * @return \PDOStatement
+	 * @return \ilDBStatement
 	 * @throws \ilDatabaseException
 	 */
 	public function optimizeTable($a_table) {
