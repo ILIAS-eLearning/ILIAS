@@ -640,8 +640,11 @@ class ilObjFile extends ilObject2 {
 			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id)) {
 				$ilFileDelivery->setDownloadFileName($this->getTitle());
 			} else {
-				// $download_file_name = basename($file); // FSX Info: basename has a Bug with Japanese and
-				// other characters: http://stackoverflow.com/questions/32115609/basename-fail-when-file-name-start-by-an-accent
+				// $download_file_name = basename($file);
+				/* FSX Info: basename has a Bug with Japanese and other characters, see:
+				 * http://stackoverflow.com/questions/32115609/basename-fail-when-file-name-start-by-an-accent
+				 * Therefore we can no longer use basename();
+				 */
 				$download_file_name = end(explode(DIRECTORY_SEPARATOR, $file));
 				$ilFileDelivery->setDownloadFileName($download_file_name);
 			}
