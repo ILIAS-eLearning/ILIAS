@@ -209,11 +209,11 @@ class ilDclTableViewEditGUI
             $key = 'filter_' . $setting->getField();
             if ($_POST[$key] != null)
             {
-                $setting->setFilterValue(array($key => $_POST[$key]));
+                $setting->setFilterValue($_POST[$key]);
             }
             elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null)
             {
-                $setting->setFilterValue( array( $key . "_from" => $_POST[$key . '_from'], $key . "_to" => $_POST[$key . '_to'] ) );
+                $setting->setFilterValue( array( "from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to'] ) );
             }
             else
             {
