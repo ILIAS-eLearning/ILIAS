@@ -2999,7 +2999,7 @@ common#:#lang_path#:#ruta del idioma
 common#:#lang_refresh_confirm_info#:#El mantenimiento extendido de idiomas está actualmente activado. Actualizar los idiomas carga todos los datos de idioma desde los Archivo de idioma de ILIAS en la base de datos. Los cambios locales (en la base de datos) serán sobreescritos, si no se exportan antes. Esto no afecta a los Archivos "*.lang.local" en el directorio de personalización.
 common#:#lang_refresh_confirm_selected#:#¿Está seguro que desea actualizar los idiomas seleccionados?
 common#:#lang_refresh_confirm#:#¿Realmente quiere actualizar todos los idiomas?
-common#:#lang_sep_decimal#:#0
+common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#.
 common#:#lang_size_bytes#:#bytes
 common#:#lang_size_gb#:#GB
