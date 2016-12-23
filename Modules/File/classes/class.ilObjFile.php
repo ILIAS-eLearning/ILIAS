@@ -622,16 +622,31 @@ class ilObjFile extends ilObject2 {
 
 		if (@is_file($file)) {
 			global $ilClientIniFile;
-			
+			/**
+			 * @var $ilClientIniFile ilIniFile
+			 */
+			require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+
+			$ilFileDelivery = new ilFileDelivery($file);
+			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
+			$ilFileDelivery->setMimeType($this->guessFileType($file));
+			$ilFileDelivery->setConvertFileNameToAsci(true);
+
+			if ($ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
+				$ilFileDelivery->setConvertFileNameToAsci(false);
+				$ilFileDelivery->setUrlencodeFilename(false);
+			}
 			// also returning the 'real' filename if a history file is delivered
-			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id))
-			{
-				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType($file), $this->isInline());
+			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id)) {
+				$ilFileDelivery->setDownloadFileName($this->getTitle());
+			} else {
+				// $download_file_name = basename($file); // FSX Info: basename has a Bug with Japanese and
+				// other characters: http://stackoverflow.com/questions/32115609/basename-fail-when-file-name-start-by-an-accent
+				$download_file_name = end(explode(DIRECTORY_SEPARATOR, $file));
+				$ilFileDelivery->setDownloadFileName($download_file_name);
 			}
-			else
-			{
-				ilUtil::deliverFile($file, basename($file), $this->guessFileType($file), $this->isInline());
-			}
+			$ilFileDelivery->deliver();
+
 			return true;
 		}
 
