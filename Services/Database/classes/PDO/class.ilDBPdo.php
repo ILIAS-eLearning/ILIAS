@@ -1283,7 +1283,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return \PDOStatement
 	 */
 	public function prepare($query, $types = null, $result_types = null) {
-		return $this->pdo->prepare($query, $types, $result_types);
+		return $this->pdo->prepare($query);
 	}
 
 
