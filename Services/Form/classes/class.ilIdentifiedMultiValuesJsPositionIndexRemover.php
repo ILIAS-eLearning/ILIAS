@@ -18,14 +18,16 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 		return $this->brandIdentifiersWithIndicator($inputValues);
 	}
 	
-	protected function brandIdentifiersWithIndicator($values)
+	protected function brandIdentifiersWithIndicator($origValues)
 	{
-		foreach($values as $identifier => $val)
+		$brandedValues = array();
+		
+		foreach($origValues as $identifier => $val)
 		{
-			$values[$this->getIndicatorBrandedIdentifier($identifier)] = $val;
-			unset($values[$identifier]);
+			$brandedValues[$this->getIndicatorBrandedIdentifier($identifier)] = $val;
 		}		
-		return $values;
+
+		return $brandedValues;
 	}
 	
 	protected function getIndicatorBrandedIdentifier($identifier)

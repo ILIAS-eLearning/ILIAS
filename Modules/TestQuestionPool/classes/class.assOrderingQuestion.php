@@ -521,10 +521,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function getShuffledOrderingElementList()
 	{
-		$shuffledElementList = $this->getOrderingElementList()->getClonedElementList()->reorderByRandomIdentifiers(
-			$this->getShuffler()->shuffle( $this->getOrderingElementList()->getRandomIdentifierIndex() )
+		$shuffledRandomIdentifierIndex = $this->getShuffler()->shuffle(
+			$this->getOrderingElementList()->getRandomIdentifierIndex()
 		);
 		
+		$shuffledElementList = $this->getOrderingElementList()->getClonedElementList();
+		$shuffledElementList->reorderByRandomIdentifiers($shuffledRandomIdentifierIndex);
 		$shuffledElementList->resetElementsIndentations();
 		
 		return $shuffledElementList;
@@ -908,45 +910,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @access public
 	* @see $answers
 	*/
-	function checkSaveData()
+	public function validateSolutionSubmit()
 	{
-		$result = true;
-		if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			if (strlen($_POST["orderresult"]))
-			{
-				return $result;
-			}
-			else if(strlen($_POST['answers_ordering']))
-			{
-				$answers_ordering = $_POST['answers_ordering'];
-				$new_hierarchy = json_decode($answers_ordering);
-				$with_random_id = true;
-				$this->setLeveledOrdering($new_hierarchy, $with_random_id);
-			
-				//return value as "random_id:depth"
-				return serialize($this->leveled_ordering);
-			}
-		}
-		$order_values = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/^order_(\d+)/", $key, $matches))
-			{
-				if (strcmp($value, "") != 0)
-				{
-					array_push($order_values, $value);
-				}
-			}
-		}
-		$check_order = array_flip($order_values);
-		if (count($check_order) != count($order_values))
-		{
-			// duplicate order values!!!
-			$result = false;
-			ilUtil::sendInfo($this->lng->txt("duplicate_order_values_entered"), TRUE);
-		}
-		return $result;
+		$submittedSolutionList = $this->getSolutionListFromPostSubmit();
+		return $this->getOrderingElementList()->hasSameElementSet($submittedSolutionList);
 	}
 
 	/**
@@ -961,52 +928,52 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		$entered_values = 0;
 
-		$saveWorkingDataResult = $this->checkSaveData();
-		if ($saveWorkingDataResult)
+		if( !$this->validateSolutionSubmit() )
 		{
-			if (is_null($pass))
+			$this->log($active_id, 'log_user_submitted_invalid_values');
+			return false;
+		}
+		
+		if (is_null($pass))
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
+
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+			function() use (&$entered_values, $active_id, $pass, $authorized)
 			{
-				include_once "./Modules/Test/classes/class.ilObjTest.php";
-				$pass = ilObjTest::_getPass($active_id);
-			}
-
-			$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
-
 				$this->removeCurrentSolution($active_id, $pass, $authorized);
-
-				foreach( $this->getSolutionSubmit() as $val1 => $val2)
+		
+				foreach( $this->getSolutionListFromPostSubmit() as $orderingElement)
 				{
-					$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2), $authorized);
+					$value1 = $orderingElement->getStorageValue1($this->getOrderingType());
+					$value2 = $orderingElement->getStorageValue2($this->getOrderingType());
+					
+					$this->saveCurrentSolution($active_id, $pass, $value1, trim($value2), $authorized);
+					
 					$entered_values++;
 				}
-
-			});
-		}
+			}
+		);
+		
 		if ($entered_values)
 		{
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-			{
-				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
-			}
+			$this->log($active_id, 'log_user_entered_values');
 		}
 		else
 		{
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-			{
-				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
-			}
+			$this->log($active_id, 'log_user_not_entered_values');
 		}
 
-		return $saveWorkingDataResult;
+		return true;
 	}
 	
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
 		if( $this->checkSaveData() )
 		{
-			$previewSession->setParticipantsSolution($this->getSolutionSubmit());
+			$previewSession->setParticipantsSolution($this->getSolutionPostSubmit());
 		}
 	}
 
@@ -1293,20 +1260,52 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
+	 * @return ilAssNestedOrderingElementsInputGUI
+	 */
+	public function buildNestedOrderingElementInputGUI()
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
+		$orderingGUI = new ilAssNestedOrderingElementsInputGUI($this->getId());
+		
+		$orderingGUI->setOrderingType($this->getOrderingType());
+		$orderingGUI->setElementImagePath($this->getImagePathWeb());
+		$orderingGUI->setThumbPrefix($this->getThumbPrefix());
+		
+		return $orderingGUI;
+	}
+	
+	/**
+	 * @param array $userSolutionPost
+	 * @return ilAssOrderingElementList
+	 * @throws ilTestException
+	 */
+	public function fetchSolutionListFromFormSubmissionData($userSolutionPost)
+	{
+		$orderingGUI = $this->buildNestedOrderingElementInputGUI();
+		$orderingGUI->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_USER_SOLUTION_SUBMISSION);
+		$orderingGUI->setValueByArray($userSolutionPost);
+		
+		if( !$orderingGUI->checkInput() )
+		{
+			require_once 'Modules/Test/exceptions/class.ilTestException.php';
+			throw new ilTestException('error on validating user solution post');
+		}
+		
+		$solutionOrderingElementList = $orderingGUI->getElementList();
+		return $solutionOrderingElementList;
+	}
+	
+	public function getSolutionListFromPostSubmit()
+	{
+		return $this->fetchSolutionListFromFormSubmissionData($_POST);
+	}
+	
+	/**
 	 * @return array
 	 */
 	public function getSolutionPostSubmit()
 	{
 		return $this->fetchSolutionSubmit($_POST);
-	}
-	
-	/**
-	 * @deprecated use assOrderingQuestion::getSolutionPostSubmit() instead
-	 * @return array
-	 */
-	public function getSolutionSubmit()
-	{
-		return $this->getSolutionPostSubmit();
 	}
 
 	/**
@@ -1562,9 +1561,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		$solutionSubmit = array();
 		
-		if( array_key_exists("orderresult", $formSubmissionDataStructure) )
+		if( isset($formSubmissionDataStructure['orderresult']) )
 		{
-			$orderresult = $formSubmissionDataStructure["orderresult"];
+			$orderresult = $formSubmissionDataStructure['orderresult'];
+			
 			if( strlen($orderresult) )
 			{
 				$orderarray = explode(":", $orderresult);

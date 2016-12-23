@@ -3,6 +3,9 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 
 /**
 * Basic GUI class for assessment questions

@@ -202,4 +202,36 @@ class ilAssOrderingElement
 	{
 		$this->uploadImageName = $uploadImageName;
 	}
+	
+	public function getStorageValue1($orderingType)
+	{
+		switch( $orderingType )
+		{
+			case OQ_NESTED_TERMS:
+			case OQ_NESTED_PICTURES:
+				
+				return $this->getPosition();
+			
+			case OQ_TERMS:
+			case OQ_PICTURES:
+				
+				return $this->getSolutionIdentifier();
+		}
+	}
+	
+	public function getStorageValue2($orderingType)
+	{
+		switch( $orderingType )
+		{
+			case OQ_NESTED_TERMS:
+			case OQ_NESTED_PICTURES:
+				
+				return $this->getRandomIdentifier() . ':' . $this->getIndentation();
+			
+			case OQ_TERMS:
+			case OQ_PICTURES:
+				
+				return $this->getPosition() + 1;
+		}
+	}
 }

@@ -196,7 +196,7 @@ class ilAssOrderingElementList implements Iterator
 	}
 	
 	/**
-	 * @return array
+	 * @return array[ilAssOrderingElement]
 	 */
 	public function getElements()
 	{
@@ -671,8 +671,34 @@ class ilAssOrderingElementList implements Iterator
 	 * @param ilAssOrderingElementList $otherList
 	 * @return bool $hasSameElements
 	 */
+	protected function hasSameElementSetFaster(self $otherList)
+	{
+		$numIntersectingElements = count(array_intersect(
+			$otherList->getRandomIdentifierIndex(), $this->getRandomIdentifierIndex()
+		));
+		
+		if( $numIntersectingElements != $this->countElements() )
+		{
+			return false;
+		}
+		
+		if( $numIntersectingElements != $otherList->countElements() )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param ilAssOrderingElementList $otherList
+	 * @return bool $hasSameElements
+	 */
 	public function hasSameElementSet(self $otherList)
 	{
+		// should be faster and working, impl below works for sure
+		return $this->hasSameElementSetFaster($otherList);
+		
 		$otherListRandomIdentifierIndex = $otherList->getRandomIdentifierIndex();
 		
 		foreach($this as $orderingElement)

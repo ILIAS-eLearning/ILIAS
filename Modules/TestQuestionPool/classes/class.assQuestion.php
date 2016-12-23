@@ -309,6 +309,19 @@ abstract class assQuestion
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
 	}
+	
+	/**
+	 * @param integer $active_id
+	 * @param string $langVar
+	 */
+	protected function log($active_id, $langVar)
+	{
+		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		{
+			$message = $this->lng->txtlng('assessment', $langVar, ilObjAssessmentFolder::_getLogLanguage());
+			assQuestion::logAction($message, $active_id, $this->getId());
+		}
+	}
 
 	/**
 	 * @return ilArrayElementShuffler
@@ -4975,7 +4988,7 @@ abstract class assQuestion
 			$valuePairs[] = array('value1' => $index, 'value2' => $value);
 		}
 		
-		return $valuePairs;1
+		return $valuePairs;
 	}
 	
 	/**

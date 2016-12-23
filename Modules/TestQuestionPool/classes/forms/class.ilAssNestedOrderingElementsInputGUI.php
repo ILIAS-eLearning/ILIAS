@@ -11,11 +11,23 @@ require_once 'Services/Form/classes/class.ilMultipleNestedOrderingElementsInputG
  */
 class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElementsInputGUI
 {
-	const INSTANCE_ID_QUESTION_PREVIEW = 'QuestionPreview';
-	const INSTANCE_ID_CORRECT_SOLUTION_PRESENTATION = 'CorrectSolutionPresent';
-	const INSTANCE_ID_USER_SOLUTION_PRESENTATION = 'UserSolutionPresent';
-	const INSTANCE_ID_USER_SOLUTION_SUBMISSION = 'CorrectSolutionSubmit';
-
+	const POST_VARIABLE_NAME = 'ordering';
+	
+	const CONTEXT_QUESTION_PREVIEW = 'QuestionPreview';
+	const CONTEXT_CORRECT_SOLUTION_PRESENTATION = 'CorrectSolutionPresent';
+	const CONTEXT_USER_SOLUTION_PRESENTATION = 'UserSolutionPresent';
+	const CONTEXT_USER_SOLUTION_SUBMISSION = 'UserSolutionSubmit';
+	
+	/**
+	 * @var string
+	 */
+	protected $context = null;
+	
+	/**
+	 * @var integer
+	 */
+	protected $questionId = null;
+	
 	/**
 	 * @var mixed
 	 */
@@ -65,23 +77,93 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	
 	/**
 	 * ilAssNestedOrderingElementsInputGUI constructor.
-	 *
-	 * @param string $a_title
-	 * @param string $a_postvar
 	 */
-	public function __construct($a_title, $a_postvar)
+	public function __construct($questionId)
 	{
+		$this->setQuestionId($questionId);
+		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
 		$this->addFormValuesManipulator($manipulator);
 		
-		parent::__construct($a_title, $a_postvar);
+		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		parent::__construct($lng->txt("answers"), self::POST_VARIABLE_NAME);
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
 		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
 		$manipulator->setPostVar($this->getPostVar());
 		$this->addFormValuesManipulator($manipulator);
+	}
+	
+	/**
+	 * @param ilAssOrderingElementList $elementList
+	 */
+	public function setElementList(ilAssOrderingElementList $elementList)
+	{
+		$this->setMultiValues( $elementList->getRandomIdentifierIndexedElements() );
+	}
+	
+	/**
+	 * @return ilAssOrderingElementList
+	 */
+	public function getElementList()
+	{
+		$elementList = $this->buildElementList();
+		$elementList->setElements($this->getMultiValues());
+		return $elementList;
+	}
+	
+	protected function buildElementList()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
+		$elementList = new ilAssOrderingElementList();
+		
+		$elementList->setQuestionId($this->getQuestionId());
+		
+		return $elementList;
+	}
+	
+	public function getInstanceId()
+	{
+		if( !$this->getContext() || !$this->getQuestionId() )
+		{
+			return parent::getInstanceId();
+		}
+		
+		return $this->getContext() . '_' . $this->getQuestionId();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getContext()
+	{
+		return $this->context;
+	}
+	
+	/**
+	 * @param string $context
+	 */
+	public function setContext($context)
+	{
+		$this->context = $context;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getQuestionId()
+	{
+		return $this->questionId;
+	}
+	
+	/**
+	 * @param int $questionId
+	 */
+	public function setQuestionId($questionId)
+	{
+		$this->questionId = $questionId;
 	}
 	
 	/**
@@ -321,4 +403,25 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 		
 		return $elementValues[$elementCounter + 1]['ordering_indentation'];
 	}
+	
+	public function isPostSubmit($data)
+	{
+		if( !is_array($data) )
+		{
+			return false;
+		}
+		
+		if( !isset($data[self::POST_VARIABLE_NAME]) )
+		{
+			return false;
+		}
+		
+		if( !count($data[self::POST_VARIABLE_NAME]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
 }

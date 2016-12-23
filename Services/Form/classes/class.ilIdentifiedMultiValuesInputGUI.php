@@ -27,27 +27,30 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		//$this->setMulti(true); // this is another planet, do not enable (!)
 	}
 	
-	public function setValue($value)
+	public function setValues($values)
 	{
-		$this->setMultiValues($value);
-	}
-	
-	public function getValue()
-	{
-		return $this->getMultiValues();
-	}
-	
-	public function setValues($value)
-	{
-		$this->setMultiValues($value);
+		require_once 'Services/Form/exceptions/class.ilFormException.php';
+		
+		throw new ilFormException(
+			'unsupported, use set/getValue when you try to manage the class member,  or use '.
+			'when you try to pass your values beeing passed to setValue after manipulations'
+		);
 	}
 	
 	public function getValues()
 	{
-		return $this->getMultiValues();
+		require_once 'Services/Form/exceptions/class.ilFormException.php';
+		
+		throw new ilFormException(
+			'unsupported, use set/getValue when you try to manage the class member,  or use '.
+			'when you try to pass your values beeing passed to setValue after manipulations'
+		);
 	}
 	
-	final public function setMultiValues(array $values)
+	/**
+	 * @param mixed $value(s)
+	 */
+	final public function setMultiValues($values)
 	{
 		$this->multi_values = $this->prepareMultiValuesInput($values);
 	}
