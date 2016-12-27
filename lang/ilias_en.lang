@@ -16145,3 +16145,9 @@ rbac#:#edit_members#:#Manage members
 rbac#:#prg_manage_members#:#Manage members of Study Programme
 rbac#:#rbac_create_iass#:#Create Individual Assessment
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
+wsp#:#share_content#:#Share Object
+wsp#:#share_with#:#Username
+wsp#:#element_already_shared#:#This object is already shared with this user.
+wsp#:#search_no_match#:#Your search did not match any results.
+wsp#:#element_shared#:#Object shared.
+wsp#:#share#:#Share

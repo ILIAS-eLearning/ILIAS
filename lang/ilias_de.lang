@@ -16265,3 +16265,9 @@ lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 rbac#:#edit_members#:#Teilnehmer bearbeiten
 rbac#:#rbac_create_iass#:#Individuelle Bewertung anlegen
 survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
+wsp#:#share_content#:#Ressource freigeben
+wsp#:#share_with#:#Benutzername
+wsp#:#element_already_shared#:#Die Ressource ist für diesen Benutzer bereits freigegeben.
+wsp#:#search_no_match#:#Es wurde kein Benutzer mit diesem Benutzernamen gefunden.
+wsp#:#element_shared#:#Die Ressource wurde freigegeben.
+wsp#:#share#:#Freigeben

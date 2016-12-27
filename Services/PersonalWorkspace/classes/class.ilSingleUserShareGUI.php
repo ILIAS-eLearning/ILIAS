@@ -89,13 +89,13 @@ class ilSingleUserShareGUI
 				}
 				else
 				{
-					ilUtil::sendSuccess($this->lng->txt("element_already_shared"),true);
+					ilUtil::sendInfo($this->lng->txt("element_already_shared"),true);
 				}
 				$this->ctrl->returnToParent($this);
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt('search_no_match'),true);
+				ilUtil::sendFailure($this->lng->txt('search_no_match'),true);
 			}
 		}
 		$this->ctrl->redirect($this);
