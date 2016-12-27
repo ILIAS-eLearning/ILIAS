@@ -738,7 +738,7 @@ interface ilDBPdoInterface {
 	 * @param $query
 	 * @param null $types
 	 * @param null $result_types
-	 * @return bool
+	 * @return ilDBStatement
 	 */
 	public function prepare($query, $types = null, $result_types = null);
 
