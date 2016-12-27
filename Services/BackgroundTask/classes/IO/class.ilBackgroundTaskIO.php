@@ -33,21 +33,25 @@ abstract class ilBackgroundTaskIO implements ilBTIO {
 		}
 	}
 
-
-	/**
-	 * @return string Gets a hash for this IO. If two objects are the same the hash must be the same! if two objects are different you need to have
-	 *                as view collitions as possible.
-	 **/
+  /**
+   * @return string By default we just use the md5 value of the serialization.
+   **/
 	public function getHash() {
-		return md5($this->serialize());
+	  return md5($this->serialize);
 	}
 
-
 	/**
-	 * @param \ilBackgroundTaskIO $other
+	 * @param ilBackgroundTaskIO $other
 	 * @return bool
 	 */
 	public function equals(ilBackgroundTaskIO $other) {
-		return get_class($this) == get_class($other) && $this->serialize() == $other->serialize();
+	  return get_class($this) == get_class($other) && $this->serialize() == $other->serialize();
+	}
+
+	/**
+	 * @return string The default is to just take the class name.
+	 */
+	public function getType() {
+		return get_class($this);
 	}
 }
