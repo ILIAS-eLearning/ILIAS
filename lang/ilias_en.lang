@@ -16144,3 +16144,4 @@ lng#:#lng_download_deprecated#:#Download Deprecated List
 rbac#:#edit_members#:#Manage members
 rbac#:#prg_manage_members#:#Manage members of Study Programme
 rbac#:#rbac_create_iass#:#Create Individual Assessment
+survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.

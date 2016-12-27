@@ -16264,3 +16264,4 @@ auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können si
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 rbac#:#edit_members#:#Teilnehmer bearbeiten
 rbac#:#rbac_create_iass#:#Individuelle Bewertung anlegen
+survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
