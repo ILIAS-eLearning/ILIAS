@@ -13,9 +13,10 @@ interface ilBTUserInteraction extends ilBTTask {
 
 	/**
 	 * Create the output here.
+	 * @param $input
 	 * @param $user_input
 	 * @return void
 	 */
-	public function interaction($user_input);
+	public function interaction($input, $user_input);
 
 }
