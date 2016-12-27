@@ -4,9 +4,8 @@
  * Interface ilBTJob
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
- * @author Oskar Truffer <ot@studer-raimann.ch>
  */
-interface ilBTJob {
+interface ilBTTask {
 
 	/**
 	 * @return string Class-Name of the ilBTIO
@@ -20,11 +19,8 @@ interface ilBTJob {
 	public function getOutputType();
 
 
-	public function run();
-
-
 	/**
-	 * @param ilBTIO $input
+	 * @param $input
 	 */
 	public function setInput(ilBTIO $input);
 
@@ -34,27 +30,14 @@ interface ilBTJob {
 	 */
 	public function getOutput();
 
+	/**
+	 * @return bool
+	 */
+	public function isUserInteraction();
 
 	/**
 	 * @return bool
 	 */
-	public function isRunning();
+	public function isJob();
 
-
-	/**
-	 * @return bool
-	 */
-	public function supportsPercentage();
-
-
-	/**
-	 * @return float
-	 */
-	public function getPercentage();
-
-
-	/**
-	 * @return bool returns true iff the job's output ONLY depends on the input
-	 */
-	public function isStateless();
 }

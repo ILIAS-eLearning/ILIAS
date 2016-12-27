@@ -33,9 +33,9 @@ $input = new ilBTUserAndYearAndMonth(6, 2017, 0);
 $bucket = new ilBTBucket();
 $bucket
   ->setInput($input)
-  ->addJob(new ilBTCollectCalendarFiles)
-  ->addJob(new ilBTZipFiles)
-  ->addJob(new ilBTDownloadFile);
+  ->addTask(new ilBTCollectCalendarFiles)
+  ->addTask(new ilBTZipFiles)
+  ->addTask(new ilBTDownloadFile);
 $bucket->putInQueue();
 
 $bucketObserver = new ilBucketObserver($ilUser->getId(), $bucket->getId());
