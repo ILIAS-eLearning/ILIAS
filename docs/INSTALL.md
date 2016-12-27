@@ -1,42 +1,27 @@
-                       ==================================
-                        ILIAS open source - Installation
-                       ==================================
+ILIAS open source - Installation
+==================================
+**Authors:** 
 
-          Author: Boris H. Schuermann
+- Boris H. Schuermann
 
-Table of Contents 
+**Table of Contents** 
 
-1. Introduction
+1. [Introduction](#introduction) 
+2. [First time installation](#ft-installation) 
+    1. Where to install ILIAS 
+    2. First steps 
+    3. Installing required third-party software 
+        1. Libraries & utilities 
+        2. MySQL / PHP / Apache 
+    4. Installing ILIAS
+3. [Updating ILIAS](#updating-ilias)
+4. [Appendix A](#appendix_a): Note on using Apache 2
 
-2. First time installation
-
-   2.1 Where to install ILIAS
-
-   2.2 First steps
-
-   2.3 Installing required third-party software
-
-       2.3.1 Libraries & utilities
-
-       2.3.2 MySQL / PHP / Apache
-
-   2.4 Installing ILIAS
-
-3. Updating ILIAS
-
-Appendix A: Note on using Apache 2
-
-
-1. I N T R O D U C T I O N
-
-
-*******************************************************************************
-
+#<a name="introduction"></a>Introduction
+```
 CAUTION: THIS IS A BETA RELEASE. NOT INTENDED FOR PRODOCTIVE ENVIRONMENTS.
          ONLY FOR TEST PURPOSES.
-
-*******************************************************************************
-
+```
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
@@ -92,15 +77,13 @@ General advices on compiling the software packages:
 
 
 
-2  F I R S T   T I M E   I N S T A L L A T I O N
+#<a name="ft-installation"></a>First Time Installation
 
 Please visit http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
 and try a install procedure that suits your OS distribution. If this fails, you
 may try to install the tools from scratch.
 
-
-2.1 Where to install ILIAS
-
+##Where to install ILIAS
 The instructions herein assume that you do not have any of the software
 packages required for running ILIAS installed on your server. Following them
 all these programs will be built from their source code and then be installed
@@ -117,9 +100,7 @@ facilitate backup and administration tasks.
 When compiling the components necessary to run ILIAS from source you may easily
 specify their installation location using an appropriate '--prefix' directive.
 
-
-2.2 First steps
-
+##First steps
 Directories where third-party components will be located:
 
     mkdir /opt/ilias
@@ -167,11 +148,8 @@ The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
 space.
 
-
-2.3 Installing required third-party software
-
-
-2.3.1 Libraries & utilities
+##Installing required third-party software
+###Libraries & utilities
 
 If not already available on your system, the following libraries and utilities
 must be installed:
@@ -322,11 +300,9 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
         make install
 
 
-2.3.2 MySQL / PHP / Apache
-
+###MySQL / PHP / Apache
 After the libraries and tools are set up you may install the main third-party
 components:
-
 
 (a) MySQL database
 
@@ -504,9 +480,7 @@ components:
     to get current recommendations for php.ini settings.
 
 
-2.4 Installing ILIAS
-
-
+##Installing ILIAS
 (a) Installing the ILIAS program files
 
     First extract the content of the ILIAS tarball into the web space directory:
@@ -596,9 +570,7 @@ components:
     This example executes the script cron.php every night at 2 a clock.
 
 
-3. Updating ILIAS
-
-
+#<a name="updating-ilias"></a>Updating ILIAS
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS stable version to
 ILIAS 5.0
 
@@ -699,9 +671,7 @@ After that enter your clients and execute the "Refresh Languages" command
 in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
-
-	   
-A P P E N D I X  A: Note on using Apache 2
+#<a name="appendix_a"></a>Appendix A: Note on using Apache 2
 
 Please proceed as follows:
 
