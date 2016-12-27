@@ -102,10 +102,6 @@ class ilObjFileGUI extends ilObject2GUI
 				break;
 		
 			case "ilexportgui":
-				if(!$this->checkPermissionBool("write"))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
 				$ilTabs->activateTab("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);

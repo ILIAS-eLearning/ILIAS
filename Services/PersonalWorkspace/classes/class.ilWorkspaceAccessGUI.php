@@ -8,7 +8,7 @@
  * @version $Id$
  * 
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -39,16 +39,11 @@ class ilWorkspaceAccessGUI
 	
 	function executeCommand()
 	{
-		global $ilTabs, $tpl, $ilErr;
+		global $ilTabs, $tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
-		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
-		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
-		}
-
+		
 		switch($next_class)
 		{
 			case "ilmailsearchcoursesgui";							
@@ -83,7 +78,18 @@ class ilWorkspaceAccessGUI
 				
 				$this->setObjectTitle();
 				break;
-			
+
+			case "ilsingleusersharegui";
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, "share"));
+				include_once('Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php');
+				$ushare = new ilSingleUserShareGUI($this->access_handler, $this->node_id);
+				$this->ctrl->setReturn($this, 'share');
+				$this->ctrl->forwardCommand($ushare);
+
+				$this->setObjectTitle();
+				break;
+
 			case "ilpublicuserprofilegui";				
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt("back"),
@@ -194,8 +200,17 @@ class ilWorkspaceAccessGUI
 		switch($_REQUEST["action"])
 		{
 			case "user":
-				$this->ctrl->setParameterByClass("ilmailsearchgui", "ref", "wsp");
-				$this->ctrl->redirectByClass("ilmailsearchgui");
+
+				include_once './Services/User/classes/class.ilUserAccountSettings.php';
+				if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
+				{
+					$this->ctrl->redirectByClass("ilsingleusersharegui");
+				}
+				else
+				{
+					$this->ctrl->setParameterByClass("ilmailsearchgui", "ref", "wsp");
+					$this->ctrl->redirectByClass("ilmailsearchgui");
+				}
 			
 			case "group":
 				$this->ctrl->setParameterByClass("ilmailsearchgroupsgui", "ref", "wsp");
