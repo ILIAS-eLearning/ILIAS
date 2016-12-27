@@ -9,9 +9,10 @@
 interface ilBTJob extends ilBTTask {
 
 	/**
-	 * @return void
+	 * @param $input ilBTIO
+	 * @return ilBTIO
 	 */
-	public function run();
+	public function run($input);
 
 	/**
 	 * @return bool Returns true iff the job supports giving feedback about the percentage done.

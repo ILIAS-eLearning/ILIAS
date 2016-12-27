@@ -18,18 +18,6 @@ interface ilBTTask {
 	 */
 	public function getOutputType();
 
-
-	/**
-	 * @param $input
-	 */
-	public function setInput(ilBTIO $input);
-
-
-	/**
-	 * @return ilBTIO
-	 */
-	public function getOutput();
-
 	/**
 	 * @return bool
 	 */

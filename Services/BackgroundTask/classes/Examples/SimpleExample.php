@@ -28,14 +28,15 @@ class ILIASObjects extends ilBackgroudTaskIO {
 class CollectILIASObjectsJob extends ilBTJobBase {
 
 	/**
-	 * @return void
+	 * @param ilBTIO $input
+	 * @return ilBTIO
 	 */
-	public function run() {
+	public function run($input) {
 		/** @var ILIASObjectIDs $input */
-		$input = $this->input;
+		$input = $input;
 		$ids = $input->ids;
 		$objects = []; //TODO load from db.
-		$this->output = new ILIASObjects($objects);
+		return new ILIASObjects($objects);
 	}
 
 	/**
@@ -100,11 +101,12 @@ class DownloadILIASObjectsAsJSONJob extends ilBTUserInteractionBase {
 
 	/**
 	 * Create the output here.
+	 * @param $input ILIASObjects
 	 * @param $user_input
 	 * @return void
 	 */
-	public function interaction($user_input) {
-		$objects = $this->input->objects;
+	public function interaction($input, $user_input) {
+		$objects = $input->objects;
 		$this->output = new ilBTIOVoid();
 
 		switch ($user_input) {
@@ -127,5 +129,5 @@ $bucket = $bucket
 	->addTask(new DownloadILIASObjectsAsJSONJob())
 	->setTitle($lng->txt("ilias_objects_bucket_title"));
 
-$bucket->putInQueueAndObserve([$ilUser->getId()]); // will raise an exception if the input/output types do not match.
+$bucket->putInQueueAndObserve($ilUser->getId()); // will raise an exception if the input/output types do not match.
 // $bucket->putInQueue(); Will raise an exception if there are user interactions in the bucket (no observer => no one can interact)
