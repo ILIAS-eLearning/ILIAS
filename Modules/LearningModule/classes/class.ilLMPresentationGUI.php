@@ -1309,11 +1309,12 @@ class ilLMPresentationGUI
 	}
 
 	/**
-	* process <ilPage> content tag
-	*
-	* @param	object		page node
-	* @param	integer		footer/header page id
-	*/
+	 * process <ilPage> content tag
+	 *
+	 * @param $a_page_node page node
+	 * @param int $a_page_id header / footer page id
+	 * @return string
+	 */
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
 		global $ilUser, $ilHelp;
