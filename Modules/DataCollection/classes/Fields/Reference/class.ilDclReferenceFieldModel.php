@@ -109,8 +109,10 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 		/** @var ilDclReferenceFieldModel $clone */
 		$clone = ilDclCache::getCloneOf($this->getId(), ilDclCache::TYPE_FIELD);
 		$reference_clone = ilDclCache::getCloneOf((int)$clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE), ilDclCache::TYPE_FIELD);
-		$this->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $reference_clone->getId());
-		$this->updateProperties();
+		if ($reference_clone) {
+			$this->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $reference_clone->getId());
+			$this->updateProperties();
+		}
 		parent::afterClone($records);
 	}
 }

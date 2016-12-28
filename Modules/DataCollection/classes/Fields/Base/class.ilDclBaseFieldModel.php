@@ -746,7 +746,7 @@ class ilDclBaseFieldModel {
 	 */
 	public function afterClone($records) {
 		foreach ($records as $rec) {
-		ilDclCache::getRecordFieldCache($rec, $this)->afterClone();
+			ilDclCache::getRecordFieldCache($rec, $this)->afterClone();
 		}
 	}
 
