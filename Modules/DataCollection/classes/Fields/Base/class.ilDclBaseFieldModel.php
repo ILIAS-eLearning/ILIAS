@@ -735,8 +735,20 @@ class ilDclBaseFieldModel {
 		$this->setExportable($original->getExportable());
 		$this->doCreate();
 		$this->cloneProperties($original);
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_FIELD);
 	}
 
+
+	/**
+	 * @param $records
+	 */
+	public function afterClone($records) {
+		foreach ($records as $rec) {
+		ilDclCache::getRecordFieldCache($rec, $this)->afterClone();
+		}
+	}
 
 	/**
 	 * @param ilDclBaseFieldModel $originalField
