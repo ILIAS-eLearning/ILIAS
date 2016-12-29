@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class ilBTTaskFactory
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 class ilBTTaskFactory {
 
 	/**

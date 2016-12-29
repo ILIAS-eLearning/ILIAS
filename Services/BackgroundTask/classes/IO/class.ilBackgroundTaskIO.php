@@ -5,7 +5,6 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Oskar Truffer <ot@studer-raimann.ch>
- *
  */
 abstract class ilBackgroundTaskIO implements ilBTIO {
 
@@ -33,20 +32,23 @@ abstract class ilBackgroundTaskIO implements ilBTIO {
 		}
 	}
 
-  /**
-   * @return string By default we just use the md5 value of the serialization.
-   **/
+
+	/**
+	 * @return string By default we just use the md5 value of the serialization.
+	 **/
 	public function getHash() {
-	  return md5($this->serialize);
+		return md5($this->serialize());
 	}
+
 
 	/**
 	 * @param ilBackgroundTaskIO $other
 	 * @return bool
 	 */
 	public function equals(ilBackgroundTaskIO $other) {
-	  return get_class($this) == get_class($other) && $this->serialize() == $other->serialize();
+		return get_class($this) == get_class($other) && $this->serialize() == $other->serialize();
 	}
+
 
 	/**
 	 * @return string The default is to just take the class name.

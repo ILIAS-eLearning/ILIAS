@@ -17,7 +17,7 @@ class ilBTBucketContainer extends ActiveRecord {
 	protected $currentInput;
 
 	/**
-	 * @var Reference to a ilBTJobContainer. The job that is running.
+	 * @var ilBTJobContainer Reference to a ilBTJobContainer. The job that is running.
 	 */
 	protected $currentJob;
 

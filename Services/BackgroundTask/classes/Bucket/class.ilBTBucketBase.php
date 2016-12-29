@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class ilBTBucketBase
+ *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 class ilBTBucketBase implements ilBTBucket {
 
 	/**
@@ -55,7 +61,7 @@ class ilBTBucketBase implements ilBTBucket {
 	}
 
 	/**
-	 * Returns true iff the input and outputs of the chain match
+	 * Returns true if the input and outputs of the chain match
 	 *
 	 * @return ilBTTypeError[]
 	 **/

@@ -27,6 +27,12 @@ class ilBTTypeError {
 		return "{$this->consumerJob} expects an input of type {$this->expectedInputType} but {$this->givenInputType} is given (produced by: $source)";
 	}
 
+
+	/**
+	 * @param \ilBTJob $job
+	 * @param \ilBTIO $input
+	 * @param \ilBTJob|null $producer
+	 */
 	public static function getInstanceByClasses(ilBTJob $job, ilBTIO $input, ilBTJob $producer = null) {
 		$instance = new self();
 		$instance->setExpectedInputType($job->getInputType());
