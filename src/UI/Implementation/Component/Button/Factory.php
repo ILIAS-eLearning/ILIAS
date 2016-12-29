@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
+use ILIAS\UI\NotImplementedException;
 
 class Factory implements B\Factory {
 	/**
@@ -27,4 +28,11 @@ class Factory implements B\Factory {
 	public function close() {
 		return new Close();
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function split() {
+		throw new NotImplementedException();
+	}
 }
