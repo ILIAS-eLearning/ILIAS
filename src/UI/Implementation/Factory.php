@@ -80,11 +80,18 @@ class Factory implements \ILIAS\UI\Factory
 	}
 
 
-    /**
-     * @inheritdoc
-     */
-    public function modal()
-    {
-        return new Component\Modal\Factory();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function modal() {
+		return new Component\Modal\Factory();
+	}
+
+
+	/**
+	 * @return \ILIAS\UI\Component\Connector\Factory;
+	 */
+	public function connector() {
+		return new Component\Connector\Factory();
+	}
 }

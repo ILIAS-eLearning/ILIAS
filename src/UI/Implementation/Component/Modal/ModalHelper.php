@@ -18,10 +18,11 @@ trait ModalHelper
     protected function getCancelButton($label = '')
     {
         $button = new Standard($label, '');
-        return $button->withOnLoadCode(function ($id) {
-            return "$('#{$id}').click(function() { $(this).closest('.modal').modal('hide'); return false; });";
-        });
+//        return $button->withOnLoadCode(function ($id) {
+//            return "$('#{$id}').click(function() { $(this).closest('.modal').modal('hide'); return false; });";
+//        });
 //        return $button->triggerAction($this->close());
+	    return $button;
     }
 
 }

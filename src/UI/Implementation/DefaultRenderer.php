@@ -4,6 +4,9 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\Component\Connector\ComponentConnection;
+use ILIAS\UI\Implementation\Render\ComponentIdRegistry;
+use ILIAS\UI\Implementation\Render\ComponentIdRegistryInterface;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
@@ -46,6 +49,10 @@ class DefaultRenderer implements Renderer {
 	 * @var	JavaScriptBinding
 	 */
 	private $js_binding;
+	/**
+	 * @var ComponentIdRegistryInterface
+	 */
+	private $id_registry;
 
 	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry, \ilLanguage $lng, JavaScriptBinding $js_binding) {
 		$this->ui_factory = $ui_factory;
@@ -53,14 +60,28 @@ class DefaultRenderer implements Renderer {
 		$this->resource_registry = $resource_registry;
 		$this->lng = $lng;
 		$this->js_binding = $js_binding;
+		$this->id_registry = new ComponentIdRegistry(); // TODO Inject via constructor
 	}
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
-	public function render(Component $component) {
-		$renderer = $this->getRendererFor(get_class($component));
-		return $renderer->render($component, $this);
+	public function render($component, $connection = null) {
+		if (is_array($component)) {
+			$out = array();
+			foreach ($component as $_component) {
+				$renderer = $this->getRendererFor(get_class($_component));
+				$out[] = $renderer->render($_component, $this);
+			}
+		} else {
+			$renderer = $this->getRendererFor(get_class($component));
+			$out = $renderer->render($component, $this);
+		}
+		if ($connection) {
+			$this->renderConnections($connection);
+		}
+
+		return $out;
 	}
 
 	/**
@@ -97,7 +118,7 @@ class DefaultRenderer implements Renderer {
 		if (!class_exists($renderer_class)) {
 			throw new \LogicException("No rendered for '".$class."' found.");
 		}
-		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding, $this->id_registry);
 	}
 
 	/**
@@ -111,4 +132,25 @@ class DefaultRenderer implements Renderer {
 		$parts[count($parts)-1] = "Renderer";
 		return implode("\\", $parts);
 	}
+
+
+	/**
+	 * @param ComponentConnection[] $connection
+	 */
+	protected function renderConnections($connection) {
+		$connections = (is_array($connection)) ? $connection : array($connection);
+		foreach ($connections as $connection) {
+			$triggerer = $connection->getTriggererComponent();
+			$triggered = $connection->getTriggeredComponent();
+			$action = $connection->getTriggerAction();
+			$event = $connection->getEvent();
+			foreach ($this->id_registry->getIds($triggerer) as $triggerer_id) {
+				foreach ($this->id_registry->getIds($triggered) as $triggered_id) {
+					$js = $action->renderJavascript($triggered_id);
+					$this->js_binding->addOnLoadCode("$('#{$triggerer_id}').{$event}(function() { {$js} });");
+				}
+			}
+		}
+	}
+
 }

@@ -53,43 +53,11 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("disabled");
 		}
 
-        $this->renderTriggeredComponents($component, $tpl, $default_renderer);
 		$this->maybeRenderId($component, $tpl);
         return $tpl->get();
 	}
 
 
-    /**
-     * Renders any components that are triggered by this button
-     * // TODO This functionality does not belong here and should be available in general for any component rendering triggered components
-     *
-     * @param Component\Button\Button $button
-     * @param $tpl
-     * @param $default_renderer
-     * @return Component\Button\Button
-     */
-	protected function renderTriggeredComponents(Component\Button\Button &$button, $tpl, $default_renderer) {
-        if (!count($button->getTriggerActions())) {
-            return $button;
-        }
-        foreach ($button->getTriggerActions() as $action) {
-            $triggered = $action->getComponent();
-            // Hacky: Fake generation of an ID via empty onload code
-            $triggered = $triggered->withOnLoadCode(function($id) {
-                return '';
-            });
-            $triggered_id = $this->bindJavaScript($triggered);
-            $button = $button->withOnLoadCode(function($id) use ($triggered_id, $action) {
-                $event = $action->getEvent();
-                $binding = $action->getJavascriptBinding();
-                $js = $binding($triggered_id);
-                return "$('#{$id}').{$event}(function() { {$js} });";
-            });
-            $tpl->setCurrentBlock('triggered');
-            $tpl->setVariable('COMPONENT', $default_renderer->render($triggered));
-            $tpl->parseCurrentBlock();
-        }
-    }
 
 
 	protected function renderClose($component) {
@@ -103,6 +71,9 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function maybeRenderId($component, $tpl) {
 		$id = $this->bindJavaScript($component);
+		if ($id === null) {
+			$id = $this->createId($component);
+		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);

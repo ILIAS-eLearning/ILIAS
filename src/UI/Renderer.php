@@ -10,12 +10,15 @@ namespace ILIAS\UI;
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
 interface Renderer {
+
 	/**
-	 * Render given component.
+	 * Render given component. If an array of components is passed, this method returns an array containing the output
+	 * of the rendered components, same index.
 	 *
-	 * @param	$component			Component
-	 * @throws	\LogicException		if renderer is called with a component it can't render
-	 * @return	string
+	 * @param Component\Component|Component\Component[] $component
+	 * @param Component\Connector\ComponentConnection|Component\Connector\ComponentConnection[] $connection
+	 *
+	 * @return string|array The output of the renderer rendering the component
 	 */
-	public function render(Component\Component $component);
+	public function render($component, $connection = null);
 }

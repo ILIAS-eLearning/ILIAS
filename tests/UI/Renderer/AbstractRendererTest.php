@@ -78,7 +78,7 @@ namespace {
 	}
 
 	class NullDefaultRenderer implements \ILIAS\UI\Renderer {
-		public function render(C\Component $component) {
+		public function render(C\Component $component, C\Connector\ComponentConnection $connector = null) {
 			return "";
 		}
 	}

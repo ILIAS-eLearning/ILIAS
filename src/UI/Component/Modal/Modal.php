@@ -4,66 +4,28 @@ namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Trigger\Triggerable;
-use ILIAS\UI\Component\Trigger\TriggerAction;
+use ILIAS\UI\Implementation\Component\Modal\CloseAction;
+use ILIAS\UI\Implementation\Component\Modal\ShowAction;
 
 /**
  * This describes commonalities between the different modals
  */
-interface Modal extends Component, JavaScriptBindable, Triggerable
+interface Modal extends Component, JavaScriptBindable
 {
 
     /**
-     * Get the title of the modal
+     * Get the action to show this modal in the frontend
      *
-     * @return string
+     * @return ShowAction
      */
-    public function getTitle();
+    public function getShowAction();
 
 
     /**
-     * Get the component representing the content of the modal
+     * Get the action to close this modal in the frontend
      *
-     * @return \ILIAS\UI\Component\Component
+     * @return CloseAction
      */
-    public function getContent();
-
-
-    /**
-     * Get all buttons of the modal
-     *
-     * @return \ILIAS\UI\Component\Button\Button[]
-     */
-    public function getButtons();
-
-
-    /**
-     * Get a modal like this with another title
-     *
-     * @param string $title
-     * @return Modal
-     */
-    public function withTitle($title);
-
-
-    /**
-     * Get a modal like this with another content
-     *
-     * @param \ILIAS\UI\Component\Component $content
-     * @return Modal
-     */
-    public function withContent(Component $content);
-
-
-    /**
-     * @return TriggerAction
-     */
-    public function show();
-
-
-    /**
-     * @return TriggerAction
-     */
-    public function close();
+    public function getCloseAction();
 
 }

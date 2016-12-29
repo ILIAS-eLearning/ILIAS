@@ -1,4 +1,4 @@
-<div class="modal fade il-interruptive-modal" tabindex="-1" role="dialog"<!-- BEGIN with_id --> id="{ID}"<!-- END with_id -->>
+<div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="{ID}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,14 @@
                 <h4 class="modal-title">{TITLE}</h4>
             </div>
             <div class="modal-body">
-                {CONTENT}
+                <!-- BEGIN message -->
+                <div class="il-modal-interruptive-message">
+                    {MESSAGE}
+                </div>
+                <!-- END message -->
+                <!-- BEGIN items -->
+                    {AFFECTED_ITEMS}
+                <!-- END items -->
             </div>
             <div class="modal-footer">
                 <!-- BEGIN buttons -->

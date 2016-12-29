@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Trigger\Triggerer;
+use ILIAS\UI\Component\Connector\Triggerer;
 
 /**
  * This describes commonalities between standard and primary buttons. 
