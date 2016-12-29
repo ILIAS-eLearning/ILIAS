@@ -57,7 +57,7 @@ interface Factory {
 	 *      clicks the "Show More" link displayed if there is hidden content.
 	 * ---
 	 * @param string $title Title of the Appointment
-	 * @param ilDateTime $from Starting point of the appointmen.
+	 * @param ilDateTime $from Starting point of the appointment.
 	 * @param ilDateTime $to End point of the appointment.
 	 * @param string Color of the calendar containing the item as color code
 	 *        (hex).
