@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class ilBucketObserver
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ */
 class ilBucketObserver extends ActiveRecord {
 	/**
 	 * @var int

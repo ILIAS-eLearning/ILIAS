@@ -12,7 +12,8 @@ interface ilBTJob extends ilBTTask {
 	 * @param $input ilBTIO
 	 * @return ilBTIO
 	 */
-	public function run($input);
+	public function run(ilBTIO $input);
+
 
 	/**
 	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
@@ -26,7 +27,8 @@ interface ilBTJob extends ilBTTask {
 	public function getPercentage();
 
 
-	/** @return returns true iff the job's output ONLY depends on the input. Stateless task results may be cached! */
+	/**
+	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task results may be cached!
+	 */
 	public function isStateless();
-
 }

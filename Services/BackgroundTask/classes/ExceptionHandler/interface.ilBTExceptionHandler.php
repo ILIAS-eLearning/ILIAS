@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Interface ilBTExceptionHandler
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ *
+ */
 interface ilBTExceptionHandler {
 
 	/**
@@ -10,5 +16,5 @@ interface ilBTExceptionHandler {
 	 * @param ilBTJob|null $job
 	 * @return void
 	 */
-	public function handleException( ilBTException $exception, ilBTBucket $bucket, ilBTJob $job = null);
+	public function handleException(ilBTException $exception, ilBTBucket $bucket, ilBTJob $job = null);
 }

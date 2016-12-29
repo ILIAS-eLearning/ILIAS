@@ -12,28 +12,31 @@
 class ilWorkerBase implements ilWorker {
 
 	public function doWork() {
-		while($this->workConditions() && $bucketContainer = $this->getNextBucketContainer()) {
+		while ($this->workConditions() && $bucketContainer = $this->getNextBucketContainer()) {
 			$this->doStep($bucketContainer->getBucket());
 		}
 	}
+
 
 	/**
 	 * @return ilBTBucketContainer
 	 */
 	protected function getNextBucketContainer() {
 		return ilBTBucketContainer::where(array(
-				'isRunning' => 0
-			))->orderBy('id')->first();
+			'isRunning' => 0,
+		))->orderBy('id')->first();
 	}
+
 
 	/**
 	 * @return int
 	 */
 	protected function numberOfRunningJobs() {
 		return ilBTBucketContainer::where(array(
-			'isRunning' => 0
+			'isRunning' => 0,
 		))->count();
 	}
+
 
 	/**
 	 * @return bool
@@ -42,10 +45,11 @@ class ilWorkerBase implements ilWorker {
 		return $this->numberOfRunningJobs() < 3;
 	}
 
+
 	/**
 	 * @param $bucket ilBTBucket
 	 */
-	protected function doStep($bucket) {
+	protected function doStep(ilBTBucket $bucket) {
 		$bucket->runBucket();
 	}
 }

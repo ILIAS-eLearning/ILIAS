@@ -18,14 +18,15 @@ interface ilBTTask {
 	 */
 	public function getOutputType();
 
+
 	/**
 	 * @return bool
 	 */
 	public function isUserInteraction();
 
+
 	/**
 	 * @return bool
 	 */
 	public function isJob();
-
 }

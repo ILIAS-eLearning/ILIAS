@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class ilBTDefaultExceptionHandler
+ *
+ * @author Oaskar Truffer <ot@studer-raimann.ch>
+ */
 class ilBTDefaultExceptionHandler implements ilBTExceptionHandler {
 
 	/**

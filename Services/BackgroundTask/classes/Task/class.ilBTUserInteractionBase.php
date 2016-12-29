@@ -14,6 +14,7 @@ abstract class ilBTUserInteractionBase extends ilBTTaskBase implements ilBTUserI
 		return true;
 	}
 
+
 	/**
 	 * @return bool
 	 */
