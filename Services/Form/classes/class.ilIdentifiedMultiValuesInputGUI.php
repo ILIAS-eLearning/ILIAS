@@ -55,10 +55,34 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		$this->multi_values = $this->prepareMultiValuesInput($values);
 	}
 	
-	protected function buildMultiValueFieldId($identifier, $positionIndex = null, $subFieldIndex = '')
+	protected function getMultiValueSubFieldId($identifier, $subFieldIndex)
+	{
+		$tempPostVar = $this->getMultiValuePostVarSubField($identifier, $subFieldIndex);
+		$multiValueFieldId = $this->getFieldIdFromPostVar($tempPostVar);
+		
+		return $multiValueFieldId;
+	}
+	
+	protected function getMultiValuePosIndexedFieldId($identifier, $positionIndex)
+	{
+		$tempPostVar = $this->getMultiValuePostVarPosIndexed($identifier, $positionIndex);
+		$multiValueFieldId = $this->getFieldIdFromPostVar($tempPostVar);
+		
+		return $multiValueFieldId;
+	}
+	
+	protected function getMultiValuePosIndexedSubFieldId($identifier, $subFieldIndex, $positionIndex)
+	{
+		$tempPostVar = $this->getMultiValuePostVarSubFieldPosIndexed($identifier, $subFieldIndex, $positionIndex);
+		$multiValueFieldId = $this->getFieldIdFromPostVar($tempPostVar);
+		
+		return $multiValueFieldId;
+	}
+	
+	protected function getFieldIdFromPostVar($tempPostVar)
 	{
 		$basicPostVar = $this->getPostVar();
-		$this->setPostVar($this->buildMultiValuePostVar($identifier, $positionIndex, $subFieldIndex));
+		$this->setPostVar($tempPostVar);
 		
 		// uses getPostVar() internally, our postvar does not have the counter included
 		$multiValueFieldId = $this->getFieldId();
@@ -68,22 +92,39 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		return $multiValueFieldId;
 	}
 	
-	protected function buildMultiValuePostVar($identifier, $positionIndex = null, $subFieldIndex = null)
+	protected function getPostVarSubField($subFieldIndex)
+	{
+		return $this->getSubFieldCompletedPostVar($subFieldIndex, $this->getPostVar());
+	}
+	
+	protected function getMultiValuePostVarSubField($identifier, $subFieldIndex)
+	{
+		$elemPostVar = $this->getMultiValuePostVar($identifier);
+		$elemPostVar = $this->getSubFieldCompletedPostVar($subFieldIndex, $elemPostVar);
+		
+		return $elemPostVar;
+	}
+	
+	protected function getMultiValuePostVarSubFieldPosIndexed($identifier, $subFieldIndex, $positionIndex)
+	{
+		$elemPostVar = $this->getMultiValuePostVarPosIndexed($identifier, $positionIndex);
+		$elemPostVar = $this->getSubFieldCompletedPostVar($subFieldIndex, $elemPostVar);
+		
+		return $elemPostVar;
+	}
+	
+	protected function getMultiValuePostVarPosIndexed($identifier, $positionIndex)
+	{
+		$elemPostVar = $this->getMultiValuePostVar($identifier);
+		$elemPostVar .= "[$positionIndex]";
+		
+		return $elemPostVar;
+	}
+	
+	protected function getMultiValuePostVar($identifier)
 	{
 		$elemPostVar = $this->getPostVar();
-		
-		if( $subFieldIndex !== null )
-		{
-			$elemPostVar .= "[$subFieldIndex]";
-		}
-		
 		$elemPostVar .= "[$identifier]";
-		
-		if( $positionIndex !== null )
-		{
-			$elemPostVar .= "[$positionIndex]";
-		}
-		
 		return $elemPostVar;
 	}
 	
@@ -106,7 +147,13 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 			$a_values[$this->getPostVar()]
 		);
 		
+		$this->setMultiValuesByArray($a_values);
 		parent::setValueByArray($a_values);
+	}
+	
+	protected function setMultiValuesByArray($a_values)
+	{
+		$this->multi_values = $a_values[$this->getPostVar()];
 	}
 	
 	final public function checkInput()
@@ -155,5 +202,17 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	protected function addFormValuesManipulator(ilFormValuesManipulator $manipulator)
 	{
 		$this->formValuesManipulationChain[] = $manipulator;
+	}
+	
+	/**
+	 * @param $subFieldIndex
+	 * @param $elemPostVar
+	 * @return mixed
+	 */
+	protected function getSubFieldCompletedPostVar($subFieldIndex, $elemPostVar)
+	{
+		$fieldPostVar = "{$this->getPostVar()}[$subFieldIndex]";
+		$elemPostVar = str_replace($this->getPostVar(), $fieldPostVar, $elemPostVar);
+		return $elemPostVar;
 	}
 }

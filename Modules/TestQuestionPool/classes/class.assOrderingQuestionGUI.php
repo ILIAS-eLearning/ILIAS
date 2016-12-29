@@ -183,7 +183,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			throw new ilTestQuestionPoolException('form submit request missing the form submit!?');
 		}
 		
-		$submittedElementList = $this->fetchSolutionListFromPostSubmissionData($_POST);
+		$submittedElementList = $this->object->fetchSolutionListFromFormSubmissionData($_POST);
 		
 		$replacementElementList = new ilAssOrderingElementList();
 		$replacementElementList->setQuestionId($this->object->getId());
@@ -349,7 +349,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return $form;
 	}
-	
 	private function isUploadAnswersCommand()
 	{
 		return $this->ctrl->getCmd() == 'uploadanswers';
@@ -600,29 +599,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$orderingGUI = $this->object->buildNestedOrderingElementInputGUI();
 		
-		if( $orderingGUI->isPostSubmit($userSolutionPost) )
-		{
-			$solutionOrderingElementList = $this->object->fetchSolutionListFromFormSubmissionData($userSolutionPost);
-		}
-		else
-		{
-			if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
-			// condition looks strange? yes - keep it null when previous solutions not enabled (!)
-			{
-				$pass = ilObjTest::_getPass($activeId);
-			}
-			
-			$indexedSolutionValues = $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
-			
-			if( count($indexedSolutionValues) )
-			{
-				$solutionOrderingElementList = $this->object->getSolutionOrderingElementList($indexedSolutionValues);
-			}
-			else
-			{
-				$solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
-			}
-		}
+		$solutionOrderingElementList = $this->object->getSolutionOrderingElementListForTestOutput(
+			$orderingGUI, $userSolutionPost, $activeId, $pass
+		);
 		
 		$template = new ilTemplate('tpl.il_as_qpl_ordering_output.html', TRUE, TRUE, 'Modules/TestQuestionPool');
 		

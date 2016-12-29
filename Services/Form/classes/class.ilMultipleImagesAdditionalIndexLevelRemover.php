@@ -49,4 +49,9 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 		
 		return $actualValues;
 	}
+	
+	protected function fetchIndentationsFromSubmitValues()
+	{
+		
+	}
 }

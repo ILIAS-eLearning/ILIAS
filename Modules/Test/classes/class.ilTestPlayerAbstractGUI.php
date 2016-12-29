@@ -27,6 +27,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	const PRESENTATION_MODE_VIEW = 'view';
 	const PRESENTATION_MODE_EDIT = 'edit';
 
+	const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
+	
 	var $ref_id;
 	var $saveResult;
 	var $sequence;
@@ -2453,9 +2455,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
 		$shuffler = new ilArrayElementShuffler();
 		
-		$shuffler->setSeed(
-			$questionId.$this->testSession->getActiveId().$this->testSession->getPass()
-		);
+		$fixedSeed = $this->buildFixedShufflerSeed($questionId);
+		$shuffler->setSeed($fixedSeed);
 		
 		return $shuffler;
 	}
@@ -2722,5 +2723,23 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 // fau: testNav - always set default presentation mode to "edit"
 		return self::PRESENTATION_MODE_EDIT;
 // fau.
+	}
+	
+	/**
+	 * @param $questionId
+	 * @return string
+	 */
+	protected function buildFixedShufflerSeed($questionId)
+	{
+		$fixedSeed = $questionId . $this->testSession->getActiveId() . $this->testSession->getPass();
+		
+		if( strlen($fixedSeed < ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH) )
+		{
+			$fixedSeed *= (
+				10 * (ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
+			);
+		}
+		
+		return $fixedSeed;
 	}
 }

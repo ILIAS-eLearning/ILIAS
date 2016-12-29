@@ -253,16 +253,16 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value));
 				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'removeimage'));
 				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
-				$tpl->setVariable("IMAGE_POST_VAR", $this->buildMultiValuePostVar($identifier, $i, 'imagename'));
+				$tpl->setVariable("IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'imagename', $i));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock('addimage');
 			$tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
-			$tpl->setVariable("IMAGE_ID", $this->buildMultiValueFieldId($identifier, $i, 'image'));
+			$tpl->setVariable("IMAGE_ID", $this->getMultiValuePosIndexedSubFieldId($identifier, 'image', $i));
 			$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 			$tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($identifier, $i, 'upload'));
-			$tpl->setVariable("IMAGE_POST_VAR", $this->buildMultiValuePostVar($identifier, $i, 'image'));
-			$tpl->setVariable("COUNT_POST_VAR", $this->buildMultiValuePostVar($identifier, $i, 'count'));
+			$tpl->setVariable("IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'image', $i));
+			$tpl->setVariable("COUNT_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'count', $i));
 			
 			$tpl->parseCurrentBlock();
 			

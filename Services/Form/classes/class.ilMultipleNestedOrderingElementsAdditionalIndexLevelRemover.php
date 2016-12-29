@@ -47,15 +47,15 @@ class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover implements ilF
 		{
 			$actualValues = array();
 			
-			foreach($values['content'] as $index => $value)
+			foreach($values['content'] as $key => $value)
 			{
-				if( !isset($values['indentation'][$index]) )
+				if( !isset($values['indentation'][$key]) )
 				{
-					$actualValues[$index] = null;
+					$actualValues[$key] = null;
 					continue;
 				}
 				
-				$actualValues[$index] = $values['indentation'][$index];
+				$actualValues[$key] = $values['indentation'][$key];
 			}
 		}
 		else

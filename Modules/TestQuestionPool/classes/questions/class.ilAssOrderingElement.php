@@ -10,6 +10,9 @@
 */
 class ilAssOrderingElement
 {
+	static $objectInstanceCounter = 0;
+	public $objectInstanceId;
+	
 	/**
 	 * this identifier is simply the database row id
 	 * it should not be used at any place
@@ -74,6 +77,30 @@ class ilAssOrderingElement
 	 * @var string
 	 */
 	protected $uploadImageFile = null;
+	
+	/**
+	 * ilAssOrderingElement constructor.
+	 */
+	public function __construct()
+	{
+		$this->objectInstanceId = ++self::$objectInstanceCounter;
+	}
+	
+	/**
+	 * Cloning
+	 */
+	public function __clone()
+	{
+		$this->objectInstanceId = ++self::$objectInstanceCounter;
+	}
+	
+	/**
+	 * @return ilAssOrderingElement
+	 */
+	public function getClone()
+	{
+		return clone $this;
+	}
 	
 	/**
 	 * @return int
@@ -201,6 +228,31 @@ class ilAssOrderingElement
 	public function setUploadImageName($uploadImageName)
 	{
 		$this->uploadImageName = $uploadImageName;
+	}
+	
+	public function isSameElement(ilAssOrderingElement $element)
+	{
+		if( $element->getRandomIdentifier() != $this->getRandomIdentifier() )
+		{
+			return false;
+		}
+		
+		if( $element->getSolutionIdentifier() != $this->getSolutionIdentifier() )
+		{
+			return false;
+		}
+		
+		if( $element->getPosition() != $this->getPosition() )
+		{
+			return false;
+		}
+		
+		if( $element->getIndentation() != $this->getIndentation() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public function getStorageValue1($orderingType)

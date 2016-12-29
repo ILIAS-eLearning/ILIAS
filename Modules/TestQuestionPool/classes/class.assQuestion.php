@@ -4983,9 +4983,9 @@ abstract class assQuestion
 	{
 		$valuePairs = array();
 		
-		foreach($indexedValues as $index => $value)
+		foreach($indexedValues as $value1 => $value2)
 		{
-			$valuePairs[] = array('value1' => $index, 'value2' => $value);
+			$valuePairs[] = array('value1' => $value1, 'value2' => $value2);
 		}
 		
 		return $valuePairs;
@@ -4999,12 +4999,12 @@ abstract class assQuestion
 	{
 		$indexedValues = array();
 		
-		foreach($indexedValues as $valuePair)
+		foreach($valuePairs as $valuePair)
 		{
 			$indexedValues[ $valuePair['value1'] ] = $valuePair['value2'];
 		}
 		
-		return $valuePairs;
+		return $indexedValues;
 	}
 
 	/**

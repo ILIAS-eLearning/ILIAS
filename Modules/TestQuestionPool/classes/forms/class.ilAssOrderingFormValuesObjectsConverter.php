@@ -77,21 +77,21 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	{
 		$values = array();
 		
-		foreach($elements as $orderingElement)
+		foreach($elements as $identifier => $orderingElement)
 		{
 			switch( $this->getContext() )
 			{
 				case self::CONTEXT_MAINTAIN_ELEMENT_TEXT:
 				case self::CONTEXT_MAINTAIN_ELEMENT_IMAGE:
 					
-					$values[$orderingElement->getRandomIdentifier()] = $this->getContentValueFromObject(
+					$values[$identifier] = $this->getContentValueFromObject(
 						$orderingElement
 					);
 					break;
 				
 				case self::CONTEXT_MAINTAIN_HIERARCHY:
 					
-					$values[$orderingElement->getRandomIdentifier()] = $this->getStructValueFromObject(
+					$values[$identifier] = $this->getStructValueFromObject(
 						$orderingElement
 					);
 					break;

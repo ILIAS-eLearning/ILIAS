@@ -342,6 +342,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 		
 		$jsTpl->setCurrentBlock('nested_ordering_init');
 		$jsTpl->setVariable('INSTANCE_ID', $this->getInstanceId());
+		$jsTpl->setVariable('INDENTATION_POSTVAR', $this->getPostVarSubField('indentation'));
 		$jsTpl->parseCurrentBlock();
 		
 		return $jsTpl->get();

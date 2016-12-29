@@ -111,15 +111,15 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setCurrentBlock("move");
 				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
 				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
-				$tpl->setVariable("ID", $this->buildMultiValueFieldId($identifier, $i));
+				$tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
 				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
 				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("POST_VAR", $this->buildMultiValuePostVar($identifier, $i));
-			$tpl->setVariable("ID", $this->buildMultiValueFieldId($identifier, $i));
+			$tpl->setVariable("POST_VAR", $this->getMultiValuePostVarPosIndexed($identifier, $i));
+			$tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
 			$tpl->setVariable("SIZE", $this->getSize());
 			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 			

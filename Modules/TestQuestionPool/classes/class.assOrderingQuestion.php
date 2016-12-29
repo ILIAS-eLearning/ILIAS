@@ -443,6 +443,40 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
+	 * @param ilAssNestedOrderingElementsInputGUI $inputGUI
+	 * @param array $lastPost
+	 * @param integer $activeId
+	 * @param integer $pass
+	 * @return ilAssOrderingElementList
+	 * @throws ilTestException
+	 * @throws ilTestQuestionPoolException
+	 */
+	public function getSolutionOrderingElementListForTestOutput(ilAssNestedOrderingElementsInputGUI $inputGUI, $lastPost, $activeId, $pass)
+	{
+		if( $inputGUI->isPostSubmit($lastPost) )
+		{
+			return $this->fetchSolutionListFromFormSubmissionData($lastPost);
+		}
+		
+		if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
+		// condition looks strange? yes - keep it null when previous solutions not enabled (!)
+		{
+			$pass = ilObjTest::_getPass($activeId);
+		}
+		
+		$indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs(
+			$this->getUserSolutionPreferingIntermediate($activeId, $pass)
+		);
+		
+		if( count($indexedSolutionValues) )
+		{
+			return $this->getSolutionOrderingElementList($indexedSolutionValues);
+		}
+		
+		return $this->getShuffledOrderingElementList();
+	}
+	
+	/**
 	 * @param string $value1
 	 * @param string $value2
 	 * @return ilAssOrderingElement
@@ -455,7 +489,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$selectedPosition = $value1;
 		$selectedIndentation = $value2[1];
 		
-		$element = $this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier);
+		$element = $this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier)->getClone();
 		
 		$element->setPosition($selectedPosition);
 		$element->setIndentation($selectedIndentation);
@@ -474,7 +508,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$selectedPosition = ($value2 - 1);
 		$selectedIndentation = 0;
 		
-		$element = $this->getOrderingElementList()->getElementBySolutionIdentifier($solutionIdentifier);
+		$element = $this->getOrderingElementList()->getElementBySolutionIdentifier($solutionIdentifier)->getClone();
 		
 		$element->setPosition($selectedPosition);
 		$element->setIndentation($selectedIndentation);
@@ -506,7 +540,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$solutionOrderingList->addElement($element);
 		}
 		
-		if( !$this->getOrderingElementList()->hasSameElementSet($solutionOrderingList) )
+		if( !$this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($solutionOrderingList) )
 		{
 			throw new ilTestQuestionPoolException('inconsistent solution values given');
 		}
@@ -525,7 +559,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->getOrderingElementList()->getRandomIdentifierIndex()
 		);
 		
-		$shuffledElementList = $this->getOrderingElementList()->getClonedElementList();
+		$shuffledElementList = $this->getOrderingElementList()->getClone();
 		$shuffledElementList->reorderByRandomIdentifiers($shuffledRandomIdentifierIndex);
 		$shuffledElementList->resetElementsIndentations();
 		
@@ -586,23 +620,24 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		
 		$this->getOrderingElementList()->moveElementByPositions($position, $position + 1);
+		
+		return true;
 	}
-
+	
 	/**
-	* Returns an ordering answer with a given index. The index of the first
-	* answer is 0, the index of the second answer is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th answer
-	* @return object ASS_AnswerOrdering-Object
-	* @access public
-	* @see $answers
-	*/
-	function getAnswer($index = 0)
+	 * Returns the ordering element from the given position.
+	 * 
+	 * @param int $position
+	 * @return ilAssOrderingElement|null
+	 */
+	public function getAnswer($index = 0)
 	{
-		if ($index < 0) return NULL;
-		if (count($this->orderElements) < 1) return NULL;
-		if ($index >= count($this->orderElements)) return NULL;
-		return $this->orderElements[$index];
+		if( !$this->getOrderingElementList()->elementExistByPosition($index) )
+		{
+			return null;
+		}
+		
+		return $this->getOrderingElementList()->getElementByPosition($index);
 	}
 
 	/**
@@ -613,32 +648,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @access public
 	* @see $answers
 	*/
-	function deleteAnswer($randomId)
+	function deleteAnswer($randomIdentifier)
 	{
-		if( !$randomId )
-		{
-			return false;
-		}
-		if( !$this->getAnswerCount() )
-		{
-			return false;
-		}
-		
-		$this->parkAnswersRecyclable();
-		$this->flushAnswers();
-		
-		$position = 0;
-		
-		foreach($this->getRecyclableAnswers() as $answer)
-		{
-			if($answer->getRandomID() == $randomId)
-			{
-				continue;
-			}
-			
-			$answer->setOrder($position++);
-			$this->addAnswerObject($answer);
-		}
+		$this->getOrderingElementList()->removeElement(
+			$this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier)
+		);
+		$this->getOrderingElementList()->saveToDb();
 	}
 
 	/**
@@ -651,37 +666,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function getAnswerCount()
 	{
 		return $this->getOrderingElementList()->countElements();
-	}
-
-	/**
-	* Returns the maximum solution order of all ordering answers
-	*
-	* @return integer The maximum solution order of all ordering answers
-	* @access public
-	*/
-	function getMaxSolutionOrder()
-	{
-		if (count($this->orderElements) == 0)
-		{
-			$max = 0;
-		}
-		else
-		{
-			$max = $this->orderElements[0]->getSolutionOrder();
-		}
-		foreach ( $this->orderElements as $key => $value)
-		{
-			if ($value->getSolutionOrder() > $max)
-			{
-				$max = $value->getSolutionOrder();
-			}
-		}
-		return $max;
-	}
-	
-	public function getNextSolutionOrder()
-	{
-		return $this->getMaxSolutionOrder() + 1;
 	}
 
 	/**
@@ -701,72 +685,25 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
-		
-		$found_value1 = array();
-		$found_value2 = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-		$user_order = array();
-		$nested_solution = false;
-		while ($data = $ilDB->fetchAssoc($result))
-		{
-			if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
-			{
-				if(strchr( $data['value2'],':') == true)
-				{
-//					//i.e. "61463:0" = "random_id:depth" 
-					$current_solution = explode(':', $data['value2']);
-
-					$user_order[$current_solution[0]]['index'] =  $data["value1"];
-					$user_order[$current_solution[0]]['random_id'] = $current_solution[0];
-					$user_order[$current_solution[0]]['depth'] = $current_solution[1];
-
-					$nested_solution = true;
-				}
-				else
-				{
-					$user_order[$data["value2"]] = $data["value1"];
-					$nested_solution = false;
-				}
-			}
-		}
-
-		$points = $this->calculateReachedPointsForSolution($user_order, $nested_solution);
-
-		return $points;
+		
+		$solutionValuePairs = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
+		$indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs($solutionValuePairs);
+		$solutionOrderingElementList = $this->getSolutionOrderingElementList($indexedSolutionValues);
+		
+		return $this->calculateReachedPointsForSolution($solutionOrderingElementList);
 	}
 	
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		$user_order = array();
-		$nested_solution = false;
-		foreach($previewSession->getParticipantsSolution() as $val1 => $val2)
-		{
-			if ((strcmp($val1, "") != 0) && (strcmp($val2, "") != 0))
-			{
-				if(strchr( $val2,':') == true)
-				{
-					$current_solution = explode(':', $val2);
-
-					$user_order[$current_solution[0]]['index'] =  $val1;
-					$user_order[$current_solution[0]]['depth'] = $current_solution[1];
-					$user_order[$current_solution[0]]['random_id'] = $current_solution[0];
-
-					$nested_solution = true;
-				}
-				else
-				{
-					$user_order[$val2] = $val1;
-					$nested_solution = false;
-				}
-			}
-		}
+		$solutionOrderingElementList = $this->getSolutionOrderingElementList(
+			$previewSession->getParticipantsSolution()
+		);
 		
-		return $this->calculateReachedPointsForSolution($user_order, $nested_solution);
+		return $this->calculateReachedPointsForSolution($solutionOrderingElementList);
 	}
 
 	/**
@@ -913,7 +850,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function validateSolutionSubmit()
 	{
 		$submittedSolutionList = $this->getSolutionListFromPostSubmit();
-		return $this->getOrderingElementList()->hasSameElementSet($submittedSolutionList);
+		return $this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($submittedSolutionList);
 	}
 
 	/**
@@ -927,12 +864,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		$entered_values = 0;
-
-		if( !$this->validateSolutionSubmit() )
-		{
-			$this->log($active_id, 'log_user_submitted_invalid_values');
-			return false;
-		}
 		
 		if (is_null($pass))
 		{
@@ -971,7 +902,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
-		if( $this->checkSaveData() )
+		if( $this->validateSolutionSubmit() )
 		{
 			$previewSession->setParticipantsSolution($this->getSolutionPostSubmit());
 		}
@@ -1002,9 +933,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		$this->orderingElementList->saveToDb();
+		$this->getOrderingElementList()->saveToDb();
 		
-		if ($this->getOrderingType() == OQ_PICTURES)
+		if( $this->hasOrderingTypeUploadSupport() )
 		{
 			$this->rebuildThumbnails();
 			$this->cleanImagefiles();
@@ -1313,42 +1244,22 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param $nested_solution
 	 * @return int
 	 */
-	protected function calculateReachedPointsForSolution($user_order, $nested_solution)
+	protected function calculateReachedPointsForSolution(ilAssOrderingElementList $solutionOrderingElementList)
 	{
-		if($this->getOrderingType() != OQ_NESTED_PICTURES && $this->getOrderingType() != OQ_NESTED_TERMS)
+		$reachedPoints = $this->getPoints();
+
+		foreach($this->getOrderingElementList() as $correctElement)
 		{
-			ksort($user_order);
-			$user_order = array_values($user_order);
-		}
-
-		$points = 0;
-		$correctcount = 0;
-
-		foreach( $this->orderElements as $index => $answer)
-		{
-			if($nested_solution == true)
+			$userElement = $solutionOrderingElementList->getElementByPosition( $correctElement->getPosition() );
+			
+			if( !$correctElement->isSameElement($userElement) )
 			{
-				$random_id = $answer->getRandomID();
-
-				if($random_id == $user_order[$random_id]['random_id'] && $answer->getOrderingDepth() == $user_order[$random_id]['depth'] && $index == $user_order[$random_id]['index'])
-				{
-					$correctcount++;
-				}
-			} else
-			{
-				if($index == $user_order[$index])
-				{
-					$correctcount++;
-				}
+				$reachedPoints = 0;
+				break;
 			}
 		}
-
-		if($correctcount == count($this->orderElements))
-		{
-			$points = $this->getPoints();
-			return $points;
-		}
-		return $points;
+		
+		return $reachedPoints;
 	}
 
 	/***

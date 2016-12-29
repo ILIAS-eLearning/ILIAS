@@ -11,6 +11,9 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElem
  */
 class ilAssOrderingElementList implements Iterator
 {
+	static $objectInstanceCounter = 0;
+	public $objectInstanceId;
+
 	const SOLUTION_IDENTIFIER_BUILD_MAX_TRIES = 1000;
 	const SOLUTION_IDENTIFIER_VALUE_INTERVAL = 1;
 	const SOLUTION_IDENTIFIER_START_VALUE = 0;
@@ -37,12 +40,49 @@ class ilAssOrderingElementList implements Iterator
 	/**
 	 * @var integer
 	 */
-	protected $questionId = null;
+	protected $questionId;
 	
 	/**
 	 * @var array
 	 */
-	protected $elements = array();
+	protected $elements;
+	
+	/**
+	 * ilAssOrderingElementList constructor.
+	 */
+	public function __construct()
+	{
+		$this->objectInstanceId = ++self::$objectInstanceCounter;
+		
+		$this->questionId = null;
+		$this->resetElements();
+	}
+
+	/**
+	 * clone list by additionally cloning the element objects
+	 */
+	public function __clone()
+	{
+		$this->objectInstanceId = ++self::$objectInstanceCounter;
+
+		foreach($this as $element)
+		{
+			$this->setPositionedElement(clone $element);
+		}
+	}
+	
+	protected function setPositionedElement(ilAssOrderingElement $element)
+	{
+		$this->elements[$element->getPosition()] = $element;
+	}
+	
+	/**
+	 * @return ilAssOrderingElementList
+	 */
+	public function getClone()
+	{
+		return clone $this;
+	}
 	
 	/**
 	 * @return integer
@@ -176,6 +216,25 @@ class ilAssOrderingElementList implements Iterator
 		$this->setElements( $elementList->getElements() );
 	}
 	
+	public function removeElement(ilAssOrderingElement $removeElement)
+	{
+		$elementList = new self();
+		$elementList->setQuestionId($this->getQuestionId());
+		
+		$positionCounter = 0;
+		
+		foreach($this as $element)
+		{
+			if( $element->isSameElement($removeElement) )
+			{
+				continue;
+			}
+			
+			$element->setPosition($positionCounter++);
+			$elementList->addElement($element);
+		}
+	}
+	
 	/**
 	 * resets elements
 	 */
@@ -189,6 +248,8 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	public function setElements($elements)
 	{
+		$this->resetElements();
+		
 		foreach($elements as $element)
 		{
 			$this->addElement($element);
@@ -671,7 +732,7 @@ class ilAssOrderingElementList implements Iterator
 	 * @param ilAssOrderingElementList $otherList
 	 * @return bool $hasSameElements
 	 */
-	protected function hasSameElementSetFaster(self $otherList)
+	public function hasSameElementSetByRandomIdentifiers(self $otherList)
 	{
 		$numIntersectingElements = count(array_intersect(
 			$otherList->getRandomIdentifierIndex(), $this->getRandomIdentifierIndex()
@@ -687,17 +748,7 @@ class ilAssOrderingElementList implements Iterator
 			return false;
 		}
 		
-		return true;
-	}
-	
-	/**
-	 * @param ilAssOrderingElementList $otherList
-	 * @return bool $hasSameElements
-	 */
-	public function hasSameElementSet(self $otherList)
-	{
-		// should be faster and working, impl below works for sure
-		return $this->hasSameElementSetFaster($otherList);
+		return true; // faster ;-)
 		
 		$otherListRandomIdentifierIndex = $otherList->getRandomIdentifierIndex();
 		
@@ -723,7 +774,7 @@ class ilAssOrderingElementList implements Iterator
 	
 	public function getParityTrueElementList(self $otherList)
 	{
-		if( !$this->hasSameElementSet($otherList) )
+		if( !$this->hasSameElementSetByRandomIdentifiers($otherList) )
 		{
 			throw new ilTestQuestionPoolException('cannot compare lists having different element sets');
 		}
@@ -866,39 +917,5 @@ class ilAssOrderingElementList implements Iterator
 		$element->setRandomIdentifier(self::FALLBACK_DEFAULT_ELEMENT_RANDOM_IDENTIFIER);
 
 		return $element;
-	}
-	
-	/**
-	 * @param array $variales
-	 */
-	protected function cloneRecursive($variales)
-	{
-		foreach($variales as $name => $var)
-		{
-			if( is_object($var) )
-			{
-				$variables[$name] = clone $var;
-			}
-			else if( is_array($var) )
-			{
-				$variables[$name] = $this->cloneRecursive($var);
-			}
-		}
-	}
-	
-	/**
-	 * magic clone implementation clones recusively
-	 */
-	public function __clone()
-	{
-		$this->cloneRecursive( get_object_vars($this) );
-	}
-	
-	/**
-	 * @return ilAssOrderingElementList
-	 */
-	public function getClonedElementList()
-	{
-		return clone $this;
 	}
 }
