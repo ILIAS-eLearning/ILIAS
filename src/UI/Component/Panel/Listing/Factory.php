@@ -5,8 +5,8 @@
 namespace ILIAS\UI\Component\Panel\Listing;
 
 /**
- * This is how the factory for UI elements looks. This should provide access
- * to all UI elements at some point.
+ * Interface Factory
+ * @package ILIAS\UI\Component\Panel\Listing
  */
 interface Factory {
 
@@ -14,7 +14,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Appointment Listing Panel is used to displayed a list of
+	 *      The Appointment Listing Panel is used to display a list of
 	 *      appointments grouped by day.
 	 *   composition: >
 	 *      This Listing is composed of a set of Appointment Items, a dropdown
@@ -28,8 +28,8 @@ interface Factory {
 	 *       The title SHOULD contain the period being displayed in the
 	 *       listing.
 	 * ---
-	 * @param string $title Title of the Appointement Listing Panel
-	 * @param AppointmentItem[] $items Set of Appointements to be displayed
+	 * @param string $title Title of the Appointment Listing Panel
+	 * @param AppointmentItem[] $items Set of Appointments to be displayed
 	 * @param string $async_action link pointing back to target for getting more
 	 *        items (e.g. if selected a larger count of days to be displayed)
 	 * @return \ILIAS\UI\Component\Panel\Listing\Appointment
@@ -44,11 +44,11 @@ interface Factory {
 	 *      appointment in a list.
 	 *   composition: >
 	 *      The Appointment Item is composed of a period of time, indicating
-	 *      when this appointement takes time, a title, and a little bar on the
+	 *      when this appointment takes place, a title, and a little bar on the
 	 *      side indicating by color, which calendar holds this appointment.
 	 *      They further might contain a description and some meta data as
-	 *      key-value pair holding information such as location of contact.
-	 *      If there are actions possible to perform on the appointement they
+	 *      key-value pair holding information such as location or contact.
+	 *      If there are actions possible to perform on the appointment they
 	 *      are listed in a dropdown on the right.
 	 *   effect: >
 	 *      The description is blended out if larger than two lines.

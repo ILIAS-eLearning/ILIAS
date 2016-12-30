@@ -3,7 +3,6 @@
  * Mockup
  */
 function mockup() {
-	//Loading factories
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();

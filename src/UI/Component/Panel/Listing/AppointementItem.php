@@ -9,13 +9,13 @@ namespace ILIAS\UI\Component\Panel\Listing;
  * @package ILIAS\UI\Component\Panel\Listing
  */
 interface AppointmentItem extends \ILIAS\UI\Component\Component {
+	
 	/**
 	 * Gets the title of the appointment item
 	 *
 	 * @return string
 	 */
 	public function getTitle();
-
 
 	/***
 	 * Get the starting point of the appointment.
@@ -65,7 +65,7 @@ interface AppointmentItem extends \ILIAS\UI\Component\Component {
 	/**
 	 * Creates a new appointment item with a set of actions to perform on it.
 	 * Those actions will be listed in the dropdown on the right side of the
-	 * appointement.
+	 * appointment.
 	 * @param string[] $actions
 	 * @return AppointmentItem
 	 */

@@ -97,8 +97,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Listing Panels are used to List Items following all one template.
-	 *       Related items are grouped inside one titled section.
+	 *       Listing Panels are used to list items following all one
+	 *       single template.
 	 *   composition: >
 	 *       Listing Panels are composed of several titled sections containing
 	 *       related List Items. They further may contain a filter.
