@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-12-18
+* @version	5.2.x 2017-01-01
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -20,13 +20,10 @@ forum#:#restore#:#Visszaállítás
 forum#:#restore_draft_from_autosave#:#Piszkozat visszaállítása
 forum#:#autosave_draft_info#:#<span class="asterisk">Ezt a piszkozatot automatikusan mentjük %s másodpercenként.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">Ezt a hozzászólást automatikusan piszkozatként mentjük %s másodpercenként.</span>
-forum#:#publishThreadDrafts#:#Témapiszkozat közzététele
-forum#:#deleteThreadDrafts#:#Témapiszkozat törlése
 forum#:#edit_thread_draft#:#Témapiszkozat módosítása
 common#:#pd_enable_pdfrmpostdraft#:#'Hozzászólás-piszkozataim' engedélyezése
 common#:#pd_enable_pdfrmpostdraft_info#:#Ha be van kapcsolva, 'Hozzászólás-piszkozataim' blokk helyezhető a felhasználó Munkaasztalára. Ez a blokk a fórumokban létrehozott hozzászólások piszkozatait tartalmazza.
 pd#:#block_show_pdfrmpostdraft#:#'Témapiszkozataim' megjelenítése
-forum#:#forums_thread_drafts_deleted#:#A kiválasztott témát, annak összes hozzászólásával és piszkozatával sikeresen törölte.
 forum#:#forums_threads_drafts_deleted#:#A kiválasztott témákat, annak összes hozzászólásával és piszkozatával sikeresen törölte.
 forum#:#save_draft_successfully#:#A piszkozatot sikeresen mentette.
 forum#:#forums_info_delete_draft#:#Biztos, hogy törli ezt a piszkozatot?
@@ -232,7 +229,7 @@ assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozhat�
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Bármely megtalált kulcsszóhoz a vonatkozó pontok automatikusan megadásra kerülnek.
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Bármely megtalált kulcsszóhoz a vonatkozó pontok automatikusan megadásra kerülnek.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Az ÖSSZES kulcsszó megtalálásán alapuló automatikus pontozás
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#A pontok automatikusan megadásra kerülnek, ha minden kulcsszó megtalálható.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#EGY kulcsszó megtalálásán alapuló automatikus pontozás
@@ -6724,8 +6721,6 @@ forum#:#forums_attachments_add#:#Csatolmány hozzáadása
 forum#:#forums_attachments#:#Csatolmányok
 forum#:#forums_censor_comment#:#A cenzor megjegyzése
 forum#:#forums_count_art#:#Hozzászólások száma
-forum#:#forums_count_thr#:#Témák száma
-forum#:#forums_count#:#Fórumok száma
 forum#:#forums_created_by#:#Létrehozta
 forum#:#forums_delete_file#:#Csatolmány törlése
 forum#:#forums_disable_notification#:#Értesítés lemondása ehhez a témához
@@ -6742,9 +6737,6 @@ forum#:#forums_notification_disabled#:#Értesítés kikapcsolva
 forum#:#forums_notification_enabled#:#Értesítés bekapcsolva
 forum#:#forums_notification_intro#:#%s automatikusan küldte Önnek ezt a levelet, %s
 forum#:#forums_notification_show_post#:#Link a hozzászólásra: %s
-forum#:#forums_notification_subject#:#Új hozzászólás fórumban:
-forum#:#forums_notification#:#Értesítés
-forum#:#forums_post_and_children_were_activated#:#A hozzászólást és annak hozzászólásait sikeresen kikapcsolta.
 forum#:#forums_post_deleted#:#A hozzászólást sikeresen törölte.
 forum#:#forums_post_modified#:#A hozzászólást sikeresen módosította.
 forum#:#forums_post_needs_to_be_activated#:#Sikeresen létrehozott egy új hozzászólást, de azt egy moderátornak jóvá kell hagynia.
@@ -6755,7 +6747,6 @@ forum#:#forums_posts#:#Hozzászólások száma
 forum#:#forums_print_thread#:#Téma nyomtatása
 forum#:#forums_subject#:#Tárgy
 forum#:#forums_the_post#:#Hozzászólás
-forum#:#forums_thread_create_date#:#Készült
 forum#:#forums_thread_create_from#:#Létrehozta:
 forum#:#forums_thread_marked#:#A hozzászólást olvasottként jelölte meg.
 forum#:#forums_thread_new_entry#:#Új téma jött létre.
@@ -7242,7 +7233,7 @@ mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
 mail#:#mail_sure_delete_folder#:#A mappa és tartalma véglegesen el lesz távolítva.
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_to#:#Címzett
-mail#:#placeholders_advise#:#A címzett mezőben szereplő felhasználónevek helyőrzői kerülnek feloldásra.%sA Másolat (CC) és a Titkos másolat (BCC) mezőkben levők nem.
+mail#:#placeholders_advise#:#A címzettek személyes helyőrzőit csak a Címzett mezőben oldjuk fel.%sA Másolat (CC) és a Titkos másolat (BCC) mezőkben levőket nem módosítjuk.
 mail#:#search_recipients#:#Címzettek keresése
 mail#:#send_mail_to#:#Címzettek közé
 maps#:#maps_enable_maps_info#:#Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
@@ -12687,8 +12678,6 @@ rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csevegőszobát
 ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerep összerendelések
 ecs#:#ecs_role_mapping_value#:#Attribútum értéke
 forum#:#sorting_manual_sticky#:#Kiemelt témák kézi rendezése
-forum#:#frm_sorting_threads#:#Témák rendezése
-forum#:#frm_sorting_posts#:#Hozzászólások rendezése
 forum#:#sticky_threads_always_on_top#:#Kiemelt témák mindig a témák elején maradnak. Kézzel rendezheti őket, amennyiben ezt a lehetőséget választotta.
 blog#:#blog_toggle_draft_admin#:#Blog hozzászólások tiltása
 blog#:#blog_keywords_info#:#Használja a +/- ikonokat kulcsszavak hozzáadásra, illetve eltávolítására.
@@ -16050,24 +16039,14 @@ iass#:#iass_notify#:#Véglegesítés után a résztvevő értesítése
 iass#:#iass_finalize#:#Véglegesítés
 iass#:#il_iass_member#:#Résztvevő
 iass#:#il_iass_members#:#Résztvevők
-iass#:#edit_members#:#Vizsgázók módosítása
-iass#:#iass_edit_members#:#Vizsgázók módosítása
-iass#:#iass_visible#:#Látható
-iass#:#iass_read#:#Olvasható
-iass#:#iass_copy#:#Másolás
-iass#:#iass_write#:#Beállítások módosítása
-iass#:#iass_delete#:#Törlése
-iass#:#iass_read_learning_progress#:#Többi felhasználó tanulási haladásának megjelenítése
-iass#:#iass_edit_permissions#:#Jogosultságok módosítása
-iass#:#iass_edit_learning_progress#:#Tanulási haladás módosítása
 iass#:#iass_may_not_finalize#:#Vizsgázó még nincs véglegesítve.
 iass#:#iass_subj_notification_completed#:#%s: Egyéni értékelése: sikeresen teljesítette.
 iass#:#iass_subj_notification_failed#:#%s: Egyéni értékelése: sikertelen.
 trac#:#trac_mode_individual_assessment#:#Tutor vagy trainer manuálisan értékelte
-common#:##obj_iass#:#Egyéni értékelés
-common#:##objs_iass#:#Egyéni értékelések
-common#:##obj_iass_duplicate#:#Egyéni értékelés másolása
-common#:##obj_iass_select#:#-- Válasszon egy egyéni értékelést --
+common#:#obj_iass#:#Egyéni értékelés
+common#:#objs_iass#:#Egyéni értékelések
+common#:#obj_iass_duplicate#:#Egyéni értékelés másolása
+common#:#obj_iass_select#:#-- Válasszon egy egyéni értékelést --
 trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse az egyéni értékelést.
 common#:#il_iass_member#:#Egyéni értékelés vizsgázó
 common#:#iass_new#:#Egyéni értékelés létrehozása
@@ -16162,3 +16141,14 @@ content#:#cont_permission_object_desc#:#A fejezet csak megfelelő jogosultságga
 grp#:#grp_err_registration_limited#:#Válós dátumot adjon meg a regisztráció nyitó- és záródátumának
 auth#:#auth_activation_code_success#:#Fiókját újra aktiv, bejelentkezhet az ILIAS-ba.
 lng#:#lng_download_deprecated#:#Elavultak listájának letöltése
+rbac#:#edit_members#:#Tagok kezelése
+rbac#:#prg_manage_members#:#Tanulmányi programok tagjainak kezelése
+rbac#:#rbac_create_iass#:#Egyéni értékelés létrehozása
+survey#:#cant_send_email_smtp_disabled#:#Külső e-mail küldése központilag le van tiltva.
+wsp#:#share_content#:#Megosztott objektum
+wsp#:#share_with#:#Felhasználónév
+wsp#:#element_already_shared#:#Ezt az objektumot már megosztotta evvel a felhasználóval.
+wsp#:#search_no_match#:#Keresése nem adott eredményt.
+wsp#:#element_shared#:#Objekumot sikeresen megosztotta.
+wsp#:#share#:#Megosztás
+copg#:#copg_questions_not_supported_here#:#Ebben a kontektusban a kérdéseket nem támogatjuk.
