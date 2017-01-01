@@ -12039,7 +12039,7 @@ poll#:#poll_block_message_already_voted#:#Már szavazott ebben a szavazásban.
 poll#:#poll_block_message_no_answers#:#Ez a szavazás még nem készült el teljesen.
 survey#:#svy_neutral_answer#:#Szöveg semleges válaszhoz ('Nem meghatározott', 'Nem tudom' stb.)
 dcl#:#dcl_edit_type#:#Típus módosítása
-dcl#:#dcl_activate_rating#:#Értékelési bejegyzés bekapcsolása
+dcl#:#dcl_activate_rating#:#Bejegyzés értékelésének bekapcsolása
 dcl#:#dcl_activate_approval#:#Bejegyzés jóváhagyásának bekapcsolása
 dcl#:#dcl_activate_notification#:#Értesítés engedélyezése
 dcl#:#dcl_table_id#:#Tábla-ID
@@ -16023,71 +16023,71 @@ exc#:#exc_tbl_filter_submission#:#Beadás
 exc#:#exc_tbl_filter_has_submission#:#Beadták
 exc#:#exc_tbl_filter_has_no_submission#:#Még adták be
 iass#:#general#:#Általános információ
-iass#:#iass_content#:#Értékelés tartalmának leírása
+iass#:#iass_content#:#Értékelés tartalmi leírása
 iass#:#iass_record_template#:#Bejegyzéssablon
 iass#:#iass_graded_by#:#Értékelést adta
-iass#:#iass_usr_remove#:#Résztvevő eltávolítása a hozzárendelésből
-iass#:#iass_usr_edit#:#Résztvevői bejegyzés és tanulási haladás módosítása
-iass#:#iass_usr_view#:#Résztvevői bejegyzés
-iass#:#iass_edit_record#:#Felhasználói bejegyzés
-iass#:#iass_record#:#Bejegyzés megjegyzése
-iass#:#iass_internal_note#:#Belső bejegyzés megjegyzése
-iass#:#iass_status_completed#:#Befejezve
-iass#:#iass_status_failed#:#Sikertelen
+iass#:#iass_usr_remove#:#Értékelendő eltávolítása a hozzárendelésből
+iass#:#iass_usr_edit#:#Bejegyzés és tanulási haladás módosítása
+iass#:#iass_usr_view#:#Bejegyzés
+iass#:#iass_edit_record#:#Értékelésbejegyzés
+iass#:#iass_record#:#Megjegyzés
+iass#:#iass_internal_note#:#Belső megjegyzés
+iass#:#iass_status_completed#:#Sikeresen teljesítette
+iass#:#iass_status_failed#:#Nem teljesítette
 iass#:#iass_status_pending#:#Állapot függőben
-iass#:#iass_notify#:#Véglegesítés után a résztvevő értesítése
+iass#:#iass_notify#:#Véglegesítés után az értékelt értesítése
 iass#:#iass_finalize#:#Véglegesítés
-iass#:#il_iass_member#:#Résztvevő
-iass#:#il_iass_members#:#Résztvevők
-iass#:#iass_may_not_finalize#:#Vizsgázó még nincs véglegesítve.
-iass#:#iass_subj_notification_completed#:#%s: Egyéni értékelése: sikeresen teljesítette.
-iass#:#iass_subj_notification_failed#:#%s: Egyéni értékelése: sikertelen.
+iass#:#il_iass_member#:#Értékelendő
+iass#:#il_iass_members#:#Értékelendők
+iass#:#iass_may_not_finalize#:#Értékelés még nincs véglegesítve.
+iass#:#iass_subj_notification_completed#:#%s: Személyes értékelése: sikeresen teljesítette.
+iass#:#iass_subj_notification_failed#:#%s: Személyes értékelése: nem teljesítette.
 trac#:#trac_mode_individual_assessment#:#Tutor vagy trainer manuálisan értékelte
-common#:#obj_iass#:#Egyéni értékelés
-common#:#objs_iass#:#Egyéni értékelések
-common#:#obj_iass_duplicate#:#Egyéni értékelés másolása
-common#:#obj_iass_select#:#-- Válasszon egy egyéni értékelést --
-trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse az egyéni értékelést.
-common#:#il_iass_member#:#Egyéni értékelés vizsgázó
-common#:#iass_new#:#Egyéni értékelés létrehozása
-common#:#iass_import#:#Egyéni értékelés importálása
-rbac#:#iass_visible#:#Egyéni értékelés látható
-rbac#:#iass_read#:#Egyéni értékelés tartalmának olvasása
-rbac#:#iass_read_learning_progress#:#Egyéni értékelés tanulási haladási információjának megjelenítése
-rbac#:#iass_edit_learning_progress#:#Egyéni értékelés tanulási haladási információjának módosítása
-rbac#:#iass_copy#:#Egyéni értékelés másolása
-rbac#:#iass_write#:#Egyéni értékelés módosítása
-rbac#:#iass_delete#:#Egyéni értékelés törlése
-rbac#:#iass_edit_members#:#Egyéni értékelés tagjainak módosítása
-rbac#:#iass_edit_permission#:#Egyéni értékelés jogosultságainak módosítása
+common#:#obj_iass#:#Személyes értékelés
+common#:#objs_iass#:#Személyes értékelések
+common#:#obj_iass_duplicate#:#Személyes értékelés másolása
+common#:#obj_iass_select#:#-- Válasszon egy személyes értékelést --
+trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a személyes értékelést.
+common#:#il_iass_member#:#Személyes értékeléssel értékelendők
+common#:#iass_new#:#Személyes értékelés létrehozása
+common#:#iass_import#:#Személyes értékelés importálása
+rbac#:#iass_visible#:#Személyes értékelés látható
+rbac#:#iass_read#:#Személyes értékelés tartalmának olvasása
+rbac#:#iass_read_learning_progress#:#Személyes értékelés tanulási haladási információjának megjelenítése
+rbac#:#iass_edit_learning_progress#:#Személyes értékelés tanulási haladási információjának módosítása
+rbac#:#iass_copy#:#Személyes értékelés másolása
+rbac#:#iass_write#:#Személyes értékelés módosítása
+rbac#:#iass_delete#:#Személyes értékelés törlése
+rbac#:#iass_edit_members#:#Személyes értékelés tagjainak módosítása
+rbac#:#iass_edit_permission#:#Személyes értékelés jogosultságainak módosítása
 iass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
 iass#:#iass_edit#:#Beállítások
-iass#:#iass_add#:#Egyéni értékelés létrehozása
-iass#:#iass_membership_finalized#:#Felvétel véglegesítve
-iass#:#iass_membership_saved#:#Felvétel mente, de nincs véglegesítve
+iass#:#iass_add#:#Személyes értékelés létrehozása
+iass#:#iass_membership_finalized#:#Bejegyzés véglegesítve
+iass#:#iass_membership_saved#:#Bejegyzés mente, de nincs véglegesítve
 iass#:#iass_return#:#Vissza az áttekintéshez
-iass#:#iass_remove_user_qst#:#Biztos, hogy eltávolítja a vizsgázót?
-iass#:#iass_finalize_user_qst#:#Biztos, hogy véglegesíti a vizsgázó állapotát? Után annak módosítása már nem lehetséges.
+iass#:#iass_remove_user_qst#:#Biztos, hogy eltávolítja az értékelendőt?
+iass#:#iass_finalize_user_qst#:#Biztos, hogy véglegesíti az értékelendő állapotát? Utána annak módosítása már nem lehetséges.
 iass#:#iass_settings_saved#:#Beállításokat sikeresen mentette.
 iass#:#iass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
-iass#:#iass_add_user_success#:#Felhasználót vizsgázónak sikeresen hozzáadta.
+iass#:#iass_add_user_success#:#Felhasználót értékelendőnek sikeresen hozzáadta.
 iass#:#grading#:#Értékelés
-iass#:#grading_info#:#Értékelés info
-iass#:#grading_record#:#Értékelés feljegyzése
-iass#:#iass_content_explanation#:#Értékelés tartalma, például releváns témák.###Topikok
-iass#:#iass_record_template_explanation#:#Eredményrögzítési sablon vizsgázókhoz. Automatikusan alkalmazzuk új vizsgázóra.
-iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük a vizsgázót, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
+iass#:#grading_info#:#Értékelésinformáció
+iass#:#grading_record#:#Értékelésfeljegyzés
+iass#:#iass_content_explanation#:#Értékelés tartalma, például a kapcsolódó témakörök felsorolása.
+iass#:#iass_record_template_explanation#:#Értékelési sablon, melyet automatikusan alkalmazzuk minden új értékelésnél.
+iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük az értekeltet, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
 iass#:#iass_contact#:#Név
 iass#:#iass_responsibility#:#Felelősségi kör
-iass#:#iass_phone#:#Telefon
-iass#:#iass_mails#:#Levelek
+iass#:#iass_phone#:#Telefonszám
+iass#:#iass_mails#:#E-mail címek
 iass#:#iass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
 iass#:#iass_consultation_hours#:#Fogadóórák
-iass#:#iass_edit_info#:#Info beállításai
-iass#:#iass_mess_notification_completed#:#Sikeresen teljesített %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
-iass#:#iass_mess_notification_failed#:#Nem sikerült teljesítenie %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_edit_info#:#Információ beállításai
+iass#:#iass_mess_notification_completed#:#'%s' értékelést sikeresen teljesítette. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_mess_notification_failed#:#'%s' értékelést nem sikerült teljesítenie. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
 iass#:#iass_contact_info#:#Kapcsolat
-iass#:#iass_added#:#Egyéni hozzárendelést sikeresen elvégezte
+iass#:#iass_added#:#Személyes értékelést sikeresen létrehozta
 registration#:#reg_mail_body_activation#:#ILIAS-fiókja aktiváláshoz és e-mail címének igazolásához kattintson ide:###XXX
 chatroom#:#chat_auth_token_info#:#Kérem, egyedi stringeket hozzon létre. Ezeket a stringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a stringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliens id-nek <b>egyedinek</b> kell lennie.
 chatroom#:#chat_https_cert_info#:#Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem).
@@ -16132,8 +16132,8 @@ copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kijelölt elemeket?
 survey#:#msg_input_only_positive_numbers#:#Pozitív számokat adjon meg a skálaértékekhez.
 crs#:#crs_loc_err_stat_tst_offline#:#Nem az összes teszt online.
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
-iass#:#iass_record_info#:#A vizsgázók a végső jegyük megkapása után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést a vizsgázónak e-mailben is kiküldjük.
-iass#:#iass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de a vizsgázók nem.
+iass#:#iass_record_info#:#Az értékelendők értékelésük véglegesítése után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést az értékelendőnek e-mailben is elküldjük.
+iass#:#iass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de az értékeltek nem.
 common#:#sahs_export_file#:#ILIAS exportált SCORM archív fájl
 content#:#lm_only_one_download_per_type#:#Kérjük, vegye figyelembe, hogy típusonként (XML, HTML, SCORM) csak egy fájlt tehet nyilvánosan elérhetővé.
 survey#:#error_save_code#:#Az értéket nem sikerült megfelelően menteni. <b>'%s' e-mail cím nem valós</b>. Családnév: '%s', utónév: '%s'.<br>
@@ -16143,7 +16143,7 @@ auth#:#auth_activation_code_success#:#Fiókját újra aktiv, bejelentkezhet az I
 lng#:#lng_download_deprecated#:#Elavultak listájának letöltése
 rbac#:#edit_members#:#Tagok kezelése
 rbac#:#prg_manage_members#:#Tanulmányi programok tagjainak kezelése
-rbac#:#rbac_create_iass#:#Egyéni értékelés létrehozása
+rbac#:#rbac_create_iass#:#Személyes értékelés létrehozása
 survey#:#cant_send_email_smtp_disabled#:#Külső e-mail küldése központilag le van tiltva.
 wsp#:#share_content#:#Megosztott objektum
 wsp#:#share_with#:#Felhasználónév
