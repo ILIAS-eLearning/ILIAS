@@ -124,21 +124,25 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$orderingElementInput = $this->object->buildOrderingImagesInputGui();
 		
-		foreach($orderingElementInput->getElementList() as $orderingElement)
+		foreach($orderingElementInput->getElementList() as $submittedElement)
 		{
-			if( !$orderingElement->isImageRemovalRequest() )
+			if( !$submittedElement->isImageRemovalRequest() )
 			{
 				continue;
 			}
 			
-			$this->object->dropImageFile( $orderingElement->getImageRemovalRequest() );
+			$storedElement = $this->object->getOrderingElementList()->getElementByRandomIdentifier(
+				$submittedElement->getRandomIdentifier()
+			);
+			
+			$this->object->dropImageFile( $storedElement->getContent() );
 		}
 		
 		$this->writePostData(true);
 		$this->editQuestion();
 	}
 
-	public function uploadElementPictures()
+	public function uploadElementImage()
 	{
 		$this->lng->loadLanguageModule('form');
 
@@ -164,7 +168,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
-		if( !is_array($_POST['answers']) )
+		if( !is_array($_POST[assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR]) )
 		{
 			throw new ilTestQuestionPoolException('form submit request missing the form submit!?');
 		}
@@ -333,10 +337,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return $form;
 	}
-	private function isUploadAnswersCommand()
-	{
-		return $this->ctrl->getCmd() == 'uploadanswers';
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -346,7 +346,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$savingAllowed = true; // assume saving allowed first
 		
 		// inits {this->editForm} and performs validation
-		$hasErrors = $this->editQuestion($avoidOutput = true)
+		$hasErrors = $this->editQuestion($avoidOutput = true);
 		
 		if( !$forceSaving )
 		{
@@ -415,7 +415,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
-			if ($errors) $checkonly = false;
+			if ($errors)
+			{
+				$orderingInput = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
+				$orderingInput->setMultiValues($orderingInput->getMultiValues()); // KEEP THIS (!)
+				
+				$checkonly = false;
+			}
 		}
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
@@ -662,7 +668,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			// edit question properties
 			$ilTabs->addTarget("edit_question",
 				$url,
-				array("orderNestedTerms","orderNestedPictures","editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "changeToPictures", "uploadanswers", "changeToText", "upanswers", "downanswers", "originalSyncForm"),
+				array("orderNestedTerms","orderNestedPictures","editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "changeToPictures", "uploadElementImage", "changeToText", "upanswers", "downanswers", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

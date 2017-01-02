@@ -22,12 +22,19 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected $postVar = null;
 	
+	protected $imageRemovalCommand = null;
+	
 	/**
 	 * @var assOrderingQuestion
 	 */
 	protected $questionOBJ;
 	
-	protected $randomIdentifierToIndentationMap = array();
+	/**
+	 * ilAssOrderingFormValuesObjectsConverter constructor.
+	 */
+	public function __construct()
+	{
+	}
 	
 	public function getContext()
 	{
@@ -47,6 +54,22 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	public function setPostVar($postVar)
 	{
 		$this->postVar = $postVar;
+	}
+	
+	/**
+	 * @return null
+	 */
+	public function getImageRemovalCommand()
+	{
+		return $this->imageRemovalCommand;
+	}
+	
+	/**
+	 * @param null $imageRemovalCommand
+	 */
+	public function setImageRemovalCommand($imageRemovalCommand)
+	{
+		$this->imageRemovalCommand = $imageRemovalCommand;
 	}
 	
 	/**
@@ -103,6 +126,12 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			switch( $this->getContext() )
 			{
 				case self::CONTEXT_MAINTAIN_ELEMENT_TEXT:
+					
+					$values[$identifier] = $this->getTextContentValueFromObject(
+						$orderingElement
+					);
+					break;
+				
 				case self::CONTEXT_MAINTAIN_ELEMENT_IMAGE:
 					
 					$values[$identifier] = $this->getTextContentValueFromObject(
@@ -289,6 +318,21 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function wasImageRemovalRequested($identifier)
 	{
-		return key($_POST['cmd']['removeimage']) == $identifier;
+		if( !$this->getImageRemovalCommand() )
+		{
+			return false;
+		}
+		
+		if( !isset($_POST['cmd']) || !is_array($_POST['cmd']) )
+		{
+			return false;
+		}
+		
+		if( !isset($_POST['cmd'][$this->getImageRemovalCommand()]) )
+		{
+			return false;
+		}
+		
+		return key($_POST['cmd'][$this->getImageRemovalCommand()]) == $identifier;
 	}
 }

@@ -11,12 +11,10 @@ require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
  */
 class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 {
-	const POST_VARIABLE_NAME = 'ordering';
-	
 	/**
-	 * @var integer
+	 * @var assOrderingQuestion
 	 */
-	protected $questionId = null;
+	protected $questionOBJ = null;
 	
 	/**
 	 * ilAssOrderingTextsInputGUI constructor.
@@ -50,31 +48,22 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 	public function getElementList()
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
-		return ilAssOrderingElementList::buildInstance($this->getQuestionId(), $this->getMultiValues());
+		return ilAssOrderingElementList::buildInstance($this->getQuestionOBJ()->getId(), $this->getMultiValues());
 	}
 	
 	/**
-	 * @param ilAssOrderingElement $value
-	 * @return string
+	 * @return assOrderingQuestion
 	 */
-	protected function fetchContentFromValue($value)
+	public function getQuestionOBJ()
 	{
-		return $value->getContent();
+		return $this->questionOBJ;
 	}
 	
 	/**
-	 * @return int
+	 * @param assOrderingQuestion $questionOBJ
 	 */
-	public function getQuestionId()
+	public function setQuestionOBJ(assOrderingQuestion $questionOBJ)
 	{
-		return $this->questionId;
-	}
-	
-	/**
-	 * @param int $questionId
-	 */
-	public function setQuestionId($questionId)
-	{
-		$this->questionId = $questionId;
+		$this->questionOBJ = $questionOBJ;
 	}
 }

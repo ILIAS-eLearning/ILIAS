@@ -1170,9 +1170,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		$counter = 1;
 		$answers = array();
-		foreach ( $this->getOrderElements() as $answer_obj)
+		foreach ( $this->getOrderingElementList() as $orderingElement)
 		{
-			$answers[$counter] = $answer_obj->getAnswertext();
+			$answers[$counter] = $orderingElement->getContent();
 			$counter++;
 		}
 		$answers = $this->getShuffler()->shuffle($answers);
@@ -1235,6 +1235,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
 		);
 		
+		$orderingElementInput->setQuestionOBJ($this);
+		
 		$this->initOrderingElementFormFieldLabels($orderingElementInput);
 		
 		return $orderingElementInput;
@@ -1250,6 +1252,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$orderingElementInput = new ilAssOrderingImagesInputGUI(
 			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
 		);
+		
+		$orderingElementInput->setQuestionOBJ($this);
+		
+		$orderingElementInput->setImageRemovalCommand('removeElementImage');
+		$orderingElementInput->setImageUploadCommand('uploadElementImage');
 		
 		$this->initOrderingElementFormFieldLabels($orderingElementInput);
 		

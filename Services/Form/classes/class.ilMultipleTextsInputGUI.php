@@ -34,30 +34,36 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	}
 	
 	/**
-	 * Set allow move
-	 *
-	 * @param	boolean	$a_allow_move Allow move
+	 * @return	boolean $editElementOccuranceEnabled
 	 */
-	function setAllowMove($a_allow_move)
+	public function isEditElementOccuranceEnabled()
 	{
-		$this->allowMove = $a_allow_move;
+		return $this->editElementOccuranceEnabled;
 	}
 	
 	/**
-	 * Get allow move
-	 *
-	 * @return	boolean	Allow move
+	 * @param	boolean	$editElementOccuranceEnabled
 	 */
-	function getAllowMove()
+	public function setEditElementOccuranceEnabled($editElementOccuranceEnabled)
 	{
-		return $this->allowMove;
+		$this->editElementOccuranceEnabled = $editElementOccuranceEnabled;
 	}
 	
 	/**
-	 * @param mixed $value
-	 * @return string $content
+	 * @return boolean
 	 */
-	abstract protected function fetchContentFromValue($value);
+	public function isEditElementOrderEnabled()
+	{
+		return $this->editElementOrderEnabled;
+	}
+	
+	/**
+	 * @param boolean $editElementOrderEnabled
+	 */
+	public function setEditElementOrderEnabled($editElementOrderEnabled)
+	{
+		$this->editElementOrderEnabled = $editElementOrderEnabled;
+	}
 	
 	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
@@ -78,7 +84,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		foreach($submittedElements as $submittedValue)
 		{
-			$submittedContent = $this->fetch($submittedValue);
+			$submittedContent = $this->fetchContentTextFromValue($submittedValue);
 			
 			if ($this->getRequired() && trim($submittedContent) == "")
 			{
@@ -114,7 +120,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
 				$tpl->parseCurrentBlock();
 			}
-			if ($this->getAllowMove())
+			if ($this->isEditElementOrderEnabled())
 			{
 				$tpl->setCurrentBlock("move");
 				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
@@ -172,18 +178,18 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			return false;
 		}
 		
-		return strlen($value);
+		return (bool)strlen($value);
 	}
 	
 	/**
 	 * @param $value
 	 * @return string
 	 */
-	protected function fetchContentImageSourceFromValue($value)
+	protected function fetchContentTextFromValue($value)
 	{
 		if( $this->valueHasContentText($value) )
 		{
-			return $value['src'];
+			return $value;
 		}
 		
 		return null;

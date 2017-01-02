@@ -27,6 +27,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	protected $suffixes = array();
 	
+	protected $imageRemovalCommand = 'removeImage';
+	
+	protected $imageUploadCommand = 'uploadImage';
+	
 	/**
 	 * Constructor
 	 *
@@ -74,6 +78,38 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	function getSuffixes()
 	{
 		return $this->suffixes;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getImageRemovalCommand()
+	{
+		return $this->imageRemovalCommand;
+	}
+	
+	/**
+	 * @param string $imageRemovalCommand
+	 */
+	public function setImageRemovalCommand($imageRemovalCommand)
+	{
+		$this->imageRemovalCommand = $imageRemovalCommand;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getImageUploadCommand()
+	{
+		return $this->imageUploadCommand;
+	}
+	
+	/**
+	 * @param string $imageUploadCommand
+	 */
+	public function setImageUploadCommand($imageUploadCommand)
+	{
+		$this->imageUploadCommand = $imageUploadCommand;
 	}
 	
 	/**
@@ -245,7 +281,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable('SRC_IMAGE', $this->fetchContentImageSourceFromValue($value));
 				$tpl->setVariable('IMAGE_NAME', $this->fetchContentImageTitleFromValue($value));
 				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value)));
-				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'removeimage'));
+				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageRemovalCommand()));
 				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'imagename', $i));
 				$tpl->parseCurrentBlock();
@@ -254,7 +290,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			$tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
 			$tpl->setVariable("IMAGE_ID", $this->getMultiValuePosIndexedSubFieldId($identifier, 'image', $i));
 			$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
-			$tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($identifier, $i, 'upload'));
+			$tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageUploadCommand()));
 			$tpl->setVariable("IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'image', $i));
 			$tpl->setVariable("COUNT_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'count', $i));
 			

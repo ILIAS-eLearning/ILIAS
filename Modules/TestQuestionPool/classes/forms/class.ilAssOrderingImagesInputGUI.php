@@ -33,7 +33,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
 		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_IMAGE);
 		$manipulator->setPostVar($this->getPostVar());
-		$manipulator->setPostVar($this->getPostVar());
+		$manipulator->setImageRemovalCommand($this->getImageRemovalCommand());
 		$this->addFormValuesManipulator($manipulator);
 	}
 	
