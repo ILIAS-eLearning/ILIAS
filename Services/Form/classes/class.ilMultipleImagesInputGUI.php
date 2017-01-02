@@ -12,8 +12,19 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  */
 abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
-	protected $allowMove = false;
-	protected $qstObject = null;
+	/**
+	 * @var bool
+	 */
+	protected $editElementOccuranceEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $editElementOrderEnabled = false;
+	
+	/**
+	 * @var array
+	 */
 	protected $suffixes = array();
 	
 	/**
@@ -65,45 +76,36 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		return $this->suffixes;
 	}
 	
-	
 	/**
-	 * Set question object
-	 *
-	 * @param	object	$a_value	test object
+	 * @return	boolean $editElementOccuranceEnabled
 	 */
-	function setQuestionObject($a_value)
+	public function isEditElementOccuranceEnabled()
 	{
-		$this->qstObject =& $a_value;
+		return $this->editElementOccuranceEnabled;
 	}
 	
 	/**
-	 * Get question object
-	 *
-	 * @return	object	Value
+	 * @param	boolean	$editElementOccuranceEnabled
 	 */
-	function getQuestionObject()
+	public function setEditElementOccuranceEnabled($editElementOccuranceEnabled)
 	{
-		return $this->qstObject;
+		$this->editElementOccuranceEnabled = $editElementOccuranceEnabled;
 	}
 	
 	/**
-	 * Set allow move
-	 *
-	 * @param	boolean	$a_allow_move Allow move
+	 * @return boolean
 	 */
-	function setAllowMove($a_allow_move)
+	public function isEditElementOrderEnabled()
 	{
-		$this->allowMove = $a_allow_move;
+		return $this->editElementOrderEnabled;
 	}
 	
 	/**
-	 * Get allow move
-	 *
-	 * @return	boolean	Allow move
+	 * @param boolean $editElementOrderEnabled
 	 */
-	function getAllowMove()
+	public function setEditElementOrderEnabled($editElementOrderEnabled)
 	{
-		return $this->allowMove;
+		$this->editElementOrderEnabled = $editElementOrderEnabled;
 	}
 	
 	/**
@@ -237,20 +239,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		$i = 0;
 		foreach ($this->getMultiValues() as $identifier => $value)
 		{
-			if (strlen($value))
+			if( $this->valueHasContentImageSource($value) )
 			{
-				$imagename = $this->qstObject->getImagePathWeb() . $value;
-				if ($this->qstObject->getThumbSize())
-				{
-					if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value))
-					{
-						$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value;
-					}
-				}
 				$tpl->setCurrentBlock('image');
-				$tpl->setVariable('SRC_IMAGE', $imagename);
-				$tpl->setVariable('IMAGE_NAME', $value);
-				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value));
+				$tpl->setVariable('SRC_IMAGE', $this->fetchContentImageSourceFromValue($value));
+				$tpl->setVariable('IMAGE_NAME', $this->fetchContentImageTitleFromValue($value));
+				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value)));
 				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'removeimage'));
 				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'imagename', $i));
@@ -266,7 +260,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			
 			$tpl->parseCurrentBlock();
 			
-			if ($this->getAllowMove())
+			if( $this->isEditElementOrderEnabled() )
 			{
 				$tpl->setCurrentBlock("move");
 				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
@@ -276,12 +270,17 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
-			$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
-			$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-			$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
-			$tpl->parseCurrentBlock();
+			
+			if( $this->isEditElementOccuranceEnabled() )
+			{
+				$tpl->setCurrentBlock("row");
+				$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
+				$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
+				$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
+				$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+				$tpl->parseCurrentBlock();
+			}
+			
 			$i++;
 		}
 		
@@ -321,5 +320,50 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		}
 		
 		return $tpl->get();
+	}
+	
+	/**
+	 * @param $value
+	 * @return bool
+	 */
+	protected function valueHasContentImageSource($value)
+	{
+		return isset($value['src']);
+	}
+	
+	/**
+	 * @param $value
+	 * @return string
+	 */
+	protected function fetchContentImageSourceFromValue($value)
+	{
+		if( $this->valueHasContentImageSource($value) )
+		{
+			return $value['src'];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @param $value
+	 * @return bool
+	 */
+	protected function valueHasContentImageTitle($value)
+	{
+		return isset($value['title']);
+	}
+	
+	/**
+	 * @param string $value
+	 */
+	protected function fetchContentImageTitleFromValue($value)
+	{
+		if( $this->valueHasContentImageTitle($value) )
+		{
+			return $value['title'];
+		}
+		
+		return $this->fetchContentImageSourceFromValue($value);
 	}
 }

@@ -22,6 +22,11 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected $postVar = null;
 	
+	/**
+	 * @var assOrderingQuestion
+	 */
+	protected $questionOBJ;
+	
 	protected $randomIdentifierToIndentationMap = array();
 	
 	public function getContext()
@@ -42,6 +47,22 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	public function setPostVar($postVar)
 	{
 		$this->postVar = $postVar;
+	}
+	
+	/**
+	 * @return assOrderingQuestion
+	 */
+	public function getQuestionOBJ()
+	{
+		return $this->questionOBJ;
+	}
+	
+	/**
+	 * @param assOrderingQuestion $questionOBJ
+	 */
+	public function setQuestionOBJ($questionOBJ)
+	{
+		$this->questionOBJ = $questionOBJ;
 	}
 	
 	public function getIndentationsPostVar()
@@ -84,7 +105,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 				case self::CONTEXT_MAINTAIN_ELEMENT_TEXT:
 				case self::CONTEXT_MAINTAIN_ELEMENT_IMAGE:
 					
-					$values[$identifier] = $this->getContentValueFromObject(
+					$values[$identifier] = $this->getTextContentValueFromObject(
 						$orderingElement
 					);
 					break;
@@ -104,9 +125,32 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		return $values;
 	}
 	
-	protected function getContentValueFromObject(ilAssOrderingElement $element)
+	protected function getTextContentValueFromObject(ilAssOrderingElement $element)
 	{
 		return $element->getContent();
+	}
+	
+	protected function getImageContentValueFromObject(ilAssOrderingElement $element)
+	{
+		$imagePath = $this->getQuestionOBJ()->getImagePathWeb();
+		$thumbPrefix = $this->getQuestionOBJ()->getThumbPrefix();
+		
+		$originalFile = $imagePath . $element->getContent();
+		$thumbFile = $imagePath . $thumbPrefix . $element->getContent();
+		
+		
+		if( $this->getQuestionOBJ()->getThumbSize() && @file_exists($thumbFile) )
+		{
+			$imageFile = $thumbFile;
+		}
+		else
+		{
+			$imageFile = $originalFile;
+		}
+		
+		return array(
+			'src' => $imageFile, 'title' => $element->getContent()
+		);
 	}
 	
 	protected function getStructValueFromObject(ilAssOrderingElement $element)
@@ -166,6 +210,8 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			{
 				$element->setUploadImageName($this->fetchSubmittedImageFilename($identifier));
 				$element->setUploadImageFile($this->fetchSubnmittedUploadFilename($identifier));
+				
+				$element->setImageRemovalRequest($this->wasImageRemovalRequested($identifier));
 			}
 			
 			$elements[$identifier] = $element;
@@ -239,5 +285,10 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		}
 		
 		return $_FILES[$this->getPostVar()];
+	}
+	
+	protected function wasImageRemovalRequested($identifier)
+	{
+		return key($_POST['cmd']['removeimage']) == $identifier;
 	}
 }

@@ -120,48 +120,34 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->editQuestion();
 	}
 	
-	public function removeimageanswers()
+	public function deleteElementPicture()
 	{
+		$orderingElementInput = $this->object->buildOrderingImagesInputGui();
+		
+		foreach($orderingElementInput->getElementList() as $orderingElement)
+		{
+			if( !$orderingElement->isImageRemovalRequest() )
+			{
+				continue;
+			}
+			
+			$this->object->dropImageFile( $orderingElement->getImageRemovalRequest() );
+		}
+		
 		$this->writePostData(true);
-		
-		$randomIdentifier = str_replace(
-			ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX, '',
-			key($_POST['cmd']['removeimageanswers'])
-		);
-		
-		$orderingElement = $this->object->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier);
-		$this->object->dropImageFile($orderingElement->getContent());
-		$orderingElement->setContent(null);
-		$this->object->getOrderingElementList()->saveToDb();
-	
 		$this->editQuestion();
 	}
 
-	/**
-	 * @return \ilImageWizardInputGUI
-	 */
-	private function getAnswerImageFileUploadWizardFormProperty()
-	{
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
-		$answers = new ilAssOrderingImagesInputGUI($this->lng->txt("answers"), "answers");
-		$answers->setRequired(TRUE);
-		$answers->setQuestionObject($this->object);
-		$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
-		$answers->setAllowMove(TRUE);
-		$answers->setValues($this->object->getOrderingElementList()->getRandomIdentifierIndexedElements());
-		return $answers;
-	}
-
-	public function uploadanswers()
+	public function uploadElementPictures()
 	{
 		$this->lng->loadLanguageModule('form');
 
-		$inp = $this->getAnswerImageFileUploadWizardFormProperty();
-
-		if( !$inp->checkInput() )
+		$orderingElementInput = $this->object->buildOrderingImagesInputGui();
+		
+		if( !$orderingElementInput->checkInput() )
 		{
-			$this->uploadAlert = $inp->getAlert();
-			ilUtil::sendFailure($inp->getAlert());
+			$this->uploadAlert = $orderingElementInput->getAlert();
+			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 		}
 
 		$this->writePostData(true);
@@ -183,7 +169,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			throw new ilTestQuestionPoolException('form submit request missing the form submit!?');
 		}
 		
-		$submittedElementList = $this->object->fetchSolutionListFromFormSubmissionData($_POST);
+		#$submittedElementList = $this->object->fetchSolutionListFromFormSubmissionData($_POST);
+		$submittedElementList = $this->object->fetchSolutionListFromSubmittedForm($form);
 		
 		$replacementElementList = new ilAssOrderingElementList();
 		$replacementElementList->setQuestionId($this->object->getId());
@@ -194,7 +181,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			if( $this->object->hasOrderingTypeUploadSupport() )
 			{
-				if( strlen($submittedElement->getUploadImageFile()) )
+				if( $submittedElement->isImageUploadAvailable() )
 				{
 					$suffix = strtolower(array_pop(explode(".", $submittedElement->getUploadImageName())));
 					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
@@ -272,37 +259,34 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if( $this->object->getOrderingType() == OQ_PICTURES )
 		{
-			$answerImageUpload = $this->getAnswerImageFileUploadWizardFormProperty();
-			if ($this->uploadAlert !== null)
+			$orderingElementInput = $this->object->buildOrderingImagesInputGui();
+			$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
+			
+			if( $this->uploadAlert !== null )
 			{
-				$answerImageUpload->setAlert( $this->uploadAlert );
+				$orderingElementInput->setAlert($this->uploadAlert);
 			}
-			$form->addItem( $answerImageUpload );
 		}
 		elseif( $this->object->getOrderingType() == OQ_TERMS )
 		{
-			require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
-			$answers = new ilAssOrderingTextsInputGUI($this->lng->txt( "answers" ), "answers");
-			$answers->setValues($this->object->getOrderingElementList()->getRandomIdentifierIndexedElements());
-			$answers->setAllowMove( TRUE );
-			$answers->setRequired( TRUE );
-			
-			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
-			$form->addItem( $answers );
+			$orderingElementInput = $this->object->buildOrderingTextsInputGui();
+			$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 		}
 		else // OQ_NESTED_TERMS, OQ_NESTED_PICTURES
 		{
-			$answers = $this->object->buildNestedOrderingElementInputGUI();
-			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
-			$answers->setStylingDisabled($this->isPdfOutputMode());
-			$answers->setElementList( $this->object->getOrderingElementList() );
+			$orderingElementInput = $this->object->buildNestedOrderingElementInputGui();
+			$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 			
-			$form->addItem( $answers );
+			$orderingElementInput->setStylingDisabled($this->isPdfOutputMode());
 		}
+		
+		$orderingElementInput->setElementList( $this->object->getOrderingElementList() );
+		
+		$form->addItem($orderingElementInput);
 
 		return $form;
 	}
-
+	
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
 	{
 		$orderingtype = $this->object->getOrderingType();
@@ -361,20 +345,22 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$savingAllowed = true; // assume saving allowed first
 		
+		// inits {this->editForm} and performs validation
+		$hasErrors = $this->editQuestion($avoidOutput = true)
+		
 		if( !$forceSaving )
 		{
-			// this case seems to be a regular save call,
-			// so we consider the return as permission to save
+			// this case seems to be a regular save call, so we consider
+			// the validation result for the decision of saving as well
 			
-			$savingAllowed = !(
-				$hasErrors = $this->editQuestion($avoidOutput = true)
-			);
+			$savingAllowed = !$hasErrors;
 		}
 		elseif( !$this->isSaveCommand() )
 		{
-			// in this case $this->editQuestion(true) has not executed any validation
+			// this case seems to handle the mode/view switching requests,
+			// so saving must not be avoided, even for inputs invalid by business rules
 			
-			$this->editQuestion($avoidOutput = true); // init {this->editForm}
+			$this->editQuestion($avoidOutput = true);
 			$this->editForm->setValuesByPost(); // manipulation and distribution of values 
 			$this->editForm->checkInput(); // manipulations regular style input propeties
 		}
@@ -384,7 +370,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			$this->writeQuestionGenericPostData();
 			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+			$this->writeAnswerSpecificPostData($this->editForm);
 			$this->saveTaxonomyAssignments();
 			
 			return 0; // return 0 = all fine, was saved either forced or validated
@@ -497,7 +483,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$forceCorrectSolution, $active_id, $pass
 		);
 
-		$answers_gui = $this->object->buildNestedOrderingElementInputGUI();
+		$answers_gui = $this->object->buildNestedOrderingElementInputGui();
 		
 		if( $forceCorrectSolution )
 		{
@@ -572,7 +558,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
 		}
 		
-		$answers = $this->object->buildNestedOrderingElementInputGUI();
+		$answers = $this->object->buildNestedOrderingElementInputGui();
 		$answers->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_QUESTION_PREVIEW);
 		$answers->setInteractionEnabled($this->isUserInputOutputMode());
 		$answers->setElementList($solutionOrderingElementList);
@@ -597,7 +583,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 	public function getTestOutput($activeId, $pass = NULL, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
 	{
-		$orderingGUI = $this->object->buildNestedOrderingElementInputGUI();
+		$orderingGUI = $this->object->buildNestedOrderingElementInputGui();
 		
 		$solutionOrderingElementList = $this->object->getSolutionOrderingElementListForTestOutput(
 			$orderingGUI, $userSolutionPost, $activeId, $pass
@@ -651,7 +637,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$ilTabs->addTarget("edit_page",
 					$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
 					array("edit", "insert", "exec_pg"),
-					"", "", $force_active);
+					"", "", false);
 			}
 
 			$this->addTab_QuestionPreview($ilTabs);

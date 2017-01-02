@@ -11,13 +11,23 @@ require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
  */
 class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 {
-	public function __construct($a_title, $a_postvar)
+	const POST_VARIABLE_NAME = 'ordering';
+	
+	/**
+	 * @var integer
+	 */
+	protected $questionId = null;
+	
+	/**
+	 * ilAssOrderingTextsInputGUI constructor.
+	 */
+	public function __construct($postVar)
 	{
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
 		$this->addFormValuesManipulator($manipulator);
 		
-		parent::__construct($a_title, $a_postvar);
+		parent::__construct('', $postVar);
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
@@ -26,8 +36,45 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 		$this->addFormValuesManipulator($manipulator);
 	}
 	
+	/**
+	 * @param ilAssOrderingElementList $elementList
+	 */
+	public function setElementList(ilAssOrderingElementList $elementList)
+	{
+		$this->setMultiValues( $elementList->getRandomIdentifierIndexedElements() );
+	}
+	
+	/**
+	 * @return ilAssOrderingElementList
+	 */
+	public function getElementList()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
+		return ilAssOrderingElementList::buildInstance($this->getQuestionId(), $this->getMultiValues());
+	}
+	
+	/**
+	 * @param ilAssOrderingElement $value
+	 * @return string
+	 */
 	protected function fetchContentFromValue($value)
 	{
 		return $value->getContent();
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getQuestionId()
+	{
+		return $this->questionId;
+	}
+	
+	/**
+	 * @param int $questionId
+	 */
+	public function setQuestionId($questionId)
+	{
+		$this->questionId = $questionId;
 	}
 }

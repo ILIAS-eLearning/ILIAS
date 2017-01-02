@@ -25,6 +25,8 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElem
  */
 class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
+	const ORDERING_ELEMENT_FORM_FIELD_POSTVAR = 'order_elems';
+	
 	/**
 	 * @var ilAssOrderingElementList
 	 */
@@ -1191,18 +1193,96 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
+	 * @param ilAssOrderingTextsInputGUI|ilAssOrderingImagesInputGUI|ilAssNestedOrderingElementsInputGUI $formField
+	 */
+	public function initOrderingElementAuthoringProperties(ilFormPropertyGUI $formField)
+	{
+		switch( true )
+		{
+			case $formField instanceof ilAssNestedOrderingElementsInputGUI:
+				
+				$formField->setInteractionEnabled(true);
+				break;
+			
+			case $formField instanceof ilAssOrderingTextsInputGUI:
+			case $formField instanceof ilAssOrderingImagesInputGUI:
+			default:
+			
+				$formField->setEditElementOccuranceEnabled(true);
+				$formField->setEditElementOrderEnabled(true);
+		}
+		
+		$formField->setRequired(true);
+	}
+	
+	/**
+	 * @param ilFormPropertyGUI $formField
+	 */
+	public function initOrderingElementFormFieldLabels(ilFormPropertyGUI $formField)
+	{
+		$formField->setInfo($this->lng->txt('ordering_answer_sequence_info'));
+		$formField->setTitle($this->lng->txt('answers'));
+	}
+	
+	/**
+	 * @return ilAssOrderingTextsInputGUI
+	 */
+	public function buildOrderingTextsInputGui()
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
+		
+		$orderingElementInput = new ilAssOrderingTextsInputGUI(
+			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
+		);
+		
+		$this->initOrderingElementFormFieldLabels($orderingElementInput);
+		
+		return $orderingElementInput;
+	}
+	
+	/**
+	 * @return ilAssOrderingImagesInputGUI
+	 */
+	public function buildOrderingImagesInputGui()
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
+		
+		$orderingElementInput = new ilAssOrderingImagesInputGUI(
+			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
+		);
+		
+		$this->initOrderingElementFormFieldLabels($orderingElementInput);
+		
+		return $orderingElementInput;
+	}
+	
+	/**
 	 * @return ilAssNestedOrderingElementsInputGUI
 	 */
-	public function buildNestedOrderingElementInputGUI()
+	public function buildNestedOrderingElementInputGui()
 	{
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
-		$orderingGUI = new ilAssNestedOrderingElementsInputGUI($this->getId());
 		
-		$orderingGUI->setOrderingType($this->getOrderingType());
-		$orderingGUI->setElementImagePath($this->getImagePathWeb());
-		$orderingGUI->setThumbPrefix($this->getThumbPrefix());
+		$orderingElementInput = new ilAssNestedOrderingElementsInputGUI(
+			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
+		);
 		
-		return $orderingGUI;
+		$orderingElementInput->setOrderingType($this->getOrderingType());
+		$orderingElementInput->setElementImagePath($this->getImagePathWeb());
+		$orderingElementInput->setThumbPrefix($this->getThumbPrefix());
+		
+		$this->initOrderingElementFormFieldLabels($orderingElementInput);
+		
+		return $orderingElementInput;
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @return ilAssOrderingElementList $submittedElementList
+	 */
+	public function fetchSolutionListFromSubmittedForm(ilPropertyFormGUI $form)
+	{
+		return $form->getItemByPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)->getElementList();
 	}
 	
 	/**
@@ -1212,7 +1292,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function fetchSolutionListFromFormSubmissionData($userSolutionPost)
 	{
-		$orderingGUI = $this->buildNestedOrderingElementInputGUI();
+		$orderingGUI = $this->buildNestedOrderingElementInputGui();
 		$orderingGUI->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_USER_SOLUTION_SUBMISSION);
 		$orderingGUI->setValueByArray($userSolutionPost);
 		

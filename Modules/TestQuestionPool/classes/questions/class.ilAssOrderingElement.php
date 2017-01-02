@@ -79,6 +79,11 @@ class ilAssOrderingElement
 	protected $uploadImageFile = null;
 	
 	/**
+	 * @var bool
+	 */
+	protected $imageRemovalRequest = null;
+	
+	/**
 	 * ilAssOrderingElement constructor.
 	 */
 	public function __construct()
@@ -230,6 +235,34 @@ class ilAssOrderingElement
 		$this->uploadImageName = $uploadImageName;
 	}
 	
+	/**
+	 * @return bool
+	 */
+	public function isImageUploadAvailable()
+	{
+		return (bool)strlen( $this->getUploadImageFile() );
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isImageRemovalRequest()
+	{
+		return $this->imageRemovalRequest;
+	}
+	
+	/**
+	 * @param bool $imageRemovalRequest
+	 */
+	public function setImageRemovalRequest($imageRemovalRequest)
+	{
+		$this->imageRemovalRequest = $imageRemovalRequest;
+	}
+	
+	/**
+	 * @param ilAssOrderingElement $element
+	 * @return bool
+	 */
 	public function isSameElement(ilAssOrderingElement $element)
 	{
 		if( $element->getRandomIdentifier() != $this->getRandomIdentifier() )

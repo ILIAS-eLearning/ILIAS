@@ -130,7 +130,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	protected function buildMultiValueSubmitVar($identifier, $positionIndex, $submitCommand)
 	{
-		$elemSubmitVar = "cmd[{$submitCommand}{$this->getFieldId()}]";
+		$elemSubmitVar = "cmd[{$submitCommand}][{$this->getFieldId()}]";
 		$elemSubmitVar .= "[$identifier][$positionIndex]";
 		
 		return $elemSubmitVar;

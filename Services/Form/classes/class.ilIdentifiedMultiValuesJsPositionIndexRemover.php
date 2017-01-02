@@ -37,7 +37,29 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 	
 	public function manipulateFormSubmitValues($submitValues)
 	{
+		$this->cleanSubmitCommandFromPossibleIdentifierIndicators($_POST['cmd']);
 		return $this->removePositionIndexLevels($submitValues);
+	}
+	
+	protected function cleanSubmitCommandFromPossibleIdentifierIndicators($cmdArrayLevel)
+	{
+		if( is_array($cmdArrayLevel) )
+		{
+			$currentKey = key($cmdArrayLevel);
+			
+			if( $this->isValueIdentifier($currentKey) )
+			{
+				$nextLevel = current($cmdArrayLevel);
+				unset($cmdArrayLevel[$currentKey]);
+				
+				$nextLevel = $this->cleanSubmitCommandFromPossibleIdentifierIndicators($nextLevel);
+				
+				$currentKey = $this->removeIdentifierIndicator($currentKey);
+				$cmdArrayLevel[$currentKey] = $nextLevel;
+			}
+		}
+		
+		return $cmdArrayLevel;
 	}
 	
 	protected function removePositionIndexLevels($values)

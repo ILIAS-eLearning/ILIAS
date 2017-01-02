@@ -918,4 +918,19 @@ class ilAssOrderingElementList implements Iterator
 
 		return $element;
 	}
+	
+	/**
+	 * @param integer $questionId
+	 * @param array[ilAssOrderingElement] $orderingElements
+	 * @return ilAssOrderingElementList
+	 */
+	public static function buildInstance($questionId, $orderingElements)
+	{
+		$elementList = new self();
+		
+		$elementList->setQuestionId($questionId);
+		$elementList->setElements($orderingElements);
+		
+		return $elementList;
+	}
 }

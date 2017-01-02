@@ -11,7 +11,15 @@ require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php';
  */
 abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
-	protected $allowMove = false;
+	/**
+	 * @var bool
+	 */
+	protected $editElementOccuranceEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $editElementOrderEnabled = false;
 	
 	/**
 	 * Constructor
@@ -53,7 +61,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	
 	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
-	 *
+	 *fetchImageTitle
 	 * @return	boolean		Input ok, true/false
 	 */
 	function onCheckInput()
@@ -70,7 +78,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		foreach($submittedElements as $submittedValue)
 		{
-			$submittedContent = $this->fetchContentFromValue($submittedValue);
+			$submittedContent = $this->fetch($submittedValue);
 			
 			if ($this->getRequired() && trim($submittedContent) == "")
 			{
@@ -151,5 +159,33 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 		}
 		
 		return $tpl->get();
+	}
+	
+	/**
+	 * @param $value
+	 * @return bool
+	 */
+	protected function valueHasContentText($value)
+	{
+		if( $value === null || is_array($value) || is_object($value) )
+		{
+			return false;
+		}
+		
+		return strlen($value);
+	}
+	
+	/**
+	 * @param $value
+	 * @return string
+	 */
+	protected function fetchContentImageSourceFromValue($value)
+	{
+		if( $this->valueHasContentText($value) )
+		{
+			return $value['src'];
+		}
+		
+		return null;
 	}
 }

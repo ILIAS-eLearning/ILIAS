@@ -11,8 +11,6 @@ require_once 'Services/Form/classes/class.ilMultipleNestedOrderingElementsInputG
  */
 class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElementsInputGUI
 {
-	const POST_VARIABLE_NAME = 'ordering';
-	
 	const CONTEXT_QUESTION_PREVIEW = 'QuestionPreview';
 	const CONTEXT_CORRECT_SOLUTION_PRESENTATION = 'CorrectSolutionPresent';
 	const CONTEXT_USER_SOLUTION_PRESENTATION = 'UserSolutionPresent';
@@ -77,17 +75,17 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	
 	/**
 	 * ilAssNestedOrderingElementsInputGUI constructor.
+	 *
+	 * @param string $postVar
+	 * @param integer $questionId
 	 */
-	public function __construct($questionId)
-	{
-		$this->setQuestionId($questionId);
-		
+	public function __construct($postVar)
+	{		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
 		$this->addFormValuesManipulator($manipulator);
 		
-		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
-		parent::__construct($lng->txt("answers"), self::POST_VARIABLE_NAME);
+		parent::__construct('', $postVar);
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
@@ -109,19 +107,8 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	 */
 	public function getElementList()
 	{
-		$elementList = $this->buildElementList();
-		$elementList->setElements($this->getMultiValues());
-		return $elementList;
-	}
-	
-	protected function buildElementList()
-	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
-		$elementList = new ilAssOrderingElementList();
-		
-		$elementList->setQuestionId($this->getQuestionId());
-		
-		return $elementList;
+		return ilAssOrderingElementList::buildInstance($this->getQuestionId(), $this->getMultiValues());
 	}
 	
 	public function getInstanceId()
@@ -411,12 +398,12 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 			return false;
 		}
 		
-		if( !isset($data[self::POST_VARIABLE_NAME]) )
+		if( !isset($data[$this->getPostVar()]) )
 		{
 			return false;
 		}
 		
-		if( !count($data[self::POST_VARIABLE_NAME]) )
+		if( !count($data[$this->getPostVar()]) )
 		{
 			return false;
 		}
