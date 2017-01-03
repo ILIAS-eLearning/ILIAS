@@ -1268,6 +1268,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
 		$formDataConverter->setImageUrlPath($this->getImagePathWeb());
+		$formDataConverter->setImageFsPath($this->getImagePath());
 		
 		if( $this->getThumbSize() && $this->getThumbPrefix() )
 		{

@@ -34,14 +34,14 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	protected $imageRemovalCommand = null;
 	
 	/**
-	 * @var assOrderingQuestion
+	 * @var string
 	 */
-	protected $questionOBJ;
+	protected $imageUrlPath;
 	
 	/**
 	 * @var string
 	 */
-	protected $imageUrlPath;
+	protected $imageFsPath;
 	
 	/**
 	 * @var string
@@ -110,6 +110,22 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	public function setImageUrlPath($imageUrlPath)
 	{
 		$this->imageUrlPath = $imageUrlPath;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getImageFsPath()
+	{
+		return $this->imageFsPath;
+	}
+	
+	/**
+	 * @param string $imageFsPath
+	 */
+	public function setImageFsPath($imageFsPath)
+	{
+		$this->imageFsPath = $imageFsPath;
 	}
 	
 	/**
@@ -199,7 +215,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		{
 			$imageSource = $this->getImageUrlPath() . $this->getThumbnailFilename($element);
 		}
-		else
+		elseif( $this->imageFileExists($element) )
 		{
 			$imageSource = $this->getImageUrlPath() . $this->getImageFilename($element);
 		}
@@ -221,12 +237,22 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			return false;
 		}
 		
-		if( !@file_exists($this->getThumbnailFilename($element)) )
+		if( !@file_exists($this->getImageFsPath() . $this->getThumbnailFilename($element)) )
 		{
 			return false;
 		}
 		
 		return true;
+	}
+	
+	protected function getThumbnailSource(ilAssOrderingElement $element)
+	{
+		if( !$this->thumbnailFileExists($element) )
+		{
+			return null;
+		}
+		
+		return $this->getImageUrlPath() . $this->getThumbnailFilename($element);
 	}
 	
 	protected function getThumbnailFilename(ilAssOrderingElement $element)
@@ -237,6 +263,35 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		}
 		
 		return $this->getThumbnailPrefix() . $this->getImageFilename($element);
+	}
+	
+	/**
+	 * @param ilAssOrderingElement $element
+	 * @return bool
+	 */
+	protected function imageFileExists(ilAssOrderingElement $element)
+	{
+		if( !$this->getImageFilename($element) )
+		{
+			return false;
+		}
+		
+		if( !@file_exists($this->getImageFsPath() . $this->getImageFilename($element)) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	protected function getImageSource(ilAssOrderingElement $element)
+	{
+		if( !$this->imageFileExists($element) )
+		{
+			return null;
+		}
+		
+		return $this->getImageUrlPath() . $this->getImageFilename($element);
 	}
 	
 	protected function getImageFilename(ilAssOrderingElement $element)
