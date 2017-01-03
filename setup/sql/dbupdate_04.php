@@ -18012,3 +18012,16 @@ if($ilDB->tableExists('svy_qst_oblig'))
 		" SET svy_question.obligatory = svy_qst_oblig.obligatory");
 }
 ?>
+<#5064>
+<?php
+$ilDB->modifyTableColumn(
+	'mail_attachment',
+	'path',
+	array(
+		"type" => "text",
+		"length" => 500,
+		"notnull" => false,
+		'default' => null
+	)
+);
+?>
