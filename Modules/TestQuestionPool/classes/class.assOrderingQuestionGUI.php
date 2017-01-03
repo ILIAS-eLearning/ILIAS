@@ -120,11 +120,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->editQuestion();
 	}
 	
-	public function deleteElementPicture()
+	public function removeElementImage()
 	{
 		$orderingElementInput = $this->object->buildOrderingImagesInputGui();
+		$orderingElementInput->setValueByArray($_POST);
 		
-		foreach($orderingElementInput->getElementList() as $submittedElement)
+		foreach($orderingElementInput->getElementList($this->object->getId()) as $submittedElement)
 		{
 			if( !$submittedElement->isImageRemovalRequest() )
 			{
@@ -136,6 +137,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			);
 			
 			$this->object->dropImageFile( $storedElement->getContent() );
+			$storedElement->setContent(null);
 		}
 		
 		$this->writePostData(true);

@@ -12,20 +12,20 @@
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-default btn-file">
-                                        {IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}" size="20" />
+                                        {IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{UPLOAD_IMAGE_POST_VAR}" size="20" />
                                     </span>
                                 </span>
                                 <input type="text" class="form-control" readonly="readonly">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <input type="submit" class="btn btn-default" name="{IMAGE_CMD_UPLOAD}" value="{IMAGE_SUBMIT}" />
+                            <input type="submit" class="btn btn-default" name="{IMAGE_CMD_UPLOAD}" value="{TXT_IMAGE_SUBMIT}" />
                         </div>
                     </div>
                     <!-- BEGIN image -->
                     <div class="imagepresentation">
-                        <input type="hidden" name="{IMAGE_POST_VAR}" value="{IMAGE_NAME}" />
-                        <img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+                        <input type="hidden" name="{STORED_IMAGE_POST_VAR}" value="{STORED_IMAGE_FILENAME}" />
+                        <img style="margin: 5px 0px 5px 0px;" src="{STORED_IMAGE_SRC}" alt="{STORED_IMAGE_ALT}" {WIDTH} {HEIGHT} border="0" /><br />
                         <input type="submit" class="btn btn-default" name="{IMAGE_CMD_REMOVE}" value="{TXT_DELETE_EXISTING}" /><br />
                     </div>
                     <!-- END image -->

@@ -27,6 +27,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 {
 	const ORDERING_ELEMENT_FORM_FIELD_POSTVAR = 'order_elems';
 	
+	const ORDERING_ELEMENT_FORM_CMD_UPLOAD_IMG = 'uploadElementImage';
+	const ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG = 'removeElementImage';
+	
 	/**
 	 * @var ilAssOrderingElementList
 	 */
@@ -1225,13 +1228,30 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
+	 * @return ilAssOrderingFormValuesObjectsConverter
+	 */
+	protected function buildOrderingElementFormDataConverter()
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
+		$converter = new ilAssOrderingFormValuesObjectsConverter();
+		$converter->setPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
+		
+		return $converter;
+	}
+	
+	/**
 	 * @return ilAssOrderingTextsInputGUI
 	 */
 	public function buildOrderingTextsInputGui()
 	{
+		$formDataConverter = $this->buildOrderingElementFormDataConverter();
+		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
+		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
 		
-		$orderingElementInput = new ilAssOrderingTextsInputGUI($this, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
+		$orderingElementInput = new ilAssOrderingTextsInputGUI(
+			$formDataConverter, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
+		);
 		
 		$this->initOrderingElementFormFieldLabels($orderingElementInput);
 		
@@ -1243,11 +1263,25 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function buildOrderingImagesInputGui()
 	{
+		$formDataConverter = $this->buildOrderingElementFormDataConverter();
+		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_IMAGE);
+		
+		$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
+		$formDataConverter->setImageUrlPath($this->getImagePathWeb());
+		
+		if( $this->getThumbSize() && $this->getThumbPrefix() )
+		{
+			$formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
+		}
+		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
 		
-		$orderingElementInput = new ilAssOrderingImagesInputGUI($this, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
-		$orderingElementInput->setImageRemovalCommand('removeElementImage');
-		$orderingElementInput->setImageUploadCommand('uploadElementImage');
+		$orderingElementInput = new ilAssOrderingImagesInputGUI(
+			$formDataConverter, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
+		);
+		
+		$orderingElementInput->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
+		$orderingElementInput->setImageUploadCommand(self::ORDERING_ELEMENT_FORM_CMD_UPLOAD_IMG);
 		
 		$this->initOrderingElementFormFieldLabels($orderingElementInput);
 		
@@ -1259,12 +1293,27 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function buildNestedOrderingElementInputGui()
 	{
+		$formDataConverter = $this->buildOrderingElementFormDataConverter();
+		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
+		
+		if( $this->getOrderingType() == OQ_NESTED_PICTURES )
+		{
+			$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
+			$formDataConverter->setImageUrlPath($this->getImagePathWeb());
+			
+			if( $this->getThumbSize() && $this->getThumbPrefix() )
+			{
+				$formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
+			}
+		}
+		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
 		
 		$orderingElementInput = new ilAssNestedOrderingElementsInputGUI(
-			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
+			$formDataConverter, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
 		);
 		
+		$orderingElementInput->setUniquePrefix($this->getId());
 		$orderingElementInput->setOrderingType($this->getOrderingType());
 		$orderingElementInput->setElementImagePath($this->getImagePathWeb());
 		$orderingElementInput->setThumbPrefix($this->getThumbPrefix());
@@ -1280,7 +1329,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function fetchSolutionListFromSubmittedForm(ilPropertyFormGUI $form)
 	{
-		return $form->getItemByPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)->getElementList();
+		return $form->getItemByPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)->getElementList($this->getId());
 	}
 	
 	/**
@@ -1300,7 +1349,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			throw new ilTestException('error on validating user solution post');
 		}
 		
-		$solutionOrderingElementList = $orderingGUI->getElementList();
+		$solutionOrderingElementList = $orderingGUI->getElementList($this->getId());
 		return $solutionOrderingElementList;
 	}
 	

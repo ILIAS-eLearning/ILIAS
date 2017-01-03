@@ -14,33 +14,20 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	const POST_VARIABLE_NAME = 'ordering';
 	
 	/**
-	 * @var assOrderingQuestion
-	 */
-	protected $questionOBJ = null;
-	
-	/**
 	 * ilAssOrderingImagesInputGUI constructor.
 	 *
 	 * @param assOrderingQuestion $questionOBJ
 	 * @param string $postVar
 	 */
-	public function __construct(assOrderingQuestion $questionOBJ, $postVar)
+	public function __construct(ilAssOrderingFormValuesObjectsConverter $converter, $postVar)
 	{
-		$this->setQuestionOBJ($questionOBJ);
-		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
 		$this->addFormValuesManipulator($manipulator);
 		
 		parent::__construct('', $postVar);
 		
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
-		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
-		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_IMAGE);
-		$manipulator->setPostVar($this->getPostVar());
-		$manipulator->setImageRemovalCommand($this->getImageRemovalCommand());
-		$manipulator->setQuestionOBJ($this->getQuestionOBJ());
-		$this->addFormValuesManipulator($manipulator);
+		$this->addFormValuesManipulator($converter);
 	}
 	
 	/**
@@ -52,12 +39,13 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	}
 	
 	/**
+	 * @param integer $questionId
 	 * @return ilAssOrderingElementList
 	 */
-	public function getElementList()
+	public function getElementList($questionId)
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
-		return ilAssOrderingElementList::buildInstance($this->getQuestionOBJ()->getId(), $this->getMultiValues());
+		return ilAssOrderingElementList::buildInstance($questionId, $this->getMultiValues());
 	}
 	
 	/**
@@ -68,21 +56,5 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	{
 		/* @var ilAssOrderingElement $filenameInput */
 		return (bool)strlen($filenameInput->getContent());
-	}
-	
-	/**
-	 * @return assOrderingQuestion
-	 */
-	public function getQuestionOBJ()
-	{
-		return $this->questionOBJ;
-	}
-	
-	/**
-	 * @param assOrderingQuestion $questionOBJ
-	 */
-	protected function setQuestionOBJ(assOrderingQuestion $questionOBJ)
-	{
-		$this->questionOBJ = $questionOBJ;
 	}
 }

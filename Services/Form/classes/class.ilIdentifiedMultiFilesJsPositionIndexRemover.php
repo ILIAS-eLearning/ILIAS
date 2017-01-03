@@ -68,16 +68,5 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
 	protected function prepareMultiFilesSubmitValues($filesSubmitValues)
 	{
 		return $this->removePositionIndexLevels($filesSubmitValues);
-		
-		foreach($filesSubmitValues as $phpUploadField => $fileUploadInfo)
-		{
-			$fileUploadInfo['image'] = $this->removePositionIndexLevels(
-				$fileUploadInfo['image']
-			);
-			
-			$filesSubmitValues[$phpUploadField] = $fileUploadInfo;
-		}
-		
-		return $filesSubmitValues;
 	}
 }

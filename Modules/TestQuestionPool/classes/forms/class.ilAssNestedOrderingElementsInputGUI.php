@@ -24,7 +24,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	/**
 	 * @var integer
 	 */
-	protected $questionId = null;
+	protected $uniquePrefix = null;
 	
 	/**
 	 * @var mixed
@@ -76,10 +76,10 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	/**
 	 * ilAssNestedOrderingElementsInputGUI constructor.
 	 *
+	 * @param ilAssOrderingFormValuesObjectsConverter $converter
 	 * @param string $postVar
-	 * @param integer $questionId
 	 */
-	public function __construct($postVar)
+	public function __construct(ilAssOrderingFormValuesObjectsConverter $converter, $postVar)
 	{		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
@@ -87,11 +87,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 		
 		parent::__construct('', $postVar);
 		
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
-		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
-		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
-		$manipulator->setPostVar($this->getPostVar());
-		$this->addFormValuesManipulator($manipulator);
+		$this->addFormValuesManipulator($converter);
 	}
 	
 	/**
@@ -103,22 +99,23 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	}
 	
 	/**
+	 * @param $questionId
 	 * @return ilAssOrderingElementList
 	 */
-	public function getElementList()
+	public function getElementList($questionId)
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
-		return ilAssOrderingElementList::buildInstance($this->getQuestionId(), $this->getMultiValues());
+		return ilAssOrderingElementList::buildInstance($questionId, $this->getMultiValues());
 	}
 	
 	public function getInstanceId()
 	{
-		if( !$this->getContext() || !$this->getQuestionId() )
+		if( !$this->getContext() || !$this->getUniquePrefix() )
 		{
 			return parent::getInstanceId();
 		}
 		
-		return $this->getContext() . '_' . $this->getQuestionId();
+		return $this->getContext() . '_' . $this->getUniquePrefix();
 	}
 	
 	/**
@@ -138,19 +135,19 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	}
 	
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getQuestionId()
+	public function getUniquePrefix()
 	{
-		return $this->questionId;
+		return $this->uniquePrefix;
 	}
 	
 	/**
-	 * @param int $questionId
+	 * @param string $uniquePrefix
 	 */
-	public function setQuestionId($questionId)
+	public function setUniquePrefix($uniquePrefix)
 	{
-		$this->questionId = $questionId;
+		$this->uniquePrefix = $uniquePrefix;
 	}
 	
 	/**

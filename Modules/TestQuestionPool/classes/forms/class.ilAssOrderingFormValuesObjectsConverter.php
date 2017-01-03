@@ -18,10 +18,19 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	const CONTEXT_MAINTAIN_ELEMENT_IMAGE = 'maintainItemImage';
 	const CONTEXT_MAINTAIN_HIERARCHY = 'maintainHierarchy';
 	
+	/**
+	 * @var string
+	 */
 	protected $context = null;
 	
+	/**
+	 * @var string
+	 */
 	protected $postVar = null;
 	
+	/**
+	 * @var string
+	 */
 	protected $imageRemovalCommand = null;
 	
 	/**
@@ -30,28 +39,42 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	protected $questionOBJ;
 	
 	/**
-	 * ilAssOrderingFormValuesObjectsConverter constructor.
+	 * @var string
 	 */
-	public function __construct()
-	{
-		$x = 0;
-	}
+	protected $imageUrlPath;
 	
+	/**
+	 * @var string
+	 */
+	protected $thumbnailPrefix;
+	
+	/**
+	 * @return string
+	 */
 	public function getContext()
 	{
 		return $this->context;
 	}
 	
+	/**
+	 * @param $context
+	 */
 	public function setContext($context)
 	{
 		$this->context = $context;
 	}
 	
+	/**
+	 * @return string
+	 */
 	public function getPostVar()
 	{
 		return $this->postVar;
 	}
 	
+	/**
+	 * @param $postVar
+	 */
 	public function setPostVar($postVar)
 	{
 		$this->postVar = $postVar;
@@ -74,19 +97,35 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	}
 	
 	/**
-	 * @return assOrderingQuestion
+	 * @return string
 	 */
-	public function getQuestionOBJ()
+	public function getImageUrlPath()
 	{
-		return $this->questionOBJ;
+		return $this->imageUrlPath;
 	}
 	
 	/**
-	 * @param assOrderingQuestion $questionOBJ
+	 * @param string $imageUrlPath
 	 */
-	public function setQuestionOBJ(assOrderingQuestion $questionOBJ)
+	public function setImageUrlPath($imageUrlPath)
 	{
-		$this->questionOBJ = $questionOBJ;
+		$this->imageUrlPath = $imageUrlPath;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getThumbnailPrefix()
+	{
+		return $this->thumbnailPrefix;
+	}
+	
+	/**
+	 * @param string $thumbnailPrefix
+	 */
+	public function setThumbnailPrefix($thumbnailPrefix)
+	{
+		$this->thumbnailPrefix = $thumbnailPrefix;
 	}
 	
 	public function getIndentationsPostVar()
@@ -156,25 +195,53 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function getImageContentValueFromObject(ilAssOrderingElement $element)
 	{
-		$imagePath = $this->getQuestionOBJ()->getImagePathWeb();
-		$thumbPrefix = $this->getQuestionOBJ()->getThumbPrefix();
-		
-		$originalFile = $imagePath . $element->getContent();
-		$thumbFile = $imagePath . $thumbPrefix . $element->getContent();
-		
-		
-		if( $this->getQuestionOBJ()->getThumbSize() && @file_exists($thumbFile) )
+		if( $this->thumbnailFileExists($element) )
 		{
-			$imageFile = $thumbFile;
+			$imageSource = $this->getImageUrlPath() . $this->getThumbnailFilename($element);
 		}
 		else
 		{
-			$imageFile = $originalFile;
+			$imageSource = $this->getImageUrlPath() . $this->getImageFilename($element);
+		}
+			
+		return array(
+			'title' => $element->getContent(),
+			'src' => $imageSource
+		);
+	}
+	
+	/**
+	 * @param ilAssOrderingElement $element
+	 * @return bool
+	 */
+	protected function thumbnailFileExists(ilAssOrderingElement $element)
+	{
+		if( !$this->getThumbnailFilename($element) )
+		{
+			return false;
 		}
 		
-		return array(
-			'src' => $imageFile, 'title' => $element->getContent()
-		);
+		if( !@file_exists($this->getThumbnailFilename($element)) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	protected function getThumbnailFilename(ilAssOrderingElement $element)
+	{
+		if( !$this->getThumbnailPrefix() || !$this->getImageFilename($element) )
+		{
+			return null;
+		}
+		
+		return $this->getThumbnailPrefix() . $this->getImageFilename($element);
+	}
+	
+	protected function getImageFilename(ilAssOrderingElement $element)
+	{
+		return $element->getContent();
 	}
 	
 	protected function getStructValueFromObject(ilAssOrderingElement $element)
@@ -233,7 +300,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			if( $this->getContext() == self::CONTEXT_MAINTAIN_ELEMENT_IMAGE )
 			{
 				$element->setUploadImageName($this->fetchSubmittedImageFilename($identifier));
-				$element->setUploadImageFile($this->fetchSubnmittedUploadFilename($identifier));
+				$element->setUploadImageFile($this->fetchSubmittedUploadFilename($identifier));
 				
 				$element->setImageRemovalRequest($this->wasImageRemovalRequested($identifier));
 			}
@@ -250,7 +317,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		return $this->fetchSubmittedFileUploadProperty($fileUpload, 'name');
 	}
 	
-	protected function fetchSubnmittedUploadFilename($identifier)
+	protected function fetchSubmittedUploadFilename($identifier)
 	{
 		$fileUpload = $this->fetchElementFileUpload($identifier);
 		return $this->fetchSubmittedFileUploadProperty($fileUpload, 'tmp_name');
@@ -280,15 +347,51 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function fetchSubmittedUploadFiles()
 	{
+		$submittedUploadFiles = $this->getFileSubmitDataRestructuredByIdentifiers();
+		$submittedUploadFiles = $this->getFileSubmitsHavingActualUpload($submittedUploadFiles);
+		return $submittedUploadFiles;
+	}
+	
+	protected function getFileSubmitsHavingActualUpload($submittedUploadFiles)
+	{
+		foreach($submittedUploadFiles as $identifier => $uploadProperties)
+		{			
+			if( !isset($uploadProperties['tmp_name']) )
+			{
+				unset($submittedUploadFiles[$identifier]);
+				continue;
+			}
+			
+			if( !strlen($uploadProperties['tmp_name']) )
+			{
+				unset($submittedUploadFiles[$identifier]);
+				continue;
+			}
+			
+			if( !is_uploaded_file($uploadProperties['tmp_name']) )
+			{
+				unset($submittedUploadFiles[$identifier]);
+				continue;
+			}
+		}
+		
+		return $submittedUploadFiles;
+	}
+	
+	/**
+	 * @return array
+	 */
+	protected function getFileSubmitDataRestructuredByIdentifiers()
+	{
 		$submittedUploadFiles = array();
 		
-		foreach($this->getFilesSubmit() as $uploadProperty => $postField)
+		foreach( $this->getFileSubmitData() as $uploadProperty => $postField )
 		{
-			foreach($postField as $postVariable => $valueElement)
+			foreach( $postField as $postVariable => $valueElement )
 			{
-				foreach($valueElement as $elementIdentifier => $uploadValue)
+				foreach( $valueElement as $elementIdentifier => $uploadValue )
 				{
-					if( !isset($submittedUploadFiles[$elementIdentifier]) )
+					if( !isset( $submittedUploadFiles[$elementIdentifier] ) )
 					{
 						$submittedUploadFiles[$elementIdentifier] = array();
 					}
@@ -301,7 +404,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 		return $submittedUploadFiles;
 	}
 	
-	protected function getFilesSubmit()
+	protected function getFileSubmitData()
 	{
 		if( !isset($_FILES[$this->getPostVar()]) )
 		{
@@ -323,11 +426,22 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			return false;
 		}
 		
-		if( !isset($_POST['cmd'][$this->getImageRemovalCommand()]) )
+		$cmdArr = $_POST['cmd'];
+		
+		if( !isset($cmdArr[$this->getImageRemovalCommand()]) )
 		{
 			return false;
 		}
 		
-		return key($_POST['cmd'][$this->getImageRemovalCommand()]) == $identifier;
+		$fieldArr = $cmdArr[$this->getImageRemovalCommand()];
+			
+		if( !isset($fieldArr[$this->getPostVar()]) )
+		{
+			return false;
+		}
+		
+		$identifierArr = $fieldArr[$this->getPostVar()];
+	
+		return key($identifierArr) == $identifier;
 	}
 }

@@ -31,27 +31,22 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 			
 			foreach($values['count'] as $index => $value)
 			{
-				if( !isset($values['imagename']) )
+				if( !isset($values['storedimage']) )
 				{
 					$actualValues[$index] = '';
 					continue;
 				}
 				
-				if( !isset($values['imagename'][$index]) )
+				if( !isset($values['storedimage'][$index]) )
 				{
 					$actualValues[$index] = '';
 					continue;
 				}
 				
-				$actualValues[$index] = $values['imagename'][$index];
+				$actualValues[$index] = $values['storedimage'][$index];
 			}
 		}
 		
 		return $actualValues;
-	}
-	
-	protected function fetchIndentationsFromSubmitValues()
-	{
-		
 	}
 }

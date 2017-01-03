@@ -12,14 +12,9 @@ require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
 class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 {
 	/**
-	 * @var assOrderingQuestion
-	 */
-	protected $questionOBJ = null;
-	
-	/**
 	 * ilAssOrderingTextsInputGUI constructor.
 	 */
-	public function __construct($postVar)
+	public function __construct(ilAssOrderingFormValuesObjectsConverter $converter, $postVar)
 	{
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
@@ -27,13 +22,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 		
 		parent::__construct('', $postVar);
 		
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
-		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
-		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
-		$manipulator->setPostVar($this->getPostVar());
-		$manipulator->setImageRemovalCommand(null);
-		$manipulator->setQuestionOBJ($this->getQuestionOBJ());
-		$this->addFormValuesManipulator($manipulator);
+		$this->addFormValuesManipulator($converter);
 	}
 	
 	/**
@@ -45,28 +34,13 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 	}
 	
 	/**
+	 * @param integer $questionId
 	 * @return ilAssOrderingElementList
 	 */
-	public function getElementList()
+	public function getElementList($questionId)
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
-		return ilAssOrderingElementList::buildInstance($this->getQuestionOBJ()->getId(), $this->getMultiValues());
-	}
-	
-	/**
-	 * @return assOrderingQuestion
-	 */
-	public function getQuestionOBJ()
-	{
-		return $this->questionOBJ;
-	}
-	
-	/**
-	 * @param assOrderingQuestion $questionOBJ
-	 */
-	public function setQuestionOBJ(assOrderingQuestion $questionOBJ)
-	{
-		$this->questionOBJ = $questionOBJ;
+		return ilAssOrderingElementList::buildInstance($questionId, $this->getMultiValues());
 	}
 	
 	/**
