@@ -31,6 +31,8 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 		$manipulator = new ilAssOrderingFormValuesObjectsConverter();
 		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
 		$manipulator->setPostVar($this->getPostVar());
+		$manipulator->setImageRemovalCommand(null);
+		$manipulator->setQuestionOBJ($this->getQuestionOBJ());
 		$this->addFormValuesManipulator($manipulator);
 	}
 	
@@ -65,5 +67,24 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
 	public function setQuestionOBJ(assOrderingQuestion $questionOBJ)
 	{
 		$this->questionOBJ = $questionOBJ;
+	}
+	
+	/**
+	 * @param $value
+	 * @return bool
+	 */
+	protected function valueHasContentText($value)
+	{
+		if( $value === null || is_array($value) )
+		{
+			return false;
+		}
+		
+		if( is_object($value) && $value instanceof ilAssOrderingElement )
+		{
+			return (bool)strlen( (string)$value );
+		}
+		
+		return (bool)strlen($value);
 	}
 }

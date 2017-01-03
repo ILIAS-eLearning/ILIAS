@@ -319,4 +319,9 @@ class ilAssOrderingElement
 				return $this->getPosition() + 1;
 		}
 	}
+	
+	public function __toString()
+	{
+		return $this->getContent();
+	}
 }

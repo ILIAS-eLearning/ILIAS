@@ -1231,11 +1231,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
 		
-		$orderingElementInput = new ilAssOrderingTextsInputGUI(
-			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
-		);
-		
-		$orderingElementInput->setQuestionOBJ($this);
+		$orderingElementInput = new ilAssOrderingTextsInputGUI($this, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
 		
 		$this->initOrderingElementFormFieldLabels($orderingElementInput);
 		
@@ -1249,12 +1245,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
 		
-		$orderingElementInput = new ilAssOrderingImagesInputGUI(
-			self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR, $this->getId()
-		);
-		
-		$orderingElementInput->setQuestionOBJ($this);
-		
+		$orderingElementInput = new ilAssOrderingImagesInputGUI($this, self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
 		$orderingElementInput->setImageRemovalCommand('removeElementImage');
 		$orderingElementInput->setImageUploadCommand('uploadElementImage');
 		

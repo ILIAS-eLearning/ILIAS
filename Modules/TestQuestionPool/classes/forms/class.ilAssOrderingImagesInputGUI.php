@@ -20,9 +20,14 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	
 	/**
 	 * ilAssOrderingImagesInputGUI constructor.
+	 *
+	 * @param assOrderingQuestion $questionOBJ
+	 * @param string $postVar
 	 */
-	public function __construct($postVar)
+	public function __construct(assOrderingQuestion $questionOBJ, $postVar)
 	{
+		$this->setQuestionOBJ($questionOBJ);
+		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
 		$manipulator = new ilAssOrderingDefaultElementFallback();
 		$this->addFormValuesManipulator($manipulator);
@@ -34,6 +39,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 		$manipulator->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_IMAGE);
 		$manipulator->setPostVar($this->getPostVar());
 		$manipulator->setImageRemovalCommand($this->getImageRemovalCommand());
+		$manipulator->setQuestionOBJ($this->getQuestionOBJ());
 		$this->addFormValuesManipulator($manipulator);
 	}
 	
@@ -75,7 +81,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	/**
 	 * @param assOrderingQuestion $questionOBJ
 	 */
-	public function setQuestionOBJ(assOrderingQuestion $questionOBJ)
+	protected function setQuestionOBJ(assOrderingQuestion $questionOBJ)
 	{
 		$this->questionOBJ = $questionOBJ;
 	}

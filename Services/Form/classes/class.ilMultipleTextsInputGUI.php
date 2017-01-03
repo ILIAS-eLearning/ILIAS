@@ -84,9 +84,9 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		foreach($submittedElements as $submittedValue)
 		{
-			$submittedContent = $this->fetchContentTextFromValue($submittedValue);
+			$submittedContentText = $this->fetchContentTextFromValue($submittedValue);
 			
-			if ($this->getRequired() && trim($submittedContent) == "")
+			if ($this->getRequired() && trim($submittedContentText) == "")
 			{
 				$this->setAlert($lng->txt('msg_input_is_required'));
 				return false;
@@ -94,7 +94,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			
 			if( strlen($this->getValidationRegexp()) )
 			{
-				if( !preg_match($this->getValidationRegexp(), $submittedValue->getContent()) )
+				if( !preg_match($this->getValidationRegexp(), $submittedContentText) )
 				{
 					$this->setAlert($lng->txt('msg_wrong_format'));
 					return false;

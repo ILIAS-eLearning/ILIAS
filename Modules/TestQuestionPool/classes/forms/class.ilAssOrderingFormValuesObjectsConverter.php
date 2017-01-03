@@ -34,6 +34,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	 */
 	public function __construct()
 	{
+		$x = 0;
 	}
 	
 	public function getContext()
@@ -83,7 +84,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	/**
 	 * @param assOrderingQuestion $questionOBJ
 	 */
-	public function setQuestionOBJ($questionOBJ)
+	public function setQuestionOBJ(assOrderingQuestion $questionOBJ)
 	{
 		$this->questionOBJ = $questionOBJ;
 	}
@@ -127,23 +128,17 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 			{
 				case self::CONTEXT_MAINTAIN_ELEMENT_TEXT:
 					
-					$values[$identifier] = $this->getTextContentValueFromObject(
-						$orderingElement
-					);
+					$values[$identifier] = $this->getTextContentValueFromObject($orderingElement);
 					break;
 				
 				case self::CONTEXT_MAINTAIN_ELEMENT_IMAGE:
 					
-					$values[$identifier] = $this->getTextContentValueFromObject(
-						$orderingElement
-					);
+					$values[$identifier] = $this->getImageContentValueFromObject($orderingElement);
 					break;
 				
 				case self::CONTEXT_MAINTAIN_HIERARCHY:
 					
-					$values[$identifier] = $this->getStructValueFromObject(
-						$orderingElement
-					);
+					$values[$identifier] = $this->getStructValueFromObject($orderingElement);
 					break;
 				
 				default:
