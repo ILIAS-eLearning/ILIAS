@@ -7084,7 +7084,7 @@ function getAnswerFeedbackPoints()
 	* @param int copy id
 	* @return object new test object
 	*/
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilLog, $tree, $ilDB, $ilPluginAdmin;
 
@@ -7092,7 +7092,7 @@ function getAnswerFeedbackPoints()
 
 		// Copy settings
 		/** @var $newObj ilObjTest */
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$newObj->setTmpCopyWizardCopyId($a_copy_id);
 		$this->cloneMetaData($newObj);
 
