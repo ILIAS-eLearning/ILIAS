@@ -764,8 +764,8 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$query	= 'SELECT * FROM ' . self::$banTable . ' WHERE room_id = %s ';
-		$types	= array('integer');
+		$query  = 'SELECT chb.* FROM ' . self::$banTable . ' chb INNER JOIN usr_data ud ON chb.user_id = ud.usr_id WHERE chb.room_id = %s ';
+		$types  = array('integer');
 		$values = array($this->getRoomId());
 		$rset	= $ilDB->queryF( $query, $types, $values );
 		$result = array();
