@@ -28,7 +28,11 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 		parent::__construct('', $postVar);
 		
 		$this->addFormValuesManipulator($converter);
+		
+		self::$instanceCounter++;
 	}
+	
+	public static $instanceCounter = 0;
 	
 	/**
 	 * @param ilAssOrderingElementList $elementList

@@ -23,28 +23,38 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 	
 	protected function fetchFilenamesFromSubmitValues($values)
 	{
-		$actualValues = $values;
-		
-		if( is_array($values) && isset($values['count']) && is_array($values['count']) )
+		if( !is_array($values) )
 		{
-			$actualValues = array();
+			return $values;
+		}
+		
+		if( !isset($values[ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME]) )
+		{
+			return $values;
+		}
+		
+		if( !is_array($values[ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME]) )
+		{
+			return $values;
+		}
+		
+		$actualValues = array();
 			
-			foreach($values['count'] as $index => $value)
+		foreach($values[ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME] as $index => $value)
+		{
+			if( !isset($values[ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME]) )
 			{
-				if( !isset($values['storedimage']) )
-				{
-					$actualValues[$index] = '';
-					continue;
-				}
-				
-				if( !isset($values['storedimage'][$index]) )
-				{
-					$actualValues[$index] = '';
-					continue;
-				}
-				
-				$actualValues[$index] = $values['storedimage'][$index];
+				$actualValues[$index] = '';
+				continue;
 			}
+			
+			if( !isset($values[ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME][$index]) )
+			{
+				$actualValues[$index] = '';
+				continue;
+			}
+			
+			$actualValues[$index] = $values[ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME][$index];
 		}
 		
 		return $actualValues;

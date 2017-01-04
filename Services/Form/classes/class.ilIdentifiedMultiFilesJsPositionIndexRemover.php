@@ -25,6 +25,7 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
 	
 	public function manipulateFormInputValues($inputValues)
 	{
+		// KEEP THIS INTERFACE METHOD OVERWRITTEN THIS LIKE (!)
 		return $inputValues;
 	}
 

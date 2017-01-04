@@ -12,6 +12,9 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  */
 abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
+	const ITERATOR_SUBFIELD_NAME = 'iteratorfield';
+	const STORED_IMAGE_SUBFIELD_NAME = 'storedimage';
+	const IMAGE_UPLOAD_SUBFIELD_NAME = 'imageupload';
 	/**
 	 * @var bool
 	 */
@@ -157,76 +160,72 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	function onCheckInput()
 	{
-		global $lng;
-		if (is_array($_FILES[$this->getPostVar()]['error']['image']))
+		$lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		$F = $_FILES[$this->getPostVar()];
+		
+		if( $this->getRequired() && !is_array($F['error'][self::IMAGE_UPLOAD_SUBFIELD_NAME]) )
 		{
-			foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error)
+			$this->setAlert($lng->txt("form_msg_file_no_upload"));
+			return false;
+		}
+		else foreach( $F['error'][self::IMAGE_UPLOAD_SUBFIELD_NAME] as $index => $error )
+		{
+			// error handling
+			if ($error > 0)
 			{
-				// error handling
-				if ($error > 0)
+				switch ($error)
 				{
-					switch ($error)
-					{
-						case UPLOAD_ERR_INI_SIZE:
-							$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+					case UPLOAD_ERR_INI_SIZE:
+						$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+						return false;
+						break;
+					
+					case UPLOAD_ERR_FORM_SIZE:
+						$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+						return false;
+						break;
+					
+					case UPLOAD_ERR_PARTIAL:
+						$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
+						return false;
+						break;
+					
+					case UPLOAD_ERR_NO_FILE:
+						$storedImageFilename = (string)$_POST[$this->getPostVar()][self::STORED_IMAGE_SUBFIELD_NAME];
+						if( $this->getRequired() && !strlen($storedImageFilename) )
+						{
+							$this->setAlert($lng->txt("form_msg_file_no_upload"));
 							return false;
-							break;
-						
-						case UPLOAD_ERR_FORM_SIZE:
-							$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-							return false;
-							break;
-						
-						case UPLOAD_ERR_PARTIAL:
-							$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
-							return false;
-							break;
-						
-						case UPLOAD_ERR_NO_FILE:
-							$filenameInput = $_POST[$this->getPostVar()][$index];
-							if( $this->getRequired() && !$this->isValidFilenameInput($filenameInput) )
-							{
-								$this->setAlert($lng->txt("form_msg_file_no_upload"));
-								return false;
-							}
-							break;
-						
-						case UPLOAD_ERR_NO_TMP_DIR:
-							$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
-							return false;
-							break;
-						
-						case UPLOAD_ERR_CANT_WRITE:
-							$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
-							return false;
-							break;
-						
-						case UPLOAD_ERR_EXTENSION:
-							$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
-							return false;
-							break;
-					}
+						}
+						break;
+					
+					case UPLOAD_ERR_NO_TMP_DIR:
+						$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
+						return false;
+						break;
+					
+					case UPLOAD_ERR_CANT_WRITE:
+						$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
+						return false;
+						break;
+					
+					case UPLOAD_ERR_EXTENSION:
+						$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
+						return false;
+						break;
 				}
 			}
 		}
-		else
-		{
-			if ($this->getRequired())
-			{
-				$this->setAlert($lng->txt("form_msg_file_no_upload"));
-				return false;
-			}
-		}
 		
-		if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
+		if (is_array($F['tmp_name'][self::IMAGE_UPLOAD_SUBFIELD_NAME]))
 		{
-			foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
+			foreach ($F['tmp_name'][self::IMAGE_UPLOAD_SUBFIELD_NAME] as $index => $tmpname)
 			{
-				$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+				$filename = $F['name'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
 				$filename_arr = pathinfo($filename);
 				$suffix = $filename_arr["extension"];
-				$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-				$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+				$mimetype = $F['type'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+				$size_bytes = $F['size'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
 				// check suffixes
 				if (strlen($tmpname) && is_array($this->getSuffixes()))
 				{
@@ -239,24 +238,21 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			}
 		}
 		
-		if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
+		foreach ($F['tmp_name'][self::IMAGE_UPLOAD_SUBFIELD_NAME] as $index => $tmpname)
 		{
-			foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
+			$filename = $F['name'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+			$filename_arr = pathinfo($filename);
+			$suffix = $filename_arr["extension"];
+			$mimetype = $F['type'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+			$size_bytes = $F['size'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+			// virus handling
+			if (strlen($tmpname))
 			{
-				$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-				$filename_arr = pathinfo($filename);
-				$suffix = $filename_arr["extension"];
-				$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-				$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-				// virus handling
-				if (strlen($tmpname))
+				$vir = ilUtil::virusHandling($tmpname, $filename);
+				if ($vir[0] == false)
 				{
-					$vir = ilUtil::virusHandling($tmpname, $filename);
-					if ($vir[0] == false)
-					{
-						$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
-						return false;
-					}
+					$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
+					return false;
 				}
 			}
 		}
@@ -282,7 +278,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable('STORED_IMAGE_SRC', $this->fetchContentImageSourceFromValue($value));
 				$tpl->setVariable('STORED_IMAGE_ALT', ilUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value)));
 				$tpl->setVariable('STORED_IMAGE_FILENAME', $this->fetchContentImageTitleFromValue($value));
-				$tpl->setVariable("STORED_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'storedimage', $i));
+				$tpl->setVariable("STORED_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::STORED_IMAGE_SUBFIELD_NAME, $i));
 				
 				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 				$tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageRemovalCommand()));
@@ -293,11 +289,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			$tpl->setCurrentBlock('addimage');
 			
 			$tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
-			$tpl->setVariable("IMAGE_ID", $this->getMultiValuePosIndexedSubFieldId($identifier, 'uploadimage', $i));
+			$tpl->setVariable("IMAGE_ID", $this->getMultiValuePosIndexedSubFieldId($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
 			$tpl->setVariable("TXT_IMAGE_SUBMIT", $lng->txt("upload"));
 			$tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageUploadCommand()));
-			$tpl->setVariable("UPLOAD_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'uploadimage', $i));
-			$tpl->setVariable("COUNT_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, 'count', $i));
+			$tpl->setVariable("UPLOAD_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
+			$tpl->setVariable("COUNT_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::ITERATOR_SUBFIELD_NAME, $i));
 			
 			$tpl->parseCurrentBlock();
 			

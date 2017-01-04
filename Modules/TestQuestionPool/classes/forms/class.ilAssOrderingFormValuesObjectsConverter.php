@@ -211,6 +211,8 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function getImageContentValueFromObject(ilAssOrderingElement $element)
 	{
+		$imageSource = '';
+
 		if( $this->thumbnailFileExists($element) )
 		{
 			$imageSource = $this->getImageUrlPath() . $this->getThumbnailFilename($element);
