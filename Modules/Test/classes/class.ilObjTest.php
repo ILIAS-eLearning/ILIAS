@@ -750,7 +750,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 
 		// put here object specific stuff
-
+		$this->updateMetaData();
 		return true;
 	}
 
