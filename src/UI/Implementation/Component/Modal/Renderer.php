@@ -37,15 +37,32 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderInterruptive(Component\Modal\Interruptive $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.interruptive.html', true, true);
+		$tpl->setVariable('ID', $this->createId($modal));
 		$tpl->setVariable('TITLE', $modal->getTitle());
-		$tpl->setVariable('CONTENT', $default_renderer->render($modal->getContent()));
-		$this->maybeRenderId($modal, $tpl);
-		foreach ($modal->getButtons() as $button) {
-			$connection = $this->getUIFactory()->connector()->onClick($button, $modal->getCloseAction());
-			$tpl->setCurrentBlock('buttons');
-			$tpl->setVariable('BUTTON', $default_renderer->render($button, $connection));
+		if ($modal->getMessage()) {
+			$tpl->setCurrentBlock('with_message');
+			$tpl->setVariable('MESSAGE', $modal->getMessage());
 			$tpl->parseCurrentBlock();
 		}
+		if (count($modal->getAffectedItems())) {
+			$tpl->setCurrentBlock('with_items');
+			$titles = array_map(function($interruptive_item) {
+				/** @var Component\Modal\InterruptiveItem $interruptive_item */
+				return $interruptive_item->getTitle();
+			}, $modal->getAffectedItems());
+			$list = $this->getUIFactory()->listing()->unordered($titles);
+			$tpl->setVariable('ITEMS', $default_renderer->render($list));
+			foreach ($modal->getAffectedItems() as $item) {
+				$tpl->setCurrentBlock('hidden_inputs');
+				$tpl->setVariable('ITEM_ID', $item->getId());
+				$tpl->parseCurrentBlock();
+			}
+		}
+		$action_button = $this->getUIFactory()->button()->primary($this->txt($modal->getActionButtonLabel()), '');
+		$tpl->setVariable('ACTION_BUTTON', $default_renderer->render($action_button));
+		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
+		$connection = $this->getUIFactory()->connector()->onClick($cancel_button, $modal->getCloseAction());
+		$tpl->setVariable('CANCEL_BUTTON', $default_renderer->render($cancel_button, $connection));
 
 		return $tpl->get();
 	}
@@ -59,11 +76,15 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
-		$tpl->setVariable('TITLE', $modal->getTitle());
-		$tpl->setVariable('CONTENT', $default_renderer->render($modal->getContent()));
 		$tpl->setVariable('ID', $this->createId($modal));
+		$tpl->setVariable('TITLE', $modal->getTitle());
+		foreach ($modal->getContent() as $content) {
+			$tpl->setCurrentBlock('with_content');
+			$tpl->setVariable('CONTENT', $default_renderer->render($content));
+			$tpl->parseCurrentBlock();
+		}
 		foreach ($modal->getActionButtons() as $button) {
-			$tpl->setCurrentBlock('buttons');
+			$tpl->setCurrentBlock('with_buttons');
 			$tpl->setVariable('BUTTON', $default_renderer->render($button));
 			$tpl->parseCurrentBlock();
 		}
@@ -71,6 +92,7 @@ class Renderer extends AbstractComponentRenderer {
 		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
 		$connection = $this->getUIFactory()->connector()->onClick($cancel_button, $modal->getCloseAction());
 		$tpl->setVariable('CANCEL_BUTTON', $default_renderer->render($cancel_button, $connection));
+
 		return $tpl->get();
 	}
 
@@ -83,21 +105,16 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.lightbox.html', true, true);
-		$tpl->setVariable('TITLE', $modal->getTitle());
-		$tpl->setVariable('CONTENT', $default_renderer->render($modal->getContent()));
-		$this->maybeRenderId($modal, $tpl);
-
-		return $tpl->get();
-	}
-
-
-	protected function maybeRenderId($modal, $tpl) {
-		$id = $this->createId($modal);
-		if ($id !== NULL) {
-			$tpl->setCurrentBlock("with_id");
-			$tpl->setVariable("ID", $id);
+		$tpl->setVariable('ID', $this->createId($modal));
+		foreach ($modal->getPages() as $page) {
+			$tpl->setCurrentBlock('pages');
+			$tpl->setVariable('TITLE', $page->getTitle());
+			$tpl->setVariable('CONTENT', $default_renderer->render($page->getComponent()));
+			$tpl->setVariable('DESCRIPTION', $page->getDescription());
 			$tpl->parseCurrentBlock();
 		}
+
+		return $tpl->get();
 	}
 
 

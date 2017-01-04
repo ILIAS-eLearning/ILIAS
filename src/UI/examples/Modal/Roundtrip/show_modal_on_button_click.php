@@ -1,16 +1,17 @@
 <?php
 function show_modal_on_button_click()
 {
-//    global $DIC;
-//    $factory = $DIC->ui()->factory();
-//    $renderer = $DIC->ui()->renderer();
-//    $content = $factory->legacy('This modal was opened on button click');
-//    $modal = $factory->modal()->roundtrip('Modal Title', $content)
-//        ->withButtons(array(
-//            $factory->button()->primary('First Action', ''),
-//            $factory->button()->standard('Second Action', '')
-//        ));
-//    $button = $factory->button()->standard('Open Modal', '');
-//
-//    return $renderer->render($button->triggerAction($modal->show()));
+	global $DIC;
+	$factory = $DIC->ui()->factory();
+	$renderer = $DIC->ui()->renderer();
+	$action_buttons = array(
+		$factory->button()->primary('Primary Action', ''),
+		$factory->button()->standard('Secondary Action', ''),
+	);
+	$modal = $factory->modal()->roundtrip('My Modal', $factory->legacy('My Content'))
+		->withActionButtons($action_buttons);
+	$button = $factory->button()->standard('Show Modal', '');
+	$connection = $factory->connector()->onClick($button, $modal->getShowAction());
+
+	return implode('', $renderer->render([$button, $modal], [$connection]));
 }

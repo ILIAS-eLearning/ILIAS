@@ -12,11 +12,10 @@ use ILIAS\UI\Component\Button;
  */
 class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 
-	use ModalHelper;
 	/**
 	 * @var Button\Button[]
 	 */
-	protected $action_buttons;
+	protected $action_buttons = array();
 	/**
 	 * @var string
 	 */
@@ -34,16 +33,14 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	/**
 	 * @param string                                    $title
 	 * @param Component\Component|Component\Component[] $content
-	 * @param string                                    $cancel_button_label
 	 */
-	public function __construct($title, $content, $cancel_button_label = 'cancel') {
+	public function __construct($title, $content) {
 		$this->checkStringArg('title', $title);
 		$content = $this->toArray($content);
 		$types = array( Component\Component::class );
 		$this->checkArgListElements('content', $content, $types);
 		$this->title = $title;
 		$this->content = $content;
-		$this->cancel_button_label = $cancel_button_label;
 	}
 
 
@@ -59,7 +56,7 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	 * @inheritdoc
 	 */
 	public function getContent() {
-		return $this->getContent();
+		return $this->content;
 	}
 
 
@@ -107,5 +104,13 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 		$clone->action_buttons = $buttons;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getCancelButtonLabel() {
+		return $this->cancel_button_label;
 	}
 }

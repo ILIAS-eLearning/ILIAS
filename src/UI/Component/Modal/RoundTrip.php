@@ -61,7 +61,7 @@ interface RoundTrip extends Modal {
 
 	/**
 	 * Get a modal like this with the provided action buttons in the footer.
-	 * Note that the footer always contains a cancel button as last button in the footer (on the right).
+	 * Note that the footer always contains a cancel button closing the modal as last button in the footer (on the right).
 	 *
 	 * @param array Button\Button[] $buttons
 	 * @return RoundTrip

@@ -19,59 +19,6 @@ abstract class Modal implements Component\Modal\Modal {
 	use ComponentHelper;
 	use JavaScriptBindable;
 
-
-//	/**
-//	 * @param string              $title Title of the modal
-//	 * @param Component\Component $content
-//	 */
-//	public function __construct($title, Component\Component $content) {
-//		$this->checkStringArg('title', $title);
-//		$this->checkArgInstanceOf('content', $content, Component\Component::class);
-//		$this->title = $title;
-//		$this->content = $content;
-//	}
-//
-//
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function getTitle() {
-//		return $this->title;
-//	}
-//
-//
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function getContent() {
-//		return $this->content;
-//	}
-//
-//
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function withTitle($title) {
-//		$this->checkStringArg('title', $title);
-//		$clone = clone $this;
-//		$clone->title = $title;
-//
-//		return $clone;
-//	}
-//
-//
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function withContent(Component\Component $content) {
-//		$this->checkArgInstanceOf('content', $content, Component\Component::class);
-//		$clone = clone $this;
-//		$clone->content = $content;
-//
-//		return $clone;
-//	}
-
-
 	/**
 	 * @inheritdoc
 	 */
@@ -91,7 +38,7 @@ abstract class Modal implements Component\Modal\Modal {
 	/**
 	 * @inheritdoc
 	 */
-	public function getButtons() {
-		return $this->buttons;
+	public function getShowAsyncAction($ajax_url) {
+		return new ShowAsyncAction($this, $ajax_url);
 	}
 }

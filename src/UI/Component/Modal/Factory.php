@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\Modal\LightboxImagePage;
 
 /**
  * Interface Factory
@@ -36,12 +37,33 @@ interface Factory {
 	 *        the interruptive modal.
 	 * ---
 	 *
-	 * @param string              $title
-	 * @param Component\Component $content
+	 * @param string $title
+	 * @param string $message
+	 * @param string $form_action
 	 *
 	 * @return \ILIAS\UI\Component\Modal\Interruptive
 	 */
-	public function interruptive($title, Component\Component $content);
+	public function interruptive($title, $message, $form_action);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Interruptive items are displayed in an interruptive modal and represent the object(s) being affected
+	 *     by the critical action, e.g. deleting.
+	 *   composition:
+	 *   effect:
+	 * rules:
+	 * ---
+	 *
+	 * @param string $id
+	 * @param string $title
+	 * @param string $description
+	 *
+	 * @return InterruptiveItem
+	 */
+	public function interruptiveItem($id, $title, $description = '');
 
 
 	/**
@@ -76,12 +98,12 @@ interface Factory {
 	 *       Round-Trip Modals SHOULD NOT be used to perform complex workflows.
 	 *
 	 * ---
-	 * @param string              $title
-	 * @param Component\Component $content
+	 * @param string                                    $title
+	 * @param Component\Component|Component\Component[] $content
 	 *
 	 * @return \ILIAS\UI\Component\Modal\RoundTrip
 	 */
-	public function roundtrip($title, Component\Component $content);
+	public function roundtrip($title, $content);
 
 
 	/**
@@ -104,10 +126,28 @@ interface Factory {
 	 *       Multiple images or pages inside a Lightbox Modals MUST be presented in carousel like manner allowing to flickr through items.
 	 *
 	 * ---
-	 * @param string              $title
-	 * @param Component\Component $content
+	 * @param LightboxPage|LightboxPage[] $pages
 	 *
 	 * @return \ILIAS\UI\Component\Modal\Lightbox
 	 */
-	public function lightbox($title, Component\Component $content);
+	public function lightbox($pages);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Used to display an image component inside a lightbox modal
+	 *   composition:
+	 *   effect:
+	 * rules:
+	 * ---
+	 *
+	 * @param Component\Image\Image $image
+	 * @param                       $title
+	 * @param string                $description
+	 *
+	 * @return LightboxImagePage
+	 */
+	public function lightboxImagePage(Component\Image\Image $image, $title, $description = '');
 }

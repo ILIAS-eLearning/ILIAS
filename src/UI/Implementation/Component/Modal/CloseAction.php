@@ -11,14 +11,6 @@ use ILIAS\UI\Implementation\Component\Connector\TriggerAction;
  */
 class CloseAction extends TriggerAction {
 
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function getSupportedEvents() {
-//		return array(TriggerAction::EVENT_CLICK);
-//	}
-
-
 	/**
 	 * @inheritdoc
 	 */

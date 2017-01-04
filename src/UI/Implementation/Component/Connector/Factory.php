@@ -30,6 +30,6 @@ class Factory implements \ILIAS\UI\Component\Connector\Factory {
 	 * @inheritdoc
 	 */
 	public function onChange(\ILIAS\UI\Component\Component $triggerer, \ILIAS\UI\Component\Connector\TriggerAction $action) {
-		return new ComponentConnection($triggerer, $action, TriggerAction::EVENT_DBLCLICK);
+		return new ComponentConnection($triggerer, $action, TriggerAction::EVENT_CHANGE);
 	}
 }

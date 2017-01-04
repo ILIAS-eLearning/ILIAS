@@ -12,29 +12,42 @@ use ILIAS\UI\Component\Modal as Modal;
  */
 class Factory implements Modal\Factory {
 
-    /**
-     * @inheritdoc
-     */
-    public function interruptive($title, Component\Component $content)
-    {
-        return new Interruptive($title, $content);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function interruptive($title, $message, $form_action) {
+		return new Interruptive($title, $message, $form_action);
+	}
 
 
-    /**
-     * @inheritdoc
-     */
-    public function roundtrip($title, Component\Component $content)
-    {
-        return new RoundTrip($title, $content);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function interruptiveItem($id, $title, $description = '') {
+		return new InterruptiveItem($id, $title, $description);
+	}
 
 
-    /**
-     * @inheritdoc
-     */
-    public function lightbox($title, Component\Component $content)
-    {
-        return new Lightbox($title, $content);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function roundtrip($title, $content) {
+		return new RoundTrip($title, $content);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function lightbox($pages) {
+		return new Lightbox($pages);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function lightboxImagePage(Component\Image\Image $image, $title, $description = '') {
+		return new LightboxImagePage($image, $title, $description);
+	}
 }
