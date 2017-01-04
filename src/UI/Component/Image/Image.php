@@ -58,7 +58,7 @@ interface Image extends \ILIAS\UI\Component\Component {
 	public function withAction($url);
 
 	/**
-	 * Get the action on the image
+	 * Get the action of the image
 	 * @return string|null
 	 */
 	public function getAction();
