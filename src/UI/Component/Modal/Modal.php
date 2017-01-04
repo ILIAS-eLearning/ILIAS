@@ -11,23 +11,22 @@ use ILIAS\UI\Implementation\Component\Modal\ShowAsyncAction;
 /**
  * This describes commonalities between the different modals
  */
-interface Modal extends Component, JavaScriptBindable
-{
+interface Modal extends Component, JavaScriptBindable {
 
-    /**
-     * Get the action to show this modal in the frontend
-     *
-     * @return ShowAction
-     */
-    public function getShowAction();
+	/**
+	 * Get the action to show this modal in the frontend
+	 *
+	 * @return ShowAction
+	 */
+	public function getShowAction();
 
 
-    /**
-     * Get the action to close this modal in the frontend
-     *
-     * @return CloseAction
-     */
-    public function getCloseAction();
+	/**
+	 * Get the action to close this modal in the frontend
+	 *
+	 * @return CloseAction
+	 */
+	public function getCloseAction();
 
 
 	/**
@@ -38,6 +37,5 @@ interface Modal extends Component, JavaScriptBindable
 	 *
 	 * @return ShowAsyncAction
 	 */
-    public function getShowAsyncAction($ajax_url);
-
+	public function getShowAsyncAction($ajax_url);
 }
