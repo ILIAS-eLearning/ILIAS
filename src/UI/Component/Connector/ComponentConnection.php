@@ -2,15 +2,20 @@
 
 namespace ILIAS\UI\Component\Connector;
 
+use ILIAS\UI\Component\Component;
+
 /**
  * Interface ComponentConnection
+ *
+ * Connects two components: The first component is acting as triggerer, triggering an action of the second component
+ * on a given event (click, hover etc.)
  */
 interface ComponentConnection {
 
 	/**
 	 * Get the component triggering the action of another component
 	 *
-	 * @return Triggerer
+	 * @return Component
 	 */
 	public function getTriggererComponent();
 
@@ -18,7 +23,7 @@ interface ComponentConnection {
 	/**
 	 * Get the component whos action is triggered
 	 *
-	 * @return Triggerable
+	 * @return Component
 	 */
 	public function getTriggeredComponent();
 

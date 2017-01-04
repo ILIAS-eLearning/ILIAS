@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Connector;
 
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Connector as Connector;
 
 /**
@@ -12,11 +13,11 @@ use ILIAS\UI\Component\Connector as Connector;
 class ComponentConnection implements Connector\ComponentConnection {
 
 	/**
-	 * @var Connector\Triggerer
+	 * @var Component
 	 */
 	protected $triggerer;
 	/**
-	 * @var Connector\Triggerable
+	 * @var Component
 	 */
 	protected $triggered;
 	/**
@@ -30,11 +31,11 @@ class ComponentConnection implements Connector\ComponentConnection {
 
 
 	/**
-	 * @param Connector\Triggerer     $triggerer
+	 * @param Component               $triggerer
 	 * @param Connector\TriggerAction $action
 	 * @param                         $event
 	 */
-	public function __construct(Connector\Triggerer $triggerer, Connector\TriggerAction $action, $event) {
+	public function __construct(Component $triggerer, Connector\TriggerAction $action, $event) {
 		$this->triggerer = $triggerer;
 		$this->action = $action;
 		$this->triggered = $action->getComponent();

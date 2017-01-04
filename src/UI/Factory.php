@@ -314,8 +314,9 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: > The main purpose of the Modals MUST NOT be navigational. But Modals MAY be dialogue of one or two steps and thus
-	 *          encompass "next"-buttons  or the like.
+	 *     1: >
+	 *       The main purpose of the Modals MUST NOT be navigational. But Modals MAY be dialogue of one or two steps and thus
+	 *       encompass "next"-buttons  or the like.
 	 *     2: Modals MUST NOT contain other modals (Modal in Modal).
 	 *     3: Modals SHOULD not be used to perform complex workflows.
 	 *     4: Modals MUST be closable by a little “x”-button on the right side of the header.
@@ -328,7 +329,38 @@ interface Factory {
 
 
 	/**
-	 * @return \ILIAS\UI\Component\Connector\ConnectorFactory;
+	/**
+	 * ---
+	 * description:
+	 *   purpose: What is to be done by this control
+	 *   composition: What happens if the control is operated
+	 *   effect: What happens if the control is operated
+	 *   rivals:
+	 *     Rival 1: What other controls are similar, what is their distinction
+	 *
+	 * background: Relevant academic information
+	 * context: >
+	 *     The context states: where this control is used specifically
+	 *     (this list might not be complete) and how common is this control used
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Where and when an element is to be used or not.
+	 *   interaction:
+	 *     2: How the interaction with this object takes place.
+	 *   wording:
+	 *     3: How the wording of labels or captions must be.
+	 *   style:
+	 *     4: How this element should look like.
+	 *   ordering:
+	 *     5: How different elements of this instance are to be ordered.
+	 *   responsiveness:
+	 *     6: How this element behaves on changing screen sizes
+	 *   accessibility:
+	 *     7: How this element is made accessible
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Connector\Factory
 	 */
 	public function connector();
 

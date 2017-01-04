@@ -15,27 +15,11 @@ abstract class TriggerAction implements \ILIAS\UI\Component\Connector\TriggerAct
 	const EVENT_CHANGE = 'change';
 
 	/**
-	 * @var array
-	 */
-	protected static $events = array(
-		self::EVENT_CLICK,
-		self::EVENT_HOVER,
-		self::EVENT_CHANGE,
-	);
-
-	/**
 	 * The component which is executing this action
 	 *
 	 * @var \ILIAS\UI\Component\Component
 	 */
 	protected $component;
-
-//	/**
-//	 * The event triggering this action
-//	 *
-//	 * @var string
-//	 */
-//	protected $event = self::EVENT_CLICK;
 
 
 	/**
@@ -43,7 +27,6 @@ abstract class TriggerAction implements \ILIAS\UI\Component\Connector\TriggerAct
 	 */
 	public function __construct(\ILIAS\UI\Component\Component $component) {
 		$this->component = $component;
-//		$this->setEvent($event);
 	}
 
 
@@ -54,35 +37,9 @@ abstract class TriggerAction implements \ILIAS\UI\Component\Connector\TriggerAct
 		return $this->component;
 	}
 
-
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function getEvent() {
-//		return $this->event;
-//	}
-
-
-//	/**
-//	 * @inheritdoc
-//	 */
-//	abstract public function getSupportedEvents();
-
-
 	/**
 	 * @inheritdoc
 	 */
 	abstract public function renderJavascript($id);
 
-
-//	/**
-//	 * @inheritdoc
-//	 */
-//	public function setEvent($event) {
-//		if (!in_array($event, $this->getSupportedEvents())) {
-//			throw new \InvalidArgumentException("$event is not supported for action " . get_class() . ", use one of "
-//				. implode(', ', $this->getSupportedEvents()));
-//		}
-//		$this->event = $event;
-//	}
 }
