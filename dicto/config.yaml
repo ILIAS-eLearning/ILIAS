@@ -2,6 +2,13 @@ project:
     root:       "./../"
     storage:    "./results"
     rules:      "./rules"
+reports:
+    -
+        name: "diff"
+        class: "DiffPerRule"
+        target: "php://stdout"
+        config:
+            template: "diff_per_rule_bootstrap"
 analysis:
     ignore:
         - ".*\\.swp"
