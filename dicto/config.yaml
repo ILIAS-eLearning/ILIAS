@@ -9,6 +9,7 @@ reports:
         target: "php://stdout"
         config:
             template: "diff_per_rule_bootstrap"
+            source_url: https://github.com/ILIAS-eLearning/ILIAS/blob/{COMMIT}/{FILE}#L{LINE}
 analysis:
     ignore:
         - ".*\\.swp"
