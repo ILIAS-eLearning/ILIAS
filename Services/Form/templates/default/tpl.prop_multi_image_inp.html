@@ -33,11 +33,11 @@
                 <!-- END addimage -->
             </td>
             <td class="ilValignTop">
-                <button type="button" name="{CMD_ADD}" class="ilWzdBtn_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;">{ADD_BUTTON}</button>
-                <button type="button" name="{CMD_REMOVE}" class="ilWzdBtn_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
+                <button type="button" name="{CMD_ADD}" class="ilWzdBtn_add btn btn-link" id="{ID_ADD}" onclick="javascript: void(0); return false;">{ADD_BUTTON}</button>
+                <button type="button" name="{CMD_REMOVE}" class="ilWzdBtn_remove btn btn-link" id="{ID_REMOVE}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
                 <!-- BEGIN move -->
-                <button type="button" name="{CMD_UP}" class="ilWzdBtn_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
-                <button type="button" name="{CMD_DOWN}" class="ilWzdBtn_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
+                <button type="button" name="{CMD_UP}" class="ilWzdBtn_up btn btn-link" id="{ID_UP}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+                <button type="button" name="{CMD_DOWN}" class="ilWzdBtn_down btn btn-link" id="{ID_DOWN}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
                 <!-- END move -->
             </td>
         </tr>
@@ -46,14 +46,27 @@
     </table>
     <div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
 </div>
+<!-- BEGIN js_engine_initialisation -->
 <script type="application/javascript">
     (function($){
 
         $(document).ready(function() {
 
-            $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend, ilIdentifiedImageWizardInputConcrete).init();
+            $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init({
+                fieldContainerSelector: '.ilWzdContainerImage',
+                reindexingRequiredElementsSelectors: [
+                    'input:hidden[name*="[{ITERATOR}]"]', 'input:hidden[name*="[{STORED_IMAGE_POSTVAR}]"]', 'input:file[id*="__{UPLOAD_IMAGE_POSTVAR}__"]',
+                    'input:submit[name*="[{UPLOAD_CMD}]"]', 'input:submit[name*="[{REMOVE_CMD}]"]', 'button'
+                ],
+               
+                handleRowCleanUpCallback: function(rowElem)
+                {
+                    $(rowElem).find('div.imagepresentation').remove();
+                }
+            });
 
         });
 
     })(jQuery);
 </script>
+<!-- END js_engine_initialisation -->

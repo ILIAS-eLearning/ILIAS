@@ -405,7 +405,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	protected function fetchSubmittedUploadFiles()
 	{
 		$submittedUploadFiles = $this->getFileSubmitDataRestructuredByIdentifiers();
-		$submittedUploadFiles = $this->getFileSubmitsHavingActualUpload($submittedUploadFiles);
+		//$submittedUploadFiles = $this->getFileSubmitsHavingActualUpload($submittedUploadFiles);
 		return $submittedUploadFiles;
 	}
 	
@@ -442,19 +442,16 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	{
 		$submittedUploadFiles = array();
 		
-		foreach( $this->getFileSubmitData() as $uploadProperty => $postField )
+		foreach( $this->getFileSubmitData() as $uploadProperty => $valueElement )
 		{
-			foreach( $postField as $postVariable => $valueElement )
+			foreach( $valueElement as $elementIdentifier => $uploadValue )
 			{
-				foreach( $valueElement as $elementIdentifier => $uploadValue )
+				if( !isset( $submittedUploadFiles[$elementIdentifier] ) )
 				{
-					if( !isset( $submittedUploadFiles[$elementIdentifier] ) )
-					{
-						$submittedUploadFiles[$elementIdentifier] = array();
-					}
-					
-					$submittedUploadFiles[$elementIdentifier][$uploadProperty] = $uploadValue;
+					$submittedUploadFiles[$elementIdentifier] = array();
 				}
+				
+				$submittedUploadFiles[$elementIdentifier][$uploadProperty] = $uploadValue;
 			}
 		}
 		

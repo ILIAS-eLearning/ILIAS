@@ -12,9 +12,13 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  */
 abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
+	const RENDERING_TEMPLATE = 'tpl.prop_multi_image_inp.html';
+	
 	const ITERATOR_SUBFIELD_NAME = 'iteratorfield';
 	const STORED_IMAGE_SUBFIELD_NAME = 'storedimage';
 	const IMAGE_UPLOAD_SUBFIELD_NAME = 'imageupload';
+	
+	const FILE_DATA_INDEX_DODGING_FILE = 'dodging_file';
 	/**
 	 * @var bool
 	 */
@@ -50,6 +54,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
 		require_once 'Services/Form/classes/class.ilMultipleImagesAdditionalIndexLevelRemover.php';
 		$manipulator = new ilMultipleImagesAdditionalIndexLevelRemover();
+		$manipulator->setPostVar($this->getPostVar());
+		$this->addFormValuesManipulator($manipulator);
+
+		require_once 'Services/Form/classes/class.ilMultipleImagesFileSubmissionDataCompletion.php';
+		$manipulator = new ilMultipleImagesFileSubmissionDataCompletion();
+		$manipulator->setPostVar($this->getPostVar());
 		$this->addFormValuesManipulator($manipulator);
 		
 		require_once 'Services/Form/classes/class.ilIdentifiedMultiFilesJsPositionIndexRemover.php';
@@ -163,12 +173,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		$lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
 		$F = $_FILES[$this->getPostVar()];
 		
-		if( $this->getRequired() && !is_array($F['error'][self::IMAGE_UPLOAD_SUBFIELD_NAME]) )
+		if( $this->getRequired() && !is_array($F['error']) )
 		{
 			$this->setAlert($lng->txt("form_msg_file_no_upload"));
 			return false;
 		}
-		else foreach( $F['error'][self::IMAGE_UPLOAD_SUBFIELD_NAME] as $index => $error )
+		else foreach( $F['error'] as $index => $error )
 		{
 			// error handling
 			if ($error > 0)
@@ -191,12 +201,16 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 						break;
 					
 					case UPLOAD_ERR_NO_FILE:
-						$storedImageFilename = (string)$_POST[$this->getPostVar()][self::STORED_IMAGE_SUBFIELD_NAME];
-						if( $this->getRequired() && !strlen($storedImageFilename) )
+						if( !$this->getRequired() )
 						{
-							$this->setAlert($lng->txt("form_msg_file_no_upload"));
-							return false;
+							break;
 						}
+						elseif( strlen($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) )
+						{
+							break;
+						}
+						$this->setAlert($lng->txt("form_msg_file_no_upload"));
+						return false;
 						break;
 					
 					case UPLOAD_ERR_NO_TMP_DIR:
@@ -217,15 +231,15 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			}
 		}
 		
-		if (is_array($F['tmp_name'][self::IMAGE_UPLOAD_SUBFIELD_NAME]))
+		if (is_array($F['tmp_name']))
 		{
-			foreach ($F['tmp_name'][self::IMAGE_UPLOAD_SUBFIELD_NAME] as $index => $tmpname)
+			foreach ($F['tmp_name'] as $index => $tmpname)
 			{
-				$filename = $F['name'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+				$filename = $F['name'][$index];
 				$filename_arr = pathinfo($filename);
 				$suffix = $filename_arr["extension"];
-				$mimetype = $F['type'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
-				$size_bytes = $F['size'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+				$mimetype = $F['type'][$index];
+				$size_bytes = $F['size'][$index];
 				// check suffixes
 				if (strlen($tmpname) && is_array($this->getSuffixes()))
 				{
@@ -238,13 +252,13 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			}
 		}
 		
-		foreach ($F['tmp_name'][self::IMAGE_UPLOAD_SUBFIELD_NAME] as $index => $tmpname)
+		foreach ($F['tmp_name'] as $index => $tmpname)
 		{
-			$filename = $F['name'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+			$filename = $F['name'][$index];
 			$filename_arr = pathinfo($filename);
 			$suffix = $filename_arr["extension"];
-			$mimetype = $F['type'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
-			$size_bytes = $F['size'][self::IMAGE_UPLOAD_SUBFIELD_NAME][$index];
+			$mimetype = $F['type'][$index];
+			$size_bytes = $F['size'][$index];
 			// virus handling
 			if (strlen($tmpname))
 			{
@@ -267,7 +281,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	{
 		global $lng;
 		
-		$tpl = new ilTemplate("tpl.prop_multi_image_inp.html", true, true, "Services/Form");
+		$tpl = $this->getTemplate();
 		$i = 0;
 		foreach ($this->getMultiValues() as $identifier => $value)
 		{
@@ -300,9 +314,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			if( $this->isEditElementOrderEnabled() )
 			{
 				$tpl->setCurrentBlock("move");
+				$tpl->setVariable("ID_UP", $this->getMultiValuePosIndexedSubFieldId($identifier, 'up', $i));
+				$tpl->setVariable("ID_DOWN", $this->getMultiValuePosIndexedSubFieldId($identifier, 'down', $i));
 				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
 				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
-				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
 				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
 				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
@@ -311,6 +326,8 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 			if( $this->isEditElementOccuranceEnabled() )
 			{
 				$tpl->setCurrentBlock("row");
+				$tpl->setVariable("ID_ADD", $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
+				$tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
 				$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
 				$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
 				$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
@@ -350,10 +367,18 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		if (!$this->getDisabled())
 		{
+			$tpl->setCurrentBlock('js_engine_initialisation');
+			$tpl->setVariable('UPLOAD_CMD', $this->getImageUploadCommand());
+			$tpl->setVariable('REMOVE_CMD', $this->getImageRemovalCommand());
+			$tpl->setVariable('ITERATOR', self::ITERATOR_SUBFIELD_NAME);
+			$tpl->setVariable('STORED_IMAGE_POSTVAR', self::STORED_IMAGE_SUBFIELD_NAME);
+			$tpl->setVariable('UPLOAD_IMAGE_POSTVAR', self::IMAGE_UPLOAD_SUBFIELD_NAME);
+			$tpl->parseCurrentBlock();
+
 			$globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
 			$globalTpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 			$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
-			$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedImageWizardInputConcrete.js");
+			//$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedImageWizardInputConcrete.js");
 		}
 		
 		return $tpl->get();
@@ -402,5 +427,13 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		}
 		
 		return $this->fetchContentImageSourceFromValue($value);
+	}
+	
+	/**
+	 * @return ilTemplate
+	 */
+	protected function getTemplate()
+	{
+		return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "Services/Form");
 	}
 }

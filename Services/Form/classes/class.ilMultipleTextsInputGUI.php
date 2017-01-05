@@ -123,6 +123,8 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 			if ($this->isEditElementOrderEnabled())
 			{
 				$tpl->setCurrentBlock("move");
+				$tpl->setVariable("ID_UP", $this->getMultiValuePosIndexedSubFieldId($identifier, 'up', $i));
+				$tpl->setVariable("ID_DOWN", $this->getMultiValuePosIndexedSubFieldId($identifier, 'down', $i));
 				$tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
 				$tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
 				$tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
@@ -142,8 +144,10 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 				$tpl->setVariable("DISABLED",
 					" disabled=\"disabled\"");
 			}
-			else
+			elseif( $this->isEditElementOccuranceEnabled() )
 			{
+				$tpl->setVariable("ID_ADD", $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
+				$tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
 				$tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
 				$tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
 				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
@@ -158,10 +162,13 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		if (!$this->getDisabled())
 		{
+			$tpl->setCurrentBlock('js_engine_initialisation');
+			$tpl->touchBlock('js_engine_initialisation');
+			$tpl->parseCurrentBlock();
+			
 			$globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
 			$globalTpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 			$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
-			$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedTextWizardInputConcrete.js");
 		}
 		
 		return $tpl->get();
