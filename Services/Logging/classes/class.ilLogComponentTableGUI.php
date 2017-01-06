@@ -89,8 +89,8 @@ class ilLogComponentTableGUI extends ilTable2GUI
 			}
 			
 			ilLoggerFactory::getLogger('log')->debug($component->getComponentId());
-			$row['level'] = ($component->getLevel() ? $component->getLevel() : $this->getSettings()->getLevel());
-			
+			$row['level'] = (int) $component->getLevel();
+
 			$rows[] = $row;
 		}
 		
@@ -117,13 +117,13 @@ class ilLogComponentTableGUI extends ilTable2GUI
 
 		$default_option_value = ilLoggingDBSettings::getInstance()->getLevel();
 		$array_options = ilLogLevel::getLevelOptions();
-		$default_option = array( $default_option_value => $GLOBALS['lng']->txt('default')." (".$array_options[$default_option_value].")");
+		$default_option = array( 0 => $GLOBALS['lng']->txt('default')." (".$array_options[$default_option_value].")");
 		$array_options = $default_option + $array_options;
 
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$levels = new ilSelectInputGUI('', 'level['.$a_set['id'].']');
 		$levels->setOptions($array_options);
-		$levels->setValue($a_set['level']);
+		$levels->setValue((int) $a_set['level']);
 		
 		$this->tpl->setVariable('C_SELECT_LEVEL',$levels->render());
 
