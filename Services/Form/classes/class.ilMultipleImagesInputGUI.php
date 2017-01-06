@@ -390,7 +390,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	protected function valueHasContentImageSource($value)
 	{
-		return isset($value['src']);
+		return isset($value['src']) && strlen($value['src']);
 	}
 	
 	/**
@@ -413,7 +413,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	protected function valueHasContentImageTitle($value)
 	{
-		return isset($value['title']);
+		return isset($value['title']) && strlen($value['title']);
 	}
 	
 	/**

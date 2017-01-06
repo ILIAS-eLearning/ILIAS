@@ -436,7 +436,7 @@ abstract class assQuestionGUI
 	/**
 	* get question template
 	*/
-	function getQuestionTemplate()
+	public function getQuestionTemplate()
 	{
 		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
 		if(!$this->tpl->blockExists('content'))
@@ -453,6 +453,15 @@ abstract class assQuestionGUI
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
 		}
+	}
+	
+	/**
+	 * @param $form
+	 */
+	protected function renderEditForm($form)
+	{
+		$this->getQuestionTemplate();
+		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 	}
 
 	/**

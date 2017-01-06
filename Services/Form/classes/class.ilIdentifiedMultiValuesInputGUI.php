@@ -12,8 +12,18 @@ require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
  */
 abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
 {
-	protected $formValuesManipulationChain = array();
+	const ELEMENT_DEFAULT_ADD_CMD = 'addElement';
+	const ELEMENT_DEFAULT_REMOVE_CMD = 'removeElement';
+	const ELEMENT_DEFAULT_MOVE_UP_CMD = 'moveUpElement';
+	const ELEMENT_DEFAULT_MOVE_DOWN_CMD = 'moveDownElement';
 	
+	protected $elementAddCmd = self::ELEMENT_DEFAULT_ADD_CMD;
+	protected $elementRemoveCmd = self::ELEMENT_DEFAULT_REMOVE_CMD;
+	protected $elementMoveUpCommand = self::ELEMENT_DEFAULT_MOVE_UP_CMD;
+	protected $elementMoveDownCommand = self::ELEMENT_DEFAULT_MOVE_DOWN_CMD;
+	
+	protected $formValuesManipulationChain = array();
+
 	public function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
@@ -25,6 +35,49 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		$this->addFormValuesManipulator(new ilIdentifiedMultiValuesJsPositionIndexRemover());
 		
 		//$this->setMulti(true); // this is another planet, do not enable (!)
+	}
+	
+	public function getElementAddCmd()
+	{
+		return $this->elementAddCmd;
+	}
+	
+	/**
+	 * @param string $elementAddCmd
+	 */
+	public function setElementAddCmd($elementAddCmd)
+	{
+		$this->elementAddCmd = $elementAddCmd;
+	}
+	
+	public function getElementRemoveCmd()
+	{
+		return $this->elementRemoveCmd;
+	}
+	
+	public function setElementRemoveCmd($elementRemoveCmd)
+	{
+		$this->elementRemoveCmd = $elementRemoveCmd;
+	}
+	
+	public function getElementMoveUpCommand()
+	{
+		return $this->elementMoveUpCommand;
+	}
+	
+	public function setElementMoveUpCommand($elementMoveUpCommand)
+	{
+		$this->elementMoveUpCommand = $elementMoveUpCommand;
+	}
+	
+	public function getElementMoveDownCommand()
+	{
+		return $this->elementMoveDownCommand;
+	}
+	
+	public function setElementMoveDownCommand($elementMoveDownCommand)
+	{
+		$this->elementMoveDownCommand = $elementMoveDownCommand;
 	}
 	
 	public function setValues($values)

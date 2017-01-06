@@ -795,7 +795,17 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	
 	public function isImageFileStored($imageFilename)
 	{
-		return file_exists($this->getImagePath().$imageFilename);
+		if( !strlen($imageFilename) )
+		{
+			return false;
+		}
+		
+		if( !file_exists($this->getImagePath().$imageFilename) )
+		{
+			return false;
+		}
+		
+		return is_file($this->getImagePath().$imageFilename);
 	}
 	
 	public function isImageReplaced(ilAssOrderingElement $newElement, ilAssOrderingElement $oldElement)
@@ -1196,6 +1206,32 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
+	 * @return ilAssNestedOrderingElementsInputGUI|ilAssOrderingImagesInputGUI|ilAssOrderingTextsInputGUI
+	 * @throws ilTestQuestionPoolException
+	 */
+	public function buildOrderingElementInputGui()
+	{
+		switch( $this->getOrderingType() )
+		{
+			case OQ_TERMS:
+				
+				return $this->buildOrderingTextsInputGui();
+				
+			case OQ_PICTURES:
+				
+				return $this->buildOrderingImagesInputGui();
+			
+			case OQ_NESTED_TERMS:
+			case OQ_NESTED_PICTURES:
+				
+				return $this->buildNestedOrderingElementInputGui();
+				
+			default:
+				throw new ilTestQuestionPoolException('unknown ordering mode');
+		}
+	}
+
+	/**
 	 * @param ilAssOrderingTextsInputGUI|ilAssOrderingImagesInputGUI|ilAssNestedOrderingElementsInputGUI $formField
 	 */
 	public function initOrderingElementAuthoringProperties(ilFormPropertyGUI $formField)
@@ -1228,24 +1264,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 	
 	/**
-	 * @return ilAssOrderingFormValuesObjectsConverter
-	 */
-	protected function buildOrderingElementFormDataConverter()
-	{
-		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
-		$converter = new ilAssOrderingFormValuesObjectsConverter();
-		$converter->setPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
-		
-		return $converter;
-	}
-	
-	/**
 	 * @return ilAssOrderingTextsInputGUI
 	 */
 	public function buildOrderingTextsInputGui()
 	{
-		$formDataConverter = $this->buildOrderingElementFormDataConverter();
-		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
+		$formDataConverter = $this->buildOrderingTextsFormDataConverter();
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
 		
@@ -1263,17 +1286,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function buildOrderingImagesInputGui()
 	{
-		$formDataConverter = $this->buildOrderingElementFormDataConverter();
-		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_IMAGE);
-		
-		$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
-		$formDataConverter->setImageUrlPath($this->getImagePathWeb());
-		$formDataConverter->setImageFsPath($this->getImagePath());
-		
-		if( $this->getThumbSize() && $this->getThumbPrefix() )
-		{
-			$formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
-		}
+		$formDataConverter = $this->buildOrderingImagesFormDataConverter();
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
 		
@@ -1294,19 +1307,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function buildNestedOrderingElementInputGui()
 	{
-		$formDataConverter = $this->buildOrderingElementFormDataConverter();
-		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
-		
-		if( $this->getOrderingType() == OQ_NESTED_PICTURES )
-		{
-			$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
-			$formDataConverter->setImageUrlPath($this->getImagePathWeb());
-			
-			if( $this->getThumbSize() && $this->getThumbPrefix() )
-			{
-				$formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
-			}
-		}
+		$formDataConverter = $this->buildNestedOrderingFormDataConverter();
 		
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
 		
@@ -1666,5 +1667,69 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		
 		return $solutionSubmit;
+	}
+	
+	/**
+	 * @return ilAssOrderingFormValuesObjectsConverter
+	 */
+	protected function buildOrderingElementFormDataConverter()
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
+		$converter = new ilAssOrderingFormValuesObjectsConverter();
+		$converter->setPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
+		
+		return $converter;
+	}
+	
+	/**
+	 * @return ilAssOrderingFormValuesObjectsConverter
+	 */
+	protected function buildOrderingImagesFormDataConverter()
+	{
+		$formDataConverter = $this->buildOrderingElementFormDataConverter();
+		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_IMAGE);
+		
+		$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
+		$formDataConverter->setImageUrlPath($this->getImagePathWeb());
+		$formDataConverter->setImageFsPath($this->getImagePath());
+		
+		if( $this->getThumbSize() && $this->getThumbPrefix() )
+		{
+			$formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
+			return $formDataConverter;
+		}
+		return $formDataConverter;
+	}
+	
+	/**
+	 * @return ilAssOrderingFormValuesObjectsConverter
+	 */
+	protected function buildOrderingTextsFormDataConverter()
+	{
+		$formDataConverter = $this->buildOrderingElementFormDataConverter();
+		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
+		return $formDataConverter;
+	}
+	
+	/**
+	 * @return ilAssOrderingFormValuesObjectsConverter
+	 */
+	protected function buildNestedOrderingFormDataConverter()
+	{
+		$formDataConverter = $this->buildOrderingElementFormDataConverter();
+		$formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
+		
+		if( $this->getOrderingType() == OQ_NESTED_PICTURES )
+		{
+			$formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
+			$formDataConverter->setImageUrlPath($this->getImagePathWeb());
+			
+			if( $this->getThumbSize() && $this->getThumbPrefix() )
+			{
+				$formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
+			}
+		}
+		
+		return $formDataConverter;
 	}
 }

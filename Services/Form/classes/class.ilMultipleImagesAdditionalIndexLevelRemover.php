@@ -71,11 +71,6 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 		return $this->isSubFieldAvailable($values, ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME);
 	}
 	
-	protected function isStoredImageSubfieldAvailable($values)
-	{
-		return $this->isSubFieldAvailable($values, ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME);
-	}
-	
 	protected function isUploadSubfieldAvailable($values)
 	{
 		return $this->isSubFieldAvailable($values, ilMultipleImagesInputGUI::IMAGE_UPLOAD_SUBFIELD_NAME);
@@ -83,7 +78,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 	
 	protected function removeAdditionalSubFieldsLevelFromSubmitValues($values)
 	{
-		if( !$this->isIteratorSubfieldAvailable($values) || !$this->isStoredImageSubfieldAvailable($values) )
+		if( !$this->isIteratorSubfieldAvailable($values) )
 		{
 			return $values;
 		}

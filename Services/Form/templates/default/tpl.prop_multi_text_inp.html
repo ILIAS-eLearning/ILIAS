@@ -21,11 +21,11 @@
 
         $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init({
             fieldContainerSelector: '.ilWzdContainerText',
-            reindexingRequiredElementsSelectors: ['input:text', 'input:checkbox', 'button'],
+            reindexingRequiredElementsSelectors: ['input:text', 'button'],
            
             handleRowCleanUpCallback: function(rowElem)
             {
-                $(row).find('input:text').val('');
+                $(rowElem).find('input:text').val('');
             }
         });
 
