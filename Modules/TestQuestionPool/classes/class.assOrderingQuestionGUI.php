@@ -184,13 +184,16 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if( $orderingInput->checkInput() )
 		{
 			$this->writeAnswerSpecificPostData($form);
+			$this->object->getOrderingElementList()->saveToDb();
+			
+			$orderingInput->setElementList($this->object->getOrderingElementList());
 		}
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+			$orderingInput->setElementList($orderingInput->getElementList());
 		}
 		
-		$orderingInput->setElementList( $this->object->getOrderingElementList() );
 		$this->renderEditForm($form);
 	}
 
@@ -465,8 +468,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		$this->populateTaxonomyFormSection($form);
 		
-		$form->addGenericAssessmentQuestionCommandButtons($this->object);
 		$form->addSpecificOrderingQuestionCommandButtons($this->object);
+		$form->addGenericAssessmentQuestionCommandButtons($this->object);
 		
 		return $form;
 	}
