@@ -12,6 +12,9 @@ require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 
 abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
+	const POSTVAR_SUBFIELD_NEST_ELEM = 'content';
+	const POSTVAR_SUBFIELD_NEST_INDENT = 'indentation';
+	
 	const DEFAULT_INSTANCE_ID = 'default';
 	
 	protected $instanceId = self::DEFAULT_INSTANCE_ID;
@@ -117,13 +120,29 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 
 	protected function renderListItem($value, $identifier, $position)
 	{
+		$subPostVar = $this->getMultiValuePostVarSubField($identifier, self::POSTVAR_SUBFIELD_NEST_ELEM);
+		$subFieldId = $this->getMultiValueSubFieldId($identifier, self::POSTVAR_SUBFIELD_NEST_ELEM);
+	
 		$this->getListTpl()->setCurrentBlock('item_value');
-		$this->getListTpl()->setVariable('LIST_ITEM_VALUE', $this->getItemHtml($value, $identifier, $position));
+		
+		$this->getListTpl()->setVariable('LIST_ITEM_VALUE', $this->getItemHtml(
+			$value, $identifier, $position, $subPostVar, $subFieldId
+		));
+		
 		$this->getListTpl()->parseCurrentBlock();
+		
 		$this->renderListSnippet();
 	}
-
-	abstract protected function getItemHtml($value, $identifier, $position);
+	
+	/**
+	 * @param $value
+	 * @param $identifier
+	 * @param $position
+	 * @param $itemSubFieldPostVar
+	 * @param $itemSubFieldId
+	 * @return mixed
+	 */
+	abstract protected function getItemHtml($value, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId);
 	
 	protected function renderBeginListItem($identifier)
 	{

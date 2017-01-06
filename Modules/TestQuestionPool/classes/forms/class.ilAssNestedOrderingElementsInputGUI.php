@@ -315,9 +315,11 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	 * @param ilAssOrderingElement $element
 	 * @param string $identifier
 	 * @param iunteger $position
+	 * @param string $itemSubFieldPostVar
+	 * @param string $itemSubFieldId
 	 * @return string
 	 */
-	protected function getItemHtml($element, $identifier, $position)
+	protected function getItemHtml($element, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId)
 	{
 		$tpl = $this->getItemTemplate();
 		
@@ -350,8 +352,8 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 		}
 		
 		$tpl->setCurrentBlock('item');
-		$tpl->setVariable("ITEM_ID", $this->getMultiValueSubFieldId($identifier, 'content'));
-		$tpl->setVariable("ITEM_POSTVAR", $this->getMultiValuePostVarSubField($identifier, 'content'));
+		$tpl->setVariable("ITEM_ID", $itemSubFieldId);
+		$tpl->setVariable("ITEM_POSTVAR", $itemSubFieldPostVar);
 		$tpl->setVariable("ITEM_CONTENT", ilUtil::prepareFormOutput($element['content']));
 		$tpl->parseCurrentBlock();
 
