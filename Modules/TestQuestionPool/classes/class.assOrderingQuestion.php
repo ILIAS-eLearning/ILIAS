@@ -343,9 +343,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
-			foreach ( $this->orderElements as $answer)
+			foreach($this->getOrderingElementList() as $element)
 			{
-				$filename = $answer->getAnswertext();
+				$filename = $element->getContent();
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
 					$ilLog->write("image could not be duplicated!!!!");
@@ -372,12 +372,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
-			foreach ( $this->orderElements as $answer)
+			foreach($this->getOrderingElementList() as $element)
 			{
-				$filename = $answer->getAnswertext();
+				$filename = $element->getContent();
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
-					$ilLog->write("Ordering Question image could not be copied: $imagepath_original$filename");
+					$ilLog->write("Ordering Question image could not be copied: ${imagepath_original}${filename}");
 				}
 				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
 				{
