@@ -180,7 +180,7 @@ class ilDataCollectionRecordField {
 	 * @param $form ilPropertyFormGUI
 	 */
 	public function setValueFromForm(&$form) {
-		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+		if (in_array($this->field->getDatatypeId(), array(ilDataCollectionDatatype::INPUTFORMAT_MOB, ilDataCollectionDatatype::INPUTFORMAT_FILE))
 			&& $form->getItemByPostVar("field_" . $this->field->getId())->getDeletionFlag()
 		) {
 			$value = - 1;
