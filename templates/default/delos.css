@@ -6222,6 +6222,12 @@ button.close {
   padding: 2px 4px;
   visibility: hidden;
 }
+.il-panel-report .thumbnail {
+  margin-bottom: 0;
+}
+.il-panel-report > .panel-body > .panel {
+  margin-bottom: 10px;
+}
 .il-card {
   padding: 0px;
 }

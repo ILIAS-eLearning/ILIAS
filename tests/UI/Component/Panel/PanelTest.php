@@ -134,12 +134,12 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$expected_html =
 				"<div class=\"panel panel-primary\">".
 				"   <div class=\"panel-heading ilBlockHeader\">".
-				"       <h3 class=\"ilBlockHeader\">Title</h3>".
+				"       <h4>Title</h4>".
 				"   </div>".
 				"   <div class=\"panel-body\"><div class=\"row\">".
 				"       <div class=\"col-sm-8\"></div>".
 				"       <div class=\"col-sm-4\">".
-				"           <div class=\"il-card thumbnail\"><div class=\"caption\"><h2 class=\"card-title\">Card Title</h2></div></div>".
+				"           <div class=\"il-card thumbnail\"><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>".
 				"       </div>".
 				"   </div></div>".
 				"</div>";
@@ -158,19 +158,20 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$html = $r->render($report);
 
 		$expected_html =
-				"<div class=\"panel panel-primary\">".
+				"<div class=\"panel panel-primary il-panel-report\">".
 				"   <div class=\"panel-heading ilHeader\">".
-				"       <h3 class=\"ilHeader\">Title</h3>".
+				"<h3 class=\"ilHeader\">Title</h3>".
 				"   </div>".
 				"   <div class=\"panel-body\">".
-				"       <div class=\"panel panel-primary\">".
+				"
+             <div class=\"panel panel-primary\">".
 				"           <div class=\"panel-heading ilBlockHeader\">".
-				"               <h3 class=\"ilBlockHeader\">Title</h3>".
+				"               <h4>Title</h4>".
 				"           </div>".
 				"           <div class=\"panel-body\"><div class=\"row\">".
 				"               <div class=\"col-sm-8\"></div>".
 				"               <div class=\"col-sm-4\">".
-				"                   <div class=\"il-card thumbnail\"><div class=\"caption\"><h2 class=\"card-title\">Card Title</h2></div></div>".
+				"                   <div class=\"il-card thumbnail\"><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>".
 				"               </div>".
 				"           </div></div>".
 				"       </div>".
