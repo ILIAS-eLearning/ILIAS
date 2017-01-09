@@ -112,7 +112,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('VAL_SCORED', $row['scored'] ? '&otimes;' : '');
 			}
 			
-			$this->tpl->setVariable('VAL_PASS', $row['pass'] + 1);
+			$this->tpl->setVariable('VAL_PASS', $this->getPassNumberPresentation($row['pass']));
 		}
 		
 		$this->tpl->setVariable('VAL_DATE', $this->formatDate($row['date']));
@@ -122,7 +122,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_LO_OBJECTIVES', $row['objectives']);
 			
 			$this->tpl->setVariable('VAL_LO_TRY', sprintf(
-				$this->lng->txt('tst_res_lo_try_n'), $row['pass']
+				$this->lng->txt('tst_res_lo_try_n'), $this->getPassNumberPresentation($row['pass'])
 			));
 		}
 
@@ -361,5 +361,14 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, 'pass', '');
 
 		return $html;
+	}
+	
+	/**
+	 * @param integer $pass
+	 * @return mixed
+	 */
+	protected function getPassNumberPresentation($pass)
+	{
+		return $pass + 1;
 	}
 }
