@@ -51,6 +51,8 @@ interface Factory {
 	 *      If there are actions possible to perform on the appointment they
 	 *      are listed in a dropdown on the right.
 	 *   effect: >
+	 *      The title may open the details of the appointment on click in a
+	 *      round-trip modal is such details are available.
 	 *      The description is blended out if larger than two lines.
 	 *      On small screen sizes, the description and metadata (except for the
 	 *      location) is blended out completely. It is shown once the user
