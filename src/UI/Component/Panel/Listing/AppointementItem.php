@@ -23,13 +23,13 @@ interface AppointmentItem extends \ILIAS\UI\Component\Component {
 	 */
 	public function getFrom();
 
-	/***
+	/**
 	 * Get the ending point of the appointment.
 	 * @return ilDateTime
 	 */
 	public function getEnd();
 
-	/***
+	/**
 	 * Get the color of the calendar containing the item as color code (hex).
 	 * @return string
 	 */
