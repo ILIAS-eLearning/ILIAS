@@ -21,6 +21,8 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	
 	protected $interactionEnabled = true;
 	
+	protected $nestingEnabled = true;
+	
 	protected $stylingDisabled = false;
 	
 	protected $listTpl = null;
@@ -52,6 +54,16 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	public function isInteractionEnabled()
 	{
 		return $this->interactionEnabled;
+	}
+	
+	public function isNestingEnabled()
+	{
+		return $this->nestingEnabled;
+	}
+	
+	public function setNestingEnabled($nestingEnabled)
+	{
+		$this->nestingEnabled = $nestingEnabled;
 	}
 	
 	public function isStylingDisabled()
@@ -204,8 +216,15 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 		{
 			$identifier = $keys[$counter];
 			
-			$curIndent = $this->getCurrentIndentation($values, $counter);
-			$nextIndent = $this->getNextIndentation($values, $counter);
+			if( $this->isNestingEnabled() )
+			{
+				$curIndent = $this->getCurrentIndentation($values, $counter);
+				$nextIndent = $this->getNextIndentation($values, $counter);
+			}
+			else
+			{
+				$curIndent = $nextIndent = 0;
+			}
 			
 			if($prevIndent == $curIndent)
 			{
@@ -358,6 +377,13 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	protected function renderJsInit()
 	{
 		$jsTpl = new ilTemplate('tpl.prop_nested_ordering_js.html', true, true, 'Services/Form');
+		
+		if( !$this->isNestingEnabled() )
+		{
+			$jsTpl->setCurrentBlock('avoid_nesting');
+			$jsTpl->touchBlock('avoid_nesting');
+			$jsTpl->parseCurrentBlock();
+		}
 		
 		$jsTpl->setCurrentBlock('nested_ordering_init');
 		$jsTpl->setVariable('INSTANCE_ID', $this->getInstanceId());

@@ -388,24 +388,28 @@ class ilScoringAdjustmentGUI
 	}
 
 	/**
-	 * @param $question
+	 * @param assQuestionGUI $question
 	 * @param $form
 	 */
 	protected function populateScoringAdjustments( $question, $form )
 	{
+		$question->setAdjustmentEditContext();
+		
 		if ( $question instanceof ilGuiQuestionScoringAdjustable )
 		{
-			$question->populateQuestionSpecificFormPart( $form );
-			$this->suppressPostParticipationFormElements( $form,
-														  $question->getAfterParticipationSuppressionQuestionPostVars()
+			$question->populateQuestionSpecificFormPart($form);
+			
+			$this->suppressPostParticipationFormElements(
+				$form, $question->getAfterParticipationSuppressionQuestionPostVars()
 			);
 		}
 
 		if ( $question instanceof ilGuiAnswerScoringAdjustable )
 		{
-			$question->populateAnswerSpecificFormPart( $form );
-			$this->suppressPostParticipationFormElements( $form,
-														  $question->getAfterParticipationSuppressionAnswerPostVars()
+			$question->populateAnswerSpecificFormPart($form);
+			
+			$this->suppressPostParticipationFormElements(
+				$form, $question->getAfterParticipationSuppressionAnswerPostVars()
 			);
 		}
 	}

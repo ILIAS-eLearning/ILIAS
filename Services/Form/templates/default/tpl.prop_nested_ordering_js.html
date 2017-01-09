@@ -2,7 +2,7 @@
 <script language="JavaScript" type="text/javascript"> var updateOutput__{INSTANCE_ID};
 (function($) { $(document).ready(function () {
 
-    updateOutput__{INSTANCE_ID} = function (e)
+    fetchIndentations__{INSTANCE_ID} = function (e)
     {
         var containerSelector = 'div#nestable__{INSTANCE_ID}';
         var items = [], indent = 0, selektor = containerSelector + ' ';
@@ -19,7 +19,6 @@
                 function(pos, item)
                 {
                     var val = $(item).attr('data-id');
-                    console.log(item, val, indent);
 
                     found = true;
                    
@@ -32,27 +31,18 @@
             indent++;
          }
         while(found);
-
-        return;
-        
-        var list = e.length ? e : $(e.target),
-        output = list.data('output');
-        console.log(output);return;
-        if( window.JSON )
-        {
-            output.val(window.JSON.stringify(list.nestable('serialize')));
-        } 
     };
     
     // activate Nestable for list 
     $('#nestable__{INSTANCE_ID}').nestable({
+        <!-- BEGIN avoid_nesting -->maxDepth: 1,<!-- END avoid_nesting -->
         group:1,
         expandBtnHTML:'',
         collapseBtnHTML:''
-    }).on('change', updateOutput__{INSTANCE_ID});
+    }).on('change', fetchIndentations__{INSTANCE_ID});
     
     // output initial serialized data
-    updateOutput__{INSTANCE_ID}($('#nestable__{INSTANCE_ID}').data('output', $('#answers_ordering__{INSTANCE_ID}')));
+    fetchIndentations__{INSTANCE_ID}($('#nestable__{INSTANCE_ID}'));
     
 }); })(jQuery);
 </script>

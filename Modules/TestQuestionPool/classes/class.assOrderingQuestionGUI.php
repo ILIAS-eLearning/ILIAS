@@ -191,7 +191,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-			$orderingInput->setElementList($orderingInput->getElementList());
+			$orderingInput->setElementList($orderingInput->getElementList($this->object->getId()));
 		}
 		
 		$this->renderEditForm($form);
@@ -258,11 +258,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				
 				$submittedElement->setSolutionIdentifier($storedElement->getSolutionIdentifier());
 				
-				if( $this->object->isOrderingTypeNested() )
+				if( $this->isAdjustmentEditContext() || $this->object->isOrderingTypeNested() )
 				{
 					$submittedElement->setContent($storedElement->getContent());
 				}
-				else
+				
+				if( !$this->object->isOrderingTypeNested() )
 				{
 					$submittedElement->setIndentation($storedElement->getIndentation());
 				}
@@ -299,24 +300,18 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt('oq_header_ordering_elements'));
 		$form->addItem($header);
-
-		if( $this->object->getOrderingType() == OQ_PICTURES )
-		{
-			$orderingElementInput = $this->object->buildOrderingImagesInputGui();
-			$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
-		}
-		elseif( $this->object->getOrderingType() == OQ_TERMS )
-		{
-			$orderingElementInput = $this->object->buildOrderingTextsInputGui();
-			$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
-		}
-		else // OQ_NESTED_TERMS, OQ_NESTED_PICTURES
+		
+		if( $this->isAdjustmentEditContext() )
 		{
 			$orderingElementInput = $this->object->buildNestedOrderingElementInputGui();
-			$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
-			
-			$orderingElementInput->setStylingDisabled($this->isPdfOutputMode());
 		}
+		else
+		{
+			$orderingElementInput = $this->object->buildOrderingElementInputGui();
+		}
+		
+		$orderingElementInput->setStylingDisabled($this->isPdfOutputMode());
+		$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 		
 		$orderingElementInput->setElementList( $this->object->getOrderingElementList() );
 		
@@ -571,7 +566,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		if( $this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution() )
 		{
-			$solutionOrderingElementList = $this->object->getSolutionOrderingElementList(
+			$solutionOrderingElementList = unserialize(
 				$this->getPreviewSession()->getParticipantsSolution()
 			);
 		}
@@ -581,6 +576,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		
 		$answers = $this->object->buildNestedOrderingElementInputGui();
+		$answers->setNestingEnabled($this->object->isOrderingTypeNested());
 		$answers->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_QUESTION_PREVIEW);
 		$answers->setInteractionEnabled($this->isUserInputOutputMode());
 		$answers->setElementList($solutionOrderingElementList);
@@ -606,6 +602,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function getTestOutput($activeId, $pass = NULL, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
 	{
 		$orderingGUI = $this->object->buildNestedOrderingElementInputGui();
+		$orderingGUI->setNestingEnabled($this->object->isOrderingTypeNested());
 		
 		$solutionOrderingElementList = $this->object->getSolutionOrderingElementListForTestOutput(
 			$orderingGUI, $userSolutionPost, $activeId, $pass
@@ -716,20 +713,33 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			return '';
 		}
 
-		$output = '<table class="test_specific_feedback"><tbody>';
-
-		foreach( $this->object->getOrderElements() as $idx => $answer)
+		$tpl = new ilTemplate('tpl.il_as_qpl_ordering_elem_fb.html', true, true, 'Modules/TestQuestionPool');
+		
+		foreach( $this->object->getOrderingElementList() as $element)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(), $idx
+				$this->object->getId(), $element->getPosition()
 			);
-
-			$output .= "<tr><td>{$answer->getAnswerText()}</td><td>{$feedback}</td></tr>";
+			
+			if( $this->object->isImageOrderingType() )
+			{
+				$imgSrc = $this->object->getImagePathWeb().$element->getContent();
+				$tpl->setCurrentBlock('image');
+				$tpl->setVariable('IMG_SRC', $imgSrc);
+			}
+			else
+			{
+				$tpl->setCurrentBlock('text');
+			}
+			$tpl->setVariable('CONTENT', $element->getContent());
+			$tpl->parseCurrentBlock();
+			
+			$tpl->setCurrentBlock('element');
+			$tpl->setVariable('FEEDBACK', $feedback);
+			$tpl->parseCurrentBlock();
 		}
 
-		$output .= '</tbody></table>';
-
-		return $this->object->prepareTextareaOutput($output, TRUE);
+		return $this->object->prepareTextareaOutput($tpl->get(), TRUE);
 	}
 	
 	private function getDepthRecursive($child, $ordering_depth)
@@ -777,6 +787,23 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->writeQuestionSpecificPostData($form);
 		$this->writeAnswerSpecificPostData($form);
 		$this->saveTaxonomyAssignments();
+	}
+	
+	/**
+	 * @param $content
+	 * @return string
+	 */
+	protected function renderOrderingImageOutput($content)
+	{
+		$imgSrc = $this->object->getImagePathWeb().$content;
+		
+		if($this->thumbnail)
+		{
+			
+		}
+		
+		$content = '<img src="'.$imgSrc.'" alt="'.$content.'" title="'.$content.'">';
+		return $content;
 	}
 	
 	private function getOldLeveledOrdering()
@@ -830,8 +857,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return  $this->renderAggregateView(
-					$this->aggregateAnswers( $relevant_answers, $this->object->getOrderElements() ) )->get();
+		$aggView = $this->aggregateAnswers(
+			$relevant_answers, $this->object->getOrderingElementList()
+		);
+		
+		return  $this->renderAggregateView($aggView)->get();
 	}
 
 	public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
@@ -871,10 +901,18 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				$i = 0;
 				$aggregated_info_for_answer['count'] = $variant_entry['count'];
-				foreach ($answers_defined_on_question as $answer)
+				foreach ($answers_defined_on_question as $element)
 				{
 					$i++;
-					$aggregated_info_for_answer[$i . ' - ' . $answer->getAnswerText()] 
+					
+					$content = $element->getContent();
+					
+					if($this->object->isImageOrderingType())
+					{
+						$content = $this->renderOrderingImageOutput($content);
+					}
+					
+					$aggregated_info_for_answer[$i . ' - ' . $content] 
 						= $passdata[$key][$i];
 				}
 				

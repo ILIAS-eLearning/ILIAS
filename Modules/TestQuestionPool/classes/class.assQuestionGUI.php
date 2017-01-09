@@ -248,6 +248,11 @@ abstract class assQuestionGUI
 		return $this->getEditContext() == self::EDIT_CONTEXT_ADJUSTMENT;
 	}
 	
+	public function setAdjustmentEditContext()
+	{
+		return $this->setEditContext(self::EDIT_CONTEXT_ADJUSTMENT);
+	}
+	
 	/**
 	 * @return ilTestQuestionNavigationGUI
 	 */

@@ -924,7 +924,7 @@ class ilAssOrderingElementList implements Iterator
 	 * @param array[ilAssOrderingElement] $orderingElements
 	 * @return ilAssOrderingElementList
 	 */
-	public static function buildInstance($questionId, $orderingElements)
+	public static function buildInstance($questionId, $orderingElements = array())
 	{
 		$elementList = new self();
 		
