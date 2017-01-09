@@ -46,7 +46,7 @@ interface Factory {
 	 *      The Appointment Item is composed of a period of time, indicating
 	 *      when this appointment takes place, a title, and a little bar on the
 	 *      side indicating by color, which calendar holds this appointment.
-	 *      They further might contain a description and some meta data as
+	 *      They further might contain a description and some properties as
 	 *      key-value pair holding information such as location or contact.
 	 *      If there are actions possible to perform on the appointment they
 	 *      are listed in a dropdown on the right.
@@ -54,7 +54,7 @@ interface Factory {
 	 *      The title may open the details of the appointment on click in a
 	 *      round-trip modal, if such details are available.
 	 *      The description is blended out if larger than two lines.
-	 *      On small screen sizes, the description and metadata (except for the
+	 *      On small screen sizes, the description and properties (except for the
 	 *      location) is blended out completely. It is shown once the user
 	 *      clicks the "Show More" link displayed if there is hidden content.
 	 * ---
