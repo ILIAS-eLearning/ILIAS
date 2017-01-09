@@ -21,7 +21,7 @@ class ilObjSCORMInitData
 	}
 
 	static function getIliasScormVars($slm_obj) {
-		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
+		global $ilias, $ilLog, $ilUser, $lng, $ilDB, $ilSetting;
 //		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		//variables to set in administration interface
@@ -42,9 +42,13 @@ class ilObjSCORMInitData
 		if ($_GET["autolaunch"] != "") $launchId=$_GET["autolaunch"];
 		$session_timeout = 0; //unlimited sessions
 		if ($slm_obj->getSession()) {
-			// $session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
 			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds()-1;
+			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds();
+			$max_idle = (int)ilSession::getIdleValue();
+			if ($session_timeout > $max_idle) $session_timeout = $max_idle;
+			$min_idle = (int)$ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE) * 60;
+			if ($session_timeout > $min_idle) $session_timeout = $min_idle;
+			$session_timeout -= 10; //buffer
 		}
 		$b_autoReview='false';
 		if ($slm_obj->getAutoReview()) $b_autoReview='true';

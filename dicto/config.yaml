@@ -2,6 +2,14 @@ project:
     root:       "./../"
     storage:    "./results"
     rules:      "./rules"
+reports:
+    -
+        name: "diff"
+        class: "DiffPerRule"
+        target: "php://stdout"
+        config:
+            template: "diff_per_rule_bootstrap"
+            source_url: https://github.com/ILIAS-eLearning/ILIAS/blob/{COMMIT}/{FILE}#L{LINE}
 analysis:
     ignore:
         - ".*\\.swp"
@@ -24,6 +32,7 @@ analysis:
         - ".*[.]eot"
         - ".*[.]gif"
         - ".*[.]graffle"
+        - ".*[.]ico"
         - ".*[.]jar"
         - ".*[.]java"
         - ".*[.]jpeg"
@@ -40,8 +49,10 @@ analysis:
         - ".*[.]ttf"
         - ".*[.]woff"
         - ".*[.]woff2"
+        - ".*[.]xap"
+        - ".*[.]xls"
         - ".*[.]xml"
         - ".*[.]xpi"
         - ".*[.]xsd"
         - ".*[.]xsl"
-        - ".*/test/.*"
+        - ".*[.]zip"

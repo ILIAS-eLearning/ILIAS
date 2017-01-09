@@ -25,7 +25,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setCurrentBlock($component->getType());
 		$tpl->setVariable("SOURCE",$component->getSource());
-		$tpl->setVariable("ALT",$component->getAlt());
+		$tpl->setVariable("ALT",htmlspecialchars($component->getAlt()));
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();

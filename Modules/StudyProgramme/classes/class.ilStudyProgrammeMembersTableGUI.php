@@ -101,12 +101,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			switch($column) {
 				case "prg_assign_date":
 					$this->tpl->setCurrentBlock("assign_date");
-					$this->tpl->setVariable("ASSIGN_DATE", $a_set["assign_date"]);
+					$this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
 					$this->tpl->parseCurrentBlock("assign_date");
 					break;
 				case "prg_assigned_by":
 					$this->tpl->setCurrentBlock("assigned_by");
-					$this->tpl->setVariable("ASSIGNED_BY", $a_set["assigned_by"]);
+					$this->tpl->setVariable("ASSIGNED_BY", $a_set["prg_assigned_by"]);
 					$this->tpl->parseCurrentBlock("assigned_by");
 					break;
 			}
@@ -148,10 +148,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , blngs.title belongs_to"
 				   ."     , cmpl_usr.login accredited_by"
 				   ."     , cmpl_obj.title completion_by"
+				   ."     , cmpl_obj.type completion_by_type"
+				   ."     , prgrs.completion_by completion_by_id"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , ass.root_prg_id root_prg_id"
-				   ."     , ass.last_change assign_date"
-				   ."     , ass_usr.login assigned_by"
+				   ."     , ass.last_change prg_assign_date"
+				   ."     , ass_usr.login prg_assigned_by"
 				   // for sorting
 				   ."     , CONCAT(pcp.firstname, pcp.lastname) name"
 				   ."     , (prgrs.last_change_by IS NOT NULL) custom_plan"
@@ -180,6 +182,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$rec['points_current'] = number_format($rec['points_current']);
 			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+				//If the status completet is set by crs reference
+				//use crs title
+				if($rec["completion_by_type"] == "crsr") {
+					$rec["completion_by"] = ilContainerReference::_lookupTitle($rec["completion_by_id"]);
+				}
+
 				// If the status completed and there is a non-null completion_by field
 				// in the set, this means the completion was achieved by some leaf in
 				// the program tree.
@@ -218,8 +226,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
 						 ." ON ass.id = prgrs.assignment_id"
 				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
-				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
 				."  LEFT JOIN usr_data ass_usr ON ass_usr.usr_id = ass.last_change_by"
+				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
 				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by";
 	}
 

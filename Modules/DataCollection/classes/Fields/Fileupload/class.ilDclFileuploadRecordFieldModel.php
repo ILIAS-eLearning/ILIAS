@@ -17,6 +17,11 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
+		if ($value == -1) //marked for deletion.
+		{
+			return 0;
+		}
+
 		$file = $value;
 
 		$has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !isset($_GET['record_id']));
@@ -124,6 +129,17 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 		}
 		$file_obj = new ilObjFile($value, false);
 		return $file_obj->getTitle();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setValueFromForm($form) {
+		$value = $form->getInput("field_" . $this->getField()->getId());
+		if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
+			$value = - 1;
+		}
+		$this->setValue($value);
 	}
 	
 	

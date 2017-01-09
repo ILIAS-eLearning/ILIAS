@@ -67,6 +67,15 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	}
 	
 	/**
+	 * no activation for links
+	 * @return type
+	 */
+	public function insertTimingsCommand()
+	{
+		return;
+	}
+	
+	/**
 	* initialisation
 	*/
 	function init()
@@ -141,7 +150,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		global $lng,$ilUser,$tree;
 
 		$props = parent::getProperties();
-
+		
 		// offline
 		if($tree->isDeleted($this->ref_id))
 		{

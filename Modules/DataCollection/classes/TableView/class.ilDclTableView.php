@@ -365,6 +365,9 @@ class ilDclTableView extends ActiveRecord
             $orig_pageobject = new ilDclDetailedViewDefinition($orig->getId());
             $orig_pageobject->copy($this->getId());
         }
+
+	    // mandatory for all cloning functions
+	    ilDclCache::setCloneOf($orig->getId(), $this->getId(), ilDclCache::TYPE_TABLEVIEW);
     }
 
     /**

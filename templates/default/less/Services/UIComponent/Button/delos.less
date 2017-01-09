@@ -25,7 +25,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 		background-color: lighten(@degradeColor, 2%);
 		#gradient > .vertical(lighten(@startColor, 1%), lighten(@endColor, 1%), @startPercent, @endPercent);
 		.reset-filter();
-		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+        .box-shadow(0 0 2px rgba(0, 0, 0, 0.2));
 	}
 	&:active {
 		color: @color;
@@ -33,7 +33,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 		background-color: darken(@degradeColor, 1%);
 		#gradient > .vertical(darken(@startColor, 1%), darken(@endColor, 1%), @startPercent, @endPercent);
 		.reset-filter();
-		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05) inset;
+        .box-shadow(inset 0 2px 2px rgba(0, 0, 0, 0.05));
 	}
 }
 /*
@@ -55,7 +55,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 }
 .btn-link {
   color: @link-color;
-  border: none;
+  border: 0 none;
   background-color: transparent;
   &:hover,
   &:focus,
@@ -98,7 +98,7 @@ a.ilSubmitInactive, a.ilSubmitInactive:hover , a.ilSubmitInactive:active {
 }
 
 .split-btn-default {
-	float:left
+	float: left
 }
 
 .btn-split.dropdown-toggle {

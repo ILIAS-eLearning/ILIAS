@@ -256,7 +256,7 @@ class ilObjDataCollection extends ilObject2 {
 	 *
 	 * @return ilObjPoll
 	 */
-	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = NULL) {
+	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = NULL, $a_omit_tree = false) {
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -327,31 +327,11 @@ class ilObjDataCollection extends ilObject2 {
 			$new_table->cloneStructure($table);
 		}
 
-		// Set new field-ID of referenced fields
-		foreach ($original->getTables() as $origTable) {
-			foreach ($origTable->getCustomFields() as $origField) {
-				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
-					$origFieldRefObj = $origField->getFieldRef();
-					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
-					// Lookup the new ID of the referenced field in the actual DC
-					$newRefTableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
-					$newRefFieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origFieldRefObj->getTitle(), $newRefTableId);
-					// Set the new refID in the actual DC
-					$newTableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
-					$newFieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $newTableId);
-					$newField = ilDclCache::getFieldCache($newFieldId);
-					$newField->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $newRefFieldId);
-					$newField->updateProperties();
-
-					// get the reference-values by the values we set previously set
-					foreach (ilDclCache::getTableCache($newTableId)->getRecords() as $record) {
-						/** @var ilDclReferenceRecordFieldModel $record_field */
-						$record_field = ilDclCache::getRecordFieldCache($record, $newField);
-						$record_field->setValue($record_field->getReferenceFromValue($record_field->getValue()));
-						$record_field->doUpdate();
-					}
-				}
-			}
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_DATACOLLECTION);
+		
+		foreach ($this->getTables() as $table) {
+			$table->afterClone();
 		}
 	}
 

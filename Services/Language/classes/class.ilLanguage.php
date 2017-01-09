@@ -662,5 +662,6 @@ class ilLanguage
 			}
 		}
 	}
+	
 } // END class.Language
 ?>

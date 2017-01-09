@@ -317,13 +317,16 @@ class ilAuthFrontend
 		include_once './Services/Init/classes/class.ilInitialisation.php';
 		ilInitialisation::initUserAccount();
 		
+		ilSession::set('orig_request_target', '');
+		$user->hasToAcceptTermsOfServiceInSession(true);
+		
+		
 		// --- anonymous/registered user
-		ilLoggerFactory::getLogger('auth')->info(
+		$this->getLogger()->info(
 			'logged in as '. $user->getLogin() . 
 			', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
 			', server:' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']
 		);
-
 
 		// finally raise event 
 		global $ilAppEventHandler;

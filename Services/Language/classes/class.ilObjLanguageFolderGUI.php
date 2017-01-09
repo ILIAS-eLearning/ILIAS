@@ -39,7 +39,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function viewObject()
 	{
-		global $rbacsystem, $ilSetting, $tpl, $ilToolbar, $lng;
+		global $rbacsystem, $ilSetting, $tpl, $ilToolbar, $lng, $ilClientIniFile;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -65,6 +65,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			{
 				$ilToolbar->addButton($lng->txt('lng_disable_language_detection'),	$this->ctrl->getLinkTarget($this, 'disableLanguageDetection'));
 			}
+		}
+
+		if($ilClientIniFile->variableExists('system', 'LANGUAGE_LOG'))
+		{
+			$ilToolbar->addButton($lng->txt('lng_download_deprecated'),	$this->ctrl->getLinkTarget($this, 'listDeprecated'));
 		}
 
 		include_once("./Services/Language/classes/class.ilLanguageTableGUI.php");
@@ -669,5 +674,65 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->viewObject();
 	}
+
+	/**
+	 * Download deprecated lang entries
+	 */
+	function listDeprecatedObject()
+	{
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$tpl = $DIC["tpl"];
+		$ilToolbar = $DIC->toolbar();
+		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$ilToolbar->addButton($lng->txt("download"),
+			$ctrl->getLinkTarget($this, "downloadDeprecated"));
+
+		include_once("./Services/Language/classes/class.ilLangDeprecated.php");
+
+		$d = new ilLangDeprecated();
+		$res = "";
+		foreach ($d->getDeprecatedLangVars() as $key => $mod)
+		{
+			$res.= $mod.",".$key."\n";
+		}
+
+		$tpl->setContent("<pre>".$res."</pre>");
+	}
+
+	/**
+	 * Download deprecated lang entries
+	 */
+	function downloadDeprecatedObject()
+	{
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/Language/classes/class.ilLangDeprecated.php");
+		$d = new ilLangDeprecated();
+		$res = "";
+		foreach ($d->getDeprecatedLangVars() as $key => $mod)
+		{
+			$res.= $mod.",".$key."\n";
+		}
+
+		ilUtil::deliverData($res, "lang_deprecated.csv");
+	}
+
+
 } // END class.ilObjLanguageFolderGUI
 ?>

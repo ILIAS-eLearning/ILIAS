@@ -333,7 +333,6 @@ class ilFileXMLParser extends ilSaxParser
 		global $ilLog;
 		
 		#$ilLog->write(__METHOD__.' '.filesize($this->tmpFilename));
-
 		if(!file_exists($this->tmpFilename))
 		{
 			ilLoggerFactory::getLogger('file')->error(__METHOD__.' "'.$this->tmpFilename. '" file not found.');

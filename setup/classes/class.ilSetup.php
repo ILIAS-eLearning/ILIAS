@@ -2128,5 +2128,21 @@ class ilSetup
 
 		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
+
+	/**
+	 * Is valid client id
+	 *
+	 * @param
+	 * @return
+	 */
+	function isValidClientId($a_client_id)
+	{
+		if (!preg_match("/^[A-Za-z0-9]+$/", $a_client_id))
+		{
+			return false;
+		}
+		return true;
+	}
+
 }
 

@@ -1243,33 +1243,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	}
 
 	
-	/**
-	* Confirmed tracking deletion
-	*
-	*/
-	function confirmedDeleteTracking()
-	{
-	 	foreach ($_POST["user"] as $user)
-	 	{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
-			ilSCORM2004DeleteData::removeCMIDataForUserAndPackage($user,$this->object->getId());
-
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-			ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
-	 	}
-
-	 	$this->ctrl->redirect($this, "modifyTrackingItems");
-	}
-	
-	//UK may be erased
-	function deleteTrackingData()
-	{
-		if (is_array($_POST["id"]))
-		{
-			$this->object->deleteTrackingDataOfUsers($_POST["id"]);
-		}
-		$this->modifyTrackingItems();
-	}
 
 	/**
 	 * Show Editing Tree

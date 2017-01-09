@@ -32,11 +32,18 @@ class ilSCORM2004Item
 	protected $dom = null;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * Constructor
 	 * @access	public
 	 */
 	function __construct($a_treeid = null , $a_rootlevel = false)
 	{
+		$this->log = ilLoggerFactory::getLogger("sc13");
+
 		//different handling for organization level
 		$this->rootLevel = $a_rootlevel;
 		
@@ -159,6 +166,7 @@ class ilSCORM2004Item
 	
 	public function setSeqXml($a_seqxml)
 	{
+		$this->log->debug("seq xml: ".$a_seqxml);
 		$this->seqXml = $a_seqxml;
 	}
 	
@@ -194,10 +202,33 @@ class ilSCORM2004Item
 		}
 		else
 		{
-			$element = $this->dom->createElement('sequencing');
-			$this->dom->appendChild($element);
-			$this->setSeqXml($this->dom->saveXML());
+			$this->setDefaultXml();
 		}
+	}
+
+	/**
+	 * Set default xml
+	 *
+	 * @param bool $a_def_control_mode
+	 */
+	function setDefaultXml($a_def_control_mode= false)
+	{
+		while ($this->dom->hasChildNodes()){
+			$this->dom->removeChild($this->dom->childNodes->item(0));
+		}
+
+		$element = $this->dom->createElement('sequencing');
+		$this->dom->appendChild($element);
+
+		if ($a_def_control_mode)
+		{
+			$cm = $this->dom->createElement('controlMode');
+			$cm->setAttribute("flow", "true");
+			$cm->setAttribute("choice", "true");
+			$cm->setAttribute("forwardOnly", "false");
+			$element->appendChild($cm);
+		}
+		$this->setSeqXml($this->dom->saveXML());
 	}
 	
 	

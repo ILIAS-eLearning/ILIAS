@@ -662,6 +662,10 @@ class ilAccountRegistrationGUI
 			$hits_per_page = 10;
 		}
 		$this->userObj->setPref("hits_per_page", $hits_per_page);
+		if(strlen($_GET['target']) > 0)
+		{
+			$this->userObj->setPref('reg_target', ilUtil::stripSlashes($_GET['target']));
+		}
 		/*$show_online = $ilSetting->get("show_users_online");
 		if ($show_online == "")
 		{

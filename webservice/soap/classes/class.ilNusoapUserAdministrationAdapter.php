@@ -42,7 +42,7 @@ class ilNusoapUserAdministrationAdapter
 	var $server = null;
 
 
-    function ilNusoapUserAdministrationAdapter($a_use_wsdl = true)
+    function __construct($a_use_wsdl = true)
     {
 		define('SERVICE_NAME','ILIASSoapWebservice');
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');

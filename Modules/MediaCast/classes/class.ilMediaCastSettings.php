@@ -155,7 +155,7 @@ class ilMediaCastSettings
 	 	include_once('./Modules/MediaCast/classes/class.ilObjMediaCast.php');
 	 	$this->purposeSuffixes = array_flip(ilObjMediaCast::$purposes);
 	 	       
-	 	$this->purposeSuffixes["Standard"] = array("mp3","flv","mp4","m4v","mov","wmv","gif","png");
+	 	$this->purposeSuffixes["Standard"] = array("mp3","flv","mp4","m4v","mov","wmv","gif","png", "jpg", "jpeg");
         $this->purposeSuffixes["AudioPortable"] = array("mp3");
         $this->purposeSuffixes["VideoPortable"] = array("mp4","m4v","mov");
         $this->setDefaultAccess("users");

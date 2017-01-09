@@ -2075,7 +2075,13 @@ class ilStartUpGUI
 			{
 				$lng = new ilLanguage($usr_lang);
 			}
-			
+
+			$target = $oUser->getPref('reg_target');
+			if(strlen($target) > 0)
+			{
+				$_GET['target'] = $target;
+			}
+
 			// send email
 			// try individual account mail in user administration
 			include_once("Services/Mail/classes/class.ilAccountMail.php");

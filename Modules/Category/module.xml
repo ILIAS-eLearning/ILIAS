@@ -18,4 +18,5 @@
 	<events>		
 		<event type="raise" id="delete" />
 	</events>
+	<logging/>
 </module>

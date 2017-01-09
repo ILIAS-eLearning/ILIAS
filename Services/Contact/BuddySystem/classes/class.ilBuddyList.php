@@ -291,7 +291,6 @@ class ilBuddyList
 		{
 			throw new InvalidArgumentException(sprintf("Please pass a numeric owner id, given: %s", var_export($usr_id, 1)));
 		}
-
 		if($this->getRelations()->containsKey($usr_id))
 		{
 			return $this->getRelations()->get($usr_id);

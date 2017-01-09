@@ -28,6 +28,13 @@ class ilLearningProgressBaseGUI
 	
 	protected $anonymized;
 	
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger;
+	
+	
+	
 	const LP_CONTEXT_PERSONAL_DESKTOP = 1;
 	const LP_CONTEXT_ADMINISTRATION = 2;
 	const LP_CONTEXT_REPOSITORY = 3;
@@ -69,6 +76,8 @@ class ilLearningProgressBaseGUI
 			$olp = ilObjectLP::getInstance($this->obj_id);
 			$this->anonymized = $olp->isAnonymized();
 		}
+		
+		$this->logger = $GLOBALS['DIC']->logger()->trac();
 	}
 
 	function isAnonymized()
@@ -494,7 +503,7 @@ class ilLearningProgressBaseGUI
 			case 'crs':
 			case 'sahs':
 			case 'grp':
-			case 'mass':
+			case 'iass':
 				// display status as image
 				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 				$status = $this->__readStatus($item_id,$user_id);

@@ -324,9 +324,8 @@ class ilObjSCORMTracking
 	public static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilLog;
-		//TODO: use sahs_user in future!! Especially for learningTime!
-		// get attempts
-		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+		$val_set = $ilDB->queryF('SELECT package_attempts, total_time_sec, sco_total_time_sec, time_from_lms FROM sahs_user, sahs_lm '
+								.'WHERE sahs_user.obj_id = %s AND sahs_user.user_id = %s AND sahs_user.obj_id = sahs_lm.id',
 		array('integer','integer'),
 		array($a_obj_id,$a_user_id));
 		
@@ -336,24 +335,32 @@ class ilObjSCORMTracking
 			$val_rec["package_attempts"]="";
 		}
 		$attempts = $val_rec["package_attempts"];
-
-		// get learning time
-		$sco_set = $ilDB->queryF('
-		SELECT sco_id, rvalue FROM scorm_tracking 
-		WHERE obj_id = %s
-		AND user_id = %s
-		AND lvalue = %s
-		AND sco_id <> %s',
-		array('integer','integer','text','integer'),
-		array($a_obj_id,$a_user_id, 'cmi.core.total_time',0));
-
+		
 		$time = 0;
-		while($sco_rec = $ilDB->fetchAssoc($sco_set))		
-		{
-			$tarr = explode(":", $sco_rec["rvalue"]);
-			$sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
-				(int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
-			$time += $sec;
+		// if ($val_rec["time_from_lms"] == "y") {
+			// $time = (int)$val_rec["total_time_sec"];
+		// } else {
+			$time = (int)$val_rec["sco_total_time_sec"];
+		// }
+
+		// get learning time for old ILIAS-Versions
+		if ($time == 0) {
+			$sco_set = $ilDB->queryF('
+			SELECT sco_id, rvalue FROM scorm_tracking 
+			WHERE obj_id = %s
+			AND user_id = %s
+			AND lvalue = %s
+			AND sco_id <> %s',
+			array('integer','integer','text','integer'),
+			array($a_obj_id,$a_user_id, 'cmi.core.total_time',0));
+
+			while($sco_rec = $ilDB->fetchAssoc($sco_set))		
+			{
+				$tarr = explode(":", $sco_rec["rvalue"]);
+				$sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
+					(int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
+				$time += $sec;
+			}
 		}
 		
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");

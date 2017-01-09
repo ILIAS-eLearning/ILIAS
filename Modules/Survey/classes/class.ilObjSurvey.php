@@ -291,23 +291,27 @@ class ilObjSurvey extends ilObject
 	*/
 	function delete()
 	{
+		if ($this->countReferences() == 1)
+		{
+			$this->deleteMetaData();
+
+			// Delete all survey questions, constraints and materials
+			foreach ($this->questions as $question_id)
+			{
+				$this->removeQuestion($question_id);
+			}
+			$this->deleteSurveyRecord();
+
+			ilUtil::delDir($this->getImportDirectory());
+		}
+
 		$remove = parent::delete();
+
 		// always call parent delete function first!!
 		if (!$remove)
 		{
 			return false;
 		}
-
-		$this->deleteMetaData();
-
-		// Delete all survey questions, constraints and materials
-		foreach ($this->questions as $question_id)
-		{
-			$this->removeQuestion($question_id);
-		}
-		$this->deleteSurveyRecord();
-		
-		ilUtil::delDir($this->getImportDirectory());
 		return true;
 	}
 	
@@ -2095,7 +2099,6 @@ class ilObjSurvey extends ilObject
 	public function &getSurveyQuestions($with_answers = false)
 	{
 		global $ilDB;
-		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
 		$result = $ilDB->queryF("SELECT svy_qtype.type_tag, svy_qtype.plugin, svy_question.question_id, ".
@@ -2127,10 +2130,6 @@ class ilObjSurvey extends ilObject
 				$all_questions[$row["question_id"]] = $questionrow;
 				$all_questions[$row["question_id"]]["usableForPrecondition"] = $question->usableForPrecondition();
 				$all_questions[$row["question_id"]]["availableRelations"] = $question->getAvailableRelations();
-				if (array_key_exists($row["question_id"], $obligatory_states))
-				{
-					$all_questions[$row["question_id"]]["obligatory"] = $obligatory_states[$row["question_id"]];
-				}
 			}
 		}
 		// get all questionblocks
@@ -2210,53 +2209,16 @@ class ilObjSurvey extends ilObject
 			}
 		}
 
-	  // set the obligatory states in the database
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_oblig WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-
-	  // set the obligatory states in the database
+	  	// set the obligatory states in the database
 		foreach ($obligatory_questions as $question_fi => $obligatory)
 		{
-			$next_id = $ilDB->nextId('svy_qst_oblig');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, " .
-				"obligatory, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','integer','text','integer'),
-				array($next_id, $this->getSurveyId(), $question_fi, (strlen($obligatory)) ? $obligatory : 0, time())
-			);
-			
 			// #12420
 			$ilDB->manipulate("UPDATE svy_question".
 				" SET obligatory = ".$ilDB->quote($obligatory, "integer").
 				" WHERE question_id = ".$ilDB->quote($question_fi, "integer"));
 		}
 	}
-	
-/**
-* Gets specific obligatory states of the survey
-*
-* @return array An array containing the obligatory states for every question found in the database
-* @access public
-*/
-	function &getObligatoryStates()
-	{
-		global $ilDB;
-		$obligatory_states = array();
-		$result = $ilDB->queryF("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		if ($result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$obligatory_states[$row["question_fi"]] = $row["obligatory"];
-			}
-		}
-		return $obligatory_states;
-	}
-	
+
 /**
 * Returns the survey pages in an array (a page contains one or more questions)
 *
@@ -2265,7 +2227,6 @@ class ilObjSurvey extends ilObject
 	function &getSurveyPages()
 	{
 		global $ilDB;
-		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
 		$result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_svy_qst.heading FROM " . 
@@ -2300,10 +2261,6 @@ class ilObjSurvey extends ilObject
 		$currentblock = "";
 		foreach ($all_questions as $question_id => $row)
 		{
-			if (array_key_exists($question_id, $obligatory_states))
-			{
-				$all_questions[$question_id]["obligatory"] = $obligatory_states[$question_id];
-			}
 			$constraints = array();
 			if (isset($questionblocks[$question_id]))
 			{
@@ -3586,7 +3543,6 @@ class ilObjSurvey extends ilObject
 		$attribs = array("id" => $this->getId());
 		$a_xml_writer->xmlStartTag("surveyquestions", $attribs);
 		// add questionblock descriptions
-		$obligatory_states =& $this->getObligatoryStates();
 		foreach ($pages as $question_array)
 		{
 			if (count($question_array) > 1)
@@ -3607,7 +3563,10 @@ class ilObjSurvey extends ilObject
 					$a_xml_writer->xmlElement("textblock", NULL, $question["heading"]);
 				}
 				$questionObject = self::_instanciateQuestion($question["question_id"]);
-				if ($questionObject !== FALSE) $questionObject->insertXML($a_xml_writer, FALSE, $obligatory_states[$question["question_id"]]);
+				//questionObject contains all the fields from the database. (loadFromDb)
+				//we don't need the value from svy_qst_oblig table, we already have the values from svy_question table.
+				//if ($questionObject !== FALSE) $questionObject->insertXML($a_xml_writer, FALSE, $obligatory_states[$question["question_id"]]);
+				if ($questionObject !== FALSE) $questionObject->insertXML($a_xml_writer, FALSE);
 			}
 			if (count($question_array) > 1)
 			{
@@ -3876,14 +3835,14 @@ class ilObjSurvey extends ilObject
 	 * @param int copy id
 	 * @return object new svy object
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB;
 		
 		$this->loadFromDb();
 		
 		// Copy settings
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($newObj);
 		$newObj->updateMetaData();
 	 	
@@ -4026,27 +3985,6 @@ class ilObjSurvey extends ilObject
 					$newConstraints[$constraint['id']] = $constraint_id;
 				}
 				$newObj->addConstraintToQuestion($question_pointer[$constraint["for_question"]], $newConstraints[$constraint['id']]);
-			}
-		}
-		
-		// clone the obligatory states
-		$result = $ilDB->queryF("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		if ($result->numRows() > 0)
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				if($question_pointer[$row["question_fi"]])
-				{
-					$next_id = $ilDB->nextId('svy_qst_oblig');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, ".
-						"obligatory, tstamp) VALUES (%s, %s, %s, %s, %s)",
-						array('integer','integer','integer','text','integer'),
-						array($next_id, $newObj->getSurveyId(), $question_pointer[$row["question_fi"]], $row["obligatory"], time())
-					);
-				}
 			}
 		}
 
@@ -6171,13 +6109,13 @@ class ilObjSurvey extends ilObject
 		{			
 			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
 			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
-			
+
 			$user = new ilObjUser($a_user_id);
-			foreach($context->getPlaceholders() as $key => $ph_definition)
-			{
-				$result    = $context->resolvePlaceholder($key, $a_context_params, $user);
-				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
-			}
+
+			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
+			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
+			
 		}
 		catch(Exception $e)
 		{

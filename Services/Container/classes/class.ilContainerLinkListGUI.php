@@ -40,7 +40,7 @@ class ilContainerLinkListGUI
 	* Constructor
 	* @access public
 	*/
-	function ilContainerLinkListGUI()
+	function __construct()
 	{
 		global $ilCtrl;
 		

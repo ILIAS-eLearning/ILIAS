@@ -52,6 +52,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 
 		global $lng;
 		global $ilAccess;
+		global $ilSetting;
 		
 		$this->lng = $lng;
 		$this->guiclass = $guiclass;
@@ -71,7 +72,8 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
 		$this->addItem($this->sendtype);
 
-		$existingdata = $this->guiclass->object->getExternalCodeRecipients();
+		$existingdata = $this->guiclass->getObject()->getExternalCodeRecipients();
+
 		$existingcolumns = array();
 		if (count($existingdata))
 		{
@@ -83,7 +85,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		}
 
 		global $ilUser;
-		$settings = $this->guiclass->object->getUserSettings($ilUser->getId(), 'savemessage');
+		$settings = $this->guiclass->getObject()->getUserSettings($ilUser->getId(), 'savemessage');
 		if (count($settings))
 		{
 			$options = array(0 => $this->lng->txt('please_select'));
@@ -119,7 +121,18 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $this->addCommandButton("deleteSavedMessage", $this->lng->txt("delete_saved_message"));
 			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $this->addCommandButton("insertSavedMessage", $this->lng->txt("insert_saved_message"));
 		}
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			if(!(int)$ilSetting->get('prevent_smtp_globally'))
+			{
+				$this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
+			}
+		}
 	}
 	
 	public function getSavedMessages()

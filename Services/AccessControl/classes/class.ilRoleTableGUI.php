@@ -112,7 +112,11 @@ class ilRoleTableGUI extends ilTable2GUI
 				$this->addColumn($this->lng->txt('context'),'','40%');
 				$this->addColumn($this->lng->txt('actions'),'','10%');
 				$this->setTitle($this->lng->txt('objs_role'));
-				$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+				
+				if($GLOBALS['rbacsystem']->checkAccess('delete', $this->getParentObject()->object->getRefId()))
+				{
+					$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+				}
 				break;
 			
 			case self::TYPE_SEARCH:

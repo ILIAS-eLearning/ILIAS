@@ -24,7 +24,7 @@ class ilObjectDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.4.0", "5.1.0");
+		return array("4.4.0", "5.1.0", "5.2.0");
 	}
 	
 	/**
@@ -52,6 +52,7 @@ class ilObjectDataSet extends ilDataSet
 			{
 				case "4.4.0":
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"ObjId" => "integer",
 						"Title" => "text",
@@ -66,6 +67,7 @@ class ilObjectDataSet extends ilDataSet
 			{
 				case "4.4.0":
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"ObjId" => "integer",
 						"MasterLang" => "text");
@@ -76,6 +78,7 @@ class ilObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.2.0":
 					return array(
 						"ObjId" => "integer",
 						"Setting" => "text",
@@ -105,6 +108,7 @@ class ilObjectDataSet extends ilDataSet
 			{
 				case "4.4.0":
 				case "5.1.0":
+				case "5.2.0":
 					$this->getDirectDataFromQuery("SELECT obj_id, title, description,".
 						" lang_code, lang_default".
 						" FROM object_translation".
@@ -119,6 +123,7 @@ class ilObjectDataSet extends ilDataSet
 			{
 				case "4.4.0":
 				case "5.1.0":
+				case "5.2.0":
 					$this->getDirectDataFromQuery("SELECT obj_id, master_lang".
 						" FROM obj_content_master_lng".
 						" WHERE ".$ilDB->in("obj_id", $a_ids, false, "integer"));
@@ -131,6 +136,7 @@ class ilObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.2.0":
 					include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
 					include_once("./Services/Container/classes/class.ilContainer.php");
 
@@ -147,6 +153,10 @@ class ilObjectDataSet extends ilDataSet
 							ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 							ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
 						);
+						if ($a_version == "5.2.0")
+						{
+							$settings[] = ilObjectServiceSettingsGUI::USE_NEWS;
+						}
 						foreach ($settings as $s)
 						{
 							$val = ilContainer::_lookupContainerSetting($id, $s);
@@ -235,7 +245,8 @@ class ilObjectDataSet extends ilDataSet
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::TAXONOMIES,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+					ilObjectServiceSettingsGUI::USE_NEWS
 				);
 
 				$new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['ObjId']);
@@ -248,7 +259,8 @@ class ilObjectDataSet extends ilDataSet
 					if (in_array($a_rec["Setting"], $settings))
 					{
 						ilContainer::_writeContainerSetting($new_id, $a_rec["Setting"], $a_rec["Value"]);
-					}}
+					}
+				}
 				break;
 		}
 	}

@@ -551,15 +551,6 @@ class ilInitialisation
 		 */
 		global $ilUser;
 
-		// get user id
-		// @todo php7: check this!
-//		if (!ilSession::get("AccountId"))
-//		{
-//			ilSession::set("AccountId", $ilUser->checkUserId());
-//			ilSession::set('orig_request_target', '');
-//			$ilUser->hasToAcceptTermsOfServiceInSession(true);
-//		}
-		
 		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
 		if($uid)
 		{
@@ -1224,18 +1215,6 @@ class ilInitialisation
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		self::initGlobal("tpl", $tpl);
-		if(ilContext::hasUser() && ilContext::doAuthentication())
-		{
-			/**
-			 * @var $ilUser ilObjUser
-			 * @var $ilCtrl ilCtrl
-			 */
-			global $ilUser, $ilCtrl;
-
-			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
-			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $ilCtrl);
-			$request_adjuster->adjust();
-		}
 		
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
@@ -1530,22 +1509,24 @@ class ilInitialisation
 		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			ilInitialisation::goToPublicSection();
-		}
-		else
-		{										
-			// for password change and incomplete profile 
-			// see ilPersonalDesktopGUI
-			if(!$_GET["target"])
-			{										
-				// Redirect here to switch back to http if desired
-				include_once './Services/User/classes/class.ilUserUtil.php';						
-				ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
-			}
-			else
-			{
-				ilUtil::redirect("goto.php?target=".$_GET["target"]);
-			}
+			return true;
 		}
 		
+		require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
+		$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['ilCtrl']);
+		$request_adjuster->adjust(); // possible redirect
+
+		// for password change and incomplete profile 
+		// see ilPersonalDesktopGUI
+		if(!$_GET["target"])
+		{										
+			// Redirect here to switch back to http if desired
+			include_once './Services/User/classes/class.ilUserUtil.php';						
+			ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+		}
+		else
+		{
+			ilUtil::redirect("goto.php?target=".$_GET["target"]);
+		}
 	}
 }

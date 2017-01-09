@@ -355,11 +355,11 @@ class ilContainerReference extends ilObject
 	 * @param int copy id
 	 * 
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB,$ilUser;
 		
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	
 		$query = "INSERT INTO container_reference (obj_id, target_obj_id, title_type) ".
 			"VALUES( ".

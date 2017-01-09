@@ -1290,6 +1290,19 @@ class ilDclTable {
 			$new_tableview->cloneStructure($orig_tableview, $new_fields);
 
 		}
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original->getId(), $this->getId(), ilDclCache::TYPE_TABLE);
+	}
+
+
+	/**
+	 *
+	 */
+	public function afterClone() {
+		foreach ($this->getFields() as $field) {
+			$field->afterClone($this->getRecords());
+		}
 	}
 
 

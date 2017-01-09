@@ -318,7 +318,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				$this->folderSettings->set("bgtask_download_tsize", (int)$_POST["bg_tsize"]);
 			}
 
-			ilUtil::sendInfo($lng->txt('settings_saved'),true);
+			ilUtil::sendSuccess($lng->txt('settings_saved'),true);
 			$ilCtrl->redirect($this, "editDownloadingSettings");
 		}
 		

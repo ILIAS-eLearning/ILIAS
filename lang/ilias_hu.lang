@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-12-04
+* @version	5.2.x 2017-01-01
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -20,13 +20,10 @@ forum#:#restore#:#Visszaállítás
 forum#:#restore_draft_from_autosave#:#Piszkozat visszaállítása
 forum#:#autosave_draft_info#:#<span class="asterisk">Ezt a piszkozatot automatikusan mentjük %s másodpercenként.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">Ezt a hozzászólást automatikusan piszkozatként mentjük %s másodpercenként.</span>
-forum#:#publishThreadDrafts#:#Témapiszkozat közzététele
-forum#:#deleteThreadDrafts#:#Témapiszkozat törlése
 forum#:#edit_thread_draft#:#Témapiszkozat módosítása
 common#:#pd_enable_pdfrmpostdraft#:#'Hozzászólás-piszkozataim' engedélyezése
 common#:#pd_enable_pdfrmpostdraft_info#:#Ha be van kapcsolva, 'Hozzászólás-piszkozataim' blokk helyezhető a felhasználó Munkaasztalára. Ez a blokk a fórumokban létrehozott hozzászólások piszkozatait tartalmazza.
 pd#:#block_show_pdfrmpostdraft#:#'Témapiszkozataim' megjelenítése
-forum#:#forums_thread_drafts_deleted#:#A kiválasztott témát, annak összes hozzászólásával és piszkozatával sikeresen törölte.
 forum#:#forums_threads_drafts_deleted#:#A kiválasztott témákat, annak összes hozzászólásával és piszkozatával sikeresen törölte.
 forum#:#save_draft_successfully#:#A piszkozatot sikeresen mentette.
 forum#:#forums_info_delete_draft#:#Biztos, hogy törli ezt a piszkozatot?
@@ -232,7 +229,7 @@ assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozhat�
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Bármely megtalált kulcsszóhoz a vonatkozó pontok automatikusan megadásra kerülnek.
+assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Bármely megtalált kulcsszóhoz a vonatkozó pontok automatikusan megadásra kerülnek.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Az ÖSSZES kulcsszó megtalálásán alapuló automatikus pontozás
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#A pontok automatikusan megadásra kerülnek, ha minden kulcsszó megtalálható.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#EGY kulcsszó megtalálásán alapuló automatikus pontozás
@@ -1645,118 +1642,6 @@ auth#:#auth_rad_migration_info#:#Kapcsolja be ezt a beállítást, hogy az új f
 auth#:#auth_rad_migration#:#Felhasználói fiók migráció:
 auth#:#auth_radius_charset_info#:#Válassza ki a karakterkódolást a RADIUS-szerverrel való kommunikációhoz. Ha bizonytalan, válassza az UTF-8-at.
 auth#:#auth_radius_charset#:#Karakterkódolás
-barometer#:#anonymous#:#Anonymous
-barometer#:#bar_create#:#Új visszajelzés létrehozása
-barometer#:#barometer_add#:#Új visszajelzés hozzáadása
-barometer#:#barometer_conflict_anon_req#:#Az anonimizáció nem kombinálható a 'Kötelező' típussal. Válassza egyiket ezen beállítások közül!
-barometer#:#barometer_title#:#Visszajelzés
-barometer#:#best#:#Legjobb válasz pontszáma
-barometer#:#change_course#:#Kurzus változtatása
-barometer#:#chart_type#:#Grafikontípus
-barometer#:#chart_users#:#Grafikonfelhasználó
-barometer#:#chart_votes#:#Grafikonszavazatok
-barometer#:#day#:#Nap
-barometer#:#days#:#Nap
-barometer#:#delete#:#Törlés
-barometer#:#duration#:#Időtartam
-barometer#:#edit_barometer#:#Visszajelzés módosítása
-barometer#:#edit#:#Szerkesztés
-barometer#:#every#:#mindegyik
-barometer#:#feedb_edit_feedback#:#Visszajelzés módosítása
-barometer#:#feedb_feedback_list#:#Visszajelzés-lista
-barometer#:#feedb_feedback_settings#:#Visszajelzés beállítások
-barometer#:#feedb_time#:#Idő
-barometer#:#first_vote#:#Legtöbb szavazat
-barometer#:#from#:#Kezdés
-barometer#:#hours#:#Óra
-barometer#:#lines#:#Sorok
-barometer#:#login#:#Felhasználónév
-barometer#:#missing_fields#:#Adjon meg minden kötelező információt
-barometer#:#month#:#Hónap
-barometer#:#months#:#Hónap
-barometer#:#new_vote#:#Új szavazat
-barometer#:#note#:#Megjegyzés
-barometer#:#optional#:#Opcionális
-barometer#:#options#:#Beállítások
-barometer#:#pie#:#Tortadiagram
-barometer#:#repeat#:#Ismétlési periódus
-barometer#:#required#:#Kötelező
-barometer#:#save_vote#:#Szavazat elküldése
-barometer#:#save#:#Mentés
-barometer#:#skip#:#Továbblépés
-barometer#:#statistics#:#Statisztika
-barometer#:#status#:#Állapot
-barometer#:#table#:#Táblázat
-barometer#:#text_answer#:#Szöveges válasz
-barometer#:#text#:#Szöveg
-barometer#:#time#:#Futási idő
-barometer#:#title#:#Cím
-barometer#:#type#:#Típus
-barometer#:#until#:#Meddig
-barometer#:#user#:#Felhasználó
-barometer#:#vote#:#Szavazat
-barometer#:#votes#:#Szavazatok
-barometer#:#weeks#:#Hét
-barometer#:#worst#:#Legrosszabb
-barometer#:#year#:#Év
-bibitem#:#bibitem_add#:#Hozzáadás
-bibitem#:#bibitem_author#:#Szerző
-bibitem#:#bibitem_av#:#Audiovizuális
-bibitem#:#bibitem_bibitem#:#Könyvtári információk
-bibitem#:#bibitem_book#:#Könyv
-bibitem#:#bibitem_booktitle#:#Könyvcím
-bibitem#:#bibitem_catalog#:#Katalógus
-bibitem#:#bibitem_choose_index#:#Válasszon ki egy könyvtári bejegyzést:
-bibitem#:#bibitem_cross_reference#:#Kereszthivatkozás
-bibitem#:#bibitem_delete#:#Törlés
-bibitem#:#bibitem_dissertation#:#Értekezés
-bibitem#:#bibitem_edition#:#Kiadás
-bibitem#:#bibitem_editor#:#Szerkesztő
-bibitem#:#bibitem_entry#:#Bejegyzés
-bibitem#:#bibitem_first_name#:#Családnév
-bibitem#:#bibitem_grey_literature#:#Szürke irodalom
-bibitem#:#bibitem_how_published#:#Publikálás módja
-bibitem#:#bibitem_identifier#:#Azonosító
-bibitem#:#bibitem_inbook#:#Könyvben
-bibitem#:#bibitem_inproceedings#:#Kiadványban
-bibitem#:#bibitem_institution#:#Intézmény
-bibitem#:#bibitem_internet#:#Internet
-bibitem#:#bibitem_isbn#:#ISBN
-bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_journal_article#:#Folyóiratcikk
-bibitem#:#bibitem_journal#:#Folyóirat
-bibitem#:#bibitem_keyword#:#Kulcsszó
-bibitem#:#bibitem_label#:#Címke
-bibitem#:#bibitem_language#:#Nyelv
-bibitem#:#bibitem_last_name#:#Utónév
-bibitem#:#bibitem_manual#:#Kézikönyv
-bibitem#:#bibitem_master_thesis#:#Mester diplomamunka
-bibitem#:#bibitem_middle_name#:#Középső név
-bibitem#:#bibitem_month#:#Hónap
-bibitem#:#bibitem_new_element#:#Új elem
-bibitem#:#bibitem_newspaper_article#:#Napilapcikk
-bibitem#:#bibitem_not_found#:#Nem érhetők el könyvtári információk.
-bibitem#:#bibitem_note#:#Jegyzet
-bibitem#:#bibitem_number#:#Szám
-bibitem#:#bibitem_organization#:#Szervezet
-bibitem#:#bibitem_pages#:#Oldalak
-bibitem#:#bibitem_phd_thesis#:#PhD-disszertáció
-bibitem#:#bibitem_please_select#:#Válasszon
-bibitem#:#bibitem_print#:#Nyomtatás
-bibitem#:#bibitem_proceedings#:#Kiadvány
-bibitem#:#bibitem_publisher#:#Kiadó
-bibitem#:#bibitem_save#:#Mentés
-bibitem#:#bibitem_school#:#Iskola
-bibitem#:#bibitem_series_editor#:#Szerkesztő
-bibitem#:#bibitem_series_title#:#Sorozatcím
-bibitem#:#bibitem_series_volume#:#Kötet
-bibitem#:#bibitem_series#:#Sorozat
-bibitem#:#bibitem_technical_report#:#Technikai jelentés
-bibitem#:#bibitem_type#:#Típus
-bibitem#:#bibitem_unpublished#:#Nem publikált
-bibitem#:#bibitem_url#:#URL
-bibitem#:#bibitem_where_published#:#Publikálás helye
-bibitem#:#bibitem_year#:#Év
 block_html#:#block_html_block_content#:#Tartalom
 block_html#:#block_html_block_head#:#HTML-blokk
 block_html#:#block_html_block_title#:#Cím
@@ -1765,10 +1650,8 @@ certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_background_image#:#Háttérkép
-certificate#:#certificate_bottom#:#Alul
 certificate#:#certificate_confirm_deletion_text#:#Valóban törli az igazolást és annak minden kapcsolódó adatát?
 certificate#:#certificate_custom#:#Egyéni...
-certificate#:#certificate_delete#:#Igazolásadatok törlése
 certificate#:#certificate_edit#:#Igazolássablon létrehozása/módosítása
 certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, az igazolás fel lesz ajánlva minden felhasználónak, aki befejezte a SCORM-tananyagot.
 certificate#:#certificate_enabled_scorm#:#Engedélyezve
@@ -1776,12 +1659,10 @@ certificate#:#certificate_error_import#:#Hiba fordult elő egy igazolás import�
 certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 certificate#:#certificate_export#:#Exportálás
 certificate#:#certificate_failed#:#sikertelen
-certificate#:#certificate_left#:#Balra
 certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
 certificate#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
 certificate#:#certificate_margin_body#:#Szövegmargó
 certificate#:#certificate_not_well_formed#:#Az igazolásszöveg rosszul formázott. Érvényes XHTML-t adjon meg az igazolásszövegnek!
-certificate#:#certificate_padding_top#:#Felső cellaköz
 certificate#:#certificate_page_format_info#:#Alapértelmezett lapformátum új igazolásokhoz.
 certificate#:#certificate_page_format#:#Lapformátum
 certificate#:#certificate_pageheight#:#Lapmagasság
@@ -1814,16 +1695,10 @@ certificate#:#certificate_ph_title#:#Név előtag
 certificate#:#certificate_ph_zipcode#:#Felhasználó címe - irányítószám
 certificate#:#certificate_points_notavailable#:#Ez az érték nem számítható
 certificate#:#certificate_preview#:#Előnézet
-certificate#:#certificate_right#:#Jobbra
 certificate#:#certificate_settings#:#Igazolás beállításai
 certificate#:#certificate_short_name_description#:#Adja meg az igazolás rövid nevét! A rövid név az igazolásnév része lesz: ÉÉHHNN_[surname]_[SHORT_TITLE]_certificate.pdf
 certificate#:#certificate_short_name#:#Igazolásfájl rövid címe
-certificate#:#certificate_show#:#Igazolás megjelenítése
-certificate#:#certificate_status_complete#:#Az igazolás teljes és használható
-certificate#:#certificate_status_incomplete#:#Az igazolás nem teljes
-certificate#:#certificate_status#:#Állapot
 certificate#:#certificate_text#:#Igazolásszöveg
-certificate#:#certificate_top#:#Fenn
 certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
 certificate#:#certificate_usage#:#Az igazoláskezelés csak akkor érhető el, ha fut az ILIAS Java-szerver. A Java-szerver konfigurálása a Rendszerbeállítások » Általános beállítások » Szerver menü Java Szerver almenüjében érhető el.
 certificate#:#certificate_var_max_points#:#0
@@ -1849,15 +1724,10 @@ certificate#:#certificate_visibility_introduction#:#A résztvevőknek fel lesz a
 certificate#:#certificate_visibility_never#:#Nem látható
 certificate#:#certificate_visibility_passed#:#Csak akkor látható, ha a felhasználó sikeresen teljesítette a tesztet
 certificate#:#certificate_visibility#:#Láthatóság
-certificate#:#certificate_wrong_unit#:#Rossz egységet adott meg.
-certificate#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
 certificate#:#default_background_info#:#Az igazolásokhoz alapértelmezetten ez a háttérkép kerül kiválasztásra. Ha másikra van szüksége, az igazolásszerkesztőbe kell feltöltenie.
 certificate#:#download_certificate#:#Igazolás letöltése
 common#:#chat_chatviewer#:#Csevegésmegjelenítő
 chatroom#:#chat_enable_autoscroll#:#Automatikus görgetés engedélyezése
-chatroom#:#chat_message_notify_activate#:#Csevegésértesítések
-chatroom#:#chat_new_invitation_sound_status#:#Hang lejátszása csevegésbe meghíváskor
-chatroom#:#chat_new_message_sound_status#:#Hang lejátszása új üzenet érkezésekor
 cmps#:#cmps_activate#:#Aktiválás
 cmps#:#cmps_active#:#Aktív
 cmps#:#cmps_add_new_rank#:#Pozíció az Új objektum létrehozása listában
@@ -3381,7 +3251,6 @@ common#:#mail_a_root#:#Postaláda
 common#:#mail_addressbook#:#Címtár
 common#:#mail_allow_smtp#:#SMTP számára elérhető
 common#:#mail_attachment#:#E-mail melléklet
-common#:#mail_attachments#:#E-mail mellékletek
 common#:#mail_b_inbox#:#Beérkező levelek
 common#:#mail_c_trash#:#Kuka
 common#:#mail_d_drafts#:#Piszkozatok
@@ -6852,8 +6721,6 @@ forum#:#forums_attachments_add#:#Csatolmány hozzáadása
 forum#:#forums_attachments#:#Csatolmányok
 forum#:#forums_censor_comment#:#A cenzor megjegyzése
 forum#:#forums_count_art#:#Hozzászólások száma
-forum#:#forums_count_thr#:#Témák száma
-forum#:#forums_count#:#Fórumok száma
 forum#:#forums_created_by#:#Létrehozta
 forum#:#forums_delete_file#:#Csatolmány törlése
 forum#:#forums_disable_notification#:#Értesítés lemondása ehhez a témához
@@ -6870,9 +6737,6 @@ forum#:#forums_notification_disabled#:#Értesítés kikapcsolva
 forum#:#forums_notification_enabled#:#Értesítés bekapcsolva
 forum#:#forums_notification_intro#:#%s automatikusan küldte Önnek ezt a levelet, %s
 forum#:#forums_notification_show_post#:#Link a hozzászólásra: %s
-forum#:#forums_notification_subject#:#Új hozzászólás fórumban:
-forum#:#forums_notification#:#Értesítés
-forum#:#forums_post_and_children_were_activated#:#A hozzászólást és annak hozzászólásait sikeresen kikapcsolta.
 forum#:#forums_post_deleted#:#A hozzászólást sikeresen törölte.
 forum#:#forums_post_modified#:#A hozzászólást sikeresen módosította.
 forum#:#forums_post_needs_to_be_activated#:#Sikeresen létrehozott egy új hozzászólást, de azt egy moderátornak jóvá kell hagynia.
@@ -6883,7 +6747,6 @@ forum#:#forums_posts#:#Hozzászólások száma
 forum#:#forums_print_thread#:#Téma nyomtatása
 forum#:#forums_subject#:#Tárgy
 forum#:#forums_the_post#:#Hozzászólás
-forum#:#forums_thread_create_date#:#Készült
 forum#:#forums_thread_create_from#:#Létrehozta:
 forum#:#forums_thread_marked#:#A hozzászólást olvasottként jelölte meg.
 forum#:#forums_thread_new_entry#:#Új téma jött létre.
@@ -7266,8 +7129,6 @@ license#:#used_licenses#:#Felhasznált licencek
 license#:#zero_licenses_explanation#:#Adjon meg 0-t a licencelés kikapcsolásához.
 mail#:#mail_serial_letter_placeholders#:#Körlevél helyőrzők
 mail#:#activate_serial_letter_placeholders#:#Körlevél helyőrzők aktiválása
-mail#:#advice_mail_body_secured#:#Biztonsági okokból az ILIAS néhány elemet eltávolított az Ön üzenetéből. Ellenőrizze az üzenetet, majd küldje újra.
-mail#:#also_as_email#:#E-mailként is
 mail#:#bc#:#Titkos másolat (BCC)
 chatroom#:#chat_select_room#:#Csevegőszoba kiválasztása
 mail#:#back_to_folder#:#Vissza a mappához
@@ -7280,42 +7141,23 @@ mail#:#goto_invitation_chat#:#A csevegőszoba nyitva.
 mail#:#info_mail_external_sender_noreply#:#Adja meg azt az e-mail címet, amelyet az automatikusan létrehozott rendszerüzenetekhez és emlékeztetőkhöz a feladó címeként kell használni. <b>Megjegyzés:</b> Létező címet használjon, hogy elkerülje a spam szűrők és mail szerverek visszautasítását.
 mail#:#invite_to_chat#:#Meghívás csevegésbe
 mail#:#linebreak#:#Sortörés
-mail#:#mail_account_mail_check#:#Bejelentkezési e-mail küldése
 mail#:#mail_send_html#:#Külső e-mailekhez HTML-keret
 mail#:#mail_send_html_info#:#Ha be van kapcsolva, a külső e-mailek szövegrészét HTML-keretbe ágyazzuk. Ennek sablonja egyénre szabható a './Services/Mail/templates/default/tpl.html_mail_template.html' fájl './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' fájlba másolásával.
 mail#:#mail_account_mail#:#Bejelentkezési e-mail
 mail#:#mail_add_recipient#:#Adja meg az elküldendő levél címzettjét!
 mail#:#mail_add_subfolder#:#Alkönyvtár létrehozása 
 mail#:#mail_add_subject#:#Adja meg az elküldendő levél tárgyát!
-mail#:#mail_add_to_addressbook#:#Felvétel címtárba
-mail#:#mail_add_type#:#Adja meg az elküldendő levél típusát!
-mail#:#mail_addr_entries#:#Névjegyek
 mail#:#mail_assign_entry_to_mailing_list#:#Rendeljen hozzá egy névjegyet a csoporthoz
 mail#:#mail_attachments#:#Mellékletek
 mail#:#mail_auto_generated_info#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
-mail#:#mail_bc_not_valid#:#A BCC címzett hibás
-mail#:#mail_bc_search#:#BCC keresése
-mail#:#mail_byte#:#Bájt
-mail#:#mail_cc_not_valid#:#A CC címzett hibás
-mail#:#mail_cc_search#:#CC keresése
 mail#:#mail_change_to_folder#:#Mappaváltás:
-mail#:#mail_check_your_email_addr#:#Az Ön e-mail címe hibás
-mail#:#mail_compose#:#Üzenet írása
 mail#:#mail_cronjob_notification_info#:#Periodikus értesítés aktiválása az új e-mailekről
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Legalább egy kiválasztott kurzus tagjait nem lehet felsorolni.
 mail#:#mail_crs_list_members_not_available#:#Nem lehet felsorolni a kiválasztott kurzusok tagjait.
 mail#:#mail_deleted_entry#:#A névjegy(ek)et sikeresen törölte
 mail#:#mail_deleted#:#A level(ek)et sikeresen törölte.
-mail#:#mail_edit_entry#:#Névjegy módosítása
-mail#:#mail_email_forbidden#:#Az Ön számára nincs engedélyezve e-mail küldése.
 mail#:#mail_empty_trash_confirmation#:#Biztos, hogy minden levelet töröl a kukából?
 mail#:#mail_empty_trash#:#Kuka ürítése
-mail#:#mail_enter_login_or_email_addr#:#Adjon meg egy érvényes felhasználónevet vagy e-mail címet!
-mail#:#mail_enter_valid_email_addr#:#Adjon meg egy érvényes e-mail címet!
-mail#:#mail_enter_valid_login#:#Adjon meg egy érvényes felhasználónevet!
-mail#:#mail_entry_added#:#Új névjegyet hozzáadott.
-mail#:#mail_entry_changed#:#A bejegyzést módosította.
-mail#:#mail_entry_exists#:#Ezzel a felhasználónévvel már van névjegy.
 mail#:#mail_entry_of_contacts#:#Névjegy
 mail#:#mail_external_sender_noreply#:#noreply-cím
 mail#:#mail_file_name#:#Fájlnév
@@ -7323,15 +7165,9 @@ mail#:#mail_file_size#:#Fájlméret
 mail#:#mail_files_deleted#:#A fájl(oka)t sikeresen törölte.
 mail#:#mail_folder_created#:#Sikeresen létrehozott egy új mappát.
 mail#:#mail_folder_deleted#:#A mappát sikeresen törölte
-mail#:#mail_folder_edit#:#Mappa módosítása
 mail#:#mail_folder_exists#:#Mappa már létezik ezen a néven.
 mail#:#mail_folder_name_changed#:#A mappát sikeresen átnevezte.
-mail#:#mail_folder_name#:#Mappanév
-mail#:#mail_folder_options#:#Mappabeállítások
 mail#:#mail_following_rcp_not_valid#:#Az alábbi címzettek érvénytelenek:
-mail#:#mail_global_options#:#Általános beállítások
-mail#:#mail_group_members#:#Csoporttagok
-mail#:#mail_in_addressbook#:#Már szerepel a címtárban
 mail#:#mail_incoming_both#:#helyi és továbbküldendő
 mail#:#mail_incoming_local#:#csak helyi
 mail#:#mail_incoming_mail#:#Beérkező levél
@@ -7339,8 +7175,6 @@ mail#:#mail_incoming_smtp#:#továbbküldendő az e-mail címre
 mail#:#mail_incoming#:#Beérkező levél
 mail#:#mail_insert_folder_name#:#Adjon meg mappanevet.
 mail#:#mail_insert_query#:#Írja be a keresendő szöveget.
-mail#:#mail_intern#:#Belső
-mail#:#mail_into_addressbook#:#Felvétel címtárba
 mail#:#mail_invite_users_to_chat#:#Felhasználók meghívása csevegésbe
 mail#:#mail_list_members#:#Tagok felsorolása
 mail#:#mail_mailing_list#:#Névjegycsoport
@@ -7350,7 +7184,6 @@ mail#:#mail_mailing_lists#:#Névjegycsoportok
 mail#:#mail_mark_read#:#Megjelölés olvasottként
 mail#:#mail_mark_unread#:#Megjelölés olvasatlanként
 mail#:#mail_maxsize_attachment_error#:#A feltöltési határ:
-mail#:#mail_members_added_addressbook#:#A tagokat felvette a címtárba
 mail#:#mail_members_of_mailing_list#:#Csoport névjegyei
 mail#:#mail_message_send#:#Üzenetet elküldte.
 mail#:#mail_move_error#:#Hiba a levél áthelyezésekor
@@ -7359,7 +7192,6 @@ mail#:#mail_moved_to_trash#:#A levelet a kukába helyezte.
 mail#:#mail_moved#:#A levelet sikeren áthelyezte.
 mail#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! Az ILIAS több lehetséges címzettet talált ezzel a címmel: %s
 mail#:#mail_my_courses#:#Kurzusaim
-mail#:#mail_my_entries#:#Névjegyek
 mail#:#mail_my_groups#:#Csoportjaim
 mail#:#mail_my_mailing_lists#:#Névjegycsoportok
 mail#:#mail_nacc_admin_mail#:#Rendszergazda e-mail címe
@@ -7374,19 +7206,11 @@ mail#:#mail_nacc_target_title#:#Cél címe, pl. kurzuscím.
 mail#:#mail_nacc_target_type#:#Cél típusa, pl. 'Kurzus'.
 mail#:#mail_nacc_target#:#A cél URL-je, pl. hivatkozott kurzus, amely az ILIAS-ba kívülről került be.
 mail#:#mail_nacc_use_placeholder#:#Az alábbi helyőrzők használhatóak
-mail#:#mail_new_entry#:#Új bejegyzés
-mail#:#mail_new_file#:#Új fájl hozzáadása:
-mail#:#mail_no_attach_allowed#:#Rendszerüzenet nem tartalmazhat mellékletet
-mail#:#mail_no_attachments_found#:#Nem található melléklet
 mail#:#mail_no_permissions_write_smtp#:#Nincs jogosultsága külső levelet írni
 mail#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
 mail#:#mail_no_valid_mailing_list#:#%1$s (egy használható névjegycsoport sincs)
 mail#:#mail_notification_subject#:#Új levele érkezett
-mail#:#mail_options_of#:#Beállítások
 mail#:#mail_options_saved#:#Beállításokat sikeresen mentette.
-mail#:#mail_received_x_new_mails#:#%s levelet kapott.
-mail#:#mail_recipient_not_valid#:#A címzett hibás.
-mail#:#mail_s_unread#:#Olvasatlan levelek
 mail#:#mail_s#:#levél
 mail#:#mail_salutation_anonymous#:#Tisztelt
 mail#:#mail_salutation_f#:#Tisztelt
@@ -7401,8 +7225,6 @@ mail#:#mail_select_course#:#Legalább egy kurzust válasszon!
 mail#:#mail_select_group#:#Legalább egy csoportot válasszon!
 mail#:#mail_select_one_entry#:#Ki kell választania egy bejegyzést
 mail#:#mail_select_one_file#:#Ki kell választania egy fájlt
-mail#:#mail_select_only_one_entry#:#Csak egy bejegyzést válasszon!
-mail#:#mail_send_with_system_address#:#Küldés rendszercímmel
 mail#:#mail_settings_incoming_type_see_also#:#További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href="%s">itt</a> talál.
 mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg.
 mail#:#mail_subject_prefix#:#Levél tárgya
@@ -7411,10 +7233,7 @@ mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
 mail#:#mail_sure_delete_folder#:#A mappa és tartalma véglegesen el lesz távolítva.
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_to#:#Címzett
-mail#:#mail_user_addr_n_valid#:#Az alábbi felhasználóknak hibás az e-mail címük
-mail#:#placeholders_advise#:#A címzett mezőben szereplő felhasználónevek helyőrzői kerülnek feloldásra.%sA Másolat (CC) és a Titkos másolat (BCC) mezőkben levők nem.
-mail#:#search_bc_recipient#:#BCC címzett keresése
-mail#:#search_cc_recipient#:#CC címzett keresése
+mail#:#placeholders_advise#:#A címzettek személyes helyőrzőit csak a Címzett mezőben oldjuk fel.%sA Másolat (CC) és a Titkos másolat (BCC) mezőkben levőket nem módosítjuk.
 mail#:#search_recipients#:#Címzettek keresése
 mail#:#send_mail_to#:#Címzettek közé
 maps#:#maps_enable_maps_info#:#Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
@@ -10417,7 +10236,6 @@ common#:#mails_at_the_ilias_installation#:#%1$s új levelet kapott a(z) %2$s ILI
 common#:#mail_at_the_ilias_installation#:#%1$s új levelet kapott a(z) %2$s ILIAS-ban.
 trac#:#trac_learning_progress_settings_info#:#Bővített adatok bekapcsolása
 fold#:#fold_import#:#Mappa importálása
-mail#:#mail_select_recipients#:#Válassza ki a címzetteket:
 grp#:#grp_import#:#Csoport importálása
 crs#:#crs_grp_assignments#:#Kurzustagok csoportokba rendezése
 assessment#:#ordering_answer_sequence_info#:#Az itt megadott válaszsorozat a helyes megoldások sorozataként kerül felhasználásra.
@@ -11247,22 +11065,15 @@ common#:#obj_chta#:#Csevegőszoba
 chatroom#:#history_by_day#:#Napi történet
 chatroom#:#no_username_given#:#Válasszon felhasználónevet
 chatroom#:#history_by_session#:#Munkamenet-történet
-chatroom#:#connected#:#A kapcsolat létrejött
 chatroom#:#period#:#Időszak
-chatroom#:#disconnected#:#A kapcsolat lezárult
 chatroom#:#allow_anonymous#:#Anonymous bejelentkezés engedélyezett
 chatroom#:#autogen_usernames#:#Automatikusan generált felhasználónevek
 chatroom#:#allow_custom_usernames#:#Egyéni felhasználónevek megengedettek
 chatroom#:#enable_history#:#Történet engedélyezése
-chatroom#:#restrict_history#:#Történet korlátozása
-chatroom#:#restrict_history_info#:#Nem generálódtak bejegyzések a csevegőszobából távollét alatt.
-chatroom#:#allow_private_rooms#:#Privát szobák megengedettek
 chatroom#:#settings_general#:#Általános
-chatroom#:#settings_privacy#:#Saját
 chatroom#:#autogen_usernames_info#:#Az anonymous felhasználói fiókokhoz rendelt automatikusan generált felhasználónév minta. A '#' lecserélődik majd egy számmal.
 chatroom#:#bans#:#Kizártak
 chatroom#:#permissions#:#Jogosultságok
-chatroom#:#remark#:#Észrevétel
 chatroom#:#session#:#Munkamenet
 chatroom#:#fontcolor#:#Betűszín
 chatroom#:#fontstyle#:#Betűstílus
@@ -11283,9 +11094,7 @@ chatroom#:#chat_message_to_all#:#Mindenkinek
 chatroom#:#chat_message_options#:#Megjelenítés
 chatroom#:#chat_message_display#:#Lehetőségek
 chatroom#:#chat_mainroom#:#Főszoba
-chatroom#:#chat_leave#:#Kilépés
 chatroom#:#chat_join#:#Csatlakozás
-chatroom#:#chat_delete#:#Törlés
 chatroom#:#chat_invite#:#Meghívás
 chatroom#:#chat_kick#:#Kirúgás
 chatroom#:#chat_ban#:#Kizárás
@@ -11293,13 +11102,8 @@ chatroom#:#chat_address#:#Címzés
 chatroom#:#chat_whisper#:#Suttogás
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> belépett a csevegőszobába +++
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> elhagyta a csevegőszobát ---
-chatroom#:#chat_invite_users#:#Felhasználók meghívása
-chatroom#:#chat_right_box_user#:#Felhasználó
-chatroom#:#chat_create_new_private_room#:#Új csevegőszoba létrehozása
-chatroom#:#chat_private_room#:#Privát szoba
 chatroom#:#chat_to_mainroom#:#A főszobába
 chatroom#:#chat_create_private_room_button#:#Privát szoba létrehozása
-chatroom#:#moderate#:#Moderálás
 chatroom#:#chatroom_smiley_keyword#:#Kulcsszó
 chatroom#:#chat_invitation#:#'[INVITER_NAME]' meghívja Ön '[ROOM_NAME]' csevegőszobába
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nMeghívtak ebbe a csevegőszobába:\nCsevegőszoba neve: [ROOM_NAME]\nA meghívó: [INVITER_NAME]\nURL: [LINK]\n\nHa csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
@@ -11319,7 +11123,6 @@ chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Egy sorba egy kulcss
 chatroom_adm#:#chatroom_upload_smiley#:#Feltöltött hangulatjel
 administration#:#obj_chta_desc#:#Csevegés rendszerbeállításainak kezelése
 chatroom_adm#:#protocol#:#Protokoll
-chatroom_adm#:#instance#:#Példány
 chatroom_adm#:#smiley#:#Hangulatjelek
 chatroom_adm#:#chatroom_edit_smiley#:#Hangulatjel módosítása
 chatroom_adm#:#chatroom_current_smiley_image_path#:#Jelenlegi hangulatjel
@@ -11327,27 +11130,21 @@ chatroom_adm#:#chatroom_current_smiley_image#:#Jelenlegi hangulatjelikon
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Csak akkor válasszon új hangulatjelikont, ha a jelenlegit le kell cserélni.
 chatroom_adm#:#server_settings#:#Csevegőszerver beállításai
 chatroom_adm#:#client_settings#:#Általános beállítások
-chatroom_adm#:#priv_hosts#:#Privilegizált kiszolgálók
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Csevegés engedélyezése
 chatroom_adm#:#enable_osd#:#Képernyő-értesítések engedélyezése
-chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#general_settings_title#:#Általános csevegésbeállítások
 chatroom_adm#:#osd_intervall#:#Frissítési intervallum (másodperc)
 chatroom_adm#:#chatserver_settings_title#:#Csevegőszerver beállításai
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Biztos, hogy törli a kiválasztott hangulatjelet?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Nincs könyvtára a hangulatjeleknek.
 chatroom_adm#:#chat_smilies_initialized#:#Csevegés hangulatjelek inicializálva
-chatroom#:#soap_must_be_enabled#:#A csevegés engedélyezéséhez a rendszerbeállításokban kapcsolja be a SOAP támogatást.
 chatroom#:#auto_scroll#:#Görgetés az aljára
 chatroom#:#public_chat_created#:#A nyilvános csevegést sikeresen létrehozta a taneszköztárolóban.
 chatroom#:#lost_connection#:#A csevegőszerverrel megszakadt a kapcsolat.
 chatroom#:#banned#:#Kitiltották ebből a csevegőszobából
 chatroom#:#kicked#:#Kitiltották ebből a csevegőszobából
 chatroom#:#unban#:#Kitiltás feloldása
-chatroom_adm#:#keystore#:#Keystore
-chatroom_adm#:#keypass#:#Keypass
-chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#A beállításokat sikeresen mentette
 common#:#obj_chtr#:#Csevegőszoba
 chatroom#:#unable_to_connect#:#A csevegőszerverhez kapcsolódás nem lehetséges.
@@ -11567,8 +11364,6 @@ skmg#:#skmg_create_skill_template_reference#:#Kompetenciasablon-hivatkozás lét
 skmg#:#skmg_create_skill_category#:#Kompetencia-kategória létrehozása
 common#:#notice#:#Jegyzet
 common#:#public_room#:#Nyilvános szoba
-chatroom#:#chtr_moderate#:#A felhasználó moderálhat beszélgetést a csevegőszobában
-chatroom#:#unkown_private_room#:#Ismeretlen privát szoba
 chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a <a href="%1$s" target="_blank">readme file</a>-ban talál.
 chatroom#:#chtr_new#:#Új csevegőszoba
 chatroom#:#chtr_add#:#Csevegőszoba létrehozása
@@ -11670,13 +11465,8 @@ didactic#:#didactic_template_applied#:#Alkalmazott oktatási sablon.
 didactic#:#didactic_confirm_apply_new_template#:#Biztos, hogy alkalmazza a kiválasztott oktatási sablont? Így minden jelenlegi jogosultsági beállítás el fog veszni!
 chatroom#:#chatserver_address#:#Csevegőszerver IP címe/teljes neve
 chatroom#:#chatserver_port#:#Csevegőszerver portja
-chatroom#:#instance_name#:#Egyedi azonosító
-chatroom#:#ilias_url#:#ILIAS-installáció Base-URL-je
-chatroom#:#soap_user#:#SOAP-felhasználó neve
-chatroom#:#soap_user_password#:#SOAP-felhasználó jelszava
 chatroom#:#hint_osd#:#Ha be van kapcsolva, a felhasználók felbukkanó ablakban kapnak értesítést új meghívásokról.
 chatroom#:#hint_osd_interval#:#Lekérdezési intervallum az új értesítések ellenőrzéséhez. Alacsonyabb szám esetén a felhasználó gyakrabban kap értesítést, de a webszervernek több kérést kell lekezelnie.
-chatroom#:#hint_unique_name#:#Az ILIAS és a csevegőszerver által használt név az ILIAS azonosításához. Ha több mint egy kliens van használatban csevegőszerverenként, ennek a névnek egyedinek kell lennie ILIAS példányonként. <br/>A név tartalmazhat betűket (A-Z/a-z), számokat (0-9), a '-' és a '_' karaktereket.
 chatroom#:#enable_smilies#:#Hangulatjelek engedélyezése
 chatroom#:#hint_enable_smilies#:#Ha be van kapcsolva, a konfigurált szövegrészeket ikonra cseréljük. Beállításokhoz tekints meg a hangulatjelek fület.
 chatroom#:#display_past_msgs#:#Elküldött üzenetek száma
@@ -11708,7 +11498,6 @@ notes#:#comments_feature_currently_not_activated_for_object#:#Ehhez az objektumh
 chatroom#:#layout#:#Elrendezés
 chatroom#:#show_settings#:#Beállítások megjelenítése
 chatroom#:#hide_settings#:#Beállítások elrejtése
-chatroom_adm#:#soap_user_hint#:#Ez a felhasználó küldött információkat a csevegőszerverről az ILIAS-installációnak. Nem szükséges speciális jogosultság.<br/>Ha új ILIAS-fiókot hoz létre, bizonyosodjon meg arról, hogy be tud jelentkezni ezzel a felhasználóval (pl. felhasználói megállapodás elfogadása).
 chatroom#:#private_rooms_enabled#:#Privát szoba engedélyezése
 chatroom#:#private_rooms_enabled_info#:#Ha be van kapcsolva, a felhasználók létrehozhatnak privát csevegőszobát. Ezekbe a szobákba csak meghívott felhasználók léphetnek be.
 chatroom#:#no_further_users#:#Nincs jelen más felhasználó
@@ -12250,7 +12039,7 @@ poll#:#poll_block_message_already_voted#:#Már szavazott ebben a szavazásban.
 poll#:#poll_block_message_no_answers#:#Ez a szavazás még nem készült el teljesen.
 survey#:#svy_neutral_answer#:#Szöveg semleges válaszhoz ('Nem meghatározott', 'Nem tudom' stb.)
 dcl#:#dcl_edit_type#:#Típus módosítása
-dcl#:#dcl_activate_rating#:#Értékelési bejegyzés bekapcsolása
+dcl#:#dcl_activate_rating#:#Bejegyzés értékelésének bekapcsolása
 dcl#:#dcl_activate_approval#:#Bejegyzés jóváhagyásának bekapcsolása
 dcl#:#dcl_activate_notification#:#Értesítés engedélyezése
 dcl#:#dcl_table_id#:#Tábla-ID
@@ -12889,12 +12678,7 @@ rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csevegőszobát
 ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerep összerendelések
 ecs#:#ecs_role_mapping_value#:#Attribútum értéke
 forum#:#sorting_manual_sticky#:#Kiemelt témák kézi rendezése
-forum#:#frm_sorting_threads#:#Témák rendezése
-forum#:#frm_sorting_posts#:#Hozzászólások rendezése
 forum#:#sticky_threads_always_on_top#:#Kiemelt témák mindig a témák elején maradnak. Kézzel rendezheti őket, amennyiben ezt a lehetőséget választotta.
-mail#:#cron_update_addressbook#:#Címtár névjegyeinek automatikus szinkronizálása
-mail#:#cron_update_addressbook_desc#:#Ha be van kapcsolva, a felhasználók beállíthatják, hogy a címtárban lévő névjegyek adatai szinkronizálódjanak-e az ütemezett feladaton keresztül. Csak a felhasználó által engedélyezett adatok frissülnek.
-mail#:#auto_update#:#Frissítés
 blog#:#blog_toggle_draft_admin#:#Blog hozzászólások tiltása
 blog#:#blog_keywords_info#:#Használja a +/- ikonokat kulcsszavak hozzáadásra, illetve eltávolítására.
 forum#:#merge#:#Összevon
@@ -12955,6 +12739,9 @@ cron#:#cron_action_deactivate_success#:#Ütemezett feladatot sikeresen kikapcsol
 cron#:#cron_action_reset_success#:#Ütemezett feladatot sikeresen resetelte.
 cron#:#cron_action_edit_success#:#Ütemezést sikeresen frissítette.
 cron#:#cron_no_executable_job_selected#:#Legalább egy ütemezett feladatok jelöljön ki!
+cron#:#cro_job_rc_job_no_result#:#NINCS EREDMÉNY
+cron#:#cro_job_rc_job_manual_reset#:#MANUÁLIS RESETELÉS
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#TALÁN ÖSSZEOMLOTT
 dcl#:#dcl_no_warnings#:#Az import figyelmeztetés nélkül véget ért.
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
@@ -13486,7 +13273,6 @@ exc#:#exc_feedback_notification_subject#:#'%s' beadandó feladathoz visszajelzé
 exc#:#exc_feedback_notification_salutation#:#Tisztelt %s,
 exc#:#exc_feedback_notification_body#:#ezúton értesítjük, hogy az alábbi feltöltéséhez új visszajelzés érkezett.
 exc#:#exc_feedback_notification_link#:#Link a beadandó feladathoz
-mail#:#system_notification_installation_signature#:#Ezt a levelet az ILIAS automatikusan küldte
 mail#:#system_notification_installation_changed_by#:#Módosította
 exc#:#exc_feedback_notification_reason#:#Ezt a levelet azért kapta, mert fent említett beadandó feladatnak résztvevője.
 exc#:#exc_team_notification_reason#:#Ezt a levelet azért kapta, mert fent említett csoportnak tagja.
@@ -16236,82 +16022,72 @@ awrn#:#awrn_use_osd_info#:#'Ki van online' felsorolásában új felhasználók e
 exc#:#exc_tbl_filter_submission#:#Beadás
 exc#:#exc_tbl_filter_has_submission#:#Beadták
 exc#:#exc_tbl_filter_has_no_submission#:#Még adták be
-mass#:#general#:#Általános információ
-mass#:#mass_content#:#Értékelés tartalmának leírása
-mass#:#mass_record_template#:#Bejegyzéssablon
-mass#:#mass_graded_by#:#Értékelést adta
-mass#:#mass_usr_remove#:#Résztvevő eltávolítása a hozzárendelésből
-mass#:#mass_usr_edit#:#Résztvevői bejegyzés és tanulási haladás módosítása
-mass#:#mass_usr_view#:#Résztvevői bejegyzés
-mass#:#mass_edit_record#:#Felhasználói bejegyzés
-mass#:#mass_record#:#Bejegyzés megjegyzése
-mass#:#mass_internal_note#:#Belső bejegyzés megjegyzése
-mass#:#mass_status_completed#:#Befejezve
-mass#:#mass_status_failed#:#Sikertelen
-mass#:#mass_status_pending#:#Állapot függőben
-mass#:#mass_notify#:#Véglegesítés után a résztvevő értesítése
-mass#:#mass_finalize#:#Véglegesítés
-mass#:#il_mass_member#:#Résztvevő
-mass#:#il_mass_members#:#Résztvevők
-mass#:#edit_members#:#Vizsgázók módosítása
-mass#:#mass_edit_members#:#Vizsgázók módosítása
-mass#:#mass_visible#:#Látható
-mass#:#mass_read#:#Olvasható
-mass#:#mass_copy#:#Másolás
-mass#:#mass_write#:#Beállítások módosítása
-mass#:#mass_delete#:#Törlése
-mass#:#mass_read_learning_progress#:#Többi felhasználó tanulási haladásának megjelenítése
-mass#:#mass_edit_permissions#:#Jogosultságok módosítása
-mass#:#mass_edit_learning_progress#:#Tanulási haladás módosítása
-mass#:#mass_may_not_finalize#:#Vizsgázó még nincs véglegesítve.
-mass#:#mass_subj_notification_completed#:#%s: Egyéni értékelése: sikeresen teljesítette.
-mass#:#mass_subj_notification_failed#:#%s: Egyéni értékelése: sikertelen.
-trac#:#trac_mode_manual_assessment#:#Tutor vagy trainer manuálisan értékelte
-common#:#obj_mass#:#Egyéni értékelés
-common#:#objs_mass#:#Egyéni értékelések
-common#:#obj_mass_duplicate#:#Manuális értékelés másolása
-common#:#obj_mass_select#:#-- Válasszon egy manuális értékelést --
-trac#:#trac_mode_manual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a manuális értékelést.
-common#:#il_mass_member#:#Manuális értékelés vizsgázó
-common#:#mass_new#:#Manuális értékelés létrehozása
-common#:#mass_import#:#Manuális értékelés importálása
-rbac#:#mass_visible#:#Manuális értékelés látható
-rbac#:#mass_read#:#Manuális értékelés tartalmának olvasása
-rbac#:#mass_read_learning_progress#:#Manuális értékelés tanulási haladási információjának megjelenítése
-rbac#:#mass_edit_learning_progress#:#Manuális értékelés tanulási haladási információjának módosítása
-rbac#:#mass_copy#:#Manuális értékelés másolása
-rbac#:#mass_write#:#Manuális értékelés módosítása
-rbac#:#mass_delete#:#Manuális értékelés törlése
-rbac#:#mass_edit_members#:#Manuális értékelés tagjainak módosítása
-rbac#:#mass_edit_permission#:#Manuális értékelés jogosultságainak módosítása
-mass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
-mass#:#mass_edit#:#Beállítások
-mass#:#mass_add#:#Egyéni értékelés létrehozása
-mass#:#mass_membership_finalized#:#Felvétel véglegesítve
-mass#:#mass_membership_saved#:#Felvétel mente, de nincs véglegesítve
-mass#:#mass_return#:#Vissza az áttekintéshez
-mass#:#mass_remove_user_qst#:#Biztos, hogy eltávolítja a vizsgázót?
-mass#:#mass_finalize_user_qst#:#Biztos, hogy véglegesíti a vizsgázó állapotát? Után annak módosítása már nem lehetséges.
-mass#:#mass_settings_saved#:#Beállításokat sikeresen mentette.
-mass#:#mass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
-mass#:#mass_add_user_success#:#Felhasználót vizsgázónak sikeresen hozzáadta.
-mass#:#grading#:#Értékelés
-mass#:#grading_info#:#Értékelés info
-mass#:#grading_record#:#Értékelés feljegyzése
-mass#:#mass_content_explanation#:#Értékelés tartalma, például releváns témák.###Topikok
-mass#:#mass_record_template_explanation#:#Eredményrögzítési sablon vizsgázókhoz. Automatikusan alkalmazzuk új vizsgázóra.
-mass#:#mass_notify_explanation#:#A véglegesítésről levélben értesítjük a vizsgázót, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
-mass#:#mass_contact#:#Név
-mass#:#mass_responsibility#:#Felelősségi kör
-mass#:#mass_phone#:#Telefon
-mass#:#mass_mails#:#Levelek
-mass#:#mass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
-mass#:#mass_consultation_hours#:#Fogadóórák
-mass#:#mass_edit_info#:#Info beállításai
-mass#:#mass_mess_notification_completed#:#Sikeresen teljesített %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
-mass#:#mass_mess_notification_failed#:#Nem sikerült teljesítenie %s értékelést. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
-mass#:#mass_contact_info#:#Kapcsolat
-mass#:#mass_added#:#Egyéni hozzárendelést sikeresen elvégezte
+iass#:#general#:#Általános információ
+iass#:#iass_content#:#Értékelés tartalmi leírása
+iass#:#iass_record_template#:#Bejegyzéssablon
+iass#:#iass_graded_by#:#Értékelést adta
+iass#:#iass_usr_remove#:#Értékelendő eltávolítása a hozzárendelésből
+iass#:#iass_usr_edit#:#Bejegyzés és tanulási haladás módosítása
+iass#:#iass_usr_view#:#Bejegyzés
+iass#:#iass_edit_record#:#Értékelésbejegyzés
+iass#:#iass_record#:#Megjegyzés
+iass#:#iass_internal_note#:#Belső megjegyzés
+iass#:#iass_status_completed#:#Sikeresen teljesítette
+iass#:#iass_status_failed#:#Nem teljesítette
+iass#:#iass_status_pending#:#Állapot függőben
+iass#:#iass_notify#:#Véglegesítés után az értékelt értesítése
+iass#:#iass_finalize#:#Véglegesítés
+iass#:#il_iass_member#:#Értékelendő
+iass#:#il_iass_members#:#Értékelendők
+iass#:#iass_may_not_finalize#:#Értékelés még nincs véglegesítve.
+iass#:#iass_subj_notification_completed#:#%s: Személyes értékelése: sikeresen teljesítette.
+iass#:#iass_subj_notification_failed#:#%s: Személyes értékelése: nem teljesítette.
+trac#:#trac_mode_individual_assessment#:#Tutor vagy trainer manuálisan értékelte
+common#:#obj_iass#:#Személyes értékelés
+common#:#objs_iass#:#Személyes értékelések
+common#:#obj_iass_duplicate#:#Személyes értékelés másolása
+common#:#obj_iass_select#:#-- Válasszon egy személyes értékelést --
+trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a személyes értékelést.
+common#:#il_iass_member#:#Személyes értékeléssel értékelendők
+common#:#iass_new#:#Személyes értékelés létrehozása
+common#:#iass_import#:#Személyes értékelés importálása
+rbac#:#iass_visible#:#Személyes értékelés látható
+rbac#:#iass_read#:#Személyes értékelés tartalmának olvasása
+rbac#:#iass_read_learning_progress#:#Személyes értékelés tanulási haladási információjának megjelenítése
+rbac#:#iass_edit_learning_progress#:#Személyes értékelés tanulási haladási információjának módosítása
+rbac#:#iass_copy#:#Személyes értékelés másolása
+rbac#:#iass_write#:#Személyes értékelés módosítása
+rbac#:#iass_delete#:#Személyes értékelés törlése
+rbac#:#iass_edit_members#:#Személyes értékelés tagjainak módosítása
+rbac#:#iass_edit_permission#:#Személyes értékelés jogosultságainak módosítása
+iass#:#lp_inactive#:#Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek.
+iass#:#iass_edit#:#Beállítások
+iass#:#iass_add#:#Személyes értékelés létrehozása
+iass#:#iass_membership_finalized#:#Bejegyzés véglegesítve
+iass#:#iass_membership_saved#:#Bejegyzés mente, de nincs véglegesítve
+iass#:#iass_return#:#Vissza az áttekintéshez
+iass#:#iass_remove_user_qst#:#Biztos, hogy eltávolítja az értékelendőt?
+iass#:#iass_finalize_user_qst#:#Biztos, hogy véglegesíti az értékelendő állapotát? Utána annak módosítása már nem lehetséges.
+iass#:#iass_settings_saved#:#Beállításokat sikeresen mentette.
+iass#:#iass_add_user_failure#:#Egy vagy több felhasználót nem sikerült hozzáadni.
+iass#:#iass_add_user_success#:#Felhasználót értékelendőnek sikeresen hozzáadta.
+iass#:#grading#:#Értékelés
+iass#:#grading_info#:#Értékelésinformáció
+iass#:#grading_record#:#Értékelésfeljegyzés
+iass#:#iass_content_explanation#:#Értékelés tartalma, például a kapcsolódó témakörök felsorolása.
+iass#:#iass_record_template_explanation#:#Értékelési sablon, melyet automatikusan alkalmazzuk minden új értékelésnél.
+iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük az értekeltet, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
+iass#:#iass_contact#:#Név
+iass#:#iass_responsibility#:#Felelősségi kör
+iass#:#iass_phone#:#Telefonszám
+iass#:#iass_mails#:#E-mail címek
+iass#:#iass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
+iass#:#iass_consultation_hours#:#Fogadóórák
+iass#:#iass_edit_info#:#Információ beállításai
+iass#:#iass_mess_notification_completed#:#'%s' értékelést sikeresen teljesítette. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_mess_notification_failed#:#'%s' értékelést nem sikerült teljesítenie. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_contact_info#:#Kapcsolat
+iass#:#iass_added#:#Személyes értékelést sikeresen létrehozta
 registration#:#reg_mail_body_activation#:#ILIAS-fiókja aktiváláshoz és e-mail címének igazolásához kattintson ide:###XXX
 chatroom#:#chat_auth_token_info#:#Kérem, egyedi stringeket hozzon létre. Ezeket a stringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a stringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliens id-nek <b>egyedinek</b> kell lennie.
 chatroom#:#chat_https_cert_info#:#Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem).
@@ -16356,11 +16132,23 @@ copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kijelölt elemeket?
 survey#:#msg_input_only_positive_numbers#:#Pozitív számokat adjon meg a skálaértékekhez.
 crs#:#crs_loc_err_stat_tst_offline#:#Nem az összes teszt online.
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
-mass#:#mass_record_info#:#A vizsgázók a végső jegyük megkapása után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést a vizsgázónak e-mailben is kiküldjük.
-mass#:#mass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de a vizsgázók nem.
+iass#:#iass_record_info#:#Az értékelendők értékelésük véglegesítése után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést az értékelendőnek e-mailben is elküldjük.
+iass#:#iass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de az értékeltek nem.
 common#:#sahs_export_file#:#ILIAS exportált SCORM archív fájl
 content#:#lm_only_one_download_per_type#:#Kérjük, vegye figyelembe, hogy típusonként (XML, HTML, SCORM) csak egy fájlt tehet nyilvánosan elérhetővé.
 survey#:#error_save_code#:#Az értéket nem sikerült megfelelően menteni. <b>'%s' e-mail cím nem valós</b>. Családnév: '%s', utónév: '%s'.<br>
 content#:#cont_permission_object_desc#:#A fejezet csak megfelelő jogosultsággal rendelkező felhasználók számára érhető el.
 grp#:#grp_err_registration_limited#:#Válós dátumot adjon meg a regisztráció nyitó- és záródátumának
 auth#:#auth_activation_code_success#:#Fiókját újra aktiv, bejelentkezhet az ILIAS-ba.
+lng#:#lng_download_deprecated#:#Elavultak listájának letöltése
+rbac#:#edit_members#:#Tagok kezelése
+rbac#:#prg_manage_members#:#Tanulmányi programok tagjainak kezelése
+rbac#:#rbac_create_iass#:#Személyes értékelés létrehozása
+survey#:#cant_send_email_smtp_disabled#:#Külső e-mail küldése központilag le van tiltva.
+wsp#:#share_content#:#Megosztott objektum
+wsp#:#share_with#:#Felhasználónév
+wsp#:#element_already_shared#:#Ezt az objektumot már megosztotta evvel a felhasználóval.
+wsp#:#search_no_match#:#Keresése nem adott eredményt.
+wsp#:#element_shared#:#Objekumot sikeresen megosztotta.
+wsp#:#share#:#Megosztás
+copg#:#copg_questions_not_supported_here#:#Ebben a kontektusban a kérdéseket nem támogatjuk.

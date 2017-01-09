@@ -1776,7 +1776,7 @@ echo "<br>+".$client_id;
 
 		$this->form->setValuesByArray($values);
 	}
-
+	
 	/**
 	 * Save client ini form
 	 */
@@ -1785,7 +1785,7 @@ echo "<br>+".$client_id;
 		$this->initClientIniForm();
 		if ($this->form->checkInput()) {
 			if (strlen($_POST["client_id"]) != strlen(urlencode(($_POST["client_id"])))
-			    || is_int(strpos($_POST["client_id"], "_"))
+			    || !$this->setup->isValidClientId($_POST["client_id"])
 			) {
 				$i = $this->form->getItemByPostVar("client_id");
 				$i->setAlert($this->lng->txt("ini_client_id_invalid"));

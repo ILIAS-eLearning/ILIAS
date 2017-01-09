@@ -94,6 +94,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob {
 			}
 		}
 
+		$result->setStatus(ilCronJobResult::STATUS_OK);
 		return $result;
 	}
 

@@ -64,10 +64,7 @@ class ilInfoScreenGUI
 	function executeCommand()
 	{
 		global $rbacsystem, $tpl, $ilAccess;
-
-		// load additional language modules
-		$this->lng->loadLanguageModule("barometer");
-
+		
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->ctrl->getCmd("showSummary");
