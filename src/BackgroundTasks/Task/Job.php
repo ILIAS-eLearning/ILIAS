@@ -1,18 +1,24 @@
 <?php
 
+namespace ILIAS\BackgroundTasks\Task;
+
+use ILIAS\BackgroundTasks\IO;
+use ILIAS\BackgroundTasks\Task;
+
 /**
- * Interface ilBTJob
+ * Interface Job
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @author Oskar Truffer <ot@studer-rai
+ * @package ILIAS\BackgroundTasks\Task
+ *
+ *          A Task, which can be run without any interaction with the user such as zipping files or just collecting some data
  */
-interface ilBTJob extends ilBTTask {
+interface Job extends Task {
 
 	/**
-	 * @param $input ilBTIO
-	 * @return ilBTIO
+	 * @param \ILIAS\BackgroundTasks\IO $input
+	 * @return \ILIAS\BackgroundTasks\IO
 	 */
-	public function run(ilBTIO $input);
+	public function run(IO $input);
 
 
 	/**
