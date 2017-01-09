@@ -71,13 +71,16 @@ class arConnectorDB extends arConnector {
 		$arFieldList = $ar->getArFieldList();
 		$res = $ilDB->query('SHOW INDEX FROM ' . $ar->getConnectorContainerName());
 		$existing_indices = array();
+
 		while ($rec = $ilDB->fetchObject($res)) {
 			$existing_indices[] = $rec->column_name;
 		}
 		foreach ($arFieldList->getFields() as $i => $arField) {
 			if ($arField->getIndex() === true) {
 				if (!in_array($arField->getName(), $existing_indices)) {
-					$ilDB->addIndex($ar->getConnectorContainerName(), array( $arField->getName() ), 'i' . $i);
+					if (!$ilDB->indexExistsByFields($ar->getConnectorContainerName(), array( $arField->getName() ))) {
+						$ilDB->addIndex($ar->getConnectorContainerName(), array( $arField->getName() ), 'i' . $i);
+					}
 				}
 			}
 		}
