@@ -965,7 +965,12 @@ class ilDataCollectionField {
 			if ($properties[$length] < mb_strlen($value, 'UTF-8') AND is_numeric($properties[$length])) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			}
-			if (! ($properties[$regex_id] == NULL OR preg_match($regex, $value) === false)) {
+			
+			if(
+				$properties[$regex_id] != null &&
+				!preg_match($regex, $value)
+			)
+			{
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			}
 			//email or url
