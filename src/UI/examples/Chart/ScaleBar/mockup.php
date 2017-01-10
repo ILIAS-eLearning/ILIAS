@@ -2,7 +2,7 @@
 /**
  * Mockup
  */
-function base() {
+function mockup() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();

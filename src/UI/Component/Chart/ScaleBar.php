@@ -5,14 +5,14 @@
 namespace ILIAS\UI\Component\Chart;
 
 /**
- * Interface Pick Charts
+ * Interface Scale Bars
  */
-interface Pick {
+interface ScaleBar {
 
 	/**
 	 * Sets a key value pair as items for the list. Key is used as title and value is a boolean marking highlighted values.
 	 * @param array string => boolean Set of elements to be rendered, boolean should be true if highlighted
-	 * @return \ILIAS\UI\Component\Chart\Pick\Pick
+	 * @return \ILIAS\UI\Component\Chart\ScaleBar\ScaleBar
 	 */
 	public function withItems(array $items);
 
