@@ -15,6 +15,11 @@ include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionI
 class assOrderingQuestionImport extends assQuestionImport
 {
 	/**
+	 * @var assOrderingQuestion
+	 */
+	public $object;
+	
+	/**
 	* Creates a question from a QTI file
 	*
 	* Receives parameters from a QTI parser and creates a valid ILIAS question object

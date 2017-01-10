@@ -84,6 +84,21 @@ class ilAssOrderingElement
 	protected $imageRemovalRequest = null;
 	
 	/**
+	 * @var string
+	 */
+	protected $imagePathWeb = null;
+	
+	/**
+	 * @var string
+	 */
+	protected $imagePathFs = null;
+	
+	/**
+	 * @var null
+	 */
+	protected $imageThumbnailPrefix = null;
+	
+	/**
 	 * ilAssOrderingElement constructor.
 	 */
 	public function __construct()
@@ -260,6 +275,54 @@ class ilAssOrderingElement
 	}
 	
 	/**
+	 * @return string
+	 */
+	public function getImagePathWeb()
+	{
+		return $this->imagePathWeb;
+	}
+	
+	/**
+	 * @param string $imagePathWeb
+	 */
+	public function setImagePathWeb($imagePathWeb)
+	{
+		$this->imagePathWeb = $imagePathWeb;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getImagePathFs()
+	{
+		return $this->imagePathFs;
+	}
+	
+	/**
+	 * @param string $imagePathFs
+	 */
+	public function setImagePathFs($imagePathFs)
+	{
+		$this->imagePathFs = $imagePathFs;
+	}
+	
+	/**
+	 * @return null
+	 */
+	public function getImageThumbnailPrefix()
+	{
+		return $this->imageThumbnailPrefix;
+	}
+	
+	/**
+	 * @param null $imageThumbnailPrefix
+	 */
+	public function setImageThumbnailPrefix($imageThumbnailPrefix)
+	{
+		$this->imageThumbnailPrefix = $imageThumbnailPrefix;
+	}
+	
+	/**
 	 * @param ilAssOrderingElement $element
 	 * @return bool
 	 */
@@ -323,5 +386,72 @@ class ilAssOrderingElement
 	public function __toString()
 	{
 		return $this->getContent();
+	}
+	
+	protected function thumbnailFileExists()
+	{
+		if( !strlen($this->getContent()) )
+		{
+			return false;
+		}
+		
+		return file_exists($this->getThumbnailFilePath());
+	}
+	
+	protected function getThumbnailFilePath()
+	{
+		return $this->getImagePathFs() . $this->getImageThumbnailPrefix() . $this->getContent();
+	}
+	
+	protected function getThumbnailFileUrl()
+	{
+		return $this->getImagePathWeb() . $this->getImageThumbnailPrefix() . $this->getContent();
+	}
+	
+	protected function imageFileExists()
+	{
+		if( !strlen($this->getContent()) )
+		{
+			return false;
+		}
+		
+		return file_exists($this->getImageFilePath());
+	}
+	
+	protected function getImageFilePath()
+	{
+		return $this->getImagePathFs() .  $this->getContent();
+	}
+	
+	protected function getImageFileUrl()
+	{
+		return $this->getImagePathWeb() . $this->getContent();
+	}
+	
+	public function getPresentationImageUrl()
+	{
+		if( $this->thumbnailFileExists() )
+		{
+			return $this->getThumbnailFileUrl();
+		}
+		
+		if( $this->imageFileExists() )
+		{
+			return $this->getImageFileUrl();
+		}
+		
+		return '';
+	}
+
+	public function getExportIdent()
+	{
+		$ident = array(
+			$this->getRandomIdentifier(),
+			$this->getSolutionIdentifier(),
+			$this->getPosition(),
+			$this->getIndentation()
+		);
+		
+		return implode(':', $ident);
 	}
 }

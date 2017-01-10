@@ -113,8 +113,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->writePostData(true);
 		$this->object->setOrderingType(OQ_NESTED_TERMS);
 		$this->object->saveToDb();
-
-		$this->editQuestion();
+		
+		$this->renderEditForm($this->buildEditForm());
 	}
 
 	public function orderNestedPictures()
@@ -122,8 +122,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->writePostData(true);
 		$this->object->setOrderingType(OQ_NESTED_PICTURES);
 		$this->object->saveToDb();
-
-		$this->editQuestion();
+		
+		$this->renderEditForm($this->buildEditForm());
 	}
 	
 	public function removeElementImage()
@@ -181,18 +181,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$form->replaceFormItemByPostVar($orderingInput);
 		$form->setValuesByPost();
 		
-		if( $orderingInput->checkInput() )
-		{
-			$this->writeAnswerSpecificPostData($form);
-			$this->object->getOrderingElementList()->saveToDb();
-			
-			$orderingInput->setElementList($this->object->getOrderingElementList());
-		}
-		else
+		if(!$orderingInput->checkInput())
 		{
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-			$orderingInput->setElementList($orderingInput->getElementList($this->object->getId()));
 		}
+		
+		$this->writeAnswerSpecificPostData($form);
+		$this->object->getOrderingElementList()->saveToDb();
+		$orderingInput->setElementList($this->object->getOrderingElementList());
 		
 		$this->renderEditForm($form);
 	}
@@ -230,7 +226,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					if( in_array($suffix, array("jpg", "jpeg", "png", "gif")) )
 					{
 						$submittedElement->setUploadImageName( $this->object->buildHashedImageFilename(
-							$submittedElement->getUploadImageName()
+							$submittedElement->getUploadImageName(), true
 						));
 						
 						$wasImageFileStored = $this->object->storeImageFile(
@@ -380,11 +376,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			// the validation result for the decision of saving as well
 
 			// inits {this->editForm} and performs validation
-			$hasErrors = $this->editQuestion($avoidOutput = true);
-			$form = $this->editForm;
+			$form = $this->buildEditForm();
+			$form->setValuesByPost(); // manipulation and distribution of values 
 			
-			// consequence of vaidation
-			$savingAllowed = !$hasErrors;
+			if( !$form->checkInput() ) // manipulations regular style input propeties
+			{
+				$orderingInput = $form->getItemByPostVar(
+					assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
+				);
+				
+				$orderingInput->setMultiValues($orderingInput->getMultiValues()); // KEEP THIS (!)
+				
+				// consequence of vaidation
+				$savingAllowed = false;
+			}
 		}
 		elseif( !$this->isSaveCommand() )
 		{
@@ -411,35 +416,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function editQuestion($checkonly = FALSE)
 	{
-		$save = $this->isSaveCommand();
-		
-		$form = $this->buildEditForm();
-		
-		$errors = false;
-		
-		if ($save)
-		{
-			$form->setValuesByPost();
-			
-			$errors = !$form->checkInput();
-			
-			if ($errors)
-			{
-				$orderingInput = $form->getItemByPostVar(
-					assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
-				);
-				$orderingInput->setMultiValues($orderingInput->getMultiValues()); // KEEP THIS (!)
-				
-				$checkonly = false;
-			}
-		}
-
-		if( $checkonly )
-		{
-			return $errors;
-		}
-		
-		$this->renderEditForm($form);
+		$this->renderEditForm( $this->buildEditForm() );
 	}
 	
 	/**
@@ -708,7 +685,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getOrderElements()) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getOrderingElementList()) )
 		{
 			return '';
 		}
@@ -742,41 +719,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $this->object->prepareTextareaOutput($tpl->get(), TRUE);
 	}
 	
-	private function getDepthRecursive($child, $ordering_depth)
-	{
-		if(is_array($child->children))
-		{
-			foreach($child->children as $grand_child)
-			{
-				$ordering_depth++;
-				$this->leveled_ordering[] = $ordering_depth;
-				$this->getDepthRecursive($grand_child, $ordering_depth);
-			}
-		}
-		else
-		{
-			$ordering_depth++;
-			$this->leveled_ordering[] = $ordering_depth;
-		}
-	}
-
-	public function setLeveledOrdering($new_hierarchy)
-	{
-		foreach($new_hierarchy as $id)
-		{
-			$ordering_depth = 0;
-			$this->leveled_ordering[] = $ordering_depth;
-
-			if(is_array($id->children))
-			{
-				foreach($id->children as $child)
-				{
-					$this->getDepthRecursive($child, $ordering_depth);
-				}
-			}
-		}
-	}
-	
 	/**
 	 * @param $form
 	 * @throws ilTestQuestionPoolException
@@ -787,23 +729,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->writeQuestionSpecificPostData($form);
 		$this->writeAnswerSpecificPostData($form);
 		$this->saveTaxonomyAssignments();
-	}
-	
-	/**
-	 * @param $content
-	 * @return string
-	 */
-	protected function renderOrderingImageOutput($content)
-	{
-		$imgSrc = $this->object->getImagePathWeb().$content;
-		
-		if($this->thumbnail)
-		{
-			
-		}
-		
-		$content = '<img src="'.$imgSrc.'" alt="'.$content.'" title="'.$content.'">';
-		return $content;
 	}
 	
 	private function getOldLeveledOrdering()
@@ -905,11 +830,19 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				{
 					$i++;
 					
-					$content = $element->getContent();
-					
 					if($this->object->isImageOrderingType())
 					{
-						$content = $this->renderOrderingImageOutput($content);
+						$element->setImageThumbnailPrefix($this->object->getThumbPrefix());
+						$element->setImagePathWeb($this->object->getImagePathWeb());
+						$element->setImagePathFs($this->object->getImagePath());
+						
+						$src = $element->getPresentationImageUrl();
+						$alt = $element->getContent();
+						$content = "<img src='{$src}' alt='{$alt}' title='{$alt}'/>";
+					}
+					else
+					{
+						$content = $element->getContent();
 					}
 					
 					$aggregated_info_for_answer[$i . ' - ' . $content] 

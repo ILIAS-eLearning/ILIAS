@@ -449,6 +449,7 @@ class ilAssOrderingElementList implements Iterator
 		{
 			$identifier = $this->buildIdentifier($identifierType);
 			$this->populateIdentifier($element, $identifierType, $identifier);
+			$this->registerIdentifier($element, $identifierType);
 		}
 	}
 	
@@ -468,14 +469,13 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	protected function registerIdentifier(ilAssOrderingElement $element, $identifierType)
 	{
-		$registry = self::$identifierRegistry[$identifierType];
-		
-		if( !isset($registry[$this->getQuestionId()]) )
+		if( !isset(self::$identifierRegistry[$identifierType][$this->getQuestionId()]) )
 		{
-			$registry[$this->getQuestionId()] = array();
+			self::$identifierRegistry[$identifierType][$this->getQuestionId()] = array();
 		}
 		
-		$registry[$this->getQuestionId()][] = $this->fetchIdentifier($element, $identifierType);
+		$identifier = $this->fetchIdentifier($element, $identifierType);
+		self::$identifierRegistry[$identifierType][$this->getQuestionId()][] = $identifier;
 	}
 	
 	/**
@@ -486,16 +486,14 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	protected function isIdentifierRegistered(ilAssOrderingElement $element, $identifierType)
 	{
-		$registry = self::$identifierRegistry[$identifierType];
-		
-		if( !isset($registry[$this->getQuestionId()]) )
+		if( !isset(self::$identifierRegistry[$identifierType][$this->getQuestionId()]) )
 		{
 			return false;
 		}
 		
 		$identifier = $this->fetchIdentifier($element, $identifierType);
 		
-		if( !in_array($identifier, $registry[$this->getQuestionId()]) )
+		if( !in_array($identifier, self::$identifierRegistry[$identifierType][$this->getQuestionId()]) )
 		{
 			return false;
 		}
@@ -684,7 +682,15 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	protected function buildSolutionIdentifier()
 	{
-		$nextSolutionIdentifier = $this->getLastSolutionIdentifier() + self::SOLUTION_IDENTIFIER_VALUE_INTERVAL;
+		$lastSolutionIdentifier = $this->getLastSolutionIdentifier();
+		
+		if( $lastSolutionIdentifier === null )
+		{
+			return 0;
+		}
+		
+		$nextSolutionIdentifier = $lastSolutionIdentifier + self::SOLUTION_IDENTIFIER_VALUE_INTERVAL;
+		
 		return $nextSolutionIdentifier;
 	}
 	

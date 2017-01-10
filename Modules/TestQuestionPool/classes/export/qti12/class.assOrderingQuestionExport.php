@@ -155,9 +155,7 @@ class assOrderingQuestionExport extends assQuestionExport
 		foreach ($this->object->getOrderingElementList() as $element)
 		{
 			$attrs = array(
-				'pos' => $element->getPosition(),
-				'key' => $element->getSolutionIdentifier(),
-				'ident' => $element->getRandomIdentifier()
+				'ident' => $element->getExportIdent()
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			if ($this->object->getOrderingType() == OQ_PICTURES

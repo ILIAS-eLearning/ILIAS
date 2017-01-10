@@ -211,94 +211,14 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 	
 	protected function getImageContentValueFromObject(ilAssOrderingElement $element)
 	{
-		$imageSource = '';
-
-		if( $this->thumbnailFileExists($element) )
-		{
-			$imageSource = $this->getImageUrlPath() . $this->getThumbnailFilename($element);
-		}
-		elseif( $this->imageFileExists($element) )
-		{
-			$imageSource = $this->getImageUrlPath() . $this->getImageFilename($element);
-		}
-			
+		$element->setImagePathWeb($this->getImageUrlPath());
+		$element->setImagePathFs($this->getImageFsPath());
+		$element->setImageThumbnailPrefix($this->getThumbnailPrefix());
+		
 		return array(
 			'title' => $element->getContent(),
-			'src' => $imageSource
+			'src' => $element->getPresentationImageUrl()
 		);
-	}
-	
-	/**
-	 * @param ilAssOrderingElement $element
-	 * @return bool
-	 */
-	protected function thumbnailFileExists(ilAssOrderingElement $element)
-	{
-		if( !$this->getThumbnailFilename($element) )
-		{
-			return false;
-		}
-		
-		if( !@file_exists($this->getImageFsPath() . $this->getThumbnailFilename($element)) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	protected function getThumbnailSource(ilAssOrderingElement $element)
-	{
-		if( !$this->thumbnailFileExists($element) )
-		{
-			return null;
-		}
-		
-		return $this->getImageUrlPath() . $this->getThumbnailFilename($element);
-	}
-	
-	protected function getThumbnailFilename(ilAssOrderingElement $element)
-	{
-		if( !$this->getThumbnailPrefix() || !$this->getImageFilename($element) )
-		{
-			return null;
-		}
-		
-		return $this->getThumbnailPrefix() . $this->getImageFilename($element);
-	}
-	
-	/**
-	 * @param ilAssOrderingElement $element
-	 * @return bool
-	 */
-	protected function imageFileExists(ilAssOrderingElement $element)
-	{
-		if( !$this->getImageFilename($element) )
-		{
-			return false;
-		}
-		
-		if( !@file_exists($this->getImageFsPath() . $this->getImageFilename($element)) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	protected function getImageSource(ilAssOrderingElement $element)
-	{
-		if( !$this->imageFileExists($element) )
-		{
-			return null;
-		}
-		
-		return $this->getImageUrlPath() . $this->getImageFilename($element);
-	}
-	
-	protected function getImageFilename(ilAssOrderingElement $element)
-	{
-		return $element->getContent();
 	}
 	
 	protected function getStructValueFromObject(ilAssOrderingElement $element)
