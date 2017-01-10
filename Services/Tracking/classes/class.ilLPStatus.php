@@ -200,16 +200,20 @@ class ilLPStatus
 	 */
 	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_force_raise = false)
 	{
-//global $ilLog;
-//$ilLog->write("ilLPStatus-_updateStatus-");
+		$log = ilLoggerFactory::getLogger('trac');
+		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_usr_id.", object: ".
+			get_class($a_obj));
 
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
 		$changed = self::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
-		
-		if($changed || (bool)$a_force_raise) // #15529
+
+		// ak: I don't think that this is a good way to fix 15529, we should not
+		// raise the event, if the status does not change imo.
+		// for now the changes in the next line just prevent the event being raised twice
+		if(!$changed && (bool)$a_force_raise) // #15529
 		{
-			self::raiseEvent($a_obj_id, $a_usr_id, $status, $percentage);			
+			self::raiseEvent($a_obj_id, $a_usr_id, $status, $percentage);
 		}			
 	}
 	
@@ -289,10 +293,14 @@ class ilLPStatus
 		}
 	}
 	
-	protected function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_percentage)
+	static protected function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_percentage)
 	{
 		global $ilAppEventHandler;
-		
+
+		$log = ilLoggerFactory::getLogger('trac');
+		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_usr_id.", status: ".
+			$a_status.", percentage: ".$a_percentage);
+
 		$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
 			"obj_id" => $a_obj_id,
 			"usr_id" => $a_usr_id,
@@ -316,7 +324,7 @@ class ilLPStatus
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
 			if(self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, $percentage, true))
 			{
-				self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, $percentage);
+				//self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, $percentage);
 			}
 		}
 		$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
@@ -325,7 +333,7 @@ class ilLPStatus
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
 			if(self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_IN_PROGRESS_NUM, $percentage, true))
 			{
-				self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_IN_PROGRESS_NUM, $percentage);
+				//self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_IN_PROGRESS_NUM, $percentage);
 			}
 		}
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
@@ -334,7 +342,7 @@ class ilLPStatus
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
 			if(self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_COMPLETED_NUM, $percentage, true))
 			{
-				self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_COMPLETED_NUM, $percentage);
+				//self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_COMPLETED_NUM, $percentage);
 			}
 		}
 		$failed = ilLPStatusWrapper::_getFailed($a_obj_id);
@@ -343,7 +351,7 @@ class ilLPStatus
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
 			if(self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_FAILED_NUM, $percentage, true))
 			{
-				self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_FAILED_NUM, $percentage);
+				//self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_FAILED_NUM, $percentage);
 			}
 		}		
 		if($a_users)
@@ -368,7 +376,11 @@ class ilLPStatus
 	static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false)
 	{
 		global $ilDB;
-				
+
+		$log = ilLoggerFactory::getLogger('trac');
+		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_user_id.", status: ".
+			$a_status.", percentage: ".$a_percentage.", force: ".$a_force_per);
+
 		$update_collections = false;
 
 		// get status in DB
@@ -469,6 +481,8 @@ class ilLPStatus
 					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
 				}
 			}
+
+			self::raiseEvent($a_obj_id, $a_user_id, $a_status, $a_percentage);
 		}
 		
 		return $update_collections;
