@@ -257,7 +257,7 @@ class ilPreviewGUI
 		$tmpl->setCurrentBlock("preview_action");
 		$tmpl->setVariable("CLICK_ACTION", "il.Preview.$a_cmd($script_args);");
 		$tmpl->setVariable("ACTION_CLASS", "$action_class");
-		$tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $this->node_id);
+		$tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $preview_html_id);
 		$tmpl->setVariable("TXT_ACTION", $this->lng->txt($btn_topic));
 		$tmpl->parseCurrentBlock();
 	}
