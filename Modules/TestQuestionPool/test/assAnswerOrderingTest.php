@@ -76,41 +76,10 @@ class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
 		$expected = 13579;
 
 		// Act
-		$instance->setOrderingDepth($expected);
-		$actual = $instance->getOrderingDepth();
+		$instance->setSolutionIndentation($expected);
+		$actual = $instance->getSolutionIndentation();
 
 		// Assert
 		$this->assertEquals($expected, $actual);
-	}
-
-	public function test_getAdditionalOrderingFieldsByRandomId()
-	{
-		// Arrange
-		require_once './Modules/TestQuestionPool/classes/class.assAnswerOrdering.php';
-		require_once './Services/Database/classes/class.ilDBConstants.php';
-		$instance = new ASS_AnswerOrdering();
-		$random_id = 13579;
-
-		$ildb_mock = $this->getMockBuilder('ilDBInterface')->getMock('ilDBInterface', array('queryF', 'fetchAssoc'), array(), '', false, false);
-		$ildb_mock->expects( $this->once() )
-				  ->method( 'queryF' )
-				  ->with( $this->equalTo('SELECT * FROM qpl_a_ordering WHERE random_id = %s'),
-						  $this->equalTo(array('integer')),
-						  $this->equalTo(array($random_id))
-					)
-				  ->will( $this->returnValue('Test') );
-		$ildb_mock->expects( $this->exactly(2) )
-				  ->method( 'fetchAssoc' )
-				  ->with( $this->equalTo('Test') )
-				  ->will( $this->onConsecutiveCalls(array('answer_id' => 123, 'depth' => 456), false ) );
-		global $ilDB;
-		$ilDB = $ildb_mock;
-
-		// Act
-		$instance->getAdditionalOrderingFieldsByRandomId($random_id);
-
-		// Assert
-		$this->assertEquals(123, $instance->getAnswerId());
-		$this->assertEquals(456, $instance->getOrderingDepth());
 	}
 }

@@ -3,6 +3,9 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 
 /**
 * Basic GUI class for assessment questions
@@ -80,6 +83,14 @@ abstract class assQuestionGUI
 	 */
 	private $outputMode = self::OUTPUT_MODE_SCREEN;
 
+	const EDIT_CONTEXT_AUTHORING = 'authoring';
+	const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
+	
+	/**
+	 * @var string
+	 */
+	private $editContext = self::EDIT_CONTEXT_AUTHORING;
+	
 	/**
 	 * @var \ilPropertyFormGUI
 	 */
@@ -203,6 +214,43 @@ abstract class assQuestionGUI
 	public function isUserInputOutputMode()
 	{
 		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getEditContext()
+	{
+		return $this->editContext;
+	}
+	
+	/**
+	 * @param string $editContext
+	 */
+	public function setEditContext($editContext)
+	{
+		$this->editContext = $editContext;
+	}
+	
+	/**
+	 * @param bool $isAuthoringEditContext
+	 */
+	public function isAuthoringEditContext()
+	{
+		return $this->getEditContext() == self::EDIT_CONTEXT_AUTHORING;
+	}
+	
+	/**
+	 * @param bool $isAdjustmentEditContext
+	 */
+	public function isAdjustmentEditContext()
+	{
+		return $this->getEditContext() == self::EDIT_CONTEXT_ADJUSTMENT;
+	}
+	
+	public function setAdjustmentEditContext()
+	{
+		return $this->setEditContext(self::EDIT_CONTEXT_ADJUSTMENT);
 	}
 	
 	/**
@@ -393,7 +441,7 @@ abstract class assQuestionGUI
 	/**
 	* get question template
 	*/
-	function getQuestionTemplate()
+	public function getQuestionTemplate()
 	{
 		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
 		if(!$this->tpl->blockExists('content'))
@@ -410,6 +458,15 @@ abstract class assQuestionGUI
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
 		}
+	}
+	
+	/**
+	 * @param $form
+	 */
+	protected function renderEditForm($form)
+	{
+		$this->getQuestionTemplate();
+		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 	}
 
 	/**
