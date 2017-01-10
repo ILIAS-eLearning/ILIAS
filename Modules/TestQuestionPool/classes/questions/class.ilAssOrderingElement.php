@@ -10,6 +10,8 @@
 */
 class ilAssOrderingElement
 {
+	const EXPORT_IDENT_PROPERTY_SEPARATOR = '_';
+	
 	static $objectInstanceCounter = 0;
 	public $objectInstanceId;
 	
@@ -452,6 +454,58 @@ class ilAssOrderingElement
 			$this->getIndentation()
 		);
 		
-		return implode(':', $ident);
+		return implode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
+	}
+	
+	public function isExportIdent($ident)
+	{
+		if( !strlen($ident) )
+		{
+			return false;
+		}
+		
+		$parts = explode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
+		
+		if( count($parts) != 4 )
+		{
+			return false;
+		}
+		
+		if( !ilAssOrderingElementList::isValidRandomIdentifier($parts[0]) )
+		{
+			return false;
+		}
+		
+		if( !ilAssOrderingElementList::isValidSolutionIdentifier($parts[1]) )
+		{
+			return false;
+		}
+		
+		if( !ilAssOrderingElementList::isValidPosition($parts[2]) )
+		{
+			return false;
+		}
+		
+		if( !ilAssOrderingElementList::isValidIndentation($parts[3]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public function setExportIdent($ident)
+	{
+		if( $this->isExportIdent($ident) )
+		{
+			list($randomId, $solutionId, $pos, $indent) = explode(
+				self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident
+			);
+			
+			$this->setRandomIdentifier($randomId);
+			$this->setSolutionIdentifier($solutionId);
+			$this->setPosition($pos);
+			$this->setIndentation($indent);
+		}
 	}
 }

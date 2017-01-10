@@ -544,8 +544,11 @@ class ilAssOrderingElementList implements Iterator
 	{
 		switch($identifierType)
 		{
-			case self::IDENTIFIER_TYPE_SOLUTION: return $this->isValidSolutionIdentifier($identifier);
-			case self::IDENTIFIER_TYPE_RANDOM: return $this->isValidRandomIdentifier($identifier);
+			case self::IDENTIFIER_TYPE_SOLUTION:
+				return self::isValidSolutionIdentifier($identifier);
+			
+			case self::IDENTIFIER_TYPE_RANDOM:
+				return self::isValidRandomIdentifier($identifier);
 		}
 		
 		$this->throwUnknownIdentifierTypeException($identifierType);
@@ -612,51 +615,6 @@ class ilAssOrderingElementList implements Iterator
 		);
 	}
 	
-	protected function isValidSolutionIdentifier($identifier)
-	{
-		if( !is_numeric($identifier) )
-		{
-			return false;
-		}
-		
-		if( $identifier != (int)$identifier )
-		{
-			return false;
-		}
-		
-		if( $identifier < 0 )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	protected function isValidRandomIdentifier($identifier)
-	{
-		if( !is_numeric($identifier) )
-		{
-			return false;
-		}
-		
-		if( $identifier != (int)$identifier )
-		{
-			return false;
-		}
-		
-		if( $identifier < self::RANDOM_IDENTIFIER_RANGE_LOWER_BOUND )
-		{
-			return false;
-		}
-		
-		if( $identifier > self::RANDOM_IDENTIFIER_RANGE_UPPER_BOUND )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
 	/**
 	 * @return integer|null $lastSolutionIdentifier
 	 */
@@ -721,6 +679,61 @@ class ilAssOrderingElementList implements Iterator
 		while( $this->isIdentifierRegistered($testElement, self::IDENTIFIER_TYPE_RANDOM)  );
 		
 		return $randomIdentifier;
+	}
+	
+	public static function isValidSolutionIdentifier($identifier)
+	{
+		if( !is_numeric($identifier) )
+		{
+			return false;
+		}
+		
+		if( $identifier != (int)$identifier )
+		{
+			return false;
+		}
+		
+		if( $identifier < 0 )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static function isValidRandomIdentifier($identifier)
+	{
+		if( !is_numeric($identifier) )
+		{
+			return false;
+		}
+		
+		if( $identifier != (int)$identifier )
+		{
+			return false;
+		}
+		
+		if( $identifier < self::RANDOM_IDENTIFIER_RANGE_LOWER_BOUND )
+		{
+			return false;
+		}
+		
+		if( $identifier > self::RANDOM_IDENTIFIER_RANGE_UPPER_BOUND )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static function isValidPosition($position)
+	{
+		return self::isValidSolutionIdentifier($position); // this was the position earlier
+	}
+	
+	public static function isValidIndentation($indentation)
+	{
+		return self::isValidPosition($indentation); // horizontal position ^^
 	}
 	
 	/**
