@@ -158,4 +158,21 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 		}
 		$this->setValue($value);
 	}
+
+
+	public function afterClone() {
+		$field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+		$record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
+		$record_field = ilDclCache::getRecordFieldCache($record, $field);
+
+		if (!$record_field || !$record_field->getValue()) {
+			return;
+		}
+
+		$mob_old = new ilObjMediaObject($record_field->getValue());
+		$mob_new = $mob_old->duplicate();
+
+		$this->setValue($mob_new->getId(), true);
+		$this->doUpdate();
+	}
 }

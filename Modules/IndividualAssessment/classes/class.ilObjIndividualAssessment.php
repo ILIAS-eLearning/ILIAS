@@ -135,8 +135,8 @@ class ilObjIndividualAssessment extends ilObject {
 	/**
 	 * @inheritdoc
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0) {
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false) {
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$settings = $this->getSettings();
 		$info_settings = $this->getInfoSettings();
 		$new_settings = new ilIndividualAssessmentSettings($new_obj, 

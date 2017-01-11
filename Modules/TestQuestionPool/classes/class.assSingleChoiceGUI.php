@@ -728,7 +728,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
 					{
 						// upload image
-						$filename = $this->object->createNewImageFileName( $file_org_name );
+						$filename = $this->object->buildHashedImageFilename( $file_org_name );
 						if ($this->object->setImageFile( $filename, $file_temp_name ) == 0)
 						{
 							$picturefile = $filename;

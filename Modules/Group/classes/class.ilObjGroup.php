@@ -817,11 +817,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int copy id
 	 *
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB,$ilUser, $ilSetting;
 
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	$new_obj->setGroupType($this->getGroupType());
 	 	$new_obj->initGroupStatus($this->getGroupType() ? $this->getGroupType() : $this->readGroupStatus());
 

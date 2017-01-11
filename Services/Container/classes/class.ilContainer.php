@@ -511,11 +511,11 @@ class ilContainer extends ilObject
 	 * @param int copy id
 	 * @return object new object 
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilLog;
 
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		#18624 - copy all sorting settings

@@ -2726,7 +2726,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->form_gui->addItem($bl_input);
 		
 		// top bottom padding
-		include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilNumericStyleValueInputGUI.php");
 		$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_top_bottom_padding"), "tb_padding");
 		$num_input->setAllowPercentage(false);
 		$num_input->setValue("3px");

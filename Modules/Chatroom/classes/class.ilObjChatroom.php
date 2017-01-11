@@ -80,7 +80,7 @@ class ilObjChatroom extends ilObject
 	/**
 	 * {@inheritdoc}
 	 */
-	public function cloneObject($a_target_id, $a_copy_id = 0)
+	public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
 	{
 		/**
 		 * @var $rbacreview ilRbacReview
@@ -90,7 +90,7 @@ class ilObjChatroom extends ilObject
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		$original_room = ilChatroom::byObjectId($this->getId());
 
-		$newObj = parent::cloneObject($a_target_id, $a_copy_id);
+		$newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
 		$objId = $newObj->getId();
 

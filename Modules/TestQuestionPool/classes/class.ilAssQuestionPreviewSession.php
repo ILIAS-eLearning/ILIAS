@@ -51,6 +51,11 @@ class ilAssQuestionPreviewSession
 		$_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex] = $value;
 	}
 	
+	private function issetSessionValue($subIndex)
+	{
+		return isset($_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex]);
+	}
+	
 	private function readSessionValue($subIndex)
 	{
 		return $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex];
@@ -74,6 +79,11 @@ class ilAssQuestionPreviewSession
 	public function getParticipantsSolution()
 	{
 		return $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
+	}
+	
+	public function hasParticipantSolution()
+	{
+		return $this->issetSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
 	}
 	
 	public function getNumRequestedHints()

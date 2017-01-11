@@ -18002,3 +18002,30 @@ if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5063>
+<?php
+if($ilDB->tableExists('svy_qst_oblig'))
+{
+	$ilDB->manipulate("UPDATE svy_question".
+		" INNER JOIN svy_qst_oblig".
+		" ON svy_question.question_id = svy_qst_oblig.question_fi".
+		" SET svy_question.obligatory = svy_qst_oblig.obligatory");
+}
+?>
+<#5064>
+<?php
+$ilDB->modifyTableColumn(
+	'mail_attachment',
+	'path',
+	array(
+		"type" => "text",
+		"length" => 500,
+		"notnull" => false,
+		'default' => null
+	)
+);
+?>
+<#5065>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

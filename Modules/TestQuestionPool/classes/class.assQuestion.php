@@ -123,7 +123,7 @@ abstract class assQuestion
 	*
 	* @var integer
 	*/
-	protected $outputType;
+	protected $outputType = OUTPUT_JAVASCRIPT;
 
 	/**
 	* Array of suggested solutions
@@ -299,7 +299,6 @@ abstract class assQuestion
 		$this->shuffle = 1;
 		$this->nr_of_tries = 0;
 		$this->setEstimatedWorkingTime(0,1,0);
-		$this->outputType = OUTPUT_JAVASCRIPT;
 		$this->arrData = array();
 		$this->setExternalId('');
 
@@ -309,6 +308,19 @@ abstract class assQuestion
 
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
+	}
+	
+	/**
+	 * @param integer $active_id
+	 * @param string $langVar
+	 */
+	protected function log($active_id, $langVar)
+	{
+		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		{
+			$message = $this->lng->txtlng('assessment', $langVar, ilObjAssessmentFolder::_getLogLanguage());
+			assQuestion::logAction($message, $active_id, $this->getId());
+		}
 	}
 
 	/**
@@ -1515,11 +1527,13 @@ abstract class assQuestion
 	}
 
 	/**
-	* Returns the web image path for web accessable images of a question.
-	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
-	*
-	* @access public
-	*/
+	 * Returns the web image path for web accessable images of a question.
+	 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
+	 *
+	 * @access public
+	 * 
+	 * TODO: in use? refactor and ask for a supported path in all cases, not for THE dynamic highlander path ^^
+	 */
 	function getImagePathWeb()
 	{
 		if(!$this->export_image_path)
@@ -3466,23 +3480,23 @@ abstract class assQuestion
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
 	
-	function createNewImageFileName($image_filename, $unique = false)
+	function buildHashedImageFilename($plain_image_filename, $unique = false)
 	{
 		$extension = "";
 		
-		if (preg_match("/.*\.(png|jpg|gif|jpeg)$/i", $image_filename, $matches))
+		if (preg_match("/.*\.(png|jpg|gif|jpeg)$/i", $plain_image_filename, $matches))
 		{
 			$extension = "." . $matches[1];
 		}
 		
 		if($unique)
 		{
-			$image_filename = uniqid($image_filename.microtime(true));
+			$plain_image_filename = uniqid($plain_image_filename.microtime(true));
 		}
 		
-		$image_filename = md5($image_filename) . $extension;
+		$hashed_filename = md5($plain_image_filename) . $extension;
 		
-		return $image_filename;
+		return $hashed_filename;
 	}
 
 	/**
@@ -4959,6 +4973,38 @@ abstract class assQuestion
 		$row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $questionId, $pass)));
 
 		return $row['cnt'] > 0;
+	}
+	
+	/**
+	 * @param array $indexedValues
+	 * @return array $valuePairs
+	 */
+	public function fetchValuePairsFromIndexedValues(array $indexedValues)
+	{
+		$valuePairs = array();
+		
+		foreach($indexedValues as $value1 => $value2)
+		{
+			$valuePairs[] = array('value1' => $value1, 'value2' => $value2);
+		}
+		
+		return $valuePairs;
+	}
+	
+	/**
+	 * @param array $valuePairs
+	 * @return array $indexedValues
+	 */
+	public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+	{
+		$indexedValues = array();
+		
+		foreach($valuePairs as $valuePair)
+		{
+			$indexedValues[ $valuePair['value1'] ] = $valuePair['value2'];
+		}
+		
+		return $indexedValues;
 	}
 
 	/**
