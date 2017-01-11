@@ -15522,9 +15522,7 @@ prg#:#prg_view#:#Anzeigen
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
 prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
 prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Plan war erfolgreich.
-prg#:#prg_warning_img_alt#:#Warnung!
-prg#:#prg_successful_img_alt#:#erfolgreich
-prg#:#prg_in_progress_img_alt#:#in Bearbeitung
+prg#:#warning#:#Warnung!
 prg#:#prg_progress_info#:#Sie haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
 prg#:#prg_progress_status_with_child_sp#:# %1$d von möglichen %2$d Punkten
