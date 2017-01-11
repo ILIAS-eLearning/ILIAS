@@ -346,12 +346,23 @@ class ilLOUserResults
 		
 		$res = array();
 		
+		$settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
+
 		$set = $ilDB->query("SELECT *".
 			" FROM loc_user_results".
 			" WHERE course_id = ".$ilDB->quote($this->course_obj_id, "integer").
 			" AND user_id = ".$ilDB->quote($this->user_id, "integer"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
+			// do not read initial test results, if disabled.
+			if(
+				$row['type'] == self::TYPE_INITIAL &&
+				!$settings->worksWithInitialTest()
+			)
+			{
+				continue;
+			}
+			
 			$objective_id = $row["objective_id"];
 			$type = $row["type"];
 			unset($row["objective_id"]);
