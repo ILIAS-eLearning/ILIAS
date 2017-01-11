@@ -280,6 +280,18 @@ class ilLOEditorGUI
 			}
 			
 			$settings->setQualifyingTestType($form->getInput('qttype'));
+			switch($settings->getQualifyingTestType())
+			{
+				case ilLOSettings::TYPE_QUALIFYING_ALL:
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_QUALIFIED);
+					break;
+					
+				case ilLOSettings::TYPE_QUALIFYING_SELECTED:
+					$settings->setQualifyingTestAsStart(false);
+					$settings->setQualifiedTest(0);
+					break;
+			}
+			
 			$settings->resetResults($form->getInput('reset'));
 			$settings->setPassedObjectiveMode($form->getInput('passed_mode'));
 
