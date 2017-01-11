@@ -22,8 +22,8 @@ interface UserInteraction extends Task {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\IO $input
-	 * @param string $user_seleced_option
-	 * @return \ILIAS\BackgroundTasks\IO
+	 * @param $user_selected_option
+	 * @return IO
 	 */
-	public function interaction(IO $input, $user_seleced_option);
+	public function interaction(IO $input, $user_selected_option);
 }

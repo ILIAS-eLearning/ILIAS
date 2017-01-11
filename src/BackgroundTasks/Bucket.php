@@ -17,7 +17,7 @@ namespace ILIAS\BackgroundTasks;
  *
  *          Please notice that Buckets are mutable!
  */
-interface Bucket {
+interface Bucket extends Task {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\IO $input
@@ -109,22 +109,23 @@ interface Bucket {
 	public function setTitle($title);
 
 
-	/**
-	 * @param $user_ids int[]
-	 * @return Bucket
-	 */
-	public function putInQueueAndObserve($user_ids);
+
 
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\Observer $observer when no oserver is set, Common observer is used
+	 * @param \ILIAS\BackgroundTasks\Observer $observer when no observer is set, Common observer is used
 	 * @return $this
 	 */
-	public function setObserver(Observer $observer);
-
+	public function addObserver(Observer $observer);
 
 	/**
-	 * @return Observer
+	 * @param Observer $observer
+	 * @return void
+	 */
+	public function removeObserver(Observer $observer);
+
+	/**
+	 * @return Observer[]
 	 */
 	public function getObserver();
 }
