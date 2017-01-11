@@ -15369,8 +15369,8 @@ prg#:#prg_remove_user#:#Remove User
 prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
-prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.###deprecated 
-prg#:#prg_remove_user_success#:#Removed User successfully.###deprecated 
+prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
+prg#:#prg_remove_user_success#:#Removed User successfully.
 prg#:#prg_type_add#:#Study Programme Type
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_subtype_add#:#Add new subtype
@@ -15389,7 +15389,7 @@ prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_saved_order_successful#:#Saved order successful
 prg#:#prg_async_settings#:#Settings
 prg#:#prg_open_node#:#Switch to this node
-prg#:#prg_async_create#:#Add new tree-child###deprecated 
+prg#:#prg_async_create#:#Add new tree-child
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course-reference leaf
@@ -15399,9 +15399,9 @@ prg#:#prg_added_course_ref_successful#:#New course-reference was added successfu
 prg#:#prg_manage#:#Manage
 prg#:#prg_view#:#View
 prg#:#prg_update_from_current_plan#:#Update from current Plan
-prg#:#prg_update_successful#:#Saved changes successfully!###deprecated 
-prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###deprecated 
-prg#:#prg_warning_img_alt#:#Warning!###deprecated 
+prg#:#prg_update_successful#:#Saved changes successfully!
+prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!
+prg#:#warning#:#Warning!
 prg#:#prg_successful_img_alt#:#successful###deprecated 
 prg#:#prg_in_progress_img_alt#:#in progress###deprecated 
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
@@ -15413,7 +15413,7 @@ prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
 common#:#obj_prg_duplicate#:#Copy Study Programme
-common#:#obj_prg_select#:#-- Please select one study programme --###deprecated 
+common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
@@ -16045,8 +16045,8 @@ iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
 common#:#obj_iass#:#Individual Assessment
 common#:#objs_iass#:#Individual Assessments
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###deprecated 
-common#:#obj_iass_select#:#-- Please select one individual assessment --###deprecated 
+common#:#obj_iass_duplicate#:#Copy Individual Assessment
+common#:#obj_iass_select#:#-- Please select one individual assessment --
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.
 common#:#il_iass_member#:#Individual Assessment Examinee
 common#:#iass_new#:#Create Individual Assessment
@@ -16142,8 +16142,8 @@ grp#:#grp_err_registration_limited#:#please enter a valid start and end date for
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 lng#:#lng_download_deprecated#:#Download Deprecated List
 rbac#:#edit_members#:#Manage members
-rbac#:#prg_manage_members#:#Manage members of Study Programme###deprecated 
-rbac#:#rbac_create_iass#:#Create Individual Assessment###deprecated 
+rbac#:#prg_manage_members#:#Manage members of Study Programme
+rbac#:#rbac_create_iass#:#Create Individual Assessment
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
 wsp#:#share_content#:#Share Object
 wsp#:#share_with#:#Username
