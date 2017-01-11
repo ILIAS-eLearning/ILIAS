@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once('./Services/Exceptions/classes/class.ilException.php');
+require_once('Services/Utilities/classes/class.ilStr.php');
 require_once('class.ilDataCollectionCache.php');
 require_once('class.ilDataCollectionFieldProp.php');
 
@@ -928,7 +929,7 @@ class ilDataCollectionField {
 				$regex .= "/";
 			}
 
-			if ($properties[$length] < mb_strlen($value, 'UTF-8') AND is_numeric($properties[$length])) {
+			if ($properties[$length] < ilStr::strLen($value) AND is_numeric($properties[$length])) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			}
 			if (!($properties[$regex_id] == NULL OR @preg_match($regex, $value))) {

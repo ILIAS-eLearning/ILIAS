@@ -6,6 +6,7 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php")
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionLinkButton.php');
+require_once('Services/Utilities/classes/class.ilStr.php');
 
 /**
  * Class ilDataCollectionRecordListGUI
@@ -344,7 +345,7 @@ class ilDataCollectionRecordListGUI {
 					}
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
-						if (mb_detect_encoding($value, 'UTF-8', true) != 'UTF-8') {
+						if (!ilStr::isUtf8($value)) {
 							$value = utf8_encode($value);
 						}
 						$record->setRecordFieldValue($field->getId(), $value);
