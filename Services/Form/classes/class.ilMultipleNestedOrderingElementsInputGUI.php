@@ -208,8 +208,8 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 		$this->renderBeginSubList();
 		
 		
-		$values = array_values($this->getMultiValues());
-		$keys = array_keys($this->getMultiValues());
+		$values = array_values($this->getIdentifiedMultiValues());
+		$keys = array_keys($this->getIdentifiedMultiValues());
 		$prevIndent = 0;
 		
 		foreach($values as $counter => $value)

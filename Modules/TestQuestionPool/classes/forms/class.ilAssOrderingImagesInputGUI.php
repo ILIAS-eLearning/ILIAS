@@ -59,7 +59,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	 */
 	public function setElementList(ilAssOrderingElementList $elementList)
 	{
-		$this->setMultiValues( $elementList->getRandomIdentifierIndexedElements() );
+		$this->setIdentifiedMultiValues( $elementList->getRandomIdentifierIndexedElements() );
 	}
 	
 	/**
@@ -69,7 +69,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 	public function getElementList($questionId)
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
-		return ilAssOrderingElementList::buildInstance($questionId, $this->getMultiValues());
+		return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
 	}
 	
 	/**

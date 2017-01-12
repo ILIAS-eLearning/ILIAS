@@ -83,29 +83,47 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	public function setValues($values)
 	{
 		require_once 'Services/Form/exceptions/class.ilFormException.php';
-		
-		throw new ilFormException(
-			'unsupported, use set/getValue when you try to manage the class member,  or use '.
-			'when you try to pass your values beeing passed to setValue after manipulations'
-		);
+		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
 	}
 	
 	public function getValues()
 	{
 		require_once 'Services/Form/exceptions/class.ilFormException.php';
-		
-		throw new ilFormException(
-			'unsupported, use set/getValue when you try to manage the class member,  or use '.
-			'when you try to pass your values beeing passed to setValue after manipulations'
-		);
+		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
 	}
 	
-	/**
-	 * @param mixed $value(s)
-	 */
-	final public function setMultiValues($values)
+	public function setValue($value)
 	{
-		$this->multi_values = $this->prepareMultiValuesInput($values);
+		require_once 'Services/Form/exceptions/class.ilFormException.php';
+		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
+	}
+	
+	public function getValue()
+	{
+		require_once 'Services/Form/exceptions/class.ilFormException.php';
+		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
+	}
+	
+	public function setMultiValues($values)
+	{
+		require_once 'Services/Form/exceptions/class.ilFormException.php';
+		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
+	}
+	
+	public function getMultiValues()
+	{
+		require_once 'Services/Form/exceptions/class.ilFormException.php';
+		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
+	}
+	
+	final public function setIdentifiedMultiValues($values)
+	{
+		$this->identified_multi_values = $this->prepareMultiValuesInput($values);
+	}
+	
+	final public function getIdentifiedMultiValues()
+	{
+		return $this->identified_multi_values;
 	}
 	
 	protected function getMultiValueSubFieldId($identifier, $subFieldIndex)
@@ -200,11 +218,11 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 			$a_values[$this->getPostVar()]
 		);
 		
-		$this->setMultiValuesByArray($a_values);
+		$this->setIdentifiedMultiValuesByArray($a_values);
 		parent::setValueByArray($a_values);
 	}
 	
-	protected function setMultiValuesByArray($a_values)
+	protected function setIdentifiedMultiValuesByArray($a_values)
 	{
 		$this->multi_values = $a_values[$this->getPostVar()];
 	}

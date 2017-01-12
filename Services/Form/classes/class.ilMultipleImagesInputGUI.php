@@ -283,7 +283,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 		
 		$tpl = $this->getTemplate();
 		$i = 0;
-		foreach ($this->getMultiValues() as $identifier => $value)
+		foreach ($this->getIdentifiedMultiValues() as $identifier => $value)
 		{
 			if( $this->valueHasContentImageSource($value) )
 			{
