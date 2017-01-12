@@ -483,12 +483,12 @@ class ilLOUserResults
 		$sql .= " ORDER BY lor.type DESC"; // qualified must come first!
 		$set = $ilDB->query($sql);
 		
-		$has_final_result = false;
+		$has_final_result = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			if($row['type'] == self::TYPE_QUALIFIED)
 			{
-				$has_final_result = true;
+				$has_final_result[$row['objective_id']] = $row['user_id'];
 			}
 			
 			$user_id = (int) $row["user_id"];
@@ -497,7 +497,7 @@ class ilLOUserResults
 			// initial tests only count if no qualified test
 			if(
 				$row["type"] == self::TYPE_INITIAL &&
-				$has_final_result
+				in_array($row['user_id'], (array) $has_final_result[$row['objective_id']])
 			)
 			{
 				
