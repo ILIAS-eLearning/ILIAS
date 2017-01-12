@@ -17,30 +17,30 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	 * @var int
 	 */
 	protected $indent = 0;
-	
+
 	/**
 	 * @var bool
 	 */
 	protected $js_added = false;
-	
+
 	/**
 	 * @var bool
 	 */
 	protected $css_added = false;
-	
+
 	/**
 	 * @var ilTemplate
 	 */
 	protected $il_tpl;
-	
+
 	/**
 	 * @var ilRbacSystem
 	 */
 	protected $il_rbacsystem;
-	
+
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
 		parent::__construct($a_progress);
-		
+
 		global $DIC;
 		$tpl = $DIC['tpl'];
 		$rbacsystem = $DIC['rbacsystem'];
@@ -51,37 +51,37 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		$this->il_setting = $ilSetting;
 		$this->il_access = $ilAccess;
 	}
-	
+
 	protected function getIndent() {
 		return $this->indent;
 	}
-	
+
 	public function setIndent($a_indent) {
 		assert(is_int($a_indent));
 		assert($a_indent >= 0);
 		$this->indent = $a_indent;
 	}
-	
+
 	public function getHTML() {
 		$this->addJavaScript();
 		$this->addCSS();
 		return parent::getHTML();
 	}
-	
+
 	protected function fillTemplate($tpl) {
 		require_once("./Services/JSON/classes/class.ilJsonUtil.php");
-		
+
 		parent::fillTemplate($tpl);
-		
+
 		if ($this->showMyProgress()) {
 			$tpl->setVariable("ACTIVE_HEAD", "il_PrgAccordionHeadActive");
 		}
 
 		$tpl->setVariable("ACCORDION_ID", 'id="'.$this->getAccordionId().'"');
 		$tpl->setVariable("HREF_TITLE", "");
-		
+
 		$content = $this->getAccordionContentHTML();
-		
+
 		if (trim($content)) {
 			$tpl->setCurrentBlock("expand");
 			$tpl->setVariable("EXP_ALT", $this->il_lng->txt("expand"));
@@ -93,11 +93,11 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		else {
 			$tpl->touchBlock("indent");
 		}
-		
+
 		for($i = 0; $i < $this->getIndent(); $i++) {
 			$tpl->touchBlock("indent");
 		}
-		
+
 		$tpl->setCurrentBlock("accordion");
 		if ($this->showMyProgress()) {
 			$tpl->setVariable("ACCORDION_HIDE_CONTENT", "");
@@ -106,10 +106,10 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			$tpl->setVariable("ACCORDION_HIDE_CONTENT", "ilAccHideContent");
 		}
 		$tpl->setVariable("ACCORDION_CONTENT", $content);
-		$tpl->setVariable("ACCORDION_OPTIONS", ilJsonUtil::encode($this->getAccordionOptions()));
+		$this->il_tpl->addOnloadCode("il.Accordion.add(" .ilJsonUtil::encode($this->getAccordionOptions()) .");");
 		$tpl->parseCurrentBlock();
 	}
-	
+
 	protected function getAccordionContentHTML() {
 		if (!$this->progress->getStudyProgramme()->hasLPChildren()) {
 			return $this->getAccordionContentProgressesHTML();
@@ -118,7 +118,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			return $this->getAccordionContentCoursesHTML();
 		}
 	}
-	
+
 	protected function getAccordionContentProgressesHTML() {
 		// Make shouldShowSubProgress and newSubItem protected again afterwards, do
 		// the same in the derived class ilStudyProgrammeIndividualPlanProgressListGUI.
@@ -131,7 +131,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			return $gui->getHTML();
 		}, $this->progress->getChildrenProgress()));
 	}
-	
+
 	protected function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
 		if($a_progress->isRelevant()) {
 			$prg = $a_progress->getStudyProgramme();
@@ -142,18 +142,18 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	protected function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
 		return new ilStudyProgrammeExpandableProgressListGUI($a_progress);
 	}
-	
+
 	protected function getAccordionContentCoursesHTML() {
 		include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
 		$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
-		
+
 		$crs = array();
 		foreach ($this->progress->getStudyProgramme()->getLPChildren() as $il_obj_crs_ref) {
 			$course = ilObjectFactory::getInstanceByRefId($il_obj_crs_ref->getTargetRefId());
@@ -197,7 +197,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		$a_item_gui->enableProgressInfo(true);
 		$a_item_gui->setIndent($this->getIndent() + 2);
 	}
-	
+
 	protected function getAccordionOptions() {
 		return array
 			( "orientation" => "horizontal"
@@ -219,45 +219,45 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			, "reset_width" => true
 			);
 	}
-	
+
 	protected function getAccordionId() {
 		return "prg_progress_".$this->progress->getId()."_".$this->getIndent();
 	}
-	
+
 	protected function getExpandedImageURL() {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		return ilUtil::getImagePath("tree_exp.svg");
 	}
-	
+
 	protected function getNotExpandedImageURL() {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		return ilUtil::getImagePath("tree_col.svg");
 	}
-	
+
 	protected function getTitleAndIconTarget(ilStudyProgrammeUserProgress $a_progress) {
 		return null;
 	}
-	
+
 	protected function showMyProgress() {
 		return $_GET["prg_progress_id"] == $this->progress->getId();
 	}
-	
+
 	protected function addJavaScript() {
 		if ($this->js_added) {
 			return false;
 		}
-		
+
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
 		$this->il_tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
 		$this->js_added = true;
 	}
-	
+
 	protected function addCSS() {
 		if ($this->css_added) {
 			return false;
 		}
-		
+
 		$this->il_tpl->addCSS("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
 		$this->css_added = true;
 	}
