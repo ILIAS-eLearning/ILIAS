@@ -31,6 +31,7 @@ class ilLOUserResults
 		$this->course_obj_id = (int)$a_course_obj_id;
 		$this->user_id = (int)$a_user_id;
 	}
+	
 
 	/**
 	 * Lookup user result
@@ -315,13 +316,29 @@ class ilLOUserResults
 			return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
 		}
 		
-		// qualifying initial
-		return array_unique(
-			array_merge(
+		// status of final final test overwrites initial qualified.
+		if(
+			$settings->isInitialTestQualifying() &&
+			$settings->worksWithInitialTest()
+		)
+		{
+			$completed = array();
+			$completed_candidates = array_unique(
+				array_merge(
 					$this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_COMPLETED),
 					$this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED)
-			)
-		);
+			));
+			$failed_final = (array) $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_FAILED);
+			
+			foreach($completed_candidates as $objective_completed)
+			{
+				if(!in_array($objective_completed, $failed_final))
+				{
+					$completed[] = $objective_completed;
+				}
+			}
+			return $completed;
+		}
 	}
 	
 	/**

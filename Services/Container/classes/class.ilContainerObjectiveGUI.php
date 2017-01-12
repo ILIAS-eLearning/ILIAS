@@ -1038,6 +1038,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$this->test_assignments = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
 	}
 	
+	/**
+	 * Parse learning objective results.
+	 * @global type $ilUser
+	 * @return type
+	 */
 	protected function parseLOUserResults()
 	{
 		global $ilUser;
