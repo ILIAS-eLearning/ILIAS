@@ -341,6 +341,9 @@ class ilLOEditorGUI
 			$this->updateStartObjects();
 			$this->updateTestAssignments($settings);
 			
+			include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
+			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$this->ctrl->redirect($this,'settings');
 		}
