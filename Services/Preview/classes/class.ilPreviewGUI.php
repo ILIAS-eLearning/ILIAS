@@ -14,14 +14,38 @@ require_once("./Services/Preview/classes/class.ilPreview.php");
  */
 class ilPreviewGUI
 {
+
+	/**
+	 * @var int|null
+	 */
 	private $node_id = null;
+	/**
+	 * @var int|null
+	 */
 	private $obj_id = null;
+	/**
+	 * @var \ilPreview|null
+	 */
 	private $preview = null;
+	/**
+	 * @var \ilWorkspaceAccessHandler|null|object
+	 */
 	private $access_handler = null;
+	/**
+	 * @var int|null
+	 */
 	private $context = null;
+	/**
+	 * @var ilCtrl
+	 */
 	private $ctrl = null;
+	/**
+	 * @var \ilLanguage
+	 */
 	private $lng = null;
-	
+	/**
+	 * @var bool
+	 */
 	private static $initialized = false;
 
 	const CONTEXT_REPOSITORY = 1;
