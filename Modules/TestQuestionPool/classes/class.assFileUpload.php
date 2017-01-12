@@ -453,12 +453,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND authorized = %s ORDER BY tstamp",
+// fau: testNav - check existing value1 because the intermediate solution will have a dummy entry
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND authorized = %s AND value1 IS NOT NULL ORDER BY tstamp",
 			array("integer", "integer", "integer", 'integer'),
 			array($active_id, $this->getId(), $pass, (int)$authorized)
 		);
-		
+// fau.
 		$found = array();
 		
 		while ($data = $ilDB->fetchAssoc($result))
@@ -534,6 +534,47 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			);
 		}
 	}
+
+// fau: testNav new function deleteUnusedFiles()
+	/**
+	 * Delete all files that are neither used in an authorized or intermediate solution
+	 * @param int	$test_id
+	 * @param int	$active_id
+	 * @param int	$pass
+	 */
+	protected function deleteUnusedFiles($test_id, $active_id, $pass)
+	{
+		// read all solutions (authorized and intermediate) from all steps
+		$step = $this->getStep();
+		$this->setStep(null);
+		$solutions = array_merge(
+			$this->getSolutionValues($active_id, $pass, true),
+			$this->getSolutionValues($active_id, $pass, false)
+		);
+		$this->setStep($step);
+
+		// get the used files from these solutions
+		$used_files = array();
+		foreach ($solutions as $solution)
+		{
+			$used_files[] = $solution['value1'];
+		}
+
+		// read the existing files for user and pass
+		// delete all files that are not used in the solutions
+		$curdir = getcwd();
+		chdir($this->getFileUploadPath($test_id, $active_id));
+		$existing_files = glob("file_" . $active_id . "_" . $pass . "_*");
+		foreach($existing_files as $file)
+		{
+			if (!in_array($file, $used_files))
+			{
+				@unlink($file);
+			}
+		}
+		chdir($curdir);
+	}
+// fau.
 
 	protected function deletePreviewFileUploads($userId, $userSolution, $files)
 	{
@@ -652,13 +693,39 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $checkUploadResult, $test_id, $active_id, $pass, $authorized) {
 
-			$this->updateCurrentSolutionsAuthorization($active_id, $pass, $authorized);
+// fau: testNav - create an intermediate solution if it does not exist; all manipulations should be done intermediately
+			if ($authorized == false)
+			{
+				$intermediate = $this->getSolutionValues($active_id, $pass, false);
+				if (empty($intermediate))
+				{
+					// make the authorized solution intermediate (keeping timestamps)
+					// this keeps the solution_ids in synch with eventually selected in $_POST['deletefiles']
+					$this->updateCurrentSolutionsAuthorization($active_id, $pass, false, true);
+
+					// create a backup of the authorized solution (keeping timestamps)
+					foreach ($this->getSolutionValues($active_id, $pass, false) as $solution)
+					{
+						$this->saveCurrentSolution($active_id, $pass, $solution['value1'], $solution['value2'], true, $solution['tstamp']);
+					}
+
+					// create an additional dummy record to indicate the existence of an intermediate solution
+					// even if all files are deleted from the intermediate solution later
+					$this->saveCurrentSolution($active_id, $pass, null, null, false, null);
+				}
+			}
+// fau.
 
 			if( $_POST['cmd'][$this->questionActionCmd] == $this->lng->txt('delete') )
 			{
 				if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
 				{
-					$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id, $authorized);
+// fau: testNav - don't delete files directly, only delete the solution records. Unused files will be purged at the end
+					foreach ($_POST['deletefiles'] as $solution_id)
+					{
+						$this->removeSolutionRecordById($solution_id);
+					}
+// fau.
 				}
 				else
 				{
@@ -679,11 +746,33 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 				ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 
-				$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], $authorized);
-
+// fau: testNav - upload new files always to the intermediate solution
+				$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false);
+// fau.
 				$entered_values = true;
 			}
 
+// fau: testNav	- save an authorized solution from the intermediate one
+			if ($authorized == true)
+			{
+				// remove the dummy record of the intermediate solution
+				foreach ($this->getSolutionValues($active_id, $pass, false) as $solution)
+				{
+					if (empty($solution['value1']))
+					{
+						$this->removeSolutionRecordById($solution['solution_id']);
+					}
+				}
+
+				// delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
+				$this->removeCurrentSolution($active_id, $pass, true);
+				$this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
+			}
+// fau.
+
+// fau: testNav - cleanup files after the database manipuliation is finished
+			$this->deleteUnusedFiles($test_id, $active_id, $pass);
+// fau.
 		});
 
 		if ($entered_values)
@@ -705,7 +794,73 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		
 		return true;
 	}
-	
+
+
+// fau: testNav - remove dummy value when intermediate solution is got for test display
+	/**
+	 * Get the user solution preferring the intermediate solution
+	 * @param int		$active_id
+	 * @param int|null 	$pass
+	 * @return array
+	 */
+	public function getUserSolutionPreferingIntermediate($active_id, $pass = NULL)
+	{
+		$solution = $this->getSolutionValues($active_id, $pass, false);
+
+		if( !count($solution) )
+		{
+			$solution = $this->getSolutionValues($active_id, $pass, true);
+		}
+		else
+		{
+			$cleaned = array();
+			foreach ($solution as $row)
+			{
+				if (!empty($row['value1']))
+				{
+					$cleaned[] = $row;
+				}
+			}
+			$solution = $cleaned;
+		}
+
+		return $solution;
+	}
+// fau.
+
+
+// fau: testNav - remove unused files if an intermediate solution is removed
+	/**
+	 * Remove an intermediate soluton (overridden to remove unused fies)
+	 * @param int $active_id
+	 * @param int $pass
+	 * @return int|object
+	 */
+	public function removeIntermediateSolution($active_id, $pass)
+	{
+		global $ilDB;
+
+		$result = parent::removeIntermediateSolution($active_id, $pass);
+
+		// get the current test id
+		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
+		);
+		$test_id = 0;
+		if ($result->numRows() == 1)
+		{
+			$row = $ilDB->fetchAssoc($result);
+			$test_id = $row["test_fi"];
+		}
+
+		$this->deleteUnusedFiles($test_id, $active_id, $pass);
+
+		return $result;
+	}
+// fau.
+
+
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
 		$userSolution = $previewSession->getParticipantsSolution();
@@ -791,7 +946,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			}
 			else
 			{
-				$points = 0;
+// fau: testNav - don't set reached points if no file is available
+				return;
+// fau.
 			}
 
 			assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, 1, $obligationsAnswered);					
@@ -1139,4 +1296,18 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		return FALSE;
 	}
+
+// fau: testNav - new function getTestQuestionConfig()
+	/**
+	 * Get the test question configuration
+	 * Overridden from parent to disable the form change detection
+	 * Otherwise just checking a file would delete it at navigation
+	 * @return ilTestQuestionConfig
+	 */
+	public function getTestQuestionConfig()
+	{
+		return parent::getTestQuestionConfig()
+			->setFormChangeDetectionEnabled(false);
+	}
+// fau.
 }

@@ -724,7 +724,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				if(0 == count($solutions))
 				{
 					$solutions = $this->getSolutionValues($active_id, $pass, true);
-					$this->removeCurrentSolution($active_id, $pass, true);
+// fau: testNav - don't delete an authorized solution if an intermediate is saved
+					//$this->removeCurrentSolution($active_id, $pass, true);
+// fau.
 					$this->removeCurrentSolution($active_id, $pass, false);
 					foreach($solutions as $solution)
 					{

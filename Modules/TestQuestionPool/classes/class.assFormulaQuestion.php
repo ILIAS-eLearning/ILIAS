@@ -1082,7 +1082,73 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		return true;
 	}
-	
+
+// fau: testNav - overridden function lookupForExistingSolutions (specific for formula question: don't lookup variables)
+	/**
+	 * Lookup if an authorized or intermediate solution exists
+	 * @param 	int 		$activeId
+	 * @param 	int 		$pass
+	 * @return 	array		['authorized' => bool, 'intermediate' => bool]
+	 */
+	public function lookupForExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$return = array(
+			'authorized' => false,
+			'intermediate' => false
+		);
+
+		$query = "
+			SELECT authorized, COUNT(*) cnt
+			FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value1 like '\$r%'
+			AND value2 is not null
+			AND value2 <> ''
+			GROUP BY authorized
+		";
+		$result = $ilDB->query($query);
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row['authorized']) {
+				$return['authorized'] = $row['cnt'] > 0;
+			}
+			else
+			{
+				$return['intermediate'] = $row['cnt'] > 0;
+			}
+		}
+		return $return;
+	}
+// fau.
+
+// fau: testNav - Remove an existing solution (specific for formula question: don't delete variables)
+	/**
+	 * Remove an existing solution without removing the variables
+	 * @param 	int 		$activeId
+	 * @param 	int 		$pass
+	 * @return int
+	 */
+	public function removeExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value1 like '\$r%'
+		";
+
+		return $ilDB->manipulate($query);
+	}
+// fau.
+
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
 		$userSolution = $previewSession->getParticipantsSolution();

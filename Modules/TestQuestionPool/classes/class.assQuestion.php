@@ -1041,7 +1041,10 @@ abstract class assQuestion
 		
 		if( is_null($reached_points) ) $reached_points = 0;
 
-		$this->getProcessLocker()->executeUserQuestionResultUpdateOperation(function() use($ilDB, $active_id, $pass, $reached_points, $requestsStatisticData, $isAnswered) {
+// fau: testNav - check for existing authorized solution to know if a result record should be written
+		$existingSolutions = $this->lookupForExistingSolutions($active_id, $pass);
+
+		$this->getProcessLocker()->executeUserQuestionResultUpdateOperation(function() use($ilDB, $active_id, $pass, $reached_points, $requestsStatisticData, $isAnswered, $existingSolutions) {
 
 			$query = "
 			DELETE FROM		tst_test_result
@@ -1065,27 +1068,31 @@ abstract class assQuestion
 			}
 			$ilDB->manipulateF($query, $types, $values);
 
-			$next_id = $ilDB->nextId("tst_test_result");
-			$fieldData = array(
-				'test_result_id'	=> array('integer', $next_id),
-				'active_fi'			=> array('integer', $active_id),
-				'question_fi'		=> array('integer', $this->getId()),
-				'pass'				=> array('integer', $pass),
-				'points'			=> array('float', $reached_points),
-				'tstamp'			=> array('integer', time()),
-				'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
-				'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
-				'answered'			=> array('integer', $isAnswered)
-			);
-
-			if( $this->getStep() !== NULL )
+			if ($existingSolutions['authorized'])
 			{
-				$fieldData['step'] = array('integer', $this->getStep());
+				$next_id = $ilDB->nextId("tst_test_result");
+				$fieldData = array(
+					'test_result_id'	=> array('integer', $next_id),
+					'active_fi'			=> array('integer', $active_id),
+					'question_fi'		=> array('integer', $this->getId()),
+					'pass'				=> array('integer', $pass),
+					'points'			=> array('float', $reached_points),
+					'tstamp'			=> array('integer', time()),
+					'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
+					'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
+					'answered'			=> array('integer', $isAnswered)
+				);
+
+				if( $this->getStep() !== NULL )
+				{
+					$fieldData['step'] = array('integer', $this->getStep());
+				}
+
+				$ilDB->insert('tst_test_result', $fieldData);
 			}
 
-			$ilDB->insert('tst_test_result', $fieldData);
-
 		});
+// fau.
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		
@@ -4680,17 +4687,19 @@ abstract class assQuestion
 		}
 	}
 
+// fau: testNav - add timestamp as parameter to saveCurrentSolution
 	/**
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param mixed $value1
 	 * @param mixed $value2
 	 * @param bool|true $authorized
+	 * @param int|null	$tstamp
 	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
-	public function saveCurrentSolution($active_id, $pass, $value1, $value2, $authorized = true)
+	public function saveCurrentSolution($active_id, $pass, $value1, $value2, $authorized = true, $tstamp = null)
 	{
 		global $ilDB;
 
@@ -4703,7 +4712,7 @@ abstract class assQuestion
 			"value1" => array("clob", $value1),
 			"value2" => array("clob", $value2),
 			"pass" => array("integer", $pass),
-			"tstamp" => array("integer", time()),
+			"tstamp" => array("integer", isset($tstamp) ? $tstamp : time()),
 			'authorized' => array('integer', (int)$authorized)
 		);
 
@@ -4714,6 +4723,7 @@ abstract class assQuestion
 
 		return $ilDB->insert("tst_solutions", $fieldData);
 	}
+// fau.
 
 	/**
 	 * @param int $active_id
@@ -4745,16 +4755,21 @@ abstract class assQuestion
 			'solution_id' => array('integer', $solutionId)
 		));
 	}
-	
-	public function updateCurrentSolutionsAuthorization($activeId, $pass, $authorized)
+
+// fau: testNav - added parameter to keep the timestamp (default: false)
+	public function updateCurrentSolutionsAuthorization($activeId, $pass, $authorized, $keepTime = false)
 	{
 		global $ilDB;
 
 		$fieldData = array(
-			'tstamp' => array('integer', time()),
 			'authorized' => array('integer', (int)$authorized)
 		);
-		
+
+		if (!$keepTime)
+		{
+			$fieldData['tstamp'] = array('integer', time());
+		}
+
 		$whereData = array(
 			'question_fi' => array('integer', $this->getId()),
 			'active_fi' => array('integer', $activeId),
@@ -4763,6 +4778,7 @@ abstract class assQuestion
 		
 		return $ilDB->update('tst_solutions', $fieldData, $whereData);
 	}
+// fau.
 
 
 	/**

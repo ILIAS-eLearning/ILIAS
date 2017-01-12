@@ -15882,8 +15882,8 @@ assessment#:#save_on_navigation#:#Navigation mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert und festgeschrieben.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
-assessment#:#save_on_navigation_prevent_confirmation#:#Diese Nachfrage nicht mehr anzeigen.
-assessment#:#tst_answer_status_editing#:#(in Bearbeitung ... )
+assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung nicht mehr anzeigen.
+assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
