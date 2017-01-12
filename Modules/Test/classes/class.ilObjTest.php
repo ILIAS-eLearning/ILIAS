@@ -9792,7 +9792,8 @@ function getAnswerFeedbackPoints()
 			'highscore_own_table'     => $this->getHighscoreOwnTable(),
 			'highscore_top_table'     => $this->getHighscoreTopTable(),
 			'highscore_top_num'       => $this->getHighscoreTopNum(),
-			'use_previous_answers' => (string)$this->getUsePreviousAnswers()
+			'use_previous_answers' => (string)$this->getUsePreviousAnswers(),
+			'pass_waiting'          => $this->getPassWaiting()
 		);
 		
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -9942,6 +9943,7 @@ function getAnswerFeedbackPoints()
 		$this->setActivationStartingTime($testsettings['activation_start_time']);
 		$this->setActivationEndingTime($testsettings['activation_end_time']);
 		$this->setActivationVisibility($testsettings['activation_visibility']);
+		$this->setPassWaiting($testsettings['pass_waiting']);
 		
 		$this->saveToDb();
 
