@@ -18029,3 +18029,7 @@ $ilDB->modifyTableColumn(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5066>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
