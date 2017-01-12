@@ -82,7 +82,7 @@ class ilCronStartUp
 			default:
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				include_once './Services/Cron/exceptions/class.ilCronException.php';
-				throw new ilCronException($GLOBALS['DIC']['lng']->txt($status->getReason()));
+				throw new ilCronException($status->getTranslatedReason());
 		}				
 		return true;
 	}

@@ -257,7 +257,13 @@ class ilAuthFrontend
 			$this->getLogger()->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 			$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			$this->getStatus()->setAuthenticatedUserId(0);
-			$this->getStatus()->setReason('wrong_ip_detected');
+			
+			$this->getStatus()->setTranslatedReason(
+				sprintf(
+					$GLOBALS['DIC']->language()->txt('wrong_ip_detected'),
+					$_SERVER['REMOTE_ADDR']
+				)
+			);
 			return false;
 		}
 		

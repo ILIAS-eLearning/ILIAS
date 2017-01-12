@@ -659,7 +659,7 @@ class ilStartUpGUI
 				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()),true);
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
 				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
 				return false;
 		}
@@ -712,7 +712,7 @@ class ilStartUpGUI
 				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()),true);
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
 				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
 				return false;
 		}
@@ -784,7 +784,7 @@ class ilStartUpGUI
 					return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-					ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()));
+					ilUtil::sendFailure($status->getTranslatedReason());
 					return $this->showLoginPage($form);
 			}
 			
