@@ -28,6 +28,7 @@ class ilRoleTableGUI extends ilTable2GUI
 
 	private $type = self::TYPE_VIEW;
 	private $role_title_filter = '';
+	private $role_folder_id = 0;
 
 	/**
 	 * Constructor
@@ -294,14 +295,17 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		if($this->getType() == self::TYPE_VIEW and $set['obj_id'] != SYSTEM_ROLE_ID)
 		{
-			// Copy role
-			$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
-			$this->ctrl->setParameter($this->getParentObject(), "copy_source", $set["obj_id"]);
-			$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
-			$this->tpl->setVariable(
-				'COPY_LINK',
-				$link
-			);
+			if($GLOBALS['rbacsystem']->checkAccess('write',$this->role_folder_id))
+			{
+				// Copy role
+				$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
+				$this->ctrl->setParameter($this->getParentObject(), "copy_source", $set["obj_id"]);
+				$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
+				$this->tpl->setVariable(
+					'COPY_LINK',
+					$link
+				);
+			}
 		}
 
 	}
@@ -313,6 +317,8 @@ class ilRoleTableGUI extends ilTable2GUI
 	public function parse($role_folder_id)
 	{
 		global $rbacreview,$ilUser;
+		
+		$this->role_folder_id = $role_folder_id;
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		
