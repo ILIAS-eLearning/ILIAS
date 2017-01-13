@@ -35,6 +35,8 @@ define('IL_REG_ACCESS_LIMITATION_OUT_OF_DATE',2);
 
 class ilRegistrationRoleAccessLimitations
 {
+	private $access_limitations = array();
+	
 	var $access_limits = array();
 
 	function __construct()
@@ -99,8 +101,6 @@ class ilRegistrationRoleAccessLimitations
 	
 	function validate()
 	{
-		ilLoggerFactory::getLogger('user')->dump($this->access_limitations);
-		
 		foreach ($this->access_limitations as $data)
 		{
 			if ($data['mode'] == "null")
@@ -152,6 +152,14 @@ class ilRegistrationRoleAccessLimitations
 		$this->access_limitations[$a_role_id]['relative_d'] = $a_arr['d'];
 		$this->access_limitations[$a_role_id]['relative_m'] = $a_arr['m'];
 		$this->access_limitations[$a_role_id]['relative_y'] = $a_arr['y'];
+	}
+	
+	/**
+	 * reset access limitations
+	 */
+	public function resetAccessLimitations()
+	{
+		$this->access_limitations = array();
 	}
 }
 ?>
