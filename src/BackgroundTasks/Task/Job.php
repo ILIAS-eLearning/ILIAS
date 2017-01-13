@@ -16,22 +16,10 @@ interface Job extends Task {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\IO $input
-	 * @return \ILIAS\BackgroundTasks\IO
+	 * @param Observer $observer Notify the observer about your progress!
+	 * @return IO
 	 */
-	public function run(IO $input);
-
-
-	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage();
-
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage();
-
+	public function run(IO $input, Observer $observer);
 
 	/**
 	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task results may be cached!

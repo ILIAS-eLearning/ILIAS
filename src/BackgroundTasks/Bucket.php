@@ -108,10 +108,6 @@ interface Bucket extends Task {
 	 */
 	public function setTitle($title);
 
-
-
-
-
 	/**
 	 * @param \ILIAS\BackgroundTasks\Observer $observer when no observer is set, Common observer is used
 	 * @return $this
