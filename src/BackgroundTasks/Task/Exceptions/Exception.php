@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\BackgroundTasks;
+namespace ILIAS\BackgroundTasks\Exceptions;
 
 require_once('Services/Exceptions/classes/class.ilException.php');
 
@@ -9,9 +9,7 @@ require_once('Services/Exceptions/classes/class.ilException.php');
  *
  * @package ILIAS\BackgroundTasks
  *
- *          The Basic Exception Class for BackgroundTasks. PLease Specify by extending
+ *          The Basic Exception Class for BackgroundTasks. Please Specify by extending
  */
 class Exception extends \ilException {
-
-	const E_BASIC = 10001;
 }

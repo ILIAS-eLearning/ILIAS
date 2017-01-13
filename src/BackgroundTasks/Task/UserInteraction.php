@@ -15,15 +15,15 @@ use ILIAS\BackgroundTasks\Task;
 interface UserInteraction extends Task {
 
 	/**
-	 * @return array returns an array with value => lang_var. What options can the user select?
+	 * @param IO $input The input value of this task.
+	 * @return UserInteractionOption[] Options are buttons the user can press on this interaction.
 	 */
-	public function getOptions();
-
+	public function getOptions(IO $input);
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\IO $input
-	 * @param $user_selected_option
+	 * @param \ILIAS\BackgroundTasks\IO $input The input value of this task.
+	 * @param UserInteractionOption $user_selected_option The Option the user chose.
 	 * @return IO
 	 */
-	public function interaction(IO $input, $user_selected_option);
+	public function interaction(IO $input, UserInteractionOption $user_selected_option);
 }
