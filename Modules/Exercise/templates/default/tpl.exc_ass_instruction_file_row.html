@@ -1,0 +1,34 @@
+<tr class="{CSS_ROW}">
+	<!-- BEGIN select_bl -->
+	<td class="std" valign="top">
+		<!-- BEGIN checkbox --><input type="checkbox" name="file[ID]" value="{CHECKBOX_ID}" {CHECKED}/><!-- END checkbox -->
+	</td>
+	<!-- END select_bl -->
+	<td class="std small">
+		<input class="form-control" type="text" size="4" maxlength="4" name="order[{ID}]" value="{ORDER_VAL}" />
+	</td>
+	<td class="std" valign="top">
+		{ICON}
+	</td>
+	<td class="std" valign="top">
+		<!-- BEGIN FileLink -->
+		<a href="{LINK_FILENAME}">{TXT_FILENAME}</a>
+		<!-- END FileLink -->
+		<!-- BEGIN File -->
+		{TXT_FILENAME2}
+		<!-- END File -->
+	</td>
+	<td class="std" valign="top">
+		{TXT_SIZE}
+	</td>
+	<!-- BEGIN Label -->
+	<td class="std" valign="top">
+		{TXT_LABEL}
+	</td>
+	<!-- END Label -->
+	<!-- BEGIN cmd_bl -->
+	<td class="std" valign="top">
+		{ACTIONS}
+	</td>
+	<!-- END cmd_bl -->
+</tr>

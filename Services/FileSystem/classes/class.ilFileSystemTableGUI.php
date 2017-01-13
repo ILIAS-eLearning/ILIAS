@@ -22,7 +22,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_cur_dir, 
 		$a_cur_subdir, $a_label_enable = false,
 		$a_file_labels, $a_label_header = "", $a_commands = array(),
-		$a_post_dir_path = false, $a_table_id = "")
+		$a_post_dir_path = false, $a_table_id = "", $a_order = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
@@ -60,7 +60,10 @@ class ilFileSystemTableGUI extends ilTable2GUI
 			$this->setSelectAllCheckbox("file[]");
 			$this->addColumn("", "", "1", true);		
 		}
-		
+		if($a_order)
+		{
+			$this->addColumn($lng->txt("order"), "order_val");
+		}
 		$this->addColumn("", "", "1", true); // icon
 		$this->addColumn($lng->txt("cont_dir_file"), "name");		
 		$this->addColumn($lng->txt("cont_size"), "size");

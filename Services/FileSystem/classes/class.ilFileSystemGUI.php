@@ -457,7 +457,7 @@ class ilFileSystemGUI
 	/**
 	* list files
 	*/
-	function listFiles()
+	function listFiles($a_class_table_gui = "")
 	{
 		global $ilToolbar, $lng, $ilCtrl;
 		
@@ -508,10 +508,21 @@ class ilFileSystemGUI
 		}
 			
 		// load files templates
-		include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
-		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $dir["dir"], $dir["subdir"],
-			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
-			$this->getPostDirPath(), $this->getTableId());
+		if($a_class_table_gui != "")
+		{
+			include_once("./Modules/Exercise/classes/class.".$a_class_table_gui.".php");
+			$fs_table = new $a_class_table_gui($this, "listFiles", $dir["dir"], $dir["subdir"],
+				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+				$this->getPostDirPath(), $this->getTableId());
+		}
+		else
+		{
+			include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
+			$fs_table = new ilFileSystemTableGUI($this, "listFiles", $dir["dir"], $dir["subdir"],
+				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+				$this->getPostDirPath(), $this->getTableId());
+		}
+
 		if ($this->getTitle() != "")
 		{
 			$fs_table->setTitle($this->getTitle());
@@ -642,9 +653,11 @@ class ilFileSystemGUI
 	}
 
 	/**
-	* upload file
-	*/
-	function uploadFile()
+	 * Upload file
+	 *
+	 * @param string $a_ctrl_redirect
+	 */
+	function uploadFile($a_ctrl_redirect = "listFiles")
 	{
 		global $lng;
 		
@@ -710,7 +723,7 @@ class ilFileSystemGUI
 
 		ilUtil::renameExecutables($this->main_dir);
 
-		$this->ctrl->redirect($this, "listFiles");
+		$this->ctrl->redirect($this, $a_ctrl_redirect);
 	}
 
 	/**
@@ -738,7 +751,7 @@ class ilFileSystemGUI
 	/**
 	 * delete object file
 	 */
-	function deleteFile()
+	function deleteFile($a_ctrl_redirect = "listFiles")
 	{
 		global $lng;
 
@@ -787,7 +800,7 @@ class ilFileSystemGUI
 			$this->setPerformedCommand("delete_file",
 				array("name" => ilUtil::stripSlashes($post_file)));
 		}
-		$this->ctrl->redirect($this, "listFiles");
+		$this->ctrl->redirect($this, $a_ctrl_redirect);
 	}
 
 	/**
@@ -895,6 +908,11 @@ class ilFileSystemGUI
 			$this->ctrl->getLinkTarget($this, "listFiles"), "listFiles",
 			get_class($this));
 		$ilCtrl->setParameter($this, "resetoffset", "");
+	}
+
+	function getActionCommands()
+	{
+		return $this->commands;
 	}
 
 }

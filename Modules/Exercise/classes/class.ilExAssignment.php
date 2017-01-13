@@ -1100,7 +1100,7 @@ class ilExAssignment
 	/**
 	 * Save ordering of all assignments of an exercise
 	 */
-	function saveAssOrderOfExercise($a_ex_id, $a_order)
+	static function saveAssOrderOfExercise($a_ex_id, $a_order)
 	{
 		global $ilDB;
 		
@@ -1118,7 +1118,31 @@ class ilExAssignment
 			$nr+=10;
 		}
 	}
-	
+
+	/**
+	 * Save ordering of instruction files for an assignment
+	 * TO DO: centralize all the methods which orders tables
+	 */
+	static function saveInstructionFilesOrderOfAssignment($a_ass_id, $a_order)
+	{
+
+		global $ilDB;
+
+		$result_order = array();
+		asort($a_order);
+		$nr = 10;
+		foreach ($a_order as $k => $v)
+		{
+			// the check for exc_id is for security reasons. ass ids are unique.
+			$ilDB->manipulate($t = "UPDATE exc_ass_file_order SET ".
+				" order_nr = ".$ilDB->quote($nr, "integer").
+				" WHERE id = ".$ilDB->quote((int) $k, "integer").
+				" AND assignment_id = ".$ilDB->quote((int) $a_ass_id, "integer")
+			);
+			$nr+=10;
+		}
+	}
+
 	/**
 	 * Order assignments by deadline date
 	 */
