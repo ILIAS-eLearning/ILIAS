@@ -107,13 +107,6 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 			{
 				$connector = $this->gui->getConnector();
 				$response  = $connector->sendKick($roomId, $subRoomId, $userToKick);
-
-				if($this->isSuccessful($response))
-				{
-					//$room->unsubscribeUserFromPrivateRoom($subRoomId, $userToKick);
-					//$this->recantInvitation($subRoomId, $userToKick);
-				}
-
 				$this->sendResponse($response);
 			}
 
@@ -148,42 +141,4 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 		exit;*/
 		}
 	}
-
-	/**
-	 * Recant invitation for given $user_id in given $subroom_id
-	 * @global ilDBInterface $ilDB
-	 * @param integer        $subroom_id
-	 * @param integer        $user_id
-	 */
-	public function recantInvitation($subroom_id, $user_id)
-	{
-		global $ilDB;
-
-		$query = "
-		SELECT		proom_id
-		FROM		chatroom_proomaccess
-		WHERE		proom_id = %s
-		AND		user_id = %s
-	    ";
-
-		$types  = array('integer', 'integer');
-		$values = array($subroom_id, $user_id);
-
-		$res = $ilDB->queryF($query, $types, $values);
-
-		if($row = $ilDB->fetchAssoc($res))
-		{
-			$delete = "
-		    DELETE
-		    FROM	chatroom_proomaccess
-		    WHERE	proom_id = %s
-		    AND		user_id = %s
-		";
-
-			$ilDB->manipulateF($delete, $types, $values);
-		}
-	}
-
 }
-
-?>
