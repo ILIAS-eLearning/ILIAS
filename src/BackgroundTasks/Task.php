@@ -16,14 +16,29 @@ namespace ILIAS\BackgroundTasks;
 interface Task {
 
 	/**
+	 * @return string
+	 */
+	public function getId();
+
+	/**
 	 * @return string Class-Name of the IO
 	 */
 	public function getInputType();
-
 
 	/**
 	 * @return string
 	 */
 	public function getOutputType();
+
+	/**
+	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
+	 */
+	public function supportsPercentage();
+
+
+	/**
+	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
+	 */
+	public function getPercentage();
 
 }

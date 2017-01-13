@@ -3,6 +3,7 @@
 namespace ILIAS\BackgroundTasks\Task;
 
 use ILIAS\BackgroundTasks\IO;
+use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Task;
 
 /**
@@ -23,7 +24,8 @@ interface UserInteraction extends Task {
 	/**
 	 * @param \ILIAS\BackgroundTasks\IO $input The input value of this task.
 	 * @param UserInteractionOption $user_selected_option The Option the user chose.
+	 * @param Observer $observer Notify the observer about your progress!
 	 * @return IO
 	 */
-	public function interaction(IO $input, UserInteractionOption $user_selected_option);
+	public function interaction(IO $input, UserInteractionOption $user_selected_option, Observer $observer);
 }
