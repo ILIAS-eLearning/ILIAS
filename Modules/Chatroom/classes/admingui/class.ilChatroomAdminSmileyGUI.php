@@ -114,9 +114,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 	private static function _insertDefaultValues()
 	{
-		/** @var $ilDB ilDBInterface */
-		global $ilDB;
-
 		$values = array(
 			array("icon_smile.gif", ":)\n:-)\n:smile:"),
 			array("icon_wink.gif", ";)\n;-)\n:wink:"),
@@ -133,20 +130,10 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 			array("icon_thumbdown.gif", ":thumbdown:"),
 		);
 
-		$stmt = $ilDB->prepareManip("
-	    INSERT INTO chatroom_smilies (smiley_id, smiley_keywords, smiley_path)
-	    VALUES (?, ?, ?)",
-			array("integer", "text", "text")
-		);
-
+		require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 		foreach($values as $val)
 		{
-			$row = array(
-				$ilDB->nextId("chatroom_smilies"),
-				$val[1],
-				$val[0]
-			);
-			$stmt->execute($row);
+			ilChatroomSmilies::_storeSmiley($val[1], $val[0]);
 		}
 	}
 

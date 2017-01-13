@@ -50,8 +50,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		{
 			if(!$room->isSubscribed($chat_user->getUserId()))
 			{
-				$username = $this->buildUniqueUsername($username, $room);
-				$chat_user->setUsername($username);
+				$chat_user->setUsername($chat_user->buildUniqueUsername($username));
 			}
 
 			$this->showRoom($room, $chat_user);
@@ -83,43 +82,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		$tpl->addCSS('Modules/Chatroom/js/colorpicker/colorPicker.css');
 		$tpl->addCSS('Modules/Chatroom/templates/default/style.css');
-	}
-
-	/**
-	 * @param string     $username
-	 * @param ilChatroom $room
-	 * @return string
-	 */
-	private function buildUniqueUsername($username, ilChatroom $room)
-	{
-		/**
-		 * @var ilDB $ilDB
-		 */
-		global $ilDB;
-		$username   = htmlspecialchars(trim($username));
-		$usernames  = array();
-		$uniqueName = $username;
-
-		$rset = $ilDB->query('SELECT * FROM chatroom_users WHERE '
-			. $ilDB->like('userdata', 'text', '%"login":"' . $username . '%')
-			. ' AND room_id = ' . $ilDB->quote($room->getRoomId(), 'integer')
-		);
-
-		while(($row = $ilDB->fetchAssoc($rset)))
-		{
-			$json        = json_decode($row['userdata'], true);
-			$usernames[] = $json['login'];
-		}
-
-		for($index = 1; $index <= \count($usernames); $index++)
-		{
-			if(in_array($uniqueName, $usernames))
-			{
-				$uniqueName = sprintf('%s_%d', $username, $index);
-			}
-		}
-
-		return $uniqueName;
 	}
 
 	/**
