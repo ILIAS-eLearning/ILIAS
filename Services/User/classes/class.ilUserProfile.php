@@ -895,7 +895,7 @@ class ilUserProfile
 		if($a_include_udf)
 		{
 			$user_defined_data = $a_user->getUserDefinedData();
-						
+			
 			include_once './Services/User/classes/class.ilUserDefinedFields.php';
 			$user_defined_fields = ilUserDefinedFields::_getInstance();						
 			foreach($user_defined_fields->getRequiredDefinitions() as $field => $definition)
@@ -908,6 +908,7 @@ class ilUserProfile
 				
 				if(!$user_defined_data["f_".$field])
 				{
+					ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
 					return true;
 				}				
 			}					
