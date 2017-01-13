@@ -99,6 +99,8 @@ class ilRegistrationRoleAccessLimitations
 	
 	function validate()
 	{
+		ilLoggerFactory::getLogger('user')->dump($this->access_limitations);
+		
 		foreach ($this->access_limitations as $data)
 		{
 			if ($data['mode'] == "null")
