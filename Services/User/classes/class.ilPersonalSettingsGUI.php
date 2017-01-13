@@ -502,7 +502,7 @@ class ilPersonalSettingsGUI
 				$error = true;
 			}
 			if(
-				$ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded() &&
+				($ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded()) &&
 				$_POST["current_password"] == $_POST["new_password"])
 			{
 				$error = true;
