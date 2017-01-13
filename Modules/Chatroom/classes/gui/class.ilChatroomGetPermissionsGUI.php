@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomGetPermissionsTask
+ * Class ilChatroomGetPermissionsGUI
  * Returns user permissions
  * @author  Andreas Korodsz <akordosz@databay.de>
  * @version $Id$
@@ -10,7 +10,7 @@
  * @deprecated
  * @TODO    REMOVE
  */
-class ilChatroomGetPermissionsTask extends ilChatroomTaskHandler
+class ilChatroomGetPermissionsGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * {@inheritdoc}

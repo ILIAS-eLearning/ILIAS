@@ -2,13 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomUploadFileTask
+ * Class ilChatroomUploadFileGUI
  * Provides methods to upload a file.
  * @author  Andreas Kordosz <akordosz@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomUploadFileTask extends ilChatroomTaskHandler
+class ilChatroomUploadFileGUI extends ilChatroomGUIHandler
 {
 
 	public function __construct()

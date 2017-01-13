@@ -5,12 +5,12 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
- * Class ilChatroomBanTask
+ * Class ilChatroomBanGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomBanTask extends ilChatroomTaskHandler
+class ilChatroomBanGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * Unbans users fetched from $_REQUEST['banned_user_id'].

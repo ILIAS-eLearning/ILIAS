@@ -8,7 +8,7 @@
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomHistoryTask extends ilChatroomTaskHandler
+class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * {@inheritdoc}

@@ -2,14 +2,14 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomSmileyTask
+ * Class ilChatroomSmileyGUI
  * Provides methods to show, add, edit and delete smilies
  * consisting of icon and keywords
  * @author  Andreas Kordosz <akordosz@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
+class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 {
 	/**
 	 *    setup directory

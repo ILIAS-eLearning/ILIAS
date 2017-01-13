@@ -12,7 +12,7 @@ class ilChatroomUploadFileTaskTest extends ilChatroomAbstractTaskTest
 	{
 		parent::setUp();
 
-		require_once './Modules/Chatroom/classes/tasks/class.ilChatroomUploadFileTask.php';
+		require_once './Modules/Chatroom/classes/gui/class.ilChatroomUploadFileGUI.php';
 
 		$this->createIlObjChatroomMock(15);
 		$this->createIlObjChatroomGUIMock($this->object);
@@ -21,6 +21,6 @@ class ilChatroomUploadFileTaskTest extends ilChatroomAbstractTaskTest
 	public function testConstructorDies()
 	{
 		$this->setExpectedException('Exception', 'METHOD_NOT_IN_USE');
-		$task = new ilChatroomUploadFileTask();
+		$task = new ilChatroomUploadFileGUI();
 	}
 }

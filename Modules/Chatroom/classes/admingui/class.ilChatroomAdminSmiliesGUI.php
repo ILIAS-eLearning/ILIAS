@@ -2,12 +2,12 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomSmiliesTask
+ * Class ilChatroomSmiliesGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomAdminSmiliesTask extends ilChatroomTaskHandler
+class ilChatroomAdminSmiliesGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * {@inheritdoc}

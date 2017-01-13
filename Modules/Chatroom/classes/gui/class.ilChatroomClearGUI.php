@@ -5,13 +5,13 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
- * Class ilChatroomKickTask
+ * Class ilChatroomKickGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomClearTask extends ilChatroomTaskHandler
+class ilChatroomClearGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * {@inheritdoc}

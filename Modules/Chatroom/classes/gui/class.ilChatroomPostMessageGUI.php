@@ -2,13 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomPostMessageTask
+ * Class ilChatroomPostMessageGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  * @TODO    DELETE THIS
  */
-class ilChatroomPostMessageTask extends ilChatroomTaskHandler
+class ilChatroomPostMessageGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * Prepares and posts message fetched from $_REQUEST['message']
