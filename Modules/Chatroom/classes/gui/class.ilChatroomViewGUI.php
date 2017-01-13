@@ -5,12 +5,12 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
- * Class ilChatroomViewTask
+ * Class ilChatroomViewGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomViewTask extends ilChatroomTaskHandler
+class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
 	/**
 	 * Joins user to chatroom with custom username, fetched from

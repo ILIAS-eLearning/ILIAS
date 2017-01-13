@@ -2,13 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomInfoTask
+ * Class ilChatroomInfoGUI
  * Provides methods to prepare and display the info task.
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomInfoTask extends ilChatroomTaskHandler
+class ilChatroomInfoGUI extends ilChatroomGUIHandler
 {
 
 	/**

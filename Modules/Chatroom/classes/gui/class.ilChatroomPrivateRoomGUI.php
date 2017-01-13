@@ -5,12 +5,12 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
- * Class ilChatroomPrivateRoomTask
+ * Class ilChatroomPrivateRoomGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomPrivateRoomTask extends ilChatroomTaskHandler
+class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 {
 
 	/**
@@ -19,7 +19,7 @@ class ilChatroomPrivateRoomTask extends ilChatroomTaskHandler
 	protected $ilUser;
 
 	/**
-	 * ilChatroomPrivateRoomTask constructor.
+	 * ilChatroomPrivateRoomGUI constructor.
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)

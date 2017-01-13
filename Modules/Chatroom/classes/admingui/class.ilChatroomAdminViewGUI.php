@@ -7,13 +7,13 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomConfigFileHandler.php';
 
 /**
- * Class ilChatroomAdminViewTask
+ * Class ilChatroomAdminViewGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomAdminViewTask extends ilChatroomTaskHandler
+class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
 
 	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.txt';

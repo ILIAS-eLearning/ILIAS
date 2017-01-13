@@ -10,7 +10,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
 {
 
 	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomTaskHandlerMock
+	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomGUIHandlerMock
 	 */
 	protected $handler;
 
@@ -26,7 +26,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
 		$this->createIlObjChatroomGUIMock($this->object);
 
 		require_once './Modules/Chatroom/test/mocks/class.ilChatroomTaskHandlerMock.php';
-		$this->handler = new ilChatroomTaskHandlerMock($this->gui);
+		$this->handler = new ilChatroomGUIHandlerMock($this->gui);
 	}
 
 	public function testExecuteDefault()
